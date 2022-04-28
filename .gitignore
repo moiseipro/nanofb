@@ -1,4 +1,4 @@
-pyvenv.cfg
+/pyvenv.cfg
 
 /Scripts/
 /Lib/
@@ -6,3 +6,5 @@ pyvenv.cfg
 /venv/
 /.vscode/
 /.idea/
+
+/data.txt
