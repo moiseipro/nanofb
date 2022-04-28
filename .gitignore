@@ -3,5 +3,6 @@ pyvenv.cfg
 /Scripts/
 /Lib/
 
-.vscode
-.idea
+/venv/
+/.vscode/
+/.idea/
