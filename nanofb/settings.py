@@ -77,8 +77,12 @@ WSGI_APPLICATION = 'nanofb.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'db_nanofb_test',
+        'USER': 'nanofootball',
+        'PASSWORD': 'jtT-Wq3-AbB-DJA',
+        'HOST': 'db4free.net',
+        'PORT': '3306',
     }
 }
 
@@ -105,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'UTC'
 
