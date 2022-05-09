@@ -1,6 +1,10 @@
-{% extends 'authorization/base.html' %}
-
+{% extends '../base/base.html' %}
+{% load static %}
 {% block title %}Login{% endblock %}
+
+{% block custom_style %}
+    <link href="{% static 'authorization/style.css' %}" rel="stylesheet">
+{% endblock %}
 
 {% block content %}
 
