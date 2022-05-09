@@ -1,9 +1,30 @@
 ---------  Сгенерировать файл с необходимыми пакетами Python
 pip3 freeze > requirements.txt  # Python3
-pip freeze > requirements.txt  # Python2
+pip freeze > requirements.txt  # Python2 (можно просто pip freeze)
 
 ---------  Установить пакеты из файла requirements.txt
 pip install -r requirements.txt
 
 ---------  Запуск сервера Django:
-python manage.py runserver 8000 (из своей виртуальной среды)
+python manage.py runserver 8000 (из своей виртуальной среды) CTRL+C to stop
+
+---------  Создание подпрограммы (после создания добавить в поле "INSTALLED_APPS" в "settings" в "nanofb"):
+python manage.py startapp APPNAME
+
+--------- Создание миграций, после активация созданных миграций (после создания, редактирования моделей):
+python manage.py makemigrations
+python manage.py migrate
+
+
+--------- Создание виртуальной среды, её активация / деактивация:
+python -m venv ./venv
+source ./venv/bin/activate
+venv\Scripts\activate.bat - May need to add full path (c:\users\....venv\Scripts\activate.bat)
+deactivate
+
+--------- Создание проекта для Django:
+django-admin startproject PROJECTNAME
+
+--------- Собрать статические файлы (для production):
+python manage.py collectstatic
+
