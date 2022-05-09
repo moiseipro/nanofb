@@ -21,7 +21,9 @@
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
     <option name="TEMPLATE_FOLDERS">
       <list>
-        <option value="$MODULE_DIR$/../nanofb\templates" />
+        <option value="$MODULE_DIR$/templates" />
+        <option value="$MODULE_DIR$/version/templates" />
+        <option value="$MODULE_DIR$/nanofootball/templates" />
       </list>
     </option>
   </component>
