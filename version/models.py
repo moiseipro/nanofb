@@ -13,6 +13,9 @@ class Section(models.Model):
         help_text="Ключ раздела"
     )
 
+    def __str__(self):
+        return self.name
+
 
 class Access(models.Model):
     name = models.CharField(
@@ -24,6 +27,9 @@ class Access(models.Model):
         max_length=100,
         help_text="Ключ доступа"
     )
+
+    def __str__(self):
+        return self.name
 
 
 class Version(models.Model):
@@ -39,8 +45,11 @@ class Version(models.Model):
     )
     tag = models.CharField(
         max_length=100,
-        help_text=""
+        help_text="Ключ версии"
     )
+
+    def __str__(self):
+        return self.name
 
 
 class VersionAccess(models.Model):
