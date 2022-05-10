@@ -1,0 +1,25 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <title>{% block title %}{% endblock %}</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="{% static 'bootstrap461/css/bootstrap.css' %}" rel="stylesheet">
+        <!-- Custom Style -->
+        {% block custom_style %}{% endblock %}
+    </head>
+    <body>
+        <div class="container text-center">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+        <script src="{% static 'jQuery360/jquery-3.6.0.min.js' %}"></script>
+        <script src="{% static 'bootstrap461/js/bootstrap.bundle.js' %}"></script>
+    </body>
+</html>
