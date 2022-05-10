@@ -1,6 +1,6 @@
-from django.urls import path
-from . import views
+from django.urls import path, include
+from version import views
 
 urlpatterns = [
-    path('test_version/', views.index),
+    path('', views.index, name="view_version"),
 ]

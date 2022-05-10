@@ -22,5 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', include(('authorization.urls', 'authorization'), namespace='authorization')),
     path('user/', include(('users.urls', 'users'), namespace='users')),
-    #path('version/', include(('version.urls', 'version')), namespace='version'),
+    path('version/', include(('version.urls', 'version'), namespace='version')),
 ]
