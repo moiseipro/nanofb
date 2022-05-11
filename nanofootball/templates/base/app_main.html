@@ -1,0 +1,16 @@
+{% extends '../base/base.html' %}
+
+{% block main %}
+    <div class="main-wrapper">
+        <header>
+        </header>
+        <div class="sidebar" id="sidebar">
+        </div>
+        <div class="page-wrapper">
+            <div class="content container-fluid">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

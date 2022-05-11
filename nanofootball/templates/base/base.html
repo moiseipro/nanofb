@@ -4,22 +4,37 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
         <meta name="description" content="">
         <title>{% block title %}{% endblock %}</title>
 
-        <!-- Bootstrap core CSS -->
-        <link href="{% static 'bootstrap461/css/bootstrap.css' %}" rel="stylesheet">
+        <!-- Preadmin core CSS -->
+        <link rel="shortcut icon" href="{% static 'preadmin/img/favicon.png' %}">
+        <link rel="stylesheet" href="{% static 'preadmin/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'preadmin/plugins/fontawesome/css/fontawesome.min.css' %}">
+        <link rel="stylesheet" href="{% static 'preadmin/plugins/fontawesome/css/all.min.css' %}">
+        <link rel="stylesheet" href="{% static 'preadmin/css/fullcalendar.min.css' %}">
+        <link rel="stylesheet" href="{% static 'preadmin/css/dataTables.bootstrap4.min.css' %}">
+        <link rel="stylesheet" href="{% static 'preadmin/css/select2.min.css' %}">
+        <link rel="stylesheet" href="{% static 'preadmin/css/bootstrap-datetimepicker.min.css' %}">
+        <link rel="stylesheet" href="{% static 'preadmin/plugins/morris/morris.css' %}">
+        <link rel="stylesheet" href="{% static 'preadmin/css/style.css' %}">
         <!-- Custom Style -->
         {% block custom_style %}{% endblock %}
     </head>
     <body>
-        <div class="container text-center">
-            {% block content %}
-            {% endblock %}
-        </div>
+        {% block main %}
 
-        <script src="{% static 'jQuery360/jquery-3.6.0.min.js' %}"></script>
-        <script src="{% static 'bootstrap461/js/bootstrap.bundle.js' %}"></script>
+        {% endblock %}
+
+        <script src="{% static 'preadmin/js/jquery-3.6.0.min.js' %}"></script>
+        <script src="{% static 'preadmin/js/moment.min.js' %}"></script>
+        <script src="{% static 'preadmin/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'preadmin/js/jquery.slimscroll.js' %}"></script>
+        <script src="{% static 'preadmin/js/select2.min.js' %}"></script>
+        <script src="{% static 'preadmin/js/bootstrap-datetimepicker.min.js' %}"></script>
+        <script src="{% static 'preadmin/plugins/morris/morris.min.js' %}"></script>
+        <script src="{% static 'preadmin/plugins/raphael/raphael.min.js' %}"></script>
+        <script src="{% static 'preadmin/js/script.js' %}"></script>
     </body>
 </html>
