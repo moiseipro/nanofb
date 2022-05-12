@@ -56,7 +56,7 @@ class Version(models.Model):
 
 
 class VersionAccess(models.Model):
-    version_id = models.ForeignKey(Version, on_delete=models.CASCADE)
+    version_id = models.ForeignKey(Version, on_delete=models.CASCADE, null=True, default=None)
     access_id = models.ForeignKey(Access, on_delete=models.CASCADE)
     objects = models.Manager()
 
