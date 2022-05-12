@@ -21,10 +21,10 @@
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
     <option name="TEMPLATE_FOLDERS">
       <list>
-        <option value="$MODULE_DIR$/templates" />
         <option value="$MODULE_DIR$/version/templates" />
         <option value="$MODULE_DIR$/nanofootball/templates" />
         <option value="$MODULE_DIR$/users/templates" />
+        <option value="$MODULE_DIR$/menu/templates" />
       </list>
     </option>
   </component>
