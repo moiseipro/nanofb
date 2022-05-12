@@ -11,10 +11,11 @@
         <!-- Preadmin core CSS -->
         <link rel="shortcut icon" href="{% static 'preadmin/img/favicon.png' %}">
         <link rel="stylesheet" href="{% static 'preadmin/css/bootstrap.min.css' %}">
-        <!--<link rel="stylesheet" href="{% static 'preadmin/plugins/fontawesome/css/fontawesome.min.css' %}">
-        <link rel="stylesheet" href="{% static 'preadmin/plugins/fontawesome/css/all.min.css' %}">-->
-        <link rel="stylesheet" href="{% static 'preadmin/css/fullcalendar.min.css' %}">
-        <link rel="stylesheet" href="{% static 'preadmin/css/dataTables.bootstrap4.min.css' %}">
+        <link rel="stylesheet" href="{% static 'preadmin/css/font-awesome.min.css' %}">
+        <link rel="stylesheet" href="{% static 'preadmin/css/feathericon.min.css' %}">
+        <link rel="stylesheet" href="{% static 'preadmin/plugins/fullcalendar/fullcalendar.min.css' %}">
+        <link rel="stylesheet" href="{% static 'preadmin/plugins/datatables/datatables.min.css' %}">
+        <!--<link rel="stylesheet" href="{% static 'preadmin/css/dataTables.bootstrap4.min.css' %}">-->
         <link rel="stylesheet" href="{% static 'preadmin/css/select2.min.css' %}">
         <link rel="stylesheet" href="{% static 'preadmin/css/bootstrap-datetimepicker.min.css' %}">
         <link rel="stylesheet" href="{% static 'preadmin/plugins/morris/morris.css' %}">
@@ -29,19 +30,24 @@
 
         {% endblock %}
 
+        <!-- jQuery -->
         <script src="{% static 'preadmin/js/jquery-3.6.0.min.js' %}"></script>
+        <!-- Datetimepicker JS -->
         <script src="{% static 'preadmin/js/moment.min.js' %}"></script>
-        <script src="{% static 'preadmin/js/bootstrap.bundle.min.js' %}"></script>
-        <script src="{% static 'preadmin/js/jquery.slimscroll.js' %}"></script>
-        <script src="{% static 'preadmin/js/select2.min.js' %}"></script>
         <script src="{% static 'preadmin/js/bootstrap-datetimepicker.min.js' %}"></script>
-        <script src="{% static 'preadmin/plugins/morris/morris.min.js' %}"></script>
+        <script src="{% static 'preadmin/plugins/datetimepicker/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+        <!-- Bootstrap Core JS -->
+        <script src="{% static 'preadmin/js/bootstrap.bundle.min.js' %}"></script>
+
+        <script src="{% static 'preadmin/js/select2.min.js' %}"></script>
+        <!-- Slimscroll JS -->
+        <script src="{% static 'preadmin/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
         <script src="{% static 'preadmin/plugins/raphael/raphael.min.js' %}"></script>
-        <script src="{% static 'preadmin/js/script.js' %}"></script>
-
+        <script src="{% static 'preadmin/plugins/morris/morris.min.js' %}"></script>
+        <script src="{% static 'preadmin/js/chart.morris.js' %}"></script>
         <script src="{% static 'jquery-ui-1.13.1.custom/jquery-ui.min.js' %}"></script>
-
         <!-- Custom Scripts -->
+        <script src="{% static 'preadmin/js/script.js' %}"></script>
         {% block custom_scripts %}{% endblock %}
     </body>
 </html>
