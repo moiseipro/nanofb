@@ -4,13 +4,15 @@ from django.utils.translation import gettext_lazy as _
 
 from .managers import CustomUserManager
 
+from version.models import Version
+
 
 class User(AbstractUser):
     username = None
     last_name = None
     first_name = None
     email = models.EmailField(_("email address"), unique=True)
-    version = models.CharField(max_length=50)
+    p_version = models.ForeignKey(Version, on_delete=models.CASCADE, null=True)
     is_archive = models.BooleanField(default=0)
     date_joined = models.DateField(auto_now_add=True)
     date_last_login = models.DateField(auto_now=True)
@@ -37,6 +39,7 @@ class UserPersonal(models.Model):
     phone_2 = models.CharField(max_length=20, null=True)
     email_2 = models.CharField(max_length=20, null=True)
     skype = models.CharField(max_length=20, null=True)
+    objects = models.Manager()
 
 
 class UserPayment(models.Model):
@@ -44,4 +47,5 @@ class UserPayment(models.Model):
     last_invoice_id = models.IntegerField(null=True)
     autopay_id = models.IntegerField(null=True)
     autopay_version = models.IntegerField(null=True)
+    objects = models.Manager()
 

@@ -12,6 +12,7 @@ class Section(models.Model):
         max_length=100,
         help_text="Ключ раздела"
     )
+    objects = models.Manager()
 
     def __str__(self):
         return self.name
@@ -27,6 +28,7 @@ class Access(models.Model):
         max_length=100,
         help_text="Ключ доступа"
     )
+    objects = models.Manager()
 
     def __str__(self):
         return self.name
@@ -47,6 +49,7 @@ class Version(models.Model):
         max_length=100,
         help_text="Ключ версии"
     )
+    objects = models.Manager()
 
     def __str__(self):
         return self.name
@@ -55,6 +58,7 @@ class Version(models.Model):
 class VersionAccess(models.Model):
     version_id = models.ForeignKey(Version, on_delete=models.CASCADE)
     access_id = models.ForeignKey(Access, on_delete=models.CASCADE)
+    objects = models.Manager()
 
 
 

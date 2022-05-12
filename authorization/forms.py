@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from users.models import User, UserPersonal
+from version.models import Version
 
 
 text_widget = forms.TextInput(attrs={
@@ -15,9 +16,11 @@ class NewUserForm(UserCreationForm):
     email = forms.EmailField(required=True, widget=text_widget, label="Почтовый ящик")
     password1 = forms.CharField(required=True, widget=password_widget, label="Пароль")
     password2 = forms.CharField(required=True, widget=password_widget, label="Подтверждение пароля")
+    CHOICES = (('Option 1', 'Option 1'),('Option 2', 'Option 2'),)
+    p_version = forms.ModelChoiceField(required=True, queryset=Version.objects.all(), label="Версия программы", empty_label="Выберите версию программы")
     class Meta:
         model = User
-        fields = ["email"]
+        fields = ["p_version", "email"]
     def save(self, commit=True):
         user = super(NewUserForm, self).save(commit=False)
         user.email = self.cleaned_data['email']
