@@ -6,7 +6,7 @@ from .managers import CustomUserManager
 
 
 class User(AbstractUser):
-    username = models.CharField(max_length=15, null=True)
+    username = None
     email = models.EmailField(_("email address"), unique=True)
     version = models.CharField(max_length=50)
     is_archive = models.BooleanField(default=0)

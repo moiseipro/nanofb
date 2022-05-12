@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .forms import NewUserForm, NewLoginForm
+from .forms import NewUserForm, NewLoginForm, NewUserPersonalForm
+from users.models import User
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 
@@ -30,15 +31,25 @@ def register_req(request):
     if request.user.is_authenticated:
         return redirect("users:profile")
     if request.method == "POST":
-	    form = NewUserForm(request.POST)
-	    if form.is_valid():
-		    user = form.save()
-		    login(request, user)
-		    messages.success(request, "Registration successful." )
-		    return redirect("users:profile")
-	    messages.error(request, "Unsuccessful registration. Invalid information.")
+        form = NewUserForm(request.POST)
+        form2 = NewUserPersonalForm(request.POST)
+        tmp_msg = ""
+        if not form.is_valid():
+            tmp_msg += "form 1 loh"
+        if not form2.is_valid():
+            tmp_msg += "form 2 loh"
+        if form.is_valid() and form2.is_valid():
+            email = form.cleaned_data.get("email")
+            if not User.objects.filter(email=email).exists():
+                user = form.save()
+                form2.save(user.id)
+                login(request, user)
+                messages.success(request, "Registration successful.")
+                return redirect("users:profile")
+        messages.error(request, f"Unsuccessful registration. Invalid information. {tmp_msg}")
     form = NewUserForm()
-    return render (request=request, template_name="authorization/register.html", context={"register_form":form})
+    form2 = NewUserPersonalForm()
+    return render (request=request, template_name="authorization/register.html", context={"register_form": form, "register_form2": form2})
 
 
 def logout_req(request):

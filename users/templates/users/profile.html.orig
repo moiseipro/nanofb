@@ -1,5 +1,8 @@
 {% extends '../base/app_main.html' %}
+<<<<<<< HEAD
+=======
 {% load static %}
+>>>>>>> origin/develop
 
 {% block title %}Profile{% endblock %}
 

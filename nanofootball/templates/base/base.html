@@ -19,6 +19,8 @@
         <link rel="stylesheet" href="{% static 'preadmin/css/bootstrap-datetimepicker.min.css' %}">
         <link rel="stylesheet" href="{% static 'preadmin/plugins/morris/morris.css' %}">
         <link rel="stylesheet" href="{% static 'preadmin/css/style.css' %}">
+
+        <link rel="stylesheet" href="{% static 'jquery-ui-1.13.1.custom/jquery-ui.theme.min.css' %}">
         <!-- Custom Style -->
         {% block custom_style %}{% endblock %}
     </head>
@@ -36,5 +38,10 @@
         <script src="{% static 'preadmin/plugins/morris/morris.min.js' %}"></script>
         <script src="{% static 'preadmin/plugins/raphael/raphael.min.js' %}"></script>
         <script src="{% static 'preadmin/js/script.js' %}"></script>
+
+        <script src="{% static 'jquery-ui-1.13.1.custom/jquery-ui.min.js' %}"></script>
+
+        <!-- Custom Scripts -->
+        {% block custom_scripts %}{% endblock %}
     </body>
 </html>
