@@ -31,7 +31,6 @@ class NewUserPersonalForm(forms.ModelForm):
     last_name = forms.CharField(required=True, widget=text_widget, label="Фамилия")
     first_name = forms.CharField(required=True, widget=text_widget, label="Имя")
     date_birthsday = forms.DateField(required=False, 
-        input_formats=['%d/%m/%Y'],
         widget=forms.DateInput(attrs={
             'class': 'form-control form-control-sm',
             'type': 'date'
@@ -42,11 +41,11 @@ class NewUserPersonalForm(forms.ModelForm):
     class Meta:
         model = UserPersonal
         fields = ["last_name", "first_name", "city", "date_birthsday", "phone"]
-    def save(self, user_id=None, commit=True):
+    def save(self, user=None, commit=True):
         personal = super(NewUserPersonalForm, self).save(commit=False)
-        personal.user = user_id
+        personal.user = user
         personal.permissions = {}
-        if commit and user_id:
+        if commit and user:
             personal.save()
         return personal
 

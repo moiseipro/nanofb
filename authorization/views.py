@@ -35,14 +35,18 @@ def register_req(request):
         form2 = NewUserPersonalForm(request.POST)
         tmp_msg = ""
         if not form.is_valid():
-            tmp_msg += "form 1 loh"
+            for field in form:
+                for error in field.errors:
+                    tmp_msg += f"* {field.label} : {error}"
         if not form2.is_valid():
-            tmp_msg += "form 2 loh"
+             for field in form2:
+                for error in field.errors:
+                    tmp_msg += f"* {field.label} : {error}"
         if form.is_valid() and form2.is_valid():
             email = form.cleaned_data.get("email")
             if not User.objects.filter(email=email).exists():
                 user = form.save()
-                form2.save(user.id)
+                form2.save(user)
                 login(request, user)
                 messages.success(request, "Registration successful.")
                 return redirect("users:profile")
