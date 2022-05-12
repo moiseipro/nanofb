@@ -40,6 +40,9 @@ class UserPersonal(models.Model):
     skype = models.CharField(max_length=20, null=True)
     objects = models.Manager()
 
+    def __str__(self):
+        return self.user
+
 
 class UserPayment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
