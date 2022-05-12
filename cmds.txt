@@ -13,6 +13,7 @@ python manage.py startapp APPNAME
 
 --------- Создание миграций, после активация созданных миграций (после создания, редактирования моделей):
 python manage.py makemigrations
+python manage.py makemigrations -- fake // помогает избавиться от конфликтов (пример: удаление несуществующего поля)
 python manage.py migrate
 
 

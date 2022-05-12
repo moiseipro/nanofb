@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 
 
@@ -56,7 +57,7 @@ class Version(models.Model):
 
 
 class VersionAccess(models.Model):
-    version_id = models.ForeignKey(Version, on_delete=models.CASCADE, null=True, default=None)
+    version_id = models.ForeignKey(Version, on_delete=models.CASCADE, null=True)
     access_id = models.ForeignKey(Access, on_delete=models.CASCADE)
     objects = models.Manager()
 
