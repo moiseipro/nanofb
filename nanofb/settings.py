@@ -83,10 +83,10 @@ WSGI_APPLICATION = 'nanofb.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'db_nanofb_test',
-        'USER': 'nanofootball',
-        'PASSWORD': 'jtT-Wq3-AbB-DJA',
-        'HOST': 'db4free.net',
+        'NAME': '0qdDyMGswv',
+        'USER': '0qdDyMGswv',
+        'PASSWORD': 'OMGOqEokUU',
+        'HOST': 'remotemysql.com',
         'PORT': '3306',
     }
 }
