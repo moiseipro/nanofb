@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'version.apps.VersionConfig',
 ]
 
+CRISPY_TEMPLATE_PACK = 'bootstrap'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
