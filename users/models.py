@@ -41,7 +41,7 @@ class UserPersonal(models.Model):
     objects = models.Manager()
 
     def __str__(self):
-        return self.user
+        return self.user.email
 
 
 class UserPayment(models.Model):
