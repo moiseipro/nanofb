@@ -1733,7 +1733,8 @@ html.menu-opened body {
 }
 .sidebar-menu ul ul a.active {
 	color: #2962ff;
-	text-decoration: underline;
+	/*text-decoration: underline;*/
+	font-weight: bold;
 }
 .mobile_btn {
 	display: none;

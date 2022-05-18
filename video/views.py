@@ -5,7 +5,11 @@ from django.shortcuts import render, redirect
 # Create your views here.
 
 
+
+
+
 def index(request):
     if not request.user.is_authenticated:
         return redirect("authorization:login")
-    return render(request=request, template_name="video/base_video.html")
+
+    return render(request=request, template_name="video/base_video.html", context={'menu_video': 'active'})
