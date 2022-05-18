@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'authorization.apps.AuthorizationConfig',
     'version.apps.VersionConfig',
+    'video.apps.VideoConfig'
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap'
