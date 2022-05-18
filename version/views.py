@@ -8,4 +8,4 @@ from django.shortcuts import render, redirect
 def index(request):
     if not request.user.is_authenticated:
         return redirect("authorization:login")
-    return render(request=request, template_name="version/view_version.html")
+    return render(request=request, template_name="version/base_version.html")

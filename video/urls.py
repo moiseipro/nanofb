@@ -1,6 +1,6 @@
 from django.urls import path, include
-from version import views
+from video import views
 
 urlpatterns = [
-    path('', views.index, name="view_video"),
+    path('', views.index, name="base_video"),
 ]
