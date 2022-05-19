@@ -40,6 +40,10 @@ class UserPersonal(models.Model):
     skype = models.CharField(max_length=20, null=True)
     objects = models.Manager()
 
+    @property
+    def full_name(self):
+        return '%s %s %s' % (self.last_name, self.first_name, self.father_name)
+
     def __str__(self):
         return self.user.email
 
