@@ -17,7 +17,7 @@ class Video(models.Model):
     )
     section_id = models.ForeignKey(
         Section,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         help_text='ID раздела, к которому привязано видео',
         null=True
     )
