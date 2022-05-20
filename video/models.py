@@ -22,6 +22,13 @@ class Video(models.Model):
         null=True
     )
     upload_date = models.DateField()
-    duration = models.TimeField()
+    duration = models.TimeField(
+        help_text='Длительность видео',
+        blank=True
+    )
     links = models.JSONField()
+    shared_access = models.BooleanField(
+        help_text='Есть ли доступ у всех пользователей',
+        default=False
+    )
 

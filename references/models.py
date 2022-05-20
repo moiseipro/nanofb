@@ -12,7 +12,7 @@ class AbstractReference(models.Model):
     )
     short_name = models.CharField(
         max_length=10,
-        help_text='Короткий ключ для поис',
+        help_text='Короткий ключ для поиска',
     )
     order = models.IntegerField(
         help_text='Индекс сортировки'
