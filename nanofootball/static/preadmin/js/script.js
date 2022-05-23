@@ -237,13 +237,13 @@ Version      : 1.0
 	
 	// Template Options
 	
-	$(document).on('click', '.skin-sett-icon', function() {
+	/*$(document).on('click', '.skin-sett-icon', function() {
 		$('.skin-settings').toggleClass("active");
-	});
+	});*/
 	
 	// Template Options html append
 	
-	if($('#demoSettings').length === 0) {
+	/*if($('#demoSettings').length === 0) {
 		$('.main-wrapper').append('<div class="skin-settings" id="demoSettings">'+
 			'<div class="skin-sett-icon"><i class="fa fa-cog"></i></div>'+
 			'<div class="skin-sett-body">'+
@@ -256,7 +256,7 @@ Version      : 1.0
 				'</ul>'+
 			'</div>'+
 		'</div>')
-	}
+	}*/
 	
 	const hasTemp = localStorage.getItem('skin-color');
 	
