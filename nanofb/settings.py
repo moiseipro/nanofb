@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-(8i@$r9s^-es5gveieq%!ao9d&fvq(=*&s^s2w&c$!kgon&hdh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['nanofb.pythonanywhere.com', '127.0.0.1']
+ALLOWED_HOSTS = ['nanofb.pythonanywhere.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -44,10 +44,11 @@ INSTALLED_APPS = [
     'authorization.apps.AuthorizationConfig',
     'version.apps.VersionConfig',
     'video.apps.VideoConfig',
-    'references.apps.ReferencesConfig'
+    'references.apps.ReferencesConfig',
+    'exercises.apps.ExercisesConfig',
 ]
 
-CRISPY_TEMPLATE_PACK = 'bootstrap'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

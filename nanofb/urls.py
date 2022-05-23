@@ -18,10 +18,14 @@ from django.contrib import admin
 from django.urls import path, include
 
 
+handler404 = 'nanofootball.views.view_404' 
+
 urlpatterns = [
+    path('', include(('nanofootball.urls', 'nanofootball'), namespace='nanofootball')),
     path('admin/', admin.site.urls),
     path('login/', include(('authorization.urls', 'authorization'), namespace='authorization')),
     path('user/', include(('users.urls', 'users'), namespace='users')),
     path('version/', include(('version.urls', 'version'), namespace='version')),
     path('video/', include(('video.urls', 'video'), namespace='video')),
+    path('exercises/', include(('exercises.urls', 'exercises'), namespace='exercises')),
 ]
