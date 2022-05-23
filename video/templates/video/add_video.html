@@ -3,23 +3,21 @@
 {% block title %}Add Video{% endblock %}
 
 {% block content %}
-
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert {% if message.tags %} {{ message.tags }} {% endif %} alert-warning alert-dismissible fade show" role="alert">
-                {{ message }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-        {% endfor %}
-    {% endif %}
-
     <div class="row">
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header">
-                    Добавление видео
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <a href="{% url 'video:base_video' %}" class="btn btn-secondary btn-sm btn-block">Назад</a>
+                        </div>
+                        <div class="col">
+                            <h3>
+                                Добавление видео
+                            </h3>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="card-body">
                     {% load crispy_forms_tags %}
@@ -27,12 +25,23 @@
                         <form method="POST">
                             {% csrf_token %}
                             {{ create_form|crispy }}
-                            <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Save</button>
+                            <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Сохранить</button>
                         </form>
                     </main>
+                </div>
+                <div class="card-footer">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert {% if message.tags %} {{ message.tags }} {% endif %} alert-warning alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
-
 {% endblock %}

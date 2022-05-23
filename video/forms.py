@@ -1,25 +1,19 @@
 from django import forms
 from video.models import Video
 
-text_widget = forms.TextInput(attrs={
-    'class': 'form-control form-control-sm',
-})
-
-file_widget = forms.FileInput(attrs={
-    'class': 'form-control form-control-sm',
+time_widgets = forms.TimeInput(attrs={
+    'class': 'datetimepicker'
 })
 
 
 class CreateVideoForm(forms.ModelForm):
     youtube_link = forms.CharField(
         required=False,
-        widget=text_widget,
         label="Ссылка на видео с youtube",
         help_text=None
     )
     file = forms.FileField(
         required=False,
-        widget=file_widget,
         label="Файл видео для загрузки на сервер",
         help_text=None
     )
@@ -27,12 +21,16 @@ class CreateVideoForm(forms.ModelForm):
     class Meta:
         model = Video
         exclude = ['links', 'upload_date']
-        widgets = {
-            'name': text_widget,
-        }
         labels = {
-            'name': None,
+            'name': 'Название видео',
+            'videosource_id': 'Выберите источник',
+            'section_id': 'Выберите раздел',
+            'duration': 'Длительность видео',
+            'shared_access': 'Отображать пользователям',
         }
         help_texts = {
             'name': None,
+        }
+        widgets ={
+            'duration': time_widgets
         }

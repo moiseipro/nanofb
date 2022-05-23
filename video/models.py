@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.db import models
 from references.models import VideoSource
 from version.models import Section
@@ -13,26 +15,29 @@ class Video(models.Model):
     videosource_id = models.ForeignKey(
         VideoSource,
         on_delete=models.CASCADE,
-        help_text='ID источника'
+        help_text='Источник, к которому привязано видео'
     )
     section_id = models.ForeignKey(
         Section,
         on_delete=models.SET_NULL,
-        help_text='ID раздела, к которому привязано видео',
+        help_text='Раздел, к которому привязано видео',
         null=True
     )
-    upload_date = models.DateField()
-    duration = models.TimeField(
-        help_text='Длительность видео',
+    upload_date = models.DateField(
+        auto_now=True
+    )
+    duration = models.DurationField(
+        help_text='Длительность видео в формате 00:00:00',
         blank=True
     )
     links = models.JSONField(
         help_text='Ссылки на видео с разных источников'
     )
     shared_access = models.BooleanField(
-        help_text='Есть ли доступ у всех пользователей',
+        help_text='Доступно всем пользователям?',
         default=False
     )
+    #file = models.FileField()
 
     def __str__(self):
         return self.name
