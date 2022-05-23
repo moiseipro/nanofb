@@ -9,9 +9,21 @@
             <div class="col">
                 <h3 class="page-title">Profile</h3>
                 <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="#">Main</a></li>
                     <li class="breadcrumb-item active">Profile</li>
                 </ul>
+            </div>
+            <div class="col">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert {% if message.tags %} {{ message.tags }} {% endif %} alert-success alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>
@@ -257,16 +269,6 @@
             </div>
         </div>
     </div>
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert {% if message.tags %} {{ message.tags }} {% endif %} alert-success alert-dismissible fade show" role="alert">
-                {{ message }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-        {% endfor %}
-    {% endif %}
     
     <!--<main class="">
         <div>
