@@ -84,23 +84,23 @@ WSGI_APPLICATION = 'nanofb.wsgi.application'
 
 DATABASES = {
     # LOCALHOST
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': '0qdDyMGswv',
-    #     'USER': '0qdDyMGswv',
-    #     'PASSWORD': 'OMGOqEokUU',
-    #     'HOST': 'remotemysql.com',
-    #     'PORT': '3306',
-    # }
-    # pythonanywhere
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'nanofb$nanofb',
-        'USER': 'nanofb',
+        'NAME': '0qdDyMGswv',
+        'USER': '0qdDyMGswv',
         'PASSWORD': 'OMGOqEokUU',
-        'HOST': 'nanofb.mysql.pythonanywhere-services.com',
+        'HOST': 'remotemysql.com',
         'PORT': '3306',
     }
+    # pythonanywhere
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'nanofb$nanofb',
+    #     'USER': 'nanofb',
+    #     'PASSWORD': 'OMGOqEokUU',
+    #     'HOST': 'nanofb.mysql.pythonanywhere-services.com',
+    #     'PORT': '3306',
+    # }
 }
 
 
