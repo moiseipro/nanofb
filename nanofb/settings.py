@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-(8i@$r9s^-es5gveieq%!ao9d&fvq(=*&s^s2w&c$!kgon&hdh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['nanofb.pythonanywhere.com', '127.0.0.1']
+ALLOWED_HOSTS = ['nanofb.pythonanywhere.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'authorization.apps.AuthorizationConfig',
     'version.apps.VersionConfig',
     'video.apps.VideoConfig',
-    'references.apps.ReferencesConfig'
+    'references.apps.ReferencesConfig',
+    'exercises.apps.ExercisesConfig',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -86,23 +87,23 @@ WSGI_APPLICATION = 'nanofb.wsgi.application'
 
 DATABASES = {
     # LOCALHOST
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': '0qdDyMGswv',
-    #     'USER': '0qdDyMGswv',
-    #     'PASSWORD': 'OMGOqEokUU',
-    #     'HOST': 'remotemysql.com',
-    #     'PORT': '3306',
-    # }
-    # pythonanywhere
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'nanofb$nanofb',
-        'USER': 'nanofb',
+        'NAME': '0qdDyMGswv',
+        'USER': '0qdDyMGswv',
         'PASSWORD': 'OMGOqEokUU',
-        'HOST': 'nanofb.mysql.pythonanywhere-services.com',
+        'HOST': 'remotemysql.com',
         'PORT': '3306',
     }
+    # pythonanywhere
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'nanofb$nanofb',
+    #     'USER': 'nanofb',
+    #     'PASSWORD': 'OMGOqEokUU',
+    #     'HOST': 'nanofb.mysql.pythonanywhere-services.com',
+    #     'PORT': '3306',
+    # }
 }
 
 
