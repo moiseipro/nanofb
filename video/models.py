@@ -26,9 +26,14 @@ class Video(models.Model):
         help_text='Длительность видео',
         blank=True
     )
-    links = models.JSONField()
+    links = models.JSONField(
+        help_text='Ссылки на видео с разных источников'
+    )
     shared_access = models.BooleanField(
         help_text='Есть ли доступ у всех пользователей',
         default=False
     )
+
+    def __str__(self):
+        return self.name
 

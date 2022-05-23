@@ -4,29 +4,16 @@
 
 {% block content %}
 
-    <div class="page-header">
-        <div class="row">
-            <div class="col">
-                <h3 class="page-title">Video</h3>
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Main</a></li>
-                    <li class="breadcrumb-item active">Video</li>
-                </ul>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags %} {{ message.tags }} {% endif %} alert-warning alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
             </div>
-            <div class="col">
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class="alert {% if message.tags %} {{ message.tags }} {% endif %} alert-success alert-dismissible fade show" role="alert">
-                            {{ message }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            </div>
-        </div>
-    </div>
+        {% endfor %}
+    {% endif %}
 
     <div class="row">
         <div class="col-sm-12">
@@ -34,7 +21,7 @@
                 <div class="card-header">
                     <form action="#">
                         <div class="row">
-                            <div class="col-sm-2 px-0">
+                            <!--<div class="col-sm-2 px-0">
                                 <select class="form-control form-control-sm">
                                     <option>Раздел</option>
                                     <option>Упражнения</option>
@@ -62,6 +49,17 @@
                                     <option>A</option>
                                     <option>V.A</option>
                                 </select>
+                            </div>
+                            <div class="col-sm-1 px-0">
+                                <select class="form-control form-control-sm">
+                                    <option>V.A</option>
+                                    <option>V</option>
+                                    <option>A</option>
+                                    <option>V.A</option>
+                                </select>
+                            </div>-->
+                            <div class="col-sm-2 px-0">
+                                <a href="{% url 'video:add_video' %}" class="btn btn-success btn-sm btn-block">Добавить</a>
                             </div>
                         </div>
                     </form>

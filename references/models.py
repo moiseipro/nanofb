@@ -18,6 +18,9 @@ class AbstractReference(models.Model):
         help_text='Индекс сортировки'
     )
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         abstract = True
         ordering = ['order']
