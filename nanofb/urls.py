@@ -21,6 +21,8 @@ from django.urls import path, include
 handler404 = 'nanofootball.views.view_404' 
 
 urlpatterns = [
+    path('api-auth/', include(('rest_framework.urls', 'rest_framework'), namespace='rest_framework')),
+
     path('', include(('nanofootball.urls', 'nanofootball'), namespace='nanofootball')),
     path('admin/', admin.site.urls),
     path('login/', include(('authorization.urls', 'authorization'), namespace='authorization')),
