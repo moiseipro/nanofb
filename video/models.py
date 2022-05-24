@@ -37,7 +37,6 @@ class Video(models.Model):
         help_text='Доступно всем пользователям?',
         default=False
     )
-    #file = models.FileField()
 
     def __str__(self):
         return self.name

@@ -76,7 +76,7 @@
                         </div>
                         <div class="col-md-8 col-lg">
                             <div class="table-responsive">
-                                <table id="video" class="datatable table table-striped table-bordered" style="width:100%" data-server-side="true" data-ajax="api/all/?format=datatables">
+                                <table id="video" class="datatable table table-sm table-striped table-bordered" style="width:100%" data-server-side="true" data-ajax="api/view/?format=datatables">
                                     <thead>
                                         <tr>
                                             <th data-data="videosource_id.name" data-name="videosource_id.short_name">Источник</th>
@@ -88,8 +88,55 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="col-md-12 col-lg-3 d-none">
-
+                        <div id="block-video-info" class="col-md-12 col-lg-3 d-none">
+                            <div class="row">
+                                <div class="col-sm-5">Источник</div>
+                                <div data-name="videosource_id.name" class="col-sm-7 text-center"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5">Раздел</div>
+                                <div data-name="section_id.name" class="col-sm-7 text-center"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5">Папка</div>
+                                <div data-name="none" class="col-sm-7 text-center"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5">Загрузка</div>
+                                <div data-name="upload_date" class="col-sm-7 text-center"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5">Вермя</div>
+                                <div data-name="duration" class="col-sm-7 text-center"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5">Ссылка</div>
+                                <div data-name="none" class="col-sm-7 text-center"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5">ID</div>
+                                <div data-name="id" class="col-sm-7 text-center"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5">№</div>
+                                <div data-name="none" class="col-sm-7 text-center"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5">Файл</div>
+                                <div data-name="none" class="col-sm-7 text-center"></div>
+                            </div>
+                                <!--<div class="col-sm-5">Спикер</div>
+                                <div class="col-sm-7"></div>
+                                <div class="col-sm-5">Текст</div>
+                                <div class="col-sm-7"></div>
+                                <div class="col-sm-5">Музыка</div>
+                                <div class="col-sm-7"></div>
+                                <div class="col-sm-5">Таблицы</div>
+                                <div class="col-sm-7"></div>-->
+                            <div class="row">
+                                <div class="col-sm-5">Общ. доступ</div>
+                                <div data-name="shared_access" class="col-sm-7 text-center"></div>
+                            </div>
                         </div>
                     </div>
                 </div>

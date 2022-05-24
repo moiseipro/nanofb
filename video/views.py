@@ -1,6 +1,6 @@
 import requests
 from pytube import extract
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from rest_framework import viewsets
@@ -11,6 +11,15 @@ from video.forms import CreateVideoForm
 from video.models import Video
 
 context_menu = {'menu_video': 'active'}
+
+
+class VideoDetailView(DetailView):
+    template_name = 'video/view_video.html'
+    model = Video
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
 
 
 class BaseVideoView(ListView):
