@@ -42,3 +42,6 @@ class Video(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ['videosource_id', 'section_id']
+

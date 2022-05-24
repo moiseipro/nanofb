@@ -1,4 +1,5 @@
 {% extends '../base/app_main.html' %}
+{% load static %}
 
 {% block title %}Video{% endblock %}
 
@@ -67,37 +68,23 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4 col-lg-3">
-                            {% for source in video_sources %}
-                                <button type="button" class="btn btn-outline-dark btn-sm btn-block">{{ source.name }}</button>
+                            {% for source in object_list %}
+                                <button type="button" data-source="{{ source.short_name }}" class="btn btn-outline-dark btn-sm btn-block video-source">{{ source.name }}</button>
                             {% empty %}
                                 <h4>Нет источников</h4>
                             {% endfor %}
                         </div>
                         <div class="col-md-8 col-lg">
                             <div class="table-responsive">
-                                <table class="datatable table table-stripped">
+                                <table id="video" class="datatable table table-striped table-bordered" style="width:100%" data-server-side="true" data-ajax="api/all/?format=datatables">
                                     <thead>
                                         <tr>
-                                            <th>Источник</th>
-                                            <th>Название</th>
-                                            <th>Раздел</th>
-                                            <th>Длительность</th>
+                                            <th data-data="videosource_id.name" data-name="videosource_id.short_name">Источник</th>
+                                            <th data-data="name">Название</th>
+                                            <th data-data="section_id.name" data-name="videosource_id.short_name">Раздел</th>
+                                            <th data-data="duration">Длительность</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        {% for video in object_list %}
-                                            <tr>
-                                                <td>{{ video.videosource_id }}</td>
-                                                <td>{{ video.name }}</td>
-                                                <td>{{ video.section_id }}</td>
-                                                <td>{{ video.duration }}</td>
-                                            </tr>
-                                        {% empty %}
-                                            <tr>
-                                                <td colspan="5">Пусто</td>
-                                            </tr>
-                                        {% endfor %}
-                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -110,4 +97,8 @@
         </div>
     </div>
 
+{% endblock %}
+
+{% block custom_scripts %}
+    <script src="{% static 'video/video_all.js' %}"></script>
 {% endblock %}

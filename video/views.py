@@ -3,7 +3,9 @@ from pytube import extract
 from django.views.generic import ListView
 from django.contrib import messages
 from django.shortcuts import render, redirect
+from rest_framework import viewsets
 
+from video.serializers import VideoSerializer
 from references.models import VideoSource
 from video.forms import CreateVideoForm
 from video.models import Video
@@ -11,14 +13,18 @@ from video.models import Video
 context_menu = {'menu_video': 'active'}
 
 
-class AllVideoView(ListView):
+class BaseVideoView(ListView):
     template_name = 'video/base_video.html'
-    model = Video
+    model = VideoSource
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['video_sources'] = VideoSource.objects.all()
         return context
+
+
+class VideoViewSet(viewsets.ModelViewSet):
+    queryset = Video.objects.all().order_by('videosource_id')
+    serializer_class = VideoSerializer
 
 
 def index(request):
