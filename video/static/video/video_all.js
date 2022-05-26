@@ -1,17 +1,39 @@
-let video_table;
+let video_table
 $(window).on('load', function (){
-    video_table = $('.datatable').DataTable()
+    //video_table = $('.datatable').DataTable()
+    video_table = $('#video').DataTable({
+        serverSide: true,
+        processing: true,
+        select: true,
+        ajax: 'api/view/?format=datatables',
+        columns: [
+            {'data': 'videosource_id.name', 'name': 'videosource_id.short_name'},
+            {'data': 'name'},
+            {'data': 'section_id.name', 'name': 'videosource_id.short_name'},
+            {'data': 'duration'},
+        ],
+    })
+
+    video_table
+        .on( 'select', function ( e, dt, type, indexes ) {
+            let rowData = video_table.rows( indexes ).data().toArray();
+            if(type=='row') {
+                ajax_video_info(rowData[0])
+            }
+        })
+        .on( 'deselect', function ( e, dt, type, indexes ) {
+            let rowData = video_table.rows( indexes ).data().toArray();
+        })
 })
 
 $('.video-source').on('click', function (){
     let data_source = $( this ).attr(`data-source`)
-    console.log(data_source)
-    video_table.column(0).search(data_source).draw()
+    //console.log(data_source)
+    video_table.columns([0]).search(data_source).draw()
+    $('#block-video-info').addClass('d-none')
 })
 
-$('.datatable').on('click', 'tbody tr', function() {
-    let row_data = video_table.row(this).data()
-    console.log('API row values : ', row_data)
+function ajax_video_info(row_data) {
     let request = $.ajax({
         url: "api/view/"+row_data.id,
         method: "GET",
@@ -19,16 +41,15 @@ $('.datatable').on('click', 'tbody tr', function() {
     })
 
     request.done(function( data ) {
-        console.log(data)
+        //console.log(data)
         render_json_block(data)
-
     })
 
     request.fail(function( jqXHR, textStatus ) {
         alert( "Request failed: " + textStatus );
         $('#block-video-info').addClass('d-none')
     })
-})
+}
 
 function render_json_block(data) {
     $('#block-video-info').removeClass('d-none')
@@ -38,10 +59,8 @@ function render_json_block(data) {
         let html = '';
         if(in_data[0] in data){
             if(in_data.length>1){
-                console.log(data[in_data[0]][in_data[1]])
                 html = data[in_data[0]][in_data[1]].toString()
             } else {
-                console.log(data[in_data[0]])
                 if(typeof data[in_data[0]] === "boolean"){
                     html = data[in_data[0]] ?
                         '<i class="fa fa-check" aria-hidden="true"></i>' :

@@ -37,6 +37,11 @@ class Video(models.Model):
         help_text='Доступно всем пользователям?',
         default=False
     )
+    old_id = models.IntegerField(
+        help_text='ID упражнения, к которому было привязано видео',
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return self.name

@@ -13,6 +13,11 @@ from video.models import Video
 context_menu = {'menu_video': 'active'}
 
 
+class VideoViewSet(viewsets.ModelViewSet):
+    queryset = Video.objects.all().order_by('videosource_id')
+    serializer_class = VideoSerializer
+
+
 class VideoDetailView(DetailView):
     template_name = 'video/view_video.html'
     model = Video
@@ -29,11 +34,6 @@ class BaseVideoView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
-
-
-class VideoViewSet(viewsets.ModelViewSet):
-    queryset = Video.objects.all().order_by('videosource_id')
-    serializer_class = VideoSerializer
 
 
 def index(request):
