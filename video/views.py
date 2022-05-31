@@ -12,7 +12,7 @@ from references.models import VideoSource
 from video.forms import CreateVideoForm
 from video.models import Video
 
-context_menu = {'menu_video': 'active'}
+context_page = {'menu_video': 'active'}
 
 
 class VideoViewSet(viewsets.ModelViewSet):
@@ -82,19 +82,19 @@ def add_video(request):
                 messages.error(request, "Video creation error. There is no link to the video.")
 
     form = CreateVideoForm()
-    context_menu['create_form'] = form;
+    context_page['create_form'] = form;
 
     return render(request=request, template_name="video/add_video.html", context=context_menu)
 
 
-def add_video(request):
+def parse_video(request):
     if not request.user.is_authenticated:
         return redirect("authorization:login")
 
     if request.method == "GET":
         response = requests.get('https://nanofootball.kz/api/token/3F4AwFqWHk3GYGJuDRWh/', None)
-        content = response.content
-        if content:
+        context_page['content'] = response.content
+        if context_page['content']:
             messages.success(request, "Video parse successfully.")
 
-    return render(request=request, template_name="video/parse_video.html", context=content)
+    return render(request=request, template_name="video/parse_video.html", context=context_page)
