@@ -1,4 +1,19 @@
 let video_table
+let video_player
+video_player = videojs('all-player', {
+    preload: 'auto',
+    autoplay: false,
+    controls: true,
+    sources: [{type: 'video/youtube'}],
+    techOrder: ["youtube"],
+    youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 }
+})
+
+// При изменении ширины окна
+$(window).resize(function () {
+    resizeBlockJS($('#all-player'));
+});
+
 $(window).on('load', function (){
     //video_table = $('.datatable').DataTable()
     video_table = $('#video').DataTable({
@@ -53,7 +68,7 @@ function ajax_video_info(row_data) {
 
 function render_json_block(data) {
     $('#block-video-info').removeClass('d-none')
-
+    console.log(data)
     $('#block-video-info .row div[data-name]').each(function () {
         let in_data = $(this).attr('data-name').split('.')
         let html = '';
@@ -74,4 +89,11 @@ function render_json_block(data) {
         }
         $(this).html(html)
     })
+    if('nftv' in data['links']){
+        //Получение ссылки на видео через API видеохостинга
+        //video_player.src({ src: 'https://213.108.4.28/video/player/1653469713732'+data['links']['nftv']})
+    } else if('youtube' in data['links']){
+        video_player.src({ type: 'video/youtube', src: 'http://www.youtube.com/embed/'+data['links']['youtube']})
+    }
+    resizeBlockJS($('#all-player'));
 }

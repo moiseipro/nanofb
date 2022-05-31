@@ -4,6 +4,8 @@ from django.views.generic import ListView, DetailView
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from rest_framework import viewsets
+from django.contrib.auth.mixins import LoginRequiredMixin
+from rest_framework.permissions import IsAuthenticated
 
 from video.serializers import VideoSerializer
 from references.models import VideoSource
@@ -17,8 +19,13 @@ class VideoViewSet(viewsets.ModelViewSet):
     queryset = Video.objects.all().order_by('videosource_id')
     serializer_class = VideoSerializer
 
+    def get_permissions(self):
+        permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
 
-class VideoDetailView(DetailView):
+
+class VideoDetailView(LoginRequiredMixin, DetailView):
+    redirect_field_name = "authorization:login"
     template_name = 'video/view_video.html'
     model = Video
 
@@ -27,27 +34,14 @@ class VideoDetailView(DetailView):
         return context
 
 
-class BaseVideoView(ListView):
+class BaseVideoView(LoginRequiredMixin, ListView):
+    redirect_field_name = "authorization:login"
     template_name = 'video/base_video.html'
     model = VideoSource
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
-
-
-def index(request):
-    if not request.user.is_authenticated:
-        return redirect("authorization:login")
-
-    return render(request=request, template_name="video/base_video.html", context=context_menu)
-
-
-def view_video(request):
-    if not request.user.is_authenticated:
-        return redirect("authorization:login")
-
-    return render(request=request, template_name="video/view_video.html", context=context_menu)
 
 
 def add_video(request):
@@ -91,3 +85,16 @@ def add_video(request):
     context_menu['create_form'] = form;
 
     return render(request=request, template_name="video/add_video.html", context=context_menu)
+
+
+def add_video(request):
+    if not request.user.is_authenticated:
+        return redirect("authorization:login")
+
+    if request.method == "GET":
+        response = requests.get('https://nanofootball.kz/api/token/3F4AwFqWHk3GYGJuDRWh/', None)
+        content = response.content
+        if content:
+            messages.success(request, "Video parse successfully.")
+
+    return render(request=request, template_name="video/parse_video.html", context=content)

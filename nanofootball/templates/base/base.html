@@ -22,7 +22,9 @@
         <link rel="stylesheet" href="{% static 'preadmin/css/bootstrap-datetimepicker.min.css' %}">
         <link rel="stylesheet" href="{% static 'preadmin/plugins/morris/morris.css' %}">
         <link rel="stylesheet" href="{% static 'preadmin/css/style.css' %}">
-
+        <!-- Video.js -->
+        <link rel="stylesheet" href="{% static 'video-js-7.20.0/video-js.min.css' %}">
+        <!-- JQuery UI -->
         <link rel="stylesheet" href="{% static 'jquery-ui-1.13.1.custom/jquery-ui.theme.min.css' %}">
         <!-- Custom Style -->
         {% block custom_style %}{% endblock %}
@@ -54,10 +56,16 @@
         <script src="{% static 'preadmin/plugins/datatables/jquery.dataTables.min.js' %}"></script>
         <script src="{% static 'preadmin/plugins/datatables/datatables.min.js' %}"></script>
         <script src="{% static 'preadmin/plugins/datatablesSelect-1.4.0/js/dataTables.select.js' %}"></script>
+        <!-- Video.js -->
+        <script src="{% static 'video-js-7.20.0/video.min.js' %}"></script>
+        <!-- Video.js youtube -->
+        <script src="{% static 'videojs-youtube-master/dist/Youtube.min.js' %}"></script>
+        <!--<script src="{% static 'videojs-youtube-master/newskin/newskin.js' %}"></script>-->
         <!-- JQuery UI -->
         <script src="{% static 'jquery-ui-1.13.1.custom/jquery-ui.min.js' %}"></script>
         <!-- Custom Scripts -->
         <script src="{% static 'preadmin/js/script.js' %}"></script>
+        <script src="{% static 'nanofootball/custom.js' %}"></script>
         {% block custom_scripts %}{% endblock %}
     </body>
 </html>

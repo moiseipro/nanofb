@@ -60,6 +60,9 @@
                                 </select>
                             </div>-->
                             <div class="col-sm-2 px-0">
+                                <a href="#" class="btn btn-info btn-sm btn-block">Импорт NF</a>
+                            </div>
+                            <div class="col-sm-2 px-0">
                                 <a href="{% url 'video:add_video' %}" class="btn btn-success btn-sm btn-block">Добавить</a>
                             </div>
                         </div>
@@ -137,6 +140,12 @@
                                 <div class="col-sm-5">Общ. доступ</div>
                                 <div data-name="shared_access" class="col-sm-7 text-center"></div>
                             </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <video id="all-player" class="video-js">
+                                    </video>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -147,5 +156,5 @@
 {% endblock %}
 
 {% block custom_scripts %}
-    <script src="{% static 'video/video_all.js' %}"></script>
+    <script src="{% static 'video/base_video.js' %}"></script>
 {% endblock %}
