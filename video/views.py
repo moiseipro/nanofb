@@ -1,4 +1,7 @@
+from itertools import islice
+
 import requests
+import json
 from pytube import extract
 from django.views.generic import ListView, DetailView
 from django.contrib import messages
@@ -84,7 +87,7 @@ def add_video(request):
     form = CreateVideoForm()
     context_page['create_form'] = form;
 
-    return render(request=request, template_name="video/add_video.html", context=context_menu)
+    return render(request=request, template_name="video/add_video.html", context=context_page)
 
 
 def parse_video(request):
@@ -92,9 +95,47 @@ def parse_video(request):
         return redirect("authorization:login")
 
     if request.method == "GET":
-        response = requests.get('https://nanofootball.kz/api/token/3F4AwFqWHk3GYGJuDRWh/', None)
-        context_page['content'] = response.content
-        if context_page['content']:
+        response = requests.get(f'https://nanofootball.kz/api/token/3F4AwFqWHk3GYGJuDRWh/')
+        context_page['content'] = json.loads(response.content.decode('utf-8'))
+        videos = []
+        sources = []
+        sources_name = []
+        video_name = []
+        server_sources = VideoSource.objects.all()
+        server_video = Video.objects.all()
+        for ss in server_sources:
+            if ss.name not in sources_name:
+                sources_name.append(ss.name)
+        for sv in server_video:
+            if sv.name not in video_name:
+                video_name.append(sv.name)
+        for n in context_page['content']:
+            if n['p_source'] is not None:
+                if n['p_source']['name'] not in sources_name:
+                    sources_name.append(n['p_source']['name'])
+                    sources.append(VideoSource(name=n['p_source']['name'], link=n['p_source']['source'], short_name='Empty'))
+                if server_sources:
+                    for ss in server_sources:
+                        if ss.name == n['p_source']['name'] and n['video_id_youtube'] is not None:
+                            for y_id in n['video_id_youtube']:
+                                if y_id != '':
+                                    videos.append(Video(name=n['name'] if n['name'] else 'No name', old_id=n['id'], links={'youtube': y_id}, videosource_id=ss))
+                            break
+            else:
+                if n['video_id_youtube'] is not None:
+                    for y_id in n['video_id_youtube']:
+                        if y_id != '':
+                            videos.append(Video(name=n['name'] if n['name'] else 'No name', old_id=n['id'], links={'youtube': y_id}))
+
+        batch = list(islice(sources, 1, 10))
+        created_source = VideoSource.objects.bulk_create(batch)
+        context_page['sources'] = created_source
+        batch = list(islice(videos, 1, 80))
+        created_source = Video.objects.bulk_create(batch)
+        context_page['videos'] = created_source
+        if context_page['sources']:
+            messages.success(request, "Source parse successfully.")
+        if context_page['videos']:
             messages.success(request, "Video parse successfully.")
 
     return render(request=request, template_name="video/parse_video.html", context=context_page)

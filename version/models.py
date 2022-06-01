@@ -15,6 +15,12 @@ class Section(models.Model):
     )
     objects = models.Manager()
 
+    @classmethod
+    def get_default_pk(cls):
+        section, created = cls.objects.get_or_create(
+            name='NF', tag='Default')
+        return section.pk
+
     def __str__(self):
         return self.name
 

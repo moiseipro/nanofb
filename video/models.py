@@ -1,6 +1,8 @@
-from datetime import date
+from datetime import timedelta
 
 from django.db import models
+from django.utils.datetime_safe import datetime
+
 from references.models import VideoSource
 from version.models import Section
 
@@ -10,25 +12,26 @@ class Video(models.Model):
     name = models.CharField(
         max_length=255,
         help_text='Импортируемое название видео',
-        null=True,
     )
     videosource_id = models.ForeignKey(
         VideoSource,
-        on_delete=models.CASCADE,
-        help_text='Источник, к которому привязано видео'
+        on_delete=models.SET_DEFAULT,
+        help_text='Источник, к которому привязано видео',
+        default=VideoSource.get_default_pk
     )
     section_id = models.ForeignKey(
         Section,
-        on_delete=models.SET_NULL,
+        on_delete=models.SET_DEFAULT,
         help_text='Раздел, к которому привязано видео',
-        null=True
+        default=Section.get_default_pk
     )
     upload_date = models.DateField(
         auto_now=True
     )
     duration = models.DurationField(
         help_text='Длительность видео в формате 00:00:00',
-        blank=True
+        null=False,
+        default=timedelta(seconds=0),
     )
     links = models.JSONField(
         help_text='Ссылки на видео с разных источников'

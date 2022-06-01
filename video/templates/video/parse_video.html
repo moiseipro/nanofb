@@ -23,9 +23,16 @@
 
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        {{ content }}
-                    </div>
+                    {% for source in sources %}
+                        <div class="row">
+                            {{ source.id }}, {{ source.name }}
+                        </div>
+                    {% endfor %}
+                    {% for video in videos %}
+                        <div class="row">
+                            {{ video.id }}, {{ video.name }}, {{ video.videosource_id }}
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>

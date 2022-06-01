@@ -13,9 +13,11 @@ class AbstractReference(models.Model):
     short_name = models.CharField(
         max_length=10,
         help_text='Короткий ключ для поиска',
+        default='Empty'
     )
     order = models.IntegerField(
-        help_text='Индекс сортировки'
+        help_text='Индекс сортировки',
+        default=0
     )
 
     def __str__(self):
@@ -39,3 +41,9 @@ class VideoSource(AbstractReference):
         null=True,
         blank=True
     )
+
+    @classmethod
+    def get_default_pk(cls):
+        video, created = cls.objects.get_or_create(
+            name='Base')
+        return video.pk
