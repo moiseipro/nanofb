@@ -98,6 +98,7 @@ function ToggleFolderOrder(dir) {
             $.ajax({
                 data: data,
                 type: 'POST', // GET или POST
+                dataType: 'json',
                 url: "folders_api",
                 success: function (res) {
                     console.log(res)
@@ -247,6 +248,7 @@ $(function() {
         $.ajax({
             data: data,
             type: 'POST', // GET или POST
+            dataType: 'json',
             url: "folders_api",
             success: function (res) {
                 if (res.data.type && res.data.type == "add") {
@@ -300,6 +302,7 @@ $(function() {
         $.ajax({
             data: data,
             type: 'POST', // GET или POST
+            dataType: 'json',
             url: "folders_api",
             success: function (res) {
                 if (res.data.type && res.data.type == "delete") {
@@ -331,6 +334,7 @@ $(function() {
             $.ajax({
                 data: data,
                 type: 'GET', // GET или POST
+                dataType: 'json',
                 url: "folders_api",
                 success: function (res) {
                     if (res.data.type == "nfb_folders") {
@@ -356,6 +360,7 @@ $(function() {
             $.ajax({
                 data: data,
                 type: 'GET', // GET или POST
+                dataType: 'json',
                 url: "folders_api",
                 success: function (res) {
                     if (res.data.type && res.data.type == "nfb_folders_set") {
