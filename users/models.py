@@ -12,6 +12,7 @@ class User(AbstractUser):
     first_name = None
     email = models.EmailField(_("email address"), unique=True)
     p_version = models.ForeignKey(Version, on_delete=models.CASCADE, null=True)
+    club_id = models.IntegerField(default=0)
     is_archive = models.BooleanField(default=0)
     date_joined = models.DateField(auto_now_add=True)
     date_last_login = models.DateField(auto_now=True)

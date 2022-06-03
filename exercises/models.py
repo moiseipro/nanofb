@@ -33,23 +33,31 @@ class AbstractFolder(models.Model):
 
 
 class AdminFolder(AbstractFolder):
+    objects = models.Manager()
+
     class Meta(AbstractFolder.Meta):
         abstract = False
-    
     def __str__(self):
         return f"[id: {self.id}] {self.short_name}. {self.name}"
 
 
 class UserFolder(AbstractFolder):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    objects = models.Manager()
 
     class Meta(AbstractFolder.Meta):
         abstract = False
+        ordering = ['order', 'id']
+    def __str__(self):
+        return f"[id: {self.id}] {self.short_name}. {self.name}"
 
 
 class ClubFolder(AbstractFolder):
     # club_id = models.ForeignKey(Club, on_delete=models.CASCADE)
-
+    objects = models.Manager()
+    
     class Meta(AbstractFolder.Meta):
         abstract = False
+    def __str__(self):
+        return f"[id: {self.id}] {self.short_name}. {self.name}"
 

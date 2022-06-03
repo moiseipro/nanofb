@@ -4,10 +4,148 @@
 {% block title %}Упражнения{% endblock %}
 
 {% block content %}
+    <style>
+        .badge {
+            cursor: pointer;
+        }
+        .badge-success:hover {
+            background-color: #7ab13c8f !important;
+        }
+        .badge-secondary:hover {
+            background-color: #6c757d7e !important;
+        }
+        .badge-danger:hover {
+            background-color: #e8464685 !important;
+        }
+    </style>
+
     <main class="">
-        <div>
-            Папки для упражнений
+        <ul class="nav nav-tabs mb-3">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'exercises:exercises' %}">Список упражнений</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="{% url 'exercises:folders' %}">Управление папками</a>
+            </li>
+        </ul>
+        <div class="">
+            <span>- Папки для упражнений -</span>
+            <span class="badge badge-success folder-add ml-3">[Дбв.]</span>
+            <span class="badge badge-info folder-up ml-2" title="Переместить вверх">[up]</span>
+            <span class="badge badge-info folder-down ml-1" title="Переместить вниз">[dwn]</span>
+            <span class="badge badge-warning folders-nanofb ml-2">[NanoFB.]</span>
         </div>
+        <div class="row">
+            <div class="col-8">
+                <div class="folders_list mt-3">
+                    <ul class="list-group">
+                    {% for folder in folders %}
+                        <li class="list-group-item">
+                            <div class="folder-elem d-flex justify-content-between" 
+                                data-id="{{ folder.id }}" data-parent="{{ folder.parent }}" 
+                                data-short="{{ folder.short_name }}" data-name="{{ folder.name }}" data-root="0">
+                                <div class="pull-left">
+                                    <span class="folder-point mr-5">*</span>
+                                    <span class="folder-title">{{ folder.short_name }}. {{ folder.name }}</span>
+                                </div>
+                                <div class="pull-right text-uppercase font-weight-bold">
+                                    <span class="badge badge-success folder-sub-add mr-2">[Дбв.]</span>
+                                    <span class="badge badge-secondary folder-edit mr-2">[Изм.]</span>
+                                    <span class="badge badge-danger folder-delete mr-2">[Удл.]</span>
+                                </div>
+                            </div>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">
+                            <div class="folder-elem" data-id="None">
+                                [!] Папок нет. Создайте свою структуру папок или скопируйте уже существующую.
+                            </div>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="folderChangeModal" tabindex="-1" role="dialog" aria-labelledby="folderChangeModalLbl" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="folderChangeModalLbl">Создание / изменение папки</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formFolderChange">
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <label for="short_name_val">Короткий ключ</label>
+                                    <input type="text" class="form-control" id="short_name_val" name="short_name" placeholder="Короткий ключ" required>
+                                </div>
+                                <div class="form-group col-md-9">
+                                    <label for="name_val">Название</label>
+                                    <input type="text" class="form-control" id="name_val" name="name" placeholder="Название" required>
+                                </div>
+                            </div>
+                            <button id="formFolderChangeClick" type="submit" class="btn btn-primary d-none">ok</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary btn-submit" onclick="document.getElementById('formFolderChangeClick').click();">Подтвердить изменения</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="folderDeleteModal" tabindex="-1" role="dialog" aria-labelledby="folderDeleteModalLbl" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="folderDeleteModalLbl">Удаление папки</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Вы точно хотите удалить данную папку
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary btn-submit">Подтвердить изменения</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="folderNanoFbModal" tabindex="-1" role="dialog" aria-labelledby="folderNanoFbModalLbl" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="folderNanoFbModalLbl">Структура папок NFB</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="nfb_folders_list mt-3">
+                            <ul class="list-group">
+                                
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary btn-submit">Выбрать данную структуру</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 {% endblock %}
 
+{% block custom_scripts %}
+    <script src="{% static 'exercises/base_exercises_folders.js' %}"></script>
+{% endblock %}
