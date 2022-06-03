@@ -106,7 +106,7 @@ function ToggleFolderOrder(dir) {
                     }
                 },
                 error: function (res) {
-                    console.log(res.responseJSON.errors)
+                    console.log(res)
                 },
                 complete: function (res) {
                     readyUploadFolderOrder = true;
