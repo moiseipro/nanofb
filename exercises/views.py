@@ -23,7 +23,7 @@ def folders(request):
     return render(request, 'exercises/base_folders.html', {'folders': found_folders})
 
 
-# @csrf_exempt
+@csrf_exempt
 def folders_api(request):
     if not request.user.is_authenticated:
         return JsonResponse({"errors": "authenticate_err"}, status=400)
