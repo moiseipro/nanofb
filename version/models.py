@@ -1,4 +1,6 @@
+from django.contrib.auth.models import Permission
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 # Create your models here.
@@ -7,11 +9,13 @@ from django.db import models
 class Section(models.Model):
     name = models.CharField(
         max_length=255,
-        help_text="Название раздела"
+        verbose_name=_('Name'),
+        help_text=_("Section name")
     )
     tag = models.CharField(
         max_length=100,
-        help_text="Ключ раздела"
+        verbose_name=_('Tag'),
+        help_text=_("Section tag")
     )
     objects = models.Manager()
 
@@ -25,47 +29,40 @@ class Section(models.Model):
         return self.name
 
 
-class Access(models.Model):
-    name = models.CharField(
-        max_length=255,
-        help_text="Название доступа"
-    )
-    section_id = models.ForeignKey(Section, on_delete=models.CASCADE)
-    tag = models.CharField(
-        max_length=100,
-        help_text="Ключ доступа"
-    )
-    objects = models.Manager()
-
-    def __str__(self):
-        return self.name
-
-
 class Version(models.Model):
     name = models.CharField(
         max_length=255,
-        help_text="Название версии"
+        verbose_name=_('Name'),
+        help_text=_("Version name")
     )
     updated_date = models.DateField(
-        help_text="Дата обновления версии"
+        verbose_name=_('Last update'),
+        help_text=_("Version update date"),
+        auto_now=True
     )
     is_active = models.BooleanField(
+        verbose_name=_('Active'),
+        help_text=_('The version is active for user selection'),
         default=False
+    )
+    permissions = models.ManyToManyField(
+        Permission,
+        verbose_name=_("permissions"),
+        blank=True,
     )
     tag = models.CharField(
         max_length=100,
-        help_text="Ключ версии"
+        verbose_name=_('Tag'),
+        help_text=_("Version tag")
+    )
+    price = models.DecimalField(
+        verbose_name=_('Price'),
+        help_text=_("The cost of the version in the currency"),
+        max_digits=8,
+        decimal_places=2,
+        default=0.00
     )
     objects = models.Manager()
 
     def __str__(self):
         return self.name
-
-
-class VersionAccess(models.Model):
-    version_id = models.ForeignKey(Version, on_delete=models.CASCADE, null=True)
-    access_id = models.ForeignKey(Access, on_delete=models.CASCADE)
-    objects = models.Manager()
-
-
-

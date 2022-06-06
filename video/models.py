@@ -51,4 +51,7 @@ class Video(models.Model):
 
     class Meta:
         ordering = ['videosource_id', 'section_id']
+        permissions = (
+            ("uploading_files", "Can upload files to videos"),
+        )
 
