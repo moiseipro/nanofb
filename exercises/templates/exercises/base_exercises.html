@@ -3,6 +3,10 @@
 
 {% block title %}Упражнения{% endblock %}
 
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'exercises/css/style.css' %}">
+{% endblock %}
+
 {% block content %}
     <main class="">
         <ul class="nav nav-tabs mb-3">
@@ -14,8 +18,472 @@
             </li>
         </ul>
         <div class="">
-            Упражнения
+            <div class="exercises-block">
+                <div class="btns-tabs-first">
+                    <div class="row">
+                        <div class="col-auto py-1">
+                            <button type="button" class="btn btn-secondary btn-sm up-filter-elem" data-id="check_">Просмотреть</button>
+                            <button type="button" class="btn btn-secondary btn-sm up-filter-elem" data-id="new_exs">Новые (...)</button>
+                            <button type="button" class="btn btn-secondary btn-sm up-filter-elem" data-id="copy">Копировать</button>
+                        </div>
+                        <div class="col-auto px-1 py-1">
+                            <button type="button" class="btn btn-secondary btn-sm up-filter-elem" data-id="mark_exs">Маркировать</button>
+                            <button type="button" class="btn btn-secondary btn-sm up-filter-elem" data-id="cols_size">Колонки</button>
+                            <button type="button" class="btn btn-secondary btn-sm up-filter-elem" data-id="share_exs">Поделиться</button>
+                        </div>
+                        <div class="col-auto px-0 py-1">
+                            <button type="button" class="btn btn-secondary btn-sm up-filter-elem" data-id="toggle_side_filter">Фильтрация</button>
+                            <button type="button" class="btn btn-secondary btn-sm up-filter-elem" data-id="toggle_settings">Настройки</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="exerises-content mt-4">
+
+                    <!-- <div class="btns-tabs-second">
+                        <div class="row">
+                            <div class="col-2 p-1">
+                                <div class="d-flex justify-content-center">
+                                    <button type="button" class="btn btn-secondary btn-sm" title="Скрыть / развернуть">
+                                        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-4 p-1">
+                                <div class="d-flex justify-content-center">
+                                    <input type="text" class="form-control form-control-sm w-50" id="searhField" placeholder="Поиск">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm mx-1" id="exsCounter">(5000)</button>
+                                    <button type="button" class="btn btn-secondary btn-sm mx-1" id="filterReset" title="Сброс фильтров">
+                                        <i class="fa fa-undo" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-auto p-1 visual-block" style="width: 40%;">
+                                <div class="d-flex justify-content-center">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm mx-1">Рис. (..)</button>
+                                    <button type="button" class="btn btn-primary btn-sm mx-1" id="toggleVideoPanel">V. (..)</button>
+                                    <button type="button" class="btn btn-secondary btn-sm mx-1" id="toggleAnimationPanel">A. (..)</button>
+                                </div>
+                            </div>
+                            <div class="col-2 p-1 side-filter-block d-none">
+                                <div class="d-flex justify-content-center">
+                                    <button type="button" class="btn btn-secondary btn-sm mx-1">
+                                        <i class="fa fa-folder-o" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-secondary btn-sm mx-1">123..</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="exercises-list row">
+                        <div class="col-2 py-1">
+                            <ul class="list-group list-group-flush">
+                                <li class="exs-folder list-group-item py-2 active">
+                                    <div class="row">
+                                        <div class="col-6 text-left">
+                                            <span>A.1.</span>
+                                            <span class="mx-2"><i class="fa fa-folder-open-o" aria-hidden="true"></i></span>
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <span>( ... )</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="exs-folder list-group-item py-2">
+                                    <div class="row">
+                                        <div class="col-6 text-left">
+                                            <span>A.2.</span>
+                                            <span class="mx-2"><i class="fa fa-folder-o" aria-hidden="true"></i></span>
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <span>( ... )</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-4 p-1">
+                            <ul class="list-group list-group-flush">
+                                <li class="exs-elem list-group-item py-2">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <span>1. Упражнение sdsdsds dsdsdsdsd dsdsdsdsdsdsds</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="exs-elem list-group-item py-2">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <span>2. Упражнение sdsdsds dsdsdsdsd dsdsdsdsdsdsds</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="exs-elem list-group-item py-2">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <span>3. Упражнение sdsdsds dsdsdsdsd dsdsdsdsdsdsds</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-auto p-1 visual-block">
+                            <div class="row">
+                                <div class="col-12 exs_drawing">
+                                    <div id="svgbox" class="d-block float-left w-75">
+                                        <div id="svgparent" class="d-block mx-auto">
+                                            <svg id="block" class="d-block bg-success mx-auto" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                                                <defs>
+                                                    <marker id="40870arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#000000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                                    <marker id="89143arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ffffff"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                                    <marker id="95052arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ffff00"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                                    <marker id="11295arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ff0000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                                    <marker id="31628arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#000000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                                    <filter id="f3" x="0" y="0" width="200%" height="200%"><feOffset result="offOut" in="SourceAlpha" dx="5" dy="5"></feOffset><feGaussianBlur result="blurOut" in="offOut" stdDeviation="3"></feGaussianBlur><feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend></filter>
+                                                </defs>
+                                                <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="{% static 'exercises/img/field.svg' %}"></image>
+                                                <g id="selects"></g>
+                                                <g id="figures"></g>
+                                                <g id="lines"></g>
+                                                <g id="objects"></g>
+                                                <g id="dots"></g>
+                                                <line id="xLine" x1="-1" y1="0" x2="-1" y2="1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+                                                <line id="yLine" x1="0" y1="-1" x2="2400" y2="-1" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+                                                <line id="xLine2" x1="-2400" y1="0" x2="-2400" y2="1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+                                                <line id="yLine2" x1="0" y1="-1600" x2="2400" y2="-1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 my-2 exs-video" title="Видео">
+                                    <p class="mb-1">Видео:</p>
+                                    <img src="{% static 'exercises/img/video_player_temp.jpg' %}" class="img-fluid w-75" alt="[ VIDEO ]">
+                                </div>
+                                <div class="col-12 my-2 exs-animation d-none" title="Анимация">
+                                    <p class="mb-1">Анимация:</p>
+                                    <img src="{% static 'exercises/img/video_player_temp.jpg' %}" class="img-fluid w-75" alt="[ ANIMATION ]">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2 p-1 side-filter-block d-none">
+                            <ul class="list-group list-group-flush">
+                                <li class="side-filter-elem list-group-item py-1">
+                                    <div class="row">
+                                        <div class="col-6 text-left">
+                                            <span>filter 1</span>
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <span>( ... )</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="side-filter-elem list-group-item py-1">
+                                    <div class="row">
+                                        <div class="col-6 text-left">
+                                            <span>filter 2</span>
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <span>( ... )</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="side-filter-elem list-group-item py-1">
+                                    <div class="row">
+                                        <div class="col-6 text-left">
+                                            <span>filter 3</span>
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <span>( ... )</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="side-filter-elem list-group-item py-1">
+                                    <div class="row">
+                                        <div class="col-6 text-left">
+                                            <span>filter 4</span>
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <span>( ... )</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="side-filter-elem list-group-item py-1">
+                                    <div class="row">
+                                        <div class="col-6 text-left">
+                                            <span>filter 5</span>
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <span>( ... )</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div> -->
+
+
+                    <div class="exercises-list split">
+                        <div class="py-1" id="splitCol_0">
+                            <div class="d-flex justify-content-center btn-tab-second">
+                                <button type="button" class="btn btn-secondary btn-sm" title="Скрыть / развернуть">
+                                    <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <hr class="mt-1">
+                            <ul class="list-group list-group-flush">
+                                <li class="exs-folder list-group-item py-2 active">
+                                    <div class="row">
+                                        <div class="col-6 text-left">
+                                            <span>A.1.</span>
+                                            <span class="mx-2"><i class="fa fa-folder-open-o" aria-hidden="true"></i></span>
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <span>( ... )</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="exs-folder list-group-item py-2">
+                                    <div class="row">
+                                        <div class="col-6 text-left">
+                                            <span>A.2.</span>
+                                            <span class="mx-2"><i class="fa fa-folder-o" aria-hidden="true"></i></span>
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <span>( ... )</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="p-1" id="splitCol_1">
+                            <div class="d-flex justify-content-center btn-tab-second">
+                                <input type="text" class="form-control form-control-sm w-50" id="searhField" placeholder="Поиск">
+                                <button type="button" class="btn btn-outline-secondary btn-sm mx-1" id="exsCounter">(5000)</button>
+                                <button type="button" class="btn btn-secondary btn-sm mx-1" id="filterReset" title="Сброс фильтров">
+                                    <i class="fa fa-undo" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <hr class="mt-1">
+                            <ul class="list-group list-group-flush">
+                                <li class="exs-elem list-group-item py-2">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <span>1. Упражнение sdsdsds dsdsdsdsd dsdsdsdsdsdsds</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="exs-elem list-group-item py-2">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <span>2. Упражнение sdsdsds dsdsdsdsd dsdsdsdsdsdsds</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="exs-elem list-group-item py-2">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <span>3. Упражнение sdsdsds dsdsdsdsd dsdsdsdsdsdsds</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="p-1 visual-block" id="splitCol_2">
+                            <div class="d-flex justify-content-center btn-tab-second">
+                                <button type="button" class="btn btn-outline-secondary btn-sm mx-1">Рис. (..)</button>
+                                <button type="button" class="btn btn-primary btn-sm mx-1" id="toggleVideoPanel">V. (..)</button>
+                                <button type="button" class="btn btn-secondary btn-sm mx-1" id="toggleAnimationPanel">A. (..)</button>
+                            </div>
+                            <hr class="mt-1">
+                            <div class="row">
+                                <div class="col-12 exs_drawing">
+                                    <div id="svgbox" class="d-block float-left w-75">
+                                        <div id="svgparent" class="d-block mx-auto">
+                                            <svg id="block" class="d-block bg-success mx-auto" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                                                <defs>
+                                                    <marker id="40870arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#000000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                                    <marker id="89143arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ffffff"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                                    <marker id="95052arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ffff00"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                                    <marker id="11295arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ff0000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                                    <marker id="31628arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#000000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                                    <filter id="f3" x="0" y="0" width="200%" height="200%"><feOffset result="offOut" in="SourceAlpha" dx="5" dy="5"></feOffset><feGaussianBlur result="blurOut" in="offOut" stdDeviation="3"></feGaussianBlur><feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend></filter>
+                                                </defs>
+                                                <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="{% static 'exercises/img/field.svg' %}"></image>
+                                                <g id="selects"></g>
+                                                <g id="figures"></g>
+                                                <g id="lines"></g>
+                                                <g id="objects"></g>
+                                                <g id="dots"></g>
+                                                <line id="xLine" x1="-1" y1="0" x2="-1" y2="1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+                                                <line id="yLine" x1="0" y1="-1" x2="2400" y2="-1" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+                                                <line id="xLine2" x1="-2400" y1="0" x2="-2400" y2="1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+                                                <line id="yLine2" x1="0" y1="-1600" x2="2400" y2="-1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 my-2 exs-video" title="Видео">
+                                    <p class="mb-1">Видео:</p>
+                                    <img src="{% static 'exercises/img/video_player_temp.jpg' %}" class="img-fluid w-75" alt="[ VIDEO ]">
+                                </div>
+                                <div class="col-12 my-2 exs-animation d-none" title="Анимация">
+                                    <p class="mb-1">Анимация:</p>
+                                    <img src="{% static 'exercises/img/video_player_temp.jpg' %}" class="img-fluid w-75" alt="[ ANIMATION ]">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-1 side-filter-block d-none" id="splitCol_3">
+                            <div class="d-flex justify-content-center btn-tab-second">
+                                <button type="button" class="btn btn-secondary btn-sm mx-1">
+                                    <i class="fa fa-folder-o" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="btn btn-secondary btn-sm mx-1">123..</button>
+                            </div>
+                            <hr class="mt-1">
+                            <ul class="list-group list-group-flush">
+                                <li class="side-filter-elem list-group-item py-1">
+                                    <div class="row">
+                                        <div class="col-6 text-left">
+                                            <span>filter 1</span>
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <span>( ... )</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="side-filter-elem list-group-item py-1">
+                                    <div class="row">
+                                        <div class="col-6 text-left">
+                                            <span>filter 2</span>
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <span>( ... )</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="side-filter-elem list-group-item py-1">
+                                    <div class="row">
+                                        <div class="col-6 text-left">
+                                            <span>filter 3</span>
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <span>( ... )</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="side-filter-elem list-group-item py-1">
+                                    <div class="row">
+                                        <div class="col-6 text-left">
+                                            <span>filter 4</span>
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <span>( ... )</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="side-filter-elem list-group-item py-1">
+                                    <div class="row">
+                                        <div class="col-6 text-left">
+                                            <span>filter 5</span>
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <span>( ... )</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="exerciseCardModal" tabindex="-1" role="dialog" aria-labelledby="exerciseCardModalLbl" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="card-btns-panel row">
+                            <div class="col-4 p-1 d-flex justify-content-md-start">
+                                <button type="button" class="btn btn-secondary btn-sm mx-1" data-dismiss="modal">Выйти</button>
+                                <button type="button" class="btn btn-secondary btn-sm mx-1">Редактировать</button>
+                                <button type="button" class="btn btn-secondary btn-sm mx-1">Сохранить</button>
+                            </div>
+                            <div class="col-4 p-1 d-flex justify-content-center">
+                                <span class="card-exs-name">Название упражнения</span>
+                            </div>
+                            <div class="col-4 p-1 d-flex justify-content-lg-end">
+                                <button type="button" class="btn btn-secondary btn-sm mx-1">Удалить</button>
+                                <button type="button" class="btn btn-secondary btn-sm mx-1"><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
+                                <button type="button" class="btn btn-secondary btn-sm mx-1"><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="tabs-block">
+                            <nav class="nav nav-pills nav-fill">
+                                <a class="nav-item nav-link active" data-toggle="tab" href="#card_content" role="tab" aria-controls="card_content" aria-selected="true">Содержание</a>
+                                <a class="nav-item nav-link" data-toggle="tab" href="#card_description" role="tab" aria-controls="card_description" aria-selected="false">Описание</a>
+                                <a class="nav-item nav-link" data-toggle="tab" href="#card_drawing" role="tab" aria-controls="card_drawing" aria-selected="false">Рисунок (1)</a>
+                                <a class="nav-item nav-link" data-toggle="tab" href="#card_video" role="tab" aria-controls="card_video" aria-selected="false">Видео (...)</a>
+                                <a class="nav-item nav-link" data-toggle="tab" href="#card_animation" role="tab" aria-controls="card_animation" aria-selected="false">Анимация (...)</a>
+                            </nav>
+                            <hr>
+                            <div class="tab-content" id="cardBlock">
+                                <div class="tab-pane fade show active" id="card_content" role="tabpanel" aria-labelledby="card_content-tab">
+                                    <div class="row">
+                                        <div class="col-4 p-1">
+                                            <svg id="" class="d-block bg-success mx-auto h-100" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                                                <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="/static/exercises/img/field.svg"></image>
+                                            </svg>
+                                            <p class="text-center">Рисунок 1</p>
+                                        </div>
+                                        <div class="col-4 p-1">
+                                            <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid h-100" alt="[ VIDEO ]">
+                                            <p class="text-center">Видео 1</p>
+                                        </div>
+                                        <div class="col-4 p-1">
+                                            <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid h-100" alt="[ VIDEO ]">
+                                            <p class="text-center">Анимация 1</p>
+                                        </div>
+                                    </div>
+                                    <div class="row my-4">
+                                        <div class="col-4 p-1">
+                                            <svg id="" class="d-block bg-success mx-auto h-100" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                                                <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="/static/exercises/img/field.svg"></image>
+                                            </svg>
+                                            <p class="text-center">Рисунок 2</p>
+                                        </div>
+                                        <div class="col-4 p-1">
+                                            <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid h-100" alt="[ VIDEO ]">
+                                            <p class="text-center">Видео 2</p>
+                                        </div>
+                                        <div class="col-4 p-1">
+                                            <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid h-100" alt="[ VIDEO ]">
+                                            <p class="text-center">Анимация 2</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="card_description" role="tabpanel" aria-labelledby="card_content-tab">
+                                    description
+                                </div>
+                                <div class="tab-pane fade" id="card_drawing" role="tabpanel" aria-labelledby="card_drawing-tab">
+                                    drawing
+                                </div>
+                                <div class="tab-pane fade" id="card_video" role="tabpanel" aria-labelledby="card_video-tab">
+                                    video
+                                </div>
+                                <div class="tab-pane fade" id="card_animation" role="tabpanel" aria-labelledby="card_animation-tab">
+                                    animation
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 {% endblock %}
 
+{% block custom_scripts %}
+    <script src="{% static 'exercises/js/base_exercises.js' %}"></script>
+{% endblock %}
