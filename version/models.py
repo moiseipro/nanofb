@@ -1,15 +1,14 @@
 from django.contrib.auth.models import Permission, Group
 from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy as _p
+from decimal import Decimal
 
 
 # Create your models here.
-
 class CustomGroup(models.Model):
-    def __str__(self):
-        return "{}".format(self.group.name)
-
     group = models.OneToOneField(
         Group,
         unique=True,
@@ -25,6 +24,9 @@ class CustomGroup(models.Model):
 
     def __str__(self):
         return self.group.name
+
+    class Meta:
+        verbose_name = _('Custom group params')
 
 
 class Section(models.Model):
@@ -48,6 +50,10 @@ class Section(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = _('section')
+        verbose_name_plural = _('sections')
 
 
 class Version(models.Model):
@@ -97,3 +103,19 @@ class Version(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = _('version')
+        verbose_name_plural = _('versions')
+
+
+# Version reaction
+# @receiver(pre_save, sender=Version)
+# def check_price_in_group(sender, instance, **kwargs):
+#     groups = instance.groups.all()
+#     new_price = Decimal("0.00")
+#     for group in groups:
+#         print(group)
+#         new_price += group.customgroup.price
+#     instance.price = new_price
+
