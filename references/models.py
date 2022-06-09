@@ -1,22 +1,27 @@
 from django.db import models
 from users.models import User
 
+from django.utils.translation import gettext_lazy as _
+
 
 # Create your models here.
 class AbstractReference(models.Model):
     name = models.CharField(
         max_length=255,
-        help_text='Импортируемое название источника',
+        verbose_name=_('title'),
+        help_text=_('Imported source name'),
         null=True,
         blank=True
     )
     short_name = models.CharField(
         max_length=10,
-        help_text='Короткий ключ для поиска',
-        default='Empty'
+        verbose_name=_('short name'),
+        help_text=_('Short name no more than 10 characters'),
+        default=_('Empty')
     )
     order = models.IntegerField(
-        help_text='Индекс сортировки',
+        verbose_name=_('order'),
+        help_text=_('Sorting index'),
         default=0
     )
 
@@ -28,16 +33,20 @@ class AbstractReference(models.Model):
         ordering = ['order']
 
 
-class UserReference(AbstractReference):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+class MixUserReference(models.Model):
+    user_id = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
 
-    class Meta(AbstractReference.Meta):
-        pass
+    class Meta:
+        abstract = True
 
 
 class VideoSource(AbstractReference):
     link = models.TextField(
-        help_text='Ссылка на источник',
+        verbose_name=_('link'),
+        help_text=_('Link to the source'),
         null=True,
         blank=True
     )
@@ -45,5 +54,5 @@ class VideoSource(AbstractReference):
     @classmethod
     def get_default_pk(cls):
         video, created = cls.objects.get_or_create(
-            name='Base')
+            name=_('NFTV'))
         return video.pk
