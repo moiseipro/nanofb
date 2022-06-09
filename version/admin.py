@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Section, Access, Version, VersionAccess
+from .models import Section, Version
 
 # Register your models here.
-admin.site.register([Section, Access, Version, VersionAccess])
+admin.site.register([Section, Version])
