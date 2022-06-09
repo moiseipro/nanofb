@@ -47,7 +47,7 @@ class UserFolder(AbstractFolder):
 
     class Meta(AbstractFolder.Meta):
         abstract = False
-        ordering = ['id', 'order']
+        ordering = ['order']
     def __str__(self):
         return f"[id: {self.id}] {self.short_name}. {self.name}"
 
