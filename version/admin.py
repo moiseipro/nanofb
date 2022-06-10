@@ -31,8 +31,6 @@ class VersionAdmin(admin.ModelAdmin):
         form.instance.save()
 
 
-
-
 class GroupInline(admin.StackedInline):
     model = CustomGroup
     can_delete = False
@@ -40,7 +38,7 @@ class GroupInline(admin.StackedInline):
 
 
 class GroupAdmin(BaseGroupAdmin):
-    inlines = (GroupInline, )
+    inlines = (GroupInline,)
 
 
 # Re-register GroupAdmin
