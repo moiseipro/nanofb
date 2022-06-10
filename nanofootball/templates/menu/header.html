@@ -153,8 +153,8 @@
                     {% endfor %}
                 </select>
             </form>
-            <a class="dropdown-item" href="{% url 'users:profile' %}">Профиль</a>
-            <a class="dropdown-item" href="{% url 'authorization:logout' %}">Выйти</a>
+            <a class="dropdown-item" href="{% url 'users:profile' %}">{% translate "My Profile" %}</a>
+            <a class="dropdown-item" href="{% url 'authorization:logout' %}">{% translate "Logout" %}</a>
         </div>
     </li>
     <!-- /User Menu -->
