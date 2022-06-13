@@ -1,20 +1,21 @@
+{% load i18n %}
 
 <li class="menu-title">
-    <span>Администрирование</span>
+    <span>{% trans 'Administration' %}</span>
 </li>
 <li class="submenu">
-    <a href="#" class="btn disabled"><i class="fe fe-layout"></i> <span> Система «Клиент» </span> <span class="menu-arrow"></span></a>
+    <a href="#" class="btn disabled"><i class="fe fe-layout"></i> <span>{% trans '«Client» system' %}</span> <span class="menu-arrow"></span></a>
     <ul style="display: none;">
-        <li><a href="#">Пользователи </a></li>
-        <li><a href="#">Клубы </a></li>
-        <li><a href="#">Федерации </a></li>
+        <li><a href="#">{% trans 'Users' %}</a></li>
+        <li><a href="#">{% trans 'Clubs' %}</a></li>
+        <li><a href="#">{% trans 'Federations' %}</a></li>
     </ul>
 </li>
 <li>
-    <a href="#" class="btn disabled"><i class="fa fa-television"></i> <span>Панель «Клуб»</span></a>
+    <a href="#" class="btn disabled"><i class="fa fa-television"></i> <span>{% trans '«Club» panel' %}</span></a>
 </li>
 <li>
-    <a href="#" class="btn disabled"><i class="fa fa-television"></i> <span>Панель «Федерация»</span></a>
+    <a href="#" class="btn disabled"><i class="fa fa-television"></i> <span>{% trans '«Federation» panel' %}</span></a>
 </li>
 <li class="menu-title">
     <span>Разделы</span>
@@ -29,7 +30,7 @@
     <a href="#" class="btn disabled"><i class="fa fa-calendar-o"></i> <span>Тренировки</span></a>
 </li>
 <li>
-    <a href="{% url 'exercises:exercises' %}"><i class="fa fa-futbol-o"></i> <span>Упражнения</span></a>
+    <a href="{% url 'exercises:exercises' %}"><i class="fa fa-futbol-o"></i> <span>{% trans 'Exercises' %}</span></a>
 </li>
 <li>
     <a href="#" class="btn disabled"><i class="fa fa-users"></i> <span>Игроки</span></a>
@@ -38,11 +39,11 @@
     <a href="#" class="btn disabled"><i class="fa fa-line-chart"></i> <span>Аналитика</span></a>
 </li>
 <li class="submenu">
-    <a href="#"><i class="fa fa-product-hunt"></i> <span> Приложения</span> <span class="menu-arrow"></span></a>
+    <a href="#"><i class="fa fa-product-hunt"></i> <span>{% trans 'Applications' %}</span> <span class="menu-arrow"></span></a>
     <ul style="display: none;">
         <li><a href="#">Рассылки</a></li>
         <li><a href="#">Чат</a></li>
-        <li><a class="{{ menu_video }}" href="{% url 'video:base_video' %}">Видео</a></li>
+        <li><a class="{{ menu_video }}" href="{% url 'video:base_video' %}">{% trans 'Video' %}</a></li>
         <li><a href="#">Тесты</a></li>
         <li><a href="#">Финансы</a></li>
     </ul>

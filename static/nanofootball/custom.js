@@ -7,3 +7,11 @@ function resizeBlockJS(obj, aspectRatio = 9 / 16) {
 
     obj.width(myPlayerWidth).height(myPlayerHeight); // Устанавливаем размеры
 }
+
+$(document).ready(function() {
+    //Отправка формы смены языка по изменению select
+    $('#select-language').on('change', function() {
+        console.log(this.form)
+        this.form.submit();
+    });
+});

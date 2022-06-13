@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-13 14:12+0300\n"
+"POT-Creation-Date: 2022-06-13 15:01+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1531,6 +1531,46 @@ msgstr "Профиль"
 #: .\nanofootball\templates\menu\header.html:157
 msgid "Logout"
 msgstr "Выйти"
+
+#: .\nanofootball\templates\menu\sidebar.html:4
+msgid "Administration"
+msgstr "Администрирование"
+
+#: .\nanofootball\templates\menu\sidebar.html:7
+msgid "«Client» system"
+msgstr "Система «Клиент»"
+
+#: .\nanofootball\templates\menu\sidebar.html:9
+msgid "Users"
+msgstr "Пользователи"
+
+#: .\nanofootball\templates\menu\sidebar.html:10
+msgid "Clubs"
+msgstr "Клубы"
+
+#: .\nanofootball\templates\menu\sidebar.html:11
+msgid "Federations"
+msgstr "Федерации"
+
+#: .\nanofootball\templates\menu\sidebar.html:15
+msgid "«Club» panel"
+msgstr "Панель «Клуб»"
+
+#: .\nanofootball\templates\menu\sidebar.html:18
+msgid "«Federation» panel"
+msgstr "Панель «Федерация»"
+
+#: .\nanofootball\templates\menu\sidebar.html:33
+msgid "Exercises"
+msgstr "Упражнения"
+
+#: .\nanofootball\templates\menu\sidebar.html:42
+msgid "Applications"
+msgstr "Приложения"
+
+#: .\nanofootball\templates\menu\sidebar.html:46
+msgid "Video"
+msgstr "Видео"
 
 #: .\references\models.py:11 .\version\models.py:35 .\version\models.py:62
 #: .\video\models.py:16
