@@ -16,12 +16,13 @@ Including another URLconf
 from django.urls import include
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.i18n import i18n_patterns
+from django.views.i18n import JavaScriptCatalog
 
 
 handler404 = 'nanofootball.views.view_404' 
 
 urlpatterns = [
-    path('i18n/', include('django.conf.urls.i18n')),
     path('api-auth/', include(('rest_framework.urls', 'rest_framework'), namespace='rest_framework')),
 
     path('', include(('nanofootball.urls', 'nanofootball'), namespace='nanofootball')),
@@ -31,4 +32,11 @@ urlpatterns = [
     path('version/', include(('version.urls', 'version'), namespace='version')),
     path('video/', include(('video.urls', 'video'), namespace='video')),
     path('exercises/', include(('exercises.urls', 'exercises'), namespace='exercises')),
+
+    path('i18n/', include('django.conf.urls.i18n')),
 ]
+
+urlpatterns += i18n_patterns(
+    # Translations in Javascript
+    path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
+)
