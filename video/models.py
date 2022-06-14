@@ -64,5 +64,6 @@ class Video(models.Model):
         ordering = ['videosource_id', 'section_id']
         permissions = (
             ("uploading_files", "Can upload files to videos"),
+            ("parsing_video", "Can parse video"),
         )
 

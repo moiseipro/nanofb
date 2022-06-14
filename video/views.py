@@ -2,12 +2,13 @@ from itertools import islice
 
 import requests
 import json
+
 from pytube import extract
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from rest_framework import viewsets
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from rest_framework.permissions import IsAuthenticated
 
 from video.serializers import VideoSerializer
@@ -47,13 +48,51 @@ class BaseVideoView(LoginRequiredMixin, ListView):
         return context
 
 
+class CreateVideoView(LoginRequiredMixin, CreateView):
+    redirect_field_name = "authorization:login"
+    template_name = 'video/add_video.html'
+    model = Video
+
+    form_class = CreateVideoForm
+
+    def get_form_class(self):
+        exclude_fields = []
+
+        if not self.request.user.has_perm('video.uploading_files'):
+            exclude_fields.append('file')
+
+        class CustomCreateVideoForm(CreateVideoForm):
+            class Meta(CreateVideoForm.Meta):
+                exclude = exclude_fields
+
+        self.form_class = CustomCreateVideoForm
+        return self.form_class
+
+    # def form_valid(self, form):
+    #     video = form.save(commit=False)
+    #     id_video = extract.video_id(form.data['youtube_link'])
+    #     if id_video:
+    #         video.links = {'youtube': id_video}
+    #     video.save()
+    #     return super().form_valid(form)
+
+
 def add_video(request):
     if not request.user.is_authenticated:
         return redirect("authorization:login")
 
+    exclude_fields = []
+    if request.user.has_perm('video.uploading_files'):
+        exclude_fields.append('file')
+
+    class CustomCreateVideoForm(CreateVideoForm):
+        class Meta(CreateVideoForm.Meta):
+            model = Video
+            exclude = exclude_fields
+
     if request.method == "POST":
-        form = CreateVideoForm(request.POST)
-        print(form)
+        form = CustomCreateVideoForm(request.POST)
+
         if form.is_valid():
             if form.data['file']:
                 post_data = {
@@ -84,7 +123,7 @@ def add_video(request):
             else:
                 messages.error(request, "Video creation error. There is no link to the video.")
 
-    form = CreateVideoForm()
+    form = CustomCreateVideoForm()
     context_page['create_form'] = form;
 
     return render(request=request, template_name="video/add_video.html", context=context_page)

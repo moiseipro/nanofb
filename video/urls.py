@@ -12,6 +12,6 @@ urlpatterns = [
 
     path('', views.BaseVideoView.as_view(extra_context=extra_context), name="base_video"),
     path('<int:pk>', views.VideoDetailView.as_view(extra_context=extra_context), name="view_video"),
-    path('add', views.add_video, name="add_video"),
+    path('add', views.CreateVideoView.as_view(extra_context=extra_context), name="add_video"),
     path('parse_nf', views.parse_video, name="parse_video"),
 ]
