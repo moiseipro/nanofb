@@ -1,8 +1,10 @@
+import os
 from itertools import islice
 
 import requests
 import json
 
+from django.conf import settings
 from pytube import extract
 from django.views.generic import ListView, DetailView, CreateView
 from django.contrib import messages
@@ -10,6 +12,8 @@ from django.shortcuts import render, redirect
 from rest_framework import viewsets
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from rest_framework.permissions import IsAuthenticated
+from django.core.files.storage import FileSystemStorage
+from requests_toolbelt.multipart.encoder import MultipartEncoder
 
 from video.serializers import VideoSerializer
 from references.models import VideoSource
@@ -68,13 +72,38 @@ class CreateVideoView(LoginRequiredMixin, CreateView):
         self.form_class = CustomCreateVideoForm
         return self.form_class
 
-    # def form_valid(self, form):
-    #     video = form.save(commit=False)
-    #     id_video = extract.video_id(form.data['youtube_link'])
-    #     if id_video:
-    #         video.links = {'youtube': id_video}
-    #     video.save()
-    #     return super().form_valid(form)
+    def form_valid(self, form):
+        video = form.save(commit=False)
+        if self.request.FILES['file']:
+            url = 'http://213.108.4.28/api/add_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
+            fs = FileSystemStorage()
+            file_name = fs.save(self.request.FILES['file'].name, self.request.FILES['file'])
+            file_content_type = self.request.FILES['file'].content_type
+
+            mp_encoder = MultipartEncoder(
+                fields={
+                    'folder-type': '',
+                    'user-file': (file_name, fs.open(file_name, 'rb'), file_content_type)
+                }
+            )
+            print(mp_encoder)
+
+            response = requests.post(url, data=mp_encoder, headers={'Content-Type': mp_encoder.content_type})
+            content = response.json()
+            video_data = content['data'][0]
+            print(content)
+            mp_encoder = None
+            fs.delete(file_name)
+
+            if video_data['success']:
+                video.links['nftv'] = video_data['id']
+
+        if form.data['youtube_link']:
+            id_video = extract.video_id(form.data['youtube_link'])
+            if id_video:
+                video.links['youtube'] = id_video
+        video.save()
+        return super().form_valid(form)
 
 
 def add_video(request):
@@ -152,19 +181,22 @@ def parse_video(request):
             if n['p_source'] is not None:
                 if n['p_source']['name'] not in sources_name:
                     sources_name.append(n['p_source']['name'])
-                    sources.append(VideoSource(name=n['p_source']['name'], link=n['p_source']['source'], short_name='Empty'))
+                    sources.append(
+                        VideoSource(name=n['p_source']['name'], link=n['p_source']['source'], short_name='Empty'))
                 if server_sources:
                     for ss in server_sources:
                         if ss.name == n['p_source']['name'] and n['video_id_youtube'] is not None:
                             for y_id in n['video_id_youtube']:
                                 if y_id != '':
-                                    videos.append(Video(name=n['name'] if n['name'] else 'No name', old_id=n['id'], links={'youtube': y_id}, videosource_id=ss))
+                                    videos.append(Video(name=n['name'] if n['name'] else 'No name', old_id=n['id'],
+                                                        links={'youtube': y_id}, videosource_id=ss))
                             break
             else:
                 if n['video_id_youtube'] is not None:
                     for y_id in n['video_id_youtube']:
                         if y_id != '':
-                            videos.append(Video(name=n['name'] if n['name'] else 'No name', old_id=n['id'], links={'youtube': y_id}))
+                            videos.append(Video(name=n['name'] if n['name'] else 'No name', old_id=n['id'],
+                                                links={'youtube': y_id}))
 
         batch = list(islice(sources, 1, 10))
         created_source = VideoSource.objects.bulk_create(batch)

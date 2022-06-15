@@ -27,14 +27,22 @@ class CreateVideoForm(forms.ModelForm):
         help_text=None
     )
 
-    def save(self, commit=True):
-        video = super(CreateVideoForm, self).save(commit=False)
-        id_video = extract.video_id(self.data['youtube_link'])
-        if id_video:
-            video.links = {'youtube': id_video}
-        if commit:
-            video.save()
-        return video
+    # def save(self, commit=True):
+    #     video = super(CreateVideoForm, self).save(commit=False)
+    #     if self.data['file']:
+    #         post_data = {
+    #             'username': 'admin',
+    #             'password': 'admin',
+    #             'user-file': request.POST['file']
+    #         }
+    #         response = requests.post('http://213.108.4.28/', post_data)
+    #         content = response.content
+    #     id_video = extract.video_id(self.data['youtube_link'])
+    #     if id_video:
+    #         video.links = {'youtube': id_video}
+    #     if commit:
+    #         video.save()
+    #     return video
 
     class Meta:
         model = Video

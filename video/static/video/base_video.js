@@ -1,6 +1,6 @@
 let video_table
-let video_player
-video_player = videojs('all-player', {
+let video_player, youtube_player
+youtube_player = videojs('youtube-player', {
     preload: 'auto',
     autoplay: false,
     controls: true,
@@ -8,10 +8,10 @@ video_player = videojs('all-player', {
     techOrder: ["youtube"],
     youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 }
 })
-
+video_player = $('#base-player')
 // При изменении ширины окна
 $(window).resize(function () {
-    resizeBlockJS($('#all-player'));
+    resizeBlockJS($('.resize-block'));
 });
 
 $(window).on('load', function (){
@@ -91,9 +91,13 @@ function render_json_block(data) {
     })
     if('nftv' in data['links']){
         //Получение ссылки на видео через API видеохостинга
-        //video_player.src({ src: 'https://213.108.4.28/video/player/1653469713732'+data['links']['nftv']})
+        video_player.show()
+        youtube_player.hide()
+        video_player.attr('src', 'https://213.108.4.28/video/player/'+data['links']['nftv'])
     } else if('youtube' in data['links']){
-        video_player.src({ type: 'video/youtube', src: 'http://www.youtube.com/embed/'+data['links']['youtube']})
+        video_player.hide()
+        youtube_player.show()
+        youtube_player.src({ type: 'video/youtube', src: 'http://www.youtube.com/embed/'+data['links']['youtube']})
     }
     resizeBlockJS($('#all-player'));
 }

@@ -22,7 +22,7 @@
                 <div class="card-body">
                     {% load crispy_forms_tags %}
                     <main class="form-create-video">
-                        <form method="POST">
+                        <form method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
                             {% crispy form %}
                         </form>
