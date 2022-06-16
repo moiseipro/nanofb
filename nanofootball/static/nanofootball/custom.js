@@ -1,3 +1,6 @@
+// Токен для отправик AJAX запросов
+const csrftoken = Cookies.get('csrftoken');
+
 let aspectRatio = 9 / 16  // коэффициент соотношения сторон
 
 // Функция, меняющая соотношение

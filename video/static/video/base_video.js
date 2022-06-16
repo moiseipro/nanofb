@@ -17,16 +17,46 @@ $(window).resize(function () {
 $(window).on('load', function (){
     //video_table = $('.datatable').DataTable()
     video_table = $('#video').DataTable({
+        dom: "<'row'<'col-sm-12 col-md 'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
+             "<'row'<'col-sm-12'tr>>" +
+             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         serverSide: true,
         processing: true,
         select: true,
-        ajax: 'api/view/?format=datatables',
+        buttons: [
+            {
+                extend: 'collection',
+                text: '<i class="fa fa-bars" aria-hidden="true"></i>',
+                className: 'btn-secondary btn-sm',
+                buttons: [
+                    {
+                        extend: 'selected',
+                        text: gettext('Edit')+' <i class="fa fa-pencil float-right" aria-hidden="true"></i>',
+                        className: 'edit-video',
+                        action: function ( e, dt, node, config ) {
+
+                        }
+                    },
+                    {
+                        extend: 'selected',
+                        text: gettext('Delete')+' <i class="fa fa-trash-o float-right" aria-hidden="true"></i>',
+                        className: 'delete-video',
+                        action: function ( e, dt, node, config ) {
+                            let rowData = dt.rows({ selected: true }).data();
+                            ajax_video_delete(rowData[0])
+                        }
+                    },
+                ],
+            },
+        ],
+        ajax: 'api/?format=datatables',
         columns: [
             {'data': 'videosource_id.name', 'name': 'videosource_id.short_name'},
             {'data': 'name'},
             {'data': 'section_id.name', 'name': 'videosource_id.short_name'},
             {'data': 'duration'},
         ],
+
     })
 
     video_table
@@ -50,8 +80,8 @@ $('.video-source').on('click', function (){
 
 function ajax_video_info(row_data) {
     let request = $.ajax({
-        url: "api/view/"+row_data.id,
-        method: "GET",
+        url: "api/"+row_data.id,
+        type: "GET",
         dataType: "JSON"
     })
 
@@ -63,6 +93,23 @@ function ajax_video_info(row_data) {
     request.fail(function( jqXHR, textStatus ) {
         alert( "Request failed: " + textStatus );
         $('#block-video-info').addClass('d-none')
+    })
+}
+
+function ajax_video_delete(row_data) {
+    if (!confirm(gettext('Delete the selected video(s)?'))) return false
+    let request = $.ajax({
+        headers:{"X-CSRFToken": csrftoken },
+        url: "api/"+row_data.id+"/",
+        type: "DELETE",
+    })
+
+    request.done(function( data ) {
+        console.log(data)
+    })
+
+    request.fail(function( jqXHR, textStatus ) {
+        alert( "Request failed: " + textStatus );
     })
 }
 
