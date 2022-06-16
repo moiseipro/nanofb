@@ -4,16 +4,18 @@ from itertools import islice
 import requests
 import json
 
-from django.conf import settings
+from django.http import Http404
+from django.urls import reverse_lazy
 from pytube import extract
 from django.views.generic import ListView, DetailView, CreateView
 from django.contrib import messages
 from django.shortcuts import render, redirect
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from rest_framework.permissions import IsAuthenticated
 from django.core.files.storage import FileSystemStorage
 from requests_toolbelt.multipart.encoder import MultipartEncoder
+from rest_framework.response import Response
 
 from video.serializers import VideoSerializer
 from references.models import VideoSource
@@ -23,6 +25,7 @@ from video.models import Video
 context_page = {'menu_video': 'active'}
 
 
+# API REST
 class VideoViewSet(viewsets.ModelViewSet):
     queryset = Video.objects.all().order_by('videosource_id')
     serializer_class = VideoSerializer
@@ -31,7 +34,34 @@ class VideoViewSet(viewsets.ModelViewSet):
         permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
 
+    def destroy(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+            is_delete = True
+            server_id = None
+            print(instance.links)
+            if 'nftv' in instance.links:
+                server_id = instance.links['nftv']
+            if server_id:
+                url = 'http://213.108.4.28/api/remove_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
+                post_data = {
+                    "videos": [
+                        {"id": server_id},
+                    ]
+                }
+                response = requests.post(url, json=post_data, headers={'Content-Type': 'application/json'})
+                content = response.json()
+                print(content)
+                video_data = content['data'][0]
+                is_delete = video_data['success']
+            if is_delete:
+                self.perform_destroy(instance)
+        except Http404:
+            pass
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
+
+# DJANGO
 class VideoDetailView(LoginRequiredMixin, DetailView):
     redirect_field_name = "authorization:login"
     template_name = 'video/view_video.html'
@@ -56,6 +86,7 @@ class CreateVideoView(LoginRequiredMixin, CreateView):
     redirect_field_name = "authorization:login"
     template_name = 'video/add_video.html'
     model = Video
+    success_url = reverse_lazy('video:base_video')
 
     form_class = CreateVideoForm
 
@@ -74,25 +105,27 @@ class CreateVideoView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         video = form.save(commit=False)
+        video.links = {'nftv': '', 'youtube': ''}
+        print(video.links)
         if self.request.FILES['file']:
             url = 'http://213.108.4.28/api/add_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
             fs = FileSystemStorage()
             file_name = fs.save(self.request.FILES['file'].name, self.request.FILES['file'])
             file_content_type = self.request.FILES['file'].content_type
 
-            mp_encoder = MultipartEncoder(
-                fields={
-                    'folder-type': '',
-                    'user-file': (file_name, fs.open(file_name, 'rb'), file_content_type)
-                }
-            )
-            print(mp_encoder)
+            with fs.open(file_name, 'rb') as file:
+                mp_encoder = MultipartEncoder(
+                    fields={
+                        'folder-type': '',
+                        'user-file': (file_name, file, file_content_type)
+                    }
+                )
+                print(mp_encoder)
+                response = requests.post(url, data=mp_encoder, headers={'Content-Type': mp_encoder.content_type})
+                content = response.json()
+                video_data = content['data'][0]
+                print(content)
 
-            response = requests.post(url, data=mp_encoder, headers={'Content-Type': mp_encoder.content_type})
-            content = response.json()
-            video_data = content['data'][0]
-            print(content)
-            mp_encoder = None
             fs.delete(file_name)
 
             if video_data['success']:

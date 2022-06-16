@@ -34,7 +34,7 @@ $(window).on('load', function (){
                         text: gettext('Edit')+' <i class="fa fa-pencil float-right" aria-hidden="true"></i>',
                         className: 'edit-video',
                         action: function ( e, dt, node, config ) {
-
+                            $('.dropdown-toggle[aria-expanded="true"]').click()
                         }
                     },
                     {
@@ -44,6 +44,7 @@ $(window).on('load', function (){
                         action: function ( e, dt, node, config ) {
                             let rowData = dt.rows({ selected: true }).data();
                             ajax_video_delete(rowData[0])
+                            $('.dropdown-toggle[aria-expanded="true"]').click()
                         }
                     },
                 ],
@@ -91,13 +92,14 @@ function ajax_video_info(row_data) {
     })
 
     request.fail(function( jqXHR, textStatus ) {
-        alert( "Request failed: " + textStatus );
+        alert( gettext('An error occurred when deleting the video. ') + gettext(textStatus) );
         $('#block-video-info').addClass('d-none')
     })
 }
 
 function ajax_video_delete(row_data) {
     if (!confirm(gettext('Delete the selected video(s)?'))) return false
+
     let request = $.ajax({
         headers:{"X-CSRFToken": csrftoken },
         url: "api/"+row_data.id+"/",
@@ -106,6 +108,7 @@ function ajax_video_delete(row_data) {
 
     request.done(function( data ) {
         console.log(data)
+        video_table.ajax.reload()
     })
 
     request.fail(function( jqXHR, textStatus ) {
