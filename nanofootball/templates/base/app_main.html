@@ -1,6 +1,9 @@
 {% extends '../base/base.html' %}
 
 {% block main %}
+    <div class="page-loader-wrapper" style="display: none;">
+        <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+    </div>
     <div class="main-wrapper">
         <div class="header">
             {% include 'menu/header.html' %}

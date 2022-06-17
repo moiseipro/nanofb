@@ -1,14 +1,3 @@
-function GetHierarchyNum(elem, classList, classElem, id = 0) {
-    id = $(elem).attr('data-id');
-    let parentId = $(elem).attr('data-parent');
-    let foundElem = $(`.${classList}`).find(`.${classElem}[data-id="${parentId}"]`);
-    if (foundElem && foundElem.length > 0) {
-        id = GetHierarchyNum(foundElem, classList, classElem);
-    }
-    return id;
-}
-
-let readyUploadFolderOrder = true;
 function ToggleFolderOrder(dir) {
     let activeElem = $('.folders_list').find(`.list-group-item.active`);
     if (activeElem.length > 0) {
@@ -85,34 +74,6 @@ function ToggleFolderOrder(dir) {
                 }             
             }
         }
-
-        if (readyUploadFolderOrder) {
-            readyUploadFolderOrder = false;
-            let arrForIds = []; let arrForOrder = [];
-            $('.folders_list').find('.folder-elem').each((ind, elem) => {
-                let tId = $(elem).attr('data-id');
-                arrForIds.push(tId);
-                arrForOrder.push(ind+1);
-            });
-            let data = {'change_order': 1, 'ids_arr[]': arrForIds, 'order_arr[]': arrForOrder};
-            $.ajax({
-                data: data,
-                type: 'POST', // GET или POST
-                dataType: 'json',
-                url: "folders_api",
-                success: function (res) {
-                    console.log(res)
-                    if (res.data.type && res.data.type == "change_order") {
-                    }
-                },
-                error: function (res) {
-                    console.log(res)
-                },
-                complete: function (res) {
-                    readyUploadFolderOrder = true;
-                }
-            });
-        }
     }
 }
 
@@ -121,12 +82,12 @@ function RenderNFBFolders(data = []) {
     for (let key in data) {
         let elem = data[key];
         dataStr += `
-            <li class="list-group-item">
+            <li class="list-group-item p-1">
                 <div class="nfb-folder-elem d-flex justify-content-between" 
                     data-id="${elem.id}" data-parent="${elem.parent}" 
                     data-short="${elem.short_name}" data-name="${elem.name}" data-root="0">
                     <div class="pull-left">
-                        <span class="folder-point mr-5">*</span>
+                        <span class="folder-point mr-2"><i class="fa fa-folder-open-o" aria-hidden="true"></i></span>
                         <span class="folder-title">${elem.short_name}. ${elem.name}</span>
                     </div>
                 </div>
@@ -154,7 +115,7 @@ function RenderNFBFolders(data = []) {
                 let tElem = folderList['data'][key][keyElem];
                 let cId = $(tElem).find('.nfb-folder-elem').attr('data-id');
                 if (cId != key) {
-                    $(tElem).find('.folder-point').text('|-----');
+                    $(tElem).find('.folder-point').html('<i class="fa fa-folder-o ml-4" aria-hidden="true"></i>');
                     $(tElem).find('.folder-elem').attr('data-root', '0');
                 } else {
                     $(tElem).find('.folder-elem').attr('data-root', '1');
@@ -167,39 +128,10 @@ function RenderNFBFolders(data = []) {
 
 
 $(function() {
-    let folderList = {'order': [], 'data': {}};
-    $('.folders_list').find('.list-group-item').each((ind, elem) => {
-        let cNum = GetHierarchyNum($(elem).find('.folder-elem'), "folders_list", "folder-elem");
-        if (folderList['data'][cNum]) {
-            folderList['data'][cNum].push(elem);
-        } else {
-            folderList['data'][cNum] = [elem];
-        }
-        if (!folderList['order'].includes(cNum)) {
-            folderList['order'].push(cNum);
-        }
-    });
-    $('.folders_list > .list-group').empty();
-    for (let ind in folderList['order']) {
-        let key = folderList['order'][ind];
-        for (let keyElem in folderList['data'][key]) {
-            let tElem = folderList['data'][key][keyElem];
-            let cId = $(tElem).find('.folder-elem').attr('data-id');
-            if (cId != key) {
-                $(tElem).find('.folder-point').text('|-----');
-                $(tElem).find('.folder-sub-add').empty();
-                $(tElem).find('.folder-elem').attr('data-root', '0');
-            } else {
-                $(tElem).find('.folder-elem').attr('data-root', '1');
-            }
-            $('.folders_list > .list-group').append(tElem);
-        }
-    }
     $('.folders_list').on('click', '.list-group-item', (e) => {
         $('.folders_list').find('.list-group-item').removeClass('active');
         $(e.currentTarget).toggleClass('active');
     });
-
 
     let cFolderIdToChange = null; let cParentIdToChange = null;
     $('.folder-add').on('click', (e) => {
@@ -254,27 +186,37 @@ $(function() {
                 if (res.data.type && res.data.type == "add") {
                     let hasParent = $('.folders_list').find(`.folder-elem[data-id="${res.data.parent_id}"]`).length > 0;
                     let elemToAdd = `
-                        <li class="list-group-item">
+                        <li class="list-group-item p-1">
                             <div class="folder-elem d-flex justify-content-between" data-id="${res.data.id}" data-parent="${res.data.parent_id}" data-short="${res.data.short_name}" data-name="${res.data.name}" data-root="${hasParent ? '0' : '1'}">
                                 <div class="pull-left">
-                                    <span class="folder-point mr-5">${hasParent ? '|-----' : '*'}</span>
+                                    <span class="folder-point mr-2">${hasParent ? `
+                                        <i class="fa fa-folder-o ml-4" aria-hidden="true"></i>
+                                    ` : `
+                                        <i class="fa fa-folder-open-o" aria-hidden="true"></i>
+                                    `}</span>
                                     <span class="folder-title">${res.data.short_name}. ${res.data.name}</span>
                                 </div>
                                 <div class="pull-right text-uppercase font-weight-bold">
                                     ${hasParent ? '' : `
-                                        <span class="badge badge-success folder-sub-add mr-2">[Дбв.]</span>
+                                        <span class="badge badge-success folder-sub-add mr-2" title="Добавить подпапку">
+                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                        </span>
                                     `}
-                                    <span class="badge badge-secondary folder-edit mr-2">[Изм.]</span>
-                                    <span class="badge badge-danger folder-delete mr-2">[Удл.]</span>
+                                    <span class="badge badge-secondary folder-edit mr-2" title="Изменить элемент">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="badge badge-danger folder-delete mr-2" title="Удалить элемент">
+                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                    </span>
                                 </div>
                             </div>
                         </li>
                     `;
-                    if ($('.folders_list').find(`.folder-elem[data-id="${res.data.parent_id}"]`).length > 0) {
+                    if (hasParent) {
                         if ($('.folders_list').find(`.folder-elem[data-parent="${res.data.parent_id}"]`).length > 0) {
-                            $('.folders_list').find(`.folder-elem[data-parent="${res.data.parent_id}"]`).parent().after(elemToAdd);
+                            $('.folders_list').find(`.folder-elem[data-parent="${res.data.parent_id}"]`).last().parent().after(elemToAdd);
                         } else {
-                            $('.folders_list').find(`.folder-elem[data-id="${res.data.parent_id}"]`).parent().after(elemToAdd);
+                            $('.folders_list').find(`.folder-elem[data-id="${res.data.parent_id}"]`).last().parent().after(elemToAdd);
                         }
                     } else {
                         $('.folders_list > .list-group').append(elemToAdd);
@@ -307,7 +249,7 @@ $(function() {
             success: function (res) {
                 if (res.data.type && res.data.type == "delete") {
                     $('.folders_list').find(`.folder-elem[data-id="${res.data.id}"]`).parent().remove();
-                    $('.folders_list').find(`.folder-elem[data-parent="${res.data.id}"]`).find('.folder-point').text('*');
+                    $('.folders_list').find(`.folder-elem[data-parent="${res.data.id}"]`).find('.folder-point').html('<i class="fa fa-folder-open-o" aria-hidden="true"></i>');
                     $('.folders_list').find(`.folder-elem[data-parent="${res.data.id}"]`).attr('data-root', '1');
                 }
                 $('#folderDeleteModal').modal('hide');
@@ -326,11 +268,40 @@ $(function() {
         ToggleFolderOrder("down");
     });
 
+    $('.folders-save').on('click', (e) => {
+        let arrForIds = []; let arrForOrder = [];
+        $('.folders_list').find('.folder-elem').each((ind, elem) => {
+            let tId = $(elem).attr('data-id');
+            arrForIds.push(tId);
+            arrForOrder.push(ind+1);
+        });
+        let data = {'change_order': 1, 'ids_arr[]': arrForIds, 'order_arr[]': arrForOrder};
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            data: data,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "folders_api",
+            success: function (res) {
+                if (res.data.type && res.data.type == "change_order") {
+                    window.location.reload();
+                }
+            },
+            error: function (res) {
+                console.log(res)
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
+    });
+
 
     let NFBFolders = [];
     $('.folders-nanofb').on('click', (e) => {
         if (!NFBFolders || NFBFolders.length == 0) {
             let data = {'nfb_folders': 1};
+            $('.page-loader-wrapper').fadeIn();
             $.ajax({
                 data: data,
                 type: 'GET', // GET или POST
@@ -347,6 +318,7 @@ $(function() {
                 },
                 complete: function (res) {
                     RenderNFBFolders(NFBFolders);
+                    $('.page-loader-wrapper').fadeOut();
                 }
             });
         }
@@ -357,6 +329,7 @@ $(function() {
         if (confirm("Внимание. Текущая структура папок полностью будет очищена. Вы уверены?")) {
             $('#folderNanoFbModal').find('button.btn-submit').prop('disabled', true);
             let data = {'nfb_folders_set': 1};
+            $('.page-loader-wrapper').fadeIn();
             $.ajax({
                 data: data,
                 type: 'GET', // GET или POST
@@ -374,6 +347,7 @@ $(function() {
                 },
                 complete: function (res) {
                     $('#folderNanoFbModal').find('button.btn-submit').prop('disabled', false);
+                    $('.page-loader-wrapper').fadeOut();
                 }
             });
         }

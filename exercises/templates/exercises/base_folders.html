@@ -30,40 +30,25 @@
         </ul>
         <div class="">
             <span>- Папки для упражнений -</span>
-            <span class="badge badge-success folder-add ml-3">[Дбв.]</span>
-            <span class="badge badge-info folder-up ml-2" title="Переместить вверх">[up]</span>
-            <span class="badge badge-info folder-down ml-1" title="Переместить вниз">[dwn]</span>
-            <span class="badge badge-warning folders-nanofb ml-2">[NanoFB.]</span>
+            <span class="badge badge-success folder-add ml-3" title="Добавить папку">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+            </span>
+            <span class="badge badge-warning folders-nanofb ml-2" title="Просмотреть папки NFB">
+                [NanoFB.]
+            </span>
+            <span class="badge badge-info folder-up ml-2" title="Переместить вверх">
+                <i class="fa fa-arrow-up" aria-hidden="true"></i>
+            </span>
+            <span class="badge badge-info folder-down ml-1" title="Переместить вниз">
+                <i class="fa fa-arrow-down" aria-hidden="true"></i>
+            </span>
+            <span class="badge badge-success folders-save ml-1" title="Сохранить изменения">
+                <i class="fa fa-floppy-o" aria-hidden="true"></i>
+            </span>
         </div>
         <div class="row">
             <div class="col-8">
-                <div class="folders_list mt-3">
-                    <ul class="list-group">
-                    {% for folder in folders %}
-                        <li class="list-group-item">
-                            <div class="folder-elem d-flex justify-content-between" 
-                                data-id="{{ folder.id }}" data-parent="{{ folder.parent }}" 
-                                data-short="{{ folder.short_name }}" data-name="{{ folder.name }}" data-root="0">
-                                <div class="pull-left">
-                                    <span class="folder-point mr-5">*</span>
-                                    <span class="folder-title">{{ folder.short_name }}. {{ folder.name }}</span>
-                                </div>
-                                <div class="pull-right text-uppercase font-weight-bold">
-                                    <span class="badge badge-success folder-sub-add mr-2">[Дбв.]</span>
-                                    <span class="badge badge-secondary folder-edit mr-2">[Изм.]</span>
-                                    <span class="badge badge-danger folder-delete mr-2">[Удл.]</span>
-                                </div>
-                            </div>
-                        </li>
-                    {% empty %}
-                        <li class="list-group-item">
-                            <div class="folder-elem" data-id="None">
-                                [!] Папок нет. Создайте свою структуру папок или скопируйте уже существующую.
-                            </div>
-                        </li>
-                    {% endfor %}
-                    </ul>
-                </div>
+                {% include 'exercises/folders_list.html' %}
             </div>
         </div>
 
@@ -148,4 +133,5 @@
 
 {% block custom_scripts %}
     <script src="{% static 'exercises/js/base_exercises_folders.js' %}"></script>
+    <script src="{% static 'exercises/js/folder_list.js' %}"></script>
 {% endblock %}

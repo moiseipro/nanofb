@@ -3,13 +3,18 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from users.models import User
-from exercises.models import UserFolder, AdminFolder
+from exercises.models import UserFolder, ClubFolder, AdminFolder, Exercise
 
 
 def exercises(request):
     if not request.user.is_authenticated:
         return redirect("authorization:login")
-    return render(request, 'exercises/base_exercises.html')
+    cur_user = User.objects.filter(email=request.user).only("club_id")
+    found_folders = []
+    if cur_user.exists() and cur_user[0].club_id != None:
+        # добавить проверку на клуб версию
+        found_folders = UserFolder.objects.filter(user_id=cur_user[0])
+    return render(request, 'exercises/base_exercises.html', {'folders': found_folders, 'folders_only_view': True})
 
 
 def folders(request):
@@ -20,7 +25,43 @@ def folders(request):
     if cur_user.exists() and cur_user[0].club_id != None:
         # добавить проверку на клуб версию
         found_folders = UserFolder.objects.filter(user_id=cur_user[0])
-    return render(request, 'exercises/base_folders.html', {'folders': found_folders})
+    return render(request, 'exercises/base_folders.html', {'folders': found_folders, 'folders_only_view': False})
+
+
+@csrf_exempt
+def exercises_api(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({"errors": "authenticate_err"}, status=400)
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    if request.method == "POST" and is_ajax:
+        pass
+    elif request.method == "GET" and is_ajax:
+        get_exs_status = 0
+        folder_id = -1
+        cur_user = User.objects.filter(email=request.user).only("id")
+        if not cur_user.exists() or cur_user[0].id == None:
+            return JsonResponse({"errors": "trouble_with_user"}, status=400)
+        try:
+            get_exs_status = int(request.GET.get("get_exs", 0))
+        except:
+            pass
+        try:
+            folder_id = int(request.GET.get("folder", -1))
+        except:
+            pass
+        if get_exs_status == 1:
+            # Check if folder is USER or CLUB
+            cur_folder = UserFolder.objects.filter(id=folder_id, user_id=cur_user[0])
+            if not cur_folder.exists() or cur_folder[0].id == None:
+                return JsonResponse({"errors": "trouble_with_folder"}, status=400)
+            found_exercises = Exercise.objects.filter(folder_user_id = cur_folder[0])
+            res_exs = []
+            for exercise in found_exercises:
+                res_exs.append({'id': exercise.id, 'folder': exercise.folder_user_id.id, 'user': exercise.user_id.email})
+            return JsonResponse({"data": res_exs, "success": True}, status=200)
+        return JsonResponse({"errors": "access_error"}, status=400)
+    else:
+        return JsonResponse({"errors": "access_error"}, status=400)
 
 
 @csrf_exempt
@@ -108,6 +149,8 @@ def folders_api(request):
             new_folder = UserFolder(name=name, short_name=short_name, parent=parent_id, user_id=cur_user[0])
             try:
                 new_folder.save()
+                new_folder.order = new_folder.id
+                new_folder.save()
                 res_data = {'id': new_folder.id, 'parent_id': parent_id, 'name': name, 'short_name': short_name, 'type': "add"}
             except Exception as e:
                 res_data = {'id': new_folder.id, 'type': "error", 'err': str(e)}
@@ -135,6 +178,7 @@ def folders_api(request):
             return JsonResponse({"data": res_data}, status=200)
         if nfb_folders_set_status == 1:
             is_success = True
+            # Либо удалять, потом добавлять для клуба, в зависимости от вепсии пользователя и его прав
             user_old_folders = UserFolder.objects.filter(user_id=cur_user[0])
             try:
                 user_old_folders.delete()

@@ -50,8 +50,59 @@ function RenderSplitCols() {
     $('.exercises-list').find('div.gutter').toggleClass('d-none', !stateColSize);
 }
 
-$(function() {
+let exercises = {};
+function LoadFolderExercises() {
+    let activeRow = $('.folders_list').find('.list-group-item.active');
+    if (activeRow.length <= 0) {return;}
+    let cFolderId = $(activeRow).find('.folder-elem').attr('data-id');
+    if (cFolderId in exercises) {
+        RenderFolderExercises(cFolderId);
+    } else {
+        let data = {'get_exs': 1, 'folder': cFolderId};
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            data: data,
+            type: 'GET', // GET или POST
+            dataType: 'json',
+            url: "exercises_api",
+            success: function (res) {
+                if (res.success) {
+                    exercises[cFolderId] = res.data;
+                } else {
+                    exercises[cFolderId] = [];
+                }
+            },
+            error: function (res) {
+                exercises[cFolderId] = [];
+                console.log(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+                RenderFolderExercises(cFolderId);
+            }
+        });
+    }
+}
+function RenderFolderExercises(id) {
+    let exs = exercises[id];
+    let exsHtml = "";
+    for (let i = 0; i < exs.length; i++) {
+        let exElem = exs[i];
+        exsHtml += `
+        <li class="exs-elem list-group-item py-2" data-id="${exElem.id}" data-folder="${exElem.folder}">
+            <div class="row">
+                <div class="col-12">
+                    <span>${i+1}. Упражнение "ID:${exElem.id}", автор: ${exElem.user}</span>
+                </div>
+            </div>
+        </li>
+        `;
+    }
+    if (exs.length == 0) {exsHtml = `<li class="list-group-item py-2">В данной папке упр-ий нет.</li>`;}
+    $('.exs-list-group').html(exsHtml);
+}
 
+$(function() {
     // Toggle upper buttons panel
     $('button.up-filter-elem').on('click', (e) => {
         let id = $(e.currentTarget).attr('data-id');
@@ -70,13 +121,30 @@ $(function() {
     });
 
     // Choose exs folder
-    $('.exercises-list').on('click', '.exs-folder', (e) => {
-        $('.exercises-list').find('.exs-folder').removeClass('active');
-        $('.exercises-list').find('.exs-folder').find('i.fa').removeClass('fa-folder-open-o');
-        $('.exercises-list').find('.exs-folder').find('i.fa').addClass('fa-folder-o');
-        $(e.currentTarget).addClass('active');
-        $(e.currentTarget).find('i.fa').removeClass('fa-folder-o');
-        $(e.currentTarget).find('i.fa').addClass('fa-folder-open-o');
+    $('.folders_list').on('click', '.list-group-item', (e) => {
+        $('.folders_list').find('.list-group-item').removeClass('active');
+        $(e.currentTarget).toggleClass('active');
+        LoadFolderExercises();
+    });
+    $(document).keypress((e) => {
+        let activeElem = $('.folders_list').find('.list-group-item.active');
+        if (e.which == 119) { // w
+            if (activeElem.length > 0) {
+                $(activeElem).removeClass('active');
+                $(activeElem).prev().addClass('active');
+            } else {
+                $('.folders_list').find('.list-group-item').last().addClass('active');
+            }
+        }
+        if (e.which == 115) { // s
+            if (activeElem.length > 0) {
+                $(activeElem).removeClass('active');
+                $(activeElem).next().addClass('active');
+            } else {
+                $('.folders_list').find('.list-group-item').first().addClass('active');
+            }
+        }
+        LoadFolderExercises();
     });
 
     // Choose exercise
