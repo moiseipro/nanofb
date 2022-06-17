@@ -35,6 +35,7 @@ $(window).on('load', function (){
                         className: 'edit-video',
                         action: function ( e, dt, node, config ) {
                             $('.dropdown-toggle[aria-expanded="true"]').click()
+                            $('#edit-video-modal').modal('show')
                         }
                     },
                     {
@@ -81,6 +82,7 @@ $('.video-source').on('click', function (){
 
 function ajax_video_info(row_data) {
     let request = $.ajax({
+        headers:{"X-CSRFToken": csrftoken },
         url: "api/"+row_data.id,
         type: "GET",
         dataType: "JSON"
@@ -92,7 +94,7 @@ function ajax_video_info(row_data) {
     })
 
     request.fail(function( jqXHR, textStatus ) {
-        alert( gettext('An error occurred when deleting the video. ') + gettext(textStatus) );
+        alert( "Request failed: " + textStatus );
         $('#block-video-info').addClass('d-none')
     })
 }
@@ -112,7 +114,7 @@ function ajax_video_delete(row_data) {
     })
 
     request.fail(function( jqXHR, textStatus ) {
-        alert( "Request failed: " + textStatus );
+        alert( gettext('An error occurred when deleting the video. ') + gettext(textStatus) );
     })
 }
 

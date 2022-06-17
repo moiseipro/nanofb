@@ -10,16 +10,16 @@ from pytube import extract
 from django.views.generic import ListView, DetailView, CreateView
 from django.contrib import messages
 from django.shortcuts import render, redirect
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, generics
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from rest_framework.permissions import IsAuthenticated
 from django.core.files.storage import FileSystemStorage
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 from rest_framework.response import Response
 
-from video.serializers import VideoSerializer
+from video.serializers import VideoSerializer, VideoUpdateSerializer
 from references.models import VideoSource
-from video.forms import CreateVideoForm
+from video.forms import CreateVideoForm, UpdateVideoForm
 from video.models import Video
 
 context_page = {'menu_video': 'active'}
@@ -61,6 +61,11 @@ class VideoViewSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class VideoUpdateApiView(generics.UpdateAPIView):
+    queryset = Video.objects.all()
+    serializer_class = VideoUpdateSerializer
+
+
 # DJANGO
 class VideoDetailView(LoginRequiredMixin, DetailView):
     redirect_field_name = "authorization:login"
@@ -79,6 +84,7 @@ class BaseVideoView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['update_form'] = UpdateVideoForm()
         return context
 
 

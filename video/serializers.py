@@ -16,3 +16,12 @@ class VideoSerializer(serializers.ModelSerializer):
             'id', 'videosource_id', 'name', 'section_id', 'duration', 'links', 'upload_date', 'shared_access'
         )
         datatables_always_serialize = ('id',)
+
+
+class VideoUpdateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Video
+        fields = (
+            'id', 'videosource_id', 'name', 'section_id', 'duration', 'links', 'upload_date', 'shared_access'
+        )

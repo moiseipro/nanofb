@@ -27,23 +27,6 @@ class CreateVideoForm(forms.ModelForm):
         help_text=None
     )
 
-    # def save(self, commit=True):
-    #     video = super(CreateVideoForm, self).save(commit=False)
-    #     if self.data['file']:
-    #         post_data = {
-    #             'username': 'admin',
-    #             'password': 'admin',
-    #             'user-file': request.POST['file']
-    #         }
-    #         response = requests.post('http://213.108.4.28/', post_data)
-    #         content = response.content
-    #     id_video = extract.video_id(self.data['youtube_link'])
-    #     if id_video:
-    #         video.links = {'youtube': id_video}
-    #     if commit:
-    #         video.save()
-    #     return video
-
     class Meta:
         model = Video
         fields = ['name', 'videosource_id', 'section_id', 'duration', 'shared_access']
@@ -57,6 +40,21 @@ class CreateVideoForm(forms.ModelForm):
         help_texts = {
             'name': None,
         }
-        widgets ={
+        widgets = {
             'duration': time_widgets
         }
+
+
+class UpdateVideoForm(forms.ModelForm):
+    helper = FormHelper()
+    helper.add_input(Submit('submit', _('Save'), css_class='w-100 btn btn-lg btn-success mt-3'))
+    helper.form_method = 'POST'
+
+    youtube_link = forms.CharField(
+        required=False,
+        label="Ссылка на видео с youtube",
+        help_text=None
+    )
+
+    class Meta(CreateVideoForm.Meta):
+        pass
