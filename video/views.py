@@ -65,6 +65,23 @@ class VideoUpdateApiView(generics.UpdateAPIView):
     queryset = Video.objects.all()
     serializer_class = VideoUpdateSerializer
 
+    def update(self, request, *args, **kwarg):
+        partial = True
+        data = request.data
+        instance = self.get_object()
+        data.links = instance.links
+        print(data)
+        if data['youtube_link']:
+            id_video = extract.video_id(data['youtube_link'])
+            if id_video:
+                data.links['youtube'] = id_video
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+
+        self.perform_update(serializer)
+
+        return Response(serializer.data)
+
 
 # DJANGO
 class VideoDetailView(LoginRequiredMixin, DetailView):

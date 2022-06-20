@@ -18,3 +18,19 @@ $(document).ready(function() {
         this.form.submit();
     });
 });
+
+
+function create_alert(id, options) {
+    let obj = $('#'+id);
+    var html = '<div class="alert alert-' + options.type + ' alert-dismissible" role="alert">'+
+            options.message +
+        '       <button class="close" type="button" data-dismiss="alert" aria-label="Close">'+
+        '           <span aria-hidden="true">×</span>'+
+        '       </button>'
+        '   </div>';
+
+    obj.append(html);
+    obj.find(".alert").delay(4000).slideUp(200, function() {
+        $(this).alert('close');
+    });
+}

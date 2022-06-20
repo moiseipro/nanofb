@@ -48,7 +48,6 @@ class CreateVideoForm(forms.ModelForm):
 class UpdateVideoForm(forms.ModelForm):
     helper = FormHelper()
     helper.add_input(Submit('submit', _('Save'), css_class='w-100 btn btn-lg btn-success mt-3'))
-    helper.form_method = 'POST'
 
     youtube_link = forms.CharField(
         required=False,

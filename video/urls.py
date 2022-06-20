@@ -9,7 +9,7 @@ router.register(r'', views.VideoViewSet, basename='events')
 
 urlpatterns = [
     path('api/', include(router.urls), name='api_video'),
-    path('api/update/<int:pk>', views.VideoUpdateApiView.as_view()),
+    path('api/update/<int:pk>', views.VideoUpdateApiView.as_view(), name='api_update'),
 
     path('', views.BaseVideoView.as_view(extra_context=extra_context), name="base_video"),
     path('<int:pk>', views.VideoDetailView.as_view(extra_context=extra_context), name="view_video"),
