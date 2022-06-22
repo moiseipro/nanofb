@@ -50,6 +50,9 @@ INSTALLED_APPS = [
     'video.apps.VideoConfig',
     'references.apps.ReferencesConfig',
     'exercises.apps.ExercisesConfig',
+    'events.apps.EventsConfig',
+    'matches.apps.MatchesConfig',
+    'clubs.apps.ClubsConfig',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

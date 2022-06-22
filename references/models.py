@@ -1,4 +1,6 @@
 from django.db import models
+
+from clubs.models import Club
 from users.models import User
 
 from django.utils.translation import gettext_lazy as _
@@ -43,6 +45,17 @@ class MixUserReference(models.Model):
         abstract = True
 
 
+class MixClubReference(models.Model):
+    user_id = models.ForeignKey(
+        Club,
+        on_delete=models.CASCADE
+    )
+
+    class Meta:
+        abstract = True
+
+
+# Admin Reference
 class VideoSource(AbstractReference):
     link = models.TextField(
         verbose_name=_('link'),
@@ -56,3 +69,34 @@ class VideoSource(AbstractReference):
         video, created = cls.objects.get_or_create(
             name=_('NFTV'))
         return video.pk
+
+
+class TeamStatus(AbstractReference):
+
+    @classmethod
+    def get_default_pk(cls):
+        team_status, created = cls.objects.get_or_create(
+            name=_('None'))
+        return team_status.pk
+
+
+# User Reference
+class UserTeam(AbstractReference, MixUserReference):
+    ref_team_status = models.ForeignKey(
+        TeamStatus,
+        on_delete=models.SET_DEFAULT,
+        verbose_name=_('team status'),
+        help_text=_('Team status.'),
+        default=TeamStatus.get_default_pk
+    )
+
+
+# Club Reference
+class ClubTeam(AbstractReference, MixClubReference):
+    ref_team_status = models.ForeignKey(
+        TeamStatus,
+        on_delete=models.SET_DEFAULT,
+        verbose_name=_('team status'),
+        help_text=_('Team status.'),
+        default=TeamStatus.get_default_pk
+    )
