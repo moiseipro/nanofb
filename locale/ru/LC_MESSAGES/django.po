@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-13 15:01+0300\n"
+"POT-Creation-Date: 2022-06-23 13:02+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1516,11 +1516,204 @@ msgstr ""
 msgid "Connect, get help, or contribute"
 msgstr ""
 
-#: .\nanofb\settings.py:160
+#: .\Lib\site-packages\isort\main.py:158
+msgid "show this help message and exit"
+msgstr ""
+
+#: .\clubs\apps.py:8 .\nanofootball\templates\menu\sidebar.html:10
+msgid "Clubs"
+msgstr "Клубы"
+
+#: .\clubs\models.py:14 .\references\models.py:13 .\version\models.py:35
+#: .\version\models.py:62 .\video\models.py:16
+msgid "title"
+msgstr ""
+
+#: .\clubs\models.py:15
+msgid "Club title. Maximum length of 100 characters."
+msgstr ""
+
+#: .\clubs\models.py:21
+msgid "subdomain"
+msgstr ""
+
+#: .\clubs\models.py:22
+msgid "The domain that will be displayed. The maximum length is 10 characters."
+msgstr ""
+
+#: .\clubs\models.py:28 .\version\models.py:77
+msgid "groups"
+msgstr ""
+
+#: .\clubs\models.py:31
+msgid ""
+"The groups this club belongs to. A club will get all permissions granted to "
+"each of their groups."
+msgstr ""
+
+#: .\clubs\models.py:37 .\version\models.py:86
+msgid "permissions"
+msgstr ""
+
+#: .\clubs\models.py:39
+msgid "Specific permissions for this club."
+msgstr ""
+
+#: .\clubs\models.py:43
+#, fuzzy
+#| msgid "Administration"
+msgid "date registration"
+msgstr "Администрирование"
+
+#: .\clubs\models.py:44
+msgid "Date of registration of the club in the program."
+msgstr ""
+
+#: .\clubs\models.py:48
+#, fuzzy
+#| msgid "Administration"
+msgid "License termination"
+msgstr "Администрирование"
+
+#: .\clubs\models.py:49
+msgid "License expiration date."
+msgstr ""
+
+#: .\clubs\models.py:55
+msgid "block"
+msgstr ""
+
+#: .\clubs\models.py:56
+msgid "Is the club blocked?"
+msgstr ""
+
+#: .\events\apps.py:8 .\nanofootball\templates\menu\sidebar.html:24
+msgid "Events"
+msgstr "События"
+
+#: .\events\models.py:12
+msgid "name"
+msgstr ""
+
+#: .\events\models.py:13
+msgid "The name of the event. The maximum length is 80 characters"
+msgstr ""
+
+#: .\events\models.py:18 .\references\models.py:20
+msgid "short name"
+msgstr ""
+
+#: .\events\models.py:19
+msgid "The short name of the event. The maximum length is 10 characters"
+msgstr ""
+
+#: .\events\models.py:24
+msgid "notes"
+msgstr ""
+
+#: .\events\models.py:25
+msgid "Notes to the event."
+msgstr ""
+
+#: .\events\models.py:28
+msgid "date"
+msgstr ""
+
+#: .\events\models.py:29
+msgid "Date and time of this event"
+msgstr ""
+
+#: .\matches\apps.py:8 .\nanofootball\templates\menu\sidebar.html:27
+msgid "Matches"
+msgstr "Матчи"
+
+#: .\matches\models.py:17
+msgid "trainer"
+msgstr ""
+
+#: .\matches\models.py:18
+msgid "Coach tied to the match"
+msgstr ""
+
+#: .\matches\models.py:24
+msgid "duration match"
+msgstr ""
+
+#: .\matches\models.py:25
+msgid "The duration of the match in the format 00:00:00"
+msgstr ""
+
+#: .\matches\models.py:30
+msgid "goals"
+msgstr ""
+
+#: .\matches\models.py:31
+msgid "Number of goals scored by the team."
+msgstr ""
+
+#: .\matches\models.py:35
+msgid "penalty"
+msgstr ""
+
+#: .\matches\models.py:36
+msgid "Number of team penalties per match."
+msgstr ""
+
+#: .\matches\models.py:43
+msgid "opponent goals"
+msgstr ""
+
+#: .\matches\models.py:44
+msgid "Number of goals scored by the opponent team."
+msgstr ""
+
+#: .\matches\models.py:48
+msgid "opponent penalty"
+msgstr ""
+
+#: .\matches\models.py:49
+msgid "Number of opponent team penalties per match."
+msgstr ""
+
+#: .\matches\models.py:53
+msgid "estimation"
+msgstr ""
+
+#: .\matches\models.py:54
+msgid "Rating of the match on the scale."
+msgstr ""
+
+#: .\matches\models.py:58
+msgid "place"
+msgstr ""
+
+#: .\matches\models.py:59
+msgid "Venue of the match."
+msgstr ""
+
+#: .\matches\models.py:63
+msgid "tournament"
+msgstr ""
+
+#: .\matches\models.py:64
+msgid "Tournament name."
+msgstr ""
+
+#: .\matches\templates\matches\base_matches.html:71
+#: .\video\templates\video\base_video.html:71
+msgid "All"
+msgstr ""
+
+#: .\matches\templates\matches\base_matches.html:75
+#: .\video\templates\video\base_video.html:75
+msgid "No sources"
+msgstr ""
+
+#: .\nanofb\settings.py:163
 msgid "Russian"
 msgstr "Русский"
 
-#: .\nanofb\settings.py:161
+#: .\nanofb\settings.py:164
 msgid "English"
 msgstr "Английский"
 
@@ -1544,10 +1737,6 @@ msgstr "Система «Клиент»"
 msgid "Users"
 msgstr "Пользователи"
 
-#: .\nanofootball\templates\menu\sidebar.html:10
-msgid "Clubs"
-msgstr "Клубы"
-
 #: .\nanofootball\templates\menu\sidebar.html:11
 msgid "Federations"
 msgstr "Федерации"
@@ -1560,57 +1749,107 @@ msgstr "Панель «Клуб»"
 msgid "«Federation» panel"
 msgstr "Панель «Федерация»"
 
+#: .\nanofootball\templates\menu\sidebar.html:21
+msgid "Main sections"
+msgstr "Основные разделы"
+
+#: .\nanofootball\templates\menu\sidebar.html:30
+msgid "Training"
+msgstr "Тренировки"
+
 #: .\nanofootball\templates\menu\sidebar.html:33
 msgid "Exercises"
 msgstr "Упражнения"
+
+#: .\nanofootball\templates\menu\sidebar.html:36
+msgid "Players"
+msgstr "Игроки"
+
+#: .\nanofootball\templates\menu\sidebar.html:39
+msgid "Analytics"
+msgstr "Аналитика"
 
 #: .\nanofootball\templates\menu\sidebar.html:42
 msgid "Applications"
 msgstr "Приложения"
 
+#: .\nanofootball\templates\menu\sidebar.html:44
+msgid "Mailing"
+msgstr "Рассылки"
+
+#: .\nanofootball\templates\menu\sidebar.html:45
+msgid "Chat"
+msgstr "Чат"
+
 #: .\nanofootball\templates\menu\sidebar.html:46
+#: .\video\templates\video\base_video.html:5
 msgid "Video"
 msgstr "Видео"
 
-#: .\references\models.py:11 .\version\models.py:35 .\version\models.py:62
-#: .\video\models.py:16
-msgid "title"
-msgstr ""
+#: .\nanofootball\templates\menu\sidebar.html:47
+msgid "Tests"
+msgstr "Тесты"
 
-#: .\references\models.py:12
+#: .\nanofootball\templates\menu\sidebar.html:48
+msgid "Finance"
+msgstr "Финансы"
+
+#: .\nanofootball\templates\menu\sidebar.html:52
+#, fuzzy
+#| msgid "Federations"
+msgid "Education"
+msgstr "Обучение"
+
+#: .\nanofootball\templates\menu\sidebar.html:55
+msgid "Methodology"
+msgstr "Методология"
+
+#: .\nanofootball\templates\menu\sidebar.html:58
+msgid "Courses"
+msgstr "Курсы"
+
+#: .\references\models.py:14
 msgid "Imported source name"
 msgstr ""
 
-#: .\references\models.py:18
-msgid "short name"
-msgstr ""
-
-#: .\references\models.py:19
+#: .\references\models.py:21
 msgid "Short name no more than 10 characters"
 msgstr ""
 
-#: .\references\models.py:20
+#: .\references\models.py:22
 msgid "Empty"
 msgstr ""
 
-#: .\references\models.py:23
+#: .\references\models.py:25
 msgid "order"
 msgstr ""
 
-#: .\references\models.py:24
+#: .\references\models.py:26
 msgid "Sorting index"
 msgstr ""
 
-#: .\references\models.py:48
+#: .\references\models.py:61
 msgid "link"
 msgstr ""
 
-#: .\references\models.py:49
+#: .\references\models.py:62
 msgid "Link to the source"
 msgstr ""
 
-#: .\references\models.py:57
+#: .\references\models.py:70
 msgid "NFTV"
+msgstr ""
+
+#: .\references\models.py:79
+msgid "None"
+msgstr ""
+
+#: .\references\models.py:88 .\references\models.py:99
+msgid "team status"
+msgstr ""
+
+#: .\references\models.py:89 .\references\models.py:100
+msgid "Team status."
 msgstr ""
 
 #: .\users\managers.py:15
@@ -1693,18 +1932,10 @@ msgstr ""
 msgid "The version is active for user selection"
 msgstr ""
 
-#: .\version\models.py:77
-msgid "groups"
-msgstr ""
-
 #: .\version\models.py:80
 msgid ""
 "The groups this version belongs to. A version will get all permissions "
 "granted to each of their groups."
-msgstr ""
-
-#: .\version\models.py:86
-msgid "permissions"
 msgstr ""
 
 #: .\version\models.py:88
@@ -1725,6 +1956,10 @@ msgstr ""
 
 #: .\version\models.py:109
 msgid "versions"
+msgstr ""
+
+#: .\video\forms.py:16 .\video\forms.py:50
+msgid "Save"
 msgstr ""
 
 #: .\video\models.py:17

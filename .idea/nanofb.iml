@@ -25,6 +25,8 @@
         <option value="$MODULE_DIR$/nanofootball/templates" />
         <option value="$MODULE_DIR$/users/templates" />
         <option value="$MODULE_DIR$/video/templates" />
+        <option value="$MODULE_DIR$/events/templates" />
+        <option value="$MODULE_DIR$/matches/templates" />
       </list>
     </option>
   </component>
