@@ -23,20 +23,43 @@
                 <div class="card-header">
                     <form action="#">
                         <div class="row">
-                            <div class="col-md-4 col-lg-3">
-                                <button class="btn btn-block btn-outline-primary" type="button" aria-expanded="false" aria-controls="collapseExample">
-                                    Планирование
-                                </button>
+                            <div class="col py-0">
+                                <div class="row">
+                                    <div class="col-2 pl-0 pr-1">
+                                        <button id="favourite-event-filter" title="Фильтр избранное" class="btn btn-block btn-outline-dark btn-sm font-weight-bold"><i class="fa fa-star-o" aria-hidden="true"></i></button>
+                                    </div>
+                                    <div class="col-2 pl-0 pr-1">
+                                        <button id="reset-event-filter" title="Сбросить фильтры" class="btn btn-block btn-outline-dark btn-sm font-weight-bold"><i class="fa fa-undo" aria-hidden="true"></i></button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-4 col-lg-3">
-                                <button class="btn btn-block btn-outline-primary" type="button" data-toggle="collapse" data-target="#collapse-protocol" aria-expanded="false" aria-controls="collapseExample">
-                                    Список
-                                </button>
+                            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-3 border-0 p-0 sw-top-panel" style="">
+                                <div class="row rescalendar_controls">
+                                    <div class="col-2 pl-0 pr-1 text-center">
+                                        <button class="select_filter_training btn btn-block btn-secondary text-truncate btn-sm move_to_last_month hideCalendar"> &lt;&lt; </button>
+                                    </div>
+                                    <div class="col-2 px-0 text-center">
+                                        <button class="select_filter_training btn btn-block btn-secondary text-truncate btn-sm move_to_yesterday hideCalendar"> &lt; </button>
+                                    </div>
+                                    <div class="col-4 px-1 text-center">
+                                        <button class="select_filter_training btn btn-block btn-secondary text-truncate btn-sm move_to_today hideCalendar"> 24.06.2022 </button>
+                                        <input class="refDate select_filter_training" type="text" value="" style="display:none;">
+                                    </div>
+                                    <div class="col-2 px-0 text-center">
+                                        <button class="select_filter_training btn btn-block btn-secondary text-truncate btn-sm move_to_tomorrow hideCalendar"> &gt; </button>
+                                    </div>
+                                    <div class="col-2 px-1 text-center">
+                                        <button class="select_filter_training btn btn-block btn-secondary text-truncate btn-sm move_to_next_month hideCalendar"> &gt;&gt; </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="card-body">
+                    <div class="row">
+                        <div id="event_calendar" class="rescalendar"></div>
+                    </div>
                     <div class="row">
                         <div class="col">
                             <div class="table-responsive">
@@ -86,6 +109,10 @@
         </div>
     </div>
 {% endblock %}
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'events/ResCalendar/rescalendar.css' %}">
+{% endblock %}
 {% block custom_scripts %}
-    <script src="{% static 'matches/base_matches.js' %}"></script>
+    <script src="{% static 'events/ResCalendar/rescalendar.js' %}"></script>
+    <script src="{% static 'events/base_events.js' %}"></script>
 {% endblock %}

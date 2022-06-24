@@ -20,8 +20,8 @@
 <li class="menu-title">
     <span>{% trans 'Main sections' %}</span>
 </li>
-<li class="">
-    <a href="#" class="btn disabled"><i class="fa fa-calendar"></i> <span>{% trans 'Events' %}</span></a>
+<li class="{{ menu_events }}">
+    <a href="{% url 'events:base_events' %}" class="btn"><i class="fa fa-calendar"></i> <span>{% trans 'Events' %}</span></a>
 </li>
 <li class="{{ menu_matches }}">
     <a href="{% url 'matches:base_matches' %}" class="btn"><i class="fa fa-trophy"></i> <span>{% trans 'Matches' %}</span></a>

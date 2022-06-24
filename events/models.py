@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy as _p
 
@@ -28,7 +29,14 @@ class AbstractEvent(models.Model):
         verbose_name=_('date'),
         help_text=_('Date and time of this event'),
         blank=False,
+        default=timezone.now
     )
+
+    @classmethod
+    def get_default_pk(cls):
+        event, created = cls.objects.get_or_create(
+            name=_('Event'))
+        return event.pk
 
     class Meta:
         abstract = True
