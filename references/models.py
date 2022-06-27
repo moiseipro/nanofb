@@ -100,3 +100,10 @@ class ClubTeam(AbstractReference, MixClubReference):
         help_text=_('Team status.'),
         default=TeamStatus.get_default_pk
     )
+
+
+
+class ExsBall(AbstractReference):
+    pass
+
+

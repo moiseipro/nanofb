@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.postgres.fields import ArrayField
+from django.core.validators import int_list_validator
 from users.models import User
 
 
@@ -64,12 +64,8 @@ class ClubFolder(AbstractFolder):
         return f"[id: {self.id}] {self.short_name}. {self.name}"
 
 
-class Exercise(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    # club_id = models.ForeignKey(Club, on_delete=models.CASCADE)
+class AbstractExercise(models.Model):
     date_creation = models.DateField(auto_now_add=True)
-    folder_user_id = models.ForeignKey(UserFolder, on_delete=models.CASCADE, blank=True, null=True)
-    folder_club_id = models.ForeignKey(ClubFolder, on_delete=models.CASCADE, blank=True, null=True)
     order = models.IntegerField(
         help_text='Индекс сортировки',
         default=0
@@ -86,46 +82,60 @@ class Exercise(models.Model):
         help_text='Когда упр-ие было завершено',
         blank=True, null=True
     )
+
+    ref_ball = models.IntegerField(null=True, blank=True) # models.ForeignKey(RefBall, on_delete=models.CASCADE)
+    ref_goal = models.IntegerField(null=True, blank=True) # models.ForeignKey(RefGoal, on_delete=models.CASCADE)
+    ref_players_format = models.IntegerField(null=True, blank=True) # models.ForeignKey(RefPlayersFormat, on_delete=models.CASCADE)
+    ref_workout_part = models.IntegerField(null=True, blank=True) # models.ForeignKey(RefWorkoutPart, on_delete=models.CASCADE)
+    ref_cognitive_load = models.IntegerField(null=True, blank=True) # models.ForeignKey(RefrefCognitiveLoad, on_delete=models.CASCADE)
+    ref_category = models.IntegerField(null=True, blank=True) # models.ForeignKey(RefCategory, on_delete=models.CASCADE)
+    age = models.CharField(max_length=10, null=True, blank=True, validators=[int_list_validator])
+    players_amount = models.CharField(max_length=10, null=True, blank=True, validators=[int_list_validator])
+    # пока нет справочников:
+    # ref_physical_qualities = models.ManyToManyField(RefPhysicalQuality)
+    # ref_physical_stress = models.ManyToManyField(RefPhysicalStress)
+    # ref_focuses = models.ManyToManyField(RefFocus)
+    # Ниже текстовая инфо-ия представляет собой json структуру, где для каждого текста свой перевод.
+
+    play_zone = models.JSONField(null=True, blank=True)
+    neutral = models.JSONField(null=True, blank=True)
+    touches_amount = models.JSONField(null=True, blank=True)
+    series = models.JSONField(null=True, blank=True)
+    pauses = models.JSONField(null=True, blank=True)
+    notes = models.JSONField(null=True, blank=True)
+    title = models.JSONField(null=True, blank=True)
+    description = models.JSONField(null=True, blank=True) # "{'ru':<t>....</t>,'en':<t>....</t>}"
+    coaching = models.JSONField(null=True, blank=True)
+
+    scheme_data = models.JSONField(null=True, blank=True) # {'data': ["<svg>...</svg>", "<svg>...</svg>", "<svg>...</svg>", ...]}
+    video_data = models.JSONField(null=True, blank=True) # {'data': [{'id': ""}, {'youtubeID': ""},....]}
+    animation_data = models.JSONField(null=True, blank=True) # {'custom': "<t>...</t>", default: ["id_1", "id_2"...]}
+
     objects = models.Manager()
 
     class Meta():
+        abstract = True
         ordering = ['order']
     def __str__(self):
         return f"[id: {self.id}]"
 
 
-class ExerciseParams(models.Model):
-    exercise_id = models.ForeignKey(Exercise, on_delete=models.CASCADE)
-    ref_exs_type = models.IntegerField(null=True, blank=True) # связать со справочником "Тип упражнения"
-    ref_folders = models.IntegerField(null=True, blank=True) # связать со справочником "Папки"
-    ref_age = models.IntegerField(null=True, blank=True) # связать со справочником "Возраст"
-    ref_category = models.IntegerField(null=True, blank=True) # связать со справочником "Категория"
-    ref_ball = models.IntegerField(null=True, blank=True) # связать со справочником "Мяч"
-    ref_goal = models.IntegerField(null=True, blank=True) # связать со справочником "Ворота"
-    ref_cognitive_load = models.IntegerField(null=True, blank=True) # связать со справочником "Когнитивная нагрузка"
-    ref_infrastructure = models.IntegerField(null=True, blank=True) # связать со справочником "Инфраструктура"
-    ref_stress = models.IntegerField(null=True, blank=True) # связать со справочником "Тип нагрузки"
-    ref_focuses = models.IntegerField(null=True, blank=True) # связать со справочником "Задачи / Направленность"
-    ref_workout_part = models.IntegerField(null=True, blank=True) # связать со справочником "Части тренировки"
-    ref_players_format = models.IntegerField(null=True, blank=True) # связать со справочником "Формат (игроки)"
-    players_amount = models.CharField( max_length=255, null=True, blank=True)
-    play_zone = models.CharField( max_length=255, null=True, blank=True)
-    neutral = models.CharField( max_length=255, null=True, blank=True)
-    touches_amount = models.CharField( max_length=255, null=True, blank=True)
-    pauses = models.CharField( max_length=255, null=True, blank=True)
+class AdminExercise(AbstractExercise):
+    folder = models.ForeignKey(AdminFolder, on_delete=models.CASCADE)
+    class Meta(AbstractExercise.Meta):
+        abstract = False
 
 
-class ExerciseVisual(models.Model):
-    exercise_id = models.ForeignKey(Exercise, on_delete=models.CASCADE)
-    scheme_data = models.JSONField() # {'data': ["<svg>...</svg>", "<svg>...</svg>", "<svg>...</svg>", ...]}
-    video_data = models.JSONField() # {'data': [{'id': ""}, {'youtubeID': ""},....]}
-    animation_data = models.JSONField() # {'custom': "<t>...</t>", default: ["id_1", "id_2"...]}
+class UserExercise(AbstractExercise):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    folder = models.ForeignKey(UserFolder, on_delete=models.CASCADE)
+    class Meta(AbstractExercise.Meta):
+        abstract = False
 
 
-class ExerciseTranslations(models.Model):
-    exercise_id = models.ForeignKey(Exercise, on_delete=models.CASCADE)
-    language_code = models.CharField( max_length=6, default="en")
-    title = models.CharField( max_length=255, null=True, blank=True)
-    description = models.CharField( max_length=1024, null=True, blank=True) # "<t>....</t>"
-
+class ClubExercise(AbstractExercise):
+    # club_id = models.ForeignKey(Club, on_delete=models.CASCADE)
+    folder = models.ForeignKey(ClubFolder, on_delete=models.CASCADE)
+    class Meta(AbstractExercise.Meta):
+        abstract = False
 

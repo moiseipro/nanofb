@@ -3,7 +3,35 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from users.models import User
-from exercises.models import UserFolder, ClubFolder, AdminFolder, Exercise
+from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, AdminExercise
+from references.models import ExsBall
+
+
+def get_by_language_code(value, code):
+    try:
+        return value[code]
+    except:
+        pass
+    return ""
+
+
+def set_by_language_code(elem, code, value, value2 = None):
+    if value2:
+        value = value2 if value2 != "" else value
+    if type(elem) is dict:
+        elem[code] = value
+    else:
+        elem = {code: value}
+    return elem
+
+
+def set_int_value(request, name, def_value = None):
+    res = def_value
+    try:
+        res = int(request.POST.get(name, def_value))
+    except:
+        pass
+    return res
 
 
 def exercises(request):
@@ -11,10 +39,18 @@ def exercises(request):
         return redirect("authorization:login")
     cur_user = User.objects.filter(email=request.user).only("club_id")
     found_folders = []
+    found_nfb_folders = []
+    refs = {}
     if cur_user.exists() and cur_user[0].club_id != None:
         # добавить проверку на клуб версию
-        found_folders = UserFolder.objects.filter(user_id=cur_user[0])
-    return render(request, 'exercises/base_exercises.html', {'folders': found_folders, 'folders_only_view': True})
+        found_folders = UserFolder.objects.filter(user_id=cur_user[0], visible=True).values()
+    found_nfb_folders = AdminFolder.objects.filter(visible=True).values()
+    for elem in found_folders:
+        elem['root'] = False if elem['parent'] and elem['parent'] != 0 else True
+    for elem in found_nfb_folders:
+        elem['root'] = False if elem['parent'] and elem['parent'] != 0 else True
+    refs['exs_ball'] = ExsBall.objects.filter().values()
+    return render(request, 'exercises/base_exercises.html', {'folders': found_folders, 'folders_only_view': True, 'nfb_folders': found_nfb_folders, 'refs': refs})
 
 
 def folders(request):
@@ -34,30 +70,198 @@ def exercises_api(request):
         return JsonResponse({"errors": "authenticate_err"}, status=400)
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
     if request.method == "POST" and is_ajax:
-        pass
-    elif request.method == "GET" and is_ajax:
-        get_exs_status = 0
-        folder_id = -1
+        copy_exs_status = 0
+        edit_exs_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         if not cur_user.exists() or cur_user[0].id == None:
             return JsonResponse({"errors": "trouble_with_user"}, status=400)
         try:
-            get_exs_status = int(request.GET.get("get_exs", 0))
+            copy_exs_status = int(request.POST.get("copy_exs", 0))
         except:
             pass
         try:
-            folder_id = int(request.GET.get("folder", -1))
+            edit_exs_status = int(request.POST.get("edit_exs", 0))
         except:
             pass
-        if get_exs_status == 1:
+        if copy_exs_status == 1:
+            exs_id = -1
+            folder_id = -1
+            is_nfb_folder = 0
+            try:
+                exs_id = int(request.POST.get("exs", -1))
+            except:
+                pass
+            try:
+                folder_id = int(request.POST.get("folder", -1))
+            except:
+                pass
+            try:
+                is_nfb_folder = int(request.POST.get("nfb_folder", 0))
+            except:
+                pass
+            found_folder = UserFolder.objects.filter(id=folder_id)
+            if found_folder.exists() and found_folder[0].id != None:
+                res_data = {'success': False, 'err': "NULL"}
+                if is_nfb_folder == 1:
+                    c_exs = AdminExercise.objects.filter(id=exs_id)
+                    if c_exs.exists() and c_exs[0].id != None:
+                        new_exs = UserExercise(user_id=cur_user[0])
+                        for key in c_exs.values()[0]:
+                            if key != "id" and key != "date_creation":
+                                setattr(new_exs, key, c_exs.values()[0][key])
+                        new_exs.folder = found_folder[0]
+                        try:
+                            new_exs.save()
+                            res_data = {'id': new_exs.id, 'success': True}
+                        except Exception as e:
+                            res_data = {'id': new_exs.id, 'success': False, 'err': str(e)}
+                else:
+                    c_exs = UserExercise.objects.filter(id=exs_id)
+                    if c_exs.exists() and c_exs[0].id != None:
+                        new_exs = UserExercise(user_id=cur_user[0])
+                        for key in c_exs.values()[0]:
+                            if key != "id" and key != "date_creation":
+                                setattr(new_exs, key, c_exs.values()[0][key])
+                        new_exs.folder = found_folder[0]
+                        try:
+                            new_exs.save()
+                            res_data = {'id': new_exs.id, 'success': True}
+                        except Exception as e:
+                            res_data = {'id': new_exs.id, 'success': False, 'err': str(e)}
+                return JsonResponse({"data": res_data}, status=200)
+        if edit_exs_status == 1:
+            exs_id = -1
+            folder_id = -1
+            try:
+                exs_id = int(request.POST.get("exs", -1))
+            except:
+                pass
+            try:
+                folder_id = int(request.POST.get("data[folder_main]", -1))
+            except:
+                pass
+            c_folder = UserFolder.objects.filter(id=folder_id)
+            if not c_folder.exists() or c_folder[0].id == None:
+                return JsonResponse({"err": "Folder not found.", "success": False}, status=200)
+            c_exs = UserExercise.objects.filter(id=exs_id)
+            if not c_exs.exists() or c_exs[0].id == None:
+                c_exs = UserExercise(user_id=cur_user[0], folder=c_folder[0])
+            else:
+                c_exs = c_exs[0]
+                c_exs.folder = c_folder[0]
+            c_exs.title = set_by_language_code(c_exs.title, request.LANGUAGE_CODE, request.POST.get("data[title]", ""))
+            c_exs.description = set_by_language_code(c_exs.description, request.LANGUAGE_CODE, request.POST.get("data[description]", ""))
+            c_exs.coaching = set_by_language_code(c_exs.coaching, request.LANGUAGE_CODE, request.POST.get("data[coaching]", ""))
+            
+            print(request.POST)
+
+            c_exs.ref_ball = set_int_value(request, "data[ref_ball]", None)
+            try:
+                t_vals = request.POST.getlist("data[age[]][]", "")
+                t_val_str = f'{t_vals[0]},{t_vals[1]}'
+                c_exs.age = t_val_str
+            except:
+                pass
+            try:
+                t_vals = request.POST.getlist("data[players_amount[]][]", "")
+                t_val_str = f'{t_vals[0]},{t_vals[1]}'
+                c_exs.players_amount = t_val_str
+            except:
+                pass
+
+            c_exs.play_zone = set_by_language_code(c_exs.play_zone, request.LANGUAGE_CODE, request.POST.getlist("data[play_zone[]]", ""), request.POST.getlist("data[play_zone[]][]", ""))
+            c_exs.neutral = set_by_language_code(c_exs.neutral, request.LANGUAGE_CODE, request.POST.getlist("data[neutral[]]", ""), request.POST.getlist("data[neutral[]][]", ""))
+            c_exs.touches_amount = set_by_language_code(c_exs.touches_amount, request.LANGUAGE_CODE, request.POST.getlist("data[touches_amount[]]", ""), request.POST.getlist("data[touches_amount[]][]", ""))
+            c_exs.series = set_by_language_code(c_exs.series, request.LANGUAGE_CODE, request.POST.getlist("data[series[]]", ""), request.POST.getlist("data[series[]][]", ""))
+            c_exs.pauses = set_by_language_code(c_exs.pauses, request.LANGUAGE_CODE, request.POST.getlist("data[pauses[]]", ""), request.POST.getlist("data[pauses[]][]", ""))
+            c_exs.notes = set_by_language_code(c_exs.notes, request.LANGUAGE_CODE, request.POST.getlist("data[notes[]]", ""), request.POST.getlist("data[notes[]][]", ""))
+            try:
+                c_exs.save()
+                res_data = f'Exs with id: [{c_exs.id}] is added / edited successfully.'
+            except Exception as e:
+                return JsonResponse({"err": "Can't edit the exs.", "success": False}, status=200)
+            return JsonResponse({"data": res_data, "success": True}, status=200)
+        return JsonResponse({"errors": "access_error"}, status=400)
+    elif request.method == "GET" and is_ajax:
+        get_exs_all_status = 0
+        get_exs_one_status = 0
+        get_nfb_exs = 0
+        cur_user = User.objects.filter(email=request.user).only("id")
+        if not cur_user.exists() or cur_user[0].id == None:
+            return JsonResponse({"errors": "trouble_with_user"}, status=400)
+        try:
+            get_exs_all_status = int(request.GET.get("get_exs_all", 0))
+        except:
+            pass
+        try:
+            get_exs_one_status = int(request.GET.get("get_exs_one", 0))
+        except:
+            pass
+        try:
+            get_nfb_exs = int(request.GET.get("get_nfb", 0))
+        except:
+            pass
+        if get_exs_all_status == 1:
+            folder_id = -1
+            try:
+                folder_id = int(request.GET.get("folder", -1))
+            except:
+                pass
             # Check if folder is USER or CLUB
-            cur_folder = UserFolder.objects.filter(id=folder_id, user_id=cur_user[0])
-            if not cur_folder.exists() or cur_folder[0].id == None:
-                return JsonResponse({"errors": "trouble_with_folder"}, status=400)
-            found_exercises = Exercise.objects.filter(folder_user_id = cur_folder[0])
             res_exs = []
-            for exercise in found_exercises:
-                res_exs.append({'id': exercise.id, 'folder': exercise.folder_user_id.id, 'user': exercise.user_id.email})
+            if get_nfb_exs:
+                cur_folder = AdminFolder.objects.filter(id=folder_id)
+                if not cur_folder.exists() or cur_folder[0].id == None:
+                    return JsonResponse({"errors": "trouble_with_folder"}, status=400)
+                found_exercises = []
+                child_folders = AdminFolder.objects.filter(parent=cur_folder[0].id)
+                if child_folders.count() > 0:
+                    found_exercises = AdminExercise.objects.filter(folder__in = child_folders)
+                else:
+                    found_exercises = AdminExercise.objects.filter(folder = cur_folder[0])
+                for exercise in found_exercises:
+                    res_exs.append({'id': exercise.id, 'folder': exercise.folder.id, 'user': "NFB"})
+            else:
+                cur_folder = UserFolder.objects.filter(id=folder_id, user_id=cur_user[0])
+                if not cur_folder.exists() or cur_folder[0].id == None:
+                    return JsonResponse({"errors": "trouble_with_folder"}, status=400)
+                found_exercises = []
+                child_folders = UserFolder.objects.filter(parent=cur_folder[0].id)
+                if child_folders.count() > 0:
+                    found_exercises = UserExercise.objects.filter(folder__in = child_folders)
+                else:
+                    found_exercises = UserExercise.objects.filter(folder = cur_folder[0])
+                for exercise in found_exercises:
+                    res_exs.append({'id': exercise.id, 'folder': exercise.folder.id, 'user': exercise.user_id.email})
+            return JsonResponse({"data": res_exs, "success": True}, status=200)
+        elif get_exs_one_status == 1:
+            exs_id = -1
+            try:
+                exs_id = int(request.GET.get("exs", -1))
+            except:
+                pass
+            res_exs = {}
+            if get_nfb_exs:
+                c_exs = AdminExercise.objects.filter(id=exs_id, visible=True)
+                if c_exs.exists() and c_exs[0].id != None:
+                    res_exs = c_exs.values()[0]
+                    res_exs['nfb'] = True
+                    res_exs['folder_parent_id'] = c_exs[0].folder.parent
+            else:
+                c_exs = UserExercise.objects.filter(id=exs_id, visible=True)
+                if c_exs.exists() and c_exs[0].id != None:
+                    res_exs = c_exs.values()[0]
+                    res_exs['nfb'] = False
+                    res_exs['folder_parent_id'] = c_exs[0].folder.parent
+            res_exs['title'] = get_by_language_code(res_exs['title'], request.LANGUAGE_CODE)
+            res_exs['description'] = get_by_language_code(res_exs['description'], request.LANGUAGE_CODE)
+            res_exs['play_zone'] = get_by_language_code(res_exs['play_zone'], request.LANGUAGE_CODE)
+            res_exs['neutral'] = get_by_language_code(res_exs['neutral'], request.LANGUAGE_CODE)
+            res_exs['touches_amount'] = get_by_language_code(res_exs['touches_amount'], request.LANGUAGE_CODE)
+            res_exs['series'] = get_by_language_code(res_exs['series'], request.LANGUAGE_CODE)
+            res_exs['pauses'] = get_by_language_code(res_exs['pauses'], request.LANGUAGE_CODE)
+            res_exs['notes'] = get_by_language_code(res_exs['notes'], request.LANGUAGE_CODE)
+            res_exs['coaching'] = get_by_language_code(res_exs['coaching'], request.LANGUAGE_CODE)
             return JsonResponse({"data": res_exs, "success": True}, status=200)
         return JsonResponse({"errors": "access_error"}, status=400)
     else:
