@@ -1,13 +1,6 @@
-/*!
-Rescalendar.js - https://cesarchas.es/rescalendar
-Licensed under the MIT license - http://opensource.org/licenses/MIT
+var startDate, endDate, startSeason, endSeason;
 
-Copyright (c) 2019 César Chas
-*/
-
-var startDate, endDate, isCreate = false, startSeason, endSeason;
-
-;(function($) {
+(function($) {
 
     $.fn.rescalendar = function( options ) {
 
@@ -98,8 +91,8 @@ var startDate, endDate, isCreate = false, startSeason, endSeason;
         function setData( targetObj, dataKeyValues, data ){
 
             var html          = '',
-                dataKeyValues = settings.dataKeyValues,
-                data          = settings.data,
+                dataKeyValues = dataKeyValues ? dataKeyValues : settings.dataKeyValues,
+                data          = data ? data : settings.data,
                 arr_dates     = [],
                 name          = '',
                 content       = '',
@@ -222,7 +215,7 @@ var startDate, endDate, isCreate = false, startSeason, endSeason;
                 }
 
                 html_day += [
-                    '<td class="day_cell select_filter_training ' + clase_today + ' ' + clase_middleDay + ' ' + clase_disabled + '" data-cellDate="' + f_aux_format + '">',
+                    '<td class="day_cell ' + clase_today + ' ' + clase_middleDay + ' ' + clase_disabled + '" data-cellDate="' + f_aux_format + '">',
                         '<span class="text-center dia">' + dia + '</span>',
                         '<span class="text-center text-bold dia_semana">' + dia_semana + '</span>',
                         //'<span class="mes">' + mes + '</span>',
@@ -232,14 +225,14 @@ var startDate, endDate, isCreate = false, startSeason, endSeason;
             }
             if(day_next!=0){
                 html_month += [
-                    '<td colspan="'+day_next+'" class="month_cell select_filter_training">',
+                    '<td colspan="'+day_next+'" class="month_cell">',
                         '<span class="mes">' + month_next + '</span>',
                     '</td>',
                 ].join('');
             }
             if(day_prev!=0){
                 html_month += [
-                    '<td colspan="'+day_prev+'" class="month_cell select_filter_training">',
+                    '<td colspan="'+day_prev+'" class="month_cell">',
                         '<span class="mes">' + month_prev + '</span>',
                     '</td>',
                 ].join('');
@@ -321,8 +314,7 @@ var startDate, endDate, isCreate = false, startSeason, endSeason;
             //console.log(check_season.getTime()+'||||||||||'+startSeason);
             var days = new Date(d.getFullYear(), d.getMonth()+1, 0).getDate()-1;
             var middleDay = (("0" + Math.floor(days/2)).slice(-2));
-            var strDate;
-            strDate = middleDay + "/" + ("0" + (d.getMonth()+1)).slice(-2) + "/" + d.getFullYear();
+            var strDate = middleDay + "/" + ("0" + (d.getMonth()+1)).slice(-2) + "/" + d.getFullYear();
             
             settings.calSize = days;
             settings.jumpSize = middleDay-1;
@@ -350,8 +342,7 @@ var startDate, endDate, isCreate = false, startSeason, endSeason;
 
             var days = new Date(d.getFullYear(), d.getMonth()+1, 0).getDate()-1;
             var middleDay = (("0" + Math.floor(days/2)).slice(-2));
-            var strDate;
-            strDate = middleDay + "/" + ("0" + (d.getMonth()+1)).slice(-2) + "/" + d.getFullYear();
+            var strDate = middleDay + "/" + ("0" + (d.getMonth()+1)).slice(-2) + "/" + d.getFullYear();
             
             settings.calSize = days;
             settings.jumpSize = middleDay-1;
@@ -411,6 +402,7 @@ var startDate, endDate, isCreate = false, startSeason, endSeason;
 
                         '<table class="rescalendar_table">',
                             '<thead>',
+                                '<tr class="rescalendar_microcycles_cells"></tr>',
                                 '<tr class="rescalendar_month_cells"></tr>',
                                 '<tr class="rescalendar_day_cells"></tr>',
                             '</thead>',
@@ -432,7 +424,7 @@ var startDate, endDate, isCreate = false, startSeason, endSeason;
             
             //var targetObj = $(this);
             var targetObj = $(this);
-            var targetPanel = $('#filters');
+            var targetPanel = $('.rescalendar_controls');
 
             set_template( targetObj, settings);
 
