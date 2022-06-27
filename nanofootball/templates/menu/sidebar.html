@@ -18,42 +18,42 @@
     <a href="#" class="btn disabled"><i class="fa fa-television"></i> <span>{% trans '«Federation» panel' %}</span></a>
 </li>
 <li class="menu-title">
-    <span>Разделы</span>
+    <span>{% trans 'Main sections' %}</span>
 </li>
-<li class="">
-    <a href="#" class="btn disabled"><i class="fa fa-calendar"></i> <span>События</span></a>
+<li class="{{ menu_events }}">
+    <a href="{% url 'events:base_events' %}" class="btn"><i class="fa fa-calendar"></i> <span>{% trans 'Events' %}</span></a>
+</li>
+<li class="{{ menu_matches }}">
+    <a href="{% url 'matches:base_matches' %}" class="btn"><i class="fa fa-trophy"></i> <span>{% trans 'Matches' %}</span></a>
 </li>
 <li>
-    <a href="#" class="btn disabled"><i class="fa fa-trophy"></i> <span>Матчи</span></a>
-</li>
-<li>
-    <a href="#" class="btn disabled"><i class="fa fa-calendar-o"></i> <span>Тренировки</span></a>
+    <a href="#" class="btn disabled"><i class="fa fa-calendar-o"></i> <span>{% trans 'Training' %}</span></a>
 </li>
 <li>
     <a href="{% url 'exercises:exercises' %}"><i class="fa fa-futbol-o"></i> <span>{% trans 'Exercises' %}</span></a>
 </li>
 <li>
-    <a href="#" class="btn disabled"><i class="fa fa-users"></i> <span>Игроки</span></a>
+    <a href="#" class="btn disabled"><i class="fa fa-users"></i> <span>{% trans 'Players' %}</span></a>
 </li>
 <li>
-    <a href="#" class="btn disabled"><i class="fa fa-line-chart"></i> <span>Аналитика</span></a>
+    <a href="#" class="btn disabled"><i class="fa fa-line-chart"></i> <span>{% trans 'Analytics' %}</span></a>
 </li>
 <li class="submenu">
     <a href="#"><i class="fa fa-product-hunt"></i> <span>{% trans 'Applications' %}</span> <span class="menu-arrow"></span></a>
     <ul style="display: none;">
-        <li><a href="#">Рассылки</a></li>
-        <li><a href="#">Чат</a></li>
+        <li><a href="#">{% trans 'Mailing' %}</a></li>
+        <li><a href="#">{% trans 'Chat' %}</a></li>
         <li><a class="{{ menu_video }}" href="{% url 'video:base_video' %}">{% trans 'Video' %}</a></li>
-        <li><a href="#">Тесты</a></li>
-        <li><a href="#">Финансы</a></li>
+        <li><a href="#">{% trans 'Tests' %}</a></li>
+        <li><a href="#">{% trans 'Finance' %}</a></li>
     </ul>
 </li>
 <li class="menu-title">
-    <span>Обучение</span>
+    <span>{% trans 'Education' %}</span>
 </li>
 <li>
-    <a href="#" class="btn disabled"><i class="fa fa-book"></i> <span>Методология</span></a>
+    <a href="#" class="btn disabled"><i class="fa fa-book"></i> <span>{% trans 'Methodology' %}</span></a>
 </li>
 <li>
-    <a href="#" class="btn disabled"><i class="fa fa-list-alt"></i> <span>Курсы</span></a>
+    <a href="#" class="btn disabled"><i class="fa fa-list-alt"></i> <span>{% trans 'Courses' %}</span></a>
 </li>

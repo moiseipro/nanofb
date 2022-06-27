@@ -1,0 +1,118 @@
+{% extends '../base/app_main.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% trans 'Matches' %}{% endblock %}
+
+{% block content %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags %} {{ message.tags }} {% endif %} alert-warning alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <form action="#">
+                        <div class="row">
+                            <div class="col py-0">
+                                <div class="row">
+                                    <div class="col-2 pl-0 pr-1">
+                                        <button id="favourite-event-filter" title="Фильтр избранное" class="btn btn-block btn-outline-dark btn-sm font-weight-bold"><i class="fa fa-star-o" aria-hidden="true"></i></button>
+                                    </div>
+                                    <div class="col-2 pl-0 pr-1">
+                                        <button id="reset-event-filter" title="Сбросить фильтры" class="btn btn-block btn-outline-dark btn-sm font-weight-bold"><i class="fa fa-undo" aria-hidden="true"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-3 border-0 p-0 sw-top-panel" style="">
+                                <div class="row rescalendar_controls">
+                                    <div class="col-2 pl-0 pr-1 text-center">
+                                        <button class="select_filter_training btn btn-block btn-secondary text-truncate btn-sm move_to_last_month hideCalendar"> &lt;&lt; </button>
+                                    </div>
+                                    <div class="col-2 px-0 text-center">
+                                        <button class="select_filter_training btn btn-block btn-secondary text-truncate btn-sm move_to_yesterday hideCalendar"> &lt; </button>
+                                    </div>
+                                    <div class="col-4 px-1 text-center">
+                                        <button class="select_filter_training btn btn-block btn-secondary text-truncate btn-sm move_to_today hideCalendar"> 24.06.2022 </button>
+                                        <input class="refDate select_filter_training" type="text" value="" style="display:none;">
+                                    </div>
+                                    <div class="col-2 px-0 text-center">
+                                        <button class="select_filter_training btn btn-block btn-secondary text-truncate btn-sm move_to_tomorrow hideCalendar"> &gt; </button>
+                                    </div>
+                                    <div class="col-2 px-1 text-center">
+                                        <button class="select_filter_training btn btn-block btn-secondary text-truncate btn-sm move_to_next_month hideCalendar"> &gt;&gt; </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div id="event_calendar" class="rescalendar"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="table-responsive">
+                                <table id="matches" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Дата</th>
+                                            <th>Д.Н.</th>
+                                            <th><i class="fa fa-clock-o" aria-hidden="true"></i></th>
+                                            <th><i class="fa fa-trophy" aria-hidden="true"></i></th>
+                                            <th>Команда</th>
+                                            <th>Счет</th>
+                                            <th>Команда</th>
+                                            <th><i class="fa fa-cog" aria-hidden="true"></i></th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col collapse" id="collapse-protocol">
+                            <div class="table-responsive">
+                                <table id="protocol" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>№</th>
+                                            <th></th>
+                                            <th></th>
+                                            <th>с</th>
+                                            <th>по</th>
+                                            <th>гол.</th>
+                                            <th>пен.</th>
+                                            <th>пас.</th>
+                                            <th>ж.к.</th>
+                                            <th>к.к.</th>
+                                            <th>оц.</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="block-video-info" class="col-md-12 col-lg-3 d-none">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'events/ResCalendar/rescalendar.css' %}">
+{% endblock %}
+{% block custom_scripts %}
+    <script src="{% static 'events/ResCalendar/rescalendar.js' %}"></script>
+    <script src="{% static 'events/base_events.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends '../base/app_main.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% trans 'Matches' %}{% endblock %}
+
+{% block content %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags %} {{ message.tags }} {% endif %} alert-warning alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <form action="#">
+                        <div class="row">
+                            <div class="col-md-4 col-lg-3">
+                                <button class="btn btn-block btn-outline-primary" type="button" aria-expanded="false" aria-controls="collapseExample">
+                                    Планирование
+                                </button>
+                            </div>
+                            <div class="col-md-4 col-lg-3">
+                                <button class="btn btn-block btn-outline-primary" type="button" data-toggle="collapse" data-target="#collapse-protocol" aria-expanded="false" aria-controls="collapseExample">
+                                    Список
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <div class="table-responsive">
+                                <table id="matches" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Дата</th>
+                                            <th>Д.Н.</th>
+                                            <th><i class="fa fa-clock-o" aria-hidden="true"></i></th>
+                                            <th><i class="fa fa-trophy" aria-hidden="true"></i></th>
+                                            <th>Команда</th>
+                                            <th>Счет</th>
+                                            <th>Команда</th>
+                                            <th><i class="fa fa-cog" aria-hidden="true"></i></th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col collapse" id="collapse-protocol">
+                            <div class="table-responsive">
+                                <table id="protocol" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>№</th>
+                                            <th></th>
+                                            <th></th>
+                                            <th>с</th>
+                                            <th>по</th>
+                                            <th>гол.</th>
+                                            <th>пен.</th>
+                                            <th>пас.</th>
+                                            <th>ж.к.</th>
+                                            <th>к.к.</th>
+                                            <th>оц.</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="block-video-info" class="col-md-12 col-lg-3 d-none">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block custom_scripts %}
+    <script src="{% static 'matches/base_matches.js' %}"></script>
+{% endblock %}
