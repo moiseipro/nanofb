@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.db import models
 
 from clubs.models import Club
@@ -55,6 +57,18 @@ class MixClubReference(models.Model):
         abstract = True
 
 
+class MixTranslateReference(models.Model):
+    translation_names = models.JSONField(
+        verbose_name=_('translated title'),
+        help_text=_('Translations of reference books'),
+        null=True,
+        blank=True
+    )
+
+    class Meta:
+        abstract = True
+
+
 # Admin Reference
 class VideoSource(AbstractReference):
     link = models.TextField(
@@ -91,6 +105,15 @@ class UserTeam(AbstractReference, MixUserReference):
     )
 
 
+class UserSeason(AbstractReference, MixUserReference):
+    date_with = models.DateField(
+        default=date(date.today().year, 1, 1)
+    )
+    date_by = models.DateField(
+        default=date(date.today().year, 12, 31)
+    )
+
+
 # Club Reference
 class ClubTeam(AbstractReference, MixClubReference):
     ref_team_status = models.ForeignKey(
@@ -101,6 +124,14 @@ class ClubTeam(AbstractReference, MixClubReference):
         default=TeamStatus.get_default_pk
     )
 
+
+class ClubSeason(AbstractReference, MixClubReference):
+    date_with = models.DateField(
+        default=date(date.today().year, 1, 1)
+    )
+    date_by = models.DateField(
+        default=date(date.today().year, 12, 31)
+    )
 
 
 class ExsBall(AbstractReference):
