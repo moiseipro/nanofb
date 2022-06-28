@@ -1,7 +1,8 @@
 from django.contrib import admin
-from references.models import VideoSource, ExsBall
+from references.models import VideoSource, ExsBall, UserSeason
 
 # Register your models here.
-admin.site.register(VideoSource)
+admin.site.register([VideoSource, ExsBall])
 
-admin.site.register(ExsBall)
+#For Test
+admin.site.register([UserSeason])

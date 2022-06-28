@@ -6,9 +6,9 @@
     <a href="index.html" class="logo">
         <img src="{% static 'preadmin/img/logo.png' %}" alt="Logo">
     </a>
-    <a href="index.html" class="logo logo-small">
+    <!--<a href="index.html" class="logo logo-small">
         <img src="{% static 'preadmin/img/logo-small.png' %}" alt="Logo" width="30" height="30">
-    </a>
+    </a>-->
 </div>
 <!-- /Logo -->
 {% verbatim %}
@@ -17,21 +17,49 @@
 </a>
 {% endverbatim %}
 
-<div class="top-nav-search">
-    <form>
-        <input type="text" class="form-control" placeholder="Search here">
-        <button class="btn" type="submit"><i class="fa fa-search"></i></button>
-    </form>
-</div>
-
 <!-- Mobile Menu Toggle -->
 <a class="mobile_btn" id="mobile_btn">
     <i class="fa fa-bars"></i>
 </a>
+
+<div class="nav float-right pt-1">
+
+</div>
 <!-- /Mobile Menu Toggle -->
 
 <!-- Header Right Menu -->
 <ul class="nav user-menu">
+
+    <!-- Seasons Lists -->
+    <li class="nav-item dropdown settings-dropdown">
+        <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+            <i class="fa fa-cog" aria-hidden="true"></i>
+        </a>
+        <div class="dropdown-menu settings p-2" style="">
+            {% if seasons_list %}
+                <form>
+                    <select class="select custom-select seasons" tabindex="-1" aria-hidden="true">
+                        {% for season in seasons_list %}
+                            <option value="{{ season.short_name }}">{{ season.name }}</option>
+                        {% empty %}
+                            <option value="">{% trans 'No seasons' %}</option>
+                        {% endfor %}
+                    </select>
+                </form>
+            {% endif %}
+            {% if teams_list %}
+                <form class="mt-2">
+                    <select class="select custom-select teams" tabindex="-1" aria-hidden="true">
+                        {% for team in teams_list %}
+                            <option value="{{ team.short_name }}">{{ team.name }}</option>
+                        {% empty %}
+                            <option value="">{% trans 'No teams' %}</option>
+                        {% endfor %}
+                    </select>
+                </form>
+            {% endif %}
+        </div>
+    </li>
 
     <!-- App Lists -->
     <li class="nav-item dropdown app-dropdown">
