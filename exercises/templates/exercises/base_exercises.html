@@ -174,99 +174,81 @@
         </div>
 
         <div class="modal fade" id="exerciseCardModal" tabindex="-1" role="dialog" aria-labelledby="exerciseCardModalLbl" aria-hidden="true" data-exs="">
-            <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-dialog modal-xl" role="document" style="max-width: 90vw;">
                 <div class="modal-content">
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-2 p-1">
-                                <button type="button" class="btn btn-success btn-sm w-100" id="openDescription">Описание</button>
+                            <div class="col-8 p-1">
+                                <button type="button" class="btn btn-success btn-sm size-w-x" id="openDescription" style="--w-x:15%;">Описание</button>
+                                <button type="button" class="btn btn-secondary btn-sm size-w-x" id="openContent" style="--w-x:15%;">Карточка</button>
+                                <button type="button" class="btn btn-secondary btn-sm btn-only-edit size-w-x" style="--w-x:15%;">Маркировать</button>
+                                <button type="button" class="btn btn-secondary btn-sm size-w-x" id="editExs" data-state="0" style="--w-x:15%;">Редактировать</button>
+                                <button type="button" class="btn btn-secondary btn-sm btn-only-edit size-w-x" style="--w-x:15%;">Отменить</button>
                             </div>
-                            <div class="col-2 p-1">
-                                <button type="button" class="btn btn-secondary btn-sm w-100" id="openContent">Карточка</button>
-                            </div>
-                            <div class="col-2 p-1">
-                                <button type="button" class="btn btn-secondary btn-sm w-100" id="editExs" data-state="0">Редактировать</button>
-                            </div>
-                            <div class="col-2 p-1">
-                                <button type="button" class="btn btn-secondary btn-sm w-100">Отменить</button>
-                            </div>
-                            <div class="col-2 p-1">
-                                <button type="button" class="btn btn-secondary btn-sm w-100">Справочники</button>
-                            </div>
-                            <div class="col-2 p-1">
-                                <button type="button" class="btn btn-danger btn-sm w-100" data-dismiss="modal">Выйти</button>
-                            </div>
-                        </div>
-                        <div class="row btns-edit">
-                            <div class="col-2 p-1 d-flex justify-content-center">
-                                <button type="button" class="btn btn-secondary btn-sm size-w-x mx-1" style="--w-x:50%;" title="Просмотрено">
-                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                            <div class="col-4 p-1 d-flex justify-content-end">
+                                <button type="button" class="btn btn-secondary btn-sm btn-only-edit size-w-x mx-1" style="--w-x:10%;" title="Поделиться">
+                                    <i class="fa fa-share-square-o" aria-hidden="true"></i>
                                 </button>
-                                <button type="button" class="btn btn-secondary btn-sm size-w-x mx-1" style="--w-x:50%;" title="Не просмотрено">
-                                    <i class="fa fa-eye-slash" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                            <div class="col-2 p-1 d-flex justify-content-center">
-                                <button type="button" class="btn btn-secondary btn-sm size-w-x mx-1" style="--w-x:50%;" title="Избранное">
-                                    <i class="fa fa-star-o" aria-hidden="true"></i>
-
-                                </button>
-                                <button type="button" class="btn btn-secondary btn-sm size-w-x mx-1" style="--w-x:50%;" title="Избранное">
-                                    <i class="fa fa-star-o" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                            <div class="col-2 p-1 d-flex justify-content-center">
-                                <button type="button" class="btn btn-secondary btn-sm size-w-x mx-1" style="--w-x:50%;" title="Нравится">
-                                    <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-                                </button>
-                                <button type="button" class="btn btn-secondary btn-sm size-w-x mx-1" style="--w-x:50%;" title="Не нравится">
-                                    <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                            <div class="col-2 p-1 d-flex justify-content-center">
-                                <button type="button" class="btn btn-secondary btn-sm size-w-x mx-1" style="--w-x:50%;" title="Сброс">
-                                    <i class="fa fa-undo" aria-hidden="true"></i>
-                                </button>
-                                <button type="button" class="btn btn-secondary btn-sm size-w-x mx-1" style="--w-x:50%;" title="Копирование">
-                                    <i class="fa fa-files-o" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                            <div class="col-2 p-1 d-flex justify-content-center">
-                                <button type="button" class="btn btn-secondary btn-sm size-w-x mx-1" style="--w-x:50%;" title="Настройки">
-                                    <i class="fa fa-cog" aria-hidden="true"></i>
-                                </button>
-                                <button type="button" class="btn btn-secondary btn-sm size-w-x mx-1" style="--w-x:50%;" title="Удалить">
+                                <button type="button" class="btn btn-secondary btn-sm btn-only-edit size-w-x mx-1" id="deleteExercise" style="--w-x:10%;" title="Удалить">
                                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                                 </button>
-                            </div>
-                            <div class="col-2 p-1 d-flex justify-content-center">
-                                <button type="button" class="btn btn-secondary btn-sm size-w-x mx-1" style="--w-x:50%;" title="Предыдущее">
+                                <button type="button" class="btn btn-danger btn-sm size-w-x" data-dismiss="modal" style="--w-x:30%;">Выйти</button>
+                                <button type="button" class="btn btn-secondary btn-sm btn-only-edit exs-change size-w-x mx-1" data-dir="prev" style="--w-x:10%;" title="Предыдущее">
                                     <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
                                 </button>
-                                <button type="button" class="btn btn-secondary btn-sm size-w-x mx-1" style="--w-x:50%;" title="Следующее">
+                                <button type="button" class="btn btn-secondary btn-sm btn-only-edit exs-change size-w-x mx-1" data-dir="next" style="--w-x:10%;" title="Следующее">
                                     <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
                                 </button>
                             </div>
                         </div>
-                        <hr>
                         <div class="tabs-block">
                             <div class="tab-content" id="cardBlock">
                                 <div class="tab-pane fade show active" id="card_description" role="tabpanel" aria-labelledby="card_content-tab">
                                     <table class="table table-sm table-bordered exercise-card">
                                         <colgroup>
-                                            <col span="1" style="width: 14%;">
-                                            <col span="1" style="width: 13%;">
-                                            <col span="1" style="width: 13%;">
-                                            <col span="1" style="width: 60%;">
+                                            <col span="1" style="width: 20%;">
+                                            <col span="1" style="width: 15%;">
+                                            <col span="1" style="width: 15%;">
+                                            <col span="1" style="width: 15%;">
+                                            <col span="1" style="width: 35%;">
                                          </colgroup>
-                                        <tbody>
+                                         <tbody>
                                             <tr>
-                                                <td colspan="3"></td>
-                                                <td class="text-center">Название</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Основные папки</td>
+                                                <td class="text-center" colspan="3">Название</td>
                                                 <td colspan="2">
+                                                    <div class="row">
+                                                        <div class="col-9 text-center">
+                                                            <span>Условия упражнения</span>
+                                                        </div>
+                                                        <div class="col-3 text-right">
+                                                            <button class="btn btn-secondary btn-sm add-row" data-id="conditions" disabled="">
+                                                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="row-select">
+                                                <td class="text-center" colspan="3">
+                                                    <input name="title" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off" disabled="">
+                                                </td>
+                                                <td class="row-select-td">Организация</td>
+                                                <td class="row-select-td">
+                                                    <div class="row">
+                                                        <div class="col-10 pr-0">
+                                                            <input name="organization[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off" disabled="">
+                                                        </div>
+                                                        <div class="col-2 text-right">
+                                                            <button class="btn btn-secondary btn-sm remove-row" disabled="">
+                                                                <i class="fa fa-minus" aria-hidden="true"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="row-select">
+                                                <td>Основные папки</td>
+                                                <td class="text-center" colspan="2">
                                                     <select name="folder_parent" class="form-control form-control-sm exs_edit_field folder_nfb d-none" required="" autocomplete="off" disabled="">
                                                         <option value="">---</option>
                                                         {% for folder in nfb_folders %}
@@ -284,13 +266,23 @@
                                                         {% endfor %}
                                                     </select>
                                                 </td>
-                                                <td class="text-center">
-                                                    <input name="title" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off" disabled="">
+                                                <td class="row-select-td">Игровые зоны</td>
+                                                <td class="row-select-td">
+                                                    <div class="row">
+                                                        <div class="col-10 pr-0">
+                                                            <input name="play_zone[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off" disabled="">
+                                                        </div>
+                                                        <div class="col-2 text-right">
+                                                            <button class="btn btn-secondary btn-sm remove-row" disabled="">
+                                                                <i class="fa fa-minus" aria-hidden="true"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                             </tr>
-                                            <tr>
+                                            <tr class="row-select">
                                                 <td>Папки</td>
-                                                <td colspan="2">
+                                                <td class="text-center" colspan="2">
                                                     <select name="folder_main" class="form-control form-control-sm exs_edit_field folder_nfb d-none" required="" autocomplete="off" disabled="">
                                                         <option value="">---</option>
                                                         {% for folder in nfb_folders %}
@@ -308,61 +300,127 @@
                                                         {% endfor %}
                                                     </select>
                                                 </td>
-                                                <td class="text-center">Описание</td>
+                                                <td class="row-select-td">Количество игроков</td>
+                                                <td class="row-select-td">
+                                                    <div class="row">
+                                                        <div class="col-10 pr-0">
+                                                            <input name="players_amount[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off" disabled="">
+                                                        </div>
+                                                        <div class="col-2 text-right">
+                                                            <button class="btn btn-secondary btn-sm remove-row" disabled="">
+                                                                <i class="fa fa-minus" aria-hidden="true"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                             </tr>
-                                            <tr class="description-part-row">
+                                            <tr class="row-select">
                                                 <td>Мяч</td>
-                                                <td colspan="2">
+                                                <td class="text-center" colspan="2">
                                                     <select name="ref_ball" class="form-control form-control-sm exs_edit_field" autocomplete="off" disabled="">
                                                         <option value="">---</option>
                                                         {% for elem in refs.exs_ball %}
-                                                            <option value="{{ elem.id }}">{{ elem.name }}</option>
+                                                            <option value="{{ elem.id }}">{{ elem.title }}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </td>
-                                                <td rowspan="13">
-                                                    <div id="descriptionEditor" class="ckeditor exs_edit_field" name="description_text"></div>
+                                                <td class="row-select-td">Количество касаний</td>
+                                                <td class="row-select-td">
+                                                    <div class="row">
+                                                        <div class="col-10 pr-0">
+                                                            <input name="touches_amount[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off" disabled="">
+                                                        </div>
+                                                        <div class="col-2 text-right">
+                                                            <button class="btn btn-secondary btn-sm remove-row" disabled="">
+                                                                <i class="fa fa-minus" aria-hidden="true"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                             </tr>
-                                            <tr>
+                                            <tr class="row-select">
                                                 <td>Ворота</td>
-                                                <td colspan="2">
-                                                    <select name="goal" class="form-control form-control-sm exs_edit_field" autocomplete="off" disabled="">
+                                                <td class="text-center" colspan="2">
+                                                    <select name="ref_goal" class="form-control form-control-sm exs_edit_field" autocomplete="off" disabled="">
                                                         <option value="">---</option>
+                                                        {% for elem in refs.exs_goal %}
+                                                            <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                        {% endfor %}
                                                     </select>
                                                 </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Формат</td>
-                                                <td colspan="2">
-                                                    <select name="players_format" class="form-control form-control-sm exs_edit_field" autocomplete="off" disabled="">
-                                                        <option value="">---</option>
-                                                    </select>
+                                                <td class="row-select-td">Повторения</td>
+                                                <td class="row-select-td">
+                                                    <div class="row">
+                                                        <div class="col-10 pr-0">
+                                                            <input name="iterations[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off" disabled="">
+                                                        </div>
+                                                        <div class="col-2 text-right">
+                                                            <button class="btn btn-secondary btn-sm remove-row" disabled="">
+                                                                <i class="fa fa-minus" aria-hidden="true"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td >Части тренировки</td>
-                                                <td colspan="2">
-                                                    <select name="workout_part" class="form-control form-control-sm exs_edit_field" autocomplete="off" disabled="">
+                                            <tr class="row-select">
+                                                <td>Части тренировки</td>
+                                                <td class="text-center" colspan="2">
+                                                    <select name="ref_workout_part" class="form-control form-control-sm exs_edit_field" autocomplete="off" disabled="">
                                                         <option value="">---</option>
+                                                        {% for elem in refs.exs_workout_part %}
+                                                            <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                        {% endfor %}
                                                     </select>
                                                 </td>
+                                                <td class="row-select-td">Паузы</td>
+                                                <td class="row-select-td">
+                                                    <div class="row">
+                                                        <div class="col-10 pr-0">
+                                                            <input name="pauses[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off" disabled="">
+                                                        </div>
+                                                        <div class="col-2 text-right">
+                                                            <button class="btn btn-secondary btn-sm remove-row" disabled="">
+                                                                <i class="fa fa-minus" aria-hidden="true"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                             </tr>
-                                            <tr>
+                                            <tr class="row-select">
                                                 <td>Когнитивная нагрузка</td>
-                                                <td colspan="2">
-                                                    <select name="cognitive_load" class="form-control form-control-sm exs_edit_field" autocomplete="off" disabled="">
+                                                <td class="text-center" colspan="2">
+                                                    <select name="ref_cognitive_load" class="form-control form-control-sm exs_edit_field" autocomplete="off" disabled="">
                                                         <option value="">---</option>
+                                                        {% for elem in refs.exs_cognitive_load %}
+                                                            <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                        {% endfor %}
                                                     </select>
+                                                </td>
+                                                <td class="row-select-td">Серии</td>
+                                                <td class="row-select-td">
+                                                    <div class="row">
+                                                        <div class="col-10 pr-0">
+                                                            <input name="series[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off" disabled="">
+                                                        </div>
+                                                        <div class="col-2 text-right">
+                                                            <button class="btn btn-secondary btn-sm remove-row" disabled="">
+                                                                <i class="fa fa-minus" aria-hidden="true"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>Категория</td>
-                                                <td colspan="2">
-                                                    <select name="category" class="form-control form-control-sm exs_edit_field" autocomplete="off" disabled="">
+                                                <td class="text-center" colspan="2">
+                                                    <select name="ref_category" class="form-control form-control-sm exs_edit_field" autocomplete="off" disabled="">
                                                         <option value="">---</option>
+                                                        {% for elem in refs.exs_category %}
+                                                            <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                        {% endfor %}
                                                     </select>
                                                 </td>
+                                                <td colspan="2"></td>
                                             </tr>
                                             <tr>
                                                 <td>Возраст</td>
@@ -372,103 +430,150 @@
                                                 <td>
                                                     <input name="age[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off" disabled="">
                                                 </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Количество игроков</td>
-                                                <td>
-                                                    <input name="players_amount[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off" disabled="">
-                                                </td>
-                                                <td>
-                                                    <input name="players_amount[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off" disabled="">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="3" class="text-right">
-                                                    <button class="btn btn-secondary btn-sm add-row row-group-1" data-num="1" disabled="">
-                                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr class="row-select row-group-1">
-                                                <td>Физические качества</td>
                                                 <td colspan="2">
-                                                    <select name="physical_qualities[]" class="form-control form-control-sm exs_edit_field" autocomplete="off" disabled="">
-                                                        <option value="">---</option>
-                                                    </select>
-                                                </td>
-                                            </tr>
-                                            <tr class="row-select row-group-1">
-                                                <td>Физическая нагрузка</td>
-                                                <td colspan="2">
-                                                    <select name="physical_stress[]" class="form-control form-control-sm exs_edit_field" autocomplete="off" disabled="">
-                                                        <option value="">---</option>
-                                                    </select>
-                                                </td>
-                                            </tr>
-                                            <tr class="row-select row-group-1">
-                                                <td>Задачи / направленность</td>
-                                                <td colspan="2">
-                                                    <select name="focuses[]" class="form-control form-control-sm exs_edit_field" autocomplete="off" disabled="">
-                                                        <option value="">---</option>
-                                                    </select>
+                                                    <div class="row">
+                                                        <div class="col-9 text-center">
+                                                            <span>Цели / задачи</span>
+                                                        </div>
+                                                        <div class="col-3 text-right">
+                                                            <button class="btn btn-secondary btn-sm">
+                                                                <i class="fa fa-info" aria-hidden="true"></i>
+                                                            </button>
+                                                            <button class="btn btn-secondary btn-sm add-row" data-id="purposes" disabled="">
+                                                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="3" class="text-right">
-                                                    <button class="btn btn-secondary btn-sm add-row row-group-2" data-num="2" disabled="">
-                                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr class="row-select row-group-2">
-                                                <td>Игровая зона m2</td>
-                                                <td colspan="2">
-                                                    <input name="play_zone[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off" disabled="">
-                                                </td>
-                                                <td class="text-center">Коучинг</td>
-                                            </tr>
-                                            <tr class="row-select row-group-2">
-                                                <td>Нейтральные</td>
-                                                <td colspan="2">
-                                                    <input name="neutral[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off" disabled="">
-                                                </td>
-                                                <td rowspan="4">
-                                                    <div id="coachingEditor" class="ckeditor exs_edit_field" name="coaching_text"></div>
-                                                </td>
-                                            </tr>
-                                            <tr class="row-select row-group-2">
-                                                <td>Количество касаний</td>
-                                                <td colspan="2">
-                                                    <input name="touches_amount[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off" disabled="">
-                                                </td>
-                                            </tr>
-                                            <tr class="row-select row-group-2">
-                                                <td>Серии / повторения</td>
-                                                <td colspan="2">
-                                                    <input name="series[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off" disabled="">
-                                                </td>
-                                            </tr>
-                                            <tr class="row-select row-group-2">
-                                                <td>Паузы</td>
-                                                <td colspan="2">
-                                                    <input name="pauses[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off" disabled="">
+                                                <td colspan="3"></td>
+                                                <td data-id="td_purposes" colspan="2">
+                                                    <div class="row">
+                                                        <div class="col-10 pr-0">
+                                                            <select name="ref_purposes[]" class="form-control form-control-sm exs_edit_field" autocomplete="off" disabled="">
+                                                                <option value="">---</option>
+                                                                {% for elem in refs.exs_purposes %}
+                                                                    <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-2 text-right">
+                                                            <button class="btn btn-secondary btn-sm remove-row" disabled="">
+                                                                <i class="fa fa-minus" aria-hidden="true"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="3" class="text-right">
-                                                    <button class="btn btn-secondary btn-sm add-row row-group-3" data-num="3" disabled="">
-                                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                                    </button>
-                                                </td>
-                                                <td></td>
+                                                <td class="text-center" colspan="3">Описание</td>
+                                                <td colspan="2"></td>
                                             </tr>
-                                            <tr class="row-select row-group-3">
-                                                <td colspan="3">
-                                                    <input name="notes[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off" disabled="">
+                                            <tr>
+                                                <td colspan="3" rowspan="10">
+                                                    <div id="descriptionEditor" class="ckeditor" name="description_text"></div>
                                                 </td>
-                                                <td></td>
+                                                <td colspan="2">
+                                                    <div class="row">
+                                                        <div class="col-9 text-center">
+                                                            <span>Тип нагрузки</span>
+                                                        </div>
+                                                        <div class="col-3 text-right">
+                                                            <button class="btn btn-secondary btn-sm">
+                                                                <i class="fa fa-info" aria-hidden="true"></i>
+                                                            </button>
+                                                            <button class="btn btn-secondary btn-sm add-row" data-id="stress_type" disabled="">
+                                                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                             </tr>
-                                        </tbody>
+                                            <tr>
+                                                <td data-id="td_stress_type" colspan="2">
+                                                    <div class="row">
+                                                        <div class="col-10 pr-0">
+                                                            <select name="ref_stress_type[]" class="form-control form-control-sm exs_edit_field" autocomplete="off" disabled="">
+                                                                <option value="">---</option>
+                                                                {% for elem in refs.exs_stress_types %}
+                                                                    <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-2 text-right">
+                                                            <button class="btn btn-secondary btn-sm remove-row" disabled="">
+                                                                <i class="fa fa-minus" aria-hidden="true"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <div class="row">
+                                                        <div class="col-9 text-center">
+                                                            <span>Коучинг</span>
+                                                        </div>
+                                                        <div class="col-3 text-right">
+                                                            <button class="btn btn-secondary btn-sm">
+                                                                <i class="fa fa-info" aria-hidden="true"></i>
+                                                            </button>
+                                                            <button class="btn btn-secondary btn-sm add-row" data-id="coaching" disabled="">
+                                                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td data-id="td_coaching" colspan="2">
+                                                    <div class="row">
+                                                        <div class="col-10 pr-0">
+                                                            <select name="ref_coaching[]" class="form-control form-control-sm exs_edit_field" autocomplete="off" disabled="">
+                                                                <option value="">---</option>
+                                                                {% for elem in refs.exs_coachings %}
+                                                                    <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-2 text-right">
+                                                            <button class="btn btn-secondary btn-sm remove-row" disabled="">
+                                                                <i class="fa fa-minus" aria-hidden="true"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <div class="row">
+                                                        <div class="col-9 text-center">
+                                                            <span>Примечания</span>
+                                                        </div>
+                                                        <div class="col-3 text-right">
+                                                            <button class="btn btn-secondary btn-sm add-row" data-id="notes" disabled="">
+                                                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td data-id="td_notes" colspan="2">
+                                                    <div class="row">
+                                                        <div class="col-10 pr-0">
+                                                            <input name="notes[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off" disabled="">
+                                                        </div>
+                                                        <div class="col-2 text-right">
+                                                            <button class="btn btn-secondary btn-sm remove-row" disabled="">
+                                                                <i class="fa fa-minus" aria-hidden="true"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="tab-pane fade" id="card_content" role="tabpanel" aria-labelledby="card_content-tab">

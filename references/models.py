@@ -134,7 +134,55 @@ class ClubSeason(AbstractReference, MixClubReference):
     )
 
 
-class ExsBall(AbstractReference):
-    pass
+class ExsBall(AbstractReference, MixTranslateReference):
+    class Meta:
+        abstract = False
+        ordering = ['order']
+
+
+class ExsGoal(AbstractReference, MixTranslateReference):
+    class Meta:
+        abstract = False
+        ordering = ['order']
+
+
+class ExsWorkoutPart(AbstractReference, MixTranslateReference):
+    class Meta:
+        abstract = False
+        ordering = ['order']
+
+
+class ExsCognitiveLoad(AbstractReference, MixTranslateReference):
+    class Meta:
+        abstract = False
+        ordering = ['order']
+
+
+class ExsCategory(AbstractReference, MixTranslateReference):
+    class Meta:
+        abstract = False
+        ordering = ['order']
+
+
+
+class ExsPurpose(AbstractReference, MixTranslateReference):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    class Meta:
+        abstract = False
+        ordering = ['order']
+
+
+class ExsStressType(AbstractReference, MixTranslateReference):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    class Meta:
+        abstract = False
+        ordering = ['order']
+
+
+class ExsCoaching(AbstractReference, MixTranslateReference):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    class Meta:
+        abstract = False
+        ordering = ['order']
 
 

@@ -1,18 +1,28 @@
+from tkinter.messagebox import NO
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from users.models import User
 from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, AdminExercise
-from references.models import ExsBall
+from references.models import ExsBall, ExsGoal, ExsWorkoutPart, ExsCognitiveLoad, ExsCategory, ExsPurpose, ExsStressType, ExsCoaching
+
+
+LANG_CODE_DEFAULT = "en"
 
 
 def get_by_language_code(value, code):
+    res = ""
     try:
-        return value[code]
+        res = value[code]
     except:
         pass
-    return ""
+    if res == "":
+        try:
+            res = value[LANG_CODE_DEFAULT]
+        except:
+            pass
+    return res
 
 
 def set_by_language_code(elem, code, value, value2 = None):
@@ -25,13 +35,33 @@ def set_by_language_code(elem, code, value, value2 = None):
     return elem
 
 
-def set_int_value(request, name, def_value = None):
+def set_value_as_int(request, name, def_value = None):
     res = def_value
     try:
         res = int(request.POST.get(name, def_value))
     except:
         pass
     return res
+
+
+def set_value_as_list(request, name, name2 = None, def_value = None):
+    res = def_value
+    value_from_req = request.POST.getlist(name, def_value)
+    value2_from_req = request.POST.getlist(name2, def_value)
+    if name2 and type(value2_from_req) is list and len(value2_from_req) > 0:
+        value_from_req = value2_from_req
+    if type(value_from_req) is list and len(value_from_req) > 0:
+        res = value_from_req
+    return res
+
+
+def set_refs_translations(data, lang_code):
+    for key in data:
+        elems = data[key]
+        for elem in elems:
+            title = get_by_language_code(elem['translation_names'], lang_code)
+            elem['title'] = title if title != "" else elem['name']
+    return data
 
 
 def exercises(request):
@@ -43,13 +73,21 @@ def exercises(request):
     refs = {}
     if cur_user.exists() and cur_user[0].club_id != None:
         # добавить проверку на клуб версию
-        found_folders = UserFolder.objects.filter(user_id=cur_user[0], visible=True).values()
+        found_folders = UserFolder.objects.filter(user=cur_user[0], visible=True).values()
     found_nfb_folders = AdminFolder.objects.filter(visible=True).values()
     for elem in found_folders:
         elem['root'] = False if elem['parent'] and elem['parent'] != 0 else True
     for elem in found_nfb_folders:
         elem['root'] = False if elem['parent'] and elem['parent'] != 0 else True
     refs['exs_ball'] = ExsBall.objects.filter().values()
+    refs['exs_goal'] = ExsGoal.objects.filter().values()
+    refs['exs_workout_part'] = ExsWorkoutPart.objects.filter().values()
+    refs['exs_cognitive_load'] = ExsCognitiveLoad.objects.filter().values()
+    refs['exs_category'] = ExsCategory.objects.filter().values()
+    refs['exs_purposes'] = ExsPurpose.objects.filter(user=cur_user[0]).values()
+    refs['exs_stress_types'] = ExsStressType.objects.filter(user=cur_user[0]).values()
+    refs['exs_coachings'] = ExsCoaching.objects.filter(user=cur_user[0]).values()
+    refs = set_refs_translations(refs, request.LANGUAGE_CODE)
     return render(request, 'exercises/base_exercises.html', {'folders': found_folders, 'folders_only_view': True, 'nfb_folders': found_nfb_folders, 'refs': refs})
 
 
@@ -60,7 +98,7 @@ def folders(request):
     found_folders = []
     if cur_user.exists() and cur_user[0].club_id != None:
         # добавить проверку на клуб версию
-        found_folders = UserFolder.objects.filter(user_id=cur_user[0])
+        found_folders = UserFolder.objects.filter(user=cur_user[0])
     return render(request, 'exercises/base_folders.html', {'folders': found_folders, 'folders_only_view': False})
 
 
@@ -72,6 +110,7 @@ def exercises_api(request):
     if request.method == "POST" and is_ajax:
         copy_exs_status = 0
         edit_exs_status = 0
+        delete_exs_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         if not cur_user.exists() or cur_user[0].id == None:
             return JsonResponse({"errors": "trouble_with_user"}, status=400)
@@ -81,6 +120,10 @@ def exercises_api(request):
             pass
         try:
             edit_exs_status = int(request.POST.get("edit_exs", 0))
+        except:
+            pass
+        try:
+            delete_exs_status = int(request.POST.get("delete_exs", 0))
         except:
             pass
         if copy_exs_status == 1:
@@ -105,7 +148,7 @@ def exercises_api(request):
                 if is_nfb_folder == 1:
                     c_exs = AdminExercise.objects.filter(id=exs_id)
                     if c_exs.exists() and c_exs[0].id != None:
-                        new_exs = UserExercise(user_id=cur_user[0])
+                        new_exs = UserExercise(user=cur_user[0])
                         for key in c_exs.values()[0]:
                             if key != "id" and key != "date_creation":
                                 setattr(new_exs, key, c_exs.values()[0][key])
@@ -118,7 +161,7 @@ def exercises_api(request):
                 else:
                     c_exs = UserExercise.objects.filter(id=exs_id)
                     if c_exs.exists() and c_exs[0].id != None:
-                        new_exs = UserExercise(user_id=cur_user[0])
+                        new_exs = UserExercise(user=cur_user[0])
                         for key in c_exs.values()[0]:
                             if key != "id" and key != "date_creation":
                                 setattr(new_exs, key, c_exs.values()[0][key])
@@ -129,7 +172,7 @@ def exercises_api(request):
                         except Exception as e:
                             res_data = {'id': new_exs.id, 'success': False, 'err': str(e)}
                 return JsonResponse({"data": res_data}, status=200)
-        if edit_exs_status == 1:
+        elif edit_exs_status == 1:
             exs_id = -1
             folder_id = -1
             try:
@@ -145,42 +188,56 @@ def exercises_api(request):
                 return JsonResponse({"err": "Folder not found.", "success": False}, status=200)
             c_exs = UserExercise.objects.filter(id=exs_id)
             if not c_exs.exists() or c_exs[0].id == None:
-                c_exs = UserExercise(user_id=cur_user[0], folder=c_folder[0])
+                c_exs = UserExercise(user=cur_user[0], folder=c_folder[0])
             else:
                 c_exs = c_exs[0]
                 c_exs.folder = c_folder[0]
+            print(request.POST)
             c_exs.title = set_by_language_code(c_exs.title, request.LANGUAGE_CODE, request.POST.get("data[title]", ""))
             c_exs.description = set_by_language_code(c_exs.description, request.LANGUAGE_CODE, request.POST.get("data[description]", ""))
-            c_exs.coaching = set_by_language_code(c_exs.coaching, request.LANGUAGE_CODE, request.POST.get("data[coaching]", ""))
-            
-            print(request.POST)
-
-            c_exs.ref_ball = set_int_value(request, "data[ref_ball]", None)
+            c_exs.ref_ball = set_value_as_int(request, "data[ref_ball]", None)
+            c_exs.ref_goal = set_value_as_int(request, "data[ref_goal]", None)
+            c_exs.ref_workout_part = set_value_as_int(request, "data[ref_workout_part]", None)
+            c_exs.ref_cognitive_load = set_value_as_int(request, "data[ref_cognitive_load]", None)
+            c_exs.ref_category = set_value_as_int(request, "data[ref_category]", None)
             try:
                 t_vals = request.POST.getlist("data[age[]][]", "")
                 t_val_str = f'{t_vals[0]},{t_vals[1]}'
                 c_exs.age = t_val_str
             except:
                 pass
-            try:
-                t_vals = request.POST.getlist("data[players_amount[]][]", "")
-                t_val_str = f'{t_vals[0]},{t_vals[1]}'
-                c_exs.players_amount = t_val_str
-            except:
-                pass
-
+            c_exs.organization = set_by_language_code(c_exs.organization, request.LANGUAGE_CODE, request.POST.getlist("data[organization[]]", ""), request.POST.getlist("data[organization[]][]", ""))
             c_exs.play_zone = set_by_language_code(c_exs.play_zone, request.LANGUAGE_CODE, request.POST.getlist("data[play_zone[]]", ""), request.POST.getlist("data[play_zone[]][]", ""))
-            c_exs.neutral = set_by_language_code(c_exs.neutral, request.LANGUAGE_CODE, request.POST.getlist("data[neutral[]]", ""), request.POST.getlist("data[neutral[]][]", ""))
+            c_exs.players_amount = set_by_language_code(c_exs.players_amount, request.LANGUAGE_CODE, request.POST.getlist("data[players_amount[]]", ""), request.POST.getlist("data[players_amount[]][]", ""))
             c_exs.touches_amount = set_by_language_code(c_exs.touches_amount, request.LANGUAGE_CODE, request.POST.getlist("data[touches_amount[]]", ""), request.POST.getlist("data[touches_amount[]][]", ""))
-            c_exs.series = set_by_language_code(c_exs.series, request.LANGUAGE_CODE, request.POST.getlist("data[series[]]", ""), request.POST.getlist("data[series[]][]", ""))
+            c_exs.iterations = set_by_language_code(c_exs.iterations, request.LANGUAGE_CODE, request.POST.getlist("data[iterations[]]", ""), request.POST.getlist("data[iterations[]][]", ""))
             c_exs.pauses = set_by_language_code(c_exs.pauses, request.LANGUAGE_CODE, request.POST.getlist("data[pauses[]]", ""), request.POST.getlist("data[pauses[]][]", ""))
+            c_exs.series = set_by_language_code(c_exs.series, request.LANGUAGE_CODE, request.POST.getlist("data[series[]]", ""), request.POST.getlist("data[series[]][]", ""))
             c_exs.notes = set_by_language_code(c_exs.notes, request.LANGUAGE_CODE, request.POST.getlist("data[notes[]]", ""), request.POST.getlist("data[notes[]][]", ""))
+            c_exs.ref_purpose = set_value_as_list(request, "data[ref_purposes[]]", "data[ref_purposes[]][]", None)
+            c_exs.ref_stress_type = set_value_as_list(request, "data[ref_stress_type[]]", "data[ref_stress_type[]][]", None)
+            c_exs.ref_coaching = set_value_as_list(request, "data[ref_coaching[]]", "data[ref_coaching[]][]", None)
             try:
                 c_exs.save()
                 res_data = f'Exs with id: [{c_exs.id}] is added / edited successfully.'
             except Exception as e:
                 return JsonResponse({"err": "Can't edit the exs.", "success": False}, status=200)
             return JsonResponse({"data": res_data, "success": True}, status=200)
+        elif delete_exs_status == 1:
+            exs_id = -1
+            try:
+                exs_id = int(request.POST.get("exs", -1))
+            except:
+                pass
+            c_exs = UserExercise.objects.filter(id=exs_id, user=cur_user[0])
+            if not c_exs.exists() or c_exs[0].id == None:
+                return JsonResponse({"errors": "access_error"}, status=400)
+            else:
+                try:
+                    c_exs.delete()
+                    return JsonResponse({"data": {"id": exs_id}, "success": True}, status=200)
+                except:
+                    return JsonResponse({"errors": "Can't delete exercise"}, status=400)
         return JsonResponse({"errors": "access_error"}, status=400)
     elif request.method == "GET" and is_ajax:
         get_exs_all_status = 0
@@ -222,7 +279,7 @@ def exercises_api(request):
                 for exercise in found_exercises:
                     res_exs.append({'id': exercise.id, 'folder': exercise.folder.id, 'user': "NFB"})
             else:
-                cur_folder = UserFolder.objects.filter(id=folder_id, user_id=cur_user[0])
+                cur_folder = UserFolder.objects.filter(id=folder_id, user=cur_user[0])
                 if not cur_folder.exists() or cur_folder[0].id == None:
                     return JsonResponse({"errors": "trouble_with_folder"}, status=400)
                 found_exercises = []
@@ -232,7 +289,7 @@ def exercises_api(request):
                 else:
                     found_exercises = UserExercise.objects.filter(folder = cur_folder[0])
                 for exercise in found_exercises:
-                    res_exs.append({'id': exercise.id, 'folder': exercise.folder.id, 'user': exercise.user_id.email})
+                    res_exs.append({'id': exercise.id, 'folder': exercise.folder.id, 'user': exercise.user.email})
             return JsonResponse({"data": res_exs, "success": True}, status=200)
         elif get_exs_one_status == 1:
             exs_id = -1
@@ -255,13 +312,15 @@ def exercises_api(request):
                     res_exs['folder_parent_id'] = c_exs[0].folder.parent
             res_exs['title'] = get_by_language_code(res_exs['title'], request.LANGUAGE_CODE)
             res_exs['description'] = get_by_language_code(res_exs['description'], request.LANGUAGE_CODE)
+
+            res_exs['organization'] = get_by_language_code(res_exs['organization'], request.LANGUAGE_CODE)
             res_exs['play_zone'] = get_by_language_code(res_exs['play_zone'], request.LANGUAGE_CODE)
-            res_exs['neutral'] = get_by_language_code(res_exs['neutral'], request.LANGUAGE_CODE)
+            res_exs['players_amount'] = get_by_language_code(res_exs['players_amount'], request.LANGUAGE_CODE)
             res_exs['touches_amount'] = get_by_language_code(res_exs['touches_amount'], request.LANGUAGE_CODE)
-            res_exs['series'] = get_by_language_code(res_exs['series'], request.LANGUAGE_CODE)
+            res_exs['iterations'] = get_by_language_code(res_exs['iterations'], request.LANGUAGE_CODE)
             res_exs['pauses'] = get_by_language_code(res_exs['pauses'], request.LANGUAGE_CODE)
+            res_exs['series'] = get_by_language_code(res_exs['series'], request.LANGUAGE_CODE)
             res_exs['notes'] = get_by_language_code(res_exs['notes'], request.LANGUAGE_CODE)
-            res_exs['coaching'] = get_by_language_code(res_exs['coaching'], request.LANGUAGE_CODE)
             return JsonResponse({"data": res_exs, "success": True}, status=200)
         return JsonResponse({"errors": "access_error"}, status=400)
     else:
@@ -300,7 +359,7 @@ def folders_api(request):
         
         if delete_status == 1:
             res_data = {'type': "error", 'err': "Cant delete record."}
-            found_folder = UserFolder.objects.get(id=c_id, user_id=cur_user[0]) # либо проверка клубной папки
+            found_folder = UserFolder.objects.get(id=c_id, user=cur_user[0]) # либо проверка клубной папки
             if found_folder and found_folder.id != None:
                 fId = found_folder.id
                 try:
@@ -322,7 +381,7 @@ def folders_api(request):
                     t_order = int(ordering_data[c_ind])
                 except:
                     pass
-                found_folder = UserFolder.objects.get(id=t_id, user_id=cur_user[0])
+                found_folder = UserFolder.objects.get(id=t_id, user=cur_user[0])
                 if found_folder and found_folder.id != None:
                     found_folder.order = t_order
                     try:
@@ -337,7 +396,7 @@ def folders_api(request):
         short_name = request.POST.get("short_name", "")
         found_folder = None
         try:
-            found_folder = UserFolder.objects.get(id=c_id, user_id=cur_user[0]) # либо проверка клубной папки
+            found_folder = UserFolder.objects.get(id=c_id, user=cur_user[0]) # либо проверка клубной папки
         except:
             pass
         res_data = {'type': "error", 'err': "Cant create or edit record."}
@@ -350,7 +409,7 @@ def folders_api(request):
             except Exception as e:
                 res_data = {'id': found_folder.id, 'type': "error", 'err': str(e)}
         else:
-            new_folder = UserFolder(name=name, short_name=short_name, parent=parent_id, user_id=cur_user[0])
+            new_folder = UserFolder(name=name, short_name=short_name, parent=parent_id, user=cur_user[0])
             try:
                 new_folder.save()
                 new_folder.order = new_folder.id
@@ -383,7 +442,7 @@ def folders_api(request):
         if nfb_folders_set_status == 1:
             is_success = True
             # Либо удалять, потом добавлять для клуба, в зависимости от вепсии пользователя и его прав
-            user_old_folders = UserFolder.objects.filter(user_id=cur_user[0])
+            user_old_folders = UserFolder.objects.filter(user=cur_user[0])
             try:
                 user_old_folders.delete()
             except Exception as e:
@@ -393,7 +452,7 @@ def folders_api(request):
             if is_success:
                 folders = AdminFolder.objects.only("short_name", "name", "parent")
                 for folder in folders:
-                    new_folder = UserFolder(name=folder.name, short_name=folder.short_name, parent=0, user_id=cur_user[0])
+                    new_folder = UserFolder(name=folder.name, short_name=folder.short_name, parent=0, user=cur_user[0])
                     try:
                         new_folder.save()
                         folder.new_id = new_folder.id
@@ -406,7 +465,7 @@ def folders_api(request):
                     for compare_folder in folders:
                         if folder.parent == compare_folder.id:
                             try:
-                                c_folder = UserFolder.objects.get(id=folder.new_id, user_id=cur_user[0])
+                                c_folder = UserFolder.objects.get(id=folder.new_id, user=cur_user[0])
                                 if c_folder and c_folder.id != None:
                                     c_folder.parent = compare_folder.new_id
                                     c_folder.save()
@@ -418,7 +477,6 @@ def folders_api(request):
                         break
             if is_success:
                 res_data = {'type': "nfb_folders_set"}
-            print(res_data)
             return JsonResponse({"data": res_data}, status=200)
         return JsonResponse({"errors": "access_error"}, status=400)
     else:

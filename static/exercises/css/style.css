@@ -34,7 +34,17 @@ div.side-filter-block {
     width: var(--w-x) !important;
 }
 
-.row-select.active {
+.row-select.active > .row-select-td {
     background-color: #007bff;
+}
+
+
+.folders_list {
+    height: 60vh !important;
+    overflow-y: auto;
+}
+.exs-list-group {
+    height: 60vh !important;
+    overflow-y: auto;
 }
 

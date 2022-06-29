@@ -43,7 +43,7 @@ class AdminFolder(AbstractFolder):
 
 
 class UserFolder(AbstractFolder):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     objects = models.Manager()
 
     class Meta(AbstractFolder.Meta):
@@ -54,7 +54,7 @@ class UserFolder(AbstractFolder):
 
 
 class ClubFolder(AbstractFolder):
-    # club_id = models.ForeignKey(Club, on_delete=models.CASCADE)
+    # club = models.ForeignKey(Club, on_delete=models.CASCADE)
     objects = models.Manager()
     
     class Meta(AbstractFolder.Meta):
@@ -83,29 +83,26 @@ class AbstractExercise(models.Model):
         blank=True, null=True
     )
 
-    ref_ball = models.IntegerField(null=True, blank=True) # models.ForeignKey(RefBall, on_delete=models.CASCADE)
-    ref_goal = models.IntegerField(null=True, blank=True) # models.ForeignKey(RefGoal, on_delete=models.CASCADE)
-    ref_players_format = models.IntegerField(null=True, blank=True) # models.ForeignKey(RefPlayersFormat, on_delete=models.CASCADE)
-    ref_workout_part = models.IntegerField(null=True, blank=True) # models.ForeignKey(RefWorkoutPart, on_delete=models.CASCADE)
-    ref_cognitive_load = models.IntegerField(null=True, blank=True) # models.ForeignKey(RefrefCognitiveLoad, on_delete=models.CASCADE)
-    ref_category = models.IntegerField(null=True, blank=True) # models.ForeignKey(RefCategory, on_delete=models.CASCADE)
-    age = models.CharField(max_length=10, null=True, blank=True, validators=[int_list_validator])
-    players_amount = models.CharField(max_length=10, null=True, blank=True, validators=[int_list_validator])
-    # пока нет справочников:
-    # ref_physical_qualities = models.ManyToManyField(RefPhysicalQuality)
-    # ref_physical_stress = models.ManyToManyField(RefPhysicalStress)
-    # ref_focuses = models.ManyToManyField(RefFocus)
-    # Ниже текстовая инфо-ия представляет собой json структуру, где для каждого текста свой перевод.
-
-    play_zone = models.JSONField(null=True, blank=True)
-    neutral = models.JSONField(null=True, blank=True)
-    touches_amount = models.JSONField(null=True, blank=True)
-    series = models.JSONField(null=True, blank=True)
-    pauses = models.JSONField(null=True, blank=True)
-    notes = models.JSONField(null=True, blank=True)
     title = models.JSONField(null=True, blank=True)
-    description = models.JSONField(null=True, blank=True) # "{'ru':<t>....</t>,'en':<t>....</t>}"
-    coaching = models.JSONField(null=True, blank=True)
+    ref_ball = models.IntegerField(null=True, blank=True)
+    ref_goal = models.IntegerField(null=True, blank=True)
+    ref_workout_part = models.IntegerField(null=True, blank=True)
+    ref_cognitive_load = models.IntegerField(null=True, blank=True)
+    ref_category = models.IntegerField(null=True, blank=True)
+    age = models.CharField(max_length=10, null=True, blank=True, validators=[int_list_validator])
+    description = models.JSONField(null=True, blank=True)
+
+    organization = models.JSONField(null=True, blank=True)
+    play_zone = models.JSONField(null=True, blank=True)
+    players_amount = models.JSONField(null=True, blank=True)
+    touches_amount = models.JSONField(null=True, blank=True)
+    iterations = models.JSONField(null=True, blank=True)
+    pauses = models.JSONField(null=True, blank=True)
+    series = models.JSONField(null=True, blank=True)
+    ref_purpose = models.JSONField(null=True, blank=True)
+    ref_stress_type = models.JSONField(null=True, blank=True)
+    ref_coaching = models.JSONField(null=True, blank=True)
+    notes = models.JSONField(null=True, blank=True)
 
     scheme_data = models.JSONField(null=True, blank=True) # {'data': ["<svg>...</svg>", "<svg>...</svg>", "<svg>...</svg>", ...]}
     video_data = models.JSONField(null=True, blank=True) # {'data': [{'id': ""}, {'youtubeID': ""},....]}
@@ -127,14 +124,14 @@ class AdminExercise(AbstractExercise):
 
 
 class UserExercise(AbstractExercise):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     folder = models.ForeignKey(UserFolder, on_delete=models.CASCADE)
     class Meta(AbstractExercise.Meta):
         abstract = False
 
 
 class ClubExercise(AbstractExercise):
-    # club_id = models.ForeignKey(Club, on_delete=models.CASCADE)
+    # club = models.ForeignKey(Club, on_delete=models.CASCADE)
     folder = models.ForeignKey(ClubFolder, on_delete=models.CASCADE)
     class Meta(AbstractExercise.Meta):
         abstract = False

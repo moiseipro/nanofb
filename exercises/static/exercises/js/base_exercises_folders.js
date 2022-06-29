@@ -232,7 +232,6 @@ $(function() {
                 $('#folderChangeModal').modal('hide');
             },
             error: function (res) {
-                alert(res.responseJSON.errors);
                 console.log(res.responseJSON.errors)
             }
         });
@@ -339,7 +338,7 @@ $(function() {
                     if (res.data.type && res.data.type == "nfb_folders_set") {
                         window.location.reload();
                     } else {
-                        alert("Произошла ошибка.");
+                        swal("Ошибка", "Не удалось скопировать структуру папок.", "error");
                     }
                 },
                 error: function (res) {
