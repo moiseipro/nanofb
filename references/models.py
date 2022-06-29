@@ -84,6 +84,9 @@ class VideoSource(AbstractReference):
             name=_('NFTV'))
         return video.pk
 
+    class Meta(AbstractReference.Meta):
+        pass
+
 
 class TeamStatus(AbstractReference):
 
@@ -92,6 +95,9 @@ class TeamStatus(AbstractReference):
         team_status, created = cls.objects.get_or_create(
             name=_('None'))
         return team_status.pk
+
+    class Meta(AbstractReference.Meta):
+        pass
 
 
 # User Reference
@@ -107,9 +113,13 @@ class UserTeam(AbstractReference, MixUserReference):
 
 class UserSeason(AbstractReference, MixUserReference):
     date_with = models.DateField(
+        verbose_name=_('start date'),
+        help_text=_('Start date of the season.'),
         default=date(date.today().year, 1, 1)
     )
     date_by = models.DateField(
+        verbose_name=_('end date'),
+        help_text=_('End date of the season.'),
         default=date(date.today().year, 12, 31)
     )
 
@@ -127,62 +137,61 @@ class ClubTeam(AbstractReference, MixClubReference):
 
 class ClubSeason(AbstractReference, MixClubReference):
     date_with = models.DateField(
+        verbose_name=_('start date'),
+        help_text=_('Start date of the season.'),
         default=date(date.today().year, 1, 1)
     )
     date_by = models.DateField(
+        verbose_name=_('end date'),
+        help_text=_('End date of the season.'),
         default=date(date.today().year, 12, 31)
     )
 
 
 class ExsBall(AbstractReference, MixTranslateReference):
-    class Meta:
-        abstract = False
-        ordering = ['order']
+    class Meta(AbstractReference.Meta):
+        pass
 
 
 class ExsGoal(AbstractReference, MixTranslateReference):
-    class Meta:
-        abstract = False
-        ordering = ['order']
+    class Meta(AbstractReference.Meta):
+        pass
 
 
 class ExsWorkoutPart(AbstractReference, MixTranslateReference):
-    class Meta:
-        abstract = False
-        ordering = ['order']
+    class Meta(AbstractReference.Meta):
+        pass
 
 
 class ExsCognitiveLoad(AbstractReference, MixTranslateReference):
-    class Meta:
-        abstract = False
-        ordering = ['order']
+    class Meta(AbstractReference.Meta):
+        pass
 
 
 class ExsCategory(AbstractReference, MixTranslateReference):
-    class Meta:
-        abstract = False
-        ordering = ['order']
+    class Meta(AbstractReference.Meta):
+        pass
 
 
 
 class ExsPurpose(AbstractReference, MixTranslateReference):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    class Meta:
-        abstract = False
-        ordering = ['order']
+
+    class Meta(AbstractReference.Meta):
+        pass
 
 
 class ExsStressType(AbstractReference, MixTranslateReference):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    class Meta:
-        abstract = False
-        ordering = ['order']
+
+    class Meta(AbstractReference.Meta):
+        pass
 
 
 class ExsCoaching(AbstractReference, MixTranslateReference):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    class Meta:
-        abstract = False
-        ordering = ['order']
+
+    class Meta(AbstractReference.Meta):
+        pass
 
 

@@ -1,9 +1,12 @@
+from datetime import date
+
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy as _p
 
 from clubs.models import Club
+from references.models import UserTeam, ClubTeam
 from users.models import User
 
 
@@ -67,3 +70,27 @@ class ClubEvent(AbstractEvent):
 
     class Meta(AbstractEvent.Meta):
         pass
+
+
+class UserMicrocycles(models.Model):
+    team_id = models.ForeignKey(
+        UserTeam,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+    name = models.CharField(
+        verbose_name=_('title'),
+        help_text=_("Name of the microcycle. The maximum length is 60 characters"),
+        max_length=60,
+        null=True,
+        blank=True,
+    )
+    date_with = models.DateField(
+        verbose_name=_('start date'),
+        help_text=_('Start date of the microcycle.'),
+    )
+    date_by = models.DateField(
+        verbose_name=_('end date'),
+        help_text=_('End date of the microcycle.'),
+    )

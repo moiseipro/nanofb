@@ -15,7 +15,7 @@ def change_season(request):
 
 def change_team(request):
     if request.method == "POST":
-        if request.POST['season_value'] is None:
+        if request.POST['team_value'] is None:
             request.session['team'] = UserTeam.objects.filter(user_id=request.user).first().id
         else:
             request.session['team'] = request.POST['team_value']
