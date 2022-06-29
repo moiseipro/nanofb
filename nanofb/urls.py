@@ -34,6 +34,7 @@ urlpatterns = [
     path('exercises/', include(('exercises.urls', 'exercises'), namespace='exercises')),
     path('matches/', include(('matches.urls', 'matches'), namespace='matches')),
     path('events/', include(('events.urls', 'events'), namespace='events')),
+    path('references/', include(('references.urls', 'references'), namespace='references')),
 
     path('i18n/', include('django.conf.urls.i18n')),
 ]
