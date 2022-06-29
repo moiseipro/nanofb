@@ -17,6 +17,16 @@ $(document).ready(function() {
         console.log(this.form)
         this.form.submit();
     });
+    //Отправка формы смены сезона по изменению select
+    $('#select-season').on('change', function() {
+        console.log(this.form)
+        this.form.submit();
+    });
+    //Отправка формы смены команды по изменению select
+    $('#select-team').on('change', function() {
+        console.log(this.form)
+        this.form.submit();
+    });
 });
 
 

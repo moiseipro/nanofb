@@ -37,10 +37,11 @@
         </a>
         <div class="dropdown-menu settings p-2" style="">
             {% if seasons_list %}
-                <form>
-                    <select class="select custom-select seasons" tabindex="-1" aria-hidden="true">
+                <form action="{% url 'references:set_season' %}" method="post">{% csrf_token %}
+                    <select id="select-season" class="select custom-select seasons" name="season_value" tabindex="-1" aria-hidden="true">
+                        <option value="">{% trans 'No season selected' %}</option>
                         {% for season in seasons_list %}
-                            <option value="{{ season.short_name }}">{{ season.name }}</option>
+                            <option value="{{ season.id }}" {% if request.session.season == season.id|stringformat:"i" %}selected{% endif %}>{{ season.name }}</option>
                         {% empty %}
                             <option value="">{% trans 'No seasons' %}</option>
                         {% endfor %}
@@ -48,10 +49,11 @@
                 </form>
             {% endif %}
             {% if teams_list %}
-                <form class="mt-2">
-                    <select class="select custom-select teams" tabindex="-1" aria-hidden="true">
+                <form class="mt-2" action="{% url 'references:set_team' %}" method="post">{% csrf_token %}
+                    <select id="select-team" class="select custom-select teams" name="team_value" tabindex="-1" aria-hidden="true">
+                        <option value="">{% trans 'No team selected' %}</option>
                         {% for team in teams_list %}
-                            <option value="{{ team.short_name }}">{{ team.name }}</option>
+                            <option value="{{ team.id }}" {% if request.session.team == team.id|stringformat:"i" %}selected{% endif %}>{{ team.name }}</option>
                         {% empty %}
                             <option value="">{% trans 'No teams' %}</option>
                         {% endfor %}
