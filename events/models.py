@@ -72,13 +72,7 @@ class ClubEvent(AbstractEvent):
         pass
 
 
-class UserMicrocycles(models.Model):
-    team_id = models.ForeignKey(
-        UserTeam,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-    )
+class AbstractMicrocycles(models.Model):
     name = models.CharField(
         verbose_name=_('title'),
         help_text=_("Name of the microcycle. The maximum length is 60 characters"),
@@ -93,4 +87,25 @@ class UserMicrocycles(models.Model):
     date_by = models.DateField(
         verbose_name=_('end date'),
         help_text=_('End date of the microcycle.'),
+    )
+
+    class Meta:
+        abstract = True
+
+
+class UserMicrocycles(AbstractMicrocycles):
+    team_id = models.ForeignKey(
+        UserTeam,
+        on_delete=models.CASCADE,
+        null=False,
+        blank=False,
+    )
+
+
+class ClubMicrocycles(AbstractMicrocycles):
+    team_id = models.ForeignKey(
+        ClubTeam,
+        on_delete=models.CASCADE,
+        null=False,
+        blank=False,
     )
