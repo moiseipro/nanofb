@@ -5,4 +5,4 @@ from events.models import UserMicrocycles
 
 
 # Test
-admin.register(UserMicrocycles)
+admin.site.register([UserMicrocycles])

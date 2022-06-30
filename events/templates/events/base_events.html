@@ -25,18 +25,18 @@
                         <div class="row">
                             <div class="col py-0">
                                 <div class="row">
-                                    <div class="col-2 pl-0 pr-1">
-                                        <button id="favourite-event-filter" title="Фильтр избранное" class="btn btn-block btn-outline-dark btn-sm"><i class="fa fa-star-o" aria-hidden="true"></i></button>
+                                    <div class="col-4 pl-0 pr-1">
+                                        <button id="events-table" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">События</button>
                                     </div>
-                                    <div class="col-2 pl-0 pr-1">
-                                        <button id="reset-event-filter" title="Сбросить фильтры" class="btn btn-block btn-outline-dark btn-sm"><i class="fa fa-undo" aria-hidden="true"></i></button>
+                                    <div class="col-4 pl-0 pr-1">
+                                        <button id="trainings-table" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Тренировки</button>
                                     </div>
-                                    <div class="col-2 pl-0 pr-1">
-                                        <button id="mathces-table" title="Сбросить фильтры" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Матчи</button>
+                                    <div class="col-4 pl-0 pr-1">
+                                        <button id="mathces-table" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Матчи</button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-3 p-0" style="">
+                            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 p-0" style="">
                                 <div class="row rescalendar_controls text-truncate text-center">
                                     <div class="col-2 pl-0 pr-1">
                                         <button class="btn btn-block btn-secondary btn-sm move_to_last_month"> &lt;&lt; </button>
@@ -53,6 +53,19 @@
                                     </div>
                                     <div class="col-2 px-1">
                                         <button class="btn btn-block btn-secondary btn-sm move_to_next_month"> &gt;&gt; </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col py-0">
+                                <div class="row">
+                                    <div class="col-4 pl-0 pr-1">
+                                        <button id="events-settings" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Настройки</button>
+                                    </div>
+                                    <div class="col-4 pl-0 pr-1">
+                                        <button id="microcycle" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Микроциклы</button>
+                                    </div>
+                                    <div class="col-4 pl-0 pr-1">
+                                        <button id="days" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">День+-</button>
                                     </div>
                                 </div>
                             </div>
@@ -103,7 +116,7 @@
                                 </table>
                             </div>
                         </div>
-                        <div id="block-video-info" class="col-md-12 col-lg-3 d-none">
+                        <div class="col d-none" id="block-event-info">
 
                         </div>
                     </div>
