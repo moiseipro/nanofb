@@ -88,7 +88,7 @@ def exercises(request):
     refs['exs_stress_types'] = ExsStressType.objects.filter(user=cur_user[0]).values()
     refs['exs_coachings'] = ExsCoaching.objects.filter(user=cur_user[0]).values()
     refs = set_refs_translations(refs, request.LANGUAGE_CODE)
-    return render(request, 'exercises/base_exercises.html', {'folders': found_folders, 'folders_only_view': True, 'nfb_folders': found_nfb_folders, 'refs': refs})
+    return render(request, 'exercises/base_exercises.html', {'folders': found_folders, 'folders_only_view': True, 'nfb_folders': found_nfb_folders, 'refs': refs, 'is_exercises': True})
 
 
 def folders(request):
@@ -99,7 +99,7 @@ def folders(request):
     if cur_user.exists() and cur_user[0].club_id != None:
         # добавить проверку на клуб версию
         found_folders = UserFolder.objects.filter(user=cur_user[0])
-    return render(request, 'exercises/base_folders.html', {'folders': found_folders, 'folders_only_view': False})
+    return render(request, 'exercises/base_folders.html', {'folders': found_folders, 'folders_only_view': False, 'is_folders': True})
 
 
 @csrf_exempt

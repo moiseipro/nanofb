@@ -41,13 +41,17 @@ div.side-filter-block {
     background-color: #007bff;
 }
 
+.card-inside {
+    height: 85vh !important;
+    overflow-y: auto;
+}
 
 .folders_list {
-    height: 75vh !important;
+    height: 82vh !important;
     overflow-y: auto;
 }
 .exs-list-group {
-    height: 75vh !important;
+    height: 82vh !important;
     overflow-y: auto;
 }
 
