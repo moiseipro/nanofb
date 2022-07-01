@@ -1,6 +1,3 @@
-div.btns-tabs-second, div.btn-tab-second {
-    background-color: #f0f0f0;
-}
 
 div.side-filter-block {
     background-color: #e7e7e7;
@@ -33,6 +30,12 @@ div.side-filter-block {
 .size-w-x {
     width: var(--w-x) !important;
 }
+.size-min-w-x {
+    min-width: var(--w-min-x) !important;
+}
+.size-max-w-x {
+    max-width: var(--w-max-x) !important;
+}
 
 .row-select.active > .row-select-td {
     background-color: #007bff;
@@ -40,11 +43,28 @@ div.side-filter-block {
 
 
 .folders_list {
-    height: 60vh !important;
+    height: 75vh !important;
     overflow-y: auto;
 }
 .exs-list-group {
-    height: 60vh !important;
+    height: 75vh !important;
     overflow-y: auto;
+}
+
+
+.vert-line-left {
+    border-left: 2px solid black;
+}
+.vert-line-right {
+    border-right: 2px solid black;
+}
+
+
+.container-custom-inline {
+    overflow: auto;
+    white-space:nowrap;
+}
+.container-custom-inline > div {
+    display: inline-block;
 }
 

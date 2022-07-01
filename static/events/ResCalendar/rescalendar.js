@@ -88,11 +88,13 @@ var startDate, endDate, startSeason, endSeason;
 
         }
 
-        function setData( targetObj, dataKeyValues, data ){
+        function setData( targetObj, dataKeyValues, data, microcycles ){
 
             var html          = '',
+                html2         = '',
                 dataKeyValues = dataKeyValues ? dataKeyValues : settings.dataKeyValues,
                 data          = data ? data : settings.data,
+                microcycles   = microcycles ? microcycles : settings.microcycles,
                 arr_dates     = [],
                 name          = '',
                 content       = '',
@@ -107,6 +109,40 @@ var startDate, endDate, startSeason, endSeason;
                 arr_dates.push( $(this).attr('data-cellDate') );
 
             });
+
+            var j = 0
+            for( var i=0; i<microcycles.length; i++){
+                title = '';
+                date    = '';
+                obj_data    = microcycles[i];
+                var start_date = moment(obj_data.startDate, settings.format);
+                var end_date = moment(obj_data.endDate, settings.format);
+                day_count = end_date.diff(start_date, 'days')+1
+                empty_count = 0;
+
+                while (j < arr_dates.length) {
+                    date     = arr_dates[j];
+                    if(dateInRange( date, obj_data.startDate, obj_data.endDate )){
+                        j+=day_count
+                        break;
+                    } else {
+                        j++
+                        empty_count++;
+                    }
+                }
+
+                if(empty_count!=0) html2 += '<td colspan="'+empty_count+'" class="microcycle_cell empty_cell">' + '---' + '</td>'
+
+                if( obj_data.title ){ title = ' title="' + obj_data.name + '" '; }
+                if( obj_data.customClass ){ customClass = obj_data.customClass }
+
+
+                html2 += '<td colspan="'+day_count+'" data-toggle="tooltip" '+title+' data-html="true" class="microcycle_cell ' + customClass + '">' + day_count + '</td>';
+
+                if(i==microcycles.length-1){
+                    html2 += '<td colspan="'+(arr_dates.length-i)+'" class="microcycle_cell empty_cell">' + '---' + '</td>'
+                }
+            }
 
             for( var i=0; i<dataKeyValues.length; i++){
 
@@ -153,7 +189,8 @@ var startDate, endDate, startSeason, endSeason;
 
             }
 
-            targetObj.find('.rescalendar_data_rows').html( html );
+            targetObj.find('.rescalendar_data_rows').html( html )
+            targetObj.find('.rescalendar_microcycles_cells').html( html2 )
         }
 
         function setDayCells( targetObj, targetPanel, refDate ){
@@ -369,6 +406,7 @@ var startDate, endDate, startSeason, endSeason;
             dataKeyField: 'name',
             dataKeyValues: [],
             data: {},
+            microcycles: {},
 
             lang: {
                 'init_error' : 'Error when initializing',
@@ -402,8 +440,8 @@ var startDate, endDate, startSeason, endSeason;
 
                         '<table class="rescalendar_table">',
                             '<thead>',
-                                '<tr class="rescalendar_microcycles_cells"></tr>',
                                 '<tr class="rescalendar_month_cells"></tr>',
+                                '<tr class="rescalendar_microcycles_cells"></tr>',
                                 '<tr class="rescalendar_day_cells"></tr>',
                             '</thead>',
                             '<tbody class="rescalendar_data_rows">',
