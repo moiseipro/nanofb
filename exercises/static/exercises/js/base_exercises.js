@@ -280,14 +280,22 @@ $(function() {
 
     // Choose exs folder
     $('.folders_list').on('click', '.list-group-item', (e) => {
+        let isActive = $(e.currentTarget).hasClass('active');
         $('.folders_list').find('.list-group-item').removeClass('active');
-        $(e.currentTarget).toggleClass('active');
-        LoadFolderExercises();
+        $(e.currentTarget).toggleClass('active', !isActive);
+        if (!isActive) {LoadFolderExercises();}
+        else {
+            $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
+        }
     });
     $('.folders_nfb_list').on('click', '.list-group-item', (e) => {
+        let isActive = $(e.currentTarget).hasClass('active');
         $('.folders_nfb_list').find('.list-group-item').removeClass('active');
-        $(e.currentTarget).toggleClass('active');
-        LoadFolderExercises();
+        $(e.currentTarget).toggleClass('active', !isActive);
+        if (!isActive) {LoadFolderExercises();}
+        else {
+            $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
+        }
     });
     $(document).keypress((e) => {
         if ($('#exerciseCardModal').hasClass('show')) {return;}
@@ -314,7 +322,11 @@ $(function() {
 
     // Choose exercise
     $('.exercises-list').on('click', '.exs-elem', (e) => {
-        if ($(e.currentTarget).hasClass('active')) {return;}
+        if ($(e.currentTarget).hasClass('active')) {
+            $(e.currentTarget).removeClass('active');
+            // RenderExerciseOne(null);
+            return;
+        }
         $('.exercises-list').find('.exs-elem').removeClass('active');
         $(e.currentTarget).addClass('active');
         let exsId = $(e.currentTarget).attr('data-id');

@@ -1,7 +1,11 @@
 {% extends '../base/app_main.html' %}
 {% load static %}
 
-{% block title %}Упражнения{% endblock %}
+{% block title %}Управление папками{% endblock %}
+
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'exercises/css/style.css' %}">
+{% endblock %}
 
 {% block content %}
     <style>
@@ -20,14 +24,6 @@
     </style>
 
     <main class="">
-        <ul class="nav nav-tabs mb-3">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'exercises:exercises' %}">Список упражнений</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" href="{% url 'exercises:folders' %}">Управление папками</a>
-            </li>
-        </ul>
         <div class="">
             <span>- Папки для упражнений -</span>
             <span class="badge badge-success folder-add ml-3" title="Добавить папку">

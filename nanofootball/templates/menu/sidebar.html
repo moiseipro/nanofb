@@ -29,8 +29,12 @@
 <li>
     <a href="#" class="btn disabled"><i class="fa fa-calendar-o"></i> <span>{% trans 'Training' %}</span></a>
 </li>
-<li>
-    <a href="{% url 'exercises:exercises' %}"><i class="fa fa-futbol-o"></i> <span>{% trans 'Exercises' %}</span></a>
+<li class="submenu">
+    <a href="#"><i class="fa fa-futbol-o"></i> <span>{% trans 'Exercises' %}</span> <span class="menu-arrow"></span></a>
+    <ul style="display: none;">
+        <li><a class="nav-link {% if is_exercises %}active{% endif %}" href="{% url 'exercises:exercises' %}">Список упражнений</a></li>
+        <li><a class="nav-link {% if is_folders %}active{% endif %}" href="{% url 'exercises:folders' %}">Управление папками</a></li>
+    </ul>
 </li>
 <li>
     <a href="#" class="btn disabled"><i class="fa fa-users"></i> <span>{% trans 'Players' %}</span></a>
