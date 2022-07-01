@@ -119,15 +119,22 @@ var startDate, endDate, startSeason, endSeason;
                 var end_date = moment(obj_data.endDate, settings.format);
                 day_count = end_date.diff(start_date, 'days')+1
                 empty_count = 0;
+                filled_count = 0;
+                if(dateInRange( obj_data.endDate, arr_dates[0], arr_dates[arr_dates.length-1] ) ||
+                   dateInRange( obj_data.startDate, arr_dates[0], arr_dates[arr_dates.length-1] )){
+                    while (j < arr_dates.length) {
+                        date     = arr_dates[j];
 
-                while (j < arr_dates.length) {
-                    date     = arr_dates[j];
-                    if(dateInRange( date, obj_data.startDate, obj_data.endDate )){
-                        j+=day_count
-                        break;
-                    } else {
+                        if(dateInRange( date, obj_data.startDate, obj_data.endDate )){
+                            filled_count++;
+                        } else {
+                            if(filled_count==0) {
+                                empty_count++;
+                            } else {
+                                break
+                            }
+                        }
                         j++
-                        empty_count++;
                     }
                 }
 
@@ -137,10 +144,12 @@ var startDate, endDate, startSeason, endSeason;
                 if( obj_data.customClass ){ customClass = obj_data.customClass }
 
 
-                html2 += '<td colspan="'+day_count+'" data-toggle="tooltip" '+title+' data-html="true" class="microcycle_cell ' + customClass + '">' + day_count + '</td>';
+                if(filled_count!=0)html2 += '<td colspan="'+filled_count+'" data-toggle="tooltip" '+title+' data-html="true" class="microcycle_cell ' + customClass + '">' + day_count + '</td>';
+
 
                 if(i==microcycles.length-1){
-                    html2 += '<td colspan="'+(arr_dates.length-i)+'" class="microcycle_cell empty_cell">' + '---' + '</td>'
+                    empty_days_count = arr_dates.length-j
+                    if(empty_days_count!=0) html2 += '<td colspan="'+empty_days_count+'" class="microcycle_cell empty_cell">' + '---' + '</td>'
                 }
             }
 

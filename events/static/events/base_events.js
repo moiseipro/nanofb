@@ -21,7 +21,7 @@ var newMicrocycle = [
     {
         id: 1,
         name:'Test',
-        startDate:'01/06/2022',
+        startDate:'27/05/2022',
         endDate:'03/06/2022',
         customClass: 'green_cell',
         href: '#event_2_'+2,
