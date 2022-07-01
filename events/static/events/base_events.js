@@ -53,7 +53,7 @@ var newMicrocycle = [
 ];
 
 $(document).ready(function () {
-    $('.move_to_today').text(strDate)
+    $('.move_to_today').text(moment().format('DD/MM/YYYY'))
     $('.refDate').val(strDate);
 
     generateNewCalendar(strDate)

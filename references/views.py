@@ -8,6 +8,7 @@ def change_season(request):
     if request.method == "POST":
         if request.POST['season_value'] is None:
             request.session['season'] = UserSeason.objects.filter(user_id=request.user).first().id
+
         else:
             request.session['season'] = request.POST['season_value']
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

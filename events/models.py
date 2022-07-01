@@ -75,10 +75,9 @@ class ClubEvent(AbstractEvent):
 class AbstractMicrocycles(models.Model):
     name = models.CharField(
         verbose_name=_('title'),
-        help_text=_("Name of the microcycle. The maximum length is 60 characters"),
-        max_length=60,
-        null=True,
-        blank=True,
+        help_text=_("Name of the microcycle. The maximum length is 80 characters"),
+        max_length=80,
+        default=_('Microcycle')
     )
     date_with = models.DateField(
         verbose_name=_('start date'),
@@ -90,6 +89,7 @@ class AbstractMicrocycles(models.Model):
     )
 
     class Meta:
+        ordering = ['date_with']
         abstract = True
 
 
@@ -101,6 +101,9 @@ class UserMicrocycles(AbstractMicrocycles):
         blank=False,
     )
 
+    class Meta(AbstractMicrocycles.Meta):
+        pass
+
 
 class ClubMicrocycles(AbstractMicrocycles):
     team_id = models.ForeignKey(
@@ -109,3 +112,6 @@ class ClubMicrocycles(AbstractMicrocycles):
         null=False,
         blank=False,
     )
+
+    class Meta(AbstractMicrocycles.Meta):
+        pass
