@@ -47,6 +47,8 @@
                         {% endfor %}
                     </select>
                 </form>
+            {% else %}
+                <a href="#" class="btn btn-block btn-warning" role="button">{% trans 'Create a season' %}</a>
             {% endif %}
             {% if teams_list %}
                 <form class="mt-2" action="{% url 'references:set_team' %}" method="post">{% csrf_token %}
@@ -59,7 +61,10 @@
                         {% endfor %}
                     </select>
                 </form>
+            {% else %}
+                <a href="#" class="btn btn-block btn-warning" role="button">{% trans 'Create a team' %}</a>
             {% endif %}
+            <a href="#" class="btn btn-block btn-secondary mt-2" role="button">{% trans 'Settings' %}</a>
         </div>
     </li>
 

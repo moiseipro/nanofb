@@ -8,7 +8,7 @@ class UserMicrocyclesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserMicrocycles
-        fields = (
-            'id', 'date_with', 'date_by'
-        )
+        fields = [
+            'id', 'name', 'date_with', 'date_by'
+        ]
         datatables_always_serialize = ('id',)

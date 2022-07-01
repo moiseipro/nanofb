@@ -3,6 +3,8 @@ var days = new Date(d.getFullYear(), d.getMonth()+1, 0).getDate()-1
 var middleDay = (("0" + Math.floor(days/2)).slice(-2))
 var strDate = middleDay + "/" + ("0" + (d.getMonth()+1)).slice(-2) + "/" + d.getFullYear()
 
+var microcycles_table
+
 var newEvent = [
     {
         id: 1,
@@ -52,11 +54,16 @@ var newMicrocycle = [
     }
 ];
 
-$(document).ready(function () {
+$(window).on('load', function (){
     $('.move_to_today').text(moment().format('DD/MM/YYYY'))
     $('.refDate').val(strDate);
 
     generateNewCalendar(strDate)
+    generateMicrocyclesTable()
+
+    $('#microcycles').on('click', 'tbody tr', function() {
+      console.log('API row values : ', microcycles_table.row(this).data());
+    })
 })
 
 function generateNewCalendar(newStartDate){
@@ -79,4 +86,26 @@ function generateNewCalendar(newStartDate){
     });
 
     $('.move_to_today').click()
+}
+
+function generateMicrocyclesTable(){
+    microcycles_table = $('#microcycles').DataTable({
+        dom: "<'row'<'col-sm-12 col-md 'l><'col-sm-12 col-md-6'f>>" +
+             "<'row'<'col-sm-12'tr>>" +
+             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+        serverSide: true,
+        processing: true,
+        ajax: 'api/microcycles/?format=datatables',
+        columns: [
+            {'data': 'name'},
+            {'data': 'date_with'},
+            {'data': 'date_by'},
+            {'data': 'id' , render : function ( data, type, row, meta ) {
+              return type === 'display'  ?
+                '<a class="btn btn-sm btn-warning mx-1" href="#'+ data +'" ><i class="fa fa-pencil"></i></a>'+
+                '<a class="btn btn-sm btn-danger mx-1" href="#'+ data +'" ><i class="fa fa-trash"></i></a>':
+                data;
+            }}
+        ],
+    })
 }

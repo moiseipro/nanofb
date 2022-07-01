@@ -11,7 +11,7 @@ from references.models import UserTeam, UserSeason
 
 # Create your views here.
 # REST FRAMEWORK
-class MicrocycleListView(generics.ListAPIView):
+class MicrocycleViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):

@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load static %}
 
-{% block title %}{% trans 'Matches' %}{% endblock %}
+{% block title %}{% trans 'Events' %}{% endblock %}
 
 {% block content %}
 
@@ -45,7 +45,7 @@
                                         <button class="btn btn-block btn-secondary btn-sm move_to_yesterday"> &lt; </button>
                                     </div>
                                     <div class="col-4 px-1">
-                                        <button class="btn btn-block btn-secondary btn-sm move_to_today"> 24.05.2022 </button>
+                                        <button class="btn btn-block btn-secondary btn-sm font-weight-bold move_to_today"> --- </button>
                                         <input class="refDate select_filter_training" type="text" value="" style="display:none;">
                                     </div>
                                     <div class="col-2 px-0">
@@ -62,7 +62,7 @@
                                         <button id="events-settings" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Настройки</button>
                                     </div>
                                     <div class="col-4 pl-0 pr-1">
-                                        <button id="microcycle" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Микроциклы</button>
+                                        <button id="microcycle" title="" data-toggle="modal" data-target="#microcycle-modal" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Микроциклы</button>
                                     </div>
                                     <div class="col-4 pl-0 pr-1">
                                         <button id="days" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">День+-</button>
@@ -120,6 +120,37 @@
 
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="microcycle-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="microcycle-modal-title">{% trans 'Working with microcycles' %}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table id="microcycles" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>{% trans 'title' %}</th>
+                                    <th>{% trans 'start date' %}</th>
+                                    <th>{% trans 'end date' %}</th>
+                                    <th>{% trans 'options' %}</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
