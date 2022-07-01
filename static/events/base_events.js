@@ -17,6 +17,41 @@ var newEvent = [
     }
 ];
 
+var newMicrocycle = [
+    {
+        id: 1,
+        name:'Test',
+        startDate:'01/06/2022',
+        endDate:'03/06/2022',
+        customClass: 'green_cell',
+        href: '#event_2_'+2,
+    },
+    {
+        id: 2,
+        name:'Test',
+        startDate:'06/06/2022',
+        endDate:'09/06/2022',
+        customClass: 'green_cell',
+        href: '#event_2_'+2,
+    },
+    {
+        id: 3,
+        name:'Test',
+        startDate:'17/06/2022',
+        endDate:'18/06/2022',
+        customClass: 'green_cell',
+        href: '#event_2_'+2,
+    },
+    {
+        id: 4,
+        name:'Test',
+        startDate:'19/06/2022',
+        endDate:'27/06/2022',
+        customClass: 'green_cell',
+        href: '#event_2_'+2,
+    }
+];
+
 $(document).ready(function () {
     $('.move_to_today').text(strDate)
     $('.refDate').val(strDate);
@@ -38,6 +73,7 @@ function generateNewCalendar(newStartDate){
             'no_data_error' : gettext('No data was found to show')
         },
         data: newEvent,
+        microcycles: newMicrocycle,
         dataKeyField: 'name',
         dataKeyValues: ['m1', 'm2', 'tr1', 'tr2']
     });

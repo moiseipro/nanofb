@@ -22,28 +22,147 @@
                 <div class="btns-tabs-first">
                     <div class="row">
                         <div class="col-auto py-1">
-                            <button type="button" class="btn btn-success btn-sm" id="createExercise">Создать +</button>
-                            <button type="button" class="btn btn-secondary btn-sm up-filter-elem" data-id="nfb_folders">Папки NFB</button>
-                            <button type="button" class="btn btn-secondary btn-sm up-filter-elem" data-id="check_">Просмотреть</button>
-                            <button type="button" class="btn btn-secondary btn-sm up-filter-elem" data-id="new_exs">Новые (...)</button>
-                            <button type="button" class="btn btn-secondary btn-sm up-filter-elem" data-id="copy">Копировать</button>
+                            <button type="button" class="btn btn-success btn-sm" id="createExercise">Упражнение +</button>
+                            <button type="button" class="btn btn-primary btn-sm up-tabs-elem" data-id="my_folders">Мои папки</button>
+                            <button type="button" class="btn btn-secondary btn-sm up-tabs-elem" data-id="nfb_folders">Папки NFB</button>
+                            <button type="button" class="btn btn-secondary btn-sm up-tabs-elem" data-id="new_exs">Новые (...)</button>
+                            <button type="button" class="btn btn-secondary btn-sm up-tabs-elem" data-id="check_">Просмотреть</button>
+                            <button type="button" class="btn btn-secondary btn-sm up-tabs-elem" data-id="copy">Копировать</button>
                         </div>
                         <div class="col-auto px-1 py-1">
-                            <button type="button" class="btn btn-secondary btn-sm up-filter-elem" data-id="mark_exs">Маркировать</button>
-                            <button type="button" class="btn btn-secondary btn-sm up-filter-elem" data-id="cols_size">Колонки</button>
-                            <button type="button" class="btn btn-secondary btn-sm up-filter-elem" data-id="share_exs">Поделиться</button>
+                            <button type="button" class="btn btn-secondary btn-sm up-tabs-elem" data-id="mark_exs">Маркировать</button>
+                            <button type="button" class="btn btn-secondary btn-sm up-tabs-elem" data-id="share_exs">Поделиться</button>
+                            <button type="button" class="btn btn-secondary btn-sm up-tabs-elem" data-id="show_exs">Показать</button>
+                            <button type="button" class="btn btn-secondary btn-sm up-tabs-elem" data-id="cols_size">Колонки</button>
                         </div>
                         <div class="col-auto px-0 py-1">
-                            <button type="button" class="btn btn-secondary btn-sm up-filter-elem" data-id="toggle_side_filter">Фильтрация</button>
-                            <button type="button" class="btn btn-secondary btn-sm up-filter-elem" data-id="toggle_settings">Настройки</button>
+                            <button type="button" class="btn btn-secondary btn-sm up-tabs-elem" data-id="toggle_side_filter">Фильтрация</button>
+                            <button type="button" class="btn btn-secondary btn-sm up-tabs-elem" data-id="toggle_up_filter">Фильтрация 2</button>
+                            <button type="button" class="btn btn-secondary btn-sm up-tabs-elem" data-id="toggle_settings">Настройки</button>
                         </div>
                     </div>
                 </div>
-                <div class="exerises-content mt-4">
+                <div class="btns-tabs-second" style="display: none;">
+                    <div class="d-flex flex-row my-2">
+                        <div class="w-100 text-center vert-line-left vert-line-right up-filter-elem" data-id="">
+                            <div class="">
+                                <span>с</span>
+                            </div>
+                            <div class="">
+                                <span class="value">---</span>
+                            </div>
+                        </div>
+                        <div class="w-100 text-center vert-line-right up-filter-elem" data-id="">
+                            <div class="">
+                                <span>по</span>
+                            </div>
+                            <div class="">
+                                <span class="value">---</span>
+                            </div>
+                        </div>
+                        <div class="w-100 text-center vert-line-right up-filter-elem" data-id="">
+                            <div class="">
+                                <span>PRO</span>
+                            </div>
+                            <div class="">
+                                <span class="value">---</span>
+                            </div>
+                        </div>
+                        <div class="w-100 text-center vert-line-right up-filter-elem" data-id="">
+                            <div class="">
+                                <span>G.</span>
+                            </div>
+                            <div class="">
+                                <span class="value">---</span>
+                            </div>
+                        </div>
+                        <div class="w-100 text-center vert-line-right up-filter-elem" data-id="">
+                            <div class="">
+                                <span>g.</span>
+                            </div>
+                            <div class="">
+                                <span class="value">---</span>
+                            </div>
+                        </div>
+                        <div class="w-100 text-center vert-line-right up-filter-elem" data-id="">
+                            <div class="">
+                                <span><i class="fa fa-futbol-o" aria-hidden="true"></i></span>
+                            </div>
+                            <div class="">
+                                <span class="value">---</span>
+                            </div>
+                        </div>
+                        <div class="w-100 text-center vert-line-right up-filter-elem" data-id="">
+                            <div class="">
+                                <span style="color: red;"><i class="fa fa-futbol-o" aria-hidden="true"></i></span>
+                            </div>
+                            <div class="">
+                                <span class="value">---</span>
+                            </div>
+                        </div>
+                        <div class="w-100 text-center vert-line-right up-filter-elem" data-id="">
+                            <div class="">
+                                <span>V.</span>
+                            </div>
+                            <div class="">
+                                <span class="value">---</span>
+                            </div>
+                        </div>
+                        <div class="w-100 text-center vert-line-right up-filter-elem" data-id="">
+                            <div class="">
+                                <span>A.</span>
+                            </div>
+                            <div class="">
+                                <span class="value">---</span>
+                            </div>
+                        </div>
+                        <div class="w-100 text-center vert-line-right up-filter-elem" data-id="">
+                            <div class="">
+                                <span><i class="fa fa-eye" aria-hidden="true"></i></span>
+                            </div>
+                            <div class="">
+                                <span class="value">---</span>
+                            </div>
+                        </div>
+                        <div class="w-100 text-center vert-line-right up-filter-elem" data-id="">
+                            <div class="">
+                                <span><i class="fa fa-eye-slash" aria-hidden="true"></i></span>
+                            </div>
+                            <div class="">
+                                <span class="value">---</span>
+                            </div>
+                        </div>
+                        <div class="w-100 text-center vert-line-right up-filter-elem" data-id="">
+                            <div class="">
+                                <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                            </div>
+                            <div class="">
+                                <span class="value">---</span>
+                            </div>
+                        </div>
+                        <div class="w-100 text-center vert-line-right up-filter-elem" data-id="">
+                            <div class="">
+                                <span><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></span>
+                            </div>
+                            <div class="">
+                                <span class="value">---</span>
+                            </div>
+                        </div>
+                        <div class="w-100 text-center vert-line-right up-filter-elem" data-id="">
+                            <div class="">
+                                <span><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></span>
+                            </div>
+                            <div class="">
+                                <span class="value">---</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="exerises-content">
                     <div class="exercises-list split">
                         <div class="py-1" id="splitCol_0">
                             <div class="d-flex justify-content-center btn-tab-second">
-                                <button type="button" class="btn btn-secondary btn-sm" title="Скрыть / развернуть">
+                                <button type="button" class="btn btn-secondary btn-sm" title="Скрыть / развернуть" style="padding: .31rem .5rem;">
                                     <i class="fa fa-chevron-right" aria-hidden="true"></i>
                                 </button>
                             </div>
@@ -65,14 +184,15 @@
                         </div>
                         <div class="p-1 visual-block" id="splitCol_2">
                             <div class="d-flex justify-content-center btn-tab-second">
-                                <button type="button" class="btn btn-outline-secondary btn-sm mx-1">Рис. (..)</button>
+                                <div class="row"><div class="col-12" style="height: calc(1.5em + .5rem + 0.5px);">&nbsp;</div></div>
+                                <!-- <button type="button" class="btn btn-outline-secondary btn-sm mx-1">Рис. (..)</button>
                                 <button type="button" class="btn btn-primary btn-sm mx-1" id="toggleVideoPanel">V. (..)</button>
-                                <button type="button" class="btn btn-secondary btn-sm mx-1" id="toggleAnimationPanel">A. (..)</button>
+                                <button type="button" class="btn btn-secondary btn-sm mx-1" id="toggleAnimationPanel">A. (..)</button> -->
                             </div>
                             <hr class="mt-1">
                             <div class="row">
                                 <div class="col-12 exs_drawing">
-                                    <div id="svgbox" class="d-block float-left w-75">
+                                    <div id="svgbox" class="d-block float-left w-100">
                                         <div id="svgparent" class="d-block mx-auto">
                                             <svg id="block" class="d-block bg-success mx-auto" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
                                                 <defs>
@@ -99,11 +219,11 @@
                                 </div>
                                 <div class="col-12 my-2 exs-video" title="Видео">
                                     <p class="mb-1">Видео:</p>
-                                    <img src="{% static 'exercises/img/video_player_temp.jpg' %}" class="img-fluid w-75" alt="[ VIDEO ]">
+                                    <img src="{% static 'exercises/img/video_player_temp.jpg' %}" class="img-fluid w-100" alt="[ VIDEO ]">
                                 </div>
                                 <div class="col-12 my-2 exs-animation d-none" title="Анимация">
                                     <p class="mb-1">Анимация:</p>
-                                    <img src="{% static 'exercises/img/video_player_temp.jpg' %}" class="img-fluid w-75" alt="[ ANIMATION ]">
+                                    <img src="{% static 'exercises/img/video_player_temp.jpg' %}" class="img-fluid w-100" alt="[ ANIMATION ]">
                                 </div>
                             </div>
                         </div>

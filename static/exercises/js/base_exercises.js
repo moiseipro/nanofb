@@ -5,34 +5,51 @@ function ToggleUpFilter(id, state) {
             $('div.visual-block').toggleClass('col-4', state);
             $('div.side-filter-block').toggleClass('d-none', !state);
             RenderSplitCols();
-            if (!state && $('.up-filter-elem[data-id="cols_size"]').attr('data-state') == '1') {
-                $('.up-filter-elem[data-id="cols_size"]').attr('data-state', '0');
-                $('.up-filter-elem[data-id="cols_size"]').removeClass('btn-primary');
-                $('.up-filter-elem[data-id="cols_size"]').addClass('btn-secondary');
+            if (!state && $('.up-tabs-elem[data-id="cols_size"]').attr('data-state') == '1') {
+                $('.up-tabs-elem[data-id="cols_size"]').attr('data-state', '0');
+                $('.up-tabs-elem[data-id="cols_size"]').removeClass('btn-primary');
+                $('.up-tabs-elem[data-id="cols_size"]').addClass('btn-secondary');
                 $('.exercises-list').find('div.gutter').addClass('d-none');
             }
             break;
+        case "toggle_up_filter":
+            $('div.btns-tabs-second').fadeToggle(300, (e) => {});
+            break;
         case "cols_size":
-            if ($('.up-filter-elem[data-id="toggle_side_filter"]').attr('data-state') == '1') {
+            if ($('.up-tabs-elem[data-id="toggle_side_filter"]').attr('data-state') == '1') {
                 $('.exercises-list').find('div.gutter').toggleClass('d-none', !state);
             } else {
                 swal("Внимание", "Включите сначала \"Фильтрацию\".", "info");
-                $('.up-filter-elem[data-id="cols_size"]').attr('data-state', '0');
-                $('.up-filter-elem[data-id="cols_size"]').removeClass('btn-primary');
-                $('.up-filter-elem[data-id="cols_size"]').addClass('btn-secondary');
+                $('.up-tabs-elem[data-id="cols_size"]').attr('data-state', '0');
+                $('.up-tabs-elem[data-id="cols_size"]').removeClass('btn-primary');
+                $('.up-tabs-elem[data-id="cols_size"]').addClass('btn-secondary');
             }
             break;
         case "nfb_folders":
-            $('.folders_list').toggleClass('d-none', state);
-            $('.folders_nfb_list').toggleClass('d-none', !state);
+            $('.folders_list').toggleClass('d-none', true);
+            $('.up-tabs-elem[data-id="my_folders"]').toggleClass('btn-secondary', true);
+            $('.up-tabs-elem[data-id="my_folders"]').toggleClass('btn-primary', false);
+            $('.folders_nfb_list').toggleClass('d-none', false);
+            $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('btn-secondary', false);
+            $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('btn-primary', true);
+            $('.exercises-list').find('.list-group-item').removeClass('active');
+            $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
+            break;
+        case "my_folders":
+            $('.folders_list').toggleClass('d-none', false);
+            $('.up-tabs-elem[data-id="my_folders"]').toggleClass('btn-secondary', false);
+            $('.up-tabs-elem[data-id="my_folders"]').toggleClass('btn-primary', true);
+            $('.folders_nfb_list').toggleClass('d-none', true);
+            $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('btn-secondary', true);
+            $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('btn-primary', false);
             $('.exercises-list').find('.list-group-item').removeClass('active');
             $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
             break;
         case "copy":
             if ($('.exercises-list').find('.exs-elem.active').length <= 0) {
-                $('.up-filter-elem[data-id="copy"]').removeClass('btn-primary');
-                $('.up-filter-elem[data-id="copy"]').addClass('btn-secondary');
-                $('.up-filter-elem[data-id="copy"]').attr('data-state', '0');
+                $('.up-tabs-elem[data-id="copy"]').removeClass('btn-primary');
+                $('.up-tabs-elem[data-id="copy"]').addClass('btn-secondary');
+                $('.up-tabs-elem[data-id="copy"]').attr('data-state', '0');
                 swal("Внимание", "Выберите упражнение для копирования.", "info");
             } else {
                 if (state) {
@@ -49,7 +66,7 @@ function ToggleUpFilter(id, state) {
 
 function RenderSplitCols() {
     $('.exercises-list').find('div.gutter').remove();
-    let stateSideFilter = $('.up-filter-elem[data-id="toggle_side_filter"]').attr('data-state') == '1';
+    let stateSideFilter = $('.up-tabs-elem[data-id="toggle_side_filter"]').attr('data-state') == '1';
     let sizesArr = [];
     if (stateSideFilter) {
         sizesArr = window.dataForSplit;
@@ -66,7 +83,7 @@ function RenderSplitCols() {
             localStorage.setItem('split_cols', JSON.stringify(window.dataForSplit));
         }
     });
-    let stateColSize = $('.up-filter-elem[data-id="cols_size"]').attr('data-state') == '1';
+    let stateColSize = $('.up-tabs-elem[data-id="cols_size"]').attr('data-state') == '1';
     $('.exercises-list').find('div.gutter').toggleClass('d-none', !stateColSize);
 }
 
@@ -245,7 +262,7 @@ function RenderFolderExercises(id, tExs) {
 
 $(function() {
     // Toggle upper buttons panel
-    $('button.up-filter-elem').on('click', (e) => {
+    $('button.up-tabs-elem').on('click', (e) => {
         let id = $(e.currentTarget).attr('data-id');
         let state = $(e.currentTarget).attr('data-state') == '1';
         $(e.currentTarget).toggleClass('btn-secondary', state);
@@ -274,7 +291,7 @@ $(function() {
     });
     $(document).keypress((e) => {
         if ($('#exerciseCardModal').hasClass('show')) {return;}
-        let currentList = $('.up-filter-elem[data-id="nfb_folders"]').attr('data-state') == '1' ? ".folders_nfb_list" : ".folders_list";
+        let currentList = $('.up-tabs-elem[data-id="nfb_folders"]').attr('data-state') == '1' ? ".folders_nfb_list" : ".folders_list";
         let activeElem = $(currentList).find('.list-group-item.active');
         if (e.which == 119) { // w
             if (activeElem.length > 0) {
@@ -610,9 +627,9 @@ $(function() {
         }
     });
     $('#exerciseCopyModal').on('hidden.bs.modal', (e) => {
-        $('.up-filter-elem[data-id="copy"]').removeClass('btn-primary');
-        $('.up-filter-elem[data-id="copy"]').addClass('btn-secondary');
-        $('.up-filter-elem[data-id="copy"]').attr('data-state', '0');
+        $('.up-tabs-elem[data-id="copy"]').removeClass('btn-primary');
+        $('.up-tabs-elem[data-id="copy"]').addClass('btn-secondary');
+        $('.up-tabs-elem[data-id="copy"]').attr('data-state', '0');
         $('#exerciseCopyModal').find('.folder-copy-elem').parent().removeClass('active');
     });
     $('#exerciseCopyModal').on('click', '.folder-copy-elem', (e) => {

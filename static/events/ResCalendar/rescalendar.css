@@ -29,6 +29,27 @@
 	text-align: left;
 }
 
+.rescalendar_microcycles_cells td{
+	text-align: center;
+}
+
+.rescalendar_microcycles_cells .green_cell{
+	background: lightgreen;
+}
+
+.rescalendar_microcycles_cells .empty_cell{
+	background: lightgrey;
+}
+
+.rescalendar_microcycles_cells .microcycle_cell:not(.active){
+	font-weight: 600;
+}
+
+.rescalendar_microcycles_cells .microcycle_cell.active{
+	font-weight: bold;
+	border: 2px solid black;
+}
+
 .rescalendar_day_cells td{
 	width: 80px;
 	border-radius: 5px;
