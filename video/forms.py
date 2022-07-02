@@ -31,11 +31,11 @@ class CreateVideoForm(forms.ModelForm):
         model = Video
         fields = ['name', 'videosource_id', 'section_id', 'duration', 'shared_access']
         labels = {
-            'name': 'Название видео',
-            'videosource_id': 'Выберите источник',
-            'section_id': 'Выберите раздел',
-            'duration': 'Длительность видео',
-            'shared_access': 'Отображать пользователям',
+            'name': _('Video title'),
+            'videosource_id': _('Select a source'),
+            'section_id': _('Select a section'),
+            'duration': _('Video duration'),
+            'shared_access': _('Display to users'),
         }
         help_texts = {
             'name': None,

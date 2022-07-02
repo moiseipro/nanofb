@@ -4,6 +4,7 @@ var middleDay = (("0" + Math.floor(days/2)).slice(-2))
 var strDate = middleDay + "/" + ("0" + (d.getMonth()+1)).slice(-2) + "/" + d.getFullYear()
 
 var microcycles_table
+var cur_edit_data
 
 var newEvent = [
     {
@@ -61,10 +62,113 @@ $(window).on('load', function (){
     generateNewCalendar(strDate)
     generateMicrocyclesTable()
 
-    $('#microcycles').on('click', 'tbody tr', function() {
-      console.log('API row values : ', microcycles_table.row(this).data());
+    $('#microcycle-modal').on('click', '.create', function() {
+        cur_edit_data = microcycles_table.row($(this).closest('tr')).data()
+        console.log('CREATE : ', cur_edit_data);
+        $('#microcycles-form').attr('method', 'POST')
+        $('#microcycles-form').removeClass('d-none')
+        $('#microcycles-form #id_name').val('')
+        $('#microcycles-form #datetimepicker-with-microcycle').val('')
+        $('#microcycles-form #datetimepicker-by-microcycle').val('')
+    })
+    //Активация редактирования микроцикла
+    $('#microcycles').on('click', '.edit', function() {
+        cur_edit_data = microcycles_table.row($(this).closest('tr')).data()
+        console.log('EDIT : ', cur_edit_data);
+        $('#microcycles-form').attr('method', 'PATCH')
+        $('#microcycles-form').removeClass('d-none')
+        $('#microcycles-form #id_name').val(cur_edit_data['name'])
+        $('#microcycles-form #datetimepicker-with-microcycle').val(cur_edit_data['date_with'])
+        $('#microcycles-form #datetimepicker-by-microcycle').val(cur_edit_data['date_by'])
+    })
+    //Удаление микроцикла
+    $('#microcycles').on('click', '.delete', function() {
+        cur_edit_data = microcycles_table.row($(this).closest('tr')).data()
+        console.log('DELETE : ', cur_edit_data);
+        $('#microcycles-form').attr('method', 'DELETE')
+        $('#microcycles-form').addClass('d-none')
+        $('#microcycles-form #id_name').val('')
+        $('#microcycles-form #datetimepicker-with-microcycle').val('')
+        $('#microcycles-form #datetimepicker-by-microcycle').val('')
+        ajax_microcycle_update($('#microcycles-form').attr('method'), null, cur_edit_data ? cur_edit_data.id : 0)
+    })
+    //Отмена редактирования/добавления микроцикла
+    $('#microcycles-form').on('click', '.cancel', function() {
+        $('#microcycles-form').addClass('d-none')
+        $('#microcycles-form #id_name').val('')
+        $('#microcycles-form #datetimepicker-with-microcycle').val('')
+        $('#microcycles-form #datetimepicker-by-microcycle').val('')
+    })
+    $('#microcycles-form').on('submit', function(e) {
+        e.preventDefault()
+        $('#microcycles-form').addClass('d-none')
+        console.log($(this).serialize())
+        ajax_microcycle_update($(this).attr('method'), $(this).serialize(), cur_edit_data ? cur_edit_data.id : 0)
     })
 })
+
+function set_microcycle_form(name, date_with, date_by){
+    $('#microcycles-form #id_name').val(name)
+    $('#microcycles-form #datetimepicker-with-microcycle').val(date_with)
+    $('#microcycles-form #datetimepicker-by-microcycle').val(date_by)
+}
+
+// Инициализация datepicker для выбора промежутка
+$(function () {
+    $('#datetimepicker-with-microcycle').datetimepicker({
+        format: 'DD/MM/YYYY',
+        icons: {
+            up: "fa fa-angle-up",
+            down: "fa fa-angle-down",
+            next: 'fa fa-angle-right',
+            previous: 'fa fa-angle-left'
+        },
+    });
+    $('#datetimepicker-by-microcycle').datetimepicker({
+        format: 'DD/MM/YYYY',
+        icons: {
+            up: "fa fa-angle-up",
+            down: "fa fa-angle-down",
+            next: 'fa fa-angle-right',
+            previous: 'fa fa-angle-left'
+        },
+        useCurrent: false
+    });
+
+    $("#datetimepicker-with-microcycle").on("change.datetimepicker", function (e) {
+        $('#datetimepicker-by-microcycle').datetimepicker('minDate', e.date);
+    });
+    $("#datetimepicker-by-microcycle").on("change.datetimepicker", function (e) {
+        $('#datetimepicker-with-microcycle').datetimepicker('maxDate', e.date);
+    });
+})
+
+function ajax_microcycle_update(method, data, id) {
+    if (!confirm(gettext('Save changes to the microcycle?'))) return false
+
+    let url = "api/microcycles/"
+    if(method != 'POST') url += id+"/"
+
+    let request = $.ajax({
+        headers:{"X-CSRFToken": csrftoken },
+        url: url,
+        type: method,
+        dataType: "JSON",
+        data: data
+    })
+
+    request.done(function( data ) {
+        console.log(data)
+        create_alert('alert-update', {type: 'success', message: gettext('Microcycle saved successfully!')})
+        microcycles_table.ajax.reload()
+    })
+
+    request.fail(function( jqXHR, textStatus ) {
+        alert( gettext('Error when updating the microcycle. ') + gettext(textStatus) );
+    })
+
+
+}
 
 function generateNewCalendar(newStartDate){
     $('#event_calendar').rescalendar({
@@ -102,8 +206,8 @@ function generateMicrocyclesTable(){
             {'data': 'date_by'},
             {'data': 'id' , render : function ( data, type, row, meta ) {
               return type === 'display'  ?
-                '<a class="btn btn-sm btn-warning mx-1" href="#'+ data +'" ><i class="fa fa-pencil"></i></a>'+
-                '<a class="btn btn-sm btn-danger mx-1" href="#'+ data +'" ><i class="fa fa-trash"></i></a>':
+                '<button class="btn btn-sm btn-warning mx-1 py-0 edit" data-id="'+data+'"><i class="fa fa-pencil"></i></button>'+
+                '<button class="btn btn-sm btn-danger mx-1 py-0 delete" data-id="'+data+'"><i class="fa fa-trash"></i></button>':
                 data;
             }}
         ],

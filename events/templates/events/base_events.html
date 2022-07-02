@@ -130,6 +130,9 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="microcycle-modal-title">{% trans 'Working with microcycles' %}</h5>
+                    <button type="button" class="ml-3 btn btn-sm btn-success create">
+                        <span aria-hidden="true">{% trans 'Create' %}</span>
+                    </button>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -148,9 +151,11 @@
                         </table>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                <div class="modal-footer block">
+                    <form id="microcycles-form" method="post" class="d-none">
+                        {% load crispy_forms_tags %}
+                        {% crispy microcycle_form %}
+                    </form>
                 </div>
             </div>
         </div>

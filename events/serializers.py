@@ -12,3 +12,12 @@ class UserMicrocyclesSerializer(serializers.ModelSerializer):
             'id', 'name', 'date_with', 'date_by'
         ]
         datatables_always_serialize = ('id',)
+
+
+class UserMicrocyclesUpdateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = UserMicrocycles
+        fields = [
+            'name', 'date_with', 'date_by'
+        ]
