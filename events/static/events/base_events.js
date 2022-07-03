@@ -59,7 +59,7 @@ $(window).on('load', function (){
     $('.move_to_today').text(moment().format('DD/MM/YYYY'))
     $('.refDate').val(strDate);
 
-    generateNewCalendar(strDate)
+    generateNewCalendar()
     generateMicrocyclesTable()
 
     $('#microcycle-modal').on('click', '.create', function() {
@@ -159,7 +159,8 @@ function ajax_microcycle_update(method, data, id) {
 
     request.done(function( data ) {
         console.log(data)
-        create_alert('alert-update', {type: 'success', message: gettext('Microcycle saved successfully!')})
+        create_alert('alert-update', {type: 'success', message: gettext('The action with the microcycle was successfully completed!')})
+        generateNewCalendar()
         microcycles_table.ajax.reload()
     })
 
@@ -170,24 +171,46 @@ function ajax_microcycle_update(method, data, id) {
 
 }
 
-function generateNewCalendar(newStartDate){
-    $('#event_calendar').rescalendar({
-        id: 'training_calendar',
-        format: 'DD/MM/YYYY',
-        jumpSize: middleDay-1,
-        calSize: days,
-        locale: 'ru',
-        refDate: newStartDate,
-        lang: {
-            'today': gettext('Today'),
-            'init_error': gettext('Failed to initialize'),
-            'no_data_error' : gettext('No data was found to show')
-        },
-        data: newEvent,
-        microcycles: newMicrocycle,
-        dataKeyField: 'name',
-        dataKeyValues: ['m1', 'm2', 'tr1', 'tr2']
-    });
+function generateNewCalendar(){
+    let request = $.ajax({
+        headers:{"X-CSRFToken": csrftoken },
+        url: 'api/microcycles/',
+        type: 'GET',
+        dataType: "JSON",
+    })
+
+    request.done(function( data ) {
+        newMicrocycle = []
+        for (var microcycle of data['results']) {
+            newMicrocycle.push({
+                id: microcycle['id'],
+                name: microcycle['name'],
+                startDate: microcycle['date_with'],
+                endDate: microcycle['date_by'],
+                customClass: 'green_cell',
+                href: '#empty'
+            })
+        }
+        console.log(newMicrocycle)
+        $('#event_calendar').rescalendar({
+            id: 'training_calendar',
+            format: 'DD/MM/YYYY',
+            jumpSize: middleDay-1,
+            calSize: days,
+            locale: 'ru',
+            refDate: strDate,
+            lang: {
+                'today': gettext('Today'),
+                'init_error': gettext('Failed to initialize'),
+                'no_data_error' : gettext('No data was found to show')
+            },
+            data: newEvent,
+            microcycles: newMicrocycle,
+            dataKeyField: 'name',
+            dataKeyValues: ['m1', 'm2', 'tr1', 'tr2']
+        });
+    })
+
 
     $('.move_to_today').click()
 }

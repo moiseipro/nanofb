@@ -124,7 +124,7 @@ var startDate, endDate, startSeason, endSeason;
                    dateInRange( obj_data.startDate, arr_dates[0], arr_dates[arr_dates.length-1] )){
                     while (j < arr_dates.length) {
                         date     = arr_dates[j];
-
+                        console.log(dateInRange( date, obj_data.startDate, obj_data.endDate ))
                         if(dateInRange( date, obj_data.startDate, obj_data.endDate )){
                             filled_count++;
                         } else {
