@@ -245,10 +245,14 @@ function RenderFolderExercises(id, tExs) {
     for (let i = 0; i < exs.length; i++) {
         let exElem = exs[i];
         exsHtml += `
-        <li class="exs-elem list-group-item py-2" data-id="${exElem.id}" data-folder="${exElem.folder}">
-            <div class="row">
-                <div class="col-12">
+        <li class="exs-elem list-group-item py-2 px-0" data-id="${exElem.id}" data-folder="${exElem.folder}">
+            <div class="row mx-1">
+                <div class="col-10 px-1">
                     <span>${i+1}. Упражнение "ID:${exElem.id}", автор: ${exElem.user}</span>
+                </div>
+                <div class="col-1 d-flex justify-content-center px-1">
+                </div>
+                <div class="col-1 d-flex justify-content-center px-1">
                 </div>
             </div>
         </li>

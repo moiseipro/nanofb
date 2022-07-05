@@ -1,10 +1,14 @@
 
 div.side-filter-block {
     background-color: #e7e7e7;
+    height: 80vh !important;
+    overflow-y: auto;
 }
 
 .side-filter-elem.active {
-    background-color: #ff9a9a !important;
+    background-color: #5a6268 !important;
+    border-color: #5a6268 !important;
+    font-weight: bold;
 }
 
 .visual-block {
@@ -42,19 +46,18 @@ div.side-filter-block {
 }
 
 .card-inside {
-    height: 85vh !important;
+    height: 86vh !important;
     overflow-y: auto;
 }
 
 .folders_list {
-    height: 82vh !important;
+    height: 72vh !important;
     overflow-y: auto;
 }
 .exs-list-group {
-    height: 82vh !important;
+    height: 72vh !important;
     overflow-y: auto;
 }
-
 
 .vert-line-left {
     border-left: 2px solid black;

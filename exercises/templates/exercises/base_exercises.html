@@ -11,7 +11,7 @@
     <main class="">
         <div class="row">
             <div class="col-12">
-                <div class="card">
+                <div class="card mb-1">
                     <div class="card-body p-1">
                         <div class="card-inside">
                             <div class="up-block-content">
@@ -19,18 +19,22 @@
                                     <div class="row w-100">
                                         <div class="col-12">
                                             <button type="button" class="btn btn-success btn-sm mb-1" id="createExercise">Упражнение +</button>
-                                            <button type="button" class="btn btn-primary btn-sm mb-1 up-tabs-elem" data-id="my_folders">Мои папки</button>
-                                            <button type="button" class="btn btn-secondary btn-sm mb-1 up-tabs-elem" data-id="nfb_folders">Папки NFB</button>
+                                            <button type="button" class="btn btn-secondary btn-sm mb-1 up-tabs-elem" data-id="nfb_folders">Папки N.F.</button>
+                                            <button type="button" class="btn btn-primary btn-sm mb-1 up-tabs-elem" data-id="my_folders">Папки тренер</button>
+                                            <button type="button" class="btn btn-outline-secondary btn-sm mb-1" data-id="exs_counter">(5000)</button>
+                                            <button type="button" class="btn btn-secondary btn-sm mb-1" data-id="filter_reset" title="Сброс фильтров">
+                                                <i class="fa fa-undo" aria-hidden="true"></i>
+                                            </button>
                                             <button type="button" class="btn btn-secondary btn-sm mb-1 up-tabs-elem" data-id="new_exs">Новые (...)</button>
-                                            <button type="button" class="btn btn-secondary btn-sm mb-1 up-tabs-elem" data-id="check_">Просмотреть</button>
-                                            <button type="button" class="btn btn-secondary btn-sm mb-1 up-tabs-elem" data-id="copy">Копировать</button>
                                             <button type="button" class="btn btn-secondary btn-sm mb-1 up-tabs-elem" data-id="mark_exs">Маркировать</button>
+                                            <button type="button" class="btn btn-secondary btn-sm mb-1 up-tabs-elem" data-id="copy">Копировать</button>
                                             <button type="button" class="btn btn-secondary btn-sm mb-1 up-tabs-elem" data-id="share_exs">Поделиться</button>
-                                            <button type="button" class="btn btn-secondary btn-sm mb-1 up-tabs-elem" data-id="show_exs">Показать</button>
                                             <button type="button" class="btn btn-secondary btn-sm mb-1 up-tabs-elem" data-id="cols_size">Колонки</button>
                                             <button type="button" class="btn btn-secondary btn-sm mb-1 up-tabs-elem" data-id="toggle_side_filter">Фильтрация</button>
+                                            <!-- <button type="button" class="btn btn-secondary btn-sm mb-1 up-tabs-elem" data-id="check_">Просмотреть</button>
+                                            <button type="button" class="btn btn-secondary btn-sm mb-1 up-tabs-elem" data-id="show_exs">Показать</button>
                                             <button type="button" class="btn btn-secondary btn-sm mb-1 up-tabs-elem" data-id="toggle_up_filter">Фильтрация 2</button>
-                                            <button type="button" class="btn btn-secondary btn-sm mb-1 up-tabs-elem" data-id="toggle_settings">Настройки</button>
+                                            <button type="button" class="btn btn-secondary btn-sm mb-1 up-tabs-elem" data-id="toggle_settings">Настройки</button> -->
                                         </div>
                                     </div>
                                 </div>
@@ -155,7 +159,7 @@
                                 <div class="exercises-list split">
                                     <div class="py-1" id="splitCol_0">
                                         <div class="d-flex justify-content-center btn-tab-second">
-                                            <button type="button" class="btn btn-secondary btn-sm" title="Скрыть / развернуть" style="padding: .31rem .5rem;">
+                                            <button type="button" class="btn btn-secondary btn-sm w-75" title="Скрыть / развернуть">
                                                 <i class="fa fa-chevron-right" aria-hidden="true"></i>
                                             </button>
                                         </div>
@@ -163,12 +167,23 @@
                                         {% include 'exercises/folders_list.html' %}
                                     </div>
                                     <div class="p-1" id="splitCol_1">
-                                        <div class="d-flex justify-content-center btn-tab-second">
-                                            <input type="text" class="form-control form-control-sm w-50" id="searhField" placeholder="Поиск">
-                                            <button type="button" class="btn btn-outline-secondary btn-sm mx-1" id="exsCounter">(5000)</button>
-                                            <button type="button" class="btn btn-secondary btn-sm mx-1" id="filterReset" title="Сброс фильтров">
-                                                <i class="fa fa-undo" aria-hidden="true"></i>
-                                            </button>
+                                        <div class="btn-tab-second">
+                                            <div class="row mx-1">
+                                                <div class="col-10 d-flex justify-content-center px-1">
+                                                    <input type="text" class="form-control form-control-sm w-50 mx-1" id="searhField" placeholder="Поиск" style="max-height:30.6px;">
+                                                    <button type="button" class="btn btn-secondary btn-sm w-50 mx-1">Категория</button>
+                                                </div>
+                                                <div class="col-1 d-flex justify-content-center px-1">
+                                                    <button type="button" class="btn btn-secondary btn-sm w-100" title="Просмотрено">
+                                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="col-1 d-flex justify-content-center px-1">
+                                                    <button type="button" class="btn btn-secondary btn-sm w-100" title="Избранное">
+                                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
                                         <hr class="mt-1">
                                         <ul class="exs-list-group list-group list-group-flush">
@@ -177,15 +192,16 @@
                                     </div>
                                     <div class="p-1 visual-block" id="splitCol_2">
                                         <div class="d-flex justify-content-center btn-tab-second">
-                                            <div class="row"><div class="col-12" style="height: calc(1.5em + .5rem + 0.5px);">&nbsp;</div></div>
+                                            <button type="button" class="btn btn-secondary btn-sm w-50 mx-1">Показать</button>
+                                            <button type="button" class="btn btn-secondary btn-sm w-50 mx-1">Редактировать</button>
                                             <!-- <button type="button" class="btn btn-outline-secondary btn-sm mx-1">Рис. (..)</button>
                                             <button type="button" class="btn btn-primary btn-sm mx-1" id="toggleVideoPanel">V. (..)</button>
                                             <button type="button" class="btn btn-secondary btn-sm mx-1" id="toggleAnimationPanel">A. (..)</button> -->
                                         </div>
                                         <hr class="mt-1">
                                         <div class="row graphics-row">
-                                            <div class="col-12 exs_drawing">
-                                                <div id="svgbox" class="d-block float-left w-100">
+                                            <div class="col-12 exs_drawing d-flex justify-content-end">
+                                                <div id="svgbox" class="d-block float-left size-w-x" style="--w-x:90%;">
                                                     <div id="svgparent" class="d-block mx-auto">
                                                         <svg id="block" class="d-block bg-success mx-auto" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
                                                             <defs>
@@ -210,72 +226,223 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-12 my-2 exs-video" title="Видео">
-                                                <p class="mb-1">Видео:</p>
-                                                <img src="{% static 'exercises/img/video_player_temp.jpg' %}" class="img-fluid w-100" alt="[ VIDEO ]">
+                                            <div class="col-12 my-2 exs-video d-flex justify-content-end" title="Видео">
+                                                <img src="{% static 'exercises/img/video_player_temp.jpg' %}" class="img-fluid size-w-x" alt="[ VIDEO ]" style="--w-x:90%;">
                                             </div>
-                                            <div class="col-12 my-2 exs-animation d-none" title="Анимация">
-                                                <p class="mb-1">Анимация:</p>
-                                                <img src="{% static 'exercises/img/video_player_temp.jpg' %}" class="img-fluid w-100" alt="[ ANIMATION ]">
+                                            <div class="col-12 my-2 exs-animation d-none justify-content-end" title="Анимация">
+                                                <img src="{% static 'exercises/img/video_player_temp.jpg' %}" class="img-fluid size-w-x" alt="[ ANIMATION ]" style="--w-x:90%;">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="p-1 side-filter-block d-none" id="splitCol_3">
                                         <div class="d-flex justify-content-center btn-tab-second">
-                                            <button type="button" class="btn btn-secondary btn-sm mx-1">
-                                                <i class="fa fa-folder-o" aria-hidden="true"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-secondary btn-sm mx-1">123..</button>
+                                            <button type="button" class="btn btn-secondary btn-sm w-100">Фильтровать</button>
                                         </div>
                                         <hr class="mt-1">
                                         <ul class="list-group list-group-flush">
                                             <li class="side-filter-elem list-group-item py-1">
                                                 <div class="row">
-                                                    <div class="col-6 text-left">
-                                                        <span>filter 1</span>
+                                                    <div class="col-8 text-left">
+                                                        <span>ворота G</span>
                                                     </div>
-                                                    <div class="col-6 text-right">
-                                                        <span>( ... )</span>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="side-filter-elem list-group-item py-1">
-                                                <div class="row">
-                                                    <div class="col-6 text-left">
-                                                        <span>filter 2</span>
-                                                    </div>
-                                                    <div class="col-6 text-right">
-                                                        <span>( ... )</span>
+                                                    <div class="col-4 text-right">
+                                                        <span>(...)</span>
                                                     </div>
                                                 </div>
                                             </li>
                                             <li class="side-filter-elem list-group-item py-1">
                                                 <div class="row">
-                                                    <div class="col-6 text-left">
-                                                        <span>filter 3</span>
+                                                    <div class="col-8 text-left">
+                                                        <span>ворота g</span>
                                                     </div>
-                                                    <div class="col-6 text-right">
-                                                        <span>( ... )</span>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="side-filter-elem list-group-item py-1">
-                                                <div class="row">
-                                                    <div class="col-6 text-left">
-                                                        <span>filter 4</span>
-                                                    </div>
-                                                    <div class="col-6 text-right">
-                                                        <span>( ... )</span>
+                                                    <div class="col-4 text-right">
+                                                        <span>(...)</span>
                                                     </div>
                                                 </div>
                                             </li>
                                             <li class="side-filter-elem list-group-item py-1">
                                                 <div class="row">
-                                                    <div class="col-6 text-left">
-                                                        <span>filter 5</span>
+                                                    <div class="col-8 text-left">
+                                                        <span>без ворот</span>
                                                     </div>
-                                                    <div class="col-6 text-right">
-                                                        <span>( ... )</span>
+                                                    <div class="col-4 text-right">
+                                                        <span>(...)</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="side-filter-elem list-group-item py-1">
+                                                <div class="row">
+                                                    <div class="col-8 text-left">
+                                                        <span>с мячом</span>
+                                                    </div>
+                                                    <div class="col-4 text-right">
+                                                        <span><i class="fa fa-futbol-o" aria-hidden="true"></i></span>
+                                                        <span>(...)</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="side-filter-elem list-group-item py-1">
+                                                <div class="row">
+                                                    <div class="col-8 text-left">
+                                                        <span>без мяча</span>
+                                                    </div>
+                                                    <div class="col-4 text-right">
+                                                        <span>(...)</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="side-filter-elem list-group-item py-1">
+                                                <div class="row">
+                                                    <div class="col-8 text-left">
+                                                        <span>смотрел</span>
+                                                    </div>
+                                                    <div class="col-4 text-right">
+                                                        <span>(...)</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="side-filter-elem list-group-item py-1">
+                                                <div class="row">
+                                                    <div class="col-8 text-left">
+                                                        <span>не смотрел</span>
+                                                    </div>
+                                                    <div class="col-4 text-right">
+                                                        <span>(...)</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="side-filter-elem list-group-item py-1">
+                                                <div class="row">
+                                                    <div class="col-8 text-left">
+                                                        <span>избранное</span>
+                                                    </div>
+                                                    <div class="col-4 text-right">
+                                                        <span>(...)</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="side-filter-elem list-group-item py-1">
+                                                <div class="row">
+                                                    <div class="col-8 text-left">
+                                                        <span>лайки</span>
+                                                    </div>
+                                                    <div class="col-4 text-right">
+                                                        <span>(...)</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="side-filter-elem list-group-item py-1">
+                                                <div class="row">
+                                                    <div class="col-8 text-left">
+                                                        <span>видео</span>
+                                                    </div>
+                                                    <div class="col-4 text-right">
+                                                        <span>(...)</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="side-filter-elem list-group-item py-1">
+                                                <div class="row">
+                                                    <div class="col-8 text-left">
+                                                        <span>анимация</span>
+                                                    </div>
+                                                    <div class="col-4 text-right">
+                                                        <span>(...)</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <div class="d-flex justify-content-center btn-tab-second">
+                                            <button type="button" class="btn btn-secondary btn-sm w-100">Показать</button>
+                                        </div>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="side-filter-elem list-group-item py-1">
+                                                <div class="row">
+                                                    <div class="col-8 text-left">
+                                                        <span>категория</span>
+                                                    </div>
+                                                    <div class="col-4 text-right">
+                                                        <span></span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="side-filter-elem list-group-item py-1">
+                                                <div class="row">
+                                                    <div class="col-8 text-left">
+                                                        <span>игроки</span>
+                                                    </div>
+                                                    <div class="col-4 text-right">
+                                                        <span></span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="side-filter-elem list-group-item py-1">
+                                                <div class="row">
+                                                    <div class="col-8 text-left">
+                                                        <span>ворота</span>
+                                                    </div>
+                                                    <div class="col-4 text-right">
+                                                        <span></span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="side-filter-elem list-group-item py-1">
+                                                <div class="row">
+                                                    <div class="col-8 text-left">
+                                                        <span>мяч</span>
+                                                    </div>
+                                                    <div class="col-4 text-right">
+                                                        <span></span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="side-filter-elem list-group-item py-1">
+                                                <div class="row">
+                                                    <div class="col-8 text-left">
+                                                        <span>просмотры</span>
+                                                    </div>
+                                                    <div class="col-4 text-right">
+                                                        <span><i class="fa fa-eye" aria-hidden="true"></i></span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="side-filter-elem list-group-item py-1">
+                                                <div class="row">
+                                                    <div class="col-8 text-left">
+                                                        <span>избранное</span>
+                                                    </div>
+                                                    <div class="col-4 text-right">
+                                                        <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="side-filter-elem list-group-item py-1">
+                                                <div class="row">
+                                                    <div class="col-8 text-left">
+                                                        <span>лайки</span>
+                                                    </div>
+                                                    <div class="col-4 text-right">
+                                                        <span></span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="side-filter-elem list-group-item py-1">
+                                                <div class="row">
+                                                    <div class="col-8 text-left">
+                                                        <span>видео / анимация</span>
+                                                    </div>
+                                                    <div class="col-4 text-right">
+                                                        <span></span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="side-filter-elem list-group-item py-1">
+                                                <div class="row">
+                                                    <div class="col-8 text-left">
+                                                        <span>IQ</span>
+                                                    </div>
+                                                    <div class="col-4 text-right">
+                                                        <span></span>
                                                     </div>
                                                 </div>
                                             </li>
