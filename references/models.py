@@ -168,29 +168,12 @@ class ExsCognitiveLoad(AbstractReference, MixTranslateReference):
         pass
 
 
-class ExsCategory(AbstractReference, MixTranslateReference):
+class ExsAgeCategory(AbstractReference, MixTranslateReference):
     class Meta(AbstractReference.Meta):
         pass
 
 
-
-class ExsPurpose(AbstractReference, MixTranslateReference):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    class Meta(AbstractReference.Meta):
-        pass
-
-
-class ExsStressType(AbstractReference, MixTranslateReference):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    class Meta(AbstractReference.Meta):
-        pass
-
-
-class ExsCoaching(AbstractReference, MixTranslateReference):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-
+class ExsSource(AbstractReference, MixTranslateReference):
     class Meta(AbstractReference.Meta):
         pass
 

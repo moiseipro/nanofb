@@ -8,4 +8,5 @@
 /.idea/
 
 /data.txt
+/temp.txt
 db.sqlite3

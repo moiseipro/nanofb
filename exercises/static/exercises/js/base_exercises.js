@@ -85,6 +85,30 @@ function RenderSplitCols() {
     });
     let stateColSize = $('.up-tabs-elem[data-id="cols_size"]').attr('data-state') == '1';
     $('.exercises-list').find('div.gutter').toggleClass('d-none', !stateColSize);
+
+    $('#exerciseCardModal').find('div.gutter').remove();
+    sizesArr = window.dataForSplit2;
+    window.split2 = Split(['#splitCol_10', '#splitCol_11'], {
+        sizes: sizesArr,
+        dragInterval: 1,
+        gutterSize: 20,
+        onDrag: () => {
+            let sizes = window.split2.getSizes();
+            try {
+                if (sizes[0] < 39) {
+                    window.split2.setSizes([40, 60]);
+                }
+                if (sizes[1] < 39) {
+                    window.split2.setSizes([60, 40]);
+                }
+            } catch(e) {}
+        },
+        onDragEnd: (arr) => {
+            window.dataForSplit2 = arr;
+            localStorage.setItem('split_cols2', JSON.stringify(window.dataForSplit2));
+        }
+    });
+    $('#exerciseCardModal').find('div.gutter').toggleClass('d-none', true);
 }
 
 function RenderExerciseOne(data) {
@@ -109,16 +133,12 @@ function RenderExerciseOne(data) {
         let folderType = data.nfb ? "folder_nfb" : "folder_default";
 
         $(exsCard).attr('data-exs', data.id);
-        $(exsCard).find('#editExs').toggleClass('d-none', data.nfb);
+        // $(exsCard).find('#saveExs').toggleClass('d-none', data.nfb);
 
-        $(exsCard).find('#editExs').attr('data-state', '0');
-        $(exsCard).find('#editExs').toggleClass('btn-secondary', true);
-        $(exsCard).find('#editExs').toggleClass('btn-success', false);
-        $(exsCard).find('#editExs').text('Редактировать');
-        $(exsCard).find('.btn-only-edit').prop('disabled', false);
-        $(exsCard).find('.exs_edit_field').prop('disabled', true);
-        $(exsCard).find('.add-row').prop('disabled', true);
-        document.descriptionEditor.enableReadOnlyMode('');
+        // $(exsCard).find('.btn-only-edit').prop('disabled', false);
+        // $(exsCard).find('.exs_edit_field').prop('disabled', true);
+        // $(exsCard).find('.add-row').prop('disabled', true);
+        // document.descriptionEditor.enableReadOnlyMode('');
 
         $(exsCard).find('.exs_edit_field.folder_nfb').toggleClass('d-none', !data.nfb);
         $(exsCard).find('.exs_edit_field.folder_default').toggleClass('d-none', data.nfb);
@@ -131,50 +151,34 @@ function RenderExerciseOne(data) {
         $(exsCard).find('.exs_edit_field[name="ref_goal"]').val(data.ref_goal);
         $(exsCard).find('.exs_edit_field[name="ref_workout_part"]').val(data.ref_workout_part);
         $(exsCard).find('.exs_edit_field[name="ref_cognitive_load"]').val(data.ref_cognitive_load);
-        $(exsCard).find('.exs_edit_field[name="ref_category"]').val(data.ref_category);
-        let ageValue = ['', ''];
+        $(exsCard).find('.exs_edit_field[name="ref_age_category"]').val(data.ref_age_category);
+        let playersAmount = "";
         try {
-            let tmpVal = data.age.split(',');
-            if (tmpVal.length == 2) {
-                ageValue = tmpVal;
-            }
+            playersAmount = data.players_amount[0];
         } catch (e) {}
-        $(exsCard).find('.exs_edit_field[name="age[]"]').first().val(ageValue[0]);
-        $(exsCard).find('.exs_edit_field[name="age[]"]').last().val(ageValue[1]);
-        let playersAmountValue = ['', ''];
-        try {
-            let tmpVal = data.players_amount.split(',');
-            if (tmpVal.length == 2) {
-                playersAmountValue = tmpVal;
-            }
-        } catch (e) {}
-        $(exsCard).find('.exs_edit_field[name="players_amount[]"]').first().val(playersAmountValue[0]);
-        $(exsCard).find('.exs_edit_field[name="players_amount[]"]').last().val(playersAmountValue[1]);
+        $(exsCard).find('.exs_edit_field[name="players_amount"]').val(playersAmount);
+        $(exsCard).find('.exs_edit_field[name="ref_source"]').val(data.ref_source);
 
-        CheckMultiRows(exsCard, data.organization, '.exs_edit_field[name="organization[]"]');
-        CheckMultiRows(exsCard, data.play_zone, '.exs_edit_field[name="play_zone[]"]');
-        CheckMultiRows(exsCard, data.players_amount, '.exs_edit_field[name="players_amount[]"]');
-        CheckMultiRows(exsCard, data.touches_amount, '.exs_edit_field[name="touches_amount[]"]');
-        CheckMultiRows(exsCard, data.iterations, '.exs_edit_field[name="iterations[]"]');
-        CheckMultiRows(exsCard, data.pauses, '.exs_edit_field[name="pauses[]"]');
-        CheckMultiRows(exsCard, data.series, '.exs_edit_field[name="series[]"]');
-        CheckMultiRows(exsCard, data.ref_purpose, '.exs_edit_field[name="ref_purposes[]"]');
-        CheckMultiRows(exsCard, data.ref_stress_type, '.exs_edit_field[name="ref_stress_type[]"]');
-        CheckMultiRows(exsCard, data.ref_coaching, '.exs_edit_field[name="ref_coaching[]"]');
+        CheckMultiRows(exsCard, data.condition, '.exs_edit_field[name="conditions[]"]');
+        CheckMultiRows(exsCard, data.stress_type, '.exs_edit_field[name="stress_type[]"]');
+        CheckMultiRows(exsCard, data.purpose, '.exs_edit_field[name="purposes[]"]');
+        CheckMultiRows(exsCard, data.coaching, '.exs_edit_field[name="coaching[]"]');
         CheckMultiRows(exsCard, data.notes, '.exs_edit_field[name="notes[]"]');
 
         $(exsCard).find('.exs_edit_field[name="title"]').val(data.title);
+        $(exsCard).find('.exs_edit_field[name="keyword"]').val(data.keyword);
         document.descriptionEditor.setData(data.description);
     } else {
         $(exsCard).attr('data-exs', '-1');
 
-        $(exsCard).find('#editExs').attr('data-state', '1');
-        $(exsCard).find('#editExs').toggleClass('btn-secondary', false);
-        $(exsCard).find('#editExs').toggleClass('btn-success', true);
-        $(exsCard).find('#editExs').text('Сохранить');
         $(exsCard).find('.btn-only-edit').prop('disabled', true);
+        $(exsCard).find('.btn-not-view').toggleClass('d-none', false);
         $(exsCard).find('.exs_edit_field').prop('disabled', false);
         $(exsCard).find('.add-row').prop('disabled', false);
+        $(exsCard).find('.remove-row').prop('disabled', true);
+        $(exsCard).find('.remove-row.btn-on').prop('disabled', false);
+        $(exsCard).find('.add-row').toggleClass('d-none', false);
+        $(exsCard).find('.remove-row').toggleClass('d-none', false);
         document.descriptionEditor.disableReadOnlyMode('');
 
         $(exsCard).find('.exs_edit_field.folder_nfb').toggleClass('d-none', true);
@@ -186,16 +190,10 @@ function RenderExerciseOne(data) {
         $(exsCard).find('.exs_edit_field').val('');
         document.descriptionEditor.setData('');
 
-        CheckMultiRows(exsCard, '', '.exs_edit_field[name="organization[]"]');
-        CheckMultiRows(exsCard, '', '.exs_edit_field[name="play_zone[]"]');
-        CheckMultiRows(exsCard, '', '.exs_edit_field[name="players_amount[]"]');
-        CheckMultiRows(exsCard, '', '.exs_edit_field[name="touches_amount[]"]');
-        CheckMultiRows(exsCard, '', '.exs_edit_field[name="iterations[]"]');
-        CheckMultiRows(exsCard, '', '.exs_edit_field[name="pauses[]"]');
-        CheckMultiRows(exsCard, '', '.exs_edit_field[name="series[]"]');
-        CheckMultiRows(exsCard, '', '.exs_edit_field[name="ref_purposes[]"]');
-        CheckMultiRows(exsCard, '', '.exs_edit_field[name="ref_stress_type[]"]');
-        CheckMultiRows(exsCard, '', '.exs_edit_field[name="ref_coaching[]"]');
+        CheckMultiRows(exsCard, '', '.exs_edit_field[name="conditions[]"]');
+        CheckMultiRows(exsCard, '', '.exs_edit_field[name="stress_type[]"]');
+        CheckMultiRows(exsCard, '', '.exs_edit_field[name="purposes[]"]');
+        CheckMultiRows(exsCard, '', '.exs_edit_field[name="coaching[]"]');
         CheckMultiRows(exsCard, '', '.exs_edit_field[name="notes[]"]');
 
         $('.exs-list-group').find('.list-group-item').removeClass('active');
@@ -282,6 +280,18 @@ $(function() {
         $(e.currentTarget).attr('data-state', state ? '0' : '1');
     });
 
+    // Toggle columns size
+    $('#columnsSizeToggle').on('click', (e) => {
+        if ($('.up-tabs-elem[data-id="toggle_side_filter"]').attr('data-state') == '1') {
+            $('.exercises-list').find('div.gutter').toggleClass('d-none');
+        } else {
+            swal("Внимание", "Включите сначала \"Фильтрацию\".", "info");
+        }
+    });
+    $('#columnsSizeInCard').on('click', (e) => {
+        $('#exerciseCardModal').find('div.gutter').toggleClass('d-none');
+    });
+    
     // Choose exs folder
     $('.folders_list').on('click', '.list-group-item', (e) => {
         let isActive = $(e.currentTarget).hasClass('active');
@@ -420,9 +430,33 @@ $(function() {
     });
 
     // Open exercise's card
-    $('div.exs_drawing').on('click', (e) => {
+    $('#openCardView').on('click', (e) => {
         if ($('.exs-list-group').find('.list-group-item.active').length > 0) {
+            $('#exerciseCardModal').find('.exs_edit_field').prop('disabled', true);
+            $('#exerciseCardModal').find('.btn-only-edit').prop('disabled', false);
+            $('#exerciseCardModal').find('.btn-not-view').toggleClass('d-none', true);
+            $('#exerciseCardModal').find('.add-row').toggleClass('d-none', true);
+            $('#exerciseCardModal').find('.remove-row').toggleClass('d-none', true);
+            document.descriptionEditor.enableReadOnlyMode('');
             $('#exerciseCardModal').modal('show');
+        } else {
+            swal("Внимание", "Выберите сначала упражнение из списка.", "info");
+        }
+    });
+    $('#openCardEdit').on('click', (e) => {
+        if ($('.exs-list-group').find('.list-group-item.active').length > 0) {
+            $('#exerciseCardModal').find('.exs_edit_field').prop('disabled', false);
+            $('#exerciseCardModal').find('.btn-only-edit').prop('disabled', false);
+            $('#exerciseCardModal').find('.btn-not-view').toggleClass('d-none', false);
+            $('#exerciseCardModal').find('.add-row').toggleClass('d-none', false);
+            $('#exerciseCardModal').find('.remove-row').toggleClass('d-none', false);
+            $('#exerciseCardModal').find('.add-row').prop('disabled', false);
+            $('#exerciseCardModal').find('.remove-row').prop('disabled', true);
+            $('#exerciseCardModal').find('.remove-row.btn-on').prop('disabled', false);
+            document.descriptionEditor.disableReadOnlyMode('');
+            $('#exerciseCardModal').modal('show');
+        } else {
+            swal("Внимание", "Выберите сначала упражнение из списка.", "info");
         }
     });
     $('#createExercise').on('click', (e) => {
@@ -462,68 +496,57 @@ $(function() {
         .catch(err => {
             console.error(err);
         });
-    $('#exerciseCardModal').on('click', '#editExs', (e) => {
-        let state = $(e.currentTarget).attr('data-state') == '1';
-        if (state) {
-            let exsId = $('#exerciseCardModal').attr('data-exs');
-            let dataToSend = {'edit_exs': 1, 'exs': exsId, 'data': {}};
-            $('#exerciseCardModal').find('.exs_edit_field').each((ind, elem) => {
-                if (!$(elem).hasClass('d-none')) {
-                    let name = $(elem).attr('name');
-                    if (name in dataToSend.data) {
-                        if (!Array.isArray(dataToSend.data[name])) {
-                            let tVal = dataToSend.data[name];
-                            dataToSend.data[name] = [tVal];
-                        }
-                        dataToSend.data[name].push($(elem).val());
-                    } else {
-                        dataToSend.data[name] = $(elem).val();
+    $('#exerciseCardModal').on('click', '#saveExs', (e) => {
+        let exsId = $('#exerciseCardModal').attr('data-exs');
+        let dataToSend = {'edit_exs': 1, 'exs': exsId, 'data': {}};
+        $('#exerciseCardModal').find('.exs_edit_field').each((ind, elem) => {
+            if (!$(elem).hasClass('d-none')) {
+                let name = $(elem).attr('name');
+                if (name in dataToSend.data) {
+                    if (!Array.isArray(dataToSend.data[name])) {
+                        let tVal = dataToSend.data[name];
+                        dataToSend.data[name] = [tVal];
                     }
+                    dataToSend.data[name].push($(elem).val());
+                } else {
+                    dataToSend.data[name] = $(elem).val();
                 }
-            });
-            dataToSend.data['description'] = document.descriptionEditor.getData();
-            if (dataToSend.data.title == "") {
-                swal("Внимание", "Добавьте название для упражнения.", "info");
-                return;
             }
-            if (dataToSend.data.folder_parent == "" || dataToSend.data.folder_main == "") {
-                swal("Внимание", "Выберите папку для упражнения.", "info");
-                return;
-            }
-            $('.page-loader-wrapper').fadeIn();
-            $.ajax({
-                data: dataToSend,
-                type: 'POST', // GET или POST
-                dataType: 'json',
-                url: "exercises_api",
-                success: function (res) {
-                    if (res.success) {
-                        swal("Готово", "Упражнение успешно создано / изменено.", "success")
-                        .then((value) => {
-                            $('.page-loader-wrapper').fadeIn();
-                            window.location.reload();
-                        });
-                    } else {
-                        swal("Ошибка", `При создании / изменении упражнения произошла ошибка (${res.err}).`, "error");
-                    }
-                },
-                error: function (res) {
-                    swal("Ошибка", "Упражнение не удалось создать / изменить.", "error");
-                    console.log(res);
-                },
-                complete: function (res) {
-                    $('.page-loader-wrapper').fadeOut();
-                }
-            });
-        } else {
-            $(e.currentTarget).attr('data-state', '1');
-            $(e.currentTarget).toggleClass('btn-secondary', state);
-            $(e.currentTarget).toggleClass('btn-success', !state);
-            $(e.currentTarget).text('Сохранить');
-            $('#exerciseCardModal').find('.exs_edit_field').prop('disabled', false);
-            $('#exerciseCardModal').find('.add-row').prop('disabled', false);
-            document.descriptionEditor.disableReadOnlyMode('');
+        });
+        dataToSend.data['description'] = document.descriptionEditor.getData();
+        if (dataToSend.data.title == "") {
+            swal("Внимание", "Добавьте название для упражнения.", "info");
+            return;
         }
+        if (dataToSend.data.folder_parent == "" || dataToSend.data.folder_main == "") {
+            swal("Внимание", "Выберите папку для упражнения.", "info");
+            return;
+        }
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            data: dataToSend,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "exercises_api",
+            success: function (res) {
+                if (res.success) {
+                    swal("Готово", "Упражнение успешно создано / изменено.", "success")
+                    .then((value) => {
+                        $('.page-loader-wrapper').fadeIn();
+                        window.location.reload();
+                    });
+                } else {
+                    swal("Ошибка", `При создании / изменении упражнения произошла ошибка (${res.err}).`, "error");
+                }
+            },
+            error: function (res) {
+                swal("Ошибка", "Упражнение не удалось создать / изменить.", "error");
+                console.log(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
     });
     $('#exerciseCardModal').on('change', '[name="folder_parent"]', (e) => {
         let tId = $(e.currentTarget).val();
@@ -539,26 +562,12 @@ $(function() {
     });
     $('#exerciseCardModal').on('click', '.add-row', (e) => {
         let cId = $(e.currentTarget).attr('data-id');
-        if (cId == "conditions") {
-            let fRow = $('#exerciseCardModal').find('.row-select.active');
-            if   ($(fRow).length > 0) {
-                let cTd = $(fRow).find('.row-select-td').find('.exs_edit_field').first().parent().parent().parent();
-                let cloneRow = $(fRow).find('.row-select-td').find('.exs_edit_field').first().parent().parent().clone();
-                $(cloneRow).find('.exs_edit_field').val('');
-                $(cloneRow).find('.remove-row').addClass('btn-on');
-                $(cloneRow).find('.remove-row').prop('disabled', false);
-                $(cTd).append(cloneRow);
-            } else {
-                swal("Внимание", "Выберите одну из строк ниже.", "info");
-            }
-        } else {
-            let cTd = $('#exerciseCardModal').find(`td[data-id="td_${cId}"]`);
-            let cloneRow = $(cTd).find('div.row').first().clone();
-            $(cloneRow).find('.exs_edit_field').val('');
-            $(cloneRow).find('.remove-row').addClass('btn-on');
-            $(cloneRow).find('.remove-row').prop('disabled', false);
-            $(cTd).append(cloneRow);
-        }
+        let cTd = $('#exerciseCardModal').find(`td[data-id="td_${cId}"]`);
+        let cloneRow = $(cTd).find('div.row').first().clone();
+        $(cloneRow).find('.exs_edit_field').val('');
+        $(cloneRow).find('.remove-row').addClass('btn-on');
+        $(cloneRow).find('.remove-row').prop('disabled', false);
+        $(cTd).append(cloneRow);
     });
     $('#exerciseCardModal').on('click', '.remove-row', (e) => {
         if (!$(e.currentTarget).hasClass('btn-on')) {return;}
@@ -623,6 +632,11 @@ $(function() {
     if (!window.dataForSplit) {
         window.dataForSplit = [15, 35, 40, 10];
         localStorage.setItem('split_cols', JSON.stringify(window.dataForSplit));
+    }
+    window.dataForSplit2 = JSON.parse(localStorage.getItem('split_cols2'));
+    if (!window.dataForSplit2) {
+        window.dataForSplit2 = [50, 50];
+        localStorage.setItem('split_cols2', JSON.stringify(window.dataForSplit2));
     }
     RenderSplitCols();
 

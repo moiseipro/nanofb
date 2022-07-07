@@ -40,6 +40,15 @@ div.side-filter-block {
 .size-max-w-x {
     max-width: var(--w-max-x) !important;
 }
+.size-h-x {
+    height: var(--h-x) !important;
+}
+.size-min-h-x {
+    min-height: var(--h-min-x) !important;
+}
+.size-max-h-x {
+    max-height: var(--h-max-x) !important;
+}
 
 .row-select.active > .row-select-td {
     background-color: #007bff;
@@ -75,3 +84,9 @@ div.side-filter-block {
     display: inline-block;
 }
 
+.bck-light-gray {
+    background-color: #cecece;
+}
+.ml-custom-10 {
+    margin-left: 10rem !important;
+}

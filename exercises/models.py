@@ -1,3 +1,4 @@
+from ast import keyword
 from django.db import models
 from django.core.validators import int_list_validator
 from users.models import User
@@ -88,20 +89,24 @@ class AbstractExercise(models.Model):
     ref_goal = models.IntegerField(null=True, blank=True)
     ref_workout_part = models.IntegerField(null=True, blank=True)
     ref_cognitive_load = models.IntegerField(null=True, blank=True)
-    ref_category = models.IntegerField(null=True, blank=True)
-    age = models.CharField(max_length=10, null=True, blank=True, validators=[int_list_validator])
+    # ref_category = models.IntegerField(null=True, blank=True)
+    ref_age_category = models.IntegerField(null=True, blank=True)
+    # age = models.CharField(max_length=10, null=True, blank=True, validators=[int_list_validator])
     description = models.JSONField(null=True, blank=True)
 
-    organization = models.JSONField(null=True, blank=True)
-    play_zone = models.JSONField(null=True, blank=True)
+    # organization = models.JSONField(null=True, blank=True)
+    # play_zone = models.JSONField(null=True, blank=True)
     players_amount = models.JSONField(null=True, blank=True)
-    touches_amount = models.JSONField(null=True, blank=True)
-    iterations = models.JSONField(null=True, blank=True)
-    pauses = models.JSONField(null=True, blank=True)
-    series = models.JSONField(null=True, blank=True)
-    ref_purpose = models.JSONField(null=True, blank=True)
-    ref_stress_type = models.JSONField(null=True, blank=True)
-    ref_coaching = models.JSONField(null=True, blank=True)
+    keyword = models.JSONField(null=True, blank=True)
+    ref_source = models.IntegerField(null=True, blank=True)
+    # touches_amount = models.JSONField(null=True, blank=True)
+    # iterations = models.JSONField(null=True, blank=True)
+    # pauses = models.JSONField(null=True, blank=True)
+    # series = models.JSONField(null=True, blank=True)
+    condition = models.JSONField(null=True, blank=True)
+    stress_type = models.JSONField(null=True, blank=True)
+    purpose = models.JSONField(null=True, blank=True)
+    coaching = models.JSONField(null=True, blank=True)
     notes = models.JSONField(null=True, blank=True)
 
     scheme_data = models.JSONField(null=True, blank=True) # {'data': ["<svg>...</svg>", "<svg>...</svg>", "<svg>...</svg>", ...]}
