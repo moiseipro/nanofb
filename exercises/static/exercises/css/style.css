@@ -90,3 +90,13 @@ div.side-filter-block {
 .ml-custom-10 {
     margin-left: 10rem !important;
 }
+
+.btn-group-custom > button.btn-secondary {
+    background-color: #a4a4a4;
+    border-color: #a4a4a4;
+}
+.btn-group-custom > button.btn-secondary:hover {
+    background-color: #818181;
+    border-color: #818181;
+}
+
