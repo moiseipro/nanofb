@@ -160,11 +160,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="exerises-content">
+                            <div class="exerises-content mt-1">
                                 <div class="exercises-list split">
                                     <div class="py-1" id="splitCol_0">
-                                        <div class="d-flex justify-content-center btn-tab-second">
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block mx-2" title="Скрыть / развернуть">
+                                        <div class="d-flex justify-content-center btn-tab-second mx-2">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block" title="Скрыть / развернуть">
                                                 <i class="fa fa-chevron-right" aria-hidden="true"></i>
                                             </button>
                                         </div>
@@ -173,16 +173,16 @@
                                     </div>
                                     <div class="p-1" id="splitCol_1">
                                         <div class="btn-tab-second">
-                                            <div class="row mx-1">
-                                                <div class="col-10 d-flex justify-content-center px-1">
-                                                    <input type="text" class="form-control form-control-sm btn-block btn-custom text-center" id="searhField" placeholder="Ключевое слово">
+                                            <div class="row w-100">
+                                                <div class="col-10 d-flex justify-content-center px-0">
+                                                    <input type="text" class="form-control form-control-sm btn-block btn-custom text-center ml-2 mr-1" id="searhField" placeholder="Ключевое слово">
                                                     <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom" style="margin-top: 0;">Категория</button>
                                                 </div>
-                                                <div class="col-2 d-flex justify-content-center px-1">
-                                                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom" title="Просмотрено">
+                                                <div class="col-2 d-flex justify-content-center px-0">
+                                                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom size-max-w-x mr-1" title="Просмотрено" style="--w-max-x: 40px;">
                                                         <span class="icon-custom icon--eye" style="--i-w: 100%; --i-h: 100%;"></span>
                                                     </button>
-                                                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom" title="Избранное" style="margin-top: 0;">
+                                                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom size-max-w-x" title="Избранное" style="--w-max-x: 40px; margin-top: 0;">
                                                         <span class="icon-custom icon--favorite" style="--i-w: 100%; --i-h: 100%;"></span>
                                                     </button>
                                                 </div>
@@ -226,10 +226,11 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-12 my-2 exs-video d-flex justify-content-end" title="Видео">
-                                                <img src="{% static 'exercises/img/video_player_temp.jpg' %}" class="img-fluid size-w-x" alt="[ VIDEO ]" style="--w-x:100%;">
+                                            <div class="col-12 my-1 exs-video d-flex justify-content-end" title="Видео">
+                                                <video id="video-player" class="video-js resize-block size-w-x" style="--w-x:100%;">
+                                                </video>
                                             </div>
-                                            <div class="col-12 my-2 exs-animation d-none justify-content-end" title="Анимация">
+                                            <div class="col-12 my-1 exs-animation d-none justify-content-end" title="Анимация">
                                                 <img src="{% static 'exercises/img/video_player_temp.jpg' %}" class="img-fluid size-w-x" alt="[ ANIMATION ]" style="--w-x:100%;">
                                             </div>
                                         </div>
@@ -241,112 +242,101 @@
                                         <ul class="list-group list-group-flush">
                                             <li class="side-filter-elem list-group-item py-1">
                                                 <div class="row">
-                                                    <div class="col-8 text-left">
+                                                    <div class="col-10 text-left">
                                                         <span>ворота G</span>
                                                     </div>
-                                                    <div class="col-4 text-right">
-                                                        <span>(...)</span>
+                                                    <div class="col-2 text-right">
                                                     </div>
                                                 </div>
                                             </li>
                                             <li class="side-filter-elem list-group-item py-1">
                                                 <div class="row">
-                                                    <div class="col-8 text-left">
+                                                    <div class="col-10 text-left">
                                                         <span>ворота g</span>
                                                     </div>
-                                                    <div class="col-4 text-right">
-                                                        <span>(...)</span>
+                                                    <div class="col-2 text-right">
                                                     </div>
                                                 </div>
                                             </li>
                                             <li class="side-filter-elem list-group-item py-1">
                                                 <div class="row">
-                                                    <div class="col-8 text-left">
+                                                    <div class="col-10 text-left">
                                                         <span>без ворот</span>
                                                     </div>
-                                                    <div class="col-4 text-right">
-                                                        <span>(...)</span>
+                                                    <div class="col-2 text-right">
                                                     </div>
                                                 </div>
                                             </li>
                                             <li class="side-filter-elem list-group-item py-1">
                                                 <div class="row">
-                                                    <div class="col-8 text-left">
+                                                    <div class="col-10 text-left">
                                                         <span>с мячом</span>
                                                     </div>
-                                                    <div class="col-4 text-right">
+                                                    <div class="col-2 text-right">
                                                         <span><i class="fa fa-futbol-o" aria-hidden="true"></i></span>
-                                                        <span>(...)</span>
                                                     </div>
                                                 </div>
                                             </li>
                                             <li class="side-filter-elem list-group-item py-1">
                                                 <div class="row">
-                                                    <div class="col-8 text-left">
+                                                    <div class="col-10 text-left">
                                                         <span>без мяча</span>
                                                     </div>
-                                                    <div class="col-4 text-right">
-                                                        <span>(...)</span>
+                                                    <div class="col-2 text-right">
                                                     </div>
                                                 </div>
                                             </li>
                                             <li class="side-filter-elem list-group-item py-1">
                                                 <div class="row">
-                                                    <div class="col-8 text-left">
+                                                    <div class="col-10 text-left">
                                                         <span>смотрел</span>
                                                     </div>
-                                                    <div class="col-4 text-right">
-                                                        <span>(...)</span>
+                                                    <div class="col-2 text-right">
                                                     </div>
                                                 </div>
                                             </li>
                                             <li class="side-filter-elem list-group-item py-1">
                                                 <div class="row">
-                                                    <div class="col-8 text-left">
+                                                    <div class="col-10 text-left">
                                                         <span>не смотрел</span>
                                                     </div>
-                                                    <div class="col-4 text-right">
-                                                        <span>(...)</span>
+                                                    <div class="col-2 text-right">
                                                     </div>
                                                 </div>
                                             </li>
                                             <li class="side-filter-elem list-group-item py-1">
                                                 <div class="row">
-                                                    <div class="col-8 text-left">
+                                                    <div class="col-10 text-left">
                                                         <span>избранное</span>
                                                     </div>
-                                                    <div class="col-4 text-right">
-                                                        <span>(...)</span>
+                                                    <div class="col-2 text-right">
                                                     </div>
                                                 </div>
                                             </li>
                                             <li class="side-filter-elem list-group-item py-1">
                                                 <div class="row">
-                                                    <div class="col-8 text-left">
+                                                    <div class="col-10 text-left">
                                                         <span>лайки</span>
                                                     </div>
-                                                    <div class="col-4 text-right">
-                                                        <span>(...)</span>
+                                                    <div class="col-2 text-right">
                                                     </div>
                                                 </div>
                                             </li>
                                             <li class="side-filter-elem list-group-item py-1">
                                                 <div class="row">
-                                                    <div class="col-8 text-left">
+                                                    <div class="col-10 text-left">
                                                         <span>видео</span>
                                                     </div>
-                                                    <div class="col-4 text-right">
-                                                        <span>(...)</span>
+                                                    <div class="col-2 text-right">
                                                     </div>
                                                 </div>
                                             </li>
                                             <li class="side-filter-elem list-group-item py-1">
                                                 <div class="row">
-                                                    <div class="col-8 text-left">
+                                                    <div class="col-10 text-left">
                                                         <span>анимация</span>
                                                     </div>
-                                                    <div class="col-4 text-right">
-                                                        <span>(...)</span>
+                                                    <div class="col-2 text-right">
                                                     </div>
                                                 </div>
                                             </li>
@@ -357,91 +347,84 @@
                                         <ul class="list-group list-group-flush">
                                             <li class="side-filter-elem list-group-item py-1">
                                                 <div class="row">
-                                                    <div class="col-8 text-left">
+                                                    <div class="col-10 text-left">
                                                         <span>категория</span>
                                                     </div>
-                                                    <div class="col-4 text-right">
-                                                        <span></span>
+                                                    <div class="col-2 text-right">
                                                     </div>
                                                 </div>
                                             </li>
                                             <li class="side-filter-elem list-group-item py-1">
                                                 <div class="row">
-                                                    <div class="col-8 text-left">
+                                                    <div class="col-10 text-left">
                                                         <span>игроки</span>
                                                     </div>
-                                                    <div class="col-4 text-right">
-                                                        <span></span>
+                                                    <div class="col-2 text-right">
                                                     </div>
                                                 </div>
                                             </li>
                                             <li class="side-filter-elem list-group-item py-1">
                                                 <div class="row">
-                                                    <div class="col-8 text-left">
+                                                    <div class="col-10 text-left">
                                                         <span>ворота</span>
                                                     </div>
-                                                    <div class="col-4 text-right">
-                                                        <span></span>
+                                                    <div class="col-2 text-right">
                                                     </div>
                                                 </div>
                                             </li>
                                             <li class="side-filter-elem list-group-item py-1">
                                                 <div class="row">
-                                                    <div class="col-8 text-left">
+                                                    <div class="col-10 text-left">
                                                         <span>мяч</span>
                                                     </div>
-                                                    <div class="col-4 text-right">
-                                                        <span></span>
+                                                    <div class="col-2 text-right">
                                                     </div>
                                                 </div>
                                             </li>
                                             <li class="side-filter-elem list-group-item py-1">
                                                 <div class="row">
-                                                    <div class="col-8 text-left">
+                                                    <div class="col-10 text-left">
                                                         <span>просмотры</span>
                                                     </div>
-                                                    <div class="col-4 text-right">
+                                                    <div class="col-2 text-right">
                                                         <span><i class="fa fa-eye" aria-hidden="true"></i></span>
                                                     </div>
                                                 </div>
                                             </li>
                                             <li class="side-filter-elem list-group-item py-1">
                                                 <div class="row">
-                                                    <div class="col-8 text-left">
+                                                    <div class="col-10 text-left">
                                                         <span>избранное</span>
                                                     </div>
-                                                    <div class="col-4 text-right">
+                                                    <div class="col-2 text-right">
                                                         <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
                                                     </div>
                                                 </div>
                                             </li>
                                             <li class="side-filter-elem list-group-item py-1">
                                                 <div class="row">
-                                                    <div class="col-8 text-left">
+                                                    <div class="col-10 text-left">
                                                         <span>лайки</span>
                                                     </div>
-                                                    <div class="col-4 text-right">
-                                                        <span></span>
+                                                    <div class="col-2 text-right">
                                                     </div>
                                                 </div>
                                             </li>
                                             <li class="side-filter-elem list-group-item py-1">
                                                 <div class="row">
-                                                    <div class="col-8 text-left">
+                                                    <div class="col-10 text-left">
                                                         <span>видео / анимация</span>
                                                     </div>
-                                                    <div class="col-4 text-right">
-                                                        <span></span>
+                                                    <div class="col-2 text-right">
                                                     </div>
                                                 </div>
                                             </li>
                                             <li class="side-filter-elem list-group-item py-1">
                                                 <div class="row">
-                                                    <div class="col-8 text-left">
+                                                    <div class="col-10 text-left">
                                                         <span>IQ</span>
                                                     </div>
-                                                    <div class="col-4 text-right">
-                                                        <span></span>
+                                                    <div class="col-2 text-right">
                                                     </div>
                                                 </div>
                                             </li>

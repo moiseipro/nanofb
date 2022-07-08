@@ -275,15 +275,15 @@ function RenderFolderExercises(id, tExs) {
         let exElem = exs[i];
         exsHtml += `
         <li class="exs-elem list-group-item py-1 px-0" data-id="${exElem.id}" data-folder="${exElem.folder}">
-            <div class="row mx-1">
+            <div class="row mx-3">
                 <div class="col-10 px-1">
                     <span>${i+1}. Упражнение "ID:${exElem.id}", автор: ${exElem.user}</span>
                 </div>
                 <div class="col-2 d-flex justify-content-center px-1">
-                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom size-max-h-x" title="Просмотрено" style="--h-max-x: 32px;" disabled="">
+                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom size-h-x mr-1" title="Просмотрено" style="--h-x: 32px;" disabled="">
                         <span class="icon-custom icon--eye" style="--i-w: 100%; --i-h: 100%;"></span>
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom size-max-h-x" title="Избранное" style="--h-max-x: 32px; margin-top: 0;" disabled="">
+                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom size-h-x" title="Избранное" style="--h-x: 32px; margin-top: 0;" disabled="">
                         <span class="icon-custom icon--favorite" style="--i-w: 100%; --i-h: 100%;"></span>
                     </button>
                 </div>
@@ -296,6 +296,7 @@ function RenderFolderExercises(id, tExs) {
     // временно, упр-ия не кешируются
     exercises = {"nfb": {}};
 }
+
 
 $(function() {
     // Toggle upper buttons panel
@@ -733,6 +734,21 @@ $(function() {
                 }
             });
         }
+    });
+
+
+    // Video JS
+    window.videoPlayer = videojs('video-player', {
+        preload: 'auto',
+        autoplay: false,
+        controls: true,
+        aspectRatio: '16:9',
+        youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
+    });
+    window.videoPlayer.ready((e) => {
+        window.videoPlayer.src({techOrder: ["youtube"], type: 'video/youtube', src: "https://www.youtube.com/watch?v=sNZPEnc4m0w"});
+        
+        // window.videoPlayer.src({type: 'video/mp4', src: "https://213.108.4.28/video/player/1654865941907"});
     });
 
 
