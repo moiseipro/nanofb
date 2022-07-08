@@ -4112,3 +4112,30 @@ table.table-inbox tbody tr.checked {
 	  transform: rotate(360deg);
 	}
 }
+
+
+
+.icon-custom {
+    width: var(--i-w);
+    height: var(--i-h);
+    display: block;
+}
+.icon--ball {
+	background: no-repeat center/100% url(../img/icons/ball.png);
+}
+.icon--eye {
+	background: no-repeat center/100% url(../img/icons/eye.png);
+}
+.icon--favorite {
+	background: no-repeat center/100% url(../img/icons/favorite.png);
+}
+.icon--folder {
+	background: no-repeat center/100% url(../img/icons/folder.png);
+}
+.icon--reset {
+	background: no-repeat center/100% url(../img/icons/reset.png);
+}
+.icon--trainer {
+	background: no-repeat center/100% url(../img/icons/trainer.png);
+}
+

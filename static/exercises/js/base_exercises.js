@@ -59,6 +59,39 @@ function ToggleUpFilter(id, state) {
                 }
             }
             break;
+        case "open_card_view":
+            if ($('.exs-list-group').find('.list-group-item.active').length > 0) {
+                $('#exerciseCardModal').find('.exs_edit_field').prop('disabled', true);
+                $('#exerciseCardModal').find('.btn-only-edit').prop('disabled', false);
+                $('#exerciseCardModal').find('.btn-not-view').toggleClass('d-none', true);
+                $('#exerciseCardModal').find('.add-row').toggleClass('d-none', true);
+                $('#exerciseCardModal').find('.remove-row').toggleClass('d-none', true);
+                document.descriptionEditor.enableReadOnlyMode('');
+                $('#exerciseCardModal').modal('show');
+            } else {
+                swal("Внимание", "Выберите сначала упражнение из списка.", "info");
+            }
+            $('.up-tabs-elem[data-id="open_card_view"]').toggleClass('btn-secondary', true);
+            $('.up-tabs-elem[data-id="open_card_view"]').toggleClass('btn-primary', false);
+            break;
+        case "open_card_edit":
+            if ($('.exs-list-group').find('.list-group-item.active').length > 0) {
+                $('#exerciseCardModal').find('.exs_edit_field').prop('disabled', false);
+                $('#exerciseCardModal').find('.btn-only-edit').prop('disabled', false);
+                $('#exerciseCardModal').find('.btn-not-view').toggleClass('d-none', false);
+                $('#exerciseCardModal').find('.add-row').toggleClass('d-none', false);
+                $('#exerciseCardModal').find('.remove-row').toggleClass('d-none', false);
+                $('#exerciseCardModal').find('.add-row').prop('disabled', false);
+                $('#exerciseCardModal').find('.remove-row').prop('disabled', true);
+                $('#exerciseCardModal').find('.remove-row.btn-on').prop('disabled', false);
+                document.descriptionEditor.disableReadOnlyMode('');
+                $('#exerciseCardModal').modal('show');
+            } else {
+                swal("Внимание", "Выберите сначала упражнение из списка.", "info");
+            }
+            $('.up-tabs-elem[data-id="open_card_edit"]').toggleClass('btn-secondary', true);
+            $('.up-tabs-elem[data-id="open_card_edit"]').toggleClass('btn-primary', false);
+            break;
         default:
             break;
     }
@@ -75,8 +108,6 @@ function RenderSplitCols() {
     }
     Split(['#splitCol_0', '#splitCol_1', '#splitCol_2', '#splitCol_3'], {
         sizes: sizesArr,
-        minSize: 180,
-        maxSize: 700,
         gutterSize: 20,
         onDragEnd: (arr) => {
             window.dataForSplit = arr;
@@ -243,14 +274,18 @@ function RenderFolderExercises(id, tExs) {
     for (let i = 0; i < exs.length; i++) {
         let exElem = exs[i];
         exsHtml += `
-        <li class="exs-elem list-group-item py-2 px-0" data-id="${exElem.id}" data-folder="${exElem.folder}">
+        <li class="exs-elem list-group-item py-1 px-0" data-id="${exElem.id}" data-folder="${exElem.folder}">
             <div class="row mx-1">
                 <div class="col-10 px-1">
                     <span>${i+1}. Упражнение "ID:${exElem.id}", автор: ${exElem.user}</span>
                 </div>
-                <div class="col-1 d-flex justify-content-center px-1">
-                </div>
-                <div class="col-1 d-flex justify-content-center px-1">
+                <div class="col-2 d-flex justify-content-center px-1">
+                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom size-max-h-x" title="Просмотрено" style="--h-max-x: 32px;" disabled="">
+                        <span class="icon-custom icon--eye" style="--i-w: 100%; --i-h: 100%;"></span>
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom size-max-h-x" title="Избранное" style="--h-max-x: 32px; margin-top: 0;" disabled="">
+                        <span class="icon-custom icon--favorite" style="--i-w: 100%; --i-h: 100%;"></span>
+                    </button>
                 </div>
             </div>
         </li>
@@ -630,7 +665,7 @@ $(function() {
     // Split columns
     window.dataForSplit = JSON.parse(localStorage.getItem('split_cols'));
     if (!window.dataForSplit) {
-        window.dataForSplit = [15, 35, 40, 10];
+        window.dataForSplit = [15, 50, 5, 30];
         localStorage.setItem('split_cols', JSON.stringify(window.dataForSplit));
     }
     window.dataForSplit2 = JSON.parse(localStorage.getItem('split_cols2'));
