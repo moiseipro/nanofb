@@ -103,12 +103,20 @@ DATABASES = {
     #     'HOST': 'localhost',
     #     'PORT': '3306',
     # }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': '0qdDyMGswv',
+    #     'USER': '0qdDyMGswv',
+    #     'PASSWORD': 'OMGOqEokUU',
+    #     'HOST': 'remotemysql.com',
+    #     'PORT': '3306',
+    # }
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': '0qdDyMGswv',
-        'USER': '0qdDyMGswv',
-        'PASSWORD': 'OMGOqEokUU',
-        'HOST': 'remotemysql.com',
+        'NAME': 'nanofb_django_2',
+        'USER': 'nanofb_django_2',
+        'PASSWORD': 'OMGOqEokUU10',
+        'HOST': 'nanofb.beget.tech',
         'PORT': '3306',
     }
 }

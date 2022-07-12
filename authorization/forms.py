@@ -16,7 +16,6 @@ class NewUserForm(UserCreationForm):
     email = forms.EmailField(required=True, widget=text_widget, label="Почтовый ящик")
     password1 = forms.CharField(required=True, widget=password_widget, label="Пароль")
     password2 = forms.CharField(required=True, widget=password_widget, label="Подтверждение пароля")
-    CHOICES = (('Option 1', 'Option 1'),('Option 2', 'Option 2'),)
     p_version = forms.ModelChoiceField(required=True, queryset=Version.objects.all(), label="Версия программы", empty_label="Выберите версию программы")
     class Meta:
         model = User
