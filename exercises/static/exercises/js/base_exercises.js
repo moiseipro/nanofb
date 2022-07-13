@@ -92,6 +92,9 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem[data-id="open_card_edit"]').toggleClass('btn-secondary', true);
             $('.up-tabs-elem[data-id="open_card_edit"]').toggleClass('btn-primary', false);
             break;
+        case "open_card_temp":
+            $('#exerciseCardModal2').modal('show');
+            break;
         default:
             break;
     }
@@ -140,6 +143,30 @@ function RenderSplitCols() {
         }
     });
     $('#exerciseCardModal').find('div.gutter').toggleClass('d-none', true);
+
+    $('#exerciseCardModal2').find('div.gutter').remove();
+    sizesArr = window.dataForSplit3;
+    window.split2 = Split(['#splitCol_20', '#splitCol_21', '#splitCol_22'], {
+        sizes: sizesArr,
+        dragInterval: 1,
+        gutterSize: 20,
+        onDrag: () => {
+            let sizes = window.split2.getSizes();
+            try {
+                // if (sizes[0] < 39) {
+                //     window.split2.setSizes([40, 60]);
+                // }
+                // if (sizes[1] < 39) {
+                //     window.split2.setSizes([60, 40]);
+                // }
+            } catch(e) {}
+        },
+        onDragEnd: (arr) => {
+            window.dataForSplit3 = arr;
+            localStorage.setItem('split_cols3', JSON.stringify(window.dataForSplit3));
+        }
+    });
+    $('#exerciseCardModal2').find('div.gutter').toggleClass('d-none', true);
 }
 
 function RenderExerciseOne(data) {
@@ -280,11 +307,11 @@ function RenderFolderExercises(id, tExs) {
                     <span>${i+1}. Упражнение "ID:${exElem.id}", автор: ${exElem.user}</span>
                 </div>
                 <div class="col-2 d-flex justify-content-center px-1">
-                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom size-h-x mr-1" title="Просмотрено" style="--h-x: 32px;" disabled="">
-                        <span class="icon-custom icon--eye" style="--i-w: 100%; --i-h: 100%;"></span>
+                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom elem-flex-center size-max-w-x mr-1" title="Просмотрено" style="--w-max-x: 40px;" disabled="">
+                        <span class="icon-custom icon--eye" style="--i-w: 1.8em; --i-h: 1.8em;"></span>
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom size-h-x" title="Избранное" style="--h-x: 32px; margin-top: 0;" disabled="">
-                        <span class="icon-custom icon--favorite" style="--i-w: 100%; --i-h: 100%;"></span>
+                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom elem-flex-center size-max-w-x" title="Избранное" style="--w-max-x: 40px; margin-top: 0;" disabled="">
+                        <span class="icon-custom icon--favorite" style="--i-w: 1.8em; --i-h: 1.8em;"></span>
                     </button>
                 </div>
             </div>
@@ -518,6 +545,87 @@ $(function() {
         $('#exerciseCardModal').find('#cardBlock > .tab-pane').removeClass('show active');
         $('#exerciseCardModal').find('#cardBlock > #card_content').addClass('show active');
     });
+
+
+    $('#exerciseCardModal2').on('click', '#openDescription', (e) => {
+        $('#exerciseCardModal2').find('.tab-btn').removeClass('btn-primary');
+        $('#exerciseCardModal2').find('.tab-btn').addClass('btn-secondary');
+        $(e.currentTarget).removeClass('btn-secondary');
+        $(e.currentTarget).addClass('btn-primary');
+        $('#exerciseCardModal2').find('#cardBlock > .tab-pane').removeClass('show active');
+        $('#exerciseCardModal2').find('#cardBlock > #card_description').addClass('show active');
+    });
+    $('#exerciseCardModal2').on('click', '#openDrawing', (e) => {
+        $('#exerciseCardModal2').find('.tab-btn').removeClass('btn-primary');
+        $('#exerciseCardModal2').find('.tab-btn').addClass('btn-secondary');
+        $(e.currentTarget).removeClass('btn-secondary');
+        $(e.currentTarget).addClass('btn-primary');
+        $('#exerciseCardModal2').find('#cardBlock > .tab-pane').removeClass('show active');
+        $('#exerciseCardModal2').find('#cardBlock > #card_drawing').addClass('show active');
+    });
+    $('#exerciseCardModal2').on('click', '#openVideo', (e) => {
+        $('#exerciseCardModal2').find('.tab-btn').removeClass('btn-primary');
+        $('#exerciseCardModal2').find('.tab-btn').addClass('btn-secondary');
+        $(e.currentTarget).removeClass('btn-secondary');
+        $(e.currentTarget).addClass('btn-primary');
+        $('#exerciseCardModal2').find('#cardBlock > .tab-pane').removeClass('show active');
+        $('#exerciseCardModal2').find('#cardBlock > #card_video').addClass('show active');
+    });
+    $('#exerciseCardModal2').on('click', '#openAnimation', (e) => {
+        $('#exerciseCardModal2').find('.tab-btn').removeClass('btn-primary');
+        $('#exerciseCardModal2').find('.tab-btn').addClass('btn-secondary');
+        $(e.currentTarget).removeClass('btn-secondary');
+        $(e.currentTarget).addClass('btn-primary');
+        $('#exerciseCardModal2').find('#cardBlock > .tab-pane').removeClass('show active');
+        $('#exerciseCardModal2').find('#cardBlock > #card_animation').addClass('show active');
+    });
+
+
+    $('#exerciseCardModal2').on('click', 'button[data-type="add"]', (e) => {
+        $('#exerciseCardModal2').find('button[data-type="add"]').removeClass('selected');
+        $(e.currentTarget).addClass('selected');
+    });
+
+
+    $('#exerciseCardModal2').on('click', '.graphics-block-toggle', (e) => {
+        let cId = $(e.currentTarget).attr('data-id');
+        $('#exerciseCardModal2').find('.graphics-block-toggle').removeClass('selected');
+        $(e.currentTarget).addClass('selected');
+        $('#exerciseCardModal2').find('.graphics-block').addClass('d-none');
+        $('#exerciseCardModal2').find(`.graphics-block[data-id=${cId}]`).removeClass('d-none');
+    });
+
+
+    $('#columnsSizeInCard2').on('click', (e) => {
+        $('#exerciseCardModal2').find('div.gutter').toggleClass('d-none');
+    });
+
+
+
+    $('#exerciseCardModal2').on('click', '.add-row', (e) => {
+        let cId = $(e.currentTarget).attr('data-id');
+        let cloneRow = null;
+        if (cId == "additions") {
+            cloneRow = $('#exerciseCardModal2').find('.gen-content').find(`tr[data-id="${cId}"]`).clone();
+        } else {
+            let cType = $('#exerciseCardModal2').find('.selected[data-type="add"]').attr('data-id');
+            cloneRow = $('#exerciseCardModal2').find('.gen-content').find(`tr[data-id="${cId}"][data-type="${cType}"]`).clone();
+        }
+        $(cloneRow).addClass('wider_row');
+        $(cloneRow).find('.form-control').addClass('.exs_edit_field');
+        $(cloneRow).find('.exs_edit_field').val('');
+        $(cloneRow).find('.remove-row').addClass('btn-on');
+        $(cloneRow).find('.remove-row').prop('disabled', false);
+        $(cloneRow).insertAfter($('#exerciseCardModal2').find(`.wider_row[data-id="${cId}"]`).last());
+    });
+    $('#exerciseCardModal2').on('click', '.remove-row', (e) => {
+        if (!$(e.currentTarget).hasClass('btn-on')) {return;}
+        $(e.currentTarget).parent().parent().parent().parent().remove();
+    });
+
+
+
+
     // Load CkEditor fields
     // editor.setData( '<p>Some text.</p>' );
     // const data = editor.getData();
@@ -528,6 +636,16 @@ $(function() {
         })
         .then(editor => {
             document.descriptionEditor = editor;
+        })
+        .catch(err => {
+            console.error(err);
+        });
+    ClassicEditor
+        .create(document.querySelector('#descriptionEditor2'), {
+            language: cLang
+        })
+        .then(editor => {
+            document.descriptionEditor2 = editor;
         })
         .catch(err => {
             console.error(err);
@@ -673,6 +791,11 @@ $(function() {
     if (!window.dataForSplit2) {
         window.dataForSplit2 = [50, 50];
         localStorage.setItem('split_cols2', JSON.stringify(window.dataForSplit2));
+    }
+    window.dataForSplit3 = JSON.parse(localStorage.getItem('split_cols3'));
+    if (!window.dataForSplit3) {
+        window.dataForSplit3 = [34, 33, 33];
+        localStorage.setItem('split_cols3', JSON.stringify(window.dataForSplit3));
     }
     RenderSplitCols();
 

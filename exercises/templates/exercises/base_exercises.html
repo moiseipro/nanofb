@@ -22,24 +22,20 @@
                                                 <i class="fa fa-plus" aria-hidden="true"></i>
                                             </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="nfb_folders" title="Папки NanoFootball">N.F.</button>
-                                            <button type="button" class="btn btn-primary btn-sm btn-custom up-tabs-elem" data-id="my_folders" title="Папки Тренер">
-                                                <span class="icon-custom icon--trainer" style="--i-w: 100%; --i-h: 100%;"></span>
+                                            <button type="button" class="btn btn-primary btn-sm btn-custom elem-flex-center up-tabs-elem" data-id="my_folders" title="Папки Тренер">
+                                                <span class="icon-custom icon--trainer" style="--i-w: 1.8em; --i-h: 1.8em;"></span>
                                             </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom" data-id="exs_counter" title="Количество упражнений">5000</button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom" data-id="filter_reset" title="Сброс фильтров">
-                                                <span class="icon-custom icon--reset" style="--i-w: 80%; --i-h: 70%;"></span>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center" data-id="filter_reset" title="Сброс фильтров">
+                                                <span class="icon-custom icon--reset" style="--i-w: 1.8em; --i-h: 1.8em;"></span>
                                             </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="copy">Копировать</button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="open_card_view">Просмотреть</button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="">Показать</button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="open_card_temp">Показать</button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="open_card_edit">Редактировать</button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="mark_exs">Маркировать</button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="share_exs">Поделиться</button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="toggle_side_filter">Фильтрация</button>
-                                            <!-- <button type="button" class="btn btn-secondary btn-sm up-tabs-elem" data-id="check_">Просмотреть</button>
-                                            <button type="button" class="btn btn-secondary btn-sm up-tabs-elem" data-id="show_exs">Показать</button>
-                                            <button type="button" class="btn btn-secondary btn-sm up-tabs-elem" data-id="toggle_up_filter">Фильтрация 2</button>
-                                            <button type="button" class="btn btn-secondary btn-sm up-tabs-elem" data-id="toggle_settings">Настройки</button> -->
                                         </div>
                                     </div>
                                 </div>
@@ -163,8 +159,8 @@
                             <div class="exerises-content mt-1">
                                 <div class="exercises-list split">
                                     <div class="py-1" id="splitCol_0">
-                                        <div class="d-flex justify-content-center btn-tab-second mx-2">
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block" title="Скрыть / развернуть">
+                                        <div class="btn-tab-second d-flex justify-content-center ml-3 mr-2">
+                                            <button type="button" class="btn btn-secondary btn-block btn-custom size-max-h-x" title="Скрыть / развернуть" style="--h-max-x: 37.2px;">
                                                 <i class="fa fa-chevron-right" aria-hidden="true"></i>
                                             </button>
                                         </div>
@@ -175,15 +171,15 @@
                                         <div class="btn-tab-second">
                                             <div class="row w-100">
                                                 <div class="col-10 d-flex justify-content-center px-0">
-                                                    <input type="text" class="form-control form-control-sm btn-block btn-custom text-center ml-2 mr-1" id="searhField" placeholder="Ключевое слово">
+                                                    <input type="text" class="form-control btn-block btn-custom text-center ml-2 mr-1 size-max-h-x" id="searhField" placeholder="Ключевое слово" style="--h-max-x: 37.2px;">
                                                     <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom" style="margin-top: 0;">Категория</button>
                                                 </div>
                                                 <div class="col-2 d-flex justify-content-center px-0">
-                                                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom size-max-w-x mr-1" title="Просмотрено" style="--w-max-x: 40px;">
-                                                        <span class="icon-custom icon--eye" style="--i-w: 100%; --i-h: 100%;"></span>
+                                                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom elem-flex-center size-max-w-x mr-1" title="Просмотрено" style="--w-max-x: 40px;">
+                                                        <span class="icon-custom icon--eye" style="--i-w: 1.8em; --i-h: 1.8em;"></span>
                                                     </button>
-                                                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom size-max-w-x" title="Избранное" style="--w-max-x: 40px; margin-top: 0;">
-                                                        <span class="icon-custom icon--favorite" style="--i-w: 100%; --i-h: 100%;"></span>
+                                                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom elem-flex-center size-max-w-x" title="Избранное" style="--w-max-x: 40px; margin-top: 0;">
+                                                        <span class="icon-custom icon--favorite" style="--i-w: 1.8em; --i-h: 1.8em;"></span>
                                                     </button>
                                                 </div>
                                                 <!-- <div class="col-1 d-flex justify-content-center px-1">
@@ -273,7 +269,7 @@
                                                         <span>с мячом</span>
                                                     </div>
                                                     <div class="col-2 text-right">
-                                                        <span><i class="fa fa-futbol-o" aria-hidden="true"></i></span>
+                                                        <span class="icon-custom icon--ball" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                                                     </div>
                                                 </div>
                                             </li>
@@ -387,7 +383,7 @@
                                                         <span>просмотры</span>
                                                     </div>
                                                     <div class="col-2 text-right">
-                                                        <span><i class="fa fa-eye" aria-hidden="true"></i></span>
+                                                        <span class="icon-custom icon--eye" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                                                     </div>
                                                 </div>
                                             </li>
@@ -397,7 +393,7 @@
                                                         <span>избранное</span>
                                                     </div>
                                                     <div class="col-2 text-right">
-                                                        <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                                        <span class="icon-custom icon--favorite" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                                                     </div>
                                                 </div>
                                             </li>
@@ -772,7 +768,6 @@
                                             </table>
                                         </div>
                                     </div>
-                                   
                                 </div>
                                 <div class="tab-pane fade" id="card_content" role="tabpanel" aria-labelledby="card_content-tab">
                                     <div class="row">
@@ -810,6 +805,500 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="exerciseCardModal2" tabindex="-1" role="dialog" aria-labelledby="exerciseCardModalLbl" aria-hidden="true" data-exs="">
+            <div class="modal-dialog modal-xl" role="document" style="max-width: 90vw;">
+                <div class="modal-content">
+                    <div class="modal-header py-1">
+                        <div class="row w-100">
+                            <div class="col-12 p-1 btn-group btn-group-custom">
+                                <button type="button" class="btn btn-primary btn-sm btn-custom tab-btn" id="openDescription">Описание</button>
+                                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openDrawing">Рисунок</button>
+                                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openVideo">Видео</button>
+                                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openAnimation">Анимация</button>
+                                <!-- <button type="button" class="btn btn-warning btn-sm btn-custom btn-not-view" id="">Редактировать</button> -->
+                                <button type="button" class="btn btn-secondary btn-sm btn-custom btn-not-view size-max-w-x selected" data-type="add" data-id="list" title="Режим добавления: список" style="--w-max-x:3%;">
+                                    <i class="fa fa-list-alt" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="btn btn-secondary btn-sm btn-custom btn-not-view size-max-w-x" data-type="add" data-id="text" title="Режим добавления: текст" style="--w-max-x:3%;">
+                                    <i class="fa fa-text-width" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="btn btn-secondary btn-sm btn-custom btn-not-view" id="saveExs">Сохранить</button>
+                                <button type="button" class="btn btn-secondary btn-sm btn-custom btn-only-edit btn-not-view size-max-w-x" id="deleteExercise" style="--w-max-x:3%;" title="Удалить">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="columnsSizeInCard2" style="--w-max-x:3%;" title="Изменить размер колонок">
+                                    <i class="fa fa-cog" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="btn btn-secondary btn-sm btn-custom btn-only-edit exs-change size-max-w-x" data-dir="prev" style="--w-max-x:3%;" title="Предыдущее">
+                                    <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="btn btn-secondary btn-sm btn-custom btn-only-edit exs-change size-max-w-x" data-dir="next" style="--w-max-x:3%;" title="Следующее">
+                                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="btn btn-danger btn-sm btn-custom size-max-w-x" data-dismiss="modal" style="--w-max-x:10%;">Выйти</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-body py-0 size-h-x" style="--h-x: 85vh; overflow-y: auto;">
+                        <div class="tabs-block">
+                            <div class="tab-content" id="cardBlock">
+                                <div class="tab-pane fade show active" id="card_description" role="tabpanel" aria-labelledby="card_description-tab">
+                                    <div class="card-description split">
+                                        <div class="" id="splitCol_20">
+                                            <table class="table table-sm table-bordered" style="table-layout: fixed;">
+                                                <colgroup>
+                                                    <col span="1" style="width: 50%;">
+                                                    <col span="1" style="width: 50%;">
+                                                </colgroup>
+                                                <tbody>
+                                                    <tr class="bck-custom">
+                                                        <td>Главные папки</td>
+                                                        <td>
+                                                            <select name="folder_parent" class="form-control form-control-sm exs_edit_field folder_nfb d-none" required="" autocomplete="off">
+                                                                <option value="">---</option>
+                                                                {% for folder in nfb_folders %}
+                                                                    {% if folder.root %}
+                                                                        <option value="{{ folder.id }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </select>
+                                                            <select name="folder_parent" class="form-control form-control-sm exs_edit_field folder_default" required="" autocomplete="off">
+                                                                <option value="">---</option>
+                                                                {% for folder in folders %}
+                                                                    {% if folder.root %}
+                                                                        <option value="{{ folder.id }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="bck-custom">
+                                                        <td>Папки с упражнением</td>
+                                                        <td>
+                                                            <select name="folder_main" class="form-control form-control-sm exs_edit_field folder_nfb d-none" required="" autocomplete="off">
+                                                                <option value="">---</option>
+                                                                {% for folder in nfb_folders %}
+                                                                    {% if not folder.root %}
+                                                                        <option value="{{ folder.id }}" data-parent="{{ folder.parent }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </select>
+                                                            <select name="folder_main" class="form-control form-control-sm exs_edit_field folder_default" required="" autocomplete="off">
+                                                                <option value="">---</option>
+                                                                {% for folder in folders %}
+                                                                    {% if not folder.root %}
+                                                                        <option value="{{ folder.id }}" data-parent="{{ folder.parent }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="bck-custom">
+                                                        <td>Ворота</td>
+                                                        <td>
+                                                            <select name="ref_goal" class="form-control form-control-sm exs_edit_field" autocomplete="off">
+                                                                <option value="">---</option>
+                                                                {% for elem in refs.exs_goal %}
+                                                                    <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="bck-custom">
+                                                        <td>Мяч</td>
+                                                        <td>
+                                                            <select name="ref_ball" class="form-control form-control-sm exs_edit_field" autocomplete="off">
+                                                                <option value="">---</option>
+                                                                {% for elem in refs.exs_ball %}
+                                                                    <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="bck-custom">
+                                                        <td>Когнитивная нагрузка</td>
+                                                        <td>
+                                                            <select name="ref_cognitive_load" class="form-control form-control-sm exs_edit_field" autocomplete="off">
+                                                                <option value="">---</option>
+                                                                {% for elem in refs.exs_cognitive_load %}
+                                                                    <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="bck-custom">
+                                                        <td>Ключевые слова</td>
+                                                        <td>
+                                                            <input name="keyword[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="bck-custom">
+                                                        <td>Ключевые слова</td>
+                                                        <td>
+                                                            <input name="keyword[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="bck-custom">
+                                                        <td>Возрастная категория</td>
+                                                        <td>
+                                                            <select name="ref_age_category" class="form-control form-control-sm exs_edit_field" autocomplete="off">
+                                                                <option value="">---</option>
+                                                                {% for elem in refs.exs_age_category %}
+                                                                    <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="bck-custom">
+                                                        <td>
+                                                            <input name="age_from" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="возраст с" title="возраст с" autocomplete="off">
+                                                        </td>
+                                                        <td>
+                                                            <input name="age_to" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="возраст по" title="возраст по" autocomplete="off">
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="bck-custom">
+                                                        <td>
+                                                            <input name="players_from" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="игроки с" title="игроки с" autocomplete="off">
+                                                        </td>
+                                                        <td>
+                                                            <input name="players_to" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="игроки по" title="игроки по" autocomplete="off">
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="bck-custom bck-custom-color" style="--bck-color:#90d047;">
+                                                        <td colspan="2">&nbsp;</td>
+                                                    </tr>
+                                                    <tr class="bck-custom">
+                                                        <td colspan="2">
+                                                            <div class="row">
+                                                                <div class="col-9 text-center">
+                                                                    <span class="ml-custom-title font-weight-bold">Дополнения</span>
+                                                                </div>
+                                                                <div class="col-3 text-right">
+                                                                    <button class="btn btn-secondary btn-sm add-row" data-id="additions">
+                                                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="wider_row bck-custom" data-id="additions">
+                                                        <td colspan="2">
+                                                            <div class="row">
+                                                                <div class="col-10 pr-0">
+                                                                    <input name="additions[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
+                                                                </div>
+                                                                <div class="col-2 text-right">
+                                                                    <button class="btn btn-secondary btn-sm remove-row" disabled="">
+                                                                        <i class="fa fa-minus" aria-hidden="true"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="bck-custom">
+                                                        <td>
+                                                            <button type="button" class="btn btn-secondary btn-sm btn-custom w-100 elem-flex-center" title="Просмотрено">
+                                                                <span class="icon-custom icon--eye" style="--i-w: 1.8em; --i-h: 1.8em;"></span>
+                                                            </button>
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-secondary btn-sm btn-custom w-100 elem-flex-center" title="Избранное">
+                                                                <span class="icon-custom icon--favorite" style="--i-w: 1.8em; --i-h: 1.8em;"></span>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="bck-custom">
+                                                        <td>
+                                                            <button type="button" class="btn btn-secondary btn-sm btn-custom w-100 elem-flex-center" title="Нравится">
+                                                                <span class="icon-custom icon--like" style="--i-w: 1.8em; --i-h: 1.8em;"></span>
+                                                            </button>
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-secondary btn-sm btn-custom w-100 elem-flex-center" title="Не нравится">
+                                                                <span class="icon-custom icon--dislike" style="--i-w: 1.8em; --i-h: 1.8em;"></span>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="" id="splitCol_21">
+                                            <table class="table table-sm table-bordered mx-1" style="table-layout: fixed;">
+                                                <colgroup>
+                                                    <col span="1" style="width: 100%;">
+                                                </colgroup>
+                                                <tbody>
+                                                    <tr class="bck-custom">
+                                                        <td>
+                                                            <input name="title" class="form-control form-control-sm exs_edit_field text-center placeholder-font-weight" type="text" value="" placeholder="Название упражнения" autocomplete="off" style="--fw:700;">
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="bck-custom" style="height:368px;">
+                                                        <td title="Описание">
+                                                            <div id="descriptionEditor2" class="ckeditor" name="description_text"></div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="wider_row bck-custom" data-id="purposes">
+                                                        <td>
+                                                            <div class="row">
+                                                                <div class="col-9 text-center">
+                                                                    <span class="ml-custom-title font-weight-bold">Направленность</span>
+                                                                </div>
+                                                                <div class="col-3 text-right">
+                                                                    <button class="btn btn-secondary btn-sm add-row" data-id="purposes">
+                                                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="wider_row bck-custom" data-id="stress_type">
+                                                        <td>
+                                                            <div class="row">
+                                                                <div class="col-9 text-center">
+                                                                    <span class="ml-custom-title font-weight-bold">Тип нагрузки</span>
+                                                                </div>
+                                                                <div class="col-3 text-right">
+                                                                    <button class="btn btn-secondary btn-sm add-row" data-id="stress_type">
+                                                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="wider_row bck-custom" data-id="coaching">
+                                                        <td>
+                                                            <div class="row">
+                                                                <div class="col-9 text-center">
+                                                                    <span class="ml-custom-title font-weight-bold">Коучинг</span>
+                                                                </div>
+                                                                <div class="col-3 text-right">
+                                                                    <button class="btn btn-secondary btn-sm add-row" data-id="coaching">
+                                                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="" id="splitCol_22">
+                                            <div class="row bck-custom ml-2">
+                                                <div class="col-12 graphics-block" data-id="drawing">
+                                                    <div class="mx-5 mb-2">
+                                                        <svg id="" class="d-block bg-success mx-auto w-100" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"">
+                                                            <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="/static/exercises/img/field.svg"></image>
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 graphics-block d-none" data-id="video">
+                                                    <div class="mx-5 mb-2">
+                                                        <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid w-100" alt="[ VIDEO ]"">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 graphics-block d-none" data-id="animation">
+                                                    <div class="mx-5 mb-2">
+                                                        <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid w-100" alt="[ ANIM ]"">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mx-5">
+                                                <div class="col-12 p-1 btn-group">
+                                                    <button type="button" class="btn btn-secondary btn-sm btn-custom graphics-block-toggle mx-1 selected" data-id="drawing">Рисунок</button>
+                                                    <button type="button" class="btn btn-secondary btn-sm btn-custom graphics-block-toggle mx-1" data-id="video">Видео</button>
+                                                    <button type="button" class="btn btn-secondary btn-sm btn-custom graphics-block-toggle mx-1" data-id="animation">Анимация</button>
+                                                </div>
+                                            </div>
+                                            <div class="row bck-custom ml-2">
+                                                <div class="col-12 graphics-block" data-id="drawing">
+                                                    <div class="mx-5 mb-2">
+                                                        <svg id="" class="d-block bg-success mx-auto w-100" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"">
+                                                            <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="/static/exercises/img/field.svg"></image>
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 graphics-block d-none" data-id="video">
+                                                    <div class="mx-5 mb-2">
+                                                        <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid w-100" alt="[ VIDEO ]"">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 graphics-block d-none" data-id="animation">
+                                                    <div class="mx-5 mb-2">
+                                                        <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid w-100" alt="[ ANIM ]"">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="card_drawing" role="tabpanel" aria-labelledby="card_drawing-tab">
+                                    <div class="row mt-4">
+                                        <div class="col-6 p-1">
+                                            <svg id="" class="d-block bg-success mx-auto w-100" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                                                <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="/static/exercises/img/field.svg"></image>
+                                            </svg>
+                                            <p class="text-center">Рисунок 1</p>
+                                        </div>
+                                        <div class="col-6 p-1">
+                                            <svg id="" class="d-block bg-success mx-auto w-100" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                                                <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="/static/exercises/img/field.svg"></image>
+                                            </svg>
+                                            <p class="text-center">Рисунок 2</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="card_video" role="tabpanel" aria-labelledby="card_drawing-tab">
+                                    <div class="row mt-4">
+                                        <div class="col-6 p-1">
+                                            <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid w-100" alt="[ VIDEO ]">
+                                            <p class="text-center">Видео 1</p>
+                                        </div>
+                                        <div class="col-6 p-1">
+                                            <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid w-100" alt="[ VIDEO ]">
+                                            <p class="text-center">Видео 2</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="card_animation" role="tabpanel" aria-labelledby="card_drawing-tab">
+                                    <div class="row mt-4">
+                                        <div class="col-6 p-1">
+                                            <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid w-100" alt="[ VIDEO ]">
+                                            <p class="text-center">Анимация 1</p>
+                                        </div>
+                                        <div class="col-6 p-1">
+                                            <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid w-100" alt="[ VIDEO ]">
+                                            <p class="text-center">Анимация 2</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gen-content d-none">
+                        <table>
+                            <tbody>
+                                <tr class="bck-custom" data-id="additions">
+                                    <td colspan="2">
+                                        <div class="row">
+                                            <div class="col-10 pr-0">
+                                                <input name="additions[]" class="form-control form-control-sm" type="text" value="" placeholder="" autocomplete="off">
+                                            </div>
+                                            <div class="col-2 text-right">
+                                                <button class="btn btn-secondary btn-sm remove-row">
+                                                    <i class="fa fa-minus" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="bck-custom" data-id="purposes" data-type="list">
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-10 pr-0">
+                                                <select name="purposes[]" class="form-control form-control-sm diff-frmt" autocomplete="off">
+                                                    <option value="">---</option>
+                                                    {% for elem in refs.purposes %}
+                                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="col-2 text-right">
+                                                <button class="btn btn-secondary btn-sm remove-row">
+                                                    <i class="fa fa-minus" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="bck-custom" data-id="purposes" data-type="text">
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-10 pr-0">
+                                                <input name="purposes[]" class="form-control form-control-sm diff-frmt" type="text" value="" placeholder="" autocomplete="off">
+                                            </div>
+                                            <div class="col-2 text-right">
+                                                <button class="btn btn-secondary btn-sm remove-row">
+                                                    <i class="fa fa-minus" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="bck-custom" data-id="stress_type" data-type="list">
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-10 pr-0">
+                                                <select name="stress_type[]" class="form-control form-control-sm diff-frmt" autocomplete="off">
+                                                    <option value="">---</option>
+                                                    {% for elem in refs.stress_type %}
+                                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="col-2 text-right">
+                                                <button class="btn btn-secondary btn-sm remove-row">
+                                                    <i class="fa fa-minus" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="bck-custom" data-id="stress_type" data-type="text">
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-10 pr-0">
+                                                <input name="stress_type[]" class="form-control form-control-sm diff-frmt" type="text" value="" placeholder="" autocomplete="off">
+                                            </div>
+                                            <div class="col-2 text-right">
+                                                <button class="btn btn-secondary btn-sm remove-row">
+                                                    <i class="fa fa-minus" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="bck-custom" data-id="coaching" data-type="list">
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-10 pr-0">
+                                                <select name="coaching[]" class="form-control form-control-sm diff-frmt" autocomplete="off">
+                                                    <option value="">---</option>
+                                                    {% for elem in refs.coaching %}
+                                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="col-2 text-right">
+                                                <button class="btn btn-secondary btn-sm remove-row">
+                                                    <i class="fa fa-minus" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="bck-custom" data-id="coaching" data-type="text">
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-10 pr-0">
+                                                <input name="coaching[]" class="form-control form-control-sm diff-frmt" type="text" value="" placeholder="" autocomplete="off">
+                                            </div>
+                                            <div class="col-2 text-right">
+                                                <button class="btn btn-secondary btn-sm remove-row">
+                                                    <i class="fa fa-minus" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
