@@ -129,8 +129,8 @@ class CreateVideoView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         video = form.save(commit=False)
         video.links = {'nftv': '', 'youtube': ''}
-        print(video.links)
-        if self.request.FILES['file']:
+        #print(video.links)
+        if 'file' in self.request.FILES:
             url = 'http://213.108.4.28/api/add_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
             fs = FileSystemStorage()
             file_name = fs.save(self.request.FILES['file'].name, self.request.FILES['file'])
