@@ -27,6 +27,7 @@
         <option value="$MODULE_DIR$/video/templates" />
         <option value="$MODULE_DIR$/events/templates" />
         <option value="$MODULE_DIR$/matches/templates" />
+        <option value="$MODULE_DIR$/references/templates" />
       </list>
     </option>
   </component>

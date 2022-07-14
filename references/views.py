@@ -1,9 +1,22 @@
 from django.http import HttpResponseRedirect
+from django.views.generic.base import TemplateView
 from django.shortcuts import render
 from references.models import UserSeason, UserTeam, ClubSeason, ClubTeam
 
 
 # Create your views here.
+class SettingsView(TemplateView):
+    template_name = 'references/base_settings.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['teams'] = UserTeam.objects.all()
+        context['seasons'] = UserSeason.objects.all()
+        return context
+    pass
+
+
+# Custom view
 def change_season(request):
     if request.method == "POST":
         if request.POST['season_value'] is None:
