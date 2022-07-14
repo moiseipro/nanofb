@@ -89,6 +89,24 @@ def exercises(request):
     return render(request, 'exercises/base_exercises.html', {'folders': found_folders, 'folders_only_view': True, 'nfb_folders': found_nfb_folders, 'refs': refs, 'is_exercises': True})
 
 
+def exercise(request):
+    if not request.user.is_authenticated:
+        return redirect("authorization:login")
+    cur_user = User.objects.filter(email=request.user).only("club_id")
+    c_id = -1
+    try:
+        c_id = int(request.GET.get("id", -1))
+    except:
+        pass
+    found_exercise = None
+    if cur_user.exists() and cur_user[0].club_id != None:
+        found_exercise = UserExercise.objects.filter(id=c_id, user=cur_user[0]).values()
+    if not found_exercise:
+        # return redirect('/exercises')
+        pass
+    return render(request, 'exercises/base_exercise.html', {'exs': found_exercise})
+
+
 def folders(request):
     if not request.user.is_authenticated:
         return redirect("authorization:login")

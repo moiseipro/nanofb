@@ -93,6 +93,8 @@
 }
 .ml-custom-title {
     margin-left: calc(50% - 30px);
+    display: inline-block;
+    height: 28.5px;
 }
 
 .btn-group-custom {
@@ -208,6 +210,28 @@ tr.bck-custom > td {
 
 
 .ck-editor__editable {
-    height: 35vh;
+    height: 258px;
     overflow-y: auto;
+}
+
+
+
+.form-control-sm.exs_edit_field {
+    height: calc(1.5em + .5rem - 2px) !important;
+}
+
+
+.btn-custom-pad {
+    padding: .0665rem .5rem;
+}
+
+button.remove-row, button.add-row {
+    padding: .056rem .5rem;
+}
+
+
+
+.btn-link.selected {
+    font-weight: 700;
+    color: black;
 }

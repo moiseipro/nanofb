@@ -1,0 +1,34 @@
+{% extends '../base/app_main.html' %}
+{% load static %}
+
+{% block title %}Упражнение{% endblock %}
+
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'exercises/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-1">
+                <div class="card-body p-1">
+                    <div class="card-inside">
+                        {% include 'exercises/modules/exercise_card.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block custom_scripts %}
+    <script src="{% static 'ckeditor5-build-classic/ckeditor.js' %}"></script>
+    <!-- ckeditor5 languages: -->
+    <script src="{% static 'ckeditor5-build-classic/translations/ru.js' %}"></script>
+
+    <script src="{% static 'exercises/js/base_exercise.js' %}"></script>
+    <script src="{% static 'exercises/js/modules/exercise_card.js' %}"></script>
+{% endblock %}
+
