@@ -18,6 +18,7 @@ $(window).on('load', function (){
                 className: 'btn-primary btn-sm',
                 action: function ( e, dt, node, config ) {
                     $('#form-team').attr('method', 'POST')
+                    $('#form-team-modal-label').text(gettext('Creating a team'))
                     clear_team_form()
                     $('#form-team-modal').modal('show')
                 }
@@ -43,6 +44,7 @@ $(window).on('load', function (){
     $('#teams').on('click', '.edit', function() {
         cur_edit_data = team_table.row($(this).closest('tr')).data()
         console.log('EDIT : ', cur_edit_data);
+        $('#form-team-modal-label').text(gettext('Changing the team'))
         $('#form-team').attr('method', 'PATCH')
         $('#form-team #id_name').val(cur_edit_data['name'])
         $('#form-team #id_short_name').val(cur_edit_data['short_name'])
@@ -53,7 +55,7 @@ $(window).on('load', function (){
     .on('click', '.delete', function() {
         cur_edit_data = team_table.row($(this).closest('tr')).data()
         console.log('DELETE : ', cur_edit_data);
-        $('#form-team').attr('method', 'DELETE').addClass('d-none')
+        $('#form-team').attr('method', 'DELETE')
         clear_team_form()
         ajax_team_action($('#microcycles-form').attr('method'), null, cur_edit_data ? cur_edit_data.id : 0)
     })
@@ -73,7 +75,7 @@ function clear_team_form() {
 }
 
 function ajax_team_action(method, data, id = '') {
-    if (!confirm(gettext('Save changes to the selected team?'))) return false
+    if (!confirm(gettext('Apply action to team?'))) return false
 
     let url = "api/teams/"
     if(method !== 'POST') url += `${id}/`
