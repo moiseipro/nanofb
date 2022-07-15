@@ -1,10 +1,34 @@
 from django.http import HttpResponseRedirect
 from django.views.generic.base import TemplateView
 from django.shortcuts import render
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+
+from references.forms import CreateTeamForm
 from references.models import UserSeason, UserTeam, ClubSeason, ClubTeam
+from references.serializers import UserTeamsSerializer
 
 
-# Create your views here.
+# REST FRAMEWORK
+from users.models import User
+
+
+class TeamViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(user_id=self.request.user)
+
+    def get_serializer_class(self):
+        if self.action == 'partial_update':
+            return UserTeamsSerializer
+        return UserTeamsSerializer
+
+    def get_queryset(self):
+        return UserTeam.objects.filter(user_id=self.request.user)
+
+
+# DJANGO
 class SettingsView(TemplateView):
     template_name = 'references/base_settings.html'
 
@@ -12,6 +36,7 @@ class SettingsView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['teams'] = UserTeam.objects.all()
         context['seasons'] = UserSeason.objects.all()
+        context['team_form'] = CreateTeamForm
         return context
     pass
 
