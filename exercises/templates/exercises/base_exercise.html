@@ -13,13 +13,32 @@
         <div class="col-12">
             <div class="card mb-1">
                 <div class="card-body p-1">
-                    <div class="card-inside">
+                    <div class="">
                         {% include 'exercises/modules/exercise_card.html' %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
+    <div class="modal fade" id="showGraphicsModal" tabindex="-1" role="dialog" aria-labelledby="showGraphicsModalLbl" aria-hidden="true" data-exs="">
+        <div class="modal-dialog modal-xl" role="document" style="max-width: 60vw;">
+            <div class="modal-content">
+                <div class="modal-header py-1">
+                    <div class="row w-100">
+                        <div class="col-12 d-flex justify-content-end">
+                            <button type="button" class="btn btn-danger btn-sm size-w-x" data-dismiss="modal" style="--w-x:15%;">Выйти</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body py-0 size-h-x" style="--h-x: 75vh; overflow-y: auto;">
+                    <div class="row full-graphics-content">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </main>
 {% endblock %}
 

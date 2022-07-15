@@ -21,11 +21,45 @@
                                             <button type="button" class="btn btn-success btn-sm btn-custom" id="createExercise" title="Создать упражнение">
                                                 <i class="fa fa-plus" aria-hidden="true"></i>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="nfb_folders" title="Папки NanoFootball">N.F.</button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom" title="">
+                                                PRO
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom" title="">
+                                                "A"
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom" title="">
+                                                с
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom" title="">
+                                                по
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom" title="">
+                                                Перенести
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom" title="">
+                                                Отметить
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom" title="">
+                                                Копировать
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom" title="">
+                                                Поделиться
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom" title="">
+                                                <i class="fa fa-cog" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="toggle_side_filter">Фильтрация</button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom" title="">
+                                                <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom" title="">
+                                                <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                                            </button>
+                                            <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="nfb_folders" title="Папки NanoFootball">N.F.</button>
                                             <button type="button" class="btn btn-primary btn-sm btn-custom elem-flex-center up-tabs-elem" data-id="my_folders" title="Папки Тренер">
                                                 <span class="icon-custom icon--trainer" style="--i-w: 1.8em; --i-h: 1.8em;"></span>
-                                            </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom" data-id="exs_counter" title="Количество упражнений">5000</button>
+                                            </button> -->
+                                            <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom" data-id="exs_counter" title="Количество упражнений">5000</button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center" data-id="filter_reset" title="Сброс фильтров">
                                                 <span class="icon-custom icon--reset" style="--i-w: 1.8em; --i-h: 1.8em;"></span>
                                             </button>
@@ -35,7 +69,7 @@
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="open_card_edit">Редактировать</button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="mark_exs">Маркировать</button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="share_exs">Поделиться</button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="toggle_side_filter">Фильтрация</button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="toggle_side_filter">Фильтрация</button> -->
                                         </div>
                                     </div>
                                 </div>
@@ -160,7 +194,7 @@
                                 <div class="exercises-list split">
                                     <div class="py-1" id="splitCol_0">
                                         <div class="btn-tab-second d-flex justify-content-center ml-3 mr-2">
-                                            <button type="button" class="btn btn-secondary btn-block btn-custom size-max-h-x" title="Скрыть / развернуть" style="--h-max-x: 37.2px;">
+                                            <button type="button" class="btn btn-secondary btn-block btn-custom size-max-h-x mr-2" title="Скрыть / развернуть" style="--h-max-x: 37.2px;">
                                                 <i class="fa fa-chevron-right" aria-hidden="true"></i>
                                             </button>
                                         </div>
@@ -171,8 +205,15 @@
                                         <div class="btn-tab-second">
                                             <div class="row w-100">
                                                 <div class="col-10 d-flex justify-content-center px-0">
-                                                    <input type="text" class="form-control btn-block btn-custom text-center ml-2 mr-1 size-max-h-x" id="searhField" placeholder="Ключевое слово" style="--h-max-x: 37.2px;">
-                                                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom" style="margin-top: 0;">Категория</button>
+                                                    
+                                                    <button type="button" class="btn btn-secondary btn-sm btn-custom size-w-x" data-id="exs_counter" title="Количество упражнений" style="--w-x:15%;">5000</button>
+                                                    <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center size-w-x ml-1"" data-id="filter_reset" title="Сброс фильтров" style="--w-x:15%;">
+                                                        <span class="icon-custom icon--reset ml-1" style="--i-w: 1.8em; --i-h: 1.8em;"></span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom size-w-x ml-1"" style="margin-top: 0; --w-x:70%;">Показать</button>
+
+                                                    <!-- <input type="text" class="form-control btn-block btn-custom text-center ml-2 mr-1 size-max-h-x" id="searhField" placeholder="Ключевое слово" style="--h-max-x: 37.2px;">
+                                                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom" style="margin-top: 0;">Категория</button> -->
                                                 </div>
                                                 <div class="col-2 d-flex justify-content-center px-0">
                                                     <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom elem-flex-center size-max-w-x mr-1" title="Просмотрено" style="--w-max-x: 40px;">

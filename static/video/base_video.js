@@ -64,6 +64,7 @@ $(window).on('load', function (){
         ],
         ajax: 'api/?format=datatables',
         columns: [
+            {'data': 'id'},
             {'data': 'videosource_id.name', 'name': 'videosource_id.short_name'},
             {'data': 'name'},
             {'data': 'section_id.name', 'name': 'videosource_id.short_name'},
@@ -205,12 +206,12 @@ function render_json_block(data) {
         }
         $(this).html(html)
     })
-    if('nftv' in data['links']){
+    if('nftv' in data['links'] && data['links']['nftv'] != ''){
         //Получение ссылки на видео через API видеохостинга
         video_player.show()
         youtube_player.hide()
         video_player.attr('src', 'https://213.108.4.28/video/player/'+data['links']['nftv'])
-    } else if('youtube' in data['links']){
+    } else if('youtube' in data['links'] && data['links']['youtube'] != ''){
         video_player.hide()
         youtube_player.show()
         youtube_player.src({ type: 'video/youtube', src: 'http://www.youtube.com/embed/'+data['links']['youtube']})
