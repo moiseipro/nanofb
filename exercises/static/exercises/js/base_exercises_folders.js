@@ -82,7 +82,7 @@ function RenderNFBFolders(data = []) {
     for (let key in data) {
         let elem = data[key];
         dataStr += `
-            <li class="list-group-item p-1">
+            <li class="list-group-item p-0">
                 <div class="nfb-folder-elem d-flex justify-content-between" 
                     data-id="${elem.id}" data-parent="${elem.parent}" 
                     data-short="${elem.short_name}" data-name="${elem.name}" data-root="0">
@@ -186,7 +186,7 @@ $(function() {
                 if (res.data.type && res.data.type == "add") {
                     let hasParent = $('.folders_list').find(`.folder-elem[data-id="${res.data.parent_id}"]`).length > 0;
                     let elemToAdd = `
-                        <li class="list-group-item p-1">
+                        <li class="list-group-item p-0">
                             <div class="folder-elem d-flex justify-content-between" data-id="${res.data.id}" data-parent="${res.data.parent_id}" data-short="${res.data.short_name}" data-name="${res.data.name}" data-root="${hasParent ? '0' : '1'}">
                                 <div class="pull-left">
                                     <span class="folder-point mr-2">${hasParent ? `

@@ -15,4 +15,11 @@ $(function() {
         window.history.back();
     });
 
+
+    $('#exerciseCard').on('click', '.graphics-block', (e) => {
+        let content = $(e.currentTarget).clone();
+        $('#showGraphicsModal').find('.full-graphics-content').html(content);
+        $('#showGraphicsModal').modal('show');
+    });
+
 });
