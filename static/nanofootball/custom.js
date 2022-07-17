@@ -44,3 +44,7 @@ function create_alert(id, options) {
         $(this).alert('close');
     });
 }
+
+function get_cur_lang() {
+    return $('#select-language').val();
+}

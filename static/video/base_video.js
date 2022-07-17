@@ -67,7 +67,7 @@ $(window).on('load', function (){
             {'data': 'id'},
             {'data': 'videosource_id.name', 'name': 'videosource_id.short_name'},
             {'data': 'name'},
-            {'data': 'section_id.name', 'name': 'videosource_id.short_name'},
+            {'data': 'section_id.name', 'name': 'section_id.short_name'},
             {'data': 'duration'},
         ],
 

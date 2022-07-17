@@ -82,12 +82,14 @@ function RenderNFBFolders(data = []) {
     for (let key in data) {
         let elem = data[key];
         dataStr += `
-            <li class="list-group-item p-0">
+            <li class="list-group-item p-1">
                 <div class="nfb-folder-elem d-flex justify-content-between" 
                     data-id="${elem.id}" data-parent="${elem.parent}" 
                     data-short="${elem.short_name}" data-name="${elem.name}" data-root="0">
                     <div class="pull-left">
-                        <span class="folder-point mr-2"><i class="fa fa-folder-open-o" aria-hidden="true"></i></span>
+                        <span class="folder-point mr-2">
+                            <span class="icon-custom icon--folder ml-1" style="--i-w: 1em; --i-h: 1em;"></span>
+                        </span>
                         <span class="folder-title">${elem.short_name}. ${elem.name}</span>
                     </div>
                 </div>
@@ -115,7 +117,9 @@ function RenderNFBFolders(data = []) {
                 let tElem = folderList['data'][key][keyElem];
                 let cId = $(tElem).find('.nfb-folder-elem').attr('data-id');
                 if (cId != key) {
-                    $(tElem).find('.folder-point').html('<i class="fa fa-folder-o ml-4" aria-hidden="true"></i>');
+                    $(tElem).find('.folder-point').html(`
+                        <span class="icon-custom icon--folder ml-4" style="--i-w: 1em; --i-h: 1em;"></span>
+                    `);
                     $(tElem).find('.folder-elem').attr('data-root', '0');
                 } else {
                     $(tElem).find('.folder-elem').attr('data-root', '1');
@@ -248,7 +252,9 @@ $(function() {
             success: function (res) {
                 if (res.data.type && res.data.type == "delete") {
                     $('.folders_list').find(`.folder-elem[data-id="${res.data.id}"]`).parent().remove();
-                    $('.folders_list').find(`.folder-elem[data-parent="${res.data.id}"]`).find('.folder-point').html('<i class="fa fa-folder-open-o" aria-hidden="true"></i>');
+                    $('.folders_list').find(`.folder-elem[data-parent="${res.data.id}"]`).find('.folder-point').html(`
+                        <span class="icon-custom icon--folder ml-1" style="--i-w: 1em; --i-h: 1em;"></span>
+                    `);
                     $('.folders_list').find(`.folder-elem[data-parent="${res.data.id}"]`).attr('data-root', '1');
                 }
                 $('#folderDeleteModal').modal('hide');

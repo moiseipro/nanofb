@@ -107,12 +107,6 @@ $(window).on('load', function (){
     })
 })
 
-function set_microcycle_form(name, date_with, date_by){
-    $('#microcycles-form #id_name').val(name)
-    $('#microcycles-form #datetimepicker-with-microcycle').val(date_with)
-    $('#microcycles-form #datetimepicker-by-microcycle').val(date_by)
-}
-
 // Инициализация datepicker для выбора промежутка
 $(function () {
     $('#datetimepicker-with-microcycle').datetimepicker({

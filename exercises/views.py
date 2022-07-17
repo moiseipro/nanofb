@@ -102,8 +102,7 @@ def exercise(request):
     if cur_user.exists() and cur_user[0].club_id != None:
         found_exercise = UserExercise.objects.filter(id=c_id, user=cur_user[0]).values()
     if not found_exercise:
-        # return redirect('/exercises')
-        pass
+        return redirect('/exercises')
     return render(request, 'exercises/base_exercise.html', {'exs': found_exercise})
 
 
@@ -285,7 +284,8 @@ def exercises_api(request):
                 else:
                     found_exercises = AdminExercise.objects.filter(folder = cur_folder[0])
                 for exercise in found_exercises:
-                    res_exs.append({'id': exercise.id, 'folder': exercise.folder.id, 'user': "NFB"})
+                    exs_title = get_by_language_code(exercise.title, request.LANGUAGE_CODE)
+                    res_exs.append({'id': exercise.id, 'folder': exercise.folder.id, 'user': "NFB", 'title': exs_title})
             else:
                 cur_folder = UserFolder.objects.filter(id=folder_id, user=cur_user[0])
                 if not cur_folder.exists() or cur_folder[0].id == None:
@@ -297,7 +297,8 @@ def exercises_api(request):
                 else:
                     found_exercises = UserExercise.objects.filter(folder = cur_folder[0])
                 for exercise in found_exercises:
-                    res_exs.append({'id': exercise.id, 'folder': exercise.folder.id, 'user': exercise.user.email})
+                    exs_title = get_by_language_code(exercise.title, request.LANGUAGE_CODE)
+                    res_exs.append({'id': exercise.id, 'folder': exercise.folder.id, 'user': exercise.user.email, 'title': exs_title})
             return JsonResponse({"data": res_exs, "success": True}, status=200)
         elif get_exs_one_status == 1:
             exs_id = -1
