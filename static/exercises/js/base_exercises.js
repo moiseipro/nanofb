@@ -1,4 +1,6 @@
 function ToggleUpFilter(id, state) {
+    let currentList = null;
+    let activeElem = null;
     switch(id) {
         case "toggle_side_filter":
             $('div.visual-block').toggleClass('col-auto', !state);
@@ -94,6 +96,32 @@ function ToggleUpFilter(id, state) {
             break;
         case "open_card_temp":
             $('#exerciseCardModal2').modal('show');
+            break;
+        case "prev_exs":
+            currentList = '.exs-list-group';
+            activeElem = $(currentList).find('.exs-elem.active');
+            if (activeElem.length > 0) {
+                $(activeElem).removeClass('active');
+                $(activeElem).prev().addClass('active');
+            } else {
+                $(currentList).find('.exs-elem').last().addClass('active');
+            }
+            $('.up-tabs-elem[data-id="prev_exs"]').toggleClass('btn-secondary', true);
+            $('.up-tabs-elem[data-id="prev_exs"]').toggleClass('btn-primary', false);
+            LoadExerciseOne();
+            break;
+        case "next_exs":
+            currentList = '.exs-list-group';
+            activeElem = $(currentList).find('.exs-elem.active');
+            if (activeElem.length > 0) {
+                $(activeElem).removeClass('active');
+                $(activeElem).next().addClass('active');
+            } else {
+                $(currentList).find('.exs-elem').first().addClass('active');
+            }
+            $('.up-tabs-elem[data-id="next_exs"]').toggleClass('btn-secondary', true);
+            $('.up-tabs-elem[data-id="next_exs"]').toggleClass('btn-primary', false);
+            LoadExerciseOne();
             break;
         default:
             break;
@@ -214,8 +242,31 @@ function RenderFolderExercises(id, tExs) {
     exercises = {"nfb": {}};
 }
 
-function LoadExercisesInFolder() {
-
+function LoadExerciseOne() {
+    let activeExs = $('.exercises-list').find('.exs-elem.active');
+    if ($(activeExs).length <= 0) {return;}
+    let exsId = $(activeExs).attr('data-id');
+    let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
+    let data = {'get_exs_one': 1, 'exs': exsId, 'get_nfb': fromNfbFolder ? 1 : 0};
+    $('.page-loader-wrapper').fadeIn();
+    $.ajax({
+        data: data,
+        type: 'GET', // GET или POST
+        dataType: 'json',
+        url: "exercises_api",
+        success: function (res) {
+            if (res.success) {
+                RenderExerciseOne(res.data);
+            }
+        },
+        error: function (res) {
+            console.log(res);
+        },
+        complete: function (res) {
+            $('.page-loader-wrapper').fadeOut();
+            window.lastListUsed = "exercises";
+        }
+    });
 }
 
 function RenderExerciseOne(data) {
@@ -403,6 +454,7 @@ $(function() {
                     $(currentList).find('.list-group-item').first().addClass('active');
                 }
             }
+            LoadExerciseOne();
         }
     });
 
@@ -428,28 +480,7 @@ $(function() {
         }
         $('.exercises-list').find('.exs-elem').removeClass('active');
         $(e.currentTarget).addClass('active');
-        let exsId = $(e.currentTarget).attr('data-id');
-        let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
-        let data = {'get_exs_one': 1, 'exs': exsId, 'get_nfb': fromNfbFolder ? 1 : 0};
-        $('.page-loader-wrapper').fadeIn();
-        $.ajax({
-            data: data,
-            type: 'GET', // GET или POST
-            dataType: 'json',
-            url: "exercises_api",
-            success: function (res) {
-                if (res.success) {
-                    RenderExerciseOne(res.data);
-                }
-            },
-            error: function (res) {
-                console.log(res);
-            },
-            complete: function (res) {
-                $('.page-loader-wrapper').fadeOut();
-                window.lastListUsed = "exercises";
-            }
-        });
+        LoadExerciseOne();
     });
 
     $('#exerciseCardModal').on('click', '.exs-change', (e) => {
@@ -554,12 +585,7 @@ $(function() {
     $('#showOneExs').on('click', (e) => {
         let activeExs = $('.exs-list-group').find('.list-group-item.active');
         if ($(activeExs).length > 0) {
-            let tmpWin = window.open(`/exercises/exercise?id=${$(activeExs).attr('data-id')}`, '_blank');
-            if (tmpWin) {
-                win.focus();
-            } else {
-                swal("Warn!", "Please allow popups for this website", "info");
-            }
+            window.open(`/exercises/exercise?id=${$(activeExs).attr('data-id')}`, '_blank');
         } else {
             swal("Внимание", "Выберите сначала упражнение из списка.", "info");
         }

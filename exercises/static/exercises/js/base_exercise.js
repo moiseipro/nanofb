@@ -12,7 +12,8 @@ $(function() {
     });
 
     $('#exerciseCard').on('click', 'button[data-dismiss="modal"]', (e) => {
-        window.history.back();
+        window.location.href = `/exercises`;
+
     });
 
 
