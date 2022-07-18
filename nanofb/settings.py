@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'exercises.apps.ExercisesConfig',
     'events.apps.EventsConfig',
     'matches.apps.MatchesConfig',
+    'trainings.apps.TrainingsConfig',
     'clubs.apps.ClubsConfig',
 ]
 

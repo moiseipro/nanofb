@@ -33,6 +33,7 @@ urlpatterns = [
     path('video/', include(('video.urls', 'video'), namespace='video')),
     path('exercises/', include(('exercises.urls', 'exercises'), namespace='exercises')),
     path('matches/', include(('matches.urls', 'matches'), namespace='matches')),
+    path('trainings/', include(('trainings.urls', 'trainings'), namespace='trainings')),
     path('events/', include(('events.urls', 'events'), namespace='events')),
     path('references/', include(('references.urls', 'references'), namespace='references')),
 

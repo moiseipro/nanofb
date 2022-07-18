@@ -28,6 +28,7 @@
         <option value="$MODULE_DIR$/events/templates" />
         <option value="$MODULE_DIR$/matches/templates" />
         <option value="$MODULE_DIR$/references/templates" />
+        <option value="$MODULE_DIR$/trainings/templates" />
       </list>
     </option>
   </component>

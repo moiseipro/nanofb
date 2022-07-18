@@ -26,8 +26,8 @@
 <li class="{{ menu_matches }}">
     <a href="{% url 'matches:base_matches' %}" class="btn"><i class="fa fa-trophy"></i> <span>{% trans 'Matches' %}</span></a>
 </li>
-<li>
-    <a href="#" class="btn disabled"><i class="fa fa-calendar-o"></i> <span>{% trans 'Training' %}</span></a>
+<li class="{{ menu_trainings }}">
+    <a href="{% url 'trainings:base_trainings' %}" class="btn"><i class="fa fa-calendar-o"></i> <span>{% trans 'Training' %}</span></a>
 </li>
 <li class="submenu">
     <a href="#"><i class="fa fa-futbol-o"></i> <span>{% trans 'Exercises' %}</span> <span class="menu-arrow"></span></a>

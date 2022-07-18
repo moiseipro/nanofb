@@ -46,7 +46,22 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="nav-seasons" role="tabpanel" aria-labelledby="nav-seasons-tab">...</div>
+                        <div class="tab-pane fade" id="nav-seasons" role="tabpanel" aria-labelledby="nav-seasons-tab">
+                            <div class="table-responsive">
+                                <table id="seasons" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>id</th>
+                                            <th>{% trans 'title' %}</th>
+                                            <th>{% trans 'short name' %}</th>
+                                            <th>{% trans 'start date' %}</th>
+                                            <th>{% trans 'end date' %}</th>
+                                            <th>{% trans 'options' %}</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
                         <div class="tab-pane fade" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab">...</div>
                     </div>
                 </div>
@@ -55,6 +70,7 @@
     </div>
 
     {% include 'references/forms/team.html' %}
+    {% include 'references/forms/season.html' %}
 {% endblock %}
 
 {% block custom_scripts %}
