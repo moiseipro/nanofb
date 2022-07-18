@@ -4,15 +4,12 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
-from references.forms import CreateTeamForm
+from references.forms import CreateTeamForm, CreateSeasonForm
 from references.models import UserSeason, UserTeam, ClubSeason, ClubTeam
-from references.serializers import UserTeamsSerializer
+from references.serializers import UserTeamsSerializer, UserSeasonsSerializer
 
 
 # REST FRAMEWORK
-from users.models import User
-
-
 class TeamViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
@@ -28,6 +25,21 @@ class TeamViewSet(viewsets.ModelViewSet):
         return UserTeam.objects.filter(user_id=self.request.user)
 
 
+class SeasonViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(user_id=self.request.user)
+
+    def get_serializer_class(self):
+        if self.action == 'partial_update':
+            return UserSeasonsSerializer
+        return UserSeasonsSerializer
+
+    def get_queryset(self):
+        return UserSeason.objects.filter(user_id=self.request.user)
+
+
 # DJANGO
 class SettingsView(TemplateView):
     template_name = 'references/base_settings.html'
@@ -37,6 +49,7 @@ class SettingsView(TemplateView):
         context['teams'] = UserTeam.objects.all()
         context['seasons'] = UserSeason.objects.all()
         context['team_form'] = CreateTeamForm
+        context['season_form'] = CreateSeasonForm
         return context
     pass
 
