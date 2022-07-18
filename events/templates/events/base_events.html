@@ -25,14 +25,20 @@
                         <div class="row">
                             <div class="col py-0">
                                 <div class="row">
-                                    <div class="col-4 pl-0 pr-1">
-                                        <button id="events-table" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">События</button>
+                                    <div class="col-2 pl-0 pr-1">
+                                        <button id="event-add" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold"><i class="fa fa-plus" aria-hidden="true"></i></button>
                                     </div>
                                     <div class="col-4 pl-0 pr-1">
-                                        <button id="trainings-table" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Тренировки</button>
+                                        <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Календарь</button>
                                     </div>
-                                    <div class="col-4 pl-0 pr-1">
-                                        <button id="mathces-table" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Матчи</button>
+                                    <div class="col pl-0 pr-1">
+                                        <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold"><i class="fa fa-male" aria-hidden="true"></i></button>
+                                    </div>
+                                    <div class="col pl-0 pr-1">
+                                        <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold"><i class="fa fa-th" aria-hidden="true"></i></button>
+                                    </div>
+                                    <div class="col pl-0 pr-1">
+                                        <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold"><i class="fa fa-clock-o" aria-hidden="true"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -59,13 +65,13 @@
                             <div class="col py-0">
                                 <div class="row">
                                     <div class="col-4 pl-0 pr-1">
-                                        <button id="events-settings" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Настройки</button>
-                                    </div>
-                                    <div class="col-4 pl-0 pr-1">
                                         <button id="microcycle" title="" data-toggle="modal" data-target="#microcycle-modal" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Микроциклы</button>
                                     </div>
                                     <div class="col-4 pl-0 pr-1">
                                         <button id="days" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">День+-</button>
+                                    </div>
+                                    <div class="col-4 pl-0 pr-1">
+                                        <button id="events-exit" title="" class="btn btn-block btn-outline-danger btn-sm font-weight-bold">Выйти</button>
                                     </div>
                                 </div>
                             </div>
@@ -78,6 +84,20 @@
                     </div>
                     <div class="row">
                         <div class="col">
+                            <div class="table-responsive">
+                                <table id="events" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>№</th>
+                                            <th>{% trans 'Date' %}</th>
+                                            <th>{% trans 'Event' %}</th>
+                                            <th>{% trans 'M.C.' %}</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col collapse">
                             <div class="table-responsive">
                                 <table id="matches" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
                                     <thead>
@@ -116,8 +136,18 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="col d-none" id="block-event-info">
+                        <div class="col" id="block-event-info">
+                            <div class="row">
+                                <div class="col-4">
+                        
+                                </div>
+                                <div class="col-4">
 
+                                </div>
+                                <div class="col-4">
+
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
