@@ -94,6 +94,7 @@ def exercise(request):
         return redirect("authorization:login")
     cur_user = User.objects.filter(email=request.user).only("club_id")
     c_id = -1
+    is_new_exs = request.GET.get("id", -1) == "new"
     try:
         c_id = int(request.GET.get("id", -1))
     except:
@@ -101,7 +102,7 @@ def exercise(request):
     found_exercise = None
     if cur_user.exists() and cur_user[0].club_id != None:
         found_exercise = UserExercise.objects.filter(id=c_id, user=cur_user[0]).values()
-    if not found_exercise:
+    if not found_exercise and not is_new_exs:
         return redirect('/exercises')
     return render(request, 'exercises/base_exercise.html', {'exs': found_exercise})
 

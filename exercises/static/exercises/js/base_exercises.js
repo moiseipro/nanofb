@@ -557,8 +557,9 @@ $(function() {
         }
     });
     $('#createExercise').on('click', (e) => {
-        RenderExerciseOne(null);
-        $('#exerciseCardModal').modal('show');
+        window.location.href = `/exercises/exercise?id=new`;
+        // RenderExerciseOne(null);
+        // $('#exerciseCardModal').modal('show');
     });
     $('#exerciseCardModal').on('contextmenu', (e) => {
         e.preventDefault();

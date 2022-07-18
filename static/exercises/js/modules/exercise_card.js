@@ -1,7 +1,7 @@
 function RenderSplitExsCardCols() {
     $('#exerciseCard').find('div.gutter').remove();
     sizesArr = window.dataForSplitExsCardCols;
-    window.splitExsCardCols = Split(['#splitCol_exscard_0', '#splitCol_exscard_1', '#splitCol_exscard_2'], {
+    window.splitExsCardCols = Split(['#splitCol_exscard_0', '#splitCol_exscard_1'], {
         sizes: sizesArr,
         dragInterval: 1,
         gutterSize: 20,
@@ -26,8 +26,10 @@ function ToggleEditFields(flag) {
     try {
         if (flag) {
             document.descriptionEditor2.disableReadOnlyMode('');
+            $(document).find('.ck-editor__top').removeClass('d-none');
         } else {
             document.descriptionEditor2.enableReadOnlyMode('');
+            $(document).find('.ck-editor__top').addClass('d-none');
         }
     } catch (e) {}
     window.onlyViewMode = !flag;
@@ -46,6 +48,7 @@ $(function() {
             document.descriptionEditor2 = editor;
             if (window.onlyViewMode) {
                 document.descriptionEditor2.enableReadOnlyMode('');
+                $(document).find('.ck-editor__top').addClass('d-none');
             }
         })
         .catch(err => {
@@ -55,7 +58,7 @@ $(function() {
 
     window.dataForSplitExsCardCols = JSON.parse(localStorage.getItem('split_exs_card_cols'));
     if (!window.dataForSplitExsCardCols) {
-        window.dataForSplitExsCardCols = [34, 33, 33];
+        window.dataForSplitExsCardCols = [40, 60];
         localStorage.setItem('split_exs_card_cols', JSON.stringify(window.dataForSplitExsCardCols));
     }
     RenderSplitExsCardCols();
@@ -145,7 +148,11 @@ $(function() {
         let isActive = $(e.currentTarget).attr('data-active');
         $(e.currentTarget).attr('data-active', isActive == '1' ? 0 : 1);
         $(e.currentTarget).toggleClass('btn-warning', isActive == '1');
-        $(e.currentTarget).toggleClass('btn-secondary', isActive != '1');
+        $(e.currentTarget).toggleClass('btn-danger', isActive != '1');
+        $(e.currentTarget).text(isActive == '1' ? "Редактировать" : "Отменить");
+        $('#saveExs').toggleClass('btn-secondary', isActive == '1');
+        $('#saveExs').prop('disabled', isActive == '1');
+        $('#saveExs').toggleClass('btn-success', isActive != '1');
         ToggleEditFields(isActive != '1');
     });
 
