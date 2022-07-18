@@ -28,7 +28,10 @@ $(function() {
             let tElem = folderList['data'][key][keyElem];
             let cId = $(tElem).find('.folder-elem').attr('data-id');
             if (cId != key) {
-                $(tElem).find('.folder-point').html('<i class="fa fa-folder-o ml-4" aria-hidden="true"></i>');
+                // $(tElem).find('.folder-point').html('<i class="fa fa-folder-o ml-4" aria-hidden="true"></i>');
+                $(tElem).find('.folder-point').html(`
+                    <span class="icon-custom icon--folder ml-4" style="--i-w: 1em; --i-h: 1em;"></span>
+                `);
                 $(tElem).find('.folder-sub-add').empty();
                 $(tElem).find('.folder-elem').attr('data-root', '0');
             } else {
@@ -57,7 +60,10 @@ $(function() {
             let tElem = folderNFBList['data'][key][keyElem];
             let cId = $(tElem).find('.folder-nfb-elem').attr('data-id');
             if (cId != key) {
-                $(tElem).find('.folder-point').html('<i class="fa fa-folder-o ml-4" aria-hidden="true"></i>');
+                // $(tElem).find('.folder-point').html('<i class="fa fa-folder-o ml-4" aria-hidden="true"></i>');
+                $(tElem).find('.folder-point').html(`
+                    <span class="icon-custom icon--folder ml-4" style="--i-w: 1em; --i-h: 1em;"></span>
+                `);
                 $(tElem).find('.folder-sub-add').empty();
                 $(tElem).find('.folder-elem').attr('data-root', '0');
             } else {

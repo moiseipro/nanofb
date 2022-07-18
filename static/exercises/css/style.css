@@ -235,3 +235,10 @@ button.remove-row, button.add-row {
     font-weight: 700;
     color: black;
 }
+
+
+
+a.text-dark:hover {
+    color: #8b8b8b !important;
+}
+

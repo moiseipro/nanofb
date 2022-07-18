@@ -1,4 +1,6 @@
 function ToggleUpFilter(id, state) {
+    let currentList = null;
+    let activeElem = null;
     switch(id) {
         case "toggle_side_filter":
             $('div.visual-block').toggleClass('col-auto', !state);
@@ -95,6 +97,32 @@ function ToggleUpFilter(id, state) {
         case "open_card_temp":
             $('#exerciseCardModal2').modal('show');
             break;
+        case "prev_exs":
+            currentList = '.exs-list-group';
+            activeElem = $(currentList).find('.exs-elem.active');
+            if (activeElem.length > 0) {
+                $(activeElem).removeClass('active');
+                $(activeElem).prev().addClass('active');
+            } else {
+                $(currentList).find('.exs-elem').last().addClass('active');
+            }
+            $('.up-tabs-elem[data-id="prev_exs"]').toggleClass('btn-secondary', true);
+            $('.up-tabs-elem[data-id="prev_exs"]').toggleClass('btn-primary', false);
+            LoadExerciseOne();
+            break;
+        case "next_exs":
+            currentList = '.exs-list-group';
+            activeElem = $(currentList).find('.exs-elem.active');
+            if (activeElem.length > 0) {
+                $(activeElem).removeClass('active');
+                $(activeElem).next().addClass('active');
+            } else {
+                $(currentList).find('.exs-elem').first().addClass('active');
+            }
+            $('.up-tabs-elem[data-id="next_exs"]').toggleClass('btn-secondary', true);
+            $('.up-tabs-elem[data-id="next_exs"]').toggleClass('btn-primary', false);
+            LoadExerciseOne();
+            break;
         default:
             break;
     }
@@ -143,6 +171,102 @@ function RenderSplitCols() {
         }
     });
     $('#exerciseCardModal').find('div.gutter').toggleClass('d-none', true);
+}
+
+
+let exercises = {"nfb": {}};
+function LoadFolderExercises() {
+    let activeRow = $('.folders_list').find('.list-group-item.active');
+    let activeNfbRow = $('.folders_nfb_list').find('.list-group-item.active');
+    if (activeRow.length <= 0 && activeNfbRow.length <= 0) {return;}
+    let isNfbExs = activeNfbRow.length > 0;
+    let cFolderId = !isNfbExs ? $(activeRow).find('.folder-elem').attr('data-id') : $(activeNfbRow).find('.folder-nfb-elem').attr('data-id');
+    let tExs = !isNfbExs ? exercises : exercises['nfb'];
+    if (cFolderId in tExs) {
+        RenderFolderExercises(cFolderId, tExs);
+    } else {
+        let data = {'get_exs_all': 1, 'folder': cFolderId, 'get_nfb': isNfbExs ? 1 : 0};
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            data: data,
+            type: 'GET', // GET или POST
+            dataType: 'json',
+            url: "exercises_api",
+            success: function (res) {
+                if (res.success) {
+                    tExs[cFolderId] = res.data;
+                } else {
+                    tExs[cFolderId] = [];
+                }
+            },
+            error: function (res) {
+                tExs[cFolderId] = [];
+                console.log(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+                RenderFolderExercises(cFolderId, tExs);
+            }
+        });
+    }
+}
+
+function RenderFolderExercises(id, tExs) {
+    let exs = tExs[id];
+    let exsHtml = "";
+    for (let i = 0; i < exs.length; i++) {
+        let exElem = exs[i];
+        exsHtml += `
+        <li class="exs-elem list-group-item py-1 px-0" data-id="${exElem.id}" data-folder="${exElem.folder}">
+            <div class="row mx-3">
+                <div class="col-10 px-1">
+                    <span>
+                        ${i+1}. Упражнение "${exElem.title}", автор: ${exElem.user}
+                    </span>
+                </div>
+                <div class="col-2 d-none">
+                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom elem-flex-center size-max-w-x mr-1 see-exs" title="Просмотрено" style="--w-max-x: 40px;">
+                        <span class="icon-custom icon--eye" style="--i-w: 1.8em; --i-h: 1.8em;"></span>
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom elem-flex-center size-max-w-x" title="Избранное" style="--w-max-x: 40px; margin-top: 0;" disabled="">
+                        <span class="icon-custom icon--favorite" style="--i-w: 1.8em; --i-h: 1.8em;"></span>
+                    </button>
+                </div>
+            </div>
+        </li>
+        `;
+    }
+    if (exs.length == 0) {exsHtml = `<li class="list-group-item py-2">В данной папке упр-ий нет.</li>`;}
+    $('.exs-list-group').html(exsHtml);
+    // временно, упр-ия не кешируются
+    exercises = {"nfb": {}};
+}
+
+function LoadExerciseOne() {
+    let activeExs = $('.exercises-list').find('.exs-elem.active');
+    if ($(activeExs).length <= 0) {return;}
+    let exsId = $(activeExs).attr('data-id');
+    let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
+    let data = {'get_exs_one': 1, 'exs': exsId, 'get_nfb': fromNfbFolder ? 1 : 0};
+    $('.page-loader-wrapper').fadeIn();
+    $.ajax({
+        data: data,
+        type: 'GET', // GET или POST
+        dataType: 'json',
+        url: "exercises_api",
+        success: function (res) {
+            if (res.success) {
+                RenderExerciseOne(res.data);
+            }
+        },
+        error: function (res) {
+            console.log(res);
+        },
+        complete: function (res) {
+            $('.page-loader-wrapper').fadeOut();
+            window.lastListUsed = "exercises";
+        }
+    });
 }
 
 function RenderExerciseOne(data) {
@@ -235,71 +359,6 @@ function RenderExerciseOne(data) {
     }
 }
 
-let exercises = {"nfb": {}};
-function LoadFolderExercises() {
-    let activeRow = $('.folders_list').find('.list-group-item.active');
-    let activeNfbRow = $('.folders_nfb_list').find('.list-group-item.active');
-    if (activeRow.length <= 0 && activeNfbRow.length <= 0) {return;}
-    let isNfbExs = activeNfbRow.length > 0;
-    let cFolderId = !isNfbExs ? $(activeRow).find('.folder-elem').attr('data-id') : $(activeNfbRow).find('.folder-nfb-elem').attr('data-id');
-    let tExs = !isNfbExs ? exercises : exercises['nfb'];
-    if (cFolderId in tExs) {
-        RenderFolderExercises(cFolderId, tExs);
-    } else {
-        let data = {'get_exs_all': 1, 'folder': cFolderId, 'get_nfb': isNfbExs ? 1 : 0};
-        $('.page-loader-wrapper').fadeIn();
-        $.ajax({
-            data: data,
-            type: 'GET', // GET или POST
-            dataType: 'json',
-            url: "exercises_api",
-            success: function (res) {
-                if (res.success) {
-                    tExs[cFolderId] = res.data;
-                } else {
-                    tExs[cFolderId] = [];
-                }
-            },
-            error: function (res) {
-                tExs[cFolderId] = [];
-                console.log(res);
-            },
-            complete: function (res) {
-                $('.page-loader-wrapper').fadeOut();
-                RenderFolderExercises(cFolderId, tExs);
-            }
-        });
-    }
-}
-function RenderFolderExercises(id, tExs) {
-    let exs = tExs[id];
-    let exsHtml = "";
-    for (let i = 0; i < exs.length; i++) {
-        let exElem = exs[i];
-        exsHtml += `
-        <li class="exs-elem list-group-item py-0 px-0" data-id="${exElem.id}" data-folder="${exElem.folder}">
-            <div class="row mx-3">
-                <div class="col-10 px-1">
-                    <span>${i+1}. Упражнение "ID:${exElem.id}", автор: ${exElem.user}</span>
-                </div>
-                <div class="col-2 d-flex justify-content-center px-1">
-                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom elem-flex-center size-max-w-x mr-1 see-exs" title="Просмотрено" style="--w-max-x: 40px;">
-                        <span class="icon-custom icon--eye" style="--i-w: 1.8em; --i-h: 1.8em;"></span>
-                    </button>
-                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom elem-flex-center size-max-w-x" title="Избранное" style="--w-max-x: 40px; margin-top: 0;" disabled="">
-                        <span class="icon-custom icon--favorite" style="--i-w: 1.8em; --i-h: 1.8em;"></span>
-                    </button>
-                </div>
-            </div>
-        </li>
-        `;
-    }
-    if (exs.length == 0) {exsHtml = `<li class="list-group-item py-2">В данной папке упр-ий нет.</li>`;}
-    $('.exs-list-group').html(exsHtml);
-    // временно, упр-ия не кешируются
-    exercises = {"nfb": {}};
-}
-
 
 $(function() {
     // Toggle upper buttons panel
@@ -340,6 +399,7 @@ $(function() {
         else {
             $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
         }
+        window.lastListUsed = "folders";
     });
     $('.folders_nfb_list').on('click', '.list-group-item', (e) => {
         let isActive = $(e.currentTarget).hasClass('active');
@@ -349,29 +409,67 @@ $(function() {
         else {
             $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
         }
+        window.lastListUsed = "folders";
     });
+
+    window.lastListUsed = "folders";
     $(document).keypress((e) => {
         if ($('#exerciseCardModal').hasClass('show')) {return;}
-        let currentList = $('.up-tabs-elem[data-id="nfb_folders"]').attr('data-state') == '1' ? ".folders_nfb_list" : ".folders_list";
-        let activeElem = $(currentList).find('.list-group-item.active');
-        if (e.which == 119) { // w
-            if (activeElem.length > 0) {
-                $(activeElem).removeClass('active');
-                $(activeElem).prev().addClass('active');
-            } else {
-                $(currentList).find('.list-group-item').last().addClass('active');
+        if (window.lastListUsed == "folders") {
+            let currentList = $('.up-tabs-elem[data-id="nfb_folders"]').attr('data-state') == '1' ? ".folders_nfb_list" : ".folders_list";
+            let activeElem = $(currentList).find('.list-group-item.active');
+            if (e.which == 119) { // w
+                if (activeElem.length > 0) {
+                    $(activeElem).removeClass('active');
+                    $(activeElem).prev().addClass('active');
+                } else {
+                    $(currentList).find('.list-group-item').last().addClass('active');
+                }
             }
-        }
-        if (e.which == 115) { // s
-            if (activeElem.length > 0) {
-                $(activeElem).removeClass('active');
-                $(activeElem).next().addClass('active');
-            } else {
-                $(currentList).find('.list-group-item').first().addClass('active');
+            if (e.which == 115) { // s
+                if (activeElem.length > 0) {
+                    $(activeElem).removeClass('active');
+                    $(activeElem).next().addClass('active');
+                } else {
+                    $(currentList).find('.list-group-item').first().addClass('active');
+                }
             }
+            LoadFolderExercises();
+        } else if (window.lastListUsed == "exercises") {
+            let currentList = '.exs-list-group';
+            let activeElem = $(currentList).find('.list-group-item.active');
+            if (e.which == 119) { // w
+                if (activeElem.length > 0) {
+                    $(activeElem).removeClass('active');
+                    $(activeElem).prev().addClass('active');
+                } else {
+                    $(currentList).find('.list-group-item').last().addClass('active');
+                }
+            }
+            if (e.which == 115) { // s
+                if (activeElem.length > 0) {
+                    $(activeElem).removeClass('active');
+                    $(activeElem).next().addClass('active');
+                } else {
+                    $(currentList).find('.list-group-item').first().addClass('active');
+                }
+            }
+            LoadExerciseOne();
         }
-        LoadFolderExercises();
     });
+
+
+    // Toggle Names of folders:
+    $('#toggleFoldersNames').on('click', (e) => {
+        let state = $(e.currentTarget).attr('data-state') == '1';
+        $('.folders_list').find('.folder-elem').each((ind, elem) => {
+            let tmpText = !state ? `${$(elem).attr('data-short')}. ${$(elem).attr('data-name')}` : `${$(elem).attr('data-short')}`;
+            $(elem).find('.folder-title').text(tmpText);
+        });
+        $(e.currentTarget).attr('data-state', state ? '0' : '1');
+        $(e.currentTarget).html(state ? `<i class="fa fa-chevron-right" aria-hidden="true"></i>` : `<i class="fa fa-chevron-down" aria-hidden="true"></i>`);
+    });
+    
 
     // Choose exercise
     $('.exercises-list').on('click', '.exs-elem', (e) => {
@@ -382,28 +480,9 @@ $(function() {
         }
         $('.exercises-list').find('.exs-elem').removeClass('active');
         $(e.currentTarget).addClass('active');
-        let exsId = $(e.currentTarget).attr('data-id');
-        let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
-        let data = {'get_exs_one': 1, 'exs': exsId, 'get_nfb': fromNfbFolder ? 1 : 0};
-        $('.page-loader-wrapper').fadeIn();
-        $.ajax({
-            data: data,
-            type: 'GET', // GET или POST
-            dataType: 'json',
-            url: "exercises_api",
-            success: function (res) {
-                if (res.success) {
-                    RenderExerciseOne(res.data);
-                }
-            },
-            error: function (res) {
-                console.log(res);
-            },
-            complete: function (res) {
-                $('.page-loader-wrapper').fadeOut();
-            }
-        });
+        LoadExerciseOne();
     });
+
     $('#exerciseCardModal').on('click', '.exs-change', (e) => {
         let dir = $(e.currentTarget).attr('data-dir');
         let elems = $('.exercises-list').find('.exs-elem');
@@ -500,6 +579,18 @@ $(function() {
         $('#exerciseCardModal').find('#cardBlock > .tab-pane').removeClass('show active');
         $('#exerciseCardModal').find('#cardBlock > #card_content').addClass('show active');
     });
+
+
+    // Go to exercise view
+    $('#showOneExs').on('click', (e) => {
+        let activeExs = $('.exs-list-group').find('.list-group-item.active');
+        if ($(activeExs).length > 0) {
+            window.open(`/exercises/exercise?id=${$(activeExs).attr('data-id')}`, '_blank');
+        } else {
+            swal("Внимание", "Выберите сначала упражнение из списка.", "info");
+        }
+    });
+
 
 
     // Load CkEditor fields
@@ -602,13 +693,6 @@ $(function() {
                 $(e.currentTarget).remove();
             }
         }
-    });
-
-
-    // temp
-    $('.exercises-list').on('click', '.see-exs', (e) => {
-        let cId = $(e.currentTarget).parent().parent().parent().attr('data-id');
-        window.location.href = `/exercises/exercise?id=${cId}`;
     });
 
 
