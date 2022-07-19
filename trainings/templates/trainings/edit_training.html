@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load static %}
 
-{% block title %}{% trans 'Events' %}{% endblock %}
+{% block title %}{% trans 'Trainings' %}{% endblock %}
 
 {% block content %}
 
@@ -21,149 +21,161 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header py-2">
-                    <form action="#">
-                        <div class="row">
-                            <div class="col py-0">
-                                <div class="row">
-                                    <div class="col-2 px-1">
-                                        <button id="event-add" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                                    </div>
-                                    <div class="col-4 px-1">
-                                        <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Календарь</button>
-                                    </div>
-                                    <div class="col px-1">
-                                        <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold"><i class="fa fa-male" aria-hidden="true"></i></button>
-                                    </div>
-                                    <div class="col px-1">
-                                        <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold"><i class="fa fa-th" aria-hidden="true"></i></button>
-                                    </div>
-                                    <div class="col px-1">
-                                        <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold"><i class="fa fa-clock-o" aria-hidden="true"></i></button>
-                                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="row">
+                                <div class="col px-1">
+                                    <button id="#" title="" class="btn btn-block btn-outline-danger btn-sm font-weight-bold">Выйти</button>
                                 </div>
-                            </div>
-                            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 p-0" style="">
-                                <div class="row rescalendar_controls text-truncate text-center">
-                                    <div class="col-2 pl-0 pr-1">
-                                        <button class="btn btn-block btn-secondary btn-sm move_to_last_month"> &lt;&lt; </button>
-                                    </div>
-                                    <div class="col-2 px-0">
-                                        <button class="btn btn-block btn-secondary btn-sm move_to_yesterday"> &lt; </button>
-                                    </div>
-                                    <div class="col-4 px-1">
-                                        <button class="btn btn-block btn-secondary btn-sm font-weight-bold move_to_today"> --- </button>
-                                        <input class="refDate select_filter_training" type="text" value="" style="display:none;">
-                                    </div>
-                                    <div class="col-2 px-0">
-                                        <button class="btn btn-block btn-secondary btn-sm move_to_tomorrow"> &gt; </button>
-                                    </div>
-                                    <div class="col-2 px-1">
-                                        <button class="btn btn-block btn-secondary btn-sm move_to_next_month"> &gt;&gt; </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col py-0">
-                                <div class="row">
-                                    <div class="col-4 px-1">
-                                        <button id="microcycle" title="" data-toggle="modal" data-target="#microcycle-modal" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Микроциклы</button>
-                                    </div>
-                                    <div class="col-4 px-1">
-                                        <button id="days" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">День+-</button>
-                                    </div>
-                                    <div class="col-4 px-1">
-                                        <button id="events-exit" title="" class="btn btn-block btn-outline-danger btn-sm font-weight-bold">Выйти</button>
-                                    </div>
+                                <div class="col px-1">
+                                    <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Редактировать</button>
                                 </div>
                             </div>
                         </div>
-                    </form>
-                </div>
-                <div class="card-body py-2">
-                    <div class="row">
-                        <div id="event_calendar" class="rescalendar"></div>
-                    </div>
-                    <div class="row">
                         <div class="col">
-                            <div class="table-responsive">
-                                <table id="events" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">№</th>
-                                            <th class="text-center">{% trans 'Date' %}</th>
-                                            <th class="text-center">{% trans 'Event' %}</th>
-                                            <th class="text-center">{% trans 'M.C.' %}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>19/07/2022</td>
-                                            <td class="text-center"><a href="{% url 'trainings:edit_training' %}" type="button" class="btn btn-sm btn-info py-0">Тренировка</a></td>
-                                            <td>-</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="col collapse">
-                            <div class="table-responsive">
-                                <table id="matches" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th>Дата</th>
-                                            <th>Д.Н.</th>
-                                            <th><i class="fa fa-clock-o" aria-hidden="true"></i></th>
-                                            <th><i class="fa fa-trophy" aria-hidden="true"></i></th>
-                                            <th>Команда</th>
-                                            <th>Счет</th>
-                                            <th>Команда</th>
-                                            <th><i class="fa fa-cog" aria-hidden="true"></i></th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="col collapse" id="collapse-protocol">
-                            <div class="table-responsive">
-                                <table id="protocol" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th>№</th>
-                                            <th></th>
-                                            <th></th>
-                                            <th>с</th>
-                                            <th>по</th>
-                                            <th>гол.</th>
-                                            <th>пен.</th>
-                                            <th>пас.</th>
-                                            <th>ж.к.</th>
-                                            <th>к.к.</th>
-                                            <th>оц.</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="col-8" id="block-event-info">
-                            <div class="row pt-2 mb-2">
+                            <div class="row">
                                 <div class="col px-1">
-                                    <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Упражнения</button>
+                                    <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm"><i class="fa fa-files-o" aria-hidden="true"></i></button>
                                 </div>
                                 <div class="col px-1">
-                                    <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Статистика</button>
+                                    <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm"><i class="fa fa-bar-chart" aria-hidden="true"></i></button>
                                 </div>
+                                <div class="col px-1">
+                                    <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm"><i class="fa fa-print" aria-hidden="true"></i></button>
+                                </div>
+                                <div class="col px-1">
+                                    <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm"><i class="fa fa-external-link" aria-hidden="true"></i></button>
+                                </div>
+                                <div class="col px-1">
+                                    <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="row">
                                 <div class="col px-1">
                                     <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Протокол</button>
                                 </div>
                                 <div class="col px-1">
-                                    <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Аналитика</button>
+                                    <button id="#" title="" class="btn btn-block btn-outline-danger btn-sm font-weight-bold">Удалить</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body py-2">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col bg-default-light">Дата:</div>
+                                        <div class="col">19/07/2022</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col bg-default-light">Команда:</div>
+                                        <div class="col">Nanofootball 2022</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col bg-default-light">Событие:</div>
+                                        <div class="col">Тренировка</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col bg-default-light">Время:</div>
+                                        <div class="col">18:00</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col bg-default-light">Тренер:</div>
+                                        <div class="col">Иванов Иван Иванович</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 border border-dark bg-default-light font-weight-bold">Игроки</div>
+                                <div class="col-12">
+                                    <div class="row border-bottom">
+                                        <div class="col">Иванов иван иванович1</div>
+                                        <div class="col-2 text-right px-0"><i class="fa fa-medkit text-danger" aria-hidden="true"></i></div>
+                                    </div>
+                                    <div class="row border-bottom">
+                                        <div class="col">Иванов иван иванович2</div>
+                                        <div class="col-2 text-right px-0"></div>
+                                    </div>
+                                    <div class="row border-bottom">
+                                        <div class="col">Иванов иван иванович3</div>
+                                        <div class="col-2 text-right px-0"><i class="fa fa-medkit text-danger" aria-hidden="true"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 border border-dark bg-default-light font-weight-bold">Группа А</div>
+                                <div class="col-12">
+                                    <div class="row border-bottom">
+                                        <div class="col">Упражнение</div>
+                                        <div class="col-2 text-right px-0">(--)</div>
+                                    </div>
+                                    <div class="row border-bottom">
+                                        <div class="col">Упражнение</div>
+                                        <div class="col-2 text-right px-0">(--)</div>
+                                    </div>
+                                    <div class="row border-bottom">
+                                        <div class="col">Упражнение</div>
+                                        <div class="col-2 text-right px-0">(--)</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="row border border-dark bg-default-light font-weight-bold">
+                                        <div class="col">Цели</div>
+                                        <div class="col-2 text-right px-0"><button type="button" class="btn btn-sm btn-secondary py-0"><i class="fa fa-plus" aria-hidden="true"></i></button></div>
+                                    </div>
+                                    <div class="row border-bottom">
+                                        <div class="col">---</div>
+                                        <div class="col-2 text-right px-0">--</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 border border-dark bg-default-light font-weight-bold">Группа B</div>
+                                <div class="col-12">
+                                    <div class="row border-bottom">
+                                        <div class="col">Упражнение</div>
+                                        <div class="col-2 text-right px-0">(--)</div>
+                                    </div>
+                                    <div class="row border-bottom">
+                                        <div class="col">Упражнение</div>
+                                        <div class="col-2 text-right px-0">(--)</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 border border-dark bg-default-light font-weight-bold">Группа C</div>
+                                <div class="col-12">
+                                    <div class="row border-bottom">
+                                        <div class="col">Упражнение</div>
+                                        <div class="col-2 text-right px-0">(--)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="row mb-2">
+                                <div class="col px-1">
+                                    <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Описание</button>
+                                </div>
+                                <div class="col px-1">
+                                    <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Схемы</button>
                                 </div>
                                 <div class="col px-1">
                                     <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Видео</button>
                                 </div>
+                                <div class="col px-1">
+                                    <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Анимация</button>
+                                </div>
                             </div>
                             <div class="row">
-                                <div class="col-4 d-flex justify-content-center">
+                                <div class="col-6 py-2 d-flex justify-content-center">
                                     <div id="svgbox" class="d-block float-left size-w-x" style="--w-x:100%;">
                                         <div id="svgparent" class="d-block mx-auto">
                                             <svg id="block" class="d-block bg-success mx-auto" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
@@ -189,7 +201,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-4 d-flex justify-content-center">
+                                <div class="col-6 py-2 d-flex justify-content-center">
                                     <div id="svgbox" class="d-block float-left size-w-x" style="--w-x:100%;">
                                         <div id="svgparent" class="d-block mx-auto">
                                             <svg id="block" class="d-block bg-success mx-auto" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
@@ -215,7 +227,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-4 d-flex justify-content-center">
+                                <div class="col-6 py-2 d-flex justify-content-center">
                                     <div id="svgbox" class="d-block float-left size-w-x" style="--w-x:100%;">
                                         <div id="svgparent" class="d-block mx-auto">
                                             <svg id="block" class="d-block bg-success mx-auto" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
@@ -249,49 +261,8 @@
         </div>
     </div>
 
-    <div class="modal fade" id="microcycle-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="microcycle-modal-title">{% trans 'Working with microcycles' %}</h5>
-                    <button type="button" class="ml-3 btn btn-sm btn-success create">
-                        <span aria-hidden="true">{% trans 'Create' %}</span>
-                    </button>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="table-responsive">
-                        <table id="microcycles" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>{% trans 'title' %}</th>
-                                    <th>{% trans 'start date' %}</th>
-                                    <th>{% trans 'end date' %}</th>
-                                    <th>{% trans 'options' %}</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                </div>
-                <div class="modal-footer block">
-                    <form id="microcycles-form" method="post" class="d-none">
-                        {% load crispy_forms_tags %}
-                        {% crispy microcycle_form %}
-                    </form>
-                    <div id="alert-update">
+{% endblock %}
 
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-{% endblock %}
-{% block custom_style %}
-    <link rel="stylesheet" href="{% static 'events/ResCalendar/rescalendar.css' %}">
-{% endblock %}
 {% block custom_scripts %}
-    <script src="{% static 'events/ResCalendar/rescalendar.js' %}"></script>
-    <script src="{% static 'events/base_events.js' %}"></script>
+    <script src="{% static 'trainings/base_trainings.js' %}"></script>
 {% endblock %}
