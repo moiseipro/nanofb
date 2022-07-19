@@ -108,14 +108,16 @@
 }
 
 .btn-custom {
-    color: #5a6268 !important;
+    color: #ffffff !important;
     border: 2px solid rgb(100, 100, 100) !important;
 }
 .btn-custom.btn-secondary {
+    color: #5a6268 !important;
     background-color: #d5d5d5;
     border-color: #d5d5d5;
 }
 .btn-custom.btn-secondary:hover {
+    color: #5a6268 !important;
     background-color: #a6a6a6;
     border-color: #a6a6a6
 }
@@ -213,7 +215,9 @@ tr.bck-custom > td {
     height: 258px;
     overflow-y: auto;
 }
-
+.ck-editor__editable.ck-read-only {
+    height: 298px !important;
+}
 
 
 .form-control-sm.exs_edit_field {
@@ -240,5 +244,12 @@ button.remove-row, button.add-row {
 
 a.text-dark:hover {
     color: #8b8b8b !important;
+}
+
+
+.graphics-block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 

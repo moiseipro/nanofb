@@ -13,7 +13,7 @@
                 <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" data-type="add" data-id="text" title="Режим добавления: текст" style="--w-max-x:3%;">
                     <i class="fa fa-text-width" aria-hidden="true"></i>
                 </button>
-                <button type="button" class="btn btn-secondary btn-sm btn-custom" id="saveExs">Сохранить</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom" id="saveExs" disabled="">Сохранить</button>
                 <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="deleteExercise" style="--w-max-x:3%;" title="Удалить">
                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </button>
@@ -43,10 +43,9 @@
                                 </colgroup>
                                 <tbody>
                                     <tr class="bck-custom">
-                                        <td>Главные папки</td>
-                                        <td>
+                                        <td colspan="2">
                                             <select name="folder_parent" class="form-control form-control-sm exs_edit_field folder_nfb d-none" required="" autocomplete="off">
-                                                <option value="">---</option>
+                                                <option value="">Главные папки</option>
                                                 {% for folder in nfb_folders %}
                                                     {% if folder.root %}
                                                         <option value="{{ folder.id }}">{{ folder.short_name }}. {{ folder.name }}</option>
@@ -54,7 +53,7 @@
                                                 {% endfor %}
                                             </select>
                                             <select name="folder_parent" class="form-control form-control-sm exs_edit_field folder_default" required="" autocomplete="off">
-                                                <option value="">---</option>
+                                                <option value="">Главные папки</option>
                                                 {% for folder in folders %}
                                                     {% if folder.root %}
                                                         <option value="{{ folder.id }}">{{ folder.short_name }}. {{ folder.name }}</option>
@@ -64,10 +63,9 @@
                                         </td>
                                     </tr>
                                     <tr class="bck-custom">
-                                        <td>Папки с упражнением</td>
-                                        <td>
+                                        <td colspan="2">
                                             <select name="folder_main" class="form-control form-control-sm exs_edit_field folder_nfb d-none" required="" autocomplete="off">
-                                                <option value="">---</option>
+                                                <option value="">Папки с упражнением</option>
                                                 {% for folder in nfb_folders %}
                                                     {% if not folder.root %}
                                                         <option value="{{ folder.id }}" data-parent="{{ folder.parent }}">{{ folder.short_name }}. {{ folder.name }}</option>
@@ -75,7 +73,7 @@
                                                 {% endfor %}
                                             </select>
                                             <select name="folder_main" class="form-control form-control-sm exs_edit_field folder_default" required="" autocomplete="off">
-                                                <option value="">---</option>
+                                                <option value="">Папки с упражнением</option>
                                                 {% for folder in folders %}
                                                     {% if not folder.root %}
                                                         <option value="{{ folder.id }}" data-parent="{{ folder.parent }}">{{ folder.short_name }}. {{ folder.name }}</option>
@@ -85,10 +83,9 @@
                                         </td>
                                     </tr>
                                     <tr class="bck-custom">
-                                        <td>Ворота</td>
-                                        <td>
+                                        <td colspan="2">
                                             <select name="ref_goal" class="form-control form-control-sm exs_edit_field" autocomplete="off">
-                                                <option value="">---</option>
+                                                <option value="">Ворота</option>
                                                 {% for elem in refs.exs_goal %}
                                                     <option value="{{ elem.id }}">{{ elem.title }}</option>
                                                 {% endfor %}
@@ -96,10 +93,9 @@
                                         </td>
                                     </tr>
                                     <tr class="bck-custom">
-                                        <td>Мяч</td>
-                                        <td>
+                                        <td colspan="2">
                                             <select name="ref_ball" class="form-control form-control-sm exs_edit_field" autocomplete="off">
-                                                <option value="">---</option>
+                                                <option value="">Мяч</option>
                                                 {% for elem in refs.exs_ball %}
                                                     <option value="{{ elem.id }}">{{ elem.title }}</option>
                                                 {% endfor %}
@@ -107,10 +103,9 @@
                                         </td>
                                     </tr>
                                     <tr class="bck-custom">
-                                        <td>Когнитивная нагрузка</td>
-                                        <td>
+                                        <td colspan="2">
                                             <select name="ref_cognitive_load" class="form-control form-control-sm exs_edit_field" autocomplete="off">
-                                                <option value="">---</option>
+                                                <option value="">Когнитивная нагрузка</option>
                                                 {% for elem in refs.exs_cognitive_load %}
                                                     <option value="{{ elem.id }}">{{ elem.title }}</option>
                                                 {% endfor %}
@@ -118,22 +113,19 @@
                                         </td>
                                     </tr>
                                     <tr class="bck-custom">
-                                        <td>Ключевые слова</td>
-                                        <td>
-                                            <input name="keyword[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
+                                        <td colspan="2">
+                                            <input name="keyword[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="Ключевые слова" autocomplete="off">
                                         </td>
                                     </tr>
                                     <tr class="bck-custom">
-                                        <td>Ключевые слова</td>
-                                        <td>
-                                            <input name="keyword[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
+                                        <td colspan="2">
+                                            <input name="keyword[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="Ключевые слова" autocomplete="off">
                                         </td>
                                     </tr>
                                     <tr class="bck-custom">
-                                        <td>Возрастная категория</td>
-                                        <td>
+                                        <td colspan="2">
                                             <select name="ref_age_category" class="form-control form-control-sm exs_edit_field" autocomplete="off">
-                                                <option value="">---</option>
+                                                <option value="">Возрастная категория</option>
                                                 {% for elem in refs.exs_age_category %}
                                                     <option value="{{ elem.id }}">{{ elem.title }}</option>
                                                 {% endfor %}
@@ -278,48 +270,48 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="" id="splitCol_exscard_2">
-                            <div class="row bck-custom ml-2 size-h-x" style="--h-x:339px;">
-                                <div class="col-12 graphics-block" data-id="drawing">
-                                    <div class="mx-5 mb-2">
-                                        <svg id="" class="d-block bg-success mx-auto w-100" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"">
+                        <div class="" id="splitCol_exscard_2" style="width: 40%;">
+                            <div class="row bck-custom ml-2 w-100 size-h-x" style="--h-x:339px;">
+                                <div class="col-12 graphics-block h-100" data-id="drawing">
+                                    <div class="mx-5 w-100">
+                                        <svg id="" class="d-block bg-success mx-auto w-100 size-max-h-x" style="--h-max-x:35vh;" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"">
                                             <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="/static/exercises/img/field.svg"></image>
                                         </svg>
                                     </div>
                                 </div>
-                                <div class="col-12 graphics-block d-none" data-id="video">
-                                    <div class="mx-5 mb-2">
+                                <div class="col-12 graphics-block h-100 d-none" data-id="video">
+                                    <div class="mx-5 w-100">
                                         <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid w-100" alt="[ VIDEO ]"">
                                     </div>
                                 </div>
-                                <div class="col-12 graphics-block d-none" data-id="animation">
-                                    <div class="mx-5 mb-2">
+                                <div class="col-12 graphics-block h-100 d-none" data-id="animation">
+                                    <div class="mx-5 w-100">
                                         <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid w-100" alt="[ ANIM ]"">
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mx-5 size-h-x" style="--h-x:33px;">
+                            <div class="row ml-2 w-100 size-h-x" style="--h-x:33px;">
                                 <div class="col-12 p-1 btn-group">
                                     <button type="button" class="btn btn-link btn-sm graphics-block-toggle mx-1 selected" data-id="drawing">Рисунок</button>
                                     <button type="button" class="btn btn-link btn-sm graphics-block-toggle mx-1" data-id="video">Видео</button>
                                     <button type="button" class="btn btn-link btn-sm graphics-block-toggle mx-1" data-id="animation">Анимация</button>
                                 </div>
                             </div>
-                            <div class="row bck-custom ml-2 size-h-x" style="--h-x:339px;">
-                                <div class="col-12 graphics-block" data-id="drawing">
-                                    <div class="mx-5 mb-2">
-                                        <svg id="" class="d-block bg-success mx-auto w-100" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"">
+                            <div class="row bck-custom ml-2 w-100 size-h-x" style="--h-x:339px;">
+                                <div class="col-12 graphics-block h-100" data-id="drawing">
+                                    <div class="mx-5 w-100">
+                                        <svg id="" class="d-block bg-success mx-auto w-100 size-max-h-x" style="--h-max-x:35vh;" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"">
                                             <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="/static/exercises/img/field.svg"></image>
                                         </svg>
                                     </div>
                                 </div>
-                                <div class="col-12 graphics-block d-none" data-id="video">
-                                    <div class="mx-5 mb-2">
+                                <div class="col-12 graphics-block h-100 d-none" data-id="video">
+                                    <div class="mx-5 w-100">
                                         <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid w-100" alt="[ VIDEO ]"">
                                     </div>
                                 </div>
-                                <div class="col-12 graphics-block d-none" data-id="animation">
-                                    <div class="mx-5 mb-2">
+                                <div class="col-12 graphics-block h-100 d-none" data-id="animation">
+                                    <div class="mx-5 w-100">
                                         <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid w-100" alt="[ ANIM ]"">
                                     </div>
                                 </div>
