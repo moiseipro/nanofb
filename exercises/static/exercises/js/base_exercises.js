@@ -586,7 +586,8 @@ $(function() {
     $('#showOneExs').on('click', (e) => {
         let activeExs = $('.exs-list-group').find('.list-group-item.active');
         if ($(activeExs).length > 0) {
-            window.open(`/exercises/exercise?id=${$(activeExs).attr('data-id')}`, '_blank');
+            let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
+            window.location.href = `/exercises/exercise?id=${$(activeExs).attr('data-id')}&nfb=${fromNfbFolder ? 1 : 0}`;
         } else {
             swal("Внимание", "Выберите сначала упражнение из списка.", "info");
         }

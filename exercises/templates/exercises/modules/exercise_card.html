@@ -134,24 +134,24 @@
                                     </tr>
                                     <tr class="bck-custom">
                                         <td>
-                                            <input name="age_from" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="возраст с" title="возраст с" autocomplete="off">
+                                            <input name="players_ages[]" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="возраст с" title="возраст с" autocomplete="off">
                                         </td>
                                         <td>
-                                            <input name="age_to" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="возраст по" title="возраст по" autocomplete="off">
+                                            <input name="players_ages[]" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="возраст по" title="возраст по" autocomplete="off">
                                         </td>
                                     </tr>
                                     <tr class="bck-custom">
                                         <td>
-                                            <input name="players_from" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="игроки с" title="игроки с" autocomplete="off">
+                                            <input name="players_amount[]" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="игроки с" title="игроки с" autocomplete="off">
                                         </td>
                                         <td>
-                                            <input name="players_to" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="игроки по" title="игроки по" autocomplete="off">
+                                            <input name="players_amount[]" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="игроки по" title="игроки по" autocomplete="off">
                                         </td>
                                     </tr>
                                     <tr class="">
                                         <td colspan="2">&nbsp;</td>
                                     </tr>
-                                    <tr class="bck-custom">
+                                    <tr class="wider_row bck-custom" data-id="additions">
                                         <td colspan="2">
                                             <div class="row">
                                                 <div class="col-9 text-center">
@@ -160,20 +160,6 @@
                                                 <div class="col-3 text-right">
                                                     <button class="btn btn-secondary btn-sm add-row" data-id="additions">
                                                         <i class="fa fa-plus" aria-hidden="true"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="wider_row bck-custom" data-id="additions">
-                                        <td colspan="2">
-                                            <div class="row">
-                                                <div class="col">
-                                                    <input name="additions[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
-                                                </div>
-                                                <div class="col-2 text-right">
-                                                    <button class="btn btn-secondary btn-sm remove-row" disabled="">
-                                                        <i class="fa fa-minus" aria-hidden="true"></i>
                                                     </button>
                                                 </div>
                                             </div>
@@ -365,11 +351,30 @@
     <div class="gen-content d-none">
         <table>
             <tbody>
-                <tr class="bck-custom" data-id="additions">
+                <tr class="bck-custom" data-id="additions" data-type="list">
                     <td colspan="2">
                         <div class="row">
                             <div class="col">
-                                <input name="additions[]" class="form-control form-control-sm" type="text" value="" placeholder="" autocomplete="off">
+                                <select name="additions[]" class="form-control form-control-sm diff-frmt" autocomplete="off">
+                                    <option value="">---</option>
+                                    {% for elem in refs.exs_addition %}
+                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-2 text-right">
+                                <button class="btn btn-secondary btn-sm remove-row">
+                                    <i class="fa fa-minus" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="bck-custom" data-id="additions" data-type="text">
+                    <td colspan="2">
+                        <div class="row">
+                            <div class="col">
+                                <input name="additions[]" class="form-control form-control-sm diff-frmt" type="text" value="" placeholder="" autocomplete="off">
                             </div>
                             <div class="col-2 text-right">
                                 <button class="btn btn-secondary btn-sm remove-row">
@@ -385,7 +390,7 @@
                             <div class="col">
                                 <select name="purposes[]" class="form-control form-control-sm diff-frmt" autocomplete="off">
                                     <option value="">---</option>
-                                    {% for elem in refs.purposes %}
+                                    {% for elem in refs.exs_purpose %}
                                         <option value="{{ elem.id }}">{{ elem.title }}</option>
                                     {% endfor %}
                                 </select>
@@ -418,7 +423,7 @@
                             <div class="col">
                                 <select name="stress_type[]" class="form-control form-control-sm diff-frmt" autocomplete="off">
                                     <option value="">---</option>
-                                    {% for elem in refs.stress_type %}
+                                    {% for elem in refs.exs_stress_type %}
                                         <option value="{{ elem.id }}">{{ elem.title }}</option>
                                     {% endfor %}
                                 </select>
@@ -451,7 +456,7 @@
                             <div class="col">
                                 <select name="coaching[]" class="form-control form-control-sm diff-frmt" autocomplete="off">
                                     <option value="">---</option>
-                                    {% for elem in refs.coaching %}
+                                    {% for elem in refs.exs_coaching %}
                                         <option value="{{ elem.id }}">{{ elem.title }}</option>
                                     {% endfor %}
                                 </select>

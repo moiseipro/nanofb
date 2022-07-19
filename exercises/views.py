@@ -1,3 +1,4 @@
+import json
 from tkinter.messagebox import NO
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
@@ -5,7 +6,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from users.models import User
 from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, AdminExercise
-from references.models import ExsBall, ExsGoal, ExsWorkoutPart, ExsCognitiveLoad, ExsAgeCategory, ExsSource
+from references.models import ExsBall, ExsGoal, ExsCognitiveLoad, ExsAgeCategory
+from references.models import ExsAddition, ExsPurpose, ExsStressType, ExsCoaching
 
 
 LANG_CODE_DEFAULT = "en"
@@ -64,6 +66,29 @@ def set_refs_translations(data, lang_code):
     return data
 
 
+def get_exercises_params(request, user, folders, nfb_folders, refs):
+    if user.exists() and user[0].club_id != None:
+        # добавить проверку на клуб версию
+        folders = UserFolder.objects.filter(user=user[0], visible=True).values()
+    nfb_folders = AdminFolder.objects.filter(visible=True).values()
+    for elem in folders:
+        elem['root'] = False if elem['parent'] and elem['parent'] != 0 else True
+    for elem in nfb_folders:
+        elem['root'] = False if elem['parent'] and elem['parent'] != 0 else True
+    refs['exs_ball'] = ExsBall.objects.filter().values()
+    refs['exs_goal'] = ExsGoal.objects.filter().values()
+    refs['exs_cognitive_load'] = ExsCognitiveLoad.objects.filter().values()
+    refs['exs_age_category'] = ExsAgeCategory.objects.filter().values()
+
+    refs['exs_addition'] = ExsAddition.objects.filter().values()
+    refs['exs_purpose'] = ExsPurpose.objects.filter().values()
+    refs['exs_stress_type'] = ExsStressType.objects.filter().values()
+    refs['exs_coaching'] = ExsCoaching.objects.filter().values()
+
+    refs = set_refs_translations(refs, request.LANGUAGE_CODE)
+    return [folders, nfb_folders, refs]
+
+
 def exercises(request):
     if not request.user.is_authenticated:
         return redirect("authorization:login")
@@ -71,22 +96,14 @@ def exercises(request):
     found_folders = []
     found_nfb_folders = []
     refs = {}
-    if cur_user.exists() and cur_user[0].club_id != None:
-        # добавить проверку на клуб версию
-        found_folders = UserFolder.objects.filter(user=cur_user[0], visible=True).values()
-    found_nfb_folders = AdminFolder.objects.filter(visible=True).values()
-    for elem in found_folders:
-        elem['root'] = False if elem['parent'] and elem['parent'] != 0 else True
-    for elem in found_nfb_folders:
-        elem['root'] = False if elem['parent'] and elem['parent'] != 0 else True
-    refs['exs_ball'] = ExsBall.objects.filter().values()
-    refs['exs_goal'] = ExsGoal.objects.filter().values()
-    refs['exs_workout_part'] = ExsWorkoutPart.objects.filter().values()
-    refs['exs_cognitive_load'] = ExsCognitiveLoad.objects.filter().values()
-    refs['exs_age_category'] = ExsAgeCategory.objects.filter().values()
-    refs['exs_source'] = ExsSource.objects.filter().values()
-    refs = set_refs_translations(refs, request.LANGUAGE_CODE)
-    return render(request, 'exercises/base_exercises.html', {'folders': found_folders, 'folders_only_view': True, 'nfb_folders': found_nfb_folders, 'refs': refs, 'is_exercises': True})
+    found_folders, found_nfb_folders, refs = get_exercises_params(request, cur_user, found_folders, found_nfb_folders, refs)
+    return render(request, 'exercises/base_exercises.html', {
+        'folders': found_folders, 
+        'folders_only_view': True, 
+        'nfb_folders': found_nfb_folders, 
+        'refs': refs, 
+        'is_exercises': True
+    })
 
 
 def exercise(request):
@@ -94,17 +111,36 @@ def exercise(request):
         return redirect("authorization:login")
     cur_user = User.objects.filter(email=request.user).only("club_id")
     c_id = -1
+    c_nfb = 0
     is_new_exs = request.GET.get("id", -1) == "new"
     try:
         c_id = int(request.GET.get("id", -1))
     except:
         pass
+    try:
+        c_nfb = int(request.GET.get("nfb", 0))
+    except:
+        pass
     found_exercise = None
-    if cur_user.exists() and cur_user[0].club_id != None:
-        found_exercise = UserExercise.objects.filter(id=c_id, user=cur_user[0]).values()
+    if c_nfb == 1:
+        if cur_user.exists():
+            found_exercise = AdminExercise.objects.filter(id=c_id).values()
+    else:
+        if cur_user.exists() and cur_user[0].club_id != None:
+            found_exercise = UserExercise.objects.filter(id=c_id, user=cur_user[0]).values()
     if not found_exercise and not is_new_exs:
         return redirect('/exercises')
-    return render(request, 'exercises/base_exercise.html', {'exs': found_exercise})
+    found_folders = []
+    found_nfb_folders = []
+    refs = {}
+    found_folders, found_nfb_folders, refs = get_exercises_params(request, cur_user, found_folders, found_nfb_folders, refs)
+    return render(request, 'exercises/base_exercise.html', {
+        'exs': found_exercise,
+        'folders': found_folders, 
+        'folders_only_view': True, 
+        'nfb_folders': found_nfb_folders, 
+        'refs': refs
+    })
 
 
 def folders(request):
@@ -115,7 +151,11 @@ def folders(request):
     if cur_user.exists() and cur_user[0].club_id != None:
         # добавить проверку на клуб версию
         found_folders = UserFolder.objects.filter(user=cur_user[0])
-    return render(request, 'exercises/base_folders.html', {'folders': found_folders, 'folders_only_view': False, 'is_folders': True})
+    return render(request, 'exercises/base_folders.html', {
+        'folders': found_folders, 
+        'folders_only_view': False, 
+        'is_folders': True
+    })
 
 
 @csrf_exempt
@@ -210,21 +250,22 @@ def exercises_api(request):
                 c_exs.folder = c_folder[0]
             print(request.POST)
             c_exs.title = set_by_language_code(c_exs.title, request.LANGUAGE_CODE, request.POST.get("data[title]", ""))
-            c_exs.keyword = set_by_language_code(c_exs.keyword, request.LANGUAGE_CODE, request.POST.get("data[keyword]", ""))
+            c_exs.keyword = set_by_language_code(c_exs.keyword, request.LANGUAGE_CODE, request.POST.getlist("data[keyword[]]", ""), request.POST.getlist("data[keyword[]][]", ""))
             c_exs.description = set_by_language_code(c_exs.description, request.LANGUAGE_CODE, request.POST.get("data[description]", ""))
             c_exs.ref_ball = set_value_as_int(request, "data[ref_ball]", None)
             c_exs.ref_goal = set_value_as_int(request, "data[ref_goal]", None)
-            c_exs.ref_workout_part = set_value_as_int(request, "data[ref_workout_part]", None)
             c_exs.ref_cognitive_load = set_value_as_int(request, "data[ref_cognitive_load]", None)
+            c_exs.players_ages = set_value_as_list(request, "data[players_ages[]]", "data[players_ages[]][]", [])
             c_exs.ref_age_category = set_value_as_int(request, "data[ref_age_category]", None)
-            c_exs.ref_source = set_value_as_int(request, "data[ref_source]", None)
-            c_exs.players_amount = set_by_language_code(c_exs.players_amount, request.LANGUAGE_CODE, request.POST.getlist("data[players_amount]", ""), request.POST.getlist("data[players_amount][]", ""))
+            c_exs.players_amount = set_value_as_list(request, "data[players_amount[]]", "data[players_amount[]][]", [])
             
+
             c_exs.condition = set_by_language_code(c_exs.condition, request.LANGUAGE_CODE, request.POST.getlist("data[conditions[]]", ""), request.POST.getlist("data[conditions[]][]", ""))
             c_exs.stress_type = set_by_language_code(c_exs.stress_type, request.LANGUAGE_CODE, request.POST.getlist("data[stress_type[]]", ""), request.POST.getlist("data[stress_type[]][]", ""))
             c_exs.purpose = set_by_language_code(c_exs.purpose, request.LANGUAGE_CODE, request.POST.getlist("data[purposes[]]", ""), request.POST.getlist("data[purposes[]][]", ""))
             c_exs.coaching = set_by_language_code(c_exs.coaching, request.LANGUAGE_CODE, request.POST.getlist("data[coaching[]]", ""), request.POST.getlist("data[coaching[]][]", ""))
             c_exs.notes = set_by_language_code(c_exs.notes, request.LANGUAGE_CODE, request.POST.getlist("data[notes[]]", ""), request.POST.getlist("data[notes[]][]", ""))
+            
             try:
                 c_exs.save()
                 res_data = f'Exs with id: [{c_exs.id}] is added / edited successfully.'
@@ -322,8 +363,8 @@ def exercises_api(request):
                     res_exs['folder_parent_id'] = c_exs[0].folder.parent
             res_exs['title'] = get_by_language_code(res_exs['title'], request.LANGUAGE_CODE)
             res_exs['description'] = get_by_language_code(res_exs['description'], request.LANGUAGE_CODE)
+
             res_exs['keyword'] = get_by_language_code(res_exs['keyword'], request.LANGUAGE_CODE)
-            res_exs['players_amount'] = get_by_language_code(res_exs['players_amount'], request.LANGUAGE_CODE)
 
             res_exs['condition'] = get_by_language_code(res_exs['condition'], request.LANGUAGE_CODE)
             res_exs['stress_type'] = get_by_language_code(res_exs['stress_type'], request.LANGUAGE_CODE)

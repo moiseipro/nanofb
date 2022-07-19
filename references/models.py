@@ -158,11 +158,6 @@ class ExsGoal(AbstractReference, MixTranslateReference):
         pass
 
 
-class ExsWorkoutPart(AbstractReference, MixTranslateReference):
-    class Meta(AbstractReference.Meta):
-        pass
-
-
 class ExsCognitiveLoad(AbstractReference, MixTranslateReference):
     class Meta(AbstractReference.Meta):
         pass
@@ -173,7 +168,23 @@ class ExsAgeCategory(AbstractReference, MixTranslateReference):
         pass
 
 
-class ExsSource(AbstractReference, MixTranslateReference):
+
+class ExsAddition(AbstractReference, MixTranslateReference):
+    class Meta(AbstractReference.Meta):
+        pass
+
+
+class ExsPurpose(AbstractReference, MixTranslateReference):
+    class Meta(AbstractReference.Meta):
+        pass
+
+
+class ExsStressType(AbstractReference, MixTranslateReference):
+    class Meta(AbstractReference.Meta):
+        pass
+
+
+class ExsCoaching(AbstractReference, MixTranslateReference):
     class Meta(AbstractReference.Meta):
         pass
 
