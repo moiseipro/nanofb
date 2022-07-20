@@ -18,8 +18,11 @@
                                 <div class="btns-tabs-first size-w-x" style="--w-x:96%;">
                                     <div class="row">
                                         <div class="col-12 p-0 btn-group btn-group-custom">
-                                            <button type="button" class="btn btn-success btn-sm btn-custom" id="createExercise" title="Создать упражнение">
-                                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                            <button type="button" class="btn btn-success btn-sm btn-custom elem-flex-center size-w-x" id="createExercise" title="Создать упражнение" style="--w-x:1%;">
+                                                <span class="icon-custom icon--plus" style="--i-w: 1.8em; --i-h: 1.8em;"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center size-w-x" id="toggleFoldersNames" title="Скрыть / развернуть" style="--w-x:1%;">
+                                                <span class="icon-custom icon--arrow-left" style="--i-w: 1.5em; --i-h: 1.5em;"></span>
                                             </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom" title="">
                                                 PRO
@@ -27,33 +30,33 @@
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom" title="">
                                                 "A"
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom" title="">
-                                                с
+                                            <input type="text" class="form-control text-center size-w-x size-max-h-x" id="" placeholder="Возр." title="Возраст" style="--w-x:5%; --h-max-x:37.2px; margin-top: .1rem !important;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom size-w-x" data-id="exs_counter" title="Количество упражнений" style="--w-x:1%;">5000</button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center size-w-x"" data-id="filter_reset" title="Сброс фильтров" style="--w-x:1%;">
+                                                <span class="icon-custom icon--reset" style="--i-w: 1.5em; --i-h: 1.5em;"></span>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom" title="">
-                                                по
-                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom" id="showOneExs">Показать</button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom" title="">
                                                 Перенести
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom" title="">
-                                                Отметить
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center size-w-x" data-id="" title="Отметить" style="--w-x:1%;">
+                                                <span class="icon-custom icon--note" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="copy" title="">
-                                                Копировать
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem elem-flex-center size-w-x" data-id="copy" title="Копировать" style="--w-x:1%;">
+                                                <span class="icon-custom icon--copy" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom" title="">
-                                                Поделиться
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center size-w-x" data-id="" title="Поделиться" style="--w-x:1%;">
+                                                <span class="icon-custom icon--share" style="--i-w: 1.5em; --i-h: 1.5em;"></span>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom" title="">
-                                                <i class="fa fa-cog" aria-hidden="true"></i>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center size-w-x" data-id="" title="Настройки" style="--w-x:1%;">
+                                                <span class="icon-custom icon--settings" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
                                             </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="toggle_side_filter">Фильтрация</button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="prev_exs" title="">
-                                                <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem elem-flex-center size-w-x" data-id="prev_exs" title="" style="--w-x:1%;">
+                                                <span class="icon-custom icon--arrow-left" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="next_exs" title="">
-                                                <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem elem-flex-center size-w-x" data-id="next_exs" title="" style="--w-x:1%;">
+                                                <span class="icon-custom icon--arrow-right" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
                                             </button>
                                             <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="nfb_folders" title="Папки NanoFootball">N.F.</button>
                                             <button type="button" class="btn btn-primary btn-sm btn-custom elem-flex-center up-tabs-elem" data-id="my_folders" title="Папки Тренер">
@@ -193,44 +196,11 @@
                             <div class="exerises-content mt-1">
                                 <div class="exercises-list split">
                                     <div class="py-1" id="splitCol_0">
-                                        <div class="btn-tab-second d-flex justify-content-center ml-3 mr-2">
-                                            <button type="button" class="btn btn-secondary btn-block btn-custom size-max-h-x mr-2" id="toggleFoldersNames" title="Скрыть / развернуть" style="--h-max-x: 37.2px;">
-                                                <i class="fa fa-chevron-right" aria-hidden="true"></i>
-                                            </button>
-                                        </div>
-                                        <hr class="mt-1">
+                                        <hr class="my-1">
                                         {% include 'exercises/folders_list.html' %}
                                     </div>
                                     <div class="p-1" id="splitCol_1">
-                                        <div class="btn-tab-second">
-                                            <div class="row w-100">
-                                                <div class="col-12 d-flex justify-content-center px-0">
-                                                    
-                                                    <button type="button" class="btn btn-secondary btn-sm btn-custom size-w-x" data-id="exs_counter" title="Количество упражнений" style="--w-x:15%;">5000</button>
-                                                    <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center size-w-x ml-1"" data-id="filter_reset" title="Сброс фильтров" style="--w-x:15%;">
-                                                        <span class="icon-custom icon--reset ml-1" style="--i-w: 1.8em; --i-h: 1.8em;"></span>
-                                                    </button>
-                                                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom size-w-x ml-1" id="showOneExs" style="margin-top: 0; --w-x:70%;">Показать</button>
-
-                                                    <!-- <input type="text" class="form-control btn-block btn-custom text-center ml-2 mr-1 size-max-h-x" id="searhField" placeholder="Ключевое слово" style="--h-max-x: 37.2px;">
-                                                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom" style="margin-top: 0;">Категория</button> -->
-                                                </div>
-                                                <!-- <div class="col-2 d-flex justify-content-center px-0">
-                                                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom elem-flex-center size-max-w-x mr-1" title="Просмотрено" style="--w-max-x: 40px;">
-                                                        <span class="icon-custom icon--eye" style="--i-w: 1.8em; --i-h: 1.8em;"></span>
-                                                    </button>
-                                                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom elem-flex-center size-max-w-x" title="Избранное" style="--w-max-x: 40px; margin-top: 0;">
-                                                        <span class="icon-custom icon--favorite" style="--i-w: 1.8em; --i-h: 1.8em;"></span>
-                                                    </button>
-                                                </div> -->
-                                                <!-- <div class="col-1 d-flex justify-content-center px-1">
-                                                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom" title="Избранное">
-                                                        <i class="fa fa-star-o" aria-hidden="true"></i>
-                                                    </button>
-                                                </div> -->
-                                            </div>
-                                        </div>
-                                        <hr class="mt-1">
+                                        <hr class="my-1">
                                         <ul class="exs-list-group list-group list-group-flush">
                                             <li class="list-group-item py-2">Выберите для начала папку.</li>
                                         </ul>

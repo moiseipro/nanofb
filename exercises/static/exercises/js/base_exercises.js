@@ -467,7 +467,7 @@ $(function() {
             $(elem).find('.folder-title').text(tmpText);
         });
         $(e.currentTarget).attr('data-state', state ? '0' : '1');
-        $(e.currentTarget).html(state ? `<i class="fa fa-chevron-right" aria-hidden="true"></i>` : `<i class="fa fa-chevron-down" aria-hidden="true"></i>`);
+        $(e.currentTarget).html(state ? `<i class="fa fa-chevron-left" aria-hidden="true"></i>` : `<i class="fa fa-chevron-down" aria-hidden="true"></i>`);
     });
     
 
