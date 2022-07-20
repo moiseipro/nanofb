@@ -30,25 +30,37 @@ class AbstractTraining(models.Model):
         abstract = True
 
 
-class UserTraining(models.Model):
-    event_id = models.ForeignKey(
+class UserTraining(AbstractTraining):
+    event_id = models.OneToOneField(
         UserEvent,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        primary_key=True
     )
     team_id = models.ForeignKey(
         UserTeam,
         on_delete=models.CASCADE
     )
+    exercises = models.ManyToManyField(
+        UserExercise,
+        through="UserTrainingExercise",
+        through_fields=('training_id', 'exercise_id')
+    )
 
 
-class ClubTraining(models.Model):
-    event_id = models.ForeignKey(
+class ClubTraining(AbstractTraining):
+    event_id = models.OneToOneField(
         ClubEvent,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        primary_key=True
     )
     team_id = models.ForeignKey(
         ClubTeam,
         on_delete=models.CASCADE
+    )
+    exercises = models.ManyToManyField(
+        ClubExercise,
+        through="ClubTrainingExercise",
+        through_fields=('training_id', 'exercise_id')
     )
 
 
@@ -78,6 +90,7 @@ class AbstractTrainingExercise(models.Model):
 
     class Meta:
         abstract = True
+        ordering = ['order']
 
 
 class UserTrainingExercise(AbstractTrainingExercise):
