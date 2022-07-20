@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-20 13:27+0300\n"
+"POT-Creation-Date: 2022-07-20 18:14+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1936,7 +1936,9 @@ msgstr "События"
 msgid "Save"
 msgstr ""
 
-#: .\events\forms.py:52
+#: .\events\forms.py:52 .\exercises\templates\exercises\base_folders.html:88
+#: .\exercises\templates\exercises\base_folders.html:108
+#: .\exercises\templates\exercises\base_folders.html:132
 #, fuzzy
 #| msgid "Finance"
 msgid "Cancel"
@@ -2034,12 +2036,76 @@ msgstr ""
 msgid "options"
 msgstr "Приложения"
 
+#: .\exercises\templates\exercises\base_folders.html:5
+#: .\nanofootball\templates\menu\sidebar.html:36
+msgid "Folders management"
+msgstr ""
+
+#: .\exercises\templates\exercises\base_folders.html:34
+msgid "Folders"
+msgstr ""
+
+#: .\exercises\templates\exercises\base_folders.html:35
+msgid "Add folder"
+msgstr ""
+
+#: .\exercises\templates\exercises\base_folders.html:38
+msgid "Check NFB Folders"
+msgstr ""
+
+#: .\exercises\templates\exercises\base_folders.html:41
+msgid "Move up"
+msgstr ""
+
+#: .\exercises\templates\exercises\base_folders.html:44
+msgid "Move down"
+msgstr ""
+
+#: .\exercises\templates\exercises\base_folders.html:47
+msgid "Save changes"
+msgstr ""
+
+#: .\exercises\templates\exercises\base_folders.html:66
+msgid "Create/Modify folder"
+msgstr ""
+
+#: .\exercises\templates\exercises\base_folders.html:75
+#: .\exercises\templates\exercises\base_folders.html:76
+msgid "Short key"
+msgstr ""
+
+#: .\exercises\templates\exercises\base_folders.html:79
+#: .\exercises\templates\exercises\base_folders.html:80
+msgid "Title"
+msgstr ""
+
+#: .\exercises\templates\exercises\base_folders.html:87
+#: .\exercises\templates\exercises\base_folders.html:107
+msgid "Apply"
+msgstr ""
+
+#: .\exercises\templates\exercises\base_folders.html:98
+msgid "Deleting a folder"
+msgstr ""
+
+#: .\exercises\templates\exercises\base_folders.html:104
+msgid "Are you sure you want to delete this folder?"
+msgstr ""
+
+#: .\exercises\templates\exercises\base_folders.html:118
+msgid "NFB Folders"
+msgstr ""
+
+#: .\exercises\templates\exercises\base_folders.html:131
+msgid "Choose this structure"
+msgstr ""
+
 #: .\matches\apps.py:8 .\matches\templates\matches\base_matches.html:5
 #: .\nanofootball\templates\menu\sidebar.html:27
 msgid "Matches"
 msgstr "Матчи"
 
-#: .\matches\models.py:17 .\trainings\models.py:12
+#: .\matches\models.py:17 .\trainings\models.py:16
 msgid "trainer"
 msgstr ""
 
@@ -2111,11 +2177,11 @@ msgstr ""
 msgid "Tournament name."
 msgstr ""
 
-#: .\nanofb\settings.py:175
+#: .\nanofb\settings.py:178
 msgid "Russian"
 msgstr "Русский"
 
-#: .\nanofb\settings.py:176
+#: .\nanofb\settings.py:179
 msgid "English"
 msgstr "Английский"
 
@@ -2191,6 +2257,12 @@ msgstr "Тренировки"
 
 #: .\nanofootball\templates\menu\sidebar.html:33
 msgid "Exercises"
+msgstr "Упражнения"
+
+#: .\nanofootball\templates\menu\sidebar.html:35
+#, fuzzy
+#| msgid "Exercises"
+msgid "List of exercises"
 msgstr "Упражнения"
 
 #: .\nanofootball\templates\menu\sidebar.html:40
@@ -2272,11 +2344,11 @@ msgstr ""
 msgid "Empty"
 msgstr ""
 
-#: .\references\models.py:27
+#: .\references\models.py:27 .\trainings\models.py:86
 msgid "order"
 msgstr ""
 
-#: .\references\models.py:28
+#: .\references\models.py:28 .\trainings\models.py:87
 msgid "Sorting index"
 msgstr ""
 
@@ -2344,16 +2416,34 @@ msgstr ""
 msgid "Trainings"
 msgstr "Тренировки"
 
-#: .\trainings\models.py:13
+#: .\trainings\models.py:17
 msgid "Coach tied to the training"
 msgstr ""
 
-#: .\trainings\models.py:19
+#: .\trainings\models.py:23
 msgid "purposes"
 msgstr ""
 
-#: .\trainings\models.py:20
+#: .\trainings\models.py:24
 msgid "Objectives for training groups"
+msgstr ""
+
+#: .\trainings\models.py:75
+msgid "group"
+msgstr ""
+
+#: .\trainings\models.py:76
+msgid "The group to which the exercise belongs"
+msgstr ""
+
+#: .\trainings\models.py:80
+#, fuzzy
+#| msgid "Federations"
+msgid "duration"
+msgstr "Обучение"
+
+#: .\trainings\models.py:81
+msgid "Duration of the exercise"
 msgstr ""
 
 #: .\users\managers.py:15
