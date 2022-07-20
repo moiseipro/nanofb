@@ -32,8 +32,8 @@
 <li class="submenu">
     <a href="#"><i class="fa fa-futbol-o"></i> <span>{% trans 'Exercises' %}</span> <span class="menu-arrow"></span></a>
     <ul style="display: none;">
-        <li><a class="nav-link {% if is_exercises %}active{% endif %}" href="{% url 'exercises:exercises' %}">Список упражнений</a></li>
-        <li><a class="nav-link {% if is_folders %}active{% endif %}" href="{% url 'exercises:folders' %}">Управление папками</a></li>
+        <li><a class="nav-link {% if is_exercises %}active{% endif %}" href="{% url 'exercises:exercises' %}">{% trans 'List of exercises' %}</a></li>
+        <li><a class="nav-link {% if is_folders %}active{% endif %}" href="{% url 'exercises:folders' %}">{% trans 'Folders management' %}</a></li>
     </ul>
 </li>
 <li>

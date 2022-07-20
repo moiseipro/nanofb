@@ -29,3 +29,9 @@ django-admin startproject PROJECTNAME
 --------- Собрать статические файлы (для production):
 python manage.py collectstatic
 
+--------- Перевести слова:
+django-admin makemessages -l ru
+django-admin makemessages -l en
+django-admin compilemessages
+
+
