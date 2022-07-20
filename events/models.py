@@ -26,7 +26,9 @@ class AbstractEvent(models.Model):
     )
     notes = models.JSONField(
         verbose_name=_('notes'),
-        help_text=_('Notes to the event.')
+        help_text=_('Notes to the event.'),
+        blank=True,
+        null=True
     )
     date = models.DateTimeField(
         verbose_name=_('date'),

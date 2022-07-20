@@ -12,7 +12,7 @@ from video.models import Video
 
 # Create your models here.
 class AbstractMatch(models.Model):
-    trainer_user_id = user_id = models.ForeignKey(
+    trainer_user_id = models.ForeignKey(
         User,
         verbose_name=_('trainer'),
         help_text=_('Coach tied to the match'),
