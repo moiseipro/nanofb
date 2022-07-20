@@ -8,10 +8,11 @@ from users.models import User
 from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, AdminExercise
 from references.models import ExsBall, ExsGoal, ExsCognitiveLoad, ExsAgeCategory
 from references.models import ExsAddition, ExsPurpose, ExsStressType, ExsCoaching
+from references.models import UserSeason, UserTeam
+
 
 
 LANG_CODE_DEFAULT = "en"
-
 
 def get_by_language_code(value, code):
     res = ""
@@ -66,10 +67,10 @@ def set_refs_translations(data, lang_code):
     return data
 
 
-def get_exercises_params(request, user, folders, nfb_folders, refs):
+def get_exercises_params(request, user, team, folders, nfb_folders, refs):
     if user.exists() and user[0].club_id != None:
         # добавить проверку на клуб версию
-        folders = UserFolder.objects.filter(user=user[0], visible=True).values()
+        folders = UserFolder.objects.filter(user=user[0], team=team, visible=True).values()
     nfb_folders = AdminFolder.objects.filter(visible=True).values()
     for elem in folders:
         elem['root'] = False if elem['parent'] and elem['parent'] != 0 else True
@@ -89,20 +90,28 @@ def get_exercises_params(request, user, folders, nfb_folders, refs):
     return [folders, nfb_folders, refs]
 
 
+
 def exercises(request):
     if not request.user.is_authenticated:
         return redirect("authorization:login")
     cur_user = User.objects.filter(email=request.user).only("club_id")
+    cur_team = -1
+    try:
+        cur_team = int(request.session['team'])
+    except:
+        pass
     found_folders = []
     found_nfb_folders = []
     refs = {}
-    found_folders, found_nfb_folders, refs = get_exercises_params(request, cur_user, found_folders, found_nfb_folders, refs)
+    found_folders, found_nfb_folders, refs = get_exercises_params(request, cur_user, cur_team, found_folders, found_nfb_folders, refs)
     return render(request, 'exercises/base_exercises.html', {
         'folders': found_folders, 
         'folders_only_view': True, 
         'nfb_folders': found_nfb_folders, 
         'refs': refs, 
-        'is_exercises': True
+        'is_exercises': True,
+        'seasons_list': UserSeason.objects.filter(user_id=request.user),
+        'teams_list': UserTeam.objects.filter(user_id=request.user)
     })
 
 
@@ -110,6 +119,11 @@ def exercise(request):
     if not request.user.is_authenticated:
         return redirect("authorization:login")
     cur_user = User.objects.filter(email=request.user).only("club_id")
+    cur_team = -1
+    try:
+        cur_team = int(request.session['team'])
+    except:
+        pass
     c_id = -1
     c_nfb = 0
     is_new_exs = request.GET.get("id", -1) == "new"
@@ -133,13 +147,15 @@ def exercise(request):
     found_folders = []
     found_nfb_folders = []
     refs = {}
-    found_folders, found_nfb_folders, refs = get_exercises_params(request, cur_user, found_folders, found_nfb_folders, refs)
+    found_folders, found_nfb_folders, refs = get_exercises_params(request, cur_user, cur_team, found_folders, found_nfb_folders, refs)
     return render(request, 'exercises/base_exercise.html', {
         'exs': found_exercise,
         'folders': found_folders, 
         'folders_only_view': True, 
         'nfb_folders': found_nfb_folders, 
-        'refs': refs
+        'refs': refs,
+        'seasons_list': UserSeason.objects.filter(user_id=request.user),
+        'teams_list': UserTeam.objects.filter(user_id=request.user)
     })
 
 
@@ -147,15 +163,23 @@ def folders(request):
     if not request.user.is_authenticated:
         return redirect("authorization:login")
     cur_user = User.objects.filter(email=request.user).only("club_id")
+    cur_team = -1
+    try:
+        cur_team = int(request.session['team'])
+    except:
+        pass
     found_folders = []
     if cur_user.exists() and cur_user[0].club_id != None:
         # добавить проверку на клуб версию
-        found_folders = UserFolder.objects.filter(user=cur_user[0])
+        found_folders = UserFolder.objects.filter(user=cur_user[0], team=cur_team)
     return render(request, 'exercises/base_folders.html', {
         'folders': found_folders, 
         'folders_only_view': False, 
-        'is_folders': True
+        'is_folders': True,
+        'seasons_list': UserSeason.objects.filter(user_id=request.user),
+        'teams_list': UserTeam.objects.filter(user_id=request.user)
     })
+
 
 
 @csrf_exempt
@@ -384,6 +408,11 @@ def folders_api(request):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
     if request.method == "POST" and is_ajax:
         c_id = -1
+        cur_team = -1
+        try:
+            cur_team = int(request.session['team'])
+        except:
+            pass
         parent_id = None
         delete_status = 0
         change_order_status = 0
@@ -446,7 +475,7 @@ def folders_api(request):
         short_name = request.POST.get("short_name", "")
         found_folder = None
         try:
-            found_folder = UserFolder.objects.get(id=c_id, user=cur_user[0]) # либо проверка клубной папки
+            found_folder = UserFolder.objects.get(id=c_id, user=cur_user[0], team=cur_team) # либо проверка клубной папки
         except:
             pass
         res_data = {'type': "error", 'err': "Cant create or edit record."}
@@ -459,16 +488,22 @@ def folders_api(request):
             except Exception as e:
                 res_data = {'id': found_folder.id, 'type': "error", 'err': str(e)}
         else:
-            new_folder = UserFolder(name=name, short_name=short_name, parent=parent_id, user=cur_user[0])
             try:
+                found_team = UserTeam.objects.get(id=cur_team, user_id=cur_user[0])
+                new_folder = UserFolder(name=name, short_name=short_name, parent=parent_id, user=cur_user[0], team=found_team)
                 new_folder.save()
                 new_folder.order = new_folder.id
                 new_folder.save()
                 res_data = {'id': new_folder.id, 'parent_id': parent_id, 'name': name, 'short_name': short_name, 'type': "add"}
             except Exception as e:
-                res_data = {'id': new_folder.id, 'type': "error", 'err': str(e)}
+                res_data = {'type': "error", 'err': str(e)}
         return JsonResponse({"data": res_data}, status=200)
     elif request.method == "GET" and is_ajax:
+        cur_team = -1
+        try:
+            cur_team = int(request.session['team'])
+        except:
+            pass
         nfb_folders_status = 0
         nfb_folders_set_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
@@ -492,7 +527,7 @@ def folders_api(request):
         if nfb_folders_set_status == 1:
             is_success = True
             # Либо удалять, потом добавлять для клуба, в зависимости от вепсии пользователя и его прав
-            user_old_folders = UserFolder.objects.filter(user=cur_user[0])
+            user_old_folders = UserFolder.objects.filter(user=cur_user[0], team=cur_team)
             try:
                 user_old_folders.delete()
             except Exception as e:
@@ -502,20 +537,21 @@ def folders_api(request):
             if is_success:
                 folders = AdminFolder.objects.only("short_name", "name", "parent")
                 for folder in folders:
-                    new_folder = UserFolder(name=folder.name, short_name=folder.short_name, parent=0, user=cur_user[0])
                     try:
+                        found_team = UserTeam.objects.get(id=cur_team, user_id=cur_user[0])
+                        new_folder = UserFolder(name=folder.name, short_name=folder.short_name, parent=0, user=cur_user[0], team=found_team)
                         new_folder.save()
                         folder.new_id = new_folder.id
                     except Exception as e:
                         is_success = False
-                        res_data = {'id': new_folder.id, 'type': "error", 'err': str(e)}
+                        res_data = {'type': "error", 'err': str(e)}
                         break
             if is_success:
                 for folder in folders:
                     for compare_folder in folders:
                         if folder.parent == compare_folder.id:
                             try:
-                                c_folder = UserFolder.objects.get(id=folder.new_id, user=cur_user[0])
+                                c_folder = UserFolder.objects.get(id=folder.new_id, user=cur_user[0], team=cur_team)
                                 if c_folder and c_folder.id != None:
                                     c_folder.parent = compare_folder.new_id
                                     c_folder.save()

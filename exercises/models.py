@@ -2,6 +2,7 @@ from ast import keyword
 from django.db import models
 from django.core.validators import int_list_validator
 from users.models import User
+from references.models import UserTeam
 
 
 class AbstractFolder(models.Model):
@@ -45,6 +46,7 @@ class AdminFolder(AbstractFolder):
 
 class UserFolder(AbstractFolder):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    team = models.ForeignKey(UserTeam, on_delete=models.CASCADE, null=True, blank=True)
     objects = models.Manager()
 
     class Meta(AbstractFolder.Meta):

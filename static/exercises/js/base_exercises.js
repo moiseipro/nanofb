@@ -27,6 +27,21 @@ function ToggleUpFilter(id, state) {
                 $('.up-tabs-elem[data-id="cols_size"]').addClass('btn-secondary');
             }
             break;
+        case "toggle_folders":
+            if ($('.folders_list').hasClass('d-none')) {
+                $('.folders_list').toggleClass('d-none', false);
+                $('.folders_nfb_list').toggleClass('d-none', true);
+                $('.up-tabs-elem[data-id="toggle_folders"]').text(`Папки "Тренер"`);
+            } else {
+                $('.folders_list').toggleClass('d-none', true);
+                $('.folders_nfb_list').toggleClass('d-none', false);
+                $('.up-tabs-elem[data-id="toggle_folders"]').text(`Папки N.F.`);
+            }
+            $('.exercises-list').find('.list-group-item').removeClass('active');
+            $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
+            $('.up-tabs-elem[data-id="toggle_folders"]').toggleClass('btn-secondary', false);
+            $('.up-tabs-elem[data-id="toggle_folders"]').toggleClass('btn-primary', true);
+            break;
         case "nfb_folders":
             $('.folders_list').toggleClass('d-none', true);
             $('.up-tabs-elem[data-id="my_folders"]').toggleClass('btn-secondary', true);
@@ -357,6 +372,15 @@ $(function() {
     // Toggle side filter elements
     $('.side-filter-block').on('click', '.side-filter-elem', (e) => {
         let state = $(e.currentTarget).attr('data-state') == '1';
+        let isFilter = $(e.currentTarget).parent().attr('data-id') == "filter";
+        if (isFilter) {
+            $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').attr('data-state', '0');
+            $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').toggleClass('active', false);
+            $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').find('.counter').remove();
+            if (!state) {
+                $(e.currentTarget).find('.row > div:nth-child(2)').append(`<span class="counter">( .. )</span>`);
+            }
+        } 
         $(e.currentTarget).toggleClass('active', !state);
         $(e.currentTarget).attr('data-state', state ? '0' : '1');
     });
@@ -450,7 +474,16 @@ $(function() {
             $(elem).find('.folder-title').text(tmpText);
         });
         $(e.currentTarget).attr('data-state', state ? '0' : '1');
-        $(e.currentTarget).html(state ? `<i class="fa fa-chevron-left" aria-hidden="true"></i>` : `<i class="fa fa-chevron-down" aria-hidden="true"></i>`);
+        $(e.currentTarget).html(state ? `Развернуть` : `Свернуть`);
+    });
+
+    // Toggle draw, video, animation
+    $('.visual-block').on('click', '.graphics-block-toggle', (e) => {
+        let cId = $(e.currentTarget).attr('data-id');
+        $('.visual-block').find('.graphics-block-toggle').removeClass('selected');
+        $(e.currentTarget).addClass('selected');
+        $('.visual-block').find('.graphics-block').addClass('d-none');
+        $('.visual-block').find(`.graphics-block[data-id=${cId}]`).removeClass('d-none');
     });
     
 

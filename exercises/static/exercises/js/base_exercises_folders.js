@@ -190,26 +190,26 @@ $(function() {
                 if (res.data.type && res.data.type == "add") {
                     let hasParent = $('.folders_list').find(`.folder-elem[data-id="${res.data.parent_id}"]`).length > 0;
                     let elemToAdd = `
-                        <li class="list-group-item p-0">
+                        <li class="list-group-item p-1">
                             <div class="folder-elem d-flex justify-content-between" data-id="${res.data.id}" data-parent="${res.data.parent_id}" data-short="${res.data.short_name}" data-name="${res.data.name}" data-root="${hasParent ? '0' : '1'}">
                                 <div class="pull-left">
                                     <span class="folder-point mr-2">${hasParent ? `
-                                        <i class="fa fa-folder-o ml-4" aria-hidden="true"></i>
+                                        <span class="icon-custom icon--folder ml-4" style="--i-w: 1em; --i-h: 1em;"></span>
                                     ` : `
-                                        <i class="fa fa-folder-open-o" aria-hidden="true"></i>
+                                        <span class="icon-custom icon--folder ml-1" style="--i-w: 1em; --i-h: 1em;"></span>
                                     `}</span>
                                     <span class="folder-title">${res.data.short_name}. ${res.data.name}</span>
                                 </div>
                                 <div class="pull-right text-uppercase font-weight-bold">
                                     ${hasParent ? '' : `
-                                        <span class="badge badge-success folder-sub-add mr-2" title="Добавить подпапку">
+                                        <span class="badge badge-success folder-sub-add mr-2" title="${gettext("Add subfolder")}">
                                             <i class="fa fa-plus" aria-hidden="true"></i>
                                         </span>
                                     `}
-                                    <span class="badge badge-secondary folder-edit mr-2" title="Изменить элемент">
+                                    <span class="badge badge-secondary folder-edit mr-2" title="${gettext("Edit")}">
                                         <i class="fa fa-pencil" aria-hidden="true"></i>
                                     </span>
-                                    <span class="badge badge-danger folder-delete mr-2" title="Удалить элемент">
+                                    <span class="badge badge-danger folder-delete mr-2" title="${gettext("Delete")}">
                                         <i class="fa fa-trash-o" aria-hidden="true"></i>
                                     </span>
                                 </div>
@@ -331,7 +331,7 @@ $(function() {
     });
 
     $('#folderNanoFbModal').on('click', 'button[type="submit"]', (e) => {
-        if (confirm("Внимание. Текущая структура папок полностью будет очищена. Вы уверены?")) {
+        if (confirm(gettext("Attention. The current folder structure will be completely cleared. Are you sure?"))) {
             $('#folderNanoFbModal').find('button.btn-submit').prop('disabled', true);
             let data = {'nfb_folders_set': 1};
             $('.page-loader-wrapper').fadeIn();
@@ -344,7 +344,7 @@ $(function() {
                     if (res.data.type && res.data.type == "nfb_folders_set") {
                         window.location.reload();
                     } else {
-                        swal("Ошибка", "Не удалось скопировать структуру папок.", "error");
+                        swal(gettext("Error"), gettext("Failed to copy folder structure."), "error");
                     }
                 },
                 error: function (res) {

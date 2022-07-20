@@ -111,6 +111,9 @@
     color: #ffffff !important;
     border: 2px solid rgb(100, 100, 100) !important;
 }
+.btn-custom:hover {
+    font-weight: 700;
+}
 .btn-custom.btn-secondary {
     color: #5a6268 !important;
     background-color: #d5d5d5;
