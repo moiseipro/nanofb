@@ -4119,8 +4119,20 @@ table.table-inbox tbody tr.checked {
     width: var(--i-w);
     height: var(--i-h);
 }
+.icon--arrow-left {
+	content: url(../img/icons/arrow_left.png);
+}
+.icon--arrow-right {
+	content: url(../img/icons/arrow_right.png);
+}
 .icon--ball {
 	content: url(../img/icons/ball.png);
+}
+.icon--copy {
+	content: url(../img/icons/copy.png);
+}
+.icon--dislike {
+	content: url(../img/icons/dislike.png);
 }
 .icon--eye {
 	content: url(../img/icons/eye.png);
@@ -4131,16 +4143,26 @@ table.table-inbox tbody tr.checked {
 .icon--folder {
 	content: url(../img/icons/folder.png);
 }
+.icon--like {
+	content: url(../img/icons/like.png);
+}
+.icon--note {
+	content: url(../img/icons/note.png);
+}
+.icon--plus {
+	content: url(../img/icons/plus.png);
+}
 .icon--reset {
 	content: url(../img/icons/reset.png);
+}
+.icon--settings {
+	content: url(../img/icons/settings.png);
+}
+.icon--share {
+	content: url(../img/icons/share.png);
 }
 .icon--trainer {
 	content: url(../img/icons/trainer.png);
 }
-.icon--like {
-	content: url(../img/icons/like.png);
-}
-.icon--dislike {
-	content: url(../img/icons/dislike.png);
-}
+
 
