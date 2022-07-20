@@ -108,7 +108,7 @@ function ToggleUpFilter(id, state) {
             }
             $('.up-tabs-elem[data-id="prev_exs"]').toggleClass('btn-secondary', true);
             $('.up-tabs-elem[data-id="prev_exs"]').toggleClass('btn-primary', false);
-            LoadExerciseOne();
+            LoadExerciseOneHandler();
             break;
         case "next_exs":
             currentList = '.exs-list-group';
@@ -121,7 +121,7 @@ function ToggleUpFilter(id, state) {
             }
             $('.up-tabs-elem[data-id="next_exs"]').toggleClass('btn-secondary', true);
             $('.up-tabs-elem[data-id="next_exs"]').toggleClass('btn-primary', false);
-            LoadExerciseOne();
+            LoadExerciseOneHandler();
             break;
         default:
             break;
@@ -242,32 +242,15 @@ function RenderFolderExercises(id, tExs) {
     exercises = {"nfb": {}};
 }
 
-function LoadExerciseOne() {
+// Handler for func LoadExerciseOne in exercise card:
+function LoadExerciseOneHandler() {
     let activeExs = $('.exercises-list').find('.exs-elem.active');
     if ($(activeExs).length <= 0) {return;}
-    let exsId = $(activeExs).attr('data-id');
-    let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
-    let data = {'get_exs_one': 1, 'exs': exsId, 'get_nfb': fromNfbFolder ? 1 : 0};
-    $('.page-loader-wrapper').fadeIn();
-    $.ajax({
-        data: data,
-        type: 'GET', // GET или POST
-        dataType: 'json',
-        url: "exercises_api",
-        success: function (res) {
-            if (res.success) {
-                RenderExerciseOne(res.data);
-            }
-        },
-        error: function (res) {
-            console.log(res);
-        },
-        complete: function (res) {
-            $('.page-loader-wrapper').fadeOut();
-            window.lastListUsed = "exercises";
-        }
-    });
+    let cId = $(activeExs).attr('data-id');
+    let fromNFB = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? 1 : 0;
+    LoadExerciseOne(cId, fromNFB);
 }
+
 
 function RenderExerciseOne(data) {
     function CheckMultiRows(exsCard, data, elem, isSelect = false) {
@@ -454,7 +437,7 @@ $(function() {
                     $(currentList).find('.list-group-item').first().addClass('active');
                 }
             }
-            LoadExerciseOne();
+            LoadExerciseOneHandler();
         }
     });
 
@@ -480,7 +463,7 @@ $(function() {
         }
         $('.exercises-list').find('.exs-elem').removeClass('active');
         $(e.currentTarget).addClass('active');
-        LoadExerciseOne();
+        LoadExerciseOneHandler();
     });
 
     $('#exerciseCardModal').on('click', '.exs-change', (e) => {

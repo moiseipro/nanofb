@@ -35,14 +35,18 @@ function ToggleEditFields(flag) {
     window.onlyViewMode = !flag;
 }
 
-function LoadExerciseOne() {
+function LoadExerciseOne(exsID = null, fromNFB = 0) {
     let searchParams = new URLSearchParams(window.location.search);
-    let exsID = null;
-    let fromNFB = 0;
-    try {
-        exsID = parseInt(searchParams.get('id'));
-        fromNFB = parseInt(searchParams.get('nfb'));
-    } catch (e) {}
+    if (!exsID) {
+        try {
+            exsID = parseInt(searchParams.get('id'));
+        } catch (e) {}
+    }
+    if (fromNFB == 0) {
+        try {
+            fromNFB = parseInt(searchParams.get('nfb'));
+        } catch (e) {}
+    }
     if (!exsID) {return;}
     let data = {'get_exs_one': 1, 'exs': exsID, 'get_nfb': fromNFB};
     $('.page-loader-wrapper').fadeIn();
@@ -61,6 +65,7 @@ function LoadExerciseOne() {
         },
         complete: function (res) {
             $('.page-loader-wrapper').fadeOut();
+            window.lastListUsed = "exercises";
         }
     });
 }
