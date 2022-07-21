@@ -17,6 +17,9 @@ $(window).resize(function () {
 $(window).on('load', function (){
     //video_table = $('.datatable').DataTable()
     video_table = $('#video').DataTable({
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
+        },
         dom: "<'row'<'col-sm-12 col-md 'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
              "<'row'<'col-sm-12'tr>>" +
              "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",

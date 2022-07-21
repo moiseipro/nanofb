@@ -7,7 +7,7 @@ from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 
-from events.forms import MicrocycleUserForm
+from events.forms import MicrocycleUserForm, EventUserForm
 from events.models import UserMicrocycles
 from events.serializers import UserMicrocyclesSerializer, UserMicrocyclesUpdateSerializer
 from references.models import UserTeam, UserSeason
@@ -45,4 +45,5 @@ class EventsView(TemplateView):
         context['teams_list'] = UserTeam.objects.filter(user_id=self.request.user)
         context['seasons_list'] = UserSeason.objects.filter(user_id=self.request.user)
         context['microcycle_form'] = MicrocycleUserForm
+        context['event_form'] = EventUserForm
         return context
