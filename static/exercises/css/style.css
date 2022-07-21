@@ -57,8 +57,7 @@
 }
 
 .card-inside {
-    height: 86vh !important;
-    overflow-y: auto;
+    height: 90vh !important;
 }
 .folders_list {
     height: 70vh !important;
@@ -68,6 +67,15 @@
     height: 70vh !important;
     overflow-y: auto;
 }
+.visual-block {
+    height: 75vh !important;
+    overflow-y: auto;
+}
+.side-filter-block {
+    height: 70vh !important;
+    overflow-y: auto;
+}
+
 
 .vert-line-left {
     border-left: 2px solid black;
@@ -108,14 +116,14 @@
 }
 
 .btn-custom {
-    color: #ffffff !important;
+    color: #ffffff;
     border: 2px solid rgb(100, 100, 100) !important;
 }
 .btn-custom:hover {
     font-weight: 700;
 }
 .btn-custom.btn-secondary {
-    color: #5a6268 !important;
+    color: #5a6268;
     background-color: #d5d5d5;
     border-color: #d5d5d5;
 }
@@ -157,6 +165,13 @@
     border-color: #c57474;
 }
 
+.btn-custom.custom-blue {
+    color: #144eec;
+}
+.btn-custom.custom-blue:hover {
+    color: #144eec !important;
+}
+
 .btn-custom.selected {
     border-width: 4px !important;
     border-color: #435b9e !important;
@@ -179,7 +194,7 @@ tr.bck-custom > td {
     background-color: #ececec;
 }
 .folders_list > .list-group > .list-group-item.active {
-    background-color: #b9b8b8;
+    background-color: #91dd91;
     border-color: #b9b8b8;
     color: #5a6268;
     border: 2px solid rgb(100, 100, 100) !important;
@@ -188,7 +203,7 @@ tr.bck-custom > td {
     background-color: #ececec;
 }
 .folders_nfb_list > .list-group > .list-group-item.active {
-    background-color: #b9b8b8;
+    background-color: #91dd91;
     border-color: #b9b8b8;
     color: #5a6268;
     border: 2px solid rgb(100, 100, 100) !important;
@@ -196,7 +211,7 @@ tr.bck-custom > td {
 
 
 .exs-list-group > .list-group-item.active {
-    background-color: #b9b8b8;
+    background-color: #91dd91;
     border-color: #b9b8b8;
     color: #5a6268;
     border: 2px solid rgb(100, 100, 100) !important;
