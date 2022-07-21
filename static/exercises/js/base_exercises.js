@@ -27,6 +27,21 @@ function ToggleUpFilter(id, state) {
                 $('.up-tabs-elem[data-id="cols_size"]').addClass('btn-secondary');
             }
             break;
+        case "toggle_folders":
+            if ($('.folders_list').hasClass('d-none')) {
+                $('.folders_list').toggleClass('d-none', false);
+                $('.folders_nfb_list').toggleClass('d-none', true);
+                $('.up-tabs-elem[data-id="toggle_folders"]').text(`Папки "Тренер"`);
+            } else {
+                $('.folders_list').toggleClass('d-none', true);
+                $('.folders_nfb_list').toggleClass('d-none', false);
+                $('.up-tabs-elem[data-id="toggle_folders"]').text(`Папки N.F.`);
+            }
+            $('.exercises-list').find('.list-group-item').removeClass('active');
+            $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
+            $('.up-tabs-elem[data-id="toggle_folders"]').toggleClass('btn-secondary', true);
+            $('.up-tabs-elem[data-id="toggle_folders"]').toggleClass('btn-primary', false);
+            break;
         case "nfb_folders":
             $('.folders_list').toggleClass('d-none', true);
             $('.up-tabs-elem[data-id="my_folders"]').toggleClass('btn-secondary', true);
@@ -108,7 +123,7 @@ function ToggleUpFilter(id, state) {
             }
             $('.up-tabs-elem[data-id="prev_exs"]').toggleClass('btn-secondary', true);
             $('.up-tabs-elem[data-id="prev_exs"]').toggleClass('btn-primary', false);
-            LoadExerciseOne();
+            LoadExerciseOneHandler();
             break;
         case "next_exs":
             currentList = '.exs-list-group';
@@ -121,7 +136,7 @@ function ToggleUpFilter(id, state) {
             }
             $('.up-tabs-elem[data-id="next_exs"]').toggleClass('btn-secondary', true);
             $('.up-tabs-elem[data-id="next_exs"]').toggleClass('btn-primary', false);
-            LoadExerciseOne();
+            LoadExerciseOneHandler();
             break;
         default:
             break;
@@ -218,20 +233,43 @@ function RenderFolderExercises(id, tExs) {
         let exElem = exs[i];
         exsHtml += `
         <li class="exs-elem list-group-item py-1 px-0" data-id="${exElem.id}" data-folder="${exElem.folder}">
-            <div class="row mx-3">
-                <div class="col-10 px-1">
-                    <span>
+            <div class="row w-100">
+                <div class="col-12 d-flex">
+                    <span class="ml-3 w-100">
                         ${i+1}. Упражнение "${exElem.title}", автор: ${exElem.user}
                     </span>
-                </div>
-                <div class="col-2 d-none">
-                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom elem-flex-center size-max-w-x mr-1 see-exs" title="Просмотрено" style="--w-max-x: 40px;">
-                        <span class="icon-custom icon--eye" style="--i-w: 1.8em; --i-h: 1.8em;"></span>
+                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="num" style="--w-x:32px;" disabled="">
+                        №
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm btn-block btn-custom elem-flex-center size-max-w-x" title="Избранное" style="--w-max-x: 40px; margin-top: 0;" disabled="">
-                        <span class="icon-custom icon--favorite" style="--i-w: 1.8em; --i-h: 1.8em;"></span>
+                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="players" style="--w-x:32px; min-width: 32px;" disabled="">
+                        #
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="goal" style="--w-x:32px; min-width: 32px;" disabled="">
+                        G.
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="ball" style="--w-x:32px;" disabled="">
+                        <span class="icon-custom icon--ball" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="watches" style="--w-x:32px;" disabled="">
+                        <span class="icon-custom icon--check" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="favor" style="--w-x:32px;" disabled="">
+                        <span class="icon-custom icon--favorite" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="like" style="--w-x:32px;" disabled="">
+                        <span class="icon-custom icon--like" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="video" style="--w-x:32px; min-width: 32px;" disabled="">
+                        V.
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="anim" style="--w-x:32px; min-width: 32px;" disabled="">
+                        A.
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="stress" style="--w-x:32px;" disabled="">
+                        IQ.
                     </button>
                 </div>
+           
             </div>
         </li>
         `;
@@ -240,34 +278,19 @@ function RenderFolderExercises(id, tExs) {
     $('.exs-list-group').html(exsHtml);
     // временно, упр-ия не кешируются
     exercises = {"nfb": {}};
+
+    ToggleIconsInExs();
 }
 
-function LoadExerciseOne() {
+// Handler for func LoadExerciseOne in exercise card:
+function LoadExerciseOneHandler() {
     let activeExs = $('.exercises-list').find('.exs-elem.active');
     if ($(activeExs).length <= 0) {return;}
-    let exsId = $(activeExs).attr('data-id');
-    let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
-    let data = {'get_exs_one': 1, 'exs': exsId, 'get_nfb': fromNfbFolder ? 1 : 0};
-    $('.page-loader-wrapper').fadeIn();
-    $.ajax({
-        data: data,
-        type: 'GET', // GET или POST
-        dataType: 'json',
-        url: "exercises_api",
-        success: function (res) {
-            if (res.success) {
-                RenderExerciseOne(res.data);
-            }
-        },
-        error: function (res) {
-            console.log(res);
-        },
-        complete: function (res) {
-            $('.page-loader-wrapper').fadeOut();
-            window.lastListUsed = "exercises";
-        }
-    });
+    let cId = $(activeExs).attr('data-id');
+    let fromNFB = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? 1 : 0;
+    LoadExerciseOne(cId, fromNFB);
 }
+
 
 function RenderExerciseOne(data) {
     function CheckMultiRows(exsCard, data, elem, isSelect = false) {
@@ -360,6 +383,15 @@ function RenderExerciseOne(data) {
 }
 
 
+function ToggleIconsInExs() {
+    $('.side-filter-block').find('.list-group[data-id="show_icons"]').find('.side-filter-elem').each((ind, elem) => {
+        let cId = $(elem).attr('data-id');
+        let isActive = $(elem).hasClass('active');
+        $('.exercises-block').find(`[data-type="icons"][data-id="${cId}"]`).toggleClass('d-none', !isActive);
+    });
+}
+
+
 $(function() {
     // Toggle upper buttons panel
     $('button.up-tabs-elem').on('click', (e) => {
@@ -372,10 +404,28 @@ $(function() {
     });
 
     // Toggle side filter elements
+    ToggleIconsInExs();
     $('.side-filter-block').on('click', '.side-filter-elem', (e) => {
         let state = $(e.currentTarget).attr('data-state') == '1';
+        let isFilter = $(e.currentTarget).parent().attr('data-id') == "filter";
+        let isShowIcons = $(e.currentTarget).parent().attr('data-id') == "show_icons";
+        if (isFilter) {
+            $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').attr('data-state', '0');
+            $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').toggleClass('active', false);
+            $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').find('.counter').remove();
+            if (!state) {
+                $(e.currentTarget).find('.row > div:nth-child(2)').append(`<span class="counter">( .. )</span>`);
+            }
+        }
         $(e.currentTarget).toggleClass('active', !state);
         $(e.currentTarget).attr('data-state', state ? '0' : '1');
+        if (isShowIcons) {ToggleIconsInExs();}
+    });
+
+    // Toggle side filter content
+    $('.side-filter-block').on('click', '.toggle-filter-content', (e) => {
+        let cId = $(e.currentTarget).attr('data-id');
+        $('.side-filter-block').find(`.list-group[data-id="${cId}"]`).toggleClass('d-none');
     });
 
     // Toggle columns size
@@ -454,7 +504,7 @@ $(function() {
                     $(currentList).find('.list-group-item').first().addClass('active');
                 }
             }
-            LoadExerciseOne();
+            LoadExerciseOneHandler();
         }
     });
 
@@ -467,7 +517,16 @@ $(function() {
             $(elem).find('.folder-title').text(tmpText);
         });
         $(e.currentTarget).attr('data-state', state ? '0' : '1');
-        $(e.currentTarget).html(state ? `<i class="fa fa-chevron-right" aria-hidden="true"></i>` : `<i class="fa fa-chevron-down" aria-hidden="true"></i>`);
+        $(e.currentTarget).html(state ? `Развернуть` : `Свернуть`);
+    });
+
+    // Toggle draw, video, animation
+    $('.visual-block').on('click', '.graphics-block-toggle', (e) => {
+        let cId = $(e.currentTarget).attr('data-id');
+        $('.visual-block').find('.graphics-block-toggle').removeClass('selected');
+        $(e.currentTarget).addClass('selected');
+        $('.visual-block').find('.graphics-block').addClass('d-none');
+        $('.visual-block').find(`.graphics-block[data-id=${cId}]`).removeClass('d-none');
     });
     
 
@@ -480,7 +539,7 @@ $(function() {
         }
         $('.exercises-list').find('.exs-elem').removeClass('active');
         $(e.currentTarget).addClass('active');
-        LoadExerciseOne();
+        LoadExerciseOneHandler();
     });
 
     $('#exerciseCardModal').on('click', '.exs-change', (e) => {
@@ -823,10 +882,20 @@ $(function() {
         aspectRatio: '16:9',
         youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
     });
+    window.videoPlayer2 = videojs('video-player2', {
+        preload: 'auto',
+        autoplay: false,
+        controls: true,
+        aspectRatio: '16:9',
+        youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
+    });
     window.videoPlayer.ready((e) => {
         window.videoPlayer.src({techOrder: ["youtube"], type: 'video/youtube', src: "https://www.youtube.com/watch?v=sNZPEnc4m0w"});
         
         // window.videoPlayer.src({type: 'video/mp4', src: "https://213.108.4.28/video/player/1654865941907"});
+    });
+    window.videoPlayer2.ready((e) => {
+        window.videoPlayer2.src({techOrder: ["youtube"], type: 'video/youtube', src: "https://www.youtube.com/watch?v=K0x8Z8JxQtA"});
     });
 
 

@@ -12,7 +12,7 @@ from video.models import Video
 
 # Create your models here.
 class AbstractMatch(models.Model):
-    trainer_user_id = user_id = models.ForeignKey(
+    trainer_user_id = models.ForeignKey(
         User,
         verbose_name=_('trainer'),
         help_text=_('Coach tied to the match'),
@@ -79,9 +79,10 @@ class AbstractMatch(models.Model):
 
 
 class UserMatch(AbstractMatch):
-    event_id = models.ForeignKey(
+    event_id = models.OneToOneField(
         UserEvent,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        primary_key=True
     )
     team_id = models.ForeignKey(
         UserTeam,
@@ -90,9 +91,10 @@ class UserMatch(AbstractMatch):
 
 
 class ClubMatch(AbstractMatch):
-    event_id = models.ForeignKey(
+    event_id = models.OneToOneField(
         ClubEvent,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        primary_key=True
     )
     team_id = models.ForeignKey(
         ClubTeam,

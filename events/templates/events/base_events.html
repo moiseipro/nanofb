@@ -26,7 +26,7 @@
                             <div class="col py-0">
                                 <div class="row">
                                     <div class="col-2 px-1">
-                                        <button id="event-add" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                        <button id="event-add" title="" data-toggle="modal" data-target="#form-event-modal" class="btn btn-block btn-outline-dark btn-sm font-weight-bold"><i class="fa fa-plus" aria-hidden="true"></i></button>
                                     </div>
                                     <div class="col-4 px-1">
                                         <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Календарь</button>
@@ -83,7 +83,7 @@
                         <div id="event_calendar" class="rescalendar"></div>
                     </div>
                     <div class="row">
-                        <div class="col">
+                        <div class="col px-0">
                             <div class="table-responsive">
                                 <table id="events" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
                                     <thead>
@@ -287,6 +287,9 @@
             </div>
         </div>
     </div>
+
+    {% include 'events/forms/create_event.html' %}
+
 {% endblock %}
 {% block custom_style %}
     <link rel="stylesheet" href="{% static 'events/ResCalendar/rescalendar.css' %}">

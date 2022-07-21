@@ -34,11 +34,20 @@
 }
 
 .rescalendar_microcycles_cells .green_cell{
-	background: lightgreen;
+	background: rgb(144, 238, 144);
+}
+
+.rescalendar_microcycles_cells .green_cell:hover{
+	background: rgb(144, 220, 144);
+	cursor: pointer;
 }
 
 .rescalendar_microcycles_cells .empty_cell{
-	background: lightgrey;
+	background: rgb(215, 215, 215);
+}
+
+.rescalendar_microcycles_cells .empty_cell:hover{
+	background: rgb(200, 200, 200);
 }
 
 .rescalendar_microcycles_cells .microcycle_cell:not(.active){
@@ -53,6 +62,7 @@
 .rescalendar_day_cells td{
 	width: 80px;
 	border-radius: 5px;
+	background: rgb(238, 238, 238);
 }
 
 .rescalendar_day_cells td.disabledDay{
@@ -73,11 +83,6 @@
 	width: 30px;
 }
 
-.rescalendar_day_cells td{
-	background: rgb(238, 238, 238);
-}
-
-
 .rescalendar_day_cells td.today{
 	background: rgb(220, 220, 220);
 	color: black;
@@ -88,9 +93,9 @@
 }
 
 .rescalendar_day_cells td:hover{
-	background: #eee;
+	background: rgb(210, 210, 210);
 	cursor: pointer;
-	color: #000;
+	color: black;
 }
 .rescalendar .month_cell{
 	text-align: center;
@@ -100,6 +105,11 @@
 .rescalendar_data_rows td{
 	height: 40px;
 }
+
+.rescalendar_data_rows .data_cell:not(.hasEvent):hover{
+	background: rgb(240, 240, 240);
+}
+
 /*.rescalendar_data_rows td[rowspan="2"]{
 	height: 20px !important;
 }*/
@@ -141,10 +151,6 @@
 }
 .rescalendar .weekendClass{
 	background: rgb(255, 240, 240);
-}
-.rescalendar .mcLine{
-	background: black;
-	max-width: 2px !important;
 }
 .rescalendar .startMC{
 	border-left: 2px solid black !important;

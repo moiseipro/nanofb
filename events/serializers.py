@@ -1,6 +1,10 @@
 from rest_framework import serializers
 
-from events.models import UserMicrocycles
+from events.models import UserMicrocycles, UserEvent
+
+
+# Microcycles
+from trainings.serializers import UserTrainingSerializer
 
 
 class UserMicrocyclesSerializer(serializers.ModelSerializer):
@@ -21,3 +25,20 @@ class UserMicrocyclesUpdateSerializer(serializers.ModelSerializer):
         fields = [
             'name', 'date_with', 'date_by'
         ]
+
+
+# Event
+class UserEventSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    training = UserTrainingSerializer(
+        source='usertraining',
+        read_only=True
+    )
+
+    class Meta:
+        model = UserEvent
+        fields = [
+            'id', 'short_name', 'date', 'training'
+        ]
+        datatables_always_serialize = ('id', 'training',)

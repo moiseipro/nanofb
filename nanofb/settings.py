@@ -119,6 +119,9 @@ DATABASES = {
         'PASSWORD': 'OMGOqEokUU10',
         'HOST': 'nanofb.beget.tech',
         'PORT': '3306',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
     }
 }
 
@@ -163,7 +166,8 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 50,
     'DATETIME_FORMAT': "%d/%m/%Y %H:%M:%S",
     'DATE_FORMAT': "%d/%m/%Y",
-    "DATE_INPUT_FORMATS": ["%d/%m/%Y"],
+    'DATE_INPUT_FORMATS': ["%d/%m/%Y"],
+    'DATETIME_INPUT_FORMATS': ["%d/%m/%Y %H:%M"],
 }
 
 # Internationalization
