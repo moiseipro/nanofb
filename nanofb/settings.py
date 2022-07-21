@@ -166,7 +166,8 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 50,
     'DATETIME_FORMAT': "%d/%m/%Y %H:%M:%S",
     'DATE_FORMAT': "%d/%m/%Y",
-    "DATE_INPUT_FORMATS": ["%d/%m/%Y"],
+    'DATE_INPUT_FORMATS': ["%d/%m/%Y"],
+    'DATETIME_INPUT_FORMATS': ["%d/%m/%Y %H:%M"],
 }
 
 # Internationalization

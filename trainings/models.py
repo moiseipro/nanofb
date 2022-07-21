@@ -43,7 +43,7 @@ class UserTraining(AbstractTraining):
     exercises = models.ManyToManyField(
         UserExercise,
         through="UserTrainingExercise",
-        through_fields=('training_id', 'exercise_id')
+        through_fields=('training_id', 'exercise_id'),
     )
 
 

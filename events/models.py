@@ -12,16 +12,10 @@ from users.models import User
 
 # Create your models here.
 class AbstractEvent(models.Model):
-    name = models.CharField(
-        verbose_name=_('title'),
-        help_text=_("The name of the event. The maximum length is 80 characters"),
-        max_length=80,
-        blank=False,
-    )
     short_name = models.CharField(
         verbose_name=_('short name'),
-        help_text=_("The short name of the event. The maximum length is 10 characters"),
-        max_length=10,
+        help_text=_("The short name of the event. The maximum length is 4 characters"),
+        max_length=4,
         blank=False,
     )
     notes = models.JSONField(

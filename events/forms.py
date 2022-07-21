@@ -22,7 +22,7 @@ date_by_input_widget = forms.DateInput(attrs={
     'data-target': '#datetimepicker-by-microcycle',
     'autocomplete': 'off'
 })
-date_event_input_widget = forms.DateInput(attrs={
+date_event_input_widget = forms.DateTimeInput(attrs={
     'class': 'form-control-sm',
     'id': 'datetimepicker-event',
     'data-toggle': 'datetimepicker',
@@ -79,9 +79,14 @@ class EventUserForm(forms.ModelForm):
         choices=EVENT_TYPES,
     )
 
+    date = forms.DateTimeField(
+        input_formats=['%d/%m/%Y %H:%M'],
+        widget=date_event_input_widget
+    )
+
     class Meta:
         model = UserEvent
-        fields = ['name', 'short_name', 'event_type', 'date']
+        fields = ['short_name', 'event_type', 'date']
         widgets = {
             'date': date_event_input_widget,
         }

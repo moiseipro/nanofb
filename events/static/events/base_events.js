@@ -3,7 +3,7 @@ var days = new Date(d.getFullYear(), d.getMonth()+1, 0).getDate()-1
 var middleDay = (("0" + Math.floor(days/2)).slice(-2))
 var strDate = middleDay + "/" + ("0" + (d.getMonth()+1)).slice(-2) + "/" + d.getFullYear()
 
-var microcycles_table
+var microcycles_table, events_table
 var cur_edit_data
 
 var newEvent = [
@@ -61,6 +61,7 @@ $(window).on('load', function (){
 
     generateNewCalendar()
     generateMicrocyclesTable()
+    generateEventTable()
 
     $('#microcycle-modal').on('click', '.create', function() {
         cur_edit_data = microcycles_table.row($(this).closest('tr')).data()
@@ -105,7 +106,27 @@ $(window).on('load', function (){
         console.log($(this).serialize())
         ajax_microcycle_update($(this).attr('method'), $(this).serialize(), cur_edit_data ? cur_edit_data.id : 0)
     })
+
+    // Создание события
+    $('#event-add').on('click', function() {
+        $('#form-event').attr('method', 'POST')
+        clear_event_form()
+    })
+    // Отправка формы действия с событием
+    $('#form-event').on('submit', function(e) {
+        e.preventDefault()
+        console.log($(this).serialize())
+        ajax_event_action($(this).attr('method'), $(this).serialize(), cur_edit_data ? cur_edit_data.id : 0)
+    })
 })
+
+function clear_event_form(){
+    let now = moment().format('DD/MM/YYYY HH:mm')
+    $('#form-event #id_short_name').val('')
+    $('#form-event #id_event_type option:first').prop('selected', true)
+    $('#form-event #id_event_type').trigger('change');
+    $('#form-event #datetimepicker-event').val(now)
+}
 
 // Инициализация datepicker для выбора промежутка
 $(function () {
@@ -174,8 +195,37 @@ function ajax_microcycle_update(method, data, id) {
     request.fail(function( jqXHR, textStatus ) {
         alert( gettext('Error when updating the microcycle. ') + gettext(textStatus) );
     })
+}
 
+function ajax_event_action(method, data, id = '') {
+    if (!confirm(gettext('Apply action to event?'))) return false
 
+    console.log(method +' '+ id)
+
+    let url = "api/action/"
+    if(method !== 'POST') url += `${id}/`
+
+    $.ajax({
+        headers:{"X-CSRFToken": csrftoken },
+        url: url,
+        type: method,
+        dataType: "JSON",
+        data: data,
+        success: function(data){
+            console.log(data)
+            swal(gettext('Event save'), gettext('Event saved successfully!'), "success");
+            events_table.ajax.reload()
+        },
+        error: function(jqXHR, textStatus){
+            console.log(jqXHR)
+            swal(gettext('Event save'), gettext('Error when action the event!'), "error");
+        },
+        complete: function () {
+            if(method === 'POST') {
+                clear_event_form()
+            }
+        }
+    })
 }
 
 function generateNewCalendar(){
@@ -240,6 +290,40 @@ function generateMicrocyclesTable(){
             {'data': 'name'},
             {'data': 'date_with'},
             {'data': 'date_by'},
+            {'data': 'id' , render : function ( data, type, row, meta ) {
+              return type === 'display'  ?
+                '<button class="btn btn-sm btn-warning mx-1 py-0 edit" data-id="'+data+'"><i class="fa fa-pencil"></i></button>'+
+                '<button class="btn btn-sm btn-danger mx-1 py-0 delete" data-id="'+data+'"><i class="fa fa-trash"></i></button>':
+                data;
+            }}
+        ],
+    })
+}
+
+function generateEventTable(){
+    events_table = $('#events').DataTable({
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
+        },
+        dom: "<'row'<'col-sm-12'tr>>" +
+             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+        order: [ 1, 'asc' ],
+        serverSide: true,
+        processing: true,
+        lengthChange: false,
+        pageLength: 20,
+        ajax: 'api/action/?format=datatables',
+        columns: [
+            {'data': 'id'},
+            {'data': 'date'},
+            {'data': function (data, type, dataToSet) {
+                console.log(data)
+                if(type === 'display') {
+                    if ('training' in data && data.training != null) {
+                        return '<a href="/trainings/'+data.training.id+'" class="btn btn-sm btn-info py-0" data-id="'+data.training.id+'">'+gettext('Training')+'</a>'
+                    }
+                }
+            }},
             {'data': 'id' , render : function ( data, type, row, meta ) {
               return type === 'display'  ?
                 '<button class="btn btn-sm btn-warning mx-1 py-0 edit" data-id="'+data+'"><i class="fa fa-pencil"></i></button>'+

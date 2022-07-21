@@ -12,8 +12,7 @@
             <div class="modal-body">
                 {% load crispy_forms_tags %}
                 <main class="form-event">
-                    <form id="form-event" method="">
-                    {% csrf_token %}
+                    <form id="form-event" method="POST">
                     {% crispy event_form %}
                     </form>
                 </main>
