@@ -13,7 +13,7 @@ from users.models import User
 # Create your models here.
 class AbstractEvent(models.Model):
     name = models.CharField(
-        verbose_name=_('name'),
+        verbose_name=_('title'),
         help_text=_("The name of the event. The maximum length is 80 characters"),
         max_length=80,
         blank=False,
@@ -31,7 +31,7 @@ class AbstractEvent(models.Model):
         null=True
     )
     date = models.DateTimeField(
-        verbose_name=_('date'),
+        verbose_name=_('Date and time'),
         help_text=_('Date and time of this event'),
         blank=False,
         default=timezone.now

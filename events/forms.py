@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column, Button
 
-from events.models import UserMicrocycles
+from events.models import UserMicrocycles, UserEvent
 
 name_input_widget = forms.TextInput(attrs={
     'class': 'form-control-sm', 'autocomplete': 'off'
@@ -22,6 +22,18 @@ date_by_input_widget = forms.DateInput(attrs={
     'data-target': '#datetimepicker-by-microcycle',
     'autocomplete': 'off'
 })
+date_event_input_widget = forms.DateInput(attrs={
+    'class': 'form-control-sm',
+    'id': 'datetimepicker-event',
+    'data-toggle': 'datetimepicker',
+    'data-target': '#datetimepicker-event',
+    'autocomplete': 'off'
+})
+
+EVENT_TYPES =(
+    ("1", _('Training')),
+    ("2", _('Match')),
+)
 
 
 class MicrocycleUserForm(forms.ModelForm):
@@ -56,3 +68,23 @@ class MicrocycleUserForm(forms.ModelForm):
             ),
 
         )
+
+
+class EventUserForm(forms.ModelForm):
+    helper = FormHelper()
+    helper.add_input(Submit('submit', _('Save'), css_class='w-100 btn btn-lg btn-primary save mt-3'))
+    helper.form_method = 'POST'
+
+    event_type = forms.ChoiceField(
+        choices=EVENT_TYPES,
+    )
+
+    class Meta:
+        model = UserEvent
+        fields = ['name', 'short_name', 'event_type', 'date']
+        widgets = {
+            'date': date_event_input_widget,
+        }
+        help_texts = {
+            'name': None,
+        }

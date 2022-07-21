@@ -111,6 +111,7 @@ $(window).on('load', function (){
 $(function () {
     $('#datetimepicker-with-microcycle').datetimepicker({
         format: 'DD/MM/YYYY',
+        locale: get_cur_lang(),
         icons: {
             up: "fa fa-angle-up",
             down: "fa fa-angle-down",
@@ -120,6 +121,7 @@ $(function () {
     });
     $('#datetimepicker-by-microcycle').datetimepicker({
         format: 'DD/MM/YYYY',
+        locale: get_cur_lang(),
         icons: {
             up: "fa fa-angle-up",
             down: "fa fa-angle-down",
@@ -127,6 +129,17 @@ $(function () {
             previous: 'fa fa-angle-left'
         },
         useCurrent: false
+    });
+
+    $('#datetimepicker-event').datetimepicker({
+        format: 'DD/MM/YYYY HH:mm',
+        locale: get_cur_lang(),
+        icons: {
+            up: "fa fa-angle-up",
+            down: "fa fa-angle-down",
+            next: 'fa fa-angle-right',
+            previous: 'fa fa-angle-left'
+        }
     });
 
     $("#datetimepicker-with-microcycle").on("change.datetimepicker", function (e) {
@@ -211,11 +224,17 @@ function generateNewCalendar(){
 
 function generateMicrocyclesTable(){
     microcycles_table = $('#microcycles').DataTable({
-        dom: "<'row'<'col-sm-12 col-md 'l><'col-sm-12 col-md-6'f>>" +
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
+        },
+        dom: "<'row'<'col-sm-12 col-md-12' f>>" +
              "<'row'<'col-sm-12'tr>>" +
              "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+        order: [ 1, 'asc' ],
         serverSide: true,
         processing: true,
+        lengthChange: false,
+        pageLength: 20,
         ajax: 'api/microcycles/?format=datatables',
         columns: [
             {'data': 'name'},
