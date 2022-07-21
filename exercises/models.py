@@ -135,3 +135,29 @@ class ClubExercise(AbstractExercise):
     class Meta(AbstractExercise.Meta):
         abstract = False
 
+
+
+class UserExerciseParam(models.Model):
+    exercise_user = models.ForeignKey(UserExercise, on_delete=models.CASCADE, null=True, blank=True)
+    exercise_club = models.ForeignKey(ClubExercise, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    watched = models.BooleanField(default=False)
+    favorite = models.BooleanField(default=False)
+    like = models.BooleanField(default=False)
+    dislike = models.BooleanField(default=False)
+
+    objects = models.Manager()
+
+
+class UserExerciseParamTeam(models.Model):
+    exercise_user = models.ForeignKey(UserExercise, on_delete=models.CASCADE, null=True, blank=True)
+    exercise_club = models.ForeignKey(ClubExercise, on_delete=models.CASCADE, null=True, blank=True)
+    team = models.ForeignKey(UserTeam, on_delete=models.CASCADE)
+    addition = models.JSONField(null=True, blank=True)
+    purpose = models.JSONField(null=True, blank=True)
+    stress_type = models.JSONField(null=True, blank=True)
+    coaching = models.JSONField(null=True, blank=True)
+
+    objects = models.Manager()
+
+

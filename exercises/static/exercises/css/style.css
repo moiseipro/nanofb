@@ -271,3 +271,9 @@ a.text-dark:hover {
     align-items: center;
 }
 
+
+.user-param.u-prm-on {
+    background-color: #90d047 !important;
+}
+
+
