@@ -229,45 +229,57 @@ function ajax_event_action(method, data, id = '') {
 }
 
 function generateNewCalendar(){
-    let request = $.ajax({
+    newMicrocycle = []
+
+    $.ajax({
         headers:{"X-CSRFToken": csrftoken },
         url: 'api/microcycles/',
         type: 'GET',
         dataType: "JSON",
-    })
-
-    request.done(function( data ) {
-        newMicrocycle = []
-        for (var microcycle of data['results']) {
-            newMicrocycle.push({
-                id: microcycle['id'],
-                name: microcycle['name'],
-                startDate: microcycle['date_with'],
-                endDate: microcycle['date_by'],
-                customClass: 'green_cell',
-                href: '#empty'
-            })
+        success: function(data){
+            for (var microcycle of data['results']) {
+                newMicrocycle.push({
+                    id: microcycle['id'],
+                    name: microcycle['name'],
+                    startDate: microcycle['date_with'],
+                    endDate: microcycle['date_by'],
+                    customClass: 'green_cell',
+                    href: '#empty'
+                })
+            }
+            console.log(newMicrocycle)
+        },
+        error: function(jqXHR, textStatus){
+            console.log(jqXHR)
+            swal(gettext('Event save'), gettext('Error when action the event!'), "error");
+        },
+        complete: function () {
+            $('#event_calendar').rescalendar({
+                id: 'training_calendar',
+                format: 'DD/MM/YYYY',
+                jumpSize: middleDay-1,
+                calSize: days,
+                locale: 'ru',
+                refDate: strDate,
+                lang: {
+                    'today': gettext('Today'),
+                    'init_error': gettext('Failed to initialize'),
+                    'no_data_error' : gettext('No data was found to show')
+                },
+                data: newEvent,
+                microcycles: newMicrocycle,
+                dataKeyField: 'name',
+                dataKeyValues: ['m1', 'm2', 'tr1', 'tr2']
+            });
         }
-        console.log(newMicrocycle)
-        $('#event_calendar').rescalendar({
-            id: 'training_calendar',
-            format: 'DD/MM/YYYY',
-            jumpSize: middleDay-1,
-            calSize: days,
-            locale: 'ru',
-            refDate: strDate,
-            lang: {
-                'today': gettext('Today'),
-                'init_error': gettext('Failed to initialize'),
-                'no_data_error' : gettext('No data was found to show')
-            },
-            data: newEvent,
-            microcycles: newMicrocycle,
-            dataKeyField: 'name',
-            dataKeyValues: ['m1', 'm2', 'tr1', 'tr2']
-        });
     })
 
+    $.ajax({
+        headers:{"X-CSRFToken": csrftoken },
+        url: 'api/action/',
+        type: 'GET',
+        dataType: "JSON",
+    })
 
     $('.move_to_today').click()
 }
@@ -308,6 +320,9 @@ function generateEventTable(){
         dom: "<'row'<'col-sm-12'tr>>" +
              "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         order: [ 1, 'asc' ],
+        columnDefs: [
+            { orderable: false, targets: '_all' }
+        ],
         serverSide: true,
         processing: true,
         lengthChange: false,
@@ -320,16 +335,20 @@ function generateEventTable(){
                 console.log(data)
                 if(type === 'display') {
                     if ('training' in data && data.training != null) {
-                        return '<a href="/trainings/'+data.training.id+'" class="btn btn-sm btn-info py-0" data-id="'+data.training.id+'">'+gettext('Training')+'</a>'
+                        return '<a href="/trainings/view/'+data.training.event_id+'" class="btn btn-sm btn-info py-0" data-id="'+data.training.event_id+'">'+gettext('Training')+'</a>'
+                    } else if ('match' in data && data.match != null){
+                        return '<a href="/trainings/view/'+data.match.event_id+'" class="btn btn-sm btn-info py-0" data-id="'+data.match.event_id+'">'+gettext('Match')+'</a>'
+                    } else {
+                        return '<a class="btn btn-sm btn-white py-0">'+gettext('Event')+'</a>'
                     }
                 }
             }},
-            {'data': 'id' , render : function ( data, type, row, meta ) {
-              return type === 'display'  ?
-                '<button class="btn btn-sm btn-warning mx-1 py-0 edit" data-id="'+data+'"><i class="fa fa-pencil"></i></button>'+
-                '<button class="btn btn-sm btn-danger mx-1 py-0 delete" data-id="'+data+'"><i class="fa fa-trash"></i></button>':
-                data;
-            }}
+            {'data': function (data, type, dataToSet) {
+                console.log(data)
+                if(type === 'display') {
+                    return '---'
+                }
+            }},
         ],
     })
 }

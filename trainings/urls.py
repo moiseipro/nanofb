@@ -5,5 +5,5 @@ extra_context = {'menu_trainings': 'active'}
 
 urlpatterns = [
     path('', views.TrainingsView.as_view(extra_context=extra_context), name="base_trainings"),
-    path('edit', views.EditTrainingsView.as_view(extra_context=extra_context), name="edit_training"),
+    path('view/<int:pk>', views.EditTrainingsView.as_view(extra_context=extra_context), name="view_training"),
 ]
