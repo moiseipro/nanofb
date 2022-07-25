@@ -64,9 +64,10 @@ class EventViewSet(viewsets.ModelViewSet):
         if self.action == 'partial_update' or self.action == 'create':
             return UserEvent.objects.all()
         season = UserSeason.objects.filter(id=self.request.session['season'])
-        return UserEvent.objects.filter(user_id=self.request.user,
-                                        date__gte=season[0].date_with,
-                                        date__lte=season[0].date_by)
+        events = UserEvent.objects.filter(user_id=self.request.user,
+                                          date__gte=season[0].date_with,
+                                          date__lte=season[0].date_by)
+        return events
 
 
 # DJANGO

@@ -159,5 +159,8 @@
 	border-right: 2px solid black !important;
 }
 .rescalendar .select-cell{
-	border: 3px solid black !important;
+	border: 2px solid black !important;
+}
+.rescalendar .hover-cell{
+	background: rgb(255, 240, 240);
 }
