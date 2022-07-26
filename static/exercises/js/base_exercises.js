@@ -418,7 +418,7 @@ function ToggleIconsInExs() {
 }
 function ToggleMarkersInExs() {
     let isActive = $('.up-tabs-elem[data-id="toggle_markers"]').attr('data-state') == "1";
-    $('.exercises-block').find(`[data-type="markers"]`).toggleClass('d-none', !isActive);
+    $('.exercises-block').find(`[data-type="marker"]`).toggleClass('d-none', !isActive);
 }
 
 
