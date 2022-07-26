@@ -60,19 +60,19 @@
     height: 90vh !important;
 }
 .folders_list {
-    height: 70vh !important;
+    height: 74vh !important;
     overflow-y: auto;
 }
 .exs-list-group {
-    height: 70vh !important;
+    height: 74vh !important;
     overflow-y: auto;
 }
 .visual-block {
-    height: 75vh !important;
+    height: 77vh !important;
     overflow-y: auto;
 }
 .side-filter-block {
-    height: 70vh !important;
+    height: 74vh !important;
     overflow-y: auto;
 }
 
@@ -116,19 +116,18 @@
 }
 
 .btn-custom {
-    color: #ffffff;
+    color: #5a6268 !important;
     border: 2px solid rgb(100, 100, 100) !important;
 }
 .btn-custom:hover {
     font-weight: 700;
+    color: #5a6268 !important;
 }
 .btn-custom.btn-secondary {
-    color: #5a6268;
     background-color: #d5d5d5;
     border-color: #d5d5d5;
 }
 .btn-custom.btn-secondary:hover {
-    color: #5a6268 !important;
     background-color: #a6a6a6;
     border-color: #a6a6a6
 }
@@ -170,6 +169,15 @@
 }
 .btn-custom.custom-blue:hover {
     color: #144eec !important;
+}
+
+.btn-custom.custom-bck-light-red {
+    background-color: #eba8a8;
+    border-color: #eba8a8;
+}
+.btn-custom.custom-bck-light-red:hover {
+    background-color: #d29393;
+    border-color: #d29393;
 }
 
 .btn-custom.selected {

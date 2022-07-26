@@ -199,6 +199,7 @@ def exercises_api(request):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
     if request.method == "POST" and is_ajax:
         copy_exs_status = 0
+        move_exs_status = 0
         edit_exs_status = 0
         delete_exs_status = 0
         edit_exs_user_params_status = 0
@@ -212,6 +213,10 @@ def exercises_api(request):
             return JsonResponse({"errors": "trouble_with_user"}, status=400)
         try:
             copy_exs_status = int(request.POST.get("copy_exs", 0))
+        except:
+            pass
+        try:
+            move_exs_status = int(request.POST.get("move_exs", 0))
         except:
             pass
         try:
@@ -243,8 +248,9 @@ def exercises_api(request):
             except:
                 pass
             found_folder = UserFolder.objects.filter(id=folder_id)
+            success_status = False
             if found_folder.exists() and found_folder[0].id != None:
-                res_data = {'success': False, 'err': "NULL"}
+                res_data = {'err': "NULL"}
                 if is_nfb_folder == 1:
                     c_exs = AdminExercise.objects.filter(id=exs_id)
                     if c_exs.exists() and c_exs[0].id != None:
@@ -255,9 +261,10 @@ def exercises_api(request):
                         new_exs.folder = found_folder[0]
                         try:
                             new_exs.save()
-                            res_data = {'id': new_exs.id, 'success': True}
+                            res_data = {'id': new_exs.id}
+                            success_status = True
                         except Exception as e:
-                            res_data = {'id': new_exs.id, 'success': False, 'err': str(e)}
+                            res_data = {'id': new_exs.id, 'err': str(e)}
                 else:
                     c_exs = UserExercise.objects.filter(id=exs_id)
                     if c_exs.exists() and c_exs[0].id != None:
@@ -268,10 +275,34 @@ def exercises_api(request):
                         new_exs.folder = found_folder[0]
                         try:
                             new_exs.save()
-                            res_data = {'id': new_exs.id, 'success': True}
+                            res_data = {'id': new_exs.id}
+                            success_status = True
                         except Exception as e:
-                            res_data = {'id': new_exs.id, 'success': False, 'err': str(e)}
-                return JsonResponse({"data": res_data}, status=200)
+                            res_data = {'id': new_exs.id, 'err': str(e)}
+                return JsonResponse({"data": res_data, "success": success_status}, status=200)
+        elif move_exs_status == 1:
+            exs_id = -1
+            folder_id = -1
+            try:
+                exs_id = int(request.POST.get("exs", -1))
+            except:
+                pass
+            try:
+                folder_id = int(request.POST.get("folder", -1))
+            except:
+                pass
+            found_folder = UserFolder.objects.filter(id=folder_id, user=cur_user[0])
+            if found_folder.exists() and found_folder[0].id != None:
+                found_exs = UserExercise.objects.filter(id=exs_id, user=cur_user[0])
+                if found_exs.exists() and found_exs[0].id != None:
+                    found_exs = found_exs[0]
+                    found_exs.folder = found_folder[0]
+                    try:
+                        found_exs.save()
+                        return JsonResponse({"data": {"id": found_exs.id}, "success": True}, status=200)
+                    except:
+                        pass
+            return JsonResponse({"errors": "Can't move exercise"}, status=400)
         elif edit_exs_status == 1:
             exs_id = -1
             folder_id = -1

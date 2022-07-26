@@ -18,20 +18,22 @@
                                 <div class="btns-tabs-first size-w-x" style="--w-x:96%;">
                                     <div class="row">
                                         <div class="col-12 p-0 btn-group btn-group-custom">
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block custom-blue elem-flex-center" id="createExercise">
-                                                Добавить
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center" id="createExercise">
+                                                Упражнение
                                                 <span class="icon-custom icon--plus mx-1" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block custom-blue up-tabs-elem" data-id="toggle_folders">
-                                                Папки "Тренер"
+                                            <button type="button" class="btn btn-success btn-sm btn-custom btn-block up-tabs-elem" data-id="nfb_folders">
+                                                Папки N.F.
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block">
-                                                Упражнения PRO
+                                            <button type="button" class="btn btn-warning btn-sm btn-custom btn-block up-tabs-elem selected" data-id="team_folders">
+                                                Папки "Команда"
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block">
-                                                Упр. ДЮФ
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block" data-id="exs_counter" title="Количество упражнений">
+                                                5000
                                             </button>
-                                            <input type="text" class="form-control btn-block text-center size-max-h-x" id="" placeholder="Возраст" title="Возраст" style="--h-max-x:37.2px; margin-top: .1rem !important;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center" data-id="filter_reset" title="Сброс фильтров">
+                                                <span class="icon-custom icon--reset" style="--i-w: 1.5em; --i-h: 1.5em;"></span>
+                                            </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block" data-id="">
                                                 Настройки
                                             </button>
@@ -105,23 +107,23 @@
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block custom-blue" id="toggleFoldersNames">
                                                 Развернуть
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block custom-blue" id="">
-                                                Новые упр. (..)
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom custom-bck-light-red btn-block up-tabs-elem" data-id="club_folders" disabled="">
+                                                Папки "Клуб"
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block" data-id="exs_counter" title="Количество упражнений">
-                                                5000
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem" data-id="copy">
+                                                Копировать
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center" data-id="filter_reset" title="Сброс фильтров">
-                                                <span class="icon-custom icon--reset" style="--i-w: 1.5em; --i-h: 1.5em;"></span>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1" id="showOneExs">
+                                                Просмотреть
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block" title="">
-                                                Перенести
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem" data-id="toggle_markers">
+                                                Маркировать
                                             </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block" data-id="">
                                                 Поделиться
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem" data-id="copy">
-                                                Копировать
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem" data-id="toggle_icons">
+                                                Показать
                                             </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem" data-id="toggle_side_filter">
                                                 Фильтрация
@@ -255,8 +257,8 @@
                                     <div class="p-1 exercises-block" id="splitCol_1">
                                         <div class="row w-100">
                                             <div class="col-12 d-flex">
-                                                <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1" id="showOneExs">Карточка</button>
-                                                <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="num" style="--w-x:32px;" disabled="">
+                                                
+                                                <!-- <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="num" style="--w-x:32px;" disabled="">
                                                     №
                                                 </button>
                                                 <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="players" style="--w-x:32px; min-width: 32px;" disabled="">
@@ -285,7 +287,7 @@
                                                 </button>
                                                 <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="stress" style="--w-x:32px;" disabled="">
                                                     IQ.
-                                                </button>
+                                                </button> -->
                                             </div>
                                         </div>
                                         <hr class="my-1">
@@ -343,6 +345,25 @@
                                         </div>
                                     </div>
                                     <div class="p-1 mr-3 side-filter-block d-none" id="splitCol_3">
+                                        <div class="d-flex justify-content-center btn-tab-second">
+                                            <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content" data-id="category">Категория</button>
+                                        </div>
+                                        <ul class="list-group list-group-flush d-none" data-id="category">
+                                            <li class="side-filter-elem list-group-item py-0">
+                                                <div class="row">
+                                                    <div class="col-12 text-left">
+                                                        <span>elem 1</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="side-filter-elem list-group-item py-0">
+                                                <div class="row">
+                                                    <div class="col-12 text-left">
+                                                        <span>elem 2</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
                                         <div class="d-flex justify-content-center btn-tab-second">
                                             <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content" data-id="filter">Фильтровать</button>
                                         </div>
@@ -961,12 +982,19 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Выберите папку, в которую необходимо добавить скопированное упражнение</h5>
+                        <h5 class="modal-title">Выберите папку, в которую необходимо поместить упражнение</h5>
                     </div>
                     <div class="modal-body size-h-x" style="--h-x: 70vh; overflow-y: auto;">
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary btn-apply">Скопировать</button>
+                        <select name="copy_mode" class="form-control form-control-sm" autocomplete="off">
+                            <option value="1">Копировать</option>
+                            <option value="2">Переместить</option>
+                        </select>
+                        <span class="info-text d-none">
+                            Перемещение возможно только внутри папок "Команда"
+                        </span>
+                        <button type="button" class="btn btn-primary btn-apply">Подтвердить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </div>

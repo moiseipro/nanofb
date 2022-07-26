@@ -44,36 +44,34 @@ function ToggleUpFilter(id, state) {
             break;
         case "nfb_folders":
             $('.folders_list').toggleClass('d-none', true);
-            $('.up-tabs-elem[data-id="my_folders"]').toggleClass('btn-secondary', true);
-            $('.up-tabs-elem[data-id="my_folders"]').toggleClass('btn-primary', false);
             $('.folders_nfb_list').toggleClass('d-none', false);
-            $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('btn-secondary', false);
-            $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('btn-primary', true);
+            $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('selected', true);
+            $('.up-tabs-elem[data-id="team_folders"]').toggleClass('selected', false);
             $('.exercises-list').find('.list-group-item').removeClass('active');
             $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
+
+            $('#exerciseCopyModal').find('select[name="copy_mode"]').val('1');
+            $('#exerciseCopyModal').find('select[name="copy_mode"]').prop('disabled', true);
             break;
-        case "my_folders":
+        case "team_folders":
             $('.folders_list').toggleClass('d-none', false);
-            $('.up-tabs-elem[data-id="my_folders"]').toggleClass('btn-secondary', false);
-            $('.up-tabs-elem[data-id="my_folders"]').toggleClass('btn-primary', true);
             $('.folders_nfb_list').toggleClass('d-none', true);
-            $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('btn-secondary', true);
-            $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('btn-primary', false);
+            $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('selected', false);
+            $('.up-tabs-elem[data-id="team_folders"]').toggleClass('selected', true);
             $('.exercises-list').find('.list-group-item').removeClass('active');
             $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
+
+            $('#exerciseCopyModal').find('select[name="copy_mode"]').prop('disabled', false);
             break;
         case "copy":
             if ($('.exercises-list').find('.exs-elem.active').length <= 0) {
                 $('.up-tabs-elem[data-id="copy"]').removeClass('btn-primary');
                 $('.up-tabs-elem[data-id="copy"]').addClass('btn-secondary');
                 $('.up-tabs-elem[data-id="copy"]').attr('data-state', '0');
-                swal("Внимание", "Выберите упражнение для копирования.", "info");
+                swal("Внимание", "Выберите упражнение из списка.", "info");
             } else {
-                if (state) {
-                    $('#exerciseCopyModal').modal('show');
-                } else {
-                    $('#exerciseCopyModal').modal('hide');
-                }
+                if (state) {$('#exerciseCopyModal').modal('show');} 
+                else {$('#exerciseCopyModal').modal('hide');}
             }
             break;
         case "open_card_view":
@@ -138,6 +136,12 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem[data-id="next_exs"]').toggleClass('btn-primary', false);
             LoadExerciseOneHandler();
             break;
+        case "toggle_icons":
+            ToggleIconsInExs();
+            break;
+        case "toggle_markers":
+            ToggleMarkersInExs();
+            break;
         default:
             break;
     }
@@ -152,7 +156,7 @@ function RenderSplitCols() {
     } else {
         sizesArr = [window.dataForSplit[0], window.dataForSplit[1], (window.dataForSplit[2] + window.dataForSplit[3])];
     }
-    Split(['#splitCol_0', '#splitCol_1', '#splitCol_2', '#splitCol_3'], {
+    window.split = Split(['#splitCol_0', '#splitCol_1', '#splitCol_2', '#splitCol_3'], {
         sizes: sizesArr,
         gutterSize: 20,
         onDragEnd: (arr) => {
@@ -162,6 +166,7 @@ function RenderSplitCols() {
     });
     let stateColSize = $('.up-tabs-elem[data-id="cols_size"]').attr('data-state') == '1';
     $('.exercises-list').find('div.gutter').toggleClass('d-none', !stateColSize);
+    ResizeSplitCols(1);
 
     $('#exerciseCardModal').find('div.gutter').remove();
     sizesArr = window.dataForSplit2;
@@ -188,6 +193,14 @@ function RenderSplitCols() {
     $('#exerciseCardModal').find('div.gutter').toggleClass('d-none', true);
 }
 
+function ResizeSplitCols(scale = 2) {
+    let onFullSize = $('#toggleFoldersNames').attr('data-state') == '1';
+    let sizes = window.split.getSizes();
+    let firstColWidth = onFullSize ? sizes[0] * scale : sizes[0] * 0.5;
+    let diff = sizes[0] - firstColWidth;
+    sizes[0] = firstColWidth; sizes[1] += diff;
+    window.split.setSizes(sizes);
+}
 
 let exercises = {"nfb": {}};
 function LoadFolderExercises() {
@@ -238,34 +251,42 @@ function RenderFolderExercises(id, tExs) {
                     <span class="ml-3 w-100">
                         ${i+1}. Упражнение "${exElem.title}", автор: ${exElem.user}
                     </span>
-                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="num" style="--w-x:32px;" disabled="">
+
+                    <button type="button" class="btn btn-light btn-sm elem-flex-center size-w-x mr-1" data-type="marker" data-id="favor" style="--w-x:24px;" title="Избранное">
+                        <span class="icon-custom icon--favorite" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
+                    </button>
+                    <button type="button" class="btn btn-light btn-sm elem-flex-center size-w-x mr-1" data-type="marker" data-id="watched" style="--w-x:24px;" title="Просмотрено">
+                        <span class="icon-custom icon--eye" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
+                    </button>
+
+                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x" data-type="icons" data-id="num" style="--w-x:32px;" disabled="">
                         №
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="players" style="--w-x:32px; min-width: 32px;" disabled="">
+                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x" data-type="icons" data-id="players" style="--w-x:32px; min-width: 32px;" disabled="">
                         #
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="goal" style="--w-x:32px; min-width: 32px;" disabled="">
+                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x" data-type="icons" data-id="goal" style="--w-x:32px; min-width: 32px;" disabled="">
                         G.
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="ball" style="--w-x:32px;" disabled="">
+                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x" data-type="icons" data-id="ball" style="--w-x:32px;" disabled="">
                         <span class="icon-custom icon--ball" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="watches" style="--w-x:32px;" disabled="">
+                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x" data-type="icons" data-id="watches" style="--w-x:32px;" disabled="">
                         <span class="icon-custom icon--check" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="favor" style="--w-x:32px;" disabled="">
+                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x" data-type="icons" data-id="favor" style="--w-x:32px;" disabled="">
                         <span class="icon-custom icon--favorite" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="like" style="--w-x:32px;" disabled="">
+                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x" data-type="icons" data-id="like" style="--w-x:32px;" disabled="">
                         <span class="icon-custom icon--like" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="video" style="--w-x:32px; min-width: 32px;" disabled="">
+                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x" data-type="icons" data-id="video" style="--w-x:32px; min-width: 32px;" disabled="">
                         V.
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="anim" style="--w-x:32px; min-width: 32px;" disabled="">
+                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x" data-type="icons" data-id="anim" style="--w-x:32px; min-width: 32px;" disabled="">
                         A.
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="stress" style="--w-x:32px;" disabled="">
+                    <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x" data-type="icons" data-id="stress" style="--w-x:32px;" disabled="">
                         IQ.
                     </button>
                 </div>
@@ -280,6 +301,7 @@ function RenderFolderExercises(id, tExs) {
     exercises = {"nfb": {}};
 
     ToggleIconsInExs();
+    ToggleMarkersInExs();
 }
 
 // Handler for func LoadExerciseOne in exercise card:
@@ -384,11 +406,19 @@ function RenderExerciseOne(data) {
 
 
 function ToggleIconsInExs() {
-    $('.side-filter-block').find('.list-group[data-id="show_icons"]').find('.side-filter-elem').each((ind, elem) => {
-        let cId = $(elem).attr('data-id');
-        let isActive = $(elem).hasClass('active');
-        $('.exercises-block').find(`[data-type="icons"][data-id="${cId}"]`).toggleClass('d-none', !isActive);
-    });
+    if ($('.up-tabs-elem[data-id="toggle_icons"]').attr('data-state') == "1") {
+        $('.side-filter-block').find('.list-group[data-id="show_icons"]').find('.side-filter-elem').each((ind, elem) => {
+            let cId = $(elem).attr('data-id');
+            let isActive = $(elem).hasClass('active');
+            $('.exercises-block').find(`[data-type="icons"][data-id="${cId}"]`).toggleClass('d-none', !isActive);
+        });
+    } else {
+        $('.exercises-block').find(`[data-type="icons"]`).toggleClass('d-none', true);
+    }
+}
+function ToggleMarkersInExs() {
+    let isActive = $('.up-tabs-elem[data-id="toggle_markers"]').attr('data-state') == "1";
+    $('.exercises-block').find(`[data-type="markers"]`).toggleClass('d-none', !isActive);
 }
 
 
@@ -404,7 +434,6 @@ $(function() {
     });
 
     // Toggle side filter elements
-    ToggleIconsInExs();
     $('.side-filter-block').on('click', '.side-filter-elem', (e) => {
         let state = $(e.currentTarget).attr('data-state') == '1';
         let isFilter = $(e.currentTarget).parent().attr('data-id') == "filter";
@@ -512,12 +541,17 @@ $(function() {
     // Toggle Names of folders:
     $('#toggleFoldersNames').on('click', (e) => {
         let state = $(e.currentTarget).attr('data-state') == '1';
-        $('.folders_list').find('.folder-elem').each((ind, elem) => {
+        $('.folders-block').find('.folder-elem').each((ind, elem) => {
+            let tmpText = !state ? `${$(elem).attr('data-short')}. ${$(elem).attr('data-name')}` : `${$(elem).attr('data-short')}`;
+            $(elem).find('.folder-title').text(tmpText);
+        });
+        $('.folders-block').find('.folder-nfb-elem').each((ind, elem) => {
             let tmpText = !state ? `${$(elem).attr('data-short')}. ${$(elem).attr('data-name')}` : `${$(elem).attr('data-short')}`;
             $(elem).find('.folder-title').text(tmpText);
         });
         $(e.currentTarget).attr('data-state', state ? '0' : '1');
         $(e.currentTarget).html(state ? `Развернуть` : `Свернуть`);
+        ResizeSplitCols();
     });
 
     // Toggle draw, video, animation
@@ -532,11 +566,15 @@ $(function() {
 
     // Choose exercise
     $('.exercises-list').on('click', '.exs-elem', (e) => {
+        if ($(e.target).is('button') || $(e.target).hasClass('icon-custom')) {
+            return;
+        }
         if ($(e.currentTarget).hasClass('active')) {
             $(e.currentTarget).removeClass('active');
             // RenderExerciseOne(null);
             return;
         }
+        
         $('.exercises-list').find('.exs-elem').removeClass('active');
         $(e.currentTarget).addClass('active');
         LoadExerciseOneHandler();
@@ -596,7 +634,7 @@ $(function() {
             document.descriptionEditor.enableReadOnlyMode('');
             $('#exerciseCardModal').modal('show');
         } else {
-            swal("Внимание", "Выберите сначала упражнение из списка.", "info");
+            swal("Внимание", "Выберите упражнение для просмотра.", "info");
         }
     });
     $('#openCardEdit').on('click', (e) => {
@@ -612,7 +650,7 @@ $(function() {
             document.descriptionEditor.disableReadOnlyMode('');
             $('#exerciseCardModal').modal('show');
         } else {
-            swal("Внимание", "Выберите сначала упражнение из списка.", "info");
+            swal("Внимание", "Выберите упражнение для просмотра.", "info");
         }
     });
     $('#createExercise').on('click', (e) => {
@@ -648,7 +686,7 @@ $(function() {
             let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
             window.location.href = `/exercises/exercise?id=${$(activeExs).attr('data-id')}&nfb=${fromNfbFolder ? 1 : 0}`;
         } else {
-            swal("Внимание", "Выберите сначала упражнение из списка.", "info");
+            swal("Внимание", "Выберите упражнение для просмотра.", "info");
         }
     });
 
@@ -841,12 +879,23 @@ $(function() {
             $(e.currentTarget).parent().addClass('active');
         }
     });
+    $('#exerciseCopyModal').on('change', 'select[name="copy_mode"]', (e) => {
+        let val = $(e.currentTarget).val();
+        $('#exerciseCopyModal').find('.info-text').toggleClass('d-none', val == '1');
+    });
     $('#exerciseCopyModal').on('click', '.btn-apply', (e) => {
         if ($('#exerciseCopyModal').find('.list-group-item.active').length > 0) {
+            let modeVal = $('#exerciseCopyModal').find('select[name="copy_mode"]').val();
             let exsId = $('.exs-list-group').find('.exs-elem.active').attr('data-id');
             let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
             let selectedFolder = $('#exerciseCopyModal').find('.list-group-item.active').find('.folder-copy-elem').attr('data-id');
-            let data = {'copy_exs': 1, 'exs': exsId, 'nfb_folder': fromNfbFolder ? 1 : 0, 'folder': selectedFolder};
+            let data = {
+                'move_exs': modeVal == '2' ? 1 : 0,
+                'copy_exs': modeVal == '1' ? 1 : 0, 
+                'exs': exsId, 
+                'nfb_folder': fromNfbFolder ? 1 : 0, 
+                'folder': selectedFolder
+            };
             $('.page-loader-wrapper').fadeIn();
             $.ajax({
                 data: data,
@@ -854,15 +903,15 @@ $(function() {
                 dataType: 'json',
                 url: "exercises_api",
                 success: function (res) {
-                    if (res.data.success) {
-                        swal("Готово", "Упражнение успешно скопировано. Обновите страницу, чтобы увидеть данное упражение.", "success");
+                    if (res.success) {
+                        swal("Готово", "Обновите папку, чтобы увидеть данное упражение.", "success");
                     } else {
-                        swal("Ошибка", "Упражнение скопировать не удалось.", "error");
+                        swal("Ошибка", "Упражнение не удалось скопировать / переместить.", "error");
                         console.log(res);
                     }
                 },
                 error: function (res) {
-                    swal("Ошибка", "Упражнение скопировать не удалось.", "error");
+                    swal("Ошибка", "Упражнение не удалось скопировать / переместить.", "error");
                     console.log(res);
                 },
                 complete: function (res) {
@@ -872,7 +921,6 @@ $(function() {
             });
         }
     });
-
 
     // Video JS
     window.videoPlayer = videojs('video-player', {
