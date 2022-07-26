@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views.generic import DetailView
 from django.views.generic.base import TemplateView
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
@@ -52,8 +53,9 @@ class TrainingsView(TemplateView):
         return context
 
 
-class EditTrainingsView(TemplateView):
-    template_name = 'trainings/edit_training.html'
+class EditTrainingsView(DetailView):
+    template_name = 'trainings/view_training.html'
+    model = UserTraining
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

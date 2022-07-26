@@ -131,6 +131,11 @@ function RenderExerciseOne(data) {
 
         $(exsCard).find('.exs_edit_field[name="title"]').val(data.title);
         document.descriptionEditor2.setData(data.description);
+
+        $(exsCard).find('.user-param[data-id="watched"]').toggleClass('u-prm-on', data.watched == true);
+        $(exsCard).find('.user-param[data-id="favorite"]').toggleClass('u-prm-on', data.favorite == true);
+        $(exsCard).find('.user-param[data-id="like"]').toggleClass('u-prm-on', data.like == true);
+        $(exsCard).find('.user-param[data-id="dislike"]').toggleClass('u-prm-on', data.dislike == true);
     } else {
         $(exsCard).attr('data-exs', '-1');
 
@@ -159,6 +164,11 @@ function RenderExerciseOne(data) {
         CheckMultiRows(exsCard, '', '.exs_edit_field[name="coaching[]"]');
         CheckMultiRows(exsCard, '', '.exs_edit_field[name="notes[]"]');
 
+        $(exsCard).find('.user-param[data-id="watched"]').toggleClass('u-prm-on', false);
+        $(exsCard).find('.user-param[data-id="favorite"]').toggleClass('u-prm-on', false);
+        $(exsCard).find('.user-param[data-id="like"]').toggleClass('u-prm-on', false);
+        $(exsCard).find('.user-param[data-id="dislike"]').toggleClass('u-prm-on', false);
+
         $('.exs-list-group').find('.list-group-item').removeClass('active');
         // clear video, animation and scheme
     }
@@ -180,6 +190,17 @@ function SaveExerciseOne() {
                 dataToSend.data[name] = $(elem).val();
             }
         }
+    });
+    dataToSend.data['additions[]'] = [];
+    dataToSend.data['purposes[]'] = [];
+    dataToSend.data['stress_type[]'] = [];
+    dataToSend.data['coaching[]'] = [];
+    $('#exerciseCard').find('.exs_edit_field.exs_team_param').each((ind, elem) => {
+        let cName = $(elem).attr('name');
+        dataToSend.data[cName].push({
+            'type': $(elem).prop('tagName'),
+            'value': $(elem).val()
+        });
     });
     dataToSend.data['description'] = document.descriptionEditor2.getData();
     if (dataToSend.data.title == "") {
@@ -349,7 +370,6 @@ $(function() {
     $('#exerciseCard').on('click', '.add-row', (e) => {
         let cId = $(e.currentTarget).attr('data-id');
         let cloneRow = null;
-        console.log(cId)
         if (cId == "additions1") {
             cloneRow = $('#exerciseCard').find('.gen-content').find(`tr[data-id="${cId}"]`).clone();
         } else {
@@ -358,6 +378,7 @@ $(function() {
         }
         $(cloneRow).addClass('wider_row');
         $(cloneRow).find('.form-control').addClass('exs_edit_field');
+        $(cloneRow).find('.form-control').addClass('exs_team_param');
         $(cloneRow).find('.exs_edit_field').val('');
         $(cloneRow).find('.remove-row').addClass('btn-on');
         $(cloneRow).find('.remove-row').prop('disabled', false);
@@ -381,6 +402,46 @@ $(function() {
         $('#exerciseCard').find('.folder_default[name="folder_main"').val('');
         $('#exerciseCard').find('.folder_default[name="folder_main"] > option').each((ind, elem) => {
             $(elem).toggleClass('d-none', !($(elem).attr('data-parent') == cId));
+        });
+    });
+
+
+    $('#exerciseCard').on('click', '.user-param', (e) => {
+        let exsId = $('#exerciseCard').attr('data-exs');
+        let cId = $(e.currentTarget).attr('data-id');
+        let isOn = $(e.currentTarget).hasClass('u-prm-on');
+        let fromNFB = 0;
+        let searchParams = new URLSearchParams(window.location.search);
+        if (fromNFB == 0) {
+            try {
+                fromNFB = parseInt(searchParams.get('nfb'));
+            } catch (e) {}
+        }
+        let dataToSend = {'edit_exs_user_params': 1, 'exs': exsId, 'nfb': fromNFB, 'data': {'key': cId, 'value': isOn ? 0 : 1}};
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            data: dataToSend,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "exercises_api",
+            success: function (res) {
+                if (!res.success) {
+                    swal("Ошибка", `При изменении параметра произошла ошибка (${res.err}).`, "error");
+                } else {
+                    if (cId == "like" || cId == "dislike") {
+                        $('#exerciseCard').find('.user-param[data-id="like"]').toggleClass('u-prm-on', false);
+                        $('#exerciseCard').find('.user-param[data-id="dislike"]').toggleClass('u-prm-on', false);
+                    }
+                    $(e.currentTarget).toggleClass('u-prm-on', !isOn);
+                }
+            },
+            error: function (res) {
+                swal("Ошибка", "При изменении параметра произошла ошибка.", "error");
+                console.log(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
         });
     });
 

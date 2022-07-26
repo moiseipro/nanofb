@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from users.models import User
 from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, AdminExercise
+from exercises.models import UserExerciseParam, UserExerciseParamTeam
 from references.models import ExsBall, ExsGoal, ExsCognitiveLoad, ExsAgeCategory
 from references.models import ExsAddition, ExsPurpose, ExsStressType, ExsCoaching
 from references.models import UserSeason, UserTeam
@@ -65,6 +66,15 @@ def set_refs_translations(data, lang_code):
             title = get_by_language_code(elem['translation_names'], lang_code)
             elem['title'] = title if title != "" else elem['name']
     return data
+
+
+def set_exs_team_params(request, name):
+    lang = request.LANGUAGE_CODE
+    data1 = request.POST.getlist(f"{name}", [])
+    data2 = request.POST.getlist(f"{name}[]", [])
+    print(data1, data2)
+    res = {'data': []}
+    return res
 
 
 def get_exercises_params(request, user, team, folders, nfb_folders, refs):
@@ -191,7 +201,13 @@ def exercises_api(request):
         copy_exs_status = 0
         edit_exs_status = 0
         delete_exs_status = 0
+        edit_exs_user_params_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
+        cur_team = -1
+        try:
+            cur_team = int(request.session['team'])
+        except:
+            pass
         if not cur_user.exists() or cur_user[0].id == None:
             return JsonResponse({"errors": "trouble_with_user"}, status=400)
         try:
@@ -204,6 +220,10 @@ def exercises_api(request):
             pass
         try:
             delete_exs_status = int(request.POST.get("delete_exs", 0))
+        except:
+            pass
+        try:
+            edit_exs_user_params_status = int(request.POST.get("edit_exs_user_params", 0))
         except:
             pass
         if copy_exs_status == 1:
@@ -295,6 +315,23 @@ def exercises_api(request):
                 res_data = f'Exs with id: [{c_exs.id}] is added / edited successfully.'
             except Exception as e:
                 return JsonResponse({"err": "Can't edit the exs.", "success": False}, status=200)
+            adding_team_params = False
+            found_team = UserTeam.objects.filter(id=cur_team)
+            if found_team.exists() and found_team[0].id != None:
+                c_exs_team_params = UserExerciseParamTeam.objects.filter(team=found_team[0], exercise_user=c_exs)
+                if not c_exs_team_params.exists() or c_exs_team_params[0].id == None:
+                    c_exs_team_params = UserExerciseParamTeam(team=found_team[0], exercise_user=c_exs)
+                else:
+                    c_exs_team_params = c_exs_team_params[0]
+                additions_test = set_exs_team_params(request, "data[additions[]]")
+                # c_exs_team_params.addition = set_exs_team_params()
+                try:
+                    c_exs_team_params.save()
+                    res_data += '\nAdded team params for exs.'
+                except:
+                    pass
+            if not adding_team_params:
+                res_data += '\nCant add team params for exs.'
             return JsonResponse({"data": res_data, "success": True}, status=200)
         elif delete_exs_status == 1:
             exs_id = -1
@@ -311,6 +348,48 @@ def exercises_api(request):
                     return JsonResponse({"data": {"id": exs_id}, "success": True}, status=200)
                 except:
                     return JsonResponse({"errors": "Can't delete exercise"}, status=400)
+        elif edit_exs_user_params_status == 1:
+            exs_id = -1
+            c_nfb = 0
+            post_key = request.POST.get("data[key]", "")
+            post_value = 0
+            try:
+                exs_id = int(request.POST.get("exs", -1))
+            except:
+                pass
+            try:
+                c_nfb = int(request.POST.get("nfb", 0))
+            except:
+                pass
+            try:
+                post_value = int(request.POST.get("data[value]", 0))
+            except:
+                pass
+            print(c_nfb)
+            c_exs = UserExercise.objects.filter(id=exs_id, user=cur_user[0])
+            if c_exs.exists() and c_exs[0].id != None and c_nfb == 0:
+                c_exs_params = UserExerciseParam.objects.filter(exercise_user=c_exs[0], user=cur_user[0])
+                if c_exs_params.exists() and c_exs_params[0].id != None:
+                    c_exs_params = c_exs_params[0]
+                    setattr(c_exs_params, post_key, post_value)
+                    if post_key == "like":
+                        c_exs_params.dislike = 0
+                    if post_key == "dislike":
+                        c_exs_params.like = 0
+                    try:
+                        c_exs_params.save()
+                        return JsonResponse({"data": {"id": exs_id}, "success": True}, status=200)
+                    except:
+                        pass
+                else:
+                    new_params = UserExerciseParam(exercise_user=c_exs[0], user=cur_user[0])
+                    setattr(new_params, post_key, post_value)
+                    try:
+                        new_params.save()
+                        return JsonResponse({"data": {"id": exs_id}, "success": True}, status=200)
+                    except:
+                        pass
+            return JsonResponse({"errors": "Can't edit exs param"}, status=400)
         return JsonResponse({"errors": "access_error"}, status=400)
     elif request.method == "GET" and is_ajax:
         get_exs_all_status = 0
@@ -385,6 +464,13 @@ def exercises_api(request):
                     res_exs = c_exs.values()[0]
                     res_exs['nfb'] = False
                     res_exs['folder_parent_id'] = c_exs[0].folder.parent
+                user_params = UserExerciseParam.objects.filter(exercise_user=c_exs[0].id, user=cur_user[0])
+                if user_params.exists() and user_params[0].id != None:
+                    user_params = user_params.values()[0]
+                    res_exs['watched'] = user_params['watched']
+                    res_exs['favorite'] = user_params['favorite']
+                    res_exs['like'] = user_params['like']
+                    res_exs['dislike'] = user_params['dislike']
             res_exs['title'] = get_by_language_code(res_exs['title'], request.LANGUAGE_CODE)
             res_exs['description'] = get_by_language_code(res_exs['description'], request.LANGUAGE_CODE)
 
