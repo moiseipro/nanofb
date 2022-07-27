@@ -3,9 +3,9 @@ function ToggleUpFilter(id, state) {
     let activeElem = null;
     switch(id) {
         case "toggle_side_filter":
-            $('div.visual-block').toggleClass('col-auto', !state);
-            $('div.visual-block').toggleClass('col-4', state);
             $('div.side-filter-block').toggleClass('d-none', !state);
+            $('#splitCol_2').css('width', state ? '20%' : '40%');
+            $('#splitCol_2').find('.row').toggleClass('d-none', state);
             RenderSplitCols();
             if (!state && $('.up-tabs-elem[data-id="cols_size"]').attr('data-state') == '1') {
                 $('.up-tabs-elem[data-id="cols_size"]').attr('data-state', '0');
@@ -149,14 +149,8 @@ function ToggleUpFilter(id, state) {
 
 function RenderSplitCols() {
     $('.exercises-list').find('div.gutter').remove();
-    let stateSideFilter = $('.up-tabs-elem[data-id="toggle_side_filter"]').attr('data-state') == '1';
-    let sizesArr = [];
-    if (stateSideFilter) {
-        sizesArr = window.dataForSplit;
-    } else {
-        sizesArr = [window.dataForSplit[0], window.dataForSplit[1], (window.dataForSplit[2] + window.dataForSplit[3])];
-    }
-    window.split = Split(['#splitCol_0', '#splitCol_1', '#splitCol_2', '#splitCol_3'], {
+    let sizesArr = window.dataForSplit;
+    window.split = Split(['#splitCol_0', '#splitCol_1'], {
         sizes: sizesArr,
         gutterSize: 20,
         onDragEnd: (arr) => {
@@ -252,10 +246,10 @@ function RenderFolderExercises(id, tExs) {
                         ${i+1}. Упражнение "${exElem.title}", автор: ${exElem.user}
                     </span>
 
-                    <button type="button" class="btn btn-light btn-sm elem-flex-center size-w-x mr-1" data-type="marker" data-id="favor" style="--w-x:24px;" title="Избранное">
+                    <button type="button" class="btn btn-light btn-sm btn-custom elem-flex-center size-w-x size-h-x mr-1 ${exElem.favorite == true ? 'selected' : ''}" data-type="marker" data-id="favorite" style="--w-x:24px; --h-x:24px;" title="Избранное">
                         <span class="icon-custom icon--favorite" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                     </button>
-                    <button type="button" class="btn btn-light btn-sm elem-flex-center size-w-x mr-1" data-type="marker" data-id="watched" style="--w-x:24px;" title="Просмотрено">
+                    <button type="button" class="btn btn-light btn-sm btn-custom elem-flex-center size-w-x size-h-x mr-1 ${exElem.watched == true ? 'selected' : ''}" data-type="marker" data-id="watched" style="--w-x:24px; --h-x:24px;" title="Просмотрено">
                         <span class="icon-custom icon--eye" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                     </button>
 
@@ -302,6 +296,11 @@ function RenderFolderExercises(id, tExs) {
 
     ToggleIconsInExs();
     ToggleMarkersInExs();
+
+    if (window.lastExercise && window.lastExercise.exs) {
+        $('.exs-list-group').find(`.exs-elem[data-id="${window.lastExercise.exs}"]`).click();
+        window.lastExercise = false;
+    }
 }
 
 // Handler for func LoadExerciseOne in exercise card:
@@ -421,6 +420,27 @@ function ToggleMarkersInExs() {
     $('.exercises-block').find(`[data-type="marker"]`).toggleClass('d-none', !isActive);
 }
 
+function CheckLastExs() {
+    let dataStr = sessionStorage.getItem('last_exs');
+    try {
+        window.lastExercise = JSON.parse(dataStr);
+    } catch(e) {}
+    sessionStorage.setItem('last_exs', '');
+    if (window.lastExercise && window.lastExercise.type) {
+        $(`.up-tabs-elem[data-id="${window.lastExercise.type}"]`).first().click();
+        if (window.lastExercise.folder) {
+            if (window.lastExercise.type == "team_folders") {
+                $('.folders_list').find(`.folder-elem[data-id="${window.lastExercise.folder}"]`).click();
+            } else if (window.lastExercise.type == "nfb_folders") {
+                $('.folders_nfb_list').find(`.folder-nfb-elem[data-id="${window.lastExercise.folder}"]`).click();
+            } else if (window.lastExercise.type == "club_folders") {
+
+            }
+        }
+    }
+}
+
+
 
 $(function() {
     // Toggle upper buttons panel
@@ -459,11 +479,7 @@ $(function() {
 
     // Toggle columns size
     $('#columnsSizeToggle').on('click', (e) => {
-        if ($('.up-tabs-elem[data-id="toggle_side_filter"]').attr('data-state') == '1') {
-            $('.exercises-list').find('div.gutter').toggleClass('d-none');
-        } else {
-            swal("Внимание", "Включите сначала \"Фильтрацию\".", "info");
-        }
+        $('.exercises-list').find('div.gutter').toggleClass('d-none');
     });
     $('#columnsSizeInCard').on('click', (e) => {
         $('#exerciseCardModal').find('div.gutter').toggleClass('d-none');
@@ -685,6 +701,14 @@ $(function() {
         if ($(activeExs).length > 0) {
             let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
             window.location.href = `/exercises/exercise?id=${$(activeExs).attr('data-id')}&nfb=${fromNfbFolder ? 1 : 0}`;
+
+            let folderType = !$('.exercises-list').find('.folders_list').hasClass('d-none') ? "team_folders" 
+                : !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? "nfb_folders" 
+                : !$('.exercises-list').find('.folders_club_list').hasClass('d-none') ? "club_folders" : "";
+            let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
+            let data = {'type': folderType, 'folder': folder, 'exs': $(activeExs).attr('data-id')};
+            data = JSON.stringify(data);
+            sessionStorage.setItem('last_exs', data);
         } else {
             swal("Внимание", "Выберите упражнение для просмотра.", "info");
         }
@@ -841,7 +865,7 @@ $(function() {
     // Split columns
     window.dataForSplit = JSON.parse(localStorage.getItem('split_cols'));
     if (!window.dataForSplit) {
-        window.dataForSplit = [15, 50, 5, 30];
+        window.dataForSplit = [25, 35];
         localStorage.setItem('split_cols', JSON.stringify(window.dataForSplit));
     }
     window.dataForSplit2 = JSON.parse(localStorage.getItem('split_cols2'));
@@ -944,6 +968,45 @@ $(function() {
     });
     window.videoPlayer2.ready((e) => {
         window.videoPlayer2.src({techOrder: ["youtube"], type: 'video/youtube', src: "https://www.youtube.com/watch?v=K0x8Z8JxQtA"});
+    });
+
+
+
+    // Open last exercise from card
+    window.lastExercise = false;
+    CheckLastExs();
+
+
+
+    // Toggle marker for exercise
+    $('.exercises-block').on('click', 'button[data-type="marker"]', (e) => {
+        let exsId = $(e.currentTarget).parent().parent().parent().attr('data-id');
+        let fromNFB = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? 1 : 0;
+        let cId = $(e.currentTarget).attr('data-id');
+        let state = $(e.currentTarget).attr('data-state') == '1';
+        $(e.currentTarget).attr('data-state', state ? 0 : 1);
+        let dataToSend = {'edit_exs_user_params': 1, 'exs': exsId, 'nfb': fromNFB, 'data': {'key': cId, 'value': state ? 0 : 1}};
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            data: dataToSend,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "exercises_api",
+            success: function (res) {
+                if (!res.success) {
+                    swal("Ошибка", `При изменении параметра произошла ошибка (${res.err}).`, "error");
+                } else {
+                    $(e.currentTarget).toggleClass('selected', !state);
+                }
+            },
+            error: function (res) {
+                swal("Ошибка", "При изменении параметра произошла ошибка.", "error");
+                console.log(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
     });
 
 

@@ -133,7 +133,7 @@ $(window).on('load', function (){
     $('#form-event').on('submit', function(e) {
         e.preventDefault()
         console.log($(this).serialize())
-        ajax_event_action($(this).attr('method'), $(this).serialize(), cur_edit_data ? cur_edit_data.id : 0)
+        ajax_event_action($(this).attr('method'), $(this).serialize(), cur_edit_data ? cur_edit_data.id : 0, 'create')
     })
 })
 
