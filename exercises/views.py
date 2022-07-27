@@ -396,7 +396,6 @@ def exercises_api(request):
                 post_value = int(request.POST.get("data[value]", 0))
             except:
                 pass
-            print(c_nfb)
             c_exs = UserExercise.objects.filter(id=exs_id, user=cur_user[0])
             if c_exs.exists() and c_exs[0].id != None and c_nfb == 0:
                 c_exs_params = UserExerciseParam.objects.filter(exercise_user=c_exs[0], user=cur_user[0])
@@ -474,7 +473,20 @@ def exercises_api(request):
                     found_exercises = UserExercise.objects.filter(folder = cur_folder[0])
                 for exercise in found_exercises:
                     exs_title = get_by_language_code(exercise.title, request.LANGUAGE_CODE)
-                    res_exs.append({'id': exercise.id, 'folder': exercise.folder.id, 'user': exercise.user.email, 'title': exs_title})
+                    exs_data = {
+                        'id': exercise.id, 
+                        'folder': exercise.folder.id, 
+                        'user': exercise.user.email, 
+                        'title': exs_title
+                    }
+                    user_params = UserExerciseParam.objects.filter(exercise_user=exercise.id, user=cur_user[0])
+                    if user_params.exists() and user_params[0].id != None:
+                        user_params = user_params.values()[0]
+                        exs_data['watched'] = user_params['watched']
+                        exs_data['favorite'] = user_params['favorite']
+                        exs_data['like'] = user_params['like']
+                        exs_data['dislike'] = user_params['dislike']
+                    res_exs.append(exs_data)
             return JsonResponse({"data": res_exs, "success": True}, status=200)
         elif get_exs_one_status == 1:
             exs_id = -1

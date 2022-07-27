@@ -140,7 +140,7 @@ class ClubExercise(AbstractExercise):
 class UserExerciseParam(models.Model):
     exercise_user = models.ForeignKey(UserExercise, on_delete=models.CASCADE, null=True, blank=True)
     exercise_club = models.ForeignKey(ClubExercise, on_delete=models.CASCADE, null=True, blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     watched = models.BooleanField(default=False)
     favorite = models.BooleanField(default=False)
     like = models.BooleanField(default=False)
@@ -152,7 +152,7 @@ class UserExerciseParam(models.Model):
 class UserExerciseParamTeam(models.Model):
     exercise_user = models.ForeignKey(UserExercise, on_delete=models.CASCADE, null=True, blank=True)
     exercise_club = models.ForeignKey(ClubExercise, on_delete=models.CASCADE, null=True, blank=True)
-    team = models.ForeignKey(UserTeam, on_delete=models.CASCADE)
+    team = models.ForeignKey(UserTeam, on_delete=models.SET_NULL, null=True)
     addition = models.JSONField(null=True, blank=True)
     purpose = models.JSONField(null=True, blank=True)
     stress_type = models.JSONField(null=True, blank=True)
