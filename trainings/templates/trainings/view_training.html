@@ -25,7 +25,7 @@
                         <div class="col-4">
                             <div class="row">
                                 <div class="col px-1">
-                                    <button id="#" title="" class="btn btn-block btn-outline-danger btn-sm font-weight-bold">Выйти</button>
+                                    <a id="#" href="{{ request.META.HTTP_REFERER }}" title="" class="btn btn-block btn-outline-danger btn-sm font-weight-bold">Выйти</a>
                                 </div>
                                 <div class="col px-1">
                                     <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Редактировать</button>
@@ -70,23 +70,23 @@
                                 <div class="col">
                                     <div class="row">
                                         <div class="col bg-default-light">Дата:</div>
-                                        <div class="col">19/07/2022</div>
+                                        <div class="col">{{ object.event_id.date|date:"d/m/Y" }}</div>
                                     </div>
                                     <div class="row">
                                         <div class="col bg-default-light">Команда:</div>
-                                        <div class="col">Nanofootball 2022</div>
+                                        <div class="col">{{ object.team_id.name }}</div>
                                     </div>
                                     <div class="row">
                                         <div class="col bg-default-light">Событие:</div>
-                                        <div class="col">Тренировка</div>
+                                        <div class="col">{% trans 'Training' %}</div>
                                     </div>
                                     <div class="row">
                                         <div class="col bg-default-light">Время:</div>
-                                        <div class="col">18:00</div>
+                                        <div class="col">{{ object.event_id.date|date:"H:i" }}</div>
                                     </div>
                                     <div class="row">
                                         <div class="col bg-default-light">Тренер:</div>
-                                        <div class="col">Иванов Иван Иванович</div>
+                                        <div class="col">{{ object.trainer_user_id.get_full_name }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -108,12 +108,18 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-12 border border-dark bg-default-light font-weight-bold">Группа А</div>
                                 <div class="col-12">
-                                    <div class="row border-bottom">
-                                        <div class="col">Упражнение</div>
-                                        <div class="col-2 text-right px-0">(--)</div>
+                                    <div class="row border border-dark bg-default-light font-weight-bold">
+                                        <div class="col">Группа А</div>
+                                        <div class="col-2 text-right px-0 edit-mode"><button type="button" class="btn btn-sm btn-secondary rounded-0 py-0 h-100 add-exercise" data-group="1"><i class="fa fa-plus" aria-hidden="true"></i></button></div>
                                     </div>
+                                    {% for exercise in object.exercises.all %}
+                                        <div class="row border-bottom">
+                                            <div class="col">{{ exercise }}</div>
+                                            <div class="col-2 text-right px-0">({{ exercise.duration }})</div>
+                                        </div>
+                                    {% endfor %}
+
                                     <div class="row border-bottom">
                                         <div class="col">Упражнение</div>
                                         <div class="col-2 text-right px-0">(--)</div>
@@ -128,7 +134,7 @@
                                 <div class="col-12">
                                     <div class="row border border-dark bg-default-light font-weight-bold">
                                         <div class="col">Цели</div>
-                                        <div class="col-2 text-right px-0"><button type="button" class="btn btn-sm btn-secondary py-0"><i class="fa fa-plus" aria-hidden="true"></i></button></div>
+                                        <div class="col-2 text-right px-0 edit-mode"><button type="button" class="btn btn-sm btn-secondary rounded-0 py-0 h-100"><i class="fa fa-plus" aria-hidden="true"></i></button></div>
                                     </div>
                                     <div class="row border-bottom">
                                         <div class="col">---</div>
@@ -137,8 +143,11 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-12 border border-dark bg-default-light font-weight-bold">Группа B</div>
                                 <div class="col-12">
+                                    <div class="row border border-dark bg-default-light font-weight-bold">
+                                        <div class="col">Группа B</div>
+                                        <div class="col-2 text-right px-0 edit-mode"><button type="button" class="btn btn-sm btn-secondary rounded-0 py-0 h-100 add-exercise" data-group="2"><i class="fa fa-plus" aria-hidden="true"></i></button></div>
+                                    </div>
                                     <div class="row border-bottom">
                                         <div class="col">Упражнение</div>
                                         <div class="col-2 text-right px-0">(--)</div>
@@ -150,8 +159,11 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-12 border border-dark bg-default-light font-weight-bold">Группа C</div>
                                 <div class="col-12">
+                                    <div class="row border border-dark bg-default-light font-weight-bold">
+                                        <div class="col">Группа C</div>
+                                        <div class="col-2 text-right px-0"><button type="button" class="btn btn-sm btn-secondary rounded-0 py-0 h-100 add-exercise" data-group="3"><i class="fa fa-plus" aria-hidden="true"></i></button></div>
+                                    </div>
                                     <div class="row border-bottom">
                                         <div class="col">Упражнение</div>
                                         <div class="col-2 text-right px-0">(--)</div>
