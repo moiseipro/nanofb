@@ -3,9 +3,9 @@ function ToggleUpFilter(id, state) {
     let activeElem = null;
     switch(id) {
         case "toggle_side_filter":
-            $('div.visual-block').toggleClass('col-auto', !state);
-            $('div.visual-block').toggleClass('col-4', state);
             $('div.side-filter-block').toggleClass('d-none', !state);
+            $('#splitCol_2').css('width', state ? '20%' : '40%');
+            $('#splitCol_2').find('.row').toggleClass('d-none', state);
             RenderSplitCols();
             if (!state && $('.up-tabs-elem[data-id="cols_size"]').attr('data-state') == '1') {
                 $('.up-tabs-elem[data-id="cols_size"]').attr('data-state', '0');
@@ -149,14 +149,8 @@ function ToggleUpFilter(id, state) {
 
 function RenderSplitCols() {
     $('.exercises-list').find('div.gutter').remove();
-    let stateSideFilter = $('.up-tabs-elem[data-id="toggle_side_filter"]').attr('data-state') == '1';
-    let sizesArr = [];
-    if (stateSideFilter) {
-        sizesArr = window.dataForSplit;
-    } else {
-        sizesArr = [window.dataForSplit[0], window.dataForSplit[1], (window.dataForSplit[2] + window.dataForSplit[3])];
-    }
-    window.split = Split(['#splitCol_0', '#splitCol_1', '#splitCol_2', '#splitCol_3'], {
+    let sizesArr = window.dataForSplit;
+    window.split = Split(['#splitCol_0', '#splitCol_1'], {
         sizes: sizesArr,
         gutterSize: 20,
         onDragEnd: (arr) => {
@@ -485,11 +479,7 @@ $(function() {
 
     // Toggle columns size
     $('#columnsSizeToggle').on('click', (e) => {
-        if ($('.up-tabs-elem[data-id="toggle_side_filter"]').attr('data-state') == '1') {
-            $('.exercises-list').find('div.gutter').toggleClass('d-none');
-        } else {
-            swal("Внимание", "Включите сначала \"Фильтрацию\".", "info");
-        }
+        $('.exercises-list').find('div.gutter').toggleClass('d-none');
     });
     $('#columnsSizeInCard').on('click', (e) => {
         $('#exerciseCardModal').find('div.gutter').toggleClass('d-none');
@@ -875,7 +865,7 @@ $(function() {
     // Split columns
     window.dataForSplit = JSON.parse(localStorage.getItem('split_cols'));
     if (!window.dataForSplit) {
-        window.dataForSplit = [15, 50, 5, 30];
+        window.dataForSplit = [25, 35];
         localStorage.setItem('split_cols', JSON.stringify(window.dataForSplit));
     }
     window.dataForSplit2 = JSON.parse(localStorage.getItem('split_cols2'));
