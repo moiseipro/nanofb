@@ -124,7 +124,7 @@ var startDate, endDate, startSeason, endSeason;
                    dateInRange( obj_data.startDate, arr_dates[0], arr_dates[arr_dates.length-1] )){
                     while (j < arr_dates.length) {
                         date     = arr_dates[j];
-                        console.log(dateInRange( date, obj_data.startDate, obj_data.endDate ))
+                        //console.log(dateInRange( date, obj_data.startDate, obj_data.endDate ))
                         if(dateInRange( date, obj_data.startDate, obj_data.endDate )){
                             filled_count++;
                         } else {
@@ -166,7 +166,7 @@ var startDate, endDate, startSeason, endSeason;
 
                     title    = '';
                     text     = '&nbsp;';
-                    href     = '#';
+                    href     = '';
                     date     = arr_dates[j];
                     obj_data = dataInSet( data, name, date );
                     
@@ -364,7 +364,7 @@ var startDate, endDate, startSeason, endSeason;
             
             settings.calSize = days;
             settings.jumpSize = middleDay-1;
-            console.log(settings.calSize+":"+ strDate)
+            //console.log(settings.calSize+":"+ strDate)
 
             f_ref = moment( strDate, settings.format );
 
@@ -392,7 +392,7 @@ var startDate, endDate, startSeason, endSeason;
             
             settings.calSize = days;
             settings.jumpSize = middleDay-1;
-            console.log(settings.calSize+":"+ strDate)
+            //console.log(settings.calSize+":"+ strDate)
 
             f_ref = moment( strDate, settings.format );
 

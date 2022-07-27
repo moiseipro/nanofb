@@ -77,7 +77,10 @@ def set_exs_team_params(request, name):
     return res
 
 
-def get_exercises_params(request, user, team, folders, nfb_folders, refs):
+def get_exercises_params(request, user, team):
+    folders = []
+    nfb_folders = []
+    refs = {}
     if user.exists() and user[0].club_id != None:
         # добавить проверку на клуб версию
         folders = UserFolder.objects.filter(user=user[0], team=team, visible=True).values()
@@ -113,7 +116,7 @@ def exercises(request):
     found_folders = []
     found_nfb_folders = []
     refs = {}
-    found_folders, found_nfb_folders, refs = get_exercises_params(request, cur_user, cur_team, found_folders, found_nfb_folders, refs)
+    found_folders, found_nfb_folders, refs = get_exercises_params(request, cur_user, cur_team)
     return render(request, 'exercises/base_exercises.html', {
         'folders': found_folders, 
         'folders_only_view': True, 
@@ -154,10 +157,7 @@ def exercise(request):
             found_exercise = UserExercise.objects.filter(id=c_id, user=cur_user[0]).values()
     if not found_exercise and not is_new_exs:
         return redirect('/exercises')
-    found_folders = []
-    found_nfb_folders = []
-    refs = {}
-    found_folders, found_nfb_folders, refs = get_exercises_params(request, cur_user, cur_team, found_folders, found_nfb_folders, refs)
+    found_folders, found_nfb_folders, refs = get_exercises_params(request, cur_user, cur_team)
     return render(request, 'exercises/base_exercise.html', {
         'exs': found_exercise,
         'folders': found_folders, 
