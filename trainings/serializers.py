@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from exercises.serializers import UserExerciseSerializer
 from trainings.models import UserTraining, UserTrainingExercise
 
 
@@ -23,7 +24,7 @@ class UserTrainingSerializer(serializers.ModelSerializer):
         queryset=UserTrainingExercise.objects.all(),
         many=True
     )
-    exercises_info = UserTrainingExerciseSerializer(
+    exercises_info = UserExerciseSerializer(
         # read_only=True,
         source="exercises",
         many=True

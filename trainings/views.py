@@ -1,3 +1,4 @@
+from django.http import QueryDict
 from django.shortcuts import render
 from django.views.generic import DetailView
 from django.views.generic.base import TemplateView
@@ -35,15 +36,30 @@ class TrainingViewSet(viewsets.ModelViewSet):
         data = request.data
         instance = self.get_object()
 
-        print(data)
+        data_dict = dict(
+            training_id=pk,
+            exercise_id=UserExercise.objects.filter(user=request.user).first().pk,
+            group=data['group'],
+            duration=data['duration'],
+            order=1
+        )
+        query_dict = QueryDict('', mutable=True)
+        query_dict.update(data_dict)
 
-        serializer = UserTrainingExerciseSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
+        serializer = UserTrainingExerciseSerializer(
+            data=query_dict
+        )
+        serializer.context['training_id'] = UserTraining.objects.filter(pk=pk)
+        serializer.context['exercise_id'] = UserExercise.objects.filter(user=request.user).first()
+        serializer.context['order'] = 1
+        print(serializer)
+        if serializer.is_valid(raise_exception=True):
+            new_obj = serializer.save()
             # UserTrainingExercise.objects.create(serializer.validated_data)
             # instance.exercises.add(UserExercise.objects.get(id=1))
             # instance.save()
-            return Response({'status': 'exercise_added'})
+            object_serialize = UserTrainingExerciseSerializer(new_obj).data
+            return Response({'status': 'exercise_added', 'obj': object_serialize})
         else:
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
@@ -81,4 +97,5 @@ class EditTrainingsView(DetailView):
         context = super().get_context_data(**kwargs)
         context['teams_list'] = UserTeam.objects.filter(user_id=self.request.user)
         context['seasons_list'] = UserSeason.objects.filter(user_id=self.request.user)
+
         return context

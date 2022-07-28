@@ -17,7 +17,7 @@ $(window).on('load', function (){
 
 function ajax_training_action(method, data, action = '', id = '', func = '') {
 
-    let url = "/training/api/action/"
+    let url = "/trainings/api/action/"
     if(id !== '') url += `${id}/`
     if(func !== '') url += `${func}/`
 
@@ -30,7 +30,6 @@ function ajax_training_action(method, data, action = '', id = '', func = '') {
             success: function(data){
                 console.log(data)
                 swal(gettext('Training '+action), gettext('Training action "'+action+'" successfully!'), "success");
-                events_table.ajax.reload()
             },
             error: function(jqXHR, textStatus){
                 console.log(jqXHR)
