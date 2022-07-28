@@ -4119,6 +4119,9 @@ table.table-inbox tbody tr.checked {
     width: var(--i-w);
     height: var(--i-h);
 }
+.icon--analytics {
+	content: url(../img/icons/analytics.png);
+}
 .icon--arrow-left {
 	content: url(../img/icons/arrow_left.png);
 }

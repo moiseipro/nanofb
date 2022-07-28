@@ -8,7 +8,7 @@ from users.models import User
 from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, AdminExercise
 from exercises.models import UserExerciseParam, UserExerciseParamTeam
 from references.models import ExsBall, ExsGoal, ExsCognitiveLoad, ExsAgeCategory
-from references.models import ExsAddition, ExsPurpose, ExsStressType, ExsCoaching
+from references.models import ExsAddition, ExsPurpose, ExsStressType, ExsCoaching, ExsCategory
 from references.models import UserSeason, UserTeam
 
 
@@ -93,6 +93,7 @@ def get_exercises_params(request, user, team):
     refs['exs_goal'] = ExsGoal.objects.filter().values()
     refs['exs_cognitive_load'] = ExsCognitiveLoad.objects.filter().values()
     refs['exs_age_category'] = ExsAgeCategory.objects.filter().values()
+    refs['exs_category'] = ExsCategory.objects.filter().values()
 
     refs['exs_addition'] = ExsAddition.objects.filter().values()
     refs['exs_purpose'] = ExsPurpose.objects.filter().values()

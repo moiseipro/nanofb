@@ -12,11 +12,6 @@
 }
 
 
-.visual-block {
-    width: 40%;
-}
-
-
 .split {
     display: flex;
     flex-direction: row;
@@ -57,22 +52,22 @@
 }
 
 .card-inside {
-    height: 90vh !important;
+    height: 85vh !important;
 }
 .folders_list {
-    height: 74vh !important;
+    height: 70vh !important;
     overflow-y: auto;
 }
 .exs-list-group {
-    height: 74vh !important;
+    height: 70vh !important;
     overflow-y: auto;
 }
 .visual-block {
-    height: 77vh !important;
+    height: 70vh !important;
     overflow-y: auto;
 }
 .side-filter-block {
-    height: 74vh !important;
+    height: 70vh !important;
     overflow-y: auto;
 }
 
@@ -120,7 +115,7 @@
     border: 2px solid rgb(100, 100, 100) !important;
 }
 .btn-custom:hover {
-    font-weight: 700;
+    text-decoration-line: underline;
     color: #5a6268 !important;
 }
 .btn-custom.btn-secondary {
@@ -181,9 +176,13 @@
 }
 
 .btn-custom.selected {
-    border-width: 4px !important;
-    border-color: #435b9e !important;
+    border-width: 3px !important;
+    border-color: #3949ab !important;
     font-weight: 700;
+    opacity: 0.9;
+}
+.btn-custom.selected > span.icon-custom {
+    background-color: #91dd91;
 }
 
 .bck-custom {

@@ -189,3 +189,8 @@ class ExsCoaching(AbstractReference, MixTranslateReference):
         pass
 
 
+class ExsCategory(AbstractReference, MixTranslateReference):
+    class Meta(AbstractReference.Meta):
+        pass
+
+
