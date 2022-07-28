@@ -1,6 +1,7 @@
 {% extends '../base/app_main.html' %}
 {% load i18n %}
 {% load static %}
+{% load language_json %}
 
 {% block title %}{% trans 'Trainings' %}{% endblock %}
 
@@ -108,26 +109,19 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-12">
+                                <div id="group_A" class="col-12">
                                     <div class="row border border-dark bg-default-light font-weight-bold">
                                         <div class="col">Группа А</div>
                                         <div class="col-2 text-right px-0 edit-mode"><button type="button" class="btn btn-sm btn-secondary rounded-0 py-0 h-100 add-exercise" data-group="1"><i class="fa fa-plus" aria-hidden="true"></i></button></div>
                                     </div>
-                                    {% for exercise in object.exercises.all %}
-                                        <div class="row border-bottom">
-                                            <div class="col">{{ exercise }}</div>
-                                            <div class="col-2 text-right px-0">({{ exercise.duration }})</div>
-                                        </div>
+                                    {% for exercise in object.usertrainingexercise_set.all %}
+                                        {% if exercise.group == 1 %}
+                                            <div class="row border-bottom">
+                                                <div class="col">{% get_translation exercise.exercise_id.title %}</div>
+                                                <div class="col-2 text-right px-0">({{ exercise.duration }})</div>
+                                            </div>
+                                        {% endif %}
                                     {% endfor %}
-
-                                    <div class="row border-bottom">
-                                        <div class="col">Упражнение</div>
-                                        <div class="col-2 text-right px-0">(--)</div>
-                                    </div>
-                                    <div class="row border-bottom">
-                                        <div class="col">Упражнение</div>
-                                        <div class="col-2 text-right px-0">(--)</div>
-                                    </div>
                                 </div>
                             </div>
                             <div class="row">
@@ -143,19 +137,19 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-12">
+                                <div id="group_B" class="col-12">
                                     <div class="row border border-dark bg-default-light font-weight-bold">
                                         <div class="col">Группа B</div>
                                         <div class="col-2 text-right px-0 edit-mode"><button type="button" class="btn btn-sm btn-secondary rounded-0 py-0 h-100 add-exercise" data-group="2"><i class="fa fa-plus" aria-hidden="true"></i></button></div>
                                     </div>
-                                    <div class="row border-bottom">
-                                        <div class="col">Упражнение</div>
-                                        <div class="col-2 text-right px-0">(--)</div>
-                                    </div>
-                                    <div class="row border-bottom">
-                                        <div class="col">Упражнение</div>
-                                        <div class="col-2 text-right px-0">(--)</div>
-                                    </div>
+                                    {% for exercise in object.usertrainingexercise_set.all %}
+                                        {% if exercise.group == 2 %}
+                                            <div class="row border-bottom">
+                                                <div class="col">{% get_translation exercise.exercise_id.title %}</div>
+                                                <div class="col-2 text-right px-0">({{ exercise.duration }})</div>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
                                 </div>
                             </div>
                             <div class="row">
@@ -164,10 +158,14 @@
                                         <div class="col">Группа C</div>
                                         <div class="col-2 text-right px-0"><button type="button" class="btn btn-sm btn-secondary rounded-0 py-0 h-100 add-exercise" data-group="3"><i class="fa fa-plus" aria-hidden="true"></i></button></div>
                                     </div>
-                                    <div class="row border-bottom">
-                                        <div class="col">Упражнение</div>
-                                        <div class="col-2 text-right px-0">(--)</div>
-                                    </div>
+                                    {% for exercise in object.usertrainingexercise_set.all %}
+                                        {% if exercise.group == 3 %}
+                                            <div class="row border-bottom">
+                                                <div class="col">{% get_translation exercise.exercise_id.title %}</div>
+                                                <div class="col-2 text-right px-0">({{ exercise.duration }})</div>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
