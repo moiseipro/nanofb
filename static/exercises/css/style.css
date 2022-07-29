@@ -63,7 +63,7 @@
     overflow-y: auto;
 }
 .visual-block {
-    height: 75vh !important;
+    height: 78vh !important;
     overflow-y: auto;
 }
 .side-filter-block {
@@ -283,3 +283,7 @@ a.text-dark:hover {
     background-color: #90d047 !important;
 }
 
+
+.side-filter-elem  {
+    font-size: 0.8rem;
+}
