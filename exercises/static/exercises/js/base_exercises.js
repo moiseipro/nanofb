@@ -1,10 +1,12 @@
 function ToggleUpFilter(id, state) {
     let currentList = null;
     let activeElem = null;
+    let graphicsWidth = '';
     switch(id) {
         case "toggle_side_filter":
             $('div.side-filter-block').toggleClass('d-none', !state);
-            $('#splitCol_2').css('width', state ? '22%' : '40%');
+            graphicsWidth = state ? `calc(${$('#splitCol_2').css('width')} - 17%)` : `calc(${$('#splitCol_2').css('width')} + 17%)`;
+            $('#splitCol_2').css('width', graphicsWidth);
             RenderSplitCols();
             if (!state && $('.up-tabs-elem[data-id="cols_size"]').attr('data-state') == '1') {
                 $('.up-tabs-elem[data-id="cols_size"]').attr('data-state', '0');
