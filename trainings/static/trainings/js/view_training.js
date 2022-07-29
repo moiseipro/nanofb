@@ -1,4 +1,4 @@
-
+var edit_mode = false;
 
 $(window).on('load', function (){
     $('.add-exercise').on('click', function (){
@@ -12,6 +12,13 @@ $(window).on('load', function (){
         data.group = $(this).attr('data-group')
         data.duration = 10
         ajax_training_action('POST', data, 'add exercise', id, 'add_exercise')
+    })
+
+    $('.toggle-edit-mode').on('click', function () {
+        edit_mode = !edit_mode
+        $('.edit-input').prop('disabled', !edit_mode)
+        $('.edit-button').toggleClass('d-none', !edit_mode)
+        $('.view-button').toggleClass('d-none', edit_mode)
     })
 })
 
