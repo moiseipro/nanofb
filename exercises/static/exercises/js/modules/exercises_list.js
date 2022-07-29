@@ -1,9 +1,9 @@
 function RenderSplitCols() {
     $('.exercises-list').find('div.gutter').remove();
     let sizesArr = window.dataForSplit;
-    window.split = Split(['#splitCol_0', '#splitCol_1'], {
+    window.split = Split(['#splitCol_0', '#splitCol_1', '#splitCol_2'], {
         sizes: sizesArr,
-        gutterSize: 20,
+        gutterSize: 16,
         onDragEnd: (arr) => {
             window.dataForSplit = arr;
             localStorage.setItem('split_cols', JSON.stringify(window.dataForSplit));
@@ -18,7 +18,7 @@ function RenderSplitCols() {
     window.split2 = Split(['#splitCol_10', '#splitCol_11'], {
         sizes: sizesArr,
         dragInterval: 1,
-        gutterSize: 20,
+        gutterSize: 16,
         onDrag: () => {
             let sizes = window.split2.getSizes();
             try {
@@ -352,7 +352,7 @@ $(function() {
     // Split columns
     window.dataForSplit = JSON.parse(localStorage.getItem('split_cols'));
     if (!window.dataForSplit) {
-        window.dataForSplit = [25, 35];
+        window.dataForSplit = [25, 35, 40];
         localStorage.setItem('split_cols', JSON.stringify(window.dataForSplit));
     }
     window.dataForSplit2 = JSON.parse(localStorage.getItem('split_cols2'));

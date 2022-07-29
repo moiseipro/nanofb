@@ -55,19 +55,19 @@
     height: 85vh !important;
 }
 .folders_list {
-    height: 70vh !important;
+    height: 75vh !important;
     overflow-y: auto;
 }
 .exs-list-group {
-    height: 70vh !important;
+    height: 75vh !important;
     overflow-y: auto;
 }
 .visual-block {
-    height: 70vh !important;
+    height: 75vh !important;
     overflow-y: auto;
 }
 .side-filter-block {
-    height: 70vh !important;
+    height: 75vh !important;
     overflow-y: auto;
 }
 
