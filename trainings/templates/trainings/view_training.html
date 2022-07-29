@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="col px-1">
                                     <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold view-button toggle-edit-mode">Редактировать</button>
-                                    <button id="#" title="" class="btn btn-block btn-outline-success btn-sm mt-0 font-weight-bold edit-button toggle-edit-mode d-none">Сохранить</button>
+                                    <button id="save-training" title="" class="btn btn-block btn-outline-success btn-sm mt-0 font-weight-bold edit-button toggle-edit-mode d-none">Сохранить</button>
                                 </div>
                             </div>
                         </div>
@@ -73,12 +73,12 @@
                 <div class="card-body py-2">
                     <div class="row">
                         <div class="col-4">
-                            <div class="row">
+                            <div id="block-training-info" class="row">
                                 <div class="col">
                                     <div class="row">
                                         <div class="col bg-default-light">Дата:</div>
                                         <div class="col">
-                                            <input type="text" class="form-control form-control-sm rounded-0 py-0 h-auto text-center datetimepicker edit-input" data-toggle="datetimepicker" value="{{ object.event_id.date|date:"d/m/Y" }}" disabled>
+                                            <input type="text" name="date" class="form-control form-control-sm rounded-0 py-0 h-auto text-center datetimepicker edit-input" data-toggle="datetimepicker" value="{{ object.event_id.date|date:"d/m/Y" }}" disabled>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -92,7 +92,7 @@
                                     <div class="row">
                                         <div class="col bg-default-light">Время:</div>
                                         <div class="col">
-                                            <input type="text" class="form-control form-control-sm rounded-0 py-0 h-auto text-center timepicker edit-input" data-toggle="datetimepicker" value="{{ object.event_id.date|date:"H:i" }}" disabled>
+                                            <input type="text" name="time" class="form-control form-control-sm rounded-0 py-0 h-auto text-center timepicker edit-input" data-toggle="datetimepicker" value="{{ object.event_id.date|date:"H:i" }}" disabled>
                                         </div>
                                     </div>
                                     <div class="row">

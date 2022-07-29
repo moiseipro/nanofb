@@ -18,12 +18,12 @@ class UserTrainingSerializer(serializers.ModelSerializer):
         source='team_id.name',
         read_only=True
     )
-    exercises = serializers.PrimaryKeyRelatedField(
-        #read_only=True,
-        #source="exercises",
-        queryset=UserTrainingExercise.objects.all(),
-        many=True
-    )
+    # exercises = serializers.PrimaryKeyRelatedField(
+    #     #read_only=True,
+    #     #source="exercises",
+    #     queryset=UserTrainingExercise.objects.all(),
+    #     many=True
+    # )
     exercises_info = UserExerciseSerializer(
         # read_only=True,
         source="exercises",

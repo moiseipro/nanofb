@@ -72,8 +72,8 @@ class TrainingViewSet(viewsets.ModelViewSet):
         return UserTrainingSerializer
 
     def get_queryset(self):
-        if self.action == 'partial_update':
-            return UserTraining.objects.all()
+        # if self.action == 'partial_update':
+        #     return UserTraining.objects.all()
         season = UserSeason.objects.filter(id=self.request.session['season'])
         return UserTraining.objects.filter(event_id__user_id=self.request.user,
                                            event_id__date__gte=season[0].date_with,
