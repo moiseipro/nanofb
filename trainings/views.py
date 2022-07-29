@@ -9,11 +9,13 @@ from rest_framework.permissions import IsAuthenticated
 
 from events.models import UserEvent
 from exercises.models import UserExercise
+from exercises.views import get_exercises_params
 from references.models import UserTeam, UserSeason, ClubTeam, ClubSeason
 from trainings.models import UserTraining, UserTrainingExercise
 
 # REST FRAMEWORK
 from trainings.serializers import UserTrainingSerializer, UserTrainingExerciseSerializer
+from users.models import User
 
 
 class TrainingViewSet(viewsets.ModelViewSet):
@@ -97,5 +99,13 @@ class EditTrainingsView(DetailView):
         context = super().get_context_data(**kwargs)
         context['teams_list'] = UserTeam.objects.filter(user_id=self.request.user)
         context['seasons_list'] = UserSeason.objects.filter(user_id=self.request.user)
+
+        # Подтягиваем папки и упражнения
+        cur_user = User.objects.filter(pk=self.request.user.id).only("club_id")
+        print(cur_user.values())
+        found_folders, found_nfb_folders, refs = get_exercises_params(self.request, cur_user, self.request.session['team'])
+        context['folders'] = found_folders
+        context['nfb_folders'] = found_nfb_folders
+        context['refs'] = refs
 
         return context
