@@ -6,10 +6,16 @@ from trainings.models import UserTraining, UserTrainingExercise
 
 # Training
 class UserTrainingExerciseSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    exercise_name = serializers.JSONField(
+        source="exercise_id.title",
+        read_only=True
+    )
+
     class Meta:
         model = UserTrainingExercise
         fields = [
-            'training_id', 'exercise_id', 'group', 'duration', 'order'
+            'id', 'training_id', 'exercise_id', 'exercise_name', 'group', 'duration', 'order'
         ]
 
 
@@ -30,10 +36,9 @@ class UserTrainingSerializer(serializers.ModelSerializer):
         many=True
     )
 
-
     class Meta:
         model = UserTraining
         fields = [
-            'event_id', 'team_name', 'exercises', 'exercises_info'
+            'event_id', 'team_name', 'exercises_info'
         ]
         datatables_always_serialize = ('event_id',)

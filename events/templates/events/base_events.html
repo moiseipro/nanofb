@@ -279,6 +279,7 @@
     </div>
 
     {% include 'events/forms/create_event.html' %}
+    {% include 'events/forms/edit_event.html' %}
 
 {% endblock %}
 {% block custom_style %}
@@ -286,5 +287,6 @@
 {% endblock %}
 {% block custom_scripts %}
     <script src="{% static 'events/ResCalendar/rescalendar.js' %}"></script>
-    <script src="{% static 'events/base_events.js' %}"></script>
+    <script src="{% static 'events/js/event_update.js' %}"></script>
+    <script src="{% static 'events/js/base_events.js' %}"></script>
 {% endblock %}

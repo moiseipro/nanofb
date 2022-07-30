@@ -64,6 +64,7 @@ class VideoViewSet(viewsets.ModelViewSet):
 class VideoUpdateApiView(generics.UpdateAPIView):
     queryset = Video.objects.all()
     serializer_class = VideoUpdateSerializer
+    permission_classes = [IsAuthenticated]
 
     def update(self, request, *args, **kwarg):
         partial = True

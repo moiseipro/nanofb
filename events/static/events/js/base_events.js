@@ -129,20 +129,39 @@ $(window).on('load', function (){
         $('#form-event').attr('method', 'POST')
         clear_event_form()
     })
-    // Отправка формы действия с событием
+    // Отправка формы создания события
     $('#form-event').on('submit', function(e) {
         e.preventDefault()
-        console.log($(this).serialize())
-        ajax_event_action($(this).attr('method'), $(this).serialize(), cur_edit_data ? cur_edit_data.id : 0, 'create')
+        let data = getFormData($(this))
+        console.log(data)
+        data['date'] = data['date']+' '+data['time']
+        ajax_event_action($(this).attr('method'), data, 'create', cur_edit_data ? cur_edit_data.id : 0).done(function( data ) {
+            if(events_table) events_table.ajax.reload()
+            clear_event_form()
+            generateNewCalendar()
+        })
+    })
+
+    // Отправка формы редактирования события
+    $('#form-event-edit').on('submit', function(e) {
+        e.preventDefault()
+        let data = getFormData($(this))
+        console.log(data)
+        data['date'] = data['date']+' '+data['time']
+        ajax_event_action($(this).attr('method'), data, 'update', cur_edit_data ? cur_edit_data.id : 0).done(function( data ) {
+            if(events_table) events_table.ajax.reload()
+        })
     })
 })
 
 function clear_event_form(){
-    let now = moment().format('DD/MM/YYYY HH:mm')
+    let nowdate = moment().format('DD/MM/YYYY')
+    let nowtime = moment().format('HH:mm')
     $('#form-event #id_short_name').val('')
     $('#form-event #id_event_type option:first').prop('selected', true)
     $('#form-event #id_event_type').trigger('change');
-    $('#form-event #datetimepicker-event').val(now)
+    $('#form-event #datetimepicker-event').val(nowdate)
+    $('#form-event #timepicker-event').val(nowtime)
 }
 
 // Инициализация datepicker для выбора промежутка
@@ -170,7 +189,7 @@ $(function () {
     });
 
     $('#datetimepicker-event').datetimepicker({
-        format: 'DD/MM/YYYY HH:mm',
+        format: 'DD/MM/YYYY',
         locale: get_cur_lang(),
         icons: {
             up: "fa fa-angle-up",
@@ -212,48 +231,6 @@ function ajax_microcycle_update(method, data, id) {
     request.fail(function( jqXHR, textStatus ) {
         alert( gettext('Error when updating the microcycle. ') + gettext(textStatus) );
     })
-}
-
-function ajax_event_action(method, data, id = '', action = '') {
-    //if (!confirm(gettext('Apply action to event?'))) return false
-    swal({
-        title: gettext('Apply action "'+action+'" to event?'),
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-    })
-    .then((willDelete) => {
-        if (willDelete) {
-            console.log(method +' '+ id)
-
-            let url = "api/action/"
-            if(method !== 'POST') url += `${id}/`
-            $.ajax({
-                headers:{"X-CSRFToken": csrftoken },
-                url: url,
-                type: method,
-                dataType: "JSON",
-                data: data,
-                success: function(data){
-                    console.log(data)
-                    swal(gettext('Event '+action), gettext('Event action "'+action+'" successfully!'), "success");
-                    events_table.ajax.reload()
-                },
-                error: function(jqXHR, textStatus){
-                    console.log(jqXHR)
-                    swal(gettext('Event '+action), gettext('Error when action "'+action+'" the event!'), "error");
-                },
-                complete: function () {
-                    if(method === 'POST') {
-                        clear_event_form()
-                        generateNewCalendar()
-                    }
-                }
-            })
-        }
-    });
-
-
 }
 
 function generateNewCalendar(){
@@ -432,7 +409,17 @@ $(function() {
             let event_id = $(this).attr('data-value')
             if(key === 'delete'){
                 window.console && console.log(event_id);
-                ajax_event_action('DELETE', null, event_id, 'delete')
+                ajax_event_action('DELETE', null, 'delete', event_id).done(function( data ) {
+                    if(events_table) events_table.ajax.reload()
+                })
+            } else if(key === 'edit'){
+                window.console && console.log(event_id);
+                $('#form-event-edit-modal').modal('show');
+                cur_edit_data = events_table.row($('#events .hasEvent[data-value="'+event_id+'"]')).data()
+                console.log(cur_edit_data);
+                $('#form-event-edit #id_short_name').val(cur_edit_data['short_name'])
+                $('#form-event-edit #datetimepicker-event').val(cur_edit_data['only_date'])
+                $('#form-event-edit #timepicker-event').val(cur_edit_data['time'])
             }
         },
         items: {

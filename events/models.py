@@ -16,7 +16,8 @@ class AbstractEvent(models.Model):
         verbose_name=_('short name'),
         help_text=_("The short name of the event. The maximum length is 4 characters"),
         max_length=4,
-        blank=False,
+        blank=True,
+        null=True
     )
     notes = models.JSONField(
         verbose_name=_('notes'),

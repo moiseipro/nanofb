@@ -28,6 +28,16 @@ class UserMicrocyclesUpdateSerializer(serializers.ModelSerializer):
 
 
 # Event
+class UserEventEditSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = UserEvent
+        fields = [
+            'id', 'date'
+        ]
+
+
 class UserEventSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
 
@@ -42,7 +52,7 @@ class UserEventSerializer(serializers.ModelSerializer):
         read_only=True
     )
     time = serializers.DateTimeField(
-        format='%H:%M:%S',
+        format='%H:%M',
         source='date',
         read_only=True
     )
@@ -57,4 +67,4 @@ class UserEventSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'short_name', 'date', 'only_date', 'time', 'training'
         ]
-        datatables_always_serialize = ('id', 'training',)
+        datatables_always_serialize = ('id', 'short_name', 'only_date', 'time', 'training',)

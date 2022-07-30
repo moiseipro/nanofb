@@ -7,9 +7,10 @@ from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 
-from events.forms import MicrocycleUserForm, EventUserForm
+from events.forms import MicrocycleUserForm, EventUserForm, EventEditUserForm
 from events.models import UserMicrocycles, UserEvent
-from events.serializers import UserMicrocyclesSerializer, UserMicrocyclesUpdateSerializer, UserEventSerializer
+from events.serializers import UserMicrocyclesSerializer, UserMicrocyclesUpdateSerializer, UserEventSerializer, \
+    UserEventEditSerializer
 from references.models import UserTeam, UserSeason
 from trainings.models import UserTraining
 
@@ -56,13 +57,11 @@ class EventViewSet(viewsets.ModelViewSet):
     #     print(data)
 
     def get_serializer_class(self):
-        if self.action == 'partial_update' or self.action == 'create':
-            return UserEventSerializer
+        if self.action == 'update':
+            return UserEventEditSerializer
         return UserEventSerializer
 
     def get_queryset(self):
-        if self.action == 'partial_update' or self.action == 'create':
-            return UserEvent.objects.all()
         season = UserSeason.objects.filter(id=self.request.session['season'])
         events = UserEvent.objects.filter(user_id=self.request.user,
                                           date__gte=season[0].date_with,
@@ -80,4 +79,5 @@ class EventsView(TemplateView):
         context['seasons_list'] = UserSeason.objects.filter(user_id=self.request.user)
         context['microcycle_form'] = MicrocycleUserForm
         context['event_form'] = EventUserForm
+        context['event_edit_form'] = EventEditUserForm
         return context

@@ -30,7 +30,7 @@
                         <div class="col-4">
                             <div class="row">
                                 <div class="col px-1">
-                                    <a id="#" href="{{ request.META.HTTP_REFERER }}" title="" class="btn btn-block btn-outline-danger btn-sm font-weight-bold view-button">Выйти</a>
+                                    <a id="#" href="{% if request.META.HTTP_REFERER %}{{ request.META.HTTP_REFERER }}{% else %}{% url 'events:base_events' %}{% endif %}" title="" class="btn btn-block btn-outline-danger btn-sm font-weight-bold view-button">Выйти</a>
                                     <button id="#" title="" class="btn btn-block btn-outline-warning btn-sm mt-0 font-weight-bold edit-button toggle-edit-mode d-none">Отмена</button>
                                 </div>
                                 <div class="col px-1">
@@ -118,21 +118,21 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div id="group_A" class="col-12">
+                            <div class="row exercise-block">
+                                <div id="group_A" class="col-12 group-block" data-group="1">
                                     <div class="row border border-dark bg-default-light font-weight-bold">
                                         <div class="col">Группа А</div>
-                                        <div class="col-2 text-right px-0 edit-mode">
-                                            <button type="button" class="btn btn-sm btn-secondary rounded-0 py-0 h-100 add-exercise" data-toggle="modal" data-target="#add-exercise-modal" data-group="1"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                        <div class="col-2 text-right px-0">
+                                            <button type="button" class="btn btn-sm btn-secondary rounded-0 py-0 h-100 add-exercise edit-button d-none" data-toggle="modal" data-target="#add-exercise-modal"><i class="fa fa-plus" aria-hidden="true"></i></button>
                                         </div>
                                     </div>
                                     {% for exercise in object.usertrainingexercise_set.all %}
                                         {% if exercise.group == 1 %}
-                                            <div class="row border-bottom border-right">
+                                            <div class="row border-bottom exercise-row" data-id="{{ exercise.id }}">
                                                 <div class="col pr-0">{% get_translation exercise.exercise_id.title %}</div>
                                                 <div class="col-sm-12 col-md-3 px-0">
-                                                    <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 h-100 float-right delete-exercise edit-button d-none" data-id="{{ exercise.exercise_id }}"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                                                    <input type="number" min="0" max="999" class="form-control form-control-sm rounded-0 py-0 h-auto text-center float-right edit-input" value="{{ exercise.duration }}" style="width: 50px" disabled>
+                                                    <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 h-100 float-right delete-exercise edit-button d-none"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                                    <input type="number" name="duration" min="0" max="999" class="form-control form-control-sm rounded-0 py-0 h-auto text-center float-right edit-input" value="{{ exercise.duration }}" style="width: 50px" disabled>
                                                 </div>
                                             </div>
                                         {% endif %}
@@ -143,7 +143,9 @@
                                 <div class="col-12">
                                     <div class="row border border-dark bg-default-light font-weight-bold">
                                         <div class="col">Цели</div>
-                                        <div class="col-2 text-right px-0 edit-mode"><button type="button" class="btn btn-sm btn-secondary rounded-0 py-0 h-100"><i class="fa fa-plus" aria-hidden="true"></i></button></div>
+                                        <div class="col-2 text-right px-0">
+                                            <button type="button" class="btn btn-sm btn-secondary rounded-0 py-0 h-100 edit-button d-none"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                        </div>
                                     </div>
                                     <div class="row border-bottom">
                                         <div class="col">---</div>
@@ -151,37 +153,43 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div id="group_B" class="col-12">
+                            <div class="row exercise-block">
+                                <div id="group_B" class="col-12 group-block" data-group="2">
                                     <div class="row border border-dark bg-default-light font-weight-bold">
                                         <div class="col">Группа B</div>
-                                        <div class="col-2 text-right px-0 edit-mode">
-                                            <button type="button" class="btn btn-sm btn-secondary rounded-0 py-0 h-100 add-exercise" data-group="2"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                        <div class="col-2 text-right px-0">
+                                            <button type="button" class="btn btn-sm btn-secondary rounded-0 py-0 h-100 add-exercise edit-button d-none"><i class="fa fa-plus" aria-hidden="true"></i></button>
                                         </div>
                                     </div>
                                     {% for exercise in object.usertrainingexercise_set.all %}
                                         {% if exercise.group == 2 %}
-                                            <div class="row border-bottom">
-                                                <div class="col">{% get_translation exercise.exercise_id.title %}</div>
-                                                <div class="col-2 text-right px-0">({{ exercise.duration }})</div>
+                                            <div class="row border-bottom exercise-row" data-id="{{ exercise.id }}">
+                                                <div class="col pr-0">{% get_translation exercise.exercise_id.title %}</div>
+                                                <div class="col-sm-12 col-md-3 px-0">
+                                                    <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 h-100 float-right delete-exercise edit-button d-none"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                                    <input type="number" name="duration" min="0" max="999" class="form-control form-control-sm rounded-0 py-0 h-auto text-center float-right edit-input" value="{{ exercise.duration }}" style="width: 50px" disabled>
+                                                </div>
                                             </div>
                                         {% endif %}
                                     {% endfor %}
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-12">
+                            <div class="row exercise-block">
+                                <div id="group_C" class="col-12 group-block" data-group="3">
                                     <div class="row border border-dark bg-default-light font-weight-bold">
                                         <div class="col">Группа C</div>
                                         <div class="col-2 text-right px-0">
-                                            <button type="button" class="btn btn-sm btn-secondary rounded-0 py-0 h-100 add-exercise" data-group="3"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                            <button type="button" class="btn btn-sm btn-secondary rounded-0 py-0 h-100 add-exercise edit-button d-none"><i class="fa fa-plus" aria-hidden="true"></i></button>
                                         </div>
                                     </div>
                                     {% for exercise in object.usertrainingexercise_set.all %}
                                         {% if exercise.group == 3 %}
-                                            <div class="row border-bottom">
-                                                <div class="col">{% get_translation exercise.exercise_id.title %}</div>
-                                                <div class="col-2 text-right px-0">({{ exercise.duration }})</div>
+                                            <div class="row border-bottom exercise-row" data-id="{{ exercise.id }}">
+                                                <div class="col pr-0">{% get_translation exercise.exercise_id.title %}</div>
+                                                <div class="col-sm-12 col-md-3 px-0">
+                                                    <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 h-100 float-right delete-exercise edit-button d-none"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                                    <input type="number" name="duration" min="0" max="999" class="form-control form-control-sm rounded-0 py-0 h-auto text-center float-right edit-input" value="{{ exercise.duration }}" style="width: 50px" disabled>
+                                                </div>
                                             </div>
                                         {% endif %}
                                     {% endfor %}
@@ -316,6 +324,7 @@
 {% endblock %}
 
 {% block custom_scripts %}
+    <script src="{% static 'events/js/event_update.js' %}"></script>
     <script src="{% static 'trainings/js/view_training.js' %}"></script>
     <!--<script src="{% static 'exercises/js/modules/exercises_list.js' %}"></script>
     <script src="{% static 'exercises/js/base_exercises.js' %}"></script>

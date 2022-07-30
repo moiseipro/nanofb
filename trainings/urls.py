@@ -4,6 +4,7 @@ from trainings import views
 
 router = routers.DefaultRouter()
 router.register(r'action', views.TrainingViewSet, basename="action")
+router.register(r'exercise', views.TrainingExerciseViewSet, basename="exercise")
 
 extra_context = {'menu_trainings': 'active'}
 

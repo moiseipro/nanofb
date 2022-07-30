@@ -23,10 +23,16 @@ date_by_input_widget = forms.DateInput(attrs={
     'autocomplete': 'off'
 })
 date_event_input_widget = forms.DateTimeInput(attrs={
-    'class': 'form-control-sm',
+    'class': '',
     'id': 'datetimepicker-event',
     'data-toggle': 'datetimepicker',
     'data-target': '#datetimepicker-event',
+    'autocomplete': 'off'
+})
+time_event_input_widget = forms.TimeInput(attrs={
+    'class': 'timepicker',
+    'id': 'timepicker-event',
+    'data-toggle': 'datetimepicker',
     'autocomplete': 'off'
 })
 
@@ -84,12 +90,71 @@ class EventUserForm(forms.ModelForm):
         widget=date_event_input_widget
     )
 
+    time = forms.TimeField(
+        input_formats=['%H:%M'],
+        widget=time_event_input_widget,
+        label=_('Time')
+    )
+
     class Meta:
         model = UserEvent
-        fields = ['short_name', 'event_type', 'date']
-        widgets = {
-            'date': date_event_input_widget,
-        }
+        fields = ['short_name', 'event_type', 'date', 'time']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column('short_name', css_class='form-group col-md-6 mb-0'),
+                Column('event_type', css_class='form-group col-md-6 mb-0'),
+                Column('date', css_class='form-group col-md-6 mb-0'),
+                Column('time', css_class='form-group col-md-6 mb-0'),
+                Column(
+                    Submit('submit', _('Save'), css_class='btn-block save'),
+                    css_class='form-group col-md-12 mb-0'
+                ),
+                css_class='form-row'
+            ),
+
+        )
+
+
+class EventEditUserForm(forms.ModelForm):
+    helper = FormHelper()
+    helper.add_input(Submit('submit', _('Save'), css_class='w-100 btn btn-lg btn-primary save mt-3'))
+    helper.form_method = 'POST'
+
+    date = forms.DateTimeField(
+        input_formats=['%d/%m/%Y %H:%M'],
+        widget=date_event_input_widget
+    )
+
+    time = forms.TimeField(
+        input_formats=['%H:%M'],
+        widget=time_event_input_widget,
+        label=_('Time')
+    )
+
+    class Meta:
+        model = UserEvent
+        fields = ['short_name', 'date', 'time']
         help_texts = {
-            'name': None,
+            'short_name': None,
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column('short_name', css_class='form-group col-md-4 mb-0'),
+                Column('date', css_class='form-group col-md-4 mb-0'),
+                Column('time', css_class='form-group col-md-4 mb-0'),
+                Column(
+                    Submit('submit', _('Save'), css_class='btn-block save'),
+                    css_class='form-group col-md-12 mb-0'
+                ),
+                css_class='form-row'
+            ),
+
+        )
