@@ -89,6 +89,7 @@ Version      : 1.0
 	if($('.datetimepicker').length > 0) {
 		$('.datetimepicker').datetimepicker({
 			format: 'DD/MM/YYYY',
+			locale: get_cur_lang(),
 			icons: {
 				up: "fa fa-angle-up",
 				down: "fa fa-angle-down",
@@ -106,6 +107,19 @@ Version      : 1.0
 			$('#datetimepicker8').datetimepicker();
 		});
 	}
+
+	// Timepicker
+
+	$('.timepicker').datetimepicker({
+        format: 'HH:mm',
+        locale: get_cur_lang(),
+        icons: {
+            up: "fa fa-angle-up",
+            down: "fa fa-angle-down",
+            next: 'fa fa-angle-right',
+            previous: 'fa fa-angle-left'
+        }
+    });
 
 	// Tooltip
 	
