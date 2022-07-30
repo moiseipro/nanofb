@@ -14,6 +14,9 @@ function ToggleUpFilter(id, state) {
                 $('.up-tabs-elem[data-id="cols_size"]').addClass('btn-secondary');
                 $('.exercises-list').find('div.gutter').addClass('d-none');
             }
+            $('.up-tabs-elem[data-id="toggle_side_filter"]').toggleClass('btn-secondary', true);
+            $('.up-tabs-elem[data-id="toggle_side_filter"]').toggleClass('btn-primary', false);
+            $('.up-tabs-elem[data-id="toggle_side_filter"]').toggleClass('selected', state);
             break;
         case "toggle_up_filter":
             $('div.btns-tabs-second').fadeToggle(300, (e) => {});
@@ -153,10 +156,10 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem[data-id="next_exs"]').toggleClass('btn-primary', false);
             LoadExerciseOneHandler();
             break;
-        case "toggle_icons":
-            ToggleIconsInExs();
-            break;
         case "toggle_markers":
+            $('.up-tabs-elem[data-id="toggle_markers"]').toggleClass('btn-secondary', true);
+            $('.up-tabs-elem[data-id="toggle_markers"]').toggleClass('btn-primary', false);
+            $('.up-tabs-elem[data-id="toggle_markers"]').toggleClass('selected', state);
             ToggleMarkersInExs();
             break;
         default:
@@ -165,15 +168,11 @@ function ToggleUpFilter(id, state) {
 }
 
 function ToggleIconsInExs() {
-    if ($('.up-tabs-elem[data-id="toggle_icons"]').attr('data-state') == "1") {
-        $('.side-filter-block').find('.list-group[data-id="show_icons"]').find('.side-filter-elem').each((ind, elem) => {
-            let cId = $(elem).attr('data-id');
-            let isActive = $(elem).hasClass('active');
-            $('.exercises-block').find(`[data-type="icons"][data-id="${cId}"]`).toggleClass('d-none', !isActive);
-        });
-    } else {
-        $('.exercises-block').find(`[data-type="icons"]`).toggleClass('d-none', true);
-    }
+    $('.side-filter-block').find('.list-group[data-id="show_icons"]').find('.side-filter-elem').each((ind, elem) => {
+        let cId = $(elem).attr('data-id');
+        let isActive = $(elem).hasClass('active');
+        $('.exercises-block').find(`[data-type="icons"][data-id="${cId}"]`).toggleClass('d-none', !isActive);
+    });
 }
 function ToggleMarkersInExs() {
     let isActive = $('.up-tabs-elem[data-id="toggle_markers"]').attr('data-state') == "1";
@@ -644,7 +643,19 @@ $(function() {
                 if (!res.success) {
                     swal("Ошибка", `При изменении параметра произошла ошибка (${res.err}).`, "error");
                 } else {
-                    $(e.currentTarget).toggleClass('selected', !state);
+                    if (cId == "watched") {
+                        $(e.currentTarget).parent().find('button[data-type="marker"][data-id="watched_not"]').toggleClass('selected', false);
+                    }
+                    if (cId == "watched_not") {
+                        $(e.currentTarget).parent().find('button[data-type="marker"][data-id="watched"]').toggleClass('selected', false);
+                    }
+                    if (cId == "like") {
+                        $(e.currentTarget).parent().find('button[data-type="marker"][data-id="dislike"]').toggleClass('selected', false);
+                    }
+                    if (cId == "dislike") {
+                        $(e.currentTarget).parent().find('button[data-type="marker"][data-id="like"]').toggleClass('selected', false);
+                    }
+                    $(e.currentTarget).toggleClass('selected', res.data.value == 1);
                 }
             },
             error: function (res) {
@@ -656,6 +667,45 @@ $(function() {
             }
         });
     });
+
+
+    // Open graphics in modal
+    $('.visual-block').on('click', '.carousel-item', (e) => {
+        e.preventDefault();
+        let parent = $(e.currentTarget).parent().parent().clone();
+        let cID = $(parent).attr('id');
+        $(parent).attr('id', `${cID}Clone`);
+        $(parent).find(`[data-target="#${cID}"]`).attr('data-target', `#${cID}Clone`);
+        $(parent).find(`[href="#${cID}"]`).attr('href', `#${cID}Clone`);
+        if ($(parent).find('.video-js').length > 0) {
+            $(parent).find('.video-js').removeClass('not-active');
+            $(parent).find('#video-player').attr('id', 'video-playerClone');
+            $(parent).find('#video-player2').attr('id', 'video-player2Clone');
+            window.videoPlayerClone = videojs($(parent).find('#video-playerClone')[0], {
+                preload: 'auto',
+                autoplay: false,
+                controls: true,
+                aspectRatio: '16:9',
+                youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
+            });
+            window.videoPlayer2Clone = videojs($(parent).find('#video-player2Clone')[0], {
+                preload: 'auto',
+                autoplay: false,
+                controls: true,
+                aspectRatio: '16:9',
+                youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
+            });
+            window.videoPlayerClone.ready((e) => {
+                window.videoPlayerClone.src({techOrder: ["youtube"], type: 'video/youtube', src: "https://www.youtube.com/watch?v=sNZPEnc4m0w"});
+            });
+            window.videoPlayer2Clone.ready((e) => {
+                window.videoPlayer2Clone.src({techOrder: ["youtube"], type: 'video/youtube', src: "https://www.youtube.com/watch?v=K0x8Z8JxQtA"});
+            });
+        }
+        $('#exerciseGraphicsModal').find('.modal-body').html(parent);
+        $('#exerciseGraphicsModal').modal('show');
+    });
+
 
 
 });

@@ -402,14 +402,21 @@ def exercises_api(request):
                 c_exs_params = UserExerciseParam.objects.filter(exercise_user=c_exs[0], user=cur_user[0])
                 if c_exs_params.exists() and c_exs_params[0].id != None:
                     c_exs_params = c_exs_params[0]
-                    setattr(c_exs_params, post_key, post_value)
                     if post_key == "like":
                         c_exs_params.dislike = 0
+                        post_value = 1
                     if post_key == "dislike":
                         c_exs_params.like = 0
+                        post_value = 1
+                    if post_key == "watched":
+                        post_value = 1
+                    if post_key == "watched_not":
+                        c_exs_params.watched = 0
+                        post_value = 1
+                    setattr(c_exs_params, post_key, post_value)
                     try:
                         c_exs_params.save()
-                        return JsonResponse({"data": {"id": exs_id}, "success": True}, status=200)
+                        return JsonResponse({"data": {"id": exs_id, "value": post_value}, "success": True}, status=200)
                     except:
                         pass
                 else:

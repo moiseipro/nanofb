@@ -4,11 +4,10 @@
     overflow-y: auto;
 }
 .side-filter-elem.active {
-    background-color: #b9b8b8;
-    border-color: #b9b8b8;
+    background-color: #e0e0e0;
+    border-color: #e0e0e0;
     color: #5a6268;
     border: 2px solid rgb(100, 100, 100) !important;
-    font-weight: bold;
 }
 
 
@@ -181,9 +180,6 @@
     font-weight: 700;
     opacity: 0.9;
 }
-.btn-custom.selected > span.icon-custom {
-    background-color: #91dd91;
-}
 
 .bck-custom {
     background-color: #d5d5d5;
@@ -284,6 +280,23 @@ a.text-dark:hover {
 }
 
 
-.side-filter-elem  {
-    font-size: 0.8rem;
+.btn-icons.btn-secondary {
+    color: #5a6268 !important;
+    background-color: #d5d5d5;
+    border-color: #d5d5d5;
 }
+
+.btn-marker.btn-secondary {
+    background-color: #d5d5d5;
+    border-color: #d5d5d5;
+}
+.btn-marker.selected {
+    background-color: #91dd91 !important;
+    border-color: #91dd91 !important;
+}
+
+
+.video-js.not-active {
+    pointer-events: none;
+}
+

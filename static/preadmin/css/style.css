@@ -1675,6 +1675,7 @@ html.menu-opened body {
 }
 .sidebar-menu {
     padding: 15px;
+	background-color: #2962ff1c;
 }
 .sidebar-menu ul {
 	font-size: 15px;
@@ -4131,6 +4132,12 @@ table.table-inbox tbody tr.checked {
 .icon--ball {
 	content: url(../img/icons/ball.png);
 }
+.icon--brush {
+	content: url(../img/icons/brush.png);
+}
+.icon--chart {
+	content: url(../img/icons/chart.png);
+}
 .icon--copy {
 	content: url(../img/icons/copy.png);
 }
@@ -4139,6 +4146,9 @@ table.table-inbox tbody tr.checked {
 }
 .icon--eye {
 	content: url(../img/icons/eye.png);
+}
+.icon--eye-not {
+	content: url(../img/icons/eye_not.png);
 }
 .icon--favorite {
 	content: url(../img/icons/favorite.png);
