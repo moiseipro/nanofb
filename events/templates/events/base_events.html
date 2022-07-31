@@ -83,7 +83,7 @@
                     <div class="row">
                         <div class="col px-0">
                             <div class="table-responsive">
-                                <table id="events" class="table table-sm table-bordered table-hover dataTable" style="width:100%">
+                                <table id="events" class="table table-sm padding-none table-bordered table-hover dataTable" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th class="text-center">№</th>
@@ -284,6 +284,7 @@
 {% endblock %}
 {% block custom_style %}
     <link rel="stylesheet" href="{% static 'events/ResCalendar/rescalendar.css' %}">
+    <link rel="stylesheet" href="{% static 'events/css/base_events.css' %}">
 {% endblock %}
 {% block custom_scripts %}
     <script src="{% static 'events/ResCalendar/rescalendar.js' %}"></script>

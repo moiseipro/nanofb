@@ -158,7 +158,7 @@
 .rescalendar .endMC{
 	border-right: 2px solid black !important;
 }
-.rescalendar .select-cell{
+.rescalendar .selected{
 	border: 2px solid black !important;
 }
 .rescalendar .hover-cell{

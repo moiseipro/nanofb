@@ -40,7 +40,7 @@ class AbstractEvent(models.Model):
 
     class Meta:
         abstract = True
-        ordering = ['date']
+        ordering = ['-date']
 
 
 class UserEvent(AbstractEvent):

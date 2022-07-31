@@ -1,0 +1,14 @@
+
+.table-sm.padding-none td, .table-sm.padding-none th {
+    padding: 0rem;
+    text-align: center;
+}
+
+table.dataTable>tbody>tr.selected>* {
+    box-shadow: inset 0 0 0 9999px rgb(90 98 104 / 90%);
+    color: white;
+}
+
+table.dataTable.table-hover>tbody>tr.selected:hover>*{
+    box-shadow:inset 0 0 0 9999px rgba(90, 98, 104, 0.975)
+}

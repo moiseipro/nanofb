@@ -150,6 +150,7 @@ $(window).on('load', function (){
         data['date'] = data['date']+' '+data['time']
         ajax_event_action($(this).attr('method'), data, 'update', cur_edit_data ? cur_edit_data.id : 0).done(function( data ) {
             if(events_table) events_table.ajax.reload()
+            generateNewCalendar()
         })
     })
 })
@@ -335,7 +336,7 @@ function generateMicrocyclesTable(){
         dom: "<'row'<'col-sm-12 col-md-12' f>>" +
              "<'row'<'col-sm-12'tr>>" +
              "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-        order: [ 1, 'asc' ],
+        order: [ 1, 'desc' ],
         serverSide: true,
         processing: true,
         lengthChange: false,
@@ -363,7 +364,7 @@ function generateEventTable(){
         },
         dom: "<'row'<'col-sm-12'tr>>" +
              "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-        order: [ 1, 'asc' ],
+        order: [ 1, 'desc' ],
         columnDefs: [
             { orderable: false, targets: '_all' }
         ],
@@ -373,6 +374,7 @@ function generateEventTable(){
         },
         serverSide: true,
         processing: true,
+        select: true,
         lengthChange: false,
         pageLength: 20,
         ajax: 'api/action/?format=datatables',
@@ -399,6 +401,19 @@ function generateEventTable(){
             }},
         ],
     })
+
+    events_table
+        .on( 'select', function ( e, dt, type, indexes ) {
+            let rowData = events_table.rows( indexes ).data().toArray();
+            if(type=='row') {
+                $('.rescalendar .hasEvent[data-value="'+rowData[0]['id']+'"]').addClass('selected')
+                //ajax_video_info(rowData[0])
+            }
+        })
+        .on( 'deselect', function ( e, dt, type, indexes ) {
+            let rowData = events_table.rows( indexes ).data().toArray();
+            $('.rescalendar .hasEvent[data-value="'+rowData[0]['id']+'"]').removeClass('selected')
+        })
 }
 
 // ContextMenu для календаря
@@ -411,6 +426,7 @@ $(function() {
                 window.console && console.log(event_id);
                 ajax_event_action('DELETE', null, 'delete', event_id).done(function( data ) {
                     if(events_table) events_table.ajax.reload()
+                    generateNewCalendar()
                 })
             } else if(key === 'edit'){
                 window.console && console.log(event_id);
