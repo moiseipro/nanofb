@@ -9,6 +9,9 @@ from pytube import extract
 time_widgets = forms.TimeInput(attrs={
     'class': 'datetimepicker'
 })
+tags_widgets = forms.SelectMultiple(attrs={
+    'class': 'select'
+})
 
 
 class CreateVideoForm(forms.ModelForm):
@@ -29,7 +32,7 @@ class CreateVideoForm(forms.ModelForm):
 
     class Meta:
         model = Video
-        fields = ['name', 'videosource_id', 'section_id', 'duration', 'shared_access']
+        fields = ['name', 'videosource_id', 'tags', 'duration', 'shared_access']
         labels = {
             'name': _('Video title'),
             'videosource_id': _('Select a source'),
@@ -41,7 +44,8 @@ class CreateVideoForm(forms.ModelForm):
             'name': None,
         }
         widgets = {
-            'duration': time_widgets
+            'duration': time_widgets,
+            'tags': tags_widgets
         }
 
 

@@ -10,6 +10,17 @@ from version.models import Section
 
 
 # Create your models here.
+class VideoTags(models.Model):
+    name = models.CharField(
+        max_length=100,
+        verbose_name=_('title'),
+        help_text=_('Tag title'),
+    )
+
+    def __str__(self):
+        return self.name
+
+
 class Video(models.Model):
     name = models.CharField(
         max_length=255,
@@ -22,13 +33,6 @@ class Video(models.Model):
         verbose_name=_('video source'),
         help_text=_('The source to which the video is linked'),
         default=VideoSource.get_default_pk
-    )
-    section_id = models.ForeignKey(
-        Section,
-        on_delete=models.SET_DEFAULT,
-        verbose_name=_('video source'),
-        help_text=_('The section to which the video is linked'),
-        default=Section.get_default_pk
     )
     upload_date = models.DateField(
         verbose_name=_('upload date'),
@@ -56,12 +60,18 @@ class Video(models.Model):
         null=True,
         blank=True
     )
+    tags = models.ManyToManyField(
+        VideoTags,
+        verbose_name=_('video tags'),
+        help_text=_('Tags linked to the video'),
+        blank=True
+    )
 
     def __str__(self):
         return self.name
 
     class Meta:
-        ordering = ['videosource_id', 'section_id']
+        ordering = ['videosource_id']
         permissions = (
             ("uploading_files", "Can upload files to videos"),
             ("parsing_video", "Can parse video"),
