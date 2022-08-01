@@ -1,10 +1,10 @@
 function RenderSplitExsCardCols() {
     $('#exerciseCard').find('div.gutter').remove();
     sizesArr = window.dataForSplitExsCardCols;
-    window.splitExsCardCols = Split(['#splitCol_exscard_0', '#splitCol_exscard_1'], {
+    window.splitExsCardCols = Split(['#splitCol_exscard_0', '#splitCol_exscard_1', '#splitCol_exscard_2'], {
         sizes: sizesArr,
         dragInterval: 1,
-        gutterSize: 20,
+        gutterSize: 15,
         onDrag: () => {
             let sizes = window.splitExsCardCols.getSizes();
             try {
@@ -304,7 +304,7 @@ $(function() {
 
     window.dataForSplitExsCardCols = JSON.parse(localStorage.getItem('split_exs_card_cols'));
     if (!window.dataForSplitExsCardCols) {
-        window.dataForSplitExsCardCols = [40, 60];
+        window.dataForSplitExsCardCols = [30, 30, 40];
         localStorage.setItem('split_exs_card_cols', JSON.stringify(window.dataForSplitExsCardCols));
     }
     RenderSplitExsCardCols();
@@ -470,6 +470,10 @@ $(function() {
     $('#exerciseCard').on('click', '#deleteExercise', (e) => {
         DeleteExerciseOne();
     });
+    
+
+    let tHeight = $('#splitCol_exscard_0').height() - 100;
+    $('.resizeable-block').css('height', `${tHeight}px`);
 
 
 });

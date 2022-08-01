@@ -71,6 +71,20 @@
 }
 
 
+.left-col-card {
+    height: 75vh !important;
+    overflow-y: auto;
+}
+.center-col-card {
+    height: 75vh !important;
+    overflow-y: auto;
+}
+.right-col-card {
+    height: 75vh !important;
+    overflow-y: auto;
+}
+
+
 .vert-line-left {
     border-left: 2px solid black;
 }
@@ -233,11 +247,12 @@ tr.bck-custom > td {
 
 
 .ck-editor__editable {
-    height: 258px;
-    overflow-y: auto;
+    min-height: 258px;
+    height: auto;
 }
 .ck-editor__editable.ck-read-only {
-    height: 298px !important;
+    min-height: 258px !important;
+    height: auto;
 }
 
 
