@@ -186,16 +186,21 @@ function CheckLastExs() {
     } catch(e) {}
     sessionStorage.setItem('last_exs', '');
     if (window.lastExercise && window.lastExercise.type) {
-        $(`.up-tabs-elem[data-id="${window.lastExercise.type}"]`).first().click();
-        if (window.lastExercise.folder) {
-            if (window.lastExercise.type == "team_folders") {
-                $('.folders_list').find(`.folder-elem[data-id="${window.lastExercise.folder}"]`).click();
-            } else if (window.lastExercise.type == "nfb_folders") {
-                $('.folders_nfb_list').find(`.folder-nfb-elem[data-id="${window.lastExercise.folder}"]`).click();
-            } else if (window.lastExercise.type == "club_folders") {
-
+        $('.up-tabs-elem.folders-toggle').addClass('d-none');
+        $(`.up-tabs-elem[data-id="${window.lastExercise.type}"]`).removeClass('d-none');
+        $('.folders-block > div').addClass('d-none');
+        $(`.folders-block > div[data-id="${window.lastExercise.type}"]`).removeClass('d-none');
+        setTimeout(() => {
+            if (window.lastExercise.folder) {
+                if (window.lastExercise.type == "team_folders") {
+                    $('.folders_list').find(`.folder-elem[data-id="${window.lastExercise.folder}"]`).click();
+                } else if (window.lastExercise.type == "nfb_folders") {
+                    $('.folders_nfb_list').find(`.folder-nfb-elem[data-id="${window.lastExercise.folder}"]`).click();
+                } else if (window.lastExercise.type == "club_folders") {
+    
+                }
             }
-        }
+        }, 200);
     }
 }
 
@@ -705,6 +710,33 @@ $(function() {
         $('#exerciseGraphicsModal').find('.modal-body').html(parent);
         $('#exerciseGraphicsModal').modal('show');
     });
+
+
+    // Save & Load current folders mode
+    window.addEventListener("beforeunload", (e) => {
+        let toggledFolders = $('#toggleFoldersNames').attr('data-state') == '1';
+        let cFolderType = $('.up-tabs-elem.folders-toggle:not(.d-none)').first().attr('data-id');
+        let foldersSettings = JSON.stringify({'expandToggled': toggledFolders, 'type': cFolderType});
+        localStorage.setItem('folders_sets', foldersSettings);
+    }, false);
+    let cFoldersSettings = localStorage.getItem('folders_sets');
+    try {
+        cFoldersSettings = JSON.parse(cFoldersSettings);
+        console.log(cFoldersSettings)
+    } catch(e) {}
+    if (cFoldersSettings.expandToggled !== null && cFoldersSettings.expandToggled !== undefined) {
+        if (cFoldersSettings.expandToggled) {
+            setTimeout((e) => {
+                $('#toggleFoldersNames').first().click();
+            }, 600);
+        }
+    }
+    if (cFoldersSettings.type !== null && cFoldersSettings.type !== undefined) {
+        $('.up-tabs-elem.folders-toggle').addClass('d-none');
+        $(`.up-tabs-elem[data-id="${cFoldersSettings.type}"]`).removeClass('d-none');
+        $('.folders-block > div').addClass('d-none');
+        $(`.folders-block > div[data-id="${cFoldersSettings.type}"]`).removeClass('d-none');
+    }
 
 
 
