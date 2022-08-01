@@ -2,20 +2,30 @@ from rest_framework import serializers
 
 from references.serializers import VideoSourceSerializer
 from version.serializers import SectionSerializer
-from video.models import Video
+from video.models import Video, VideoTags
+
+
+class VideoTagsSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = VideoTags
+        fields = ('id', 'name')
 
 
 class VideoSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     videosource_id = VideoSourceSerializer()
-    section_id = SectionSerializer()
+    tags = VideoTagsSerializer(
+        many=True
+    )
 
     class Meta:
         model = Video
         fields = (
-            'id', 'videosource_id', 'name', 'section_id', 'duration', 'links', 'upload_date', 'shared_access'
+            'id', 'videosource_id', 'name', 'tags', 'duration', 'links', 'upload_date', 'shared_access'
         )
-        datatables_always_serialize = ('id',)
+        datatables_always_serialize = ('id', 'tags')
 
 
 class VideoUpdateSerializer(serializers.ModelSerializer):
@@ -23,5 +33,5 @@ class VideoUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Video
         fields = (
-            'id', 'videosource_id', 'name', 'section_id', 'duration', 'links', 'upload_date', 'shared_access'
+            'id', 'videosource_id', 'name', 'tags', 'duration', 'links', 'upload_date', 'shared_access'
         )

@@ -70,7 +70,19 @@ $(window).on('load', function (){
             {'data': 'id'},
             {'data': 'videosource_id.name', 'name': 'videosource_id.short_name'},
             {'data': 'name'},
-            {'data': 'section_id.name', 'name': 'section_id.short_name'},
+            {'data': function (data, type, dataToSet) {
+                console.log(data)
+                if(type === 'display') {
+                    if ('tags' in data && data.tags.length != 0) {
+                        let tags = ''
+                        data.tags.forEach(function(tag, index){
+                            if(tags!='')tags+=','
+                            tags += tag.name;
+                        })
+                        return tags
+                    } else return gettext('---')
+                } else return null
+            }},
             {'data': 'duration'},
         ],
 
@@ -177,7 +189,13 @@ function render_json_edit(data) {
         if(in_data in data){
             if($(this).is('select')){
                 //$(this).val(1)
-                $(this).val(data[in_data]['id']).trigger("change")
+                if($(this).hasClass('selectmultiple')){
+                    let ids = []
+                    data[in_data].forEach(function (tag) {
+                        ids.push(tag.id)
+                    })
+                    $(this).val(ids).trigger("change")
+                } else $(this).val(data[in_data]['id']).trigger("change")
             } else if($(this).is('[type="checkbox"]')){
                 if(data[in_data]==true) $(this).prop('checked', true)
                 else $(this).prop('checked', false)
@@ -219,5 +237,5 @@ function render_json_block(data) {
         youtube_player.show()
         youtube_player.src({ type: 'video/youtube', src: 'http://www.youtube.com/embed/'+data['links']['youtube']})
     }
-    resizeBlockJS($('#all-player'));
+    resizeBlockJS($('.resize-block'));
 }
