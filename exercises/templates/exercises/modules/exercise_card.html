@@ -110,9 +110,9 @@
                                             <td colspan="2">
                                                 <select name="ref_team_category" class="form-control form-control-sm exs_edit_field" autocomplete="off">
                                                     <option value="">Категория команды</option>
-                                                    <!-- {% for elem in refs.exs_ball %}
+                                                    {% for elem in refs.exs_team_category %}
                                                         <option value="{{ elem.id }}">{{ elem.title }}</option>
-                                                    {% endfor %} -->
+                                                    {% endfor %}
                                                 </select>
                                             </td>
                                         </tr>
@@ -128,11 +128,11 @@
                                         </tr>
                                         <tr class="bck-custom">
                                             <td colspan="2">
-                                                <select name="ref_training_parts" class="form-control form-control-sm exs_edit_field" autocomplete="off">
+                                                <select name="ref_train_part" class="form-control form-control-sm exs_edit_field" autocomplete="off">
                                                     <option value="">Части тренировки</option>
-                                                    <!-- {% for elem in refs.exs_age_category %}
+                                                    {% for elem in refs.exs_train_part %}
                                                         <option value="{{ elem.id }}">{{ elem.title }}</option>
-                                                    {% endfor %} -->
+                                                    {% endfor %}
                                                 </select>
                                             </td>
                                         </tr>
@@ -152,25 +152,25 @@
                                         <tr class="bck-custom">
                                             <td>Игроки</td>
                                             <td>
-                                                <input name="players" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
+                                                <input name="player" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
                                             </td>
                                         </tr>
                                         <tr class="bck-custom">
                                             <td>Группы по</td>
                                             <td>
-                                                <input name="groups" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
+                                                <input name="group" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
                                             </td>
                                         </tr>
                                         <tr class="bck-custom">
                                             <td>Игровые зоны М2</td>
                                             <td>
-                                                <input name="play_zones" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
+                                                <input name="play_zone" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
                                             </td>
                                         </tr>
                                         <tr class="bck-custom">
                                             <td>Касания мяча</td>
                                             <td>
-                                                <input name="ball_touches" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
+                                                <input name="ball_touch" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
                                             </td>
                                         </tr>
                                         <tr class="bck-custom">
@@ -182,13 +182,13 @@
                                         <tr class="bck-custom">
                                             <td>Повторения t</td>
                                             <td>
-                                                <input name="repeats_t" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
+                                                <input name="t_repeat" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
                                             </td>
                                         </tr>
                                         <tr class="bck-custom">
                                             <td>Паузы t</td>
                                             <td>
-                                                <input name="pauses_t" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
+                                                <input name="t_pause" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
                                             </td>
                                         </tr>
                                         <tr class="">
@@ -428,9 +428,9 @@
                             <div class="col">
                                 <select name="keyword[]" class="form-control form-control-sm diff-frmt" autocomplete="off">
                                     <option value="">---</option>
-                                    <!-- {% for elem in refs.exs_stress_type %}
+                                    {% for elem in refs.exs_keyword %}
                                         <option value="{{ elem.id }}">{{ elem.title }}</option>
-                                    {% endfor %} -->
+                                    {% endfor %}
                                 </select>
                             </div>
                             <div class="col-2 text-right">

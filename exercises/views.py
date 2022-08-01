@@ -7,8 +7,8 @@ from django.core import serializers
 from users.models import User
 from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, AdminExercise
 from exercises.models import UserExerciseParam, UserExerciseParamTeam
-from references.models import ExsBall, ExsGoal, ExsCognitiveLoad, ExsAgeCategory
-from references.models import ExsAddition, ExsPurpose, ExsStressType, ExsCoaching, ExsCategory
+from references.models import ExsGoal, ExsBall, ExsTeamCategory, ExsAgeCategory, ExsTrainPart, ExsCognitiveLoad
+from references.models import ExsKeyword, ExsStressType, ExsPurpose, ExsCoaching
 from references.models import UserSeason, UserTeam
 
 
@@ -68,13 +68,24 @@ def set_refs_translations(data, lang_code):
     return data
 
 
-def set_exs_team_params(request, name):
-    lang = request.LANGUAGE_CODE
-    data1 = request.POST.getlist(f"{name}", [])
-    data2 = request.POST.getlist(f"{name}[]", [])
-    print(data1, data2)
-    res = {'data': []}
-    return res
+def set_as_object(request, data, name, lang):
+    value = []
+    flag = True
+    iterator = 0
+    while flag:
+        data_type = request.POST.get(f"data[{name}[]][{iterator}][type]")
+        data_value = request.POST.get(f"data[{name}[]][{iterator}][value]")
+        iterator += 1
+        if iterator > 10 or data_type == None:
+            flag = False
+            break
+        else:
+            value.append({'type': data_type, 'value': data_value})
+    if type(data) is dict:
+        data[lang] = value
+    else:
+        data = {lang: value}
+    return data
 
 
 def get_exercises_params(request, user, team):
@@ -89,15 +100,16 @@ def get_exercises_params(request, user, team):
         elem['root'] = False if elem['parent'] and elem['parent'] != 0 else True
     for elem in nfb_folders:
         elem['root'] = False if elem['parent'] and elem['parent'] != 0 else True
-    refs['exs_ball'] = ExsBall.objects.filter().values()
     refs['exs_goal'] = ExsGoal.objects.filter().values()
-    refs['exs_cognitive_load'] = ExsCognitiveLoad.objects.filter().values()
+    refs['exs_ball'] = ExsBall.objects.filter().values()
+    refs['exs_team_category'] = ExsTeamCategory.objects.filter().values()
     refs['exs_age_category'] = ExsAgeCategory.objects.filter().values()
-    refs['exs_category'] = ExsCategory.objects.filter().values()
+    refs['exs_train_part'] = ExsTrainPart.objects.filter().values()
+    refs['exs_cognitive_load'] = ExsCognitiveLoad.objects.filter().values()
 
-    refs['exs_addition'] = ExsAddition.objects.filter().values()
-    refs['exs_purpose'] = ExsPurpose.objects.filter().values()
+    refs['exs_keyword'] = ExsKeyword.objects.filter().values()
     refs['exs_stress_type'] = ExsStressType.objects.filter().values()
+    refs['exs_purpose'] = ExsPurpose.objects.filter().values()
     refs['exs_coaching'] = ExsCoaching.objects.filter().values()
 
     refs = set_refs_translations(refs, request.LANGUAGE_CODE)
@@ -326,21 +338,15 @@ def exercises_api(request):
                 c_exs.folder = c_folder[0]
             print(request.POST)
             c_exs.title = set_by_language_code(c_exs.title, request.LANGUAGE_CODE, request.POST.get("data[title]", ""))
-            c_exs.keyword = set_by_language_code(c_exs.keyword, request.LANGUAGE_CODE, request.POST.getlist("data[keyword[]]", ""), request.POST.getlist("data[keyword[]][]", ""))
             c_exs.description = set_by_language_code(c_exs.description, request.LANGUAGE_CODE, request.POST.get("data[description]", ""))
-            c_exs.ref_ball = set_value_as_int(request, "data[ref_ball]", None)
             c_exs.ref_goal = set_value_as_int(request, "data[ref_goal]", None)
-            c_exs.ref_cognitive_load = set_value_as_int(request, "data[ref_cognitive_load]", None)
-            c_exs.players_ages = set_value_as_list(request, "data[players_ages[]]", "data[players_ages[]][]", [])
+            c_exs.ref_ball = set_value_as_int(request, "data[ref_ball]", None)
+            c_exs.ref_team_category = set_value_as_int(request, "data[ref_team_category]", None)
             c_exs.ref_age_category = set_value_as_int(request, "data[ref_age_category]", None)
-            c_exs.players_amount = set_value_as_list(request, "data[players_amount[]]", "data[players_amount[]][]", [])
-            
+            c_exs.ref_train_part = set_value_as_int(request, "data[ref_train_part]", None)
+            c_exs.ref_cognitive_load = set_value_as_int(request, "data[ref_cognitive_load]", None)
 
-            c_exs.condition = set_by_language_code(c_exs.condition, request.LANGUAGE_CODE, request.POST.getlist("data[conditions[]]", ""), request.POST.getlist("data[conditions[]][]", ""))
-            c_exs.stress_type = set_by_language_code(c_exs.stress_type, request.LANGUAGE_CODE, request.POST.getlist("data[stress_type[]]", ""), request.POST.getlist("data[stress_type[]][]", ""))
-            c_exs.purpose = set_by_language_code(c_exs.purpose, request.LANGUAGE_CODE, request.POST.getlist("data[purposes[]]", ""), request.POST.getlist("data[purposes[]][]", ""))
-            c_exs.coaching = set_by_language_code(c_exs.coaching, request.LANGUAGE_CODE, request.POST.getlist("data[coaching[]]", ""), request.POST.getlist("data[coaching[]][]", ""))
-            c_exs.notes = set_by_language_code(c_exs.notes, request.LANGUAGE_CODE, request.POST.getlist("data[notes[]]", ""), request.POST.getlist("data[notes[]][]", ""))
+            # c_exs.notes = set_by_language_code(c_exs.notes, request.LANGUAGE_CODE, request.POST.getlist("data[notes[]]", ""), request.POST.getlist("data[notes[]][]", ""))
             
             try:
                 c_exs.save()
@@ -355,8 +361,20 @@ def exercises_api(request):
                     c_exs_team_params = UserExerciseParamTeam(team=found_team[0], exercise_user=c_exs)
                 else:
                     c_exs_team_params = c_exs_team_params[0]
-                additions_test = set_exs_team_params(request, "data[additions[]]")
-                # c_exs_team_params.addition = set_exs_team_params()
+                c_exs_team_params.player = set_by_language_code(c_exs_team_params.player, request.LANGUAGE_CODE, request.POST.get("data[player]", ""))
+                c_exs_team_params.group = set_by_language_code(c_exs_team_params.group, request.LANGUAGE_CODE, request.POST.get("data[group]", ""))
+                c_exs_team_params.play_zone = set_by_language_code(c_exs_team_params.play_zone, request.LANGUAGE_CODE, request.POST.get("data[play_zone]", ""))
+                c_exs_team_params.ball_touch = set_by_language_code(c_exs_team_params.ball_touch, request.LANGUAGE_CODE, request.POST.get("data[ball_touch]", ""))
+                c_exs_team_params.neutral = set_by_language_code(c_exs_team_params.neutral, request.LANGUAGE_CODE, request.POST.get("data[neutral]", ""))
+                c_exs_team_params.t_repeat = set_by_language_code(c_exs_team_params.t_repeat, request.LANGUAGE_CODE, request.POST.get("data[t_repeat]", ""))
+                c_exs_team_params.t_pause = set_by_language_code(c_exs_team_params.t_pause, request.LANGUAGE_CODE, request.POST.get("data[t_pause]", ""))
+
+                c_exs_team_params.keyword = set_as_object(request, c_exs_team_params.keyword, "keyword", request.LANGUAGE_CODE)
+                c_exs_team_params.stress_type = set_as_object(request, c_exs_team_params.stress_type, "stress_type", request.LANGUAGE_CODE)
+                c_exs_team_params.purpose = set_as_object(request, c_exs_team_params.purpose, "purposes", request.LANGUAGE_CODE)
+                c_exs_team_params.coaching = set_as_object(request, c_exs_team_params.coaching, "coaching", request.LANGUAGE_CODE)
+                c_exs_team_params.note = set_as_object(request, c_exs_team_params.note, "notes", request.LANGUAGE_CODE)
+
                 try:
                     c_exs_team_params.save()
                     res_data += '\nAdded team params for exs.'
@@ -434,6 +452,11 @@ def exercises_api(request):
         get_exs_one_status = 0
         get_nfb_exs = 0
         cur_user = User.objects.filter(email=request.user).only("id")
+        cur_team = -1
+        try:
+            cur_team = int(request.session['team'])
+        except:
+            pass
         if not cur_user.exists() or cur_user[0].id == None:
             return JsonResponse({"errors": "trouble_with_user"}, status=400)
         try:
@@ -522,16 +545,27 @@ def exercises_api(request):
                     res_exs['favorite'] = user_params['favorite']
                     res_exs['like'] = user_params['like']
                     res_exs['dislike'] = user_params['dislike']
+                team_params = UserExerciseParamTeam.objects.filter(exercise_user=c_exs[0].id, team=cur_team)
+                if team_params.exists() and team_params[0].id != None:
+                    team_params = team_params.values()[0]
+                    res_exs['player'] = get_by_language_code(team_params['player'], request.LANGUAGE_CODE)
+                    res_exs['group'] = get_by_language_code(team_params['group'], request.LANGUAGE_CODE)
+                    res_exs['play_zone'] = get_by_language_code(team_params['play_zone'], request.LANGUAGE_CODE)
+                    res_exs['ball_touch'] = get_by_language_code(team_params['ball_touch'], request.LANGUAGE_CODE)
+                    res_exs['neutral'] = get_by_language_code(team_params['neutral'], request.LANGUAGE_CODE)
+                    res_exs['t_repeat'] = get_by_language_code(team_params['t_repeat'], request.LANGUAGE_CODE)
+                    res_exs['t_pause'] = get_by_language_code(team_params['t_pause'], request.LANGUAGE_CODE)
+                    res_exs['keyword'] = get_by_language_code(team_params['keyword'], request.LANGUAGE_CODE)
+                    res_exs['stress_type'] = get_by_language_code(team_params['stress_type'], request.LANGUAGE_CODE)
+                    res_exs['purposes'] = get_by_language_code(team_params['purpose'], request.LANGUAGE_CODE)
+                    res_exs['coaching'] = get_by_language_code(team_params['coaching'], request.LANGUAGE_CODE)
+                    res_exs['notes'] = get_by_language_code(team_params['note'], request.LANGUAGE_CODE)
             res_exs['title'] = get_by_language_code(res_exs['title'], request.LANGUAGE_CODE)
             res_exs['description'] = get_by_language_code(res_exs['description'], request.LANGUAGE_CODE)
 
-            res_exs['keyword'] = get_by_language_code(res_exs['keyword'], request.LANGUAGE_CODE)
 
-            res_exs['condition'] = get_by_language_code(res_exs['condition'], request.LANGUAGE_CODE)
-            res_exs['stress_type'] = get_by_language_code(res_exs['stress_type'], request.LANGUAGE_CODE)
-            res_exs['purpose'] = get_by_language_code(res_exs['purpose'], request.LANGUAGE_CODE)
-            res_exs['coaching'] = get_by_language_code(res_exs['coaching'], request.LANGUAGE_CODE)
-            res_exs['notes'] = get_by_language_code(res_exs['notes'], request.LANGUAGE_CODE)
+            # res_exs['stress_type'] = get_by_language_code(res_exs['stress_type'], request.LANGUAGE_CODE)
+
             return JsonResponse({"data": res_exs, "success": True}, status=200)
         return JsonResponse({"errors": "access_error"}, status=400)
     else:

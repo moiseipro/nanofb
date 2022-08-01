@@ -148,17 +148,18 @@ class ClubSeason(AbstractReference, MixClubReference):
     )
 
 
-class ExsBall(AbstractReference, MixTranslateReference):
-    class Meta(AbstractReference.Meta):
-        pass
-
 
 class ExsGoal(AbstractReference, MixTranslateReference):
     class Meta(AbstractReference.Meta):
         pass
 
 
-class ExsCognitiveLoad(AbstractReference, MixTranslateReference):
+class ExsBall(AbstractReference, MixTranslateReference):
+    class Meta(AbstractReference.Meta):
+        pass
+
+
+class ExsTeamCategory(AbstractReference, MixTranslateReference):
     class Meta(AbstractReference.Meta):
         pass
 
@@ -168,13 +169,18 @@ class ExsAgeCategory(AbstractReference, MixTranslateReference):
         pass
 
 
-
-class ExsAddition(AbstractReference, MixTranslateReference):
+class ExsTrainPart(AbstractReference, MixTranslateReference):
     class Meta(AbstractReference.Meta):
         pass
 
 
-class ExsPurpose(AbstractReference, MixTranslateReference):
+class ExsCognitiveLoad(AbstractReference, MixTranslateReference):
+    class Meta(AbstractReference.Meta):
+        pass
+
+
+
+class ExsKeyword(AbstractReference, MixTranslateReference):
     class Meta(AbstractReference.Meta):
         pass
 
@@ -184,12 +190,12 @@ class ExsStressType(AbstractReference, MixTranslateReference):
         pass
 
 
-class ExsCoaching(AbstractReference, MixTranslateReference):
+class ExsPurpose(AbstractReference, MixTranslateReference):
     class Meta(AbstractReference.Meta):
         pass
 
 
-class ExsCategory(AbstractReference, MixTranslateReference):
+class ExsCoaching(AbstractReference, MixTranslateReference):
     class Meta(AbstractReference.Meta):
         pass
 

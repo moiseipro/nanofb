@@ -87,21 +87,13 @@ class AbstractExercise(models.Model):
     )
 
     title = models.JSONField(null=True, blank=True)
-    ref_ball = models.IntegerField(null=True, blank=True)
     ref_goal = models.IntegerField(null=True, blank=True)
-    ref_cognitive_load = models.IntegerField(null=True, blank=True)
-    keyword = models.JSONField(null=True, blank=True)
+    ref_ball = models.IntegerField(null=True, blank=True)
+    ref_team_category = models.IntegerField(null=True, blank=True)
     ref_age_category = models.IntegerField(null=True, blank=True)
-    players_ages = models.JSONField(null=True, blank=True)
-    players_amount = models.JSONField(null=True, blank=True)
+    ref_train_part = models.IntegerField(null=True, blank=True)
+    ref_cognitive_load = models.IntegerField(null=True, blank=True)
     description = models.JSONField(null=True, blank=True)
-
-
-    condition = models.JSONField(null=True, blank=True)
-    stress_type = models.JSONField(null=True, blank=True)
-    purpose = models.JSONField(null=True, blank=True)
-    coaching = models.JSONField(null=True, blank=True)
-    notes = models.JSONField(null=True, blank=True)
 
     scheme_data = models.JSONField(null=True, blank=True) # {'data': ["<svg>...</svg>", "<svg>...</svg>", "<svg>...</svg>", ...]}
     video_data = models.JSONField(null=True, blank=True) # {'data': [{'id': ""}, {'youtubeID': ""},....]}
@@ -153,10 +145,20 @@ class UserExerciseParamTeam(models.Model):
     exercise_user = models.ForeignKey(UserExercise, on_delete=models.CASCADE, null=True, blank=True)
     exercise_club = models.ForeignKey(ClubExercise, on_delete=models.CASCADE, null=True, blank=True)
     team = models.ForeignKey(UserTeam, on_delete=models.SET_NULL, null=True)
-    addition = models.JSONField(null=True, blank=True)
-    purpose = models.JSONField(null=True, blank=True)
+
+    player = models.JSONField(null=True, blank=True)
+    group = models.JSONField(null=True, blank=True)
+    play_zone = models.JSONField(null=True, blank=True)
+    ball_touch = models.JSONField(null=True, blank=True)
+    neutral = models.JSONField(null=True, blank=True)
+    t_repeat = models.JSONField(null=True, blank=True)
+    t_pause = models.JSONField(null=True, blank=True)
+
+    keyword = models.JSONField(null=True, blank=True)
     stress_type = models.JSONField(null=True, blank=True)
+    purpose = models.JSONField(null=True, blank=True)
     coaching = models.JSONField(null=True, blank=True)
+    note = models.JSONField(null=True, blank=True)
 
     objects = models.Manager()
 

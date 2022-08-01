@@ -1,12 +1,12 @@
 from django.contrib import admin
-from references.models import ExsBall, ExsGoal, ExsCognitiveLoad, ExsAgeCategory
-from references.models import ExsAddition, ExsPurpose, ExsStressType, ExsCoaching, ExsCategory
+from references.models import ExsGoal, ExsBall, ExsTeamCategory, ExsAgeCategory, ExsTrainPart, ExsCognitiveLoad
+from references.models import ExsKeyword, ExsStressType, ExsPurpose, ExsCoaching
 from references.models import VideoSource, UserSeason, UserTeam
 
 # Register your models here.
 admin.site.register([VideoSource])
-admin.site.register([ExsBall, ExsGoal, ExsCognitiveLoad, ExsAgeCategory])
-admin.site.register([ExsAddition, ExsPurpose, ExsStressType, ExsCoaching, ExsCategory])
+admin.site.register([ExsGoal, ExsBall, ExsTeamCategory, ExsAgeCategory, ExsTrainPart, ExsCognitiveLoad])
+admin.site.register([ExsKeyword, ExsStressType, ExsPurpose, ExsCoaching])
 
 #For Test
 admin.site.register([UserSeason, UserTeam])
