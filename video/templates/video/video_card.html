@@ -1,0 +1,121 @@
+{% load i18n %}
+
+<div id="video-card-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document" style="max-width: 1300px;">
+        <div class="modal-content">
+            <div class="modal-header py-1 d-block">
+                <div class="row">
+                    <div class="col-2 px-1">
+                        <button type="button" class="btn btn-sm btn-block btn-warning">
+                            {% trans "Edit" %}
+                        </button>
+                    </div>
+                    <div class="col-2 px-1">
+                        <button type="button" class="btn btn-sm btn-block btn-success" disabled>
+                            {% trans "Save" %}
+                        </button>
+                    </div>
+                    <div class="offset-2 col-2 px-1">
+                        <button type="button" class="btn btn-sm btn-block btn-danger">
+                            {% trans "Delete" %}
+                        </button>
+                    </div>
+                    <div class="col-2 px-1">
+                        <button type="button" class="btn btn-sm btn-block btn-secondary"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+                    </div>
+                    <div class="col-2 px-1">
+                        <button type="button" class="btn btn-sm btn-block btn-secondary"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-5 video-data">
+                        <div class="row border-bottom border-dark">
+                            <div class="col-12 text-center">
+                                <input type="text" class="form-control form-control-sm text-center py-0" name="name" placeholder="{% trans "Title" %}" style="height: auto" disabled>
+                            </div>
+                            <div class="col-12 text-center" data-name="none">Ссылка 1</div>
+                            <div class="col-12 text-center">
+                                <input type="text" class="form-control form-control-sm text-center py-0" name="youtube_link" placeholder="{% trans "Youtube link" %}" style="height: auto" disabled>
+                            </div>
+                        </div>
+                        <div class="row border-bottom border-secondary">
+                            <div class="col-6 bg-default-light font-weight-bold">№</div>
+                            <div class="col-6 px-0 text-center"></div>
+                        </div>
+                        <div class="row border-bottom border-secondary">
+                            <div class="col-6 bg-default-light font-weight-bold">ID</div>
+                            <div class="col-6 px-0 text-center" data-name="id"></div>
+                        </div>
+                        <div class="row border-bottom border-secondary">
+                            <div class="col-6 bg-default-light font-weight-bold">Источник</div>
+                            <div class="col-6 px-0 text-center form-select-sm">
+                                <select class="select custom-select" name="videosource_id" tabindex="-1" aria-hidden="true" disabled>
+                                    {% for source in sources %}
+                                        <option value="{{ source.id }}">{{ source.name }}</option>
+                                    {% empty %}
+                                        <option value="">{% trans 'No sources' %}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row border-bottom border-secondary">
+                            <div class="col-6 bg-default-light font-weight-bold">Дата</div>
+                            <div class="col-6 px-0 text-center" data-name="upload_date">---</div>
+                        </div>
+                        <div class="row border-bottom border-secondary">
+                            <div class="col-6 bg-default-light font-weight-bold">Длительность</div>
+                            <div class="col-6 px-0">
+                                <input type="text" class="form-control form-control-sm text-center py-0" name="duration" placeholder="00:00:00" style="height: auto" disabled>
+                            </div>
+                        </div>
+                        <div class="row border-bottom border-secondary">
+                            <div class="col-6 bg-default-light font-weight-bold">Язык (озвучка)</div>
+                            <div class="col-6 px-0 text-center form-select-sm">
+                                <select name="video_language" class="select custom-select" disabled>
+                                    {% get_current_language as LANGUAGE_CODE %}
+                                    {% get_available_languages as LANGUAGES %}
+                                    {% get_language_info_list for LANGUAGES as languages %}
+                                    {% for language in languages %}
+                                        <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                                            {{ language.name_local }} ({{ language.code }})
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row border-bottom border-secondary">
+                            <div class="col-6 bg-default-light font-weight-bold">Музыка</div>
+                            <div class="col-6 px-0 text-center">---</div>
+                        </div>
+                        <div class="row border-bottom border-secondary">
+                            <div class="col-6 bg-default-light font-weight-bold">Разделы</div>
+                            <div class="col-6 px-0 text-center">---</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 bg-default-light font-weight-bold">Теги</div>
+                            <div class="col-6 px-0 text-center">
+                                <select class="select selectmultiple custom-select" name="tags" multiple tabindex="-1" aria-hidden="true" disabled>
+                                    {% for tag in tags %}
+                                        <option value="{{ tag.id }}">{{ tag.name }}</option>
+                                    {% empty %}
+                                        <option value="">{% trans 'No sources' %}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-7">
+                        <video id="youtube-player" class="video-js resize-block">
+                        </video>
+                        <video id="base-player" class="resize-block" +1playsinline="" controls="" style="width: 100%; max-height: 33vh;">
+                            <source src="https://213.108.4.28/video/player/1654865941907" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

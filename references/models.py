@@ -148,7 +148,7 @@ class ClubSeason(AbstractReference, MixClubReference):
     )
 
 
-
+# Exercise
 class ExsGoal(AbstractReference, MixTranslateReference):
     class Meta(AbstractReference.Meta):
         pass

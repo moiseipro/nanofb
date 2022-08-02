@@ -22,10 +22,13 @@ $(window).on('load', function (){
         },
         dom: "<'row'<'col-sm-12 col-md 'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
              "<'row'<'col-sm-12'tr>>" +
-             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+             "<'row'<'col-sm-12 col-md-5'><'col-sm-12 col-md-7'p>>",
         serverSide: true,
         processing: true,
         select: true,
+        drawCallback: function( settings ) {
+            $('#table-counter').text(video_table.data().count())
+        },
         buttons: [
             {
                 extend: 'collection',
@@ -76,7 +79,7 @@ $(window).on('load', function (){
                     if ('tags' in data && data.tags.length != 0) {
                         let tags = ''
                         data.tags.forEach(function(tag, index){
-                            if(tags!='')tags+=','
+                            if(tags!='')tags+=', '
                             tags += tag.name;
                         })
                         return tags
@@ -205,9 +208,28 @@ function render_json_edit(data) {
 }
 
 function render_json_block(data) {
-    $('#block-video-info').removeClass('d-none')
+    //$('#block-video-info').removeClass('d-none')
+    $('#video-card-modal').modal('show')
     console.log(data)
-    $('#block-video-info .row div[data-name]').each(function () {
+    $('#video-card-modal [name]').each(function () {
+        let in_data = $(this).attr('name')
+        if(in_data in data){
+            if($(this).is('select')){
+                //$(this).val(1)
+                if($(this).hasClass('selectmultiple')){
+                    let ids = []
+                    data[in_data].forEach(function (tag) {
+                        ids.push(tag.id)
+                    })
+                    $(this).val(ids).trigger("change")
+                } else $(this).val(data[in_data]['id']).trigger("change")
+            } else if($(this).is('[type="checkbox"]')){
+                if(data[in_data]==true) $(this).prop('checked', true)
+                else $(this).prop('checked', false)
+            } else $(this).val(data[in_data])
+        }
+    })
+    $('#video-card-modal .video-data .row div[data-name]').each(function () {
         let in_data = $(this).attr('data-name').split('.')
         let html = '';
         if(in_data[0] in data){
@@ -237,5 +259,8 @@ function render_json_block(data) {
         youtube_player.show()
         youtube_player.src({ type: 'video/youtube', src: 'http://www.youtube.com/embed/'+data['links']['youtube']})
     }
-    resizeBlockJS($('.resize-block'));
 }
+
+$('#video-card-modal').on('shown.bs.modal', function (e) {
+    resizeBlockJS($('.resize-block'));
+})

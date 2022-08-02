@@ -7,7 +7,7 @@ import json
 from django.http import Http404
 from django.urls import reverse_lazy
 from pytube import extract
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, TemplateView
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from rest_framework import viewsets, status, generics
@@ -20,7 +20,7 @@ from rest_framework.response import Response
 from video.serializers import VideoSerializer, VideoUpdateSerializer
 from references.models import VideoSource
 from video.forms import CreateVideoForm, UpdateVideoForm
-from video.models import Video
+from video.models import Video, VideoTags
 
 context_page = {'menu_video': 'active'}
 
@@ -95,13 +95,14 @@ class VideoDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class BaseVideoView(LoginRequiredMixin, ListView):
+class BaseVideoView(LoginRequiredMixin, TemplateView):
     redirect_field_name = "authorization:login"
     template_name = 'video/base_video.html'
-    model = VideoSource
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['sources'] = VideoSource.objects.all()
+        context['tags'] = VideoTags.objects.all()
         context['update_form'] = UpdateVideoForm()
         return context
 

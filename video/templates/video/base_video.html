@@ -2,6 +2,10 @@
 {% load i18n %}
 {% load static %}
 
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'video/css/base_video.css' %}">
+{% endblock %}
+
 {% block title %}{% trans 'Video' %}{% endblock %}
 
 {% block content %}
@@ -23,6 +27,25 @@
                 <div class="card-header">
                     <form action="#">
                         <div class="row">
+                            <div class="col-sm-2 pl-0 pr-1">
+                                <a href="{% url 'video:add_video' %}" class="btn btn-sm btn-outline-success btn-block">Добавить +</a>
+                            </div>
+                            <div class="col-sm-2 px-0">
+                                <a href="#" class="btn btn-sm btn-outline-success btn-block">Парсинг +</a>
+                            </div>
+                            <div class="col-sm-2 px-1">
+                                <button id="table-counter" class="btn btn-sm btn-warning btn-block font-weight-bold">0</button>
+                            </div>
+                            <div class="col-sm-2 px-0 select-sm">
+                                <select class="select custom-select video-source" tabindex="-1" aria-hidden="true">
+                                    <option value="">{% trans 'All' %}</option>
+                                    {% for source in sources %}
+                                        <option value="{{ source.short_name }}">{{ source.name }}</option>
+                                    {% empty %}
+                                        <option value="">{% trans 'No sources' %}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
                             <!--<div class="col-sm-2 px-0">
                                 <select class="form-control form-control-sm">
                                     <option>Раздел</option>
@@ -63,19 +86,7 @@
                             <div class="col-sm-2 px-0">
                                 <a href="#" class="btn btn-info btn-sm btn-block">Импорт NF</a>
                             </div>
-                            <div class="col-sm-2 px-0">
-                                <a href="{% url 'video:add_video' %}" class="btn btn-success btn-sm btn-block">Добавить</a>
-                            </div>-->
-                            <div class="col-md-4 col-lg-3">
-                                <select class="select custom-select video-source" tabindex="-1" aria-hidden="true">
-                                    <option value="">{% trans 'All' %}</option>
-                                    {% for source in object_list %}
-                                        <option value="{{ source.short_name }}">{{ source.name }}</option>
-                                    {% empty %}
-                                        <option value="">{% trans 'No sources' %}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
+                            -->
                         </div>
                     </form>
                 </div>
@@ -148,11 +159,11 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <video id="youtube-player" class="video-js resize-block">
+                                    <!--<video id="youtube-player" class="video-js resize-block">
                                     </video>
                                     <video id="base-player" class="resize-block" +1playsinline="" controls="" style="width: 100%; max-height: 33vh;">
                                         <source src="https://213.108.4.28/video/player/1654865941907" type="video/mp4">
-                                    </video>
+                                    </video>-->
                                 </div>
                             </div>
                         </div>
@@ -163,8 +174,9 @@
     </div>
 
     {% include 'video/forms/edit.html' %}
+    {% include 'video/video_card.html' %}
 {% endblock %}
 
 {% block custom_scripts %}
-    <script src="{% static 'video/base_video.js' %}"></script>
+    <script src="{% static 'video/js/base_video.js' %}"></script>
 {% endblock %}
