@@ -9,6 +9,7 @@ from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, 
 from exercises.models import UserExerciseParam, UserExerciseParamTeam
 from references.models import ExsGoal, ExsBall, ExsTeamCategory, ExsAgeCategory, ExsTrainPart, ExsCognitiveLoad
 from references.models import ExsKeyword, ExsStressType, ExsPurpose, ExsCoaching
+from references.models import ExsCategory
 from references.models import UserSeason, UserTeam
 
 
@@ -111,6 +112,8 @@ def get_exercises_params(request, user, team):
     refs['exs_stress_type'] = ExsStressType.objects.filter().values()
     refs['exs_purpose'] = ExsPurpose.objects.filter().values()
     refs['exs_coaching'] = ExsCoaching.objects.filter().values()
+
+    refs['exs_category'] = ExsCategory.objects.filter().values()
 
     refs = set_refs_translations(refs, request.LANGUAGE_CODE)
     return [folders, nfb_folders, refs]
@@ -513,10 +516,11 @@ def exercises_api(request):
                     user_params = UserExerciseParam.objects.filter(exercise_user=exercise.id, user=cur_user[0])
                     if user_params.exists() and user_params[0].id != None:
                         user_params = user_params.values()[0]
-                        exs_data['watched'] = user_params['watched']
                         exs_data['favorite'] = user_params['favorite']
-                        exs_data['like'] = user_params['like']
-                        exs_data['dislike'] = user_params['dislike']
+                        exs_data['video_1_watched'] = user_params['video_1_watched']
+                        exs_data['video_2_watched'] = user_params['video_2_watched']
+                        exs_data['animation_1_watched'] = user_params['animation_1_watched']
+                        exs_data['animation_2_watched'] = user_params['animation_2_watched']
                     res_exs.append(exs_data)
             return JsonResponse({"data": res_exs, "success": True}, status=200)
         elif get_exs_one_status == 1:
@@ -541,10 +545,11 @@ def exercises_api(request):
                 user_params = UserExerciseParam.objects.filter(exercise_user=c_exs[0].id, user=cur_user[0])
                 if user_params.exists() and user_params[0].id != None:
                     user_params = user_params.values()[0]
-                    res_exs['watched'] = user_params['watched']
                     res_exs['favorite'] = user_params['favorite']
-                    res_exs['like'] = user_params['like']
-                    res_exs['dislike'] = user_params['dislike']
+                    res_exs['video_1_watched'] = user_params['video_1_watched']
+                    res_exs['video_2_watched'] = user_params['video_2_watched']
+                    res_exs['animation_1_watched'] = user_params['animation_1_watched']
+                    res_exs['animation_2_watched'] = user_params['animation_2_watched']
                 team_params = UserExerciseParamTeam.objects.filter(exercise_user=c_exs[0].id, team=cur_team)
                 if team_params.exists() and team_params[0].id != None:
                     team_params = team_params.values()[0]

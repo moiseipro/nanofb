@@ -2,7 +2,7 @@
     <div class="modal-header py-2">
         <div class="row w-100">
             <div class="col-12 p-1 btn-group btn-group-custom">
-                <button type="button" class="btn btn-primary btn-sm btn-custom tab-btn" id="openDescription">Описание</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn selected" id="openDescription">Описание</button>
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openDrawing">Рисунок</button>
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openVideo">Видео</button>
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openAnimation">Анимация</button>
@@ -30,13 +30,13 @@
             </div>
         </div>
     </div>
-    <div class="modal-body py-0 size-h-x" style="--h-x: 85vh; overflow-y: auto;">
+    <div class="modal-body py-0 px-0 size-h-x" style="--h-x: 85vh; overflow-y: auto;">
         <div class="tabs-block">
             <div class="tab-content1" id="cardBlock">
                 <div class="tab-pane fade show active" id="card_description" role="tabpanel" aria-labelledby="card_description-tab">
                     <div class="card-description split">
                         <div class="left-col-card" id="splitCol_exscard_0">
-                            <div class="container table-responsive">
+                            <div class="container table-responsive pl-0">
                                 <table class="table table-sm table-bordered" style="table-layout: fixed;">
                                     <colgroup>
                                         <col span="1" style="width: 50%;">
@@ -44,7 +44,7 @@
                                     </colgroup>
                                     <tbody class="">
                                         <tr class="bck-custom text-center font-weight-bold">
-                                            <td colspan="2">Упражнение</td>
+                                            <td class="align-middle" colspan="2">Упражнение</td>
                                         </tr>
                                         <tr class="bck-custom">
                                             <td colspan="2">
@@ -150,43 +150,43 @@
                                             <td colspan="2">&nbsp;</td>
                                         </tr>
                                         <tr class="bck-custom">
-                                            <td>Игроки</td>
+                                            <td class="align-middle">Игроки</td>
                                             <td>
                                                 <input name="player" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
                                             </td>
                                         </tr>
                                         <tr class="bck-custom">
-                                            <td>Группы по</td>
+                                            <td class="align-middle">Группы по</td>
                                             <td>
                                                 <input name="group" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
                                             </td>
                                         </tr>
                                         <tr class="bck-custom">
-                                            <td>Игровые зоны М2</td>
+                                            <td class="align-middle">Игровые зоны</td>
                                             <td>
                                                 <input name="play_zone" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
                                             </td>
                                         </tr>
                                         <tr class="bck-custom">
-                                            <td>Касания мяча</td>
+                                            <td class="align-middle">Касания мяча</td>
                                             <td>
                                                 <input name="ball_touch" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
                                             </td>
                                         </tr>
                                         <tr class="bck-custom">
-                                            <td>Нейтральные</td>
+                                            <td class="align-middle">Нейтральные</td>
                                             <td>
                                                 <input name="neutral" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
                                             </td>
                                         </tr>
                                         <tr class="bck-custom">
-                                            <td>Повторения t</td>
+                                            <td class="align-middle">Повторения t</td>
                                             <td>
                                                 <input name="t_repeat" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
                                             </td>
                                         </tr>
                                         <tr class="bck-custom">
-                                            <td>Паузы t</td>
+                                            <td class="align-middle">Паузы t</td>
                                             <td>
                                                 <input name="t_pause" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
                                             </td>
@@ -198,7 +198,7 @@
                                             <td colspan="2">
                                                 <div class="row">
                                                     <div class="col-9 text-center">
-                                                        <span class="ml-custom-title font-weight-bold">Ключевые слова</span>
+                                                        <span class="ml-custom-title font-weight-bold align-middle">Ключевые слова</span>
                                                     </div>
                                                     <div class="col-3 text-right">
                                                         <button class="btn btn-secondary btn-sm add-row" data-id="keyword">
@@ -212,7 +212,7 @@
                                             <td colspan="2">
                                                 <div class="row">
                                                     <div class="col-9 text-center">
-                                                        <span class="ml-custom-title font-weight-bold">Тип нагрузки</span>
+                                                        <span class="ml-custom-title font-weight-bold align-middle">Тип нагрузки</span>
                                                     </div>
                                                     <div class="col-3 text-right">
                                                         <button class="btn btn-secondary btn-sm add-row" data-id="stress_type">
@@ -252,7 +252,7 @@
                                             <td>
                                                 <div class="row">
                                                     <div class="col-9 text-center">
-                                                        <span class="ml-custom-title font-weight-bold">Цели / Направленность</span>
+                                                        <span class="ml-custom-title font-weight-bold align-middle">Цели / Направленность</span>
                                                     </div>
                                                     <div class="col-3 text-right">
                                                         <button class="btn btn-secondary btn-sm add-row" data-id="purposes">
@@ -266,7 +266,7 @@
                                             <td>
                                                 <div class="row">
                                                     <div class="col-9 text-center">
-                                                        <span class="ml-custom-title font-weight-bold">Коучинг</span>
+                                                        <span class="ml-custom-title font-weight-bold align-middle">Коучинг</span>
                                                     </div>
                                                     <div class="col-3 text-right">
                                                         <button class="btn btn-secondary btn-sm add-row" data-id="coaching">
@@ -280,7 +280,7 @@
                                             <td>
                                                 <div class="row">
                                                     <div class="col-9 text-center">
-                                                        <span class="ml-custom-title font-weight-bold">Записи тренера</span>
+                                                        <span class="ml-custom-title font-weight-bold align-middle">Записи тренера</span>
                                                     </div>
                                                     <div class="col-3 text-right">
                                                         <button class="btn btn-secondary btn-sm add-row" data-id="notes">
@@ -294,7 +294,7 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="right-col-card ml-2" id="splitCol_exscard_2">
+                        <div class="right-col-card ml-4" id="splitCol_exscard_2">
                             <div class="row w-100">
                                 <div class="col-12">
                                     <div id="carouselSchema" class="carousel slide" data-ride="carousel" data-interval="false">

@@ -112,50 +112,50 @@ function RenderFolderExercises(id, tExs) {
                         ${i+1}. Упражнение "${exElem.title}", автор: ${exElem.user}
                     </span>
 
+                    <button type="button" class="btn btn-secondary btn-sm btn-marker elem-flex-center size-w-x size-h-x ${exElem.video_1_watched == true ? 'selected' : ''}" data-type="marker" data-id="video_1_watched" style="--w-x:24px; --h-x:24px;" title="Видео 1">
+                        <input type="checkbox" value="" ${exElem.video_1_watched == true ? 'checked' : ''}>
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm btn-marker elem-flex-center size-w-x size-h-x ${exElem.video_2_watched == true ? 'selected' : ''}" data-type="marker" data-id="video_2_watched" style="--w-x:24px; --h-x:24px;" title="Видео 2">
+                        <input type="checkbox" value="" ${exElem.video_2_watched == true ? 'checked' : ''}>
+                    </button>
                     <button type="button" class="btn btn-secondary btn-sm btn-marker elem-flex-center size-w-x size-h-x ${exElem.favorite == true ? 'selected' : ''}" data-type="marker" data-id="favorite" style="--w-x:24px; --h-x:24px;" title="Избранное">
                         <span class="icon-custom icon--favorite" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm btn-marker elem-flex-center size-w-x size-h-x ${exElem.watched == true ? 'selected' : ''}" data-type="marker" data-id="watched" style="--w-x:24px; --h-x:24px;" title="Просмотрено">
-                        <span class="icon-custom icon--eye" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
+                    <button type="button" class="btn btn-secondary btn-sm btn-marker elem-flex-center size-w-x size-h-x ${exElem.animation_1_watched == true ? 'selected' : ''}" data-type="marker" data-id="animation_1_watched" style="--w-x:24px; --h-x:24px;" title="Анимация 1">
+                        <input type="checkbox" value="" ${exElem.animation_1_watched == true ? 'checked' : ''}>
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm btn-marker elem-flex-center size-w-x size-h-x ${(!exElem.watched == true) ? 'selected' : ''}" data-type="marker" data-id="watched_not" style="--w-x:24px; --h-x:24px;" title="Просмотрено">
-                        <span class="icon-custom icon--eye-not" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
-                    </button>
-                    <button type="button" class="btn btn-secondary btn-sm btn-marker elem-flex-center size-w-x size-h-x ${exElem.like == true ? 'selected' : ''}" data-type="marker" data-id="like" style="--w-x:24px; --h-x:24px;" title="Просмотрено">
-                        <span class="icon-custom icon--like" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
-                    </button>
-                    <button type="button" class="btn btn-secondary btn-sm btn-marker elem-flex-center size-w-x size-h-x ${exElem.dislike == true ? 'selected' : ''}" data-type="marker" data-id="dislike" style="--w-x:24px; --h-x:24px;" title="Просмотрено">
-                        <span class="icon-custom icon--dislike" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
+                    <button type="button" class="btn btn-secondary btn-sm btn-marker elem-flex-center size-w-x size-h-x ${exElem.animation_2_watched == true ? 'selected' : ''}" data-type="marker" data-id="animation_2_watched" style="--w-x:24px; --h-x:24px;" title="Анимация 2">
+                        <input type="checkbox" value="" ${exElem.animation_2_watched == true ? 'checked' : ''}>
                     </button>
 
-                    <button type="button" class="btn btn-secondary btn-sm btn-icons elem-flex-center size-w-x size-h-x" data-type="icons" data-id="num" style="--w-x:24px; --h-x:24px;" disabled="">
+                    <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center size-w-x size-h-x" data-type="icons" data-id="num" style="--w-x:24px; --h-x:24px;" disabled="">
                         №
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm btn-icons elem-flex-center size-w-x size-h-x" data-type="icons" data-id="players" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="">
+                    <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center size-w-x size-h-x" data-type="icons" data-id="players" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="">
                         #
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm btn-icons elem-flex-center size-w-x size-h-x" data-type="icons" data-id="goal" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="">
+                    <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center size-w-x size-h-x" data-type="icons" data-id="goal" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="">
                         G.
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm btn-icons elem-flex-center size-w-x size-h-x" data-type="icons" data-id="ball" style="--w-x:24px; --h-x:24px;" disabled="">
+                    <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center size-w-x size-h-x" data-type="icons" data-id="ball" style="--w-x:24px; --h-x:24px;" disabled="">
                         <span class="icon-custom icon--ball" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm btn-icons elem-flex-center size-w-x size-h-x" data-type="icons" data-id="watches" style="--w-x:24px; --h-x:24px;" disabled="">
+                    <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center size-w-x size-h-x" data-type="icons" data-id="watches" style="--w-x:24px; --h-x:24px;" disabled="">
                         <span class="icon-custom icon--check" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm btn-icons elem-flex-center size-w-x size-h-x" data-type="icons" data-id="favor" style="--w-x:24px; --h-x:24px;" disabled="">
+                    <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center size-w-x size-h-x" data-type="icons" data-id="favor" style="--w-x:24px; --h-x:24px;" disabled="">
                         <span class="icon-custom icon--favorite" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm btn-icons elem-flex-center size-w-x size-h-x" data-type="icons" data-id="like" style="--w-x:24px; --h-x:24px;" disabled="">
+                    <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center size-w-x size-h-x" data-type="icons" data-id="like" style="--w-x:24px; --h-x:24px;" disabled="">
                         <span class="icon-custom icon--like" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm btn-icons elem-flex-center size-w-x size-h-x" data-type="icons" data-id="video" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="">
+                    <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center size-w-x size-h-x" data-type="icons" data-id="video" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="">
                         V.
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm btn-icons elem-flex-center size-w-x size-h-x" data-type="icons" data-id="anim" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="">
+                    <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center size-w-x size-h-x" data-type="icons" data-id="anim" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="">
                         A.
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm btn-icons elem-flex-center size-w-x size-h-x" data-type="icons" data-id="stress" style="--w-x:24px; --h-x:24px;" disabled="">
+                    <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center size-w-x size-h-x" data-type="icons" data-id="stress" style="--w-x:24px; --h-x:24px;" disabled="">
                         IQ.
                     </button>
                 </div>
@@ -313,6 +313,12 @@ $(function() {
     window.lastListUsed = "folders";
     $(document).keypress((e) => {
         if ($('#exerciseCardModal').hasClass('show')) {return;}
+        if (e.which == 13) {
+            if ($('.exs-list-group').find('.list-group-item.active').length > 0) {
+                $('#showOneExs').click();
+            }
+            return;
+        }
         if (window.lastListUsed == "folders") {
             let currentList = $('.up-tabs-elem[data-id="nfb_folders"]').attr('data-state') == '1' ? ".folders_nfb_list" : ".folders_list";
             let activeElem = $(currentList).find('.list-group-item.active');

@@ -137,6 +137,10 @@ class UserExerciseParam(models.Model):
     favorite = models.BooleanField(default=False)
     like = models.BooleanField(default=False)
     dislike = models.BooleanField(default=False)
+    video_1_watched = models.BooleanField(default=False)
+    video_2_watched = models.BooleanField(default=False)
+    animation_1_watched = models.BooleanField(default=False)
+    animation_2_watched = models.BooleanField(default=False)
 
     objects = models.Manager()
 
