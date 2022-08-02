@@ -23,4 +23,11 @@ $(function() {
         $('#showGraphicsModal').modal('show');
     });
 
+
+    // Toggle left menu
+    setTimeout(() => {
+        $('#toggle_btn').click();
+    }, 500);
+
+
 });

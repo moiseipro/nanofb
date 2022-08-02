@@ -57,7 +57,6 @@ function LoadExerciseOne(exsID = null, fromNFB = 0) {
         url: "exercises_api",
         success: function (res) {
             if (res.success) {
-                console.log(res.data)
                 RenderExerciseOne(res.data);
             }
         },
@@ -306,7 +305,7 @@ $(function() {
                 document.descriptionEditor2.enableReadOnlyMode('');
                 $(document).find('.ck-editor__top').addClass('d-none');
             }
-            $('.resizeable-block').css('height', `257px`);
+            $('.resizeable-block').css('height', `235px`);
         })
         .catch(err => {
             console.error(err);
@@ -325,34 +324,26 @@ $(function() {
 
 
     $('#exerciseCard').on('click', '#openDescription', (e) => {
-        $('#exerciseCard').find('.tab-btn').removeClass('btn-primary');
-        $('#exerciseCard').find('.tab-btn').addClass('btn-secondary');
-        $(e.currentTarget).removeClass('btn-secondary');
-        $(e.currentTarget).addClass('btn-primary');
+        $('#exerciseCard').find('.tab-btn').removeClass('selected');
+        $(e.currentTarget).addClass('selected');
         $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
         $('#exerciseCard').find('#cardBlock > #card_description').addClass('show active');
     });
     $('#exerciseCard').on('click', '#openDrawing', (e) => {
-        $('#exerciseCard').find('.tab-btn').removeClass('btn-primary');
-        $('#exerciseCard').find('.tab-btn').addClass('btn-secondary');
-        $(e.currentTarget).removeClass('btn-secondary');
-        $(e.currentTarget).addClass('btn-primary');
+        $('#exerciseCard').find('.tab-btn').removeClass('selected');
+        $(e.currentTarget).addClass('selected');;
         $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
         $('#exerciseCard').find('#cardBlock > #card_drawing').addClass('show active');
     });
     $('#exerciseCard').on('click', '#openVideo', (e) => {
-        $('#exerciseCard').find('.tab-btn').removeClass('btn-primary');
-        $('#exerciseCard').find('.tab-btn').addClass('btn-secondary');
-        $(e.currentTarget).removeClass('btn-secondary');
-        $(e.currentTarget).addClass('btn-primary');
+        $('#exerciseCard').find('.tab-btn').removeClass('selected');
+        $(e.currentTarget).addClass('selected');
         $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
         $('#exerciseCard').find('#cardBlock > #card_video').addClass('show active');
     });
     $('#exerciseCard').on('click', '#openAnimation', (e) => {
-        $('#exerciseCard').find('.tab-btn').removeClass('btn-primary');
-        $('#exerciseCard').find('.tab-btn').addClass('btn-secondary');
-        $(e.currentTarget).removeClass('btn-secondary');
-        $(e.currentTarget).addClass('btn-primary');
+        $('#exerciseCard').find('.tab-btn').removeClass('selected');
+        $(e.currentTarget).addClass('selected');
         $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
         $('#exerciseCard').find('#cardBlock > #card_animation').addClass('show active');
     });

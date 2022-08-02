@@ -5,9 +5,9 @@ function ToggleUpFilter(id, state) {
     switch(id) {
         case "toggle_side_filter":
             $('div.side-filter-block').toggleClass('d-none', !state);
-            graphicsWidth = state ? `calc(${$('#splitCol_2').css('width')} - 17%)` : `calc(${$('#splitCol_2').css('width')} + 17%)`;
-            $('#splitCol_2').css('width', graphicsWidth);
-            RenderSplitCols();
+            // graphicsWidth = state ? `calc(${$('#splitCol_2').css('width')} - 17%)` : `calc(${$('#splitCol_2').css('width')} + 17%)`;
+            // $('#splitCol_2').css('width', graphicsWidth);
+            // RenderSplitCols();
             if (!state && $('.up-tabs-elem[data-id="cols_size"]').attr('data-state') == '1') {
                 $('.up-tabs-elem[data-id="cols_size"]').attr('data-state', '0');
                 $('.up-tabs-elem[data-id="cols_size"]').removeClass('btn-primary');
@@ -177,6 +177,11 @@ function ToggleIconsInExs() {
 function ToggleMarkersInExs() {
     let isActive = $('.up-tabs-elem[data-id="toggle_markers"]').attr('data-state') == "1";
     $('.exercises-block').find(`[data-type="marker"]`).toggleClass('d-none', !isActive);
+    if (isActive) {
+        $('.list-group[data-id="show_icons"]').find('.side-filter-elem').removeClass('active');
+        $('.list-group[data-id="show_icons"]').find('.side-filter-elem').attr('data-state', '0');
+        $('.exs-list-group').find('button[data-type="icons"]').addClass('d-none');
+    }
 }
 
 function CheckLastExs() {
@@ -227,6 +232,9 @@ $(function() {
         let state = $(e.currentTarget).attr('data-state') == '1';
         let isFilter = $(e.currentTarget).parent().attr('data-id') == "filter";
         let isShowIcons = $(e.currentTarget).parent().attr('data-id') == "show_icons";
+        if (isShowIcons && $('.up-tabs-elem[data-id="toggle_markers"]').attr('data-state') == '1') {
+            return;
+        }
         if (isFilter) {
             $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').attr('data-state', '0');
             $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').toggleClass('active', false);
@@ -661,6 +669,9 @@ $(function() {
                         $(e.currentTarget).parent().find('button[data-type="marker"][data-id="like"]').toggleClass('selected', false);
                     }
                     $(e.currentTarget).toggleClass('selected', res.data.value == 1);
+                    if ($(e.currentTarget).find('input').length > 0) {
+                        $(e.currentTarget).find('input').prop('checked', res.data.value == 1);
+                    }
                 }
             },
             error: function (res) {
@@ -722,7 +733,6 @@ $(function() {
     let cFoldersSettings = localStorage.getItem('folders_sets');
     try {
         cFoldersSettings = JSON.parse(cFoldersSettings);
-        console.log(cFoldersSettings)
     } catch(e) {}
     if (cFoldersSettings.expandToggled !== null && cFoldersSettings.expandToggled !== undefined) {
         if (cFoldersSettings.expandToggled) {
@@ -738,6 +748,11 @@ $(function() {
         $(`.folders-block > div[data-id="${cFoldersSettings.type}"]`).removeClass('d-none');
     }
 
+
+    // Toggle left menu
+    setTimeout(() => {
+        $('#toggle_btn').click();
+    }, 500);
 
 
 });

@@ -140,6 +140,7 @@
     border-color: #a6a6a6
 }
 .btn-custom.btn-primary {
+    color: whitesmoke !important;
     background-color: #6b92ff;
     border-color: #6b92ff;
 }
@@ -148,6 +149,7 @@
     border-color: #5574c9;
 }
 .btn-custom.btn-success {
+    color: whitesmoke !important;
     background-color: #90d047;
     border-color: #90d047;
 }
@@ -156,6 +158,7 @@
     border-color: #70a237;
 }
 .btn-custom.btn-warning {
+    color: whitesmoke !important;
     background-color: #eebb56;
     border-color: #eebb56;
 }
@@ -164,6 +167,7 @@
     border-color: #b99347;
 }
 .btn-custom.btn-danger {
+    color: whitesmoke !important;
     background-color: #fa9191;
     border-color: #fa9191;
 }
@@ -201,7 +205,7 @@
     border: 2px solid rgb(100, 100, 100) !important;
 }
 tr.bck-custom > td {
-    padding: .1rem !important;
+    padding: .0rem !important;
 }
 .bck-custom-color {
     background-color: var(--bck-color) !important;
@@ -211,7 +215,7 @@ tr.bck-custom > td {
     background-color: #ececec;
 }
 .folders_list > .list-group > .list-group-item.active {
-    background-color: #91dd91;
+    background-color: #d4d4d4;
     border-color: #b9b8b8;
     color: #5a6268;
     border: 2px solid rgb(100, 100, 100) !important;
@@ -220,7 +224,7 @@ tr.bck-custom > td {
     background-color: #ececec;
 }
 .folders_nfb_list > .list-group > .list-group-item.active {
-    background-color: #91dd91;
+    background-color: #d4d4d4;
     border-color: #b9b8b8;
     color: #5a6268;
     border: 2px solid rgb(100, 100, 100) !important;
@@ -228,7 +232,7 @@ tr.bck-custom > td {
 
 
 .exs-list-group > .list-group-item.active {
-    background-color: #91dd91;
+    background-color: #d4d4d4;
     border-color: #b9b8b8;
     color: #5a6268;
     border: 2px solid rgb(100, 100, 100) !important;
@@ -246,13 +250,14 @@ tr.bck-custom > td {
 }
 
 
-.ck-editor__editable {
-    min-height: 258px;
-    height: auto;
+.ck-editor {
+    height: 100% !important;
 }
-.ck-editor__editable.ck-read-only {
-    min-height: 258px !important;
-    height: auto;
+.ck-editor__main {
+    height: 100% !important;
+}
+.ck-editor__editable {
+    height: 100% !important;
 }
 
 
@@ -295,19 +300,14 @@ a.text-dark:hover {
 }
 
 
-.btn-icons.btn-secondary {
-    color: #5a6268 !important;
-    background-color: #d5d5d5;
-    border-color: #d5d5d5;
+.btn-marker {
+    border: 2px solid rgb(100, 100, 100) !important;
 }
-
 .btn-marker.btn-secondary {
     background-color: #d5d5d5;
-    border-color: #d5d5d5;
 }
 .btn-marker.selected {
     background-color: #91dd91 !important;
-    border-color: #91dd91 !important;
 }
 
 
