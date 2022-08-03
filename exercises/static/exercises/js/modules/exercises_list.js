@@ -88,19 +88,19 @@ function RenderFolderExercises(id, tExs) {
                         ${i+1}. Упражнение "${exElem.title}", автор: ${exElem.user}
                     </span>
 
-                    <button type="button" class="btn btn-sm btn-marker elem-flex-center size-w-x size-h-x ${exElem.video_1_watched == true ? 'selected' : ''}" data-type="marker" data-id="video_1_watched" style="--w-x:24px; --h-x:24px;" title="Видео 1">
+                    <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.video_1_watched == true ? 'selected' : ''}" data-type="marker" data-id="video_1_watched" style="--w-x:24px; --h-x:24px;" title="Видео 1">
                         <input type="checkbox" value="" ${exElem.video_1_watched == true ? 'checked' : ''}>
                     </button>
-                    <button type="button" class="btn btn-sm btn-marker elem-flex-center size-w-x size-h-x ${exElem.video_2_watched == true ? 'selected' : ''}" data-type="marker" data-id="video_2_watched" style="--w-x:24px; --h-x:24px;" title="Видео 2">
+                    <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.video_2_watched == true ? 'selected' : ''}" data-type="marker" data-id="video_2_watched" style="--w-x:24px; --h-x:24px;" title="Видео 2">
                         <input type="checkbox" value="" ${exElem.video_2_watched == true ? 'checked' : ''}>
                     </button>
                     <button type="button" class="btn btn-secondary btn-sm btn-marker elem-flex-center size-w-x size-h-x ${exElem.favorite == true ? 'selected' : ''}" data-type="marker" data-id="favorite" style="--w-x:24px; --h-x:24px;" title="Избранное">
                         <span class="icon-custom icon--favorite" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                     </button>
-                    <button type="button" class="btn btn-marker elem-flex-center size-w-x size-h-x ${exElem.animation_1_watched == true ? 'selected' : ''}" data-type="marker" data-id="animation_1_watched" style="--w-x:24px; --h-x:24px;" title="Анимация 1">
+                    <button type="button" class="btn btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.animation_1_watched == true ? 'selected' : ''}" data-type="marker" data-id="animation_1_watched" style="--w-x:24px; --h-x:24px;" title="Анимация 1">
                         <input type="checkbox" value="" ${exElem.animation_1_watched == true ? 'checked' : ''}>
                     </button>
-                    <button type="button" class="btn btn-marker elem-flex-center size-w-x size-h-x ${exElem.animation_2_watched == true ? 'selected' : ''}" data-type="marker" data-id="animation_2_watched" style="--w-x:24px; --h-x:24px;" title="Анимация 2">
+                    <button type="button" class="btn btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.animation_2_watched == true ? 'selected' : ''}" data-type="marker" data-id="animation_2_watched" style="--w-x:24px; --h-x:24px;" title="Анимация 2">
                         <input type="checkbox" value="" ${exElem.animation_2_watched == true ? 'checked' : ''}>
                     </button>
 
@@ -117,19 +117,10 @@ function RenderFolderExercises(id, tExs) {
                         <span class="icon-custom icon--ball" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                     </button>
                     <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center size-w-x size-h-x" data-type="icons" data-id="watches" style="--w-x:24px; --h-x:24px;" disabled="">
-                        <span class="icon-custom icon--check" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
+                        <span class="icon-custom icon--eye" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                     </button>
                     <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center size-w-x size-h-x" data-type="icons" data-id="favor" style="--w-x:24px; --h-x:24px;" disabled="">
                         <span class="icon-custom icon--favorite" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
-                    </button>
-                    <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center size-w-x size-h-x" data-type="icons" data-id="like" style="--w-x:24px; --h-x:24px;" disabled="">
-                        <span class="icon-custom icon--like" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
-                    </button>
-                    <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center size-w-x size-h-x" data-type="icons" data-id="video" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="">
-                        V.
-                    </button>
-                    <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center size-w-x size-h-x" data-type="icons" data-id="anim" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="">
-                        A.
                     </button>
                     <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center size-w-x size-h-x" data-type="icons" data-id="stress" style="--w-x:24px; --h-x:24px;" disabled="">
                         IQ.
@@ -305,6 +296,7 @@ $(function() {
     // Change folder or exercise using keys
     window.lastListUsed = "folders";
     $(document).keypress((e) => {
+        console.log(e.which)
         if ($('#exerciseCardModal').hasClass('show')) {return;}
         if (e.which == 13) {
             if ($('.exs-list-group').find('.list-group-item.active').length > 0) {
@@ -315,7 +307,7 @@ $(function() {
         if (window.lastListUsed == "folders") {
             let currentList = $('.up-tabs-elem[data-id="nfb_folders"]').attr('data-state') == '1' ? ".folders_nfb_list" : ".folders_list";
             let activeElem = $(currentList).find('.list-group-item.active');
-            if (e.which == 119) { // w
+            if (e.which == 119) { // "W"
                 if (activeElem.length > 0) {
                     $(activeElem).removeClass('active');
                     $(activeElem).prev().addClass('active');
@@ -323,7 +315,7 @@ $(function() {
                     $(currentList).find('.list-group-item').last().addClass('active');
                 }
             }
-            if (e.which == 115) { // s
+            if (e.which == 115) { // "S"
                 if (activeElem.length > 0) {
                     $(activeElem).removeClass('active');
                     $(activeElem).next().addClass('active');

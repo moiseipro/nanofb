@@ -19,6 +19,7 @@ function RenderSplitExsCardCols() {
 }
 
 function ToggleEditFields(flag) {
+    $('#exerciseCard').find('.exs_edit_field').removeClass('empty-field');
     $('#exerciseCard').find('.exs_edit_field').prop('disabled', !flag);
     $('#exerciseCard').find('.add-row').toggleClass('d-none', !flag);
     $('#exerciseCard').find('.remove-row').toggleClass('d-none', !flag);
@@ -328,26 +329,26 @@ $(function() {
 
 
     $('#exerciseCard').on('click', '#openDescription', (e) => {
-        $('#exerciseCard').find('.tab-btn').removeClass('selected');
-        $(e.currentTarget).addClass('selected');
+        $('#exerciseCard').find('.tab-btn').removeClass('selected2');
+        $(e.currentTarget).addClass('selected2');
         $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
         $('#exerciseCard').find('#cardBlock > #card_description').addClass('show active');
     });
     $('#exerciseCard').on('click', '#openDrawing', (e) => {
-        $('#exerciseCard').find('.tab-btn').removeClass('selected');
-        $(e.currentTarget).addClass('selected');;
+        $('#exerciseCard').find('.tab-btn').removeClass('selected2');
+        $(e.currentTarget).addClass('selected2');;
         $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
         $('#exerciseCard').find('#cardBlock > #card_drawing').addClass('show active');
     });
     $('#exerciseCard').on('click', '#openVideo', (e) => {
-        $('#exerciseCard').find('.tab-btn').removeClass('selected');
-        $(e.currentTarget).addClass('selected');
+        $('#exerciseCard').find('.tab-btn').removeClass('selected2');
+        $(e.currentTarget).addClass('selected2');
         $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
         $('#exerciseCard').find('#cardBlock > #card_video').addClass('show active');
     });
     $('#exerciseCard').on('click', '#openAnimation', (e) => {
-        $('#exerciseCard').find('.tab-btn').removeClass('selected');
-        $(e.currentTarget).addClass('selected');
+        $('#exerciseCard').find('.tab-btn').removeClass('selected2');
+        $(e.currentTarget).addClass('selected2');
         $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
         $('#exerciseCard').find('#cardBlock > #card_animation').addClass('show active');
     });
@@ -450,6 +451,12 @@ $(function() {
                 $('.page-loader-wrapper').fadeOut();
             }
         });
+    });
+
+    $('#exerciseCard').on('change', '.exs_edit_field', (e) => {
+        if (!$(e.currentTarget).prop('required')) {return;}
+        let isEmpty = $(e.currentTarget).val() == '';
+        $(e.currentTarget).toggleClass('empty-field', isEmpty);
     });
 
 
