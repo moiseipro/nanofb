@@ -655,6 +655,10 @@ $(function() {
                     if ($(e.currentTarget).find('input').length > 0) {
                         $(e.currentTarget).find('input').prop('checked', res.data.value == 1);
                     }
+                    if ($(e.currentTarget).find('span.icon-custom').length > 0) {
+                        $(e.currentTarget).find('span.icon-custom').toggleClass('icon--favorite', res.data.value != 1);
+                        $(e.currentTarget).find('span.icon-custom').toggleClass('icon--favorite-selected', res.data.value == 1);
+                    }
                 }
             },
             error: function (res) {

@@ -271,6 +271,11 @@ tr.bck-custom > td {
 .form-control-sm.exs_edit_field {
     height: calc(1.5em + .5rem - 2px) !important;
 }
+textarea.form-control.exs_edit_field {
+    min-height: calc(1.5em + .5rem - 2px) !important;
+    resize: none;
+    overflow: hidden;
+}
 
 .empty-field {
     border: 2px solid #ff5454 !important;
@@ -322,8 +327,11 @@ a.text-dark:hover {
 }
 
 .btn-marker.btn-empty {
-
     border: 0px solid black !important;
+}
+.btn-custom.btn-empty {
+    border: 0px solid black !important;
+    color: black !important;
 }
 
 

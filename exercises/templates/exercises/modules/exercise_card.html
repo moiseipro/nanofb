@@ -544,7 +544,8 @@
                     <td>
                         <div class="row">
                             <div class="col">
-                                <input name="coaching[]" class="form-control form-control-sm diff-frmt" type="text" value="" placeholder="" autocomplete="off">
+                                <textarea name="coaching[]" class="form-control form-control-sm1 diff-frmt" onkeyup="autoGrow(this);" onchange="autoGrow(this);" style="height: 28px;"></textarea>
+                                <!-- <input name="coaching[]" class="form-control form-control-sm diff-frmt" type="text" value="" placeholder="" autocomplete="off"> -->
                             </div>
                             <div class="col-2 text-right">
                                 <button class="btn btn-secondary btn-sm remove-row">

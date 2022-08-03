@@ -226,6 +226,8 @@ def test(request):
         'teams_list': UserTeam.objects.filter(user_id=request.user)
     })
 
+
+
 @csrf_exempt
 def exercises_api(request):
     if not request.user.is_authenticated:

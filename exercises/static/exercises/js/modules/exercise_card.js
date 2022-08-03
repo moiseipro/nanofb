@@ -83,7 +83,7 @@ function RenderExerciseOne(data) {
             if (cId == "additions1") {
                 cloneRow = $('#exerciseCard').find('.gen-content').find(`tr[data-id="${cId}"]`).clone();
             } else {
-                let cType = elem.type == "INPUT" ? "text" : elem.type == "SELECT" ? "list" : "";
+                let cType = (elem.type == "INPUT" || elem.type == "TEXTAREA") ? "text" : elem.type == "SELECT" ? "list" : "";
                 if (cId == "notes" && cType != "text") {cType = "";}
                 cloneRow = $('#exerciseCard').find('.gen-content').find(`tr[data-id="${cId}"][data-type="${cType}"]`).clone();
             }
@@ -93,6 +93,7 @@ function RenderExerciseOne(data) {
                 $(cloneRow).find('.form-control').addClass('exs_team_param');
                 $(cloneRow).find('.form-control').prop('disabled', true);
                 $(cloneRow).find('.exs_edit_field').val(elem.value);
+                $(cloneRow).find('.exs_edit_field').change();
                 $(cloneRow).find('.remove-row').addClass('btn-on');
                 $(cloneRow).find('.remove-row').prop('disabled', false);
                 $(cloneRow).insertAfter($('#exerciseCard').find(`.wider_row[data-id="${cId}"]`).last());
@@ -295,6 +296,15 @@ function DeleteExerciseOne() {
     });
 }
 
+function autoGrow(element) {
+    element.style.height = "5px";
+    element.style.height = (element.scrollHeight - 7)+"px";
+    if (element.scrollHeight == 0) {
+        let text = element.value;
+        let linesCount = text.split("\n").length;
+        element.style.height = (linesCount * 28)+"px";
+    }
+}
 
 
 $(function() {
@@ -485,6 +495,5 @@ $(function() {
         DeleteExerciseOne();
     });
     
-
 
 });
