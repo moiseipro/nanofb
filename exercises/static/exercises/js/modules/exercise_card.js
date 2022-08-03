@@ -148,7 +148,9 @@ function RenderExerciseOne(data) {
         CheckMultiRows(exsCard, data.notes, '.exs_edit_field[name="notes[]"]', 'notes');
 
         $(exsCard).find('.exs_edit_field[name="title"]').val(data.title);
-        document.descriptionEditor2.setData(data.description);
+        if (document.descriptionEditor2) {
+            document.descriptionEditor2.setData(data.description);
+        }
     } else {
         $(exsCard).attr('data-exs', '-1');
 
@@ -160,7 +162,6 @@ function RenderExerciseOne(data) {
         $(exsCard).find('.remove-row.btn-on').prop('disabled', false);
         $(exsCard).find('.add-row').toggleClass('d-none', false);
         $(exsCard).find('.remove-row').toggleClass('d-none', false);
-        document.descriptionEditor2.disableReadOnlyMode('');
 
         $(exsCard).find('.exs_edit_field.folder_nfb').toggleClass('d-none', true);
         $(exsCard).find('.exs_edit_field.folder_default').toggleClass('d-none', false);
@@ -169,8 +170,11 @@ function RenderExerciseOne(data) {
         $(exsCard).find(`.folder_default[name="folder_main"]`).val('');
 
         $(exsCard).find('.exs_edit_field').val('');
-        document.descriptionEditor2.setData('');
-
+        if (document.descriptionEditor2) {
+            document.descriptionEditor2.disableReadOnlyMode('');
+            document.descriptionEditor2.setData('');
+        }
+        
         CheckMultiRows(exsCard, '', '.exs_edit_field[name="keyword[]"]', 'keyword');
         CheckMultiRows(exsCard, '', '.exs_edit_field[name="stress_type[]"]', 'stress_type');
         CheckMultiRows(exsCard, '', '.exs_edit_field[name="purposes[]"]', 'purposes');

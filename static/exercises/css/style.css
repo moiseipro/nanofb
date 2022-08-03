@@ -51,36 +51,36 @@
 }
 
 .card-inside {
-    height: 85vh !important;
+    height: 88vh !important;
 }
 .folders_list {
-    height: 75vh !important;
+    height: 80vh !important;
     overflow-y: auto;
 }
 .exs-list-group {
-    height: 75vh !important;
+    height: 80vh !important;
     overflow-y: auto;
 }
 .visual-block {
-    height: 78vh !important;
+    height: 80vh !important;
     overflow-y: auto;
 }
 .side-filter-block {
-    height: 75vh !important;
+    height: 80vh !important;
     overflow-y: auto;
 }
 
 
 .left-col-card {
-    height: 75vh !important;
+    height: 78vh !important;
     overflow-y: auto;
 }
 .center-col-card {
-    height: 75vh !important;
+    height: 78vh !important;
     overflow-y: auto;
 }
 .right-col-card {
-    height: 75vh !important;
+    height: 78vh !important;
     overflow-y: auto;
 }
 
@@ -306,7 +306,7 @@ a.text-dark:hover {
 .btn-marker.btn-secondary {
     background-color: #d5d5d5;
 }
-.btn-marker.selected {
+.btn-marker.btn-secondary.selected {
     background-color: #91dd91 !important;
 }
 
@@ -315,3 +315,14 @@ a.text-dark:hover {
     pointer-events: none;
 }
 
+
+.border-top-custom {
+    border-top: 1px solid rgb(100, 100, 100) !important;
+}
+.border-bottom-custom {
+    border-bottom: 1px solid rgb(100, 100, 100) !important;
+}
+.border-y-custom {
+    border-top: 1px solid rgb(100, 100, 100) !important;
+    border-bottom: 1px solid rgb(100, 100, 100) !important;
+}

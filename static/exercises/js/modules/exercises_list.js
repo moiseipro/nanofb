@@ -17,30 +17,6 @@ function RenderSplitCols() {
     let stateColSize = $('.up-tabs-elem[data-id="cols_size"]').attr('data-state') == '1';
     $('.exercises-list').find('div.gutter').toggleClass('d-none', !stateColSize);
     ResizeSplitCols();
-
-    $('#exerciseCardModal').find('div.gutter').remove();
-    sizesArr = window.dataForSplit2;
-    window.split2 = Split(['#splitCol_10', '#splitCol_11'], {
-        sizes: sizesArr,
-        dragInterval: 1,
-        gutterSize: 16,
-        onDrag: () => {
-            let sizes = window.split2.getSizes();
-            try {
-                if (sizes[0] < 39) {
-                    window.split2.setSizes([40, 60]);
-                }
-                if (sizes[1] < 39) {
-                    window.split2.setSizes([60, 40]);
-                }
-            } catch(e) {}
-        },
-        onDragEnd: (arr) => {
-            window.dataForSplit2 = arr;
-            localStorage.setItem('split_cols2', JSON.stringify(window.dataForSplit2));
-        }
-    });
-    $('#exerciseCardModal').find('div.gutter').toggleClass('d-none', true);
 }
 
 function ResizeSplitCols() {
@@ -112,19 +88,19 @@ function RenderFolderExercises(id, tExs) {
                         ${i+1}. Упражнение "${exElem.title}", автор: ${exElem.user}
                     </span>
 
-                    <button type="button" class="btn btn-secondary btn-sm btn-marker elem-flex-center size-w-x size-h-x ${exElem.video_1_watched == true ? 'selected' : ''}" data-type="marker" data-id="video_1_watched" style="--w-x:24px; --h-x:24px;" title="Видео 1">
+                    <button type="button" class="btn btn-sm btn-marker elem-flex-center size-w-x size-h-x ${exElem.video_1_watched == true ? 'selected' : ''}" data-type="marker" data-id="video_1_watched" style="--w-x:24px; --h-x:24px;" title="Видео 1">
                         <input type="checkbox" value="" ${exElem.video_1_watched == true ? 'checked' : ''}>
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm btn-marker elem-flex-center size-w-x size-h-x ${exElem.video_2_watched == true ? 'selected' : ''}" data-type="marker" data-id="video_2_watched" style="--w-x:24px; --h-x:24px;" title="Видео 2">
+                    <button type="button" class="btn btn-sm btn-marker elem-flex-center size-w-x size-h-x ${exElem.video_2_watched == true ? 'selected' : ''}" data-type="marker" data-id="video_2_watched" style="--w-x:24px; --h-x:24px;" title="Видео 2">
                         <input type="checkbox" value="" ${exElem.video_2_watched == true ? 'checked' : ''}>
                     </button>
                     <button type="button" class="btn btn-secondary btn-sm btn-marker elem-flex-center size-w-x size-h-x ${exElem.favorite == true ? 'selected' : ''}" data-type="marker" data-id="favorite" style="--w-x:24px; --h-x:24px;" title="Избранное">
                         <span class="icon-custom icon--favorite" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm btn-marker elem-flex-center size-w-x size-h-x ${exElem.animation_1_watched == true ? 'selected' : ''}" data-type="marker" data-id="animation_1_watched" style="--w-x:24px; --h-x:24px;" title="Анимация 1">
+                    <button type="button" class="btn btn-marker elem-flex-center size-w-x size-h-x ${exElem.animation_1_watched == true ? 'selected' : ''}" data-type="marker" data-id="animation_1_watched" style="--w-x:24px; --h-x:24px;" title="Анимация 1">
                         <input type="checkbox" value="" ${exElem.animation_1_watched == true ? 'checked' : ''}>
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm btn-marker elem-flex-center size-w-x size-h-x ${exElem.animation_2_watched == true ? 'selected' : ''}" data-type="marker" data-id="animation_2_watched" style="--w-x:24px; --h-x:24px;" title="Анимация 2">
+                    <button type="button" class="btn btn-marker elem-flex-center size-w-x size-h-x ${exElem.animation_2_watched == true ? 'selected' : ''}" data-type="marker" data-id="animation_2_watched" style="--w-x:24px; --h-x:24px;" title="Анимация 2">
                         <input type="checkbox" value="" ${exElem.animation_2_watched == true ? 'checked' : ''}>
                     </button>
 
@@ -277,6 +253,23 @@ function RenderExerciseOne(data) {
     }
 }
 
+function ToggleIconsInExs() {
+    $('.side-filter-block').find('.list-group[data-id="show_icons"]').find('.side-filter-elem').each((ind, elem) => {
+        let cId = $(elem).attr('data-id');
+        let isActive = $(elem).hasClass('active');
+        $('.exercises-block').find(`[data-type="icons"][data-id="${cId}"]`).toggleClass('d-none', !isActive);
+    });
+}
+function ToggleMarkersInExs() {
+    let isActive = $('.up-tabs-elem[data-id="toggle_markers"]').attr('data-state') == "1";
+    $('.exercises-block').find(`[data-type="marker"]`).toggleClass('d-none', !isActive);
+    if (isActive) {
+        $('.list-group[data-id="show_icons"]').find('.side-filter-elem').removeClass('active');
+        $('.list-group[data-id="show_icons"]').find('.side-filter-elem').attr('data-state', '0');
+        $('.exs-list-group').find('button[data-type="icons"]').addClass('d-none');
+    }
+}
+
 
 $(function() {
 
@@ -365,7 +358,7 @@ $(function() {
 
     // Choose exercise
     $('.exercises-list').on('click', '.exs-elem', (e) => {
-        if ($(e.target).is('button') || $(e.target).hasClass('icon-custom')) {
+        if ($(e.target).is('button') || $(e.target).hasClass('icon-custom') || $(e.target).is('input')) {
             return;
         }
         if ($(e.currentTarget).hasClass('active')) {
@@ -384,11 +377,6 @@ $(function() {
     if (!window.dataForSplit) {
         window.dataForSplit = [25, 35, 40];
         localStorage.setItem('split_cols', JSON.stringify(window.dataForSplit));
-    }
-    window.dataForSplit2 = JSON.parse(localStorage.getItem('split_cols2'));
-    if (!window.dataForSplit2) {
-        window.dataForSplit2 = [50, 50];
-        localStorage.setItem('split_cols2', JSON.stringify(window.dataForSplit2));
     }
     RenderSplitCols();
 
