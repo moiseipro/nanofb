@@ -1,5 +1,7 @@
 // Токен для отправик AJAX запросов
 const csrftoken = Cookies.get('csrftoken');
+// Режим редактирования карточек
+var edit_mode = false;
 
 let aspectRatio = 9 / 16  // коэффициент соотношения сторон
 
@@ -60,3 +62,15 @@ function getFormData($form){
 
     return indexed_array;
 }
+
+// Переключение режима редактирования карточек
+function toggle_edit_mode(toggle = null){
+    if(toggle == null) edit_mode = !edit_mode
+    else edit_mode = toggle
+    $('.edit-input').prop('disabled', !edit_mode)
+    $('.edit-button').toggleClass('d-none', !edit_mode)
+    $('.view-button').toggleClass('d-none', edit_mode)
+}
+$('.toggle-edit-mode').on('click', function () {
+    toggle_edit_mode()
+})
