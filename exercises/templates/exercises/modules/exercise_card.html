@@ -2,7 +2,7 @@
     <div class="modal-header py-2">
         <div class="row w-100">
             <div class="col-12 p-1 btn-group btn-group-custom">
-                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn selected" id="openDescription">Описание</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn selected2" id="openDescription">Описание</button>
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openDrawing">Рисунок</button>
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openVideo">Видео</button>
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openAnimation">Анимация</button>
@@ -43,10 +43,10 @@
                                         <col span="1" style="width: 50%;">
                                     </colgroup>
                                     <tbody class="">
-                                        <tr class="bck-custom text-center font-weight-bold">
+                                        <tr class="bck-custom text-center font-weight-bold border-bottom-custom">
                                             <td class="align-middle" colspan="2">Упражнение</td>
                                         </tr>
-                                        <tr class="bck-custom">
+                                        <tr class="bck-custom border-y-custom">
                                             <td colspan="2">
                                                 <select name="folder_parent" class="form-control form-control-sm exs_edit_field folder_nfb d-none" required="" autocomplete="off">
                                                     <option value="">Главные папки</option>
@@ -66,7 +66,7 @@
                                                 </select>
                                             </td>
                                         </tr>
-                                        <tr class="bck-custom">
+                                        <tr class="bck-custom border-y-custom">
                                             <td colspan="2">
                                                 <select name="folder_main" class="form-control form-control-sm exs_edit_field folder_nfb d-none" required="" autocomplete="off">
                                                     <option value="">Папки с упражнением</option>
@@ -86,7 +86,7 @@
                                                 </select>
                                             </td>
                                         </tr>
-                                        <tr class="bck-custom">
+                                        <tr class="bck-custom border-y-custom">
                                             <td colspan="2">
                                                 <select name="ref_goal" class="form-control form-control-sm exs_edit_field" autocomplete="off">
                                                     <option value="">Ворота</option>
@@ -96,7 +96,7 @@
                                                 </select>
                                             </td>
                                         </tr>
-                                        <tr class="bck-custom">
+                                        <tr class="bck-custom border-y-custom">
                                             <td colspan="2">
                                                 <select name="ref_ball" class="form-control form-control-sm exs_edit_field" autocomplete="off">
                                                     <option value="">Мяч</option>
@@ -106,7 +106,7 @@
                                                 </select>
                                             </td>
                                         </tr>
-                                        <tr class="bck-custom">
+                                        <tr class="bck-custom border-y-custom">
                                             <td colspan="2">
                                                 <select name="ref_team_category" class="form-control form-control-sm exs_edit_field" autocomplete="off">
                                                     <option value="">Категория команды</option>
@@ -116,7 +116,7 @@
                                                 </select>
                                             </td>
                                         </tr>
-                                        <tr class="bck-custom">
+                                        <tr class="bck-custom border-y-custom">
                                             <td colspan="2">
                                                 <select name="ref_age_category" class="form-control form-control-sm exs_edit_field" autocomplete="off">
                                                     <option value="">Возрастная категория</option>
@@ -126,7 +126,7 @@
                                                 </select>
                                             </td>
                                         </tr>
-                                        <tr class="bck-custom">
+                                        <tr class="bck-custom border-y-custom">
                                             <td colspan="2">
                                                 <select name="ref_train_part" class="form-control form-control-sm exs_edit_field" autocomplete="off">
                                                     <option value="">Части тренировки</option>
@@ -136,7 +136,7 @@
                                                 </select>
                                             </td>
                                         </tr>
-                                        <tr class="bck-custom">
+                                        <tr class="bck-custom border-top-custom">
                                             <td colspan="2">
                                                 <select name="ref_cognitive_load" class="form-control form-control-sm exs_edit_field" autocomplete="off">
                                                     <option value="">Когнитивная нагрузка</option>
@@ -149,44 +149,44 @@
                                         <tr class="">
                                             <td colspan="2">&nbsp;</td>
                                         </tr>
-                                        <tr class="bck-custom">
-                                            <td class="align-middle">Игроки</td>
+                                        <tr class="bck-custom border-bottom-custom">
+                                            <td class="align-middle"><span class="ml-3">Игроки</span></td>
                                             <td>
                                                 <input name="player" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
                                             </td>
                                         </tr>
-                                        <tr class="bck-custom">
-                                            <td class="align-middle">Группы по</td>
+                                        <tr class="bck-custom border-y-custom">
+                                            <td class="align-middle"><span class="ml-3">Группы по</span></td>
                                             <td>
                                                 <input name="group" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
                                             </td>
                                         </tr>
-                                        <tr class="bck-custom">
-                                            <td class="align-middle">Игровые зоны</td>
+                                        <tr class="bck-custom border-y-custom">
+                                            <td class="align-middle"><span class="ml-3">Игровые зоны</span></td>
                                             <td>
                                                 <input name="play_zone" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
                                             </td>
                                         </tr>
-                                        <tr class="bck-custom">
-                                            <td class="align-middle">Касания мяча</td>
+                                        <tr class="bck-custom border-y-custom">
+                                            <td class="align-middle"><span class="ml-3">Касания мяча</span></td>
                                             <td>
                                                 <input name="ball_touch" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
                                             </td>
                                         </tr>
-                                        <tr class="bck-custom">
-                                            <td class="align-middle">Нейтральные</td>
+                                        <tr class="bck-custom border-y-custom">
+                                            <td class="align-middle"><span class="ml-3">Нейтральные</span></td>
                                             <td>
                                                 <input name="neutral" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
                                             </td>
                                         </tr>
-                                        <tr class="bck-custom">
-                                            <td class="align-middle">Повторения t</td>
+                                        <tr class="bck-custom border-y-custom">
+                                            <td class="align-middle"><span class="ml-3">Повторения t</span></td>
                                             <td>
                                                 <input name="t_repeat" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
                                             </td>
                                         </tr>
-                                        <tr class="bck-custom">
-                                            <td class="align-middle">Паузы t</td>
+                                        <tr class="bck-custom border-top-custom">
+                                            <td class="align-middle"><span class="ml-3">Паузы t</span></td>
                                             <td>
                                                 <input name="t_pause" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
                                             </td>
@@ -235,7 +235,7 @@
                                     <tbody>
                                         <tr class="bck-custom">
                                             <td>
-                                                <input name="title" class="form-control form-control-sm exs_edit_field text-center placeholder-font-weight" type="text" value="" placeholder="Название упражнения" autocomplete="off" style="--fw:700;">
+                                                <input name="title" class="form-control form-control-sm exs_edit_field text-center placeholder-font-weight" type="text" value="" placeholder="Название упражнения" autocomplete="off" style="--fw:700;" required="">
                                             </td>
                                         </tr>
                                         <tr class="bck-custom">
@@ -544,7 +544,8 @@
                     <td>
                         <div class="row">
                             <div class="col">
-                                <input name="coaching[]" class="form-control form-control-sm diff-frmt" type="text" value="" placeholder="" autocomplete="off">
+                                <textarea name="coaching[]" class="form-control form-control-sm1 diff-frmt" onkeyup="autoGrow(this);" onchange="autoGrow(this);" style="height: 28px;"></textarea>
+                                <!-- <input name="coaching[]" class="form-control form-control-sm diff-frmt" type="text" value="" placeholder="" autocomplete="off"> -->
                             </div>
                             <div class="col-2 text-right">
                                 <button class="btn btn-secondary btn-sm remove-row">

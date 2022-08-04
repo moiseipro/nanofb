@@ -51,36 +51,36 @@
 }
 
 .card-inside {
-    height: 85vh !important;
+    height: 88vh !important;
 }
 .folders_list {
-    height: 75vh !important;
+    height: 80vh !important;
     overflow-y: auto;
 }
 .exs-list-group {
-    height: 75vh !important;
+    height: 80vh !important;
     overflow-y: auto;
 }
 .visual-block {
-    height: 78vh !important;
+    height: 80vh !important;
     overflow-y: auto;
 }
 .side-filter-block {
-    height: 75vh !important;
+    height: 80vh !important;
     overflow-y: auto;
 }
 
 
 .left-col-card {
-    height: 75vh !important;
+    height: 78vh !important;
     overflow-y: auto;
 }
 .center-col-card {
-    height: 75vh !important;
+    height: 78vh !important;
     overflow-y: auto;
 }
 .right-col-card {
-    height: 75vh !important;
+    height: 78vh !important;
     overflow-y: auto;
 }
 
@@ -150,8 +150,8 @@
 }
 .btn-custom.btn-success {
     color: whitesmoke !important;
-    background-color: #90d047;
-    border-color: #90d047;
+    background-color: #80dd15;
+    border-color: #80dd15;
 }
 .btn-custom.btn-success:hover {
     background-color: #70a237;
@@ -195,6 +195,13 @@
 .btn-custom.selected {
     border-width: 3px !important;
     border-color: #3949ab !important;
+    font-weight: 700;
+    opacity: 0.9;
+}
+.btn-custom.selected2 {
+    color: whitesmoke !important;
+    background-color: #6b92ff !important;
+    border-color: #6b92ff !important;
     font-weight: 700;
     opacity: 0.9;
 }
@@ -264,6 +271,15 @@ tr.bck-custom > td {
 .form-control-sm.exs_edit_field {
     height: calc(1.5em + .5rem - 2px) !important;
 }
+textarea.form-control.exs_edit_field {
+    min-height: calc(1.5em + .5rem - 2px) !important;
+    resize: none;
+    overflow: hidden;
+}
+
+.empty-field {
+    border: 2px solid #ff5454 !important;
+}
 
 
 .btn-custom-pad {
@@ -306,8 +322,16 @@ a.text-dark:hover {
 .btn-marker.btn-secondary {
     background-color: #d5d5d5;
 }
-.btn-marker.selected {
+.btn-marker.btn-secondary.selected {
     background-color: #91dd91 !important;
+}
+
+.btn-marker.btn-empty {
+    border: 0px solid black !important;
+}
+.btn-custom.btn-empty {
+    border: 0px solid black !important;
+    color: black !important;
 }
 
 
@@ -315,3 +339,14 @@ a.text-dark:hover {
     pointer-events: none;
 }
 
+
+.border-top-custom {
+    border-top: 1px solid rgb(100, 100, 100) !important;
+}
+.border-bottom-custom {
+    border-bottom: 1px solid rgb(100, 100, 100) !important;
+}
+.border-y-custom {
+    border-top: 1px solid rgb(100, 100, 100) !important;
+    border-bottom: 1px solid rgb(100, 100, 100) !important;
+}

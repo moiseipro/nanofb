@@ -207,6 +207,26 @@ def folders(request):
     })
 
 
+def test(request):
+    if not request.user.is_authenticated:
+        return redirect("authorization:login")
+    cur_user = User.objects.filter(email=request.user).only("club_id")
+    cur_team = -1
+    try:
+        cur_team = int(request.session['team'])
+    except:
+        pass
+    found_folders, found_nfb_folders, refs = get_exercises_params(request, cur_user, cur_team)
+    return render(request, 'exercises/test.html', {
+        'folders': found_folders, 
+        'folders_only_view': True, 
+        'nfb_folders': found_nfb_folders, 
+        'refs': refs,
+        'seasons_list': UserSeason.objects.filter(user_id=request.user),
+        'teams_list': UserTeam.objects.filter(user_id=request.user)
+    })
+
+
 
 @csrf_exempt
 def exercises_api(request):

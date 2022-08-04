@@ -167,23 +167,6 @@ function ToggleUpFilter(id, state) {
     }
 }
 
-function ToggleIconsInExs() {
-    $('.side-filter-block').find('.list-group[data-id="show_icons"]').find('.side-filter-elem').each((ind, elem) => {
-        let cId = $(elem).attr('data-id');
-        let isActive = $(elem).hasClass('active');
-        $('.exercises-block').find(`[data-type="icons"][data-id="${cId}"]`).toggleClass('d-none', !isActive);
-    });
-}
-function ToggleMarkersInExs() {
-    let isActive = $('.up-tabs-elem[data-id="toggle_markers"]').attr('data-state') == "1";
-    $('.exercises-block').find(`[data-type="marker"]`).toggleClass('d-none', !isActive);
-    if (isActive) {
-        $('.list-group[data-id="show_icons"]').find('.side-filter-elem').removeClass('active');
-        $('.list-group[data-id="show_icons"]').find('.side-filter-elem').attr('data-state', '0');
-        $('.exs-list-group').find('button[data-type="icons"]').addClass('d-none');
-    }
-}
-
 function CheckLastExs() {
     let dataStr = sessionStorage.getItem('last_exs');
     try {
@@ -671,6 +654,10 @@ $(function() {
                     $(e.currentTarget).toggleClass('selected', res.data.value == 1);
                     if ($(e.currentTarget).find('input').length > 0) {
                         $(e.currentTarget).find('input').prop('checked', res.data.value == 1);
+                    }
+                    if ($(e.currentTarget).find('span.icon-custom').length > 0) {
+                        $(e.currentTarget).find('span.icon-custom').toggleClass('icon--favorite', res.data.value != 1);
+                        $(e.currentTarget).find('span.icon-custom').toggleClass('icon--favorite-selected', res.data.value == 1);
                     }
                 }
             },

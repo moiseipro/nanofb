@@ -1,0 +1,27 @@
+{% extends '../base/app_main.html' %}
+{% load static %}
+
+{% block title %}Test{% endblock %}
+
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'exercises/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="">
+    <div class="row">
+        <div class="col-12">
+            Подтягивание списка упр-ий:
+        </div>
+        <div class="col-12">
+            {% include 'exercises/modules/exercises_list.html' %}
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block custom_scripts %}
+    <script src="{% static 'exercises/js/folder_list.js' %}"></script>
+    <script src="{% static 'exercises/js/modules/exercises_list.js' %}"></script>
+    <script src="{% static 'exercises/js/modules/exercise_card.js' %}"></script>
+{% endblock %}

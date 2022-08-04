@@ -19,6 +19,7 @@ function RenderSplitExsCardCols() {
 }
 
 function ToggleEditFields(flag) {
+    $('#exerciseCard').find('.exs_edit_field').removeClass('empty-field');
     $('#exerciseCard').find('.exs_edit_field').prop('disabled', !flag);
     $('#exerciseCard').find('.add-row').toggleClass('d-none', !flag);
     $('#exerciseCard').find('.remove-row').toggleClass('d-none', !flag);
@@ -82,7 +83,7 @@ function RenderExerciseOne(data) {
             if (cId == "additions1") {
                 cloneRow = $('#exerciseCard').find('.gen-content').find(`tr[data-id="${cId}"]`).clone();
             } else {
-                let cType = elem.type == "INPUT" ? "text" : elem.type == "SELECT" ? "list" : "";
+                let cType = (elem.type == "INPUT" || elem.type == "TEXTAREA") ? "text" : elem.type == "SELECT" ? "list" : "";
                 if (cId == "notes" && cType != "text") {cType = "";}
                 cloneRow = $('#exerciseCard').find('.gen-content').find(`tr[data-id="${cId}"][data-type="${cType}"]`).clone();
             }
@@ -92,6 +93,7 @@ function RenderExerciseOne(data) {
                 $(cloneRow).find('.form-control').addClass('exs_team_param');
                 $(cloneRow).find('.form-control').prop('disabled', true);
                 $(cloneRow).find('.exs_edit_field').val(elem.value);
+                $(cloneRow).find('.exs_edit_field').change();
                 $(cloneRow).find('.remove-row').addClass('btn-on');
                 $(cloneRow).find('.remove-row').prop('disabled', false);
                 $(cloneRow).insertAfter($('#exerciseCard').find(`.wider_row[data-id="${cId}"]`).last());
@@ -148,7 +150,9 @@ function RenderExerciseOne(data) {
         CheckMultiRows(exsCard, data.notes, '.exs_edit_field[name="notes[]"]', 'notes');
 
         $(exsCard).find('.exs_edit_field[name="title"]').val(data.title);
-        document.descriptionEditor2.setData(data.description);
+        if (document.descriptionEditor2) {
+            document.descriptionEditor2.setData(data.description);
+        }
     } else {
         $(exsCard).attr('data-exs', '-1');
 
@@ -160,7 +164,6 @@ function RenderExerciseOne(data) {
         $(exsCard).find('.remove-row.btn-on').prop('disabled', false);
         $(exsCard).find('.add-row').toggleClass('d-none', false);
         $(exsCard).find('.remove-row').toggleClass('d-none', false);
-        document.descriptionEditor2.disableReadOnlyMode('');
 
         $(exsCard).find('.exs_edit_field.folder_nfb').toggleClass('d-none', true);
         $(exsCard).find('.exs_edit_field.folder_default').toggleClass('d-none', false);
@@ -169,8 +172,11 @@ function RenderExerciseOne(data) {
         $(exsCard).find(`.folder_default[name="folder_main"]`).val('');
 
         $(exsCard).find('.exs_edit_field').val('');
-        document.descriptionEditor2.setData('');
-
+        if (document.descriptionEditor2) {
+            document.descriptionEditor2.disableReadOnlyMode('');
+            document.descriptionEditor2.setData('');
+        }
+        
         CheckMultiRows(exsCard, '', '.exs_edit_field[name="keyword[]"]', 'keyword');
         CheckMultiRows(exsCard, '', '.exs_edit_field[name="stress_type[]"]', 'stress_type');
         CheckMultiRows(exsCard, '', '.exs_edit_field[name="purposes[]"]', 'purposes');
@@ -290,6 +296,15 @@ function DeleteExerciseOne() {
     });
 }
 
+function autoGrow(element) {
+    element.style.height = "5px";
+    element.style.height = (element.scrollHeight - 7)+"px";
+    if (element.scrollHeight == 0) {
+        let text = element.value;
+        let linesCount = text.split("\n").length;
+        element.style.height = (linesCount * 28)+"px";
+    }
+}
 
 
 $(function() {
@@ -324,26 +339,26 @@ $(function() {
 
 
     $('#exerciseCard').on('click', '#openDescription', (e) => {
-        $('#exerciseCard').find('.tab-btn').removeClass('selected');
-        $(e.currentTarget).addClass('selected');
+        $('#exerciseCard').find('.tab-btn').removeClass('selected2');
+        $(e.currentTarget).addClass('selected2');
         $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
         $('#exerciseCard').find('#cardBlock > #card_description').addClass('show active');
     });
     $('#exerciseCard').on('click', '#openDrawing', (e) => {
-        $('#exerciseCard').find('.tab-btn').removeClass('selected');
-        $(e.currentTarget).addClass('selected');;
+        $('#exerciseCard').find('.tab-btn').removeClass('selected2');
+        $(e.currentTarget).addClass('selected2');;
         $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
         $('#exerciseCard').find('#cardBlock > #card_drawing').addClass('show active');
     });
     $('#exerciseCard').on('click', '#openVideo', (e) => {
-        $('#exerciseCard').find('.tab-btn').removeClass('selected');
-        $(e.currentTarget).addClass('selected');
+        $('#exerciseCard').find('.tab-btn').removeClass('selected2');
+        $(e.currentTarget).addClass('selected2');
         $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
         $('#exerciseCard').find('#cardBlock > #card_video').addClass('show active');
     });
     $('#exerciseCard').on('click', '#openAnimation', (e) => {
-        $('#exerciseCard').find('.tab-btn').removeClass('selected');
-        $(e.currentTarget).addClass('selected');
+        $('#exerciseCard').find('.tab-btn').removeClass('selected2');
+        $(e.currentTarget).addClass('selected2');
         $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
         $('#exerciseCard').find('#cardBlock > #card_animation').addClass('show active');
     });
@@ -448,6 +463,12 @@ $(function() {
         });
     });
 
+    $('#exerciseCard').on('change', '.exs_edit_field', (e) => {
+        if (!$(e.currentTarget).prop('required')) {return;}
+        let isEmpty = $(e.currentTarget).val() == '';
+        $(e.currentTarget).toggleClass('empty-field', isEmpty);
+    });
+
 
     $('#editExs').on('click', (e) => {
         let isActive = $(e.currentTarget).attr('data-active');
@@ -474,6 +495,5 @@ $(function() {
         DeleteExerciseOne();
     });
     
-
 
 });
