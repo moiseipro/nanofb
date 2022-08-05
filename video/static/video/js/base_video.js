@@ -71,8 +71,13 @@ $(window).on('load', function (){
         ],
         ajax: 'api/?format=datatables',
         columns: [
+            {'data': 'id', render: function (data, type, row, meta) {
+                return meta.row + meta.settings._iDisplayStart + 1;
+            }},
             {'data': 'id'},
             {'data': 'videosource_id.name', 'name': 'videosource_id.short_name'},
+            {'data': 'upload_date'},
+            {'data': 'duration'},
             {'data': 'name'},
             {'data': function (data, type, dataToSet) {
                 console.log(data)
@@ -87,7 +92,6 @@ $(window).on('load', function (){
                     } else return gettext('---')
                 } else return null
             }},
-            {'data': 'duration'},
         ],
 
     })
