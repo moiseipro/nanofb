@@ -343,24 +343,56 @@ $(function() {
         $(e.currentTarget).addClass('selected2');
         $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
         $('#exerciseCard').find('#cardBlock > #card_description').addClass('show active');
+        $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock > #card_description').removeClass('d-none');
     });
-    $('#exerciseCard').on('click', '#openDrawing', (e) => {
+    $('#exerciseCard').on('click', '#openDrawing1', (e) => {
+        $('#exerciseCard').find('.tab-btn').removeClass('selected2');
+        $(e.currentTarget).addClass('selected2');
+        $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
+        $('#exerciseCard').find('#cardBlock > #card_drawing1').addClass('show active');
+        $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock > #card_drawing1').removeClass('d-none');
+    });
+    $('#exerciseCard').on('click', '#openDrawing2', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
         $(e.currentTarget).addClass('selected2');;
         $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
-        $('#exerciseCard').find('#cardBlock > #card_drawing').addClass('show active');
+        $('#exerciseCard').find('#cardBlock > #card_drawing2').addClass('show active');
+        $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock > #card_drawing2').removeClass('d-none');
     });
-    $('#exerciseCard').on('click', '#openVideo', (e) => {
+    $('#exerciseCard').on('click', '#openVideo1', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
         $(e.currentTarget).addClass('selected2');
         $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
-        $('#exerciseCard').find('#cardBlock > #card_video').addClass('show active');
+        $('#exerciseCard').find('#cardBlock > #card_video1').addClass('show active');
+        $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock > #card_video1').removeClass('d-none');
     });
-    $('#exerciseCard').on('click', '#openAnimation', (e) => {
+    $('#exerciseCard').on('click', '#openVideo2', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
         $(e.currentTarget).addClass('selected2');
         $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
-        $('#exerciseCard').find('#cardBlock > #card_animation').addClass('show active');
+        $('#exerciseCard').find('#cardBlock > #card_video2').addClass('show active');
+        $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock > #card_video2').removeClass('d-none');
+    });
+    $('#exerciseCard').on('click', '#openAnimation1', (e) => {
+        $('#exerciseCard').find('.tab-btn').removeClass('selected2');
+        $(e.currentTarget).addClass('selected2');
+        $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
+        $('#exerciseCard').find('#cardBlock > #card_animation1').addClass('show active');
+        $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock > #card_animation1').removeClass('d-none');
+    });
+    $('#exerciseCard').on('click', '#openAnimation2', (e) => {
+        $('#exerciseCard').find('.tab-btn').removeClass('selected2');
+        $(e.currentTarget).addClass('selected2');
+        $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
+        $('#exerciseCard').find('#cardBlock > #card_animation2').addClass('show active');
+        $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock > #card_animation2').removeClass('d-none');
     });
 
 

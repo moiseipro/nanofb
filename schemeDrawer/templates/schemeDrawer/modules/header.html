@@ -1,0 +1,63 @@
+{% load static %}
+
+<div id="top-menu" class="d-block w-100 py-1 px-2 bg-light">
+    <div class="nav float-left">
+        <button class="nav-item nav-link d-none" onclick="savePHP1(canvas), close_window();" title="Сохранить тренировку"><img src="{% static 'schemeDrawer/img/buttons/se_save.png' %}"></button>
+        <button class="nav-item nav-link" onclick="window.print();" title="Распечатать"><img src="{% static 'schemeDrawer/img/buttons/se_printer.png' %}"></button>
+        <button class="nav-item nav-link" onclick="saveJPG()" title="Экспорт изображения"><img src="{% static 'schemeDrawer/img/buttons/se_export_to_picture.png' %}"></button>
+        <button class="nav-item nav-link" data-toggle="modal" title="Справка" data-target="#helpModal"><img src="{% static 'schemeDrawer/img/buttons/help.png' %}"></button>
+    </div>
+     <div id="groupResize" style="display:none;" class="nav float-left">
+        <button class="nav-item nav-link" onclick="reSizeGroup(0)" title="Уменьшить">-</button>
+        <div class="text-group">
+            <span>Группа</span>
+            <span id="numSizeGroup">50</span>
+        </div>
+        <button class="nav-item nav-link" onclick="reSizeGroup(1)" title="Увеличить">+</button>
+    </div>
+    <div class="nav float-left rotator">
+        <button class="nav-item nav-link" onclick="rotateObj(0)" title="Поворот">-45</button>
+        <button class="nav-item nav-link" onclick="rotateObj(1)" title="Поворот">0</button>
+        <button class="nav-item nav-link" onclick="rotateObj(2)" title="Поворот">45</button>
+        <button class="nav-item nav-link" onclick="rotateObj(3)" title="Поворот">-90</button>
+        <button class="nav-item nav-link" disabled></button>
+        <button class="nav-item nav-link" onclick="rotateObj(4)" title="Поворот">90</button>
+        <button class="nav-item nav-link" onclick="rotateObj(5)" title="Поворот">-135</button>
+        <button class="nav-item nav-link" onclick="rotateObj(6)" title="Поворот">180</button>
+        <button class="nav-item nav-link" onclick="rotateObj(7)" title="Поворот">135</button>
+    </div>
+    <div class="nav float-right" role="tablist">
+        <button class="nav-item nav-link" data-toggle="modal" data-target="#modalClear"  title="Очистить поле"><img src="{% static 'schemeDrawer/img/buttons/se_clear.png' %}"></button>
+        <button class="nav-item nav-link" data-toggle="modal" data-target="#modalSelectedClear"  title="Удалить выбранные"><img src="{% static 'schemeDrawer/img/buttons/se_clears.png' %}"></button>
+        <a class="nav-item nav-link active" data-toggle="tab" href="#nav-plane" role="tab" title="Поля"><img src="{% static 'schemeDrawer/img/buttons/se_fields.png' %}"></a>
+        <a class="nav-item nav-link" data-toggle="tab" href="#nav-gate" role="tab" title="Ворота"><img src="{% static 'schemeDrawer/img/buttons/se_gates.png' %}"></a>
+        <a class="nav-item nav-link" data-toggle="tab" href="#nav-equip" role="tab" title="Снаряжение"><img src="{% static 'schemeDrawer/img/buttons/se_equipment.png' %}"></a>
+        <a class="nav-item nav-link" data-toggle="tab" href="#nav-player" role="tab" title="Игроки"><img src="{% static 'schemeDrawer/img/buttons/se_players.png' %}"></a>
+        <a class="nav-item nav-link" data-toggle="tab" href="#nav-lines" role="tab" title="Линии"><img src="{% static 'schemeDrawer/img/buttons/se_lines2.png' %}"></a>
+        <a class="nav-item nav-link" data-toggle="tab" href="#nav-figures" role="tab" title="Фигуры"><img src="{% static 'schemeDrawer/img/buttons/se_figures.png' %}"></a>
+        <a class="nav-item nav-link" data-toggle="tab" href="#nav-marks" role="tab" title="Метки"><img src="{% static 'schemeDrawer/img/buttons/se_marks.png' %}"></a>
+        <a class="nav-item nav-link" data-toggle="tab" href="#nav-logos" role="tab" title="Лого"><img src="{% static 'schemeDrawer/img/buttons/se_text.png' %}"></a>
+        <a class="nav-item nav-link" data-toggle="tab" href="#nav-image" role="tab" title="Свое изображение"><img src="{% static 'schemeDrawer/img/buttons/se_image.png' %}"></a>
+        <a class="nav-item nav-link d-none" data-toggle="tab" href="#nav-animate" role="tab"  title="Создать анимацию"><img src="{% static 'schemeDrawer/img/buttons/play.png' %}"></a>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="helpModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title p-0" id="exampleModalCenterTitle">Помощь</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+         <div class="container-fluid">
+             
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

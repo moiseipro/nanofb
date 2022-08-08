@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78 78" enable-background="new 0 0 78 78">
+ <g fill="none" stroke="#fbb040" stroke-width="1.5" stroke-miterlimit="10">
+  <ellipse transform="matrix(-.7071.7071-.7071-.7071 116.71-15.454)" cx="61.6" cy="16.4" rx="15.3" ry="15.3"/>
+  <g transform="matrix(-.7071.7071-.7071-.7071 94.08 39.17)">
+   <ellipse cx="38.9" cy="39.1" rx="15.3" ry="15.3"/>
+   <ellipse cx="38.9" cy="39.1" rx="15.3" ry="15.3"/>
+  </g>
+  <ellipse transform="matrix(-.7071.7071-.7071-.7071 71.59 93.46)" cx="16.4" cy="61.6" rx="15.3" ry="15.3"/>
+ </g>
+</svg>

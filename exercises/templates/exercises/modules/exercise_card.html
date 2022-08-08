@@ -3,9 +3,12 @@
         <div class="row w-100">
             <div class="col-12 p-1 btn-group btn-group-custom">
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn selected2" id="openDescription">Описание</button>
-                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openDrawing">Рисунок</button>
-                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openVideo">Видео</button>
-                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openAnimation">Анимация</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openDrawing1">Рисунок 1</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openDrawing2">Рисунок 2</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openVideo1">Видео 1</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openVideo2">Видео 2</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openAnimation1">Анимация 1</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openAnimation2">Анимация 2</button>
                 <button type="button" class="btn btn-warning btn-sm btn-custom" id="editExs" data-active="0">Редактировать</button>
                 <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x selected" data-type="add" data-id="list" title="Режим добавления: список" style="--w-max-x:3%;">
                     <i class="fa fa-list-alt" aria-hidden="true"></i>
@@ -376,43 +379,87 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade d-none" id="card_drawing" role="tabpanel" aria-labelledby="card_drawing-tab">
-                    <div class="row mt-4">
-                        <div class="col-6 p-1">
-                            <svg id="" class="d-block bg-success mx-auto w-100" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                                <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="/static/exercises/img/field.svg"></image>
-                            </svg>
+                <div class="tab-pane fade d-none" id="card_drawing1" role="tabpanel" aria-labelledby="card_drawing-tab">
+                    <div class="row mt-1">
+                        <div class="col-12 d-flex justify-content-center">
+                            <div class="card m-0" style="width: 50vw;">
+                                <svg id="" class="d-block bg-success mx-auto w-100" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                                    <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="/static/exercises/img/field.svg"></image>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="col-12">
                             <p class="text-center">Рисунок 1</p>
                         </div>
-                        <div class="col-6 p-1">
-                            <svg id="" class="d-block bg-success mx-auto w-100" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                                <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="/static/exercises/img/field.svg"></image>
-                            </svg>
+                    </div>
+                </div>
+                <div class="tab-pane fade d-none" id="card_drawing2" role="tabpanel" aria-labelledby="card_drawing-tab">
+                    <div class="row mt-1">
+                        <div class="col-12 d-flex justify-content-center">
+                            <div class="card m-0" style="width: 50vw;">
+                                <svg id="" class="d-block bg-success mx-auto w-100" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                                    <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="/static/exercises/img/field.svg"></image>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="col-12">
                             <p class="text-center">Рисунок 2</p>
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade d-none" id="card_video" role="tabpanel" aria-labelledby="card_drawing-tab">
-                    <div class="row mt-4">
-                        <div class="col-6 p-1">
-                            <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid w-100" alt="[ VIDEO ]">
+                <div class="tab-pane fade d-none" id="card_video1" role="tabpanel" aria-labelledby="card_drawing-tab">
+                    <div class="row mt-1">
+                        <div class="col-12 d-flex justify-content-center">
+                            <div class="card m-0" style="width: 50vw;">
+                                <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid w-100" alt="[ VIDEO ]">
+                            </div>
+                        </div>
+                        <div class="col-12">
                             <p class="text-center">Видео 1</p>
                         </div>
-                        <div class="col-6 p-1">
-                            <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid w-100" alt="[ VIDEO ]">
+                    </div>
+                </div>
+                <div class="tab-pane fade d-none" id="card_video2" role="tabpanel" aria-labelledby="card_drawing-tab">
+                    <div class="row mt-1">
+                        <div class="col-12 d-flex justify-content-center">
+                            <div class="card m-0" style="width: 50vw;">
+                                <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid w-100" alt="[ VIDEO ]">
+                            </div>
+                        </div>
+                        <div class="col-12">
                             <p class="text-center">Видео 2</p>
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade d-none" id="card_animation" role="tabpanel" aria-labelledby="card_drawing-tab">
-                    <div class="row mt-4">
-                        <div class="col-6 p-1">
-                            <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid w-100" alt="[ VIDEO ]">
+                <div class="tab-pane fade d-none" id="card_animation1" role="tabpanel" aria-labelledby="card_drawing-tab">
+                    <div class="row mt-1">
+                        <div class="col-12 d-flex justify-content-center">
+                            <div class="card m-0" style="width: 50vw;">
+                                <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid w-100" alt="[ VIDEO ]">
+                            </div>
+                        </div>
+                        <div class="col-12">
                             <p class="text-center">Анимация 1</p>
                         </div>
-                        <div class="col-6 p-1">
-                            <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid w-100" alt="[ VIDEO ]">
-                            <p class="text-center">Анимация 2</p>
+                    </div>
+                </div>
+                <div class="tab-pane fade d-none" id="card_animation2" role="tabpanel" aria-labelledby="card_drawing-tab">
+                    <div class="row mt-1">
+                        <div class="col-12 d-flex justify-content-center">
+                            <div class="card m-0" style="width: 50vw;">
+                                <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid w-100" alt="[ VIDEO ]">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <p class="text-center">Анимация 1</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="scheme-editor d-none">
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-center">
+                            <button type="button" class="btn btn-sm btn-success d-none" id="saveScheme"></button>
+                            <iframe src="/schemeDrawer" style="width:80vw; height: 75vh;"></iframe> 
                         </div>
                     </div>
                 </div>

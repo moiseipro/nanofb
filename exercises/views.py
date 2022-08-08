@@ -119,6 +119,41 @@ def get_exercises_params(request, user, team):
     return [folders, nfb_folders, refs]
 
 
+def get_exs_scheme_data(data):
+    empty_scheme = """
+        <svg id="block" class="d-block bg-success mx-auto" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <marker id="45347arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#000000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                <marker id="70171arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ffffff"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                <marker id="46310arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ffff00"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                <marker id="95713arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ff0000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                <marker id="25804arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#000000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                <filter id="f3" x="0" y="0" width="200%" height="200%"><feOffset result="offOut" in="SourceAlpha" dx="5" dy="5"></feOffset><feGaussianBlur result="blurOut" in="offOut" stdDeviation="3"></feGaussianBlur><feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend></filter>
+            </defs>
+            <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="/static/exercises/img/field.svg"></image>
+            <g id="selects"></g>
+            <g id="figures"></g>
+            <g id="lines"></g>
+            <g id="objects"></g>
+            <g id="dots"></g>
+            <line id="xLine" x1="-1" y1="0" x2="-1" y2="1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+            <line id="yLine" x1="0" y1="-1" x2="2400" y2="-1" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+            <line id="xLine2" x1="-2400" y1="0" x2="-2400" y2="1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+            <line id="yLine2" x1="0" y1="-1600" x2="2400" y2="-1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+        </svg>
+    """
+    res = []
+    if data and data['scheme_1']:
+        res.append(data['scheme_1'])
+    else:
+        res.append(empty_scheme)
+    if data and data['scheme_2']:
+        res.append(data['scheme_2'])
+    else:
+        res.append(empty_scheme)
+    return res
+
+
 
 def exercises(request):
     if not request.user.is_authenticated:
@@ -369,6 +404,15 @@ def exercises_api(request):
             c_exs.ref_train_part = set_value_as_int(request, "data[ref_train_part]", None)
             c_exs.ref_cognitive_load = set_value_as_int(request, "data[ref_cognitive_load]", None)
 
+
+            if type(c_exs.scheme_data) is dict:
+                c_exs.scheme_data['scheme_1'] = request.POST.get("data[scheme_1]")
+                c_exs.scheme_data['scheme_2'] = request.POST.get("data[scheme_2]")
+            else:
+                c_exs.scheme_data = {
+                    'scheme_1': request.POST.get("data[scheme_1]"),
+                    'scheme_2': request.POST.get("data[scheme_2]")
+                }
             # c_exs.notes = set_by_language_code(c_exs.notes, request.LANGUAGE_CODE, request.POST.getlist("data[notes[]]", ""), request.POST.getlist("data[notes[]][]", ""))
             
             try:
@@ -587,7 +631,7 @@ def exercises_api(request):
                     res_exs['notes'] = get_by_language_code(team_params['note'], request.LANGUAGE_CODE)
             res_exs['title'] = get_by_language_code(res_exs['title'], request.LANGUAGE_CODE)
             res_exs['description'] = get_by_language_code(res_exs['description'], request.LANGUAGE_CODE)
-
+            res_exs['scheme'] = get_exs_scheme_data(res_exs['scheme_data'])
 
             # res_exs['stress_type'] = get_by_language_code(res_exs['stress_type'], request.LANGUAGE_CODE)
 

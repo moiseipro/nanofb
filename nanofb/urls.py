@@ -38,6 +38,7 @@ urlpatterns = [
     path('references/', include(('references.urls', 'references'), namespace='references')),
 
     path('i18n/', include('django.conf.urls.i18n')),
+    path('schemeDrawer/', include(('schemeDrawer.urls', 'schemeDrawer'), namespace='schemeDrawer')),
 ]
 
 urlpatterns += i18n_patterns(

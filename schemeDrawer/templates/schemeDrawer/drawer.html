@@ -1,0 +1,120 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Рисование тактики</title>
+        <script src="{% static 'schemeDrawer/js/jquery-3.3.1.min.js' %}"></script>
+        <link rel="stylesheet" type="text/css" href="{% static 'schemeDrawer/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'schemeDrawer/css/my.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'schemeDrawer/css/print.css' %}" media="print" />
+        <link rel="stylesheet" type="text/css" href="{% static 'schemeDrawer/css/jquery.lazyloadxt.spinner.css' %}"/>
+        <script src="{% static 'schemeDrawer/js/svg.js' %}"></script>
+        <script src="{% static 'schemeDrawer/js/canvg/rgbcolor.min.js' %}"></script>
+        <script src="{% static 'schemeDrawer/js/canvg/stackblur.min.js' %}"></script>
+        <script src="{% static 'schemeDrawer/js/canvg/canvg.min.js' %}"></script>
+    </head>
+    <body id="frame">
+        <input type="hidden" id="base64canvas" value="">
+        
+        {% include 'schemeDrawer/modules/header.html' %}
+        {% include 'schemeDrawer/modules/sidebar.html' %}
+        
+        <div style="display: none;">
+            <svg xmlns="http://www.w3.org/2000/svg" id="svg_template">
+                <image x="374" y="34" width="90" height="90" class="" data-width="100" data-height="100" data-group="player" transform="rotate(0 419 79)" style="" data-scale="90"></image>
+                <circle cx="463" cy="264" r="15" style="stroke:#000000;stroke-width:1;stroke-dasharray:0;fill:#0000001a" data-select="0"></circle>
+                <rect x="163" y="116" width="30" height="30" style="stroke:#000000;stroke-width:1;stroke-dasharray:0;fill:#0000001a" data-select="0"></rect>
+                <polygon points="174,181 203,181 173,210" style="stroke:#000000;stroke-width:1;stroke-dasharray:0;fill:#0000001a" data-select="0"></polygon>
+                <path d="M 281 115 Q 321 75 361 115" style="fill:transparent;" marker-end="url(#000000arrow)" stroke="#000000" stroke-width="1" stroke-dasharray="0" data-select="0"></path>
+            </svg>
+        </div>
+
+        <div class="jquery_parse">
+            <div id="svgbox" class="d-block bg-dark float-left p-4">
+                <div id="svgparent" class="d-block mx-auto" style="height: 223px; width: 334.5px;">
+                    <svg id="block" class="d-block bg-success mx-auto" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <marker id="45347arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#000000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                            <marker id="70171arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ffffff"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                            <marker id="46310arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ffff00"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                            <marker id="95713arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ff0000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                            <marker id="25804arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#000000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                            <filter id="f3" x="0" y="0" width="200%" height="200%"><feOffset result="offOut" in="SourceAlpha" dx="5" dy="5"></feOffset><feGaussianBlur result="blurOut" in="offOut" stdDeviation="3"></feGaussianBlur><feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend></filter>
+                        </defs>
+                        <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="/static/exercises/img/field.svg"></image>
+                        <g id="selects"></g>
+                        <g id="figures"></g>
+                        <g id="lines"></g>
+                        <g id="objects"></g>
+                        <g id="dots"></g>
+                        <line id="xLine" x1="-1" y1="0" x2="-1" y2="1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+                        <line id="yLine" x1="0" y1="-1" x2="2400" y2="-1" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+                        <line id="xLine2" x1="-2400" y1="0" x2="-2400" y2="1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+                        <line id="yLine2" x1="0" y1="-1600" x2="2400" y2="-1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <div id="modalSaveJPG" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title p-0">Экспорт изображения</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-8"><canvas id="canvas" class="img-fluid"></canvas></div>
+                            <div class="col-md-4">
+                                <input id="fileName" type="text" class="form-control form-control-sm mb-3" placeholder="Имя файла">
+                                <button class="btn btn-success btn-sm w-100" onclick="download(canvas, fileName.value)">Сохранить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="modalClear" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title p-0">Очистить поле</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <p>Вы действительно хотите очистить поле?</p>
+                        <div class="btn-group w-100" role="group">
+                            <button class="btn btn-success btn-sm w-50" onclick="clearField()">Очистить</button>
+                            <button class="btn btn-default btn-sm w-50" data-dismiss="modal" aria-label="Close">Отменить</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="modalSelectedClear" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title p-0">Удалить выбранное</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <p>Вы действительно хотите удалить выбранные объекты?</p>
+                        <div class="btn-group w-100" role="group">
+                            <button class="btn btn-success btn-sm w-50" onclick="clearSelected()">Очистить</button>
+                            <button class="btn btn-default btn-sm w-50" data-dismiss="modal" aria-label="Close">Отменить</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="{% static 'schemeDrawer/js/animation.js' %}"></script>
+        <script src="{% static 'schemeDrawer/js/tactics.js' %}"></script>
+        <script src="{% static 'schemeDrawer/js/popper.min.js' %}"></script>
+        <script src="{% static 'schemeDrawer/js/bootstrap.min.js' %}"></script>
+
+    </body>
+</html>

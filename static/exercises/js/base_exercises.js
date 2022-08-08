@@ -5,18 +5,12 @@ function ToggleUpFilter(id, state) {
     switch(id) {
         case "toggle_side_filter":
             $('div.side-filter-block').toggleClass('d-none', !state);
-            // graphicsWidth = state ? `calc(${$('#splitCol_2').css('width')} - 17%)` : `calc(${$('#splitCol_2').css('width')} + 17%)`;
-            // $('#splitCol_2').css('width', graphicsWidth);
-            // RenderSplitCols();
             if (!state && $('.up-tabs-elem[data-id="cols_size"]').attr('data-state') == '1') {
                 $('.up-tabs-elem[data-id="cols_size"]').attr('data-state', '0');
                 $('.up-tabs-elem[data-id="cols_size"]').removeClass('btn-primary');
                 $('.up-tabs-elem[data-id="cols_size"]').addClass('btn-secondary');
                 $('.exercises-list').find('div.gutter').addClass('d-none');
             }
-            $('.up-tabs-elem[data-id="toggle_side_filter"]').toggleClass('btn-secondary', true);
-            $('.up-tabs-elem[data-id="toggle_side_filter"]').toggleClass('btn-primary', false);
-            $('.up-tabs-elem[data-id="toggle_side_filter"]').toggleClass('selected', state);
             break;
         case "toggle_up_filter":
             $('div.btns-tabs-second').fadeToggle(300, (e) => {});
@@ -94,42 +88,6 @@ function ToggleUpFilter(id, state) {
                 else {$('#exerciseCopyModal').modal('hide');}
             }
             break;
-        case "open_card_view":
-            if ($('.exs-list-group').find('.list-group-item.active').length > 0) {
-                $('#exerciseCardModal').find('.exs_edit_field').prop('disabled', true);
-                $('#exerciseCardModal').find('.btn-only-edit').prop('disabled', false);
-                $('#exerciseCardModal').find('.btn-not-view').toggleClass('d-none', true);
-                $('#exerciseCardModal').find('.add-row').toggleClass('d-none', true);
-                $('#exerciseCardModal').find('.remove-row').toggleClass('d-none', true);
-                document.descriptionEditor.enableReadOnlyMode('');
-                $('#exerciseCardModal').modal('show');
-            } else {
-                swal("Внимание", "Выберите сначала упражнение из списка.", "info");
-            }
-            $('.up-tabs-elem[data-id="open_card_view"]').toggleClass('btn-secondary', true);
-            $('.up-tabs-elem[data-id="open_card_view"]').toggleClass('btn-primary', false);
-            break;
-        case "open_card_edit":
-            if ($('.exs-list-group').find('.list-group-item.active').length > 0) {
-                $('#exerciseCardModal').find('.exs_edit_field').prop('disabled', false);
-                $('#exerciseCardModal').find('.btn-only-edit').prop('disabled', false);
-                $('#exerciseCardModal').find('.btn-not-view').toggleClass('d-none', false);
-                $('#exerciseCardModal').find('.add-row').toggleClass('d-none', false);
-                $('#exerciseCardModal').find('.remove-row').toggleClass('d-none', false);
-                $('#exerciseCardModal').find('.add-row').prop('disabled', false);
-                $('#exerciseCardModal').find('.remove-row').prop('disabled', true);
-                $('#exerciseCardModal').find('.remove-row.btn-on').prop('disabled', false);
-                document.descriptionEditor.disableReadOnlyMode('');
-                $('#exerciseCardModal').modal('show');
-            } else {
-                swal("Внимание", "Выберите сначала упражнение из списка.", "info");
-            }
-            $('.up-tabs-elem[data-id="open_card_edit"]').toggleClass('btn-secondary', true);
-            $('.up-tabs-elem[data-id="open_card_edit"]').toggleClass('btn-primary', false);
-            break;
-        case "open_card_temp":
-            $('#exerciseCardModal2').modal('show');
-            break;
         case "prev_exs":
             currentList = '.exs-list-group';
             activeElem = $(currentList).find('.exs-elem.active');
@@ -157,9 +115,6 @@ function ToggleUpFilter(id, state) {
             LoadExerciseOneHandler();
             break;
         case "toggle_markers":
-            $('.up-tabs-elem[data-id="toggle_markers"]').toggleClass('btn-secondary', true);
-            $('.up-tabs-elem[data-id="toggle_markers"]').toggleClass('btn-primary', false);
-            $('.up-tabs-elem[data-id="toggle_markers"]').toggleClass('selected', state);
             ToggleMarkersInExs();
             break;
         default:

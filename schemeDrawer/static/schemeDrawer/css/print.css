@@ -1,0 +1,14 @@
+#top-menu,#sidebar,#page-preloader{
+    display:none!important;
+}
+#svgbox,#svgparent{
+    margin:0!important;
+    padding:0!important;
+    width:100%!important;
+    height:100%!important;
+}
+
+#block {
+    width:100vw!important;
+    height:66vw!important;
+}

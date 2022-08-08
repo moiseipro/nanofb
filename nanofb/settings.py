@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'matches.apps.MatchesConfig',
     'trainings.apps.TrainingsConfig',
     'clubs.apps.ClubsConfig',
+    'schemeDrawer.apps.SchemedrawerConfig',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

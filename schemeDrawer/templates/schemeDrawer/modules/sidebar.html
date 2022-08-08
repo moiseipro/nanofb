@@ -1,0 +1,1115 @@
+{% load static %}
+
+<style>
+    .selected-color {
+        border: 4px solid #2225d5;
+    }
+</style>
+
+<div id="sidebar" class="d-block px-2 pb-2 float-left  bg-light">
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-plane" role="tabpanel" aria-labelledby="nav-plane-tab">
+            <h5>Поле</h5>
+            <hr>
+            {% for elem in img_all.plane_ %}
+                <a class="btn p-0 plane"><img src="{{ elem.path }}" data-svg="{{ elem.path }}" class="img-fluid"></a>
+            {% endfor %}
+        </div>
+        <div class="tab-pane fade" id="nav-gate" role="tabpanel" aria-labelledby="nav-gate-tab">
+            <h5>Ворота</h5>
+            <hr>
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+                <li class="nav-item"><a class="nav-link active show" id="nav-rw" data-toggle="tab" href="#nav-gate-small">Маленькие</a></li>
+                <li class="nav-item"><a class="nav-link" id="nav-rb" data-toggle="tab" href="#nav-gate-big">Большие</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="nav-gate-small">
+                    {% for elem in img_all.objGates_gateSmall %}
+                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                    {% endfor %}
+                </div>
+                <div class="tab-pane" id="nav-gate-big">
+                    {% for elem in img_all.objGates_gateBig %}
+                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-equip" role="tabpanel" aria-labelledby="nav-equip-tab">
+            <h5>Снаряжение</h5>
+            <hr>
+            {% for elem in img_all.objEquipment_ball %}
+                <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+            {% endfor %}
+            <hr>
+            {% for elem in img_all.objEquipment_cone %}
+                <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+            {% endfor %}
+            <hr>
+            {% for elem in img_all.objEquipment_cone2 %}
+                <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+            {% endfor %}
+            <hr>
+            {% for elem in img_all.objEquipment_flag %}
+                <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+            {% endfor %}
+            <hr>
+            {% for elem in img_all.objEquipment_beam %}
+                <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+            {% endfor %}
+            <hr>
+            {% for elem in img_all.objEquipment_beam2 %}
+                <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+            {% endfor %}
+            <hr>
+            {% for elem in img_all.objEquipment_ring %}
+                <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+            {% endfor %}
+            <hr>
+            {% for elem in img_all.objEquipment_stick %}
+                <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+            {% endfor %}
+            <hr>
+            {% for elem in img_all.objEquipment_barrier%}
+                <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+            {% endfor %}
+            <hr>
+            {% for elem in img_all.objEquipment_ladder %}
+                <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+            {% endfor %}
+        </div>
+        <div class="tab-pane fade" id="nav-player" role="tabpanel" aria-labelledby="nav-player-tab">
+            <h5>Игроки</h5>
+            <hr>
+            <!-- Example single danger button -->
+            <div class="btn-group">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Тип игрока
+                </button>
+                <div class="dropdown-menu">
+                    <div class="nav nav-pills" id="nav-pill" role="tablist">
+                        <a class="dropdown-item nav-link" id="nav-gk" data-toggle="pill" href="#adults">Взрослые</a>
+                        <a class="dropdown-item nav-link" id="nav-rw" data-toggle="pill" href="#adultsgoal">Взрослые (вратари)</a>
+                        <a class="dropdown-item nav-link" id="nav-gk" data-toggle="pill" href="#child">Дети</a>
+                        <a class="dropdown-item nav-link" id="nav-gk" data-toggle="pill" href="#childgoal">Дети (вратари)</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item nav-link active" id="nav-gk" data-toggle="pill" href="#traners">Тренера</a>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane active" id="traners">
+                    <ul class="nav nav-tabs nav-justified" role="tablist">
+                        <li class="nav-item"><a class="nav-link" id="nav-rw" data-toggle="tab" href="#tranersleft">Л.Боком</a></li>
+                        <li class="nav-item"><a class="nav-link" id="nav-rb" data-toggle="tab" href="#tranersfront">Лицом</a></li>
+                        <li class="nav-item"><a class="nav-link" id="nav-bw" data-toggle="tab" href="#tranersback">Спиной</a></li>
+                        <li class="nav-item"><a class="nav-link" id="nav-yb" data-toggle="tab" href="#tranersright">П.Боком</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane" id="tranersleft">
+                            {% for elem in img_all.0_player_tranersleft %}
+                                <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                            {% endfor %}
+                        </div>
+                        <div class="tab-pane" id="tranersfront">
+                            {% for elem in img_all.0_player_tranersfront %}
+                                <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                            {% endfor %}
+                        </div>
+                        <div class="tab-pane" id="tranersback">
+                            {% for elem in img_all.0_player_tranersback %}
+                                <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                            {% endfor %}
+                        </div>
+                        <div class="tab-pane" id="tranersright">
+                            {% for elem in img_all.0_player_tranersright %}
+                                <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="adults">
+                    <ul class="nav nav-tabs nav-justified" role="tablist">
+                        <li class="nav-item"><a class="nav-link" id="nav-rw" data-toggle="tab" href="#rwadults"><img src="{% static 'schemeDrawer/img/buttons/se_p_color1.png' %}" class="img-fluid"></a></li>
+                        <li class="nav-item"><a class="nav-link" id="nav-rb" data-toggle="tab" href="#rbadults"><img src="{% static 'schemeDrawer/img/buttons/se_p_color2.png' %}" class="img-fluid"></a></li>
+                        <li class="nav-item"><a class="nav-link" id="nav-bw" data-toggle="tab" href="#bwadults"><img src="{% static 'schemeDrawer/img/buttons/se_p_color3.png' %}" class="img-fluid"></a></li>
+                        <li class="nav-item"><a class="nav-link" id="nav-yb" data-toggle="tab" href="#ybkadults"><img src="{% static 'schemeDrawer/img/buttons/se_p_color4.png' %}" class="img-fluid"></a></li>
+                        <li class="nav-item"><a class="nav-link" id="nav-yw" data-toggle="tab" href="#ywadults"><img src="{% static 'schemeDrawer/img/buttons/se_p_color5.png' %}" class="img-fluid"></a></li>
+                        <li class="nav-item"><a class="nav-link" id="nav-wb" data-toggle="tab" href="#wbkadults"><img src="{% static 'schemeDrawer/img/buttons/se_p_color6.png' %}" class="img-fluid"></a></li>
+                        <li class="nav-item"><a class="nav-link" id="nav-wb" data-toggle="tab" href="#rbkadults"><img src="{% static 'schemeDrawer/img/buttons/se_p_color7.png' %}" class="img-fluid"></a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane" id="rwadults">
+                            <ul class="nav nav-tabs nav-justified" role="tablist">
+                                <li class="nav-item"><a class="nav-link" id="nav-rw" data-toggle="tab" href="#rwadultsleft">Л.Боком</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-rb" data-toggle="tab" href="#rwadultsfront">Лицом</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-bw" data-toggle="tab" href="#rwadultsback">Спиной</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-yb" data-toggle="tab" href="#rwadultsright">П.Боком</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane" id="rwadultsleft">
+                                    {% for elem in img_all.0_player_rwadultsleft %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="rwadultsfront">
+                                    {% for elem in img_all.0_player_rwadultsfront %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="rwadultsback">
+                                    {% for elem in img_all.0_player_rwadultsback %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="rwadultsright">
+                                    {% for elem in img_all.0_player_rwadultsright %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="rbadults">
+                            <ul class="nav nav-tabs nav-justified" role="tablist">
+                                <li class="nav-item"><a class="nav-link" id="nav-rw" data-toggle="tab" href="#rbadultsleft">Л.Боком</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-rb" data-toggle="tab" href="#rbadultsfront">Лицом</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-bw" data-toggle="tab" href="#rbadultsback">Спиной</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-yb" data-toggle="tab" href="#rbadultsright">П.Боком</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane" id="rbadultsleft">
+                                    {% for elem in img_all.0_player_rbadultsleft %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="rbadultsfront">
+                                    {% for elem in img_all.0_player_rbadultsfront %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="rbadultsback">
+                                    {% for elem in img_all.0_player_rbadultsback %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="rbadultsright">
+                                    {% for elem in img_all.0_player_rbadultsright %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="bwadults">
+                            <ul class="nav nav-tabs nav-justified" role="tablist">
+                                <li class="nav-item"><a class="nav-link" id="nav-rw" data-toggle="tab" href="#bwadultsleft">Л.Боком</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-rb" data-toggle="tab" href="#bwadultsfront">Лицом</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-bw" data-toggle="tab" href="#bwadultsback">Спиной</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-yb" data-toggle="tab" href="#bwadultsright">П.Боком</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane" id="bwadultsleft">
+                                    {% for elem in img_all.0_player_bwadultsleft %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="bwadultsfront">
+                                    {% for elem in img_all.0_player_bwadultsfront %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="bwadultsback">
+                                    {% for elem in img_all.0_player_bwadultsback %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="bwadultsright">
+                                    {% for elem in img_all.0_player_bwadultsright %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="ybkadults">
+                            <ul class="nav nav-tabs nav-justified" role="tablist">
+                                <li class="nav-item"><a class="nav-link" id="nav-rw" data-toggle="tab" href="#ybkadultsleft">Л.Боком</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-rb" data-toggle="tab" href="#ybkadultsfront">Лицом</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-bw" data-toggle="tab" href="#ybkadultsback">Спиной</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-yb" data-toggle="tab" href="#ybkadultsright">П.Боком</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane" id="ybkadultsleft">
+                                    {% for elem in img_all.0_player_ybkadultsleft %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="ybkadultsfront">
+                                    {% for elem in img_all.0_player_ybkadultsfront %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="ybkadultsback">
+                                    {% for elem in img_all.0_player_ybkadultsback %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="ybkadultsright">
+                                    {% for elem in img_all.0_player_ybkadultsright %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="ywadults">
+                            <ul class="nav nav-tabs nav-justified" role="tablist">
+                                <li class="nav-item"><a class="nav-link" id="nav-rw" data-toggle="tab" href="#ywadultsleft">Л.Боком</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-rb" data-toggle="tab" href="#ywadultsfront">Лицом</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-bw" data-toggle="tab" href="#ywadultsback">Спиной</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-yb" data-toggle="tab" href="#ywadultsright">П.Боком</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane" id="ywadultsleft">
+                                    {% for elem in img_all.0_player_ywadultsleft %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="ywadultsfront">
+                                    {% for elem in img_all.0_player_ywadultsfront %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="ywadultsback">
+                                    {% for elem in img_all.0_player_ywadultsback %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="ywadultsright">
+                                    {% for elem in img_all.0_player_ywadultsright %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="wbkadults">
+                            <ul class="nav nav-tabs nav-justified" role="tablist">
+                                <li class="nav-item"><a class="nav-link" id="nav-rw" data-toggle="tab" href="#wbkadultsleft">Л.Боком</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-rb" data-toggle="tab" href="#wbkadultsfront">Лицом</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-bw" data-toggle="tab" href="#wbkadultsback">Спиной</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-yb" data-toggle="tab" href="#wbkadultsright">П.Боком</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane" id="wbkadultsleft">
+                                    {% for elem in img_all.0_player_wbkadultsleft %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="wbkadultsfront">
+                                    {% for elem in img_all.0_player_wbkadultsfront %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="wbkadultsback">
+                                    {% for elem in img_all.0_player_wbkadultsback %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="wbkadultsright">
+                                    {% for elem in img_all.0_player_wbkadultsright %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="rbkadults">
+                            <ul class="nav nav-tabs nav-justified" role="tablist">
+                                <li class="nav-item"><a class="nav-link" id="nav-rw" data-toggle="tab" href="#rbkadultsleft">Л.Боком</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-rb" data-toggle="tab" href="#rbkadultsfront">Лицом</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-bw" data-toggle="tab" href="#rbkadultsback">Спиной</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-yb" data-toggle="tab" href="#rbkadultsright">П.Боком</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane" id="rbkadultsleft">
+                                    {% for elem in img_all.0_player_rbkadultsleft %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="rbkadultsfront">
+                                    {% for elem in img_all.0_player_rbkadultsfront %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="rbkadultsback">
+                                    {% for elem in img_all.0_player_rbkadultsback %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="rbkadultsright">
+                                    {% for elem in img_all.0_player_rbkadultsright %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="adultsgoal">
+                    <ul class="nav nav-tabs nav-justified" role="tablist">
+                        <li class="nav-item"><a class="nav-link" id="nav-rw" data-toggle="tab" href="#rwadultsgoal"><img src="{% static 'schemeDrawer/img/buttons/se_p_color1.png' %}" class="img-fluid"></a></li>
+                        <!--<li class="nav-item"><a class="nav-link" id="nav-rb" data-toggle="tab" href="#rbadultsgoal"><img src="/tmp/draw_scheme/img/buttons/se_p_color2.png" class="img-fluid"></a></li>-->
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane" id="rwadultsgoal">
+                            <ul class="nav nav-tabs nav-justified" role="tablist">
+                                <li class="nav-item"><a class="nav-link" id="nav-rw" data-toggle="tab" href="#rwadultsgoal-left">Л.Боком</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-rb" data-toggle="tab" href="#rwadultsgoal-front">Лицом</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-bw" data-toggle="tab" href="#rwadultsgoal-back">Спиной</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-yb" data-toggle="tab" href="#rwadultsgoal-right">П.Боком</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane" id="rwadultsgoal-left">
+                                    {% for elem in img_all.0_player_rwadultsgoalleft %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="rwadultsgoal-front">
+                                    {% for elem in img_all.0_player_rwadultsgoalfront %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="rwadultsgoal-back">
+                                    {% for elem in img_all.0_player_rwadultsgoalback %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="rwadultsgoal-right">
+                                    {% for elem in img_all.0_player_rwadultsgoalright %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="tab-pane" id="rbadultsgoal">
+                            <ul class="nav nav-tabs nav-justified" role="tablist">
+                                <li class="nav-item"><a class="nav-link" id="nav-rw" data-toggle="tab" href="#rbadultsgoal-left">Лево</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-rb" data-toggle="tab" href="#rbadultsgoal-front">Перед</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-bw" data-toggle="tab" href="#rbadultsgoal-back">Зад</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-yb" data-toggle="tab" href="#rbadultsgoal-right">Право</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane" id="rbadultsgoal-left">
+                                    <?php createButtons('/tmp/draw_scheme/img/player/adultsgoal/2/left/','','false','true',$root,'player');?>
+                                </div>
+                                <div class="tab-pane" id="rbadultsgoal-front">
+                                    <?php createButtons('/tmp/draw_scheme/img/player/adultsgoal/2/front/','','false','true',$root,'player');?>                                
+                                </div>
+                                <div class="tab-pane" id="rbadultsgoal-back">
+                                    <?php createButtons('/tmp/draw_scheme/img/player/adultsgoal/2/back/','','false','true',$root,'player');?>
+                                </div>
+                                <div class="tab-pane" id="rbadultsgoal-right">
+                                    <?php createButtons('/tmp/draw_scheme/img/player/adultsgoal/2/right/','','false','true',$root,'player');?>
+                                </div>
+                            </div>
+                        </div>-->
+                    </div>
+                </div>
+                <div class="tab-pane" id="child">
+                    <ul class="nav nav-tabs nav-justified" role="tablist">
+                        <li class="nav-item"><a class="nav-link" id="nav-rw" data-toggle="tab" href="#rwchild"><img src="{% static 'schemeDrawer/img/buttons/se_p_color1.png' %}" class="img-fluid"></a></li>
+                        <li class="nav-item"><a class="nav-link" id="nav-rb" data-toggle="tab" href="#rbchild"><img src="{% static 'schemeDrawer/img/buttons/se_p_color2.png' %}" class="img-fluid"></a></li>
+                        <li class="nav-item"><a class="nav-link" id="nav-bw" data-toggle="tab" href="#bwchild"><img src="{% static 'schemeDrawer/img/buttons/se_p_color3.png' %}" class="img-fluid"></a></li>
+                        <li class="nav-item"><a class="nav-link" id="nav-yb" data-toggle="tab" href="#ybkchild"><img src="{% static 'schemeDrawer/img/buttons/se_p_color4.png' %}" class="img-fluid"></a></li>
+                        <li class="nav-item"><a class="nav-link" id="nav-yw" data-toggle="tab" href="#ywchild"><img src="{% static 'schemeDrawer/img/buttons/se_p_color5.png' %}" class="img-fluid"></a></li>
+                        <li class="nav-item"><a class="nav-link" id="nav-wb" data-toggle="tab" href="#wbkchild"><img src="{% static 'schemeDrawer/img/buttons/se_p_color6.png' %}" class="img-fluid"></a></li>
+                        <li class="nav-item"><a class="nav-link" id="nav-wb" data-toggle="tab" href="#rbkchild"><img src="{% static 'schemeDrawer/img/buttons/se_p_color7.png' %}" class="img-fluid"></a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane" id="rwchild">
+                            <ul class="nav nav-tabs nav-justified" role="tablist">
+                                <li class="nav-item"><a class="nav-link" id="nav-rw" data-toggle="tab" href="#rwchild-left">Л.Боком</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-rb" data-toggle="tab" href="#rwchild-front">Лицом</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-bw" data-toggle="tab" href="#rwchild-back">Спиной</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-yb" data-toggle="tab" href="#rwchild-right">П.Боком</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane" id="rwchild-left">
+                                    {% for elem in img_all.0_player_rwchildleft %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="rwchild-front">
+                                    {% for elem in img_all.0_player_rwchildfront %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="rwchild-back">
+                                    {% for elem in img_all.0_player_rwchildback %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="rwchild-right">
+                                    {% for elem in img_all.0_player_rwchildright %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="rbchild">
+                            <ul class="nav nav-tabs nav-justified" role="tablist">
+                                <li class="nav-item"><a class="nav-link" id="nav-rw" data-toggle="tab" href="#rbchild-left">Л.Боком</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-rb" data-toggle="tab" href="#rbchild-front">Лицом</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-bw" data-toggle="tab" href="#rbchild-back">Спиной</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-yb" data-toggle="tab" href="#rbchild-right">П.Боком</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane" id="rbchild-left">
+                                    {% for elem in img_all.0_player_rbchildleft %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="rbchild-front">
+                                    {% for elem in img_all.0_player_rbchildfront %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="rbchild-back">
+                                    {% for elem in img_all.0_player_rbchildback %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="rbchild-right">
+                                    {% for elem in img_all.0_player_rbchildright %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="bwchild">
+                            <ul class="nav nav-tabs nav-justified" role="tablist">
+                                <li class="nav-item"><a class="nav-link" id="nav-rw" data-toggle="tab" href="#bwchild-left">Л.Боком</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-rb" data-toggle="tab" href="#bwchild-front">Лицом</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-bw" data-toggle="tab" href="#bwchild-back">Спиной</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-yb" data-toggle="tab" href="#bwchild-right">П.Боком</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane" id="bwchild-left">
+                                    {% for elem in img_all.0_player_bwchildleft %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="bwchild-front">
+                                    {% for elem in img_all.0_player_bwchildfront %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="bwchild-back">
+                                    {% for elem in img_all.0_player_bwchildback %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="bwchild-right">
+                                    {% for elem in img_all.0_player_bwchildright %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="ybkchild">
+                            <ul class="nav nav-tabs nav-justified" role="tablist">
+                                <li class="nav-item"><a class="nav-link" id="nav-rw" data-toggle="tab" href="#ybkchild-left">Л.Боком</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-rb" data-toggle="tab" href="#ybkchild-front">Лицом</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-bw" data-toggle="tab" href="#ybkchild-back">Спиной</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-yb" data-toggle="tab" href="#ybkchild-right">П.Боком</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane" id="ybkchild-left">
+                                    {% for elem in img_all.0_player_ybkchildleft %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="ybkchild-front">
+                                    {% for elem in img_all.0_player_ybkchildfront %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="ybkchild-back">
+                                    {% for elem in img_all.0_player_ybkchildback %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="ybkchild-right">
+                                    {% for elem in img_all.0_player_ybkchildright %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="ywchild">
+                            <ul class="nav nav-tabs nav-justified" role="tablist">
+                                <li class="nav-item"><a class="nav-link" id="nav-rw" data-toggle="tab" href="#ywchild-left">Л.Боком</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-rb" data-toggle="tab" href="#ywchild-front">Лицом</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-bw" data-toggle="tab" href="#ywchild-back">Спиной</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-yb" data-toggle="tab" href="#ywchild-right">П.Боком</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane" id="ywchild-left">
+                                    {% for elem in img_all.0_player_ywchildleft %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="ywchild-front">
+                                    {% for elem in img_all.0_player_ywchildfront %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="ywchild-back">
+                                    {% for elem in img_all.0_player_ywchildback %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="ywchild-right">
+                                    {% for elem in img_all.0_player_ywchildright %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="wbkchild">
+                            <ul class="nav nav-tabs nav-justified" role="tablist">
+                                <li class="nav-item"><a class="nav-link" id="nav-rw" data-toggle="tab" href="#wbkchild-left">Л.Боком</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-rb" data-toggle="tab" href="#wbkchild-front">Лицом</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-bw" data-toggle="tab" href="#wbkchild-back">Спиной</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-yb" data-toggle="tab" href="#wbkchild-right">П.Боком</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane" id="wbkchild-left">
+                                    {% for elem in img_all.0_player_wbkchildleft %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="wbkchild-front">
+                                    {% for elem in img_all.0_player_wbkchildfront %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="wbkchild-back">
+                                    {% for elem in img_all.0_player_wbkchildback %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="wbkchild-right">
+                                    {% for elem in img_all.0_player_wbkchildright %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="rbkchild">
+                            <ul class="nav nav-tabs nav-justified" role="tablist">
+                                <li class="nav-item"><a class="nav-link" id="nav-rw" data-toggle="tab" href="#rbkchild-left">Л.Боком</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-rb" data-toggle="tab" href="#rbkchild-front">Лицом</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-bw" data-toggle="tab" href="#rbkchild-back">Спиной</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-yb" data-toggle="tab" href="#rbkchild-right">П.Боком</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane" id="rbkchild-left">
+                                    {% for elem in img_all.0_player_rbkchildleft %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="rbkchild-front">
+                                    {% for elem in img_all.0_player_rbkchildfront %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="rbkchild-back">
+                                    {% for elem in img_all.0_player_rbkchildback %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="rbkchild-right">
+                                    {% for elem in img_all.0_player_rbkchildright %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="childgoal">
+                    <ul class="nav nav-tabs nav-justified" role="tablist">
+                        <li class="nav-item"><a class="nav-link" id="nav-rw" data-toggle="tab" href="#rwchildgoal"><img src="{% static 'schemeDrawer/img/buttons/se_p_color1.png' %}" class="img-fluid"></a></li>
+                        <!--<li class="nav-item"><a class="nav-link" id="nav-rb" data-toggle="tab" href="#rbchildgoal"><img src="/tmp/draw_scheme/img/buttons/se_p_color2.png" class="img-fluid"></a></li>-->
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane" id="rwchildgoal">
+                            <ul class="nav nav-tabs nav-justified" role="tablist">
+                                <li class="nav-item"><a class="nav-link" id="nav-rw" data-toggle="tab" href="#rwchildgoal-left">Л.Боком</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-rb" data-toggle="tab" href="#rwchildgoal-front">Лицом</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-bw" data-toggle="tab" href="#rwchildgoal-back">Спиной</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-yb" data-toggle="tab" href="#rwchildgoal-right">П.Боком</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane" id="rwchildgoal-left">
+                                    {% for elem in img_all.0_player_rwchildgoalleft %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="rwchildgoal-front">
+                                    {% for elem in img_all.0_player_rwchildgoalfront %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="rwchildgoal-back">
+                                    {% for elem in img_all.0_player_rwchildgoalback %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                                <div class="tab-pane" id="rwchildgoal-right">
+                                    {% for elem in img_all.0_player_rwchildgoalright %}
+                                        <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="tab-pane" id="rbchildgoal">
+                            <ul class="nav nav-tabs nav-justified" role="tablist">
+                                <li class="nav-item"><a class="nav-link" id="nav-rw" data-toggle="tab" href="#rbchildgoal-left">Лево</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-rb" data-toggle="tab" href="#rbchildgoal-front">Перед</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-bw" data-toggle="tab" href="#rbchildgoal-back">Зад</a></li>
+                                <li class="nav-item"><a class="nav-link" id="nav-yb" data-toggle="tab" href="#rbchildgoal-right">Право</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane" id="rbchildgoal-left">
+                                    <?php createButtons('/tmp/draw_scheme/img/player/childgoal/2/left/','','false','true',$root,'player');?>
+                                </div>
+                                <div class="tab-pane" id="rbchildgoal-front">
+                                    <?php createButtons('/tmp/draw_scheme/img/player/childgoal/2/front/','','false','true',$root,'player');?>                          
+                                </div>
+                                <div class="tab-pane" id="rbchildgoal-back">
+                                    <?php createButtons('/tmp/draw_scheme/img/player/childgoal/2/back/','','false','true',$root,'player');?>
+                                </div>
+                                <div class="tab-pane" id="rbchildgoal-right">
+                                    <?php createButtons('/tmp/draw_scheme/img/player/childgoal/2/right/','','false','true',$root,'player');?>
+                                </div>
+                            </div>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="tab-pane fade" id="nav-lines" role="tabpanel" aria-labelledby="nav-lines-tab">
+            <div class="d-block float-left w-100">
+            <h5>Линии</h5>
+            <hr>
+            <button class="btn btn-line" onclick="drawLine(1)">
+                <svg id="blockLine" viewBox="0 0 150 50" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+                    <path id="btnLine" d="M 0 25 L 135 25" stroke="black" stroke-width="2" stroke-dasharray="0" style="fill:transparent;" marker-end="url(#arrow)"></path>
+                </svg>
+            </button>
+            <button class="btn btn-line" onclick="drawLine(2)">
+                <svg id="blockQLine" viewBox="0 0 150 50" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+                    <path id="btnQLine" d="M 0 37.5 Q 75 12.5 135 37.5" stroke="black" stroke-width="2" stroke-dasharray="0" style="fill:transparent;" marker-end="url(#arrow)"></path>
+                </svg>
+            </button>
+            <button class="btn btn-line" onclick="drawLine(5)">
+                <svg id="blockCLine" viewBox="0 0 150 50" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+                    <path id="btnCLine" d="M 0 40 C 40 -10 80 40 120 20" stroke="black" stroke-width="2" stroke-dasharray="0" style="fill:transparent;" marker-end="url(#arrow)"></path>
+                </svg>
+            </button>
+            <button class="btn btn-line" onclick="drawLine(3)">
+                <svg id="block2QLine" viewBox="0 0 150 50" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+                    <path id="btn2QLine" d="M 0 25 Q 25 0 50 25 70 50 100 25 125 0 140 25" stroke="black" stroke-width="2" stroke-dasharray="0" style="fill:transparent;" marker-end="url(#arrow)"></path>
+                </svg>
+            </button>
+            <button class="btn btn-line" onclick="drawLine(4)">
+                <svg id="blockWLine" viewBox="0 0 150 50" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+                    <path id="btnWLine" d="M 0 25 Q 25 0 50 25 70 50 100 25 125 0 140 25" stroke="black" stroke-width="2" stroke-dasharray="0" style="fill:transparent;" marker-end="url(#arrow)"></path>
+                </svg>
+            </button>
+            <button class="btn btn-line" onclick="drawLine(6)">
+                <svg id="block2WLine" viewBox="0 0 150 50" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+                    <path id="btn2WLine" d="M 0 25 Q 25 0 50 25 70 50 100 25 125 0 140 25" stroke="black" stroke-width="2" stroke-dasharray="0" style="fill:transparent;" marker-end="url(#arrow)"></path>
+                </svg>
+            </button>
+            </div>
+            <div class="d-block float-left w-100">            
+            <label class="d-block w-100">Цвет линии</label>
+            <div class="form-check color-box">
+                <input type="radio" name="color" id="colorBlack" value="#000000" checked><label class="form-check-label cbx-black" for="colorBlack"></label>
+            </div>
+            <div class="form-check color-box">
+                <input type="radio" name="color" id="colorYellow" value="#ffff00"><label class="form-check-label cbx-yellow" for="colorYellow"></label>
+            </div>
+             <div class="form-check color-box">
+                <input type="radio" name="color" id="colorRed" value="#ff0000"><label class="form-check-label cbx-red" for="colorRed"></label>
+            </div>
+             <div class="form-check color-box">
+                <input type="radio" name="color" id="colorWhite" value="#ffffff"><label class="form-check-label cbx-white" for="colorWhite"></label>
+            </div>
+            <label class="d-block w-100">Маркер линии</label>
+            <div class="form-check marker-box">
+                <input type="radio" name="marker" id="markerArrow" value="arrow" checked><label class="form-check-label" for="markerArrow">Стрелка</label>
+            </div>
+            <div class="form-check marker-box">
+                <input type="radio" name="marker" id="markerNone" value="none"><label class="form-check-label" for="markerNone">Отсутствует</label>
+            </div>
+            <label class="d-block w-100">Тип линии</label>
+            <div class="form-check marker-box">
+                <input type="radio" name="dasharray" id="ltU" value="0" checked><label class="form-check-label" for="ltU">Сплошная</label>
+            </div>
+            <div class="form-check marker-box">
+                <input type="radio" name="dasharray" id="ltP" value="10"><label class="form-check-label" for="ltP">Пунктирная</label>
+            </div>
+            <label class="d-block mt-2 w-100">Толщина линии</label>
+            <div class="form-check marker-box">
+                <select id="strokeWidth">
+                <option value="1">Тонкая</option>
+                <option value="2">Нормальная</option>
+                <option value="4">Толстая</option>
+                </select>
+            </div>
+            <input type="hidden" id="stroke" value="#000000">
+            <input type="hidden" id="marker" value="arrow">
+            <input type="hidden" id="strokeDasharray" value="0">
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-figures" role="tabpanel" aria-labelledby="nav-figures-tab">
+            <div class="d-block float-left w-100">
+            <h5>Фигуры</h5>
+            <hr>           
+            
+            <button class="btn btn-line" onclick="drawFigure(1)">
+                <svg id="blockCircle" viewBox="0 0 150 150" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+                    <circle id="btnCircle" cx="75" cy="75" r="70" stroke="black" stroke-width="1" stroke-dasharray="0" fill="#0000001a"></circle>
+                </svg>
+            </button>
+            <button class="btn btn-line" onclick="drawFigure(2)">
+                <svg id="blockRect" viewBox="0 0 150 150" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+                    <rect id="btnRect" x="5" y="5" width="140" height="140" stroke="black" stroke-width="1" stroke-dasharray="0" fill="#0000001a"></rect>
+                </svg>
+            </button>
+            <button class="btn btn-line" onclick="drawFigure(3)">
+                <svg id="blockPoly" viewBox="0 0 150 150" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+                    <polygon id="btnPoly" points="25,5 125,5 150,145 0,145" stroke="black" stroke-width="1" stroke-dasharray="0" fill="#0000001a"></polygon>
+                </svg>
+            </button>
+            <button class="btn btn-line" onclick="drawFigure(4)">
+                <svg id="blockPoly" viewBox="0 0 150 150" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse id="btnEllipse" cx="75" cy="75" rx="70" ry="35" stroke="black" stroke-width="1" stroke-dasharray="0" fill="#0000001a"></ellipse>
+                </svg>
+            </button>
+            <button class="btn btn-line" onclick="drawFigure(5)">
+                <svg id="blockPoly" viewBox="0 0 150 150" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+                    <polygon id="btnPolyFive" points="30,5 115,5 135,90 75,125 10,90" stroke="black" stroke-width="1" stroke-dasharray="0" fill="#0000001a"></polygon>
+                </svg>
+            </button>
+            <button class="btn btn-line" onclick="drawFigure(6)">
+                <svg id="blockPoly" viewBox="0 0 150 150" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+                    <polygon id="btnPolyTr" points="70,5 130,110 0,110" stroke="black" stroke-width="1" stroke-dasharray="0" fill="#0000001a"></polygon>
+                </svg>
+            </button>
+            </div>
+            <div class="d-block float-left w-100">            
+            <label class="d-block w-100">Цвет границ</label>
+            <div class="form-check color-box">
+                <input type="radio" name="colorFL" id="colorBlackFL" value="#000000" checked><label class="form-check-label cbx-black" for="colorBlackFL"></label>
+            </div>
+            <div class="form-check color-box">
+                <input type="radio" name="colorFL" id="colorYellowFL" value="#ffff00"><label class="form-check-label cbx-yellow" for="colorYellowFL"></label>
+            </div>
+             <div class="form-check color-box">
+                <input type="radio" name="colorFL" id="colorRedFL" value="#ff0000"><label class="form-check-label cbx-red" for="colorRedFL"></label>
+            </div>
+             <div class="form-check color-box">
+                <input type="radio" name="colorFL" id="colorWhiteFL" value="#ffffff"><label class="form-check-label cbx-white" for="colorWhiteFL"></label>
+            </div>
+			<label class="d-block w-100">Цвет заливки фигур</label>
+            <div class="form-check color-box">
+                <input type="radio" name="colorFB" id="colorBlackFB" value="#000000" checked><label class="form-check-label cbx-black" for="colorBlackFB"></label>
+            </div>
+            <div class="form-check color-box">
+                <input type="radio" name="colorFB" id="colorYellowFB" value="#ffff00"><label class="form-check-label cbx-yellow" for="colorYellowFB"></label>
+            </div>
+             <div class="form-check color-box">
+                <input type="radio" name="colorFB" id="colorRedFB" value="#ff0000"><label class="form-check-label cbx-red" for="colorRedFB"></label>
+            </div>
+             <div class="form-check color-box">
+                <input type="radio" name="colorFB" id="colorWhiteFB" value="#ffffff"><label class="form-check-label cbx-white" for="colorWhiteFB"></label>
+            </div>
+            <div class="form-check color-box">
+                <input type="radio" name="colorFB" id="colorTransparentFB" value="transparent"><label class="form-check-label cbx-transparent" for="colorTransparentFB">Нет</label>
+            </div>       			
+            <label class="d-block w-100">Тип границ фигуры</label>
+            <div class="form-check marker-box">
+                <input type="radio" name="dasharrayF" id="ltUFL" value="0" checked><label class="form-check-label" for="ltUFL">Сплошная</label>
+            </div>
+            <div class="form-check marker-box">
+                <input type="radio" name="dasharrayF" id="ltPFL" value="10"><label class="form-check-label" for="ltPFL">Пунктирная</label>
+            </div>
+            <label class="d-block mt-2 w-100">Толщина границ фигуры</label>
+            <div class="form-check marker-box">
+                <select id="strokeWidthFL">
+                <option value="1">Тонкая</option>
+                <option value="2">Нормальная</option>
+                <option value="4">Толстая</option>
+                <option value="0">Отсутствует</option>
+                </select>
+            </div>
+            <input type="hidden" id="fillFL" value="#0000001a">
+            <input type="hidden" id="strokeFL" value="#000000">
+            <input type="hidden" id="strokeDasharrayFL" value="0">
+            </div>            
+        </div>
+		
+        <div class="tab-pane fade" id="nav-marks" role="tabpanel" aria-labelledby="nav-marks-tab">
+            <hr>
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+                <li class="nav-item"><a class="nav-link active show" id="nav-rw" data-toggle="tab" href="#nav-track-grey" style="background-color: lightgrey; width:100%; height:35px;"></a></li>
+                <li class="nav-item"><a class="nav-link bg-dark" id="nav-rb" data-toggle="tab" href="#nav-track-black" style="width:100%; height:35px;"></a></li>
+                <li class="nav-item"><a class="nav-link bg-danger" id="nav-rb" data-toggle="tab" href="#nav-track-red" style="width:100%; height:35px;"></a></li>
+                <li class="nav-item"><a class="nav-link bg-warning" id="nav-rb" data-toggle="tab" href="#nav-track-yellow" style="width:100%; height:35px;"></a></li>
+                <li class="nav-item"><a class="nav-link" id="nav-rb" data-toggle="tab" href="#nav-track-yellow-bright" style="background-color: #fff22f; width:100%; height:35px;"></a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="nav-track-grey">
+                    <div class="d-block float-left w-100">
+                        <h5>Метки</h5>
+                        <hr>
+                        {% for elem in img_all.objNLabels_label_grey %}
+                            <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                        {% endfor %}
+                        {% for elem in img_all.objNLabels_label2_grey %}
+                            <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                        {% endfor %}
+                        {% for elem in img_all.objNLabels_label3_grey %}
+                            <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                        {% endfor %}
+                        {% for elem in img_all.objCaps_caps_grey %}
+                            <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                        {% endfor %}
+                    </div>
+                    <div class="d-block float-left w-100">
+                        <h5>Цифры</h5>
+                        <hr>
+                        {% for elem in img_all.objNumbers_number_grey %}
+                            <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="tab-pane" id="nav-track-black">
+                    <div class="d-block float-left w-100">
+                        <h5>Метки</h5>
+                        <hr>
+                        {% for elem in img_all.objNLabels_label_black %}
+                            <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                        {% endfor %}
+                        {% for elem in img_all.objNLabels_label2_black %}
+                            <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                        {% endfor %}
+                        {% for elem in img_all.objNLabels_label3_black %}
+                            <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                        {% endfor %}
+                    </div>
+                    <div class="d-block float-left w-100">
+                        <h5>Цифры</h5>
+                        <hr>
+                        {% for elem in img_all.objNumbers_number_black %}
+                            <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="tab-pane" id="nav-track-red">
+                    <div class="d-block float-left w-100">
+                        <h5>Метки</h5>
+                        <hr>
+                        {% for elem in img_all.objNLabels_label_red %}
+                            <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                        {% endfor %}
+                        {% for elem in img_all.objNLabels_label2_red %}
+                            <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                        {% endfor %}
+                        {% for elem in img_all.objNLabels_label3_red %}
+                            <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                        {% endfor %}
+                    </div>
+                    <div class="d-block float-left w-100">
+                        <h5>Цифры</h5>
+                        <hr>
+                        {% for elem in img_all.objNumbers_number_red %}
+                            <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="tab-pane" id="nav-track-yellow">
+                    <div class="d-block float-left w-100">
+                        <h5>Метки</h5>
+                        <hr>
+                        {% for elem in img_all.objNLabels_label_yellow %}
+                            <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                        {% endfor %}
+                        {% for elem in img_all.objNLabels_label2_yellow %}
+                            <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                        {% endfor %}
+                        {% for elem in img_all.objNLabels_label3_yellow %}
+                            <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                        {% endfor %}
+                    </div>
+                    <div class="d-block float-left w-100">
+                        <h5>Цифры</h5>
+                        <hr>
+                        {% for elem in img_all.objNumbers_number_yellow %}
+                            <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="tab-pane" id="nav-track-yellow-bright">
+                    <div class="d-block float-left w-100">
+                        <h5>Метки</h5>
+                        <hr>
+                        {% for elem in img_all.objNLabels_label_yellowbright %}
+                            <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                        {% endfor %}
+                        {% for elem in img_all.objNLabels_label2_yellowbright %}
+                            <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                        {% endfor %}
+                        {% for elem in img_all.objNLabels_label3_yellowbright %}
+                            <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                        {% endfor %}
+                    </div>
+                    <div class="d-block float-left w-100">
+                        <h5>Цифры</h5>
+                        <hr>
+                        {% for elem in img_all.objNumbers_number_yellowbright %}
+                            <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div class="tab-pane fade" id="nav-logos" role="tabpanel" aria-labelledby="nav-logos-tab">
+            
+            <div class="d-block float-left w-100">
+                <h5>Лого</h5>
+                <hr>
+                {% for elem in img_all.objLogos_logoLong %}
+                    <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                {% endfor %}
+                <hr>
+                {% for elem in img_all.objLogos_logoShort %}
+                    <div class="btn obj {{elem.obj_class}}" style="{{elem.c_style}}"><img data-src="{{ elem.path }}" {{elem.data_group}} class="img-fluid draggable"></div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-image" role="tabpanel" aria-labelledby="nav-image-tab">
+            <h5>Добавить изображение или текст</h5>
+            <hr>
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item"><a class="nav-link active" id="nav-add-img" data-toggle="tab" href="#add-img">Изображение</a></li>
+                <li class="nav-item"><a class="nav-link" id="nav-add-text" data-toggle="tab" href="#add-text">Текст</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active pt-3" id="add-img">
+                    <input id="imgLoadButton" class="form-control-file" type="file">
+                    <button class="btn obj objImage"><img id="imgForLoad" class="img-fluid draggable" style="display:none;" src="" width="300" height="200" data-width="300" data-height="200" ></button>
+                </div>
+                <div class="tab-pane pt-3" id="add-text">
+                    <textarea id="textForInsert" class="form-control mb-2 rounded-0 border-0" row="3" style="background: #46a845;font-size:15px;font-weight:100;color:#000000;" placeholder="Введите сюда свой текст"></textarea>
+                    <button class="btn ml-0" onclick="drawText()">Вставить текст</button>
+                    <div class="d-block float-left w-100">
+                    <h6 class="pt-3">Настройки</h6>
+                    <hr>
+                    <label class="d-block mt-2 w-100">Цвет текста</label>
+                    <div class="">
+                        <a class="nav-link color-selector" id="" href="#" style="background-color: #ffffff; width:20%; height:30px;"></a>
+                        <a class="nav-link color-selector selected-color" id="" href="#" style="background-color: black; width:20%; height:30px;"></a>
+                        <a class="nav-link color-selector" id="" href="#" style="background-color: red; width:20%; height:30px;"></a>
+                        <a class="nav-link color-selector" id="" href="#" style="background-color: yellow; width:20%; height:30px;"></a>
+
+                        <input type="hidden" id="textColor" name="textColor"  value="#000000">
+                    </div>
+                    <label class="d-block mt-2 w-100">Размер шрифта</label>
+                    <div class="form-check marker-box">
+                        <select id="textSize" name="textSize">
+                            <option value="10px">1</option>
+                            <option value="15px" selected>2</option>
+                            <option value="20px">3</option>
+                            <option value="25px">4</option>
+                            <option value="30px">5</option>
+                            <option value="35px">6</option>
+                        </select>
+                    </div>
+                    <label class="d-block mt-2 w-100">Толщина шрифта</label>
+                    <div class="form-check marker-box">
+                        <select id="textWeight" name="textWeight">
+                            <option value="100">Thin</option>
+                            <option value="500">Normal</option>
+                            <option value="900">Bold</option>
+                        </select>
+                    </div>
+                    <label class="d-block mt-2 w-100">Без рамки/с рамкой</label>
+                    <div class="form-check marker-box">
+                        <select id="withBlock" name="withBlock">
+                            <option value="">---</option>
+                            <option value="1">Рамка</option>
+                        </select>
+                    </div>
+                    <label class="d-block mt-2 w-100">Цвет обводки</label>
+                    <div class="">
+                        <a class="nav-link color-selector-border" id="" href="#" style="background-color: #ffffff; width:20%; height:30px;"></a>
+                        <a class="nav-link color-selector-border selected-color" id="" href="#" style="background-color: black; width:20%; height:30px;"></a>
+                        <a class="nav-link color-selector-border" id="" href="#" style="background-color: red; width:20%; height:30px;"></a>
+                        <a class="nav-link color-selector-border" id="" href="#" style="background-color: yellow; width:20%; height:30px;"></a>
+
+                        <input type="hidden" id="blockBorderColor" name="blockBorderColor"  value="#000000">
+                    </div>
+                    <label class="d-block mt-2 w-100">Цвет заливки</label>
+                    <div class="">
+                        <a class="nav-link color-selector-block selected-color" id="" href="#" style="background-color: rgba(255, 255, 255, 0.9); width:20%; height:30px;"></a>
+                        <a class="nav-link color-selector-block" id="" href="#" style="background-color: rgba(0, 0, 0, 0.9); width:20%; height:30px;"></a>
+                        <a class="nav-link color-selector-block" id="" href="#" style="background-color: rgba(255, 0, 0, 0.9); width:20%; height:30px;"></a>
+                        <a class="nav-link color-selector-block" id="" href="#" style="background-color: rgba(255, 255, 0, 0.9); width:20%; height:30px;"></a>
+                        <a class="nav-link color-selector-block" id="" href="#" style="background-color: rgba(255, 255, 0, .0); width:20%; height:30px; padding: 0px 0px 0px 5px !important;">Нет</a>
+                        <input type="hidden" id="blockColor" name="blockColor"  value="rgba(255, 255, 255, 0.9)">
+                    </div>
+                    <label class="d-block mt-2 w-100">Толщина обводки</label>
+                    <div class="form-check marker-box">
+                        <select id="blockBorder" name="blockBorder">
+                            <option value="0">Нет</option>
+                            <option value="1" selected>Тонкая</option>
+                            <option value="3">Толстая</option>
+                        </select>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-animate" role="tabpanel" aria-labelledby="nav-animate-tab">
+            <h5>Анимация</h5>
+            <hr>
+            <div class="buttons-group">
+                <button class="nav-item nav-link" id="addSlide" title="Добавить кадр" onclick="addSlide()"><img src="{% static 'schemeDrawer/img/buttons/plus.png' %}"></button>
+                <button class="nav-item nav-link" id="removeSlides" title="Удалить последний слайд" onclick="removeSlides()" disabled="disabled"><img src="{% static 'schemeDrawer/img/buttons/trash.png' %}"></button>
+                <button class="nav-item nav-link" id="playSlides" title="Проиграть анимацию" onclick="animateSlides()" disabled="disabled"><img src="{% static 'schemeDrawer/img/buttons/play.png' %}"></button>
+                <button class="nav-item nav-link" id="changeSpeed" title="Изменить скорость анимации" onclick="updateSpeed(this)" style="width: 48px !important; height: 48px !important;">1x</button>
+            </div>
+            <div id="animationFrames">
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'schemeDrawer/js/jquery.lazyloadxt.js' %}"></script>
+<script>
+    $.extend($.lazyLoadXT, {
+        edgeY: 2000
+        //updateEvent: 'load orientationchange resize scroll mouseup'
+    });
+    $( document ).click(function() {
+        setTimeout(function(){
+            $(window).lazyLoadXT();
+        }, 500);
+    });
+    
+</script>
