@@ -30,13 +30,13 @@
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" data-id="filter_reset" title="Сброс фильтров" style="--w-max-x:5%;">
                                                 <span class="icon-custom icon--reset" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
                                             </button>
-                                            <button type="button" class="btn btn-success btn-sm btn-custom btn-block up-tabs-elem folders-toggle size-max-w-x" data-id="nfb_folders" style="--w-max-x:15%;">
+                                            <button type="button" class="btn btn-success btn-sm btn-custom btn-block up-tabs-elem folders-toggle size-max-w-x" data-id="nfb_folders" style="--w-max-x:20%;">
                                                 Папки N.F.
                                             </button>
-                                            <button type="button" class="btn btn-warning btn-sm btn-custom btn-block up-tabs-elem folders-toggle size-max-w-x d-none" data-id="club_folders" style="--w-max-x:15%;">
+                                            <button type="button" class="btn btn-warning btn-sm btn-custom btn-block up-tabs-elem folders-toggle size-max-w-x d-none" data-id="club_folders" style="--w-max-x:20%;">
                                                 Папки "Клуб"
                                             </button>
-                                            <button type="button" class="btn btn-success btn-sm btn-custom bck-custom-color btn-block up-tabs-elem folders-toggle size-max-w-x d-none" data-id="team_folders" style="--bck-color:#ff8b54; --w-max-x:15%;">
+                                            <button type="button" class="btn btn-success btn-sm btn-custom bck-custom-color btn-block up-tabs-elem folders-toggle size-max-w-x d-none" data-id="team_folders" style="--bck-color:#ff8b54; --w-max-x:20%;">
                                                 Папки "Команда"
                                             </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 size-max-w-x" id="showOneExs" style="--w-max-x:10%;">
@@ -45,14 +45,14 @@
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="copy" style="--w-max-x:10%;">
                                                 Копировать
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="" style="--w-max-x:10%;">
-                                                Показать
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_markers" title="Маркировать" style="--w-max-x:5%;">
+                                                <span class="icon-custom icon--brush" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
                                             </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_side_filter" style="--w-max-x:10%;">
                                                 Фильтрация
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_markers" title="Маркировать" style="--w-max-x:5%;">
-                                                <span class="icon-custom icon--brush" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="" title="Показать" style="--w-max-x:5%;">
+                                                <span class="icon-custom icon--eye mt-1" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
                                             </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block size-max-w-x" data-id="" title="Поделиться" style="--w-max-x:5%;">
                                                 <span class="icon-custom icon--share" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
@@ -661,7 +661,31 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-body">
-
+                        <div id="carouselGraphics" class="carousel slide mt-2" data-ride="carousel" data-interval="false">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <svg id="" class="d-block bg-success mx-auto" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" "="">
+                                        <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="/static/exercises/img/field.svg"></image>
+                                    </svg>
+                                </div>
+                                <div class="carousel-item description-item">
+                                    <div class="card size-h-x" style="--h-x:65vh;">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Описание</h5>
+                                            <div id="descriptionEditorView" class="ckeditor" name=""></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev ml-2" href="#carouselGraphics" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselGraphics" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Назад</button>

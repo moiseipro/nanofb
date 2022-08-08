@@ -369,6 +369,18 @@ $(function() {
         .catch(err => {
             console.error(err);
         });
+    ClassicEditor
+        .create(document.querySelector('#descriptionEditorView'), {
+            language: cLang
+        })
+        .then(editor => {
+            document.descriptionEditorView = editor;
+            document.descriptionEditorView.enableReadOnlyMode('');
+            $(document).find('.ck-editor__top').addClass('d-none');
+        })
+        .catch(err => {
+            console.error(err);
+        });
  
     
     $('#exerciseCardModal').on('click', '#saveExs', (e) => {
@@ -630,37 +642,49 @@ $(function() {
     // Open graphics in modal
     $('.visual-block').on('click', '.carousel-item', (e) => {
         e.preventDefault();
-        let parent = $(e.currentTarget).parent().parent().clone();
-        let cID = $(parent).attr('id');
-        $(parent).attr('id', `${cID}Clone`);
-        $(parent).find(`[data-target="#${cID}"]`).attr('data-target', `#${cID}Clone`);
-        $(parent).find(`[href="#${cID}"]`).attr('href', `#${cID}Clone`);
-        if ($(parent).find('.video-js').length > 0) {
-            $(parent).find('.video-js').removeClass('not-active');
-            $(parent).find('#video-player').attr('id', 'video-playerClone');
-            $(parent).find('#video-player2').attr('id', 'video-player2Clone');
-            window.videoPlayerClone = videojs($(parent).find('#video-playerClone')[0], {
+
+        $('#exerciseGraphicsModal').find('.modal-body').find('.carousel-item').each((ind, elem) => {
+            $(elem).removeClass('active');
+            if ($(elem).hasClass('description-item')) {return;}
+            $(elem).remove();
+        });
+        let parentId = $(e.currentTarget).parent().parent().attr('id');
+        let items = $('#carouselSchema').find('.carousel-item').clone();
+        if (parentId != "carouselSchema") {$(items).removeClass('active');}
+        $('#exerciseGraphicsModal').find('#carouselGraphics > .carousel-inner').append(items);
+        
+        items = $('#carouselVideo').find('.carousel-item').clone();
+        if (parentId != "carouselVideo") {$(items).removeClass('active');}
+        for (let i = 0; i < items.length; i++) {
+            let item = items[i];
+            if ($(item).find('.video-js').length > 0) {
+                $(item).find('.video-js').removeClass('not-active');
+                $(item).find('.video-js').attr('id', `video-playerClone-${i}`);
+            }
+        }
+        $('#exerciseGraphicsModal').find('#carouselGraphics > .carousel-inner').append(items);
+        window.videoPlayerClones = [];
+        for (let i = 0; i < items.length; i++) {
+            window.videoPlayerClones[i] = videojs($('#exerciseGraphicsModal').find(`#video-playerClone-${i}`)[0], {
                 preload: 'auto',
                 autoplay: false,
                 controls: true,
                 aspectRatio: '16:9',
                 youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
             });
-            window.videoPlayer2Clone = videojs($(parent).find('#video-player2Clone')[0], {
-                preload: 'auto',
-                autoplay: false,
-                controls: true,
-                aspectRatio: '16:9',
-                youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
-            });
-            window.videoPlayerClone.ready((e) => {
-                window.videoPlayerClone.src({techOrder: ["youtube"], type: 'video/youtube', src: "https://www.youtube.com/watch?v=sNZPEnc4m0w"});
-            });
-            window.videoPlayer2Clone.ready((e) => {
-                window.videoPlayer2Clone.src({techOrder: ["youtube"], type: 'video/youtube', src: "https://www.youtube.com/watch?v=K0x8Z8JxQtA"});
+            window.videoPlayerClones[i].ready((e) => {
+                if (i == 0) {
+                    window.videoPlayerClones[i].src({techOrder: ["youtube"], type: 'video/youtube', src: "https://www.youtube.com/watch?v=sNZPEnc4m0w"});
+                } else if (i == 1) {
+                    window.videoPlayerClones[i].src({techOrder: ["youtube"], type: 'video/youtube', src: "https://www.youtube.com/watch?v=K0x8Z8JxQtA"});
+                }
             });
         }
-        $('#exerciseGraphicsModal').find('.modal-body').html(parent);
+
+        items = $('#carouselAnim').find('.carousel-item').clone();
+        if (parentId != "carouselAnim") {$(items).removeClass('active');}
+        $('#exerciseGraphicsModal').find('#carouselGraphics > .carousel-inner').append(items);
+
         $('#exerciseGraphicsModal').modal('show');
     });
 
