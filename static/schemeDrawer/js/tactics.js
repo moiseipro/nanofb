@@ -13,39 +13,47 @@ var
     xPoints = [], yPoints = [],
     viewBoxParams,
     svgHeight, svgWidth, svgMouseX, svgMouseY,
+    blockOuterWidth, blockOuterHeight,
     strokeValueOld = '#000000';
 
-$(window).on('load', function () {
-    var $preloader = $('#page-preloader'),
-        $loadtext = $preloader.find('.loader-text')
-    $spinner = $preloader.find('.loader')
-    $spinner.fadeOut()
-    $loadtext.html('Приступаем..').delay(150).fadeOut('slow')
-    $preloader.delay(350).fadeOut('slow')
-})
+// $(window).on('load', function () {
+//     var $preloader = $('#page-preloader'),
+//         $loadtext = $preloader.find('.loader-text')
+//     $spinner = $preloader.find('.loader')
+//     $spinner.fadeOut()
+//     $loadtext.html('Приступаем..').delay(150).fadeOut('slow')
+//     $preloader.delay(350).fadeOut('slow')
+// })
 
-$(window).on('beforeunload', function (e) {
-    return 'Возможно Вы забыли сохранить данные. Закрыть сайт?'
-})
 
 $(document).ready(function () {
     svgBlockResize()
-    viewBoxParams = $('#block').attr('viewBox').split(' ')
+    viewBoxParams = $('#svgparent').find('#block').attr('viewBox').split(' ')
+    blockOuterWidth = $('#svgparent').find('#block').outerWidth()
+    blockOuterHeight = $('#svgparent').find('#block').outerHeight()
     $('.btn:not(".btn-line")').on('mousedown', function () {
         removeDrawning()
     })
     $('.nav-link').on('mousedown', function () {
         removeDrawning()
     })
+
+    $(document).on('click', (e) => {
+        $('#saveScheme', parent.document).click();
+    });
 })
 
 $(window).resize(function () {
     svgBlockResize()
 })
 
-$("#block").on('mousemove', function (e) {
-    svgMouseX = Math.floor((e.clientX - offset.left) * viewBoxParams[2] / $('#block').outerWidth())
-    svgMouseY = Math.floor((e.clientY - offset.top) * viewBoxParams[3] / $('#block').outerHeight())
+$(document).on('mousemove', '#block', function (e) {
+    if (offset.left && offset.top && viewBoxParams[2] && viewBoxParams[3]) {
+        blockOuterWidth = $('#svgparent').find('#block').outerWidth()
+        blockOuterHeight = $('#svgparent').find('#block').outerHeight()
+        svgMouseX = Math.floor((e.clientX - offset.left) * viewBoxParams[2] / blockOuterWidth)
+        svgMouseY = Math.floor((e.clientY - offset.top) * viewBoxParams[3] / blockOuterHeight)
+    }
 })
 
 $('#textColor').on('change', function () {
@@ -381,15 +389,19 @@ function svgBlockResize() {
     if (ratioHeightWidth >= 66) {
         $('#svgparent').height(2 * svgWidth / 3)
         $('#svgparent').width(svgWidth)
-        $('#block').height(2 * svgWidth / 3)
-        $('#block').width(svgWidth)
+        $('#svgparent').find('#block').height(2 * svgWidth / 3)
+        $('#svgparent').find('#block').width(svgWidth)
     } else {
         $('#svgparent').width(3 * svgHeight / 2)
         $('#svgparent').height(svgHeight)
-        $('#block').width(3 * svgHeight / 2)
-        $('#block').height(svgHeight)
+        $('#svgparent').find('#block').width(3 * svgHeight / 2)
+        $('#svgparent').find('#block').height(svgHeight)
     }
     offset = $('#svgparent').offset()
+
+    if ($('#svgparent').find('#block').find('#figures').length > 0 || $('#svgparent').find('#block').find('#lines').length > 0 || $('#svgparent').find('#block').find('#objects').length > 0) {
+        block.addEventListener("mousedown", mdHandler)
+    }
 }
 
 function clearField() {
@@ -999,8 +1011,8 @@ function crtobjHandler() {
 }
 
 function mdcrtobjHandler(e) {
-    svgMouseX = Math.floor((e.clientX - offset.left) * viewBoxParams[2] / $('#block').outerWidth())
-    svgMouseY = Math.floor((e.clientY - offset.top) * viewBoxParams[3] / $('#block').outerHeight())
+    svgMouseX = Math.floor((e.clientX - offset.left) * viewBoxParams[2] / blockOuterWidth)
+    svgMouseY = Math.floor((e.clientY - offset.top) * viewBoxParams[3] / blockOuterHeight)
     var elementId = 'element-' + Id
     if (objImg.id == 'imgForLoad') { imgClass = "self" } else { imgClass = "" }
     findObj = block.querySelector('[data-group="' + objImg.group + '"]')

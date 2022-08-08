@@ -4,7 +4,7 @@ html,body {
 
 #front {
     background-color: #ffcc01;
-    background-image: url(/tmp/draw_scheme/img/bg-main.jpg);
+    background-image: url(/static/schemeDrawer/img/bg-main.jpg);
     background-position:center center;
     background-repeat:no-repeat;
     background-size: cover;
@@ -21,7 +21,7 @@ html,body {
     right: 0;
     bottom: 0;
     background-color: #ffcc01;
-    background-image: url(/tmp/draw_scheme/img/bg-main.jpg);
+    background-image: url(/static/schemeDrawer/img/bg-main.jpg);
     background-position:center center;
     background-repeat:no-repeat;
     background-size: cover;
@@ -48,7 +48,7 @@ html,body {
     left: 50%;
     top: 50%;
     margin: -50px 0 0 -50px;
-    background: url(/tmp/draw_scheme/img/ball.png) center center no-repeat;
+    background: url(/static/schemeDrawer/img/ball.png) center center no-repeat;
     background-size: cover;
 }
 

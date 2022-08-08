@@ -153,6 +153,12 @@ function RenderExerciseOne(data) {
         if (document.descriptionEditor2) {
             document.descriptionEditor2.setData(data.description);
         }
+
+        $('#carouselSchema').find('.carousel-item').first().html(data.scheme[0]);
+        $('#carouselSchema').find('.carousel-item').last().html(data.scheme[1]);
+        $('#card_drawing1').find('.card').last().html(data.scheme[0]);
+        $('#card_drawing2').find('.card').last().html(data.scheme[1]);
+
     } else {
         $(exsCard).attr('data-exs', '-1');
 
@@ -226,6 +232,8 @@ function SaveExerciseOne() {
         swal("Внимание", "Выберите папку для упражнения.", "info");
         return;
     }
+    dataToSend.data['scheme_1'] = $('#card_drawing1').find('.card').html();
+    dataToSend.data['scheme_2'] = $('#card_drawing2').find('.card').html();
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
         data: dataToSend,
@@ -353,6 +361,13 @@ $(function() {
         $('#exerciseCard').find('#cardBlock > #card_drawing1').addClass('show active');
         $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
         $('#exerciseCard').find('#cardBlock > #card_drawing1').removeClass('d-none');
+
+        if ($('#editExs').attr('data-active') == '1') {
+            $('#card_drawing1').addClass('d-none');
+            $('.scheme-editor').find('iframe').contents().find('#svgparent').html($('#card_drawing1').find('.card').html());
+            $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
+            $('.scheme-editor').removeClass('d-none');
+        }
     });
     $('#exerciseCard').on('click', '#openDrawing2', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
@@ -361,6 +376,13 @@ $(function() {
         $('#exerciseCard').find('#cardBlock > #card_drawing2').addClass('show active');
         $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
         $('#exerciseCard').find('#cardBlock > #card_drawing2').removeClass('d-none');
+
+        if ($('#editExs').attr('data-active') == '1') {
+            $('#card_drawing2').addClass('d-none');
+            $('.scheme-editor').find('iframe').contents().find('#svgparent').html($('#card_drawing2').find('.card').html());
+            $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
+            $('.scheme-editor').removeClass('d-none');
+        }
     });
     $('#exerciseCard').on('click', '#openVideo1', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
@@ -513,6 +535,43 @@ $(function() {
         $('#saveExs').toggleClass('btn-success', isActive != '1');
         ToggleEditFields(isActive != '1');
         if (isActive == '1') {LoadExerciseOne();}
+
+        if (isActive != '1') {
+            if ($('#card_drawing1').hasClass('active')) {
+                $('#card_drawing1').addClass('d-none');
+                $('.scheme-editor').find('iframe').contents().find('#svgparent').html($('#card_drawing1').find('.card').html());
+                $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
+                $('.scheme-editor').removeClass('d-none');
+            }
+            if ($('#card_drawing2').hasClass('active')) {
+                $('#card_drawing2').addClass('d-none');
+                $('.scheme-editor').find('iframe').contents().find('#svgparent').html($('#card_drawing2').find('.card').html());
+                $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
+                $('.scheme-editor').removeClass('d-none');
+            }
+        } else {
+            if ($('#card_drawing1').hasClass('active')) {
+                $('#card_drawing1').removeClass('d-none');
+                $('.scheme-editor').addClass('d-none');
+            }
+            if ($('#card_drawing2').hasClass('active')) {
+                $('#card_drawing2').removeClass('d-none');
+                $('.scheme-editor').addClass('d-none');
+            }
+        }
+    });
+
+    // scheme autosave
+    $('#saveScheme').on('click', (e) => {
+        let cloneSvgParent = $('.scheme-editor').find('iframe').contents().find('#svgparent').clone();
+        $(cloneSvgParent).find('#block').css({'width' : '', 'height' : ''});
+        let content = $(cloneSvgParent).html();
+        if ($('#card_drawing1').hasClass('active')) {
+            $('#card_drawing1').find('.card').html(content);
+        }
+        if ($('#card_drawing2').hasClass('active')) {
+            $('#card_drawing2').find('.card').html(content);
+        }
     });
 
 
