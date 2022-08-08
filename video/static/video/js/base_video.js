@@ -1,5 +1,6 @@
 let video_table
 let video_player, youtube_player
+let cur_edit_data = null
 youtube_player = videojs('youtube-player', {
     preload: 'auto',
     autoplay: false,
@@ -27,7 +28,7 @@ $(window).on('load', function (){
         processing: true,
         select: true,
         drawCallback: function( settings ) {
-            $('#table-counter').text(video_table.data().count())
+            $('#video-table-counter').text(video_table.data().count())
         },
         buttons: [
             {
@@ -70,8 +71,13 @@ $(window).on('load', function (){
         ],
         ajax: 'api/?format=datatables',
         columns: [
+            {'data': 'id', render: function (data, type, row, meta) {
+                return meta.row + meta.settings._iDisplayStart + 1;
+            }},
             {'data': 'id'},
             {'data': 'videosource_id.name', 'name': 'videosource_id.short_name'},
+            {'data': 'upload_date'},
+            {'data': 'duration'},
             {'data': 'name'},
             {'data': function (data, type, dataToSet) {
                 console.log(data)
@@ -86,7 +92,6 @@ $(window).on('load', function (){
                     } else return gettext('---')
                 } else return null
             }},
-            {'data': 'duration'},
         ],
 
     })
@@ -95,11 +100,14 @@ $(window).on('load', function (){
         .on( 'select', function ( e, dt, type, indexes ) {
             let rowData = video_table.rows( indexes ).data().toArray();
             if(type=='row') {
-                ajax_video_info(rowData[0])
+                toggle_edit_mode(false)
+                cur_edit_data = rowData[0]
+                ajax_video_info(cur_edit_data)
             }
         })
         .on( 'deselect', function ( e, dt, type, indexes ) {
             let rowData = video_table.rows( indexes ).data().toArray();
+            cur_edit_data = null
         })
 })
 
@@ -119,48 +127,93 @@ function ajax_video_info(row_data) {
     })
 
     request.done(function( data ) {
-        //console.log(data)
-        render_json_edit(data)
+        $('#video-action-form').attr('method', 'PUT')
         render_json_block(data)
     })
 
     request.fail(function( jqXHR, textStatus ) {
         alert( "Request failed: " + textStatus );
-        $('#block-video-info').addClass('d-none')
     })
 }
 
-$('.form-update-video form').submit(function (event) {
-    let formData = $(this).serialize()
-    if(!$(this).find('input[type="checkbox"]').is(':checked')) formData+= '&shared_access=off'
-    console.log(formData)
-    let video_id = $(this).attr('data-id')
+$('#delete-video').on('click', function (){
+    ajax_video_action('DELETE', null, 'delete', cur_edit_data ? cur_edit_data.id : '').done(function (data) {
+        video_table.ajax.reload()
+        console.log(data)
+        cur_edit_data = null
+        $('#video-card-modal').modal('hide')
+    })
+})
 
-    ajax_video_update(formData, video_id)
+$('#add-video').on('click', function (){
+    toggle_edit_mode(true)
+    cur_edit_data = null
+    clear_video_form()
+    $('#video-action-form').attr('method', 'POST')
+    $('#video-card-modal').modal('show')
+})
+
+function clear_video_form(){
+    video_player.hide()
+    youtube_player.hide()
+    $('#video-card-modal .video-data .row div[data-name]').each(function () {
+        $(this).text('---')
+    })
+    $('#video-action-form').find('input[type="text"]').val('')
+    $('#video-action-form select[name="videosource_id"] option:first').prop('selected', true)
+    $('#video-action-form select[name="videosource_id"]').trigger('change')
+    $('#video-action-form select[name="language"] option:first').prop('selected', true)
+    $('#video-action-form select[name="language"]').trigger('change')
+    $('#video-action-form select[name="tags"] option').prop('selected', false)
+    $('#video-action-form select[name="tags"]').trigger('change')
+    $('#video-action-form input[type="checkbox"]').prop('checked', false)
+}
+
+$('#save-video').on('click', function () {
+    $('#video-action-form').submit()
+})
+
+$('#video-action-form').submit(function (event) {
+
+    let formData = $(this).serialize()
+    let form_Data = new FormData(this)
+
+    ajax_video_action($(this).attr('method'), form_Data, 'update', cur_edit_data ? cur_edit_data.id : '').done(function (data) {
+        video_table.ajax.reload()
+        console.log(data)
+        cur_edit_data = data
+        ajax_video_info(cur_edit_data)
+    })
 
     event.preventDefault();
 });
 
-function ajax_video_update(data, id) {
-    if (!confirm(gettext('Save changes to the selected video?'))) return false
+function ajax_video_action(method, data, action = '', id = '', func = '') {
+    let url = "/video/api/"
+    if(id !== '') url += `${id}/`
+    if(func !== '') url += `${func}/`
 
-    let request = $.ajax({
-        headers:{"X-CSRFToken": csrftoken },
-        url: "api/update/"+id,
-        type: "PATCH",
-        dataType: "JSON",
-        data: data
-    })
+    $('.page-loader-wrapper').fadeIn();
 
-    request.done(function( data ) {
-        console.log(data)
-        create_alert('alert-update', {type: 'success', message: gettext('Video saved successfully!')})
-        video_table.ajax.reload()
-    })
-
-    request.fail(function( jqXHR, textStatus ) {
-        alert( gettext('Error when updating the video. ') + gettext(textStatus) );
-    })
+    return $.ajax({
+            headers:{"X-CSRFToken": csrftoken },
+            url: url,
+            type: method,
+            dataType: "JSON",
+            data: data,
+            cache : false,
+            processData: false,
+            contentType: false,
+            success: function(data){
+                swal(gettext('Training '+action), gettext('Video action "'+action+'" successfully!'), "success");
+            },
+            error: function(jqXHR, textStatus){
+                swal(gettext('Training '+action), gettext('Error when action "'+action+'" the video!'), "error");
+            },
+            complete: function () {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        })
 
 
 }
@@ -175,7 +228,6 @@ function ajax_video_delete(row_data) {
     })
 
     request.done(function( data ) {
-        console.log(data)
         video_table.ajax.reload()
     })
 
@@ -184,35 +236,12 @@ function ajax_video_delete(row_data) {
     })
 }
 
-function render_json_edit(data) {
-    console.log(data)
-    $('.form-update-video form').attr('data-id', data.id)
-    $('.form-update-video [name]').each(function () {
-        let in_data = $(this).attr('name')
-        if(in_data in data){
-            if($(this).is('select')){
-                //$(this).val(1)
-                if($(this).hasClass('selectmultiple')){
-                    let ids = []
-                    data[in_data].forEach(function (tag) {
-                        ids.push(tag.id)
-                    })
-                    $(this).val(ids).trigger("change")
-                } else $(this).val(data[in_data]['id']).trigger("change")
-            } else if($(this).is('[type="checkbox"]')){
-                if(data[in_data]==true) $(this).prop('checked', true)
-                else $(this).prop('checked', false)
-            } else $(this).val(data[in_data])
-        }
-    })
-}
-
 function render_json_block(data) {
-    //$('#block-video-info').removeClass('d-none')
     $('#video-card-modal').modal('show')
-    console.log(data)
+    //console.log(data)
     $('#video-card-modal [name]').each(function () {
         let in_data = $(this).attr('name')
+        if(in_data === 'youtube_link') in_data = 'links'
         if(in_data in data){
             if($(this).is('select')){
                 //$(this).val(1)
@@ -222,11 +251,18 @@ function render_json_block(data) {
                         ids.push(tag.id)
                     })
                     $(this).val(ids).trigger("change")
-                } else $(this).val(data[in_data]['id']).trigger("change")
+                } else {
+                    if(typeof data[in_data] === "object") $(this).val(data[in_data]['id']).trigger("change")
+                    else $(this).val(data[in_data]).trigger("change")
+                }
             } else if($(this).is('[type="checkbox"]')){
                 if(data[in_data]==true) $(this).prop('checked', true)
                 else $(this).prop('checked', false)
-            } else $(this).val(data[in_data])
+            } else {
+                if(in_data === 'links'){
+                    if(data[in_data]['youtube']) $(this).val('https://www.youtube.com/watch?v='+data[in_data]['youtube'])
+                } else $(this).val(data[in_data])
+            }
         }
     })
     $('#video-card-modal .video-data .row div[data-name]').each(function () {

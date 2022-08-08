@@ -4,7 +4,7 @@ from itertools import islice
 import requests
 import json
 
-from django.http import Http404
+from django.http import Http404, QueryDict
 from django.urls import reverse_lazy
 from pytube import extract
 from django.views.generic import ListView, DetailView, CreateView, TemplateView
@@ -28,11 +28,132 @@ context_page = {'menu_video': 'active'}
 # API REST
 class VideoViewSet(viewsets.ModelViewSet):
     queryset = Video.objects.all().order_by('videosource_id')
-    serializer_class = VideoSerializer
 
     def get_permissions(self):
         permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
+
+    def create(self, request, *args, **kwargs):
+        data = request.data
+        print(data)
+        links = {'nftv': '', 'youtube"': ''}
+        data_dict = dict(
+            name=data['name'],
+            duration=data['duration'],
+            language=data['language'],
+            videosource_id=data['videosource_id']
+        )
+        if 'music' in data:
+            data_dict['music'] = data['music']
+        else:
+            data_dict['music'] = 'off'
+        if 'tags' in data:
+            data_dict['tags'] = data['tags']
+        if 'file' in request.FILES:
+            url = 'http://213.108.4.28/api/add_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
+            fs = FileSystemStorage()
+            file_name = fs.save(request.FILES['file'].name, self.request.FILES['file'])
+            file_content_type = request.FILES['file'].content_type
+
+            with fs.open(file_name, 'rb') as file:
+                mp_encoder = MultipartEncoder(
+                    fields={
+                        'folder-type': '',
+                        'user-file': (file_name, file, file_content_type)
+                    }
+                )
+                print(mp_encoder)
+                response = requests.post(url, data=mp_encoder, headers={'Content-Type': mp_encoder.content_type})
+                content = response.json()
+                video_data = content['data'][0]
+                print(content)
+
+            fs.delete(file_name)
+
+            if video_data['success']:
+                links['nftv'] = video_data['id']
+
+        if 'youtube_link' in data and data['youtube_link']:
+            id_video = extract.video_id(data['youtube_link'])
+            if id_video:
+                links['youtube'] = id_video
+
+        data_dict['links'] = json.dumps(links)
+
+        query_dict = QueryDict('', mutable=True)
+        query_dict.update(data_dict)
+        print(query_dict)
+        serializer = self.get_serializer(data=query_dict)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def perform_update(self, serializer):
+        music = False
+        if 'music' in self.request.data:
+            music = True
+        serializer.save(music=music)
+
+    def update(self, request, *args, **kwarg):
+        partial = True
+        data = request.data
+        instance = self.get_object()
+        data.links = instance.links
+
+        print(data)
+        if 'file' in request.FILES:
+            is_delete = False
+            server_id = None
+            print(instance.links)
+            if 'nftv' in instance.links:
+                server_id = instance.links['nftv']
+            if server_id:
+                url = 'http://213.108.4.28/api/remove_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
+                post_data = {
+                    "videos": [
+                        {"id": server_id},
+                    ]
+                }
+                response = requests.post(url, json=post_data, headers={'Content-Type': 'application/json'})
+                content = response.json()
+                print(content)
+                video_data = content['data'][0]
+                is_delete = video_data['success']
+            if is_delete:
+                url = 'http://213.108.4.28/api/add_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
+                fs = FileSystemStorage()
+                file_name = fs.save(request.FILES['file'].name, self.request.FILES['file'])
+                file_content_type = request.FILES['file'].content_type
+
+                with fs.open(file_name, 'rb') as file:
+                    mp_encoder = MultipartEncoder(
+                        fields={
+                            'folder-type': '',
+                            'user-file': (file_name, file, file_content_type)
+                        }
+                    )
+                    print(mp_encoder)
+                    response = requests.post(url, data=mp_encoder, headers={'Content-Type': mp_encoder.content_type})
+                    content = response.json()
+                    video_data = content['data'][0]
+                    print(content)
+
+                fs.delete(file_name)
+
+                if video_data['success']:
+                    data.links['nftv'] = video_data['id']
+
+        if 'youtube_link' in data and data['youtube_link']:
+            id_video = extract.video_id(data['youtube_link'])
+            if id_video:
+                data.links['youtube'] = id_video
+        serializer = self.get_serializer(instance, data=data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+
+        self.perform_update(serializer)
+
+        return Response(serializer.data)
 
     def destroy(self, request, *args, **kwargs):
         try:
@@ -60,28 +181,13 @@ class VideoViewSet(viewsets.ModelViewSet):
             pass
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+    def get_serializer_class(self):
+        if self.action == 'update' or self.action == 'partial_update' or self.action == 'create':
+            return VideoUpdateSerializer
+        return VideoSerializer
 
-class VideoUpdateApiView(generics.UpdateAPIView):
-    queryset = Video.objects.all()
-    serializer_class = VideoUpdateSerializer
-    permission_classes = [IsAuthenticated]
-
-    def update(self, request, *args, **kwarg):
-        partial = True
-        data = request.data
-        instance = self.get_object()
-        data.links = instance.links
-        print(data)
-        if data['youtube_link']:
-            id_video = extract.video_id(data['youtube_link'])
-            if id_video:
-                data.links['youtube'] = id_video
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
-
-        self.perform_update(serializer)
-
-        return Response(serializer.data)
+    def get_queryset(self):
+        return Video.objects.all()
 
 
 # DJANGO
@@ -103,7 +209,7 @@ class BaseVideoView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['sources'] = VideoSource.objects.all()
         context['tags'] = VideoTags.objects.all()
-        context['update_form'] = UpdateVideoForm()
+        #context['update_form'] = UpdateVideoForm()
         return context
 
 
@@ -131,7 +237,7 @@ class CreateVideoView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         video = form.save(commit=False)
         video.links = {'nftv': '', 'youtube': ''}
-        #print(video.links)
+        # print(video.links)
         if 'file' in self.request.FILES:
             url = 'http://213.108.4.28/api/add_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
             fs = FileSystemStorage()

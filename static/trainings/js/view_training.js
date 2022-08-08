@@ -1,4 +1,3 @@
-var edit_mode = false;
 
 $(window).on('load', function (){
     var urlsplit = $(location).attr('pathname').split("/");
@@ -43,12 +42,6 @@ $(window).on('load', function (){
         })
     })
 
-    $('.toggle-edit-mode').on('click', function () {
-        edit_mode = !edit_mode
-        $('.edit-input').prop('disabled', !edit_mode)
-        $('.edit-button').toggleClass('d-none', !edit_mode)
-        $('.view-button').toggleClass('d-none', edit_mode)
-    })
     $('#save-training').on('click', function () {
         let date = $('#block-training-info input[name="date"]').val()
         let time = $('#block-training-info input[name="time"]').val()

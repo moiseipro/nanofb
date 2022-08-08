@@ -39,11 +39,27 @@ class Video(models.Model):
         help_text=_('Date the video was uploaded or updated'),
         auto_now=True
     )
+    created_date = models.DateField(
+        verbose_name=_('created date'),
+        help_text=_('Date the video was created'),
+        auto_now_add=True
+    )
     duration = models.DurationField(
         verbose_name=_('duration video'),
         help_text=_('The duration of the video in the format 00:00:00'),
         null=False,
         default=timedelta(seconds=0),
+    )
+    language = models.CharField(
+        max_length=10,
+        verbose_name=_('language (voice acting)'),
+        help_text=_('Video voice-over language'),
+        default='none'
+    )
+    music = models.BooleanField(
+        verbose_name=_('music'),
+        help_text=_('Is there music in the video?'),
+        default=False
     )
     links = models.JSONField(
         verbose_name=_('video links'),

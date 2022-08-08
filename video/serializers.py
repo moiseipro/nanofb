@@ -23,7 +23,7 @@ class VideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Video
         fields = (
-            'id', 'videosource_id', 'name', 'tags', 'duration', 'links', 'upload_date', 'shared_access'
+            'id', 'videosource_id', 'name', 'tags', 'duration', 'language', 'music', 'links', 'upload_date', 'shared_access'
         )
         datatables_always_serialize = ('id', 'tags')
 
@@ -33,5 +33,5 @@ class VideoUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Video
         fields = (
-            'id', 'videosource_id', 'name', 'tags', 'duration', 'links', 'upload_date', 'shared_access'
+            'id', 'videosource_id', 'name', 'tags', 'duration', 'language', 'music', 'links', 'upload_date', 'shared_access'
         )
