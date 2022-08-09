@@ -1,5 +1,5 @@
 <div class="modal-content1" id="exerciseCard">
-    <div class="modal-header py-2">
+    <div class="modal-header py-2 d-none">
         <div class="row w-100">
             <div class="col-12 p-1 btn-group btn-group-custom">
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn selected2" id="openDescription">Описание</button>
@@ -9,7 +9,6 @@
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openVideo2">Видео 2</button>
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openAnimation1">Анимация 1</button>
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openAnimation2">Анимация 2</button>
-                <button type="button" class="btn btn-warning btn-sm btn-custom" id="editExs" data-active="0">Редактировать</button>
                 <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x selected" data-type="add" data-id="list" title="Режим добавления: список" style="--w-max-x:3%;">
                     <i class="fa fa-list-alt" aria-hidden="true"></i>
                 </button>
@@ -23,13 +22,6 @@
                 <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="columnsSizeInCard2" style="--w-max-x:3%;" title="Изменить размер колонок">
                     <i class="fa fa-cog" aria-hidden="true"></i>
                 </button>
-                <button type="button" class="btn btn-secondary btn-sm btn-custom exs-change size-max-w-x" data-dir="prev" style="--w-max-x:3%;" title="Предыдущее">
-                    <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
-                </button>
-                <button type="button" class="btn btn-secondary btn-sm btn-custom exs-change size-max-w-x" data-dir="next" style="--w-max-x:3%;" title="Следующее">
-                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-                </button>
-                <button type="button" class="btn btn-danger btn-sm btn-custom size-max-w-x" data-dismiss="modal" style="--w-max-x:10%;">Выйти</button>
             </div>
         </div>
     </div>
@@ -47,7 +39,13 @@
                                     </colgroup>
                                     <tbody class="">
                                         <tr class="bck-custom text-center font-weight-bold border-bottom-custom">
-                                            <td class="align-middle" colspan="2">Упражнение</td>
+                                            <td class="align-middle" colspan="2">
+                                                {% for elem in refs.exs_title_names %}
+                                                    {% if elem.name == "exercise" %}
+                                                        {{ elem.title }}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </td>
                                         </tr>
                                         <tr class="bck-custom border-y-custom">
                                             <td colspan="2">
@@ -152,46 +150,24 @@
                                         <tr class="">
                                             <td colspan="2">&nbsp;</td>
                                         </tr>
-                                        <tr class="bck-custom border-bottom-custom">
-                                            <td class="align-middle"><span class="ml-3">Игроки</span></td>
-                                            <td>
-                                                <input name="player" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
-                                            </td>
-                                        </tr>
-                                        <tr class="bck-custom border-y-custom">
-                                            <td class="align-middle"><span class="ml-3">Группы по</span></td>
-                                            <td>
-                                                <input name="group" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
-                                            </td>
-                                        </tr>
-                                        <tr class="bck-custom border-y-custom">
-                                            <td class="align-middle"><span class="ml-3">Игровые зоны</span></td>
-                                            <td>
-                                                <input name="play_zone" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
-                                            </td>
-                                        </tr>
-                                        <tr class="bck-custom border-y-custom">
-                                            <td class="align-middle"><span class="ml-3">Касания мяча</span></td>
-                                            <td>
-                                                <input name="ball_touch" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
-                                            </td>
-                                        </tr>
-                                        <tr class="bck-custom border-y-custom">
-                                            <td class="align-middle"><span class="ml-3">Нейтральные</span></td>
-                                            <td>
-                                                <input name="neutral" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
-                                            </td>
-                                        </tr>
-                                        <tr class="bck-custom border-y-custom">
-                                            <td class="align-middle"><span class="ml-3">Повторения t</span></td>
-                                            <td>
-                                                <input name="t_repeat" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
-                                            </td>
-                                        </tr>
-                                        <tr class="bck-custom border-top-custom">
-                                            <td class="align-middle"><span class="ml-3">Паузы t</span></td>
-                                            <td>
-                                                <input name="t_pause" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
+                                        <tr class="wider_row bck-custom" data-id="additional_data">
+                                            <td colspan="2">
+                                                <div class="row">
+                                                    <div class="col-9 text-center">
+                                                        <span class="ml-custom-title font-weight-bold align-middle">
+                                                            {% for elem in refs.exs_title_names %}
+                                                                {% if elem.name == "additional_info" %}
+                                                                    {{ elem.title }}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-3 text-right">
+                                                        <button class="btn btn-secondary btn-sm add-row" data-id="additional_data">
+                                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                         <tr class="">
@@ -201,7 +177,13 @@
                                             <td colspan="2">
                                                 <div class="row">
                                                     <div class="col-9 text-center">
-                                                        <span class="ml-custom-title font-weight-bold align-middle">Ключевые слова</span>
+                                                        <span class="ml-custom-title font-weight-bold align-middle">
+                                                            {% for elem in refs.exs_title_names %}
+                                                                {% if elem.name == "keyword" %}
+                                                                    {{ elem.title }}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </span>
                                                     </div>
                                                     <div class="col-3 text-right">
                                                         <button class="btn btn-secondary btn-sm add-row" data-id="keyword">
@@ -215,7 +197,13 @@
                                             <td colspan="2">
                                                 <div class="row">
                                                     <div class="col-9 text-center">
-                                                        <span class="ml-custom-title font-weight-bold align-middle">Тип нагрузки</span>
+                                                        <span class="ml-custom-title font-weight-bold align-middle">
+                                                            {% for elem in refs.exs_title_names %}
+                                                                {% if elem.name == "stress_type" %}
+                                                                    {{ elem.title }}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </span>
                                                     </div>
                                                     <div class="col-3 text-right">
                                                         <button class="btn btn-secondary btn-sm add-row" data-id="stress_type">
@@ -255,7 +243,13 @@
                                             <td>
                                                 <div class="row">
                                                     <div class="col-9 text-center">
-                                                        <span class="ml-custom-title font-weight-bold align-middle">Цели / Направленность</span>
+                                                        <span class="ml-custom-title font-weight-bold align-middle">
+                                                            {% for elem in refs.exs_title_names %}
+                                                                {% if elem.name == "goal" %}
+                                                                    {{ elem.title }}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </span>
                                                     </div>
                                                     <div class="col-3 text-right">
                                                         <button class="btn btn-secondary btn-sm add-row" data-id="purposes">
@@ -269,7 +263,13 @@
                                             <td>
                                                 <div class="row">
                                                     <div class="col-9 text-center">
-                                                        <span class="ml-custom-title font-weight-bold align-middle">Коучинг</span>
+                                                        <span class="ml-custom-title font-weight-bold align-middle">
+                                                            {% for elem in refs.exs_title_names %}
+                                                                {% if elem.name == "coaching" %}
+                                                                    {{ elem.title }}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </span>
                                                     </div>
                                                     <div class="col-3 text-right">
                                                         <button class="btn btn-secondary btn-sm add-row" data-id="coaching">
@@ -283,7 +283,13 @@
                                             <td>
                                                 <div class="row">
                                                     <div class="col-9 text-center">
-                                                        <span class="ml-custom-title font-weight-bold align-middle">Записи тренера</span>
+                                                        <span class="ml-custom-title font-weight-bold align-middle">
+                                                            {% for elem in refs.exs_title_names %}
+                                                                {% if elem.name == "notes" %}
+                                                                    {{ elem.title }}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </span>
                                                     </div>
                                                     <div class="col-3 text-right">
                                                         <button class="btn btn-secondary btn-sm add-row" data-id="notes">
@@ -299,6 +305,20 @@
                         </div>
                         <div class="right-col-card ml-4" id="splitCol_exscard_2">
                             <div class="row w-100">
+                                <div class="col-12 btn-group mb-2">
+                                    <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="editExs" data-active="0" style="--w-max-x:25%;" title="Редактировать">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-secondary btn-sm btn-custom exs-change size-max-w-x" data-dir="prev" style="--w-max-x:25%;" title="Предыдущее">
+                                        <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-secondary btn-sm btn-custom exs-change size-max-w-x" data-dir="next" style="--w-max-x:25%;" title="Следующее">
+                                        <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" data-dismiss="modal" style="--w-max-x:25%;" title="Выйти">
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                    </button>
+                                </div>
                                 <div class="col-12">
                                     <div id="carouselSchema" class="carousel slide" data-ride="carousel" data-interval="false">
                                         <ol class="carousel-indicators">
@@ -469,6 +489,28 @@
     <div class="gen-content d-none">
         <table>
             <tbody>
+                <tr class="bck-custom" data-id="additional_data" data-type="text">
+                    <td colspan="2">
+                        <div class="row">
+                            <div class="col-5">
+                                <select name="additional_data_select[]" class="form-control form-control-sm diff-frmt" autocomplete="off">
+                                    <option value="">---</option>
+                                    {% for elem in refs.exs_additional_data %}
+                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-5">
+                                <input name="additional_data[]" class="form-control form-control-sm diff-frmt" type="text" value="" placeholder="" autocomplete="off">
+                            </div>
+                            <div class="col-2 text-right">
+                                <button class="btn btn-secondary btn-sm remove-row">
+                                    <i class="fa fa-minus" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
                 <tr class="bck-custom" data-id="keyword" data-type="list">
                     <td colspan="2">
                         <div class="row">

@@ -95,9 +95,9 @@ class AbstractExercise(models.Model):
     ref_cognitive_load = models.IntegerField(null=True, blank=True)
     description = models.JSONField(null=True, blank=True)
 
-    scheme_data = models.JSONField(null=True, blank=True) # {'data': ["<svg>...</svg>", "<svg>...</svg>", "<svg>...</svg>", ...]}
+    scheme_data = models.JSONField(null=True, blank=True)
     video_data = models.JSONField(null=True, blank=True) # {'data': [{'id': ""}, {'youtubeID': ""},....]}
-    animation_data = models.JSONField(null=True, blank=True) # {'custom': "<t>...</t>", default: ["id_1", "id_2"...]}
+    animation_data = models.JSONField(null=True, blank=True) # {'data': {'custom': "<t>...</t>", default: ["id_1", "id_2"...]}}
 
     objects = models.Manager()
 
@@ -150,13 +150,7 @@ class UserExerciseParamTeam(models.Model):
     exercise_club = models.ForeignKey(ClubExercise, on_delete=models.CASCADE, null=True, blank=True)
     team = models.ForeignKey(UserTeam, on_delete=models.SET_NULL, null=True)
 
-    player = models.JSONField(null=True, blank=True)
-    group = models.JSONField(null=True, blank=True)
-    play_zone = models.JSONField(null=True, blank=True)
-    ball_touch = models.JSONField(null=True, blank=True)
-    neutral = models.JSONField(null=True, blank=True)
-    t_repeat = models.JSONField(null=True, blank=True)
-    t_pause = models.JSONField(null=True, blank=True)
+    additional_data = models.JSONField(null=True, blank=True)
 
     keyword = models.JSONField(null=True, blank=True)
     stress_type = models.JSONField(null=True, blank=True)

@@ -9,7 +9,7 @@ from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, 
 from exercises.models import UserExerciseParam, UserExerciseParamTeam
 from references.models import ExsGoal, ExsBall, ExsTeamCategory, ExsAgeCategory, ExsTrainPart, ExsCognitiveLoad
 from references.models import ExsKeyword, ExsStressType, ExsPurpose, ExsCoaching
-from references.models import ExsCategory
+from references.models import ExsCategory, ExsAdditionalData, ExsTitleName
 from references.models import UserSeason, UserTeam
 
 
@@ -76,12 +76,16 @@ def set_as_object(request, data, name, lang):
     while flag:
         data_type = request.POST.get(f"data[{name}[]][{iterator}][type]")
         data_value = request.POST.get(f"data[{name}[]][{iterator}][value]")
+        data_id = request.POST.get(f"data[{name}[]][{iterator}][id]")
         iterator += 1
         if iterator > 10 or data_type == None:
             flag = False
             break
         else:
-            value.append({'type': data_type, 'value': data_value})
+            to_append = {'type': data_type, 'value': data_value}
+            if data_id:
+                to_append['id'] = data_id
+            value.append(to_append)
     if type(data) is dict:
         data[lang] = value
     else:
@@ -107,14 +111,13 @@ def get_exercises_params(request, user, team):
     refs['exs_age_category'] = ExsAgeCategory.objects.filter().values()
     refs['exs_train_part'] = ExsTrainPart.objects.filter().values()
     refs['exs_cognitive_load'] = ExsCognitiveLoad.objects.filter().values()
-
+    refs['exs_additional_data'] = ExsAdditionalData.objects.filter().values()
     refs['exs_keyword'] = ExsKeyword.objects.filter().values()
     refs['exs_stress_type'] = ExsStressType.objects.filter().values()
     refs['exs_purpose'] = ExsPurpose.objects.filter().values()
     refs['exs_coaching'] = ExsCoaching.objects.filter().values()
-
     refs['exs_category'] = ExsCategory.objects.filter().values()
-
+    refs['exs_title_names'] = ExsTitleName.objects.filter().values()
     refs = set_refs_translations(refs, request.LANGUAGE_CODE)
     return [folders, nfb_folders, refs]
 
@@ -123,11 +126,11 @@ def get_exs_scheme_data(data):
     empty_scheme = """
         <svg id="block" class="d-block bg-success mx-auto" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
-                <marker id="45347arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#000000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                <marker id="70171arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ffffff"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                <marker id="46310arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ffff00"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                <marker id="95713arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ff0000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                <marker id="25804arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#000000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                <marker id="arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#000000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                <marker id="ffffffarrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ffffff"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                <marker id="ffff00arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ffff00"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                <marker id="ff0000arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ff0000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                <marker id="000000arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#000000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
                 <filter id="f3" x="0" y="0" width="200%" height="200%"><feOffset result="offOut" in="SourceAlpha" dx="5" dy="5"></feOffset><feGaussianBlur result="blurOut" in="offOut" stdDeviation="3"></feGaussianBlur><feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend></filter>
             </defs>
             <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="/static/exercises/img/field.svg"></image>
@@ -151,6 +154,20 @@ def get_exs_scheme_data(data):
         res.append(data['scheme_2'])
     else:
         res.append(empty_scheme)
+    return res
+
+
+def get_exs_video_data(data):
+    res = []
+    if data and data['data']:
+        res = data['data']
+    return res
+
+
+def get_exs_animation_data(data):
+    res = {'custom': '', 'default': []}
+    if data and data['data']:
+        res = data['data']
     return res
 
 
@@ -428,20 +445,12 @@ def exercises_api(request):
                     c_exs_team_params = UserExerciseParamTeam(team=found_team[0], exercise_user=c_exs)
                 else:
                     c_exs_team_params = c_exs_team_params[0]
-                c_exs_team_params.player = set_by_language_code(c_exs_team_params.player, request.LANGUAGE_CODE, request.POST.get("data[player]", ""))
-                c_exs_team_params.group = set_by_language_code(c_exs_team_params.group, request.LANGUAGE_CODE, request.POST.get("data[group]", ""))
-                c_exs_team_params.play_zone = set_by_language_code(c_exs_team_params.play_zone, request.LANGUAGE_CODE, request.POST.get("data[play_zone]", ""))
-                c_exs_team_params.ball_touch = set_by_language_code(c_exs_team_params.ball_touch, request.LANGUAGE_CODE, request.POST.get("data[ball_touch]", ""))
-                c_exs_team_params.neutral = set_by_language_code(c_exs_team_params.neutral, request.LANGUAGE_CODE, request.POST.get("data[neutral]", ""))
-                c_exs_team_params.t_repeat = set_by_language_code(c_exs_team_params.t_repeat, request.LANGUAGE_CODE, request.POST.get("data[t_repeat]", ""))
-                c_exs_team_params.t_pause = set_by_language_code(c_exs_team_params.t_pause, request.LANGUAGE_CODE, request.POST.get("data[t_pause]", ""))
-
+                c_exs_team_params.additional_data = set_as_object(request, c_exs_team_params.additional_data, "additional_data", request.LANGUAGE_CODE)
                 c_exs_team_params.keyword = set_as_object(request, c_exs_team_params.keyword, "keyword", request.LANGUAGE_CODE)
                 c_exs_team_params.stress_type = set_as_object(request, c_exs_team_params.stress_type, "stress_type", request.LANGUAGE_CODE)
                 c_exs_team_params.purpose = set_as_object(request, c_exs_team_params.purpose, "purposes", request.LANGUAGE_CODE)
                 c_exs_team_params.coaching = set_as_object(request, c_exs_team_params.coaching, "coaching", request.LANGUAGE_CODE)
                 c_exs_team_params.note = set_as_object(request, c_exs_team_params.note, "notes", request.LANGUAGE_CODE)
-
                 try:
                     c_exs_team_params.save()
                     res_data += '\nAdded team params for exs.'
@@ -617,13 +626,7 @@ def exercises_api(request):
                 team_params = UserExerciseParamTeam.objects.filter(exercise_user=c_exs[0].id, team=cur_team)
                 if team_params.exists() and team_params[0].id != None:
                     team_params = team_params.values()[0]
-                    res_exs['player'] = get_by_language_code(team_params['player'], request.LANGUAGE_CODE)
-                    res_exs['group'] = get_by_language_code(team_params['group'], request.LANGUAGE_CODE)
-                    res_exs['play_zone'] = get_by_language_code(team_params['play_zone'], request.LANGUAGE_CODE)
-                    res_exs['ball_touch'] = get_by_language_code(team_params['ball_touch'], request.LANGUAGE_CODE)
-                    res_exs['neutral'] = get_by_language_code(team_params['neutral'], request.LANGUAGE_CODE)
-                    res_exs['t_repeat'] = get_by_language_code(team_params['t_repeat'], request.LANGUAGE_CODE)
-                    res_exs['t_pause'] = get_by_language_code(team_params['t_pause'], request.LANGUAGE_CODE)
+                    res_exs['additional_data'] = get_by_language_code(team_params['additional_data'], request.LANGUAGE_CODE)
                     res_exs['keyword'] = get_by_language_code(team_params['keyword'], request.LANGUAGE_CODE)
                     res_exs['stress_type'] = get_by_language_code(team_params['stress_type'], request.LANGUAGE_CODE)
                     res_exs['purposes'] = get_by_language_code(team_params['purpose'], request.LANGUAGE_CODE)
@@ -631,7 +634,9 @@ def exercises_api(request):
                     res_exs['notes'] = get_by_language_code(team_params['note'], request.LANGUAGE_CODE)
             res_exs['title'] = get_by_language_code(res_exs['title'], request.LANGUAGE_CODE)
             res_exs['description'] = get_by_language_code(res_exs['description'], request.LANGUAGE_CODE)
-            res_exs['scheme'] = get_exs_scheme_data(res_exs['scheme_data'])
+            res_exs['scheme_data'] = get_exs_scheme_data(res_exs['scheme_data'])
+            res_exs['video_data'] = get_exs_video_data(res_exs['video_data'])
+            res_exs['animation_data'] = get_exs_animation_data(res_exs['animation_data'])
 
             # res_exs['stress_type'] = get_by_language_code(res_exs['stress_type'], request.LANGUAGE_CODE)
 

@@ -94,6 +94,10 @@ function RenderExerciseOne(data) {
                 $(cloneRow).find('.form-control').prop('disabled', true);
                 $(cloneRow).find('.exs_edit_field').val(elem.value);
                 $(cloneRow).find('.exs_edit_field').change();
+                if (cId == "additional_data") {
+                    $(cloneRow).find('[name="additional_data_select[]"]').val(elem.id);
+                    $(cloneRow).find('[name="additional_data_select[]"]').change();
+                }
                 $(cloneRow).find('.remove-row').addClass('btn-on');
                 $(cloneRow).find('.remove-row').prop('disabled', false);
                 $(cloneRow).insertAfter($('#exerciseCard').find(`.wider_row[data-id="${cId}"]`).last());
@@ -135,13 +139,7 @@ function RenderExerciseOne(data) {
         $(exsCard).find('.exs_edit_field[name="ref_train_part"]').val(data.ref_train_part);
         $(exsCard).find('.exs_edit_field[name="ref_cognitive_load"]').val(data.ref_cognitive_load);
 
-        $(exsCard).find('.exs_edit_field[name="player"]').val(data.player);
-        $(exsCard).find('.exs_edit_field[name="group"]').val(data.group);
-        $(exsCard).find('.exs_edit_field[name="play_zone"]').val(data.play_zone);
-        $(exsCard).find('.exs_edit_field[name="ball_touch"]').val(data.ball_touch);
-        $(exsCard).find('.exs_edit_field[name="neutral"]').val(data.neutral);
-        $(exsCard).find('.exs_edit_field[name="t_repeat"]').val(data.t_repeat);
-        $(exsCard).find('.exs_edit_field[name="t_pause"]').val(data.t_pause);
+        CheckMultiRows(exsCard, data.additional_data, '.exs_edit_field[name="additional_data[]"]', 'additional_data');
 
         CheckMultiRows(exsCard, data.keyword, '.exs_edit_field[name="keyword[]"]', 'keyword');
         CheckMultiRows(exsCard, data.stress_type, '.exs_edit_field[name="stress_type[]"]', 'stress_type');
@@ -157,10 +155,47 @@ function RenderExerciseOne(data) {
             document.descriptionEditorView.setData(data.description);
         }
 
-        $('#carouselSchema').find('.carousel-item').first().html(data.scheme[0]);
-        $('#carouselSchema').find('.carousel-item').last().html(data.scheme[1]);
-        $('#card_drawing1').find('.card').last().html(data.scheme[0]);
-        $('#card_drawing2').find('.card').last().html(data.scheme[1]);
+        $('#carouselSchema').find('.carousel-item').first().html(data.scheme_data[0]);
+        $('#carouselSchema').find('.carousel-item').last().html(data.scheme_data[1]);
+        $('#card_drawing1').find('.card').last().html(data.scheme_data[0]);
+        $('#card_drawing2').find('.card').last().html(data.scheme_data[1]);
+
+        if (data.video_data[0]) {
+            $('#carouselVideo').find('.carousel-item').first().removeClass('d-none');
+            // $('#carouselVideo').find('.carousel-item').first().html(data.video_data[0]);
+        } else {
+            $('#carouselVideo').find('.carousel-item').first().addClass('d-none');
+            $('#carouselVideo').find('.carousel-indicators > li').first().addClass('d-none');
+            $('#carouselVideo').find('.carousel-control-prev').addClass('d-none');
+            $('#carouselVideo').find('.carousel-control-next').addClass('d-none');
+        }
+        if (data.video_data[1]) {
+            $('#carouselVideo').find('.carousel-item').last().removeClass('d-none');
+            // $('#carouselVideo').find('.carousel-item').last().html(data.video_data[1]);
+        } else {
+            $('#carouselVideo').find('.carousel-item').last().addClass('d-none');
+            $('#carouselVideo').find('.carousel-indicators > li').last().addClass('d-none');
+            $('#carouselVideo').find('.carousel-control-prev').addClass('d-none');
+            $('#carouselVideo').find('.carousel-control-next').addClass('d-none');
+        }
+        if (data.animation_data.default[0]) {
+            $('#carouselAnim').find('.carousel-item').first().removeClass('d-none');
+            // $('#carouselAnim').find('.carousel-item').first().html(data.animation_data.default[0]);
+        } else {
+            $('#carouselAnim').find('.carousel-item').first().addClass('d-none');
+            $('#carouselAnim').find('.carousel-indicators > li').first().addClass('d-none');
+            $('#carouselAnim').find('.carousel-control-prev').addClass('d-none');
+            $('#carouselAnim').find('.carousel-control-next').addClass('d-none');
+        }
+        if (data.animation_data.default[1]) {
+            $('#carouselAnim').find('.carousel-item').last().removeClass('d-none');
+            // $('#carouselAnim').find('.carousel-item').last().html(data.animation_data.default[1]);
+        } else {
+            $('#carouselAnim').find('.carousel-item').last().addClass('d-none');
+            $('#carouselAnim').find('.carousel-indicators > li').last().addClass('d-none');
+            $('#carouselAnim').find('.carousel-control-prev').addClass('d-none');
+            $('#carouselAnim').find('.carousel-control-next').addClass('d-none');
+        }
 
     } else {
         $(exsCard).attr('data-exs', '-1');
@@ -190,6 +225,8 @@ function RenderExerciseOne(data) {
             document.descriptionEditorView.setData('');
         }
         
+        CheckMultiRows(exsCard, '', '.exs_edit_field[name="additional_data[]"]', 'additional_data');
+
         CheckMultiRows(exsCard, '', '.exs_edit_field[name="keyword[]"]', 'keyword');
         CheckMultiRows(exsCard, '', '.exs_edit_field[name="stress_type[]"]', 'stress_type');
         CheckMultiRows(exsCard, '', '.exs_edit_field[name="purposes[]"]', 'purposes');
@@ -218,6 +255,7 @@ function SaveExerciseOne() {
             }
         }
     });
+    dataToSend.data['additional_data[]'] = [];
     dataToSend.data['keyword[]'] = [];
     dataToSend.data['stress_type[]'] = [];
     dataToSend.data['purposes[]'] = [];
@@ -225,10 +263,16 @@ function SaveExerciseOne() {
     dataToSend.data['notes[]'] = [];
     $('#exerciseCard').find('.exs_edit_field.exs_team_param').each((ind, elem) => {
         let cName = $(elem).attr('name');
-        dataToSend.data[cName].push({
+        let dataElem = {
             'type': $(elem).prop('tagName'),
             'value': $(elem).val()
-        });
+        };
+        if (cName == "additional_data[]") {
+            dataElem['id'] = $(elem).parent().parent().find('[name="additional_data_select[]"]').val();
+        }
+        try {
+            dataToSend.data[cName].push(dataElem);
+        } catch(e) {}
     });
     dataToSend.data['description'] = document.descriptionEditor2.getData();
     if (dataToSend.data.title == "") {
@@ -462,7 +506,7 @@ $(function() {
             cloneRow = $('#exerciseCard').find('.gen-content').find(`tr[data-id="${cId}"]`).clone();
         } else {
             let cType = $('#exerciseCard').find('.selected[data-type="add"]').attr('data-id');
-            if (cId == "notes") {cType = "text";}
+            if (cId == "notes" || cId == "additional_data") {cType = "text";}
             cloneRow = $('#exerciseCard').find('.gen-content').find(`tr[data-id="${cId}"][data-type="${cType}"]`).clone();
         }
         $(cloneRow).addClass('wider_row value_row');
@@ -544,12 +588,13 @@ $(function() {
     $('#editExs').on('click', (e) => {
         let isActive = $(e.currentTarget).attr('data-active');
         $(e.currentTarget).attr('data-active', isActive == '1' ? 0 : 1);
-        $(e.currentTarget).toggleClass('btn-warning', isActive == '1');
-        $(e.currentTarget).toggleClass('btn-danger', isActive != '1');
-        $(e.currentTarget).text(isActive == '1' ? "Редактировать" : "Отменить");
+        $(e.currentTarget).toggleClass('btn-secondary', isActive == '1');
+        $(e.currentTarget).toggleClass('btn-warning', isActive != '1');
+        $(e.currentTarget).attr('title', isActive == '1' ? "Редактировать" : "Отменить");
         $('#saveExs').toggleClass('btn-secondary', isActive == '1');
         $('#saveExs').prop('disabled', isActive == '1');
         $('#saveExs').toggleClass('btn-success', isActive != '1');
+        $('.modal-header').toggleClass('d-none', isActive == '1');
         ToggleEditFields(isActive != '1');
         if (isActive == '1') {LoadExerciseOne();}
 
@@ -582,6 +627,8 @@ $(function() {
     $('#saveScheme').on('click', (e) => {
         let cloneSvgParent = $('.scheme-editor').find('iframe').contents().find('#svgparent').clone();
         $(cloneSvgParent).find('#block').css({'width' : '', 'height' : ''});
+        $(cloneSvgParent).find('#selects').html('');
+        $(cloneSvgParent).find('#dots').html('');
         let content = $(cloneSvgParent).html();
         if ($('#card_drawing1').hasClass('active')) {
             $('#card_drawing1').find('.card').html(content);

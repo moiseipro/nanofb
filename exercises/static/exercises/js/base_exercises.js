@@ -649,11 +649,11 @@ $(function() {
             $(elem).remove();
         });
         let parentId = $(e.currentTarget).parent().parent().attr('id');
-        let items = $('#carouselSchema').find('.carousel-item').clone();
+        let items = $('#carouselSchema').find('.carousel-item:not(.d-none)').clone();
         if (parentId != "carouselSchema") {$(items).removeClass('active');}
         $('#exerciseGraphicsModal').find('#carouselGraphics > .carousel-inner').append(items);
         
-        items = $('#carouselVideo').find('.carousel-item').clone();
+        items = $('#carouselVideo').find('.carousel-item:not(.d-none)').clone();
         if (parentId != "carouselVideo") {$(items).removeClass('active');}
         for (let i = 0; i < items.length; i++) {
             let item = items[i];
@@ -681,7 +681,7 @@ $(function() {
             });
         }
 
-        items = $('#carouselAnim').find('.carousel-item').clone();
+        items = $('#carouselAnim').find('.carousel-item:not(.d-none)').clone();
         if (parentId != "carouselAnim") {$(items).removeClass('active');}
         $('#exerciseGraphicsModal').find('#carouselGraphics > .carousel-inner').append(items);
 

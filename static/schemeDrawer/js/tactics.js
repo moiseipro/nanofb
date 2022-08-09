@@ -402,6 +402,14 @@ function svgBlockResize() {
     if ($('#svgparent').find('#block').find('#figures').length > 0 || $('#svgparent').find('#block').find('#lines').length > 0 || $('#svgparent').find('#block').find('#objects').length > 0) {
         block.addEventListener("mousedown", mdHandler)
     }
+
+    if ($('#svgparent').find('#block').find('marker#arrow').length == 0) {
+        $('#svgparent').find('#block > defs').append(`
+            <marker id="arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#000000">
+                <polyline points="1 1, 16 5.5, 1 12"></polyline>
+            </marker>
+        `);
+    }
 }
 
 function clearField() {
@@ -1753,7 +1761,7 @@ function unSelect() {
 function Select() {
 
     pathId = drag.getAttribute('id')
-    if (pathId.includes('opt')) {
+    if (pathId && pathId.includes('opt')) {
         drag.dataset.select = 0
         drag = block.getElementById( pathId.replace('-opt', '') )
     }

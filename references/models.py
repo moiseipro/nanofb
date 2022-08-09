@@ -205,3 +205,15 @@ class ExsCategory(AbstractReference, MixTranslateReference):
     class Meta(AbstractReference.Meta):
         pass
 
+
+
+class ExsAdditionalData(AbstractReference, MixTranslateReference):
+    class Meta(AbstractReference.Meta):
+        pass
+
+
+
+class ExsTitleName(AbstractReference, MixTranslateReference):
+    class Meta(AbstractReference.Meta):
+        pass
+
