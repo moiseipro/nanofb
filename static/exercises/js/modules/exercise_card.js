@@ -419,6 +419,9 @@ $(function() {
             $('#card_drawing1').addClass('d-none');
             $('.scheme-editor').find('iframe').contents().find('#svgparent').html($('#card_drawing1').find('.card').html());
             $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
+            setTimeout((e) => {
+                $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
+            }, 100);
             $('.scheme-editor').removeClass('d-none');
         }
     });
@@ -434,6 +437,9 @@ $(function() {
             $('#card_drawing2').addClass('d-none');
             $('.scheme-editor').find('iframe').contents().find('#svgparent').html($('#card_drawing2').find('.card').html());
             $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
+            setTimeout((e) => {
+                $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
+            }, 100);
             $('.scheme-editor').removeClass('d-none');
         }
     });
@@ -603,12 +609,18 @@ $(function() {
                 $('#card_drawing1').addClass('d-none');
                 $('.scheme-editor').find('iframe').contents().find('#svgparent').html($('#card_drawing1').find('.card').html());
                 $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
+                setTimeout((e) => {
+                    $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
+                }, 100);
                 $('.scheme-editor').removeClass('d-none');
             }
             if ($('#card_drawing2').hasClass('active')) {
                 $('#card_drawing2').addClass('d-none');
                 $('.scheme-editor').find('iframe').contents().find('#svgparent').html($('#card_drawing2').find('.card').html());
                 $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
+                setTimeout((e) => {
+                    $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
+                }, 100);
                 $('.scheme-editor').removeClass('d-none');
             }
         } else {
