@@ -377,6 +377,7 @@ $(function() {
             document.descriptionEditorView = editor;
             document.descriptionEditorView.enableReadOnlyMode('');
             $(document).find('.ck-editor__top').addClass('d-none');
+            $(document).find('.ck-content.ck-editor__editable').addClass('borders-off');
         })
         .catch(err => {
             console.error(err);

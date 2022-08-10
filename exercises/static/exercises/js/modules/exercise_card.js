@@ -7,7 +7,24 @@ function RenderSplitExsCardCols() {
         gutterSize: 15,
         onDrag: () => {
             let sizes = window.splitExsCardCols.getSizes();
+            if (sizes.length != 3) {return;} 
+            if (sizes[0] < 26) {
+                sizes[0] = 26;
+                sizes[1] = 37;
+                sizes[2] = 37;
+            }
+            if (sizes[1] < 36) {
+                sizes[0] = 32;
+                sizes[1] = 36;
+                sizes[2] = 32;
+            }
+            if (sizes[2] < 26) {
+                sizes[0] = 37;
+                sizes[1] = 37;
+                sizes[2] = 26;
+            }
             try {
+                window.splitExsCardCols.setSizes(sizes);
             } catch(e) {}
         },
         onDragEnd: (arr) => {
@@ -140,12 +157,12 @@ function RenderExerciseOne(data) {
         $(exsCard).find('.exs_edit_field[name="ref_cognitive_load"]').val(data.ref_cognitive_load);
 
         CheckMultiRows(exsCard, data.additional_data, '.exs_edit_field[name="additional_data[]"]', 'additional_data');
-
         CheckMultiRows(exsCard, data.keyword, '.exs_edit_field[name="keyword[]"]', 'keyword');
         CheckMultiRows(exsCard, data.stress_type, '.exs_edit_field[name="stress_type[]"]', 'stress_type');
         CheckMultiRows(exsCard, data.purposes, '.exs_edit_field[name="purposes[]"]', 'purposes');
         CheckMultiRows(exsCard, data.coaching, '.exs_edit_field[name="coaching[]"]', 'coaching');
         CheckMultiRows(exsCard, data.notes, '.exs_edit_field[name="notes[]"]', 'notes');
+        CorrectBlockBorders();
 
         $(exsCard).find('.exs_edit_field[name="title"]').val(data.title);
         if (document.descriptionEditor2) {
@@ -226,12 +243,12 @@ function RenderExerciseOne(data) {
         }
         
         CheckMultiRows(exsCard, '', '.exs_edit_field[name="additional_data[]"]', 'additional_data');
-
         CheckMultiRows(exsCard, '', '.exs_edit_field[name="keyword[]"]', 'keyword');
         CheckMultiRows(exsCard, '', '.exs_edit_field[name="stress_type[]"]', 'stress_type');
         CheckMultiRows(exsCard, '', '.exs_edit_field[name="purposes[]"]', 'purposes');
         CheckMultiRows(exsCard, '', '.exs_edit_field[name="coaching[]"]', 'coaching');
         CheckMultiRows(exsCard, '', '.exs_edit_field[name="notes[]"]', 'notes');
+        CorrectBlockBorders();
 
         $('.exs-list-group').find('.list-group-item').removeClass('active');
         // clear video, animation and scheme
@@ -365,6 +382,46 @@ function autoGrow(element) {
     }
 }
 
+function CorrectBlockBorders() {
+    if ($('#card_description').find('tr.wider_row[data-id="additional_data"]').length == 1) {
+        $('#card_description').find('tr.wider_row[data-id="additional_data"]').last().removeClass('border-y-custom');
+        $('#card_description').find('tr.wider_row[data-id="additional_data"]').last().removeClass('border-top-custom');
+        $('#card_description').find('tr.wider_row[data-id="additional_data"]').last().removeClass('border-bottom-custom');
+    } else {
+        $('#card_description').find('tr.wider_row[data-id="additional_data"]').removeClass('border-top-custom');
+        $('#card_description').find('tr.wider_row[data-id="additional_data"]').removeClass('border-bottom-custom');
+        $('#card_description').find('tr.wider_row[data-id="additional_data"]').addClass('border-y-custom');
+        $('#card_description').find('tr.wider_row[data-id="additional_data"]').first().removeClass('border-y-custom');
+        $('#card_description').find('tr.wider_row[data-id="additional_data"]').first().addClass('border-bottom-custom');
+        $('#card_description').find('tr.wider_row[data-id="additional_data"]').last().removeClass('border-y-custom');
+        $('#card_description').find('tr.wider_row[data-id="additional_data"]').last().addClass('border-top-custom');
+    }
+
+    if ($('#card_description').find('tr.wider_row[data-id="stress_type"]').length == 1) {
+        $('#card_description').find('tr.wider_row[data-id="stress_type"]').last().removeClass('border-y-custom');
+        $('#card_description').find('tr.wider_row[data-id="stress_type"]').last().removeClass('border-bottom-custom');
+        $('#card_description').find('tr.wider_row[data-id="stress_type"]').last().addClass('border-top-custom');
+    } else {
+        $('#card_description').find('tr.wider_row[data-id="stress_type"]').removeClass('border-top-custom');
+        $('#card_description').find('tr.wider_row[data-id="stress_type"]').removeClass('border-bottom-custom');
+        $('#card_description').find('tr.wider_row[data-id="stress_type"]').addClass('border-y-custom');
+        $('#card_description').find('tr.wider_row[data-id="stress_type"]').last().removeClass('border-y-custom');
+        $('#card_description').find('tr.wider_row[data-id="stress_type"]').last().addClass('border-top-custom');
+    }
+
+    if ($('#card_description').find('tr.wider_row[data-id="notes"]').length == 1) {
+        $('#card_description').find('tr.wider_row[data-id="notes"]').last().removeClass('border-y-custom');
+        $('#card_description').find('tr.wider_row[data-id="notes"]').last().removeClass('border-bottom-custom');
+        $('#card_description').find('tr.wider_row[data-id="notes"]').last().addClass('border-top-custom');
+    } else {
+        $('#card_description').find('tr.wider_row[data-id="notes"]').removeClass('border-top-custom');
+        $('#card_description').find('tr.wider_row[data-id="notes"]').removeClass('border-bottom-custom');
+        $('#card_description').find('tr.wider_row[data-id="notes"]').addClass('border-y-custom');
+        $('#card_description').find('tr.wider_row[data-id="notes"]').last().removeClass('border-y-custom');
+        $('#card_description').find('tr.wider_row[data-id="notes"]').last().addClass('border-top-custom');
+    }
+}
+
 
 $(function() {
 
@@ -388,7 +445,7 @@ $(function() {
 
     window.dataForSplitExsCardCols = JSON.parse(localStorage.getItem('split_exs_card_cols'));
     if (!window.dataForSplitExsCardCols) {
-        window.dataForSplitExsCardCols = [30, 30, 40];
+        window.dataForSplitExsCardCols = [27, 45, 28];
         localStorage.setItem('split_exs_card_cols', JSON.stringify(window.dataForSplitExsCardCols));
     }
     RenderSplitExsCardCols();
@@ -522,10 +579,12 @@ $(function() {
         $(cloneRow).find('.remove-row').addClass('btn-on');
         $(cloneRow).find('.remove-row').prop('disabled', false);
         $(cloneRow).insertAfter($('#exerciseCard').find(`.wider_row[data-id="${cId}"]`).last());
+        CorrectBlockBorders();
     });
     $('#exerciseCard').on('click', '.remove-row', (e) => {
         if (!$(e.currentTarget).hasClass('btn-on')) {return;}
         $(e.currentTarget).parent().parent().parent().parent().remove();
+        CorrectBlockBorders();
     });
 
 
