@@ -100,16 +100,23 @@ function RenderNFBFolders(data = []) {
     let folderList = {'order': [], 'data': {}};
     setTimeout(() => {
         $('#folderNanoFbModal').find('.list-group-item').each((ind, elem) => {
-            let cNum = GetHierarchyNum($(elem).find('.nfb-folder-elem'), "nfb_folders_list", "nfb-folder-elem");
+            let nums = GetHierarchyNum($(elem).find('.nfb-folder-elem'), "nfb_folders_list", "nfb-folder-elem");
+            let cNum = nums[0];
+            let isParent = nums[1];
             if (folderList['data'][cNum]) {
-                folderList['data'][cNum].push(elem);
+                if (isParent) {
+                    folderList['data'][cNum].unshift(elem);
+                } else {
+                    folderList['data'][cNum].push(elem);
+                }
             } else {
                 folderList['data'][cNum] = [elem];
             }
-            if (!folderList['order'].includes(cNum)) {
+            if (!folderList['order'].includes(cNum) && isParent) {
                 folderList['order'].push(cNum);
             }
         });
+        console.log( folderList )
         $('#folderNanoFbModal').find('.nfb_folders_list > .list-group').empty();
         for (let ind in folderList['order']) {
             let key = folderList['order'][ind];

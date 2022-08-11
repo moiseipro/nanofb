@@ -1,23 +1,31 @@
 function GetHierarchyNum(elem, classList, classElem, id = 0) {
     id = $(elem).attr('data-id');
     let parentId = $(elem).attr('data-parent');
+    let isParent = true;
     let foundElem = $(`.${classList}`).find(`.${classElem}[data-id="${parentId}"]`);
     if (foundElem && foundElem.length > 0) {
-        id = GetHierarchyNum(foundElem, classList, classElem);
+        isParent = false;
+        id = GetHierarchyNum(foundElem, classList, classElem)[0];
     }
-    return id;
+    return [id, isParent];
 }
 
 $(function() {
     let folderList = {'order': [], 'data': {}};
     $('.folders_list').find('.list-group-item').each((ind, elem) => {
-        let cNum = GetHierarchyNum($(elem).find('.folder-elem'), "folders_list", "folder-elem");
+        let nums = GetHierarchyNum($(elem).find('.folder-elem'), "folders_list", "folder-elem");
+        let cNum = nums[0];
+        let isParent = nums[1];
         if (folderList['data'][cNum]) {
-            folderList['data'][cNum].push(elem);
+            if (isParent) {
+                folderList['data'][cNum].unshift(elem);
+            } else {
+                folderList['data'][cNum].push(elem);
+            }
         } else {
             folderList['data'][cNum] = [elem];
         }
-        if (!folderList['order'].includes(cNum)) {
+        if (!folderList['order'].includes(cNum) && isParent) {
             folderList['order'].push(cNum);
         }
     });
@@ -43,13 +51,19 @@ $(function() {
 
     let folderNFBList = {'order': [], 'data': {}};
     $('.folders_nfb_list').find('.list-group-item').each((ind, elem) => {
-        let cNum = GetHierarchyNum($(elem).find('.folder-nfb-elem'), "folders_nfb_list", "folder-nfb-elem");
+        let nums = GetHierarchyNum($(elem).find('.folder-nfb-elem'), "folders_nfb_list", "folder-nfb-elem");
+        let cNum = nums[0];
+        let isParent = nums[1];
         if (folderNFBList['data'][cNum]) {
-            folderNFBList['data'][cNum].push(elem);
+            if (isParent) {
+                folderNFBList['data'][cNum].unshift(elem);
+            } else {
+                folderNFBList['data'][cNum].push(elem);
+            }
         } else {
             folderNFBList['data'][cNum] = [elem];
         }
-        if (!folderNFBList['order'].includes(cNum)) {
+        if (!folderNFBList['order'].includes(cNum) && isParent) {
             folderNFBList['order'].push(cNum);
         }
     });
