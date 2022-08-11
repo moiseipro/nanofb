@@ -784,7 +784,7 @@ def folders_api(request):
                 for folder in folders:
                     try:
                         found_team = UserTeam.objects.get(id=cur_team, user_id=cur_user[0])
-                        new_folder = UserFolder(name=folder.name, short_name=folder.short_name, parent=0, user=cur_user[0], team=found_team)
+                        new_folder = UserFolder(name=folder.name, short_name=folder.short_name, order=folder.order, parent=0, user=cur_user[0], team=found_team)
                         new_folder.save()
                         folder.new_id = new_folder.id
                     except Exception as e:
