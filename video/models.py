@@ -65,6 +65,13 @@ class Video(models.Model):
         verbose_name=_('video links'),
         help_text=_('Links to videos from various sources')
     )
+    screensaver = models.CharField(
+        max_length=255,
+        verbose_name=_('screensaver'),
+        help_text=_('Splash screen on the start screen of the video'),
+        null=True,
+        blank=True
+    )
     shared_access = models.BooleanField(
         verbose_name=_('shared access'),
         help_text=_('Is it available to all users?'),
@@ -90,6 +97,7 @@ class Video(models.Model):
         ordering = ['videosource_id']
         permissions = (
             ("uploading_files", "Can upload files to videos"),
+            ("uploading_screensaver", "Can upload screensaver to videos"),
             ("parsing_video", "Can parse video"),
         )
 

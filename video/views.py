@@ -270,64 +270,12 @@ class CreateVideoView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-def add_video(request):
-    if not request.user.is_authenticated:
-        return redirect("authorization:login")
-
-    exclude_fields = []
-    if request.user.has_perm('video.uploading_files'):
-        exclude_fields.append('file')
-
-    class CustomCreateVideoForm(CreateVideoForm):
-        class Meta(CreateVideoForm.Meta):
-            model = Video
-            exclude = exclude_fields
-
-    if request.method == "POST":
-        form = CustomCreateVideoForm(request.POST)
-
-        if form.is_valid():
-            if form.data['file']:
-                post_data = {
-                    'username': 'admin',
-                    'password': 'admin',
-                    'user-file': request.POST['file']
-                }
-                response = requests.post('http://213.108.4.28/', post_data)
-                content = response.content
-                if content['success']:
-                    video = form.save(commit=False)
-                    video.links = {'server': content['link'][0]}
-                    video.save()
-                    messages.success(request, "Video added successfully.")
-                    return redirect("video:view_video")
-                else:
-                    messages.error(request, "Error uploading video to the server.")
-            elif form.data['youtube_link']:
-                video = form.save(commit=False)
-                id_video = extract.video_id(form.data['youtube_link'])
-                if id_video:
-                    video.links = {'youtube': id_video}
-                    video.save()
-                    messages.success(request, "Video added successfully.")
-                    return redirect("video:view_video")
-                else:
-                    messages.error(request, "Incorrect link to the video!")
-            else:
-                messages.error(request, "Video creation error. There is no link to the video.")
-
-    form = CustomCreateVideoForm()
-    context_page['create_form'] = form;
-
-    return render(request=request, template_name="video/add_video.html", context=context_page)
-
-
 def parse_video(request):
     if not request.user.is_authenticated:
         return redirect("authorization:login")
 
     if request.method == "GET":
-        response = requests.get(f'https://nanofootball.kz/api/token/3F4AwFqWHk3GYGJuDRWh/')
+        response = requests.get(f'https://nanofootball.ru/api/token/3F4AwFqWHk3GYGJuDRWh/?folders[]="A"&folders[]="B"&folders[]="C"&folders[]="D"') #
         context_page['content'] = json.loads(response.content.decode('utf-8'))
         videos = []
         sources = []
@@ -362,10 +310,10 @@ def parse_video(request):
                             videos.append(Video(name=n['name'] if n['name'] else 'No name', old_id=n['id'],
                                                 links={'youtube': y_id}))
 
-        batch = list(islice(sources, 1, 10))
+        batch = list(sources)
         created_source = VideoSource.objects.bulk_create(batch)
         context_page['sources'] = created_source
-        batch = list(islice(videos, 1, 80))
+        batch = list(videos)
         created_source = Video.objects.bulk_create(batch)
         context_page['videos'] = created_source
         if context_page['sources']:

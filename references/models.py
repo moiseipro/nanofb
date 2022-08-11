@@ -81,7 +81,7 @@ class VideoSource(AbstractReference):
     @classmethod
     def get_default_pk(cls):
         video, created = cls.objects.get_or_create(
-            name=_('NFTV'))
+            name=_('NF'))
         return video.pk
 
     class Meta(AbstractReference.Meta):

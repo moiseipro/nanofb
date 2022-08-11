@@ -18,6 +18,20 @@
     height: 22px !important;
 }
 
-.custom-file-label::after{
-    content: '↗';
+.custom-file-label {
+    height: auto;
+    padding: 0px;
+}
+.custom-file-label::after {
+    padding: 0rem 0.75rem;
+    content: '↗' !important;
+}
+
+.custom-file-input {
+    height: 26px !important;
+    min-height: auto !important;
+}
+
+.custom-file {
+    height: auto;
 }
