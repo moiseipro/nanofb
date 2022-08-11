@@ -27,6 +27,7 @@
         <button class="nav-item nav-link" onclick="rotateObj(7)" title="Поворот">135</button>
     </div>
     <div class="nav float-right" role="tablist">
+        <button class="nav-item nav-link" data-toggle="modal" data-target="#modalCopyDrawing"  title="Скопировать поле"><img src="{% static 'schemeDrawer/img/buttons/se_new.png' %}"></button>
         <button class="nav-item nav-link" data-toggle="modal" data-target="#modalClear"  title="Очистить поле"><img src="{% static 'schemeDrawer/img/buttons/se_clear.png' %}"></button>
         <button class="nav-item nav-link" data-toggle="modal" data-target="#modalSelectedClear"  title="Удалить выбранные"><img src="{% static 'schemeDrawer/img/buttons/se_clears.png' %}"></button>
         <a class="nav-item nav-link active" data-toggle="tab" href="#nav-plane" role="tab" title="Поля"><img src="{% static 'schemeDrawer/img/buttons/se_fields.png' %}"></a>
