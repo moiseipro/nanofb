@@ -6,28 +6,28 @@
             <div class="modal-header py-1 d-block">
                 <div class="row">
                     <div class="col-2 px-1">
-                        <button type="button" class="btn btn-sm btn-block btn-warning toggle-edit-mode view-button">
+                        <button type="button" class="btn btn-sm btn-block btn-warning font-weight-bold toggle-edit-mode view-button">
                             {% trans "Edit" %}
                         </button>
-                        <button type="button" class="btn btn-sm btn-block btn-warning mt-0 toggle-edit-mode edit-button d-none">
+                        <button type="button" class="btn btn-sm btn-block btn-warning font-weight-bold mt-0 toggle-edit-mode edit-button d-none">
                             {% trans "Cancel" %}
                         </button>
                     </div>
                     <div class="col-2 px-1">
-                        <button type="button" class="btn btn-sm btn-block btn-success edit-button d-none" id="save-video">
+                        <button type="button" class="btn btn-sm btn-block btn-success font-weight-bold edit-button d-none" id="save-video">
                             {% trans "Save" %}
                         </button>
                     </div>
                     <div class="offset-2 col-2 px-1">
-                        <button type="button" class="btn btn-sm btn-block btn-danger view-button" id="delete-video">
+                        <button type="button" class="btn btn-sm btn-block btn-danger font-weight-bold view-button" id="delete-video">
                             {% trans "Delete" %}
                         </button>
                     </div>
                     <div class="col-2 px-1">
-                        <button type="button" class="btn btn-sm btn-block btn-secondary view-button"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+                        <button type="button" class="btn btn-sm btn-block btn-secondary font-weight-bold view-button"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
                     </div>
                     <div class="col-2 px-1">
-                        <button type="button" class="btn btn-sm btn-block btn-secondary view-button"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                        <button type="button" class="btn btn-sm btn-block btn-secondary font-weight-bold view-button"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
                     </div>
                 </div>
 
@@ -40,14 +40,27 @@
                                 <div class="col-12 text-center px-0">
                                     <input type="text" class="form-control form-control-sm text-center py-0 edit-input" name="name" placeholder="{% trans "Title" %}" style="height: auto" disabled>
                                 </div>
-                                <div class="col-12 text-center px-0" data-name="none">Ссылка на источник</div>
+                                <div class="col-12 text-center px-0" data-name="none">{% trans "Link to the source" %}</div>
                                 <div class="col-12 text-center px-0">
                                     <input type="text" class="form-control form-control-sm text-center py-0 edit-input" name="youtube_link" placeholder="{% trans "Youtube link" %}" style="height: auto" disabled>
                                 </div>
                                 <div class="col-12 text-center px-0">
-                                    <div class="custom-file" style="height: auto;">
+                                    <div class="custom-file">
                                         <input type="file" name="file" class="custom-file-input edit-input" id="video-file" accept=".MP4,.avi" disabled>
                                         <label class="custom-file-label" for="video-file">{% trans "Choose new video file" %}</label>
+                                    </div>
+                                </div>
+                                <div class="col-12 text-center px-0">
+                                    <div class="row">
+                                        <div class="col-6 pr-0">
+                                            <input type="number" class="form-control form-control-sm text-center py-0 edit-input" name="second_screensaver" placeholder="{% trans "A second of the screensaver" %}" style="height: auto" disabled>
+                                        </div>
+                                        <div class="col-6 pl-0">
+                                            <div class="custom-file">
+                                                <input type="file" name="file_screensaver" class="custom-file-input edit-input" id="video-screensaver" accept=".jpg,.png" disabled>
+                                                <label class="custom-file-label" for="video-screensaver">{% trans "Choose new screensaver file" %}</label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -60,7 +73,7 @@
                                 <div class="col-6 px-0 text-center" data-name="id"></div>
                             </div>
                             <div class="row border-bottom border-secondary">
-                                <div class="col-6 bg-default-light font-weight-bold">Источник</div>
+                                <div class="col-6 bg-default-light font-weight-bold">{% trans "Source" %}</div>
                                 <div class="col-6 px-0 text-center form-select-sm">
                                     <select class="select custom-select edit-input" name="videosource_id" tabindex="-1" aria-hidden="true" disabled>
                                         {% for source in sources %}
@@ -72,17 +85,17 @@
                                 </div>
                             </div>
                             <div class="row border-bottom border-secondary">
-                                <div class="col-6 bg-default-light font-weight-bold">Дата</div>
+                                <div class="col-6 bg-default-light font-weight-bold">{% trans "Date" %}</div>
                                 <div class="col-6 px-0 text-center" data-name="upload_date">---</div>
                             </div>
                             <div class="row border-bottom border-secondary">
-                                <div class="col-6 bg-default-light font-weight-bold">Длительность</div>
+                                <div class="col-6 bg-default-light font-weight-bold">{% trans "Duration" %}</div>
                                 <div class="col-6 px-0">
                                     <input type="text" class="form-control form-control-sm text-center py-0 edit-input" name="duration" placeholder="00:00:00" style="height: auto" disabled>
                                 </div>
                             </div>
                             <div class="row border-bottom border-secondary">
-                                <div class="col-6 bg-default-light font-weight-bold">Язык (озвучка)</div>
+                                <div class="col-6 bg-default-light font-weight-bold">{% trans "Language (voice acting)" %}</div>
                                 <div class="col-6 px-0 text-center form-select-sm">
                                     <select name="language" class="select custom-select edit-input" disabled>
                                         <option value="none">
@@ -100,7 +113,7 @@
                                 </div>
                             </div>
                             <div class="row border-bottom border-secondary">
-                                <div class="col-6 bg-default-light font-weight-bold">Музыка</div>
+                                <div class="col-6 bg-default-light font-weight-bold">{% trans "Music" %}</div>
                                 <div class="col-6 px-0 text-center">
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" name="music" value="on" class="custom-control-input edit-input" id="video-music-check" disabled>
@@ -109,11 +122,11 @@
                                 </div>
                             </div>
                             <div class="row border-bottom border-secondary">
-                                <div class="col-6 bg-default-light font-weight-bold">Разделы</div>
+                                <div class="col-6 bg-default-light font-weight-bold">{% trans "Sections" %}</div>
                                 <div class="col-6 px-0 text-center">---</div>
                             </div>
                             <div class="row">
-                                <div class="col-6 bg-default-light font-weight-bold">Теги</div>
+                                <div class="col-6 bg-default-light font-weight-bold">{% trans "Tags" %}</div>
                                 <div class="col-6 px-0 text-center">
                                     <select class="select selectmultiple custom-select edit-input" name="tags" multiple tabindex="-1" aria-hidden="true" disabled>
                                         {% for tag in tags %}
