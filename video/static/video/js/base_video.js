@@ -111,6 +111,22 @@ $(window).on('load', function (){
         })
 })
 
+// Следующий/предыдущий
+$('#next-video').on('click', function () {
+    let row_next = video_table.row($('.selected').next())
+    if(row_next[0].length>0) {
+        video_table.$('tr.selected').removeClass('selected');
+        row_next.select()
+    }
+})
+$('#previous-video').on('click', function () {
+    let row_prev = video_table.row($('.selected').prev())
+    if(row_prev[0].length>0) {
+        video_table.$('tr.selected').removeClass('selected');
+        row_prev.select()
+    }
+})
+
 $('.video-source').on('change', function (){
     let data_source = $( this ).val()
     //console.log(data_source)
@@ -127,6 +143,7 @@ function ajax_video_info(row_data) {
     })
 
     request.done(function( data ) {
+        clear_video_form()
         $('#video-action-form').attr('method', 'PUT')
         render_json_block(data)
     })
@@ -160,6 +177,8 @@ function clear_video_form(){
         $(this).text('---')
     })
     $('#video-action-form').find('input[type="text"]').val('')
+    $('#video-action-form').find('input[type="number"]').val('')
+    $('#video-action-form').find('input[type="file"]').val('')
     $('#video-action-form select[name="videosource_id"] option:first').prop('selected', true)
     $('#video-action-form select[name="videosource_id"]').trigger('change')
     $('#video-action-form select[name="language"] option:first').prop('selected', true)
