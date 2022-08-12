@@ -284,7 +284,7 @@ def parse_video(request):
         return redirect("authorization:login")
 
     if request.method == "GET":
-        response = requests.get(f'https://nanofootball.ru/api/token/3F4AwFqWHk3GYGJuDRWh/?folders[]="A"') #&folders[]="B"&folders[]="C"&folders[]="D"
+        response = requests.get(f'https://nanofootball.ru/api/token/3F4AwFqWHk3GYGJuDRWh/?folders[]="A"&folders[]="B"&folders[]="C"&folders[]="D"') #
         context_page['content'] = json.loads(response.content.decode('utf-8'))
         videos = []
         sources = []
@@ -310,11 +310,16 @@ def parse_video(request):
                             for i in range(len(n['video_id'])):
                                 links = {'nftv': '', 'youtube': ''}
                                 if n['video_id'][i] != '':
-                                    links['nftv'] = n['video_id'][i].split("|")[1]
-                                if n['video_id_youtube'][i] != '':
+                                    nftv_list = n['video_id'][i].split("|")
+                                    if len(nftv_list) > 1:
+                                        links['nftv'] = nftv_list[1]
+                                    else:
+                                        links['nftv'] = nftv_list[0]
+                                if n['video_id_youtube'] is not None and n['video_id_youtube'][i] != '':
                                     links['youtube'] = n['video_id_youtube'][i]
-                                videos.append(Video(name=n['name'] if n['name'] else 'No name', old_id=n['id'],
-                                                    links=links, videosource_id=ss))
+                                if links['nftv'] != '' or links['youtube'] != '':
+                                    videos.append(Video(name=n['name'] if n['name'] else 'No name', old_id=n['id'],
+                                                        links=links, videosource_id=ss))
                             break
                             # for y_id in n['video_id_youtube']:
                             #     if y_id != '':
@@ -326,11 +331,16 @@ def parse_video(request):
                     for i in range(len(n['video_id'])):
                         links = {'nftv': '', 'youtube': ''}
                         if n['video_id'][i] != '':
-                            links['nftv'] = n['video_id'][i].split("|")[1]
-                        if n['video_id_youtube'][i] != '':
+                            nftv_list = n['video_id'][i].split("|")
+                            if len(nftv_list) > 1:
+                                links['nftv'] = nftv_list[1]
+                            else:
+                                links['nftv'] = nftv_list[0]
+                        if n['video_id_youtube'] is not None and n['video_id_youtube'][i] != '':
                             links['youtube'] = n['video_id_youtube'][i]
-                        videos.append(Video(name=n['name'] if n['name'] else 'No name', old_id=n['id'],
-                                            links=links))
+                        if links['nftv'] != '' or links['youtube'] != '':
+                            videos.append(Video(name=n['name'] if n['name'] else 'No name', old_id=n['id'],
+                                                links=links))
                 # if n['video_id_youtube'] is not None:
                 #     for y_id in n['video_id_youtube']:
                 #         if y_id != '':

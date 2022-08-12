@@ -77,7 +77,6 @@ function ajax_video_info(row_data) {
 $('#delete-video').on('click', function (){
     ajax_video_action('DELETE', null, 'delete', cur_edit_data ? cur_edit_data.id : '').done(function (data) {
         video_table.ajax.reload()
-        console.log(data)
         cur_edit_data = null
         $('#video-card-modal').modal('hide')
     })
@@ -120,7 +119,6 @@ $('#video-action-form').submit(function (event) {
 
     ajax_video_action($(this).attr('method'), form_Data, 'update', cur_edit_data ? cur_edit_data.id : '').done(function (data) {
         video_table.ajax.reload()
-        console.log(data)
         cur_edit_data = data
         ajax_video_info(cur_edit_data)
     })
