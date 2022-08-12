@@ -53,7 +53,7 @@
 .card-inside {
     height: 88vh !important;
 }
-.folders_list {
+.folders_list, .folders_nfb_list, .folders_club_list {
     height: 80vh !important;
     overflow-y: auto;
 }
