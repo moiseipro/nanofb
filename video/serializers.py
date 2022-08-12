@@ -13,6 +13,10 @@ class VideoTagsSerializer(serializers.ModelSerializer):
         fields = ('id', 'name')
 
 
+class OnlyVideoSerializer(serializers.Serializer):
+    links = serializers.JSONField(read_only=True)
+
+
 class VideoSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     videosource_id = VideoSourceSerializer()

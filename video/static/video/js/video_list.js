@@ -1,8 +1,6 @@
 let video_table
-let cur_edit_data = null
 
-$(window).on('load', function (){
-
+function generate_ajax_video_table(){
     video_table = $('#video').DataTable({
         language: {
             url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
@@ -45,4 +43,13 @@ $(window).on('load', function (){
         ],
 
     })
-})
+}
+
+function get_video_ids(video_id){
+    return $.ajax({
+        headers:{"X-CSRFToken": csrftoken },
+        url: "/video/api/"+video_id+"/get_video",
+        type: "GET",
+        dataType: "JSON"
+    })
+}

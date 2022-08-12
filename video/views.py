@@ -12,12 +12,14 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from rest_framework import viewsets, status, generics
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from rest_framework.decorators import action
+from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from django.core.files.storage import FileSystemStorage
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 from rest_framework.response import Response
 
-from video.serializers import VideoSerializer, VideoUpdateSerializer
+from video.serializers import VideoSerializer, VideoUpdateSerializer, OnlyVideoSerializer
 from references.models import VideoSource
 from video.forms import CreateVideoForm, UpdateVideoForm
 from video.models import Video, VideoTags
@@ -36,7 +38,7 @@ class VideoViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         data = request.data
         print(data)
-        links = {'nftv': '', 'youtube"': ''}
+        links = {'nftv': '', 'youtube': ''}
         data_dict = dict(
             name=data['name'],
             duration=data['duration'],
@@ -181,6 +183,13 @@ class VideoViewSet(viewsets.ModelViewSet):
             pass
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+    @action(detail=True, methods=['get'])
+    def get_video(self, request, pk=None):
+        queryset = Video.objects.all()
+        video = get_object_or_404(queryset, pk=pk)
+        serializer = OnlyVideoSerializer(video)
+        return Response(serializer.data)
+
     def get_serializer_class(self):
         if self.action == 'update' or self.action == 'partial_update' or self.action == 'create':
             return VideoUpdateSerializer
@@ -275,7 +284,7 @@ def parse_video(request):
         return redirect("authorization:login")
 
     if request.method == "GET":
-        response = requests.get(f'https://nanofootball.ru/api/token/3F4AwFqWHk3GYGJuDRWh/?folders[]="A"&folders[]="B"&folders[]="C"&folders[]="D"') #
+        response = requests.get(f'https://nanofootball.ru/api/token/3F4AwFqWHk3GYGJuDRWh/?folders[]="A"') #&folders[]="B"&folders[]="C"&folders[]="D"
         context_page['content'] = json.loads(response.content.decode('utf-8'))
         videos = []
         sources = []
@@ -297,18 +306,36 @@ def parse_video(request):
                         VideoSource(name=n['p_source']['name'], link=n['p_source']['source'], short_name='Empty'))
                 if server_sources:
                     for ss in server_sources:
-                        if ss.name == n['p_source']['name'] and n['video_id_youtube'] is not None:
-                            for y_id in n['video_id_youtube']:
-                                if y_id != '':
-                                    videos.append(Video(name=n['name'] if n['name'] else 'No name', old_id=n['id'],
-                                                        links={'youtube': y_id}, videosource_id=ss))
+                        if ss.name == n['p_source']['name'] and n['video_id'] is not None:
+                            for i in range(len(n['video_id'])):
+                                links = {'nftv': '', 'youtube': ''}
+                                if n['video_id'][i] != '':
+                                    links['nftv'] = n['video_id'][i].split("|")[1]
+                                if n['video_id_youtube'][i] != '':
+                                    links['youtube'] = n['video_id_youtube'][i]
+                                videos.append(Video(name=n['name'] if n['name'] else 'No name', old_id=n['id'],
+                                                    links=links, videosource_id=ss))
                             break
+                            # for y_id in n['video_id_youtube']:
+                            #     if y_id != '':
+                            #         videos.append(Video(name=n['name'] if n['name'] else 'No name', old_id=n['id'],
+                            #                             links={'youtube': y_id}, videosource_id=ss))
+                            #break
             else:
-                if n['video_id_youtube'] is not None:
-                    for y_id in n['video_id_youtube']:
-                        if y_id != '':
-                            videos.append(Video(name=n['name'] if n['name'] else 'No name', old_id=n['id'],
-                                                links={'youtube': y_id}))
+                if n['video_id'] is not None:
+                    for i in range(len(n['video_id'])):
+                        links = {'nftv': '', 'youtube': ''}
+                        if n['video_id'][i] != '':
+                            links['nftv'] = n['video_id'][i].split("|")[1]
+                        if n['video_id_youtube'][i] != '':
+                            links['youtube'] = n['video_id_youtube'][i]
+                        videos.append(Video(name=n['name'] if n['name'] else 'No name', old_id=n['id'],
+                                            links=links))
+                # if n['video_id_youtube'] is not None:
+                #     for y_id in n['video_id_youtube']:
+                #         if y_id != '':
+                #             videos.append(Video(name=n['name'] if n['name'] else 'No name', old_id=n['id'],
+                #                                 links={'youtube': y_id}))
 
         batch = list(sources)
         created_source = VideoSource.objects.bulk_create(batch)
