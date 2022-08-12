@@ -53,7 +53,7 @@
 .card-inside {
     height: 88vh !important;
 }
-.folders_list {
+.folders_list, .folders_nfb_list, .folders_club_list {
     height: 80vh !important;
     overflow-y: auto;
 }
@@ -258,12 +258,19 @@ tr.bck-custom > td {
 
 
 .ck-editor {
+    width: 90% !important;
     height: 100% !important;
 }
-.ck-editor__main {
+.ck-editor__main.read-mode {
+    width: 100% !important;
     height: 100% !important;
+}
+.ck-editor__main.edit-mode {
+    width: 100% !important;
+    height: calc(100% - 40px) !important;
 }
 .ck-editor__editable {
+    width: 100% !important;
     height: 100% !important;
 }
 

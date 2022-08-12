@@ -337,17 +337,28 @@ $(function() {
     // Go to exercise view
     $('#showOneExs').on('click', (e) => {
         let activeExs = $('.exs-list-group').find('.list-group-item.active');
+        let activeExsId = $(activeExs).attr('data-id');
         if ($(activeExs).length > 0) {
             let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
-            window.location.href = `/exercises/exercise?id=${$(activeExs).attr('data-id')}&nfb=${fromNfbFolder ? 1 : 0}`;
-
             let folderType = !$('.exercises-list').find('.folders_list').hasClass('d-none') ? "team_folders" 
                 : !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? "nfb_folders" 
                 : !$('.exercises-list').find('.folders_club_list').hasClass('d-none') ? "club_folders" : "";
             let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
-            let data = {'type': folderType, 'folder': folder, 'exs': $(activeExs).attr('data-id')};
+            let data = {'type': folderType, 'folder': folder, 'exs': activeExsId};
             data = JSON.stringify(data);
             sessionStorage.setItem('last_exs', data);
+
+            let exsList = {'list': [], 'index': -1};
+            $('.exercises-list').find('.exs-elem').each((ind, elem) => {
+                if ($(elem).attr('data-id') == activeExsId) {
+                    exsList['index'] = ind;
+                }
+                exsList['list'].push($(elem).attr('data-id'));
+            });
+            exsList = JSON.stringify(exsList);
+            sessionStorage.setItem('exs_list', exsList);
+
+            window.location.href = `/exercises/exercise?id=${activeExsId}&nfb=${fromNfbFolder ? 1 : 0}`;
         } else {
             swal("Внимание", "Выберите упражнение для просмотра.", "info");
         }

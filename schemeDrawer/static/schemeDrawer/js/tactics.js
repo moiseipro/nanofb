@@ -412,6 +412,11 @@ function svgBlockResize() {
     }
 }
 
+function copyField() {
+    $('#copyScheme', parent.document).click();
+    $('#modalCopyDrawing').modal('hide');
+}
+
 function clearField() {
     selects.innerHTML = ""
     figures.innerHTML = ""

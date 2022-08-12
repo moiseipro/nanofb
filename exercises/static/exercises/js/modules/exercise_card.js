@@ -45,9 +45,13 @@ function ToggleEditFields(flag) {
         if (flag) {
             document.descriptionEditor2.disableReadOnlyMode('');
             $(document).find('.ck-editor__top').removeClass('d-none');
+            $(document).find('.ck-editor__main').removeClass('read-mode');
+            $(document).find('.ck-editor__main').addClass('edit-mode');
         } else {
             document.descriptionEditor2.enableReadOnlyMode('');
             $(document).find('.ck-editor__top').addClass('d-none');
+            $(document).find('.ck-editor__main').addClass('read-mode');
+            $(document).find('.ck-editor__main').removeClass('edit-mode');
         }
     } catch (e) {}
     window.onlyViewMode = !flag;
@@ -422,6 +426,55 @@ function CorrectBlockBorders() {
     }
 }
 
+function ToggleExsDir(dir = 0) {
+    let lastExsData = {};
+    try {
+        lastExsData = JSON.parse(sessionStorage.getItem('last_exs'));
+    } catch(e) {}
+    const params = new URLSearchParams(window.location.search);
+    let nfbVal = params.get('nfb') == '1' ? 1 : 0;
+    let isPrevOn = false, isNextOn = false;
+    try {
+        isPrevOn = window.exsList.list[window.exsList.index - 1] ? true : false;
+    } catch(e) {}
+    try {
+        isNextOn = window.exsList.list[window.exsList.index + 1] ? true : false;
+    } catch(e) {}
+    switch (dir) {
+        // dir = 0 -> check exs list
+        case 0:
+            $('.exs-change[data-dir="prev"]').prop('disabled', !isPrevOn);
+            $('.exs-change[data-dir="next"]').prop('disabled', !isNextOn);
+            break;
+        // dir = -1 -> previous exs
+        case -1:
+            if (isPrevOn) {
+                window.location.href = `/exercises/exercise?id=${window.exsList.list[window.exsList.index - 1]}&nfb=${nfbVal}`;
+                try {
+                    lastExsData.exs = window.exsList.list[window.exsList.index - 1];
+                } catch(e) {}
+                window.exsList.index -= 1;
+            }
+            break;
+        // dir = 1 -> next exs
+        case 1:
+            if (isNextOn) {
+                window.location.href = `/exercises/exercise?id=${window.exsList.list[window.exsList.index + 1]}&nfb=${nfbVal}`;
+                try {
+                    lastExsData.exs = window.exsList.list[window.exsList.index + 1];
+                } catch(e) {}
+                window.exsList.index += 1;
+            }
+            break;
+        default:
+            break;
+    }
+    let exsListStr = JSON.stringify(window.exsList);
+    sessionStorage.setItem('exs_list', exsListStr);
+    let lastExsStr = JSON.stringify(lastExsData);
+    sessionStorage.setItem('last_exs', lastExsStr);
+}
+
 
 $(function() {
 
@@ -435,6 +488,7 @@ $(function() {
             if (window.onlyViewMode) {
                 document.descriptionEditor2.enableReadOnlyMode('');
                 $(document).find('.ck-editor__top').addClass('d-none');
+                $(document).find('.ck-editor__main').addClass('read-mode');
             }
             $('.resizeable-block').css('height', `235px`);
         })
@@ -461,6 +515,7 @@ $(function() {
         $('#exerciseCard').find('#cardBlock > #card_description').addClass('show active');
         $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
         $('#exerciseCard').find('#cardBlock > #card_description').removeClass('d-none');
+        $('#exerciseCard').find('button[data-type="add"]').removeClass('d-none');
 
         $('.scheme-editor').addClass('d-none');
     });
@@ -471,6 +526,7 @@ $(function() {
         $('#exerciseCard').find('#cardBlock > #card_drawing1').addClass('show active');
         $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
         $('#exerciseCard').find('#cardBlock > #card_drawing1').removeClass('d-none');
+        $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
         if ($('#editExs').attr('data-active') == '1') {
             $('#card_drawing1').addClass('d-none');
@@ -489,6 +545,7 @@ $(function() {
         $('#exerciseCard').find('#cardBlock > #card_drawing2').addClass('show active');
         $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
         $('#exerciseCard').find('#cardBlock > #card_drawing2').removeClass('d-none');
+        $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
         if ($('#editExs').attr('data-active') == '1') {
             $('#card_drawing2').addClass('d-none');
@@ -507,6 +564,7 @@ $(function() {
         $('#exerciseCard').find('#cardBlock > #card_video1').addClass('show active');
         $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
         $('#exerciseCard').find('#cardBlock > #card_video1').removeClass('d-none');
+        $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
         $('.scheme-editor').addClass('d-none');
     });
@@ -517,6 +575,7 @@ $(function() {
         $('#exerciseCard').find('#cardBlock > #card_video2').addClass('show active');
         $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
         $('#exerciseCard').find('#cardBlock > #card_video2').removeClass('d-none');
+        $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
         $('.scheme-editor').addClass('d-none');
     });
@@ -527,6 +586,7 @@ $(function() {
         $('#exerciseCard').find('#cardBlock > #card_animation1').addClass('show active');
         $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
         $('#exerciseCard').find('#cardBlock > #card_animation1').removeClass('d-none');
+        $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
         $('.scheme-editor').addClass('d-none');
     });
@@ -537,6 +597,7 @@ $(function() {
         $('#exerciseCard').find('#cardBlock > #card_animation2').addClass('show active');
         $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
         $('#exerciseCard').find('#cardBlock > #card_animation2').removeClass('d-none');
+        $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
         $('.scheme-editor').addClass('d-none');
     });
@@ -580,11 +641,13 @@ $(function() {
         $(cloneRow).find('.remove-row').prop('disabled', false);
         $(cloneRow).insertAfter($('#exerciseCard').find(`.wider_row[data-id="${cId}"]`).last());
         CorrectBlockBorders();
+        window.changedData = true;
     });
     $('#exerciseCard').on('click', '.remove-row', (e) => {
         if (!$(e.currentTarget).hasClass('btn-on')) {return;}
         $(e.currentTarget).parent().parent().parent().parent().remove();
         CorrectBlockBorders();
+        window.changedData = true;
     });
 
 
@@ -604,46 +667,8 @@ $(function() {
     });
 
 
-    $('#exerciseCard').on('click', '.user-param', (e) => {
-        let exsId = $('#exerciseCard').attr('data-exs');
-        let cId = $(e.currentTarget).attr('data-id');
-        let isOn = $(e.currentTarget).hasClass('u-prm-on');
-        let fromNFB = 0;
-        let searchParams = new URLSearchParams(window.location.search);
-        if (fromNFB == 0) {
-            try {
-                fromNFB = parseInt(searchParams.get('nfb'));
-            } catch (e) {}
-        }
-        let dataToSend = {'edit_exs_user_params': 1, 'exs': exsId, 'nfb': fromNFB, 'data': {'key': cId, 'value': isOn ? 0 : 1}};
-        $('.page-loader-wrapper').fadeIn();
-        $.ajax({
-            data: dataToSend,
-            type: 'POST', // GET или POST
-            dataType: 'json',
-            url: "exercises_api",
-            success: function (res) {
-                if (!res.success) {
-                    swal("Ошибка", `При изменении параметра произошла ошибка (${res.err}).`, "error");
-                } else {
-                    if (cId == "like" || cId == "dislike") {
-                        $('#exerciseCard').find('.user-param[data-id="like"]').toggleClass('u-prm-on', false);
-                        $('#exerciseCard').find('.user-param[data-id="dislike"]').toggleClass('u-prm-on', false);
-                    }
-                    $(e.currentTarget).toggleClass('u-prm-on', !isOn);
-                }
-            },
-            error: function (res) {
-                swal("Ошибка", "При изменении параметра произошла ошибка.", "error");
-                console.log(res);
-            },
-            complete: function (res) {
-                $('.page-loader-wrapper').fadeOut();
-            }
-        });
-    });
-
     $('#exerciseCard').on('change', '.exs_edit_field', (e) => {
+        window.changedData = true;
         if (!$(e.currentTarget).prop('required')) {return;}
         let isEmpty = $(e.currentTarget).val() == '';
         $(e.currentTarget).toggleClass('empty-field', isEmpty);
@@ -707,8 +732,23 @@ $(function() {
         if ($('#card_drawing2').hasClass('active')) {
             $('#card_drawing2').find('.card').html(content);
         }
+        window.changedData = true;
     });
 
+    // scheme copy
+    $('#copyScheme').on('click', (e) => {
+        if ($('#card_drawing1').hasClass('active')) {
+            $('#card_drawing2').find('.card').html(
+                $('#card_drawing1').find('.card').html()
+            );
+        }
+        if ($('#card_drawing2').hasClass('active')) {
+            $('#card_drawing1').find('.card').html(
+                $('#card_drawing2').find('.card').html()
+            );
+        }
+        window.changedData = true;
+    });
 
 
     // Save and Load exercise
@@ -722,4 +762,17 @@ $(function() {
     });
     
 
+    window.exsList = {'list': [], 'index': -1};
+    try {
+        window.exsList = JSON.parse(sessionStorage.getItem('exs_list'));
+        ToggleExsDir();
+    } catch(e) {}
+    $('.exs-change').on('click', (e) => {
+        let dir = $(e.currentTarget).attr('data-dir');
+        dir = dir == "prev" ? -1 : dir == "next" ? 1 : 0;
+        ToggleExsDir(dir);
+    });
+
+
 });
+
