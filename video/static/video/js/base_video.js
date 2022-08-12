@@ -1,4 +1,5 @@
 let video_player, youtube_player
+let cur_edit_data = null
 
 youtube_player = videojs('youtube-player', {
     preload: 'auto',
@@ -15,6 +16,7 @@ $(window).resize(function () {
 });
 
 $(window).on('load', function (){
+    generate_ajax_video_table()
     video_table
         .on( 'select', function ( e, dt, type, indexes ) {
             let rowData = video_table.rows( indexes ).data().toArray();
