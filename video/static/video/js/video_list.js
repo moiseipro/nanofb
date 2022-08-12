@@ -28,7 +28,6 @@ function generate_ajax_video_table(){
             {'data': 'duration'},
             {'data': 'name', 'name': 'name'},
             {'data': function (data, type, dataToSet) {
-                console.log(data)
                 if(type === 'display') {
                     if ('tags' in data && data.tags.length != 0) {
                         let tags = ''

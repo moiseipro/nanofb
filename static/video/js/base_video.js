@@ -1,4 +1,5 @@
 let video_player, youtube_player
+let cur_edit_data = null
 
 youtube_player = videojs('youtube-player', {
     preload: 'auto',
@@ -15,6 +16,7 @@ $(window).resize(function () {
 });
 
 $(window).on('load', function (){
+    generate_ajax_video_table()
     video_table
         .on( 'select', function ( e, dt, type, indexes ) {
             let rowData = video_table.rows( indexes ).data().toArray();
@@ -75,7 +77,6 @@ function ajax_video_info(row_data) {
 $('#delete-video').on('click', function (){
     ajax_video_action('DELETE', null, 'delete', cur_edit_data ? cur_edit_data.id : '').done(function (data) {
         video_table.ajax.reload()
-        console.log(data)
         cur_edit_data = null
         $('#video-card-modal').modal('hide')
     })
@@ -118,7 +119,6 @@ $('#video-action-form').submit(function (event) {
 
     ajax_video_action($(this).attr('method'), form_Data, 'update', cur_edit_data ? cur_edit_data.id : '').done(function (data) {
         video_table.ajax.reload()
-        console.log(data)
         cur_edit_data = data
         ajax_video_info(cur_edit_data)
     })
