@@ -1,6 +1,5 @@
-let video_table
 let video_player, youtube_player
-let cur_edit_data = null
+
 youtube_player = videojs('youtube-player', {
     preload: 'auto',
     autoplay: false,
@@ -16,86 +15,6 @@ $(window).resize(function () {
 });
 
 $(window).on('load', function (){
-    //video_table = $('.datatable').DataTable()
-    video_table = $('#video').DataTable({
-        language: {
-            url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
-        },
-        dom: "<'row'<'col-sm-12 col-md 'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
-             "<'row'<'col-sm-12'tr>>" +
-             "<'row'<'col-sm-12 col-md-5'><'col-sm-12 col-md-7'p>>",
-        serverSide: true,
-        processing: true,
-        select: true,
-        drawCallback: function( settings ) {
-            $('#video-table-counter').text(video_table.data().count())
-        },
-        buttons: [
-            {
-                extend: 'collection',
-                text: '<i class="fa fa-bars" aria-hidden="true"></i>',
-                className: 'btn-secondary btn-sm',
-                buttons: [
-                    {
-                        extend: '',
-                        text: gettext('Add')+' <i class="fa fa-plus float-right" aria-hidden="true"></i>',
-                        className: 'add-video',
-                        action: function ( e, dt, node, config ) {
-                            $('.dropdown-toggle[aria-expanded="true"]').click()
-                            let new_location = window.location.origin + '/video/add'
-                            location.href = new_location
-                        }
-                    },
-                    {
-                        extend: 'selected',
-                        text: gettext('Edit')+' <i class="fa fa-pencil float-right" aria-hidden="true"></i>',
-                        className: 'edit-video',
-                        action: function ( e, dt, node, config ) {
-                             $('.dropdown-toggle[aria-expanded="true"]').click()
-                             $('#edit-video-modal').modal('show')
-
-                        }
-                    },
-                    {
-                        extend: 'selected',
-                        text: gettext('Delete')+' <i class="fa fa-trash-o float-right" aria-hidden="true"></i>',
-                        className: 'delete-video',
-                        action: function ( e, dt, node, config ) {
-                            let rowData = dt.rows({ selected: true }).data();
-                            ajax_video_delete(rowData[0])
-                            $('.dropdown-toggle[aria-expanded="true"]').click()
-                        }
-                    },
-                ],
-            },
-        ],
-        ajax: 'api/?format=datatables',
-        columns: [
-            {'data': 'id', render: function (data, type, row, meta) {
-                return meta.row + meta.settings._iDisplayStart + 1;
-            }},
-            {'data': 'id'},
-            {'data': 'videosource_id.name', 'name': 'videosource_id.short_name'},
-            {'data': 'upload_date'},
-            {'data': 'duration'},
-            {'data': 'name'},
-            {'data': function (data, type, dataToSet) {
-                console.log(data)
-                if(type === 'display') {
-                    if ('tags' in data && data.tags.length != 0) {
-                        let tags = ''
-                        data.tags.forEach(function(tag, index){
-                            if(tags!='')tags+=', '
-                            tags += tag.name;
-                        })
-                        return tags
-                    } else return gettext('---')
-                } else return null
-            }},
-        ],
-
-    })
-
     video_table
         .on( 'select', function ( e, dt, type, indexes ) {
             let rowData = video_table.rows( indexes ).data().toArray();

@@ -12,7 +12,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from rest_framework import viewsets, status, generics
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from django.core.files.storage import FileSystemStorage
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 from rest_framework.response import Response
@@ -30,7 +30,7 @@ class VideoViewSet(viewsets.ModelViewSet):
     queryset = Video.objects.all().order_by('videosource_id')
 
     def get_permissions(self):
-        permission_classes = [IsAuthenticated]
+        permission_classes = [IsAuthenticated, IsAdminUser]
         return [permission() for permission in permission_classes]
 
     def create(self, request, *args, **kwargs):

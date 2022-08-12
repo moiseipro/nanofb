@@ -32,6 +32,9 @@
                         <div class="col-sm-2 px-0">
                             <a href="#" class="btn btn-sm btn-outline-success btn-block disabled">Парсинг +</a>
                         </div>
+                        <!--<div class="col-sm-2 px-0">
+                            <input id="video-search" type="search" class="form-control form-control-sm" placeholder="{% trans "Search" %}" aria-controls="video">
+                        </div>-->
                         <div class="col-sm-2 px-1">
                             <button id="video-table-counter" class="btn btn-sm btn-warning btn-block font-weight-bold">0</button>
                         </div>
@@ -45,26 +48,13 @@
                                 {% endfor %}
                             </select>
                         </div>
+
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg">
-                            <div class="table-responsive">
-                                <table id="video" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th>№</th>
-                                            <th>ID</th>
-                                            <th>Источник</th>
-                                            <th>Дата</th>
-                                            <th>Минуты</th>
-                                            <th>Название</th>
-                                            <th>Теги</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
+                            {% include 'video/modules/video_list.html' %}
                         </div>
                     </div>
                 </div>
@@ -76,5 +66,6 @@
 {% endblock %}
 
 {% block custom_scripts %}
+    <script src="{% static 'video/js/video_list.js' %}"></script>
     <script src="{% static 'video/js/base_video.js' %}"></script>
 {% endblock %}
