@@ -181,43 +181,59 @@ function RenderExerciseOne(data) {
         $('#card_drawing1').find('.card').last().html(data.scheme_data[0]);
         $('#card_drawing2').find('.card').last().html(data.scheme_data[1]);
 
+        console.log(data)
         if (data.video_data[0]) {
             $('#carouselVideo').find('.carousel-item').first().removeClass('d-none');
             // $('#carouselVideo').find('.carousel-item').first().html(data.video_data[0]);
+
+            $(exsCard).find('.video-value[name="video1"]').val(data.video_data[0]);
         } else {
             $('#carouselVideo').find('.carousel-item').first().addClass('d-none');
             $('#carouselVideo').find('.carousel-indicators > li').first().addClass('d-none');
             $('#carouselVideo').find('.carousel-control-prev').addClass('d-none');
             $('#carouselVideo').find('.carousel-control-next').addClass('d-none');
+
+            $(exsCard).find('.video-value[name="video1"]').val('');
         }
         if (data.video_data[1]) {
             $('#carouselVideo').find('.carousel-item').last().removeClass('d-none');
             // $('#carouselVideo').find('.carousel-item').last().html(data.video_data[1]);
+
+            $(exsCard).find('.video-value[name="video2"]').val(data.video_data[1]);
         } else {
             $('#carouselVideo').find('.carousel-item').last().addClass('d-none');
             $('#carouselVideo').find('.carousel-indicators > li').last().addClass('d-none');
             $('#carouselVideo').find('.carousel-control-prev').addClass('d-none');
             $('#carouselVideo').find('.carousel-control-next').addClass('d-none');
+
+            $(exsCard).find('.video-value[name="video2"]').val('');
         }
         if (data.animation_data.default[0]) {
             $('#carouselAnim').find('.carousel-item').first().removeClass('d-none');
             // $('#carouselAnim').find('.carousel-item').first().html(data.animation_data.default[0]);
+
+            $(exsCard).find('.video-value[name="animation1"]').val(data.animation_data.default[0]);
         } else {
             $('#carouselAnim').find('.carousel-item').first().addClass('d-none');
             $('#carouselAnim').find('.carousel-indicators > li').first().addClass('d-none');
             $('#carouselAnim').find('.carousel-control-prev').addClass('d-none');
             $('#carouselAnim').find('.carousel-control-next').addClass('d-none');
+
+            $(exsCard).find('.video-value[name="animation1"]').val('');
         }
         if (data.animation_data.default[1]) {
             $('#carouselAnim').find('.carousel-item').last().removeClass('d-none');
             // $('#carouselAnim').find('.carousel-item').last().html(data.animation_data.default[1]);
+
+            $(exsCard).find('.video-value[name="animation2"]').val(data.animation_data.default[1]);
         } else {
             $('#carouselAnim').find('.carousel-item').last().addClass('d-none');
             $('#carouselAnim').find('.carousel-indicators > li').last().addClass('d-none');
             $('#carouselAnim').find('.carousel-control-prev').addClass('d-none');
             $('#carouselAnim').find('.carousel-control-next').addClass('d-none');
-        }
 
+            $(exsCard).find('.video-value[name="animation2"]').val('');
+        }
     } else {
         $(exsCard).attr('data-exs', '-1');
 
@@ -253,6 +269,11 @@ function RenderExerciseOne(data) {
         CheckMultiRows(exsCard, '', '.exs_edit_field[name="coaching[]"]', 'coaching');
         CheckMultiRows(exsCard, '', '.exs_edit_field[name="notes[]"]', 'notes');
         CorrectBlockBorders();
+
+        $(exsCard).find('.video-value[name="video1"]').val('');
+        $(exsCard).find('.video-value[name="video2"]').val('');
+        $(exsCard).find('.video-value[name="animation1"]').val('');
+        $(exsCard).find('.video-value[name="animation2"]').val('');
 
         $('.exs-list-group').find('.list-group-item').removeClass('active');
         // clear video, animation and scheme
@@ -518,6 +539,7 @@ $(function() {
         $('#exerciseCard').find('button[data-type="add"]').removeClass('d-none');
 
         $('.scheme-editor').addClass('d-none');
+        $('.video-editor').addClass('d-none');
     });
     $('#exerciseCard').on('click', '#openDrawing1', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
@@ -537,6 +559,7 @@ $(function() {
             }, 100);
             $('.scheme-editor').removeClass('d-none');
         }
+        $('.video-editor').addClass('d-none');
     });
     $('#exerciseCard').on('click', '#openDrawing2', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
@@ -556,6 +579,7 @@ $(function() {
             }, 100);
             $('.scheme-editor').removeClass('d-none');
         }
+        $('.video-editor').addClass('d-none');
     });
     $('#exerciseCard').on('click', '#openVideo1', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
@@ -567,6 +591,8 @@ $(function() {
         $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
         $('.scheme-editor').addClass('d-none');
+        console.log( video_table.api().rows() )
+        $('.video-editor').removeClass('d-none');
     });
     $('#exerciseCard').on('click', '#openVideo2', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
@@ -578,6 +604,8 @@ $(function() {
         $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
         $('.scheme-editor').addClass('d-none');
+
+        $('.video-editor').removeClass('d-none');
     });
     $('#exerciseCard').on('click', '#openAnimation1', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
@@ -589,6 +617,8 @@ $(function() {
         $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
         $('.scheme-editor').addClass('d-none');
+
+        $('.video-editor').removeClass('d-none');
     });
     $('#exerciseCard').on('click', '#openAnimation2', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
@@ -600,6 +630,8 @@ $(function() {
         $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
         $('.scheme-editor').addClass('d-none');
+
+        $('.video-editor').removeClass('d-none');
     });
 
 
@@ -772,6 +804,9 @@ $(function() {
         dir = dir == "prev" ? -1 : dir == "next" ? 1 : 0;
         ToggleExsDir(dir);
     });
+
+
+    generate_ajax_video_table();
 
 
 });
