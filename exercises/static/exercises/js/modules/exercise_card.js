@@ -182,56 +182,48 @@ function RenderExerciseOne(data) {
         $('#card_drawing2').find('.card').last().html(data.scheme_data[1]);
 
         console.log(data)
-        if (data.video_data[0]) {
+        if (data.video_data[0] && data.video_data[0] != -1) {
             $('#carouselVideo').find('.carousel-item').first().removeClass('d-none');
-            // $('#carouselVideo').find('.carousel-item').first().html(data.video_data[0]);
-
             $(exsCard).find('.video-value[name="video1"]').val(data.video_data[0]);
+            RenderVideo(data.video_data[0], $(exsCard).find('.video-value[name="video1"]'), window.videoPlayerCard1);
         } else {
             $('#carouselVideo').find('.carousel-item').first().addClass('d-none');
             $('#carouselVideo').find('.carousel-indicators > li').first().addClass('d-none');
             $('#carouselVideo').find('.carousel-control-prev').addClass('d-none');
             $('#carouselVideo').find('.carousel-control-next').addClass('d-none');
-
             $(exsCard).find('.video-value[name="video1"]').val('');
         }
-        if (data.video_data[1]) {
+        if (data.video_data[1] && data.video_data[1] != -1) {
             $('#carouselVideo').find('.carousel-item').last().removeClass('d-none');
-            // $('#carouselVideo').find('.carousel-item').last().html(data.video_data[1]);
-
             $(exsCard).find('.video-value[name="video2"]').val(data.video_data[1]);
+            RenderVideo(data.video_data[1], $(exsCard).find('.video-value[name="video2"]'), window.videoPlayerCard2);
         } else {
             $('#carouselVideo').find('.carousel-item').last().addClass('d-none');
             $('#carouselVideo').find('.carousel-indicators > li').last().addClass('d-none');
             $('#carouselVideo').find('.carousel-control-prev').addClass('d-none');
             $('#carouselVideo').find('.carousel-control-next').addClass('d-none');
-
             $(exsCard).find('.video-value[name="video2"]').val('');
         }
-        if (data.animation_data.default[0]) {
+        if (data.animation_data.default[0] && data.animation_data.default[0] != -1) {
             $('#carouselAnim').find('.carousel-item').first().removeClass('d-none');
-            // $('#carouselAnim').find('.carousel-item').first().html(data.animation_data.default[0]);
-
             $(exsCard).find('.video-value[name="animation1"]').val(data.animation_data.default[0]);
+            RenderVideo(data.animation_data.default[0], $(exsCard).find('.video-value[name="animation1"]'), window.videoPlayerCard3);
         } else {
             $('#carouselAnim').find('.carousel-item').first().addClass('d-none');
             $('#carouselAnim').find('.carousel-indicators > li').first().addClass('d-none');
             $('#carouselAnim').find('.carousel-control-prev').addClass('d-none');
             $('#carouselAnim').find('.carousel-control-next').addClass('d-none');
-
             $(exsCard).find('.video-value[name="animation1"]').val('');
         }
-        if (data.animation_data.default[1]) {
+        if (data.animation_data.default[1] && data.animation_data.default[1] != -1) {
             $('#carouselAnim').find('.carousel-item').last().removeClass('d-none');
-            // $('#carouselAnim').find('.carousel-item').last().html(data.animation_data.default[1]);
-
             $(exsCard).find('.video-value[name="animation2"]').val(data.animation_data.default[1]);
+            RenderVideo(data.animation_data.default[1], $(exsCard).find('.video-value[name="animation2"]'), window.videoPlayerCard4);
         } else {
             $('#carouselAnim').find('.carousel-item').last().addClass('d-none');
             $('#carouselAnim').find('.carousel-indicators > li').last().addClass('d-none');
             $('#carouselAnim').find('.carousel-control-prev').addClass('d-none');
             $('#carouselAnim').find('.carousel-control-next').addClass('d-none');
-
             $(exsCard).find('.video-value[name="animation2"]').val('');
         }
     } else {
@@ -327,6 +319,11 @@ function SaveExerciseOne() {
     }
     dataToSend.data['scheme_1'] = $('#card_drawing1').find('.card').html();
     dataToSend.data['scheme_2'] = $('#card_drawing2').find('.card').html();
+    dataToSend.data['video_1'] = $('#card_video1').find('.video-value').val();
+    dataToSend.data['video_2'] = $('#card_video2').find('.video-value').val();
+    dataToSend.data['animation_1'] = $('#card_animation1').find('.video-value').val();
+    dataToSend.data['animation_2'] = $('#card_animation2').find('.video-value').val();
+
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
         data: dataToSend,
@@ -496,6 +493,69 @@ function ToggleExsDir(dir = 0) {
     sessionStorage.setItem('last_exs', lastExsStr);
 }
 
+function CheckSelectedRowInVideoTable() {
+    let value = -1;
+    if ($('#openVideo1').hasClass('selected2')) {value = $('.video-value[name="video1"]').val();}
+    if ($('#openVideo2').hasClass('selected2')) {value = $('.video-value[name="video2"]').val();}
+    if ($('#openAnimation1').hasClass('selected2')) {value = $('.video-value[name="animation1"]').val();}
+    if ($('#openAnimation2').hasClass('selected2')) {value = $('.video-value[name="animation2"]').val();}
+    try {
+        value = parseInt(value);
+        if (isNaN(value)) {value = -1;}
+    } catch(e) {}
+    SelectRowInVideoTable(video_table, value);
+    RenderVideo(value, $('.video-editor').find('#video-player-card'), window.videoPlayerCardEdit);
+}
+
+function SelectRowInVideoTable(table, value) {
+    try {
+        table.rows().deselect();
+        for (let i = 0; i < table.rows().data().length; i++) {
+            if (table.rows().data()[i].id == value) {
+                table.row(i).select();
+                break;
+            }
+        }
+    } catch(e) {}
+}
+
+function RenderVideo(value, htmlElem, windowElem) {
+    if (!value || value == -1) {
+        $(htmlElem).addClass('d-none');
+        return;
+    }
+    get_video_ids(value)
+    .then(data => {
+        if (data.links) {
+            $(htmlElem).removeClass('d-none');
+            $(htmlElem).removeClass('not-active');
+            if ('nftv' in data['links'] && data['links']['nftv'] != '') {
+                windowElem.src({type: 'video/mp4', src: `https://213.108.4.28/video/player/${data['links']['nftv']}`});
+            } else if ('youtube' in data['links'] && data['links']['youtube'] != '') {
+                windowElem.src({techOrder: ["youtube"], type: 'video/youtube', src: `https://www.youtube.com/watch?v=${data['links']['youtube']}`});
+            }
+        } else {
+            $(htmlElem).addClass('d-none');
+        }
+    })
+    .catch(err => {
+        $(htmlElem).addClass('d-none');
+    });
+}
+
+function SetVideoId(value) {
+    if ($('#openVideo1').hasClass('selected2')) {$('.video-value[name="video1"]').val(value);}
+    if ($('#openVideo2').hasClass('selected2')) {$('.video-value[name="video2"]').val(value);}
+    if ($('#openAnimation1').hasClass('selected2')) {$('.video-value[name="animation1"]').val(value);}
+    if ($('#openAnimation2').hasClass('selected2')) {$('.video-value[name="animation2"]').val(value);}
+    let valueInt = -1;
+    try {
+        valueInt = parseInt(value);
+        if (isNaN(valueInt)) {valueInt = -1;}
+    } catch (e) {}
+    RenderVideo(valueInt, $('.video-editor').find('#video-player-card'), window.videoPlayerCardEdit);
+}
+
 
 $(function() {
 
@@ -591,7 +651,7 @@ $(function() {
         $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
         $('.scheme-editor').addClass('d-none');
-        console.log( video_table.api().rows() )
+        CheckSelectedRowInVideoTable();
         $('.video-editor').removeClass('d-none');
     });
     $('#exerciseCard').on('click', '#openVideo2', (e) => {
@@ -604,7 +664,7 @@ $(function() {
         $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
         $('.scheme-editor').addClass('d-none');
-
+        CheckSelectedRowInVideoTable();
         $('.video-editor').removeClass('d-none');
     });
     $('#exerciseCard').on('click', '#openAnimation1', (e) => {
@@ -617,7 +677,7 @@ $(function() {
         $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
         $('.scheme-editor').addClass('d-none');
-
+        CheckSelectedRowInVideoTable();
         $('.video-editor').removeClass('d-none');
     });
     $('#exerciseCard').on('click', '#openAnimation2', (e) => {
@@ -630,7 +690,7 @@ $(function() {
         $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
         $('.scheme-editor').addClass('d-none');
-
+        CheckSelectedRowInVideoTable();
         $('.video-editor').removeClass('d-none');
     });
 
@@ -806,7 +866,74 @@ $(function() {
     });
 
 
-    generate_ajax_video_table();
+    window.videoPlayerCardEdit = videojs('video-player-card-edit', {
+        preload: 'auto',
+        autoplay: false,
+        controls: true,
+        aspectRatio: '16:9',
+        youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
+    });
+
+    window.videoPlayerCard1 = videojs('video-player-card-1', {
+        preload: 'auto',
+        autoplay: false,
+        controls: true,
+        aspectRatio: '16:9',
+        youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
+    });
+    window.videoPlayerCard2 = videojs('video-player-card-2', {
+        preload: 'auto',
+        autoplay: false,
+        controls: true,
+        aspectRatio: '16:9',
+        youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
+    });
+    window.videoPlayerCard3 = videojs('video-player-card-3', {
+        preload: 'auto',
+        autoplay: false,
+        controls: true,
+        aspectRatio: '16:9',
+        youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
+    });
+    window.videoPlayerCard4 = videojs('video-player-card-4', {
+        preload: 'auto',
+        autoplay: false,
+        controls: true,
+        aspectRatio: '16:9',
+        youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
+    });
+
+
+    try {
+        generate_ajax_video_table();
+        $('#video').on('xhr.dt', (e, settings, json, xhr) => {
+            setTimeout(() => {
+                let value = -1;
+                if ($('#openVideo1').hasClass('selected2')) {value = $('.video-value[name="video1"]').val();}
+                if ($('#openVideo2').hasClass('selected2')) {value = $('.video-value[name="video2"]').val();}
+                if ($('#openAnimation1').hasClass('selected2')) {value = $('.video-value[name="animation1"]').val();}
+                if ($('#openAnimation2').hasClass('selected2')) {value = $('.video-value[name="animation2"]').val();}
+                try {
+                    value = parseInt(value);
+                    if (isNaN(value)) {value = -1;}
+                } catch(e) {}
+                SelectRowInVideoTable(video_table, value);
+            }, 500);
+        });
+        video_table
+            .on('select', (e, dt, type, indexes) => {
+                let rowData = video_table.rows(indexes).data().toArray();
+                if(type == 'row') {
+                    let currentData = rowData[0];
+                    SetVideoId(currentData.id);
+                }
+            })
+            .on('deselect', (e, dt, type, indexes) => {});
+        $('.video-editor').on('click', 'tr', (e) => {
+            let isSelected = $(e.currentTarget).hasClass('selected');
+            if (!isSelected) {SetVideoId('');}
+        });
+    } catch(e) {}
 
 
 });

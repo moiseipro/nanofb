@@ -83,6 +83,10 @@
     height: 78vh !important;
     overflow-y: auto;
 }
+.video-list-container {
+    height: 78vh !important;
+    overflow-y: auto;
+}
 
 
 .vert-line-left {

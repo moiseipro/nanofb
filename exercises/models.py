@@ -96,7 +96,7 @@ class AbstractExercise(models.Model):
     description = models.JSONField(null=True, blank=True)
 
     scheme_data = models.JSONField(null=True, blank=True)
-    video_data = models.JSONField(null=True, blank=True) # {'data': [{'id': ""}, {'youtubeID': ""},....]}
+    video_data = models.JSONField(null=True, blank=True)
     animation_data = models.JSONField(null=True, blank=True) # {'data': {'custom': "<t>...</t>", default: ["id_1", "id_2"...]}}
 
     objects = models.Manager()

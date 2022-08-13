@@ -430,8 +430,22 @@ def exercises_api(request):
                     'scheme_1': request.POST.get("data[scheme_1]"),
                     'scheme_2': request.POST.get("data[scheme_2]")
                 }
-            # c_exs.notes = set_by_language_code(c_exs.notes, request.LANGUAGE_CODE, request.POST.getlist("data[notes[]]", ""), request.POST.getlist("data[notes[]][]", ""))
             
+            video1_id = int(request.POST.get("data[video_1]")) if request.POST.get("data[video_1]").isdigit() else -1
+            video2_id = int(request.POST.get("data[video_2]")) if request.POST.get("data[video_2]").isdigit() else -1
+            if type(c_exs.video_data) is dict:
+                c_exs.video_data['data'] = [video1_id, video2_id]
+            else:
+                c_exs.video_data = {'data': [video1_id, video2_id]}
+            
+            animation1_id = int(request.POST.get("data[animation_1]")) if request.POST.get("data[animation_1]").isdigit() else -1
+            animation2_id = int(request.POST.get("data[animation_2]")) if request.POST.get("data[animation_2]").isdigit() else -1
+            if type(c_exs.animation_data) is dict:
+                c_exs.animation_data['data']['default'] = [animation1_id, animation2_id]
+            else:
+                c_exs.animation_data = {'data': {'custom': "", 'default': [animation1_id, animation2_id]}}
+            
+            # c_exs.notes = set_by_language_code(c_exs.notes, request.LANGUAGE_CODE, request.POST.getlist("data[notes[]]", ""), request.POST.getlist("data[notes[]][]", ""))
             try:
                 c_exs.save()
                 res_data = f'Exs with id: [{c_exs.id}] is added / edited successfully.'

@@ -44,8 +44,8 @@ function generate_ajax_video_table(){
     })
 }
 
-function get_video_ids(video_id){
-    return $.ajax({
+async function get_video_ids(video_id){
+    return await $.ajax({
         headers:{"X-CSRFToken": csrftoken },
         url: "/video/api/"+video_id+"/get_video",
         type: "GET",

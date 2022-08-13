@@ -372,29 +372,5 @@ $(function() {
     }
     RenderSplitCols();
 
-
-    // Video JS
-    window.videoPlayer = videojs('video-player', {
-        preload: 'auto',
-        autoplay: false,
-        controls: true,
-        aspectRatio: '16:9',
-        youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
-    });
-    window.videoPlayer2 = videojs('video-player2', {
-        preload: 'auto',
-        autoplay: false,
-        controls: true,
-        aspectRatio: '16:9',
-        youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
-    });
-    window.videoPlayer.ready((e) => {
-        window.videoPlayer.src({techOrder: ["youtube"], type: 'video/youtube', src: "https://www.youtube.com/watch?v=sNZPEnc4m0w"});
-        // window.videoPlayer.src({type: 'video/mp4', src: "https://213.108.4.28/video/player/1654865941907"});
-    });
-    window.videoPlayer2.ready((e) => {
-        window.videoPlayer2.src({techOrder: ["youtube"], type: 'video/youtube', src: "https://www.youtube.com/watch?v=K0x8Z8JxQtA"});
-    });
-
-
+    
 });
