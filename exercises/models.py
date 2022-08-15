@@ -99,6 +99,9 @@ class AbstractExercise(models.Model):
     video_data = models.JSONField(null=True, blank=True)
     animation_data = models.JSONField(null=True, blank=True) # {'data': {'custom': "<t>...</t>", default: ["id_1", "id_2"...]}}
 
+    old_id = models.IntegerField(null=True, blank=True) # from old site
+    clone_nfb_id = models.IntegerField(null=True, blank=True) # id of admin exs after copy
+
     objects = models.Manager()
 
     class Meta():
