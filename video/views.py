@@ -74,7 +74,7 @@ class VideoViewSet(viewsets.ModelViewSet):
 
             if video_data['success']:
                 links['nftv'] = video_data['id']
-                url = 'https://213.108.4.28/video/length/' + video_data['id']
+                url = 'http://213.108.4.28/video/length/' + video_data['id']
                 response = requests.post(url, json={}, headers={'Content-Type': 'application/json'})
                 content = response.json()
                 data_dict['duration'] = content['time']
@@ -103,7 +103,7 @@ class VideoViewSet(viewsets.ModelViewSet):
         if 'duration' in self.request.data and self.request.data['duration'] == '00:00:00':
             instance = self.get_object().links
             #print(instance)
-            url = 'https://213.108.4.28/video/length/'+instance['nftv']
+            url = 'http://213.108.4.28/video/length/'+instance['nftv']
             response = requests.post(url, json={}, headers={'Content-Type': 'application/json'})
             content = response.json()
             print(content)
@@ -330,7 +330,7 @@ def parse_video(request):
                                         links['nftv'] = nftv_list[1]
                                     else:
                                         links['nftv'] = nftv_list[0]
-                                    url = 'https://213.108.4.28/video/length/' + links['nftv']
+                                    url = 'http://213.108.4.28/video/length/' + links['nftv']
                                     response = requests.post(url, json={}, headers={'Content-Type': 'application/json'})
                                     content = response.json()
                                     duration = content['time']
@@ -350,7 +350,7 @@ def parse_video(request):
                                 links['nftv'] = nftv_list[1]
                             else:
                                 links['nftv'] = nftv_list[0]
-                            url = 'https://213.108.4.28/video/length/' + links['nftv']
+                            url = 'http://213.108.4.28/video/length/' + links['nftv']
                             response = requests.post(url, json={}, headers={'Content-Type': 'application/json'})
                             content = response.json()
                             duration = content['time']
