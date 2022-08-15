@@ -74,6 +74,10 @@ class VideoViewSet(viewsets.ModelViewSet):
 
             if video_data['success']:
                 links['nftv'] = video_data['id']
+                url = 'https://213.108.4.28/video/length/' + video_data['id']
+                response = requests.post(url, json={}, headers={'Content-Type': 'application/json'})
+                content = response.json()
+                data_dict['duration'] = content['time']
 
         if 'youtube_link' in data and data['youtube_link']:
             id_video = extract.video_id(data['youtube_link'])
@@ -93,9 +97,19 @@ class VideoViewSet(viewsets.ModelViewSet):
 
     def perform_update(self, serializer):
         music = False
+        duration = '00:00:00'
         if 'music' in self.request.data:
             music = True
-        serializer.save(music=music)
+        if 'duration' in self.request.data and self.request.data['duration'] == '00:00:00':
+            instance = self.get_object().links
+            #print(instance)
+            url = 'https://213.108.4.28/video/length/'+instance['nftv']
+            response = requests.post(url, json={}, headers={'Content-Type': 'application/json'})
+            content = response.json()
+            print(content)
+            duration = content['time']
+
+        serializer.save(music=music, duration=duration)
 
     def update(self, request, *args, **kwarg):
         partial = True
@@ -103,11 +117,11 @@ class VideoViewSet(viewsets.ModelViewSet):
         instance = self.get_object()
         data.links = instance.links
 
-        print(data)
+        #print(data)
         if 'file' in request.FILES:
             is_delete = False
             server_id = None
-            print(instance.links)
+            #print(instance.links)
             if 'nftv' in instance.links:
                 server_id = instance.links['nftv']
             if server_id:
@@ -119,7 +133,7 @@ class VideoViewSet(viewsets.ModelViewSet):
                 }
                 response = requests.post(url, json=post_data, headers={'Content-Type': 'application/json'})
                 content = response.json()
-                print(content)
+                #print(content)
                 video_data = content['data'][0]
                 is_delete = video_data['success']
             if is_delete:
@@ -135,11 +149,11 @@ class VideoViewSet(viewsets.ModelViewSet):
                             'user-file': (file_name, file, file_content_type)
                         }
                     )
-                    print(mp_encoder)
+                    #print(mp_encoder)
                     response = requests.post(url, data=mp_encoder, headers={'Content-Type': mp_encoder.content_type})
                     content = response.json()
                     video_data = content['data'][0]
-                    print(content)
+                    #print(content)
 
                 fs.delete(file_name)
 
@@ -309,23 +323,23 @@ def parse_video(request):
                         if ss.name == n['p_source']['name'] and n['video_id'] is not None:
                             for i in range(len(n['video_id'])):
                                 links = {'nftv': '', 'youtube': ''}
+                                duration = '00:00:00'
                                 if n['video_id'][i] != '':
                                     nftv_list = n['video_id'][i].split("|")
                                     if len(nftv_list) > 1:
                                         links['nftv'] = nftv_list[1]
                                     else:
                                         links['nftv'] = nftv_list[0]
+                                    url = 'https://213.108.4.28/video/length/' + links['nftv']
+                                    response = requests.post(url, json={}, headers={'Content-Type': 'application/json'})
+                                    content = response.json()
+                                    duration = content['time']
                                 if n['video_id_youtube'] is not None and n['video_id_youtube'][i] != '':
                                     links['youtube'] = n['video_id_youtube'][i]
                                 if links['nftv'] != '' or links['youtube'] != '':
                                     videos.append(Video(name=n['name'] if n['name'] else 'No name', old_id=n['id'],
-                                                        links=links, videosource_id=ss))
+                                                        links=links, videosource_id=ss, duration=duration))
                             break
-                            # for y_id in n['video_id_youtube']:
-                            #     if y_id != '':
-                            #         videos.append(Video(name=n['name'] if n['name'] else 'No name', old_id=n['id'],
-                            #                             links={'youtube': y_id}, videosource_id=ss))
-                            #break
             else:
                 if n['video_id'] is not None:
                     for i in range(len(n['video_id'])):
@@ -336,16 +350,15 @@ def parse_video(request):
                                 links['nftv'] = nftv_list[1]
                             else:
                                 links['nftv'] = nftv_list[0]
+                            url = 'https://213.108.4.28/video/length/' + links['nftv']
+                            response = requests.post(url, json={}, headers={'Content-Type': 'application/json'})
+                            content = response.json()
+                            duration = content['time']
                         if n['video_id_youtube'] is not None and n['video_id_youtube'][i] != '':
                             links['youtube'] = n['video_id_youtube'][i]
                         if links['nftv'] != '' or links['youtube'] != '':
                             videos.append(Video(name=n['name'] if n['name'] else 'No name', old_id=n['id'],
-                                                links=links))
-                # if n['video_id_youtube'] is not None:
-                #     for y_id in n['video_id_youtube']:
-                #         if y_id != '':
-                #             videos.append(Video(name=n['name'] if n['name'] else 'No name', old_id=n['id'],
-                #                                 links={'youtube': y_id}))
+                                                links=links, duration=duration))
 
         batch = list(sources)
         created_source = VideoSource.objects.bulk_create(batch)
