@@ -6,6 +6,7 @@ import json
 
 from django.http import Http404, QueryDict
 from django.urls import reverse_lazy
+from django.utils.dateparse import parse_duration
 from pytube import extract
 from django.views.generic import ListView, DetailView, CreateView, TemplateView
 from django.contrib import messages
@@ -75,9 +76,12 @@ class VideoViewSet(viewsets.ModelViewSet):
             if video_data['success']:
                 links['nftv'] = video_data['id']
                 url = 'http://213.108.4.28/video/length/' + video_data['id']
-                response = requests.post(url, json={}, headers={'Content-Type': 'application/json'})
-                content = response.json()
-                data_dict['duration'] = content['time']
+                try:
+                    response = requests.get(url)
+                    content = json.loads(response.content.decode('utf-8'))
+                    data_dict['duration'] = content['time']
+                except requests.exceptions.ConnectionError as e:
+                    response = "No response"
 
         if 'youtube_link' in data and data['youtube_link']:
             id_video = extract.video_id(data['youtube_link'])
@@ -104,12 +108,14 @@ class VideoViewSet(viewsets.ModelViewSet):
             instance = self.get_object().links
             #print(instance)
             url = 'http://213.108.4.28/video/length/'+instance['nftv']
-            response = requests.post(url, json={}, headers={'Content-Type': 'application/json'})
-            content = response.json()
-            print(content)
-            duration = content['time']
+            try:
+                response = requests.get(url)
+                content = json.loads(response.content.decode('utf-8'))
+                duration = content['time']
+            except requests.exceptions.ConnectionError as e:
+                response = "No response"
 
-        serializer.save(music=music, duration=duration)
+        serializer.save(music=music, duration=parse_duration(duration))
 
     def update(self, request, *args, **kwarg):
         partial = True
@@ -330,42 +336,60 @@ def parse_video(request):
                                         links['nftv'] = nftv_list[1]
                                     else:
                                         links['nftv'] = nftv_list[0]
-                                    url = 'http://213.108.4.28/video/length/' + links['nftv']
-                                    response = requests.post(url, json={}, headers={'Content-Type': 'application/json'})
-                                    content = response.json()
-                                    duration = content['time']
+                                    if links['nftv'].isdigit():
+                                        url = 'http://213.108.4.28/video/length/' + links['nftv']
+                                        try:
+                                            response = requests.get(url)
+                                            print(response.content)
+                                            content = json.loads(response.content.decode('utf-8'))
+                                            if 'time' in content:
+                                                duration = content['time']
+                                        except requests.exceptions.ConnectionError as e:
+                                            response = "No response"
+                                    else:
+                                        links['nftv'] = ''
+
                                 if n['video_id_youtube'] is not None and n['video_id_youtube'][i] != '':
                                     links['youtube'] = n['video_id_youtube'][i]
                                 if links['nftv'] != '' or links['youtube'] != '':
                                     videos.append(Video(name=n['name'] if n['name'] else 'No name', old_id=n['id'],
-                                                        links=links, videosource_id=ss, duration=duration))
+                                                        links=links, videosource_id=ss, duration=parse_duration(duration)))
                             break
             else:
                 if n['video_id'] is not None:
                     for i in range(len(n['video_id'])):
                         links = {'nftv': '', 'youtube': ''}
+                        duration = '00:00:00'
                         if n['video_id'][i] != '':
                             nftv_list = n['video_id'][i].split("|")
                             if len(nftv_list) > 1:
                                 links['nftv'] = nftv_list[1]
                             else:
                                 links['nftv'] = nftv_list[0]
-                            url = 'http://213.108.4.28/video/length/' + links['nftv']
-                            response = requests.post(url, json={}, headers={'Content-Type': 'application/json'})
-                            content = response.json()
-                            duration = content['time']
+                            if links['nftv'].isdigit():
+                                url = 'http://213.108.4.28/video/length/' + links['nftv']
+                                try:
+                                    response = requests.get(url)
+                                    print(response.content)
+                                    content = json.loads(response.content.decode('utf-8'))
+                                    if 'time' in content:
+                                        duration = content['time']
+                                except requests.exceptions.ConnectionError as e:
+                                    response = "No response"
+                            else:
+                                links['nftv'] = ''
                         if n['video_id_youtube'] is not None and n['video_id_youtube'][i] != '':
                             links['youtube'] = n['video_id_youtube'][i]
                         if links['nftv'] != '' or links['youtube'] != '':
                             videos.append(Video(name=n['name'] if n['name'] else 'No name', old_id=n['id'],
-                                                links=links, duration=duration))
+                                                links=links, duration=parse_duration(duration)))
 
         batch = list(sources)
         created_source = VideoSource.objects.bulk_create(batch)
         context_page['sources'] = created_source
         batch = list(videos)
-        created_source = Video.objects.bulk_create(batch)
-        context_page['videos'] = created_source
+        created_videos = Video.objects.bulk_create(batch)
+        context_page['videos'] = created_videos
         if context_page['sources']:
             messages.success(request, "Source parse successfully.")
         if context_page['videos']:
