@@ -76,7 +76,7 @@ function LoadExerciseOne(exsID = null, fromNFB = 0) {
         data: data,
         type: 'GET', // GET или POST
         dataType: 'json',
-        url: "exercises_api",
+        url: "/exercises/exercises_api",
         success: function (res) {
             if (res.success) {
                 RenderExerciseOne(res.data);

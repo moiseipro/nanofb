@@ -39,7 +39,7 @@ class TrainingViewSet(viewsets.ModelViewSet):
 
         data_dict = dict(
             training_id=pk,
-            exercise_id=UserExercise.objects.filter(user=request.user).first().pk,
+            exercise_id=data['exercise_id'],
             group=data['group'],
             duration=data['duration'],
             order=1
