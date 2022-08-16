@@ -304,7 +304,7 @@ def parse_video(request):
         return redirect("authorization:login")
 
     if request.method == "GET":
-        response = requests.get(f'https://nanofootball.ru/api/token/3F4AwFqWHk3GYGJuDRWh/?folders[]="A"&folders[]="B"&folders[]="C"&folders[]="D"') #
+        response = requests.get(f'https://nanofootball.ru/api/token/3F4AwFqWHk3GYGJuDRWh/') #?folders[]="D"
         context_page['content'] = json.loads(response.content.decode('utf-8'))
         videos = []
         sources = []
@@ -344,6 +344,8 @@ def parse_video(request):
                                             content = json.loads(response.content.decode('utf-8'))
                                             if 'time' in content:
                                                 duration = content['time']
+                                            elif 'error' in content:
+                                                links['nftv'] = ''
                                         except requests.exceptions.ConnectionError as e:
                                             response = "No response"
                                     else:
@@ -374,6 +376,8 @@ def parse_video(request):
                                     content = json.loads(response.content.decode('utf-8'))
                                     if 'time' in content:
                                         duration = content['time']
+                                    elif 'error' in content:
+                                        links['nftv'] = ''
                                 except requests.exceptions.ConnectionError as e:
                                     response = "No response"
                             else:
