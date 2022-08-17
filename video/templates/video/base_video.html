@@ -42,7 +42,7 @@
                             <select class="select custom-select video-source" tabindex="-1" aria-hidden="true">
                                 <option value="">{% trans 'All' %}</option>
                                 {% for source in sources %}
-                                    <option value="{{ source.short_name }}">{{ source.name }}</option>
+                                    <option value="{{ source.name }}">{{ source.name }}</option>
                                 {% empty %}
                                     <option value="">{% trans 'No sources' %}</option>
                                 {% endfor %}

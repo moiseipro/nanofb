@@ -51,7 +51,7 @@ $('#previous-video').on('click', function () {
 $('.video-source').on('change', function (){
     let data_source = $( this ).val()
     //console.log(data_source)
-    video_table.columns([0]).search(data_source).draw()
+    video_table.columns([2]).search(data_source).draw()
     $('#block-video-info').addClass('d-none')
 })
 
