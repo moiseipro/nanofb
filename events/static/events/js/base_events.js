@@ -389,7 +389,7 @@ function generateEventTable(){
                     } else if ('match' in data && data.match != null){
                         return '<a href="/trainings/view/'+data.match.event_id+'" class="btn btn-sm btn-info py-0" data-id="'+data.match.event_id+'">'+gettext('Match')+'</a>'
                     } else {
-                        return '<a class="btn btn-sm btn-white py-0">'+gettext('Event')+'</a>'
+                        return '<a class="btn btn-sm btn-white py-0">'+gettext('---')+'</a>'
                     }
                 } else return null
             }},
@@ -405,6 +405,7 @@ function generateEventTable(){
     events_table
         .on( 'select', function ( e, dt, type, indexes ) {
             let rowData = events_table.rows( indexes ).data().toArray();
+            console.log(rowData)
             if(type=='row') {
                 $('.rescalendar .hasEvent[data-value="'+rowData[0]['id']+'"]').addClass('selected')
                 //ajax_video_info(rowData[0])

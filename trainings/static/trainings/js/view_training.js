@@ -15,7 +15,7 @@ $(window).on('load', function (){
         ajax_training_action('POST', data, 'add exercise', id, 'add_exercise').done(function (data) {
             console.log(data)
             let exercise = data.obj
-            if(data.status="exercise_added"){
+            if(data.status=="exercise_added"){
                 $('.group-block[data-group="'+exercise.group+'"]').append(`
                 <div class="row border-bottom exercise-row" data-id="${exercise.id}">
                     <div class="col pr-0">${exercise.exercise_name[get_cur_lang()]}</div>
@@ -25,6 +25,9 @@ $(window).on('load', function (){
                     </div>
                 </div>
                 `)
+            }
+            if(data.status="exercise_added"){
+
             }
         })
     })
@@ -69,10 +72,14 @@ function ajax_training_action(method, data, action = '', id = '', func = '') {
             data: data,
             success: function(data){
                 console.log(data)
-                swal(gettext('Training '+action), gettext('Training action "'+action+'" successfully!'), "success");
+                if(data.status == 'exercise_limit'){
+                    swal(gettext('Training '+action), gettext('The limit of exercises for the selected group has been reached'), "error");
+                } else {
+                    swal(gettext('Training '+action), gettext('Training action "'+action+'" successfully!'), "success");
+                }
             },
-            error: function(jqXHR, textStatus){
-                console.log(jqXHR)
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log(errorThrown)
                 swal(gettext('Training '+action), gettext('Error when action "'+action+'" the training!'), "error");
             },
             complete: function () {

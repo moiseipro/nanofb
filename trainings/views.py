@@ -37,6 +37,10 @@ class TrainingViewSet(viewsets.ModelViewSet):
     def add_exercise(self, request, pk=None):
         data = request.data
 
+        exercise_count = UserTrainingExercise.objects.filter(training_id=pk, group=data['group']).count()
+        print(exercise_count)
+        if exercise_count > 7:
+            return Response({'status': 'exercise_limit'})
         data_dict = dict(
             training_id=pk,
             exercise_id=data['exercise_id'],
