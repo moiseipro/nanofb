@@ -9,8 +9,9 @@ $(window).on('load', function (){
     // Добавление упражнения в тренировку
     $('.add-exercise').on('click', function (){
         let data = {}
-        data.group = $(this).closest('.group-block').attr('data-group')
+        data.group = $(this).attr('data-group')
         data.duration = 0
+        data.exercise_id = $('.exs-elem.active').attr('data-id')
         ajax_training_action('POST', data, 'add exercise', id, 'add_exercise').done(function (data) {
             console.log(data)
             let exercise = data.obj
