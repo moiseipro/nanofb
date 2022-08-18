@@ -171,6 +171,31 @@ def get_exs_animation_data(data):
     return res
 
 
+def get_excerises_data(folder_id = -1, folder_type = ""):
+    f_exercises = []
+    if folder_type == "team_folders":
+        c_folder = UserFolder.objects.filter(id=folder_id)
+        if not c_folder.exists() or c_folder[0].id == None:
+            return JsonResponse({"err": "Folder not found.", "success": False}, status=200)
+        child_folders = UserFolder.objects.filter(parent=c_folder[0].id)
+        if child_folders.count() > 0:
+            f_exercises = UserExercise.objects.filter(folder__in = child_folders)
+        else:
+            f_exercises = UserExercise.objects.filter(folder = c_folder[0])
+    elif folder_type == "nfb_folders":
+        c_folder = AdminFolder.objects.filter(id=folder_id)
+        if not c_folder.exists() or c_folder[0].id == None:
+            return JsonResponse({"err": "Folder not found.", "success": False}, status=200)
+        child_folders = AdminFolder.objects.filter(parent=c_folder[0].id)
+        if child_folders.count() > 0:
+            f_exercises = AdminExercise.objects.filter(folder__in = child_folders)
+        else:
+            f_exercises = AdminExercise.objects.filter(folder = c_folder[0])
+    elif folder_type == "club_folders":
+        pass
+    return f_exercises
+
+
 
 def exercises(request):
     if not request.user.is_authenticated:
@@ -552,31 +577,8 @@ def exercises_api(request):
                 folder_type = request.POST.get("type", "")
             except:
                 pass
-            if folder_type == "team_folders":
-                c_folder = UserFolder.objects.filter(id=folder_id)
-                if not c_folder.exists() or c_folder[0].id == None:
-                    return JsonResponse({"err": "Folder not found.", "success": False}, status=200)
-                child_folders = UserFolder.objects.filter(parent=c_folder[0].id)
-                found_exercises = 0
-                if child_folders.count() > 0:
-                    found_exercises = UserExercise.objects.filter(folder__in = child_folders).count()
-                else:
-                    found_exercises = UserExercise.objects.filter(folder = c_folder[0]).count()
-                return JsonResponse({"data": found_exercises, "success": True}, status=200)
-            elif folder_type == "nfb_folders":
-                c_folder = AdminFolder.objects.filter(id=folder_id)
-                if not c_folder.exists() or c_folder[0].id == None:
-                    return JsonResponse({"err": "Folder not found.", "success": False}, status=200)
-                child_folders = AdminFolder.objects.filter(parent=c_folder[0].id)
-                found_exercises = 0
-                if child_folders.count() > 0:
-                    found_exercises = AdminExercise.objects.filter(folder__in = child_folders).count()
-                else:
-                    found_exercises = AdminExercise.objects.filter(folder = c_folder[0]).count()
-                return JsonResponse({"data": found_exercises, "success": True}, status=200)
-            elif folder_type == "club":
-                pass
-            return JsonResponse({"errors": "Can't find folder"}, status=400)
+            found_exercises = get_excerises_data(folder_id, folder_type).count()
+            return JsonResponse({"data": found_exercises, "success": True}, status=200)
         return JsonResponse({"errors": "access_error"}, status=400)
     elif request.method == "GET" and is_ajax:
         get_exs_all_status = 0
@@ -604,43 +606,45 @@ def exercises_api(request):
             pass
         if get_exs_all_status == 1:
             folder_id = -1
+            folder_type = ""
             try:
                 folder_id = int(request.GET.get("folder", -1))
             except:
                 pass
+            try:
+                folder_type = request.GET.get("f_type", "")
+            except:
+                pass
             # Check if folder is USER or CLUB
             res_exs = []
-            if get_nfb_exs:
-                cur_folder = AdminFolder.objects.filter(id=folder_id)
-                if not cur_folder.exists() or cur_folder[0].id == None:
-                    return JsonResponse({"errors": "trouble_with_folder"}, status=400)
-                found_exercises = []
-                child_folders = AdminFolder.objects.filter(parent=cur_folder[0].id)
-                if child_folders.count() > 0:
-                    found_exercises = AdminExercise.objects.filter(folder__in = child_folders)
+            found_exercises = get_excerises_data(folder_id, folder_type)
+            for exercise in found_exercises:
+                exs_title = get_by_language_code(exercise.title, request.LANGUAGE_CODE)
+                exs_data = {
+                    'id': exercise.id, 
+                    'folder': exercise.folder.id, 
+                    'title': exs_title
+                }
+                videos_arr = get_exs_video_data(exercise.video_data)
+                anims_arr = get_exs_video_data(exercise.animation_data)['default']
+                exs_data['has_video_1'] = False
+                exs_data['has_video_2'] = False
+                exs_data['has_animation_1'] = False
+                exs_data['has_animation_2'] = False
+                if len(videos_arr) == 2:
+                    if videos_arr[0] != -1:
+                        exs_data['has_video_1'] = True
+                    if videos_arr[1] != -1:
+                        exs_data['has_video_2'] = True
+                if len(anims_arr) == 2:
+                    if anims_arr[0] != -1:
+                        exs_data['has_animation_1'] = True
+                    if anims_arr[1] != -1:
+                        exs_data['has_animation_2'] = True
+                if get_nfb_exs:
+                    exs_data['user'] = "NFB"
                 else:
-                    found_exercises = AdminExercise.objects.filter(folder = cur_folder[0])
-                for exercise in found_exercises:
-                    exs_title = get_by_language_code(exercise.title, request.LANGUAGE_CODE)
-                    res_exs.append({'id': exercise.id, 'folder': exercise.folder.id, 'user': "NFB", 'title': exs_title})
-            else:
-                cur_folder = UserFolder.objects.filter(id=folder_id, user=cur_user[0])
-                if not cur_folder.exists() or cur_folder[0].id == None:
-                    return JsonResponse({"errors": "trouble_with_folder"}, status=400)
-                found_exercises = []
-                child_folders = UserFolder.objects.filter(parent=cur_folder[0].id)
-                if child_folders.count() > 0:
-                    found_exercises = UserExercise.objects.filter(folder__in = child_folders)
-                else:
-                    found_exercises = UserExercise.objects.filter(folder = cur_folder[0])
-                for exercise in found_exercises:
-                    exs_title = get_by_language_code(exercise.title, request.LANGUAGE_CODE)
-                    exs_data = {
-                        'id': exercise.id, 
-                        'folder': exercise.folder.id, 
-                        'user': exercise.user.email, 
-                        'title': exs_title
-                    }
+                    exs_data['user'] = exercise.user.email
                     user_params = UserExerciseParam.objects.filter(exercise_user=exercise.id, user=cur_user[0])
                     if user_params.exists() and user_params[0].id != None:
                         user_params = user_params.values()[0]
@@ -649,7 +653,7 @@ def exercises_api(request):
                         exs_data['video_2_watched'] = user_params['video_2_watched']
                         exs_data['animation_1_watched'] = user_params['animation_1_watched']
                         exs_data['animation_2_watched'] = user_params['animation_2_watched']
-                    res_exs.append(exs_data)
+                res_exs.append(exs_data)
             # sorting list by title:
             res_exs = sorted(res_exs, key=lambda d: d['title'])
             return JsonResponse({"data": res_exs, "success": True}, status=200)

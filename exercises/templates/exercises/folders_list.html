@@ -1,4 +1,4 @@
-<div class="folders_list mt-2 mx-2" data-id="team_folders">
+<div class="folders_list folders_div mt-2 mx-2" data-id="team_folders">
     <ul class="list-group">
     {% for folder in folders %}
         <li class="list-group-item p-1">
@@ -18,10 +18,12 @@
                     </span>
                 </div>
                 {% if folders_only_view %}
-                <div class="pull-right">
-                    <span class="badge badge-secondary folder-exs-counter mr-2" title="Кол-во упражнений в папке">
-                        ...
-                    </span>
+                <div class="pull-right border-left border-dark">
+                    <div class="pull-right text-right" style="width: 45px;">
+                        <span class="badge badge-light folder-exs-counter mr-1" title="Кол-во упражнений в папке">
+                            ...
+                        </span>
+                    </div>
                 </div>
                 {% else %}
                 <div class="pull-right text-uppercase font-weight-bold">
@@ -48,7 +50,7 @@
     </ul>
 </div>
 {% if nfb_folders %}
-    <div class="folders_nfb_list mt-2 mx-2 d-none" data-id="nfb_folders">
+    <div class="folders_nfb_list folders_div mt-2 mx-2 d-none" data-id="nfb_folders">
         <ul class="list-group">
         {% for folder in nfb_folders %}
             <li class="list-group-item p-1">
@@ -68,10 +70,12 @@
                         </span>
                     </div>
                     {% if folders_only_view %}
-                    <div class="pull-right">
-                        <span class="badge badge-secondary folder-exs-counter mr-2" title="Кол-во упражнений в папке">
-                            ...
-                        </span>
+                    <div class="pull-right border-left border-dark">
+                        <div class="pull-right text-right" style="width: 45px;">
+                            <span class="badge badge-light folder-exs-counter mr-1" title="Кол-во упражнений в папке">
+                                ...
+                            </span>
+                        </div>
                     </div>
                     {% else %}
                     <div class="pull-right text-uppercase font-weight-bold">
