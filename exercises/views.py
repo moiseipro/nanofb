@@ -291,6 +291,7 @@ def exercises_api(request):
         edit_exs_status = 0
         delete_exs_status = 0
         edit_exs_user_params_status = 0
+        count_exs_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         try:
@@ -317,6 +318,10 @@ def exercises_api(request):
             pass
         try:
             edit_exs_user_params_status = int(request.POST.get("edit_exs_user_params", 0))
+        except:
+            pass
+        try:
+            count_exs_status = int(request.POST.get("count_exs", 0))
         except:
             pass
         if copy_exs_status == 1:
@@ -536,6 +541,42 @@ def exercises_api(request):
                     except:
                         pass
             return JsonResponse({"errors": "Can't edit exs param"}, status=400)
+        elif count_exs_status == 1:
+            folder_id = -1
+            folder_type = ""
+            try:
+                folder_id = int(request.POST.get("folder", -1))
+            except:
+                pass
+            try:
+                folder_type = request.POST.get("type", "")
+            except:
+                pass
+            if folder_type == "team_folders":
+                c_folder = UserFolder.objects.filter(id=folder_id)
+                if not c_folder.exists() or c_folder[0].id == None:
+                    return JsonResponse({"err": "Folder not found.", "success": False}, status=200)
+                child_folders = UserFolder.objects.filter(parent=c_folder[0].id)
+                found_exercises = 0
+                if child_folders.count() > 0:
+                    found_exercises = UserExercise.objects.filter(folder__in = child_folders).count()
+                else:
+                    found_exercises = UserExercise.objects.filter(folder = c_folder[0]).count()
+                return JsonResponse({"data": found_exercises, "success": True}, status=200)
+            elif folder_type == "nfb_folders":
+                c_folder = AdminFolder.objects.filter(id=folder_id)
+                if not c_folder.exists() or c_folder[0].id == None:
+                    return JsonResponse({"err": "Folder not found.", "success": False}, status=200)
+                child_folders = AdminFolder.objects.filter(parent=c_folder[0].id)
+                found_exercises = 0
+                if child_folders.count() > 0:
+                    found_exercises = AdminExercise.objects.filter(folder__in = child_folders).count()
+                else:
+                    found_exercises = AdminExercise.objects.filter(folder = c_folder[0]).count()
+                return JsonResponse({"data": found_exercises, "success": True}, status=200)
+            elif folder_type == "club":
+                pass
+            return JsonResponse({"errors": "Can't find folder"}, status=400)
         return JsonResponse({"errors": "access_error"}, status=400)
     elif request.method == "GET" and is_ajax:
         get_exs_all_status = 0
@@ -609,6 +650,8 @@ def exercises_api(request):
                         exs_data['animation_1_watched'] = user_params['animation_1_watched']
                         exs_data['animation_2_watched'] = user_params['animation_2_watched']
                     res_exs.append(exs_data)
+            # sorting list by title:
+            res_exs = sorted(res_exs, key=lambda d: d['title'])
             return JsonResponse({"data": res_exs, "success": True}, status=200)
         elif get_exs_one_status == 1:
             exs_id = -1

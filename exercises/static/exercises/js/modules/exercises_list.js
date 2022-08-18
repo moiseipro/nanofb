@@ -85,7 +85,8 @@ function RenderFolderExercises(id, tExs) {
             <div class="row w-100">
                 <div class="col-12 d-flex">
                     <span class="ml-3 w-100">
-                        ${i+1}. "${exElem.title == "" ? "-- None --" : exElem.title}"
+                        <span class="num">${i+1}.</span>
+                        <span class="title">${exElem.title == "" ? "-- None --" : exElem.title}</span>
                     </span>
 
                     <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.video_1_watched == true ? 'selected' : ''}" data-type="marker" data-id="video_1_watched" style="--w-x:24px; --h-x:24px;" title="Видео 1">
