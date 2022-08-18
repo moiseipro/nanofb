@@ -21,7 +21,7 @@ $(window).on('load', function (){
                     <div class="col pr-0">${exercise.exercise_name[get_cur_lang()]}</div>
                     <div class="col-sm-12 col-md-3 px-0">
                         <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 h-100 float-right delete-exercise edit-button"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                        <input type="number" name="duration" min="0" max="999" class="form-control form-control-sm rounded-0 py-0 h-auto text-center float-right edit-input" value="${exercise.duration}" style="width: 50px">
+                        <input type="number" name="duration" min="0" max="999" class="form-control form-control-sm rounded-0 py-0 h-auto text-center float-right edit-input" value="${exercise.duration}" style="width: 50px" autocomplete="off">
                     </div>
                 </div>
                 `)

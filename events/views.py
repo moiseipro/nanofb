@@ -49,12 +49,19 @@ class EventViewSet(viewsets.ModelViewSet):
             new_training = UserTraining.objects.create(team_id=team, event_id=event)
             new_training.save()
 
-    # def create(self, request, *args, **kwargs):
-    #     data = request.data
-    #     instance = self.get_object()
-    #     team = UserTeam.objects.get(pk=request.session['team'])
-    #     new_training = UserTraining.objects.create(team_id=team)
-    #     print(data)
+    # def list(self, request, *args, **kwargs):
+    #     queryset = self.filter_queryset(self.get_queryset())
+    #
+    #     page = self.paginate_queryset(queryset)
+    #     if page is not None:
+    #         serializer = self.get_serializer(page, many=True)
+    #         new_serializer_data = {'new': 'item'}
+    #         new_serializer_data = list(serializer.data)
+    #         print(new_serializer_data)
+    #         return self.get_paginated_response(serializer.data)
+    #
+    #     serializer = self.get_serializer(queryset, many=True)
+    #     return Response(serializer.data)
 
     def get_serializer_class(self):
         if self.action == 'update':

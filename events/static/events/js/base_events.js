@@ -153,6 +153,11 @@ $(window).on('load', function (){
             generateNewCalendar()
         })
     })
+
+    $('#toggle-calendar').on('click', function () {
+        $('#event_calendar').toggleClass('d-none')
+        $(this).children('i').toggleClass('fa-arrow-up').toggleClass('fa-arrow-down')
+    })
 })
 
 function clear_event_form(){
@@ -382,7 +387,6 @@ function generateEventTable(){
             {'data': 'id'},
             {'data': 'only_date', 'type': 'date'},
             {'data': function (data, type, dataToSet) {
-                console.log(data)
                 if(type === 'display') {
                     if ('training' in data && data.training != null) {
                         return '<a href="/trainings/view/'+data.training.event_id+'" class="btn btn-sm btn-info py-0" data-id="'+data.training.event_id+'">'+gettext('Training')+'</a>'
@@ -392,6 +396,47 @@ function generateEventTable(){
                         return '<a class="btn btn-sm btn-white py-0">'+gettext('---')+'</a>'
                     }
                 } else return null
+            }},
+            {'data': function (data, type, dataToSet) {
+                console.log(data)
+                let html_view = '<div class="row text-center">'
+                if(type === 'display') {
+                    if ('training' in data && data.training != null) {
+                        let duration = 0;
+                        if ('exercises_info' in data.training && data.training.exercises_info.length > 0) {
+
+                            $.each(data.training.exercises_info, function( index, exs_data ) {
+                                if(exs_data.group == 1) duration+=exs_data['duration']
+                            });
+                            console.log(duration)
+                            duration += '`'
+                        } else {
+                            duration += '`'
+                        }
+                        html_view += '<div class="col-6 pr-0">'+ duration + '</div><div class="col-6 border-left pl-0">A</div>'
+                    } else if ('match' in data && data.match != null){
+                        html_view = '---'
+                    } else {
+                        html_view = '---'
+                    }
+                } else html_view = '---'
+                html_view += '</div>'
+                return html_view
+            }},
+            {'data': function (data, type, dataToSet) {
+                console.log(data)
+                let html_view = '<div class="row text-center">'
+                if(type === 'display') {
+                    if ('training' in data && data.training != null) {
+                        html_view += '<div class="col-6 pr-0">0</div><div class="col-6 border-left pl-0">0</div>'
+                    } else if ('match' in data && data.match != null){
+                        html_view = '---'
+                    } else {
+                        html_view = '---'
+                    }
+                } else html_view = '---'
+                html_view += '</div>'
+                return html_view
             }},
             {'data': function (data, type, dataToSet) {
                 console.log(data)
