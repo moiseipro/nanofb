@@ -626,7 +626,9 @@ def exercises_api(request):
                     'title': exs_title
                 }
                 videos_arr = get_exs_video_data(exercise.video_data)
-                anims_arr = get_exs_video_data(exercise.animation_data)['default']
+                anims_arr = get_exs_video_data(exercise.animation_data)
+                if isinstance(anims_arr, dict):
+                    anims_arr = anims_arr['default']
                 exs_data['has_video_1'] = False
                 exs_data['has_video_2'] = False
                 exs_data['has_animation_1'] = False
