@@ -147,6 +147,55 @@ function CheckLastExs() {
     }
 }
 
+function CountExsInFolder() {
+    let folders = $('.folders_list').find('.list-group-item > div');
+    for (let i = 0; i < folders.length; i++) {
+        let folder = $(folders[i]);
+        $(folder).find('.folder-exs-counter').html('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
+        let data = {'count_exs': 1, 'folder': $(folder).attr('data-id'), 'type': "team_folders"};
+        $.ajax({
+            data: data,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "exercises_api",
+            success: function (res) {
+                if (res.success && res.data != 0) {
+                    $(folder).find('.folder-exs-counter').html(res.data);
+                } else {
+                    $(folder).find('.folder-exs-counter').html('...');
+                }
+            },
+            error: function (res) {
+                $(folder).find('.folder-exs-counter').html('...');
+            },
+            complete: function (res) {}
+        });
+    }
+    folders = $('.folders_nfb_list').find('.list-group-item > div');
+    for (let i = 0; i < folders.length; i++) {
+        let folder = $(folders[i]);
+        $(folder).find('.folder-exs-counter').html('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
+        let data = {'count_exs': 1, 'folder': $(folder).attr('data-id'), 'type': "nfb_folders"};
+        $.ajax({
+            data: data,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "exercises_api",
+            success: function (res) {
+                if (res.success && res.data != 0) {
+                    $(folder).find('.folder-exs-counter').html(res.data);
+                } else {
+                    $(folder).find('.folder-exs-counter').html('...');
+                }
+            },
+            error: function (res) {
+                $(folder).find('.folder-exs-counter').html('...');
+            },
+            complete: function (res) {}
+        });
+    }
+}
+
 
 $(function() {
 
@@ -853,11 +902,13 @@ $(function() {
         $(`.folders-block > div[data-id="${cFoldersSettings.type}"]`).removeClass('d-none');
     }
 
-
     // Toggle left menu
     setTimeout(() => {
         $('#toggle_btn').click();
     }, 500);
+
+    // Load exs count in folder
+    CountExsInFolder();
 
 
 });
