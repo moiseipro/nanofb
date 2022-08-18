@@ -262,7 +262,7 @@ tr.bck-custom > td {
 
 
 .ck-editor {
-    width: 90% !important;
+    width: 100% !important;
     height: 100% !important;
 }
 .ck-editor__main.read-mode {
@@ -272,6 +272,7 @@ tr.bck-custom > td {
 .ck-editor__main.edit-mode {
     width: 100% !important;
     height: calc(100% - 40px) !important;
+    overflow-x: hidden;
 }
 .ck-editor__editable {
     width: 100% !important;

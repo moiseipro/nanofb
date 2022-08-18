@@ -609,6 +609,8 @@ def exercises_api(request):
                         exs_data['animation_1_watched'] = user_params['animation_1_watched']
                         exs_data['animation_2_watched'] = user_params['animation_2_watched']
                     res_exs.append(exs_data)
+            # sorting list by title:
+            res_exs = sorted(res_exs, key=lambda d: d['title'])
             return JsonResponse({"data": res_exs, "success": True}, status=200)
         elif get_exs_one_status == 1:
             exs_id = -1
