@@ -20,6 +20,7 @@ class UserTrainingExerciseSerializer(serializers.ModelSerializer):
 
 
 class UserTrainingSerializer(serializers.ModelSerializer):
+    event_id = serializers.PrimaryKeyRelatedField(read_only=True)
     team_name = serializers.CharField(
         source='team_id.name',
         read_only=True
@@ -41,6 +42,6 @@ class UserTrainingSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserTraining
         fields = [
-            'event_id', 'team_name', 'exercises_info'
+            'event_id', 'favourites', 'team_name', 'exercises_info'
         ]
         datatables_always_serialize = ('event_id',)

@@ -158,6 +158,18 @@ $(window).on('load', function (){
         $('#event_calendar').toggleClass('d-none')
         $(this).children('i').toggleClass('fa-arrow-up').toggleClass('fa-arrow-down')
     })
+
+    $('#events').on('click', '.switch-favorites', function () {
+        let this_obj = $(this)
+        let id = this_obj.closest('tr.hasEvent').attr('data-value')
+        let data = {}
+        data.favourites = this_obj.hasClass('fa-star-o')
+        console.log(data)
+        ajax_training_action('PUT', data, 'favourites', id).done(function (data) {
+            if(data.favourites) this_obj.addClass('fa-star').removeClass('fa-star-o')
+            else this_obj.removeClass('fa-star').addClass('fa-star-o')
+        })
+    })
 })
 
 function clear_event_form(){
@@ -405,13 +417,18 @@ function generateEventTable(){
             }},
             {'data': function (data, type, dataToSet) {
                 console.log(data)
+                let html_view = ''
                 if(type === 'display') {
                     if ('training' in data && data.training != null) {
-                        return '<i class="fa fa-star-o" aria-hidden="true"></i>'
+                        html_view += '<i class="switch-favorites fa '
+                        if (data.training.favourites == true) html_view += 'fa-star'
+                        else html_view += 'fa-star-o'
+                        html_view += '" aria-hidden="true"></i>'
                     } else {
-                        return '---'
+                        html_view = '---'
                     }
-                } else return null
+                } else html_view = '---'
+                return html_view
             }},
             {'data': function (data, type, dataToSet) {
                 console.log(data)
@@ -461,31 +478,36 @@ function generateEventTable(){
 $(function() {
     $.contextMenu({
         selector: '.hasEvent',
-        callback: function(key, options) {
-            let event_id = $(this).attr('data-value')
-            if(key === 'delete'){
-                window.console && console.log(event_id);
-                ajax_event_action('DELETE', null, 'delete', event_id).done(function( data ) {
-                    if(events_table) events_table.ajax.reload()
-                    generateNewCalendar()
-                })
-            } else if(key === 'edit'){
-                window.console && console.log(event_id);
-                $('#form-event-edit-modal').modal('show');
-                cur_edit_data = events_table.row($('#events .hasEvent[data-value="'+event_id+'"]')).data()
-                console.log(cur_edit_data);
-                $('#form-event-edit #id_short_name').val(cur_edit_data['short_name'])
-                $('#form-event-edit #datetimepicker-event').val(cur_edit_data['only_date'])
-                $('#form-event-edit #timepicker-event').val(cur_edit_data['time'])
-            }
+        build: function($triggerElement, e){
+            return {
+                callback: function(key, options){
+                    let event_id = $(this).attr('data-value')
+                    if(key === 'delete'){
+                        window.console && console.log(event_id);
+                        ajax_event_action('DELETE', null, 'delete', event_id).done(function( data ) {
+                            if(events_table) events_table.ajax.reload()
+                            generateNewCalendar()
+                        })
+                    } else if(key === 'edit'){
+                        window.console && console.log(event_id);
+                        $('#form-event-edit-modal').modal('show');
+                        cur_edit_data = events_table.row($('#events .hasEvent[data-value="'+event_id+'"]')).data()
+                        console.log(cur_edit_data);
+                        $('#form-event-edit #id_short_name').val(cur_edit_data['short_name'])
+                        $('#form-event-edit #datetimepicker-event').val(cur_edit_data['only_date'])
+                        $('#form-event-edit #timepicker-event').val(cur_edit_data['time'])
+                    }
+                },
+                items: {
+                    // "add": {name: gettext('Delete'), icon: "fa-trash"},
+                    "edit": {name: gettext('Edit'), icon: "fa-pencil"},
+                    "delete": {name: gettext('Delete'), icon: "fa-trash"},
+                    "sep1": "---------",
+                    "close": {name: gettext('Close'), icon: function(){
+                        return 'context-menu-icon context-menu-icon-quit';
+                    }}
+                }
+            };
         },
-        items: {
-            "edit": {name: gettext('Edit'), icon: "fa-pencil"},
-            "delete": {name: gettext('Delete'), icon: "fa-trash"},
-            "sep1": "---------",
-            "close": {name: gettext('Close'), icon: function(){
-                return 'context-menu-icon context-menu-icon-quit';
-            }}
-        }
     });
 })
