@@ -87,6 +87,11 @@ class AbstractTrainingExercise(models.Model):
         help_text=_('Sorting index'),
         default=0
     )
+    favourites = models.BooleanField(
+        verbose_name=_('favourites'),
+        help_text=_('Favorites training'),
+        default=False
+    )
 
     class Meta:
         abstract = True

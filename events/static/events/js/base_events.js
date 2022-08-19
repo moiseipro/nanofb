@@ -393,13 +393,29 @@ function generateEventTable(){
                     } else if ('match' in data && data.match != null){
                         return '<a href="/trainings/view/'+data.match.event_id+'" class="btn btn-sm btn-info py-0" data-id="'+data.match.event_id+'">'+gettext('Match')+'</a>'
                     } else {
-                        return '<a class="btn btn-sm btn-white py-0">'+gettext('---')+'</a>'
+                        return gettext('---')
                     }
                 } else return null
             }},
             {'data': function (data, type, dataToSet) {
                 console.log(data)
-                let html_view = '<div class="row text-center">'
+                if(type === 'display') {
+                    return '---'
+                } else return null
+            }},
+            {'data': function (data, type, dataToSet) {
+                console.log(data)
+                if(type === 'display') {
+                    if ('training' in data && data.training != null) {
+                        return '<i class="fa fa-star-o" aria-hidden="true"></i>'
+                    } else {
+                        return '---'
+                    }
+                } else return null
+            }},
+            {'data': function (data, type, dataToSet) {
+                console.log(data)
+                let html_view = '<div class="row text-center mx-0">'
                 if(type === 'display') {
                     if ('training' in data && data.training != null) {
                         let duration = 0;
@@ -413,7 +429,7 @@ function generateEventTable(){
                         } else {
                             duration += '`'
                         }
-                        html_view += '<div class="col-6 pr-0">'+ duration + '</div><div class="col-6 border-left pl-0">A</div>'
+                        html_view += '<div class="col-4 px-0">'+ duration + '</div><div class="col-4 border-left px-0">0</div><div class="col-4 border-left px-0">0</div>'
                     } else if ('match' in data && data.match != null){
                         html_view = '---'
                     } else {
@@ -422,27 +438,6 @@ function generateEventTable(){
                 } else html_view = '---'
                 html_view += '</div>'
                 return html_view
-            }},
-            {'data': function (data, type, dataToSet) {
-                console.log(data)
-                let html_view = '<div class="row text-center">'
-                if(type === 'display') {
-                    if ('training' in data && data.training != null) {
-                        html_view += '<div class="col-6 pr-0">0</div><div class="col-6 border-left pl-0">0</div>'
-                    } else if ('match' in data && data.match != null){
-                        html_view = '---'
-                    } else {
-                        html_view = '---'
-                    }
-                } else html_view = '---'
-                html_view += '</div>'
-                return html_view
-            }},
-            {'data': function (data, type, dataToSet) {
-                console.log(data)
-                if(type === 'display') {
-                    return '---'
-                } else return null
             }},
         ],
     })
