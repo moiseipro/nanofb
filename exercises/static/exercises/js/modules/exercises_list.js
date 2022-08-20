@@ -39,6 +39,7 @@ function ResizeSplitCols() {
 }
 
 let exercises = {"nfb": {}};
+window.exercisesFilter = {};
 function LoadFolderExercises() {
     let activeRow = $('.folders_list').find('.list-group-item.active');
     let activeNfbRow = $('.folders_nfb_list').find('.list-group-item.active');
@@ -50,7 +51,7 @@ function LoadFolderExercises() {
     if (cFolderId in tExs) {
         RenderFolderExercises(cFolderId, tExs);
     } else {
-        let data = {'get_exs_all': 1, 'folder': cFolderId, 'get_nfb': isNfbExs ? 1 : 0, 'f_type': fType};
+        let data = {'get_exs_all': 1, 'folder': cFolderId, 'get_nfb': isNfbExs ? 1 : 0, 'f_type': fType, 'filter': window.exercisesFilter};
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
             data: data,
@@ -120,23 +121,31 @@ function RenderFolderExercises(id, tExs) {
                     <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="players" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="">
                         #
                     </button>
-                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="goal" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="">
-                        G.
-                    </button>
-                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1" data-type="icons" data-id="ball" style="--w-x:24px; --h-x:24px;" disabled="">
-                        <span class="icon-custom icon--ball" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
-                    </button>
-                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1" data-type="icons" data-id="watches" style="--w-x:24px; --h-x:24px;" disabled="">
-                        <span class="icon-custom icon--eye" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
-                    </button>
-                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1" data-type="icons" data-id="favor" style="--w-x:24px; --h-x:24px;" disabled="">
-                        <span class="icon-custom icon--favorite" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
-                    </button>
-                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x font-weight-bold" data-type="icons" data-id="stress" style="--w-x:24px; --h-x:24px;" disabled="">
-                        IQ.
-                    </button>
+                    ${exElem.goal_code ? `
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="goal" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="">
+                            ${exElem.goal_code}
+                        </button>
+                    ` : ''}
+                    ${exElem.ball_val == 1 ? `
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1" data-type="icons" data-id="ball" style="--w-x:24px; --h-x:24px;" disabled="">
+                            <span class="icon-custom icon--ball" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
+                        </button>
+                    ` : `
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1" data-type="icons" data-id="ball" style="--w-x:24px; --h-x:24px;" disabled="">
+                            <span class="icon-custom icon--ball-x" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
+                        </button>
+                    `}
+                    ${exElem.favorite == 1 ? `
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1" data-type="icons" data-id="favor" style="--w-x:24px; --h-x:24px;" disabled="">
+                            <span class="icon-custom icon--favorite-selected" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
+                        </button>
+                    ` : `
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1" data-type="icons" data-id="favor" style="--w-x:24px; --h-x:24px;" disabled="">
+                            <span class="icon-custom icon--favorite" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
+                        </button>
+                    `}
+
                 </div>
-           
             </div>
         </li>
         `;

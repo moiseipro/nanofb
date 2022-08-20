@@ -1,4 +1,6 @@
+from importlib.metadata import entry_points
 import json
+import datetime
 from tkinter.messagebox import NO
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
@@ -171,7 +173,51 @@ def get_exs_animation_data(data):
     return res
 
 
-def get_excerises_data(folder_id = -1, folder_type = ""):
+def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = None, cur_club = None):
+    def days_between(date):
+        return abs((datetime.date.today() - date).days)
+    
+    filter_goal = -1
+    filter_ball = -1
+    filter_watched = -1
+    filter_favorite = -1
+    filter_new_exs = -1
+    try:
+        if req.method == "GET":
+            filter_goal = int(req.GET.get("filter[goal]", -1))
+        elif req.method == "POST":
+            filter_goal = int(req.POST.get("filter[goal]", -1))
+    except:
+        pass
+    try:
+        if req.method == "GET":
+            filter_ball = int(req.GET.get("filter[ball]", -1))
+        elif req.method == "POST":
+            filter_ball = int(req.POST.get("filter[ball]", -1))
+    except:
+        pass
+    try:
+        if req.method == "GET":
+            filter_watched = int(req.GET.get("filter[watch]", -1))
+        elif req.method == "POST":
+            filter_watched = int(req.POST.get("filter[watch]", -1))
+    except:
+        pass
+    try:
+        if req.method == "GET":
+            filter_favorite = int(req.GET.get("filter[favorite]", -1))
+        elif req.method == "POST":
+            filter_favorite = int(req.POST.get("filter[favorite]", -1))
+    except:
+        pass
+    try:
+        if req.method == "GET":
+            filter_new_exs = int(req.GET.get("filter[new_exs]", -1))
+        elif req.method == "POST":
+            filter_new_exs = int(req.POST.get("filter[new_exs]", -1))
+    except:
+        pass
+
     f_exercises = []
     if folder_type == "team_folders":
         c_folder = UserFolder.objects.filter(id=folder_id)
@@ -193,6 +239,68 @@ def get_excerises_data(folder_id = -1, folder_type = ""):
             f_exercises = AdminExercise.objects.filter(folder = c_folder[0])
     elif folder_type == "club_folders":
         pass
+    f_exercises = [entry for entry in f_exercises.values()]
+    for exercise in f_exercises:
+        exercise['has_video_1'] = False
+        exercise['has_video_2'] = False
+        exercise['has_animation_1'] = False
+        exercise['has_animation_2'] = False
+        videos_arr = get_exs_video_data(exercise['video_data'])
+        anims_arr = get_exs_video_data(exercise['animation_data'])
+        if isinstance(anims_arr, dict):
+            anims_arr = anims_arr['default']
+        if len(videos_arr) == 2:
+            if videos_arr[0] != -1:
+                exercise['has_video_1'] = True
+            if videos_arr[1] != -1:
+                exercise['has_video_2'] = True
+        if len(anims_arr) == 2:
+            if anims_arr[0] != -1:
+                exercise['has_animation_1'] = True
+            if anims_arr[1] != -1:
+                exercise['has_animation_2'] = True
+        if folder_type == "team_folders":
+            user_params = UserExerciseParam.objects.filter(exercise_user=exercise['id'], user=cur_user)
+            if user_params.exists() and user_params[0].id != None:
+                user_params = user_params.values()[0]
+                exercise['favorite'] = user_params['favorite']
+                exercise['video_1_watched'] = user_params['video_1_watched']
+                exercise['video_2_watched'] = user_params['video_2_watched']
+                exercise['animation_1_watched'] = user_params['animation_1_watched']
+                exercise['animation_2_watched'] = user_params['animation_2_watched']
+        elif folder_type == "nfb_folders":
+            pass
+        elif folder_type == "club_folders":
+            pass
+        watched_status = 0
+        if 'video_1_watched' in exercise:
+            if exercise['has_video_1'] and exercise['video_1_watched']:
+                watched_status = 1
+        if 'video_2_watched' in exercise:
+            if exercise['has_video_2'] and exercise['video_2_watched']:
+                watched_status = 1
+        if 'animation_1_watched' in exercise:
+            if exercise['has_animation_1'] and exercise['animation_1_watched']:
+                watched_status = 1
+        if 'animation_2_watched' in exercise:
+            if exercise['has_animation_2'] and exercise['animation_2_watched']:
+                watched_status = 1
+        favorite_status = 0
+        if 'favorite' in exercise:
+            favorite_status = 1 if exercise['favorite'] else 0
+        exercise['watched_status'] = watched_status
+        exercise['favorite_status'] = favorite_status
+
+    if filter_goal != -1:
+        f_exercises = list(filter(lambda c: c['ref_goal'] == filter_goal, f_exercises))
+    if filter_ball != -1:
+        f_exercises = list(filter(lambda c: c['ref_ball'] == filter_ball, f_exercises))
+    if filter_watched != -1:
+        f_exercises = list(filter(lambda c: c['watched_status'] == filter_watched, f_exercises))
+    if filter_favorite != -1:
+        f_exercises = list(filter(lambda c: c['favorite_status'] == filter_favorite, f_exercises))
+    if filter_new_exs != -1:
+        f_exercises = list(filter(lambda c: days_between(c['date_creation']) < 15, f_exercises))
     return f_exercises
 
 
@@ -451,7 +559,6 @@ def exercises_api(request):
             c_exs.ref_train_part = set_value_as_int(request, "data[ref_train_part]", None)
             c_exs.ref_cognitive_load = set_value_as_int(request, "data[ref_cognitive_load]", None)
 
-
             if type(c_exs.scheme_data) is dict:
                 c_exs.scheme_data['scheme_1'] = request.POST.get("data[scheme_1]")
                 c_exs.scheme_data['scheme_2'] = request.POST.get("data[scheme_2]")
@@ -577,7 +684,7 @@ def exercises_api(request):
                 folder_type = request.POST.get("type", "")
             except:
                 pass
-            found_exercises = get_excerises_data(folder_id, folder_type).count()
+            found_exercises = len(get_excerises_data(folder_id, folder_type, request, cur_user[0]))
             return JsonResponse({"data": found_exercises, "success": True}, status=200)
         return JsonResponse({"errors": "access_error"}, status=400)
     elif request.method == "GET" and is_ajax:
@@ -617,44 +724,39 @@ def exercises_api(request):
                 pass
             # Check if folder is USER or CLUB
             res_exs = []
-            found_exercises = get_excerises_data(folder_id, folder_type)
+            found_exercises = get_excerises_data(folder_id, folder_type, request, cur_user[0])
             for exercise in found_exercises:
-                exs_title = get_by_language_code(exercise.title, request.LANGUAGE_CODE)
+                exs_title = get_by_language_code(exercise['title'], request.LANGUAGE_CODE)
                 exs_data = {
-                    'id': exercise.id, 
-                    'folder': exercise.folder.id, 
-                    'title': exs_title
+                    'id': exercise['id'], 
+                    'folder': exercise['folder_id'], 
+                    'title': exs_title,
+                    'has_video_1': exercise['has_video_1'],
+                    'has_video_2': exercise['has_video_2'],
+                    'has_animation_1': exercise['has_animation_1'],
+                    'has_animation_2': exercise['has_animation_2']
                 }
-                videos_arr = get_exs_video_data(exercise.video_data)
-                anims_arr = get_exs_video_data(exercise.animation_data)
+                videos_arr = get_exs_video_data(exercise['video_data'])
+                anims_arr = get_exs_video_data(exercise['animation_data'])
                 if isinstance(anims_arr, dict):
                     anims_arr = anims_arr['default']
-                exs_data['has_video_1'] = False
-                exs_data['has_video_2'] = False
-                exs_data['has_animation_1'] = False
-                exs_data['has_animation_2'] = False
-                if len(videos_arr) == 2:
-                    if videos_arr[0] != -1:
-                        exs_data['has_video_1'] = True
-                    if videos_arr[1] != -1:
-                        exs_data['has_video_2'] = True
-                if len(anims_arr) == 2:
-                    if anims_arr[0] != -1:
-                        exs_data['has_animation_1'] = True
-                    if anims_arr[1] != -1:
-                        exs_data['has_animation_2'] = True
                 if get_nfb_exs:
                     exs_data['user'] = "NFB"
                 else:
-                    exs_data['user'] = exercise.user.email
-                    user_params = UserExerciseParam.objects.filter(exercise_user=exercise.id, user=cur_user[0])
-                    if user_params.exists() and user_params[0].id != None:
-                        user_params = user_params.values()[0]
-                        exs_data['favorite'] = user_params['favorite']
-                        exs_data['video_1_watched'] = user_params['video_1_watched']
-                        exs_data['video_2_watched'] = user_params['video_2_watched']
-                        exs_data['animation_1_watched'] = user_params['animation_1_watched']
-                        exs_data['animation_2_watched'] = user_params['animation_2_watched']
+                    exs_data['user'] = exercise['user_id']
+                    exs_data['favorite'] = exercise['favorite'] if 'favorite' in exercise else None
+                    exs_data['video_1_watched'] = exercise['video_1_watched'] if 'video_1_watched' in exercise else None
+                    exs_data['video_2_watched'] = exercise['video_2_watched'] if 'video_2_watched' in exercise else None
+                    exs_data['animation_1_watched'] = exercise['animation_1_watched'] if 'animation_1_watched' in exercise else None
+                    exs_data['animation_2_watched'] = exercise['animation_2_watched'] if 'animation_2_watched' in exercise else None
+                goal_shortcode = ExsGoal.objects.filter(id = exercise['ref_goal']).only('id', 'short_name')
+                if goal_shortcode.exists() and goal_shortcode[0].id != None:
+                    goal_shortcode = goal_shortcode[0].short_name
+                else:
+                    goal_shortcode = None
+                exs_data['goal_code'] = goal_shortcode
+                exs_data['ball_val'] = exercise['ref_ball']
+                exs_data['favorite'] = exercise['favorite'] if 'favorite' in exercise else None
                 res_exs.append(exs_data)
             # sorting list by title:
             res_exs = sorted(res_exs, key=lambda d: d['title'])

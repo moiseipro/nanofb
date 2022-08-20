@@ -193,52 +193,29 @@
             <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content" data-id="filter">Фильтровать</button>
         </div>
         <ul class="list-group list-group-flush" data-id="filter">
-            <li class="side-filter-elem list-group-item py-0">
-                <div class="row">
-                    <div class="col-9 text-left px-1">
-                        <span>ворота G</span>
+            {% for elem in refs.exs_goal %}
+                <li class="side-filter-elem list-group-item py-0" data-id="{{ elem.id }}" data-type="goal">
+                    <div class="row">
+                        <div class="col-9 text-left px-1">
+                            <span>{{ elem.title }}</span>
+                        </div>
+                        <div class="col-3 text-right px-1">
+                        </div>
                     </div>
-                    <div class="col-3 text-right px-1">
+                </li>
+            {% endfor %}
+            {% for elem in refs.exs_ball %}
+                <li class="side-filter-elem list-group-item py-0" data-id="{{ elem.id }}" data-type="ball">
+                    <div class="row">
+                        <div class="col-9 text-left px-1">
+                            <span>{{ elem.title }}</span>
+                        </div>
+                        <div class="col-3 text-right px-1">
+                        </div>
                     </div>
-                </div>
-            </li>
-            <li class="side-filter-elem list-group-item py-0">
-                <div class="row">
-                    <div class="col-9 text-left px-1">
-                        <span>ворота g</span>
-                    </div>
-                    <div class="col-3 text-right px-1">
-                    </div>
-                </div>
-            </li>
-            <li class="side-filter-elem list-group-item py-0">
-                <div class="row">
-                    <div class="col-9 text-left px-1">
-                        <span>без ворот</span>
-                    </div>
-                    <div class="col-3 text-right px-1">
-                    </div>
-                </div>
-            </li>
-            <li class="side-filter-elem list-group-item py-0">
-                <div class="row">
-                    <div class="col-9 text-left px-1">
-                        <span>с мячом</span>
-                    </div>
-                    <div class="col-3 text-right px-1">
-                    </div>
-                </div>
-            </li>
-            <li class="side-filter-elem list-group-item py-0">
-                <div class="row">
-                    <div class="col-9 text-left px-1">
-                        <span>без мяча</span>
-                    </div>
-                    <div class="col-3 text-right px-1">
-                    </div>
-                </div>
-            </li>
-            <li class="side-filter-elem list-group-item py-0">
+                </li>
+            {% endfor %}
+            <li class="side-filter-elem list-group-item py-0" data-type="watch" data-id="1">
                 <div class="row">
                     <div class="col-9 text-left px-1">
                         <span>смотрел</span>
@@ -247,7 +224,7 @@
                     </div>
                 </div>
             </li>
-            <li class="side-filter-elem list-group-item py-0">
+            <li class="side-filter-elem list-group-item py-0" data-type="watch" data-id="0">
                 <div class="row">
                     <div class="col-9 text-left px-1">
                         <span>не смотрел</span>
@@ -256,7 +233,7 @@
                     </div>
                 </div>
             </li>
-            <li class="side-filter-elem list-group-item py-0">
+            <li class="side-filter-elem list-group-item py-0" data-type="favorite" data-id="1">
                 <div class="row">
                     <div class="col-9 text-left px-1">
                         <span>избранное</span>
@@ -265,7 +242,7 @@
                     </div>
                 </div>
             </li>
-            <li class="side-filter-elem list-group-item py-0">
+            <li class="side-filter-elem list-group-item py-0" data-type="new_exs" data-id="1">
                 <div class="row">
                     <div class="col-9 text-left px-1">
                         <span>новые N</span>
@@ -319,16 +296,6 @@
                     </div>
                 </div>
             </li>
-            <li class="side-filter-elem list-group-item py-0" data-id="watches">
-                <div class="row">
-                    <div class="col-9 text-left px-1">
-                        <span>просмотры</span>
-                    </div>
-                    <div class="col-3 text-right px-1">
-                        <span class="icon-custom icon--eye" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
-                    </div>
-                </div>
-            </li>
             <li class="side-filter-elem list-group-item py-0" data-id="favor">
                 <div class="row">
                     <div class="col-9 text-left px-1">
@@ -336,16 +303,6 @@
                     </div>
                     <div class="col-3 text-right px-1">
                         <span class="icon-custom icon--favorite" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
-                    </div>
-                </div>
-            </li>
-            <li class="side-filter-elem list-group-item py-0" data-id="stress">
-                <div class="row">
-                    <div class="col-9 text-left px-1">
-                        <span>нагрузка IQ</span>
-                    </div>
-                    <div class="col-3 text-right px-1">
-                        IQ
                     </div>
                 </div>
             </li>
