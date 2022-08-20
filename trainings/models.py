@@ -19,6 +19,11 @@ class AbstractTraining(models.Model):
         null=True,
         blank=True,
     )
+    favourites = models.BooleanField(
+        verbose_name=_('favourites'),
+        help_text=_('Favorites training'),
+        default=False
+    )
     objectives = models.JSONField(
         verbose_name=_('purposes'),
         help_text=_('Objectives for training groups'),

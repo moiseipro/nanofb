@@ -92,9 +92,9 @@
                                             <th class="text-center">№</th>
                                             <th class="text-center">{% trans 'Date' %}</th>
                                             <th class="text-center">{% trans 'Event' %}</th>
-                                            <th class="text-center">{% trans 'Group' %}</th>
-                                            <th class="text-center">{% trans 'Players' %}</th>
                                             <th class="text-center">{% trans 'M.D.' %}</th>
+                                            <th class="text-center"><i class="fa fa-star-o" aria-hidden="true"></i></th>
+                                            <th class="text-center">{% trans 'Group «A»' %}</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -292,6 +292,7 @@
     <link rel="stylesheet" href="{% static 'events/css/base_events.css' %}">
 {% endblock %}
 {% block custom_scripts %}
+    <script src="{% static 'trainings/js/view_training.js' %}"></script>
     <script src="{% static 'events/ResCalendar/rescalendar.js' %}"></script>
     <script src="{% static 'events/js/event_update.js' %}"></script>
     <script src="{% static 'events/js/base_events.js' %}"></script>

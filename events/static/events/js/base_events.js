@@ -158,6 +158,18 @@ $(window).on('load', function (){
         $('#event_calendar').toggleClass('d-none')
         $(this).children('i').toggleClass('fa-arrow-up').toggleClass('fa-arrow-down')
     })
+
+    $('#events').on('click', '.switch-favorites', function () {
+        let this_obj = $(this)
+        let id = this_obj.closest('tr.hasEvent').attr('data-value')
+        let data = {}
+        data.favourites = this_obj.hasClass('fa-star-o')
+        console.log(data)
+        ajax_training_action('PUT', data, 'favourites', id).done(function (data) {
+            if(data.favourites) this_obj.addClass('fa-star').removeClass('fa-star-o')
+            else this_obj.removeClass('fa-star').addClass('fa-star-o')
+        })
+    })
 })
 
 function clear_event_form(){
@@ -393,13 +405,34 @@ function generateEventTable(){
                     } else if ('match' in data && data.match != null){
                         return '<a href="/trainings/view/'+data.match.event_id+'" class="btn btn-sm btn-info py-0" data-id="'+data.match.event_id+'">'+gettext('Match')+'</a>'
                     } else {
-                        return '<a class="btn btn-sm btn-white py-0">'+gettext('---')+'</a>'
+                        return gettext('---')
                     }
                 } else return null
             }},
             {'data': function (data, type, dataToSet) {
                 console.log(data)
-                let html_view = '<div class="row text-center">'
+                if(type === 'display') {
+                    return '---'
+                } else return null
+            }},
+            {'data': function (data, type, dataToSet) {
+                console.log(data)
+                let html_view = ''
+                if(type === 'display') {
+                    if ('training' in data && data.training != null) {
+                        html_view += '<i class="switch-favorites fa '
+                        if (data.training.favourites == true) html_view += 'fa-star'
+                        else html_view += 'fa-star-o'
+                        html_view += '" aria-hidden="true"></i>'
+                    } else {
+                        html_view = '---'
+                    }
+                } else html_view = '---'
+                return html_view
+            }},
+            {'data': function (data, type, dataToSet) {
+                console.log(data)
+                let html_view = '<div class="row text-center mx-0">'
                 if(type === 'display') {
                     if ('training' in data && data.training != null) {
                         let duration = 0;
@@ -413,7 +446,7 @@ function generateEventTable(){
                         } else {
                             duration += '`'
                         }
-                        html_view += '<div class="col-6 pr-0">'+ duration + '</div><div class="col-6 border-left pl-0">A</div>'
+                        html_view += '<div class="col-4 px-0">'+ duration + '</div><div class="col-4 border-left px-0">0</div><div class="col-4 border-left px-0">0</div>'
                     } else if ('match' in data && data.match != null){
                         html_view = '---'
                     } else {
@@ -422,27 +455,6 @@ function generateEventTable(){
                 } else html_view = '---'
                 html_view += '</div>'
                 return html_view
-            }},
-            {'data': function (data, type, dataToSet) {
-                console.log(data)
-                let html_view = '<div class="row text-center">'
-                if(type === 'display') {
-                    if ('training' in data && data.training != null) {
-                        html_view += '<div class="col-6 pr-0">0</div><div class="col-6 border-left pl-0">0</div>'
-                    } else if ('match' in data && data.match != null){
-                        html_view = '---'
-                    } else {
-                        html_view = '---'
-                    }
-                } else html_view = '---'
-                html_view += '</div>'
-                return html_view
-            }},
-            {'data': function (data, type, dataToSet) {
-                console.log(data)
-                if(type === 'display') {
-                    return '---'
-                } else return null
             }},
         ],
     })
@@ -466,31 +478,36 @@ function generateEventTable(){
 $(function() {
     $.contextMenu({
         selector: '.hasEvent',
-        callback: function(key, options) {
-            let event_id = $(this).attr('data-value')
-            if(key === 'delete'){
-                window.console && console.log(event_id);
-                ajax_event_action('DELETE', null, 'delete', event_id).done(function( data ) {
-                    if(events_table) events_table.ajax.reload()
-                    generateNewCalendar()
-                })
-            } else if(key === 'edit'){
-                window.console && console.log(event_id);
-                $('#form-event-edit-modal').modal('show');
-                cur_edit_data = events_table.row($('#events .hasEvent[data-value="'+event_id+'"]')).data()
-                console.log(cur_edit_data);
-                $('#form-event-edit #id_short_name').val(cur_edit_data['short_name'])
-                $('#form-event-edit #datetimepicker-event').val(cur_edit_data['only_date'])
-                $('#form-event-edit #timepicker-event').val(cur_edit_data['time'])
-            }
+        build: function($triggerElement, e){
+            return {
+                callback: function(key, options){
+                    let event_id = $(this).attr('data-value')
+                    if(key === 'delete'){
+                        window.console && console.log(event_id);
+                        ajax_event_action('DELETE', null, 'delete', event_id).done(function( data ) {
+                            if(events_table) events_table.ajax.reload()
+                            generateNewCalendar()
+                        })
+                    } else if(key === 'edit'){
+                        window.console && console.log(event_id);
+                        $('#form-event-edit-modal').modal('show');
+                        cur_edit_data = events_table.row($('#events .hasEvent[data-value="'+event_id+'"]')).data()
+                        console.log(cur_edit_data);
+                        $('#form-event-edit #id_short_name').val(cur_edit_data['short_name'])
+                        $('#form-event-edit #datetimepicker-event').val(cur_edit_data['only_date'])
+                        $('#form-event-edit #timepicker-event').val(cur_edit_data['time'])
+                    }
+                },
+                items: {
+                    // "add": {name: gettext('Delete'), icon: "fa-trash"},
+                    "edit": {name: gettext('Edit'), icon: "fa-pencil"},
+                    "delete": {name: gettext('Delete'), icon: "fa-trash"},
+                    "sep1": "---------",
+                    "close": {name: gettext('Close'), icon: function(){
+                        return 'context-menu-icon context-menu-icon-quit';
+                    }}
+                }
+            };
         },
-        items: {
-            "edit": {name: gettext('Edit'), icon: "fa-pencil"},
-            "delete": {name: gettext('Delete'), icon: "fa-trash"},
-            "sep1": "---------",
-            "close": {name: gettext('Close'), icon: function(){
-                return 'context-menu-icon context-menu-icon-quit';
-            }}
-        }
     });
 })
