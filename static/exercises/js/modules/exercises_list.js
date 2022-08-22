@@ -80,6 +80,7 @@ function LoadFolderExercises() {
 function RenderFolderExercises(id, tExs) {
     let exs = tExs[id];
     let exsHtml = "";
+    $('.btn[data-id="exs_counter"]').html(exs.length);
     for (let i = 0; i < exs.length; i++) {
         let exElem = exs[i];
         exsHtml += `
@@ -106,7 +107,7 @@ function RenderFolderExercises(id, tExs) {
                             <input type="checkbox" value="" ${exElem.animation_1_watched == true ? 'checked' : ''}>
                         </button>
                     ` : ''}
-                    ${exElem.has_animation_1 == true ? `
+                    ${exElem.has_animation_2 == true ? `
                         <button type="button" class="btn btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.animation_2_watched == true ? 'selected' : ''}" data-type="marker" data-id="animation_2_watched" style="--w-x:24px; --h-x:24px;" title="Анимация 2">
                             <input type="checkbox" value="" ${exElem.animation_2_watched == true ? 'checked' : ''}>
                         </button>

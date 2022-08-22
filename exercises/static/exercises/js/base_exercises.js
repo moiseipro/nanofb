@@ -155,52 +155,57 @@ function CountExsInFolder() {
     let folders = $('.folders_list').find('.list-group-item > div');
     for (let i = 0; i < folders.length; i++) {
         let folder = $(folders[i]);
-        $(folder).find('.folder-exs-counter').html('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
-        let data = {'count_exs': 1, 'folder': $(folder).attr('data-id'), 'type': "team_folders", 'filter': window.exercisesFilter};
-        window.count_exs_calls.push(
-            $.ajax({
-                data: data,
-                type: 'POST', // GET или POST
-                dataType: 'json',
-                url: "exercises_api",
-                success: function (res) {
-                    if (res.success && res.data != 0) {
-                        $(folder).find('.folder-exs-counter').html(res.data);
-                    } else {
+        if ($(folder).attr('data-root') != '1') {
+            $(folder).find('.folder-exs-counter').html('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
+            let data = {'count_exs': 1, 'folder': $(folder).attr('data-id'), 'type': "team_folders", 'filter': window.exercisesFilter};
+            window.count_exs_calls.push(
+                $.ajax({
+                    data: data,
+                    type: 'POST', // GET или POST
+                    dataType: 'json',
+                    url: "exercises_api",
+                    success: function (res) {
+                        if (res.success && res.data != 0) {
+                            $(folder).find('.folder-exs-counter').html(res.data);
+                        } else {
+                            $(folder).find('.folder-exs-counter').html('...');
+                        }
+                    },
+                    error: function (res) {
                         $(folder).find('.folder-exs-counter').html('...');
+                    },
+                    complete: function (res) {
                     }
-                },
-                error: function (res) {
-                    $(folder).find('.folder-exs-counter').html('...');
-                },
-                complete: function (res) {}
-            })
-        );
+                })
+            );
+        }
     }
     folders = $('.folders_nfb_list').find('.list-group-item > div');
     for (let i = 0; i < folders.length; i++) {
         let folder = $(folders[i]);
-        $(folder).find('.folder-exs-counter').html('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
-        let data = {'count_exs': 1, 'folder': $(folder).attr('data-id'), 'type': "nfb_folders", 'filter': window.exercisesFilter};
-        window.count_exs_calls.push(
-            $.ajax({
-                data: data,
-                type: 'POST', // GET или POST
-                dataType: 'json',
-                url: "exercises_api",
-                success: function (res) {
-                    if (res.success && res.data != 0) {
-                        $(folder).find('.folder-exs-counter').html(res.data);
-                    } else {
+        if ($(folder).attr('data-root') != '1') {
+            $(folder).find('.folder-exs-counter').html('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
+            let data = {'count_exs': 1, 'folder': $(folder).attr('data-id'), 'type': "nfb_folders", 'filter': window.exercisesFilter};
+            window.count_exs_calls.push(
+                $.ajax({
+                    data: data,
+                    type: 'POST', // GET или POST
+                    dataType: 'json',
+                    url: "exercises_api",
+                    success: function (res) {
+                        if (res.success && res.data != 0) {
+                            $(folder).find('.folder-exs-counter').html(res.data);
+                        } else {
+                            $(folder).find('.folder-exs-counter').html('...');
+                        }
+                    },
+                    error: function (res) {
                         $(folder).find('.folder-exs-counter').html('...');
-                    }
-                },
-                error: function (res) {
-                    $(folder).find('.folder-exs-counter').html('...');
-                },
-                complete: function (res) {}
-            })
-        );
+                    },
+                    complete: function (res) {}
+                })
+            );
+        }
     }
     $.when.apply($, window.count_exs_calls).then(() => {
         window.filterIsLoaded = true;
@@ -287,6 +292,18 @@ $(function() {
         $('.side-filter-block').find(`.list-group[data-id="${cId}"]`).toggleClass('d-none');
     });
 
+
+    // Reset side filter
+    $('#filterReset').on('click', (e) => {
+        if ($($('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').hasClass('active')).length > 0) {
+            $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').attr('data-state', '0');
+            $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').toggleClass('active', false);
+            $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').find('.row > div:nth-child(2)').html('');
+            window.exercisesFilter = {};
+            LoadFolderExercises();
+            CountExsInFolder();
+        }
+    });
 
     // Toggle columns size
     $('#columnsSizeInCard').on('click', (e) => {
