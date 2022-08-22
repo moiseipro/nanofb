@@ -193,6 +193,9 @@
             <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content" data-id="filter">Фильтровать</button>
         </div>
         <ul class="list-group list-group-flush" data-id="filter">
+            <li class="list-group-item p-0">
+                <button type="button" class="btn btn-outline-secondary btn-sm btn-block" id="filterReset">Сбросить</button>
+            </li>
             {% for elem in refs.exs_goal %}
                 <li class="side-filter-elem list-group-item py-0" data-id="{{ elem.id }}" data-type="goal">
                     <div class="row">

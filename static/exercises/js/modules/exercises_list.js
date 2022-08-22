@@ -106,7 +106,7 @@ function RenderFolderExercises(id, tExs) {
                             <input type="checkbox" value="" ${exElem.animation_1_watched == true ? 'checked' : ''}>
                         </button>
                     ` : ''}
-                    ${exElem.has_animation_1 == true ? `
+                    ${exElem.has_animation_2 == true ? `
                         <button type="button" class="btn btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.animation_2_watched == true ? 'selected' : ''}" data-type="marker" data-id="animation_2_watched" style="--w-x:24px; --h-x:24px;" title="Анимация 2">
                             <input type="checkbox" value="" ${exElem.animation_2_watched == true ? 'checked' : ''}>
                         </button>

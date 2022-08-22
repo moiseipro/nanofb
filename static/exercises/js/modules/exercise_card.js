@@ -181,7 +181,15 @@ function RenderExerciseOne(data) {
         $('#card_drawing1').find('.card').last().html(data.scheme_data[0]);
         $('#card_drawing2').find('.card').last().html(data.scheme_data[1]);
 
-        console.log(data)
+        $('#carouselVideo').find('.carousel-item').removeClass('d-none');
+        $('#carouselVideo').find('.carousel-indicators > li').removeClass('d-none');
+        $('#carouselVideo').find('.carousel-control-prev').removeClass('d-none');
+        $('#carouselVideo').find('.carousel-control-next').removeClass('d-none');
+        $('#carouselAnim').find('.carousel-item').removeClass('d-none');
+        $('#carouselAnim').find('.carousel-indicators > li').removeClass('d-none');
+        $('#carouselAnim').find('.carousel-control-prev').removeClass('d-none');
+        $('#carouselAnim').find('.carousel-control-next').removeClass('d-none');
+
         if (data.video_data[0] && data.video_data[0] != -1) {
             $('#carouselVideo').find('.carousel-item').first().removeClass('d-none');
             $(exsCard).find('.video-value[name="video1"]').val(data.video_data[0]);
@@ -226,6 +234,18 @@ function RenderExerciseOne(data) {
             $('#carouselAnim').find('.carousel-control-next').addClass('d-none');
             $(exsCard).find('.video-value[name="animation2"]').val('');
         }
+        $('#carouselSchema').find('.carousel-item').removeClass('active');
+        $('#carouselSchema').find('.carousel-item:not(.d-none)').first().addClass('active');
+        $('#carouselSchema').find('.carousel-indicators > li').removeClass('active');
+        $('#carouselSchema').find('.carousel-indicators > li:not(.d-none)').first().addClass('active');
+        $('#carouselVideo').find('.carousel-item').removeClass('active');
+        $('#carouselVideo').find('.carousel-item:not(.d-none)').first().addClass('active');
+        $('#carouselVideo').find('.carousel-indicators > li').removeClass('active');
+        $('#carouselVideo').find('.carousel-indicators > li:not(.d-none)').first().addClass('active');
+        $('#carouselAnim').find('.carousel-item').removeClass('active');
+        $('#carouselAnim').find('.carousel-item:not(.d-none)').first().addClass('active');
+        $('#carouselAnim').find('.carousel-indicators > li').removeClass('active');
+        $('#carouselAnim').find('.carousel-indicators > li:not(.d-none)').first().addClass('active');
     } else {
         $(exsCard).attr('data-exs', '-1');
 
@@ -262,10 +282,30 @@ function RenderExerciseOne(data) {
         CheckMultiRows(exsCard, '', '.exs_edit_field[name="notes[]"]', 'notes');
         CorrectBlockBorders();
 
+        $('#carouselVideo').find('.carousel-item').addClass('d-none');
+        $('#carouselVideo').find('.carousel-indicators > li').addClass('d-none');
+        $('#carouselVideo').find('.carousel-control-prev').addClass('d-none');
+        $('#carouselVideo').find('.carousel-control-next').addClass('d-none');
+        $('#carouselAnim').find('.carousel-item').addClass('d-none');
+        $('#carouselAnim').find('.carousel-indicators > li').addClass('d-none');
+        $('#carouselAnim').find('.carousel-control-prev').addClass('d-none');
+        $('#carouselAnim').find('.carousel-control-next').addClass('d-none');
         $(exsCard).find('.video-value[name="video1"]').val('');
         $(exsCard).find('.video-value[name="video2"]').val('');
         $(exsCard).find('.video-value[name="animation1"]').val('');
         $(exsCard).find('.video-value[name="animation2"]').val('');
+        $('#carouselSchema').find('.carousel-item').removeClass('active');
+        $('#carouselSchema').find('.carousel-item:not(.d-none)').first().addClass('active');
+        $('#carouselSchema').find('.carousel-indicators > li').removeClass('active');
+        $('#carouselSchema').find('.carousel-indicators > li:not(.d-none)').first().addClass('active');
+        $('#carouselVideo').find('.carousel-item').removeClass('active');
+        $('#carouselVideo').find('.carousel-item:not(.d-none)').first().addClass('active');
+        $('#carouselVideo').find('.carousel-indicators > li').removeClass('active');
+        $('#carouselVideo').find('.carousel-indicators > li:not(.d-none)').first().addClass('active');
+        $('#carouselAnim').find('.carousel-item').removeClass('active');
+        $('#carouselAnim').find('.carousel-item:not(.d-none)').first().addClass('active');
+        $('#carouselAnim').find('.carousel-indicators > li').removeClass('active');
+        $('#carouselAnim').find('.carousel-indicators > li:not(.d-none)').first().addClass('active');
 
         $('.exs-list-group').find('.list-group-item').removeClass('active');
         // clear video, animation and scheme

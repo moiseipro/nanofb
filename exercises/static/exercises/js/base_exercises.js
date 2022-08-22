@@ -288,6 +288,18 @@ $(function() {
     });
 
 
+    // Reset side filter
+    $('#filterReset').on('click', (e) => {
+        if ($($('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').hasClass('active')).length > 0) {
+            $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').attr('data-state', '0');
+            $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').toggleClass('active', false);
+            $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').find('.row > div:nth-child(2)').html('');
+            window.exercisesFilter = {};
+            LoadFolderExercises();
+            CountExsInFolder();
+        }
+    });
+
     // Toggle columns size
     $('#columnsSizeInCard').on('click', (e) => {
         $('#exerciseCardModal').find('div.gutter').toggleClass('d-none');

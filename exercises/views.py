@@ -759,7 +759,9 @@ def exercises_api(request):
                 exs_data['favorite'] = exercise['favorite'] if 'favorite' in exercise else None
                 res_exs.append(exs_data)
             # sorting list by title:
-            res_exs = sorted(res_exs, key=lambda d: d['title'])
+            for elem in res_exs:
+                elem['title_for_sort'] = elem['title'].replace(" ", "")
+            res_exs = sorted(res_exs, key=lambda d: d['title_for_sort'])
             return JsonResponse({"data": res_exs, "success": True}, status=200)
         elif get_exs_one_status == 1:
             exs_id = -1
