@@ -4132,6 +4132,9 @@ table.table-inbox tbody tr.checked {
 .icon--ball {
 	content: url(../img/icons/ball.png);
 }
+.icon--ball-x {
+	content: url(../img/icons/ball-x.png);
+}
 .icon--brush {
 	content: url(../img/icons/brush.png);
 }

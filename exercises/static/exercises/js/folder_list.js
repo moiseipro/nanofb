@@ -79,9 +79,9 @@ $(function() {
                     <span class="icon-custom icon--folder ml-4" style="--i-w: 1em; --i-h: 1em;"></span>
                 `);
                 $(tElem).find('.folder-sub-add').empty();
-                $(tElem).find('.folder-elem').attr('data-root', '0');
+                $(tElem).find('.folder-nfb-elem').attr('data-root', '0');
             } else {
-                $(tElem).find('.folder-elem').attr('data-root', '1');
+                $(tElem).find('.folder-nfb-elem').attr('data-root', '1');
             }
             $('.folders_nfb_list > .list-group').append(tElem);
         }

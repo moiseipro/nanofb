@@ -44,7 +44,7 @@ function ToggleUpFilter(id, state) {
             $('.folders_nfb_list').toggleClass('d-none', true);
             $('.folders_club_list').toggleClass('d-none', false);
             $('.folders_list').toggleClass('d-none', true);
-            $('.exercises-list').find('.list-group-item').removeClass('active');
+            $('.exercises-list').find('.list-group-item:not(.side-filter-elem)').removeClass('active');
             $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
 
             $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('d-none', true);
@@ -53,6 +53,7 @@ function ToggleUpFilter(id, state) {
 
             $('#exerciseCopyModal').find('select[name="copy_mode"]').val('1');
             $('#exerciseCopyModal').find('select[name="copy_mode"]').prop('disabled', true);
+            CountFilteredExs();
             break;
         case "club_folders":
             $('.folders_nfb_list').toggleClass('d-none', true);
@@ -62,13 +63,13 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('d-none', true);
             $('.up-tabs-elem[data-id="club_folders"]').toggleClass('d-none', true);
             $('.up-tabs-elem[data-id="team_folders"]').toggleClass('d-none', false);
-
+            CountFilteredExs();
             break;
         case "team_folders":
             $('.folders_nfb_list').toggleClass('d-none', false);
             $('.folders_club_list').toggleClass('d-none', true);
             $('.folders_list').toggleClass('d-none', true);
-            $('.exercises-list').find('.list-group-item').removeClass('active');
+            $('.exercises-list').find('.list-group-item:not(.side-filter-elem)').removeClass('active');
             $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
 
             $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('d-none', false);
@@ -76,6 +77,7 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem[data-id="team_folders"]').toggleClass('d-none', true);
 
             $('#exerciseCopyModal').find('select[name="copy_mode"]').prop('disabled', false);
+            CountFilteredExs();
             break;
         case "copy":
             if ($('.exercises-list').find('.exs-elem.active').length <= 0) {
@@ -148,53 +150,85 @@ function CheckLastExs() {
 }
 
 function CountExsInFolder() {
+    window.filterIsLoaded = false;
+    window.count_exs_calls = [];
     let folders = $('.folders_list').find('.list-group-item > div');
     for (let i = 0; i < folders.length; i++) {
         let folder = $(folders[i]);
         $(folder).find('.folder-exs-counter').html('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
-        let data = {'count_exs': 1, 'folder': $(folder).attr('data-id'), 'type': "team_folders"};
-        $.ajax({
-            data: data,
-            type: 'POST', // GET или POST
-            dataType: 'json',
-            url: "exercises_api",
-            success: function (res) {
-                if (res.success && res.data != 0) {
-                    $(folder).find('.folder-exs-counter').html(res.data);
-                } else {
+        let data = {'count_exs': 1, 'folder': $(folder).attr('data-id'), 'type': "team_folders", 'filter': window.exercisesFilter};
+        window.count_exs_calls.push(
+            $.ajax({
+                data: data,
+                type: 'POST', // GET или POST
+                dataType: 'json',
+                url: "exercises_api",
+                success: function (res) {
+                    if (res.success && res.data != 0) {
+                        $(folder).find('.folder-exs-counter').html(res.data);
+                    } else {
+                        $(folder).find('.folder-exs-counter').html('...');
+                    }
+                },
+                error: function (res) {
                     $(folder).find('.folder-exs-counter').html('...');
-                }
-            },
-            error: function (res) {
-                $(folder).find('.folder-exs-counter').html('...');
-            },
-            complete: function (res) {}
-        });
+                },
+                complete: function (res) {}
+            })
+        );
     }
     folders = $('.folders_nfb_list').find('.list-group-item > div');
     for (let i = 0; i < folders.length; i++) {
         let folder = $(folders[i]);
         $(folder).find('.folder-exs-counter').html('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
-        let data = {'count_exs': 1, 'folder': $(folder).attr('data-id'), 'type': "nfb_folders"};
-        $.ajax({
-            data: data,
-            type: 'POST', // GET или POST
-            dataType: 'json',
-            url: "exercises_api",
-            success: function (res) {
-                if (res.success && res.data != 0) {
-                    $(folder).find('.folder-exs-counter').html(res.data);
-                } else {
+        let data = {'count_exs': 1, 'folder': $(folder).attr('data-id'), 'type': "nfb_folders", 'filter': window.exercisesFilter};
+        window.count_exs_calls.push(
+            $.ajax({
+                data: data,
+                type: 'POST', // GET или POST
+                dataType: 'json',
+                url: "exercises_api",
+                success: function (res) {
+                    if (res.success && res.data != 0) {
+                        $(folder).find('.folder-exs-counter').html(res.data);
+                    } else {
+                        $(folder).find('.folder-exs-counter').html('...');
+                    }
+                },
+                error: function (res) {
                     $(folder).find('.folder-exs-counter').html('...');
-                }
-            },
-            error: function (res) {
-                $(folder).find('.folder-exs-counter').html('...');
-            },
-            complete: function (res) {}
-        });
+                },
+                complete: function (res) {}
+            })
+        );
+    }
+    $.when.apply($, window.count_exs_calls).then(() => {
+        window.filterIsLoaded = true;
+        CountFilteredExs();
+    });
+}
+
+function CountFilteredExs() {
+    let res = 0;
+    $('.folders-block').find('.folders_div:not(.d-none)').find('[data-root="1"]').find('.folder-exs-counter').each((ind, elem) =>{
+        let tVal = 0;
+        try {
+            tVal = parseInt($(elem).text());
+            if (isNaN(tVal)) {tVal = 0;}
+        } catch(e) {}
+        res += tVal;
+    });
+    if (window.exercisesFilter.constructor == Object) {
+        for (key in window.exercisesFilter) {
+            if (window.filterIsLoaded) {
+                $(`.side-filter-elem.active[data-type="${key}"]`).find('.row > div:nth-child(2)').html(`( ${res} )`);
+            } else {
+                $(`.side-filter-elem.active[data-type="${key}"]`).find('.row > div:nth-child(2)').html(`<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`);
+            }
+        }
     }
 }
+
 
 
 $(function() {
@@ -225,10 +259,21 @@ $(function() {
         if (isFilter) {
             $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').attr('data-state', '0');
             $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').toggleClass('active', false);
-            $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').find('.counter').remove();
+            $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').find('.row > div:nth-child(2)').html('');
+            let type = $(e.currentTarget).attr('data-type');
+            let id = $(e.currentTarget).attr('data-id');
             if (!state) {
-                $(e.currentTarget).find('.row > div:nth-child(2)').append(`<span class="counter">( .. )</span>`);
+                $(e.currentTarget).find('.row > div:nth-child(2)').html(`<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`);
+                window.exercisesFilter = {[type]: id};
+            } else {
+                $(e.currentTarget).find('.row > div:nth-child(2)').html('');
+                window.exercisesFilter = {};
             }
+            for (ind in window.count_exs_calls) {
+                window.count_exs_calls[ind].abort();
+            }
+            LoadFolderExercises();
+            CountExsInFolder();
         }
         $(e.currentTarget).toggleClass('active', !state);
         $(e.currentTarget).attr('data-state', state ? '0' : '1');
