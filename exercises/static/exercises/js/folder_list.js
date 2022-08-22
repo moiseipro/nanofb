@@ -44,6 +44,8 @@ $(function() {
                 $(tElem).find('.folder-elem').attr('data-root', '0');
             } else {
                 $(tElem).find('.folder-elem').attr('data-root', '1');
+                $(tElem).find('.folder-elem').find('.pull-right.border-left').addClass('d-none');
+                $(tElem).addClass('root-elem');
             }
             $('.folders_list > .list-group').append(tElem);
         }
@@ -82,6 +84,8 @@ $(function() {
                 $(tElem).find('.folder-nfb-elem').attr('data-root', '0');
             } else {
                 $(tElem).find('.folder-nfb-elem').attr('data-root', '1');
+                $(tElem).find('.folder-nfb-elem').find('.pull-right.border-left').addClass('d-none');
+                $(tElem).addClass('root-elem');
             }
             $('.folders_nfb_list > .list-group').append(tElem);
         }

@@ -80,6 +80,7 @@ function LoadFolderExercises() {
 function RenderFolderExercises(id, tExs) {
     let exs = tExs[id];
     let exsHtml = "";
+    $('.btn[data-id="exs_counter"]').html(exs.length);
     for (let i = 0; i < exs.length; i++) {
         let exElem = exs[i];
         exsHtml += `
