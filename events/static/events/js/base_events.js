@@ -435,18 +435,18 @@ function generateEventTable(){
                 let html_view = '<div class="row text-center mx-0">'
                 if(type === 'display') {
                     if ('training' in data && data.training != null) {
-                        let duration = 0;
-                        if ('exercises_info' in data.training && data.training.exercises_info.length > 0) {
-
-                            $.each(data.training.exercises_info, function( index, exs_data ) {
-                                if(exs_data.group == 1) duration+=exs_data['duration']
-                            });
-                            console.log(duration)
-                            duration += '`'
-                        } else {
-                            duration += '`'
-                        }
-                        html_view += '<div class="col-4 px-0">'+ duration + '</div><div class="col-4 border-left px-0">0</div><div class="col-4 border-left px-0">0</div>'
+                        // let duration = 0;
+                        // if ('exercises_info' in data.training && data.training.exercises_info.length > 0) {
+                        //
+                        //     $.each(data.training.exercises_info, function( index, exs_data ) {
+                        //         if(exs_data.group == 1) duration+=exs_data['duration']
+                        //     });
+                        //     console.log(duration)
+                        //     duration += '`'
+                        // } else {
+                        //     duration += '`'
+                        // }
+                        html_view += '<div class="col-6 border-left px-0">0</div><div class="col-6 border-left px-0">0</div>'
                     } else if ('match' in data && data.match != null){
                         html_view = '---'
                     } else {

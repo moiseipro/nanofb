@@ -25,9 +25,7 @@ $(window).on('load', function (){
                     </div>
                 </div>
                 `)
-            }
-            if(data.status="exercise_added"){
-
+                set_count_exercises()
             }
         })
     })
@@ -43,6 +41,7 @@ $(window).on('load', function (){
         let data = {}
         ajax_training_exercise_action('DELETE', data, 'delete', exercises_training_id, '').done(function (data) {
             $('.exercise-block .exercise-row[data-id="'+exercises_training_id+'"]').remove()
+            set_count_exercises()
         })
     })
 
@@ -54,7 +53,34 @@ $(window).on('load', function (){
         }
         ajax_event_action('PUT', data, 'save', id)
     })
+
+    $('#add-exercise-modal').on('show.bs.modal', function (e) {
+        set_count_exercises()
+    })
+    set_sum_duration_group()
 })
+
+// Подсчет кол-ва добавленных упражнений по группам
+function set_count_exercises() {
+    $('.add-exercise').each(function( index ) {
+        let group = $(this).attr('data-group')
+        $(this).children('span').text($('.group-block[data-group="'+group+'"] .exercise-row').length)
+    })
+    set_sum_duration_group()
+}
+
+// Подсчет суммы минут добавленных упражнений по группам
+function set_sum_duration_group() {
+    $('.group-block').each(function( index ) {
+        let sum = 0
+        $(this).find('.exercise-row').each(function( index ) {
+            sum += parseInt($(this).find('input[name="duration"]').val())
+        })
+        console.log(sum)
+        $(this).find('.sum-duration-group').text(sum)
+    })
+
+}
 
 function ajax_training_action(method, data, action = '', id = '', func = '') {
 
@@ -112,6 +138,7 @@ function ajax_training_exercise_action(method, data, action = '', id = '', func 
             },
             complete: function () {
                 $('.page-loader-wrapper').fadeOut();
+                set_sum_duration_group()
             }
         })
 }

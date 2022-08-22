@@ -123,8 +123,9 @@
                                 <div id="group_A" class="col-12 group-block" data-group="1">
                                     <div class="row border border-dark bg-default-light font-weight-bold">
                                         <div class="col">Группа А</div>
-                                        <div class="col-2 text-right px-0">
-                                            <button type="button" class="btn btn-sm btn-secondary rounded-0 py-0 h-100 edit-button d-none" data-toggle="modal" data-target="#add-exercise-modal"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                        <div class="col-3 px-0">
+                                            <button type="button" class="btn btn-sm btn-secondary float-right rounded-0 py-0 h-100 edit-button d-none" data-toggle="modal" data-target="#add-exercise-modal"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                            <span class="sum-duration-group btn btn-sm float-right rounded-0 h-100 font-weight-bold" style="width: 50px">00</span>
                                         </div>
                                     </div>
                                     {% for exercise in object.usertrainingexercise_set.all %}
@@ -158,8 +159,9 @@
                                 <div id="group_B" class="col-12 group-block" data-group="2">
                                     <div class="row border border-dark bg-default-light font-weight-bold">
                                         <div class="col">Группа B</div>
-                                        <div class="col-2 text-right px-0">
-                                            <button type="button" class="btn btn-sm btn-secondary rounded-0 py-0 h-100 edit-button d-none" data-toggle="modal" data-target="#add-exercise-modal"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                        <div class="col-3 px-0">
+                                            <button type="button" class="btn btn-sm btn-secondary float-right rounded-0 py-0 h-100 edit-button d-none" data-toggle="modal" data-target="#add-exercise-modal"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                            <span class="sum-duration-group btn btn-sm float-right rounded-0 h-100 font-weight-bold" style="width: 50px">00</span>
                                         </div>
                                     </div>
                                     {% for exercise in object.usertrainingexercise_set.all %}
@@ -179,8 +181,9 @@
                                 <div id="group_C" class="col-12 group-block" data-group="3">
                                     <div class="row border border-dark bg-default-light font-weight-bold">
                                         <div class="col">Группа C</div>
-                                        <div class="col-2 text-right px-0">
-                                            <button type="button" class="btn btn-sm btn-secondary rounded-0 py-0 h-100 edit-button d-none" data-toggle="modal" data-target="#add-exercise-modal"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                        <div class="col-3 px-0">
+                                            <button type="button" class="btn btn-sm btn-secondary float-right rounded-0 py-0 h-100 edit-button d-none" data-toggle="modal" data-target="#add-exercise-modal"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                            <span class="sum-duration-group btn btn-sm float-right rounded-0 h-100 font-weight-bold" style="width: 50px">00</span>
                                         </div>
                                     </div>
                                     {% for exercise in object.usertrainingexercise_set.all %}
@@ -315,9 +318,9 @@
                         {% include "exercises/modules/exercises_list.html" %}
                 </div>
                 <div class="modal-footer py-1">
-                    <button type="button" class="btn btn-sm btn-warning add-exercise edit-button" data-group="1">{% trans "Group A" %} <i class="fa fa-plus" aria-hidden="true"></i></button>
-                    <button type="button" class="btn btn-sm btn-warning add-exercise edit-button" data-group="2">{% trans "Group B" %} <i class="fa fa-plus" aria-hidden="true"></i></button>
-                    <button type="button" class="btn btn-sm btn-warning add-exercise edit-button" data-group="3">{% trans "Group C" %} <i class="fa fa-plus" aria-hidden="true"></i></button>
+                    <button type="button" class="btn btn-sm btn-warning add-exercise edit-button" data-group="1">{% trans "Group A" %} <i class="fa fa-plus" aria-hidden="true"></i> <span class="badge badge-light font-weight-bold">0</span></button>
+                    <button type="button" class="btn btn-sm btn-warning add-exercise edit-button" data-group="2">{% trans "Group B" %} <i class="fa fa-plus" aria-hidden="true"></i> <span class="badge badge-light font-weight-bold">0</span></button>
+                    <button type="button" class="btn btn-sm btn-warning add-exercise edit-button" data-group="3">{% trans "Group C" %} <i class="fa fa-plus" aria-hidden="true"></i> <span class="badge badge-light font-weight-bold">0</span></button>
                 </div>
             </div>
         </div>
