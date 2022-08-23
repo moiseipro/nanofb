@@ -54,6 +54,24 @@ var newMicrocycle = [
         href: '#event_2_'+2,
     }
 ];
+var minDate, maxDate
+$.fn.dataTable.ext.search.push(
+    function( settings, data, dataIndex ) {
+        var min = minDate.val();
+        var max = maxDate.val();
+        var date = new Date( data[4] );
+
+        if (
+            ( min === null && max === null ) ||
+            ( min === null && date <= max ) ||
+            ( min <= date   && max === null ) ||
+            ( min <= date   && date <= max )
+        ) {
+            return true;
+        }
+        return false;
+    }
+);
 
 $(window).on('load', function (){
     $('.move_to_today').text(moment().format('DD/MM/YYYY'))
@@ -80,9 +98,16 @@ $(window).on('load', function (){
         $('#events tbody tr[data-value="'+$(this).attr('data-value')+'"]').removeClass('bg-light')
     })
 
+    $('#event_calendar').on('click', '.microcycle_cell', function () {
+        $('#event_calendar .microcycle_cell.selected').not($(this)).removeClass('selected')
+        $(this).toggleClass('selected')
+        events_table.draw()
+    })
+
+
     $('#microcycle-modal').on('click', '.create', function() {
         cur_edit_data = microcycles_table.row($(this).closest('tr')).data()
-        console.log('CREATE : ', cur_edit_data);
+        //console.log('CREATE : ', cur_edit_data);
         $('#microcycles-form').attr('method', 'POST')
         $('#microcycles-form').removeClass('d-none')
         $('#microcycles-form #id_name').val('')
@@ -92,7 +117,7 @@ $(window).on('load', function (){
     //Активация редактирования микроцикла
     $('#microcycles').on('click', '.edit', function() {
         cur_edit_data = microcycles_table.row($(this).closest('tr')).data()
-        console.log('EDIT : ', cur_edit_data);
+        //console.log('EDIT : ', cur_edit_data);
         $('#microcycles-form').attr('method', 'PATCH')
         $('#microcycles-form').removeClass('d-none')
         $('#microcycles-form #id_name').val(cur_edit_data['name'])
@@ -102,7 +127,7 @@ $(window).on('load', function (){
     //Удаление микроцикла
     $('#microcycles').on('click', '.delete', function() {
         cur_edit_data = microcycles_table.row($(this).closest('tr')).data()
-        console.log('DELETE : ', cur_edit_data);
+        //console.log('DELETE : ', cur_edit_data);
         $('#microcycles-form').attr('method', 'DELETE')
         $('#microcycles-form').addClass('d-none')
         $('#microcycles-form #id_name').val('')
@@ -120,7 +145,7 @@ $(window).on('load', function (){
     $('#microcycles-form').on('submit', function(e) {
         e.preventDefault()
         $('#microcycles-form').addClass('d-none')
-        console.log($(this).serialize())
+        //console.log($(this).serialize())
         ajax_microcycle_update($(this).attr('method'), $(this).serialize(), cur_edit_data ? cur_edit_data.id : 0)
     })
 
@@ -133,7 +158,7 @@ $(window).on('load', function (){
     $('#form-event').on('submit', function(e) {
         e.preventDefault()
         let data = getFormData($(this))
-        console.log(data)
+        //console.log(data)
         data['date'] = data['date']+' '+data['time']
         ajax_event_action($(this).attr('method'), data, 'create', cur_edit_data ? cur_edit_data.id : 0).done(function( data ) {
             if(events_table) events_table.ajax.reload()
@@ -146,7 +171,7 @@ $(window).on('load', function (){
     $('#form-event-edit').on('submit', function(e) {
         e.preventDefault()
         let data = getFormData($(this))
-        console.log(data)
+        //console.log(data)
         data['date'] = data['date']+' '+data['time']
         ajax_event_action($(this).attr('method'), data, 'update', cur_edit_data ? cur_edit_data.id : 0).done(function( data ) {
             if(events_table) events_table.ajax.reload()
@@ -164,7 +189,7 @@ $(window).on('load', function (){
         let id = this_obj.closest('tr.hasEvent').attr('data-value')
         let data = {}
         data.favourites = this_obj.hasClass('fa-star-o')
-        console.log(data)
+        //console.log(data)
         ajax_training_action('PUT', data, 'favourites', id).done(function (data) {
             if(data.favourites) this_obj.addClass('fa-star').removeClass('fa-star-o')
             else this_obj.removeClass('fa-star').addClass('fa-star-o')
@@ -240,7 +265,7 @@ function ajax_microcycle_update(method, data, id) {
     })
 
     request.done(function( data ) {
-        console.log(data)
+        //console.log(data)
         create_alert('alert-update', {type: 'success', message: gettext('The action with the microcycle was successfully completed!')})
         generateNewCalendar()
         microcycles_table.ajax.reload()
@@ -272,14 +297,14 @@ function generateNewCalendar(){
                     href: '#empty'
                 })
             }
-            console.log(newMicrocycle)
+            //console.log(newMicrocycle)
             $.ajax({
                 headers:{"X-CSRFToken": csrftoken },
                 url: 'api/action/',
                 type: 'GET',
                 dataType: "JSON",
                 success: function(data){
-                    console.log(data['results'])
+                    //console.log(data['results'])
                     let count_tr = 1, count_m = 1, event_date = '', event_class=''
                     for (var event of data['results']) {
                         let event_id = event['id'],
@@ -306,10 +331,10 @@ function generateNewCalendar(){
                             text: event_short_name
                         })
                     }
-                    console.log(newEvent)
+                    //console.log(newEvent)
                 },
                 error: function(jqXHR, textStatus){
-                    console.log(jqXHR)
+                    //console.log(jqXHR)
                     swal(gettext('Event save'), gettext('Error when action the event!'), "error");
                 },
                 complete: function () {
@@ -318,7 +343,7 @@ function generateNewCalendar(){
             })
         },
         error: function(jqXHR, textStatus){
-            console.log(jqXHR)
+            //console.log(jqXHR)
             swal(gettext('Event save'), gettext('Error when action the event!'), "error");
         },
         complete: function () {
@@ -358,11 +383,16 @@ function generateMicrocyclesTable(){
         processing: true,
         lengthChange: false,
         pageLength: 20,
-        ajax: 'api/microcycles/?format=datatables',
+        ajax: {
+            url:'api/microcycles/?format=datatables',
+            data: function(data){
+                console.log(data)
+            },
+        },
         columns: [
             {'data': 'name'},
-            {'data': 'date_with'},
-            {'data': 'date_by'},
+            {'data': 'date_with', 'searchable': 'false'},
+            {'data': 'date_by' , 'searchable': 'false'},
             {'data': 'id' , render : function ( data, type, row, meta ) {
               return type === 'display'  ?
                 '<button class="btn btn-sm btn-warning mx-1 py-0 edit" data-id="'+data+'"><i class="fa fa-pencil"></i></button>'+
@@ -394,10 +424,23 @@ function generateEventTable(){
         select: true,
         lengthChange: false,
         pageLength: 20,
-        ajax: 'api/action/?format=datatables',
+        ajax: {
+            url:'api/action/?format=datatables',
+            data: function(data){
+                let from_date_str = $('#event_calendar .microcycle_cell.selected').attr('data-start')
+                let to_date_str = $('#event_calendar .microcycle_cell.selected').attr('data-end')
+                //console.log(to_date_str)
+                let from_date = from_date_str ? moment(from_date_str, 'DD/MM/YYYY').format('YYYY-MM-DD') : undefined
+                let to_date = to_date_str ? moment(to_date_str, 'DD/MM/YYYY').format('YYYY-MM-DD') : undefined
+                //console.log(to_date)
+                // Append to data
+                data.columns[1].search.value = {'date_after': from_date, 'date_before': to_date}
+                //console.log(data)
+            },
+        },
         columns: [
             {'data': 'id'},
-            {'data': 'only_date', 'type': 'date'},
+            {'data': 'only_date', 'name': 'only_date', 'type': 'date'},
             {'data': function (data, type, dataToSet) {
                 if(type === 'display') {
                     if ('training' in data && data.training != null) {
@@ -410,13 +453,13 @@ function generateEventTable(){
                 } else return null
             }},
             {'data': function (data, type, dataToSet) {
-                console.log(data)
+                //console.log(data)
                 if(type === 'display') {
                     return '---'
                 } else return null
             }},
             {'data': function (data, type, dataToSet) {
-                console.log(data)
+                //console.log(data)
                 let html_view = ''
                 if(type === 'display') {
                     if ('training' in data && data.training != null) {
@@ -431,7 +474,7 @@ function generateEventTable(){
                 return html_view
             }},
             {'data': function (data, type, dataToSet) {
-                console.log(data)
+                //console.log(data)
                 let html_view = '<div class="row text-center mx-0">'
                 if(type === 'display') {
                     if ('training' in data && data.training != null) {
@@ -462,7 +505,7 @@ function generateEventTable(){
     events_table
         .on( 'select', function ( e, dt, type, indexes ) {
             let rowData = events_table.rows( indexes ).data().toArray();
-            console.log(rowData)
+            //console.log(rowData)
             if(type=='row') {
                 $('.rescalendar .hasEvent[data-value="'+rowData[0]['id']+'"]').addClass('selected')
                 //ajax_video_info(rowData[0])

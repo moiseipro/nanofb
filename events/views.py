@@ -6,7 +6,9 @@ from requests import Response
 from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
+from rest_framework_datatables.django_filters.backends import DatatablesFilterBackend
 
+from events.filters import EventGlobalFilter
 from events.forms import MicrocycleUserForm, EventUserForm, EventEditUserForm
 from events.models import UserMicrocycles, UserEvent
 from events.serializers import UserMicrocyclesSerializer, UserMicrocyclesUpdateSerializer, UserEventSerializer, \
@@ -39,6 +41,8 @@ class MicrocycleViewSet(viewsets.ModelViewSet):
 
 class EventViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
+    filter_backends = (DatatablesFilterBackend,)
+    filterset_class = EventGlobalFilter
 
     def perform_create(self, serializer):
         print(self.request.data)
@@ -69,10 +73,17 @@ class EventViewSet(viewsets.ModelViewSet):
         return UserEventSerializer
 
     def get_queryset(self):
+        microcycle_before = self.request.query_params.get('columns[1][search][value][date_before]')
+        microcycle_after = self.request.query_params.get('columns[1][search][value][date_after]')
+        print(microcycle_after)
         season = UserSeason.objects.filter(id=self.request.session['season'])
+        #print(season[0].date_with)
         events = UserEvent.objects.filter(user_id=self.request.user,
                                           date__gte=season[0].date_with,
                                           date__lte=season[0].date_by)
+        if microcycle_before is not None and microcycle_after is not None:
+            events = events.filter(date__gte=microcycle_after,
+                                   date__lte=microcycle_before)
         return events
 
 
