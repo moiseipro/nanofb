@@ -217,7 +217,7 @@ function CountExsInFolder() {
 
 function CountFilteredExs() {
     let res = 0;
-    $('.folders-block').find('.folders_div:not(.d-none)').find('[data-root="1"]').find('.folder-exs-counter').each((ind, elem) =>{
+    $('.folders-block').find('.folders_div:not(.d-none)').find('[data-root="0"]').find('.folder-exs-counter').each((ind, elem) =>{
         let tVal = 0;
         try {
             tVal = parseInt($(elem).text());
