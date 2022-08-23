@@ -164,6 +164,7 @@ function CountExsInFolder() {
                     type: 'POST', // GET или POST
                     dataType: 'json',
                     url: "exercises_api",
+                    timeout: 60000,
                     success: function (res) {
                         if (res.success && res.data != 0) {
                             $(folder).find('.folder-exs-counter').html(res.data);
@@ -192,6 +193,7 @@ function CountExsInFolder() {
                     type: 'POST', // GET или POST
                     dataType: 'json',
                     url: "exercises_api",
+                    timeout: 60000,
                     success: function (res) {
                         if (res.success && res.data != 0) {
                             $(folder).find('.folder-exs-counter').html(res.data);

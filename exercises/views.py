@@ -760,7 +760,11 @@ def exercises_api(request):
                 res_exs.append(exs_data)
             # sorting list by title:
             for elem in res_exs:
-                elem['title_for_sort'] = elem['title'].replace(" ", "")
+                if isinstance(elem['title'], str):
+                    elem['title_for_sort'] = elem['title'].replace(" ", "")
+                else:
+                    elem['title'] = ""
+                    elem['title_for_sort'] = ""
             res_exs = sorted(res_exs, key=lambda d: d['title_for_sort'])
             return JsonResponse({"data": res_exs, "success": True}, status=200)
         elif get_exs_one_status == 1:
