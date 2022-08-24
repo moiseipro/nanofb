@@ -1,38 +1,40 @@
 function RenderSplitExsCardCols() {
     $('#exerciseCard').find('div.gutter').remove();
     sizesArr = window.dataForSplitExsCardCols;
-    window.splitExsCardCols = Split(['#splitCol_exscard_0', '#splitCol_exscard_1', '#splitCol_exscard_2'], {
-        sizes: sizesArr,
-        dragInterval: 1,
-        gutterSize: 15,
-        onDrag: () => {
-            let sizes = window.splitExsCardCols.getSizes();
-            if (sizes.length != 3) {return;} 
-            if (sizes[0] < 26) {
-                sizes[0] = 26;
-                sizes[1] = 37;
-                sizes[2] = 37;
+    try {
+        window.splitExsCardCols = Split(['#splitCol_exscard_0', '#splitCol_exscard_1', '#splitCol_exscard_2'], {
+            sizes: sizesArr,
+            dragInterval: 1,
+            gutterSize: 15,
+            onDrag: () => {
+                let sizes = window.splitExsCardCols.getSizes();
+                if (sizes.length != 3) {return;} 
+                if (sizes[0] < 26) {
+                    sizes[0] = 26;
+                    sizes[1] = 37;
+                    sizes[2] = 37;
+                }
+                if (sizes[1] < 36) {
+                    sizes[0] = 32;
+                    sizes[1] = 36;
+                    sizes[2] = 32;
+                }
+                if (sizes[2] < 26) {
+                    sizes[0] = 37;
+                    sizes[1] = 37;
+                    sizes[2] = 26;
+                }
+                try {
+                    window.splitExsCardCols.setSizes(sizes);
+                } catch(e) {}
+            },
+            onDragEnd: (arr) => {
+                window.dataForSplitExsCardCols = arr;
+                localStorage.setItem('split_exs_card_cols', JSON.stringify(window.dataForSplitExsCardCols));
             }
-            if (sizes[1] < 36) {
-                sizes[0] = 32;
-                sizes[1] = 36;
-                sizes[2] = 32;
-            }
-            if (sizes[2] < 26) {
-                sizes[0] = 37;
-                sizes[1] = 37;
-                sizes[2] = 26;
-            }
-            try {
-                window.splitExsCardCols.setSizes(sizes);
-            } catch(e) {}
-        },
-        onDragEnd: (arr) => {
-            window.dataForSplitExsCardCols = arr;
-            localStorage.setItem('split_exs_card_cols', JSON.stringify(window.dataForSplitExsCardCols));
-        }
-    });
-    $('#exerciseCard').find('div.gutter').toggleClass('d-none', true);
+        });
+        $('#exerciseCard').find('div.gutter').toggleClass('d-none', true);
+    } catch(e) {}
 }
 
 function ToggleEditFields(flag) {
@@ -57,7 +59,7 @@ function ToggleEditFields(flag) {
     window.onlyViewMode = !flag;
 }
 
-function LoadExerciseOne(exsID = null, fromNFB = 0) {
+function LoadExerciseOne(exsID = null, fromNFB = 0, folderType = "") {
     let searchParams = new URLSearchParams(window.location.search);
     if (!exsID) {
         try {
@@ -69,8 +71,11 @@ function LoadExerciseOne(exsID = null, fromNFB = 0) {
             fromNFB = parseInt(searchParams.get('nfb'));
         } catch (e) {}
     }
+    if (!folderType || folderType == "") {
+        folderType = searchParams.get('type');
+    }
     if (!exsID) {return;}
-    let data = {'get_exs_one': 1, 'exs': exsID, 'get_nfb': fromNFB};
+    let data = {'get_exs_one': 1, 'exs': exsID, 'get_nfb': fromNFB, 'type': folderType};
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
         data: data,
@@ -313,8 +318,10 @@ function RenderExerciseOne(data) {
 }
 
 function SaveExerciseOne() {
+    let searchParams = new URLSearchParams(window.location.search);
+    let folderType = searchParams.get('type');
     let exsId = $('#exerciseCard').attr('data-exs');
-    let dataToSend = {'edit_exs': 1, 'exs': exsId, 'data': {}};
+    let dataToSend = {'edit_exs': 1, 'exs': exsId, type: folderType, 'data': {}};
     $('#exerciseCard').find('.exs_edit_field').each((ind, elem) => {
         if (!$(elem).hasClass('d-none')) {
             let name = $(elem).attr('name');
@@ -404,8 +411,10 @@ function DeleteExerciseOne() {
     })
     .then((willDelete) => {
         if (willDelete) {
+            let searchParams = new URLSearchParams(window.location.search);
+            let folderType = searchParams.get('type');
             let exsId = $('#exerciseCard').attr('data-exs');
-            let data = {'delete_exs': 1, 'exs': exsId};
+            let data = {'delete_exs': 1, 'exs': exsId, 'type': folderType};
             $('.page-loader-wrapper').fadeIn();
             $.ajax({
                 data: data,
@@ -544,7 +553,7 @@ function CheckSelectedRowInVideoTable() {
         if (isNaN(value)) {value = -1;}
     } catch(e) {}
     SelectRowInVideoTable(video_table, value);
-    RenderVideo(value, $('.video-editor').find('#video-player-card'), window.videoPlayerCardEdit);
+    RenderVideo(value, $('.video-editor').find('#video-player-card-edit'), window.videoPlayerCardEdit);
 }
 
 function SelectRowInVideoTable(table, value) {
@@ -593,30 +602,32 @@ function SetVideoId(value) {
         valueInt = parseInt(value);
         if (isNaN(valueInt)) {valueInt = -1;}
     } catch (e) {}
-    RenderVideo(valueInt, $('.video-editor').find('#video-player-card'), window.videoPlayerCardEdit);
+    RenderVideo(valueInt, $('.video-editor').find('#video-player-card-edit'), window.videoPlayerCardEdit);
+    window.changedData = true;
 }
 
 
 $(function() {
 
     let cLang = $('#select-language').val();
-    ClassicEditor
-        .create(document.querySelector('#descriptionEditor2'), {
-            language: cLang
-        })
-        .then(editor => {
-            document.descriptionEditor2 = editor;
-            if (window.onlyViewMode) {
-                document.descriptionEditor2.enableReadOnlyMode('');
-                $(document).find('.ck-editor__top').addClass('d-none');
-                $(document).find('.ck-editor__main').addClass('read-mode');
-            }
-            $('.resizeable-block').css('height', `235px`);
-        })
-        .catch(err => {
-            console.error(err);
-        });
-
+    try {
+        ClassicEditor
+            .create(document.querySelector('#descriptionEditor2'), {
+                language: cLang
+            })
+            .then(editor => {
+                document.descriptionEditor2 = editor;
+                if (window.onlyViewMode) {
+                    document.descriptionEditor2.enableReadOnlyMode('');
+                    $(document).find('.ck-editor__top').addClass('d-none');
+                    $(document).find('.ck-editor__main').addClass('read-mode');
+                }
+                $('.resizeable-block').css('height', `235px`);
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    } catch(e) {}
 
     window.dataForSplitExsCardCols = JSON.parse(localStorage.getItem('split_exs_card_cols'));
     if (!window.dataForSplitExsCardCols) {

@@ -80,8 +80,8 @@ function LoadFolderExercises() {
 function RenderFolderExercises(id, tExs) {
     let exs = tExs[id];
     let exsHtml = "";
-    $('.btn[data-id="exs_counter"]').html(exs.length);
-    $('.folders-block').find('.list-group-item.active').find('.folder-exs-counter').html(exs.length);
+    $('.btn[data-id="exs_counter"]').html(exs.length > 0 ? exs.length : "...");
+    $('.folders-block').find('.list-group-item.active').find('.folder-exs-counter').html(exs.length > 0 ? exs.length : "...");
     for (let i = 0; i < exs.length; i++) {
         let exElem = exs[i];
         exsHtml += `
@@ -172,7 +172,8 @@ function LoadExerciseOneHandler() {
     if ($(activeExs).length <= 0) {return;}
     let cId = $(activeExs).attr('data-id');
     let fromNFB = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? 1 : 0;
-    LoadExerciseOne(cId, fromNFB);
+    let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+    LoadExerciseOne(cId, fromNFB, folderType);
 }
 
 function RenderExerciseOne(data) {
