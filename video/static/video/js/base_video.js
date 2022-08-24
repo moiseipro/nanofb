@@ -228,6 +228,7 @@ function render_json_block(data) {
         video_player.show()
         youtube_player.hide()
         video_player.attr('src', 'https://213.108.4.28/video/player/'+data['links']['nftv'])
+        video_player.attr('poster', 'https://213.108.4.28/video/poster/'+data['links']['nftv'])
     } else if('youtube' in data['links'] && data['links']['youtube'] != ''){
         video_player.hide()
         youtube_player.show()

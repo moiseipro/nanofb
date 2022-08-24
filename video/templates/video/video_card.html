@@ -35,7 +35,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-5 video-data">
-                        <form id="video-action-form" method="PUT">
+                        <form id="video-action-form" method="PUT" enctype="multipart/form-data">
                             <div class="row border-bottom border-dark">
                                 <div class="col-12 text-center px-0">
                                     <input type="text" class="form-control form-control-sm text-center py-0 edit-input" name="name" placeholder="{% trans "Title" %}" style="height: auto" autocomplete="off" disabled>
@@ -46,7 +46,7 @@
                                 </div>
                                 <div class="col-12 text-center px-0">
                                     <div class="custom-file">
-                                        <input type="file" name="file" class="custom-file-input edit-input" id="video-file" accept=".MP4,.avi" disabled>
+                                        <input type="file" name="file_video" class="custom-file-input edit-input" id="video-file" accept=".MP4,.avi" disabled>
                                         <label class="custom-file-label" for="video-file">{% trans "New video file" %}</label>
                                     </div>
                                 </div>
@@ -57,7 +57,7 @@
                                         </div>
                                         <div class="col-6 pl-0">
                                             <div class="custom-file">
-                                                <input type="file" name="file_screensaver" class="custom-file-input edit-input" id="video-screensaver" accept=".jpg,.png" disabled>
+                                                <input type="file" name="file_screen" class="custom-file-input edit-input" id="video-screensaver" accept=".jpg,.png" disabled>
                                                 <label class="custom-file-label" for="video-screensaver">{% trans "New screensaver file" %}</label>
                                             </div>
                                         </div>

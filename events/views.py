@@ -45,7 +45,7 @@ class EventViewSet(viewsets.ModelViewSet):
     filterset_class = EventGlobalFilter
 
     def perform_create(self, serializer):
-        print(self.request.data)
+        #print(self.request.data)
         user = self.request.user
         team = UserTeam.objects.get(pk=self.request.session['team'])
         event = serializer.save(user_id=user)
@@ -75,7 +75,7 @@ class EventViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         microcycle_before = self.request.query_params.get('columns[1][search][value][date_before]')
         microcycle_after = self.request.query_params.get('columns[1][search][value][date_after]')
-        print(microcycle_after)
+        #print(microcycle_after)
         season = UserSeason.objects.filter(id=self.request.session['season'])
         #print(season[0].date_with)
         events = UserEvent.objects.filter(user_id=self.request.user,

@@ -52,11 +52,12 @@ class VideoViewSet(viewsets.ModelViewSet):
             data_dict['music'] = 'off'
         if 'tags' in data:
             data_dict['tags'] = data['tags']
-        if 'file' in request.FILES:
+        if 'file_video' in request.FILES:
             url = 'http://213.108.4.28/api/add_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
             fs = FileSystemStorage()
-            file_name = fs.save(request.FILES['file'].name, self.request.FILES['file'])
-            file_content_type = request.FILES['file'].content_type
+            print(request.FILES)
+            file_name = fs.save(request.FILES['file_video'].name, self.request.FILES['file_video'])
+            file_content_type = request.FILES['file_video'].content_type
 
             with fs.open(file_name, 'rb') as file:
                 mp_encoder = MultipartEncoder(
@@ -83,6 +84,39 @@ class VideoViewSet(viewsets.ModelViewSet):
                 except requests.exceptions.ConnectionError as e:
                     response = "No response"
 
+                url = 'http://213.108.4.28/api/change_cover/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
+                if 'file_screen' in request.FILES:
+                    fs = FileSystemStorage()
+                    file_name = fs.save(request.FILES['file_screen'].name, self.request.FILES['file_screen'])
+                    file_content_type = request.FILES['file_screen'].content_type
+                    with fs.open(file_name, 'rb') as file:
+                        mp_encoder = MultipartEncoder(
+                            fields={
+                                'id': video_data['id'],
+                                'type': 'file',
+                                'user-cover': (file_name, file, file_content_type)
+                            }
+                        )
+                        # print(mp_encoder)
+                        response = requests.post(url, data=mp_encoder,
+                                                 headers={'Content-Type': mp_encoder.content_type})
+                        content = response.json()
+                        print(content)
+
+                    fs.delete(file_name)
+                elif 'second_screensaver' in data:
+                    mp_encoder = MultipartEncoder(
+                        fields={
+                            'id': video_data['id'],
+                            'type': 'frame',
+                            'time': data['second_screensaver']
+                        }
+                    )
+                    response = requests.post(url, data=mp_encoder,
+                                             headers={'Content-Type': mp_encoder.content_type})
+                    content = response.json()
+                    print(content)
+
         if 'youtube_link' in data and data['youtube_link']:
             id_video = extract.video_id(data['youtube_link'])
             if id_video:
@@ -106,12 +140,14 @@ class VideoViewSet(viewsets.ModelViewSet):
             music = True
         if 'duration' in self.request.data and self.request.data['duration'] == '00:00:00':
             instance = self.get_object().links
-            #print(instance)
+            #print(serializer)
             url = 'http://213.108.4.28/video/length/'+instance['nftv']
             try:
                 response = requests.get(url)
                 content = json.loads(response.content.decode('utf-8'))
-                duration = content['time']
+                print(content)
+                if 'time' in content:
+                    duration = content['time']
             except requests.exceptions.ConnectionError as e:
                 response = "No response"
 
@@ -123,8 +159,8 @@ class VideoViewSet(viewsets.ModelViewSet):
         instance = self.get_object()
         data.links = instance.links
 
-        #print(data)
-        if 'file' in request.FILES:
+        print(data)
+        if 'file_video' in request.FILES:
             is_delete = False
             server_id = None
             #print(instance.links)
@@ -141,13 +177,13 @@ class VideoViewSet(viewsets.ModelViewSet):
                 content = response.json()
                 #print(content)
                 video_data = content['data'][0]
-                is_delete = video_data['success']
+                is_delete = video_data['success'] or 'error' in video_data and video_data['error'] == 'not found by this ids'
             if is_delete:
                 url = 'http://213.108.4.28/api/add_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
                 fs = FileSystemStorage()
-                file_name = fs.save(request.FILES['file'].name, self.request.FILES['file'])
-                file_content_type = request.FILES['file'].content_type
-
+                file_name = fs.save(request.FILES['file_video'].name, self.request.FILES['file_video'])
+                file_content_type = request.FILES['file_video'].content_type
+                print(request.FILES)
                 with fs.open(file_name, 'rb') as file:
                     mp_encoder = MultipartEncoder(
                         fields={
@@ -165,6 +201,39 @@ class VideoViewSet(viewsets.ModelViewSet):
 
                 if video_data['success']:
                     data.links['nftv'] = video_data['id']
+
+        url = 'http://213.108.4.28/api/change_cover/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
+        if 'file_screen' in request.FILES:
+            fs = FileSystemStorage()
+            file_name = fs.save(request.FILES['file_screen'].name, self.request.FILES['file_screen'])
+            file_content_type = request.FILES['file_screen'].content_type
+            with fs.open(file_name, 'rb') as file:
+                mp_encoder = MultipartEncoder(
+                    fields={
+                        'id': data.links['nftv'],
+                        'type': 'file',
+                        'user-cover': (file_name, file, file_content_type)
+                    }
+                )
+                # print(mp_encoder)
+                response = requests.post(url, data=mp_encoder,
+                                         headers={'Content-Type': mp_encoder.content_type})
+                content = response.json()
+                print(content)
+
+            fs.delete(file_name)
+        elif 'second_screensaver' in data:
+            mp_encoder = MultipartEncoder(
+                fields={
+                    'id': data.links['nftv'],
+                    'type': 'frame',
+                    'time': data['second_screensaver']
+                }
+            )
+            response = requests.post(url, data=mp_encoder,
+                                     headers={'Content-Type': mp_encoder.content_type})
+            content = response.json()
+            print(content)
 
         if 'youtube_link' in data and data['youtube_link']:
             id_video = extract.video_id(data['youtube_link'])
