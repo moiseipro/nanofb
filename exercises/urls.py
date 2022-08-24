@@ -4,7 +4,6 @@ from exercises import views
 
 urlpatterns = [
     path('', views.exercises, name="exercises"),
-    path('test', views.test, name="test"),
     path('exercise', views.exercise, name="exercise"),
     path('folders', views.folders, name="folders"),
     path('exercises_api', views.exercises_api, name="exercises_api"),

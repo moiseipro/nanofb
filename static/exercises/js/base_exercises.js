@@ -149,92 +149,6 @@ function CheckLastExs() {
     }
 }
 
-function CountExsInFolder() {
-    window.filterIsLoaded = false;
-    window.count_exs_calls = [];
-    let folders = $('.folders_list').find('.list-group-item > div');
-    for (let i = 0; i < folders.length; i++) {
-        let folder = $(folders[i]);
-        if ($(folder).attr('data-root') != '1') {
-            $(folder).find('.folder-exs-counter').html('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
-            let data = {'count_exs': 1, 'folder': $(folder).attr('data-id'), 'type': "team_folders", 'filter': window.exercisesFilter};
-            window.count_exs_calls.push(
-                $.ajax({
-                    data: data,
-                    type: 'POST', // GET или POST
-                    dataType: 'json',
-                    url: "exercises_api",
-                    timeout: 60000,
-                    success: function (res) {
-                        if (res.success && res.data != 0) {
-                            $(folder).find('.folder-exs-counter').html(res.data);
-                        } else {
-                            $(folder).find('.folder-exs-counter').html('...');
-                        }
-                    },
-                    error: function (res) {
-                        $(folder).find('.folder-exs-counter').html('...');
-                    },
-                    complete: function (res) {
-                    }
-                })
-            );
-        }
-    }
-    folders = $('.folders_nfb_list').find('.list-group-item > div');
-    for (let i = 0; i < folders.length; i++) {
-        let folder = $(folders[i]);
-        if ($(folder).attr('data-root') != '1') {
-            $(folder).find('.folder-exs-counter').html('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
-            let data = {'count_exs': 1, 'folder': $(folder).attr('data-id'), 'type': "nfb_folders", 'filter': window.exercisesFilter};
-            window.count_exs_calls.push(
-                $.ajax({
-                    data: data,
-                    type: 'POST', // GET или POST
-                    dataType: 'json',
-                    url: "exercises_api",
-                    timeout: 60000,
-                    success: function (res) {
-                        if (res.success && res.data != 0) {
-                            $(folder).find('.folder-exs-counter').html(res.data);
-                        } else {
-                            $(folder).find('.folder-exs-counter').html('...');
-                        }
-                    },
-                    error: function (res) {
-                        $(folder).find('.folder-exs-counter').html('...');
-                    },
-                    complete: function (res) {}
-                })
-            );
-        }
-    }
-    $.when.apply($, window.count_exs_calls).then(() => {
-        window.filterIsLoaded = true;
-        CountFilteredExs();
-    });
-}
-
-function CountFilteredExs() {
-    let res = 0;
-    $('.folders-block').find('.folders_div:not(.d-none)').find('[data-root="0"]').find('.folder-exs-counter').each((ind, elem) =>{
-        let tVal = 0;
-        try {
-            tVal = parseInt($(elem).text());
-            if (isNaN(tVal)) {tVal = 0;}
-        } catch(e) {}
-        res += tVal;
-    });
-    if (window.exercisesFilter.constructor == Object) {
-        for (key in window.exercisesFilter) {
-            if (window.filterIsLoaded) {
-                $(`.side-filter-elem.active[data-type="${key}"]`).find('.row > div:nth-child(2)').html(`( ${res} )`);
-            } else {
-                $(`.side-filter-elem.active[data-type="${key}"]`).find('.row > div:nth-child(2)').html(`<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`);
-            }
-        }
-    }
-}
 
 
 
@@ -420,9 +334,8 @@ $(function() {
 
 
     $('#createExercise').on('click', (e) => {
-        window.location.href = `/exercises/exercise?id=new`;
-        // RenderExerciseOne(null);
-        // $('#exerciseCardModal').modal('show');
+        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        window.location.href = `/exercises/exercise?id=new&type=${folderType}`;
     });
 
 
@@ -453,9 +366,7 @@ $(function() {
         let activeExsId = $(activeExs).attr('data-id');
         if ($(activeExs).length > 0) {
             let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
-            let folderType = !$('.exercises-list').find('.folders_list').hasClass('d-none') ? "team_folders" 
-                : !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? "nfb_folders" 
-                : !$('.exercises-list').find('.folders_club_list').hasClass('d-none') ? "club_folders" : "";
+            let folderType = $('.folders_div:not(.d-none)').attr('data-id');
             let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
             let data = {'type': folderType, 'folder': folder, 'exs': activeExsId};
             data = JSON.stringify(data);
@@ -471,7 +382,7 @@ $(function() {
             exsList = JSON.stringify(exsList);
             sessionStorage.setItem('exs_list', exsList);
 
-            window.location.href = `/exercises/exercise?id=${activeExsId}&nfb=${fromNfbFolder ? 1 : 0}`;
+            window.location.href = `/exercises/exercise?id=${activeExsId}&nfb=${fromNfbFolder ? 1 : 0}&type=${folderType}`;
         } else {
             swal("Внимание", "Выберите упражнение для просмотра.", "info");
         }
@@ -720,7 +631,8 @@ $(function() {
         let fromNFB = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? 1 : 0;
         let cId = $(e.currentTarget).attr('data-id');
         let state = $(e.currentTarget).hasClass('selected');
-        let dataToSend = {'edit_exs_user_params': 1, 'exs': exsId, 'nfb': fromNFB, 'data': {'key': cId, 'value': state ? 0 : 1}};
+        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        let dataToSend = {'edit_exs_user_params': 1, 'exs': exsId, 'nfb': fromNFB, 'type': folderType, 'data': {'key': cId, 'value': state ? 0 : 1}};
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
             data: dataToSend,
@@ -939,6 +851,11 @@ $(function() {
         }
 
         $('#exerciseGraphicsModal').modal('show');
+    });
+    $('#exerciseGraphicsModal').on('hide.bs.modal', (e) => {
+        for (let i = 0; i < window.videoPlayerClones.length; i++) {
+            window.videoPlayerClones[i].pause();
+        }
     });
 
     // Save & Load current folders mode
