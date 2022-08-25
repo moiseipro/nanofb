@@ -72,6 +72,10 @@ function LoadFolderExercises() {
             complete: function (res) {
                 $('.page-loader-wrapper').fadeOut();
                 RenderFolderExercises(cFolderId, tExs);
+                if (window.lastExercise && window.lastExercise.exs) {
+                    CountExsInFolder();
+                    window.lastExercise = null;
+                }
             }
         });
     }
@@ -162,7 +166,6 @@ function RenderFolderExercises(id, tExs) {
 
     if (window.lastExercise && window.lastExercise.exs) {
         $('.exs-list-group').find(`.exs-elem[data-id="${window.lastExercise.exs}"]`).click();
-        window.lastExercise = false;
     }
 }
 

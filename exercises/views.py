@@ -449,6 +449,10 @@ def exercises_api(request):
             exs_id = -1
             folder_id = -1
             is_nfb_folder = 0
+            folder_type = request.POST.get("type", "")
+            folder_type_team = "team_folders"
+            folder_type_nfb = "nfb_folders"
+            folder_type_club = "club_folders"
             try:
                 exs_id = int(request.POST.get("exs", -1))
             except:
@@ -465,7 +469,7 @@ def exercises_api(request):
             success_status = False
             if found_folder.exists() and found_folder[0].id != None:
                 res_data = {'err': "NULL"}
-                if is_nfb_folder == 1:
+                if folder_type == folder_type_nfb:
                     c_exs = AdminExercise.objects.filter(id=exs_id)
                     if c_exs.exists() and c_exs[0].id != None:
                         new_exs = UserExercise(user=cur_user[0])
@@ -480,7 +484,24 @@ def exercises_api(request):
                             success_status = True
                         except Exception as e:
                             res_data = {'id': new_exs.id, 'err': str(e)}
-                else:
+                        exs_params = UserExerciseParamTeam.objects.filter(exercise_nfb=exs_id)
+                        if exs_params.exists() and exs_params[0].id != None and success_status:
+                            found_team = UserTeam.objects.filter(id=cur_team)
+                            if found_team.exists() and found_team[0].id != None:
+                                new_exs_params = UserExerciseParamTeam(exercise_user=new_exs, team=found_team[0])
+                                for key in exs_params.values()[0]:
+                                    if key != "id" and key != "exercise_user_id" and key != "exercise_club_id" and key != "exercise_nfb_id" and key != "team_id":
+                                        setattr(new_exs_params, key, exs_params.values()[0][key])
+                                try:
+                                    new_exs_params.save()
+                                    res_data['exs_params'] = new_exs_params.id
+                                    success_status = True
+                                    print('xxxxx')
+                                    print(res_data)
+                                except Exception as e:
+                                    success_status = False
+                                    res_data = {'id': new_exs.id, 'err': str(e)}
+                elif folder_type == folder_type_team:
                     c_exs = UserExercise.objects.filter(id=exs_id)
                     if c_exs.exists() and c_exs[0].id != None:
                         new_exs = UserExercise(user=cur_user[0])
@@ -494,6 +515,8 @@ def exercises_api(request):
                             success_status = True
                         except Exception as e:
                             res_data = {'id': new_exs.id, 'err': str(e)}
+                elif folder_type == folder_type_club:
+                    pass
                 return JsonResponse({"data": res_data, "success": success_status}, status=200)
         elif move_exs_status == 1:
             exs_id = -1

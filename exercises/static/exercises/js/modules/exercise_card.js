@@ -569,6 +569,9 @@ function SelectRowInVideoTable(table, value) {
 }
 
 function RenderVideo(value, htmlElem, windowElem) {
+    try {
+        windowElem.pause();
+    } catch(e) {}
     if (!value || value == -1) {
         $(htmlElem).addClass('d-none');
         return;
