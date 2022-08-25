@@ -5,15 +5,21 @@ youtube_player = videojs('youtube-player', {
     preload: 'auto',
     autoplay: false,
     controls: true,
+    aspectRatio: '16:9',
     sources: [{type: 'video/youtube'}],
     techOrder: ["youtube"],
     youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 }
 })
-video_player = $('#base-player')
+video_player = videojs('base-player', {
+    preload: 'auto',
+    autoplay: false,
+    controls: true,
+    aspectRatio: '16:9',
+})
 // При изменении ширины окна
-$(window).resize(function () {
-    resizeBlockJS($('.resize-block'));
-});
+// $(window).resize(function () {
+//     resizeBlockJS($('.resize-block'));
+// });
 
 $(window).on('load', function (){
     generate_ajax_video_table()
@@ -227,8 +233,11 @@ function render_json_block(data) {
         //Получение ссылки на видео через API видеохостинга
         video_player.show()
         youtube_player.hide()
-        video_player.attr('src', 'https://213.108.4.28/video/player/'+data['links']['nftv'])
-        video_player.attr('poster', 'https://213.108.4.28/video/poster/'+data['links']['nftv'])
+        video_player.poster(`https://213.108.4.28/video/poster/${data['links']['nftv']}`)
+        video_player.src({type: 'video/mp4', src: `https://213.108.4.28/video/player/${data['links']['nftv']}`});
+
+        //attr('src', 'https://213.108.4.28/video/player/'+data['links']['nftv'])
+        //video_player.attr('poster', 'https://213.108.4.28/video/poster/'+data['links']['nftv'])
     } else if('youtube' in data['links'] && data['links']['youtube'] != ''){
         video_player.hide()
         youtube_player.show()
@@ -236,6 +245,6 @@ function render_json_block(data) {
     }
 }
 
-$('#video-card-modal').on('shown.bs.modal', function (e) {
-    resizeBlockJS($('.resize-block'));
-})
+// $('#video-card-modal').on('shown.bs.modal', function (e) {
+//     resizeBlockJS($('.resize-block'));
+// })
