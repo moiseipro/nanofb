@@ -94,36 +94,32 @@ WSGI_APPLICATION = 'nanofb.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
+DB_localhost = {
+   'ENGINE': 'django.db.backends.mysql',
+    'NAME': 'nanofb',
+    'USER': 'nanofb',
+    'PASSWORD': 'UKQXfQ5b5U',
+    'HOST': 'localhost',
+    'PORT': '3306',
+    'OPTIONS': {
+        'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+    },
+}
+DB_beget = {
+    'ENGINE': 'django.db.backends.mysql',
+    'NAME': 'nanofb_django_2',
+    'USER': 'nanofb_django_2',
+    'PASSWORD': 'OMGOqEokUU10',
+    'HOST': 'nanofb.beget.tech',
+    'PORT': '3306',
+    'OPTIONS': {
+        'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+    },
+}
 
 DATABASES = {
     # LOCALHOST
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'nanofb',
-    #     'USER': 'nanofb',
-    #     'PASSWORD': 'UKQXfQ5b5U',
-    #     'HOST': 'localhost',
-    #     'PORT': '3306',
-    # }
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': '0qdDyMGswv',
-    #     'USER': '0qdDyMGswv',
-    #     'PASSWORD': 'OMGOqEokUU',
-    #     'HOST': 'remotemysql.com',
-    #     'PORT': '3306',
-    # }
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'nanofb_django_2',
-        'USER': 'nanofb_django_2',
-        'PASSWORD': 'OMGOqEokUU10',
-        'HOST': 'nanofb.beget.tech',
-        'PORT': '3306',
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
-    }
+    'default': DB_localhost
 }
 
 

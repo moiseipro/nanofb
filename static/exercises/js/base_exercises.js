@@ -146,6 +146,8 @@ function CheckLastExs() {
                 }
             }
         }, 200);
+    } else {
+        window.lastExercise = null;
     }
 }
 
@@ -560,6 +562,10 @@ $(function() {
             $(tList).find('.folder-elem').addClass('folder-copy-elem');
             $(tList).find('.folder-elem').removeClass('folder-elem');
             $(tList).find('.pull-right').remove();
+            $(tList).find('.list-group-item > div').each((ind, elem) => {
+                let tText = `${$(elem).attr('data-short')}. ${$(elem).attr('data-name')}`;
+                $(elem).find('.folder-title').html(tText);
+            });
             $('#exerciseCopyModal').find('.modal-body').html(tList);
             foldersLoadedForCopy = true;
         }
@@ -586,12 +592,14 @@ $(function() {
             let exsId = $('.exs-list-group').find('.exs-elem.active').attr('data-id');
             let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
             let selectedFolder = $('#exerciseCopyModal').find('.list-group-item.active').find('.folder-copy-elem').attr('data-id');
+            let folderType = $('.folders_div:not(.d-none)').attr('data-id');
             let data = {
                 'move_exs': modeVal == '2' ? 1 : 0,
                 'copy_exs': modeVal == '1' ? 1 : 0, 
                 'exs': exsId, 
                 'nfb_folder': fromNfbFolder ? 1 : 0, 
-                'folder': selectedFolder
+                'folder': selectedFolder,
+                'type': folderType
             };
             $('.page-loader-wrapper').fadeIn();
             $.ajax({
@@ -621,7 +629,7 @@ $(function() {
 
 
     // Open last exercise from card
-    window.lastExercise = false;
+    window.lastExercise = null;
     CheckLastExs();
 
 
@@ -889,7 +897,8 @@ $(function() {
     }, 500);
 
     // Load exs count in folder
-    CountExsInFolder();
-
+    if (window.lastExercise == null) {
+        CountExsInFolder();
+    }
 
 });
