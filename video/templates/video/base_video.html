@@ -26,19 +26,19 @@
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-sm-2 pl-0 pr-1">
-                            <button id="add-video" class="btn btn-sm btn-outline-success btn-block">Добавить +</button>
+                        <div class="col-md-1 col-lg-1 px-1">
+                            <button id="add-video" class="btn btn-sm btn-outline-success btn-block" title="{% trans "Add video" %}">+</button>
                         </div>
-                        <div class="col-sm-2 px-0">
-                            <a href="#" class="btn btn-sm btn-outline-success btn-block disabled">Парсинг +</a>
+                        <div class="col-md-1 col-lg-1 px-1">
+                            <a href="#" class="btn btn-sm btn-outline-success btn-block disabled" title="{% trans "Parse video" %}">+</a>
                         </div>
-                        <!--<div class="col-sm-2 px-0">
-                            <input id="video-search" type="search" class="form-control form-control-sm" placeholder="{% trans "Search" %}" aria-controls="video">
-                        </div>-->
-                        <div class="col-sm-2 px-1">
+                        <div class="col-md-1 col-lg-1 px-1">
                             <button id="video-table-counter" class="btn btn-sm btn-warning btn-block font-weight-bold">0</button>
                         </div>
-                        <div class="col-sm-2 px-0 select-sm">
+                        <div class="col-md-1 col-lg-1 px-1">
+                            <button id="video-filters-clear" class="btn btn-sm btn-secondary btn-block font-weight-bold"><i class="fa fa-reply" aria-hidden="true"></i></button>
+                        </div>
+                        <div class="col-md-2 col-lg-2 px-1 select-sm">
                             <select class="select custom-select video-source" tabindex="-1" aria-hidden="true">
                                 <option value="">{% trans 'All' %}</option>
                                 {% for source in sources %}
@@ -48,15 +48,44 @@
                                 {% endfor %}
                             </select>
                         </div>
+                        <div class="col-md-2 col-lg-2 px-1 select-sm">
+                            <select class="select custom-select video-tags" tabindex="-1" aria-hidden="true">
+                                <option value="">{% trans 'All' %}</option>
+                                {% for tag in tags %}
+                                    <option value="{{ tag.name }}">{{ tag.name }}</option>
+                                {% empty %}
+                                    <option value="">{% trans 'No tags' %}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2 col-lg-2 px-1">
+                            <input id="video-search" type="search" class="form-control form-control-sm" placeholder="{% trans "Search" %}" aria-controls="video">
+                        </div>
+                        <div class="col-md-2 col-lg-2">
+                            <div class="row">
+                                <div class="col-3 px-1">
+                                    <button id="video-folders-filter" class="btn btn-sm btn-secondary btn-block font-weight-bold"><i class="fa fa-folder" aria-hidden="true"></i></button>
+                                </div>
+                                <div class="col-3 px-1">
+                                    <button id="video-star-filter" class="btn btn-sm btn-secondary btn-block font-weight-bold"><i class="fa fa-star-o" aria-hidden="true"></i></button>
+                                </div>
+                                <div class="col-3 px-1">
+                                    <button id="video-settings" class="btn btn-sm btn-secondary btn-block font-weight-bold"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                </div>
+                                <div class="col-3 px-1">
+                                    <button id="video-delete" class="btn btn-sm btn-secondary btn-block font-weight-bold"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-lg">
+                        <div id="table-video-view" class="col-lg">
                             {% include 'video/modules/video_list.html' %}
                         </div>
-                        <div class="col-12">
+                        <div id="block-video-view" class="col-lg d-none">
                             {% include 'video/modules/video_blocks_list.html' %}
                         </div>
                     </div>

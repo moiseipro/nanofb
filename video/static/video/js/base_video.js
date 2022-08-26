@@ -22,7 +22,7 @@ video_player = videojs('base-player', {
 // });
 
 $(window).on('load', function (){
-    generate_ajax_video_table()
+    generate_ajax_video_table("calc(100vh - 350px)")
     video_table
         .on( 'select', function ( e, dt, type, indexes ) {
             let rowData = video_table.rows( indexes ).data().toArray();
@@ -59,6 +59,12 @@ $('.video-source').on('change', function (){
     //console.log(data_source)
     video_table.columns([2]).search(data_source).draw()
     $('#block-video-info').addClass('d-none')
+})
+
+//Переключение между блочной и табличной структурой видео
+$('#video-settings').on('click', function (){
+    $('#table-video-view').toggleClass('d-none')
+    $('#block-video-view').toggleClass('d-none')
 })
 
 function ajax_video_info(row_data) {
