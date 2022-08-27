@@ -41,6 +41,8 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem[data-id="toggle_folders"]').toggleClass('btn-primary', false);
             break;
         case "nfb_folders":
+            $('.exs_counter').html("(...)");
+
             $('.folders_nfb_list').toggleClass('d-none', true);
             $('.folders_club_list').toggleClass('d-none', false);
             $('.folders_list').toggleClass('d-none', true);
@@ -56,6 +58,8 @@ function ToggleUpFilter(id, state) {
             CountFilteredExs();
             break;
         case "club_folders":
+            $('.exs_counter').html("(...)");
+
             $('.folders_nfb_list').toggleClass('d-none', true);
             $('.folders_club_list').toggleClass('d-none', true);
             $('.folders_list').toggleClass('d-none', false);
@@ -66,6 +70,8 @@ function ToggleUpFilter(id, state) {
             CountFilteredExs();
             break;
         case "team_folders":
+            $('.exs_counter').html("(...)");
+
             $('.folders_nfb_list').toggleClass('d-none', false);
             $('.folders_club_list').toggleClass('d-none', true);
             $('.folders_list').toggleClass('d-none', true);
@@ -86,6 +92,19 @@ function ToggleUpFilter(id, state) {
                 $('.up-tabs-elem[data-id="copy"]').attr('data-state', '0');
                 swal("Внимание", "Выберите упражнение из списка.", "info");
             } else {
+                $('#exerciseCopyModal').find('[name="copy_mode"]').val('1');
+                if (state) {$('#exerciseCopyModal').modal('show');} 
+                else {$('#exerciseCopyModal').modal('hide');}
+            }
+            break;
+        case "move":
+            if ($('.exercises-list').find('.exs-elem.active').length <= 0) {
+                $('.up-tabs-elem[data-id="move"]').removeClass('btn-primary');
+                $('.up-tabs-elem[data-id="move"]').addClass('btn-secondary');
+                $('.up-tabs-elem[data-id="move"]').attr('data-state', '0');
+                swal("Внимание", "Выберите упражнение из списка.", "info");
+            } else {
+                $('#exerciseCopyModal').find('[name="copy_mode"]').val('2');
                 if (state) {$('#exerciseCopyModal').modal('show');} 
                 else {$('#exerciseCopyModal').modal('hide');}
             }
@@ -118,6 +137,15 @@ function ToggleUpFilter(id, state) {
             break;
         case "toggle_markers":
             ToggleMarkersInExs();
+            break;
+        case "toggle_favorite":
+            ToggleMarkersInExs();
+            break;
+        case "goal":
+            ToggleIconsInExs();
+            break;
+        case "players":
+            ToggleIconsInExs();
             break;
         default:
             break;
@@ -175,10 +203,6 @@ $(function() {
     $('.side-filter-block').on('click', '.side-filter-elem', (e) => {
         let state = $(e.currentTarget).attr('data-state') == '1';
         let isFilter = $(e.currentTarget).parent().attr('data-id') == "filter";
-        let isShowIcons = $(e.currentTarget).parent().attr('data-id') == "show_icons";
-        if (isShowIcons && $('.up-tabs-elem[data-id="toggle_markers"]').attr('data-state') == '1') {
-            return;
-        }
         if (isFilter) {
             $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').attr('data-state', '0');
             $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').toggleClass('active', false);
@@ -200,7 +224,6 @@ $(function() {
         }
         $(e.currentTarget).toggleClass('active', !state);
         $(e.currentTarget).attr('data-state', state ? '0' : '1');
-        if (isShowIcons) {ToggleIconsInExs();}
     });
 
 
@@ -574,6 +597,9 @@ $(function() {
         $('.up-tabs-elem[data-id="copy"]').removeClass('btn-primary');
         $('.up-tabs-elem[data-id="copy"]').addClass('btn-secondary');
         $('.up-tabs-elem[data-id="copy"]').attr('data-state', '0');
+        $('.up-tabs-elem[data-id="move"]').removeClass('btn-primary');
+        $('.up-tabs-elem[data-id="move"]').addClass('btn-secondary');
+        $('.up-tabs-elem[data-id="move"]').attr('data-state', '0');
         $('#exerciseCopyModal').find('.folder-copy-elem').parent().removeClass('active');
     });
     $('#exerciseCopyModal').on('click', '.folder-copy-elem', (e) => {

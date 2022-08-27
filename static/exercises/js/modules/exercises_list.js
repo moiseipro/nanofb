@@ -84,7 +84,7 @@ function LoadFolderExercises() {
 function RenderFolderExercises(id, tExs) {
     let exs = tExs[id];
     let exsHtml = "";
-    $('.btn[data-id="exs_counter"]').html(exs.length > 0 ? exs.length : "...");
+    $('.exs_counter').html(exs.length > 0 ? `(${exs.length})` : "(...)");
     $('.folders-block').find('.list-group-item.active').find('.folder-exs-counter').html(exs.length > 0 ? exs.length : "...");
     for (let i = 0; i < exs.length; i++) {
         let exElem = exs[i];
@@ -121,9 +121,7 @@ function RenderFolderExercises(id, tExs) {
                         <span class="icon-custom ${exElem.favorite == true ? 'icon--favorite-selected' : 'icon--favorite'}" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                     </button>
 
-                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="num" style="--w-x:24px; --h-x:24px;" disabled="">
-                        №
-                    </button>
+                 
                     <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="players" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="">
                         #
                     </button>
@@ -132,24 +130,6 @@ function RenderFolderExercises(id, tExs) {
                             ${exElem.goal_code}
                         </button>
                     ` : ''}
-                    ${exElem.ball_val == 1 ? `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1" data-type="icons" data-id="ball" style="--w-x:24px; --h-x:24px;" disabled="">
-                            <span class="icon-custom icon--ball" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
-                        </button>
-                    ` : `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1" data-type="icons" data-id="ball" style="--w-x:24px; --h-x:24px;" disabled="">
-                            <span class="icon-custom icon--ball-x" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
-                        </button>
-                    `}
-                    ${exElem.favorite == 1 ? `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1" data-type="icons" data-id="favor" style="--w-x:24px; --h-x:24px;" disabled="">
-                            <span class="icon-custom icon--favorite-selected" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
-                        </button>
-                    ` : `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1" data-type="icons" data-id="favor" style="--w-x:24px; --h-x:24px;" disabled="">
-                            <span class="icon-custom icon--favorite" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
-                        </button>
-                    `}
 
                 </div>
             </div>
@@ -270,20 +250,22 @@ function RenderExerciseOne(data) {
 }
 
 function ToggleIconsInExs() {
-    $('.side-filter-block').find('.list-group[data-id="show_icons"]').find('.side-filter-elem').each((ind, elem) => {
-        let cId = $(elem).attr('data-id');
-        let isActive = $(elem).hasClass('active');
-        $('.exercises-block').find(`[data-type="icons"][data-id="${cId}"]`).toggleClass('d-none', !isActive);
-    });
+    let isActivePlayers = $('.up-tabs-elem[data-id="players"]').attr('data-state') == "1";
+    let isActiveGoal = $('.up-tabs-elem[data-id="goal"]').attr('data-state') == "1";
+    $('.exercises-block').find(`[data-type="icons"]`).toggleClass('d-none', true);
+    $('.exercises-block').find(`[data-type="icons"][data-id="players"]`).toggleClass('d-none', !isActivePlayers);
+    $('.exercises-block').find(`[data-type="icons"][data-id="goal"]`).toggleClass('d-none', !isActiveGoal);
 }
 function ToggleMarkersInExs() {
-    let isActive = $('.up-tabs-elem[data-id="toggle_markers"]').attr('data-state') == "1";
-    $('.exercises-block').find(`[data-type="marker"]`).toggleClass('d-none', !isActive);
-    if (isActive) {
-        $('.list-group[data-id="show_icons"]').find('.side-filter-elem').removeClass('active');
-        $('.list-group[data-id="show_icons"]').find('.side-filter-elem').attr('data-state', '0');
-        $('.exs-list-group').find('button[data-type="icons"]').addClass('d-none');
-    }
+    let isActiveMarkers = $('.up-tabs-elem[data-id="toggle_markers"]').attr('data-state') == "1";
+    let isActiveFavorite = $('.up-tabs-elem[data-id="toggle_favorite"]').attr('data-state') == "1";
+    $('.exercises-block').find(`[data-type="marker"][data-id!="favorite"]`).toggleClass('d-none', !isActiveMarkers);
+    $('.exercises-block').find(`[data-type="marker"][data-id="favorite"]`).toggleClass('d-none', !isActiveFavorite);
+    // if (isActiveMarkers || isActiveFavorite) {
+    //     $('.list-group[data-id="show_icons"]').find('.side-filter-elem').removeClass('active');
+    //     $('.list-group[data-id="show_icons"]').find('.side-filter-elem').attr('data-state', '0');
+    //     $('.exs-list-group').find('button[data-type="icons"]').addClass('d-none');
+    // }
 }
 
 
@@ -302,6 +284,7 @@ $(function() {
         $(e.currentTarget).toggleClass('active', !isActive);
         if (!isActive) {LoadFolderExercises();}
         else {
+            $('.exs_counter').html("(...)");
             $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
         }
         window.lastListUsed = "folders";
@@ -312,6 +295,7 @@ $(function() {
         $(e.currentTarget).toggleClass('active', !isActive);
         if (!isActive) {LoadFolderExercises();}
         else {
+            $('.exs_counter').html("(...)");
             $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
         }
         window.lastListUsed = "folders";

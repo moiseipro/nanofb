@@ -162,7 +162,7 @@
     border-color: #5574c9;
 }
 .btn-custom.btn-success {
-    color: whitesmoke !important;
+    color: black !important;
     background-color: #80dd15;
     border-color: #80dd15;
 }
@@ -171,7 +171,7 @@
     border-color: #70a237;
 }
 .btn-custom.btn-warning {
-    color: whitesmoke !important;
+    color: black !important;
     background-color: #eebb56;
     border-color: #eebb56;
 }
@@ -180,7 +180,7 @@
     border-color: #b99347;
 }
 .btn-custom.btn-danger {
-    color: whitesmoke !important;
+    color: black !important;
     background-color: #fa9191;
     border-color: #fa9191;
 }
