@@ -151,6 +151,8 @@ function RenderExerciseOne(data) {
 
         $(exsCard).attr('data-exs', data.id);
 
+        $('.modal-header').toggleClass('disabled', data.copied_from_nfb == true);
+
         $(exsCard).find('.exs_edit_field.folder_nfb').toggleClass('d-none', !data.nfb);
         $(exsCard).find('.exs_edit_field.folder_default').toggleClass('d-none', data.nfb);
         $(exsCard).find(`.${folderType}[name="folder_parent"]`).val(data.folder_parent_id);
@@ -172,6 +174,8 @@ function RenderExerciseOne(data) {
         CheckMultiRows(exsCard, data.coaching, '.exs_edit_field[name="coaching[]"]', 'coaching');
         CheckMultiRows(exsCard, data.notes, '.exs_edit_field[name="notes[]"]', 'notes');
         CorrectBlockBorders();
+
+        $(exsCard).find('.exs_edit_field[name="coaching[]"]').trigger('onkeyup');
 
         $(exsCard).find('.exs_edit_field[name="title"]').val(data.title);
         if (document.descriptionEditor2) {
@@ -253,6 +257,8 @@ function RenderExerciseOne(data) {
         $('#carouselAnim').find('.carousel-indicators > li:not(.d-none)').first().addClass('active');
     } else {
         $(exsCard).attr('data-exs', '-1');
+
+        $('.modal-header').toggleClass('disabled', false);
 
         $(exsCard).find('.btn-only-edit').prop('disabled', true);
         $(exsCard).find('.btn-not-view').toggleClass('d-none', false);
@@ -831,9 +837,9 @@ $(function() {
         $('#saveExs').prop('disabled', isActive == '1');
         $('#saveExs').toggleClass('btn-success', isActive != '1');
         $('.modal-header').toggleClass('d-none', isActive == '1');
+        $('.btn-group[data-id="saveBlock"]').toggleClass('d-none', isActive == '1');
         ToggleEditFields(isActive != '1');
         if (isActive == '1') {LoadExerciseOne();}
-
         if (isActive != '1') {
             if ($('#card_drawing1').hasClass('active')) {
                 $('#card_drawing1').addClass('d-none');
@@ -863,6 +869,10 @@ $(function() {
                 $('.scheme-editor').addClass('d-none');
             }
         }
+        let setColumnsShort = $('.modal-header').is(":visible");
+        $('.left-col-card').toggleClass('short', setColumnsShort);
+        $('.center-col-card').toggleClass('short', setColumnsShort);
+        $('.right-col-card').toggleClass('short', setColumnsShort);
     });
 
     // scheme autosave

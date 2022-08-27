@@ -810,7 +810,6 @@ $(function() {
             });
             window.videoPlayerClones[i].ready((e) => {
                 if (i == 0) {
-                    console.log( window.videoPlayerCard1.currentType(), window.videoPlayerCard1.currentSrc() )
                     window.videoPlayerClones[i].src({
                         type: window.videoPlayerCard1.currentType(),
                         src: window.videoPlayerCard1.currentSrc()

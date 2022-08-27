@@ -72,16 +72,25 @@
 
 
 .left-col-card {
-    height: 78vh !important;
+    height: 87vh !important;
     overflow-y: auto;
+}
+.left-col-card.short {
+    height: 78vh !important;
 }
 .center-col-card {
-    height: 78vh !important;
+    height: 87vh !important;
     overflow-y: auto;
 }
-.right-col-card {
+.center-col-card.short {
     height: 78vh !important;
+}
+.right-col-card {
+    height: 87vh !important;
     overflow-y: auto;
+}
+.right-col-card.short {
+    height: 78vh !important;
 }
 .video-list-container {
     height: 78vh !important;
@@ -416,3 +425,8 @@ a.text-dark:hover {
     }
 }
 
+
+
+.modal-header.disabled {
+    display: none !important;
+}
