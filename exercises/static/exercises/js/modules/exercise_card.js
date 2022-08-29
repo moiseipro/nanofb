@@ -147,18 +147,11 @@ function RenderExerciseOne(data) {
 
     let exsCard = $('#exerciseCard');
     if (data && data.id) {
-        let folderType = data.nfb ? "folder_nfb" : "folder_default";
-
         $(exsCard).attr('data-exs', data.id);
 
         $('.modal-header').toggleClass('disabled', data.copied_from_nfb == true);
 
-        $(exsCard).find('.exs_edit_field.folder_nfb').toggleClass('d-none', !data.nfb);
-        $(exsCard).find('.exs_edit_field.folder_default').toggleClass('d-none', data.nfb);
-        $(exsCard).find(`.${folderType}[name="folder_parent"]`).val(data.folder_parent_id);
-        $(exsCard).find('[name="folder_main"]').find('option').addClass('d-none');
-        $(exsCard).find('[name="folder_main"]').find(`option[data-parent=${data.folder_parent_id}]`).removeClass('d-none');
-        $(exsCard).find(`.${folderType}[name="folder_main"]`).val(data.folder_id);
+        ToggleFoldersType(data);
 
         $(exsCard).find('.exs_edit_field[name="ref_goal"]').val(data.ref_goal);
         $(exsCard).find('.exs_edit_field[name="ref_ball"]').val(data.ref_ball);
@@ -269,11 +262,7 @@ function RenderExerciseOne(data) {
         $(exsCard).find('.add-row').toggleClass('d-none', false);
         $(exsCard).find('.remove-row').toggleClass('d-none', false);
 
-        $(exsCard).find('.exs_edit_field.folder_nfb').toggleClass('d-none', true);
-        $(exsCard).find('.exs_edit_field.folder_default').toggleClass('d-none', false);
-        $(exsCard).find(`.folder_default[name="folder_parent"]`).val('');
-        $(exsCard).find('[name="folder_main"]').find('option').addClass('d-none');
-        $(exsCard).find(`.folder_default[name="folder_main"]`).val('');
+        ToggleFoldersType();
 
         $(exsCard).find('.exs_edit_field').val('');
         if (document.descriptionEditor2) {
@@ -548,6 +537,26 @@ function ToggleExsDir(dir = 0) {
     sessionStorage.setItem('last_exs', lastExsStr);
 }
 
+function ToggleFoldersType(data = null) {
+    let searchParams = new URLSearchParams(window.location.search);
+    let folderType = searchParams.get('type');
+    let exsCard = $('#exerciseCard');
+    if (data == null) {
+        $(exsCard).find('.exs_edit_field.nfb_folders').toggleClass('d-none', folderType != "nfb_folders");
+        $(exsCard).find('.exs_edit_field.team_folders').toggleClass('d-none', folderType != "team_folders");
+        $(exsCard).find(`.${folderType}[name="folder_parent"]`).val('');
+        $(exsCard).find('[name="folder_main"]').find('option').addClass('d-none');
+        $(exsCard).find(`.${folderType}[name="folder_main"]`).val('');
+    } else {
+        $(exsCard).find('.exs_edit_field.nfb_folders').toggleClass('d-none', folderType != "nfb_folders");
+        $(exsCard).find('.exs_edit_field.team_folders').toggleClass('d-none', folderType != "team_folders");
+        $(exsCard).find(`.${folderType}[name="folder_parent"]`).val(data.folder_parent_id);
+        $(exsCard).find('[name="folder_main"]').find('option').addClass('d-none');
+        $(exsCard).find('[name="folder_main"]').find(`option[data-parent=${data.folder_parent_id}]`).removeClass('d-none');
+        $(exsCard).find(`.${folderType}[name="folder_main"]`).val(data.folder_id);
+    }
+}
+
 function CheckSelectedRowInVideoTable() {
     let value = -1;
     if ($('#openVideo1').hasClass('selected2')) {value = $('.video-value[name="video1"]').val();}
@@ -803,17 +812,17 @@ $(function() {
     });
 
 
-    $('#exerciseCard').on('change', '.folder_nfb[name="folder_parent"]', (e) => {
+    $('#exerciseCard').on('change', '.nfb_folders[name="folder_parent"]', (e) => {
         let cId = $(e.currentTarget).val();
-        $('#exerciseCard').find('.folder_nfb[name="folder_main"').val('');
-        $('#exerciseCard').find('.folder_nfb[name="folder_main" > option').each((ind, elem) => {
+        $('#exerciseCard').find('.nfb_folders[name="folder_main"]').val('');
+        $('#exerciseCard').find('.nfb_folders[name="folder_main"] > option').each((ind, elem) => {
             $(elem).toggleClass('d-none', !($(elem).attr('data-parent') == cId));
         });
     });
-    $('#exerciseCard').on('change', '.folder_default[name="folder_parent"]', (e) => {
+    $('#exerciseCard').on('change', '.team_folders[name="folder_parent"]', (e) => {
         let cId = $(e.currentTarget).val();
-        $('#exerciseCard').find('.folder_default[name="folder_main"').val('');
-        $('#exerciseCard').find('.folder_default[name="folder_main"] > option').each((ind, elem) => {
+        $('#exerciseCard').find('.team_folders[name="folder_main"]').val('');
+        $('#exerciseCard').find('.team_folders[name="folder_main"] > option').each((ind, elem) => {
             $(elem).toggleClass('d-none', !($(elem).attr('data-parent') == cId));
         });
     });
@@ -827,6 +836,9 @@ $(function() {
     });
 
 
+    $('#splitCol_exscard_2').find('.btn-view').toggleClass('d-none', false);
+    $('#splitCol_exscard_2').find('.btn-edit').toggleClass('d-none', true);
+
     $('#editExs').on('click', (e) => {
         let isActive = $(e.currentTarget).attr('data-active');
         $(e.currentTarget).attr('data-active', isActive == '1' ? 0 : 1);
@@ -837,7 +849,8 @@ $(function() {
         $('#saveExs').prop('disabled', isActive == '1');
         $('#saveExs').toggleClass('btn-success', isActive != '1');
         $('.modal-header').toggleClass('d-none', isActive == '1');
-        $('.btn-group[data-id="saveBlock"]').toggleClass('d-none', isActive == '1');
+        $('#splitCol_exscard_2').find('.btn-view').toggleClass('d-none', isActive != '1');
+        $('#splitCol_exscard_2').find('.btn-edit').toggleClass('d-none', isActive == '1');
         ToggleEditFields(isActive != '1');
         if (isActive == '1') {LoadExerciseOne();}
         if (isActive != '1') {
@@ -908,6 +921,7 @@ $(function() {
 
 
     // Save and Load exercise
+    ToggleFoldersType();
     LoadExerciseOne();
     $('#exerciseCard').on('click', '#saveExs', (e) => {
         SaveExerciseOne();

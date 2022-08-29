@@ -50,7 +50,7 @@
                                         </tr>
                                         <tr class="bck-custom border-y-custom">
                                             <td colspan="2">
-                                                <select name="folder_parent" class="form-control form-control-sm exs_edit_field folder_nfb d-none" required="" autocomplete="off">
+                                                <select name="folder_parent" class="form-control form-control-sm exs_edit_field nfb_folders d-none" required="" autocomplete="off">
                                                     <option value="">Главные папки</option>
                                                     {% for folder in nfb_folders %}
                                                         {% if folder.root %}
@@ -58,7 +58,7 @@
                                                         {% endif %}
                                                     {% endfor %}
                                                 </select>
-                                                <select name="folder_parent" class="form-control form-control-sm exs_edit_field folder_default" required="" autocomplete="off">
+                                                <select name="folder_parent" class="form-control form-control-sm exs_edit_field team_folders" required="" autocomplete="off">
                                                     <option value="">Главные папки</option>
                                                     {% for folder in folders %}
                                                         {% if folder.root %}
@@ -70,7 +70,7 @@
                                         </tr>
                                         <tr class="bck-custom border-y-custom">
                                             <td colspan="2">
-                                                <select name="folder_main" class="form-control form-control-sm exs_edit_field folder_nfb d-none" required="" autocomplete="off">
+                                                <select name="folder_main" class="form-control form-control-sm exs_edit_field nfb_folders d-none" required="" autocomplete="off">
                                                     <option value="">Папки с упражнением</option>
                                                     {% for folder in nfb_folders %}
                                                         {% if not folder.root %}
@@ -78,7 +78,7 @@
                                                         {% endif %}
                                                     {% endfor %}
                                                 </select>
-                                                <select name="folder_main" class="form-control form-control-sm exs_edit_field folder_default" required="" autocomplete="off">
+                                                <select name="folder_main" class="form-control form-control-sm exs_edit_field team_folders" required="" autocomplete="off">
                                                     <option value="">Папки с упражнением</option>
                                                     {% for folder in folders %}
                                                         {% if not folder.root %}
@@ -319,31 +319,30 @@
                                     <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="editExs" data-active="0" style="--w-max-x:20%;" title="Редактировать">
                                         <i class="fa fa-pencil" aria-hidden="true"></i>
                                     </button>
-                                    <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom exs-change size-max-w-x" data-dir="prev" style="--w-max-x:20%;" title="Предыдущее">
+                                    <button type="button" class="btn btn-secondary btn-sm btn-custom exs-change btn-view size-max-w-x" data-dir="prev" style="--w-max-x:20%;" title="Предыдущее">
                                         <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
                                     </button>
-                                    <button type="button" class="btn btn-secondary btn-sm btn-custom exs-change size-max-w-x" data-dir="next" style="--w-max-x:20%;" title="Следующее">
+                                    <button type="button" class="btn btn-secondary btn-sm btn-custom exs-change btn-view size-max-w-x" data-dir="next" style="--w-max-x:20%;" title="Следующее">
                                         <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-                                    </button> -->
-                                    <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x selected" data-type="add" data-id="list" title="Режим добавления: список" style="--w-max-x:20%;">
+                                    </button>
+                                    <button type="button" class="btn btn-secondary btn-sm btn-custom btn-edit size-max-w-x selected" data-type="add" data-id="list" title="Режим добавления: список" style="--w-max-x:20%;">
                                         <i class="fa fa-list-alt" aria-hidden="true"></i>
                                     </button>
-                                    <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" data-type="add" data-id="text" title="Режим добавления: текст" style="--w-max-x:20%;">
+                                    <button type="button" class="btn btn-secondary btn-sm btn-custom btn-edit size-max-w-x" data-type="add" data-id="text" title="Режим добавления: текст" style="--w-max-x:20%;">
                                         <i class="fa fa-text-width" aria-hidden="true"></i>
                                     </button>
-                                    <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="columnsSizeToggle" data-active="0" style="--w-max-x:20%;" title="Изменить ширину колонок">
+                                    <button type="button" class="btn btn-secondary btn-sm btn-custom btn-view size-max-w-x" id="columnsSizeToggle" data-active="0" style="--w-max-x:20%;" title="Изменить ширину колонок">
                                         <i class="fa fa-cog" aria-hidden="true"></i>
                                     </button>
-                                    <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" data-dismiss="modal" style="--w-max-x:20%;" title="Выйти">
+                                    <button type="button" class="btn btn-secondary btn-sm btn-custom btn-view size-max-w-x" data-dismiss="modal" style="--w-max-x:20%;" title="Выйти">
                                         <i class="fa fa-times text-danger" aria-hidden="true"></i>
                                     </button>
-                                   
-                                </div>
-                                <div class="col-12 btn-group d-none mt-1" data-id="saveBlock">
-                                    <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="deleteExercise" style="--w-max-x:20%;" title="Удалить">
+                                    <button type="button" class="btn btn-secondary btn-sm btn-custom btn-edit size-max-w-x" id="deleteExercise" style="--w-max-x:20%;" title="Удалить">
                                         <i class="fa fa-trash-o text-danger" aria-hidden="true"></i>
                                     </button>
-                                    <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="saveExs" disabled="" style="--w-max-x:40%;">Сохранить</button>
+                                    <button type="button" class="btn btn-secondary btn-sm btn-custom btn-edit size-max-w-x" id="saveExs" disabled="" style="--w-max-x:20%;" title="Сохранить">
+                                        <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                                    </button>
                                 </div>
                                 <div class="col-12 mt-2">
                                     <div id="carouselSchema" class="carousel slide" data-ride="carousel" data-interval="false">
