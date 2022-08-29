@@ -5,12 +5,7 @@ function ToggleUpFilter(id, state) {
     switch(id) {
         case "toggle_side_filter":
             $('div.side-filter-block').toggleClass('d-none', !state);
-            if (!state && $('.up-tabs-elem[data-id="cols_size"]').attr('data-state') == '1') {
-                $('.up-tabs-elem[data-id="cols_size"]').attr('data-state', '0');
-                $('.up-tabs-elem[data-id="cols_size"]').removeClass('btn-primary');
-                $('.up-tabs-elem[data-id="cols_size"]').addClass('btn-secondary');
-                $('.exercises-list').find('div.gutter').addClass('d-none');
-            }
+            ColumnsSplitCalc();
             break;
         case "toggle_up_filter":
             $('div.btns-tabs-second').fadeToggle(300, (e) => {});
@@ -179,6 +174,36 @@ function CheckLastExs() {
     }
 }
 
+function RenderFilterNewExs() {
+    function createElement(date, i) {
+        const monthNames = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+        let mm = String(date.getMonth() + 1).padStart(2, '0');
+        let mmName =  monthNames[date.getMonth()];
+        let yyyy = date.getFullYear();
+        $('.list-group[data-id="newexs"]').append(`
+            <li class="side-filter-elem list-group-item py-0 px-2" data-val="${i}">
+                ${mmName} ${yyyy}
+            </li>
+        `);
+    }
+    let tDate = new Date();
+    for (let i = 0; i < 6; i ++) {
+        createElement(tDate, -i);
+        tDate.setMonth(tDate.getMonth() - 1);
+    }
+}
+
+function ColumnsSplitCalc() {
+    let state = $('.up-tabs-elem[data-id="toggle_side_filter"]').attr('data-state') == '1';
+    let sizes = window.split.getSizes();
+    if (!state) {
+        let width = sizes[2] + sizes[3];
+        $('#splitCol_2').css('width', `calc(${width}% - 16px)`);
+    } else {
+        let width = sizes[2];
+        $('#splitCol_2').css('width', `calc(${width}% - 16px)`);
+    }
+}
 
 
 
@@ -925,5 +950,8 @@ $(function() {
     if (window.lastExercise == null) {
         CountExsInFolder();
     }
+
+
+    RenderFilterNewExs();
 
 });

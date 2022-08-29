@@ -110,7 +110,7 @@ function RenderExerciseOne(data) {
                 cloneRow = $('#exerciseCard').find('.gen-content').find(`tr[data-id="${cId}"]`).clone();
             } else {
                 let cType = (elem.type == "INPUT" || elem.type == "TEXTAREA") ? "text" : elem.type == "SELECT" ? "list" : "";
-                if (cId == "notes" && cType != "text") {cType = "";}
+                // if (cId == "notes" && cType != "text") {cType = "";}
                 cloneRow = $('#exerciseCard').find('.gen-content').find(`tr[data-id="${cId}"][data-type="${cType}"]`).clone();
             }
             if ($(cloneRow).length > 0) {
@@ -160,11 +160,11 @@ function RenderExerciseOne(data) {
         $(exsCard).find('.exs_edit_field[name="ref_train_part"]').val(data.ref_train_part);
         $(exsCard).find('.exs_edit_field[name="ref_cognitive_load"]').val(data.ref_cognitive_load);
 
-        CheckMultiRows(exsCard, data.additional_data, '.exs_edit_field[name="additional_data[]"]', 'additional_data');
+        // CheckMultiRows(exsCard, data.additional_data, '.exs_edit_field[name="additional_data[]"]', 'additional_data');
         CheckMultiRows(exsCard, data.keyword, '.exs_edit_field[name="keyword[]"]', 'keyword');
         CheckMultiRows(exsCard, data.stress_type, '.exs_edit_field[name="stress_type[]"]', 'stress_type');
         CheckMultiRows(exsCard, data.purposes, '.exs_edit_field[name="purposes[]"]', 'purposes');
-        CheckMultiRows(exsCard, data.coaching, '.exs_edit_field[name="coaching[]"]', 'coaching');
+        // CheckMultiRows(exsCard, data.coaching, '.exs_edit_field[name="coaching[]"]', 'coaching');
         CheckMultiRows(exsCard, data.notes, '.exs_edit_field[name="notes[]"]', 'notes');
         CorrectBlockBorders();
 
@@ -274,11 +274,11 @@ function RenderExerciseOne(data) {
             document.descriptionEditorView.setData('');
         }
         
-        CheckMultiRows(exsCard, '', '.exs_edit_field[name="additional_data[]"]', 'additional_data');
+        // CheckMultiRows(exsCard, '', '.exs_edit_field[name="additional_data[]"]', 'additional_data');
         CheckMultiRows(exsCard, '', '.exs_edit_field[name="keyword[]"]', 'keyword');
         CheckMultiRows(exsCard, '', '.exs_edit_field[name="stress_type[]"]', 'stress_type');
         CheckMultiRows(exsCard, '', '.exs_edit_field[name="purposes[]"]', 'purposes');
-        CheckMultiRows(exsCard, '', '.exs_edit_field[name="coaching[]"]', 'coaching');
+        // CheckMultiRows(exsCard, '', '.exs_edit_field[name="coaching[]"]', 'coaching');
         CheckMultiRows(exsCard, '', '.exs_edit_field[name="notes[]"]', 'notes');
         CorrectBlockBorders();
 
@@ -791,7 +791,7 @@ $(function() {
             cloneRow = $('#exerciseCard').find('.gen-content').find(`tr[data-id="${cId}"]`).clone();
         } else {
             let cType = $('#exerciseCard').find('.selected[data-type="add"]').attr('data-id');
-            if (cId == "notes" || cId == "additional_data") {cType = "text";}
+            // if (cId == "notes" || cId == "additional_data") {cType = "text";}
             cloneRow = $('#exerciseCard').find('.gen-content').find(`tr[data-id="${cId}"][data-type="${cType}"]`).clone();
         }
         $(cloneRow).addClass('wider_row value_row');

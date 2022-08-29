@@ -162,7 +162,7 @@
     border-color: #5574c9;
 }
 .btn-custom.btn-success {
-    color: black !important;
+    color: whitesmoke !important;
     background-color: #80dd15;
     border-color: #80dd15;
 }
@@ -171,7 +171,7 @@
     border-color: #70a237;
 }
 .btn-custom.btn-warning {
-    color: black !important;
+    color: whitesmoke !important;
     background-color: #eebb56;
     border-color: #eebb56;
 }
@@ -180,13 +180,14 @@
     border-color: #b99347;
 }
 .btn-custom.btn-danger {
-    color: black !important;
+    color: whitesmoke !important;
     background-color: #fa9191;
     border-color: #fa9191;
 }
 .btn-custom.btn-danger:hover {
     background-color: #c57474;
     border-color: #c57474;
+    border-color: #da5f26;
 }
 
 .btn-custom.custom-blue {
@@ -229,6 +230,10 @@ tr.bck-custom > td {
 }
 .bck-custom-color {
     background-color: var(--bck-color) !important;
+}
+.bck-custom-color:hover {
+    text-decoration: none !important;
+    background-color: var(--bck-color-h) !important;
 }
 
 .folders_list > .list-group > .list-group-item {
