@@ -1,7 +1,7 @@
 function RenderSplitCols() {
     $('.exercises-list').find('div.gutter').remove();
     let sizesArr = window.dataForSplit;
-    window.split = Split(['#splitCol_0', '#splitCol_1', '#splitCol_2', '#splitCol_3'], {
+    window.split = Split(['#splitCol_0', '#splitCol_1', '#splitCol_2'], {
         sizes: sizesArr,
         gutterSize: 16,
         onDragEnd: (arr) => {
@@ -34,8 +34,7 @@ function ResizeSplitCols() {
         }
         window.split.setSizes(sizes);
     } catch(e) {}
-
-    ColumnsSplitCalc();
+    
     // let colWidth = !state ? `calc(${$('#splitCol_0').css('width')} / 2)` : `calc(${$('#splitCol_2').css('width')} * 2)`;
     // $('#splitCol_0').css('width', colWidth);
 }
@@ -378,7 +377,7 @@ $(function() {
     // Split columns
     window.dataForSplit = JSON.parse(localStorage.getItem('split_cols'));
     if (!window.dataForSplit) {
-        window.dataForSplit = [25, 50, 15, 10];
+        window.dataForSplit = [25, 50, 25];
         localStorage.setItem('split_cols', JSON.stringify(window.dataForSplit));
     }
     RenderSplitCols();

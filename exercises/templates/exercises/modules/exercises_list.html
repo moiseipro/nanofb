@@ -174,8 +174,7 @@
             </div>
         </div> -->
     </div>
-    <!-- <div class="px-1 mr-2 mt-2 side-filter-block d-none" id="splitCol_3" style="width: 22%;"> -->
-    <div class="px-1 mr-2 mt-2 side-filter-block d-none" id="splitCol_3">
+    <div class="px-1 mr-2 mt-2 side-filter-block d-none" id="splitCol_3" style="width: 16%;">
         <div class="d-flex justify-content-center btn-tab-second">
             <button type="button" class="btn btn-outline-danger btn-sm btn-block mb-1" id="filterReset">Сбросить</button>
         </div>
@@ -200,10 +199,10 @@
             {% for elem in refs.exs_goal %}
                 <li class="side-filter-elem list-group-item py-0" data-id="{{ elem.id }}" data-type="goal">
                     <div class="row">
-                        <div class="col-9 text-left px-1">
+                        <div class="col-8 text-left px-1">
                             <span>{{ elem.title }}</span>
                         </div>
-                        <div class="col-3 text-right px-1">
+                        <div class="col-4 text-right px-1">
                         </div>
                     </div>
                 </li>
@@ -211,47 +210,47 @@
             {% for elem in refs.exs_ball %}
                 <li class="side-filter-elem list-group-item py-0" data-id="{{ elem.id }}" data-type="ball">
                     <div class="row">
-                        <div class="col-9 text-left px-1">
+                        <div class="col-8 text-left px-1">
                             <span>{{ elem.title }}</span>
                         </div>
-                        <div class="col-3 text-right px-1">
+                        <div class="col-4 text-right px-1">
                         </div>
                     </div>
                 </li>
             {% endfor %}
             <li class="side-filter-elem list-group-item py-0" data-type="watch" data-id="1">
                 <div class="row">
-                    <div class="col-9 text-left px-1">
+                    <div class="col-8 text-left px-1">
                         <span>смотрел</span>
                     </div>
-                    <div class="col-3 text-right px-1">
+                    <div class="col-4 text-right px-1">
                     </div>
                 </div>
             </li>
             <li class="side-filter-elem list-group-item py-0" data-type="watch" data-id="0">
                 <div class="row">
-                    <div class="col-9 text-left px-1">
+                    <div class="col-8 text-left px-1">
                         <span>не смотрел</span>
                     </div>
-                    <div class="col-3 text-right px-1">
+                    <div class="col-4 text-right px-1">
                     </div>
                 </div>
             </li>
             <li class="side-filter-elem list-group-item py-0" data-type="favorite" data-id="1">
                 <div class="row">
-                    <div class="col-9 text-left px-1">
+                    <div class="col-8 text-left px-1">
                         <span>избранное</span>
                     </div>
-                    <div class="col-3 text-right px-1">
+                    <div class="col-4 text-right px-1">
                     </div>
                 </div>
             </li>
             <li class="side-filter-elem list-group-item py-0" data-type="new_exs" data-id="1">
                 <div class="row">
-                    <div class="col-9 text-left px-1">
+                    <div class="col-8 text-left px-1">
                         <span>новые N</span>
                     </div>
-                    <div class="col-3 text-right px-1">
+                    <div class="col-4 text-right px-1">
                     </div>
                 </div>
             </li>
