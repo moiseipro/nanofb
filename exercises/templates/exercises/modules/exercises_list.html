@@ -174,12 +174,13 @@
             </div>
         </div> -->
     </div>
-    <div class="px-1 mr-2 mt-2 side-filter-block d-none" id="splitCol_3" style="width: 22%;">
+    <!-- <div class="px-1 mr-2 mt-2 side-filter-block d-none" id="splitCol_3" style="width: 22%;"> -->
+    <div class="px-1 mr-2 mt-2 side-filter-block d-none" id="splitCol_3">
         <div class="d-flex justify-content-center btn-tab-second">
-            <button type="button" class="btn btn-outline-danger btn-sm btn-block" id="filterReset">Сбросить</button>
+            <button type="button" class="btn btn-outline-danger btn-sm btn-block mb-1" id="filterReset">Сбросить</button>
         </div>
         <div class="d-flex justify-content-center btn-tab-second">
-            <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content" data-id="category">Категория</button>
+            <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content mb-1" data-id="category">Категория</button>
         </div>
         <ul class="list-group list-group-flush d-none" data-id="category">
         {% for elem in refs.exs_category %}
@@ -193,7 +194,7 @@
         {% endfor %}
         </ul>
         <div class="d-flex justify-content-center btn-tab-second">
-            <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content" data-id="filter">Фильтровать</button>
+            <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content mb-1" data-id="filter">Фильтровать</button>
         </div>
         <ul class="list-group list-group-flush" data-id="filter">
             {% for elem in refs.exs_goal %}
@@ -256,62 +257,7 @@
             </li>
         </ul>
         <div class="d-flex justify-content-center btn-tab-second">
-            <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content" data-id="show_icons">Показать иконки</button>
-        </div>
-        <ul class="list-group list-group-flush d-none" data-id="show_icons">
-            <li class="side-filter-elem list-group-item py-0" data-id="num">
-                <div class="row">
-                    <div class="col-9 text-left px-1">
-                        <span>порядковый</span>
-                    </div>
-                    <div class="col-3 text-right px-1">
-                        №
-                    </div>
-                </div>
-            </li>
-            <li class="side-filter-elem list-group-item py-0" data-id="players">
-                <div class="row">
-                    <div class="col-9 text-left px-1">
-                        <span>игроки</span>
-                    </div>
-                    <div class="col-3 text-right px-1">
-                        #
-                    </div>
-                </div>
-            </li>
-            <li class="side-filter-elem list-group-item py-0" data-id="goal">
-                <div class="row">
-                    <div class="col-9 text-left px-1">
-                        <span>ворота</span>
-                    </div>
-                    <div class="col-3 text-right px-1">
-                        G.
-                    </div>
-                </div>
-            </li>
-            <li class="side-filter-elem list-group-item py-0" data-id="ball">
-                <div class="row">
-                    <div class="col-9 text-left px-1">
-                        <span>мяч</span>
-                    </div>
-                    <div class="col-3 text-right px-1">
-                        <span class="icon-custom icon--ball" style="--i-w: 1em; --i-h: 1em;"></span>
-                    </div>
-                </div>
-            </li>
-            <li class="side-filter-elem list-group-item py-0" data-id="favor">
-                <div class="row">
-                    <div class="col-9 text-left px-1">
-                        <span>избранное</span>
-                    </div>
-                    <div class="col-3 text-right px-1">
-                        <span class="icon-custom icon--favorite" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
-                    </div>
-                </div>
-            </li>
-        </ul>
-        <div class="d-flex justify-content-center btn-tab-second">
-            <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content" data-id="keywords">Ключевые слова</button>
+            <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content mb-1" data-id="keywords">Ключевые слова</button>
         </div>
         <ul class="list-group list-group-flush d-none" data-id="keywords">
             <li class="side-filter-elem list-group-item py-0 px-2">
@@ -323,6 +269,11 @@
             <li class="side-filter-elem list-group-item py-0 px-2">
                 test 3
             </li>
+        </ul>
+        <div class="d-flex justify-content-center btn-tab-second">
+            <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content mb-1" data-id="newexs">Новые упражнения</button>
+        </div>
+        <ul class="list-group list-group-flush d-none" data-id="newexs">
         </ul>
     </div>
 </div>

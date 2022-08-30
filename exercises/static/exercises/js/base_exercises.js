@@ -5,12 +5,7 @@ function ToggleUpFilter(id, state) {
     switch(id) {
         case "toggle_side_filter":
             $('div.side-filter-block').toggleClass('d-none', !state);
-            if (!state && $('.up-tabs-elem[data-id="cols_size"]').attr('data-state') == '1') {
-                $('.up-tabs-elem[data-id="cols_size"]').attr('data-state', '0');
-                $('.up-tabs-elem[data-id="cols_size"]').removeClass('btn-primary');
-                $('.up-tabs-elem[data-id="cols_size"]').addClass('btn-secondary');
-                $('.exercises-list').find('div.gutter').addClass('d-none');
-            }
+            ColumnsSplitCalc();
             break;
         case "toggle_up_filter":
             $('div.btns-tabs-second').fadeToggle(300, (e) => {});
@@ -41,6 +36,8 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem[data-id="toggle_folders"]').toggleClass('btn-primary', false);
             break;
         case "nfb_folders":
+            $('.exs_counter').html("(...)");
+
             $('.folders_nfb_list').toggleClass('d-none', true);
             $('.folders_club_list').toggleClass('d-none', false);
             $('.folders_list').toggleClass('d-none', true);
@@ -56,6 +53,8 @@ function ToggleUpFilter(id, state) {
             CountFilteredExs();
             break;
         case "club_folders":
+            $('.exs_counter').html("(...)");
+
             $('.folders_nfb_list').toggleClass('d-none', true);
             $('.folders_club_list').toggleClass('d-none', true);
             $('.folders_list').toggleClass('d-none', false);
@@ -66,6 +65,8 @@ function ToggleUpFilter(id, state) {
             CountFilteredExs();
             break;
         case "team_folders":
+            $('.exs_counter').html("(...)");
+
             $('.folders_nfb_list').toggleClass('d-none', false);
             $('.folders_club_list').toggleClass('d-none', true);
             $('.folders_list').toggleClass('d-none', true);
@@ -86,6 +87,19 @@ function ToggleUpFilter(id, state) {
                 $('.up-tabs-elem[data-id="copy"]').attr('data-state', '0');
                 swal("Внимание", "Выберите упражнение из списка.", "info");
             } else {
+                $('#exerciseCopyModal').find('[name="copy_mode"]').val('1');
+                if (state) {$('#exerciseCopyModal').modal('show');} 
+                else {$('#exerciseCopyModal').modal('hide');}
+            }
+            break;
+        case "move":
+            if ($('.exercises-list').find('.exs-elem.active').length <= 0) {
+                $('.up-tabs-elem[data-id="move"]').removeClass('btn-primary');
+                $('.up-tabs-elem[data-id="move"]').addClass('btn-secondary');
+                $('.up-tabs-elem[data-id="move"]').attr('data-state', '0');
+                swal("Внимание", "Выберите упражнение из списка.", "info");
+            } else {
+                $('#exerciseCopyModal').find('[name="copy_mode"]').val('2');
                 if (state) {$('#exerciseCopyModal').modal('show');} 
                 else {$('#exerciseCopyModal').modal('hide');}
             }
@@ -119,6 +133,15 @@ function ToggleUpFilter(id, state) {
         case "toggle_markers":
             ToggleMarkersInExs();
             break;
+        case "toggle_favorite":
+            ToggleMarkersInExs();
+            break;
+        case "goal":
+            ToggleIconsInExs();
+            break;
+        case "players":
+            ToggleIconsInExs();
+            break;
         default:
             break;
     }
@@ -151,6 +174,36 @@ function CheckLastExs() {
     }
 }
 
+function RenderFilterNewExs() {
+    function createElement(date, i) {
+        const monthNames = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+        let mm = String(date.getMonth() + 1).padStart(2, '0');
+        let mmName =  monthNames[date.getMonth()];
+        let yyyy = date.getFullYear();
+        $('.list-group[data-id="newexs"]').append(`
+            <li class="side-filter-elem list-group-item py-0 px-2" data-val="${i}">
+                ${mmName} ${yyyy}
+            </li>
+        `);
+    }
+    let tDate = new Date();
+    for (let i = 0; i < 6; i ++) {
+        createElement(tDate, -i);
+        tDate.setMonth(tDate.getMonth() - 1);
+    }
+}
+
+function ColumnsSplitCalc() {
+    let state = $('.up-tabs-elem[data-id="toggle_side_filter"]').attr('data-state') == '1';
+    let sizes = window.split.getSizes();
+    if (!state) {
+        let width = sizes[2] + sizes[3];
+        $('#splitCol_2').css('width', `calc(${width}% - 16px)`);
+    } else {
+        let width = sizes[2];
+        $('#splitCol_2').css('width', `calc(${width}% - 16px)`);
+    }
+}
 
 
 
@@ -164,8 +217,9 @@ $(function() {
     $('button.up-tabs-elem').on('click', (e) => {
         let id = $(e.currentTarget).attr('data-id');
         let state = $(e.currentTarget).attr('data-state') == '1';
-        $(e.currentTarget).toggleClass('btn-secondary', state);
-        $(e.currentTarget).toggleClass('btn-primary', !state);
+        // $(e.currentTarget).toggleClass('btn-secondary', state);
+        // $(e.currentTarget).toggleClass('btn-primary', !state);
+        $(e.currentTarget).toggleClass('selected3', !state);
         $(e.currentTarget).attr('data-state', state ? '0' : '1');
         ToggleUpFilter(id, !state);
     });
@@ -175,10 +229,6 @@ $(function() {
     $('.side-filter-block').on('click', '.side-filter-elem', (e) => {
         let state = $(e.currentTarget).attr('data-state') == '1';
         let isFilter = $(e.currentTarget).parent().attr('data-id') == "filter";
-        let isShowIcons = $(e.currentTarget).parent().attr('data-id') == "show_icons";
-        if (isShowIcons && $('.up-tabs-elem[data-id="toggle_markers"]').attr('data-state') == '1') {
-            return;
-        }
         if (isFilter) {
             $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').attr('data-state', '0');
             $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').toggleClass('active', false);
@@ -200,7 +250,6 @@ $(function() {
         }
         $(e.currentTarget).toggleClass('active', !state);
         $(e.currentTarget).attr('data-state', state ? '0' : '1');
-        if (isShowIcons) {ToggleIconsInExs();}
     });
 
 
@@ -571,9 +620,10 @@ $(function() {
         }
     });
     $('#exerciseCopyModal').on('hidden.bs.modal', (e) => {
-        $('.up-tabs-elem[data-id="copy"]').removeClass('btn-primary');
-        $('.up-tabs-elem[data-id="copy"]').addClass('btn-secondary');
+        $('.up-tabs-elem[data-id="copy"]').removeClass('selected3');
         $('.up-tabs-elem[data-id="copy"]').attr('data-state', '0');
+        $('.up-tabs-elem[data-id="move"]').removeClass('selected3');
+        $('.up-tabs-elem[data-id="move"]').attr('data-state', '0');
         $('#exerciseCopyModal').find('.folder-copy-elem').parent().removeClass('active');
     });
     $('#exerciseCopyModal').on('click', '.folder-copy-elem', (e) => {
@@ -810,7 +860,6 @@ $(function() {
             });
             window.videoPlayerClones[i].ready((e) => {
                 if (i == 0) {
-                    console.log( window.videoPlayerCard1.currentType(), window.videoPlayerCard1.currentSrc() )
                     window.videoPlayerClones[i].src({
                         type: window.videoPlayerCard1.currentType(),
                         src: window.videoPlayerCard1.currentSrc()
@@ -900,5 +949,8 @@ $(function() {
     if (window.lastExercise == null) {
         CountExsInFolder();
     }
+
+
+    RenderFilterNewExs();
 
 });

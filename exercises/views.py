@@ -558,6 +558,7 @@ def exercises_api(request):
                 pass
             c_exs = None
             access_denied = False
+            copied_from_nfb = False
             if folder_type == folder_type_team:
                 if access_denied:
                     return JsonResponse({"err": "Access denied.", "success": False}, status=400)
@@ -570,6 +571,7 @@ def exercises_api(request):
                 else:
                     c_exs = c_exs[0]
                     c_exs.folder = c_folder[0]
+                    copied_from_nfb = c_exs.old_id != None
             elif folder_type == folder_type_nfb:
                 if access_denied or not cur_user[0].is_superuser:
                     return JsonResponse({"err": "Access denied.", "success": False}, status=400)
@@ -598,28 +600,27 @@ def exercises_api(request):
             c_exs.ref_train_part = set_value_as_int(request, "data[ref_train_part]", None)
             c_exs.ref_cognitive_load = set_value_as_int(request, "data[ref_cognitive_load]", None)
 
-            if type(c_exs.scheme_data) is dict:
-                c_exs.scheme_data['scheme_1'] = request.POST.get("data[scheme_1]")
-                c_exs.scheme_data['scheme_2'] = request.POST.get("data[scheme_2]")
-            else:
-                c_exs.scheme_data = {
-                    'scheme_1': request.POST.get("data[scheme_1]"),
-                    'scheme_2': request.POST.get("data[scheme_2]")
-                }
-            
-            video1_id = int(request.POST.get("data[video_1]")) if request.POST.get("data[video_1]").isdigit() else -1
-            video2_id = int(request.POST.get("data[video_2]")) if request.POST.get("data[video_2]").isdigit() else -1
-            if type(c_exs.video_data) is dict:
-                c_exs.video_data['data'] = [video1_id, video2_id]
-            else:
-                c_exs.video_data = {'data': [video1_id, video2_id]}
-            
-            animation1_id = int(request.POST.get("data[animation_1]")) if request.POST.get("data[animation_1]").isdigit() else -1
-            animation2_id = int(request.POST.get("data[animation_2]")) if request.POST.get("data[animation_2]").isdigit() else -1
-            if type(c_exs.animation_data) is dict:
-                c_exs.animation_data['data']['default'] = [animation1_id, animation2_id]
-            else:
-                c_exs.animation_data = {'data': {'custom': "", 'default': [animation1_id, animation2_id]}}
+            if not copied_from_nfb:
+                if type(c_exs.scheme_data) is dict:
+                    c_exs.scheme_data['scheme_1'] = request.POST.get("data[scheme_1]")
+                    c_exs.scheme_data['scheme_2'] = request.POST.get("data[scheme_2]")
+                else:
+                    c_exs.scheme_data = {
+                        'scheme_1': request.POST.get("data[scheme_1]"),
+                        'scheme_2': request.POST.get("data[scheme_2]")
+                    }   
+                video1_id = int(request.POST.get("data[video_1]")) if request.POST.get("data[video_1]").isdigit() else -1
+                video2_id = int(request.POST.get("data[video_2]")) if request.POST.get("data[video_2]").isdigit() else -1
+                if type(c_exs.video_data) is dict:
+                    c_exs.video_data['data'] = [video1_id, video2_id]
+                else:
+                    c_exs.video_data = {'data': [video1_id, video2_id]}
+                animation1_id = int(request.POST.get("data[animation_1]")) if request.POST.get("data[animation_1]").isdigit() else -1
+                animation2_id = int(request.POST.get("data[animation_2]")) if request.POST.get("data[animation_2]").isdigit() else -1
+                if type(c_exs.animation_data) is dict:
+                    c_exs.animation_data['data']['default'] = [animation1_id, animation2_id]
+                else:
+                    c_exs.animation_data = {'data': {'custom': "", 'default': [animation1_id, animation2_id]}}
             
             # c_exs.notes = set_by_language_code(c_exs.notes, request.LANGUAGE_CODE, request.POST.getlist("data[notes[]]", ""), request.POST.getlist("data[notes[]][]", ""))
             try:
@@ -887,6 +888,7 @@ def exercises_api(request):
                     res_exs = c_exs.values()[0]
                     res_exs['nfb'] = False
                     res_exs['folder_parent_id'] = c_exs[0].folder.parent
+                    res_exs['copied_from_nfb'] = c_exs[0].old_id != None
                 user_params = UserExerciseParam.objects.filter(exercise_user=c_exs[0].id, user=cur_user[0])
                 if user_params.exists() and user_params[0].id != None:
                     user_params = user_params.values()[0]

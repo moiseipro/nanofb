@@ -24,38 +24,50 @@
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" id="createExercise" title="Добавить упражнение" style="--w-max-x:5%;">
                                                 <span class="icon-custom icon--plus mx-1" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block size-max-w-x" data-id="exs_counter" title="Количество упражнений" style="--w-max-x:5%;">
-                                                ...
+                                            <button type="button" class="btn btn-success btn-sm btn-custom bck-custom-color btn-block up-tabs-elem folders-toggle size-max-w-x" data-id="nfb_folders" style="--bck-color:#26a71db3; --bck-color-h:#1d8316b3; --w-max-x:20%;">
+                                                <div class="d-flex justify-content-between">
+                                                    <span class="ml-5">Папки N.F.</span>
+                                                    <span class="exs_counter">(...)</span>
+                                                </div>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" data-id="filter_reset" title="Сброс фильтров" style="--w-max-x:5%;">
-                                                <span class="icon-custom icon--reset" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
+                                            <button type="button" class="btn btn-warning btn-sm btn-custom bck-custom-color btn-block up-tabs-elem folders-toggle size-max-w-x d-none" data-id="club_folders" style="--bck-color:#a29e11a8; --bck-color-h:#7e7b0da8; --w-max-x:20%;">
+                                                <div class="d-flex justify-content-between">
+                                                    <span class="ml-5">Папки "Клуб"</span>
+                                                    <span class="exs_counter">(...)</span>
+                                                </div>
                                             </button>
-                                            <button type="button" class="btn btn-success btn-sm btn-custom btn-block up-tabs-elem folders-toggle size-max-w-x" data-id="nfb_folders" style="--w-max-x:20%;">
-                                                Папки N.F.
-                                            </button>
-                                            <button type="button" class="btn btn-warning btn-sm btn-custom btn-block up-tabs-elem folders-toggle size-max-w-x d-none" data-id="club_folders" style="--w-max-x:20%;">
-                                                Папки "Клуб"
-                                            </button>
-                                            <button type="button" class="btn btn-success btn-sm btn-custom bck-custom-color btn-block up-tabs-elem folders-toggle size-max-w-x d-none" data-id="team_folders" style="--bck-color:#ff8b54; --w-max-x:20%;">
-                                                Папки "Команда"
+                                            <button type="button" class="btn btn-success btn-sm btn-custom bck-custom-color btn-block up-tabs-elem folders-toggle size-max-w-x d-none" data-id="team_folders" style="--bck-color:#da4d26bf; --bck-color-h:#be4321bf; --w-max-x:20%;">
+                                                <div class="d-flex justify-content-between">
+                                                    <span class="ml-5">Папки "Команда"</span>
+                                                    <span class="exs_counter">(...)</span>
+                                                </div>
                                             </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 size-max-w-x" id="showOneExs" style="--w-max-x:10%;">
                                                 Просмотреть
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="copy" style="--w-max-x:10%;">
-                                                Копировать
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="copy" title="Скопировать" style="--w-max-x:5%;">
+                                                <span class="icon-custom icon--copy mt-1" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="move" title="Перенести" style="--w-max-x:5%;">
+                                                <span class="icon-custom icon--share" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="" title="" style="--w-max-x:5%;">
+                                                V.A.
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_favorite" title="Избранное" style="--w-max-x:5%;">
+                                                <span class="icon-custom icon--favorite mt-1" style="--i-w: 1em; --i-h: 1em;"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="goal" title="Ворота" style="--w-max-x:5%;">
+                                                G.
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="players" title="Игроки" style="--w-max-x:5%;">
+                                                <span class="icon-custom icon--players mt-1" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                                             </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_markers" title="Маркировать" style="--w-max-x:5%;">
                                                 <span class="icon-custom icon--eye mt-1" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
                                             </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_side_filter" style="--w-max-x:10%;">
                                                 Фильтрация
-                                            </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block size-max-w-x" data-id="" title="Поделиться" style="--w-max-x:5%;">
-                                                <span class="icon-custom icon--share" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
-                                            </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block size-max-w-x" data-id="" title="Аналитика" style="--w-max-x:5%;">
-                                                <span class="icon-custom icon--chart" style="--i-w: 1.2em; --i-h: 1.1em;"></span>
                                             </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem elem-flex-center size-max-w-x" data-id="prev_exs" title="" style="--w-max-x:5%;">
                                                 <i class="fa fa-arrow-left" aria-hidden="true"></i>
@@ -643,7 +655,7 @@
                     <div class="modal-body size-h-x" style="--h-x: 70vh; overflow-y: auto;">
                     </div>
                     <div class="modal-footer">
-                        <select name="copy_mode" class="form-control form-control-sm" autocomplete="off">
+                        <select name="copy_mode" class="form-control form-control-sm d-none" autocomplete="off">
                             <option value="1">Копировать</option>
                             <option value="2">Переместить</option>
                         </select>
