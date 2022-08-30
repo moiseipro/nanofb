@@ -126,13 +126,9 @@
                                 <div class="col-6 px-0 text-center">---</div>
                             </div>
                             <div class="row">
-                                <div class="col-6 bg-default-light font-weight-bold">{% trans "Tags" %}</div>
-                                <div class="col-6 px-0 text-center">
-                                    <select class="select selectmultiple custom-select edit-input" name="tags" multiple tabindex="-1" aria-hidden="true" disabled>
-                                        {% for tag in tags %}
-                                            <option value="{{ tag.id }}">{{ tag.name }}</option>
-                                        {% endfor %}
-                                    </select>
+                                <div class="col-12 bg-default-light text-center font-weight-bold">{% trans "Tags" %}</div>
+                                <div class="col-12 px-0 text-center">
+                                    <input type="text" data-role="tagsinput" name="taggit" class="form-control edit-input" disabled>
                                 </div>
                             </div>
                         </form>

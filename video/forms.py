@@ -32,20 +32,19 @@ class CreateVideoForm(forms.ModelForm):
 
     class Meta:
         model = Video
-        fields = ['name', 'videosource_id', 'tags', 'duration', 'shared_access']
+        fields = ['name', 'videosource_id', 'taggit', 'duration']
         labels = {
             'name': _('Video title'),
             'videosource_id': _('Select a source'),
             'section_id': _('Select a section'),
             'duration': _('Video duration'),
-            'shared_access': _('Display to users'),
         }
         help_texts = {
             'name': None,
         }
         widgets = {
             'duration': time_widgets,
-            'tags': tags_widgets
+            'taggit': tags_widgets
         }
 
 

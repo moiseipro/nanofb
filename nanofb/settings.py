@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'rest_framework',
     'rest_framework_datatables',
+    'taggit',
 
     'nanofootball.apps.NanofootballConfig',
     'users.apps.UsersConfig',
@@ -119,7 +120,7 @@ DB_beget = {
 
 DATABASES = {
     # LOCALHOST
-    'default': DB_localhost
+    'default': DB_beget
 }
 
 

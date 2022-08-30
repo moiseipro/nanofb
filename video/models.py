@@ -4,6 +4,7 @@ from django.db import models
 from django.utils.datetime_safe import datetime
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy as _p
+from taggit.managers import TaggableManager
 
 from references.models import VideoSource
 from version.models import Section
@@ -72,23 +73,13 @@ class Video(models.Model):
         null=True,
         blank=True
     )
-    shared_access = models.BooleanField(
-        verbose_name=_('shared access'),
-        help_text=_('Is it available to all users?'),
-        default=False
-    )
     old_id = models.IntegerField(
         verbose_name=_('old id'),
         help_text=_('ID of the exercise that the video was linked to'),
         null=True,
         blank=True
     )
-    tags = models.ManyToManyField(
-        VideoTags,
-        verbose_name=_('video tags'),
-        help_text=_('Tags linked to the video'),
-        blank=True
-    )
+    taggit = TaggableManager()
 
     def __str__(self):
         return self.name

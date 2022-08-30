@@ -19,6 +19,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from django.core.files.storage import FileSystemStorage
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 from rest_framework.response import Response
+from taggit.models import Tag
 
 from video.serializers import VideoSerializer, VideoUpdateSerializer, OnlyVideoSerializer
 from references.models import VideoSource
@@ -50,8 +51,8 @@ class VideoViewSet(viewsets.ModelViewSet):
             data_dict['music'] = data['music']
         else:
             data_dict['music'] = 'off'
-        if 'tags' in data:
-            data_dict['tags'] = data['tags']
+        if 'taggit' in data:
+            data_dict['taggit'] = data['taggit']
         if 'file_video' in request.FILES:
             url = 'http://213.108.4.28/api/add_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
             fs = FileSystemStorage()
@@ -150,8 +151,10 @@ class VideoViewSet(viewsets.ModelViewSet):
                     duration = content['time']
             except requests.exceptions.ConnectionError as e:
                 response = "No response"
-
-        serializer.save(music=music, duration=parse_duration(duration))
+        if duration == '00:00:00':
+            serializer.save(music=music)
+        else:
+            serializer.save(music=music, duration=parse_duration(duration))
 
     def update(self, request, *args, **kwarg):
         partial = True
@@ -243,7 +246,7 @@ class VideoViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
 
         self.perform_update(serializer)
-
+        print(serializer.data)
         return Response(serializer.data)
 
     def destroy(self, request, *args, **kwargs):
@@ -306,7 +309,7 @@ class BaseVideoView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['sources'] = VideoSource.objects.all()
-        context['tags'] = VideoTags.objects.all()
+        context['tags'] = Tag.objects.all()
         #context['update_form'] = UpdateVideoForm()
         return context
 

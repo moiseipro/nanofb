@@ -3,6 +3,7 @@
 {% load static %}
 
 {% block custom_style %}
+    <link rel="stylesheet" href="{% static 'bootstrap-tagsinput/bootstrap-tagsinput.css' %}">
     <link rel="stylesheet" href="{% static 'video/css/base_video.css' %}">
 {% endblock %}
 
@@ -98,7 +99,7 @@
 {% endblock %}
 
 {% block custom_scripts %}
-    <script src="{% static 'bootstrap-tags/tags.min.js' %}"></script>
+    <script src="{% static 'bootstrap-tagsinput/bootstrap-tagsinput.js' %}"></script>
     <script src="{% static 'video/js/video_list.js' %}"></script>
     <script src="{% static 'video/js/video_blocks_list.js' %}"></script>
     <script src="{% static 'video/js/base_video.js' %}"></script>

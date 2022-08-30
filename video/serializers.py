@@ -1,7 +1,8 @@
 from rest_framework import serializers
 
+from taggit.serializers import (TagListSerializerField,
+                                TaggitSerializer)
 from references.serializers import VideoSourceSerializer
-from version.serializers import SectionSerializer
 from video.models import Video, VideoTags
 
 
@@ -17,25 +18,24 @@ class OnlyVideoSerializer(serializers.Serializer):
     links = serializers.JSONField(read_only=True)
 
 
-class VideoSerializer(serializers.ModelSerializer):
+class VideoSerializer(TaggitSerializer, serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     videosource_id = VideoSourceSerializer()
-    tags = VideoTagsSerializer(
-        many=True
-    )
+    taggit = TagListSerializerField()
 
     class Meta:
         model = Video
         fields = (
-            'id', 'videosource_id', 'name', 'tags', 'duration', 'language', 'music', 'links', 'upload_date', 'shared_access'
+            'id', 'videosource_id', 'name', 'taggit', 'duration', 'language', 'music', 'links', 'upload_date'
         )
-        datatables_always_serialize = ('id', 'tags')
+        datatables_always_serialize = ('id', 'taggit')
 
 
-class VideoUpdateSerializer(serializers.ModelSerializer):
+class VideoUpdateSerializer(TaggitSerializer, serializers.ModelSerializer):
+    taggit = TagListSerializerField()
 
     class Meta:
         model = Video
         fields = (
-            'id', 'videosource_id', 'name', 'tags', 'duration', 'language', 'music', 'links', 'upload_date', 'shared_access'
+            'id', 'videosource_id', 'name', 'taggit', 'duration', 'language', 'music', 'links', 'upload_date'
         )
