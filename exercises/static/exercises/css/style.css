@@ -127,7 +127,7 @@
 }
 
 .btn-group-custom {
-    border: 2px solid rgb(100, 100, 100);
+    border: 0px solid rgb(100, 100, 100);
 }
 .btn-group-custom > button.btn-custom {
     margin-left: .1rem !important;
@@ -139,6 +139,7 @@
 .btn-custom {
     color: #5a6268 !important;
     border: 2px solid rgb(100, 100, 100) !important;
+    border-radius: 5% !important;
 }
 .btn-custom:hover {
     text-decoration-line: underline;
@@ -216,6 +217,12 @@
     color: whitesmoke !important;
     background-color: #6b92ff !important;
     border-color: #6b92ff !important;
+    font-weight: 700;
+    opacity: 0.9;
+}
+.btn-custom.selected3 {
+    background-color: #e846462b !important;
+    border-color: #e84646 !important;
     font-weight: 700;
     opacity: 0.9;
 }

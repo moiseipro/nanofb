@@ -217,8 +217,9 @@ $(function() {
     $('button.up-tabs-elem').on('click', (e) => {
         let id = $(e.currentTarget).attr('data-id');
         let state = $(e.currentTarget).attr('data-state') == '1';
-        $(e.currentTarget).toggleClass('btn-secondary', state);
-        $(e.currentTarget).toggleClass('btn-primary', !state);
+        // $(e.currentTarget).toggleClass('btn-secondary', state);
+        // $(e.currentTarget).toggleClass('btn-primary', !state);
+        $(e.currentTarget).toggleClass('selected3', !state);
         $(e.currentTarget).attr('data-state', state ? '0' : '1');
         ToggleUpFilter(id, !state);
     });
@@ -619,11 +620,9 @@ $(function() {
         }
     });
     $('#exerciseCopyModal').on('hidden.bs.modal', (e) => {
-        $('.up-tabs-elem[data-id="copy"]').removeClass('btn-primary');
-        $('.up-tabs-elem[data-id="copy"]').addClass('btn-secondary');
+        $('.up-tabs-elem[data-id="copy"]').removeClass('selected3');
         $('.up-tabs-elem[data-id="copy"]').attr('data-state', '0');
-        $('.up-tabs-elem[data-id="move"]').removeClass('btn-primary');
-        $('.up-tabs-elem[data-id="move"]').addClass('btn-secondary');
+        $('.up-tabs-elem[data-id="move"]').removeClass('selected3');
         $('.up-tabs-elem[data-id="move"]').attr('data-state', '0');
         $('#exerciseCopyModal').find('.folder-copy-elem').parent().removeClass('active');
     });
