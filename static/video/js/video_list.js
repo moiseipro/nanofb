@@ -29,12 +29,13 @@ function generate_ajax_video_table(scroll_y = ''){
             {'data': 'duration'},
             {'data': 'name', 'name': 'name'},
             {'data': function (data, type, dataToSet) {
+                console.log(data)
                 if(type === 'display') {
-                    if ('tags' in data && data.tags.length != 0) {
+                    if ('taggit' in data && data.taggit.length != 0) {
                         let tags = ''
-                        data.tags.forEach(function(tag, index){
+                        data.taggit.forEach(function(tag, index){
                             if(tags!='')tags+=', '
-                            tags += tag.name;
+                            tags += tag;
                         })
                         return tags
                     } else return gettext('---')

@@ -115,8 +115,7 @@ function clear_video_form(){
     $('#video-action-form select[name="videosource_id"]').trigger('change')
     $('#video-action-form select[name="language"] option:first').prop('selected', true)
     $('#video-action-form select[name="language"]').trigger('change')
-    $('#video-action-form select[name="tags"] option').prop('selected', false)
-    $('#video-action-form select[name="tags"]').trigger('change')
+    $('#video-action-form input[name="taggit"]').tagsinput('removeAll');
     $('#video-action-form input[type="checkbox"]').prop('checked', false)
 }
 
@@ -126,8 +125,10 @@ $('#save-video').on('click', function () {
 
 $('#video-action-form').submit(function (event) {
 
-    let formData = $(this).serialize()
+    let formData = $(this).serializeArray()
     let form_Data = new FormData(this)
+    form_Data.set("taggit", JSON.stringify($('#video-action-form input[name="taggit"]').tagsinput('items'), null, 2))
+    console.log(form_Data.get("taggit"))
 
     ajax_video_action($(this).attr('method'), form_Data, 'update', cur_edit_data ? cur_edit_data.id : '').done(function (data) {
         video_table.ajax.reload()
@@ -188,7 +189,7 @@ function ajax_video_delete(row_data) {
 
 function render_json_block(data) {
     $('#video-card-modal').modal('show')
-    //console.log(data)
+    console.log(data)
     $('#video-card-modal [name]').each(function () {
         let in_data = $(this).attr('name')
         if(in_data === 'youtube_link') in_data = 'links'
@@ -211,7 +212,16 @@ function render_json_block(data) {
             } else {
                 if(in_data === 'links'){
                     if(data[in_data]['youtube']) $(this).val('https://www.youtube.com/watch?v='+data[in_data]['youtube'])
-                } else $(this).val(data[in_data])
+                } else if(in_data === 'taggit'){
+                    let this_obj = $(this)
+                    $.each( data[in_data], function( key, value ) {
+                        this_obj.tagsinput('add', value);
+                    });
+                    //$(this).tagsinput('refresh');
+                } else {
+                    $(this).val(data[in_data])
+
+                }
             }
         }
     })
