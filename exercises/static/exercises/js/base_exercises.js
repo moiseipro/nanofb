@@ -5,7 +5,6 @@ function ToggleUpFilter(id, state) {
     switch(id) {
         case "toggle_side_filter":
             $('div.side-filter-block').toggleClass('d-none', !state);
-            ColumnsSplitCalc();
             break;
         case "toggle_up_filter":
             $('div.btns-tabs-second').fadeToggle(300, (e) => {});
@@ -20,22 +19,8 @@ function ToggleUpFilter(id, state) {
                 $('.up-tabs-elem[data-id="cols_size"]').addClass('btn-secondary');
             }
             break;
-        case "toggle_folders":
-            if ($('.folders_list').hasClass('d-none')) {
-                $('.folders_list').toggleClass('d-none', false);
-                $('.folders_nfb_list').toggleClass('d-none', true);
-                $('.up-tabs-elem[data-id="toggle_folders"]').text(`Папки "Тренер"`);
-            } else {
-                $('.folders_list').toggleClass('d-none', true);
-                $('.folders_nfb_list').toggleClass('d-none', false);
-                $('.up-tabs-elem[data-id="toggle_folders"]').text(`Папки N.F.`);
-            }
-            $('.exercises-list').find('.list-group-item').removeClass('active');
-            $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
-            $('.up-tabs-elem[data-id="toggle_folders"]').toggleClass('btn-secondary', true);
-            $('.up-tabs-elem[data-id="toggle_folders"]').toggleClass('btn-primary', false);
-            break;
         case "nfb_folders":
+            $('.up-tabs-elem[data-id="nfb_folders"]').removeClass('selected3');
             $('.exs_counter').html("(...)");
 
             $('.folders_nfb_list').toggleClass('d-none', true);
@@ -53,6 +38,7 @@ function ToggleUpFilter(id, state) {
             CountFilteredExs();
             break;
         case "club_folders":
+            $('.up-tabs-elem[data-id="club_folders"]').removeClass('selected3');
             $('.exs_counter').html("(...)");
 
             $('.folders_nfb_list').toggleClass('d-none', true);
@@ -65,6 +51,7 @@ function ToggleUpFilter(id, state) {
             CountFilteredExs();
             break;
         case "team_folders":
+            $('.up-tabs-elem[data-id="team_folders"]').removeClass('selected3');
             $('.exs_counter').html("(...)");
 
             $('.folders_nfb_list').toggleClass('d-none', false);
@@ -82,8 +69,7 @@ function ToggleUpFilter(id, state) {
             break;
         case "copy":
             if ($('.exercises-list').find('.exs-elem.active').length <= 0) {
-                $('.up-tabs-elem[data-id="copy"]').removeClass('btn-primary');
-                $('.up-tabs-elem[data-id="copy"]').addClass('btn-secondary');
+                $('.up-tabs-elem[data-id="copy"]').removeClass('selected3');
                 $('.up-tabs-elem[data-id="copy"]').attr('data-state', '0');
                 swal("Внимание", "Выберите упражнение из списка.", "info");
             } else {
@@ -94,8 +80,7 @@ function ToggleUpFilter(id, state) {
             break;
         case "move":
             if ($('.exercises-list').find('.exs-elem.active').length <= 0) {
-                $('.up-tabs-elem[data-id="move"]').removeClass('btn-primary');
-                $('.up-tabs-elem[data-id="move"]').addClass('btn-secondary');
+                $('.up-tabs-elem[data-id="move"]').removeClass('selected3');
                 $('.up-tabs-elem[data-id="move"]').attr('data-state', '0');
                 swal("Внимание", "Выберите упражнение из списка.", "info");
             } else {
@@ -113,8 +98,7 @@ function ToggleUpFilter(id, state) {
             } else {
                 $(currentList).find('.exs-elem').last().addClass('active');
             }
-            $('.up-tabs-elem[data-id="prev_exs"]').toggleClass('btn-secondary', true);
-            $('.up-tabs-elem[data-id="prev_exs"]').toggleClass('btn-primary', false);
+            $('.up-tabs-elem[data-id="prev_exs"]').toggleClass('selected3', false);
             LoadExerciseOneHandler();
             break;
         case "next_exs":
@@ -126,8 +110,7 @@ function ToggleUpFilter(id, state) {
             } else {
                 $(currentList).find('.exs-elem').first().addClass('active');
             }
-            $('.up-tabs-elem[data-id="next_exs"]').toggleClass('btn-secondary', true);
-            $('.up-tabs-elem[data-id="next_exs"]').toggleClass('btn-primary', false);
+            $('.up-tabs-elem[data-id="next_exs"]').toggleClass('selected3', false);
             LoadExerciseOneHandler();
             break;
         case "toggle_markers":
@@ -190,18 +173,6 @@ function RenderFilterNewExs() {
     for (let i = 0; i < 6; i ++) {
         createElement(tDate, -i);
         tDate.setMonth(tDate.getMonth() - 1);
-    }
-}
-
-function ColumnsSplitCalc() {
-    let state = $('.up-tabs-elem[data-id="toggle_side_filter"]').attr('data-state') == '1';
-    let sizes = window.split.getSizes();
-    if (!state) {
-        let width = sizes[2] + sizes[3];
-        $('#splitCol_2').css('width', `calc(${width}% - 16px)`);
-    } else {
-        let width = sizes[2];
-        $('#splitCol_2').css('width', `calc(${width}% - 16px)`);
     }
 }
 

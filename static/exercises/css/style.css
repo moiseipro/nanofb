@@ -188,7 +188,37 @@
 .btn-custom.btn-danger:hover {
     background-color: #c57474;
     border-color: #c57474;
-    border-color: #da5f26;
+}
+
+.btn-custom.custom-blue2 {
+    text-decoration: none !important;
+    color: whitesmoke !important;
+    background-color: #6b92ff;
+    border-color: #6b92ff;
+}
+.btn-custom.custom-blue2:hover {
+    background-color: #5574c9;
+    border-color: #5574c9;
+}
+.btn-custom.custom-red2 {
+    text-decoration: none !important;
+    color: whitesmoke !important;
+    background-color: #fa9191;
+    border-color: #fa9191;
+}
+.btn-custom.custom-red2:hover {
+    background-color: #c57474;
+    border-color: #c57474;
+}
+.btn-custom.custom-green2 {
+    text-decoration: none !important;
+    color: whitesmoke !important;
+    background-color: #75d00e;
+    border-color: #75d00e;
+}
+.btn-custom.custom-green2:hover {
+    background-color: #70a237;
+    border-color: #70a237;
 }
 
 .btn-custom.custom-blue {
@@ -198,14 +228,7 @@
     color: #144eec !important;
 }
 
-.btn-custom.custom-bck-light-red {
-    background-color: #eba8a8;
-    border-color: #eba8a8;
-}
-.btn-custom.custom-bck-light-red:hover {
-    background-color: #d29393;
-    border-color: #d29393;
-}
+
 
 .btn-custom.selected {
     border-width: 3px !important;
