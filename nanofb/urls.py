@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.i18n import i18n_patterns
 from django.views.i18n import JavaScriptCatalog
+from django.conf.urls.static import static
+from django.conf import settings
 
 
 handler404 = 'nanofootball.views.view_404' 
@@ -32,6 +34,7 @@ urlpatterns = [
     path('version/', include(('version.urls', 'version'), namespace='version')),
     path('video/', include(('video.urls', 'video'), namespace='video')),
     path('exercises/', include(('exercises.urls', 'exercises'), namespace='exercises')),
+    path('players/', include(('players.urls', 'players'), namespace='players')),
     path('matches/', include(('matches.urls', 'matches'), namespace='matches')),
     path('trainings/', include(('trainings.urls', 'trainings'), namespace='trainings')),
     path('events/', include(('events.urls', 'events'), namespace='events')),
@@ -45,3 +48,6 @@ urlpatterns += i18n_patterns(
     # Translations in Javascript
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
 )
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

@@ -36,6 +36,10 @@ function ToggleUpFilter(id, state) {
             $('#exerciseCopyModal').find('select[name="copy_mode"]').val('1');
             $('#exerciseCopyModal').find('select[name="copy_mode"]').prop('disabled', true);
             CountFilteredExs();
+
+            $('.toggle-filter-content').removeClass('btn-custom-outline-blue');
+            $('.toggle-filter-content').removeClass('btn-custom-outline-green');
+            $('.toggle-filter-content').addClass('btn-custom-outline-red');
             break;
         case "club_folders":
             $('.up-tabs-elem[data-id="club_folders"]').removeClass('selected3');
@@ -49,6 +53,10 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem[data-id="club_folders"]').toggleClass('d-none', true);
             $('.up-tabs-elem[data-id="team_folders"]').toggleClass('d-none', false);
             CountFilteredExs();
+
+            $('.toggle-filter-content').removeClass('btn-custom-outline-green');
+            $('.toggle-filter-content').removeClass('btn-custom-outline-red');
+            $('.toggle-filter-content').addClass('btn-custom-outline-blue');
             break;
         case "team_folders":
             $('.up-tabs-elem[data-id="team_folders"]').removeClass('selected3');
@@ -66,6 +74,10 @@ function ToggleUpFilter(id, state) {
 
             $('#exerciseCopyModal').find('select[name="copy_mode"]').prop('disabled', false);
             CountFilteredExs();
+
+            $('.toggle-filter-content').removeClass('btn-custom-outline-blue');
+            $('.toggle-filter-content').removeClass('btn-custom-outline-red');
+            $('.toggle-filter-content').addClass('btn-custom-outline-green');
             break;
         case "copy":
             if ($('.exercises-list').find('.exs-elem.active').length <= 0) {
@@ -909,6 +921,19 @@ $(function() {
         $(`.up-tabs-elem[data-id="${cFoldersSettings.type}"]`).removeClass('d-none');
         $('.folders-block > div').addClass('d-none');
         $(`.folders-block > div[data-id="${cFoldersSettings.type}"]`).removeClass('d-none');
+        if (cFoldersSettings.type == "team_folders") {
+            $('.toggle-filter-content').removeClass('btn-custom-outline-green');
+            $('.toggle-filter-content').removeClass('btn-custom-outline-red');
+            $('.toggle-filter-content').addClass('btn-custom-outline-blue');
+        } else if (cFoldersSettings.type == "nfb_folders") {
+            $('.toggle-filter-content').removeClass('btn-custom-outline-blue');
+            $('.toggle-filter-content').removeClass('btn-custom-outline-red');
+            $('.toggle-filter-content').addClass('btn-custom-outline-green');
+        } else if (cFoldersSettings.type == "club_folders") {
+            $('.toggle-filter-content').removeClass('btn-custom-outline-blue');
+            $('.toggle-filter-content').removeClass('btn-custom-outline-green');
+            $('.toggle-filter-content').addClass('btn-custom-outline-red');
+        }
     }
 
     // Toggle left menu

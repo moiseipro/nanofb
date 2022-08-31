@@ -1,8 +1,6 @@
-from ast import keyword
 from django.db import models
-from django.core.validators import int_list_validator
 from users.models import User
-from references.models import UserTeam
+from references.models import UserTeam, ClubTeam
 
 
 class AbstractFolder(models.Model):
