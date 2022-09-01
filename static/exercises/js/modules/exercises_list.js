@@ -4,6 +4,16 @@ function RenderSplitCols() {
     window.split = Split(['#splitCol_0', '#splitCol_1', '#splitCol_2'], {
         sizes: sizesArr,
         gutterSize: 16,
+        onDrag: () => {
+            let lastColWidth = 0;
+            try {
+                let sizes = window.split.getSizes();
+                lastColWidth = sizes[2];
+            } catch(e) {}
+            if (lastColWidth > 0) {
+                $('#splitCol_2').css('width', `calc(${lastColWidth}% + 20px)`);
+            }
+        },
         onDragEnd: (arr) => {
             if (!$('#toggleFoldersNames').attr('data-state') == '1') {
                 let oldValue = arr[0];
@@ -21,6 +31,7 @@ function RenderSplitCols() {
 
 function ResizeSplitCols() {
     let state = $('#toggleFoldersNames').attr('data-state') == '1';
+    let lastColWidth = 0;
     try {
         let sizes = window.split.getSizes();
         if (!state) {
@@ -33,8 +44,11 @@ function ResizeSplitCols() {
             sizes[1] += diff;
         }
         window.split.setSizes(sizes);
+        lastColWidth = sizes[2];
     } catch(e) {}
-    
+    if (lastColWidth > 0) {
+        $('#splitCol_2').css('width', `calc(${lastColWidth}% + 20px)`);
+    }
     // let colWidth = !state ? `calc(${$('#splitCol_0').css('width')} / 2)` : `calc(${$('#splitCol_2').css('width')} * 2)`;
     // $('#splitCol_0').css('width', colWidth);
 }

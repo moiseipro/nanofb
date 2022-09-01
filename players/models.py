@@ -16,6 +16,7 @@ class AbstractPlayer(models.Model):
     objects = models.Manager()
     class Meta():
         abstract = True
+        ordering = ['surname', 'name', 'patronymic']
     def __str__(self):
         return f"[id: {self.id}] {self.surname} {self.name} {self.patronymic}"
 

@@ -282,6 +282,20 @@
     border-color: #e84646 !important;
     font-weight: 700;
     opacity: 0.9;
+    border-width: 2px;
+}
+
+.btn-custom.b-c-blue2.selected3 {
+    background-color: #cff3ff !important;
+    border-color: #008CBA !important;
+}
+.btn-custom.b-c-red2.selected3 {
+    background-color: #ffd0cb !important;
+    border-color: #f44336 !important;
+}
+.btn-custom.b-c-green2.selected3 {
+    background-color: #cdffcf !important;
+    border-color: #4CAF50 !important;
 }
 
 .bck-custom {

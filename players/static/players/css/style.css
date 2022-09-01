@@ -24,3 +24,14 @@
     height: 80vh !important;
     overflow-y: auto;
 }
+
+
+.edit-field.req-empty {
+    border-color: red;
+}
+
+
+.card-i:hover {
+    border: 2px solid black;
+    opacity: 0.9;
+}

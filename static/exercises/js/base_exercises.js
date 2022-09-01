@@ -40,6 +40,9 @@ function ToggleUpFilter(id, state) {
             $('.toggle-filter-content').removeClass('btn-custom-outline-blue');
             $('.toggle-filter-content').removeClass('btn-custom-outline-green');
             $('.toggle-filter-content').addClass('btn-custom-outline-red');
+            $('.up-tabs-elem').removeClass('b-c-blue2');
+            $('.up-tabs-elem').removeClass('b-c-green2');
+            $('.up-tabs-elem').addClass('b-c-red2');
             break;
         case "club_folders":
             $('.up-tabs-elem[data-id="club_folders"]').removeClass('selected3');
@@ -57,6 +60,9 @@ function ToggleUpFilter(id, state) {
             $('.toggle-filter-content').removeClass('btn-custom-outline-green');
             $('.toggle-filter-content').removeClass('btn-custom-outline-red');
             $('.toggle-filter-content').addClass('btn-custom-outline-blue');
+            $('.up-tabs-elem').removeClass('b-c-green2');
+            $('.up-tabs-elem').removeClass('b-c-red2');
+            $('.up-tabs-elem').addClass('b-c-blue2');
             break;
         case "team_folders":
             $('.up-tabs-elem[data-id="team_folders"]').removeClass('selected3');
@@ -78,6 +84,9 @@ function ToggleUpFilter(id, state) {
             $('.toggle-filter-content').removeClass('btn-custom-outline-blue');
             $('.toggle-filter-content').removeClass('btn-custom-outline-red');
             $('.toggle-filter-content').addClass('btn-custom-outline-green');
+            $('.up-tabs-elem').removeClass('b-c-blue2');
+            $('.up-tabs-elem').removeClass('b-c-red2');
+            $('.up-tabs-elem').addClass('b-c-green2');
             break;
         case "copy":
             if ($('.exercises-list').find('.exs-elem.active').length <= 0) {
@@ -925,14 +934,23 @@ $(function() {
             $('.toggle-filter-content').removeClass('btn-custom-outline-green');
             $('.toggle-filter-content').removeClass('btn-custom-outline-red');
             $('.toggle-filter-content').addClass('btn-custom-outline-blue');
+            $('.up-tabs-elem').removeClass('b-c-green2');
+            $('.up-tabs-elem').removeClass('b-c-red2');
+            $('.up-tabs-elem').addClass('b-c-blue2');
         } else if (cFoldersSettings.type == "nfb_folders") {
             $('.toggle-filter-content').removeClass('btn-custom-outline-blue');
             $('.toggle-filter-content').removeClass('btn-custom-outline-red');
             $('.toggle-filter-content').addClass('btn-custom-outline-green');
+            $('.up-tabs-elem').removeClass('b-c-blue2');
+            $('.up-tabs-elem').removeClass('b-c-red2');
+            $('.up-tabs-elem').addClass('b-c-green2');
         } else if (cFoldersSettings.type == "club_folders") {
             $('.toggle-filter-content').removeClass('btn-custom-outline-blue');
             $('.toggle-filter-content').removeClass('btn-custom-outline-green');
             $('.toggle-filter-content').addClass('btn-custom-outline-red');
+            $('.up-tabs-elem').removeClass('b-c-blue2');
+            $('.up-tabs-elem').removeClass('b-c-green2');
+            $('.up-tabs-elem').addClass('b-c-red2');
         }
     }
 
