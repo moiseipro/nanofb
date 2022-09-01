@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'video.apps.VideoConfig',
     'references.apps.ReferencesConfig',
     'exercises.apps.ExercisesConfig',
+    'players.apps.PlayersConfig',
     'events.apps.EventsConfig',
     'matches.apps.MatchesConfig',
     'trainings.apps.TrainingsConfig',
