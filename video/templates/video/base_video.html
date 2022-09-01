@@ -39,8 +39,8 @@
                         <div class="col-md-1 col-lg-1 px-1">
                             <button id="video-filters-clear" class="btn btn-sm btn-secondary btn-block font-weight-bold"><i class="fa fa-reply" aria-hidden="true"></i></button>
                         </div>
-                        <div class="col-md-2 col-lg-2 px-1 select-sm">
-                            <select class="select custom-select video-source" tabindex="-1" aria-hidden="true">
+                        <div class="col-md-2 col-lg-2 px-1 form-select-sm">
+                            <select class="select form-control form-control-sm video-source" data-theme="bootstrap4">
                                 <option value="">{% trans 'All' %}</option>
                                 {% for source in sources %}
                                     <option value="{{ source.name }}">{{ source.name }}</option>
@@ -49,9 +49,8 @@
                                 {% endfor %}
                             </select>
                         </div>
-                        <div class="col-md-2 col-lg-2 px-1 select-sm">
-                            <select class="select custom-select video-tags" tabindex="-1" aria-hidden="true">
-                                <option value="">{% trans 'All' %}</option>
+                        <div class="col-md-2 col-lg-2 px-1 form-select-sm">
+                            <select class="select form-control form-control-sm video-tags-filter" multiple data-theme="bootstrap4">
                                 {% for tag in tags %}
                                     <option value="{{ tag.name }}">{{ tag.name }}</option>
                                 {% empty %}
@@ -59,23 +58,23 @@
                                 {% endfor %}
                             </select>
                         </div>
-                        <div class="col-md-2 col-lg-2 px-1">
+                        <!--<div class="col-md-2 col-lg-2 px-1">
                             <input id="video-search" type="search" class="form-control form-control-sm" placeholder="{% trans "Search" %}" aria-controls="video">
-                        </div>
+                        </div>-->
                         <div class="col-md-2 col-lg-2">
                             <div class="row">
-                                <div class="col-3 px-1">
+                                <!--<div class="col-3 px-1">
                                     <button id="video-folders-filter" class="btn btn-sm btn-secondary btn-block font-weight-bold"><i class="fa fa-folder" aria-hidden="true"></i></button>
                                 </div>
                                 <div class="col-3 px-1">
                                     <button id="video-star-filter" class="btn btn-sm btn-secondary btn-block font-weight-bold"><i class="fa fa-star-o" aria-hidden="true"></i></button>
-                                </div>
-                                <div class="col-3 px-1">
+                                </div>-->
+                                <div class="col-12 px-1">
                                     <button id="video-settings" class="btn btn-sm btn-secondary btn-block font-weight-bold"><i class="fa fa-cog" aria-hidden="true"></i></button>
                                 </div>
-                                <div class="col-3 px-1">
+                                <!--<div class="col-3 px-1">
                                     <button id="video-delete" class="btn btn-sm btn-secondary btn-block font-weight-bold"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                                </div>
+                                </div>-->
                             </div>
                         </div>
 

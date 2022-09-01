@@ -15,12 +15,14 @@ from rest_framework import viewsets, status, generics
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
+from rest_framework_datatables.django_filters.backends import DatatablesFilterBackend
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from django.core.files.storage import FileSystemStorage
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 from rest_framework.response import Response
 from taggit.models import Tag
 
+from video.filters import VideoGlobalFilter
 from video.serializers import VideoSerializer, VideoUpdateSerializer, OnlyVideoSerializer
 from references.models import VideoSource
 from video.forms import CreateVideoForm, UpdateVideoForm
@@ -32,6 +34,8 @@ context_page = {'menu_video': 'active'}
 # API REST
 class VideoViewSet(viewsets.ModelViewSet):
     queryset = Video.objects.all().order_by('videosource_id')
+    filter_backends = (DatatablesFilterBackend,)
+    filterset_class = VideoGlobalFilter
 
     def get_permissions(self):
         permission_classes = [IsAuthenticated, IsAdminUser]
@@ -288,6 +292,7 @@ class VideoViewSet(viewsets.ModelViewSet):
         return VideoSerializer
 
     def get_queryset(self):
+        print(self.request.query_params.get('columns[6][search][value]'))
         return Video.objects.all()
 
 

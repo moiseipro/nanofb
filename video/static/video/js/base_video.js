@@ -22,6 +22,7 @@ video_player = videojs('base-player', {
 // });
 
 $(window).on('load', function (){
+
     generate_ajax_video_table("calc(100vh - 350px)")
     video_table
         .on( 'select', function ( e, dt, type, indexes ) {
@@ -58,7 +59,12 @@ $('.video-source').on('change', function (){
     let data_source = $( this ).val()
     //console.log(data_source)
     video_table.columns([2]).search(data_source).draw()
-    $('#block-video-info').addClass('d-none')
+})
+
+$('.video-tags-filter').on('change', function (){
+    let data_tag = $( this ).val()
+    //console.log(data_source)
+    video_table.columns([6]).search(data_tag).draw()
 })
 
 //Переключение между блочной и табличной структурой видео
@@ -115,7 +121,8 @@ function clear_video_form(){
     $('#video-action-form select[name="videosource_id"]').trigger('change')
     $('#video-action-form select[name="language"] option:first').prop('selected', true)
     $('#video-action-form select[name="language"]').trigger('change')
-    $('#video-action-form input[name="taggit"]').tagsinput('removeAll');
+    //$('#video-action-form input[name="taggit"]').tagsinput('removeAll');
+    $('#video-action-form select[name="taggit"]').val(null).trigger('change');
     $('#video-action-form input[type="checkbox"]').prop('checked', false)
 }
 
@@ -127,7 +134,8 @@ $('#video-action-form').submit(function (event) {
 
     let formData = $(this).serializeArray()
     let form_Data = new FormData(this)
-    form_Data.set("taggit", JSON.stringify($('#video-action-form input[name="taggit"]').tagsinput('items'), null, 2))
+    //form_Data.set("taggit", JSON.stringify($('#video-action-form input[name="taggit"]').tagsinput('items'), null, 2))
+    form_Data.set("taggit", JSON.stringify($('#video-action-form select[name="taggit"]').val(), null, 2))
     console.log(form_Data.get("taggit"))
 
     ajax_video_action($(this).attr('method'), form_Data, 'update', cur_edit_data ? cur_edit_data.id : '').done(function (data) {
@@ -196,10 +204,10 @@ function render_json_block(data) {
         if(in_data in data){
             if($(this).is('select')){
                 //$(this).val(1)
-                if($(this).hasClass('selectmultiple')){
+                if($(this).hasClass('tag-select')){
                     let ids = []
                     data[in_data].forEach(function (tag) {
-                        ids.push(tag.id)
+                        ids.push(tag)
                     })
                     $(this).val(ids).trigger("change")
                 } else {

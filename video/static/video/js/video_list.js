@@ -18,29 +18,37 @@ function generate_ajax_video_table(scroll_y = ''){
         columnDefs: [
             { "searchable": false, "targets": 0 }
         ],
-        ajax: '/video/api/?format=datatables',
+        ajax: {
+            url:'/video/api/?format=datatables',
+            data: function(data){
+                let tag_list = $('.video-tags-filter').val()
+                //data.columns[6].search.value = tag_list
+                console.log(data)
+            },
+        },
         columns: [
             {'data': 'id', render: function (data, type, row, meta) {
                 return meta.row + meta.settings._iDisplayStart + 1;
             }},
             {'data': 'id', 'name': 'id'},
-            {'data': 'videosource_id.name', 'name': 'videosource_id.name'},
-            {'data': 'upload_date', 'name': 'upload_date'},
-            {'data': 'duration'},
+            {'data': 'videosource_name', 'name': 'videosource_name'},
+            {'data': 'upload_date', 'name': 'upload_date', "searchable": false},
+            {'data': 'duration', "searchable": false},
             {'data': 'name', 'name': 'name'},
-            {'data': function (data, type, dataToSet) {
-                console.log(data)
-                if(type === 'display') {
-                    if ('taggit' in data && data.taggit.length != 0) {
-                        let tags = ''
-                        data.taggit.forEach(function(tag, index){
-                            if(tags!='')tags+=', '
-                            tags += tag;
-                        })
-                        return tags
-                    } else return gettext('---')
-                } else return null
-            }, "searchable": false},
+            {'data': 'taggit', 'name': 'taggit', 'defaultContent': "---", "orderable": false},
+            // {'data': function (data, type, dataToSet) {
+            //     console.log(data)
+            //     if(type === 'display') {
+            //         if ('taggit' in data && data.taggit.length != 0) {
+            //             let tags = ''
+            //             data.taggit.forEach(function(tag, index){
+            //                 if(tags!='')tags+=', '
+            //                 tags += tag;
+            //             })
+            //             return tags
+            //         } else return gettext('---')
+            //     } else return null
+            // }, 'name': 'taggit'},
         ],
 
     })
