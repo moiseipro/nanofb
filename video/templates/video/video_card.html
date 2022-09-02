@@ -127,8 +127,15 @@
                             </div>
                             <div class="row">
                                 <div class="col-12 bg-default-light text-center font-weight-bold">{% trans "Tags" %}</div>
+{#                                <div class="col-12 px-0 text-center">#}
+{#                                    <input type="text" data-role="tagsinput" name="taggit" class="form-control edit-input" disabled>#}
+{#                                </div>#}
                                 <div class="col-12 px-0 text-center">
-                                    <input type="text" data-role="tagsinput" name="taggit" class="form-control edit-input" disabled>
+                                    <select name="taggit" class="select w-100 custom-select custom-select-sm tag-select edit-input" multiple data-tags="true" data-theme="bootstrap4" disabled>
+                                        {% for tag in tags %}
+                                            <option value="{{ tag.name }}">{{ tag.name }}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
                             </div>
                         </form>

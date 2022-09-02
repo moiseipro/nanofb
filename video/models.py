@@ -81,6 +81,9 @@ class Video(models.Model):
     )
     taggit = TaggableManager()
 
+    def get_string_tags(self):
+        return ', '.join(self.taggit.values_list('name', flat=True))
+
     def __str__(self):
         return self.name
 

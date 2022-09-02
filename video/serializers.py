@@ -18,15 +18,23 @@ class OnlyVideoSerializer(serializers.Serializer):
     links = serializers.JSONField(read_only=True)
 
 
+class StringTagsField(serializers.ListField):
+    child = serializers.CharField()
+
+    def to_representation(self, data):
+        return map(str, data.values_list('name', flat=True))
+
+
 class VideoSerializer(TaggitSerializer, serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     videosource_id = VideoSourceSerializer()
+    videosource_name = serializers.ReadOnlyField(source="videosource_id.name")
     taggit = TagListSerializerField()
 
     class Meta:
         model = Video
         fields = (
-            'id', 'videosource_id', 'name', 'taggit', 'duration', 'language', 'music', 'links', 'upload_date'
+            'id', 'videosource_id', 'name', 'taggit', 'duration', 'language', 'music', 'links', 'upload_date', 'videosource_name'
         )
         datatables_always_serialize = ('id', 'taggit')
 

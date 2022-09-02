@@ -10,18 +10,19 @@ $(window).on('load', function (){
              video_html += `
                  <div class="col-sm-6 col-md-4 col-lg-3">
                     <div class="card w-100">
-                        <div class="card-header p-0" style="height: 300px">
+                        <div class="card-header p-0" style="height: 200px">
                             <img class="card-img-top" style="width: 100%;height: 100%;object-fit: cover;" src="${img_url}" alt="Poster block image">
                         </div>
-                        <div class="card-body" style="height: 100px">
+                        <div class="card-body p-2" style="height: 120px">
                             <h5 class="card-title">${element['name']}</h5>
+                            <p class="card-text">${element['taggit']}</p>
                         </div>
                     </div>
                 </div>
              `
          })
-         $('#video-blocks-list .row').append(video_html)
-         $('#video-blocks-list .row .card .card-img-top').on('error', function(){
+         $('#video-blocks-list .video-list').append(video_html)
+         $('#video-blocks-list .video-list .card .card-img-top').on('error', function(){
              $(this).attr('src', 'https://main-cdn.sbermegamarket.ru/hlr-system/14/33/42/20/23/73/100026854151b0.jpg')
          });
 
