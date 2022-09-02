@@ -58,7 +58,7 @@ $('#previous-video').on('click', function () {
 $('.video-source').on('change', function (){
     let data_source = $( this ).val()
     //console.log(data_source)
-    video_table.columns([2]).search(data_source).draw()
+    video_table.search(data_source).draw()
 })
 
 $('.video-tags-filter').on('change', function (){
@@ -68,7 +68,8 @@ $('.video-tags-filter').on('change', function (){
 })
 
 //Переключение между блочной и табличной структурой видео
-$('#video-settings').on('click', function (){
+$('#change-format').on('click', function (){
+    $(this).children('i').toggleClass('fa-list').toggleClass('fa-table')
     $('#table-video-view').toggleClass('d-none')
     $('#block-video-view').toggleClass('d-none')
 })

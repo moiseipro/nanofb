@@ -13,7 +13,8 @@ function generate_ajax_video_table(scroll_y = ''){
         select: true,
         scrollY: scroll_y,
         drawCallback: function( settings ) {
-            $('#video-table-counter').text(video_table.data().count())
+            console.log(settings)
+            $('#video-table-counter').text(settings._iRecordsTotal)
         },
         columnDefs: [
             { "searchable": false, "targets": 0 }
@@ -28,6 +29,7 @@ function generate_ajax_video_table(scroll_y = ''){
         },
         columns: [
             {'data': 'id', render: function (data, type, row, meta) {
+
                 return meta.row + meta.settings._iDisplayStart + 1;
             }},
             {'data': 'id', 'name': 'id'},
