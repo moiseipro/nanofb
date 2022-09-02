@@ -121,7 +121,7 @@ DB_beget = {
 
 DATABASES = {
     # LOCALHOST
-    'default': DB_beget
+    'default': DB_localhost
 }
 
 
