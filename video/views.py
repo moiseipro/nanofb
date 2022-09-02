@@ -7,6 +7,7 @@ import json
 from django.http import Http404, QueryDict
 from django.urls import reverse_lazy
 from django.utils.dateparse import parse_duration
+from django.db.models import Q, Count
 from pytube import extract
 from django.views.generic import ListView, DetailView, CreateView, TemplateView
 from django.contrib import messages
@@ -313,7 +314,7 @@ class BaseVideoView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['sources'] = VideoSource.objects.all()
+        context['sources'] = VideoSource.objects.all().annotate(videos=Count('video'))
         context['tags'] = Tag.objects.all()
         #context['update_form'] = UpdateVideoForm()
         return context

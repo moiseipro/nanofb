@@ -44,7 +44,7 @@
                             <select class="select form-control form-control-sm video-source" data-theme="bootstrap4">
                                 <option value="">{% trans 'All' %}</option>
                                 {% for source in sources %}
-                                    <option value="{{ source.name }}">{{ source.name }}</option>
+                                    <option value="{{ source.name }}">{{ source.name }} ({{ source.videos }})</option>
                                 {% empty %}
                                     <option value="">{% trans 'No sources' %}</option>
                                 {% endfor %}
@@ -84,7 +84,7 @@
 
                     </div>
                 </div>
-                <div class="card-body">
+                <div class="card-body py-2">
                     <div class="row">
                         <div id="table-video-view" class="col-lg">
                             {% include 'video/modules/video_list.html' %}

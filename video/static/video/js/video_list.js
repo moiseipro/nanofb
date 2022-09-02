@@ -13,7 +13,7 @@ function generate_ajax_video_table(scroll_y = ''){
         select: true,
         scrollY: scroll_y,
         drawCallback: function( settings ) {
-            console.log(settings)
+            //console.log(settings)
             $('#video-table-counter').text(settings._iRecordsDisplay)
         },
         columnDefs: [

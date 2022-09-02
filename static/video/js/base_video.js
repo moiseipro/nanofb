@@ -67,6 +67,14 @@ $('.video-tags-filter').on('change', function (){
     video_table.columns([6]).search(data_tag).draw()
 })
 
+//Сбросить фильтры
+$('#video-filters-clear').on('click', function (){
+    $('.video-source').val(null).trigger('change');
+    $('.video-tags-filter').val(null).trigger('change');
+    $('input[type="search"]').val('').change()
+})
+
+
 //Переключение между блочной и табличной структурой видео
 $('#change-format').on('click', function (){
     $(this).children('i').toggleClass('fa-list').toggleClass('fa-table')
