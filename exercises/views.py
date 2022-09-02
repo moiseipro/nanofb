@@ -628,7 +628,6 @@ def exercises_api(request):
                 res_data = f'Exs with id: [{c_exs.id}] is added / edited successfully.'
             except Exception as e:
                 return JsonResponse({"err": "Can't edit the exs.", "success": False}, status=200)
-            adding_team_params = False
             if folder_type == folder_type_team:
                 found_team = UserTeam.objects.filter(id=cur_team)
                 if found_team.exists() and found_team[0].id != None:
@@ -647,7 +646,7 @@ def exercises_api(request):
                         c_exs_team_params.save()
                         res_data += '\nAdded team params for exs.'
                     except:
-                        pass
+                        res_data += '\nCant add team params for exs.'
             elif folder_type == folder_type_nfb:
                 c_exs_team_params = UserExerciseParamTeam.objects.filter(exercise_nfb=c_exs)
                 if not c_exs_team_params.exists() or c_exs_team_params[0].id == None:
@@ -664,11 +663,9 @@ def exercises_api(request):
                     c_exs_team_params.save()
                     res_data += '\nAdded team params for exs.'
                 except:
-                    pass
+                    res_data += '\nCant add team params for exs.'
             elif folder_type == folder_type_club:
                 pass
-            if not adding_team_params:
-                res_data += '\nCant add team params for exs.'
             return JsonResponse({"data": res_data, "success": True}, status=200)
         elif delete_exs_status == 1:
             exs_id = -1
@@ -767,7 +764,7 @@ def exercises_api(request):
                     setattr(new_params, post_key, post_value)
                     try:
                         new_params.save()
-                        return JsonResponse({"data": {"id": exs_id}, "success": True}, status=200)
+                        return JsonResponse({"data": {"id": exs_id, "value": post_value}, "success": True}, status=200)
                     except:
                         pass
             return JsonResponse({"errors": "Can't edit exs param"}, status=400)
