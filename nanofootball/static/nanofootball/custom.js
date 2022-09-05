@@ -74,3 +74,12 @@ function toggle_edit_mode(toggle = null){
 $('.toggle-edit-mode').on('click', function () {
     toggle_edit_mode()
 })
+
+// Получить GET из ссылки или строки
+function get_url_value (name, url = window.location.href){
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(url);
+    if (results==null) {
+       return null;
+    }
+    return decodeURI(results[1]) || 0;
+}

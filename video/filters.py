@@ -1,6 +1,6 @@
 from django_filters import filters
 from rest_framework_datatables.django_filters.filterset import DatatablesFilterSet
-from rest_framework_datatables.django_filters.filters import GlobalFilter
+from rest_framework_datatables.django_filters.filters import GlobalFilter, SwitchRegexFilter
 from taggit.models import Tag
 
 from references.models import VideoSource
@@ -11,7 +11,7 @@ class GlobalCharFilter(GlobalFilter, filters.CharFilter):
     pass
 
 
-class GlobalModelMultipleChoiceFilter(GlobalFilter, filters.ModelMultipleChoiceFilter):
+class GlobalModelMultipleChoiceFilter(filters.ModelMultipleChoiceFilter):
     pass
 
 
@@ -33,9 +33,13 @@ class VideoGlobalFilter(DatatablesFilterSet):
     """Filter name, artist and genre by name with icontains"""
 
     name = GlobalCharFilter(field_name='name', lookup_expr='icontains')
-    videosource_name = GlobalModelMultipleChoiceFilter(
+    # videosource_name = GlobalModelMultipleChoiceFilter(
+    #     field_name='videosource_id__name',
+    #     queryset=VideoSource.objects.all(),
+    #     lookup_expr='icontains'
+    # )
+    videosource_name = filters.CharFilter(
         field_name='videosource_id__name',
-        queryset=VideoSource.objects.all(),
         lookup_expr='icontains'
     )
     taggit = GlobalTagFilter(field_name="taggit")

@@ -16,12 +16,22 @@ video_player = videojs('base-player', {
     controls: true,
     aspectRatio: '16:9',
 })
-// При изменении ширины окна
-// $(window).resize(function () {
-//     resizeBlockJS($('.resize-block'));
-// });
+
+function formatState (state) {
+    if (!state.id) {
+        return state.text;
+    }
+    console.log(state.element)
+    var $state = $(
+        '<span>' + state.text + '</span>' + '<span class="float-right">(' + state.element.getAttribute('data-count') + ')</span>'
+    );
+    return $state;
+};
 
 $(window).on('load', function (){
+    $('.video-source').select2({
+        templateResult: formatState
+    })
 
     generate_ajax_video_table("calc(100vh - 350px)")
     video_table
@@ -30,13 +40,20 @@ $(window).on('load', function (){
             if(type=='row') {
                 toggle_edit_mode(false)
                 cur_edit_data = rowData[0]
-                ajax_video_info(cur_edit_data)
+                ajax_video_info(cur_edit_data.id)
             }
         })
         .on( 'deselect', function ( e, dt, type, indexes ) {
             let rowData = video_table.rows( indexes ).data().toArray();
             cur_edit_data = null
         })
+
+    let url_video_id = get_url_value('id')
+    if(get_url_value('id') != null){
+        toggle_edit_mode(false)
+        ajax_video_info(url_video_id);
+        console.log(url_video_id)
+    }
 })
 
 // Следующий/предыдущий
@@ -58,7 +75,7 @@ $('#previous-video').on('click', function () {
 $('.video-source').on('change', function (){
     let data_source = $( this ).val()
     //console.log(data_source)
-    video_table.search(data_source).draw()
+    video_table.columns([2]).search(data_source).draw()
 })
 
 $('.video-tags-filter').on('change', function (){
@@ -82,10 +99,10 @@ $('#change-format').on('click', function (){
     $('#block-video-view').toggleClass('d-none')
 })
 
-function ajax_video_info(row_data) {
+function ajax_video_info(id) {
     let request = $.ajax({
         headers:{"X-CSRFToken": csrftoken },
-        url: "api/"+row_data.id,
+        url: "api/"+id,
         type: "GET",
         dataType: "JSON"
     })
@@ -150,7 +167,7 @@ $('#video-action-form').submit(function (event) {
     ajax_video_action($(this).attr('method'), form_Data, 'update', cur_edit_data ? cur_edit_data.id : '').done(function (data) {
         video_table.ajax.reload()
         cur_edit_data = data
-        ajax_video_info(cur_edit_data)
+        ajax_video_info(cur_edit_data.id)
     })
 
     event.preventDefault();

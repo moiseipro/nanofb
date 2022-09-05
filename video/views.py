@@ -382,7 +382,7 @@ def parse_video(request):
         return redirect("authorization:login")
 
     if request.method == "GET":
-        response = requests.get(f'https://nanofootball.ru/api/token/3F4AwFqWHk3GYGJuDRWh/') #?folders[]="D"
+        response = requests.get(f'https://nanofootball.kz/api/token/3F4AwFqWHk3GYGJuDRWh/?folders[]="Z6"&folders[]="Z8"&folders[]="Z9"&folders[]="Z10"&folders[]="Z11"&folders[]="Z12"&folders[]="Z13"&folders[]="Z14"&folders[]="Z15"&folders[]="Z16"&folders[]="Z17"&folders[]="Z18"&folders[]="Z19"&folders[]="Z20"&folders[]="Z21"&folders[]="Z22"&folders[]="Z23"&folders[]="Z24"&folders[]="Z25"&folders[]="Z26"&folders[]="Z27"&folders[]="Z28"&folders[]="Z29"&folders[]="Z30"&folders[]="Z31"&folders[]="Z32"&folders[]="Z33"&folders[]="Z34"&folders[]="Z35"&folders[]="Z36"&folders[]="Z37"') #?folders[]="D"
         context_page['content'] = json.loads(response.content.decode('utf-8'))
         videos = []
         sources = []
@@ -416,16 +416,16 @@ def parse_video(request):
                                         links['nftv'] = nftv_list[0]
                                     if links['nftv'].isdigit():
                                         url = 'http://213.108.4.28/video/length/' + links['nftv']
-                                        try:
-                                            response = requests.get(url)
-                                            print(response.content)
-                                            content = json.loads(response.content.decode('utf-8'))
-                                            if 'time' in content:
-                                                duration = content['time']
-                                            elif 'error' in content:
-                                                links['nftv'] = ''
-                                        except requests.exceptions.ConnectionError as e:
-                                            response = "No response"
+                                        # try:
+                                        #     response = requests.get(url)
+                                        #     print(response.content)
+                                        #     content = json.loads(response.content.decode('utf-8'))
+                                        #     if 'time' in content:
+                                        #         duration = content['time']
+                                        #     elif 'error' in content:
+                                        #         links['nftv'] = ''
+                                        # except requests.exceptions.ConnectionError as e:
+                                        #     response = "No response"
                                     else:
                                         links['nftv'] = ''
 
@@ -448,16 +448,16 @@ def parse_video(request):
                                 links['nftv'] = nftv_list[0]
                             if links['nftv'].isdigit():
                                 url = 'http://213.108.4.28/video/length/' + links['nftv']
-                                try:
-                                    response = requests.get(url)
-                                    print(response.content)
-                                    content = json.loads(response.content.decode('utf-8'))
-                                    if 'time' in content:
-                                        duration = content['time']
-                                    elif 'error' in content:
-                                        links['nftv'] = ''
-                                except requests.exceptions.ConnectionError as e:
-                                    response = "No response"
+                                # try:
+                                #     response = requests.get(url)
+                                #     print(response.content)
+                                #     content = json.loads(response.content.decode('utf-8'))
+                                #     if 'time' in content:
+                                #         duration = content['time']
+                                #     elif 'error' in content:
+                                #         links['nftv'] = ''
+                                # except requests.exceptions.ConnectionError as e:
+                                #     response = "No response"
                             else:
                                 links['nftv'] = ''
                         if n['video_id_youtube'] is not None and n['video_id_youtube'][i] != '':
