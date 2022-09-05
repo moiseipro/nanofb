@@ -47,7 +47,7 @@
                             <select class="select form-control form-control-sm video-source" data-theme="bootstrap4">
                                 <option value="">{% trans 'All' %}</option>
                                 {% for source in sources %}
-                                    <option value="{{ source.name }}">{{ source.name }} ({{ source.videos }})</option>
+                                    <option value="{{ source.name }}" data-count="{{ source.videos }}">{{ source.name }}</option>
                                 {% empty %}
                                     <option value="">{% trans 'No sources' %}</option>
                                 {% endfor %}

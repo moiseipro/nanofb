@@ -1,8 +1,14 @@
 
 $(window).on('load', function (){
-     ajax_get_videos_data().then(function (data) {
+     render_video_block_page()
+})
+
+function render_video_block_page(url) {
+    ajax_get_videos_data(url).then(function (data) {
          console.log(data)
          let video_html = '';
+         $('#video-blocks-list .video-list').html('')
+
          $.each(data.results, function(index, element) {
              console.log(element)
              let img_url = `https://213.108.4.28/video/poster/${element['links']['nftv']}`
@@ -26,14 +32,33 @@ $(window).on('load', function (){
              $(this).attr('src', 'https://main-cdn.sbermegamarket.ru/hlr-system/14/33/42/20/23/73/100026854151b0.jpg')
          });
 
-     })
-})
+         //Разделение на страницы
+         let page_count = data.count / data.results.length
+         let all_page = $('#video-blocks-list .pagination .page-item')
+         all_page.each(function( index ) {
+             if(index == 0) {
+                 if(data.previous != null) $(this).removeClass('disabled').children('a').attr('href', data.previous)
+                 else $(this).addClass('disabled').children('a').attr('href', '#')
+             } else if(index == all_page.length-1) {
+                 if(data.next != null) $(this).removeClass('disabled').children('a').attr('href', data.next)
+                 else $(this).addClass('disabled').children('a').attr('href', '#')
+             } else {
 
-async function ajax_get_videos_data(){
+             }
+         })
+     })
+}
+
+async function ajax_get_videos_data(url = '/video/api/'){
     return await $.ajax({
         headers:{"X-CSRFToken": csrftoken },
-        url: "/video/api/",
+        url: url,
         type: "GET",
         dataType: "JSON"
     })
 }
+
+$('#video-blocks-list .pagination .page-link').on('click', function (e) {
+    if($(this).attr('href') != '') render_video_block_page($(this).attr('href'))
+    e.preventDefault()
+})
