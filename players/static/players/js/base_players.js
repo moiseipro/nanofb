@@ -28,16 +28,19 @@ function LoadPlayerOne(id = null) {
 function RenderPlayerOne(data = {}) {
     console.log(data)
 
-    $('.cnt-center-block').find('.form-control').prop('readonly', true);
+    $('.cnt-center-block').find('.form-control').prop('disabled', true);
     $('.cnt-center-block').find('.form-control').removeClass('req-empty');
 
     $('.cnt-center-block').find('[name="surname"]').val(data.surname);
     $('.cnt-center-block').find('[name="name"]').val(data.name);
     $('.cnt-center-block').find('[name="patronymic"]').val(data.patronymic);
-    $('.cnt-center-block').find('[name="citizenship"]').val(data.citizenship);
-    $('.cnt-center-block').find('[name="team"]').val(data.team);
-
     $('.cnt-center-block').find('.img-photo').attr('src', data.photo ? data.photo : '#');
+
+    $('.cnt-center-block').find('.edit-field').each((ind, elem) => {
+        let key = $(elem).attr('name');
+        $(elem).val(data[key] ? data[key] : "");
+    });
+
 }
 
 
@@ -104,13 +107,14 @@ $(function() {
 
 
     window.editingMode = false;
+    RenderPlayerOne();
     // Add player
     $('#addPlayer').on('click', (e) => {
         $('.b-add-off').addClass('d-none');
         $('.b-add-on').removeClass('d-none');
         $('table#players').find('.player-row').removeClass('selected');
         RenderPlayerOne();
-        $('.cnt-center-block').find('.edit-field').prop('readonly', false);
+        $('.cnt-center-block').find('.edit-field').prop('disabled', false);
         window.editingMode = true;
         $('#showImgPhoto').find('#fileImgPhoto').val('');
     });
@@ -120,7 +124,7 @@ $(function() {
         if ($('table#players').find('.player-row.selected').length == 0) {return;}
         $('.b-edit-off').addClass('d-none');
         $('.b-edit-on').removeClass('d-none');
-        $('.cnt-center-block').find('.edit-field').prop('readonly', false);
+        $('.cnt-center-block').find('.edit-field').prop('disabled', false);
         window.editingMode = true;
         $('#showImgPhoto').find('#fileImgPhoto').val('');
     });
@@ -193,7 +197,9 @@ $(function() {
     });
     $('.cnt-center-block').on('change', '.edit-field', (e) => {
         let cVal = $(e.currentTarget).val();
-        $(e.currentTarget).toggleClass('req-empty', !(cVal && cVal != ""));
+        if ($(e.currentTarget).attr('required')) {
+            $(e.currentTarget).toggleClass('req-empty', !(cVal && cVal != ""));
+        }
     });
 
     // Delete Player

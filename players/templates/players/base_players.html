@@ -16,7 +16,7 @@
                         <div class="card-inside">
                             <div class="up-block-content">
                                 <div class="row d-flex justify-content-between">
-                                    <div class="col-4 pull-left">
+                                    <div class="col-3 pull-left">
                                         <div class="row">
                                             <div class="col-12 btn-group">
                                                 <button type="button" class="btn btn-secondary btn-sm" id="prevTeam" title="Пред. команда">
@@ -60,7 +60,7 @@
                             </div>
                             <div class="players-content mt-2">
                                 <div class="row">
-                                    <div class="col-4">
+                                    <div class="col-3">
                                         <div class="row cnt-left-block">
                                             <div class="col-12">
                                                 <table class="table table-sm table-bordered" id="players">
@@ -100,52 +100,134 @@
                                                         <tr class="">
                                                             <td>Фамилия *</td>
                                                             <td>
-                                                                <input name="surname" class="form-control form-control-sm edit-field" type="text" value="" placeholder="---" autocomplete="off" readonly required>
+                                                                <input name="surname" class="form-control form-control-sm edit-field" type="text" value="" placeholder="---" autocomplete="off" required>
                                                             </td>
                                                         </tr>
                                                         <tr class="">
                                                             <td>Имя *</td>
                                                             <td>
-                                                                <input name="name" class="form-control form-control-sm edit-field" type="text" value="" placeholder="---" autocomplete="off" readonly required>
+                                                                <input name="name" class="form-control form-control-sm edit-field" type="text" value="" placeholder="---" autocomplete="off" required>
                                                             </td>
                                                         </tr>
                                                         <tr class="">
                                                             <td>Отчество</td>
                                                             <td>
-                                                                <input name="patronymic" class="form-control form-control-sm edit-field" type="text" value="" placeholder="---" autocomplete="off" readonly>
+                                                                <input name="patronymic" class="form-control form-control-sm edit-field" type="text" value="" placeholder="---" autocomplete="off">
                                                             </td>
                                                         </tr>
                                                         <tr class="">
-                                                            <td>Гражданство *</td>
+                                                            <td>Гражданство</td>
                                                             <td>
-                                                                <input name="citizenship" class="form-control form-control-sm edit-field" type="text" value="" placeholder="---" autocomplete="off" readonly required>
+                                                                <input name="citizenship" class="form-control form-control-sm edit-field" type="text" value="" placeholder="---" autocomplete="off">
                                                             </td>
                                                         </tr>
                                                         <tr class="">
                                                             <td>Клуб (откуда)</td>
                                                             <td>
-                                                                <input name="team" class="form-control form-control-sm" type="text" value="" placeholder="---" autocomplete="off" readonly>
+                                                                <input name="club_from" class="form-control form-control-sm edit-field" type="text" value="" placeholder="---" autocomplete="off">
                                                             </td>
                                                         </tr>
                                                         <tr class="">
                                                             <td>Рост</td>
-                                                            <td>-----</td>
+                                                            <td>
+                                                                <input name="growth" class="form-control form-control-sm edit-field" type="number" min="1" max="1000" value="" placeholder="---" autocomplete="off">
+                                                            </td>
                                                         </tr>
                                                         <tr class="">
                                                             <td>Вес</td>
-                                                            <td>-----</td>
+                                                            <td>
+                                                                <input name="weight" class="form-control form-control-sm edit-field" type="number" min="1" max="1000" value="" placeholder="---" autocomplete="off">
+                                                            </td>
                                                         </tr>
                                                         <tr class="">
                                                             <td>Игровой №</td>
-                                                            <td>-----</td>
+                                                            <td>
+                                                                <input name="game_num" class="form-control form-control-sm edit-field" type="number" min="0" max="100" value="" placeholder="---" autocomplete="off">
+                                                            </td>
                                                         </tr>
                                                         <tr class="">
                                                             <td>Дата рождения</td>
-                                                            <td>-----</td>
+                                                            <td>
+                                                                <input name="birthsday" class="form-control form-control-sm edit-field" type="date" value="" placeholder="---" autocomplete="off">
+                                                            </td>
                                                         </tr>
                                                         <tr class="">
                                                             <td>Статус команды</td>
-                                                            <td>-----</td>
+                                                            <td>
+                                                                <select name="ref_team_status" class="form-control form-control-sm edit-field" autocomplete="off">
+                                                                    <option value="">---</option>
+                                                                    {% for elem in refs.player_team_status %}
+                                                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="">
+                                                            <td>Команда</td>
+                                                            <td>
+                                                                <select name="team" class="form-control form-control-sm edit-field" autocomplete="off">
+                                                                    <option value="">---</option>
+                                                                    {% for elem in teams_list %}
+                                                                        <option value="{{ elem.id }}">{{ elem.name }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="">
+                                                            <td>Статус игрока</td>
+                                                            <td>
+                                                                <select name="ref_player_status" class="form-control form-control-sm edit-field" autocomplete="off">
+                                                                    <option value="">---</option>
+                                                                    {% for elem in refs.player_player_status %}
+                                                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="">
+                                                            <td>Текущий уровень</td>
+                                                            <td>
+                                                                <select name="ref_level" class="form-control form-control-sm edit-field" autocomplete="off">
+                                                                    <option value="">---</option>
+                                                                    {% for elem in refs.player_level %}
+                                                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="">
+                                                            <td>Позиция</td>
+                                                            <td>
+                                                                <select name="ref_position" class="form-control form-control-sm edit-field" autocomplete="off">
+                                                                    <option value="">---</option>
+                                                                    {% for elem in refs.player_position %}
+                                                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="">
+                                                            <td>Нога</td>
+                                                            <td>
+                                                                <select name="ref_foot" class="form-control form-control-sm edit-field" autocomplete="off">
+                                                                    <option value="">---</option>
+                                                                    {% for elem in refs.player_foot %}
+                                                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="">
+                                                            <td>Пришёл</td>
+                                                            <td>
+                                                                <input name="come" class="form-control form-control-sm edit-field" type="date" value="" placeholder="---" autocomplete="off">
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="">
+                                                            <td>Ушёл</td>
+                                                            <td>
+                                                                <input name="leave" class="form-control form-control-sm edit-field" type="date" value="" placeholder="---" autocomplete="off">
+                                                            </td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
