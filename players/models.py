@@ -57,3 +57,30 @@ class PlayerCard(models.Model):
     objects = models.Manager()
 
 
+
+class CardSection(models.Model):
+    title = models.JSONField(null=True, blank=True)
+    text_id = models.CharField(max_length=20, null=True, blank=True)
+    parent = models.IntegerField(
+        help_text='Ид раздела родителя',
+        null=True,
+        blank=True
+    )
+    visible = models.BooleanField(
+        help_text='Показывать раздел пользователю или нет',
+        default=True
+    )
+    short_name = models.CharField(
+        max_length=10,
+        help_text='Короткий ключ для поиска',
+        null=True,
+        blank=True
+    )
+    order = models.IntegerField(
+        help_text='Индекс сортировки',
+        default=0
+    )
+    objects = models.Manager()
+    class Meta:
+        ordering = ['order']
+

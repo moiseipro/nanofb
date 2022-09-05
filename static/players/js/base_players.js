@@ -44,6 +44,184 @@ function RenderPlayerOne(data = {}) {
 }
 
 
+function LoadCardSections() {
+    let data = {'get_card_sections': 1};
+    $('.page-loader-wrapper').fadeIn();
+    $.ajax({
+        data: data,
+        type: 'GET', // GET или POST
+        dataType: 'json',
+        url: "/players/players_api",
+        success: function (res) {
+            if (res.success) {
+                console.log(res.data)
+                window.cardSettings = res.data;
+            } else {
+                window.cardSettings = {};
+            }
+        },
+        error: function (res) {
+            window.cardSettings = {};
+            console.log(res);
+        },
+        complete: function (res) {
+            $('.page-loader-wrapper').fadeOut();
+            if (!window.cardSettings.mode || window.cardSettings.mode != "nfb") {
+                $('#cardSectionsEdit').find('.btns-control').html();
+            }
+            RenderCardSections(window.cardSettings);
+        }
+    });
+}
+
+function RenderCardSections(data) {
+    let headers = [], rows = {};
+    for (let i = 0; i < data.sections.length; i++) {
+        let section = data.sections[i];
+        if (section.parent == null) {
+            headers.push(section);
+        } else {
+            if (rows[section.parent] && Array.isArray(rows[section.parent])) {
+                rows[section.parent].push(section);
+            } else {
+                rows[section.parent] = [section];
+            }
+        }
+    }
+    let sections1 = "", sections2 = "";
+    for (let i = 0; i < headers.length; i++) {
+        let header = headers[i];
+        if (header.visible) {
+            sections1 += `
+                <div class="d-flex justify-content-center">
+                    <button type="button" class="btn btn-primary btn-sm btn-block" data-id="${header.id}">
+                        ${header.title}
+                    </button>
+                </div>
+            `;
+        }
+        sections2 += `
+            <tr class="section-elem" data-id="${header.id}" data-parent="${header.parent}" data-root="1">
+                <td class=""></td>
+                <td class="">
+                    <input name="title" class="form-control form-control-sm" type="text" value="${header.title}" placeholder="" autocomplete="off" disabled="">
+                </td>
+                <td class="text-center">
+                    <input type="checkbox" class="form-check-input" name="visible" ${header.visible == true ? 'checked' : ''}>
+                </td>
+            </tr>
+        `;
+        if (rows[header.id] && Array.isArray(rows[header.id])) {
+            for (let j = 0; j < rows[header.id].length; j++) {
+                let row = rows[header.id][j];
+                if (header.visible && row.visible) {
+                    sections1 += `
+                        <div class="d-flex justify-content-center">
+                            <button type="button" class="btn btn-outline-primary btn-sm btn-block" data-id="${row.id}" data-text-id="${row.text_id}">
+                                ${row.title}
+                            </button>
+                        </div>
+                    `;
+                }
+                sections2 += `
+                    <tr class="section-elem" data-id="${row.id}" data-parent="${row.parent}" data-root="0">
+                        <td class=""></td>
+                        <td class="">
+                            <input name="title" class="form-control form-control-sm w-75 ml-5" type="text" value="${row.title}" placeholder="" autocomplete="off" disabled="">
+                        </td>
+                        <td class="text-center">
+                            <input type="checkbox" class="form-check-input" name="visible" ${row.visible == true ? 'checked' : ''}>
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+    }
+    $('.card-sections').html(sections1);
+    $('#cardSectionsEdit').find('.sections-body').html(sections2);
+}
+
+function ToggleFolderOrder(dir) {
+    let activeElem = $('#cardSectionsEdit').find(`.section-elem.selected`);
+    if (activeElem.length > 0) {
+        let cID = $(activeElem).attr('data-id');
+        let cParentID = $(activeElem).attr('data-parent');
+        let isRoot = $(activeElem).attr('data-root');
+        if (isRoot == '1') {
+            let elems = $('#cardSectionsEdit').find(`.section-elem[data-root="1"]`);
+            let tFirst = null; let tLast = null; let newInd = 0;
+            let children = $('#cardSectionsEdit').find(`.section-elem[data-root="0"]`);
+            $('#cardSectionsEdit').find(`.section-elem[data-root="0"]`).remove();
+            for (let i = 0; i < elems.length; i++) {
+                if ($(elems[i]).attr('data-id') == cID) {
+                    if (dir == "up") {
+                        tLast = $(elems[i]);
+                        if (i - 1 < 0) {
+                            newInd = elems.length - 1;
+                            tFirst = $(elems[newInd]);
+                            $(tLast).detach().insertAfter($(tFirst));
+                        } else {
+                            newInd = i - 1;
+                            tFirst = $(elems[newInd]);
+                            $(tLast).detach().insertBefore($(tFirst));
+                        }
+                    } else if (dir == "down") {
+                        tFirst = $(elems[i]);
+                        if (i + 1 > elems.length - 1) {
+                            newInd = 0;
+                            tLast = $(elems[newInd]);
+                            $(tFirst).detach().insertBefore($(tLast));
+                        } else {
+                            newInd = i + 1;
+                            tLast = $(elems[newInd]);
+                            $(tFirst).detach().insertAfter($(tLast));
+                        }
+                    }
+                    break;
+                }             
+            }
+            for (let i = children.length - 1; i >= 0; i--) {
+                let elem = children[i];
+                console.log(elem)
+                let parentId = $(elem).attr('data-parent');
+                $('#cardSectionsEdit').find(`.section-elem[data-id="${parentId}"]`).after(elem);
+            }
+        } else {
+            let elems = $('#cardSectionsEdit').find(`.section-elem[data-parent="${cParentID}"]`);
+            let tFirst = null; let tLast = null; let newInd = 0;
+            for (let i = 0; i < elems.length; i++) {
+                if ($(elems[i]).attr('data-id') == cID) {
+                    if (dir == "up") {
+                        tLast = $(elems[i]);
+                        if (i - 1 < 0) {
+                            newInd = elems.length - 1;
+                            tFirst = $(elems[newInd]);
+                            $(tLast).detach().insertAfter($(tFirst));
+                        } else {
+                            newInd = i - 1;
+                            tFirst = $(elems[newInd]);
+                            $(tLast).detach().insertBefore($(tFirst));
+                        }
+                    } else if (dir == "down") {
+                        tFirst = $(elems[i]);
+                        if (i + 1 > elems.length - 1) {
+                            newInd = 0;
+                            tLast = $(elems[newInd]);
+                            $(tFirst).detach().insertBefore($(tLast));
+                        } else {
+                            newInd = i + 1;
+                            tLast = $(elems[newInd]);
+                            $(tFirst).detach().insertAfter($(tLast));
+                        }
+                    }
+                    break;
+                }             
+            }
+        }
+    }
+}
+
+
 
 $(function() {
 
@@ -241,6 +419,61 @@ $(function() {
             }
         });
     });
+
+
+    // Section Settings
+    LoadCardSections();
+    $('#cardSettings').on('click', (e) => {
+        $('#cardSectionsEdit').modal('show');
+    });
+
+    // Edit sections
+    $('#cardSectionsEdit').on('click', '.section-elem', (e) => {
+        let wasActive = $(e.currentTarget).hasClass('selected');
+        $('#cardSectionsEdit').find('.section-elem').removeClass('selected');
+        $(e.currentTarget).toggleClass('selected', !wasActive);
+    });
+    $('#cardSectionsEdit').on('click', '.section-up', (e) => {
+        ToggleFolderOrder("up");
+    });
+    $('#cardSectionsEdit').on('click', '.section-down', (e) => {
+        ToggleFolderOrder("down");
+    });
+    $('#cardSectionsEdit').on('click', '.section-edit', (e) => {
+        $('#cardSectionsEdit').find('input.form-control ').prop('disabled', false);
+    });
+    $('#cardSectionsEdit').on('click', '[name="save"]', (e) => {
+        let dataToSend = [];
+        $('#cardSectionsEdit').find('.section-elem').each((ind, elem) => {
+            let id = $(elem).attr('data-id');
+            let order = ind+1;
+            let title = $(elem).find('[name="title"]').val();
+            let visible = $(elem).find('[name="visible"]').is(':checked');
+            dataToSend.push({
+                id, order, title, visible
+            });
+        });
+        let data = {'edit_card_sections': 1, 'data': JSON.stringify(dataToSend)};
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            data: data,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "players_api",
+            success: function (res) {
+                if (res.success) {
+                    LoadCardSections();
+                }
+            },
+            error: function (res) {
+                console.log(res)
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
+    });
+
 
 
     // Toggle left menu

@@ -6,7 +6,7 @@ from references.models import UserTeam, ClubTeam
 class AbstractFolder(models.Model):
     name = models.CharField(
         max_length=255,
-        help_text='Импортируемое название источника',
+        help_text='Импортируемое название папки',
         null=True,
         blank=True
     )

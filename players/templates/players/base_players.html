@@ -19,13 +19,13 @@
                                     <div class="col-3 pull-left">
                                         <div class="row">
                                             <div class="col-12 btn-group">
-                                                <button type="button" class="btn btn-secondary btn-sm" id="prevTeam" title="Пред. команда">
+                                                <button type="button" class="btn btn-secondary btn-sm size-max-w-x" id="prevTeam" title="Пред. команда" style="--w-max-x:10%;">
                                                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
                                                 </button>
-                                                <button type="button" class="btn btn-dark btn-sm" id="currentTeam" disabled>
+                                                <button type="button" class="btn btn-dark btn-sm size-max-w-x" id="currentTeam" disabled style="--w-max-x:80%;">
                                                     Команда
                                                 </button>
-                                                <button type="button" class="btn btn-secondary btn-sm" id="nextTeam" title="След. команда">
+                                                <button type="button" class="btn btn-secondary btn-sm size-max-w-x" id="nextTeam" title="След. команда" style="--w-max-x:10%;">
                                                     <i class="fa fa-arrow-right" aria-hidden="true"></i>
                                                 </button>
                                             </div>
@@ -64,15 +64,10 @@
                                         <div class="row cnt-left-block">
                                             <div class="col-12">
                                                 <table class="table table-sm table-bordered" id="players">
-                                                    <thead>
-                                                      <tr class="text-center">
-                                                        <th scope="col">Фамилия</th>
-                                                        <th scope="col">Имя</th>
-                                                      </tr>
-                                                    </thead>
                                                     <tbody>
                                                         {% for player in players %}
                                                         <tr class="player-row text-center" data-id="{{ player.id }}">
+                                                            <td>{{ forloop.counter }}</td>
                                                             <td>{{ player.surname }}</td>
                                                             <td>{{ player.name }}</td>
                                                         </tr>
@@ -85,10 +80,10 @@
                                     <div class="col cnt-center-block">
                                         <div class="row">
                                             <div class="col-4">
-                                                <div class="card card-i justify-content-center" style="height: 250px;">
+                                                <div class="card card-i justify-content-center" style="height: 32vh;">
                                                     <img class="card-img img-photo" src="#" alt="" onerror=this.src="/static/players/img/player-avatar.png" style="max-height: 100%;">
                                                 </div>
-                                                <div class="card card-i justify-content-center" style="height: 250px;">
+                                                <div class="card card-i justify-content-center" style="height: 48vh;">
                                                     <img class="card-img img-field h-100" src="#" alt="" onerror=this.src="/static/players/img/player_plane.svg">
                                                 </div>
                                             </div>
@@ -237,80 +232,9 @@
                                     <div class="col-2">
                                         <div class="cnt-right-block">
                                             <div class="d-flex justify-content-center mb-3">
-                                                <button type="button" class="btn btn-secondary btn-sm btn-block" id="">Настройки</button>
+                                                    <button type="button" class="btn btn-secondary btn-sm btn-block" id="cardSettings">Настройки</button>
                                             </div>
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button" class="btn btn-primary btn-sm btn-block" id="">Профиль игрока</button>
-                                            </div>
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button" class="btn btn-outline-primary btn-sm btn-block" id="">Карточка</button>
-                                            </div>
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button" class="btn btn-outline-primary btn-sm btn-block" id="">Анкета</button>
-                                            </div>
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button" class="btn btn-outline-primary btn-sm btn-block" id="">Характеристики</button>
-                                            </div>
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button" class="btn btn-outline-primary btn-sm btn-block" id="">Соц. сети</button>
-                                            </div>
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button" class="btn btn-outline-primary btn-sm btn-block" id="">Записи</button>
-                                            </div>
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button" class="btn btn-outline-primary btn-sm btn-block" id="">Рост / вес</button>
-                                            </div>
-
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button" class="btn btn-primary btn-sm btn-block" id="">Таблицы</button>
-                                            </div>
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button" class="btn btn-outline-primary btn-sm btn-block" id="">Статистика</button>
-                                            </div>
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button" class="btn btn-outline-primary btn-sm btn-block" id="">Аналитика</button>
-                                            </div>
-
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button" class="btn btn-primary btn-sm btn-block" id="">Разделы</button>
-                                            </div>
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button" class="btn btn-outline-primary btn-sm btn-block" id="">Игры</button>
-                                            </div>
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button" class="btn btn-outline-primary btn-sm btn-block" id="">Видео</button>
-                                            </div>
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button" class="btn btn-outline-primary btn-sm btn-block" id="">Тесты</button>
-                                            </div>
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button" class="btn btn-outline-primary btn-sm btn-block" id="">Медицина</button>
-                                            </div>
-
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button" class="btn btn-primary btn-sm btn-block" id="">Списки</button>
-                                            </div>
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button" class="btn btn-outline-primary btn-sm btn-block" id="">Документы</button>
-                                            </div>
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button" class="btn btn-outline-primary btn-sm btn-block" id="">Рассылки</button>
-                                            </div>
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button" class="btn btn-outline-primary btn-sm btn-block" id="">Оплата</button>
-                                            </div>
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button" class="btn btn-outline-primary btn-sm btn-block" id="">Родители</button>
-                                            </div>
-
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button" class="btn btn-primary btn-sm btn-block" id="">GPS</button>
-                                            </div>
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button" class="btn btn-outline-primary btn-sm btn-block" id="">Игры</button>
-                                            </div>
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button" class="btn btn-outline-primary btn-sm btn-block" id="">Тренировки</button>
+                                            <div class="card-sections">
                                             </div>
                                         </div>
                                     </div>
@@ -341,6 +265,59 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="cardSectionsEdit" tabindex="-1" role="dialog" aria-labelledby="cardSectionsEditLbl" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Разделы в правой колонке:</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                    <div class="modal-body">
+                        <div class="btns-control">
+                            <span class="badge badge-secondary section-edit" title="Изменить элемент">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </span>
+                            <span class="badge badge-info section-up" title="Move up">
+                                <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                            </span>
+                            <span class="badge badge-info section-down" title="Move down">
+                                <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <div class="sections">
+                            <table class="table table-sm table-bordered" style="table-layout: fixed;">
+                                <colgroup>
+                                    <col span="1" style="width: 5%;">
+                                    <col span="1" style="width: 80%;">
+                                    <col span="1" style="width: 15%;">
+                                </colgroup>
+                                <thead>
+                                    <th class="text-center">
+                                    </th>
+                                    <th class="text-center">
+                                        Название
+                                    </th>
+                                    <th class="text-center">
+                                        Видимость
+                                    </th>
+                                </thead>
+                                <tbody class="sections-body">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" name="save">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Назад</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 {% endblock %}
 
