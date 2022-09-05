@@ -5,7 +5,7 @@ $(window).on('load', function (){
 
 function render_video_block_page(url) {
     ajax_get_videos_data(url).then(function (data) {
-         console.log(data)
+         //console.log(data)
          let video_html = '';
          $('#video-blocks-list .video-list').html('')
 
