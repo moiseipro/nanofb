@@ -268,6 +268,12 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
             user_params = UserExerciseParam.objects.filter(exercise_user=exercise['id'], user=cur_user)
         elif folder_type == folder_type_nfb:
             user_params = UserExerciseParam.objects.filter(exercise_nfb=exercise['id'], user=cur_user)
+            if cur_user.is_superuser:
+                notes = UserExerciseParamTeam.objects.filter(exercise_nfb=exercise['id']).only('id', 'note')
+                if notes.exists() and notes[0].id != None:
+                    notes = notes[0].note
+                    if notes and req.LANGUAGE_CODE in notes and notes[req.LANGUAGE_CODE] and len(notes[req.LANGUAGE_CODE]) > 0:
+                        exercise['has_notes'] = True
         elif folder_type == folder_type_club:
             user_params = UserExerciseParam.objects.filter(exercise_club=exercise['id'], user=cur_user)
         if user_params != None and user_params.exists() and user_params[0].id != None:
@@ -496,8 +502,6 @@ def exercises_api(request):
                                     new_exs_params.save()
                                     res_data['exs_params'] = new_exs_params.id
                                     success_status = True
-                                    print('xxxxx')
-                                    print(res_data)
                                 except Exception as e:
                                     success_status = False
                                     res_data = {'id': new_exs.id, 'err': str(e)}
@@ -820,7 +824,6 @@ def exercises_api(request):
                 folder_type = request.GET.get("f_type", "")
             except:
                 pass
-            print(folder_type)
             # Check if folder is USER or CLUB
             res_exs = []
             found_exercises = get_excerises_data(folder_id, folder_type, request, cur_user[0])
@@ -858,6 +861,7 @@ def exercises_api(request):
                 exs_data['goal_code'] = goal_shortcode
                 exs_data['ball_val'] = exercise['ref_ball']
                 exs_data['favorite'] = exercise['favorite'] if 'favorite' in exercise else None
+                exs_data['has_notes'] = exercise['has_notes'] if 'has_notes' in exercise else None
                 res_exs.append(exs_data)
             # sorting list by title:
             for elem in res_exs:
