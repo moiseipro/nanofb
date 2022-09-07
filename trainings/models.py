@@ -75,6 +75,7 @@ class AbstractTrainingExercise(models.Model):
         Group_A = 1
         Group_B = 2
         Group_C = 3
+        Group_D = 4
 
     group = models.PositiveSmallIntegerField(
         verbose_name=_('group'),

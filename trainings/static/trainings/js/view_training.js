@@ -57,6 +57,8 @@ $(window).on('load', function (){
     $('#add-exercise-modal').on('show.bs.modal', function (e) {
         set_count_exercises()
     })
+
+    generate_exercises_module_data()
     set_sum_duration_group()
 })
 
@@ -80,6 +82,39 @@ function set_sum_duration_group() {
         $(this).find('.sum-duration-group').text(sum)
     })
 
+}
+
+// Добавление дополнительных данных в модуль списка упражнений
+function generate_exercises_module_data() {
+    let html_data = `
+    <div class="row w-100">
+        <div class="tab-content" id="groups-tabContent">
+            <div class="tab-pane fade group-block" id="group_A" role="tabpanel" data-group="1" aria-labelledby="group_A-tab">...1</div>
+            <div class="tab-pane fade group-block" id="group_B" role="tabpanel" data-group="2" aria-labelledby="group_B-tab">...2</div>
+            <div class="tab-pane fade group-block" id="group_C" role="tabpanel" data-group="3" aria-labelledby="group_C-tab">...3</div>
+            <div class="tab-pane fade group-block" id="group_D" role="tabpanel" data-group="4" aria-labelledby="group_D-tab">...4</div>
+        </div>
+    </div>`
+
+    html_data += `
+    <div class="row w-100">
+        <ul class="nav nav-pills nav-fill">
+            <li class="nav-item px-1 pt-1">
+                <a class="btn btn-sm btn-block btn-outline-warning font-weight-bold" data-toggle="pill" href="#group_A" role="tab">Группа A</a>
+            </li>
+            <li class="nav-item px-1 pt-1">
+                <a class="btn btn-sm btn-block btn-outline-warning font-weight-bold" data-toggle="pill" href="#group_B" role="tab">Группа B</a>
+            </li>
+            <li class="nav-item px-1 pt-1">
+                <a class="btn btn-sm btn-block btn-outline-warning font-weight-bold" data-toggle="pill" href="#group_C" role="tab">Группа C</a>
+            </li>
+            <li class="nav-item px-1 pt-1">
+                <a class="btn btn-sm btn-block btn-outline-warning font-weight-bold" data-toggle="pill" href="#group_D" role="tab">Группа D (Индивидуальная)</a>
+            </li>
+        </ul>
+    </div>`
+
+    $('.visual-block').append(html_data)
 }
 
 function ajax_training_action(method, data, action = '', id = '', func = '') {
