@@ -1,13 +1,13 @@
 
-from tkinter.messagebox import NO
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from users.models import User
 from references.models import UserSeason, UserTeam
-from players.models import UserPlayer, ClubPlayer, PlayerCard
+from players.models import UserPlayer, ClubPlayer, PlayerCard, CardSection
 from references.models import PlayerTeamStatus, PlayerPlayerStatus, PlayerLevel, PlayerPosition, PlayerFoot
 from datetime import datetime
+import json
 
 
 
@@ -25,6 +25,16 @@ def get_by_language_code(value, code):
         except:
             pass
     return res
+
+
+def set_by_language_code(elem, code, value, value2 = None):
+    if value2:
+        value = value2 if value2 != "" else value
+    if type(elem) is dict:
+        elem[code] = value
+    else:
+        elem = {code: value}
+    return elem
 
 
 def set_refs_translations(data, lang_code):
@@ -102,7 +112,7 @@ def players(request):
         'players': players,
         'refs': refs,
         'seasons_list': UserSeason.objects.filter(user_id=request.user),
-        'teams_list': UserTeam.objects.filter(user_id=request.user)
+        'teams_list': UserTeam.objects.filter(user_id=request.user),
     })
 
 
@@ -115,6 +125,7 @@ def players_api(request):
     if request.method == "POST" and is_ajax:
         edit_player_status = 0
         delete_player_status = 0
+        edit_card_sections_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         if not cur_user.exists() or cur_user[0].id == None:
@@ -129,6 +140,10 @@ def players_api(request):
             pass
         try:
             delete_player_status = int(request.POST.get("delete_player", 0))
+        except:
+            pass
+        try:
+            edit_card_sections_status = int(request.POST.get("edit_card_sections", 0))
         except:
             pass
         if edit_player_status == 1:
@@ -215,9 +230,35 @@ def players_api(request):
                     return JsonResponse({"data": {"id": player_id}, "success": True}, status=200)
                 except:
                     return JsonResponse({"errors": "Can't delete exercise"}, status=400)
+        elif edit_card_sections_status == 1:
+            post_data = request.POST.get("data", None)
+            try:
+                post_data = json.loads(post_data)
+            except:
+                post_data = None
+            if not post_data:
+                return JsonResponse({"errors": "Can't parse post data"}, status=400)
+            res_data = ""
+            if cur_user[0].is_superuser:
+                for elem in post_data:
+                    f_section = CardSection.objects.filter(id=elem['id'])
+                    if f_section.exists() and f_section[0].id != None:
+                        f_section = f_section[0]
+                        f_section.title = set_by_language_code(f_section.title, request.LANGUAGE_CODE, elem['title'])
+                        f_section.order = elem['order']
+                        f_section.visible = elem['visible']
+                        try:
+                            f_section.save()
+                            res_data += f'Section with id: [{f_section.id}] is edited successfully.'
+                        except Exception as e:
+                            res_data += f"Err. Cant edit section with id: [{elem['id']}]."
+            else:
+                pass
+            return JsonResponse({"data": res_data, "success": True}, status=200)
         return JsonResponse({"errors": "access_error"}, status=400)
     elif request.method == "GET" and is_ajax:
         get_player_status = 0
+        get_card_sections_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         if not cur_user.exists() or cur_user[0].id == None:
@@ -228,6 +269,10 @@ def players_api(request):
             pass
         try:
             get_player_status = int(request.GET.get("get_player", 0))
+        except:
+            pass
+        try:
+            get_card_sections_status = int(request.GET.get("get_card_sections", 0))
         except:
             pass
         if get_player_status == 1:
@@ -250,6 +295,14 @@ def players_api(request):
                         res_data[key] = player_card[key]
                 return JsonResponse({"data": res_data, "success": True}, status=200)
             return JsonResponse({"errors": "Player not found.", "success": False}, status=400)
+        elif get_card_sections_status == 1:
+            res_data = {'sections': [], 'user_params': [], 'mode': "nfb" if cur_user[0].is_superuser else "user"}
+            sections = CardSection.objects.filter()
+            sections = [entry for entry in sections.values()]
+            for section in sections:
+                section['title'] = get_by_language_code(section['title'], request.LANGUAGE_CODE)
+            res_data["sections"] = sections
+            return JsonResponse({"data": res_data, "success": True}, status=200)
         return JsonResponse({"errors": "access_error"}, status=400)
     else:
         return JsonResponse({"errors": "access_error"}, status=400)

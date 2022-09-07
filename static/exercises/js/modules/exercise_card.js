@@ -248,6 +248,10 @@ function RenderExerciseOne(data) {
         $('#carouselAnim').find('.carousel-item:not(.d-none)').first().addClass('active');
         $('#carouselAnim').find('.carousel-indicators > li').removeClass('active');
         $('#carouselAnim').find('.carousel-indicators > li:not(.d-none)').first().addClass('active');
+        try {
+            RenderCarouselAll();
+        } catch(e) {}
+
     } else {
         $(exsCard).attr('data-exs', '-1');
 
@@ -306,6 +310,9 @@ function RenderExerciseOne(data) {
         $('#carouselAnim').find('.carousel-item:not(.d-none)').first().addClass('active');
         $('#carouselAnim').find('.carousel-indicators > li').removeClass('active');
         $('#carouselAnim').find('.carousel-indicators > li:not(.d-none)').first().addClass('active');
+        try {
+            RenderCarouselAll();
+        } catch(e) {}
 
         $('.exs-list-group').find('.list-group-item').removeClass('active');
         // clear video, animation and scheme
@@ -557,7 +564,7 @@ function ToggleFoldersType(data = null) {
     }
 }
 
-function CheckSelectedRowInVideoTable() {
+function CheckSelectedRowInVideoTable(onlySetVideo = false) {
     let value = -1;
     if ($('#openVideo1').hasClass('selected2')) {value = $('.video-value[name="video1"]').val();}
     if ($('#openVideo2').hasClass('selected2')) {value = $('.video-value[name="video2"]').val();}
@@ -567,7 +574,11 @@ function CheckSelectedRowInVideoTable() {
         value = parseInt(value);
         if (isNaN(value)) {value = -1;}
     } catch(e) {}
-    SelectRowInVideoTable(video_table, value);
+    window.currentVideoId = value;
+    if (!onlySetVideo) {
+        SelectRowInVideoTable(video_table, value);
+    }
+    SetCurrentVideo(value);
     RenderVideo(value, $('.video-editor').find('#video-player-card-edit'), window.videoPlayerCardEdit);
 }
 
@@ -581,6 +592,58 @@ function SelectRowInVideoTable(table, value) {
             }
         }
     } catch(e) {}
+}
+
+async function SetCurrentVideo(value) {
+    let htmlStr = "";
+    ajax_get_video_data(value)
+        .then((data) => {
+            let tags = Array.isArray(data.taggit) ? data.taggit.toString() : "";
+            htmlStr = `
+                <tr class="text-center">
+                    <td>
+                        <i class="fa fa-bookmark-o" aria-hidden="true"></i>
+                    </td>
+                    <td>${data.id}</td>
+                    <td>${data.videosource_name}</td>
+                    <td>${data.upload_date}</td>
+                    <td>${data.duration}</td>
+                    <td>${data.name}</td>
+                    <td>${tags}</td>
+                </tr>
+            `;
+            $('.video-editor').find('.video-toggle').attr('data-state', '1');
+            $('.video-editor').find('.video-toggle').text('Открепить');
+        })
+        .catch((e) => {
+            htmlStr = `
+                <tr class="text-center">
+                    <td>
+                        <i class="fa fa-bookmark-o" aria-hidden="true"></i>
+                    </td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+            `;
+            $('.video-editor').find('.video-toggle').attr('data-state', '0');
+            $('.video-editor').find('.video-toggle').text('Прикрепить');
+        })
+        .finally(() => {
+            $('.video-editor').find('.video-current-body').html(htmlStr);
+        });
+}
+
+async function GoToVideoLink(value) {
+    ajax_get_video_data(value)
+        .then((data) => {
+            console.log(data)
+            window.open(`/video/?id=${data.id}`, '_blank').focus();
+        });
+
 }
 
 function RenderVideo(value, htmlElem, windowElem) {
@@ -615,14 +678,9 @@ function SetVideoId(value) {
     if ($('#openVideo2').hasClass('selected2')) {$('.video-value[name="video2"]').val(value);}
     if ($('#openAnimation1').hasClass('selected2')) {$('.video-value[name="animation1"]').val(value);}
     if ($('#openAnimation2').hasClass('selected2')) {$('.video-value[name="animation2"]').val(value);}
-    let valueInt = -1;
-    try {
-        valueInt = parseInt(value);
-        if (isNaN(valueInt)) {valueInt = -1;}
-    } catch (e) {}
-    RenderVideo(valueInt, $('.video-editor').find('#video-player-card-edit'), window.videoPlayerCardEdit);
     window.changedData = true;
 }
+
 
 
 $(function() {
@@ -982,6 +1040,7 @@ $(function() {
     });
 
 
+    window.currentVideoId = -1;
     try {
         generate_ajax_video_table();
         $('#video').on('xhr.dt', (e, settings, json, xhr) => {
@@ -998,19 +1057,47 @@ $(function() {
                 SelectRowInVideoTable(video_table, value);
             }, 500);
         });
+
         video_table
-            .on('select', (e, dt, type, indexes) => {
-                let rowData = video_table.rows(indexes).data().toArray();
-                if(type == 'row') {
+            .on( 'select', (e, dt, type, indexes) => {
+                let rowData = video_table.rows( indexes ).data().toArray();
+                if (type=='row') {
                     let currentData = rowData[0];
-                    SetVideoId(currentData.id);
+                    window.currentVideoId = currentData.id;
+                    RenderVideo(currentData.id, $('.video-editor').find('#video-player-card-edit'), window.videoPlayerCardEdit);
+                    $('.video-editor').find('.video-toggle').attr('data-state', '0');
+                    $('.video-editor').find('.video-toggle').text('Прикрепить');
                 }
             })
-            .on('deselect', (e, dt, type, indexes) => {});
-        $('.video-editor').on('click', 'tr', (e) => {
+            .on( 'deselect', (e, dt, type, indexes) => {});
+        $('#video').on('click', 'tr', (e) => {
             let isSelected = $(e.currentTarget).hasClass('selected');
-            if (!isSelected) {SetVideoId('');}
+            if (isSelected) {
+                RenderVideo(-1, $('.video-editor').find('#video-player-card-edit'), window.videoPlayerCardEdit);
+                CheckSelectedRowInVideoTable(true);
+            }
         });
+
+        $('.video-editor').on('click', '.video-toggle', (e) => {
+            let selectedRow = video_table.rows({selected: true}).data().toArray()[0];
+            let selectedId = selectedRow ? selectedRow.id : null;
+            if ($(e.currentTarget).attr('data-state') == '1') {
+                window.currentVideoId = -1;
+                SetVideoId('');
+                SetCurrentVideo(-1);
+                RenderVideo(-1, $('.video-editor').find('#video-player-card-edit'), window.videoPlayerCardEdit);
+            } else {
+                if (selectedId) {
+                    window.currentVideoId = selectedId;
+                    SetVideoId(selectedId);
+                    SetCurrentVideo(selectedId);
+                }
+            }
+        });
+        $('.video-editor').on('click', '.video-link', (e) => {
+            GoToVideoLink(window.currentVideoId);
+        });
+
     } catch(e) {}
 
 

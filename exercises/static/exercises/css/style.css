@@ -93,7 +93,7 @@
     height: 78vh !important;
 }
 .video-list-container {
-    height: 78vh !important;
+    height: 70vh !important;
     overflow-y: auto;
 }
 
@@ -523,4 +523,9 @@ a.text-dark:hover {
 
 .mr-custom-1 {
     margin-right: .7rem !important;
+}
+
+
+.video-current-body > tr {
+    background-color: #e4eeff;
 }

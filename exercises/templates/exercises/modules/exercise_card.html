@@ -587,13 +587,42 @@
                 </div>
                 <div class="video-editor d-none">
                     <div class="row">
-                        <div class="col-8 video-list-container">
-                            {% include 'video/modules/video_list.html' %}
+                        <div class="col-8">
+                            <div class="row">
+                                <div class="col-12 video-current-container mb-2">
+                                    <div class="container table-responsive px-0">
+                                        <table class="table table-sm table-bordered" style="table-layout: fixed;">
+                                            <colgroup>
+                                                <col span="1" style="width: 8%;">
+                                                <col span="1" style="width: 8%;">
+                                                <col span="1" style="width: 10%;">
+                                                <col span="1" style="width: 12%;">
+                                                <col span="1" style="width: 11%;">
+                                                <col span="1" style="width: 25%;">
+                                                <col span="1" style="width: 26%;">
+                                            </colgroup>
+                                            <tbody class="video-current-body">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-12 video-list-container">
+                                    {% include 'video/modules/video_list.html' %}
+                                </div>
+                            </div>
                         </div>
                         <div class="col-4">
-                            <div class="card m-0" style="width: 28vw;">
-                                <video id="video-player-card-edit" class="video-js resize-block not-active">
-                                </video>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card m-0 w-100">
+                                        <video id="video-player-card-edit" class="video-js resize-block not-active">
+                                        </video>
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-2">
+                                    <button class="btn btn-primary btn-sm video-toggle" data-state="0">Прикрепить / Открепить</button>
+                                    <button class="btn btn-info btn-sm video-link">Карточка</button>
+                                </div>
                             </div>
                         </div>
                     </div>
