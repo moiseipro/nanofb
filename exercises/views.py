@@ -5,7 +5,6 @@ from os import access
 from tkinter.messagebox import NO
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from users.models import User
 from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, AdminExercise
@@ -407,9 +406,21 @@ def folders(request):
 
 
 
-@csrf_exempt
 def exercises_api(request):
-    if not request.user.is_authenticated:
+
+    # Greate solution
+    # Отдельное приложение, заточенное под API для любого раздела. Модель, содержащая в себе токен, доступные IPs,
+    # ид или тип доступа для определения корректности полученного токена, если нужно будет сделать разные токены под
+    # разные разделы, задачи
+    # temp solution
+    with_token_access = False
+    token_main = "50uQma3IxofhEeH1zXSd"
+    get_token = request.COOKIES.get('token') 
+    print(get_token)
+    with_token_access = True if get_token == token_main else False
+    print(with_token_access, get_token, request.GET)
+
+    if not request.user.is_authenticated and not with_token_access:
         return JsonResponse({"errors": "authenticate_err"}, status=400)
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
     if request.method == "POST" and is_ajax:
@@ -790,7 +801,12 @@ def exercises_api(request):
         get_exs_all_status = 0
         get_exs_one_status = 0
         get_nfb_exs = 0
-        cur_user = User.objects.filter(email=request.user).only("id")
+
+        if with_token_access:
+            cur_user = User.objects.filter(email="admin@admin.ru").only("id")
+        else:
+            cur_user = User.objects.filter(email=request.user).only("id")
+
         cur_team = -1
         try:
             cur_team = int(request.session['team'])
@@ -946,7 +962,6 @@ def exercises_api(request):
         return JsonResponse({"errors": "access_error"}, status=400)
 
 
-@csrf_exempt
 def folders_api(request):
     if not request.user.is_authenticated:
         return JsonResponse({"errors": "authenticate_err"}, status=400)

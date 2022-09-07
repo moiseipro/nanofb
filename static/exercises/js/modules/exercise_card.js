@@ -78,6 +78,7 @@ function LoadExerciseOne(exsID = null, fromNFB = 0, folderType = "") {
     let data = {'get_exs_one': 1, 'exs': exsID, 'get_nfb': fromNFB, 'type': folderType};
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
+        headers:{"X-CSRFToken": csrftoken},
         data: data,
         type: 'GET', // GET или POST
         dataType: 'json',
@@ -375,6 +376,7 @@ function SaveExerciseOne() {
 
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
+        headers:{"X-CSRFToken": csrftoken},
         data: dataToSend,
         type: 'POST', // GET или POST
         dataType: 'json',
@@ -419,6 +421,7 @@ function DeleteExerciseOne() {
             let data = {'delete_exs': 1, 'exs': exsId, 'type': folderType};
             $('.page-loader-wrapper').fadeIn();
             $.ajax({
+                headers:{"X-CSRFToken": csrftoken},
                 data: data,
                 type: 'POST', // GET или POST
                 dataType: 'json',

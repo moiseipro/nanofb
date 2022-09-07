@@ -3,6 +3,7 @@ function LoadPlayerOne(id = null) {
     let data = {'get_player': 1, 'id': id};
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
             data: data,
             type: 'GET', // GET или POST
             dataType: 'json',
@@ -48,6 +49,7 @@ function LoadCardSections() {
     let data = {'get_card_sections': 1};
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
+        headers:{"X-CSRFToken": csrftoken},
         data: data,
         type: 'GET', // GET или POST
         dataType: 'json',
@@ -343,7 +345,9 @@ $(function() {
             return;
         }
         $('.page-loader-wrapper').fadeIn();
+        
         $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
             data: dataToSend,
             processData: false,
             contentType: false,
@@ -395,6 +399,7 @@ $(function() {
                 let data = {'delete_player': 1, 'id': selectedRowId};
                 $('.page-loader-wrapper').fadeIn();
                 $.ajax({
+                    headers:{"X-CSRFToken": csrftoken},
                     data: data,
                     type: 'POST', // GET или POST
                     dataType: 'json',
@@ -456,6 +461,7 @@ $(function() {
         let data = {'edit_card_sections': 1, 'data': JSON.stringify(dataToSend)};
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
             data: data,
             type: 'POST', // GET или POST
             dataType: 'json',

@@ -9,6 +9,7 @@ function CountExsInFolder() {
             let data = {'count_exs': 1, 'folder': $(folder).attr('data-id'), 'type': "team_folders", 'filter': window.exercisesFilter};
             window.count_exs_calls.push(
                 $.ajax({
+                    headers:{"X-CSRFToken": csrftoken},
                     data: data,
                     type: 'POST', // GET или POST
                     dataType: 'json',
@@ -38,6 +39,7 @@ function CountExsInFolder() {
             let data = {'count_exs': 1, 'folder': $(folder).attr('data-id'), 'type': "nfb_folders", 'filter': window.exercisesFilter};
             window.count_exs_calls.push(
                 $.ajax({
+                    headers:{"X-CSRFToken": csrftoken},
                     data: data,
                     type: 'POST', // GET или POST
                     dataType: 'json',

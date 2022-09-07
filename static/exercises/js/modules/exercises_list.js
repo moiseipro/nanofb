@@ -69,6 +69,7 @@ function LoadFolderExercises() {
         let data = {'get_exs_all': 1, 'folder': cFolderId, 'get_nfb': isNfbExs ? 1 : 0, 'f_type': fType, 'filter': window.exercisesFilter};
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
             data: data,
             type: 'GET', // GET или POST
             dataType: 'json',

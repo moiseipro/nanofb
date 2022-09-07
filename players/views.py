@@ -1,7 +1,6 @@
 
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from users.models import User
 from references.models import UserSeason, UserTeam
 from players.models import UserPlayer, ClubPlayer, PlayerCard, CardSection
@@ -117,7 +116,6 @@ def players(request):
 
 
 
-@csrf_exempt
 def players_api(request):
     if not request.user.is_authenticated:
         return JsonResponse({"errors": "authenticate_err"}, status=400)
