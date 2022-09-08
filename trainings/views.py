@@ -27,14 +27,15 @@ class TrainingViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['get'])
     def get_exercises(self, request, pk=None):
-        data = request.data
-        if 'group' in data:
-            queryset = UserTrainingExercise.objects.filter(training_id=pk, group=data['group'])
+        group = request.query_params.get('group')
+        print(group)
+        if group:
+            queryset = UserTrainingExercise.objects.filter(training_id=pk, group=group)
         else:
             queryset = UserTrainingExercise.objects.filter(training_id=pk)
 
         serializer = UserTrainingExerciseSerializer(queryset, many=True)
-        return Response(serializer.data)
+        return Response({'status': 'exercise_got', 'objs': serializer.data})
 
     @action(detail=True, methods=['post'])
     def add_exercise(self, request, pk=None):
