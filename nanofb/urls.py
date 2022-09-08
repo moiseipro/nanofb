@@ -42,6 +42,7 @@ urlpatterns = [
 
     path('i18n/', include('django.conf.urls.i18n')),
     path('schemeDrawer/', include(('schemeDrawer.urls', 'schemeDrawer'), namespace='schemeDrawer')),
+    path('api/', include(('api.urls', 'api'), namespace='api')),
 ]
 
 urlpatterns += i18n_patterns(

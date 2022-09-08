@@ -14,6 +14,7 @@ class User(AbstractUser):
     p_version = models.ForeignKey(Version, on_delete=models.CASCADE, null=True)
     club_id = models.IntegerField(default=0)
     is_archive = models.BooleanField(default=0)
+    is_api_access = models.BooleanField(default=0)
     date_joined = models.DateField(auto_now_add=True)
     date_last_login = models.DateField(auto_now=True)
     days_entered = models.IntegerField(default=0)

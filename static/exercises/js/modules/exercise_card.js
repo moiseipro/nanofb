@@ -75,7 +75,7 @@ function LoadExerciseOne(exsID = null, fromNFB = 0, folderType = "") {
         folderType = searchParams.get('type');
     }
     if (!exsID) {return;}
-    let data = {'get_exs_one': 1, 'exs': exsID, 'get_nfb': fromNFB, 'type': folderType};
+    let data = {'get_exs_one': 1, 'exs': exsID, 'get_nfb': fromNFB, 'f_type': folderType};
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
         headers:{"X-CSRFToken": csrftoken},

@@ -187,7 +187,7 @@ $(function() {
         $('#folderChangeModal').find('button.btn-submit').prop('disabled', true);
         let shortName = $('#folderChangeModal').find('input[name="short_name"]').val();
         let name = $('#folderChangeModal').find('input[name="name"]').val();
-        let data = {'id': cFolderIdToChange, 'parent_id': cParentIdToChange, 'name': name, 'short_name': shortName};
+        let data = {'edit': 1, 'id': cFolderIdToChange, 'parent_id': cParentIdToChange, 'name': name, 'short_name': shortName};
         $.ajax({
             headers:{"X-CSRFToken": csrftoken},
             data: data,
