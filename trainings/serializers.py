@@ -25,14 +25,6 @@ class UserTrainingSerializer(serializers.ModelSerializer):
         source='team_id.name',
         read_only=True
     )
-    # exercises = serializers.PrimaryKeyRelatedField(
-    #     read_only=True,
-    #     many=True
-    # )
-    # exercises_test = UserTrainingExerciseSerializer(
-    #     source="usertrainingexercise_set",
-    #     many=True
-    # )
     exercises_info = UserTrainingExerciseSerializer(
         read_only=True,
         source="usertrainingexercise_set",

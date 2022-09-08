@@ -25,13 +25,17 @@ class TrainingViewSet(viewsets.ModelViewSet):
         team = UserTeam.objects.get(pk=self.request.session['team'])
         serializer.save(team_id=team)
 
-    # def create(self, request, *args, **kwargs):
-    #     data = request.data
-    #     user = request.user
-    #     instance = self.get_object()
-    #     new_event = UserEvent.objects.create(user_id=user)
-    #
-    #     #print(data)
+    @action(detail=True, methods=['get'])
+    def get_exercises(self, request, pk=None):
+        group = request.query_params.get('group')
+        print(group)
+        if group:
+            queryset = UserTrainingExercise.objects.filter(training_id=pk, group=group)
+        else:
+            queryset = UserTrainingExercise.objects.filter(training_id=pk)
+
+        serializer = UserTrainingExerciseSerializer(queryset, many=True)
+        return Response({'status': 'exercise_got', 'objs': serializer.data})
 
     @action(detail=True, methods=['post'])
     def add_exercise(self, request, pk=None):
@@ -57,9 +61,6 @@ class TrainingViewSet(viewsets.ModelViewSet):
         #print(serializer)
         if serializer.is_valid(raise_exception=True):
             new_obj = serializer.save()
-            # UserTrainingExercise.objects.create(serializer.validated_data)
-            # instance.exercises.add(UserExercise.objects.get(id=1))
-            # instance.save()
             object_serialize = UserTrainingExerciseSerializer(new_obj).data
             return Response({'status': 'exercise_added', 'obj': object_serialize})
         else:
@@ -73,8 +74,6 @@ class TrainingViewSet(viewsets.ModelViewSet):
         print(data)
         edit_object = UserTrainingExercise.objects.filter(
             pk=pk
-            #training_id=pk,
-            #exercise_id=data['exercise']
         )
         print(edit_object)
 
@@ -92,9 +91,6 @@ class TrainingViewSet(viewsets.ModelViewSet):
         # print(serializer)
         if serializer.is_valid(raise_exception=True):
             update_obj = serializer.save()
-            # UserTrainingExercise.objects.create(serializer.validated_data)
-            # instance.exercises.add(UserExercise.objects.get(id=1))
-            # instance.save()
             object_serialize = UserTrainingExerciseSerializer(update_obj).data
             return Response({'status': 'exercise_updated', 'obj': object_serialize})
         else:
@@ -109,8 +105,10 @@ class TrainingViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         # if self.action == 'partial_update':
         #     return UserTraining.objects.all()
+        print(self.request.session['team'])
         season = UserSeason.objects.filter(id=self.request.session['season'])
-        return UserTraining.objects.filter(event_id__user_id=self.request.user,
+        return UserTraining.objects.filter(team_id=self.request.session['team'],
+                                           event_id__user_id=self.request.user,
                                            event_id__date__gte=season[0].date_with,
                                            event_id__date__lte=season[0].date_by)
 
@@ -129,7 +127,6 @@ class TrainingExerciseViewSet(viewsets.ModelViewSet):
         self.perform_update(serializer)
 
         return Response(serializer.data)
-
 
 
 # DJANGO
@@ -160,7 +157,7 @@ class EditTrainingsView(DetailView):
         context['folders_only_view'] = True
         context['nfb_folders'] = found_nfb_folders
         context['refs'] = refs
-        #context['is_exercises'] = True
+        context['is_exercises'] = True
 
 
         return context

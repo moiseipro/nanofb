@@ -78,7 +78,8 @@ class EventViewSet(viewsets.ModelViewSet):
         #print(microcycle_after)
         season = UserSeason.objects.filter(id=self.request.session['season'])
         #print(season[0].date_with)
-        events = UserEvent.objects.filter(user_id=self.request.user,
+        events = UserEvent.objects.filter(usertraining__team_id=self.request.session['team'],
+                                          user_id=self.request.user,
                                           date__gte=season[0].date_with,
                                           date__lte=season[0].date_by)
         if microcycle_before is not None and microcycle_after is not None:
