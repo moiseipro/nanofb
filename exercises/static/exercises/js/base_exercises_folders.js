@@ -189,6 +189,7 @@ $(function() {
         let name = $('#folderChangeModal').find('input[name="name"]').val();
         let data = {'id': cFolderIdToChange, 'parent_id': cParentIdToChange, 'name': name, 'short_name': shortName};
         $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
             data: data,
             type: 'POST', // GET или POST
             dataType: 'json',
@@ -252,6 +253,7 @@ $(function() {
         $('#folderDeleteModal').find('button.btn-submit').prop('disabled', true);
         let data = {'id': cFolderIdToDelete, 'delete': 1};
         $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
             data: data,
             type: 'POST', // GET или POST
             dataType: 'json',
@@ -290,6 +292,7 @@ $(function() {
         let data = {'change_order': 1, 'ids_arr[]': arrForIds, 'order_arr[]': arrForOrder};
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
             data: data,
             type: 'POST', // GET или POST
             dataType: 'json',
@@ -315,6 +318,7 @@ $(function() {
             let data = {'nfb_folders': 1};
             $('.page-loader-wrapper').fadeIn();
             $.ajax({
+                headers:{"X-CSRFToken": csrftoken},
                 data: data,
                 type: 'GET', // GET или POST
                 dataType: 'json',
@@ -343,6 +347,7 @@ $(function() {
             let data = {'nfb_folders_set': 1};
             $('.page-loader-wrapper').fadeIn();
             $.ajax({
+                headers:{"X-CSRFToken": csrftoken},
                 data: data,
                 type: 'GET', // GET или POST
                 dataType: 'json',

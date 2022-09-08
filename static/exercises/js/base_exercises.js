@@ -323,6 +323,7 @@ $(function() {
                 let data = {'get_exs_one': 1, 'exs': exsId, 'get_nfb': fromNfbFolder ? 1 : 0};
                 $('.page-loader-wrapper').fadeIn();
                 $.ajax({
+                    headers:{"X-CSRFToken": csrftoken},
                     data: data,
                     type: 'GET', // GET или POST
                     dataType: 'json',
@@ -490,6 +491,7 @@ $(function() {
         }
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
             data: dataToSend,
             type: 'POST', // GET или POST
             dataType: 'json',
@@ -565,6 +567,7 @@ $(function() {
                 let data = {'delete_exs': 1, 'exs': cId};
                 $('.page-loader-wrapper').fadeIn();
                 $.ajax({
+                    headers:{"X-CSRFToken": csrftoken},
                     data: data,
                     type: 'POST', // GET или POST
                     dataType: 'json',
@@ -645,6 +648,7 @@ $(function() {
             };
             $('.page-loader-wrapper').fadeIn();
             $.ajax({
+                headers:{"X-CSRFToken": csrftoken},
                 data: data,
                 type: 'POST', // GET или POST
                 dataType: 'json',
@@ -685,6 +689,7 @@ $(function() {
         let dataToSend = {'edit_exs_user_params': 1, 'exs': exsId, 'nfb': fromNFB, 'type': folderType, 'data': {'key': cId, 'value': state ? 0 : 1}};
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
             data: dataToSend,
             type: 'POST', // GET или POST
             dataType: 'json',
