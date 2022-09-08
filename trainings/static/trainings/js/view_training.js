@@ -81,22 +81,20 @@ $(window).on('load', function (){
         ajax_event_action('PUT', data, 'save', id)
     })
 
-    $('#add-exercise-modal').on('show.bs.modal', function (e) {
-        set_count_exercises()
-    })
-
     generate_exercises_module_data()
 })
 
 // Подсчет кол-ва добавленных упражнений по группам
 function set_count_exercises() {
-    $('.add-exercise').children('span').text($('.group-block.active .exercise-row').length)
+    let group = $('.add-exercise').attr('data-group')
+    $('.add-exercise').children('span').text($('.group-block[data-group="'+group+'"] .exercise-row').length)
     set_sum_duration_group()
 }
 
 // Подсчет суммы минут добавленных упражнений по группам
 function set_sum_duration_group() {
-    $('.group-block.active').each(function( index ) {
+    let group = $('.add-exercise').attr('data-group')
+    $('.group-block[data-group="'+group+'"]').each(function( index ) {
         let sum = 0
         $(this).find('.exercise-row').each(function( index ) {
             sum += parseInt($(this).find('input[name="duration"]').val())
