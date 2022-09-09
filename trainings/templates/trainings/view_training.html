@@ -48,7 +48,7 @@
                                 <li class="nav-item px-1">
                                     <a class="btn btn-sm btn-block btn-outline-primary font-weight-bold" data-toggle="pill" href="#training-exercises" role="tab">
                                         Упражнения
-                                        <span class="badge badge-pill badge-warning float-right pt-1" id="columnsSizeToggle" title="Поменять размер колонок">
+                                        <span class="float-right" id="columnsSizeToggle" title="Поменять размер колонок">
                                             <i class="fa fa-cog" aria-hidden="true"></i>
                                         </span>
                                     </a>
@@ -81,7 +81,10 @@
                                 </div>
                                 <div class="col">
                                     <div class="row">
-                                        <div class="col px-1">
+                                        <div class="col-4 px-1">
+                                            <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm group-button group-switch" data-group="0">{% trans "Switch group" %}</button>
+                                        </div>
+                                        <!--<div class="col px-1">
                                             <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Описание</button>
                                         </div>
                                         <div class="col px-1">
@@ -92,7 +95,7 @@
                                         </div>
                                         <div class="col px-1">
                                             <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Анимация</button>
-                                        </div>
+                                        </div>-->
                                         <div class="col px-1">
                                             <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm"><i class="fa fa-files-o" aria-hidden="true"></i></button>
                                         </div>
@@ -111,171 +114,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <!--<div class="col-4">
-                                    <div class="row exercise-block">
-                                        <div id="group_A" class="col-12 group-block" data-group="1">
-                                            <div class="row border border-dark bg-default-light font-weight-bold">
-                                                <div class="col">Группа А</div>
-                                                <div class="col-3 px-0">
-                                                    <button type="button" class="btn btn-sm btn-secondary float-right rounded-0 py-0 h-100 edit-button d-none" data-toggle="modal" data-target="#add-exercise-modal"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                                                    <span class="sum-duration-group btn btn-sm float-right rounded-0 py-0 h-100 font-weight-bold" style="width: 50px">00</span>
-                                                </div>
-                                            </div>
-                                            {% for exercise in object.usertrainingexercise_set.all %}
-                                                {% if exercise.group == 1 %}
-                                                    <div class="row border-bottom exercise-row" data-id="{{ exercise.id }}">
-                                                        <div class="col pr-0">{% get_translation exercise.exercise_id.title %}</div>
-                                                        <div class="col-sm-12 col-md-3 px-0">
-                                                            <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 h-100 float-right delete-exercise edit-button d-none"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                                                            <input type="number" name="duration" min="0" max="999" class="form-control form-control-sm rounded-0 py-0 h-auto text-center float-right edit-input" value="{{ exercise.duration }}" style="width: 50px" autocomplete="off" disabled>
-                                                        </div>
-                                                    </div>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="row border border-dark bg-default-light font-weight-bold">
-                                                <div class="col">Цели</div>
-                                                <div class="col-2 text-right px-0">
-                                                    <button type="button" class="btn btn-sm btn-secondary rounded-0 py-0 h-100 edit-button d-none"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                                                </div>
-                                            </div>
-                                            <div class="row border-bottom">
-                                                <div class="col">---</div>
-                                                <div class="col-2 text-right px-0">--</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row exercise-block">
-                                        <div id="group_B" class="col-12 group-block" data-group="2">
-                                            <div class="row border border-dark bg-default-light font-weight-bold">
-                                                <div class="col">Группа B</div>
-                                                <div class="col-3 px-0">
-                                                    <button type="button" class="btn btn-sm btn-secondary float-right rounded-0 py-0 h-100 edit-button d-none" data-toggle="modal" data-target="#add-exercise-modal"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                                                    <span class="sum-duration-group btn btn-sm float-right rounded-0 py-0 h-100 font-weight-bold" style="width: 50px">00</span>
-                                                </div>
-                                            </div>
-                                            {% for exercise in object.usertrainingexercise_set.all %}
-                                                {% if exercise.group == 2 %}
-                                                    <div class="row border-bottom exercise-row" data-id="{{ exercise.id }}">
-                                                        <div class="col pr-0">{% get_translation exercise.exercise_id.title %}</div>
-                                                        <div class="col-sm-12 col-md-3 px-0">
-                                                            <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 h-100 float-right delete-exercise edit-button d-none"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                                                            <input type="number" name="duration" min="0" max="999" class="form-control form-control-sm rounded-0 py-0 h-auto text-center float-right edit-input" value="{{ exercise.duration }}" style="width: 50px" autocomplete="off" disabled>
-                                                        </div>
-                                                    </div>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                    <div class="row exercise-block">
-                                        <div id="group_C" class="col-12 group-block" data-group="3">
-                                            <div class="row border border-dark bg-default-light font-weight-bold">
-                                                <div class="col">Группа C</div>
-                                                <div class="col-3 px-0">
-                                                    <button type="button" class="btn btn-sm btn-secondary float-right rounded-0 py-0 h-100 edit-button d-none" data-toggle="modal" data-target="#add-exercise-modal"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                                                    <span class="sum-duration-group btn btn-sm float-right rounded-0 py-0 h-100 font-weight-bold" style="width: 50px">00</span>
-                                                </div>
-                                            </div>
-                                            {% for exercise in object.usertrainingexercise_set.all %}
-                                                {% if exercise.group == 3 %}
-                                                    <div class="row border-bottom exercise-row" data-id="{{ exercise.id }}">
-                                                        <div class="col pr-0">{% get_translation exercise.exercise_id.title %}</div>
-                                                        <div class="col-sm-12 col-md-3 px-0">
-                                                            <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 h-100 float-right delete-exercise edit-button d-none"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                                                            <input type="number" name="duration" min="0" max="999" class="form-control form-control-sm rounded-0 py-0 h-auto text-center float-right edit-input" value="{{ exercise.duration }}" style="width: 50px" autocomplete="off" disabled>
-                                                        </div>
-                                                    </div>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                </div>-->
-                                <div class="col">
-                                    <div class="row">
-                                        <div class="col-4 py-2 d-flex justify-content-center">
-                                            <div id="svgbox" class="d-block float-left size-w-x" style="--w-x:100%;">
-                                                <div id="svgparent" class="d-block mx-auto">
-                                                    <svg id="block" class="d-block bg-success mx-auto" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <defs>
-                                                            <marker id="40870arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#000000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                                            <marker id="89143arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ffffff"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                                            <marker id="95052arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ffff00"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                                            <marker id="11295arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ff0000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                                            <marker id="31628arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#000000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                                            <filter id="f3" x="0" y="0" width="200%" height="200%"><feOffset result="offOut" in="SourceAlpha" dx="5" dy="5"></feOffset><feGaussianBlur result="blurOut" in="offOut" stdDeviation="3"></feGaussianBlur><feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend></filter>
-                                                        </defs>
-                                                        <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="{% static 'exercises/img/field.svg' %}"></image>
-                                                        <g id="selects"></g>
-                                                        <g id="figures"></g>
-                                                        <g id="lines"></g>
-                                                        <g id="objects"></g>
-                                                        <g id="dots"></g>
-                                                        <line id="xLine" x1="-1" y1="0" x2="-1" y2="1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
-                                                        <line id="yLine" x1="0" y1="-1" x2="2400" y2="-1" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
-                                                        <line id="xLine2" x1="-2400" y1="0" x2="-2400" y2="1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
-                                                        <line id="yLine2" x1="0" y1="-1600" x2="2400" y2="-1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-4 py-2 d-flex justify-content-center">
-                                            <div id="svgbox" class="d-block float-left size-w-x" style="--w-x:100%;">
-                                                <div id="svgparent" class="d-block mx-auto">
-                                                    <svg id="block" class="d-block bg-success mx-auto" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <defs>
-                                                            <marker id="40870arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#000000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                                            <marker id="89143arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ffffff"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                                            <marker id="95052arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ffff00"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                                            <marker id="11295arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ff0000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                                            <marker id="31628arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#000000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                                            <filter id="f3" x="0" y="0" width="200%" height="200%"><feOffset result="offOut" in="SourceAlpha" dx="5" dy="5"></feOffset><feGaussianBlur result="blurOut" in="offOut" stdDeviation="3"></feGaussianBlur><feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend></filter>
-                                                        </defs>
-                                                        <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="{% static 'exercises/img/field.svg' %}"></image>
-                                                        <g id="selects"></g>
-                                                        <g id="figures"></g>
-                                                        <g id="lines"></g>
-                                                        <g id="objects"></g>
-                                                        <g id="dots"></g>
-                                                        <line id="xLine" x1="-1" y1="0" x2="-1" y2="1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
-                                                        <line id="yLine" x1="0" y1="-1" x2="2400" y2="-1" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
-                                                        <line id="xLine2" x1="-2400" y1="0" x2="-2400" y2="1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
-                                                        <line id="yLine2" x1="0" y1="-1600" x2="2400" y2="-1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-4 py-2 d-flex justify-content-center">
-                                            <div id="svgbox" class="d-block float-left size-w-x" style="--w-x:100%;">
-                                                <div id="svgparent" class="d-block mx-auto">
-                                                    <svg id="block" class="d-block bg-success mx-auto" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <defs>
-                                                            <marker id="40870arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#000000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                                            <marker id="89143arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ffffff"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                                            <marker id="95052arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ffff00"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                                            <marker id="11295arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ff0000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                                            <marker id="31628arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#000000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                                            <filter id="f3" x="0" y="0" width="200%" height="200%"><feOffset result="offOut" in="SourceAlpha" dx="5" dy="5"></feOffset><feGaussianBlur result="blurOut" in="offOut" stdDeviation="3"></feGaussianBlur><feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend></filter>
-                                                        </defs>
-                                                        <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="{% static 'exercises/img/field.svg' %}"></image>
-                                                        <g id="selects"></g>
-                                                        <g id="figures"></g>
-                                                        <g id="lines"></g>
-                                                        <g id="objects"></g>
-                                                        <g id="dots"></g>
-                                                        <line id="xLine" x1="-1" y1="0" x2="-1" y2="1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
-                                                        <line id="yLine" x1="0" y1="-1" x2="2400" y2="-1" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
-                                                        <line id="xLine2" x1="-2400" y1="0" x2="-2400" y2="1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
-                                                        <line id="yLine2" x1="0" y1="-1600" x2="2400" y2="-1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div id="card-scheme-block" class="row">
+
                             </div>
                         </div>
                         <div class="tab-pane fade" id="training-exercises" role="tabpanel" aria-labelledby="training-exercises-tab">

@@ -11,11 +11,15 @@ class UserTrainingExerciseSerializer(serializers.ModelSerializer):
         source="exercise_id.title",
         read_only=True
     )
+    exercise_scheme = serializers.JSONField(
+        source="exercise_id.scheme_data",
+        read_only=True
+    )
 
     class Meta:
         model = UserTrainingExercise
         fields = [
-            'id', 'training_id', 'exercise_id', 'exercise_name', 'group', 'duration', 'order'
+            'id', 'training_id', 'exercise_id', 'exercise_name', 'exercise_scheme', 'group', 'duration', 'order'
         ]
 
 
