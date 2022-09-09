@@ -193,10 +193,11 @@ function RenderExerciseOne(data) {
         $('#carouselAnim').find('.carousel-control-prev').removeClass('d-none');
         $('#carouselAnim').find('.carousel-control-next').removeClass('d-none');
 
-        if (data.video_data[0] && data.video_data[0] != -1) {
+        
+        if (data.video_1 && data.video_1.id && data.video_1.id != -1) {
             $('#carouselVideo').find('.carousel-item').first().removeClass('d-none');
-            $(exsCard).find('.video-value[name="video1"]').val(data.video_data[0]);
-            RenderVideo(data.video_data[0], $(exsCard).find('.video-value[name="video1"]'), window.videoPlayerCard1);
+            $(exsCard).find('.video-value[name="video1"]').val(data.video_1.id);
+            RenderVideo(data.video_1.id, $(exsCard).find('.video-value[name="video1"]'), window.videoPlayerCard1);
         } else {
             $('#carouselVideo').find('.carousel-item').first().addClass('d-none');
             $('#carouselVideo').find('.carousel-indicators > li').first().addClass('d-none');
@@ -204,10 +205,10 @@ function RenderExerciseOne(data) {
             $('#carouselVideo').find('.carousel-control-next').addClass('d-none');
             $(exsCard).find('.video-value[name="video1"]').val('');
         }
-        if (data.video_data[1] && data.video_data[1] != -1) {
+        if (data.video_2 && data.video_2.id && data.video_2.id != -1) {
             $('#carouselVideo').find('.carousel-item').last().removeClass('d-none');
-            $(exsCard).find('.video-value[name="video2"]').val(data.video_data[1]);
-            RenderVideo(data.video_data[1], $(exsCard).find('.video-value[name="video2"]'), window.videoPlayerCard2);
+            $(exsCard).find('.video-value[name="video2"]').val(data.video_2.id);
+            RenderVideo(data.video_2.id, $(exsCard).find('.video-value[name="video2"]'), window.videoPlayerCard2);
         } else {
             $('#carouselVideo').find('.carousel-item').last().addClass('d-none');
             $('#carouselVideo').find('.carousel-indicators > li').last().addClass('d-none');
@@ -215,10 +216,10 @@ function RenderExerciseOne(data) {
             $('#carouselVideo').find('.carousel-control-next').addClass('d-none');
             $(exsCard).find('.video-value[name="video2"]').val('');
         }
-        if (data.animation_data.default[0] && data.animation_data.default[0] != -1) {
+        if (data.animation_1 && data.animation_1.id && data.animation_1.id != -1) {
             $('#carouselAnim').find('.carousel-item').first().removeClass('d-none');
-            $(exsCard).find('.video-value[name="animation1"]').val(data.animation_data.default[0]);
-            RenderVideo(data.animation_data.default[0], $(exsCard).find('.video-value[name="animation1"]'), window.videoPlayerCard3);
+            $(exsCard).find('.video-value[name="animation1"]').val(data.animation_1.id);
+            RenderVideo(data.animation_1.id, $(exsCard).find('.video-value[name="animation1"]'), window.videoPlayerCard3);
         } else {
             $('#carouselAnim').find('.carousel-item').first().addClass('d-none');
             $('#carouselAnim').find('.carousel-indicators > li').first().addClass('d-none');
@@ -226,10 +227,10 @@ function RenderExerciseOne(data) {
             $('#carouselAnim').find('.carousel-control-next').addClass('d-none');
             $(exsCard).find('.video-value[name="animation1"]').val('');
         }
-        if (data.animation_data.default[1] && data.animation_data.default[1] != -1) {
+        if (data.animation_2 && data.animation_2.id && data.animation_2.id != -1) {
             $('#carouselAnim').find('.carousel-item').last().removeClass('d-none');
-            $(exsCard).find('.video-value[name="animation2"]').val(data.animation_data.default[1]);
-            RenderVideo(data.animation_data.default[1], $(exsCard).find('.video-value[name="animation2"]'), window.videoPlayerCard4);
+            $(exsCard).find('.video-value[name="animation2"]').val(data.animation_2.id);
+            RenderVideo(data.animation_2.id, $(exsCard).find('.video-value[name="animation2"]'), window.videoPlayerCard4);
         } else {
             $('#carouselAnim').find('.carousel-item').last().addClass('d-none');
             $('#carouselAnim').find('.carousel-indicators > li').last().addClass('d-none');

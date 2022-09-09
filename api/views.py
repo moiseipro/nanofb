@@ -36,12 +36,17 @@ def exercises(request):
     request.GET = request.data
     get_exs_all_status = 0
     get_exs_one_status = 0
+    get_link_video_exs_status = 0
     try:
         get_exs_all_status = int(request.GET.get("get_exs_all", 0))
     except:
         pass
     try:
         get_exs_one_status = int(request.GET.get("get_exs_one", 0))
+    except:
+        pass
+    try:
+        get_link_video_exs_status = int(request.GET.get("get_link_video_exs", 0))
     except:
         pass
     if get_exs_all_status == 1:
@@ -53,5 +58,7 @@ def exercises(request):
         except:
             pass
         return v_api.GET_get_exs_one(request, cur_user, cur_team)
+    elif get_link_video_exs_status:
+        return v_api.GET_link_video_exs(request, cur_user)
     return JsonResponse({"err": "Access denied!"}, status=400)
 

@@ -1,12 +1,15 @@
+from cmath import log
 import datetime
+from tkinter.messagebox import NO
 from django.http import JsonResponse
 from users.models import User
-from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, AdminExercise
+from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, AdminExercise, ExerciseVideo
 from exercises.models import UserExerciseParam, UserExerciseParamTeam
 from references.models import ExsGoal, ExsBall, ExsTeamCategory, ExsAgeCategory, ExsTrainPart, ExsCognitiveLoad
 from references.models import ExsKeyword, ExsStressType, ExsPurpose, ExsCoaching
 from references.models import ExsCategory, ExsAdditionalData, ExsTitleName
 from references.models import UserSeason, UserTeam
+from video.models import Video
 
 
 LANG_CODE_DEFAULT = "en"
@@ -171,6 +174,27 @@ def get_exs_animation_data(data):
     return res
 
 
+def get_exs_video_data2(data, video):
+    if video and video.exists() and video[0].id != None:
+        data['video_1'] = {
+            'id': video[0].video_1.id if video[0].video_1 else -1, 
+            'links': video[0].video_1.links if video[0].video_1 else ""
+        }
+        data['video_2'] = {
+            'id': video[0].video_2.id if video[0].video_2 else -1, 
+            'links': video[0].video_2.links if video[0].video_2 else ""
+        }
+        data['animation_1'] = {
+            'id': video[0].animation_1.id if video[0].animation_1 else -1, 
+            'links': video[0].animation_1.links if video[0].animation_1 else ""
+        }
+        data['animation_2'] = {
+            'id': video[0].animation_2.id if video[0].animation_2 else -1, 
+            'links': video[0].animation_2.links if video[0].animation_2 else ""
+        }
+    return data
+
+
 def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = None, cur_club = None):
     def days_between(date):
         return abs((datetime.date.today() - date).days)
@@ -308,7 +332,11 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
     return f_exercises
 
 
-
+def check_video(id):
+    f_video = Video.objects.filter(id=id)
+    if f_video.exists() and f_video[0].id != None:
+        return f_video[0]
+    return None
 # --------------------------------------------------
 # EXERCISES API
 def POST_copy_exs(request, cur_user, cur_team):
@@ -479,6 +507,26 @@ def POST_edit_exs(request, cur_user, cur_team):
             c_exs.animation_data['data']['default'] = [animation1_id, animation2_id]
         else:
             c_exs.animation_data = {'data': {'custom': "", 'default': [animation1_id, animation2_id]}}
+        video1_obj = check_video(video1_id)
+        video2_obj = check_video(video2_id)
+        animation1_obj = check_video(animation1_id)
+        animation2_obj = check_video(animation2_id)
+        if folder_type == FOLDER_TEAM:
+            video_exs, created = ExerciseVideo.objects.update_or_create(exercise_user=c_exs, defaults={
+                "video_1": video1_obj,
+                "video_2": video2_obj,
+                "animation_1": animation1_obj,
+                "animation_2": animation2_obj
+            })
+        elif folder_type == FOLDER_NFB:
+            video_exs, created = ExerciseVideo.objects.update_or_create(exercise_nfb=c_exs, defaults={
+                "video_1": video1_obj,
+                "video_2": video2_obj,
+                "animation_1": animation1_obj,
+                "animation_2": animation2_obj
+            })
+        elif folder_type == FOLDER_CLUB:
+            pass
     # c_exs.notes = set_by_language_code(c_exs.notes, request.LANGUAGE_CODE, request.POST.getlist("data[notes[]]", ""), request.POST.getlist("data[notes[]][]", ""))
     try:
         c_exs.save()
@@ -639,6 +687,64 @@ def POST_count_exs(request, cur_user):
     return JsonResponse({"data": found_exercises, "success": True}, status=200)
 
 
+# Temp func
+def GET_link_video_exs(request, cur_user):
+    folder_id = -1
+    folder_type = ""
+    try:
+        folder_id = int(request.GET.get("folder", -1))
+    except:
+        pass
+    try:
+        folder_type = request.GET.get("f_type", "")
+    except:
+        pass
+    try:
+        found_exercises = get_excerises_data(folder_id, folder_type, request, cur_user)
+        logs = []
+        for exercise in found_exercises:
+            video_1 = None
+            video_2 = None
+            if exercise['video_data'] and exercise['video_data']['data'] and isinstance(exercise['video_data']['data'], list) and len(exercise['video_data']['data']) == 2:
+                video_1 = check_video(exercise['video_data']['data'][0])
+                video_2 = check_video(exercise['video_data']['data'][1])
+            animation_1 = None
+            animation_2 = None
+            if exercise['animation_data'] and exercise['animation_data']['data'] and isinstance(exercise['animation_data']['data']['default'], list) and len(exercise['animation_data']['data']['default']) == 2:
+                animation_1 = check_video(exercise['animation_data']['data']['default'][0])
+                animation_2 = check_video(exercise['animation_data']['data']['default'][1])
+            if folder_type == FOLDER_TEAM:
+                cur_exs = UserExercise.objects.filter(id=exercise['id'])
+                if not cur_exs.exists() or cur_exs[0].id == None:
+                    logs.append(f"Exercise with id: {exercise['id']} not found. Skipped.")
+                    continue
+                video_exs, created = ExerciseVideo.objects.update_or_create(exercise_user=cur_exs[0], defaults={
+                    "video_1": video_1,
+                    "video_2": video_2,
+                    "animation_1": animation_1,
+                    "animation_2": animation_2
+                })
+                logs.append(f"Exercise with id: {exercise['id']} successfully changed.")
+            elif folder_type == FOLDER_NFB:
+                cur_exs = AdminExercise.objects.filter(id=exercise['id'])
+                if not cur_exs.exists() or cur_exs[0].id == None:
+                    logs.append(f"Exercise with id: {exercise['id']} not found. Skipped.")
+                    continue
+                video_exs, created = ExerciseVideo.objects.update_or_create(exercise_nfb=cur_exs[0], defaults={
+                    "video_1": video_1,
+                    "video_2": video_2,
+                    "animation_1": animation_1,
+                    "animation_2": animation_2
+                })
+                logs.append(f"Exercise with id: {exercise['id']} successfully changed.")
+            elif folder_type == FOLDER_CLUB:
+                pass
+        return JsonResponse({"logs": logs, "success": True}, status=200)
+    except Exception as e:
+        print(e)
+        return JsonResponse({"ERR": "Cant created or updated video in exs", "success": False}, status=400)
+
+
 def GET_get_exs_all(request, cur_user):
     folder_id = -1
     folder_type = ""
@@ -708,6 +814,7 @@ def GET_get_exs_one(request, cur_user, cur_team):
     except:
         pass
     res_exs = {}
+    f_video_data = None
     if folder_type == FOLDER_TEAM:
         c_exs = UserExercise.objects.filter(id=exs_id, visible=True)
         if c_exs.exists() and c_exs[0].id != None:
@@ -715,6 +822,7 @@ def GET_get_exs_one(request, cur_user, cur_team):
             res_exs['nfb'] = False
             res_exs['folder_parent_id'] = c_exs[0].folder.parent
             res_exs['copied_from_nfb'] = c_exs[0].old_id != None
+        f_video_data = ExerciseVideo.objects.filter(exercise_user=c_exs[0].id)
         user_params = UserExerciseParam.objects.filter(exercise_user=c_exs[0].id, user=cur_user)
         if user_params.exists() and user_params[0].id != None:
             user_params = user_params.values()[0]
@@ -738,6 +846,7 @@ def GET_get_exs_one(request, cur_user, cur_team):
             res_exs = c_exs.values()[0]
             res_exs['nfb'] = True
             res_exs['folder_parent_id'] = c_exs[0].folder.parent
+        f_video_data = ExerciseVideo.objects.filter(exercise_nfb=c_exs[0].id)
         user_params = UserExerciseParam.objects.filter(exercise_nfb=c_exs[0].id, user=cur_user)
         if user_params.exists() and user_params[0].id != None:
             user_params = user_params.values()[0]
@@ -764,6 +873,8 @@ def GET_get_exs_one(request, cur_user, cur_team):
     res_exs['scheme_data'] = get_exs_scheme_data(res_exs['scheme_data'])
     res_exs['video_data'] = get_exs_video_data(res_exs['video_data'])
     res_exs['animation_data'] = get_exs_animation_data(res_exs['animation_data'])
+    res_exs = get_exs_video_data2(res_exs, f_video_data)
+
     # res_exs['stress_type'] = get_by_language_code(res_exs['stress_type'], request.LANGUAGE_CODE)
     return JsonResponse({"data": res_exs, "success": True}, status=200)
 
