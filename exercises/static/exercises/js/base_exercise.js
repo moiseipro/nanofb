@@ -1,3 +1,12 @@
+function StopAllVideos() {
+    try {
+        if (Array.isArray(window.videoPlayerClones)) {
+            for (let i = 0; i < window.videoPlayerClones.length; i++) {
+                window.videoPlayerClones[i].pause();
+            }
+        }
+    } catch (e) {}
+}
 
 
 
@@ -122,6 +131,15 @@ $(function() {
         }
 
         $('#exerciseGraphicsModal').modal('show');
+    });
+    $('#exerciseGraphicsModal').on('hide.bs.modal', (e) => {
+        StopAllVideos();
+    });
+    $('#exerciseGraphicsModal').on('click', '.carousel-control-prev', (e) => {
+        StopAllVideos();
+    });
+    $('#exerciseGraphicsModal').on('click', '.carousel-control-next', (e) => {
+        StopAllVideos();
     });
 
 

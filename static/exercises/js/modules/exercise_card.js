@@ -685,6 +685,12 @@ function SetVideoId(value) {
     window.changedData = true;
 }
 
+function StopVideoForEdit() {
+    try {
+        window.videoPlayerCardEdit.pause();
+    } catch (e) {}
+}
+
 
 
 $(function() {
@@ -730,6 +736,7 @@ $(function() {
         $('#exerciseCard').find('button[data-type="add"]').removeClass('d-none');
 
         $('.scheme-editor').addClass('d-none');
+        StopVideoForEdit();
         $('.video-editor').addClass('d-none');
     });
     $('#exerciseCard').on('click', '#openDrawing1', (e) => {
@@ -750,6 +757,7 @@ $(function() {
             }, 100);
             $('.scheme-editor').removeClass('d-none');
         }
+        StopVideoForEdit();
         $('.video-editor').addClass('d-none');
     });
     $('#exerciseCard').on('click', '#openDrawing2', (e) => {
@@ -770,6 +778,7 @@ $(function() {
             }, 100);
             $('.scheme-editor').removeClass('d-none');
         }
+        StopVideoForEdit();
         $('.video-editor').addClass('d-none');
     });
     $('#exerciseCard').on('click', '#openVideo1', (e) => {
@@ -782,6 +791,7 @@ $(function() {
         $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
         $('.scheme-editor').addClass('d-none');
+        StopVideoForEdit();
         CheckSelectedRowInVideoTable();
         $('.video-editor').removeClass('d-none');
     });
@@ -795,6 +805,7 @@ $(function() {
         $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
         $('.scheme-editor').addClass('d-none');
+        StopVideoForEdit();
         CheckSelectedRowInVideoTable();
         $('.video-editor').removeClass('d-none');
     });
@@ -808,6 +819,7 @@ $(function() {
         $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
         $('.scheme-editor').addClass('d-none');
+        StopVideoForEdit();
         CheckSelectedRowInVideoTable();
         $('.video-editor').removeClass('d-none');
     });
@@ -821,6 +833,7 @@ $(function() {
         $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
         $('.scheme-editor').addClass('d-none');
+        StopVideoForEdit();
         CheckSelectedRowInVideoTable();
         $('.video-editor').removeClass('d-none');
     });
@@ -1005,44 +1018,47 @@ $(function() {
         ToggleExsDir(dir);
     });
 
+    try {
+        window.videoPlayerCardEdit = videojs('video-player-card-edit', {
+            preload: 'auto',
+            autoplay: false,
+            controls: true,
+            aspectRatio: '16:9',
+            youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
+        });
+    } catch (e) {}
 
-    window.videoPlayerCardEdit = videojs('video-player-card-edit', {
-        preload: 'auto',
-        autoplay: false,
-        controls: true,
-        aspectRatio: '16:9',
-        youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
-    });
-
-    window.videoPlayerCard1 = videojs('video-player-card-1', {
-        preload: 'auto',
-        autoplay: false,
-        controls: true,
-        aspectRatio: '16:9',
-        youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
-    });
-    window.videoPlayerCard2 = videojs('video-player-card-2', {
-        preload: 'auto',
-        autoplay: false,
-        controls: true,
-        aspectRatio: '16:9',
-        youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
-    });
-    window.videoPlayerCard3 = videojs('video-player-card-3', {
-        preload: 'auto',
-        autoplay: false,
-        controls: true,
-        aspectRatio: '16:9',
-        youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
-    });
-    window.videoPlayerCard4 = videojs('video-player-card-4', {
-        preload: 'auto',
-        autoplay: false,
-        controls: true,
-        aspectRatio: '16:9',
-        youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
-    });
-
+    try {
+        window.videoPlayerCard1 = videojs('video-player-card-1', {
+            preload: 'auto',
+            autoplay: false,
+            controls: true,
+            aspectRatio: '16:9',
+            youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
+        });
+        window.videoPlayerCard2 = videojs('video-player-card-2', {
+            preload: 'auto',
+            autoplay: false,
+            controls: true,
+            aspectRatio: '16:9',
+            youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
+        });
+        window.videoPlayerCard3 = videojs('video-player-card-3', {
+            preload: 'auto',
+            autoplay: false,
+            controls: true,
+            aspectRatio: '16:9',
+            youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
+        });
+        window.videoPlayerCard4 = videojs('video-player-card-4', {
+            preload: 'auto',
+            autoplay: false,
+            controls: true,
+            aspectRatio: '16:9',
+            youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
+        });
+    } catch (e) {}
+ 
 
     window.currentVideoId = -1;
     try {

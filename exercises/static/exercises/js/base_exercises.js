@@ -197,6 +197,16 @@ function RenderFilterNewExs() {
     }
 }
 
+function StopAllVideos() {
+    try {
+        if (Array.isArray(window.videoPlayerClones)) {
+            for (let i = 0; i < window.videoPlayerClones.length; i++) {
+                window.videoPlayerClones[i].pause();
+            }
+        }
+    } catch (e) {}
+}
+
 
 
 $(function() {
@@ -907,9 +917,14 @@ $(function() {
         $('#exerciseGraphicsModal').modal('show');
     });
     $('#exerciseGraphicsModal').on('hide.bs.modal', (e) => {
-        for (let i = 0; i < window.videoPlayerClones.length; i++) {
-            window.videoPlayerClones[i].pause();
-        }
+        StopAllVideos();
+    });
+    $('#exerciseGraphicsModal').on('click', '.carousel-control-prev', (e) => {
+        console.log('xxx')
+        StopAllVideos();
+    });
+    $('#exerciseGraphicsModal').on('click', '.carousel-control-next', (e) => {
+        StopAllVideos();
     });
 
     // Save & Load current folders mode
