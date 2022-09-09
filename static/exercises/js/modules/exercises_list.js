@@ -327,7 +327,6 @@ $(function() {
     // Change folder or exercise using keys
     window.lastListUsed = "folders";
     $(document).keypress((e) => {
-        console.log(e.which)
         if ($('#exerciseCardModal').hasClass('show')) {return;}
         if (e.which == 13) {
             if ($('.exs-list-group').find('.list-group-item.active').length > 0) {
@@ -338,6 +337,7 @@ $(function() {
         if (window.lastListUsed == "folders") {
             let currentList = $('.up-tabs-elem[data-id="nfb_folders"]').attr('data-state') == '1' ? ".folders_nfb_list" : ".folders_list";
             let activeElem = $(currentList).find('.list-group-item.active');
+            let isLoadExs = false;
             if (e.which == 119) { // "W"
                 if (activeElem.length > 0) {
                     $(activeElem).removeClass('active');
@@ -345,6 +345,7 @@ $(function() {
                 } else {
                     $(currentList).find('.list-group-item').last().addClass('active');
                 }
+                isLoadExs = true;
             }
             if (e.which == 115) { // "S"
                 if (activeElem.length > 0) {
@@ -353,11 +354,13 @@ $(function() {
                 } else {
                     $(currentList).find('.list-group-item').first().addClass('active');
                 }
+                isLoadExs = true;
             }
-            LoadFolderExercises();
+            if (isLoadExs) {LoadFolderExercises();}
         } else if (window.lastListUsed == "exercises") {
             let currentList = '.exs-list-group';
             let activeElem = $(currentList).find('.list-group-item.active');
+            let isLoadExs = false;
             if (e.which == 119) { // w
                 if (activeElem.length > 0) {
                     $(activeElem).removeClass('active');
@@ -365,6 +368,7 @@ $(function() {
                 } else {
                     $(currentList).find('.list-group-item').last().addClass('active');
                 }
+                isLoadExs = true;
             }
             if (e.which == 115) { // s
                 if (activeElem.length > 0) {
@@ -373,8 +377,9 @@ $(function() {
                 } else {
                     $(currentList).find('.list-group-item').first().addClass('active');
                 }
+                isLoadExs = true;
             }
-            LoadExerciseOneHandler();
+            if (isLoadExs) {LoadExerciseOneHandler();}
         }
     });
 
