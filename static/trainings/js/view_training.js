@@ -38,38 +38,24 @@ $(window).on('load', function (){
     $('.visual-block').on('click', '.exercise-row .delete-exercise', function (){
         let exercises_training_id = $(this).closest('.exercise-row').attr('data-id')
         let data = {}
-        ajax_training_exercise_action('DELETE', data, 'delete', exercises_training_id, '').done(function (data) {
-            $('.visual-block .exercise-row[data-id="'+exercises_training_id+'"]').remove()
-            set_count_exercises()
-        })
+        swal(gettext("Remove an exercise from a training?"), {
+            buttons: {
+                cancel: true,
+                confirm: true,
+            },
+        }).then(function(isConfirm) {
+            if (isConfirm) {
+                ajax_training_exercise_action('DELETE', data, 'delete', exercises_training_id, '').done(function (data) {
+                    $('.visual-block .exercise-row[data-id="'+exercises_training_id+'"]').remove()
+                    set_count_exercises()
+                })
+            }
+        });
     })
 
-    //Выгрузка упражнений в группу или обновление при клике по кнопке
+    //Выгрузка упражнений в группу при клике по кнопке
     $('.visual-block').on('click', '.group-button', function () {
-        let send_data = {}
-        send_data.group = $(this).attr('data-group')
-
-        ajax_training_action('GET', send_data, 'load', id, 'get_exercises').done(function (data) {
-            let exercises = data.objs
-            //console.log(exercises)
-            let exs_html = ''
-            $.each( exercises, function( key, exercise ) {
-                //console.log(exercise)
-                exs_html += `
-                <div class="row border-bottom exercise-row" data-id="${exercise.id}">
-                    <div class="col pr-0">${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : exercise.exercise_name.first()}</div>
-                    <div class="col-sm-12 col-md-3 pl-0">
-                        <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 h-100 float-right delete-exercise edit-button ${!edit_mode ? 'd-none' : ''}"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                        <input type="number" name="duration" min="0" max="999" class="form-control form-control-sm rounded-0 py-0 h-auto text-center float-right edit-input" value="${exercise.duration}" style="width: 50px" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
-                    </div>
-                </div>`
-            });
-            $('.visual-block .add-exercise').attr('data-group', send_data.group)
-
-            $('.visual-block .group-block[data-group="'+send_data.group+'"]').html(exs_html)
-
-            set_count_exercises()
-        })
+        render_exercises_training(id, $(this).attr('data-group'))
     })
 
     $('#save-training').on('click', function () {
@@ -82,7 +68,69 @@ $(window).on('load', function (){
     })
 
     generate_exercises_module_data()
+    render_exercises_training(id)
 })
+
+// Выгрузить упражнения из тренировки
+function render_exercises_training(training_id = null, group = null) {
+    let send_data = {}
+    if(group != null) send_data.group = group
+
+    ajax_training_action('GET', send_data, 'load', training_id, 'get_exercises').done(function (data) {
+        let exercises = data.objs
+
+        let card_html = ''
+        let exs_html = ''
+
+        $.each( exercises, function( key, exercise ) {
+
+            card_html += `
+            <div class="col-4 py-2">
+                <div id="carouselSchema-${key}" class="carousel slide carouselSchema" data-ride="carousel" data-interval="false">
+                    <ol class="carousel-indicators">
+                        <li data-target="#carouselSchema" data-slide-to="0" class="active"></li>
+                        <li data-target="#carouselSchema" data-slide-to="1"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">${exercise.exercise_scheme ? exercise.exercise_scheme['scheme_1'] : ''}</div>
+                        <div class="carousel-item">${exercise.exercise_scheme ? exercise.exercise_scheme['scheme_2'] : ''}</div>
+                    </div>
+                    <a class="carousel-control-prev ml-2" href="#carouselSchema-${key}" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselSchema-${key}" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+                <div class="row text-center">
+                    <div class="col-8 pr-0"><div class="w-100 border">${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : exercise.exercise_name.first()}</div></div>
+                    <div class="col-4 pl-0"><div class="w-100 border">${exercise.duration}</div></div>
+                </div>
+            </div>
+            `
+
+            if(group == null) return
+
+            exs_html += `
+            <div class="row border-bottom exercise-row" data-id="${exercise.id}">
+                <div class="col pr-0 text-truncate" title="${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : exercise.exercise_name.first()}">${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : exercise.exercise_name.first()}</div>
+                <div class="col-sm-12 col-md-4 pl-0">
+                    <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 h-100 float-right delete-exercise edit-button ${!edit_mode ? 'd-none' : ''}"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                    <input type="number" name="duration" min="0" max="999" class="form-control form-control-sm rounded-0 p-0 h-auto text-center float-right edit-input" value="${exercise.duration}" style="width: 30px" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
+                </div>
+            </div>`
+        });
+        $('.visual-block .add-exercise').attr('data-group', send_data.group)
+
+        $('.visual-block .group-block[data-group="'+send_data.group+'"]').html(exs_html)
+        $('#card-scheme-block').html(card_html)
+        $('#card-scheme-block .carouselSchema').carousel()
+
+        set_count_exercises()
+    })
+}
 
 // Подсчет кол-ва добавленных упражнений по группам
 function set_count_exercises() {
