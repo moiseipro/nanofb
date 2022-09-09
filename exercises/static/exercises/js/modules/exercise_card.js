@@ -75,7 +75,7 @@ function LoadExerciseOne(exsID = null, fromNFB = 0, folderType = "") {
         folderType = searchParams.get('type');
     }
     if (!exsID) {return;}
-    let data = {'get_exs_one': 1, 'exs': exsID, 'get_nfb': fromNFB, 'type': folderType};
+    let data = {'get_exs_one': 1, 'exs': exsID, 'get_nfb': fromNFB, 'f_type': folderType};
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
         headers:{"X-CSRFToken": csrftoken},
@@ -193,10 +193,11 @@ function RenderExerciseOne(data) {
         $('#carouselAnim').find('.carousel-control-prev').removeClass('d-none');
         $('#carouselAnim').find('.carousel-control-next').removeClass('d-none');
 
-        if (data.video_data[0] && data.video_data[0] != -1) {
+        
+        if (data.video_1 && data.video_1.id && data.video_1.id != -1) {
             $('#carouselVideo').find('.carousel-item').first().removeClass('d-none');
-            $(exsCard).find('.video-value[name="video1"]').val(data.video_data[0]);
-            RenderVideo(data.video_data[0], $(exsCard).find('.video-value[name="video1"]'), window.videoPlayerCard1);
+            $(exsCard).find('.video-value[name="video1"]').val(data.video_1.id);
+            RenderVideo(data.video_1.id, $(exsCard).find('.video-value[name="video1"]'), window.videoPlayerCard1);
         } else {
             $('#carouselVideo').find('.carousel-item').first().addClass('d-none');
             $('#carouselVideo').find('.carousel-indicators > li').first().addClass('d-none');
@@ -204,10 +205,10 @@ function RenderExerciseOne(data) {
             $('#carouselVideo').find('.carousel-control-next').addClass('d-none');
             $(exsCard).find('.video-value[name="video1"]').val('');
         }
-        if (data.video_data[1] && data.video_data[1] != -1) {
+        if (data.video_2 && data.video_2.id && data.video_2.id != -1) {
             $('#carouselVideo').find('.carousel-item').last().removeClass('d-none');
-            $(exsCard).find('.video-value[name="video2"]').val(data.video_data[1]);
-            RenderVideo(data.video_data[1], $(exsCard).find('.video-value[name="video2"]'), window.videoPlayerCard2);
+            $(exsCard).find('.video-value[name="video2"]').val(data.video_2.id);
+            RenderVideo(data.video_2.id, $(exsCard).find('.video-value[name="video2"]'), window.videoPlayerCard2);
         } else {
             $('#carouselVideo').find('.carousel-item').last().addClass('d-none');
             $('#carouselVideo').find('.carousel-indicators > li').last().addClass('d-none');
@@ -215,10 +216,10 @@ function RenderExerciseOne(data) {
             $('#carouselVideo').find('.carousel-control-next').addClass('d-none');
             $(exsCard).find('.video-value[name="video2"]').val('');
         }
-        if (data.animation_data.default[0] && data.animation_data.default[0] != -1) {
+        if (data.animation_1 && data.animation_1.id && data.animation_1.id != -1) {
             $('#carouselAnim').find('.carousel-item').first().removeClass('d-none');
-            $(exsCard).find('.video-value[name="animation1"]').val(data.animation_data.default[0]);
-            RenderVideo(data.animation_data.default[0], $(exsCard).find('.video-value[name="animation1"]'), window.videoPlayerCard3);
+            $(exsCard).find('.video-value[name="animation1"]').val(data.animation_1.id);
+            RenderVideo(data.animation_1.id, $(exsCard).find('.video-value[name="animation1"]'), window.videoPlayerCard3);
         } else {
             $('#carouselAnim').find('.carousel-item').first().addClass('d-none');
             $('#carouselAnim').find('.carousel-indicators > li').first().addClass('d-none');
@@ -226,10 +227,10 @@ function RenderExerciseOne(data) {
             $('#carouselAnim').find('.carousel-control-next').addClass('d-none');
             $(exsCard).find('.video-value[name="animation1"]').val('');
         }
-        if (data.animation_data.default[1] && data.animation_data.default[1] != -1) {
+        if (data.animation_2 && data.animation_2.id && data.animation_2.id != -1) {
             $('#carouselAnim').find('.carousel-item').last().removeClass('d-none');
-            $(exsCard).find('.video-value[name="animation2"]').val(data.animation_data.default[1]);
-            RenderVideo(data.animation_data.default[1], $(exsCard).find('.video-value[name="animation2"]'), window.videoPlayerCard4);
+            $(exsCard).find('.video-value[name="animation2"]').val(data.animation_2.id);
+            RenderVideo(data.animation_2.id, $(exsCard).find('.video-value[name="animation2"]'), window.videoPlayerCard4);
         } else {
             $('#carouselAnim').find('.carousel-item').last().addClass('d-none');
             $('#carouselAnim').find('.carousel-indicators > li').last().addClass('d-none');
@@ -684,6 +685,12 @@ function SetVideoId(value) {
     window.changedData = true;
 }
 
+function StopVideoForEdit() {
+    try {
+        window.videoPlayerCardEdit.pause();
+    } catch (e) {}
+}
+
 
 
 $(function() {
@@ -729,6 +736,7 @@ $(function() {
         $('#exerciseCard').find('button[data-type="add"]').removeClass('d-none');
 
         $('.scheme-editor').addClass('d-none');
+        StopVideoForEdit();
         $('.video-editor').addClass('d-none');
     });
     $('#exerciseCard').on('click', '#openDrawing1', (e) => {
@@ -749,6 +757,7 @@ $(function() {
             }, 100);
             $('.scheme-editor').removeClass('d-none');
         }
+        StopVideoForEdit();
         $('.video-editor').addClass('d-none');
     });
     $('#exerciseCard').on('click', '#openDrawing2', (e) => {
@@ -769,6 +778,7 @@ $(function() {
             }, 100);
             $('.scheme-editor').removeClass('d-none');
         }
+        StopVideoForEdit();
         $('.video-editor').addClass('d-none');
     });
     $('#exerciseCard').on('click', '#openVideo1', (e) => {
@@ -781,6 +791,7 @@ $(function() {
         $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
         $('.scheme-editor').addClass('d-none');
+        StopVideoForEdit();
         CheckSelectedRowInVideoTable();
         $('.video-editor').removeClass('d-none');
     });
@@ -794,6 +805,7 @@ $(function() {
         $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
         $('.scheme-editor').addClass('d-none');
+        StopVideoForEdit();
         CheckSelectedRowInVideoTable();
         $('.video-editor').removeClass('d-none');
     });
@@ -807,6 +819,7 @@ $(function() {
         $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
         $('.scheme-editor').addClass('d-none');
+        StopVideoForEdit();
         CheckSelectedRowInVideoTable();
         $('.video-editor').removeClass('d-none');
     });
@@ -820,6 +833,7 @@ $(function() {
         $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
         $('.scheme-editor').addClass('d-none');
+        StopVideoForEdit();
         CheckSelectedRowInVideoTable();
         $('.video-editor').removeClass('d-none');
     });
@@ -1004,44 +1018,47 @@ $(function() {
         ToggleExsDir(dir);
     });
 
+    try {
+        window.videoPlayerCardEdit = videojs('video-player-card-edit', {
+            preload: 'auto',
+            autoplay: false,
+            controls: true,
+            aspectRatio: '16:9',
+            youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
+        });
+    } catch (e) {}
 
-    window.videoPlayerCardEdit = videojs('video-player-card-edit', {
-        preload: 'auto',
-        autoplay: false,
-        controls: true,
-        aspectRatio: '16:9',
-        youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
-    });
-
-    window.videoPlayerCard1 = videojs('video-player-card-1', {
-        preload: 'auto',
-        autoplay: false,
-        controls: true,
-        aspectRatio: '16:9',
-        youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
-    });
-    window.videoPlayerCard2 = videojs('video-player-card-2', {
-        preload: 'auto',
-        autoplay: false,
-        controls: true,
-        aspectRatio: '16:9',
-        youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
-    });
-    window.videoPlayerCard3 = videojs('video-player-card-3', {
-        preload: 'auto',
-        autoplay: false,
-        controls: true,
-        aspectRatio: '16:9',
-        youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
-    });
-    window.videoPlayerCard4 = videojs('video-player-card-4', {
-        preload: 'auto',
-        autoplay: false,
-        controls: true,
-        aspectRatio: '16:9',
-        youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
-    });
-
+    try {
+        window.videoPlayerCard1 = videojs('video-player-card-1', {
+            preload: 'auto',
+            autoplay: false,
+            controls: true,
+            aspectRatio: '16:9',
+            youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
+        });
+        window.videoPlayerCard2 = videojs('video-player-card-2', {
+            preload: 'auto',
+            autoplay: false,
+            controls: true,
+            aspectRatio: '16:9',
+            youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
+        });
+        window.videoPlayerCard3 = videojs('video-player-card-3', {
+            preload: 'auto',
+            autoplay: false,
+            controls: true,
+            aspectRatio: '16:9',
+            youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
+        });
+        window.videoPlayerCard4 = videojs('video-player-card-4', {
+            preload: 'auto',
+            autoplay: false,
+            controls: true,
+            aspectRatio: '16:9',
+            youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
+        });
+    } catch (e) {}
+ 
 
     window.currentVideoId = -1;
     try {

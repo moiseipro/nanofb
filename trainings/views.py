@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from events.models import UserEvent
 from exercises.models import UserExercise
-from exercises.views import get_exercises_params
+from exercises.v_api import get_exercises_params
 from references.models import UserTeam, UserSeason, ClubTeam, ClubSeason
 from trainings.models import UserTraining, UserTrainingExercise
 

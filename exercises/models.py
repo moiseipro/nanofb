@@ -1,6 +1,7 @@
 from django.db import models
 from users.models import User
 from references.models import UserTeam, ClubTeam
+from video.models import Video
 
 
 class AbstractFolder(models.Model):
@@ -164,3 +165,14 @@ class UserExerciseParamTeam(models.Model):
     objects = models.Manager()
 
 
+
+class ExerciseVideo(models.Model):
+    exercise_user = models.ForeignKey(UserExercise, on_delete=models.CASCADE, null=True, blank=True)
+    exercise_club = models.ForeignKey(ClubExercise, on_delete=models.CASCADE, null=True, blank=True)
+    exercise_nfb = models.ForeignKey(AdminExercise, on_delete=models.CASCADE, null=True, blank=True)
+    video_1 = models.ForeignKey(Video, on_delete=models.CASCADE, null=True, blank=True, related_name="video_1")
+    video_2 = models.ForeignKey(Video, on_delete=models.CASCADE, null=True, blank=True, related_name="video_2")
+    animation_1 = models.ForeignKey(Video, on_delete=models.CASCADE, null=True, blank=True, related_name="animation_1")
+    animation_2 = models.ForeignKey(Video, on_delete=models.CASCADE, null=True, blank=True, related_name="animation_2")
+
+    objects = models.Manager()

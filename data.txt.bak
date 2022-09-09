@@ -1,0 +1,142 @@
+Remote MySQL:
+admin@nanofootball.ru
+jtT-Wq3-AbB-DJA
+
+
+https://www.youtube.com/watch?v=F5mRW0jo-U4
+
+https://www.youtube.com/watch?v=IZqBTPmxoew
+
+
+https://www.db4free.net/confirm.php?create=db7266d4ac68b8f6dd892a614df158bf#
+MySQL:
+db_nanofb_test
+nanofootball
+jtT-Wq3-AbB-DJA
+sasha.makeeff@gmail.com
+
+PHPmyadmin https://www.db4free.net/phpMyAdmin/:
+nanofootball
+jtT-Wq3-AbB-DJA
+
+
+Данные админа site/admin (login : password):
+alex : admin@admin // old
+admin@admin.ru : admin
+
+Пароль от всех тест акк-тов: tFMkcn9uLjMt7TC
+
+https://djangopackages.org/
+https://docs.djangoproject.com/en/4.0/search/?q=users
+
+
+
+https://testdriven.io/blog/django-custom-user-model/
+
+https://github.com/TheCaffeineDev/Real-Estate-Django-Web-App/tree/master/realtors
+
+
+---------------------------------------------------------
+http://nanofb.pythonanywhere.com/login/register
+---------------------------------------------------------
+https://www.pythonanywhere.com/
+Remote MySQL:
+admin@nanofootball.ru
+jtT-Wq3-AbB-DJA
+
+MySQL:
+db_nanofb_test
+nanofootball
+jtT-Wq3-AbB-DJA
+sasha.makeeff@gmail.com
+
+------------------------ VVVVVVV -----------
+MySQL2:
+https://remotemysql.com/phpmyadmin/
+0qdDyMGswv
+OMGOqEokUU
+
+
+------------------------ VVVVVVV ----------- // на beget, аккаунт nanofb
+MySQL3:
+nanofb.beget.tech
+nanofb_django_2
+nanofb_django_2
+OMGOqEokUU10
+
+
+Для теста Админ
+admin@admin.ru
+9AK-g9s-RnD-LYw
+
+SprintHost: // Не используется
+VPS
+nanofootball.com@gmail.com
+nanofb@2022proj
+HOST
+a0673468
+MqQ-dHc-d6Y-J93
+
+
+pythonanyware:
+sasha.makeeff@gmail.com
+nanofb
+aHb-gnh-Q6a-7MW
+
+Команды для работы с pythonanyware
+Чтобы попасть в корень каталог питона
+mkvirtualenv --python=/usr/bin/python3.9 nanofb-virtualenv
+Выход из корня
+deactivate
+
+Корень проекта откуда выполнять manage.py
+cd /home/nanofb/nanofb
+
+Перед коммитами в git менять в settings базу данных (она закомментирована)
+
+---------------------------------------------
+https://ruvds.com/
+( nanofootball@yandex.ru : NanoFootball2022 )
+IP:     91.245.227.74       
+* root    awYQZ1Dnoe
+
+Local MySQL:
+link:       http://91.245.227.74:8080/phpmyadmin/
+users:
+    root        m7dHwj2Hk2eZf5tq
+    nanofb      UKQXfQ5b5U
+    phpmyadmin  zB6AYb9wNv
+
+Putty / Обновление файлов с github:
+* nanofb  1HJkl9I7g4
+> cd django-apps/nanofb
+> git pull
+
+Перезагрузка сервера: --V--
+sudo supervisorctl restart nanofb
+
+sudo systemctl restart gunicorn
+sudo systemctl daemon-reload
+sudo systemctl restart nginx
+
+Обновление / установка пакетов для pip:
+. env/bin/activate
+pip ... / python ...
+
+
+---------------------------------------------
+help: https://www.digitalocean.com/community/tutorials/how-to-install-django-and-set-up-a-development-environment-on-ubuntu-20-04-ru
+---------------------------------------------
+
+
+---------------------------------------------
+https://gist.github.com/ricrogz/ec159b4dbafd97068df49044f66a3a4e
+---------------------------------------------
+
+
+
+------------------- API DESCRIPTION ---------------------
+
+
+
+---------------------------------------------------------
