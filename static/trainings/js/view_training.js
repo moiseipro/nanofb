@@ -85,7 +85,7 @@ function render_exercises_training(training_id = null, group = null) {
         $.each( exercises, function( key, exercise ) {
 
             card_html += `
-            <div class="col-4 py-2">
+            <div class="col-4 py-2" data-id="${exercise.id}">
                 <div id="carouselSchema-${key}" class="carousel slide carouselSchema" data-ride="carousel" data-interval="false">
                     <ol class="carousel-indicators">
                         <li data-target="#carouselSchema" data-slide-to="0" class="active"></li>
@@ -105,8 +105,11 @@ function render_exercises_training(training_id = null, group = null) {
                     </a>
                 </div>
                 <div class="row text-center">
-                    <div class="col-8 pr-0"><div class="w-100 border">${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : exercise.exercise_name.first()}</div></div>
-                    <div class="col-4 pl-0"><div class="w-100 border">${exercise.duration}</div></div>
+                    <div class="col-8 pr-0"><div class="w-100 border text-truncate">${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : exercise.exercise_name.first()}</div></div>
+                    <div class="col-1 px-0 edit-button ${!edit_mode ? 'd-none' : ''}">
+                        <button type="button" class="btn btn-sm btn-block btn-warning rounded-0 py-0 h-100 float-right add-exercise-data"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                    </div>
+                    <div class="col pl-0"><div class="w-100 border">${exercise.duration}</div></div>
                 </div>
             </div>
             `
@@ -237,6 +240,35 @@ function ajax_training_action(method, data, action = '', id = '', func = '') {
 function ajax_training_exercise_action(method, data, action = '', id = '', func = '') {
 
     let url = "/trainings/api/exercise/"
+    if(id !== '') url += `${id}/`
+    if(func !== '') url += `${func}/`
+
+    $('.page-loader-wrapper').fadeIn();
+
+    return $.ajax({
+            headers:{"X-CSRFToken": csrftoken },
+            url: url,
+            type: method,
+            dataType: "JSON",
+            data: data,
+            success: function(data){
+                console.log(data)
+                //swal(gettext('Training '+action), gettext('Exercise action "'+action+'" successfully!'), "success");
+            },
+            error: function(jqXHR, textStatus){
+                console.log(jqXHR)
+                swal(gettext('Training '+action), gettext('Error when action "'+action+'" the exercise!'), "error");
+            },
+            complete: function () {
+                $('.page-loader-wrapper').fadeOut();
+                set_sum_duration_group()
+            }
+        })
+}
+// На доработке
+function ajax_training_exercise_data_action(method, data, action = '', id = '', func = '') {
+
+    let url = "/trainings/api/exercise_data/"
     if(id !== '') url += `${id}/`
     if(func !== '') url += `${func}/`
 
