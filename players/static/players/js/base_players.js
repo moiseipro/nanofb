@@ -119,7 +119,7 @@ function RenderCardSections(data) {
                 if (header.visible && row.visible) {
                     sections1 += `
                         <div class="d-flex justify-content-center">
-                            <button type="button" class="btn btn-outline-primary btn-sm btn-block" data-id="${row.id}" data-text-id="${row.text_id}">
+                            <button type="button" class="btn btn-outline-primary btn-sm btn-block section-toggle" data-id="${row.id}" data-text-id="${row.text_id}">
                                 ${row.title}
                             </button>
                         </div>
@@ -141,6 +141,12 @@ function RenderCardSections(data) {
     }
     $('.card-sections').html(sections1);
     $('#cardSectionsEdit').find('.sections-body').html(sections2);
+
+    // Controlling of center content
+    $('.cnt-center-block').find('.center-content').fadeOut(0);
+    $('.card-sections').find('.section-toggle').removeClass('selected');
+    $('.cnt-center-block').find('.center-content[data-id="card"]').fadeIn(0);
+    $('.card-sections').find('.section-toggle[data-text-id="card"]').addClass('selected');
 }
 
 function ToggleFolderOrder(dir) {
@@ -478,6 +484,15 @@ $(function() {
                 $('.page-loader-wrapper').fadeOut();
             }
         });
+    });
+
+
+    $('.card-sections').on('click', '.section-toggle', (e) => {
+        let cId = $(e.currentTarget).attr('data-text-id');
+        $('.cnt-center-block').find('.center-content').fadeOut(250);
+        $('.card-sections').find('.section-toggle').removeClass('selected');
+        $('.cnt-center-block').find(`.center-content[data-id="${cId}"]`).fadeIn(250);
+        $('.card-sections').find(`.section-toggle[data-text-id="${cId}"]`).addClass('selected');
     });
 
 

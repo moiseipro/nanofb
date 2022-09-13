@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from users.models import User
-from references.models import UserSeason, UserTeam
-from players.models import UserPlayer, ClubPlayer, PlayerCard, CardSection
+from django.forms.models import model_to_dict
+from references.models import UserTeam
+from players.models import UserPlayer, ClubPlayer, CardSection, PlayerCard
 from references.models import PlayerTeamStatus, PlayerPlayerStatus, PlayerLevel, PlayerPosition, PlayerFoot
 from datetime import datetime
 import json
@@ -139,11 +139,9 @@ def POST_edit_player(request, cur_user, cur_team):
         res_data = f'Player with id: [{c_player.id}] is added / edited successfully.'
     except Exception as e:
         return JsonResponse({"err": "Can't edit or add the player.", "success": False}, status=200)
-    c_player_playercard = PlayerCard.objects.filter(player_user=c_player)
-    if not c_player_playercard.exists() or c_player_playercard[0].id == None:
-        c_player_playercard = PlayerCard(player_user=c_player, user=cur_user)
-    else:
-        c_player_playercard = c_player_playercard[0]
+    c_player_playercard = c_player.card
+    if not c_player_playercard or not c_player_playercard.id == None:
+        c_player_playercard = PlayerCard()
     c_player_playercard.citizenship = request.POST.get("data[citizenship]", None)
     c_player_playercard.club_from = request.POST.get("data[club_from]", None)
     c_player_playercard.growth = set_value_as_int(request, "data[growth]", None)
@@ -159,6 +157,8 @@ def POST_edit_player(request, cur_user, cur_team):
     c_player_playercard.leave = set_value_as_date(request, "data[leave]", None)
     try:
         c_player_playercard.save()
+        c_player.card = c_player_playercard
+        c_player.save()
         res_data += '\nAdded player card for player.'
     except:
         res_data += '\nErr while saving player card.'
@@ -227,11 +227,11 @@ def GET_get_player(request, cur_user, cur_team):
         res_data['team'] = player[0].team.id
         res_data['team_name'] = player[0].team.name
         res_data['photo'] = photo_url_convert(res_data['photo'])
-        player_card = PlayerCard.objects.filter(player_user=player[0].id, user=cur_user)
-        if player_card.exists() and player_card[0].id != None:
-            player_card = player_card.values()[0]
+        if player[0].card and player[0].card.id != None:
+            player_card = model_to_dict(player[0].card)
             for key in player_card:
-                res_data[key] = player_card[key]
+                if key != "id":
+                    res_data[key] = player_card[key]
         return JsonResponse({"data": res_data, "success": True}, status=200)
     return JsonResponse({"errors": "Player not found.", "success": False}, status=400)
 
