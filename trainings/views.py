@@ -11,10 +11,11 @@ from events.models import UserEvent
 from exercises.models import UserExercise
 from exercises.v_api import get_exercises_params
 from references.models import UserTeam, UserSeason, ClubTeam, ClubSeason
-from trainings.models import UserTraining, UserTrainingExercise
+from trainings.models import UserTraining, UserTrainingExercise, TrainingExerciseAdditionalData
 
 # REST FRAMEWORK
-from trainings.serializers import UserTrainingSerializer, UserTrainingExerciseSerializer
+from trainings.serializers import UserTrainingSerializer, UserTrainingExerciseSerializer, \
+    TrainingExerciseAdditionalDataSerializer
 from users.models import User
 
 
@@ -116,6 +117,94 @@ class TrainingViewSet(viewsets.ModelViewSet):
 class TrainingExerciseViewSet(viewsets.ModelViewSet):
     queryset = UserTrainingExercise.objects.all()
     serializer_class = UserTrainingExerciseSerializer
+    permission_classes = [IsAuthenticated]
+
+    @action(detail=True, methods=['get'])
+    def get_data(self, request, pk=None):
+        group = request.query_params.get('group')
+        print(group)
+        if group:
+            queryset = UserTrainingExercise.objects.filter(training_id=pk, group=group)
+        else:
+            queryset = UserTrainingExercise.objects.filter(training_id=pk)
+
+        serializer = UserTrainingExerciseSerializer(queryset, many=True)
+        return Response({'status': 'exercise_got', 'objs': serializer.data})
+
+    @action(detail=True, methods=['post'])
+    def add_data(self, request, pk=None):
+        data = request.data
+
+        exercise_count = UserTrainingExercise.objects.filter(training_id=pk, group=data['group']).count()
+        print(exercise_count)
+        if exercise_count > 7:
+            return Response({'status': 'exercise_limit'})
+        data_dict = dict(
+            training_id=pk,
+            exercise_id=data['exercise_id'],
+            group=data['group'],
+            duration=data['duration'],
+            order=1
+        )
+        query_dict = QueryDict('', mutable=True)
+        query_dict.update(data_dict)
+
+        serializer = UserTrainingExerciseSerializer(
+            data=query_dict
+        )
+        # print(serializer)
+        if serializer.is_valid(raise_exception=True):
+            new_obj = serializer.save()
+            object_serialize = UserTrainingExerciseSerializer(new_obj).data
+            return Response({'status': 'exercise_added', 'obj': object_serialize})
+        else:
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=['put'])
+    def edit_data(self, request, pk=None):
+        data = request.data
+        instance = self.get_object()
+        print(data)
+        edit_object = UserTrainingExercise.objects.filter(
+            pk=pk
+        )
+        print(edit_object)
+
+        data_dict = dict(
+            duration=data['duration'],
+            order=1
+        )
+        query_dict = QueryDict('', mutable=True)
+        query_dict.update(data_dict)
+
+        serializer = UserTrainingExerciseSerializer(
+            edit_object,
+            data=query_dict
+        )
+        # print(serializer)
+        if serializer.is_valid(raise_exception=True):
+            update_obj = serializer.save()
+            object_serialize = UserTrainingExerciseSerializer(update_obj).data
+            return Response({'status': 'exercise_updated', 'obj': object_serialize})
+        else:
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
+
+    def update(self, request, *args, **kwargs):
+        partial = True
+        instance = self.get_object()
+        print(request.data)
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        return Response(serializer.data)
+
+
+class TrainingExerciseAdditionalDataViewSet(viewsets.ModelViewSet):
+    queryset = TrainingExerciseAdditionalData.objects.all()
+    serializer_class = TrainingExerciseAdditionalDataSerializer
     permission_classes = [IsAuthenticated]
 
     def update(self, request, *args, **kwargs):

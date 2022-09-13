@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 from events.models import UserEvent, ClubEvent
 from exercises.models import UserExercise, ClubExercise
-from references.models import UserTeam, ClubTeam
+from references.models import UserTeam, ClubTeam, ExsAdditionalData
 from users.models import User
 
 
@@ -69,6 +69,18 @@ class ClubTraining(AbstractTraining):
     )
 
 
+class TrainingExerciseAdditionalData(models.Model):
+    additional_data_id = models.ForeignKey(
+        ExsAdditionalData,
+        on_delete=models.CASCADE
+    )
+    note = models.CharField(
+        max_length=255,
+        verbose_name=_('note'),
+        help_text=_('Note to the reference book'),
+    )
+
+
 class AbstractTrainingExercise(models.Model):
 
     class GroupType(models.IntegerChoices):
@@ -92,6 +104,11 @@ class AbstractTrainingExercise(models.Model):
         verbose_name=_('order'),
         help_text=_('Sorting index'),
         default=0
+    )
+    additional_data = models.ManyToManyField(
+        TrainingExerciseAdditionalData,
+        verbose_name=_('additional information'),
+        help_text=_('Additional information for the exercise in the training card'),
     )
 
     class Meta:

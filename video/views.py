@@ -111,6 +111,8 @@ class VideoViewSet(viewsets.ModelViewSet):
 
                     fs.delete(file_name)
                 elif 'second_screensaver' in data:
+                    if data['second_screensaver'] == '':
+                        data['second_screensaver'] = "1"
                     mp_encoder = MultipartEncoder(
                         fields={
                             'id': video_data['id'],
@@ -142,12 +144,12 @@ class VideoViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         music = False
         duration = '00:00:00'
+        instance = self.get_object().links
         if 'music' in self.request.data:
             music = True
-        if 'duration' in self.request.data and self.request.data['duration'] == '00:00:00':
-            instance = self.get_object().links
-            #print(serializer)
-            url = 'http://213.108.4.28/video/length/'+instance['nftv']
+        if 'duration' in self.request.data and self.request.data['duration'] == '00:00:00' and instance['nftv'] != '':
+            # print(serializer)
+            url = 'http://213.108.4.28/video/length/' + instance['nftv']
             try:
                 response = requests.get(url)
                 content = json.loads(response.content.decode('utf-8'))
@@ -171,9 +173,10 @@ class VideoViewSet(viewsets.ModelViewSet):
         if 'file_video' in request.FILES:
             is_delete = False
             server_id = None
-            #print(instance.links)
+            # print(instance.links)
             if 'nftv' in instance.links:
                 server_id = instance.links['nftv']
+            # print(server_id)
             if server_id:
                 url = 'http://213.108.4.28/api/remove_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
                 post_data = {
@@ -183,9 +186,12 @@ class VideoViewSet(viewsets.ModelViewSet):
                 }
                 response = requests.post(url, json=post_data, headers={'Content-Type': 'application/json'})
                 content = response.json()
-                #print(content)
+                # print(content)
                 video_data = content['data'][0]
-                is_delete = video_data['success'] or 'error' in video_data and video_data['error'] == 'not found by this ids'
+                is_delete = video_data['success'] or 'error' in video_data and video_data[
+                    'error'] == 'not found by this ids'
+            else:
+                is_delete = True
             if is_delete:
                 url = 'http://213.108.4.28/api/add_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
                 fs = FileSystemStorage()
@@ -199,11 +205,11 @@ class VideoViewSet(viewsets.ModelViewSet):
                             'user-file': (file_name, file, file_content_type)
                         }
                     )
-                    #print(mp_encoder)
+                    # print(mp_encoder)
                     response = requests.post(url, data=mp_encoder, headers={'Content-Type': mp_encoder.content_type})
                     content = response.json()
                     video_data = content['data'][0]
-                    #print(content)
+                    # print(content)
 
                 fs.delete(file_name)
 
@@ -231,6 +237,8 @@ class VideoViewSet(viewsets.ModelViewSet):
 
             fs.delete(file_name)
         elif 'second_screensaver' in data:
+            if data['second_screensaver'] == '':
+                data['second_screensaver'] = "1"
             mp_encoder = MultipartEncoder(
                 fields={
                     'id': data.links['nftv'],
@@ -316,7 +324,7 @@ class BaseVideoView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['sources'] = VideoSource.objects.all().annotate(videos=Count('video'))
         context['tags'] = Tag.objects.all()
-        #context['update_form'] = UpdateVideoForm()
+        # context['update_form'] = UpdateVideoForm()
         return context
 
 
@@ -382,7 +390,8 @@ def parse_video(request):
         return redirect("authorization:login")
 
     if request.method == "GET":
-        response = requests.get(f'https://nanofootball.kz/api/token/3F4AwFqWHk3GYGJuDRWh/') #?&folders[]="Z10"&folders[]="Z11"&folders[]="Z12"&folders[]="Z13"&folders[]="Z14"&folders[]="Z15"&folders[]="Z16"&folders[]="Z17"&folders[]="Z18"&folders[]="Z19"&folders[]="Z20"&folders[]="Z21"&folders[]="Z22"&folders[]="Z23"&folders[]="Z24"&folders[]="Z25"&folders[]="Z26"&folders[]="Z27"&folders[]="Z28"&folders[]="Z29"&folders[]="Z30"&folders[]="Z31"&folders[]="Z32"&folders[]="Z33"&folders[]="Z34"&folders[]="Z35"&folders[]="Z36"&folders[]="Z37"
+        response = requests.get(
+            f'https://nanofootball.kz/api/token/3F4AwFqWHk3GYGJuDRWh/')  # ?&folders[]="Z10"&folders[]="Z11"&folders[]="Z12"&folders[]="Z13"&folders[]="Z14"&folders[]="Z15"&folders[]="Z16"&folders[]="Z17"&folders[]="Z18"&folders[]="Z19"&folders[]="Z20"&folders[]="Z21"&folders[]="Z22"&folders[]="Z23"&folders[]="Z24"&folders[]="Z25"&folders[]="Z26"&folders[]="Z27"&folders[]="Z28"&folders[]="Z29"&folders[]="Z30"&folders[]="Z31"&folders[]="Z32"&folders[]="Z33"&folders[]="Z34"&folders[]="Z35"&folders[]="Z36"&folders[]="Z37"
         context_page['content'] = json.loads(response.content.decode('utf-8'))
         videos = []
         sources = []
@@ -433,7 +442,8 @@ def parse_video(request):
                                     links['youtube'] = n['video_id_youtube'][i]
                                 if links['nftv'] != '' or links['youtube'] != '':
                                     videos.append(Video(name=n['name'] if n['name'] else 'No name', old_id=n['id'],
-                                                        links=links, videosource_id=ss, duration=parse_duration(duration)))
+                                                        links=links, videosource_id=ss,
+                                                        duration=parse_duration(duration)))
                             break
             else:
                 if n['video_id'] is not None:

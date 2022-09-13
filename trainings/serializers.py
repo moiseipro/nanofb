@@ -1,10 +1,20 @@
 from rest_framework import serializers
 
 from exercises.serializers import UserExerciseSerializer
-from trainings.models import UserTraining, UserTrainingExercise
+from trainings.models import UserTraining, UserTrainingExercise, TrainingExerciseAdditionalData
 
 
 # Training
+class TrainingExerciseAdditionalDataSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = TrainingExerciseAdditionalData
+        fields = [
+            'id', 'additional_data_id', 'note'
+        ]
+
+
 class UserTrainingExerciseSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     exercise_name = serializers.JSONField(
