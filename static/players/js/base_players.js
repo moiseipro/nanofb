@@ -142,6 +142,7 @@ function RenderPlayersTableCols(data) {
                 break;
             }
         }
+        players_table.columns.adjust().draw();
     }
 }
 
