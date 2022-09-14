@@ -239,7 +239,13 @@ $(function() {
     });
 
     // Table columns Settings
-    LoadPlayersTableCols();
+    let firstAjaxLoadTable = true;
+    $('#players').on('xhr.dt', (e, settings, json, xhr) => {
+        if (firstAjaxLoadTable) {
+            LoadPlayersTableCols();
+            firstAjaxLoadTable = false;
+        }
+    });
     $('#toggleColumnsTable').on('click', (e) => {
         $('#playersTableColsEdit').modal('show');
     });
