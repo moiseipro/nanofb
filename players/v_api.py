@@ -1,8 +1,10 @@
+from re import search
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
+from django.db.models import Q
 from references.models import UserTeam
-from players.models import UserPlayer, ClubPlayer, CardSection, PlayerCard
+from players.models import UserPlayer, ClubPlayer, CardSection, PlayerCard, PlayersTableColumns
 from references.models import PlayerTeamStatus, PlayerPlayerStatus, PlayerLevel, PlayerPosition, PlayerFoot
 from datetime import datetime
 import json
@@ -214,6 +216,78 @@ def POST_edit_card_sections(request, cur_user):
     return JsonResponse({"data": res_data, "success": True}, status=200)
 
 
+def POST_edit_players_table_cols(request, cur_user):
+    post_data = request.POST.get("data", None)
+    try:
+        post_data = json.loads(post_data)
+    except:
+        post_data = None
+    if not post_data:
+        return JsonResponse({"errors": "Can't parse post data"}, status=400)
+    res_data = ""
+    if cur_user.is_superuser:
+        for elem in post_data:
+            f_column = PlayersTableColumns.objects.filter(id=elem['id'])
+            if f_column.exists() and f_column[0].id != None:
+                f_column = f_column[0]
+                f_column.title = set_by_language_code(f_column.title, request.LANGUAGE_CODE, elem['title'])
+                f_column.text_id = elem['text_id']
+                f_column.order = elem['order']
+                f_column.visible = elem['visible']
+                try:
+                    f_column.save()
+                    res_data += f'Section with id: [{f_column.id}] is edited successfully.'
+                except Exception as e:
+                    res_data += f"Err. Cant edit section with id: [{elem['id']}]."
+    else:
+        pass
+    return JsonResponse({"data": res_data, "success": True}, status=200)
+
+
+def POST_add_delete_players_table_cols(request, cur_user, to_add = True):
+    col_id = -1
+    parent = -1
+    post_data = request.POST.get("data", None)
+    try:
+        col_id = int(request.POST.get("id", -1))
+    except:
+        pass
+    try:
+        parent = int(request.POST.get("parent", -1))
+    except:
+        pass
+    res_data = ""
+    if cur_user.is_superuser:
+        if to_add:
+            found_col = PlayersTableColumns.objects.filter(id=parent, parent=None)
+            new_col = None
+            if found_col.exists() and found_col[0].id != None:
+                new_col = PlayersTableColumns(parent=parent)
+            else:
+                new_col = PlayersTableColumns()
+            try:
+                new_col.save()
+                res_data += f'New column added.'
+            except:
+                return JsonResponse({"errors": "Can't save new column", "success": False}, status=400)
+        else:
+            found_col = PlayersTableColumns.objects.filter(id=col_id)
+            if found_col.exists() and found_col[0].id != None:
+                try:
+                    found_col.delete()
+                    found_cols = PlayersTableColumns.objects.filter(parent=col_id)
+                    if found_cols.exists() and found_cols[0].id != None:
+                        for col in found_cols:
+                            col.delete()
+                except:
+                   return JsonResponse({"errors": "Can't delete column for delete.", "success": False}, status=400) 
+            else:
+                return JsonResponse({"errors": "Can't find column for delete.", "success": False}, status=400)
+    else:
+        pass
+    return JsonResponse({"data": res_data, "success": True}, status=200)
+
+
 def GET_get_player(request, cur_user, cur_team):
     player_id = -1
     try:
@@ -236,6 +310,61 @@ def GET_get_player(request, cur_user, cur_team):
     return JsonResponse({"errors": "Player not found.", "success": False}, status=400)
 
 
+def GET_get_players_json(request, cur_user, cur_team):
+    c_start = 0
+    c_length = 10
+    try:
+        c_start = int(request.GET.get('start'))
+    except:
+        pass
+    try:
+        c_length = int(request.GET.get('length'))
+    except:
+        pass
+    columns = ['id', 'surname', 'name', 'patronymic', 'card__citizenship', 'team__name', 'card__club_from', 'card__growth', 'card__weight', 'card__game_num', 'card__birthsday', 'card__come', 'card__leave']
+    column_order_id = 0
+    column_order = 'id'
+    column_order_dir = ''
+    try:
+        column_order_id = int(request.GET.get('order[0][column]'))
+        column_order = columns[column_order_id]
+    except:
+        pass
+    try:
+        column_order_dir = request.GET.get('order[0][dir]')
+        column_order_dir = '-' if column_order_dir == "desc" else ''
+    except:
+        pass
+    search_val = ''
+    try:
+        search_val = request.GET.get('search[value]')
+    except:
+        pass
+    players_data = []
+    players = UserPlayer.objects.filter(user=cur_user, team=cur_team)
+    if search_val and search_val != "":
+        players = players.filter(Q(surname__istartswith=search_val) | Q(name__istartswith=search_val) | Q(patronymic__istartswith=search_val) | Q(card__citizenship__istartswith=search_val) | Q(team__name__istartswith=search_val) | Q(card__club_from__istartswith=search_val))
+    players = players.order_by(f'{column_order_dir}{column_order}')[c_start:(c_start+c_length)]
+    for _i, player in enumerate(players):
+        player_data = {
+            'id': player.id,
+            'surname': player.surname,
+            'name': player.name,
+            'patronymic': player.patronymic,
+            'citizenship': player.card.citizenship if player.card else "",
+            'team': player.team.name if player.team else "",
+            'club_from': player.card.club_from if player.card else "",
+            'growth': player.card.growth if player.card else "",
+            'weight': player.card.weight if player.card else "",
+            'game_num': player.card.game_num if player.card else "",
+            'birthsday': player.card.birthsday if player.card else "",
+            'come': player.card.come if player.card else "",
+            'leave': player.card.leave if player.card else ""
+        }
+        players_data.append(player_data)
+    return JsonResponse({"data": players_data, "success": True}, status=200)
+
+
 def GET_get_card_sections(request, cur_user):
     res_data = {'sections': [], 'user_params': [], 'mode': "nfb" if cur_user.is_superuser else "user"}
     sections = CardSection.objects.filter()
@@ -245,4 +374,13 @@ def GET_get_card_sections(request, cur_user):
     res_data["sections"] = sections
     return JsonResponse({"data": res_data, "success": True}, status=200)
 
+
+def GET_get_players_table_cols(request, cur_user):
+    res_data = {'columns': [], 'user_params': [], 'mode': "nfb" if cur_user.is_superuser else "user"}
+    columns = PlayersTableColumns.objects.filter()
+    columns = [entry for entry in columns.values()]
+    for column in columns:
+        column['title'] = get_by_language_code(column['title'], request.LANGUAGE_CODE)
+    res_data["columns"] = columns
+    return JsonResponse({"data": res_data, "success": True}, status=200)
 

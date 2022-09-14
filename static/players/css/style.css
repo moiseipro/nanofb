@@ -81,3 +81,14 @@
     background-color: #b1d0e3 !important;
 }
 
+
+
+.column-elem:hover {
+    background-color: rgb(240, 240, 240);
+    border: 2px solid rgb(100, 100, 100) !important;
+}
+.column-elem.selected {
+    background-color: #d4d4d4;
+    color: #5a6268;
+    border: 2px solid rgb(100, 100, 100) !important;
+}

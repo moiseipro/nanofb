@@ -4,5 +4,6 @@ from players import views
 
 urlpatterns = [
     path('', views.players, name="players"),
-    path('players_api', views.players_api, name="players_api"),
+    path('player', views.player, name="player"),
+    path('players_api', views.players_api, name="players_api")
 ]

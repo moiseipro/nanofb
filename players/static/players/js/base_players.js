@@ -1,52 +1,50 @@
-let cPlayerData = {};
-function LoadPlayerOne(id = null) {
-    let data = {'get_player': 1, 'id': id};
-        $('.page-loader-wrapper').fadeIn();
-        $.ajax({
-            headers:{"X-CSRFToken": csrftoken},
-            data: data,
-            type: 'GET', // GET или POST
-            dataType: 'json',
-            url: "/players/players_api",
-            success: function (res) {
-                if (res.success) {
-                    cPlayerData = res.data;
-                } else {
-                    cPlayerData = {};
-                }
-            },
-            error: function (res) {
-                cPlayerData = {};
-                console.log(res);
-            },
-            complete: function (res) {
-                $('.page-loader-wrapper').fadeOut();
-                RenderPlayerOne(cPlayerData);
-            }
-        });
-}
+let players_table
 
-function RenderPlayerOne(data = {}) {
-    console.log(data)
-
-    $('.cnt-center-block').find('.form-control').prop('disabled', true);
-    $('.cnt-center-block').find('.form-control').removeClass('req-empty');
-
-    $('.cnt-center-block').find('[name="surname"]').val(data.surname);
-    $('.cnt-center-block').find('[name="name"]').val(data.name);
-    $('.cnt-center-block').find('[name="patronymic"]').val(data.patronymic);
-    $('.cnt-center-block').find('.img-photo').attr('src', data.photo ? data.photo : '#');
-
-    $('.cnt-center-block').find('.edit-field').each((ind, elem) => {
-        let key = $(elem).attr('name');
-        $(elem).val(data[key] ? data[key] : "");
+function GeneratePlayersTable(scroll_y = '') {
+    players_table = $('#players').DataTable({
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
+        },
+        dom: "<'row'<'col-sm-12 col-md '><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
+             "<'row'<'col-sm-12'tr>>" +
+             "<'row'<'col-sm-12 col-md-5'l><'col-sm-12 col-md-7'p>>",
+        serverSide: true,
+        processing: true,
+        select: true,
+        scrollY: scroll_y,
+        drawCallback: function( settings ) {
+            //console.log(settings)
+            // $('#video-table-counter').text(settings._iRecordsDisplay)
+        },
+        columnDefs: [
+            { "searchable": false, "orderable": false, "targets": 0 }
+        ],
+        ajax: {
+            url:'players_api',
+            data: {'get_players_json': 1},
+        },
+        columns: [
+            {'data': 'id', 'name': 'id', render: function (data, type, row, meta) {
+                return meta.row + meta.settings._iDisplayStart + 1;
+            }},
+            {'data': 'surname', 'name': 'surname'},
+            {'data': 'name', 'name': 'name'},
+            {'data': 'patronymic', 'name': 'patronymic'},
+            {'data': 'citizenship', 'name': 'card__citizenship'},
+            {'data': 'team', 'name': 'team__name'},
+            {'data': 'club_from', 'name': 'card__club_from'},
+            {'data': 'growth', 'name': 'card__growth'},
+            {'data': 'weight', 'name': 'card__weight'},
+            {'data': 'game_num', 'name': 'card__game_num'},
+            {'data': 'birthsday', 'name': 'card__birthsday'},
+            {'data': 'come', 'name': 'card__come'},
+            {'data': 'leave', 'name': 'card__leave'}
+        ],
     });
-
 }
 
-
-function LoadCardSections() {
-    let data = {'get_card_sections': 1};
+function LoadPlayersTableCols() {
+    let data = {'get_players_table_cols': 1};
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
         headers:{"X-CSRFToken": csrftoken},
@@ -57,56 +55,50 @@ function LoadCardSections() {
         success: function (res) {
             if (res.success) {
                 console.log(res.data)
-                window.cardSettings = res.data;
+                window.playersTableSettings = res.data;
             } else {
-                window.cardSettings = {};
+                window.playersTableSettings = {};
             }
         },
         error: function (res) {
-            window.cardSettings = {};
+            window.playersTableSettings = {};
             console.log(res);
         },
         complete: function (res) {
             $('.page-loader-wrapper').fadeOut();
-            if (!window.cardSettings.mode || window.cardSettings.mode != "nfb") {
-                $('#cardSectionsEdit').find('.btns-control').html();
+            if (!window.playersTableSettings.mode || window.playersTableSettings.mode != "nfb") {
+                $('#playersTableColsEdit').find('.btns-control').html();
             }
-            RenderCardSections(window.cardSettings);
+            RenderPlayersTableCols(window.playersTableSettings);
         }
     });
 }
 
-function RenderCardSections(data) {
+function RenderPlayersTableCols(data) {
     let headers = [], rows = {};
-    for (let i = 0; i < data.sections.length; i++) {
-        let section = data.sections[i];
-        if (section.parent == null) {
-            headers.push(section);
+    for (let i = 0; i < data.columns.length; i++) {
+        let column = data.columns[i];
+        if (column.parent == null) {
+            headers.push(column);
         } else {
-            if (rows[section.parent] && Array.isArray(rows[section.parent])) {
-                rows[section.parent].push(section);
+            if (rows[column.parent] && Array.isArray(rows[column.parent])) {
+                rows[column.parent].push(column);
             } else {
-                rows[section.parent] = [section];
+                rows[column.parent] = [column];
             }
         }
     }
-    let sections1 = "", sections2 = "";
+    let columns1 = "";
     for (let i = 0; i < headers.length; i++) {
         let header = headers[i];
-        if (header.visible) {
-            sections1 += `
-                <div class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-primary btn-sm btn-block" data-id="${header.id}">
-                        ${header.title}
-                    </button>
-                </div>
-            `;
-        }
-        sections2 += `
-            <tr class="section-elem" data-id="${header.id}" data-parent="${header.parent}" data-root="1">
+        columns1 += `
+            <tr class="column-elem" data-id="${header.id}" data-parent="${header.parent}" data-root="1">
                 <td class=""></td>
                 <td class="">
                     <input name="title" class="form-control form-control-sm" type="text" value="${header.title}" placeholder="" autocomplete="off" disabled="">
+                </td>
+                <td class="">
+                    <input name="text_id" class="form-control form-control-sm" type="text" value="${header.text_id ? header.text_id : ""}" placeholder="" autocomplete="off" disabled="">
                 </td>
                 <td class="text-center">
                     <input type="checkbox" class="form-check-input" name="visible" ${header.visible == true ? 'checked' : ''}>
@@ -116,20 +108,14 @@ function RenderCardSections(data) {
         if (rows[header.id] && Array.isArray(rows[header.id])) {
             for (let j = 0; j < rows[header.id].length; j++) {
                 let row = rows[header.id][j];
-                if (header.visible && row.visible) {
-                    sections1 += `
-                        <div class="d-flex justify-content-center">
-                            <button type="button" class="btn btn-outline-primary btn-sm btn-block section-toggle" data-id="${row.id}" data-text-id="${row.text_id}">
-                                ${row.title}
-                            </button>
-                        </div>
-                    `;
-                }
-                sections2 += `
-                    <tr class="section-elem" data-id="${row.id}" data-parent="${row.parent}" data-root="0">
+                columns1 += `
+                    <tr class="column-elem" data-id="${row.id}" data-parent="${row.parent}" data-root="0">
                         <td class=""></td>
                         <td class="">
                             <input name="title" class="form-control form-control-sm w-75 ml-5" type="text" value="${row.title}" placeholder="" autocomplete="off" disabled="">
+                        </td>
+                        <td class="">
+                            <input name="text_id" class="form-control form-control-sm" type="text" value="${row.text_id ? row.text_id : ""}" placeholder="" autocomplete="off" disabled="">
                         </td>
                         <td class="text-center">
                             <input type="checkbox" class="form-check-input" name="visible" ${row.visible == true ? 'checked' : ''}>
@@ -139,27 +125,36 @@ function RenderCardSections(data) {
             }
         }
     }
-    $('.card-sections').html(sections1);
-    $('#cardSectionsEdit').find('.sections-body').html(sections2);
+    $('#playersTableColsEdit').find('.columns-body').html(columns1);
 
-    // Controlling of center content
-    $('.cnt-center-block').find('.center-content').fadeOut(0);
-    $('.card-sections').find('.section-toggle').removeClass('selected');
-    $('.cnt-center-block').find('.center-content[data-id="card"]').fadeIn(0);
-    $('.card-sections').find('.section-toggle[data-text-id="card"]').addClass('selected');
+    if ($.fn.DataTable.isDataTable('#players')) {
+        for (let i = 0; i < headers.length; i++) {
+            let header = headers[i];
+            if (header.visible) {
+                players_table.columns().visible(false);
+                if (rows[header.id] && Array.isArray(rows[header.id])) {
+                    for (let j = 0; j < rows[header.id].length; j++) {
+                        let row = rows[header.id][j];
+                        players_table.column(`${row.text_id}:name`).visible(row.visible);
+                    }
+                }
+                break;
+            }
+        }
+    }
 }
 
-function ToggleFolderOrder(dir) {
-    let activeElem = $('#cardSectionsEdit').find(`.section-elem.selected`);
+function ToggleColumnOrder(dir) {
+    let activeElem = $('#playersTableColsEdit').find(`.column-elem.selected`);
     if (activeElem.length > 0) {
         let cID = $(activeElem).attr('data-id');
         let cParentID = $(activeElem).attr('data-parent');
         let isRoot = $(activeElem).attr('data-root');
         if (isRoot == '1') {
-            let elems = $('#cardSectionsEdit').find(`.section-elem[data-root="1"]`);
+            let elems = $('#playersTableColsEdit').find(`.column-elem[data-root="1"]`);
             let tFirst = null; let tLast = null; let newInd = 0;
-            let children = $('#cardSectionsEdit').find(`.section-elem[data-root="0"]`);
-            $('#cardSectionsEdit').find(`.section-elem[data-root="0"]`).remove();
+            let children = $('#playersTableColsEdit').find(`.column-elem[data-root="0"]`);
+            $('#playersTableColsEdit').find(`.column-elem[data-root="0"]`).remove();
             for (let i = 0; i < elems.length; i++) {
                 if ($(elems[i]).attr('data-id') == cID) {
                     if (dir == "up") {
@@ -192,10 +187,10 @@ function ToggleFolderOrder(dir) {
                 let elem = children[i];
                 console.log(elem)
                 let parentId = $(elem).attr('data-parent');
-                $('#cardSectionsEdit').find(`.section-elem[data-id="${parentId}"]`).after(elem);
+                $('#playersTableColsEdit').find(`.column-elem[data-id="${parentId}"]`).after(elem);
             }
         } else {
-            let elems = $('#cardSectionsEdit').find(`.section-elem[data-parent="${cParentID}"]`);
+            let elems = $('#playersTableColsEdit').find(`.column-elem[data-parent="${cParentID}"]`);
             let tFirst = null; let tLast = null; let newInd = 0;
             for (let i = 0; i < elems.length; i++) {
                 if ($(elems[i]).attr('data-id') == cID) {
@@ -232,239 +227,43 @@ function ToggleFolderOrder(dir) {
 
 
 $(function() {
+    GeneratePlayersTable("calc(100vh - 350px)");
 
-
-    $('table#players').on('click', '.player-row', (e) => {
-        let cId = $(e.currentTarget).attr('data-id');
-        $('table#players').find('.player-row').removeClass('selected');
-        $(e.currentTarget).addClass('selected');
-        LoadPlayerOne(cId);
-    });
-
-
-    // Change Team
-    let cTeam = $('#select-team').find('option[selected=""]').text();
-    $('#currentTeam').text(cTeam);
-    let prevTeamVal = $('#select-team').find('option[selected=""]').prev().attr('value');
-    let isPrevTeam = prevTeamVal && prevTeamVal != "" ? true : false;
-    let nextTeamVal = $('#select-team').find('option[selected=""]').next().attr('value');
-    let isNextTeam = nextTeamVal && nextTeamVal != "" ? true : false;
-    $('#prevTeam').prop('disabled', !isPrevTeam);
-    $('#nextTeam').prop('disabled', !isNextTeam);
-    $('#prevTeam').on('click', (e) => {
-        let prevTeamVal = $('#select-team').find('option[selected=""]').prev().attr('value');
-        let isPrevTeam = prevTeamVal && prevTeamVal != "" ? true : false;
-        if (isPrevTeam) {
-            $('#select-team').val(prevTeamVal);
-            $('#select-team').change();
-        }
-    });
-    $('#nextTeam').on('click', (e) => {
-        let nextTeamVal = $('#select-team').find('option[selected=""]').next().attr('value');
-        let isNextTeam = nextTeamVal && nextTeamVal != "" ? true : false;
-        if (isNextTeam) {
-            $('#select-team').val(nextTeamVal);
-            $('#select-team').change();
+    $('#playerCard').on('click', (e) => {
+        let selectedRow = players_table.rows({selected: true}).data().toArray()[0];
+        let selectedId = selectedRow ? selectedRow.id : null;
+        if (selectedId) {
+            window.location.href = `/players/player?id=${selectedId}`;
         }
     });
 
-
-    $('.cnt-center-block').on('click', '.img-photo', (e) => {
-        if (window.editingMode == true) {
-            let tempClone = $(e.currentTarget).clone();
-            $('#showImgPhoto').find('.photo-block > div').html(tempClone);
-            $('#showImgPhoto').modal('show');
-        }
-    });
-    $('#showImgPhoto').on('change', '#fileImgPhoto', (e) => {
-        if ($(e.currentTarget)[0].files[0].size > 5097152) {
-            swal("Внимание", "Файл превыщает допустимый размер (> 5Mb).", "info");
-            $(e.currentTarget).val('');
-            return;
-        }
-        if ($(e.currentTarget)[0].files && $(e.currentTarget)[0].files[0]) {
-            let reader = new FileReader();
-            reader.onload = (e2) => {
-              $('#showImgPhoto').find('.img-photo').attr('src', e2.target.result);
-            };
-            reader.readAsDataURL($(e.currentTarget)[0].files[0]);
-        }
+    // Table columns Settings
+    LoadPlayersTableCols();
+    $('#toggleColumnsTable').on('click', (e) => {
+        $('#playersTableColsEdit').modal('show');
     });
 
-
-    window.editingMode = false;
-    RenderPlayerOne();
-    // Add player
-    $('#addPlayer').on('click', (e) => {
-        $('.b-add-off').addClass('d-none');
-        $('.b-add-on').removeClass('d-none');
-        $('table#players').find('.player-row').removeClass('selected');
-        RenderPlayerOne();
-        $('.cnt-center-block').find('.edit-field').prop('disabled', false);
-        window.editingMode = true;
-        $('#showImgPhoto').find('#fileImgPhoto').val('');
-    });
-
-    // Edit player
-    $('#editPlayer').on('click', (e) => {
-        if ($('table#players').find('.player-row.selected').length == 0) {return;}
-        $('.b-edit-off').addClass('d-none');
-        $('.b-edit-on').removeClass('d-none');
-        $('.cnt-center-block').find('.edit-field').prop('disabled', false);
-        window.editingMode = true;
-        $('#showImgPhoto').find('#fileImgPhoto').val('');
-    });
-
-    // Cancel editing or adding
-    $('#cancelPlayer').on('click', (e) => {
-        $('.b-add-on').addClass('d-none');
-        $('.b-edit-on').addClass('d-none');
-        $('.b-edit-off').removeClass('d-none');
-        let selectedRowId = $('table#players').find('.player-row.selected').attr('data-id');
-        if (selectedRowId) {LoadPlayerOne(selectedRowId);}
-        else {RenderPlayerOne();}
-        window.editingMode = false;
-    });
-
-    // Save Player
-    $('#savePlayer').on('click', (e) => {
-        let selectedRowId = $('table#players').find('.player-row.selected').attr('data-id');
-        let dataToSend = new FormData();
-        dataToSend.append('edit_player', 1);
-        dataToSend.append('id', selectedRowId);
-        let requiredErr = false;
-        $('.cnt-center-block').find('.edit-field').each((ind, elem) => {
-            if ($(elem).attr('required') && (!$(elem).val() || $(elem).val() == "")) {
-                requiredErr = true;
-                $(elem).addClass('req-empty');
-            }
-            if (!$(elem).hasClass('d-none') || true) {
-                let name = $(elem).attr('name');
-                dataToSend.append(`data[${name}]`, $(elem).val()); 
-            }
-        });
-        if ($('#showImgPhoto').find('#fileImgPhoto')[0].files[0]) {
-            dataToSend.append('filePhoto', $('#showImgPhoto').find('#fileImgPhoto')[0].files[0]);
-        }
-        if (requiredErr) {
-            swal("Внимание", "Не все обязательные поля заполнены.", "info");
-            return;
-        }
-        $('.page-loader-wrapper').fadeIn();
-        
-        $.ajax({
-            headers:{"X-CSRFToken": csrftoken},
-            data: dataToSend,
-            processData: false,
-            contentType: false,
-            type: 'POST', // GET или POST
-            dataType: 'json',
-            url: "players_api",
-            success: function (res) {
-                if (res.success) {
-                    swal("Готово", "Игрок успешно создан / изменён.", "success")
-                    .then((value) => {
-                        $('.page-loader-wrapper').fadeIn();
-                        window.location.reload();
-                    });
-                } else {
-                    swal("Ошибка", `При создании / изменении игрока произошла ошибка (${res.err}).`, "error");
-                }
-            },
-            error: function (res) {
-                swal("Ошибка", "Игрока не удалось создать / изменить.", "error");
-                console.log(res);
-            },
-            complete: function (res) {
-                $('.page-loader-wrapper').fadeOut();
-            }
-        });
-    });
-    $('.cnt-center-block').on('click', '.edit-field', (e) => {
-        $(e.currentTarget).removeClass('req-empty');
-    });
-    $('.cnt-center-block').on('change', '.edit-field', (e) => {
-        let cVal = $(e.currentTarget).val();
-        if ($(e.currentTarget).attr('required')) {
-            $(e.currentTarget).toggleClass('req-empty', !(cVal && cVal != ""));
-        }
-    });
-
-    // Delete Player
-    $('#deletePlayer').on('click', (e) => {
-        swal({
-            title: "Вы точно хотите удалить игрока?",
-            text: "После удаления данного игрока невозможно будет восстановить!",
-            icon: "warning",
-            buttons: ["Отмена", "Подтвердить"],
-            dangerMode: true,
-        })
-        .then((willDelete) => {
-            if (willDelete) {
-                let selectedRowId = $('table#players').find('.player-row.selected').attr('data-id');
-                let data = {'delete_player': 1, 'id': selectedRowId};
-                $('.page-loader-wrapper').fadeIn();
-                $.ajax({
-                    headers:{"X-CSRFToken": csrftoken},
-                    data: data,
-                    type: 'POST', // GET или POST
-                    dataType: 'json',
-                    url: "players_api",
-                    success: function (res) {
-                        if (res.success) {
-                            swal("Готово", "Игрок успешно удалён.", "success")
-                            .then((value) => {
-                                $('.page-loader-wrapper').fadeIn();
-                                window.location.reload();
-                            });
-                        }
-                    },
-                    error: function (res) {
-                        swal("Ошибка", "Игрока удалить не удалось.", "error");
-                        console.log(res);
-                    },
-                    complete: function (res) {
-                        $('.page-loader-wrapper').fadeOut();
-                    }
-                });
-            }
-        });
-    });
-
-
-    // Section Settings
-    LoadCardSections();
-    $('#cardSettings').on('click', (e) => {
-        $('#cardSectionsEdit').modal('show');
-    });
-
-    // Edit sections
-    $('#cardSectionsEdit').on('click', '.section-elem', (e) => {
+    $('#playersTableColsEdit').on('click', '.column-elem', (e) => {
         let wasActive = $(e.currentTarget).hasClass('selected');
-        $('#cardSectionsEdit').find('.section-elem').removeClass('selected');
+        $('#playersTableColsEdit').find('.column-elem').removeClass('selected');
         $(e.currentTarget).toggleClass('selected', !wasActive);
     });
-    $('#cardSectionsEdit').on('click', '.section-up', (e) => {
-        ToggleFolderOrder("up");
+    $('#playersTableColsEdit').on('click', '.col-up', (e) => {
+        ToggleColumnOrder("up");
     });
-    $('#cardSectionsEdit').on('click', '.section-down', (e) => {
-        ToggleFolderOrder("down");
+    $('#playersTableColsEdit').on('click', '.col-down', (e) => {
+        ToggleColumnOrder("down");
     });
-    $('#cardSectionsEdit').on('click', '.section-edit', (e) => {
-        $('#cardSectionsEdit').find('input.form-control ').prop('disabled', false);
+    $('#playersTableColsEdit').on('click', '.col-edit', (e) => {
+        $('#playersTableColsEdit').find('input.form-control').prop('disabled', false);
     });
-    $('#cardSectionsEdit').on('click', '[name="save"]', (e) => {
-        let dataToSend = [];
-        $('#cardSectionsEdit').find('.section-elem').each((ind, elem) => {
-            let id = $(elem).attr('data-id');
-            let order = ind+1;
-            let title = $(elem).find('[name="title"]').val();
-            let visible = $(elem).find('[name="visible"]').is(':checked');
-            dataToSend.push({
-                id, order, title, visible
-            });
-        });
-        let data = {'edit_card_sections': 1, 'data': JSON.stringify(dataToSend)};
+    $('#playersTableColsEdit').on('click', '.col-add', (e) => {
+        let activeElem = $('#playersTableColsEdit').find(`.column-elem.selected`);
+        let parent = null;
+        if (activeElem.length > 0 && $(activeElem).first().attr('data-root') == '1') {
+            parent = $(activeElem).first().attr('data-id');
+        }
+        let data = {'add_players_table_cols': 1, 'parent': parent};
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
             headers:{"X-CSRFToken": csrftoken},
@@ -474,7 +273,7 @@ $(function() {
             url: "players_api",
             success: function (res) {
                 if (res.success) {
-                    LoadCardSections();
+                    LoadPlayersTableCols();
                 }
             },
             error: function (res) {
@@ -485,17 +284,65 @@ $(function() {
             }
         });
     });
-
-
-    $('.card-sections').on('click', '.section-toggle', (e) => {
-        let cId = $(e.currentTarget).attr('data-text-id');
-        $('.cnt-center-block').find('.center-content').fadeOut(250);
-        $('.card-sections').find('.section-toggle').removeClass('selected');
-        $('.cnt-center-block').find(`.center-content[data-id="${cId}"]`).fadeIn(250);
-        $('.card-sections').find(`.section-toggle[data-text-id="${cId}"]`).addClass('selected');
+    $('#playersTableColsEdit').on('click', '.col-delete', (e) => {
+        let activeElem = $('#playersTableColsEdit').find(`.column-elem.selected`);
+        if (activeElem.length > 0) {
+            let cId = $(activeElem).first().attr('data-id');
+            let data = {'delete_players_table_cols': 1, 'id': cId};
+            $('.page-loader-wrapper').fadeIn();
+            $.ajax({
+                headers:{"X-CSRFToken": csrftoken},
+                data: data,
+                type: 'POST', // GET или POST
+                dataType: 'json',
+                url: "players_api",
+                success: function (res) {
+                    if (res.success) {
+                        LoadPlayersTableCols();
+                    }
+                },
+                error: function (res) {
+                    console.log(res)
+                },
+                complete: function (res) {
+                    $('.page-loader-wrapper').fadeOut();
+                }
+            });
+        }
     });
-
-
+    $('#playersTableColsEdit').on('click', '[name="save"]', (e) => {
+        let dataToSend = [];
+        $('#playersTableColsEdit').find('.column-elem').each((ind, elem) => {
+            let id = $(elem).attr('data-id');
+            let order = ind+1;
+            let title = $(elem).find('[name="title"]').val();
+            let text_id = $(elem).find('[name="text_id"]').val();
+            let visible = $(elem).find('[name="visible"]').is(':checked');
+            dataToSend.push({
+                id, order, title, text_id, visible
+            });
+        });
+        let data = {'edit_players_table_cols': 1, 'data': JSON.stringify(dataToSend)};
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: data,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "players_api",
+            success: function (res) {
+                if (res.success) {
+                    LoadPlayersTableCols();
+                }
+            },
+            error: function (res) {
+                console.log(res)
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
+    });
 
     // Toggle left menu
     setTimeout(() => {
