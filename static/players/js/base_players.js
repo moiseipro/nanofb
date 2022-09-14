@@ -355,6 +355,9 @@ $(function() {
     // Toggle left menu
     setTimeout(() => {
         $('#toggle_btn').click();
+        try {
+            players_table.columns.adjust().draw();
+        } catch (e) {}
     }, 500);
 
 });
