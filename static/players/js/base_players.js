@@ -356,7 +356,9 @@ $(function() {
     setTimeout(() => {
         $('#toggle_btn').click();
         try {
-            players_table.columns.adjust().draw();
+            setTimeout(() => {
+                players_table.columns.adjust().draw();
+            }, 500);
         } catch (e) {}
     }, 500);
 
