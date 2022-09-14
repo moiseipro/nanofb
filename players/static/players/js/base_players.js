@@ -128,6 +128,7 @@ function RenderPlayersTableCols(data) {
     $('#playersTableColsEdit').find('.columns-body').html(columns1);
 
     if ($.fn.DataTable.isDataTable('#players')) {
+        players_table.columns().visible(true);
         for (let i = 0; i < headers.length; i++) {
             let header = headers[i];
             if (header.visible) {
