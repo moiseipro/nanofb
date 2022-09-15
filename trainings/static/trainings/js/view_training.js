@@ -69,18 +69,44 @@ $(window).on('load', function (){
 
         ajax_training_exercise_action('POST', send_data, 'load data', training_exercise_id, 'add_data').done(function (data) {
             console.log(data)
-            let additional = data.obj
-            if(data.status=="data_added"){
-                cur_block.find('.additional-data-block').append(`
-                <div class="row border-bottom exercise-additional-row" data-id="${additional.id}">
-                    <div class="col pr-0">${additional.additional_name[get_cur_lang()]}</div>
-                    <div class="col-sm-12 col-md-3 pl-0">
-                        <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 h-100 float-right delete-exercise-additional edit-button ${!edit_mode ? 'd-none' : ''}"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                    </div>
-                </div>
-                `)
-            }
+            render_exercises_additional_data(training_exercise_id)
         })
+    })
+
+    // Редактирование дополнительных данных в упражнении
+    $('#training-card').on('change', '.additional-data-block .edit-input', function (){
+        let cur_row = $(this).closest('.exercise-additional-row')
+        let exercise_additional_id = cur_row.attr('data-id')
+
+        let send_data = {}
+        send_data.additional_id = cur_row.find('[name="additional_id"]').val()
+        send_data.note = cur_row.find('[name="note"]').val()
+
+        ajax_training_exercise_data_action('PUT', send_data, 'update data', exercise_additional_id).done(function (data) {
+            console.log(data)
+            //render_exercises_additional_data(training_exercise_id)
+        })
+    })
+
+    // Удаление дополнительных данных в упражнении
+    $('#training-card').on('click', '.additional-data-block .delete-exercise-additional', function (){
+        let cur_row = $(this).closest('.exercise-additional-row')
+        let exercise_additional_id = cur_row.attr('data-id')
+
+        let send_data = {}
+        swal(gettext("Remove an additional data from an exercise?"), {
+            buttons: {
+                cancel: true,
+                confirm: true,
+            },
+        }).then(function(isConfirm) {
+            if (isConfirm) {
+                ajax_training_exercise_data_action('DELETE', send_data, 'delete data', exercise_additional_id).done(function (data) {
+                    console.log(data)
+                    cur_row.remove();
+                })
+            }
+        });
     })
 
     $('#save-training').on('click', function () {
@@ -101,28 +127,33 @@ function render_exercises_training(training_id = null, group = null) {
     let send_data = {}
     if(group != null) send_data.group = group
 
+
+
     ajax_training_action('GET', send_data, 'load', training_id, 'get_exercises').done(function (data) {
         let exercises = data.objs
 
         let card_html = ''
         let exs_html = ''
-
+        let select_html = ''
+        console.log(select_html)
         $.each( exercises, function( key, exercise ) {
 
-            let additional_html = ''
-            $.each( exercise.additional, function( key, additional ) {
-                additional_html += `
-                <div class="row exercise-additional-row" data-id="${additional.id}">
-                    <div class="col border pr-0">${additional.additional_name[get_cur_lang()]}</div>
-                    <div class="col-sm-12 col-md-3 border pl-0">
-                        <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 h-100 float-right delete-exercise-additional edit-button ${!edit_mode ? 'd-none' : ''}"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                    </div>
-                    <div class="col-sm-12 col-md-3 border pl-0">
-                        <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 h-100 float-right delete-exercise-additional edit-button ${!edit_mode ? 'd-none' : ''}"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                    </div>
-                </div>
-                `
-            })
+            // let additional_html = ''
+            // $.each( exercise.additional, function( key, additional ) {
+            //     additional_html += `
+            //     <div class="row exercise-additional-row" data-id="${additional.id}">
+            //         <div class="col border pr-0">
+            //             ${select_html}
+            //         </div>
+            //         <div class="col-sm-12 col-md-3 border pl-0">
+            //             <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 h-100 float-right delete-exercise-additional edit-button ${!edit_mode ? 'd-none' : ''}"><i class="fa fa-trash" aria-hidden="true"></i></button>
+            //         </div>
+            //         <div class="col-sm-12 col-md-3 border pl-0">
+            //             <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 h-100 float-right delete-exercise-additional edit-button ${!edit_mode ? 'd-none' : ''}"><i class="fa fa-trash" aria-hidden="true"></i></button>
+            //         </div>
+            //     </div>
+            //     `
+            // })
 
             card_html += `
             <div class="col-4 py-2 exercise-visual-block" data-id="${exercise.id}">
@@ -153,7 +184,7 @@ function render_exercises_training(training_id = null, group = null) {
                 </div>
                 <div class="row">
                     <div class="col-12 additional-data-block">
-                        ${additional_html}
+                        
                     </div>
                 </div>
             </div>
@@ -176,16 +207,61 @@ function render_exercises_training(training_id = null, group = null) {
         $('#card-scheme-block').html(card_html)
         $('#card-scheme-block .carouselSchema').carousel()
 
+        //Подгрузка дополнительных данных
+        $('#card-scheme-block .exercise-visual-block').each(function( index ) {
+            let exs_id = $(this).attr('data-id')
+            //console.log($(this))
+            render_exercises_additional_data(exs_id)
+        })
+
         set_count_exercises()
     })
 }
 
 // Выгрузить дополнительных данных из упрежнения в тренировке
-function render_exercises_additional_data(training_exercise_id = null, group = null) {
+function render_exercises_additional_data(training_exercise_id = null) {
     let send_data = {}
 
     ajax_training_exercise_action('GET', send_data, 'load data', training_exercise_id, 'get_data').done(function (data) {
+        console.log(data)
+        var select = ''
+        ajax_exercise_additional('GET').done(function (data_additional) {
+            let options = data_additional.results;
+            let option_html = ''
+            $.each( options, function( key, option ) {
+                option_html+=`
+                    <option value="${ option.id }">${ (get_cur_lang() in option.translation_names) ? option.translation_names[get_cur_lang()] : exercise.exercise_name.first() }</option>
+                `
+            })
+            select = `
+                <select class="select custom-select p-0 edit-input text-center" name="additional_id" tabindex="-1" aria-hidden="true" ${!edit_mode ? 'disabled' : ''} style="height: 25px;">
+                    ${ option_html }
+                </select>
+            `
+            let block = $('#card-scheme-block .exercise-visual-block[data-id="'+training_exercise_id+'"]')
+            block.find('.additional-data-block').html('')
+            let additional_html = ''
+            $.each( data.objs, function( key, additional ) {
+                additional_html = `
+                <div class="row exercise-additional-row" data-id="${additional.id}">
+                    <div class="col pr-0">
+                        ${select}
+                    </div>
+                    <div class="col-sm-12 col-md-4 px-0">
+                        <input type="text" name="note" class="form-control form-control-sm rounded-0 w-100 py-0 h-auto text-center edit-input" value="${additional.note ? additional.note:''}" ${!edit_mode ? 'disabled' : ''}>
+                    </div>
+                    <div class="col-sm-12 col-md-3 pl-0">
+                        <button type="button" class="btn btn-sm btn-block btn-danger rounded-0 py-0 h-100 float-right edit-input delete-exercise-additional" ${!edit_mode ? 'disabled' : ''}><i class="fa fa-trash" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+                `
+                block.find('.additional-data-block').append(additional_html)
+                block.find('.exercise-additional-row[data-id="'+additional.id+'"] select').val(additional.additional_id)
 
+            })
+
+            //$('#card-scheme-block .exercise-visual-block[data-id="'+training_exercise_id+'"] .additional-data-block').html(additional_html)
+        })
     })
 }
 

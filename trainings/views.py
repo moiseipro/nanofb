@@ -11,6 +11,7 @@ from events.models import UserEvent
 from exercises.models import UserExercise
 from exercises.v_api import get_exercises_params
 from references.models import UserTeam, UserSeason, ClubTeam, ClubSeason, ExsAdditionalData
+from references.serializers import ExsAdditionalDataSerializer
 from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExerciseAdditional
 
 # REST FRAMEWORK
@@ -121,7 +122,7 @@ class TrainingExerciseViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['get'])
     def get_data(self, request, pk=None):
-        queryset = UserTrainingExercise.objects.get(id=pk).additional.all()
+        queryset = UserTrainingExerciseAdditional.objects.filter(training_exercise_id=pk)
 
         serializer = UserTrainingExerciseAdditionalSerializer(queryset, many=True)
         return Response({'status': 'data_got', 'objs': serializer.data})
