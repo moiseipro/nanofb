@@ -58,6 +58,31 @@ $(window).on('load', function (){
         render_exercises_training(id, $(this).attr('data-group'))
     })
 
+    // Добавление дополнительных данных в тренировку
+    $('#training-card').on('click', '.add-exercise-additional', function (){
+        let cur_block = $(this).closest('.exercise-visual-block')
+        let training_exercise_id = cur_block.attr('data-id')
+
+        let send_data = {}
+        send_data.additional_id = 0
+        send_data.note = ''
+
+        ajax_training_exercise_action('POST', send_data, 'load data', training_exercise_id, 'add_data').done(function (data) {
+            console.log(data)
+            let additional = data.obj
+            if(data.status=="data_added"){
+                cur_block.find('.additional-data-block').append(`
+                <div class="row border-bottom exercise-additional-row" data-id="${additional.id}">
+                    <div class="col pr-0">${additional.additional_name[get_cur_lang()]}</div>
+                    <div class="col-sm-12 col-md-3 pl-0">
+                        <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 h-100 float-right delete-exercise-additional edit-button ${!edit_mode ? 'd-none' : ''}"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+                `)
+            }
+        })
+    })
+
     $('#save-training').on('click', function () {
         let date = $('#block-training-info input[name="date"]').val()
         let time = $('#block-training-info input[name="time"]').val()
@@ -84,8 +109,23 @@ function render_exercises_training(training_id = null, group = null) {
 
         $.each( exercises, function( key, exercise ) {
 
+            let additional_html = ''
+            $.each( exercise.additional, function( key, additional ) {
+                additional_html += `
+                <div class="row exercise-additional-row" data-id="${additional.id}">
+                    <div class="col border pr-0">${additional.additional_name[get_cur_lang()]}</div>
+                    <div class="col-sm-12 col-md-3 border pl-0">
+                        <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 h-100 float-right delete-exercise-additional edit-button ${!edit_mode ? 'd-none' : ''}"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                    </div>
+                    <div class="col-sm-12 col-md-3 border pl-0">
+                        <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 h-100 float-right delete-exercise-additional edit-button ${!edit_mode ? 'd-none' : ''}"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+                `
+            })
+
             card_html += `
-            <div class="col-4 py-2" data-id="${exercise.id}">
+            <div class="col-4 py-2 exercise-visual-block" data-id="${exercise.id}">
                 <div id="carouselSchema-${key}" class="carousel slide carouselSchema" data-ride="carousel" data-interval="false">
                     <ol class="carousel-indicators">
                         <li data-target="#carouselSchema" data-slide-to="0" class="active"></li>
@@ -107,9 +147,14 @@ function render_exercises_training(training_id = null, group = null) {
                 <div class="row text-center">
                     <div class="col-8 pr-0"><div class="w-100 border text-truncate">${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : exercise.exercise_name.first()}</div></div>
                     <div class="col-1 px-0 edit-button ${!edit_mode ? 'd-none' : ''}">
-                        <button type="button" class="btn btn-sm btn-block btn-warning rounded-0 py-0 h-100 float-right add-exercise-data"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        <button type="button" class="btn btn-sm btn-block btn-warning rounded-0 py-0 h-100 float-right add-exercise-additional"><i class="fa fa-plus" aria-hidden="true"></i></button>
                     </div>
                     <div class="col pl-0"><div class="w-100 border">${exercise.duration}</div></div>
+                </div>
+                <div class="row">
+                    <div class="col-12 additional-data-block">
+                        ${additional_html}
+                    </div>
                 </div>
             </div>
             `
@@ -132,6 +177,15 @@ function render_exercises_training(training_id = null, group = null) {
         $('#card-scheme-block .carouselSchema').carousel()
 
         set_count_exercises()
+    })
+}
+
+// Выгрузить дополнительных данных из упрежнения в тренировке
+function render_exercises_additional_data(training_exercise_id = null, group = null) {
+    let send_data = {}
+
+    ajax_training_exercise_action('GET', send_data, 'load data', training_exercise_id, 'get_data').done(function (data) {
+
     })
 }
 

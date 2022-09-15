@@ -69,18 +69,6 @@ class ClubTraining(AbstractTraining):
     )
 
 
-class TrainingExerciseAdditionalData(models.Model):
-    additional_data_id = models.ForeignKey(
-        ExsAdditionalData,
-        on_delete=models.CASCADE
-    )
-    note = models.CharField(
-        max_length=255,
-        verbose_name=_('note'),
-        help_text=_('Note to the reference book'),
-    )
-
-
 class AbstractTrainingExercise(models.Model):
 
     class GroupType(models.IntegerChoices):
@@ -105,11 +93,6 @@ class AbstractTrainingExercise(models.Model):
         help_text=_('Sorting index'),
         default=0
     )
-    additional_data = models.ManyToManyField(
-        TrainingExerciseAdditionalData,
-        verbose_name=_('additional information'),
-        help_text=_('Additional information for the exercise in the training card'),
-    )
 
     class Meta:
         abstract = True
@@ -125,6 +108,11 @@ class UserTrainingExercise(AbstractTrainingExercise):
         UserExercise,
         on_delete=models.CASCADE
     )
+    additional = models.ManyToManyField(
+        ExsAdditionalData,
+        through="UserTrainingExerciseAdditional",
+        through_fields=('training_exercise_id', 'additional_id')
+    )
 
 
 class ClubTrainingExercise(AbstractTrainingExercise):
@@ -135,4 +123,44 @@ class ClubTrainingExercise(AbstractTrainingExercise):
     exercise_id = models.ForeignKey(
         ClubExercise,
         on_delete=models.CASCADE
+    )
+    additional = models.ManyToManyField(
+        ExsAdditionalData,
+        through="ClubTrainingExerciseAdditional",
+        through_fields=('training_exercise_id', 'additional_id')
+    )
+
+
+class AbstractTrainingExerciseAdditional(models.Model):
+    note = models.CharField(
+        max_length=255,
+        verbose_name=_('note'),
+        help_text=_('Note to the reference book'),
+        blank=True,
+        null=True
+    )
+
+    class Meta:
+        abstract = True
+
+
+class UserTrainingExerciseAdditional(AbstractTrainingExerciseAdditional):
+    training_exercise_id = models.ForeignKey(
+        UserTrainingExercise,
+        on_delete=models.CASCADE
+    )
+    additional_id = models.ForeignKey(
+        ExsAdditionalData,
+        on_delete=models.CASCADE,
+    )
+
+
+class ClubTrainingExerciseAdditional(AbstractTrainingExerciseAdditional):
+    training_exercise_id = models.ForeignKey(
+        ClubTrainingExercise,
+        on_delete=models.CASCADE
+    )
+    additional_id = models.ForeignKey(
+        ExsAdditionalData,
+        on_delete=models.CASCADE,
     )
