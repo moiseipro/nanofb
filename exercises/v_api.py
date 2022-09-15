@@ -507,32 +507,40 @@ def POST_edit_exs(request, cur_user, cur_team):
             c_exs.animation_data['data']['default'] = [animation1_id, animation2_id]
         else:
             c_exs.animation_data = {'data': {'custom': "", 'default': [animation1_id, animation2_id]}}
-        video1_obj = check_video(video1_id)
-        video2_obj = check_video(video2_id)
-        animation1_obj = check_video(animation1_id)
-        animation2_obj = check_video(animation2_id)
-        if folder_type == FOLDER_TEAM:
-            video_exs, created = ExerciseVideo.objects.update_or_create(exercise_user=c_exs, defaults={
-                "video_1": video1_obj,
-                "video_2": video2_obj,
-                "animation_1": animation1_obj,
-                "animation_2": animation2_obj
-            })
-        elif folder_type == FOLDER_NFB:
-            video_exs, created = ExerciseVideo.objects.update_or_create(exercise_nfb=c_exs, defaults={
-                "video_1": video1_obj,
-                "video_2": video2_obj,
-                "animation_1": animation1_obj,
-                "animation_2": animation2_obj
-            })
-        elif folder_type == FOLDER_CLUB:
-            pass
     # c_exs.notes = set_by_language_code(c_exs.notes, request.LANGUAGE_CODE, request.POST.getlist("data[notes[]]", ""), request.POST.getlist("data[notes[]][]", ""))
     try:
         c_exs.save()
         res_data = f'Exs with id: [{c_exs.id}] is added / edited successfully.'
     except Exception as e:
         return JsonResponse({"err": "Can't edit the exs.", "success": False}, status=200)
+    
+    video1_obj = check_video(video1_id)
+    video2_obj = check_video(video2_id)
+    animation1_obj = check_video(animation1_id)
+    animation2_obj = check_video(animation2_id)
+    if folder_type == FOLDER_TEAM:
+        try:
+            video_exs, created = ExerciseVideo.objects.update_or_create(exercise_user=c_exs, defaults={
+                "video_1": video1_obj,
+                "video_2": video2_obj,
+                "animation_1": animation1_obj,
+                "animation_2": animation2_obj
+            })
+        except Exception as e:
+            res_data += f'Cant add link to <ExerciseVideo>.'
+    elif folder_type == FOLDER_NFB:
+        try:
+            video_exs, created = ExerciseVideo.objects.update_or_create(exercise_nfb=c_exs, defaults={
+                "video_1": video1_obj,
+                "video_2": video2_obj,
+                "animation_1": animation1_obj,
+                "animation_2": animation2_obj
+            })
+        except Exception as e:
+            res_data += f'Cant add link to <ExerciseVideo>.'
+    elif folder_type == FOLDER_CLUB:
+        pass
+
     if folder_type == FOLDER_TEAM:
         found_team = UserTeam.objects.filter(id=cur_team)
         if found_team.exists() and found_team[0].id != None:
