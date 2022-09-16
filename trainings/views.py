@@ -10,12 +10,13 @@ from rest_framework.permissions import IsAuthenticated
 from events.models import UserEvent
 from exercises.models import UserExercise
 from exercises.v_api import get_exercises_params
-from references.models import UserTeam, UserSeason, ClubTeam, ClubSeason
-from trainings.models import UserTraining, UserTrainingExercise, TrainingExerciseAdditionalData
+from references.models import UserTeam, UserSeason, ClubTeam, ClubSeason, ExsAdditionalData
+from references.serializers import ExsAdditionalDataSerializer
+from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExerciseAdditional
 
 # REST FRAMEWORK
 from trainings.serializers import UserTrainingSerializer, UserTrainingExerciseSerializer, \
-    TrainingExerciseAdditionalDataSerializer
+    UserTrainingExerciseAdditionalSerializer
 from users.models import User
 
 
@@ -121,42 +122,39 @@ class TrainingExerciseViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['get'])
     def get_data(self, request, pk=None):
-        group = request.query_params.get('group')
-        print(group)
-        if group:
-            queryset = UserTrainingExercise.objects.filter(training_id=pk, group=group)
-        else:
-            queryset = UserTrainingExercise.objects.filter(training_id=pk)
+        queryset = UserTrainingExerciseAdditional.objects.filter(training_exercise_id=pk)
 
-        serializer = UserTrainingExerciseSerializer(queryset, many=True)
-        return Response({'status': 'exercise_got', 'objs': serializer.data})
+        serializer = UserTrainingExerciseAdditionalSerializer(queryset, many=True)
+        return Response({'status': 'data_got', 'objs': serializer.data})
 
     @action(detail=True, methods=['post'])
     def add_data(self, request, pk=None):
         data = request.data
 
-        exercise_count = UserTrainingExercise.objects.filter(training_id=pk, group=data['group']).count()
-        print(exercise_count)
-        if exercise_count > 7:
-            return Response({'status': 'exercise_limit'})
+        training_exercise = UserTrainingExercise.objects.get(id=pk)
+        data_count = training_exercise.additional.all().count()
+        additional = ExsAdditionalData.objects.all().first().pk
+        print(data_count)
+        print(pk)
+        if data_count > 5:
+            return Response({'status': 'data_limit'})
         data_dict = dict(
-            training_id=pk,
-            exercise_id=data['exercise_id'],
-            group=data['group'],
-            duration=data['duration'],
-            order=1
+            training_exercise_id=pk,
+            additional_id=additional,
+            note=None
         )
         query_dict = QueryDict('', mutable=True)
         query_dict.update(data_dict)
 
-        serializer = UserTrainingExerciseSerializer(
+        serializer = UserTrainingExerciseAdditionalSerializer(
             data=query_dict
         )
-        # print(serializer)
+        print(serializer)
         if serializer.is_valid(raise_exception=True):
+            print(serializer.validated_data)
             new_obj = serializer.save()
-            object_serialize = UserTrainingExerciseSerializer(new_obj).data
-            return Response({'status': 'exercise_added', 'obj': object_serialize})
+            object_serialize = UserTrainingExerciseAdditionalSerializer(new_obj).data
+            return Response({'status': 'data_added', 'obj': object_serialize})
         else:
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
@@ -202,9 +200,9 @@ class TrainingExerciseViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-class TrainingExerciseAdditionalDataViewSet(viewsets.ModelViewSet):
-    queryset = TrainingExerciseAdditionalData.objects.all()
-    serializer_class = TrainingExerciseAdditionalDataSerializer
+class TrainingExerciseAdditionalViewSet(viewsets.ModelViewSet):
+    queryset = UserTrainingExerciseAdditional.objects.all()
+    serializer_class = UserTrainingExerciseAdditionalSerializer
     permission_classes = [IsAuthenticated]
 
     def update(self, request, *args, **kwargs):

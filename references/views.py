@@ -5,8 +5,8 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
 from references.forms import CreateTeamForm, CreateSeasonForm
-from references.models import UserSeason, UserTeam, ClubSeason, ClubTeam
-from references.serializers import UserTeamsSerializer, UserSeasonsSerializer
+from references.models import UserSeason, UserTeam, ClubSeason, ClubTeam, ExsAdditionalData
+from references.serializers import UserTeamsSerializer, UserSeasonsSerializer, ExsAdditionalDataSerializer
 
 
 # REST FRAMEWORK
@@ -40,6 +40,21 @@ class SeasonViewSet(viewsets.ModelViewSet):
         return UserSeason.objects.filter(user_id=self.request.user)
 
 
+class ExsAdditionalViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(user_id=self.request.user)
+
+    def get_serializer_class(self):
+        if self.action == 'partial_update':
+            return ExsAdditionalDataSerializer
+        return ExsAdditionalDataSerializer
+
+    def get_queryset(self):
+        return ExsAdditionalData.objects.all()
+
+
 # DJANGO
 class SettingsView(TemplateView):
     template_name = 'references/base_settings.html'
@@ -58,7 +73,7 @@ class SettingsView(TemplateView):
 def change_season(request):
     if request.method == "POST":
         if request.POST['season_value'] is None:
-            request.session['season'] = UserSeason.objects.filter(user_id=request.user).first().id
+            request.session['season'] = str(UserSeason.objects.filter(user_id=request.user).first().id)
         else:
             request.session['season'] = request.POST['season_value']
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

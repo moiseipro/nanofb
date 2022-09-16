@@ -1,17 +1,22 @@
 from rest_framework import serializers
 
 from exercises.serializers import UserExerciseSerializer
-from trainings.models import UserTraining, UserTrainingExercise, TrainingExerciseAdditionalData
+from references.serializers import ExsAdditionalDataSerializer
+from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExerciseAdditional
 
 
 # Training
-class TrainingExerciseAdditionalDataSerializer(serializers.ModelSerializer):
+class UserTrainingExerciseAdditionalSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
+    additional_name = serializers.JSONField(
+        source="additional_id.translation_names",
+        read_only=True
+    )
 
     class Meta:
-        model = TrainingExerciseAdditionalData
+        model = UserTrainingExerciseAdditional
         fields = [
-            'id', 'additional_data_id', 'note'
+            'id', 'additional_name', 'training_exercise_id', 'additional_id', 'note'
         ]
 
 
@@ -25,11 +30,16 @@ class UserTrainingExerciseSerializer(serializers.ModelSerializer):
         source="exercise_id.scheme_data",
         read_only=True
     )
+    additional = UserTrainingExerciseAdditionalSerializer(
+        read_only=True,
+        source="usertrainingexerciseadditional_set",
+        many=True
+    )
 
     class Meta:
         model = UserTrainingExercise
         fields = [
-            'id', 'training_id', 'exercise_id', 'exercise_name', 'exercise_scheme', 'group', 'duration', 'order'
+            'id', 'training_id', 'exercise_id', 'exercise_name', 'additional', 'exercise_scheme', 'group', 'duration', 'order'
         ]
 
 
