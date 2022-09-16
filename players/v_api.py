@@ -204,6 +204,7 @@ def POST_edit_card_sections(request, cur_user):
             if f_section.exists() and f_section[0].id != None:
                 f_section = f_section[0]
                 f_section.title = set_by_language_code(f_section.title, request.LANGUAGE_CODE, elem['title'])
+                f_section.text_id = elem['text_id']
                 f_section.order = elem['order']
                 f_section.visible = elem['visible']
                 try:
@@ -211,6 +212,50 @@ def POST_edit_card_sections(request, cur_user):
                     res_data += f'Section with id: [{f_section.id}] is edited successfully.'
                 except Exception as e:
                     res_data += f"Err. Cant edit section with id: [{elem['id']}]."
+    else:
+        pass
+    return JsonResponse({"data": res_data, "success": True}, status=200)
+
+
+def POST_add_delete_card_sections(request, cur_user, to_add = True):
+    section_id = -1
+    parent = -1
+    try:
+        section_id = int(request.POST.get("id", -1))
+    except:
+        pass
+    try:
+        parent = int(request.POST.get("parent", -1))
+    except:
+        pass
+    res_data = ""
+    if cur_user.is_superuser:
+        if to_add:
+            found_section = CardSection.objects.filter(id=parent, parent=None)
+            new_section = None
+            if found_section.exists() and found_section[0].id != None:
+                new_section = CardSection(parent=parent)
+            else:
+                new_section = CardSection()
+            try:
+                new_section.save()
+                res_data += f'New section added successfully.'
+            except:
+                return JsonResponse({"errors": "Can't save new section", "success": False}, status=400)
+        else:
+            found_section = CardSection.objects.filter(id=section_id)
+            if found_section.exists() and found_section[0].id != None:
+                try:
+                    found_section.delete()
+                    found_sections = CardSection.objects.filter(parent=section_id)
+                    if found_sections.exists() and found_sections[0].id != None:
+                        for section in found_sections:
+                            section.delete()
+                    res_data += f'Section deleted successfully.'
+                except:
+                   return JsonResponse({"errors": "Can't delete section for delete.", "success": False}, status=400) 
+            else:
+                return JsonResponse({"errors": "Can't find section for delete.", "success": False}, status=400)
     else:
         pass
     return JsonResponse({"data": res_data, "success": True}, status=200)
@@ -247,7 +292,6 @@ def POST_edit_players_table_cols(request, cur_user):
 def POST_add_delete_players_table_cols(request, cur_user, to_add = True):
     col_id = -1
     parent = -1
-    post_data = request.POST.get("data", None)
     try:
         col_id = int(request.POST.get("id", -1))
     except:

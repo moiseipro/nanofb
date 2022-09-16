@@ -444,11 +444,17 @@ $(document).keydown(function(e){
 
 function saveJPG() {
     var canvasVg = document.getElementById('canvas')
-    canvasVg.width = 1800
-    canvasVg.height = 1200
+    var w = 1800
+    var h = 1200
+    canvasVg.width = w
+    canvasVg.height = h
     var str = new XMLSerializer().serializeToString(document.querySelector('#block'))
-    canvasVg.getContext('2d').drawSvg(str, 0, 0, 1800, 1200)
+    canvasVg.getContext('2d').drawSvg(str, 0, 0, w, h)
+
     $('#modalSaveJPG').modal('show')
+}
+function saveJPGApply() {
+    download(canvas, fileName.value);
 }
 
 function saveEXR() {

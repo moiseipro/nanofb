@@ -1,4 +1,4 @@
-function CountExsInFolder() {
+function CountExsInFolder(useFilter = true) {
     window.filterIsLoaded = false;
     window.count_exs_calls = [];
     let folders = $('.folders_list').find('.list-group-item > div');
@@ -13,7 +13,7 @@ function CountExsInFolder() {
                     data: data,
                     type: 'POST', // GET или POST
                     dataType: 'json',
-                    url: "exercises_api",
+                    url: "/exercises/exercises_api",
                     timeout: 60000,
                     success: function (res) {
                         if (res.success && res.data != 0) {
@@ -43,7 +43,7 @@ function CountExsInFolder() {
                     data: data,
                     type: 'POST', // GET или POST
                     dataType: 'json',
-                    url: "exercises_api",
+                    url: "/exercises/exercises_api",
                     timeout: 60000,
                     success: function (res) {
                         if (res.success && res.data != 0) {
@@ -60,10 +60,12 @@ function CountExsInFolder() {
             );
         }
     }
-    $.when.apply($, window.count_exs_calls).then(() => {
-        window.filterIsLoaded = true;
-        CountFilteredExs();
-    });
+    if (useFilter) {
+        $.when.apply($, window.count_exs_calls).then(() => {
+            window.filterIsLoaded = true;
+            CountFilteredExs();
+        });
+    }
 }
 
 function CountFilteredExs() {

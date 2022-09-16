@@ -15,10 +15,47 @@
                     <div class="card-body p-1">
                         <div class="card-inside">
                             <div class="up-block-content">
+                                <div class="row">
+                                    <div class="col-12 btn-group">
+                                        <button type="button" class="btn btn-outline-primary btn-sm size-max-w-x" id="exitCard" style="--w-max-x:15%;">
+                                            Команда
+                                        </button>
+                                        <button type="button" class="btn btn-success btn-sm size-max-w-x" id="" style="--w-max-x:15%;" disabled>
+                                            Карточка игрока
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm size-max-w-x" id="prevTeam" title="Пред. команда" style="--w-max-x:5%;">
+                                            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-dark btn-sm size-max-w-x" id="currentTeam" disabled style="--w-max-x:25%;">
+                                            Команда
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm size-max-w-x" id="nextTeam" title="След. команда" style="--w-max-x:5%;">
+                                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-success btn-sm b-add-off b-edit-off size-max-w-x" id="addPlayer" title="Добавить игрока" style="--w-max-x:5%;">
+                                            <span class="icon-custom icon--plus mx-1" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-success btn-sm b-add-on b-edit-on size-max-w-x d-none" id="savePlayer">
+                                            Сохранить
+                                        </button>
+                                        <button type="button" class="btn btn-outline-primary btn-sm b-add-off b-edit-off size-max-w-x" id="editPlayer" style="--w-max-x:15%;">
+                                            Редактировать
+                                        </button>
+                                        <button type="button" class="btn btn-outline-warning btn-sm b-add-on b-edit-on size-max-w-x d-none" id="cancelPlayer">
+                                            Отменить
+                                        </button>
+                                        <button type="button" class="btn btn-outline-danger btn-sm b-add-off b-edit-on size-max-w-x d-none" id="deletePlayer">
+                                            Удалить
+                                        </button>
+                                        <button type="button" class="btn btn-outline-primary btn-sm size-max-w-x" id="cardSettings" style="--w-max-x:15%;">
+                                            Настройки
+                                        </button>
+                                    </div>
+                                </div>
                                 <div class="row d-flex justify-content-between">
                                     <div class="col-3 pull-left">
                                         <div class="row">
-                                            <div class="col-12 btn-group">
+                                            <!-- <div class="col-12 btn-group">
                                                 <button type="button" class="btn btn-secondary btn-sm size-max-w-x" id="prevTeam" title="Пред. команда" style="--w-max-x:10%;">
                                                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
                                                 </button>
@@ -28,13 +65,13 @@
                                                 <button type="button" class="btn btn-secondary btn-sm size-max-w-x" id="nextTeam" title="След. команда" style="--w-max-x:10%;">
                                                     <i class="fa fa-arrow-right" aria-hidden="true"></i>
                                                 </button>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                     <div class="col"></div>
                                     <div class="col-3 pull-right">
                                         <div class="row">
-                                            <div class="col-12 btn-group">
+                                            <!-- <div class="col-12 btn-group">
                                                 <button type="button" class="btn btn-success btn-sm b-add-off b-edit-off" id="addPlayer" title="Добавить игрока">
                                                     <span class="icon-custom icon--plus mx-1" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
                                                 </button>
@@ -53,7 +90,7 @@
                                                 <button type="button" class="btn btn-danger btn-sm b-add-off b-edit-off" id="exitCard">
                                                     Выйти
                                                 </button>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -235,7 +272,7 @@
                                     <div class="col-2">
                                         <div class="cnt-right-block">
                                             <div class="d-flex justify-content-center mb-3">
-                                                    <button type="button" class="btn btn-secondary btn-sm btn-block" id="cardSettings">Настройки</button>
+                                                <!-- <button type="button" class="btn btn-secondary btn-sm btn-block" id="cardSettings">Настройки</button> -->
                                             </div>
                                             <div class="card-sections">
                                             </div>
@@ -279,9 +316,44 @@
                         </button>
                       </div>
                     <div class="modal-body">
+                        <div class="info">
+                            <p>
+                                <a class="btn btn-sm btn-outline-warning" data-toggle="collapse" href="#collapseSectionsInfo" role="button" aria-expanded="false" aria-controls="collapseSectionsInfo">
+                                    Подсказка: Текст.ID
+                                </a>
+                            </p>
+                            <div class="collapse" id="collapseSectionsInfo">
+                                <div class="card card-body">
+                                    <p class="m-0">card -> Карточка</p>
+                                    <p class="m-0">questionnaire -> Анкета</p>
+                                    <p class="m-0">characteristics -> Характеристики</p>
+                                    <p class="m-0">social_network -> Соц. сети</p>
+                                    <p class="m-0">notes -> Записи</p>
+                                    <p class="m-0">height_weight -> Рост / вес</p>
+                                    <p class="m-0">statistics -> Статистика</p>
+                                    <p class="m-0">analytics -> Аналитика</p>
+                                    <p class="m-0">matches_gps -> Игры (GPS)</p>
+                                    <p class="m-0">trainings_gps -> Тренировки (GPS)</p>
+                                    <p class="m-0">matches -> Игры</p>
+                                    <p class="m-0">video -> Видео</p>
+                                    <p class="m-0">tests -> Тесты</p>
+                                    <p class="m-0">medicine -> Медицина</p>
+                                    <p class="m-0">documents -> Документы</p>
+                                    <p class="m-0">newsletters -> Рассылки</p>
+                                    <p class="m-0">payment -> Оплата</p>
+                                    <p class="m-0">parents -> Родители</p>
+                                </div>
+                            </div>
+                        </div>
                         <div class="btns-control">
+                            <span class="badge badge-success section-add" title="Добавить элемент">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                            </span>
                             <span class="badge badge-secondary section-edit" title="Изменить элемент">
                                 <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </span>
+                            <span class="badge badge-danger section-delete" title="Удалить элемент">
+                                <i class="fa fa-trash-o" aria-hidden="true"></i>
                             </span>
                             <span class="badge badge-info section-up" title="Move up">
                                 <i class="fa fa-arrow-up" aria-hidden="true"></i>
@@ -294,7 +366,8 @@
                             <table class="table table-sm table-bordered" style="table-layout: fixed;">
                                 <colgroup>
                                     <col span="1" style="width: 5%;">
-                                    <col span="1" style="width: 80%;">
+                                    <col span="1" style="width: 60%;">
+                                    <col span="1" style="width: 20%;">
                                     <col span="1" style="width: 15%;">
                                 </colgroup>
                                 <thead>
@@ -302,6 +375,9 @@
                                     </th>
                                     <th class="text-center">
                                         Название
+                                    </th>
+                                    <th class="text-center">
+                                        Текст.ID
                                     </th>
                                     <th class="text-center">
                                         Видимость

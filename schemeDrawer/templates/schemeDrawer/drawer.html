@@ -67,10 +67,12 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-md-8"><canvas id="canvas" class="img-fluid"></canvas></div>
+                            <div class="col-md-8">
+                                <canvas id="canvas" class="img-fluid"></canvas>
+                            </div>
                             <div class="col-md-4">
                                 <input id="fileName" type="text" class="form-control form-control-sm mb-3" placeholder="Имя файла">
-                                <button class="btn btn-success btn-sm w-100" onclick="download(canvas, fileName.value)">Сохранить</button>
+                                <button class="btn btn-success btn-sm w-100" onclick="saveJPGApply()">Сохранить</button>
                             </div>
                         </div>
                     </div>

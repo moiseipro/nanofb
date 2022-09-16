@@ -436,3 +436,12 @@ function ajax_training_exercise_data_action(method, data, action = '', id = '', 
             }
         })
 }
+
+
+
+$(function() {
+
+    // Activate exs counter
+    CountExsInFolder(false);
+
+});
