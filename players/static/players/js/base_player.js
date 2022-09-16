@@ -17,7 +17,7 @@ function LoadPlayerOne(id = null) {
             },
             error: function (res) {
                 cPlayerData = {};
-                console.log(res);
+                console.error(res);
             },
             complete: function (res) {
                 $('.page-loader-wrapper').fadeOut();
@@ -27,8 +27,6 @@ function LoadPlayerOne(id = null) {
 }
 
 function RenderPlayerOne(data = {}) {
-    console.log(data)
-
     $('.cnt-center-block').find('.form-control').prop('disabled', true);
     $('.cnt-center-block').find('.form-control').removeClass('req-empty');
 
@@ -56,7 +54,6 @@ function LoadCardSections() {
         url: "/players/players_api",
         success: function (res) {
             if (res.success) {
-                console.log(res.data)
                 window.cardSettings = res.data;
             } else {
                 window.cardSettings = {};
@@ -64,7 +61,7 @@ function LoadCardSections() {
         },
         error: function (res) {
             window.cardSettings = {};
-            console.log(res);
+            console.error(res);
         },
         complete: function (res) {
             $('.page-loader-wrapper').fadeOut();
@@ -103,10 +100,13 @@ function RenderCardSections(data) {
             `;
         }
         sections2 += `
-            <tr class="section-elem" data-id="${header.id}" data-parent="${header.parent}" data-root="1">
+            <tr class="section-elem parent" data-id="${header.id}" data-parent="${header.parent}" data-root="1">
                 <td class=""></td>
                 <td class="">
                     <input name="title" class="form-control form-control-sm" type="text" value="${header.title}" placeholder="" autocomplete="off" disabled="">
+                </td>
+                <td class="">
+                    <input name="text_id" class="form-control form-control-sm" type="text" value="${header.text_id ? header.text_id : ""}" placeholder="" autocomplete="off" disabled="">
                 </td>
                 <td class="text-center">
                     <input type="checkbox" class="form-check-input" name="visible" ${header.visible == true ? 'checked' : ''}>
@@ -130,6 +130,9 @@ function RenderCardSections(data) {
                         <td class=""></td>
                         <td class="">
                             <input name="title" class="form-control form-control-sm w-75 ml-5" type="text" value="${row.title}" placeholder="" autocomplete="off" disabled="">
+                        </td>
+                        <td class="">
+                            <input name="text_id" class="form-control form-control-sm" type="text" value="${row.text_id ? row.text_id : ""}" placeholder="" autocomplete="off" disabled="">
                         </td>
                         <td class="text-center">
                             <input type="checkbox" class="form-check-input" name="visible" ${row.visible == true ? 'checked' : ''}>
@@ -190,7 +193,6 @@ function ToggleFolderOrder(dir) {
             }
             for (let i = children.length - 1; i >= 0; i--) {
                 let elem = children[i];
-                console.log(elem)
                 let parentId = $(elem).attr('data-parent');
                 $('#cardSectionsEdit').find(`.section-elem[data-id="${parentId}"]`).after(elem);
             }
@@ -255,6 +257,7 @@ $(function() {
         let prevTeamVal = $('#select-team').find('option[selected=""]').prev().attr('value');
         let isPrevTeam = prevTeamVal && prevTeamVal != "" ? true : false;
         if (isPrevTeam) {
+            window.history.replaceState({}, document.title, "/players/player");
             $('#select-team').val(prevTeamVal);
             $('#select-team').change();
         }
@@ -263,6 +266,7 @@ $(function() {
         let nextTeamVal = $('#select-team').find('option[selected=""]').next().attr('value');
         let isNextTeam = nextTeamVal && nextTeamVal != "" ? true : false;
         if (isNextTeam) {
+            window.history.replaceState({}, document.title, "/players/player");
             $('#select-team').val(nextTeamVal);
             $('#select-team').change();
         }
@@ -379,7 +383,7 @@ $(function() {
             },
             error: function (res) {
                 swal("Ошибка", "Игрока не удалось создать / изменить.", "error");
-                console.log(res);
+                console.error(res);
             },
             complete: function (res) {
                 $('.page-loader-wrapper').fadeOut();
@@ -427,7 +431,7 @@ $(function() {
                     },
                     error: function (res) {
                         swal("Ошибка", "Игрока удалить не удалось.", "error");
-                        console.log(res);
+                        console.error(res);
                     },
                     complete: function (res) {
                         $('.page-loader-wrapper').fadeOut();
@@ -463,15 +467,69 @@ $(function() {
     $('#cardSectionsEdit').on('click', '.section-edit', (e) => {
         $('#cardSectionsEdit').find('input.form-control ').prop('disabled', false);
     });
+    $('#cardSectionsEdit').on('click', '.section-add', (e) => {
+        let activeElem = $('#cardSectionsEdit').find(`.section-elem.selected`);
+        let parent = null;
+        if (activeElem.length > 0 && $(activeElem).first().attr('data-root') == '1') {
+            parent = $(activeElem).first().attr('data-id');
+        }
+        let data = {'add_card_sections': 1, 'parent': parent};
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: data,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "players_api",
+            success: function (res) {
+                if (res.success) {
+                    LoadCardSections();
+                }
+            },
+            error: function (res) {
+                console.error(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
+    });
+    $('#cardSectionsEdit').on('click', '.section-delete', (e) => {
+        let activeElem = $('#cardSectionsEdit').find(`.section-elem.selected`);
+        if (activeElem.length > 0) {
+            let cId = $(activeElem).first().attr('data-id');
+            let data = {'delete_card_sections': 1, 'id': cId};
+            $('.page-loader-wrapper').fadeIn();
+            $.ajax({
+                headers:{"X-CSRFToken": csrftoken},
+                data: data,
+                type: 'POST', // GET или POST
+                dataType: 'json',
+                url: "players_api",
+                success: function (res) {
+                    if (res.success) {
+                        LoadCardSections();
+                    }
+                },
+                error: function (res) {
+                    console.error(res);
+                },
+                complete: function (res) {
+                    $('.page-loader-wrapper').fadeOut();
+                }
+            });
+        }
+    });
     $('#cardSectionsEdit').on('click', '[name="save"]', (e) => {
         let dataToSend = [];
         $('#cardSectionsEdit').find('.section-elem').each((ind, elem) => {
             let id = $(elem).attr('data-id');
             let order = ind+1;
             let title = $(elem).find('[name="title"]').val();
+            let text_id = $(elem).find('[name="text_id"]').val();
             let visible = $(elem).find('[name="visible"]').is(':checked');
             dataToSend.push({
-                id, order, title, visible
+                id, order, title, text_id, visible
             });
         });
         let data = {'edit_card_sections': 1, 'data': JSON.stringify(dataToSend)};
@@ -488,7 +546,7 @@ $(function() {
                 }
             },
             error: function (res) {
-                console.log(res)
+                console.error(res);
             },
             complete: function (res) {
                 $('.page-loader-wrapper').fadeOut();

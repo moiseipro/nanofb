@@ -3,5 +3,5 @@ from schemeDrawer import views
 
 
 urlpatterns = [
-    path('', views.drawer, name="draw"),
+    path('', views.drawer, name="draw")
 ]

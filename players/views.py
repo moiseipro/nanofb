@@ -1,4 +1,5 @@
 
+from math import fabs
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from users.models import User
@@ -67,6 +68,8 @@ def players_api(request):
         edit_player_status = 0
         delete_player_status = 0
         edit_card_sections_status = 0
+        add_card_sections_status = 0
+        delete_card_sections_status = 0
         edit_players_table_cols_status = 0
         add_players_table_cols_status = 0
         delete_players_table_cols_status = 0
@@ -91,6 +94,14 @@ def players_api(request):
         except:
             pass
         try:
+            add_card_sections_status = int(request.POST.get("add_card_sections", 0))
+        except:
+            pass
+        try:
+            delete_card_sections_status = int(request.POST.get("delete_card_sections", 0))
+        except:
+            pass
+        try:
             edit_players_table_cols_status = int(request.POST.get("edit_players_table_cols", 0))
         except:
             pass
@@ -108,6 +119,10 @@ def players_api(request):
             return v_api.POST_delete_player(request, cur_user[0], cur_team)
         elif edit_card_sections_status == 1:
             return v_api.POST_edit_card_sections(request, cur_user[0])
+        elif add_card_sections_status == 1:
+            return v_api.POST_add_delete_card_sections(request, cur_user[0])
+        elif delete_card_sections_status == 1:
+            return v_api.POST_add_delete_card_sections(request, cur_user[0], False)
         elif edit_players_table_cols_status == 1:
             return v_api.POST_edit_players_table_cols(request, cur_user[0])
         elif add_players_table_cols_status == 1:

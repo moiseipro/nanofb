@@ -92,7 +92,7 @@ function RenderPlayersTableCols(data) {
     for (let i = 0; i < headers.length; i++) {
         let header = headers[i];
         columns1 += `
-            <tr class="column-elem" data-id="${header.id}" data-parent="${header.parent}" data-root="1">
+            <tr class="column-elem parent" data-id="${header.id}" data-parent="${header.parent}" data-root="1">
                 <td class=""></td>
                 <td class="">
                     <input name="title" class="form-control form-control-sm" type="text" value="${header.title}" placeholder="" autocomplete="off" disabled="">
@@ -236,6 +236,8 @@ $(function() {
         let selectedId = selectedRow ? selectedRow.id : null;
         if (selectedId) {
             window.location.href = `/players/player?id=${selectedId}`;
+        } else {
+            swal("Внимание", "Выберите игрока из таблицы.", "info");
         }
     });
 
@@ -350,6 +352,15 @@ $(function() {
                 $('.page-loader-wrapper').fadeOut();
             }
         });
+    });
+
+    $('.columns-body').on('click', 'input[name="visible"]', (e) => {
+        let row = $(e.currentTarget).parent().parent();
+        let val = $(e.currentTarget).prop('checked');
+        if ($(row).attr('data-root') == '1') {
+            $('.columns-body').find('tr[data-root="1"]').find('input[name="visible"]').prop('checked', false);
+            $(e.currentTarget).prop('checked', val);
+        }
     });
 
     // Toggle left menu

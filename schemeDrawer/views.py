@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from users.models import User
-from references.models import UserSeason, UserTeam
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 from django.contrib.staticfiles.utils import get_files
 from django.contrib.staticfiles.storage import StaticFilesStorage
@@ -187,4 +187,3 @@ def drawer(request):
     return render(request, 'schemeDrawer/drawer.html', {
         'img_all': img_all, 
     })
-
