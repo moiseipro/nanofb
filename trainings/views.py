@@ -4,6 +4,7 @@ from django.views.generic import DetailView
 from django.views.generic.base import TemplateView
 from rest_framework import viewsets, status, generics
 from rest_framework.decorators import action
+from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
@@ -52,7 +53,7 @@ class TrainingViewSet(viewsets.ModelViewSet):
             exercise_id=data['exercise_id'],
             group=data['group'],
             duration=data['duration'],
-            order=1
+            order=exercise_count
         )
         query_dict = QueryDict('', mutable=True)
         query_dict.update(data_dict)
@@ -188,6 +189,36 @@ class TrainingExerciseViewSet(viewsets.ModelViewSet):
         else:
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
+
+    def get_object_by_id(self, obj_id):
+        try:
+            return UserTrainingExercise.objects.get(id=obj_id)
+        except (UserTrainingExercise.DoesNotExist, ValidationError):
+            raise status.HTTP_400_BAD_REQUEST
+
+    def validate_ids(self, id_list):
+        for id in id_list:
+            try:
+                UserTrainingExercise.objects.get(id=int(id))
+            except (UserTrainingExercise.DoesNotExist, ValidationError):
+                raise status.HTTP_400_BAD_REQUEST
+        return True
+
+    @action(detail=False, methods=['put'])
+    def sort_exercise(self, request, *args, **kwargs):
+        print(request.data)
+        id_list = request.data.getlist('exercise_ids[]')
+        print(id_list)
+        self.validate_ids(id_list=id_list)
+        instances = []
+        for i, id in enumerate(id_list):
+            print(id)
+            obj = self.get_object_by_id(obj_id=id)
+            obj.order = i
+            obj.save()
+            instances.append(obj)
+        serializer = UserTrainingExerciseSerializer(instances, many=True)
+        return Response({'status': 'sort_exercise', 'objs': serializer.data})
 
     def update(self, request, *args, **kwargs):
         partial = True
