@@ -49,7 +49,7 @@ function render_video_block_page(url) {
      })
 }
 
-async function ajax_get_videos_data(url = '/video/api/'){
+async function ajax_get_videos_data(url = '/video/api/all'){
     return await $.ajax({
         headers:{"X-CSRFToken": csrftoken },
         url: url,

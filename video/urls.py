@@ -5,7 +5,8 @@ from rest_framework import routers
 extra_context = {'menu_video': 'active'}
 
 router = routers.DefaultRouter()
-router.register(r'', views.VideoViewSet, basename='events')
+router.register(r'all', views.VideoViewSet, basename='video_list')
+router.register(r'exercises', views.VideoExerciseViewSet, basename='video_list_exercises')
 
 urlpatterns = [
     path('api/', include(router.urls), name='api_video'),

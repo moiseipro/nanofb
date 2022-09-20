@@ -1,5 +1,5 @@
 import os
-from itertools import islice
+from itertools import islice, chain
 
 import requests
 import json
@@ -7,7 +7,7 @@ import json
 from django.http import Http404, QueryDict
 from django.urls import reverse_lazy
 from django.utils.dateparse import parse_duration
-from django.db.models import Q, Count
+from django.db.models import Q, Count, F
 from pytube import extract
 from django.views.generic import ListView, DetailView, CreateView, TemplateView
 from django.contrib import messages
@@ -23,8 +23,9 @@ from requests_toolbelt.multipart.encoder import MultipartEncoder
 from rest_framework.response import Response
 from taggit.models import Tag
 
+from exercises.models import ExerciseVideo
 from video.filters import VideoGlobalFilter
-from video.serializers import VideoSerializer, VideoUpdateSerializer, OnlyVideoSerializer
+from video.serializers import VideoSerializer, VideoUpdateSerializer, OnlyVideoSerializer, VideoExerciseSerializer
 from references.models import VideoSource
 from video.forms import CreateVideoForm, UpdateVideoForm
 from video.models import Video, VideoTags
@@ -301,8 +302,28 @@ class VideoViewSet(viewsets.ModelViewSet):
         return VideoSerializer
 
     def get_queryset(self):
-        print(self.request.query_params.get('columns[6][search][value]'))
         return Video.objects.all()
+
+
+class VideoExerciseViewSet(viewsets.ModelViewSet):
+    # filter_backends = (DatatablesFilterBackend,)
+    # filterset_class = VideoGlobalFilter
+
+    def get_permissions(self):
+        permission_classes = [IsAuthenticated, IsAdminUser]
+        return [permission() for permission in permission_classes]
+
+    def get_serializer_class(self):
+        return VideoExerciseSerializer
+
+    def get_queryset(self):
+        video1 = ExerciseVideo.objects.filter(exercise_nfb_id__isnull=False, video_1__isnull=False).exclude(video_1=None).values('exercise_nfb_id').annotate(video=F('video_1'))
+        video2 = ExerciseVideo.objects.filter(exercise_nfb_id__isnull=False, video_2__isnull=False).exclude(video_2=None).values('exercise_nfb_id').annotate(video=F('video_2'))
+        animation1 = ExerciseVideo.objects.filter(exercise_nfb_id__isnull=False, animation_1__isnull=False).exclude(animation_1=None).values('exercise_nfb_id').annotate(video=F('animation_1'))
+        animation2 = ExerciseVideo.objects.filter(exercise_nfb_id__isnull=False, animation_2__isnull=False).exclude(animation_2=None).values('exercise_nfb_id').annotate(video=F('animation_2'))
+        result = video1 | video2 | animation1 | animation2
+        print(result)
+        return result
 
 
 # DJANGO
