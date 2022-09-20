@@ -34,7 +34,7 @@ $(window).on('load', function (){
     })
 
     generate_ajax_video_table("calc(100vh - 350px)")
-    generate_ajax_video_exercise_table("calc(100vh - 350px)")
+    //generate_ajax_video_exercise_table("calc(100vh - 350px)")
     video_table
         .on( 'select', function ( e, dt, type, indexes ) {
             let rowData = video_table.rows( indexes ).data().toArray();
@@ -103,7 +103,7 @@ $('#change-format').on('click', function (){
 function ajax_video_info(id) {
     let request = $.ajax({
         headers:{"X-CSRFToken": csrftoken },
-        url: "api/"+id,
+        url: "api/all/"+id,
         type: "GET",
         dataType: "JSON"
     })
@@ -175,7 +175,7 @@ $('#video-action-form').submit(function (event) {
 });
 
 function ajax_video_action(method, data, action = '', id = '', func = '') {
-    let url = "/video/api/"
+    let url = "/video/api/all/"
     if(id !== '') url += `${id}/`
     if(func !== '') url += `${func}/`
 
@@ -209,7 +209,7 @@ function ajax_video_delete(row_data) {
 
     let request = $.ajax({
         headers:{"X-CSRFToken": csrftoken },
-        url: "api/"+row_data.id+"/",
+        url: "api/all/"+row_data.id+"/",
         type: "DELETE",
     })
 
