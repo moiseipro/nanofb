@@ -34,6 +34,7 @@ $(window).on('load', function (){
     })
 
     generate_ajax_video_table("calc(100vh - 350px)")
+    generate_ajax_video_exercise_table("calc(100vh - 350px)")
     video_table
         .on( 'select', function ( e, dt, type, indexes ) {
             let rowData = video_table.rows( indexes ).data().toArray();

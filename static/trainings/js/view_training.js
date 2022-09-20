@@ -2,6 +2,8 @@
 $(window).on('load', function (){
     //Скрыть правый блок
     $('#toggle_btn').click()
+    //
+    toggle_folders_name()
 
     var urlsplit = $(location).attr('pathname').split("/");
     var id = urlsplit[urlsplit.length-1];
@@ -125,7 +127,20 @@ $(window).on('load', function (){
 
     generate_exercises_module_data()
     render_exercises_training(id)
+    CountExsInFolder(false);
 })
+
+function toggle_folders_name(){
+        let state = false;
+        $('.folders-block').find('.folder-elem').each((ind, elem) => {
+            let tmpText = !state ? `${$(elem).attr('data-short')}. ${$(elem).attr('data-name')}` : `${$(elem).attr('data-short')}`;
+            $(elem).find('.folder-title').text(tmpText);
+        });
+        $('.folders-block').find('.folder-nfb-elem').each((ind, elem) => {
+            let tmpText = !state ? `${$(elem).attr('data-short')}. ${$(elem).attr('data-name')}` : `${$(elem).attr('data-short')}`;
+            $(elem).find('.folder-title').text(tmpText);
+        });
+}
 
 // Выгрузить упражнения из тренировки
 function render_exercises_training(training_id = null, group = null) {
@@ -224,7 +239,7 @@ function render_exercises_training(training_id = null, group = null) {
 // Выгрузить дополнительных данных из упрежнения в тренировке
 function render_exercises_additional_data(training_exercise_id = null) {
     let send_data = {}
-
+    console.log("test")
     ajax_training_exercise_action('GET', send_data, 'load data', training_exercise_id, 'get_data').done(function (data) {
         console.log(data)
         var select = ''
@@ -436,12 +451,3 @@ function ajax_training_exercise_data_action(method, data, action = '', id = '', 
             }
         })
 }
-
-
-
-$(function() {
-
-    // Activate exs counter
-    CountExsInFolder(false);
-
-});
