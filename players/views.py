@@ -73,6 +73,10 @@ def players_api(request):
         edit_players_table_cols_status = 0
         add_players_table_cols_status = 0
         delete_players_table_cols_status = 0
+        edit_characteristics_rows_status = 0
+        add_characteristics_rows_status = 0
+        delete_characteristics_rows_status = 0
+        copy_characteristics_rows_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         if not cur_user.exists() or cur_user[0].id == None:
@@ -113,6 +117,22 @@ def players_api(request):
             delete_players_table_cols_status = int(request.POST.get("delete_players_table_cols", 0))
         except:
             pass
+        try:
+            edit_characteristics_rows_status = int(request.POST.get("edit_characteristics_rows", 0))
+        except:
+            pass
+        try:
+            add_characteristics_rows_status = int(request.POST.get("add_characteristics_rows", 0))
+        except:
+            pass
+        try:
+            delete_characteristics_rows_status = int(request.POST.get("delete_characteristics_rows", 0))
+        except:
+            pass
+        try:
+            copy_characteristics_rows_status = int(request.POST.get("copy_characteristics_rows", 0))
+        except:
+            pass
         if edit_player_status == 1:
             return v_api.POST_edit_player(request, cur_user[0], cur_team)
         elif delete_player_status == 1:
@@ -129,12 +149,21 @@ def players_api(request):
             return v_api.POST_add_delete_players_table_cols(request, cur_user[0])
         elif delete_players_table_cols_status == 1:
             return v_api.POST_add_delete_players_table_cols(request, cur_user[0], False)
+        elif edit_characteristics_rows_status == 1:
+            return v_api.POST_edit_characteristics_rows(request, cur_user[0])
+        elif add_characteristics_rows_status == 1:
+            return v_api.POST_add_delete_characteristics_rows(request, cur_user[0])
+        elif delete_characteristics_rows_status == 1:
+            return v_api.POST_add_delete_characteristics_rows(request, cur_user[0], False)
+        elif copy_characteristics_rows_status == 1:
+            return v_api.POST_copy_characteristics_rows(request, cur_user[0])
         return JsonResponse({"errors": "access_error"}, status=400)
     elif request.method == "GET" and is_ajax:
         get_player_status = 0
         get_card_sections_status = 0
         get_players_json_status = 0
         get_players_table_cols_status = 0
+        get_characteristics_rows_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         if not cur_user.exists() or cur_user[0].id == None:
@@ -159,6 +188,10 @@ def players_api(request):
             get_players_table_cols_status = int(request.GET.get("get_players_table_cols", 0))
         except:
             pass
+        try:
+            get_characteristics_rows_status = int(request.GET.get("get_characteristics_rows", 0))
+        except:
+            pass
         if get_player_status == 1:
             return v_api.GET_get_player(request, cur_user[0], cur_team)
         elif get_players_json_status == 1:
@@ -167,6 +200,8 @@ def players_api(request):
             return v_api.GET_get_card_sections(request, cur_user[0])
         elif get_players_table_cols_status == 1:
             return v_api.GET_get_players_table_cols(request, cur_user[0])
+        elif get_characteristics_rows_status == 1:
+            return v_api.GET_get_characteristics_rows(request, cur_user[0])
         return JsonResponse({"errors": "access_error"}, status=400)
     else:
         return JsonResponse({"errors": "access_error"}, status=400)

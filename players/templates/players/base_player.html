@@ -97,7 +97,7 @@
                             </div>
                             <div class="players-content mt-2">
                                 <div class="row">
-                                    <div class="col-3">
+                                    <div class="col-2">
                                         <div class="row cnt-left-block">
                                             <div class="col-12">
                                                 <table class="table table-sm table-bordered" id="players">
@@ -116,7 +116,7 @@
                                     </div>
                                     <div class="col cnt-center-block">
                                         <div class="row center-content" data-id="card">
-                                            <div class="col-4">
+                                            <div class="col-3">
                                                 <div class="card card-i justify-content-center" style="height: 32vh;">
                                                     <img class="card-img img-photo" src="#" alt="" onerror=this.src="/static/players/img/player-avatar.png" style="max-height: 100%;">
                                                 </div>
@@ -124,7 +124,7 @@
                                                     <img class="card-img img-field h-100" src="#" alt="" onerror=this.src="/static/players/img/player_plane.svg">
                                                 </div>
                                             </div>
-                                            <div class="col-8">
+                                            <div class="col-9">
                                                 <table class="table table-sm table-bordered card-content">
                                                     <tbody>
                                                         <col style="width: 40%;" />
@@ -266,7 +266,38 @@
                                             </div>
                                         </div>
                                         <div class="row center-content" data-id="characteristics">
-                                            Характериситики
+                                            <span class="badge badge-primary">Характеристики</span>
+                                            <span class="badge badge-warning ml-1" title="Редактировать" id="editCharacteristicsRows">
+                                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                            </span>
+                                            <div class="ta">
+                                                <table id="playerCharacteristicsTable" class="table table-sm table-bordered" style="table-layout: fixed;">
+                                                    <colgroup>
+                                                        <col span="1" style="width: 30%;">
+                                                        <col span="1" style="width: 15%;">
+                                                        <col span="1" style="width: 15%;">
+                                                        <col span="1" style="width: 40%;">
+                                                    </colgroup>
+                                                    <thead>
+                                                        <th class="text-center">
+                                                            Тип
+                                                            <button id="toggleEmptyRows" type="button" class="btn btn-sm btn-outline-secondary"><i class="fe fe-text-align-left" aria-hidden="true"></i></button>
+                                                        </th>
+                                                        <th class="text-center">
+                                                            Оценка
+                                                        </th>
+                                                        <th class="text-center">
+                                                            Изменение
+                                                        </th>
+                                                        <th class="text-center">
+                                                            Примечания
+                                                        </th>
+                                                    </thead>
+                                                    <tbody>
+                    
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-2">
@@ -391,6 +422,73 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" name="save">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Назад</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="characteristicsRowsEdit" tabindex="-1" role="dialog" aria-labelledby="characteristicsRowsEditLbl" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Характеристики (строки):</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                    <div class="modal-body">
+                        <div class="btns-control-container">
+                            <span class="badge badge-primary badge-pill characteristics-user" title="">
+                                Пользовательские
+                            </span>
+                            <span class="badge badge-warning characteristics-nfb" title="">
+                                NFB
+                            </span>
+                            <div class="btns-control">
+                                <span class="badge badge-success characteristics-add" title="Добавить элемент">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                </span>
+                                <span class="badge badge-secondary characteristics-edit" title="Изменить элемент">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </span>
+                                <span class="badge badge-danger characteristics-delete" title="Удалить элемент">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </span>
+                                <span class="badge badge-info characteristics-up" title="Move up">
+                                    <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                                </span>
+                                <span class="badge badge-info characteristics-down" title="Move down">
+                                    <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="characteristics">
+                            <table class="table table-sm table-bordered" style="table-layout: fixed;">
+                                <colgroup>
+                                    <col span="1" style="width: 5%;">
+                                    <col span="1" style="width: 80%;">
+                                    <col span="1" style="width: 15%;">
+                                </colgroup>
+                                <thead>
+                                    <th class="text-center">
+                                    </th>
+                                    <th class="text-center">
+                                        Название
+                                    </th>
+                                    <th class="text-center">
+                                        Видимость
+                                    </th>
+                                </thead>
+                                <tbody class="characteristics-body">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" name="save" data-nfb="0">Сохранить</button>
+                        <button type="button" class="btn btn-info d-none" name="copy">Скопировать</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Назад</button>
                     </div>
                 </div>

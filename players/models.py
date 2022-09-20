@@ -121,3 +121,54 @@ class PlayersTableColumns(models.Model):
     class Meta:
         ordering = ['order']
 
+
+class PlayerCharacteristicsRows(models.Model):
+    title = models.JSONField(null=True, blank=True)
+    is_nfb = models.BooleanField(
+        help_text='NFB шаблон для примера',
+        default=False
+    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    # club = models.ForeignKey(ClubUser, on_delete=models.CASCADE, null=True, blank=True)
+    parent = models.IntegerField(
+        help_text='Ид раздела родителя',
+        null=True,
+        blank=True
+    )
+    visible = models.BooleanField(
+        help_text='Показывать раздел пользователю или нет',
+        default=True
+    )
+    short_name = models.CharField(
+        max_length=10,
+        help_text='Короткий ключ для поиска',
+        null=True,
+        blank=True
+    )
+    order = models.IntegerField(
+        help_text='Индекс сортировки',
+        default=0
+    )
+    objects = models.Manager()
+    class Meta:
+        ordering = ['order']
+
+
+class PlayerCharacteristicUser(models.Model):
+    characteristics = models.ForeignKey(PlayerCharacteristicsRows, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    player = models.ForeignKey(UserPlayer, on_delete=models.CASCADE)
+    date_creation = models.DateField(auto_now_add=True)
+    value = models.IntegerField(default=0)
+    notes = models.CharField(null=True, blank=True, max_length=255)
+
+
+class PlayerCharacteristicClub(models.Model):
+    characteristics = models.ForeignKey(PlayerCharacteristicsRows, on_delete=models.CASCADE)
+    # club = models.ForeignKey(User, on_delete=models.CASCADE)
+    date_creation = models.DateField(auto_now_add=True)
+    player = models.ForeignKey(ClubPlayer, on_delete=models.CASCADE)
+    value = models.IntegerField(default=0)
+    notes = models.CharField(null=True, blank=True, max_length=255)
+
+
