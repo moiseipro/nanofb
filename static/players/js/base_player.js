@@ -48,16 +48,18 @@ function RenderPlayerOne(data = {}) {
     for (let ind in data.characteristics) {
         let characteristic = data.characteristics[ind];
         let fRow = $('.cnt-center-block').find(`.characteristic-elem[data-id="${characteristic.row_id}"]`);
-        console.log(characteristic, fRow)
         $(fRow).find('[name="characteristics_stars"]').attr('data-val', `${characteristic.value}`);
         $(fRow).find('[name="characteristics_stars"]').find(`span[data-num="${characteristic.value}"]`).addClass('star-checked');
         $(fRow).find('[name="characteristics_stars"]').find(`span[data-num="${characteristic.value}"]`).prevAll().addClass('star-checked');
         $(fRow).find('[name="characteristics_notes"]').val(characteristic.notes);
         $(fRow).find('.characteristic-compare').text(characteristic.diff);
     }
-
+    for (let ind in data.questionnaires) {
+        let questionnaire = data.questionnaires[ind];
+        let fRow = $('.cnt-center-block').find(`.questionnaire-elem[data-id="${questionnaire.row_id}"]`);
+        $(fRow).find('[name="questionnaires_notes"]').val(questionnaire.notes);
+    }
 }
-
 
 function LoadCardSections() {
     let data = {'get_card_sections': 1};
@@ -264,7 +266,7 @@ function LoadPlayerCharacteristics(nfb_characteristics = false) {
             }
         },
         error: function (res) {
-            window.cardSettings = {};
+            window.characteristicsRows = {};
             console.error(res);
         },
         complete: function (res) {
@@ -357,7 +359,7 @@ function RenderCharacteristicsRows(data, nfb_characteristics) {
                     <tr class="characteristic-elem" data-id="${row.id}" data-parent="${row.parent}" data-root="0">
                         <td class="">${row.title}</td>
                         <td class="characteristic-mark text-center">
-                        <input name="characteristics_id" class="form-control form-control-sm edit-field" type="hidden" value="${row.id}" placeholder="" autocomplete="off" disabled="">
+                            <input name="characteristics_id" class="form-control form-control-sm edit-field" type="hidden" value="${row.id}" placeholder="" autocomplete="off" disabled="">
                             <div class="edit-field disabled" name="characteristics_stars" data-val="">
                                 <span class="fa fa-star star-select" data-num="1"></span>
                                 <span class="fa fa-star star-select" data-num="2"></span>
@@ -426,6 +428,183 @@ function ToggleCharacteristicsRowsOrder(dir) {
             }
         } else {
             let elems = $('#characteristicsRowsEdit').find(`.characteristic-elem[data-parent="${cParentID}"]`);
+            let tFirst = null; let tLast = null; let newInd = 0;
+            for (let i = 0; i < elems.length; i++) {
+                if ($(elems[i]).attr('data-id') == cID) {
+                    if (dir == "up") {
+                        tLast = $(elems[i]);
+                        if (i - 1 < 0) {
+                            newInd = elems.length - 1;
+                            tFirst = $(elems[newInd]);
+                            $(tLast).detach().insertAfter($(tFirst));
+                        } else {
+                            newInd = i - 1;
+                            tFirst = $(elems[newInd]);
+                            $(tLast).detach().insertBefore($(tFirst));
+                        }
+                    } else if (dir == "down") {
+                        tFirst = $(elems[i]);
+                        if (i + 1 > elems.length - 1) {
+                            newInd = 0;
+                            tLast = $(elems[newInd]);
+                            $(tFirst).detach().insertBefore($(tLast));
+                        } else {
+                            newInd = i + 1;
+                            tLast = $(elems[newInd]);
+                            $(tFirst).detach().insertAfter($(tLast));
+                        }
+                    }
+                    break;
+                }             
+            }
+        }
+    }
+}
+
+function LoadPlayerQuestionnaires() {
+    let data = {'get_questionnaires_rows': 1};
+    $('.page-loader-wrapper').fadeIn();
+    $.ajax({
+        headers:{"X-CSRFToken": csrftoken},
+        data: data,
+        type: 'GET', // GET или POST
+        dataType: 'json',
+        url: "/players/players_api",
+        success: function (res) {
+            if (res.success) {
+                window.questionnairesRows = res.data;
+            } else {
+                window.questionnairesRows = {};
+            }
+        },
+        error: function (res) {
+            window.questionnairesRows = {};
+            console.error(res);
+        },
+        complete: function (res) {
+            $('.page-loader-wrapper').fadeOut();
+            RenderQuestionnairesRows(window.questionnairesRows);
+        }
+    });
+}
+
+function RenderQuestionnairesRows(data) {
+    let headers = [], rows = {};
+    for (let i = 0; i < data.questionnaires.length; i++) {
+        let questionnaire = data.questionnaires[i];
+        if (questionnaire.parent == null) {
+            headers.push(questionnaire);
+        } else {
+            if (rows[questionnaire.parent] && Array.isArray(rows[questionnaire.parent])) {
+                rows[questionnaire.parent].push(questionnaire);
+            } else {
+                rows[questionnaire.parent] = [questionnaire];
+            }
+        }
+    }
+    let questionnaires1 = ""; let questionnaires2 = "";
+    for (let i = 0; i < headers.length; i++) {
+        let header = headers[i];
+        questionnaires1 += `
+            <tr class="questionnaire-elem parent" data-id="${header.id}" data-parent="${header.parent}" data-root="1">
+                <td class=""></td>
+                <td class="">
+                    <input name="title" class="form-control form-control-sm" type="text" value="${header.title}" placeholder="" autocomplete="off" disabled="">
+                </td>
+                <td class="text-center">
+                    <input type="checkbox" class="form-check-input" name="visible" ${header.visible == true ? 'checked' : ''}>
+                </td>
+            </tr>
+        `;
+        questionnaires2 += `
+            <tr class="questionnaire-elem parent" data-id="${header.id}" data-parent="${header.parent}" data-root="1">
+                <td class="">
+                    ${header.title}
+                    <input name="questionnaires_ids" class="form-control form-control-sm edit-field" type="hidden" value="${header.id}" placeholder="" autocomplete="off" disabled="">
+                </td>
+                <td class="">
+                    <input name="questionnaires_notes" class="form-control form-control-sm edit-field" type="text" value="" placeholder="" autocomplete="off" disabled="">
+                </td>
+            </tr>
+        `;
+        if (rows[header.id] && Array.isArray(rows[header.id])) {
+            for (let j = 0; j < rows[header.id].length; j++) {
+                let row = rows[header.id][j];
+                questionnaires1 += `
+                    <tr class="questionnaire-elem" data-id="${row.id}" data-parent="${row.parent}" data-root="0">
+                        <td class=""></td>
+                        <td class="">
+                            <input name="title" class="form-control form-control-sm w-75 ml-5" type="text" value="${row.title}" placeholder="" autocomplete="off" disabled="">
+                        </td>
+                        <td class="text-center">
+                            <input type="checkbox" class="form-check-input" name="visible" ${row.visible == true ? 'checked' : ''}>
+                        </td>
+                    </tr>
+                `;
+                questionnaires2 += `
+                    <tr class="questionnaire-elem" data-id="${row.id}" data-parent="${row.parent}" data-root="0">
+                        <td class="">
+                            ${row.title}
+                            <input name="questionnaires_ids" class="form-control form-control-sm edit-field" type="hidden" value="${row.id}" placeholder="" autocomplete="off" disabled="">
+                        </td>
+                        <td class="">
+                            <input name="questionnaires_notes" class="form-control form-control-sm edit-field" type="text" value="" placeholder="" autocomplete="off" disabled="">
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+    }
+    $('#questionnaireRowsEdit').find('.questionnaires-body').html(questionnaires1);
+    $('#playerQuestionnaireTable').find('tbody').html(questionnaires2);
+}
+
+function ToggleQuestionnairesRowsOrder(dir) {
+    let activeElem = $('#questionnaireRowsEdit').find(`.questionnaire-elem.selected`);
+    if (activeElem.length > 0) {
+        let cID = $(activeElem).attr('data-id');
+        let cParentID = $(activeElem).attr('data-parent');
+        let isRoot = $(activeElem).attr('data-root');
+        if (isRoot == '1') {
+            let elems = $('#questionnaireRowsEdit').find(`.questionnaire-elem[data-root="1"]`);
+            let tFirst = null; let tLast = null; let newInd = 0;
+            let children = $('#questionnaireRowsEdit').find(`.questionnaire-elem[data-root="0"]`);
+            $('#questionnaireRowsEdit').find(`.questionnaire-elem[data-root="0"]`).remove();
+            for (let i = 0; i < elems.length; i++) {
+                if ($(elems[i]).attr('data-id') == cID) {
+                    if (dir == "up") {
+                        tLast = $(elems[i]);
+                        if (i - 1 < 0) {
+                            newInd = elems.length - 1;
+                            tFirst = $(elems[newInd]);
+                            $(tLast).detach().insertAfter($(tFirst));
+                        } else {
+                            newInd = i - 1;
+                            tFirst = $(elems[newInd]);
+                            $(tLast).detach().insertBefore($(tFirst));
+                        }
+                    } else if (dir == "down") {
+                        tFirst = $(elems[i]);
+                        if (i + 1 > elems.length - 1) {
+                            newInd = 0;
+                            tLast = $(elems[newInd]);
+                            $(tFirst).detach().insertBefore($(tLast));
+                        } else {
+                            newInd = i + 1;
+                            tLast = $(elems[newInd]);
+                            $(tFirst).detach().insertAfter($(tLast));
+                        }
+                    }
+                    break;
+                }             
+            }
+            for (let i = children.length - 1; i >= 0; i--) {
+                let elem = children[i];
+                let parentId = $(elem).attr('data-parent');
+                $('#questionnaireRowsEdit').find(`.questionnaire-elem[data-id="${parentId}"]`).after(elem);
+            }
+        } else {
+            let elems = $('#questionnaireRowsEdit').find(`.questionnaire-elem[data-parent="${cParentID}"]`);
             let tFirst = null; let tLast = null; let newInd = 0;
             for (let i = 0; i < elems.length; i++) {
                 if ($(elems[i]).attr('data-id') == cID) {
@@ -934,8 +1113,7 @@ $(function() {
                 $('.page-loader-wrapper').fadeOut();
             }
         });
-    });
-
+    });   
     // Player characteristics
     $('#playerCharacteristicsTable').on('click', 'div[name="characteristics_stars"]', (e) => {
         if ($(e.currentTarget).hasClass('disabled')) {return;}
@@ -952,7 +1130,122 @@ $(function() {
             }
         }
     });
+    $('#toggleCharacteristicsChildRows').on('click', (e) => {
+        let state = $(e.currentTarget).attr('data-state');
+        $('#playerCharacteristicsTable').find('.characteristic-elem[data-root="0"]').toggleClass('d-none', state != '1');
+        $(e.currentTarget).attr('data-state', state == '1' ? '0' : '1');
+    });
+    $('#playerCharacteristicsTable').on('click', '.characteristic-elem[data-root="1"]', (e) => {
+        let cId = $(e.currentTarget).attr('data-id');
+        $('#playerCharacteristicsTable').find(`.characteristic-elem[data-root="0"][data-parent="${cId}"]`).toggleClass('d-none');
+    });
 
+
+    // PlayerQuestionnaires
+    LoadPlayerQuestionnaires();
+    $('.cnt-center-block').on('click', '#editQuestionnaireRows', (e) => {
+        $('#questionnaireRowsEdit').modal('show');
+    });
+    // Edit PlayerQuestionnaires
+    $('#questionnaireRowsEdit').on('click', '.questionnaire-elem', (e) => {
+        let wasActive = $(e.currentTarget).hasClass('selected');
+        $('#questionnaireRowsEdit').find('.questionnaire-elem').removeClass('selected');
+        $(e.currentTarget).toggleClass('selected', !wasActive);
+    });
+    $('#questionnaireRowsEdit').on('click', '.questionnaire-up', (e) => {
+        ToggleQuestionnairesRowsOrder("up");
+    });
+    $('#questionnaireRowsEdit').on('click', '.questionnaire-down', (e) => {
+        ToggleQuestionnairesRowsOrder("down");
+    });
+    $('#questionnaireRowsEdit').on('click', '.questionnaire-edit', (e) => {
+        $('#questionnaireRowsEdit').find('input.form-control ').prop('disabled', false);
+    });
+    $('#questionnaireRowsEdit').on('click', '.questionnaire-add', (e) => {
+        let activeElem = $('#questionnaireRowsEdit').find(`.questionnaire-elem.selected`);
+        let parent = null;
+        if (activeElem.length > 0 && $(activeElem).first().attr('data-root') == '1') {
+            parent = $(activeElem).first().attr('data-id');
+        }
+        let data = {'add_questionnaires_rows': 1, 'parent': parent};
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: data,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "players_api",
+            success: function (res) {
+                if (res.success) {
+                    LoadPlayerQuestionnaires();
+                }
+            },
+            error: function (res) {
+                console.error(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
+    });
+    $('#questionnaireRowsEdit').on('click', '.questionnaire-delete', (e) => {
+        let activeElem = $('#questionnaireRowsEdit').find(`.questionnaire-elem.selected`);
+        if (activeElem.length > 0) {
+            let cId = $(activeElem).first().attr('data-id');
+            let data = {'delete_questionnaires_rows': 1, 'id': cId};
+            $('.page-loader-wrapper').fadeIn();
+            $.ajax({
+                headers:{"X-CSRFToken": csrftoken},
+                data: data,
+                type: 'POST', // GET или POST
+                dataType: 'json',
+                url: "players_api",
+                success: function (res) {
+                    if (res.success) {
+                        LoadPlayerQuestionnaires();
+                    }
+                },
+                error: function (res) {
+                    console.error(res);
+                },
+                complete: function (res) {
+                    $('.page-loader-wrapper').fadeOut();
+                }
+            });
+        }
+    });
+    $('#questionnaireRowsEdit').on('click', '[name="save"]', (e) => {
+        let dataToSend = [];
+        $('#questionnaireRowsEdit').find('.questionnaire-elem').each((ind, elem) => {
+            let id = $(elem).attr('data-id');
+            let order = ind+1;
+            let title = $(elem).find('[name="title"]').val();
+            let visible = $(elem).find('[name="visible"]').is(':checked');
+            dataToSend.push({
+                id, order, title, visible
+            });
+        });
+        let data = {'edit_questionnaires_rows': 1, 'data': JSON.stringify(dataToSend)};
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: data,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "players_api",
+            success: function (res) {
+                if (res.success) {
+                    LoadPlayerQuestionnaires();
+                }
+            },
+            error: function (res) {
+                console.error(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
+    });
 
 
 

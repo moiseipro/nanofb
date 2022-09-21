@@ -77,6 +77,9 @@ def players_api(request):
         add_characteristics_rows_status = 0
         delete_characteristics_rows_status = 0
         copy_characteristics_rows_status = 0
+        edit_questionnaires_rows_status = 0
+        add_questionnaires_rows_status = 0
+        delete_questionnaires_rows_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         if not cur_user.exists() or cur_user[0].id == None:
@@ -133,6 +136,18 @@ def players_api(request):
             copy_characteristics_rows_status = int(request.POST.get("copy_characteristics_rows", 0))
         except:
             pass
+        try:
+            edit_questionnaires_rows_status = int(request.POST.get("edit_questionnaires_rows", 0))
+        except:
+            pass
+        try:
+            add_questionnaires_rows_status = int(request.POST.get("add_questionnaires_rows", 0))
+        except:
+            pass
+        try:
+            delete_questionnaires_rows_status = int(request.POST.get("delete_questionnaires_rows", 0))
+        except:
+            pass
         if edit_player_status == 1:
             return v_api.POST_edit_player(request, cur_user[0], cur_team)
         elif delete_player_status == 1:
@@ -157,6 +172,12 @@ def players_api(request):
             return v_api.POST_add_delete_characteristics_rows(request, cur_user[0], False)
         elif copy_characteristics_rows_status == 1:
             return v_api.POST_copy_characteristics_rows(request, cur_user[0])
+        elif edit_questionnaires_rows_status == 1:
+            return v_api.POST_edit_questionnaires_rows(request, cur_user[0])
+        elif add_questionnaires_rows_status == 1:
+            return v_api.POST_add_delete_questionnaires_rows(request, cur_user[0])
+        elif delete_questionnaires_rows_status == 1:
+            return v_api.POST_add_delete_questionnaires_rows(request, cur_user[0], False)
         return JsonResponse({"errors": "access_error"}, status=400)
     elif request.method == "GET" and is_ajax:
         get_player_status = 0
@@ -164,6 +185,7 @@ def players_api(request):
         get_players_json_status = 0
         get_players_table_cols_status = 0
         get_characteristics_rows_status = 0
+        get_questionnaires_rows_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         if not cur_user.exists() or cur_user[0].id == None:
@@ -192,6 +214,10 @@ def players_api(request):
             get_characteristics_rows_status = int(request.GET.get("get_characteristics_rows", 0))
         except:
             pass
+        try:
+            get_questionnaires_rows_status = int(request.GET.get("get_questionnaires_rows", 0))
+        except:
+            pass
         if get_player_status == 1:
             return v_api.GET_get_player(request, cur_user[0], cur_team)
         elif get_players_json_status == 1:
@@ -202,6 +228,8 @@ def players_api(request):
             return v_api.GET_get_players_table_cols(request, cur_user[0])
         elif get_characteristics_rows_status == 1:
             return v_api.GET_get_characteristics_rows(request, cur_user[0])
+        elif get_questionnaires_rows_status == 1:
+            return v_api.GET_get_questionnaires_rows(request, cur_user[0])
         return JsonResponse({"errors": "access_error"}, status=400)
     else:
         return JsonResponse({"errors": "access_error"}, status=400)

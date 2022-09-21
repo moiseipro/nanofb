@@ -270,7 +270,7 @@
                                             <span class="badge badge-warning ml-1" title="Редактировать" id="editCharacteristicsRows">
                                                 <i class="fa fa-pencil" aria-hidden="true"></i>
                                             </span>
-                                            <div class="ta">
+                                            <div class="table-responsive">
                                                 <table id="playerCharacteristicsTable" class="table table-sm table-bordered" style="table-layout: fixed;">
                                                     <colgroup>
                                                         <col span="1" style="width: 30%;">
@@ -281,7 +281,7 @@
                                                     <thead>
                                                         <th class="text-center">
                                                             Тип
-                                                            <button id="toggleEmptyRows" type="button" class="btn btn-sm btn-outline-secondary"><i class="fe fe-text-align-left" aria-hidden="true"></i></button>
+                                                            <button id="toggleCharacteristicsChildRows" type="button" class="btn btn-sm btn-outline-secondary"><i class="fe fe-text-align-left" aria-hidden="true"></i></button>
                                                         </th>
                                                         <th class="text-center">
                                                             Оценка
@@ -295,6 +295,22 @@
                                                     </thead>
                                                     <tbody>
                     
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="row center-content" data-id="questionnaire">
+                                            <span class="badge badge-primary">Анкета</span>
+                                            <span class="badge badge-warning ml-1" title="Редактировать" id="editQuestionnaireRows">
+                                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                            </span>
+                                            <div class="table-responsive">
+                                                <table id="playerQuestionnaireTable" class="table table-sm table-bordered" style="table-layout: fixed;">
+                                                    <colgroup>
+                                                        <col span="1" style="width: 30%;">
+                                                        <col span="1" style="width: 70%;">
+                                                    </colgroup>
+                                                    <tbody>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -489,6 +505,66 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" name="save" data-nfb="0">Сохранить</button>
                         <button type="button" class="btn btn-info d-none" name="copy">Скопировать</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Назад</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="questionnaireRowsEdit" tabindex="-1" role="dialog" aria-labelledby="questionnaireRowsEditLbl" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Анкета (строки):</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                    <div class="modal-body">
+                        <div class="btns-control-container">
+                            <div class="btns-control">
+                                <span class="badge badge-success questionnaire-add" title="Добавить элемент">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                </span>
+                                <span class="badge badge-secondary questionnaire-edit" title="Изменить элемент">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </span>
+                                <span class="badge badge-danger questionnaire-delete" title="Удалить элемент">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </span>
+                                <span class="badge badge-info questionnaire-up" title="Move up">
+                                    <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                                </span>
+                                <span class="badge badge-info questionnaire-down" title="Move down">
+                                    <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="questionnaires">
+                            <table class="table table-sm table-bordered" style="table-layout: fixed;">
+                                <colgroup>
+                                    <col span="1" style="width: 5%;">
+                                    <col span="1" style="width: 80%;">
+                                    <col span="1" style="width: 15%;">
+                                </colgroup>
+                                <thead>
+                                    <th class="text-center">
+                                    </th>
+                                    <th class="text-center">
+                                        Название
+                                    </th>
+                                    <th class="text-center">
+                                        Видимость
+                                    </th>
+                                </thead>
+                                <tbody class="questionnaires-body">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" name="save" data-nfb="0">Сохранить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Назад</button>
                     </div>
                 </div>
