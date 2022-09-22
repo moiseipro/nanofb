@@ -4,6 +4,7 @@ from users.models import User
 from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, AdminExercise
 from references.models import UserSeason, UserTeam
 import exercises.v_api as v_api
+from system_icons.views import get_ui_elements
 
 
 
@@ -27,7 +28,8 @@ def exercises(request):
         'refs': refs, 
         'is_exercises': True,
         'seasons_list': UserSeason.objects.filter(user_id=request.user),
-        'teams_list': UserTeam.objects.filter(user_id=request.user)
+        'teams_list': UserTeam.objects.filter(user_id=request.user),
+        'ui_elements': get_ui_elements()
     })
 
 
@@ -68,7 +70,8 @@ def exercise(request):
         'nfb_folders': found_nfb_folders, 
         'refs': refs,
         'seasons_list': UserSeason.objects.filter(user_id=request.user),
-        'teams_list': UserTeam.objects.filter(user_id=request.user)
+        'teams_list': UserTeam.objects.filter(user_id=request.user),
+        'ui_elements': get_ui_elements()
     })
 
 
@@ -90,7 +93,8 @@ def folders(request):
         'folders_only_view': False, 
         'is_folders': True,
         'seasons_list': UserSeason.objects.filter(user_id=request.user),
-        'teams_list': UserTeam.objects.filter(user_id=request.user)
+        'teams_list': UserTeam.objects.filter(user_id=request.user),
+        'ui_elements': get_ui_elements()
     })
 
 

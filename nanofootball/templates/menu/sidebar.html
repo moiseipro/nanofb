@@ -4,7 +4,15 @@
     <span>{% trans 'Administration' %}</span>
 </li>
 <li class="submenu">
-    <a href="#" class="btn disabled"><i class="fe fe-layout"></i> <span>{% trans '«Client» system' %}</span> <span class="menu-arrow"></span></a>
+    <a href="#" class="btn disabled">
+        {% if ui_elements.sidebar__client_system %}
+            {{ ui_elements.sidebar__client_system }}
+        {% else %}
+            <i class="fe fe-layout"></i>
+        {% endif %}
+        <span>{% trans '«Client» system' %}</span>
+        <span class="menu-arrow"></span>
+    </a>
     <ul style="display: none;">
         <li><a href="#">{% trans 'Users' %}</a></li>
         <li><a href="#">{% trans 'Clubs' %}</a></li>
@@ -12,38 +20,103 @@
     </ul>
 </li>
 <li>
-    <a href="#" class="btn disabled"><i class="fa fa-television"></i> <span>{% trans '«Club» panel' %}</span></a>
+    <a href="#" class="btn disabled">
+        {% if ui_elements.sidebar__club_panel %}
+            {{ ui_elements.sidebar__club_panel }}
+        {% else %}
+            <i class="fa fa-television"></i>
+        {% endif %}
+        <span>{% trans '«Club» panel' %}</span>
+    </a>
 </li>
 <li>
-    <a href="#" class="btn disabled"><i class="fa fa-television"></i> <span>{% trans '«Federation» panel' %}</span></a>
+    <a href="#" class="btn disabled">
+        {% if ui_elements.sidebar__federation_panel %}
+            {{ ui_elements.sidebar__federation_panel }}
+        {% else %}
+            <i class="fa fa-television"></i>
+        {% endif %}
+        <span>{% trans '«Federation» panel' %}</span>
+    </a>
 </li>
 <li class="menu-title">
     <span>{% trans 'Main sections' %}</span>
 </li>
 <li class="{{ menu_events }}">
-    <a href="{% url 'events:base_events' %}" class="btn"><i class="fa fa-calendar"></i> <span>{% trans 'Events' %}</span></a>
+    <a href="{% url 'events:base_events' %}" class="btn">
+        {% if ui_elements.sidebar__events %}
+            {{ ui_elements.sidebar__events }}
+        {% else %}
+            <i class="fa fa-calendar"></i>
+        {% endif %}
+        <span>{% trans 'Events' %}</span>
+    </a>
 </li>
 <li class="{{ menu_matches }}">
-    <a href="{% url 'matches:base_matches' %}" class="btn"><i class="fa fa-trophy"></i> <span>{% trans 'Matches' %}</span></a>
+    <a href="{% url 'matches:base_matches' %}" class="btn">
+        {% if ui_elements.sidebar__matches %}
+            {{ ui_elements.sidebar__matches }}
+        {% else %}
+            <i class="fa fa-trophy"></i>
+        {% endif %}
+        <span>{% trans 'Matches' %}</span>
+    </a>
 </li>
 <li class="{{ menu_trainings }}">
-    <a href="{% url 'trainings:base_trainings' %}" class="btn"><i class="fa fa-calendar-o"></i> <span>{% trans 'Training' %}</span></a>
+    <a href="{% url 'trainings:base_trainings' %}" class="btn">
+        {% if ui_elements.sidebar__trainings %}
+            {{ ui_elements.sidebar__trainings }}
+        {% else %}
+            <i class="fa fa-calendar-o"></i>
+        {% endif %}
+        <span>{% trans 'Training' %}</span>
+    </a>
 </li>
 <li class="submenu">
-    <a href="#"><i class="fa fa-futbol-o"></i> <span>{% trans 'Exercises' %}</span> <span class="menu-arrow"></span></a>
+    <a href="#">
+        {% if ui_elements.sidebar__exercises %}
+            {{ ui_elements.sidebar__exercises }}
+        {% else %}
+            <i class="fa fa-futbol-o"></i>
+        {% endif %}
+        <span>{% trans 'Exercises' %}</span>
+        <span class="menu-arrow"></span>
+    </a>
     <ul style="display: none;">
         <li><a class="nav-link {% if is_exercises %}active{% endif %}" href="{% url 'exercises:exercises' %}">{% trans 'List of exercises' %}</a></li>
         <li><a class="nav-link {% if is_folders %}active{% endif %}" href="{% url 'exercises:folders' %}">{% trans 'Folders management' %}</a></li>
     </ul>
 </li>
 <li>
-    <a href="{% url 'players:players' %}" class="btn"><i class="icon-custom icon--players" style="--i-w: 1.3em; --i-h: 1.3em;"></i> <span>{% trans 'Players' %}</span></a>
+    <a href="{% url 'players:players' %}" class="btn">
+        {% if ui_elements.sidebar__players %}
+            {{ ui_elements.sidebar__players }}
+        {% else %}
+            <i class="icon-custom icon--players" style="--i-w: 1.3em; --i-h: 1.3em;"></i>
+        {% endif %}
+        <span>{% trans 'Players' %}</span>
+    </a>
 </li>
 <li>
-    <a href="#" class="btn disabled"><i class="fa fa-line-chart"></i> <span>{% trans 'Analytics' %}</span></a>
+    <a href="#" class="btn disabled">
+        {% if ui_elements.sidebar__analytics %}
+            {{ ui_elements.sidebar__analytics }}
+        {% else %}
+            <i class="fa fa-line-chart"></i>
+        {% endif %}
+        <span>{% trans 'Analytics' %}</span>
+    </a>
 </li>
 <li class="submenu">
-    <a href="#"><i class="fa fa-product-hunt"></i> <span>{% trans 'Applications' %}</span> <span class="menu-arrow"></span></a>
+    <a href="#">
+        {% if ui_elements.sidebar__applications %}
+            {{ ui_elements.sidebar__applications }}
+        {% else %}
+            <i class="fa fa-product-hunt"></i>
+        {% endif %}
+        <span>{% trans 'Applications' %}</span>
+        <span class="menu-arrow"></span>
+    </a>
     <ul style="display: none;">
         <li><a href="#">{% trans 'Mailing' %}</a></li>
         <li><a href="#">{% trans 'Chat' %}</a></li>
@@ -56,8 +129,22 @@
     <span>{% trans 'Education' %}</span>
 </li>
 <li>
-    <a href="#" class="btn disabled"><i class="fa fa-book"></i> <span>{% trans 'Methodology' %}</span></a>
+    <a href="#" class="btn disabled">
+        {% if ui_elements.sidebar__methodology %}
+            {{ ui_elements.sidebar__methodology }}
+        {% else %}
+            <i class="fa fa-book"></i>
+        {% endif %}
+        <span>{% trans 'Methodology' %}</span>
+    </a>
 </li>
 <li>
-    <a href="#" class="btn disabled"><i class="fa fa-list-alt"></i> <span>{% trans 'Courses' %}</span></a>
+    <a href="#" class="btn disabled">
+        {% if ui_elements.sidebar__courses %}
+            {{ ui_elements.sidebar__courses }}
+        {% else %}
+            <i class="fa fa-list-alt"></i>
+        {% endif %}
+        <span>{% trans 'Courses' %}</span>
+    </a>
 </li>

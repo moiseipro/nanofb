@@ -6,6 +6,7 @@ from users.models import User
 from references.models import UserSeason, UserTeam
 from players.models import UserPlayer, ClubPlayer, CardSection
 import players.v_api as v_api
+from system_icons.views import get_ui_elements
 
 
 
@@ -26,6 +27,7 @@ def players(request):
         'refs': refs,
         'seasons_list': UserSeason.objects.filter(user_id=request.user),
         'teams_list': UserTeam.objects.filter(user_id=request.user),
+        'ui_elements': get_ui_elements(),
     })
 
 

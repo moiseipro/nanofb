@@ -1,3 +1,4 @@
+import imp
 import os
 from itertools import islice, chain
 
@@ -29,6 +30,7 @@ from video.serializers import VideoSerializer, VideoUpdateSerializer, OnlyVideoS
 from references.models import VideoSource
 from video.forms import CreateVideoForm, UpdateVideoForm
 from video.models import Video, VideoTags
+from system_icons.views import get_ui_elements
 
 context_page = {'menu_video': 'active'}
 
@@ -345,6 +347,7 @@ class BaseVideoView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['sources'] = VideoSource.objects.all().annotate(videos=Count('video'))
         context['tags'] = Tag.objects.all()
+        context['ui_elements'] = get_ui_elements()
         # context['update_form'] = UpdateVideoForm()
         return context
 
