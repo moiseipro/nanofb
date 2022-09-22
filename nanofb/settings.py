@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework_datatables',
     'rest_framework.authtoken',
     'taggit',
+    'colorfield',
 
     'nanofootball.apps.NanofootballConfig',
     'users.apps.UsersConfig',
@@ -59,6 +60,7 @@ INSTALLED_APPS = [
     'clubs.apps.ClubsConfig',
     'schemeDrawer.apps.SchemedrawerConfig',
     'api.apps.ApiConfig',
+    'system_icons.apps.SystemIconsConfig',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

@@ -15,6 +15,7 @@ from events.serializers import UserMicrocyclesSerializer, UserMicrocyclesUpdateS
     UserEventEditSerializer
 from references.models import UserTeam, UserSeason
 from trainings.models import UserTraining
+from system_icons.views import get_ui_elements
 
 
 # REST FRAMEWORK
@@ -99,4 +100,5 @@ class EventsView(TemplateView):
         context['microcycle_form'] = MicrocycleUserForm
         context['event_form'] = EventUserForm
         context['event_edit_form'] = EventEditUserForm
+        context['ui_elements'] = get_ui_elements()
         return context

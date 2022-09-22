@@ -19,6 +19,7 @@ from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExe
 from trainings.serializers import UserTrainingSerializer, UserTrainingExerciseSerializer, \
     UserTrainingExerciseAdditionalSerializer, UserTrainingProtocolSerializer
 from users.models import User
+from system_icons.views import get_ui_elements
 
 
 class TrainingViewSet(viewsets.ModelViewSet):
@@ -268,6 +269,7 @@ class TrainingsView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['teams_list'] = UserTeam.objects.filter(user_id=self.request.user)
         context['seasons_list'] = UserSeason.objects.filter(user_id=self.request.user)
+        context['ui_elements'] = get_ui_elements()
         return context
 
 
@@ -289,6 +291,8 @@ class EditTrainingsView(DetailView):
         context['nfb_folders'] = found_nfb_folders
         context['refs'] = refs
         context['is_exercises'] = True
+        context['ui_elements'] = get_ui_elements()
 
 
         return context
+

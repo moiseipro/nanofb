@@ -4,7 +4,9 @@ from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from django.db.models import Q
 from references.models import UserTeam
-from players.models import UserPlayer, ClubPlayer, CardSection, PlayerCard, PlayersTableColumns, PlayerCharacteristicsRows, PlayerCharacteristicUser
+from players.models import UserPlayer, ClubPlayer, CardSection, PlayerCard, PlayersTableColumns
+from players.models import PlayerCharacteristicsRows, PlayerCharacteristicUser, PlayerCharacteristicClub
+from players.models import PlayerQuestionnairesRows, PlayerQuestionnaireUser, PlayerQuestionnaireClub
 from references.models import PlayerTeamStatus, PlayerPlayerStatus, PlayerLevel, PlayerPosition, PlayerFoot
 from datetime import datetime, date
 import json
@@ -202,6 +204,35 @@ def POST_edit_player(request, cur_user, cur_team):
                         res_data += '\nAdded player characteristics for player.'
                     except:
                         res_data += '\nErr while saving player characteristics.'
+    questionnaires_ids = request.POST.getlist("data[questionnaires_ids]")
+    questionnaires_notes = request.POST.getlist("data[questionnaires_notes]")
+    if isinstance(questionnaires_ids, list) and isinstance(questionnaires_notes, list):
+        if len(questionnaires_ids) == len(questionnaires_notes):
+            for _i in range(len(questionnaires_ids)):
+                c_id = -1
+                c_note = ""
+                try:
+                    c_id = int(questionnaires_ids[_i])
+                except:
+                    pass
+                try:
+                    c_note = questionnaires_notes[_i]
+                except:
+                    pass
+                f_row = PlayerQuestionnairesRows.objects.filter(id=c_id, is_nfb=False, user=cur_user)
+                if f_row.exists() and f_row[0].id != None:
+                    f_row = f_row[0]
+                    c_questionnaires = PlayerQuestionnaireUser.objects.filter(questionnaire=f_row, user=cur_user, player=c_player)
+                    if c_questionnaires.exists() and c_questionnaires[0].id != None:
+                        c_questionnaires = c_questionnaires[0]
+                    else:
+                        c_questionnaires = PlayerQuestionnaireUser(questionnaire=f_row, user=cur_user, player=c_player)
+                    try:
+                        c_questionnaires.notes = c_note
+                        c_questionnaires.save()
+                        res_data += '\nAdded player questionnaires for player.'
+                    except:
+                        res_data += '\nErr while saving player questionnaires.'
     return JsonResponse({"data": res_data, "success": True}, status=200)
 
 
@@ -492,7 +523,6 @@ def POST_add_delete_characteristics_rows(request, cur_user, to_add = True):
 
 
 def POST_copy_characteristics_rows(request, cur_user):
-    print('xxxx')
     try:
         found_rows = PlayerCharacteristicsRows.objects.filter(is_nfb=False, user=cur_user)
         if found_rows.exists() and found_rows[0].id != None:
@@ -520,6 +550,70 @@ def POST_copy_characteristics_rows(request, cur_user):
     except:
         return JsonResponse({"errors": "Can't copy characteristic.", "success": False}, status=400)
     return JsonResponse({"data": "Ok!", "success": True}, status=200)
+
+
+def POST_edit_questionnaires_rows(request, cur_user):
+    post_data = request.POST.get("data", None)
+    try:
+        post_data = json.loads(post_data)
+    except:
+        post_data = None
+    if not post_data:
+        return JsonResponse({"errors": "Can't parse post data"}, status=400)
+    res_data = ""
+    for elem in post_data:
+        f_row = PlayerQuestionnairesRows.objects.filter(id=elem['id'], is_nfb=False, user=cur_user)
+        if f_row.exists() and f_row[0].id != None:
+            f_row = f_row[0]
+            f_row.title = set_by_language_code(f_row.title, request.LANGUAGE_CODE, elem['title'])
+            f_row.order = elem['order']
+            f_row.visible = elem['visible']
+            try:
+                f_row.save()
+                res_data += f'Questionnaire row with id: [{f_row.id}] is edited successfully.'
+            except Exception as e:
+                res_data += f"Err. Cant edit questionnaire row with id: [{elem['id']}]."
+    return JsonResponse({"data": res_data, "success": True}, status=200)
+
+
+def POST_add_delete_questionnaires_rows(request, cur_user, to_add = True):
+    row_id = -1
+    parent = -1
+    try:
+        row_id = int(request.POST.get("id", -1))
+    except:
+        pass
+    try:
+        parent = int(request.POST.get("parent", -1))
+    except:
+        pass
+    res_data = ""
+    if to_add:
+        found_row = PlayerQuestionnairesRows.objects.filter(id=parent, parent=None, is_nfb=False, user=cur_user)
+        new_row = None
+        if found_row.exists() and found_row[0].id != None:
+            new_row = PlayerQuestionnairesRows(parent=parent, is_nfb=False, user=cur_user)
+        else:
+            new_row = PlayerQuestionnairesRows(is_nfb=False, user=cur_user)
+        try:
+            new_row.save()
+            res_data += f'New row added.'
+        except:
+            return JsonResponse({"errors": "Can't save new row", "success": False}, status=400)
+    else:
+        found_row = PlayerQuestionnairesRows.objects.filter(id=row_id, is_nfb=False, user=cur_user)
+        if found_row.exists() and found_row[0].id != None:
+            try:
+                found_row.delete()
+                found_rows = PlayerQuestionnairesRows.objects.filter(parent=row_id, is_nfb=False, user=cur_user)
+                if found_rows.exists() and found_rows[0].id != None:
+                    for row in found_rows:
+                        row.delete()
+            except:
+                return JsonResponse({"errors": "Can't delete row.", "success": False}, status=400) 
+        else:
+            return JsonResponse({"errors": "Can't find row for delete.", "success": False}, status=400)
+    return JsonResponse({"data": res_data, "success": True}, status=200)
 
 
 
@@ -562,6 +656,17 @@ def GET_get_player(request, cur_user, cur_team):
                         'value': f_characteristic_one.value,
                         'notes': f_characteristic_one.notes,
                         'diff': diff
+                    })
+        res_data['questionnaires'] = []
+        f_questionnaires_rows = PlayerQuestionnairesRows.objects.filter(is_nfb=False, user=cur_user)
+        if f_questionnaires_rows.exists() and f_questionnaires_rows[0].id != None:
+            for f_row in f_questionnaires_rows:
+                f_questionnaire_elem = PlayerQuestionnaireUser.objects.filter(questionnaire=f_row, user=cur_user, player=player[0])
+                if f_questionnaire_elem.exists() and f_questionnaire_elem[0].id != None:
+                    f_questionnaire_one = f_questionnaire_elem[0]
+                    res_data['questionnaires'].append({
+                        'row_id': f_row.id,
+                        'notes': f_questionnaire_one.notes,
                     })
         return JsonResponse({"data": res_data, "success": True}, status=200)
     return JsonResponse({"errors": "Player not found.", "success": False}, status=400)
@@ -658,6 +763,22 @@ def GET_get_characteristics_rows(request, cur_user):
     for characteristic in characteristics:
         characteristic['title'] = get_by_language_code(characteristic['title'], request.LANGUAGE_CODE)
     res_data["characteristics"] = characteristics
+    return JsonResponse({"data": res_data, "success": True}, status=200)
+
+
+def GET_get_questionnaires_rows(request, cur_user):
+    res_data = {'questionnaires': [], 'user_params': [], 'mode': "nfb" if cur_user.is_superuser else "user"}
+    get_nfb = 0
+    try:
+        get_nfb = int(request.GET.get("nfb", 0))
+    except:
+        pass
+    questionnaires = []
+    questionnaires = PlayerQuestionnairesRows.objects.filter(is_nfb=False, user=cur_user)
+    questionnaires = [entry for entry in questionnaires.values()]
+    for questionnaire in questionnaires:
+        questionnaire['title'] = get_by_language_code(questionnaire['title'], request.LANGUAGE_CODE)
+    res_data["questionnaires"] = questionnaires
     return JsonResponse({"data": res_data, "success": True}, status=200)
 
 

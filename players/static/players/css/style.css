@@ -107,3 +107,18 @@
 .star-checked {
     color: orange;
 }
+
+
+.questionnaire-elem:hover {
+    background-color: rgb(240, 240, 240);
+    border: 2px solid rgb(100, 100, 100) !important;
+}
+.questionnaire-elem.parent {
+    background-color: aliceblue;
+}
+.questionnaire-elem.selected {
+    background-color: #d4d4d4;
+    color: #5a6268;
+    border: 2px solid rgb(100, 100, 100) !important;
+}
+
