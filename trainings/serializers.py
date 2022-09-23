@@ -9,10 +9,14 @@ from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExe
 class UserTrainingProtocolSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
 
+    def __init__(self, *args, **kwargs):
+        many = kwargs.pop('many', True)
+        super(UserTrainingProtocolSerializer, self).__init__(many=many, *args, **kwargs)
+
     class Meta:
         model = UserTrainingProtocol
         fields = [
-            'id', 'estimation', 'status'
+            'id', 'training_id', 'player_id', 'estimation', 'status'
         ]
 
 

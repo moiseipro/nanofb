@@ -116,6 +116,23 @@ $(window).on('load', function (){
         });
     })
 
+    // Добавление игроков в протокол
+    $('#add-player-protocol-modal').on('click', '.add-all-players', function (){
+        let send_data = {}
+        swal(gettext("Add all players from the team of this training session?"), {
+            buttons: {
+                cancel: true,
+                confirm: true,
+            },
+        }).then(function(isConfirm) {
+            if (isConfirm) {
+                ajax_training_action('POST', send_data, 'add all players to the protocol ', id, 'add_all_protocol').done(function (data) {
+                    console.log(data)
+                })
+            }
+        });
+    })
+
     $('#save-training').on('click', function () {
         let date = $('#block-training-info input[name="date"]').val()
         let time = $('#block-training-info input[name="time"]').val()

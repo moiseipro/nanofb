@@ -11,6 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 from events.models import UserEvent
 from exercises.models import UserExercise
 from exercises.v_api import get_exercises_params
+from players.models import UserPlayer
 from references.models import UserTeam, UserSeason, ClubTeam, ClubSeason, ExsAdditionalData
 from references.serializers import ExsAdditionalDataSerializer
 from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExerciseAdditional, UserTrainingProtocol
@@ -72,6 +73,55 @@ class TrainingViewSet(viewsets.ModelViewSet):
                             status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=True, methods=['post'])
+    def get_protocol(self, request, pk=None):
+        data = request.data
+        queryset = UserTrainingProtocol.objects.filter(training_id=pk)
+        print(queryset)
+
+        serializer = UserTrainingProtocolSerializer(queryset, many=True)
+        return Response({'status': 'protocol_got', 'objs': serializer.data})
+
+    @action(detail=True, methods=['post'])
+    def add_all_protocol(self, request, pk=None):
+        data = request.data
+
+        protocol_count = UserTrainingProtocol.objects.filter(training_id=pk).count()
+        training_team = UserTraining.objects.values_list('team_id', flat=True).get(pk=pk)
+        print(training_team)
+        if protocol_count > 30:
+            return Response({'status': 'protocol_limit'})
+        elif protocol_count > 0:
+            return Response({'status': 'protocol_not_empty'})
+
+        players_team = list(UserPlayer.objects.filter(team=training_team).values_list('id', flat=True))
+        print(players_team)
+        players_array = []
+        if len(players_team) > 0:
+            for idx, val in enumerate(players_team):
+                data_dict = dict(
+                    training_id=pk,
+                    player_id=val,
+                )
+                players_array.append(data_dict)
+        print(players_array)
+        query_dict = QueryDict('', mutable=True)
+        query_dict.update(players_array)
+        print(query_dict)
+
+        serializer = UserTrainingProtocolSerializer(
+            data=players_array, many=True
+        )
+        # print(serializer)
+        if serializer.is_valid(raise_exception=True):
+            new_obj = serializer.save()
+            print(new_obj)
+            object_serialize = UserTrainingProtocolSerializer(new_obj, many=True).data
+            return Response({'status': 'protocol_added', 'objs': object_serialize})
+        else:
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=['post'])
     def add_protocol(self, request, pk=None):
         data = request.data
 
@@ -79,6 +129,7 @@ class TrainingViewSet(viewsets.ModelViewSet):
         print(protocol_count)
         if protocol_count > 30:
             return Response({'status': 'protocol_limit'})
+
         data_dict = dict(
             training_id=pk,
             player_id=data['player_id'],

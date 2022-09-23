@@ -130,7 +130,7 @@
                                 <thead>
                                     <tr>
                                         <th class="p-0 text-center align-middle border">
-                                            <button id="#add-player-protocol" title="" class="btn btn-block btn-outline-success btn-sm edit-input" disabled><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                            <button title="" class="btn btn-block btn-outline-success btn-sm edit-input" data-toggle="modal" data-target="#add-player-protocol-modal" disabled><i class="fa fa-plus" aria-hidden="true"></i></button>
                                         </th>
                                         <th colspan="6" class="p-0 text-center align-middle border">
                                         </th>
@@ -201,6 +201,25 @@
                                     </tr>
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="modal fade" id="add-player-protocol-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">{% trans "Players" %}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        ...
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary add-all-players">{% trans "Add all players" %}</button>
+                                        <button type="button" class="btn btn-primary">{% trans "Add selected" %}</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
