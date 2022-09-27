@@ -72,7 +72,7 @@ class TrainingViewSet(viewsets.ModelViewSet):
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
 
-    @action(detail=True, methods=['post'])
+    @action(detail=True, methods=['get'])
     def get_protocol(self, request, pk=None):
         data = request.data
         queryset = UserTrainingProtocol.objects.filter(training_id=pk)

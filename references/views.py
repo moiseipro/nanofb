@@ -5,8 +5,9 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
 from references.forms import CreateTeamForm, CreateSeasonForm
-from references.models import UserSeason, UserTeam, ClubSeason, ClubTeam, ExsAdditionalData
-from references.serializers import UserTeamsSerializer, UserSeasonsSerializer, ExsAdditionalDataSerializer
+from references.models import UserSeason, UserTeam, ClubSeason, ClubTeam, ExsAdditionalData, PlayerProtocolStatus
+from references.serializers import UserTeamsSerializer, UserSeasonsSerializer, ExsAdditionalDataSerializer, \
+    PlayerProtocolStatusSerializer
 
 
 # REST FRAMEWORK
@@ -53,6 +54,21 @@ class ExsAdditionalViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return ExsAdditionalData.objects.all()
+
+
+class PlayerProtocolStatusViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(user_id=self.request.user)
+
+    def get_serializer_class(self):
+        if self.action == 'partial_update':
+            return PlayerProtocolStatusSerializer
+        return PlayerProtocolStatusSerializer
+
+    def get_queryset(self):
+        return PlayerProtocolStatus.objects.all()
 
 
 # DJANGO

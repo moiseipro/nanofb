@@ -19,9 +19,9 @@ function ajax_protocol_training(method, data, action = '', id = '', func = '') {
             data: data,
             success: function(data){
                 console.log(data)
-                if(data.status == 'exercise_limit'){
+                if(data.status == 'protocol_limit'){
                     swal(gettext('Training '+action), gettext('The limit of exercises for the selected group has been reached'), "error");
-                }if(data.status == 'exercise_got' || data.status == 'sort_exercise'){
+                }if(data.status == 'protocol_got' || data.status == 'sort_exercise'){
 
                 } else {
                     swal(gettext('Training '+action), gettext('Training action "'+action+'" successfully!'), "success");

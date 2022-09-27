@@ -126,7 +126,7 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="training-protocol" role="tabpanel" aria-labelledby="training-protocol-tab">
-                            <table class="table table-sm table-bordered">
+                            <table id="player-protocol-table" class="table table-sm table-bordered">
                                 <thead>
                                     <tr>
                                         <th class="p-0 text-center align-middle border">
@@ -138,28 +138,28 @@
                                         <th colspan="8" class="p-0 text-center align-middle border">Группа B (Упражнения)</th>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"></td>
-                                        <td class="p-0 text-center align-middle"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></td>
-                                        <td class="p-0 text-center align-middle"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></td>
-                                        <td class="p-0 text-center align-middle">#</td>
-                                        <td>ФИО</td>
-                                        <td class="p-0 text-center align-middle" width="40"><input type="checkbox" class="all-player-check" data-group="group_1" data-count="7" style="width: 25px; height: 25px;"></td>
-                                        <td class="p-0 text-center align-middle">1</td>
-                                        <td class="p-0 text-center align-middle">2</td>
-                                        <td class="p-0 text-center align-middle">3</td>
-                                        <td class="p-0 text-center align-middle">4</td>
-                                        <td class="p-0 text-center align-middle">5</td>
-                                        <td class="p-0 text-center align-middle">6</td>
-                                        <td class="p-0 text-center align-middle">7</td>
+                                        <th colspan="2"></th>
+                                        <th class="p-0 text-center align-middle border"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></th>
+                                        <th class="p-0 text-center align-middle border"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></th>
+                                        <th class="p-0 text-center align-middle border">#</th>
+                                        <th>ФИО</th>
+                                        <th class="p-0 text-center align-middle border" width="40"><input type="checkbox" class="all-player-check" data-group="group_1" data-count="7" style="width: 25px; height: 25px;"></th>
+                                        <th class="p-0 text-center align-middle border">1</th>
+                                        <th class="p-0 text-center align-middle border">2</th>
+                                        <th class="p-0 text-center align-middle border">3</th>
+                                        <th class="p-0 text-center align-middle border">4</th>
+                                        <th class="p-0 text-center align-middle border">5</th>
+                                        <th class="p-0 text-center align-middle border">6</th>
+                                        <th class="p-0 text-center align-middle border">7</th>
 
-                                        <td class="p-0 text-center align-middle" width="40"><input type="checkbox" class="all-player-check" data-group="group_2" data-count="7" style="width: 25px; height: 25px;"></td>
+                                        <th class="p-0 text-center align-middle border" width="40"><input type="checkbox" class="all-player-check" data-group="group_2" data-count="7" style="width: 25px; height: 25px;"></th>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <td class="p-0 text-center align-middle">1</td>
-                                        <td class="p-0 text-center align-middle">2</td>
-                                        <td class="p-0 text-center align-middle">3</td>
-                                        <td class="p-0 text-center align-middle">4</td>
-                                        <td class="p-0 text-center align-middle">5</td>
-                                        <td class="p-0 text-center align-middle">6</td>
-                                        <td class="p-0 text-center align-middle">7</td>
+                                        <th class="p-0 text-center align-middle border">2</th>
+                                        <th class="p-0 text-center align-middle border">3</th>
+                                        <th class="p-0 text-center align-middle border">4</th>
+                                        <th class="p-0 text-center align-middle border">5</th>
+                                        <th class="p-0 text-center align-middle border">6</th>
+                                        <th class="p-0 text-center align-middle border">7</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -231,6 +231,7 @@
 
 {% block custom_scripts %}
     <script src="{% static 'references/exercise_additional_data.js' %}"></script>
+    <script src="{% static 'references/player_protocol_status.js' %}"></script>
 
     <script src="{% static 'exercises/js/modules/exercise_counter.js' %}"></script>
     <script src="{% static 'exercises/js/modules/visual_block_control.js' %}"></script>

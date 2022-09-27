@@ -6,6 +6,8 @@ router = routers.DefaultRouter()
 router.register(r'teams', views.TeamViewSet, basename="teams")
 router.register(r'seasons', views.SeasonViewSet, basename="seasons")
 router.register(r'exercise_additional', views.ExsAdditionalViewSet, basename="exercise_additional")
+router.register(r'protocol_status', views.PlayerProtocolStatusViewSet, basename="protocol_status")
+
 
 urlpatterns = [
     path('season', views.change_season, name="set_season"),

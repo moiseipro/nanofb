@@ -16,7 +16,7 @@ class UserTrainingProtocolSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserTrainingProtocol
         fields = [
-            'id', 'training_id', 'player_id', 'estimation', 'status'
+            'id', 'training_id', 'player_id', 'estimation', 'status', 'training_exercise_check'
         ]
 
 

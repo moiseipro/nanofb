@@ -1,8 +1,8 @@
 var cashed_data = null
 
-async function ajax_exercise_additional(method, data, action = '', id = '', func = '') {
+async function ajax_protocol_status(method, data, action = '', id = '', func = '') {
 
-    let url = "/references/api/exercise_additional/"
+    let url = "/references/api/protocol_status/"
     if(id !== '') url += `${id}/`
     if(func !== '') url += `${func}/`
 

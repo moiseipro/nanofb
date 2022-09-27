@@ -1,5 +1,6 @@
 from django.contrib import admin
-from references.models import ExsGoal, ExsBall, ExsTeamCategory, ExsAgeCategory, ExsTrainPart, ExsCognitiveLoad
+from references.models import ExsGoal, ExsBall, ExsTeamCategory, ExsAgeCategory, ExsTrainPart, ExsCognitiveLoad, \
+    PlayerProtocolStatus
 from references.models import ExsKeyword, ExsStressType, ExsPurpose, ExsCoaching
 from references.models import ExsCategory, ExsAdditionalData, ExsTitleName
 from references.models import VideoSource, UserSeason, UserTeam
@@ -11,7 +12,7 @@ admin.site.register([ExsGoal, ExsBall, ExsTeamCategory, ExsAgeCategory, ExsTrain
 admin.site.register([ExsKeyword, ExsStressType, ExsPurpose, ExsCoaching])
 admin.site.register([ExsCategory, ExsAdditionalData, ExsTitleName])
 
-admin.site.register([PlayerTeamStatus, PlayerPlayerStatus, PlayerLevel, PlayerPosition, PlayerFoot])
+admin.site.register([PlayerTeamStatus, PlayerPlayerStatus, PlayerLevel, PlayerPosition, PlayerFoot, PlayerProtocolStatus])
 
 
 #For Test

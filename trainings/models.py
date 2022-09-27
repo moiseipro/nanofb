@@ -102,7 +102,7 @@ class AbstractTrainingExercise(models.Model):
 
     class Meta:
         abstract = True
-        ordering = ['order']
+        ordering = ['group', 'order']
 
 
 class UserTrainingExercise(AbstractTrainingExercise):
