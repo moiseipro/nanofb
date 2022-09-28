@@ -27,6 +27,7 @@ def exercises(request):
         'nfb_folders': found_nfb_folders, 
         'refs': refs, 
         'is_exercises': True,
+        'menu_exercises': 'active',
         'seasons_list': UserSeason.objects.filter(user_id=request.user),
         'teams_list': UserTeam.objects.filter(user_id=request.user),
         'ui_elements': get_ui_elements()
@@ -69,6 +70,7 @@ def exercise(request):
         'folders_only_view': True, 
         'nfb_folders': found_nfb_folders, 
         'refs': refs,
+        'menu_exercises': 'active',
         'seasons_list': UserSeason.objects.filter(user_id=request.user),
         'teams_list': UserTeam.objects.filter(user_id=request.user),
         'ui_elements': get_ui_elements()
@@ -92,6 +94,7 @@ def folders(request):
         'folders': found_folders, 
         'folders_only_view': False, 
         'is_folders': True,
+        'menu_exercises_folders': 'active',
         'seasons_list': UserSeason.objects.filter(user_id=request.user),
         'teams_list': UserTeam.objects.filter(user_id=request.user),
         'ui_elements': get_ui_elements()

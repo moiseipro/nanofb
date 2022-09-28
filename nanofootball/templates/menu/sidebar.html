@@ -83,11 +83,11 @@
         <span class="menu-arrow"></span>
     </a>
     <ul style="display: none;">
-        <li><a class="nav-link {% if is_exercises %}active{% endif %}" href="{% url 'exercises:exercises' %}">{% trans 'List of exercises' %}</a></li>
-        <li><a class="nav-link {% if is_folders %}active{% endif %}" href="{% url 'exercises:folders' %}">{% trans 'Folders management' %}</a></li>
+        <li><a class="nav-link {{ menu_exercises }}" href="{% url 'exercises:exercises' %}">{% trans 'List of exercises' %}</a></li>
+        <li><a class="nav-link {{ menu_exercises_folders }}" href="{% url 'exercises:folders' %}">{% trans 'Folders management' %}</a></li>
     </ul>
 </li>
-<li>
+<li class="{{ menu_players }}">
     <a href="{% url 'players:players' %}" class="btn">
         {% if ui_elements.sidebar__players %}
             {{ ui_elements.sidebar__players }}

@@ -25,6 +25,7 @@ def players(request):
     return render(request, 'players/base_players.html', {
         'players': players,
         'refs': refs,
+        'menu_players': 'active',
         'seasons_list': UserSeason.objects.filter(user_id=request.user),
         'teams_list': UserTeam.objects.filter(user_id=request.user),
         'ui_elements': get_ui_elements(),
@@ -57,8 +58,10 @@ def player(request):
     return render(request, 'players/base_player.html', {
         'players': players,
         'refs': refs,
+        'menu_players': 'active',
         'seasons_list': UserSeason.objects.filter(user_id=request.user),
         'teams_list': UserTeam.objects.filter(user_id=request.user),
+        'ui_elements': get_ui_elements(),
     })
 
 

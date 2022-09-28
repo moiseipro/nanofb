@@ -98,5 +98,5 @@ class ClubMatch(AbstractMatch):
     )
     team_id = models.ForeignKey(
         ClubTeam,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
     )
