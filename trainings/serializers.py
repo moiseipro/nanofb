@@ -2,10 +2,24 @@ from rest_framework import serializers
 
 from exercises.serializers import UserExerciseSerializer
 from references.serializers import ExsAdditionalDataSerializer
-from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExerciseAdditional
+from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExerciseAdditional, UserTrainingProtocol
 
 
 # Training
+class UserTrainingProtocolSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    def __init__(self, *args, **kwargs):
+        many = kwargs.pop('many', True)
+        super(UserTrainingProtocolSerializer, self).__init__(many=many, *args, **kwargs)
+
+    class Meta:
+        model = UserTrainingProtocol
+        fields = [
+            'id', 'training_id', 'player_id', 'estimation', 'status', 'training_exercise_check'
+        ]
+
+
 class UserTrainingExerciseAdditionalSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     additional_name = serializers.JSONField(

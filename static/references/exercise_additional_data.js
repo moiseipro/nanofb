@@ -1,6 +1,6 @@
 var cashed_data = null
 
-function ajax_exercise_additional(method, data, action = '', id = '', func = '') {
+async function ajax_exercise_additional(method, data, action = '', id = '', func = '') {
 
     let url = "/references/api/exercise_additional/"
     if(id !== '') url += `${id}/`
@@ -8,7 +8,7 @@ function ajax_exercise_additional(method, data, action = '', id = '', func = '')
 
     //$('.page-loader-wrapper').fadeIn();
 
-    return $.ajax({
+    return await $.ajax({
             headers:{"X-CSRFToken": csrftoken },
             url: url,
             type: method,

@@ -5,7 +5,8 @@ from django.utils.translation import gettext_lazy as _
 
 from events.models import UserEvent, ClubEvent
 from exercises.models import UserExercise, ClubExercise
-from references.models import UserTeam, ClubTeam, ExsAdditionalData
+from players.models import UserPlayer
+from references.models import UserTeam, ClubTeam, ExsAdditionalData, PlayerProtocolStatus
 from users.models import User
 
 
@@ -49,6 +50,11 @@ class UserTraining(AbstractTraining):
         UserExercise,
         through="UserTrainingExercise",
         through_fields=('training_id', 'exercise_id'),
+    )
+    protocol = models.ManyToManyField(
+        UserPlayer,
+        through="UserTrainingProtocol",
+        through_fields=('training_id', 'player_id'),
     )
 
 
@@ -96,7 +102,7 @@ class AbstractTrainingExercise(models.Model):
 
     class Meta:
         abstract = True
-        ordering = ['order']
+        ordering = ['group', 'order']
 
 
 class UserTrainingExercise(AbstractTrainingExercise):
@@ -163,4 +169,41 @@ class ClubTrainingExerciseAdditional(AbstractTrainingExerciseAdditional):
     additional_id = models.ForeignKey(
         ExsAdditionalData,
         on_delete=models.CASCADE,
+    )
+
+
+# PROTOCOL
+class AbstractTrainingProtocol(models.Model):
+    class EstimationType(models.IntegerChoices):
+        No = 0
+        Like = 1
+        Dislike = 2
+
+    estimation = models.PositiveSmallIntegerField(
+        verbose_name=_('estimation'),
+        help_text=_('Player rating like/dislike'),
+        choices=EstimationType.choices,
+        default=0
+    )
+    status = models.ForeignKey(
+        PlayerProtocolStatus,
+        on_delete=models.SET_NULL,
+        null=True
+    )
+
+    class Meta:
+        abstract = True
+
+
+class UserTrainingProtocol(AbstractTrainingProtocol):
+    training_id = models.ForeignKey(
+        UserTraining,
+        on_delete=models.CASCADE
+    )
+    player_id = models.ForeignKey(
+        UserPlayer,
+        on_delete=models.CASCADE
+    )
+    training_exercise_check = models.ManyToManyField(
+        UserTrainingExercise,
     )

@@ -86,3 +86,12 @@ function get_url_value (name, url = window.location.href){
     }
     return decodeURI(results[1]) || 0;
 }
+
+function get_loader() {
+    let loader = `
+    <div class="load-block-wrapper">
+        <div class="spinner"></div>
+    </div>
+    `
+    return loader
+}

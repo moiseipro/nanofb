@@ -11,13 +11,14 @@ from rest_framework.permissions import IsAuthenticated
 from events.models import UserEvent
 from exercises.models import UserExercise
 from exercises.v_api import get_exercises_params
+from players.models import UserPlayer
 from references.models import UserTeam, UserSeason, ClubTeam, ClubSeason, ExsAdditionalData
 from references.serializers import ExsAdditionalDataSerializer
-from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExerciseAdditional
+from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExerciseAdditional, UserTrainingProtocol
 
 # REST FRAMEWORK
 from trainings.serializers import UserTrainingSerializer, UserTrainingExerciseSerializer, \
-    UserTrainingExerciseAdditionalSerializer
+    UserTrainingExerciseAdditionalSerializer, UserTrainingProtocolSerializer
 from users.models import User
 from system_icons.views import get_ui_elements
 
@@ -71,32 +72,79 @@ class TrainingViewSet(viewsets.ModelViewSet):
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
 
-    @action(detail=True, methods=['put'])
-    def edit_exercise(self, request, pk=None):
+    @action(detail=True, methods=['get'])
+    def get_protocol(self, request, pk=None):
         data = request.data
-        instance = self.get_object()
-        print(data)
-        edit_object = UserTrainingExercise.objects.filter(
-            pk=pk
+        queryset = UserTrainingProtocol.objects.filter(training_id=pk)
+        print(queryset)
+
+        serializer = UserTrainingProtocolSerializer(queryset, many=True)
+        return Response({'status': 'protocol_got', 'objs': serializer.data})
+
+    @action(detail=True, methods=['post'])
+    def add_all_protocol(self, request, pk=None):
+        data = request.data
+
+        protocol_count = UserTrainingProtocol.objects.filter(training_id=pk).count()
+        training_team = UserTraining.objects.values_list('team_id', flat=True).get(pk=pk)
+        print(training_team)
+        if protocol_count > 30:
+            return Response({'status': 'protocol_limit'})
+        elif protocol_count > 0:
+            return Response({'status': 'protocol_not_empty'})
+
+        players_team = list(UserPlayer.objects.filter(team=training_team).values_list('id', flat=True))
+        print(players_team)
+        players_array = []
+        if len(players_team) > 0:
+            for idx, val in enumerate(players_team):
+                data_dict = dict(
+                    training_id=pk,
+                    player_id=val,
+                )
+                players_array.append(data_dict)
+        print(players_array)
+        query_dict = QueryDict('', mutable=True)
+        query_dict.update(players_array)
+        print(query_dict)
+
+        serializer = UserTrainingProtocolSerializer(
+            data=players_array, many=True
         )
-        print(edit_object)
+        # print(serializer)
+        if serializer.is_valid(raise_exception=True):
+            new_obj = serializer.save()
+            print(new_obj)
+            object_serialize = UserTrainingProtocolSerializer(new_obj, many=True).data
+            return Response({'status': 'protocol_added', 'objs': object_serialize})
+        else:
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=['post'])
+    def add_protocol(self, request, pk=None):
+        data = request.data
+
+        protocol_count = UserTrainingProtocol.objects.filter(training_id=pk).count()
+        print(protocol_count)
+        if protocol_count > 30:
+            return Response({'status': 'protocol_limit'})
 
         data_dict = dict(
-            duration=data['duration'],
-            order=1
+            training_id=pk,
+            player_id=data['player_id'],
         )
         query_dict = QueryDict('', mutable=True)
         query_dict.update(data_dict)
 
-        serializer = UserTrainingExerciseSerializer(
-            edit_object,
+        serializer = UserTrainingProtocolSerializer(
             data=query_dict
         )
         # print(serializer)
         if serializer.is_valid(raise_exception=True):
-            update_obj = serializer.save()
-            object_serialize = UserTrainingExerciseSerializer(update_obj).data
-            return Response({'status': 'exercise_updated', 'obj': object_serialize})
+            new_obj = serializer.save()
+            object_serialize = UserTrainingProtocolSerializer(new_obj).data
+            return Response({'status': 'protocol_added', 'obj': object_serialize})
         else:
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
@@ -235,6 +283,22 @@ class TrainingExerciseViewSet(viewsets.ModelViewSet):
 class TrainingExerciseAdditionalViewSet(viewsets.ModelViewSet):
     queryset = UserTrainingExerciseAdditional.objects.all()
     serializer_class = UserTrainingExerciseAdditionalSerializer
+    permission_classes = [IsAuthenticated]
+
+    def update(self, request, *args, **kwargs):
+        partial = True
+        instance = self.get_object()
+        print(request.data)
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        return Response(serializer.data)
+
+
+class TrainingProtocolViewSet(viewsets.ModelViewSet):
+    queryset = UserTrainingProtocol.objects.all()
+    serializer_class = UserTrainingProtocolSerializer
     permission_classes = [IsAuthenticated]
 
     def update(self, request, *args, **kwargs):

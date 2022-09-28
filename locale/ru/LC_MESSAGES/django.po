@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-20 18:14+0300\n"
+"POT-Creation-Date: 2022-09-22 14:17+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -735,6 +735,7 @@ msgstr ""
 
 #: .\Lib\site-packages\django\db\models\fields\__init__.py:1728
 #: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1728
+#: .\video\templates\video\video_card.html:92
 msgid "Duration"
 msgstr ""
 
@@ -847,8 +848,9 @@ msgstr ""
 
 #: .\Lib\site-packages\django\db\models\fields\__init__.py:2382
 #: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2382
+#: .\events\forms.py:97 .\events\forms.py:136
 msgid "Time"
-msgstr ""
+msgstr "Время"
 
 #: .\Lib\site-packages\django\db\models\fields\__init__.py:2490
 #: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2490
@@ -1083,8 +1085,10 @@ msgstr ""
 
 #: .\Lib\site-packages\django\forms\formsets.py:483
 #: .\env\Lib\site-packages\django\forms\formsets.py:483
+#: .\trainings\templates\trainings\view_training.html:62
+#: .\video\templates\video\video_card.html:23
 msgid "Delete"
-msgstr ""
+msgstr "Удалить"
 
 #: .\Lib\site-packages\django\forms\models.py:887
 #: .\env\Lib\site-packages\django\forms\models.py:887
@@ -1162,6 +1166,7 @@ msgstr ""
 
 #: .\Lib\site-packages\django\forms\widgets.py:767
 #: .\env\Lib\site-packages\django\forms\widgets.py:767
+#: .\video\templates\video\video_card.html:102
 msgid "No"
 msgstr ""
 
@@ -1860,13 +1865,14 @@ msgstr ""
 msgid "Clubs"
 msgstr "Клубы"
 
-#: .\clubs\models.py:14 .\events\models.py:79
-#: .\events\templates\events\base_events.html:269 .\references\models.py:15
+#: .\clubs\models.py:14 .\events\models.py:74
+#: .\events\templates\events\base_events.html:264 .\references\models.py:15
 #: .\references\templates\references\base_settings.html:40
 #: .\references\templates\references\base_settings.html:55
-#: .\version\models.py:35 .\version\models.py:62 .\video\models.py:16
+#: .\version\models.py:35 .\version\models.py:62 .\video\models.py:17
+#: .\video\models.py:28
 msgid "title"
-msgstr ""
+msgstr "Название"
 
 #: .\clubs\models.py:15
 msgid "Club title. Maximum length of 100 characters."
@@ -1931,110 +1937,143 @@ msgstr ""
 msgid "Events"
 msgstr "События"
 
-#: .\events\forms.py:51 .\references\forms.py:27 .\references\forms.py:45
-#: .\video\forms.py:16 .\video\forms.py:50
-msgid "Save"
-msgstr ""
+#: .\events\forms.py:40 .\nanofootball\templates\menu\sidebar.html:30
+msgid "Training"
+msgstr "Тренировки"
 
-#: .\events\forms.py:52 .\exercises\templates\exercises\base_folders.html:88
+#: .\events\forms.py:41
+#, fuzzy
+#| msgid "Matches"
+msgid "Match"
+msgstr "Матчи"
+
+#: .\events\forms.py:42
+msgid "Weekend"
+msgstr "Выходные"
+
+#: .\events\forms.py:70 .\events\forms.py:82 .\events\forms.py:114
+#: .\events\forms.py:125 .\events\forms.py:155 .\references\forms.py:27
+#: .\references\forms.py:45
+#: .\trainings\templates\trainings\view_training.html:39 .\video\forms.py:19
+#: .\video\forms.py:53 .\video\templates\video\video_card.html:18
+msgid "Save"
+msgstr "Сохранить"
+
+#: .\events\forms.py:71 .\exercises\templates\exercises\base_folders.html:88
 #: .\exercises\templates\exercises\base_folders.html:108
 #: .\exercises\templates\exercises\base_folders.html:132
+#: .\trainings\templates\trainings\view_training.html:35
+#: .\video\templates\video\video_card.html:13
 #, fuzzy
 #| msgid "Finance"
 msgid "Cancel"
-msgstr "Финансы"
+msgstr "Отменить"
 
-#: .\events\models.py:16
-msgid "name"
-msgstr ""
-
-#: .\events\models.py:17
-msgid "The name of the event. The maximum length is 80 characters"
-msgstr ""
-
-#: .\events\models.py:22 .\references\models.py:22
+#: .\events\models.py:16 .\references\models.py:22
 #: .\references\templates\references\base_settings.html:41
 #: .\references\templates\references\base_settings.html:56
 msgid "short name"
-msgstr ""
+msgstr "Короткий код"
+
+#: .\events\models.py:17
+msgid "The short name of the event. The maximum length is 4 characters"
+msgstr "Краткое название события. Максимальная длина - 4 символа"
 
 #: .\events\models.py:23
-msgid "The short name of the event. The maximum length is 10 characters"
-msgstr ""
-
-#: .\events\models.py:28
 msgid "notes"
-msgstr ""
+msgstr "заметки"
+
+#: .\events\models.py:24
+msgid "Notes to the event."
+msgstr "Заметки к событию"
 
 #: .\events\models.py:29
-msgid "Notes to the event."
-msgstr ""
+msgid "Date and time"
+msgstr "Дата и время"
 
-#: .\events\models.py:34
-msgid "date"
-msgstr ""
-
-#: .\events\models.py:35
+#: .\events\models.py:30
 msgid "Date and time of this event"
-msgstr ""
+msgstr "Дата и время этого события"
 
-#: .\events\models.py:43 .\events\templates\events\base_events.html:93
+#: .\events\models.py:38 .\events\templates\events\base_events.html:28
+#: .\events\templates\events\base_events.html:94
 #, fuzzy
 #| msgid "Events"
 msgid "Event"
 msgstr "События"
 
-#: .\events\models.py:80
+#: .\events\models.py:75
 msgid "Name of the microcycle. The maximum length is 80 characters"
-msgstr ""
+msgstr "Название микроцикла. Максимальная длина - 80 символов"
 
-#: .\events\models.py:82
+#: .\events\models.py:77 .\events\templates\events\base_events.html:31
 msgid "Microcycle"
-msgstr ""
+msgstr "Микроциклы"
 
-#: .\events\models.py:85 .\events\templates\events\base_events.html:270
+#: .\events\models.py:80 .\events\templates\events\base_events.html:265
 #: .\references\models.py:116 .\references\models.py:140
 #: .\references\templates\references\base_settings.html:57
 msgid "start date"
-msgstr ""
+msgstr "Дата начала"
 
-#: .\events\models.py:86
+#: .\events\models.py:81
 msgid "Start date of the microcycle."
-msgstr ""
+msgstr "Дата начала микроцикла"
 
-#: .\events\models.py:89 .\events\templates\events\base_events.html:271
+#: .\events\models.py:84 .\events\templates\events\base_events.html:266
 #: .\references\models.py:121 .\references\models.py:145
 #: .\references\templates\references\base_settings.html:58
 msgid "end date"
-msgstr ""
+msgstr "Дата окончания"
 
-#: .\events\models.py:90
+#: .\events\models.py:85
 msgid "End date of the microcycle."
-msgstr ""
+msgstr "Дата окончания микроцикла"
 
-#: .\events\templates\events\base_events.html:92
+#: .\events\templates\events\base_events.html:34
+msgid "Show/Hide calendar"
+msgstr "Показать/скрыть календарь"
+
+#: .\events\templates\events\base_events.html:93
+#: .\trainings\templates\trainings\view_training.html:73
+#: .\video\templates\video\modules\video_list.html:10
+#: .\video\templates\video\modules\video_list_exercises.html:10
+#: .\video\templates\video\video_card.html:88
 msgid "Date"
+msgstr "Дата"
+
+#: .\events\templates\events\base_events.html:95
+msgid "M.D."
 msgstr ""
 
-#: .\events\templates\events\base_events.html:94
-msgid "M.C."
-msgstr ""
+#: .\events\templates\events\base_events.html:97
+#: .\nanofootball\templates\menu\sidebar.html:40
+msgid "Players"
+msgstr "Игроки"
 
-#: .\events\templates\events\base_events.html:256
+#: .\events\templates\events\base_events.html:251
 msgid "Working with microcycles"
-msgstr ""
+msgstr "Работа с микроциклами"
 
-#: .\events\templates\events\base_events.html:258
+#: .\events\templates\events\base_events.html:253
 msgid "Create"
-msgstr ""
+msgstr "Создать"
 
-#: .\events\templates\events\base_events.html:272
+#: .\events\templates\events\base_events.html:267
 #: .\references\templates\references\base_settings.html:43
 #: .\references\templates\references\base_settings.html:59
 #, fuzzy
 #| msgid "Applications"
 msgid "options"
 msgstr "Приложения"
+
+#: .\events\templates\events\forms\create_event.html:7
+msgid "Event Create"
+msgstr "Создать событие"
+
+#: .\events\templates\events\forms\edit_event.html:7
+msgid "Event Update"
+msgstr "Редактировать событие"
 
 #: .\exercises\templates\exercises\base_folders.html:5
 #: .\nanofootball\templates\menu\sidebar.html:36
@@ -2076,6 +2115,9 @@ msgstr ""
 
 #: .\exercises\templates\exercises\base_folders.html:79
 #: .\exercises\templates\exercises\base_folders.html:80
+#: .\video\templates\video\modules\video_list.html:12
+#: .\video\templates\video\modules\video_list_exercises.html:12
+#: .\video\templates\video\video_card.html:41
 msgid "Title"
 msgstr ""
 
@@ -2105,9 +2147,9 @@ msgstr ""
 msgid "Matches"
 msgstr "Матчи"
 
-#: .\matches\models.py:17 .\trainings\models.py:16
+#: .\matches\models.py:17 .\trainings\models.py:17
 msgid "trainer"
-msgstr ""
+msgstr "тренер"
 
 #: .\matches\models.py:18
 msgid "Coach tied to the match"
@@ -2153,9 +2195,9 @@ msgstr ""
 msgid "Number of opponent team penalties per match."
 msgstr ""
 
-#: .\matches\models.py:53
+#: .\matches\models.py:53 .\trainings\models.py:178
 msgid "estimation"
-msgstr ""
+msgstr "оценка"
 
 #: .\matches\models.py:54
 msgid "Rating of the match on the scale."
@@ -2177,11 +2219,11 @@ msgstr ""
 msgid "Tournament name."
 msgstr ""
 
-#: .\nanofb\settings.py:178
+#: .\nanofb\settings.py:179
 msgid "Russian"
 msgstr "Русский"
 
-#: .\nanofb\settings.py:179
+#: .\nanofb\settings.py:180
 msgid "English"
 msgstr "Английский"
 
@@ -2251,11 +2293,8 @@ msgstr "Панель «Федерация»"
 msgid "Main sections"
 msgstr "Основные разделы"
 
-#: .\nanofootball\templates\menu\sidebar.html:30
-msgid "Training"
-msgstr "Тренировки"
-
 #: .\nanofootball\templates\menu\sidebar.html:33
+#: .\trainings\templates\trainings\view_training.html:50
 msgid "Exercises"
 msgstr "Упражнения"
 
@@ -2264,10 +2303,6 @@ msgstr "Упражнения"
 #| msgid "Exercises"
 msgid "List of exercises"
 msgstr "Упражнения"
-
-#: .\nanofootball\templates\menu\sidebar.html:40
-msgid "Players"
-msgstr "Игроки"
 
 #: .\nanofootball\templates\menu\sidebar.html:43
 msgid "Analytics"
@@ -2286,7 +2321,7 @@ msgid "Chat"
 msgstr "Чат"
 
 #: .\nanofootball\templates\menu\sidebar.html:50
-#: .\video\templates\video\base_video.html:5
+#: .\video\templates\video\base_video.html:10
 msgid "Video"
 msgstr "Видео"
 
@@ -2344,11 +2379,11 @@ msgstr ""
 msgid "Empty"
 msgstr ""
 
-#: .\references\models.py:27 .\trainings\models.py:86
+#: .\references\models.py:27 .\trainings\models.py:93
 msgid "order"
 msgstr ""
 
-#: .\references\models.py:28 .\trainings\models.py:87
+#: .\references\models.py:28 .\trainings\models.py:94
 msgid "Sorting index"
 msgstr ""
 
@@ -2364,12 +2399,12 @@ msgstr ""
 msgid "link"
 msgstr ""
 
-#: .\references\models.py:76
+#: .\references\models.py:76 .\video\templates\video\video_card.html:43
 msgid "Link to the source"
 msgstr ""
 
 #: .\references\models.py:84
-msgid "NFTV"
+msgid "NF"
 msgstr ""
 
 #: .\references\models.py:96
@@ -2410,40 +2445,81 @@ msgid "Team Create"
 msgstr ""
 
 #: .\trainings\apps.py:8 .\trainings\templates\trainings\base_trainings.html:5
-#: .\trainings\templates\trainings\edit_training.html:5
+#: .\trainings\templates\trainings\view_training.html:11
 #, fuzzy
 #| msgid "Training"
 msgid "Trainings"
 msgstr "Тренировки"
 
-#: .\trainings\models.py:17
+#: .\trainings\models.py:18
 msgid "Coach tied to the training"
 msgstr ""
 
-#: .\trainings\models.py:23
-msgid "purposes"
-msgstr ""
-
 #: .\trainings\models.py:24
+msgid "favourites"
+msgstr "избранное"
+
+#: .\trainings\models.py:25
+msgid "Favorites training"
+msgstr "Избранная тренировка"
+
+#: .\trainings\models.py:29
+msgid "purposes"
+msgstr "цели"
+
+#: .\trainings\models.py:30
 msgid "Objectives for training groups"
 msgstr ""
 
-#: .\trainings\models.py:75
+#: .\trainings\models.py:82
 msgid "group"
-msgstr ""
+msgstr "группа"
 
-#: .\trainings\models.py:76
+#: .\trainings\models.py:83
 msgid "The group to which the exercise belongs"
-msgstr ""
+msgstr "Группа, к которой относится упражнение"
 
-#: .\trainings\models.py:80
+#: .\trainings\models.py:87
 #, fuzzy
 #| msgid "Federations"
 msgid "duration"
-msgstr "Обучение"
+msgstr "длительность"
 
-#: .\trainings\models.py:81
+#: .\trainings\models.py:88
 msgid "Duration of the exercise"
+msgstr "Длительность упражнения"
+
+#: .\trainings\models.py:138
+msgid "note"
+msgstr "примечание"
+
+#: .\trainings\models.py:139
+msgid "Note to the reference book"
+msgstr "Примечание к справочнику"
+
+#: .\trainings\models.py:179
+msgid "Player rating like/dislike"
+msgstr "Рейтинг игрока нравится/не нравится"
+
+#: .\trainings\templates\trainings\view_training.html:34
+msgid "Back"
+msgstr "Назад"
+
+#: .\trainings\templates\trainings\view_training.html:38
+#: .\video\templates\video\video_card.html:10
+msgid "Edit"
+msgstr "Редактировать"
+
+#: .\trainings\templates\trainings\view_training.html:46
+msgid "Card"
+msgstr "Карточка"
+
+#: .\trainings\templates\trainings\view_training.html:57
+msgid "Protocol"
+msgstr "Протокол"
+
+#: .\trainings\templates\trainings\view_training.html:85
+msgid "Switch group"
 msgstr ""
 
 #: .\users\managers.py:15
@@ -2552,92 +2628,188 @@ msgstr ""
 msgid "versions"
 msgstr ""
 
-#: .\video\forms.py:34
+#: .\video\forms.py:37
 #, fuzzy
 #| msgid "Video"
 msgid "Video title"
 msgstr "Видео"
 
-#: .\video\forms.py:35
+#: .\video\forms.py:38
 msgid "Select a source"
 msgstr ""
 
-#: .\video\forms.py:36
+#: .\video\forms.py:39
 #, fuzzy
 #| msgid "Main sections"
 msgid "Select a section"
 msgstr "Основные разделы"
 
-#: .\video\forms.py:37
+#: .\video\forms.py:40
 #, fuzzy
 #| msgid "Federations"
 msgid "Video duration"
 msgstr "Федерации"
 
-#: .\video\forms.py:38
-msgid "Display to users"
-msgstr ""
+#: .\video\models.py:18
+#, fuzzy
+#| msgid "Video"
+msgid "Tag title"
+msgstr "Видео"
 
-#: .\video\models.py:17
+#: .\video\models.py:29
 msgid "Imported video title"
 msgstr ""
 
-#: .\video\models.py:22 .\video\models.py:29
+#: .\video\models.py:34
 msgid "video source"
 msgstr ""
 
-#: .\video\models.py:23
+#: .\video\models.py:35
 msgid "The source to which the video is linked"
 msgstr ""
 
-#: .\video\models.py:30
-msgid "The section to which the video is linked"
-msgstr ""
-
-#: .\video\models.py:34
+#: .\video\models.py:39
 msgid "upload date"
 msgstr ""
 
-#: .\video\models.py:35
+#: .\video\models.py:40
 msgid "Date the video was uploaded or updated"
 msgstr ""
 
-#: .\video\models.py:39
-msgid "duration video"
-msgstr ""
-
-#: .\video\models.py:40
-msgid "The duration of the video in the format 00:00:00"
+#: .\video\models.py:44
+msgid "created date"
 msgstr ""
 
 #: .\video\models.py:45
-msgid "video links"
-msgstr ""
-
-#: .\video\models.py:46
-msgid "Links to videos from various sources"
+msgid "Date the video was created"
 msgstr ""
 
 #: .\video\models.py:49
-msgid "shared access"
+msgid "duration video"
 msgstr ""
 
 #: .\video\models.py:50
-msgid "Is it available to all users?"
+msgid "The duration of the video in the format 00:00:00"
 msgstr ""
 
-#: .\video\models.py:54
+#: .\video\models.py:56
+msgid "language (voice acting)"
+msgstr ""
+
+#: .\video\models.py:57
+msgid "Video voice-over language"
+msgstr ""
+
+#: .\video\models.py:61
+msgid "music"
+msgstr ""
+
+#: .\video\models.py:62
+msgid "Is there music in the video?"
+msgstr ""
+
+#: .\video\models.py:66
+msgid "video links"
+msgstr ""
+
+#: .\video\models.py:67
+msgid "Links to videos from various sources"
+msgstr ""
+
+#: .\video\models.py:71
+msgid "screensaver"
+msgstr ""
+
+#: .\video\models.py:72
+msgid "Splash screen on the start screen of the video"
+msgstr ""
+
+#: .\video\models.py:77
 msgid "old id"
 msgstr ""
 
-#: .\video\models.py:55
+#: .\video\models.py:78
 msgid "ID of the exercise that the video was linked to"
 msgstr ""
 
-#: .\video\templates\video\base_video.html:71
+#: .\video\templates\video\base_video.html:31
+msgid "Add video"
+msgstr ""
+
+#: .\video\templates\video\base_video.html:34
+msgid "Parse video"
+msgstr ""
+
+#: .\video\templates\video\base_video.html:48
 msgid "All"
 msgstr ""
 
-#: .\video\templates\video\base_video.html:75
+#: .\video\templates\video\base_video.html:52
+#: .\video\templates\video\video_card.html:82
 msgid "No sources"
 msgstr ""
+
+#: .\video\templates\video\base_video.html:61
+msgid "No tags"
+msgstr ""
+
+#: .\video\templates\video\base_video.html:66
+msgid "Search"
+msgstr ""
+
+#: .\video\templates\video\modules\video_blocks_list.html:21
+msgid "Previous"
+msgstr ""
+
+#: .\video\templates\video\modules\video_blocks_list.html:31
+msgid "Next"
+msgstr ""
+
+#: .\video\templates\video\modules\video_list.html:9
+#: .\video\templates\video\modules\video_list_exercises.html:9
+#: .\video\templates\video\video_card.html:76
+msgid "Source"
+msgstr ""
+
+#: .\video\templates\video\modules\video_list.html:11
+#: .\video\templates\video\modules\video_list_exercises.html:11
+msgid "Minutes"
+msgstr ""
+
+#: .\video\templates\video\modules\video_list.html:13
+#: .\video\templates\video\modules\video_list_exercises.html:13
+#: .\video\templates\video\video_card.html:129
+msgid "Tags"
+msgstr ""
+
+#: .\video\templates\video\video_card.html:45
+msgid "Youtube link"
+msgstr ""
+
+#: .\video\templates\video\video_card.html:50
+#, fuzzy
+#| msgid "Video"
+msgid "New video file"
+msgstr "Видео"
+
+#: .\video\templates\video\video_card.html:56
+msgid "A second of the screensaver"
+msgstr ""
+
+#: .\video\templates\video\video_card.html:61
+msgid "New screensaver file"
+msgstr ""
+
+#: .\video\templates\video\video_card.html:98
+msgid "Language (voice acting)"
+msgstr ""
+
+#: .\video\templates\video\video_card.html:116
+msgid "Music"
+msgstr ""
+
+#: .\video\templates\video\video_card.html:125
+#, fuzzy
+#| msgid "Main sections"
+msgid "Sections"
+msgstr "Основные разделы"

@@ -148,7 +148,6 @@ class ClubSeason(AbstractReference, MixClubReference):
     )
 
 
-
 # --Exercises--
 class ExsGoal(AbstractReference, MixTranslateReference):
     class Meta(AbstractReference.Meta):
@@ -180,7 +179,6 @@ class ExsCognitiveLoad(AbstractReference, MixTranslateReference):
         pass
 
 
-
 class ExsKeyword(AbstractReference, MixTranslateReference):
     class Meta(AbstractReference.Meta):
         pass
@@ -201,11 +199,9 @@ class ExsCoaching(AbstractReference, MixTranslateReference):
         pass
 
 
-
 class ExsCategory(AbstractReference, MixTranslateReference):
     class Meta(AbstractReference.Meta):
         pass
-
 
 
 class ExsAdditionalData(AbstractReference, MixTranslateReference):
@@ -213,11 +209,9 @@ class ExsAdditionalData(AbstractReference, MixTranslateReference):
         pass
 
 
-
 class ExsTitleName(AbstractReference, MixTranslateReference):
     class Meta(AbstractReference.Meta):
         pass
-
 
 
 # --Players--
@@ -246,4 +240,7 @@ class PlayerFoot(AbstractReference, MixTranslateReference):
         pass
 
 
-
+# --Players-- additional
+class PlayerProtocolStatus(AbstractReference, MixTranslateReference):
+    class Meta(AbstractReference.Meta):
+        pass

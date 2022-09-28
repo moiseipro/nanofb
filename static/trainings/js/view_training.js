@@ -17,8 +17,8 @@ $(window).on('load', function (){
         data.group = $(this).attr('data-group')
         data.duration = 0
         data.exercise_id = $('.exs-elem.active').attr('data-id')
-        ajax_training_action('POST', data, 'add exercise', id, 'add_exercise').done(function (data) {
-            console.log(data)
+        ajax_training_action('POST', data, 'add exercise', id, 'add_exercise').then(function (data) {
+            //console.log(data)
             let exercise = data.obj
             if(data.status=="exercise_added"){
                 $('.group-block[data-group="'+exercise.group+'"]').append(`
@@ -75,7 +75,7 @@ $(window).on('load', function (){
         send_data.note = ''
 
         ajax_training_exercise_action('POST', send_data, 'load data', training_exercise_id, 'add_data').done(function (data) {
-            console.log(data)
+            //console.log(data)
             render_exercises_additional_data(training_exercise_id)
         })
     })
@@ -109,8 +109,25 @@ $(window).on('load', function (){
         }).then(function(isConfirm) {
             if (isConfirm) {
                 ajax_training_exercise_data_action('DELETE', send_data, 'delete data', exercise_additional_id).done(function (data) {
-                    console.log(data)
+                    //console.log(data)
                     cur_row.remove();
+                })
+            }
+        });
+    })
+
+    // Добавление игроков в протокол
+    $('#add-player-protocol-modal').on('click', '.add-all-players', function (){
+        let send_data = {}
+        swal(gettext("Add all players from the team of this training session?"), {
+            buttons: {
+                cancel: true,
+                confirm: true,
+            },
+        }).then(function(isConfirm) {
+            if (isConfirm) {
+                ajax_training_action('POST', send_data, 'add all players to the protocol ', id, 'add_all_protocol').then(function (data) {
+                    //console.log(data)
                 })
             }
         });
@@ -127,7 +144,8 @@ $(window).on('load', function (){
 
     generate_exercises_module_data()
     render_exercises_training(id)
-    CountExsInFolder(false);
+    render_protocol_training(id)
+    //CountExsInFolder(false);
 })
 
 function toggle_folders_name(){
@@ -142,21 +160,132 @@ function toggle_folders_name(){
         });
 }
 
+// Выгрузка игроков из тренировки
+function render_protocol_training(training_id = null) {
+    let send_data = {}
+
+    ajax_training_action('GET', send_data, 'load', training_id, 'get_exercises').then(function (data) {
+        console.log(data)
+        let exercises = data.objs
+
+        let protocol_header =``
+        let protocol_header2 =``
+        let exs_group = [{ids: []},{ids: []},{ids: []},{ids: []}];
+
+        protocol_header2 += `
+        <tr>
+            <th colspan="2"></th>
+            <th class="p-0 text-center align-middle border"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></th>
+            <th class="p-0 text-center align-middle border"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></th>
+            <th class="p-0 text-center align-middle border">#</th>
+            <th>${gettext('Full name')}</th>
+        `
+        $.each( exercises, function( key, exercise ) {
+            exs_group[exercise.group-1].ids.push(exercise);
+        })
+        console.log(exs_group)
+
+        protocol_header += `
+        <tr>
+            <th class="p-0 text-center align-middle border">
+                <button title="" class="btn btn-block btn-outline-success btn-sm edit-input" data-toggle="modal" data-target="#add-player-protocol-modal" disabled><i class="fa fa-plus" aria-hidden="true"></i></button>
+            </th>
+            <th colspan="5" class="p-0 text-center align-middle border">
+            </th>
+        `
+        for (let i = 0; i < exs_group.length; i++) {
+            if(exs_group[i].ids.length == 0) continue
+            let group = i == 0 ? 'A' : i == 1 ? 'B' : i == 2 ? 'C' : 'D'
+            protocol_header += `<th colspan="${exs_group[i].ids.length+1}" class="p-0 text-center align-middle border">${gettext('Group '+group+' (Exercises)')}</th>`
+
+            for (let j = 0; j < exs_group[i].ids.length; j++) {
+                if(j == 0){
+                    protocol_header2 += `
+                    <th class="p-0 text-center align-middle border" width="40"><input type="checkbox" class="all-player-check" data-group="group_${i+1}" style="width: 25px; height: 25px;"></th>
+                    `
+                }
+                protocol_header2 += `<th class="p-0 text-center align-middle border">${j+1}</th>`
+            }
+
+        }
+        protocol_header += `</tr>`
+        protocol_header2 += `</tr>`
+
+        $('#player-protocol-table').html(protocol_header).append(protocol_header2)
+
+        ajax_training_action('GET', send_data, 'load protocol ', training_id, 'get_protocol').then(function (data_players) {
+            let players = data_players.objs
+            console.log(players)
+            let select = ''
+            ajax_protocol_status('GET').then(function (data_status) {
+                console.log(data_status)
+                let options = data_status.results;
+                let option_html = ''
+                option_html+=`
+                        <option value="">${gettext('Training')}</option>
+                    `
+                $.each( options, function( key, option ) {
+                    option_html+=`
+                        <option value="${ option.id }">${ (get_cur_lang() in option.translation_names) ? option.translation_names[get_cur_lang()] : Object.values(exercise.exercise_name)[0] }</option>
+                    `
+                })
+                select = `
+                    <select class="select custom-select p-0 edit-input text-center" name="status" tabindex="-1" aria-hidden="true" ${!edit_mode ? 'disabled' : ''} style="height: 30px;">
+                        ${ option_html }
+                    </select>
+                `
+
+                let player_row = ``
+                $.each( players, function( key, player ) {
+                    player_row += `
+                    <tr class="player_row" data-training="${player.training_id}" data-id="${player.id}">
+                        <td width="20" class="p-0 text-right align-middle">
+                            <button type="button" title="Удалить игрока" class="btn btn-sm btn-danger delete-player-button py-0 w-100 edit-input" style="height: 30px;" disabled>X</button>
+                        </td>
+                        <td width="150" class="p-0 align-middle">
+                            ${select}
+                        </td>
+                        <td width="30" class="p-0 text-center align-middle estimation-change" name="estimation" value="0"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></td>
+                        <td width="30" class="p-0 text-center align-middle estimation-change" name="estimation" value="1"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></td>
+                        <td width="40" class="p-0 text-center align-middle"></td>
+                        <td width="200" class="align-middle">
+                            <span class="float-left " title="">Иванов Иван</span>
+                        </td>
+                    `
+                    for (let i = 0; i < exs_group.length; i++) {
+                        if(exs_group[i].ids.length == 0) continue
+                        for (let j = 0; j < exs_group[i].ids.length; j++) {
+                            if(j == 0){
+                                player_row += `
+                                <td class="p-0 text-center align-middle" width="40"><input type="checkbox" class="select-all-group" data-group="group_${i+1}" style="width: 25px; height: 25px;"></td>
+                                `
+                            }
+                            player_row += `<td name="group_${i+1}" data-num="${j}" data-exs-id="${exs_group[i].ids[j]}" width="40" class="p-0 text-center align-middle protocol-check-player"></td>`
+                        }
+
+                    }
+                    player_row += `</tr>`
+                })
+                $('#player-protocol-table').append(player_row)
+            })
+        })
+    })
+
+}
+
 // Выгрузить упражнения из тренировки
 function render_exercises_training(training_id = null, group = null) {
     let send_data = {}
     if(group != null) send_data.group = group
 
-
-
-    ajax_training_action('GET', send_data, 'load', training_id, 'get_exercises').done(function (data) {
+    ajax_training_action('GET', send_data, 'load', training_id, 'get_exercises').then(function (data) {
         let exercises = data.objs
 
         let card_html = ''
         let exs_html = ''
         let select_html = ''
         let counts_group = [0,0,0,0];
-        console.log(select_html)
+        //console.log(select_html)
         $.each( exercises, function( key, exercise ) {
             counts_group[exercise.group]++;
             card_html += `
@@ -216,7 +345,7 @@ function render_exercises_training(training_id = null, group = null) {
 
                 let send_orders = {}
                 send_orders.exercise_ids = ids;
-                console.log(send_orders)
+                //console.log(send_orders)
                 ajax_training_exercise_action('PUT', send_orders, 'sort exercises', '', 'sort_exercise').done(function (data) {
 
                 })
@@ -239,11 +368,10 @@ function render_exercises_training(training_id = null, group = null) {
 // Выгрузить дополнительных данных из упрежнения в тренировке
 function render_exercises_additional_data(training_exercise_id = null) {
     let send_data = {}
-    console.log("test")
     ajax_training_exercise_action('GET', send_data, 'load data', training_exercise_id, 'get_data').done(function (data) {
-        console.log(data)
+        //console.log(data)
         var select = ''
-        ajax_exercise_additional('GET').done(function (data_additional) {
+        ajax_exercise_additional('GET').then(function (data_additional) {
             let options = data_additional.results;
             let option_html = ''
             $.each( options, function( key, option ) {
@@ -307,7 +435,7 @@ function set_sum_duration_group() {
         $(this).find('.exercise-row').each(function( index ) {
             sum += parseInt($(this).find('input[name="duration"]').val())
         })
-        console.log(sum)
+        //console.log(sum)
         $('.sum-duration-group').text(sum)
     })
 
@@ -360,7 +488,7 @@ function generate_exercises_module_data() {
     $('.visual-block').append(html_data)
 }
 
-function ajax_training_action(method, data, action = '', id = '', func = '') {
+async function ajax_training_action(method, data, action = '', id = '', func = '') {
 
     let url = "/trainings/api/action/"
     if(id !== '') url += `${id}/`
@@ -368,28 +496,29 @@ function ajax_training_action(method, data, action = '', id = '', func = '') {
 
     $('.page-loader-wrapper').fadeIn();
 
-    return $.ajax({
+    return await $.ajax({
             headers:{"X-CSRFToken": csrftoken },
             url: url,
             type: method,
             dataType: "JSON",
             data: data,
             success: function(data){
-                console.log(data)
+                //console.log(data)
                 if(data.status == 'exercise_limit'){
                     swal(gettext('Training '+action), gettext('The limit of exercises for the selected group has been reached'), "error");
-                }if(data.status == 'exercise_got' || data.status == 'sort_exercise'){
+                }if(data.status == 'exercise_got' || data.status == 'sort_exercise' || data.status == 'protocol_got'){
 
                 } else {
                     swal(gettext('Training '+action), gettext('Training action "'+action+'" successfully!'), "success");
                 }
             },
             error: function(jqXHR, textStatus, errorThrown){
-                console.log(errorThrown)
+                //console.log(errorThrown)
                 swal(gettext('Training '+action), gettext('Error when action "'+action+'" the training!'), "error");
             },
             complete: function () {
                 $('.page-loader-wrapper').fadeOut();
+                $('.block-loader-wrapper').remove();
             }
         })
 }
@@ -409,11 +538,11 @@ function ajax_training_exercise_action(method, data, action = '', id = '', func 
             dataType: "JSON",
             data: data,
             success: function(data){
-                console.log(data)
+                //console.log(data)
                 //swal(gettext('Training '+action), gettext('Exercise action "'+action+'" successfully!'), "success");
             },
             error: function(jqXHR, textStatus){
-                console.log(jqXHR)
+                //console.log(jqXHR)
                 swal(gettext('Training '+action), gettext('Error when action "'+action+'" the exercise!'), "error");
             },
             complete: function () {
@@ -438,11 +567,11 @@ function ajax_training_exercise_data_action(method, data, action = '', id = '', 
             dataType: "JSON",
             data: data,
             success: function(data){
-                console.log(data)
+                //console.log(data)
                 //swal(gettext('Training '+action), gettext('Exercise action "'+action+'" successfully!'), "success");
             },
             error: function(jqXHR, textStatus){
-                console.log(jqXHR)
+                //console.log(jqXHR)
                 swal(gettext('Training '+action), gettext('Error when action "'+action+'" the exercise!'), "error");
             },
             complete: function () {
