@@ -35,9 +35,14 @@ class AbstractPlayer(models.Model):
     card = models.ForeignKey(PlayerCard, on_delete=models.CASCADE, null=True, blank=True)
 
     objects = models.Manager()
+
+    def get_full_name(self):
+        return f"{self.surname} {self.name} {self.patronymic}"
+
     class Meta():
         abstract = True
         ordering = ['surname', 'name', 'patronymic']
+
     def __str__(self):
         return f"[id: {self.id}] {self.surname} {self.name} {self.patronymic}"
 
