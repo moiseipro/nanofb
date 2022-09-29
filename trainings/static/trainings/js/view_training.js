@@ -11,6 +11,23 @@ $(window).on('load', function (){
     {
         id = urlsplit[urlsplit.length-2];
     }
+
+    $('#delete-training').on('click', function () {
+        let send_data = {}
+        swal(gettext("Delete this training?"), {
+            buttons: {
+                cancel: true,
+                confirm: true,
+            },
+        }).then(function(isConfirm) {
+            if (isConfirm) {
+                ajax_event_action('DELETE', send_data, 'delete', id).then(function (data) {
+                    window.location.replace("/events/");
+                })
+            }
+        });
+    })
+
     // Добавление упражнения в тренировку
     $('.visual-block').on('click', '.add-exercise', function (){
         let data = {}
@@ -61,7 +78,7 @@ $(window).on('load', function (){
     })
 
     //Выгрузка упражнений в группу при клике по кнопке
-    $('.visual-block').on('click', '.group-button', function () {
+    $('.card-body').on('click', '.group-button', function () {
         render_exercises_training(id, $(this).attr('data-group'))
     })
 
@@ -216,6 +233,13 @@ $(window).on('load', function (){
         ajax_event_action('PUT', data, 'save', id)
     })
 
+    // Open graphics in modal
+    $('.card-body').on('click', '.carousel-item', (e) => {
+        e.preventDefault();
+        let parentId = $(e.currentTarget).parent().parent().attr('id');
+        open_graphics_modal('carouselSchema')
+    });
+
     generate_exercises_module_data()
     render_exercises_training(id)
     render_protocol_training(id)
@@ -364,7 +388,7 @@ function render_exercises_training(training_id = null, group = null) {
         let counts_group = [0,0,0,0];
         //console.log(select_html)
         $.each( exercises, function( key, exercise ) {
-            counts_group[exercise.group]++;
+            counts_group[exercise.group-1]++;
             card_html += `
             <div class="col-4 py-2 exercise-visual-block" data-id="${exercise.id}">
                 <div id="carouselSchema-${key}" class="carousel slide carouselSchema" data-ride="carousel" data-interval="false">
@@ -495,7 +519,7 @@ function set_count_exercises(arr_count_group = null) {
     if(arr_count_group != null){
         for (let i = 0; i < arr_count_group.length; i++) {
             let value = arr_count_group[i]
-            if(value != 0) $('.group-button[data-group="'+i+'"] span').text(value)
+            if(value != 0) $('.group-button[data-group="'+(i+1)+'"] span').text(value)
         }
     } else {
         let group = $('.add-exercise').attr('data-group')
