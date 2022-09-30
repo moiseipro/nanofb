@@ -446,7 +446,7 @@ function generateEventTable(){
                     if ('training' in data && data.training != null) {
                         return '<a href="/trainings/view/'+data.training.event_id+'" class="btn btn-sm btn-info py-0" data-id="'+data.training.event_id+'">'+gettext('Training')+'</a>'
                     } else if ('match' in data && data.match != null){
-                        return '<a href="/trainings/view/'+data.match.event_id+'" class="btn btn-sm btn-info py-0" data-id="'+data.match.event_id+'">'+gettext('Match')+'</a>'
+                        return '<a href="/matches/view/'+data.match.event_id+'" class="btn btn-sm btn-info py-0" data-id="'+data.match.event_id+'">'+gettext('Match')+'</a>'
                     } else {
                         return gettext('---')
                     }
