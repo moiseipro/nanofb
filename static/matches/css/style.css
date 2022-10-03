@@ -1,0 +1,37 @@
+
+.size-w-x {
+    width: var(--w-x) !important;
+}
+.size-min-w-x {
+    min-width: var(--w-min-x) !important;
+}
+.size-max-w-x {
+    max-width: var(--w-max-x) !important;
+}
+.size-h-x {
+    height: var(--h-x) !important;
+}
+.size-min-h-x {
+    min-height: var(--h-min-x) !important;
+}
+.size-max-h-x {
+    max-height: var(--h-max-x) !important;
+}
+
+
+
+.scrollable-block {
+    overflow-y: auto;
+    height: 82vh !important;
+}
+
+
+.form-control.not-valid {
+    border-color: red !important;
+}
+
+
+
+table.dataTable.table-sm > thead > tr > th {
+    padding: 0 0 !important;
+}

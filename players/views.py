@@ -2,11 +2,12 @@
 from math import fabs
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
+
 from users.models import User
 from references.models import UserSeason, UserTeam
 from players.models import UserPlayer, ClubPlayer, CardSection
-import players.v_api as v_api
 from system_icons.views import get_ui_elements
+import players.v_api as v_api
 
 
 
@@ -28,7 +29,7 @@ def players(request):
         'menu_players': 'active',
         'seasons_list': UserSeason.objects.filter(user_id=request.user),
         'teams_list': UserTeam.objects.filter(user_id=request.user),
-        'ui_elements': get_ui_elements(),
+        'ui_elements': get_ui_elements()
     })
 
 
@@ -61,7 +62,7 @@ def player(request):
         'menu_players': 'active',
         'seasons_list': UserSeason.objects.filter(user_id=request.user),
         'teams_list': UserTeam.objects.filter(user_id=request.user),
-        'ui_elements': get_ui_elements(),
+        'ui_elements': get_ui_elements()
     })
 
 
