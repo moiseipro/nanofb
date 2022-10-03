@@ -11,6 +11,23 @@ $(window).on('load', function (){
     {
         id = urlsplit[urlsplit.length-2];
     }
+
+    $('#delete-training').on('click', function () {
+        let send_data = {}
+        swal(gettext("Delete this training?"), {
+            buttons: {
+                cancel: true,
+                confirm: true,
+            },
+        }).then(function(isConfirm) {
+            if (isConfirm) {
+                ajax_event_action('DELETE', send_data, 'delete', id).then(function (data) {
+                    window.location.replace("/events/");
+                })
+            }
+        });
+    })
+
     // Добавление упражнения в тренировку
     $('.visual-block').on('click', '.add-exercise', function (){
         let data = {}
@@ -61,7 +78,7 @@ $(window).on('load', function (){
     })
 
     //Выгрузка упражнений в группу при клике по кнопке
-    $('.visual-block').on('click', '.group-button', function () {
+    $('.card-body').on('click', '.group-button', function () {
         render_exercises_training(id, $(this).attr('data-group'))
     })
 
@@ -128,9 +145,83 @@ $(window).on('load', function (){
             if (isConfirm) {
                 ajax_training_action('POST', send_data, 'add all players to the protocol ', id, 'add_all_protocol').then(function (data) {
                     //console.log(data)
+                    render_protocol_training(id)
                 })
             }
         });
+    })
+
+    // Отметить выполнение упражнения в протоколе
+    $('#player-protocol-table').on('click', '.protocol-check-player:not(.disabled)', function () {
+        let this_obj = $(this)
+        let exercise_training = this_obj.attr('data-exs-id')
+        let send_data = {exercise_training : exercise_training}
+        let protocol_id = this_obj.closest('.player_row').attr('data-id')
+        ajax_protocol_training('POST', send_data, 'check', protocol_id, 'check').then(function (data) {
+            let status = data.status
+            if(status=='added'){
+                this_obj.html('<i class="fa fa-check" aria-hidden="true"></i>')
+            } else {
+                this_obj.html('')
+            }
+        })
+    })
+
+    // Изменение статуса игрока в протоколе
+    $('#player-protocol-table').on('change', 'select[name="status"]', function () {
+        let this_obj = $(this)
+        let send_data = {"status" : this_obj.val()}
+        let protocol_id = this_obj.closest('.player_row').attr('data-id')
+        ajax_protocol_training('PUT', send_data, 'change status', protocol_id).then(function (data) {
+            console.log(data)
+        })
+    })
+
+    // Изменение оценки игрока в протоколе
+    $('#player-protocol-table').on('click', '.estimation-change', function () {
+        let this_obj = $(this)
+        let cur_estimation = this_obj.attr('value')
+        if(cur_estimation == 1 && this_obj.children('i').hasClass('fa-thumbs-down') ||
+            cur_estimation == 2 && this_obj.children('i').hasClass('fa-thumbs-up'))
+            cur_estimation = 0
+        let send_data = {"estimation" : cur_estimation}
+        let protocol_id = this_obj.closest('.player_row').attr('data-id')
+        ajax_protocol_training('PUT', send_data, 'estimation', protocol_id).then(function (data) {
+            console.log(data)
+            $('.player_row[data-id="'+protocol_id+'"] .estimation-change[value="'+1+'"] i')
+                .removeClass('fa-thumbs-down').addClass('fa-thumbs-o-down')
+            $('.player_row[data-id="'+protocol_id+'"] .estimation-change[value="'+2+'"] i')
+                .removeClass('fa-thumbs-up').addClass('fa-thumbs-o-up')
+
+            if(data.estimation == 1) {
+                $('.player_row[data-id="' + protocol_id + '"] .estimation-change[value="' + data.estimation + '"] i')
+                    .removeClass('fa-thumbs-o-down').addClass('fa-thumbs-down')
+            }else if(data.estimation == 2) {
+                $('.player_row[data-id="' + protocol_id + '"] .estimation-change[value="' + data.estimation + '"] i')
+                    .removeClass('fa-thumbs-o-up').addClass('fa-thumbs-up')
+            }
+        })
+    })
+
+    // Удаление игрока из протокола
+    $('#player-protocol-table').on('click', '.delete-player-button', function () {
+        let this_obj = $(this)
+        let send_data = {}
+        let protocol_id = this_obj.closest('.player_row').attr('data-id')
+        swal(gettext("Remove a player from the training protocol?"), {
+            buttons: {
+                cancel: true,
+                confirm: true,
+            },
+        }).then(function(isConfirm) {
+            if (isConfirm) {
+                ajax_protocol_training('DELETE', send_data, 'delete player', protocol_id).then(function (data) {
+                    console.log(data)
+                    $('.player_row[data-id="'+protocol_id+'"]').remove()
+                })
+            }
+        });
+
     })
 
     $('#save-training').on('click', function () {
@@ -141,6 +232,13 @@ $(window).on('load', function (){
         }
         ajax_event_action('PUT', data, 'save', id)
     })
+
+    // Open graphics in modal
+    $('.card-body').on('click', '.carousel-item', (e) => {
+        e.preventDefault();
+        let parentId = $(e.currentTarget).parent().parent().attr('id');
+        open_graphics_modal('carouselSchema')
+    });
 
     generate_exercises_module_data()
     render_exercises_training(id)
@@ -188,7 +286,7 @@ function render_protocol_training(training_id = null) {
         protocol_header += `
         <tr>
             <th class="p-0 text-center align-middle border">
-                <button title="" class="btn btn-block btn-outline-success btn-sm edit-input" data-toggle="modal" data-target="#add-player-protocol-modal" disabled><i class="fa fa-plus" aria-hidden="true"></i></button>
+                <button title="" class="btn btn-block btn-outline-success btn-sm edit-input" data-toggle="modal" data-target="#add-player-protocol-modal" ${!edit_mode ? 'disabled' : ''}><i class="fa fa-plus" aria-hidden="true"></i></button>
             </th>
             <th colspan="5" class="p-0 text-center align-middle border">
             </th>
@@ -204,7 +302,7 @@ function render_protocol_training(training_id = null) {
                     <th class="p-0 text-center align-middle border" width="40"><input type="checkbox" class="all-player-check" data-group="group_${i+1}" style="width: 25px; height: 25px;"></th>
                     `
                 }
-                protocol_header2 += `<th class="p-0 text-center align-middle border">${j+1}</th>`
+                protocol_header2 += `<th title="${(get_cur_lang() in exs_group[i].ids[j].exercise_name) ? exs_group[i].ids[j].exercise_name[get_cur_lang()] : Object.values(exs_group[i].ids[j].exercise_name)[0]}" class="p-0 text-center align-middle border">${j+1}</th>`
             }
 
         }
@@ -218,7 +316,7 @@ function render_protocol_training(training_id = null) {
             console.log(players)
             let select = ''
             ajax_protocol_status('GET').then(function (data_status) {
-                console.log(data_status)
+                //console.log(data_status)
                 let options = data_status.results;
                 let option_html = ''
                 option_html+=`
@@ -235,21 +333,21 @@ function render_protocol_training(training_id = null) {
                     </select>
                 `
 
-                let player_row = ``
                 $.each( players, function( key, player ) {
+                    let player_row = ``
                     player_row += `
                     <tr class="player_row" data-training="${player.training_id}" data-id="${player.id}">
                         <td width="20" class="p-0 text-right align-middle">
-                            <button type="button" title="Удалить игрока" class="btn btn-sm btn-danger delete-player-button py-0 w-100 edit-input" style="height: 30px;" disabled>X</button>
+                            <button type="button" title="${gettext('Delete player')}" class="btn btn-sm btn-danger delete-player-button py-0 w-100 edit-input" style="height: 30px;" ${!edit_mode ? 'disabled' : ''}>X</button>
                         </td>
                         <td width="150" class="p-0 align-middle">
                             ${select}
                         </td>
-                        <td width="30" class="p-0 text-center align-middle estimation-change" name="estimation" value="0"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></td>
-                        <td width="30" class="p-0 text-center align-middle estimation-change" name="estimation" value="1"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></td>
+                        <td width="30" class="p-0 text-center align-middle estimation-change edit-custom-input ${!edit_mode ? 'disabled' : ''}" name="estimation" value="1"><i class="fa ${player.estimation == 1 ? 'fa-thumbs-down' : 'fa-thumbs-o-down'}" aria-hidden="true"></i></td>
+                        <td width="30" class="p-0 text-center align-middle estimation-change edit-custom-input ${!edit_mode ? 'disabled' : ''}" name="estimation" value="2"><i class="fa ${player.estimation == 2 ? 'fa-thumbs-up' : 'fa-thumbs-o-up'}" aria-hidden="true"></i></td>
                         <td width="40" class="p-0 text-center align-middle"></td>
                         <td width="200" class="align-middle">
-                            <span class="float-left " title="">Иванов Иван</span>
+                            <span class="float-left " title="${player.full_name}">${player.full_name}</span>
                         </td>
                     `
                     for (let i = 0; i < exs_group.length; i++) {
@@ -260,13 +358,16 @@ function render_protocol_training(training_id = null) {
                                 <td class="p-0 text-center align-middle" width="40"><input type="checkbox" class="select-all-group" data-group="group_${i+1}" style="width: 25px; height: 25px;"></td>
                                 `
                             }
-                            player_row += `<td name="group_${i+1}" data-num="${j}" data-exs-id="${exs_group[i].ids[j]}" width="40" class="p-0 text-center align-middle protocol-check-player"></td>`
+                            player_row += `<td name="group_${i+1}" data-num="${j}" data-exs-id="${exs_group[i].ids[j].id}" width="40" class="p-0 text-center align-middle protocol-check-player edit-custom-input ${!edit_mode ? 'disabled' : ''}">${$.inArray(exs_group[i].ids[j].id, player.training_exercise_check) != -1 ? '<i class="fa fa-check" aria-hidden="true"></i>' : ''}</td>`
                         }
 
                     }
                     player_row += `</tr>`
+                    $('#player-protocol-table').append(player_row)
+                    $('#player-protocol-table .player_row[data-id="'+player.id+'"] select[name="status"]').val(player.status)
                 })
-                $('#player-protocol-table').append(player_row)
+
+
             })
         })
     })
@@ -287,7 +388,7 @@ function render_exercises_training(training_id = null, group = null) {
         let counts_group = [0,0,0,0];
         //console.log(select_html)
         $.each( exercises, function( key, exercise ) {
-            counts_group[exercise.group]++;
+            counts_group[exercise.group-1]++;
             card_html += `
             <div class="col-4 py-2 exercise-visual-block" data-id="${exercise.id}">
                 <div id="carouselSchema-${key}" class="carousel slide carouselSchema" data-ride="carousel" data-interval="false">
@@ -418,7 +519,7 @@ function set_count_exercises(arr_count_group = null) {
     if(arr_count_group != null){
         for (let i = 0; i < arr_count_group.length; i++) {
             let value = arr_count_group[i]
-            if(value != 0) $('.group-button[data-group="'+i+'"] span').text(value)
+            if(value != 0) $('.group-button[data-group="'+(i+1)+'"] span').text(value)
         }
     } else {
         let group = $('.add-exercise').attr('data-group')
@@ -506,7 +607,11 @@ async function ajax_training_action(method, data, action = '', id = '', func = '
                 //console.log(data)
                 if(data.status == 'exercise_limit'){
                     swal(gettext('Training '+action), gettext('The limit of exercises for the selected group has been reached'), "error");
-                }if(data.status == 'exercise_got' || data.status == 'sort_exercise' || data.status == 'protocol_got'){
+                } else if(data.status == 'protocol_not_empty'){
+                    swal(gettext('Training '+action), gettext('There are players in the protocol. Remove the players before unloading the entire team.'), "error");
+                } else if(data.status == 'protocol_limit'){
+                    swal(gettext('Training '+action), gettext('The limit of players for one protocol has been reached.'), "error");
+                } else if(data.status == 'exercise_got' || data.status == 'sort_exercise' || data.status == 'protocol_got'){
 
                 } else {
                     swal(gettext('Training '+action), gettext('Training action "'+action+'" successfully!'), "success");

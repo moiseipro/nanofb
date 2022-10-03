@@ -301,6 +301,30 @@ class TrainingProtocolViewSet(viewsets.ModelViewSet):
     serializer_class = UserTrainingProtocolSerializer
     permission_classes = [IsAuthenticated]
 
+    @action(detail=True, methods=['post'])
+    def check(self, request, pk=None):
+        data = request.data
+        instance = self.get_object()
+        print(data['exercise_training'])
+        #UserTrainingProtocol.objects.get(pk=pk).training_exercise_check.add(UserTrainingExercise.objects.first())
+        training = UserTrainingProtocol.objects.get(pk=pk)
+        edit_exercises = training.training_exercise_check
+        print(edit_exercises)
+
+        status_exs = ''
+        if training:
+            if edit_exercises.exists() and edit_exercises.filter(pk=data['exercise_training']).exists():
+                training.training_exercise_check.remove(edit_exercises.get(pk=data['exercise_training']))
+                status_exs = 'removed'
+            else:
+                training.training_exercise_check.add(UserTrainingExercise.objects.get(pk=data['exercise_training']))
+                status_exs = 'added'
+            return Response({'status': status_exs})
+        else:
+            status_exs = 'error'
+            return Response(status_exs,
+                            status=status.HTTP_400_BAD_REQUEST)
+
     def update(self, request, *args, **kwargs):
         partial = True
         instance = self.get_object()

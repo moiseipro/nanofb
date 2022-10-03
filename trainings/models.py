@@ -206,4 +206,5 @@ class UserTrainingProtocol(AbstractTrainingProtocol):
     )
     training_exercise_check = models.ManyToManyField(
         UserTrainingExercise,
+        blank=True
     )

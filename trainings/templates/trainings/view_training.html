@@ -59,7 +59,7 @@
                             </ul>
                         </div>
                         <div class="col-2 px-1">
-                            <button id="#" title="" class="btn btn-block btn-outline-danger btn-sm font-weight-bold">{% trans "Delete" %}</button>
+                            <button id="delete-training" title="" class="btn btn-block btn-outline-danger btn-sm font-weight-bold">{% trans "Delete" %}</button>
                         </div>
                     </div>
                 </div>
@@ -82,7 +82,7 @@
                                 <div class="col">
                                     <div class="row">
                                         <div class="col-4 px-1">
-                                            <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm group-button group-switch" data-group="0">{% trans "Switch group" %}</button>
+                                            <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm group-button group-button" data-group="">{% trans "All group" %}</button>
                                         </div>
                                         <!--<div class="col px-1">
                                             <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Описание</button>
@@ -222,6 +222,7 @@
                             </div>
                         </div>
                     </div>
+                    {% include "exercises/modules/exercise_graphic_modal.html" %}
                 </div>
             </div>
         </div>
@@ -230,9 +231,12 @@
 {% endblock %}
 
 {% block custom_scripts %}
+    <script src="{% static 'events/js/event_update.js' %}"></script>
     <script src="{% static 'references/exercise_additional_data.js' %}"></script>
     <script src="{% static 'references/player_protocol_status.js' %}"></script>
+    <script src="{% static 'trainings/js/view_protocol.js' %}"></script>
 
+    <script src="{% static 'exercises/js/modules/graphic_modal.js' %}"></script>
     <script src="{% static 'exercises/js/modules/exercise_counter.js' %}"></script>
     <script src="{% static 'exercises/js/modules/visual_block_control.js' %}"></script>
     <script src="{% static 'exercises/js/modules/exercises_list.js' %}"></script>

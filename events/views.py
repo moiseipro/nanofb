@@ -13,6 +13,7 @@ from events.forms import MicrocycleUserForm, EventUserForm, EventEditUserForm
 from events.models import UserMicrocycles, UserEvent
 from events.serializers import UserMicrocyclesSerializer, UserMicrocyclesUpdateSerializer, UserEventSerializer, \
     UserEventEditSerializer
+from matches.models import UserMatch
 from references.models import UserTeam, UserSeason
 from trainings.models import UserTraining
 from system_icons.views import get_ui_elements
@@ -53,6 +54,9 @@ class EventViewSet(viewsets.ModelViewSet):
         if 'event_type' in self.request.data and '1' in self.request.data['event_type']:
             new_training = UserTraining.objects.create(team_id=team, event_id=event)
             new_training.save()
+        elif 'event_type' in self.request.data and '2' in self.request.data['event_type']:
+            new_match = UserMatch.objects.create(team_id=team, event_id=event)
+            new_match.save()
 
     # def list(self, request, *args, **kwargs):
     #     queryset = self.filter_queryset(self.get_queryset())

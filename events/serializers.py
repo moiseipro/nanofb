@@ -4,6 +4,7 @@ from events.models import UserMicrocycles, UserEvent
 
 
 # Microcycles
+from matches.serializers import UserMatchSerializer
 from trainings.serializers import UserTrainingSerializer
 
 
@@ -62,9 +63,14 @@ class UserEventSerializer(serializers.ModelSerializer):
         read_only=True
     )
 
+    match = UserMatchSerializer(
+        source='usermatch',
+        read_only=True
+    )
+
     class Meta:
         model = UserEvent
         fields = [
-            'id', 'short_name', 'date', 'only_date', 'time', 'training'
+            'id', 'short_name', 'date', 'only_date', 'time', 'training', 'match'
         ]
         datatables_always_serialize = ('id', 'short_name', 'only_date', 'time', 'training',)

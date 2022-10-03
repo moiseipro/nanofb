@@ -4014,6 +4014,16 @@ table.table-inbox tbody tr.checked {
 	}
 }
 
+/* Edit custom block, input, button */
+.edit-custom-input:not(.disabled) {
+	pointer-events: auto;
+	cursor: pointer;
+}
+.edit-custom-input.disabled {
+	pointer-events: none;
+	cursor: default;
+}
+
 /* For block loader */
 
 .load-block-wrapper {
