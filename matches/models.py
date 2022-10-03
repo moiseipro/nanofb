@@ -1,6 +1,9 @@
 from datetime import timedelta
+from email.policy import default
+from django.utils import timezone
 
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy as _p
 
@@ -10,7 +13,7 @@ from users.models import User
 from video.models import Video
 
 
-# Create your models here.
+
 class AbstractMatch(models.Model):
     trainer_user_id = models.ForeignKey(
         User,
@@ -38,6 +41,7 @@ class AbstractMatch(models.Model):
     )
     opponent = models.CharField(
         max_length=255,
+        default=""
     )
     o_goals = models.SmallIntegerField(
         verbose_name=_('opponent goals'),
@@ -52,16 +56,32 @@ class AbstractMatch(models.Model):
     estimation = models.SmallIntegerField(
         verbose_name=_('estimation'),
         help_text=_('Rating of the match on the scale.'),
+        default=0
     )
     place = models.CharField(
         max_length=80,
         verbose_name=_('place'),
         help_text=_('Venue of the match.'),
+        null=True,
+        blank=True,
     )
     tournament = models.CharField(
         max_length=80,
         verbose_name=_('tournament'),
         help_text=_('Tournament name.'),
+        null=True,
+        blank=True,
+    )
+    m_type = models.IntegerField(
+        help_text=_('Match type, 0 - not official, 1 - official.'),
+        default=0,
+        validators=[MaxValueValidator(1), MinValueValidator(0)]
+    )
+    m_format = models.CharField(
+        max_length=80,
+        help_text=_('Match format.'),
+        null=True,
+        blank=True,
     )
     video_id = models.ForeignKey(
         Video,
@@ -74,6 +94,7 @@ class AbstractMatch(models.Model):
         blank=True,
     )
 
+    objects = models.Manager()
     class Meta:
         abstract = True
 
@@ -84,6 +105,7 @@ class UserMatch(AbstractMatch):
         on_delete=models.CASCADE,
         primary_key=True
     )
+    sync_event = models.ForeignKey(UserEvent, on_delete=models.SET_NULL, null=True, blank=True, related_name="sync_event")
     team_id = models.ForeignKey(
         UserTeam,
         on_delete=models.CASCADE
@@ -96,6 +118,7 @@ class ClubMatch(AbstractMatch):
         on_delete=models.CASCADE,
         primary_key=True
     )
+    sync_event = models.ForeignKey(ClubEvent, on_delete=models.SET_NULL, null=True, blank=True, related_name="sync_event")
     team_id = models.ForeignKey(
         ClubTeam,
         on_delete=models.CASCADE,

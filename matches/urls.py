@@ -1,9 +1,11 @@
 from django.urls import path, include
 from matches import views
 from rest_framework import routers
+from matches import views
 
-extra_context = {'menu_matches': 'active'}
 
 urlpatterns = [
-    path('', views.MatchesView.as_view(extra_context=extra_context), name="base_matches"),
+    path('', views.matches, name="base_matches"),
+    path('match', views.match, name="base_match"),
+    path('matches_api', views.matches_api, name="matches_api")
 ]

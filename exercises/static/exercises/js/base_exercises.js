@@ -785,11 +785,13 @@ $(function() {
                         type: window.videoPlayerCard1.currentType(),
                         src: window.videoPlayerCard1.currentSrc()
                     });
+                    window.videoPlayerClones[i].poster(window.videoPlayerCard1.poster());
                 } else if (i == 1) {
                     window.videoPlayerClones[i].src({
                         type: window.videoPlayerCard2.currentType(),
                         src: window.videoPlayerCard2.currentSrc()
                     });
+                    window.videoPlayerClones[i].poster(window.videoPlayerCard2.poster());
                 }
             });
         }
@@ -824,11 +826,13 @@ $(function() {
                         type: window.videoPlayerCard3.currentType(),
                         src: window.videoPlayerCard3.currentSrc()
                     });
+                    window.videoPlayerClones[i].poster(window.videoPlayerCard3.poster());
                 } else if (i == 1) {
                     window.videoPlayerClones[i + videoPlayersLength].src({
                         type: window.videoPlayerCard4.currentType(),
                         src: window.videoPlayerCard4.currentSrc()
                     });
+                    window.videoPlayerClones[i].poster(window.videoPlayerCard4.poster());
                 }
             });
         }
@@ -871,11 +875,13 @@ $(function() {
                         type: window.videoPlayerCard1.currentType(),
                         src: window.videoPlayerCard1.currentSrc()
                     });
+                    window.videoPlayerClones[i].poster(window.videoPlayerCard1.poster());
                 } else if (i == 1) {
                     window.videoPlayerClones[i].src({
                         type: window.videoPlayerCard2.currentType(),
                         src: window.videoPlayerCard2.currentSrc()
                     });
+                    window.videoPlayerClones[i].poster(window.videoPlayerCard2.poster());
                 }
             });
         }
@@ -905,11 +911,13 @@ $(function() {
                         type: window.videoPlayerCard3.currentType(),
                         src: window.videoPlayerCard3.currentSrc()
                     });
+                    window.videoPlayerClones[i].poster(window.videoPlayerCard3.poster());
                 } else if (i == 1) {
                     window.videoPlayerClones[i + videoPlayersLength].src({
                         type: window.videoPlayerCard4.currentType(),
                         src: window.videoPlayerCard4.currentSrc()
                     });
+                    window.videoPlayerClones[i].poster(window.videoPlayerCard4.poster());
                 }
             });
         }

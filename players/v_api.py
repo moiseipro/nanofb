@@ -1,5 +1,3 @@
-from re import search
-from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from django.db.models import Q
