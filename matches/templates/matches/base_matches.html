@@ -51,18 +51,20 @@
                             <div class="table-responsive">
                                 <table id="matches" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
                                     <colgroup>
+                                        <col span="1" style="width: 5%;">
                                         <col span="1" style="width: 10%;">
                                         <col span="1" style="width: 5%;">
                                         <col span="1" style="width: 5%;">
                                         <col span="1" style="width: 5%;">
                                         <col span="1" style="width: 25%;">
-                                        <col span="1" style="width: 10%;">
+                                        <col span="1" style="width: 5%;">
                                         <col span="1" style="width: 25%;">
-                                        <col span="1" style="width: 7%;">
-                                        <col span="1" style="width: 8%;">
+                                        <col span="1" style="width: 5%;">
+                                        <col span="1" style="width: 10%;">
                                     </colgroup>
                                     <thead>
                                         <tr>
+                                            <th class="text-center">#</th>
                                             <th class="text-center">Дата</th>
                                             <th class="text-center">Д.Н.</th>
                                             <th class="text-center" title="Время"><i class="fa fa-clock-o" aria-hidden="true"></i></th>
@@ -77,6 +79,7 @@
                                     <tbody>
                                         {% for match in matches %}
                                         <tr class="match-row" data-id="{{ match.event_id }}">
+                                            <td class="text-center">{{ forloop.counter }}</td>
                                             <td class="text-center">{{ match.date }}</td>
                                             <td class="text-center">{{ match.date_day }}</td>
                                             <td class="text-center">{{ match.date_time }}</td>
@@ -170,9 +173,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6 bg-light pt-1">Длительность (Ч:М:С)</div>
+                        <div class="col-6 bg-light pt-1">Длительность (в минутах)</div>
                         <div class="col-6 mb-0 pl-0">
-                            <input class="form-control form-control-sm" name="duration" type="time" step="2" value="" autocomplete="off" required="">
+                            <input class="form-control form-control-sm" name="duration" type="number" min="0" value="" autocomplete="off" required="">
                         </div>
                         <div class="col-6 bg-light pt-1">Турнир</div>
                         <div class="col-6 mb-0 pl-0">
