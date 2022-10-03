@@ -660,11 +660,12 @@ function RenderVideo(value, htmlElem, windowElem) {
     }
     get_video_ids(value)
     .then(data => {
-        if (data.links) {
+        if (data) {
             $(htmlElem).removeClass('d-none');
             $(htmlElem).removeClass('not-active');
             if ('nftv' in data['links'] && data['links']['nftv'] != '') {
                 windowElem.src({type: 'video/mp4', src: `https://213.108.4.28/video/player/${data['links']['nftv']}`});
+                windowElem.poster(`https://213.108.4.28/video/poster/${data['links']['nftv']}`);
             } else if ('youtube' in data['links'] && data['links']['youtube'] != '') {
                 windowElem.src({techOrder: ["youtube"], type: 'video/youtube', src: `https://www.youtube.com/watch?v=${data['links']['youtube']}`});
             }
