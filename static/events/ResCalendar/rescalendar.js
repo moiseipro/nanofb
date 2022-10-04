@@ -291,7 +291,7 @@ var startDate, endDate, startSeason, endSeason;
 
             setData( targetObj )
 
-            
+            $(targetObj).trigger('rescalendar.update');
         }
 
         //Перейти на день по клику
