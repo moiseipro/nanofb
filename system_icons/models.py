@@ -30,10 +30,10 @@ class IconsList(models.Model):
         if self.icon:
             return mark_safe(f'<img src="{self.icon.url}" width="24" height="24" />')
         return ""
-    def icon_color_preview(self):
+    def icon_color_preview(self, title=""):
         if self.icon:
             mask_str = f"-webkit-mask:url({self.icon.url}) center/contain; mask:url({self.icon.url}) center/contain;"
-            return mark_safe(f'<div class="" style="width:24px; height:24px; display:inline-block; background:{self.color}; {mask_str}"></div>')
+            return mark_safe(f'<div class="" style="width:24px; height:24px; display:inline-block; background:{self.color}; {mask_str}" title="{title}"></div>')
         return ""
     icon_color_preview.short_description = "Icon With Color Preview"
 
@@ -53,6 +53,11 @@ class UIElement(models.Model):
     text_id = models.CharField(
         max_length=255,
         help_text='Текст.ID для идентификации элемента на сайте',
+        null=True,
+        blank=True
+    )
+    hint = models.JSONField(
+        help_text='JSON Obj. format: {"en": "hint", "ru": "подсказка"}',
         null=True,
         blank=True
     )

@@ -30,7 +30,7 @@ def exercises(request):
         'menu_exercises': 'active',
         'seasons_list': UserSeason.objects.filter(user_id=request.user),
         'teams_list': UserTeam.objects.filter(user_id=request.user),
-        'ui_elements': get_ui_elements()
+        'ui_elements': get_ui_elements(request)
     })
 
 
@@ -73,7 +73,7 @@ def exercise(request):
         'menu_exercises': 'active',
         'seasons_list': UserSeason.objects.filter(user_id=request.user),
         'teams_list': UserTeam.objects.filter(user_id=request.user),
-        'ui_elements': get_ui_elements()
+        'ui_elements': get_ui_elements(request)
     })
 
 
@@ -97,7 +97,7 @@ def folders(request):
         'menu_exercises_folders': 'active',
         'seasons_list': UserSeason.objects.filter(user_id=request.user),
         'teams_list': UserTeam.objects.filter(user_id=request.user),
-        'ui_elements': get_ui_elements()
+        'ui_elements': get_ui_elements(request)
     })
 
 

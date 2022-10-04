@@ -46,8 +46,6 @@ function RenderMatchEditModal(id = null) {
 
 $(function() {
 
-
-    
     $('#addMatchBtn').on('click', (e) => {
         RenderMatchEditModal();
         $('#matchEditModal').modal('show');
@@ -95,11 +93,18 @@ $(function() {
                 url: "matches_api",
                 success: function (res) {
                     if (res.success) {
-                        window.location.reload();
+                        swal("Готово", "Матч успешно создан / изменен.", "success")
+                        .then((value) => {
+                            $('.page-loader-wrapper').fadeIn();
+                            window.location.reload();
+                        });
+                    } else {
+                        swal("Ошибка", `При создании / изменении матча произошла ошибка (${res.err}).`, "error");
                     }
                 },
                 error: function (res) {
-                    console.log(res)
+                    swal("Ошибка", "Матч не удалось создать / изменить.", "error");
+                    console.log(res);
                 },
                 complete: function (res) {
                     $('.page-loader-wrapper').fadeOut();
@@ -120,68 +125,92 @@ $(function() {
         serverSide: false,
         processing: false,
         paging: false,
+        searching: false,
         select: false,
         drawCallback: function( settings ) {
         },
         columnDefs: [
-            { "searchable": false, "orderable": false, "targets": [2, 6, 9] }
+            { "searchable": false, "orderable": false, "targets": [2, 6] }
         ],
     });
-    $('button[data-target="#collapse-protocol"]').on('click', (e) => {
-        let openedList = $('#collapse-protocol').hasClass('show');
-        if ($.fn.DataTable.isDataTable('#matches')) {
-            matches_table.column(9).visible(openedList);
-        }
+
+    $('.card-header').on('click', '.clear-collapses', (e) => {
+        $('.card-header').find('.toggle-collapse').removeClass('active');
+        $(e.currentTarget).addClass('active');
+        $('.card-body').find('.collapse-block').collapse('hide');
     });
+    $('.card-header').on('click', '.toggle-collapse', (e) => {
+        let isActive = $(e.currentTarget).hasClass('active');
+        $('.card-header').find('.toggle-collapse').removeClass('active');
+        $('.card-header').find('.clear-collapses').toggleClass('active', isActive);
+        $(e.currentTarget).toggleClass('active', !isActive);
+        $('.card-body').find('.collapse-block').collapse('hide');
+    });
+
+
     $('#matches').on('click', '.match-row', (e) => {
         if ($(e.target).is("a") || $(e.target).is('i')) {return;}
         let isSelected = $(e.currentTarget).hasClass("selected");
         $('#matches').find('.match-row').removeClass("selected");
         $(e.currentTarget).toggleClass("selected", !isSelected);
     });
-    $('#matches').on('click', 'a[action="editMatch"]', (e) => {
-        let cId = $(e.currentTarget).parent().parent().attr('data-id');
-        RenderMatchEditModal(cId);
-        $('#matchEditModal').modal('show');
+
+    $('.card-body').on('click', 'a[action="goToMatchCard"]', (e) => {
+        let selectedRow = $('#matches').find('.match-row.selected');
+        if ($(selectedRow).length > 0) {
+            let cId = $(selectedRow).attr('data-id');
+            window.location.href = `match?id=${cId}`;
+        }
     });
-    $('#matches').on('click', 'a[action="removeMatch"]', (e) => {
-        swal({
-            title: "Вы точно хотите удалить матч?",
-            text: "После удаления, данный матч невозможно будет восстановить!",
-            icon: "warning",
-            buttons: ["Отмена", "Подтвердить"],
-            dangerMode: true,
-        })
-        .then((willDelete) => {
-            if (willDelete) {
-                let cId = $(e.currentTarget).attr('data-id');
-                let data = {'delete_match': 1, 'id': cId};
-                $('.page-loader-wrapper').fadeIn();
-                $.ajax({
-                    headers:{"X-CSRFToken": csrftoken},
-                    data: data,
-                    type: 'POST', // GET или POST
-                    dataType: 'json',
-                    url: "matches_api",
-                    success: function (res) {
-                        if (res.success) {
-                            swal("Готово", "Матч успешно удален.", "success")
-                            .then((value) => {
-                                $('.page-loader-wrapper').fadeIn();
-                                window.location.reload();
-                            });
+    $('.card-body').on('click', 'a[action="editMatch"]', (e) => {
+        let selectedRow = $('#matches').find('.match-row.selected');
+        if ($(selectedRow).length > 0) {
+            let cId = $(selectedRow).attr('data-id');
+            RenderMatchEditModal(cId);
+            $('#matchEditModal').modal('show');
+        }
+    });
+    $('.card-body').on('click', 'a[action="removeMatch"]', (e) => {
+        let selectedRow = $('#matches').find('.match-row.selected');
+        if ($(selectedRow).length > 0) {
+            swal({
+                title: "Вы точно хотите удалить матч?",
+                text: "После удаления, данный матч невозможно будет восстановить!",
+                icon: "warning",
+                buttons: ["Отмена", "Подтвердить"],
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    let cId = $(selectedRow).attr('data-id');
+                    let data = {'delete_match': 1, 'id': cId};
+                    $('.page-loader-wrapper').fadeIn();
+                    $.ajax({
+                        headers:{"X-CSRFToken": csrftoken},
+                        data: data,
+                        type: 'POST', // GET или POST
+                        dataType: 'json',
+                        url: "matches_api",
+                        success: function (res) {
+                            if (res.success) {
+                                swal("Готово", "Матч успешно удален.", "success")
+                                .then((value) => {
+                                    $('.page-loader-wrapper').fadeIn();
+                                    window.location.reload();
+                                });
+                            }
+                        },
+                        error: function (res) {
+                            swal("Ошибка", "Матч удалить не удалось.", "error");
+                            console.log(res);
+                        },
+                        complete: function (res) {
+                            $('.page-loader-wrapper').fadeOut();
                         }
-                    },
-                    error: function (res) {
-                        swal("Ошибка", "Матч удалить не удалось.", "error");
-                        console.log(res);
-                    },
-                    complete: function (res) {
-                        $('.page-loader-wrapper').fadeOut();
-                    }
-                });
-            }
-        });
+                    });
+                }
+            });
+        }
     });
 
 
