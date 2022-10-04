@@ -54,24 +54,24 @@ var newMicrocycle = [
         href: '#event_2_'+2,
     }
 ];
-var minDate, maxDate
-$.fn.dataTable.ext.search.push(
-    function( settings, data, dataIndex ) {
-        var min = minDate.val();
-        var max = maxDate.val();
-        var date = new Date( data[4] );
-
-        if (
-            ( min === null && max === null ) ||
-            ( min === null && date <= max ) ||
-            ( min <= date   && max === null ) ||
-            ( min <= date   && date <= max )
-        ) {
-            return true;
-        }
-        return false;
-    }
-);
+// var minDate, maxDate
+// $.fn.dataTable.ext.search.push(
+//     function( settings, data, dataIndex ) {
+//         var min = minDate.val();
+//         var max = maxDate.val();
+//         var date = new Date( data[4] );
+//
+//         if (
+//             ( min === null && max === null ) ||
+//             ( min === null && date <= max ) ||
+//             ( min <= date   && max === null ) ||
+//             ( min <= date   && date <= max )
+//         ) {
+//             return true;
+//         }
+//         return false;
+//     }
+// );
 
 $(window).on('load', function (){
     $('.move_to_today').text(moment().format('DD/MM/YYYY'))
@@ -190,10 +190,17 @@ $(window).on('load', function (){
         let data = {}
         data.favourites = this_obj.hasClass('fa-star-o')
         //console.log(data)
-        ajax_training_action('PUT', data, 'favourites', id).done(function (data) {
+        ajax_training_action('PUT', data, 'favourites', id).then(function (data) {
             if(data.favourites) this_obj.addClass('fa-star').removeClass('fa-star-o')
             else this_obj.removeClass('fa-star').addClass('fa-star-o')
         })
+    })
+
+    $('.rescalendar_controls button').on('click', function () {
+
+    })
+    $('#event_calendar').on('rescalendar.update', function () {
+        events_table.ajax.reload()
     })
 })
 
@@ -304,7 +311,7 @@ function generateNewCalendar(){
                 type: 'GET',
                 dataType: "JSON",
                 success: function(data){
-                    //console.log(data['results'])
+                    console.log(data['results'])
                     let count_tr = 1, count_m = 1, event_date = '', event_class=''
                     for (var event of data['results']) {
                         let event_id = event['id'],
@@ -315,6 +322,11 @@ function generateNewCalendar(){
                             event_name = 'tr'+count_tr
                             event_class = 'trainingClass'
                             count_tr = 1
+                        } else if('match' in event && event['match'] != null){
+                            if(event_class === 'matchClass' && event['only_date'] === event_date) count_m++
+                            event_name = 'm'+count_tr
+                            event_class = 'matchClass'+event['match']['m_type']
+                            count_m = 1
                         } else {
                             event_class = 'none'
                         }
@@ -427,26 +439,43 @@ function generateEventTable(){
         ajax: {
             url:'api/action/?format=datatables',
             data: function(data){
+                console.log(data)
                 let from_date_str = $('#event_calendar .microcycle_cell.selected').attr('data-start')
                 let to_date_str = $('#event_calendar .microcycle_cell.selected').attr('data-end')
-                //console.log(to_date_str)
-                let from_date = from_date_str ? moment(from_date_str, 'DD/MM/YYYY').format('YYYY-MM-DD') : undefined
-                let to_date = to_date_str ? moment(to_date_str, 'DD/MM/YYYY').format('YYYY-MM-DD') : undefined
-                //console.log(to_date)
+                let today = $('#event_calendar .middleDay').attr('data-celldate')
+                console.log(today)
+                let from_date = undefined
+                let to_date = undefined
+
+                if(from_date_str){
+                    from_date = moment(from_date_str, 'DD/MM/YYYY').format('YYYY-MM-DD')
+                }
+                if(to_date_str){
+                    to_date = moment(to_date_str, 'DD/MM/YYYY').format('YYYY-MM-DD')
+                }
+
+                if(!from_date_str && !to_date_str && today){
+                    from_date = moment(today, 'DD/MM/YYYY').add(-45, 'day').format('YYYY-MM-DD')
+                    to_date = moment(today, 'DD/MM/YYYY').add(45, 'day').format('YYYY-MM-DD')
+                }
+
+                console.log(to_date)
                 // Append to data
-                data.columns[1].search.value = {'date_after': from_date, 'date_before': to_date}
+                //data.columns[1].search.value = {'date_after': from_date, 'date_before': to_date}
+                data.columns[1].search.value = {'only_date_after': from_date, 'only_date_before': to_date}
                 //console.log(data)
             },
         },
         columns: [
             {'data': 'id'},
-            {'data': 'only_date', 'name': 'only_date', 'type': 'date'},
+            {'data': 'only_date', 'name': 'only_date', 'type': 'datetime'},
             {'data': function (data, type, dataToSet) {
+                console.log(data)
                 if(type === 'display') {
                     if ('training' in data && data.training != null) {
-                        return '<a href="/trainings/view/'+data.training.event_id+'" class="btn btn-sm btn-info py-0" data-id="'+data.training.event_id+'">'+gettext('Training')+'</a>'
+                        return `<a href="/trainings/view/${data.training.event_id}" class="btn btn-sm btn-info py-0" data-id="${data.training.event_id}">${gettext('Training')}</a>`
                     } else if ('match' in data && data.match != null){
-                        return '<a href="/matches/view/'+data.match.event_id+'" class="btn btn-sm btn-info py-0" data-id="'+data.match.event_id+'">'+gettext('Match')+'</a>'
+                        return `<a href="/matches/match?id=${data.match.event_id}" class="btn btn-sm ${data.match.m_type == 0 ?"btn-success":"btn-warning"} py-0" data-id="${data.match.event_id}">${gettext('Match')}</a>`
                     } else {
                         return gettext('---')
                     }

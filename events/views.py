@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils.datetime_safe import datetime
+from django.db.models import Q
 from django.views.generic import TemplateView
 from requests import Response
 from rest_framework import viewsets, status
@@ -43,8 +44,8 @@ class MicrocycleViewSet(viewsets.ModelViewSet):
 
 class EventViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    filter_backends = (DatatablesFilterBackend,)
-    filterset_class = EventGlobalFilter
+    # filter_backends = (DatatablesFilterBackend,)
+    # filterset_class = EventGlobalFilter
 
     def perform_create(self, serializer):
         #print(self.request.data)
@@ -78,12 +79,13 @@ class EventViewSet(viewsets.ModelViewSet):
         return UserEventSerializer
 
     def get_queryset(self):
-        microcycle_before = self.request.query_params.get('columns[1][search][value][date_before]')
-        microcycle_after = self.request.query_params.get('columns[1][search][value][date_after]')
-        #print(microcycle_after)
+        microcycle_before = self.request.query_params.get('columns[1][search][value][only_date_before]')
+        microcycle_after = self.request.query_params.get('columns[1][search][value][only_date_after]')
+        print(self.request.query_params)
+        team = self.request.session['team']
         season = UserSeason.objects.filter(id=self.request.session['season'])
-        #print(season[0].date_with)
-        events = UserEvent.objects.filter(usertraining__team_id=self.request.session['team'],
+        print(season[0].date_with)
+        events = UserEvent.objects.filter(Q(usertraining__team_id=team) | Q(usermatch__team_id=team),
                                           user_id=self.request.user,
                                           date__gte=season[0].date_with,
                                           date__lte=season[0].date_by)

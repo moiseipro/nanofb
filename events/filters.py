@@ -9,15 +9,24 @@ class GlobalCharFilter(GlobalFilter, filters.CharFilter):
     pass
 
 
-class GlobalDateFromToRangeFilter(GlobalFilter, filters.DateFromToRangeFilter):
+class GlobalDateTimeFromToRangeFilter(filters.DateTimeFromToRangeFilter):
+    pass
+
+
+class GlobalDateFromToRangeFilter(filters.DateFromToRangeFilter):
     pass
 
 
 class EventGlobalFilter(DatatablesFilterSet):
-    """Filter name, artist and genre by name with icontains"""
 
-    date = GlobalDateFromToRangeFilter()
+    # date = GlobalDateTimeFromToRangeFilter(
+    #     field_name="date",
+    # )
+    only_date = GlobalDateTimeFromToRangeFilter(
+        field_name="only_date",
+
+    )
 
     class Meta:
         model = UserEvent
-        fields = ['date']
+        fields = ['only_date', 'date']
