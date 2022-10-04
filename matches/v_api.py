@@ -44,11 +44,19 @@ def set_value_as_datetime(value):
     return value   
 
 
-def set_value_as_duration(value):
-    m = re.match(r'(?P<h>\d+):(?P<m>\d+):'r'(?P<s>\d[\.\d+]*)', value)
-    if not m:
-        return timedelta()
-    time_dict = {key: float(val) for key, val in m.groupdict().items()}
+def set_value_as_duration(value, only_mins=True):
+    if not only_mins:
+        m = re.match(r'(?P<h>\d+):(?P<m>\d+):'r'(?P<s>\d[\.\d+]*)', value)
+        if not m:
+            return timedelta()
+        time_dict = {key: float(val) for key, val in m.groupdict().items()}
+    else:
+        mins_val = 0
+        try:
+            mins_val = int(value)
+        except:
+            pass
+        time_dict = {'h': 0, 'm': mins_val, 's': 0}
     return timedelta(hours=time_dict['h'], minutes=time_dict['m'], seconds=time_dict['s'])
 
 
@@ -87,13 +95,20 @@ def get_time_from_datetime(datetime_obj):
     return time_str
 
 
-def get_duration_normal_format(timedelta_obj):
+def get_duration_normal_format(timedelta_obj, only_mins=True):
     duration_str = None
-    try:
-        t_arr = str(timedelta_obj).split(':')
-        duration_str = "{:02}:{:02}:{:02}".format(int(t_arr[0]), int(t_arr[1]), int(t_arr[2]))
-    except:
-        pass
+    if not only_mins:
+        try:
+            t_arr = str(timedelta_obj).split(':')
+            duration_str = "{:02}:{:02}:{:02}".format(int(t_arr[0]), int(t_arr[1]), int(t_arr[2]))
+        except:
+            pass
+    else:
+        try:
+            mins_v = round(timedelta_obj.total_seconds() / 60)
+            duration_str = f"{mins_v}"
+        except:
+            pass
     return duration_str
 
 

@@ -124,13 +124,13 @@ $(function() {
         drawCallback: function( settings ) {
         },
         columnDefs: [
-            { "searchable": false, "orderable": false, "targets": [1, 5, 8] }
+            { "searchable": false, "orderable": false, "targets": [2, 6, 9] }
         ],
     });
     $('button[data-target="#collapse-protocol"]').on('click', (e) => {
         let openedList = $('#collapse-protocol').hasClass('show');
         if ($.fn.DataTable.isDataTable('#matches')) {
-            matches_table.column(8).visible(openedList);
+            matches_table.column(9).visible(openedList);
         }
     });
     $('#matches').on('click', '.match-row', (e) => {
