@@ -73,4 +73,4 @@ class UserEventSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'short_name', 'date', 'only_date', 'time', 'training', 'match'
         ]
-        datatables_always_serialize = ('id', 'short_name', 'only_date', 'time', 'training',)
+        datatables_always_serialize = ('id', 'short_name', 'only_date', 'time', 'training', 'match')
