@@ -156,7 +156,6 @@ def POST_edit_match(request, cur_user, cur_team):
         return JsonResponse({"errors": "Can't parse post data"}, status=400)
     adding_mode = False
     c_datetime = set_value_as_datetime(f"{post_data['date']} {post_data['time']}:00")
-    selected_team = UserTeam.objects.filter(id=set_value_as_int(post_data['opponent_team'], -1))
     c_match = UserMatch.objects.filter(event_id=match_id, team_id=cur_team)
     if not c_match.exists() or c_match[0].event_id == None:
         adding_mode = True
@@ -169,34 +168,17 @@ def POST_edit_match(request, cur_user, cur_team):
             else:
                 new_event = UserEvent(user_id=cur_user)
             new_event.save()
-            if selected_team.exists() and selected_team[0].id != None:
-                if c_datetime:
-                    new_event_sync = UserEvent(user_id=cur_user, date=c_datetime)
-                else:
-                    new_event_sync = UserEvent(user_id=cur_user)
-                new_event_sync.save() 
         except:
             return JsonResponse({"errors": "Can't create event"}, status=400)
-        if selected_team.exists() and selected_team[0].id != None:
-            c_match = UserMatch(team_id=c_team[0], event_id=new_event, sync_event=new_event_sync)
-            c_match_sync = UserMatch(team_id=selected_team[0], event_id=new_event_sync, sync_event=new_event)
-        else:
-            c_match = UserMatch(team_id=c_team[0], event_id=new_event)
-            c_match_sync = None
+        c_match = UserMatch(team_id=c_team[0], event_id=new_event)
     else:
         c_match = c_match[0]
-        c_match_sync = UserMatch.objects.filter(sync_event=c_match.event_id)
-        if not c_match_sync.exists() or c_match_sync[0].event_id == None:
-            c_match_sync = None
-        else:
-            c_match_sync = c_match_sync[0]
     if c_datetime:
         c_match.event_id.date = c_datetime
     c_match.duration = set_value_as_duration(post_data['duration'])
     c_match.goals = set_value_as_int(post_data['goals'], 0)
     c_match.penalty = set_value_as_int(post_data['penalty'], 0)
-    if adding_mode:
-        c_match.opponent = post_data['opponent_name']
+    c_match.opponent = post_data['opponent_name']
     c_match.o_goals = set_value_as_int(post_data['o_goals'], 0)
     c_match.o_penalty = set_value_as_int(post_data['o_penalty'], 0)
     c_match.place = post_data['place']
@@ -210,25 +192,6 @@ def POST_edit_match(request, cur_user, cur_team):
         res_data = f'Match with id: [{c_match.event_id}] is added / edited successfully.'
     except Exception as e:
         return JsonResponse({"err": "Can't edit or add the match.", "success": False}, status=200)
-    if c_match_sync:
-        if c_datetime:
-            c_match_sync.event_id.date = c_datetime
-        c_match_sync.duration = set_value_as_duration(post_data['duration'])
-        c_match_sync.goals = set_value_as_int(post_data['o_goals'], 0)
-        c_match_sync.penalty = set_value_as_int(post_data['o_penalty'], 0)
-        if adding_mode:
-            c_match_sync.opponent = c_team[0].name
-        c_match_sync.o_goals = set_value_as_int(post_data['goals'], 0)
-        c_match_sync.o_penalty = set_value_as_int(post_data['penalty'], 0)
-        c_match_sync.place = post_data['place']
-        c_match_sync.tournament = post_data['tournament']
-        c_match_sync.m_type = set_value_as_int(post_data['m_type'], 0)
-        c_match_sync.m_format = post_data['m_format']
-        try:
-            c_match_sync.save()
-            res_data += f'Match with id: [{c_match_sync.event_id}] is added / edited successfully.'
-        except Exception as e:
-            return JsonResponse({"err": "Can't edit or add the match sync.", "success": False}, status=200)
     return JsonResponse({"data": res_data, "success": True}, status=200)
 
 

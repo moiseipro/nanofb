@@ -347,7 +347,7 @@ class BaseVideoView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['sources'] = VideoSource.objects.all().annotate(videos=Count('video'))
         context['tags'] = Tag.objects.all()
-        context['ui_elements'] = get_ui_elements()
+        context['ui_elements'] = get_ui_elements(self.request)
         # context['update_form'] = UpdateVideoForm()
         return context
 

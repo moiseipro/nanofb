@@ -928,7 +928,10 @@ $(function() {
         $('#splitCol_exscard_2').find('.btn-view').toggleClass('d-none', isActive != '1');
         $('#splitCol_exscard_2').find('.btn-edit').toggleClass('d-none', isActive == '1');
         ToggleEditFields(isActive != '1');
-        if (isActive == '1') {LoadExerciseOne();}
+        if (isActive == '1') {
+            window.changedData = false;
+            LoadExerciseOne();
+        }
         if (isActive != '1') {
             if ($('#card_drawing1').hasClass('active')) {
                 $('#card_drawing1').addClass('d-none');

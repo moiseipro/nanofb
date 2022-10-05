@@ -130,5 +130,5 @@ class EventsView(TemplateView):
         context['microcycle_form'] = MicrocycleUserForm
         context['event_form'] = EventUserForm
         context['event_edit_form'] = EventEditUserForm
-        context['ui_elements'] = get_ui_elements()
+        context['ui_elements'] = get_ui_elements(self.request)
         return context

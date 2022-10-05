@@ -31,11 +31,17 @@ $(function() {
             })
             .then((willExit) => {
                 if (willExit) {
+                    window.changedData = false;
                     window.location.href = `/exercises`;
                 }
             });
         } else {
             window.location.href = `/exercises`;
+        }
+    });
+    $(window).on('beforeunload', (e) => {
+        if (window.changedData == true) {
+            return "Вы не сохранили новые изменения. При выходе новые данные не сохранятся. Вы точно хотите покинуть страницу?";
         }
     });
 

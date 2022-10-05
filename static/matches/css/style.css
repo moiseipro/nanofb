@@ -31,7 +31,14 @@
 }
 
 
-
 table.dataTable.table-sm > thead > tr > th {
     padding: 0 0 !important;
 }
+
+
+.clear-collapses.active, .toggle-collapse.active {
+    text-transform: uppercase;
+    opacity: 0.7;
+}
+
+

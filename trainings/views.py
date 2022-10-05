@@ -344,7 +344,7 @@ class TrainingsView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['teams_list'] = UserTeam.objects.filter(user_id=self.request.user)
         context['seasons_list'] = UserSeason.objects.filter(user_id=self.request.user)
-        context['ui_elements'] = get_ui_elements()
+        context['ui_elements'] = get_ui_elements(self.request)
         return context
 
 
@@ -366,7 +366,7 @@ class EditTrainingsView(DetailView):
         context['nfb_folders'] = found_nfb_folders
         context['refs'] = refs
         context['is_exercises'] = True
-        context['ui_elements'] = get_ui_elements()
+        context['ui_elements'] = get_ui_elements(self.request)
 
 
         return context

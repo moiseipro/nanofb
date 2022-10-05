@@ -41,7 +41,7 @@ def matches(request):
         'menu_matches': 'active',
         'seasons_list': UserSeason.objects.filter(user_id=request.user),
         'teams_list': UserTeam.objects.filter(user_id=request.user),
-        'ui_elements': get_ui_elements()
+        'ui_elements': get_ui_elements(request)
     })
 
 
@@ -55,7 +55,6 @@ def match(request):
     except:
         pass
     match = v_api.GET_get_match(request, cur_user[0], cur_team, False)
-    print(match)
     if match == None:
         return redirect("matches:base_matches")
     refs = {}
@@ -66,7 +65,7 @@ def match(request):
         'menu_matches': 'active',
         'seasons_list': UserSeason.objects.filter(user_id=request.user),
         'teams_list': UserTeam.objects.filter(user_id=request.user),
-        'ui_elements': get_ui_elements()
+        'ui_elements': get_ui_elements(request)
     })
 
 

@@ -29,7 +29,7 @@ def players(request):
         'menu_players': 'active',
         'seasons_list': UserSeason.objects.filter(user_id=request.user),
         'teams_list': UserTeam.objects.filter(user_id=request.user),
-        'ui_elements': get_ui_elements()
+        'ui_elements': get_ui_elements(request)
     })
 
 
@@ -62,7 +62,7 @@ def player(request):
         'menu_players': 'active',
         'seasons_list': UserSeason.objects.filter(user_id=request.user),
         'teams_list': UserTeam.objects.filter(user_id=request.user),
-        'ui_elements': get_ui_elements()
+        'ui_elements': get_ui_elements(request)
     })
 
 

@@ -50,51 +50,6 @@
                         <div class="col-12 content">
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="table-responsive">
-                                        <table id="" class="table table-sm table-striped table-bordered" style="width:100%">
-                                            <colgroup>
-                                                <col span="1" style="width: 10%;">
-                                                <col span="1" style="width: 5%;">
-                                                <col span="1" style="width: 10%;">
-                                                <col span="1" style="width: 5%;">
-                                                <col span="1" style="width: 30%;">
-                                                <col span="1" style="width: 10%;">
-                                                <col span="1" style="width: 30%;">
-                                            </colgroup>
-                                            <tbody>
-                                                <tr class="text-center">
-                                                    <td class="match_date" title="Дата проведения матча">
-                                                        {{ match.date }}
-                                                    </td>
-                                                    <td class="match_time" title="Время проведения матча">
-                                                        {{ match.time }}
-                                                    </td>
-                                                    <td class="match_duration" title="Длительность матча">
-                                                        {{ match.duration }} мин.
-                                                    </td>
-                                                    <td class="match_result" title="Результат матча">
-                                                        {% if match.result == 1 %}
-                                                            <span class="text-success" title="Выигрыш">В</span>
-                                                        {% elif match.result == 2 %}
-                                                            <span class="text-danger" title="Проигрыш">П</span>
-                                                        {% else %}
-                                                            <span class="text-secondary" title="Ничья">Н</span>
-                                                        {% endif %}
-                                                    </td>
-                                                    <td class="match_team_name" title="Команда 1">
-                                                        {{ match.team_name }}
-                                                    </td>
-                                                    <td class="match_goals" title="Счёт">
-                                                        {{ match.goals }} : {{ match.o_goals }}
-                                                        ( {{ match.penalty }} : {{ match.o_penalty }} )
-                                                    </td>
-                                                    <td class="match_opponent_name" title="Команда 2">
-                                                        {{ match.opponent_name }}
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
                                 </div>
                             </div>
                         </div>
