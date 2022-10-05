@@ -1,12 +1,12 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils.datetime_safe import datetime
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.views.generic import TemplateView
-from requests import Response
 from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
+from rest_framework.response import Response
 from rest_framework_datatables.django_filters.backends import DatatablesFilterBackend
 
 from events.filters import EventGlobalFilter
@@ -47,17 +47,41 @@ class EventViewSet(viewsets.ModelViewSet):
     # filter_backends = (DatatablesFilterBackend,)
     # filterset_class = EventGlobalFilter
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        if self.perform_create(serializer):
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        else:
+            return Response({'status': 'event_type_full'})
+
     def perform_create(self, serializer):
-        #print(self.request.data)
+        print(self.request.data)
         user = self.request.user
+        cur_date = datetime.strptime(self.request.data['date'], "%d/%m/%Y %H:%M").date()
+        print(cur_date)
         team = UserTeam.objects.get(pk=self.request.session['team'])
-        event = serializer.save(user_id=user)
         if 'event_type' in self.request.data and '1' in self.request.data['event_type']:
-            new_training = UserTraining.objects.create(team_id=team, event_id=event)
-            new_training.save()
+            count_tr = UserEvent.objects.filter(user_id=user, date__date=cur_date, usertraining__team_id=team).count()
+            print(count_tr)
+            if count_tr < 2:
+                event = serializer.save(user_id=user)
+                new_training = UserTraining.objects.create(team_id=team, event_id=event)
+                new_training.save()
+                return True
+            else:
+                return False
         elif 'event_type' in self.request.data and '2' in self.request.data['event_type']:
-            new_match = UserMatch.objects.create(team_id=team, event_id=event)
-            new_match.save()
+            count_m = UserEvent.objects.filter(user_id=user, date__date=cur_date, usermatch__team_id=team).count()
+            print(count_m)
+            if count_m < 2:
+                event = serializer.save(user_id=user)
+                new_match = UserMatch.objects.create(team_id=team, event_id=event)
+                new_match.save()
+                return True
+            else:
+                return False
 
     # def list(self, request, *args, **kwargs):
     #     queryset = self.filter_queryset(self.get_queryset())
@@ -81,10 +105,10 @@ class EventViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         microcycle_before = self.request.query_params.get('columns[1][search][value][only_date_before]')
         microcycle_after = self.request.query_params.get('columns[1][search][value][only_date_after]')
-        print(self.request.query_params)
+        #print(self.request.query_params)
         team = self.request.session['team']
         season = UserSeason.objects.filter(id=self.request.session['season'])
-        print(season[0].date_with)
+        #print(season[0].date_with)
         events = UserEvent.objects.filter(Q(usertraining__team_id=team) | Q(usermatch__team_id=team),
                                           user_id=self.request.user,
                                           date__gte=season[0].date_with,
