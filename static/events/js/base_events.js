@@ -201,6 +201,12 @@ $(window).on('load', function (){
     })
     $('#event_calendar').on('rescalendar.update', function () {
         events_table.ajax.reload()
+        $('#event_calendar .dataRow').each(function () {
+            console.log($(this).find('.data_cell[data-value!=""]').length)
+            if ($(this).find('.data_cell[data-value!=""]').length>0) return
+
+            $(this).hide()
+        })
     })
 })
 
@@ -311,7 +317,7 @@ function generateNewCalendar(){
                 type: 'GET',
                 dataType: "JSON",
                 success: function(data){
-                    console.log(data['results'])
+                    //console.log(data['results'])
                     let count_tr = 1, count_m = 1, event_date = '', event_class=''
                     for (var event of data['results']) {
                         let event_id = event['id'],
@@ -323,8 +329,8 @@ function generateNewCalendar(){
                             event_class = 'trainingClass'
                             count_tr = 1
                         } else if('match' in event && event['match'] != null){
-                            if(event_class === 'matchClass' && event['only_date'] === event_date) count_m++
-                            event_name = 'm'+count_tr
+                            if(event_class.indexOf('matchClass') != -1 && event['only_date'] === event_date) count_m++
+                            event_name = 'm'+count_m
                             event_class = 'matchClass'+event['match']['m_type']
                             count_m = 1
                         } else {
@@ -398,7 +404,7 @@ function generateMicrocyclesTable(){
         ajax: {
             url:'api/microcycles/?format=datatables',
             data: function(data){
-                console.log(data)
+                //console.log(data)
             },
         },
         columns: [
@@ -439,11 +445,11 @@ function generateEventTable(){
         ajax: {
             url:'api/action/?format=datatables',
             data: function(data){
-                console.log(data)
+                //console.log(data)
                 let from_date_str = $('#event_calendar .microcycle_cell.selected').attr('data-start')
                 let to_date_str = $('#event_calendar .microcycle_cell.selected').attr('data-end')
                 let today = $('#event_calendar .middleDay').attr('data-celldate')
-                console.log(today)
+                //console.log(today)
                 let from_date = undefined
                 let to_date = undefined
 
@@ -459,7 +465,7 @@ function generateEventTable(){
                     to_date = moment(today, 'DD/MM/YYYY').add(45, 'day').format('YYYY-MM-DD')
                 }
 
-                console.log(to_date)
+                //console.log(to_date)
                 // Append to data
                 //data.columns[1].search.value = {'date_after': from_date, 'date_before': to_date}
                 data.columns[1].search.value = {'only_date_after': from_date, 'only_date_before': to_date}
@@ -470,7 +476,7 @@ function generateEventTable(){
             {'data': 'id'},
             {'data': 'only_date', 'name': 'only_date', 'type': 'datetime'},
             {'data': function (data, type, dataToSet) {
-                console.log(data)
+                //console.log(data)
                 if(type === 'display') {
                     if ('training' in data && data.training != null) {
                         return `<a href="/trainings/view/${data.training.event_id}" class="btn btn-sm btn-info py-0" data-id="${data.training.event_id}">${gettext('Training')}</a>`
