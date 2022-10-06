@@ -1,5 +1,6 @@
 
 from math import fabs
+from operator import truediv
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 
@@ -20,11 +21,9 @@ def players(request):
         cur_team = int(request.session['team'])
     except:
         pass
-    players = UserPlayer.objects.filter(user=cur_user[0], team=cur_team)
     refs = {}
     refs = v_api.get_players_refs(request)
     return render(request, 'players/base_players.html', {
-        'players': players,
         'refs': refs,
         'menu_players': 'active',
         'seasons_list': UserSeason.objects.filter(user_id=request.user),
@@ -53,7 +52,8 @@ def player(request):
             cur_team = selected_player[0].team.id
             request.session['team'] = str(cur_team)
             print(type(request.session['team']))
-    players = UserPlayer.objects.filter(user=cur_user[0], team=cur_team)
+    # players = UserPlayer.objects.filter(user=cur_user[0], team=cur_team)
+    players = v_api.GET_get_players_json(request, cur_user[0], cur_team, False, False)
     refs = {}
     refs = v_api.get_players_refs(request)
     return render(request, 'players/base_player.html', {
@@ -189,6 +189,7 @@ def players_api(request):
         get_player_status = 0
         get_card_sections_status = 0
         get_players_json_status = 0
+        get_players_json_table_status = 0
         get_players_table_cols_status = 0
         get_characteristics_rows_status = 0
         get_questionnaires_rows_status = 0
@@ -206,6 +207,10 @@ def players_api(request):
             pass
         try:
             get_players_json_status = int(request.GET.get("get_players_json", 0))
+        except:
+            pass
+        try:
+            get_players_json_table_status = int(request.GET.get("get_players_json_table", 0))
         except:
             pass
         try:
@@ -227,7 +232,9 @@ def players_api(request):
         if get_player_status == 1:
             return v_api.GET_get_player(request, cur_user[0], cur_team)
         elif get_players_json_status == 1:
-            return v_api.GET_get_players_json(request, cur_user[0], cur_team)
+            return v_api.GET_get_players_json(request, cur_user[0], cur_team, False)
+        elif get_players_json_table_status == 1:
+            return v_api.GET_get_players_json(request, cur_user[0], cur_team, True)
         elif get_card_sections_status == 1:
             return v_api.GET_get_card_sections(request, cur_user[0])
         elif get_players_table_cols_status == 1:

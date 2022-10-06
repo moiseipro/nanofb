@@ -1,118 +1,84 @@
 let matches_table
+let protocol_table
 
-function RenderMatchEditModal(id = null) {
-    $('#matchEditModal').find('.form-control').val('');
-    let cTeamName = $('#select-team').find('option[selected=""]').text();
-    $('#matchEditModal').find('.form-control[name="team_name"]').val(cTeamName);
-    $('#matchEditModal').find('.form-control[name="m_type"]').val('0');
-    $('#matchEditModal').find('.form-control[name="opponent_name"]').prop('disabled', false);
-    $('#matchEditModal').find('.form-control[name="opponent_team"]').prop('disabled', false);
-    $('#matchEditModal').find('.form-control[type="number"]').val('0');
-    $('#matchEditModal').find('.add-title').toggleClass('d-none', false);
-    $('#matchEditModal').find('.edit-title').toggleClass('d-none', true);
+let protocol_table_options = {
+    language: {
+        url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
+    },
+    dom: "<'row'<'col-sm-12 col-md '><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
+         "<'row'<'col-sm-12'tr>>" +
+         "<'row'<'col-sm-12 col-md-5'l><'col-sm-12 col-md-7'p>>",
+    serverSide: false,
+    processing: false,
+    paging: false,
+    searching: false,
+    select: false,
+    drawCallback: function( settings ) {
+    },
+};
 
-    $('#matchEditModal').find('.modal-body').attr('data-id', "");
-    let data = {'get_match': 1, 'id': id};
-    $('.page-loader-wrapper').fadeIn();
-    $.ajax({
-        headers:{"X-CSRFToken": csrftoken},
-        data: data,
-        type: 'GET', // GET или POST
-        dataType: 'json',
-        url: "matches_api",
-        success: function (res) {
-            if (res.success) {
-                $('#matchEditModal').find('.modal-body').attr('data-id', id);
-                for (key in res.data) {
-                    $('#matchEditModal').find(`.form-control[name="${key}"]`).val(res.data[key]);
-                }
-                $('#matchEditModal').find('.form-control[name="opponent_name"]').prop('disabled', true);
-                $('#matchEditModal').find('.form-control[name="opponent_team"]').prop('disabled', true);
-                $('#matchEditModal').find('.add-title').toggleClass('d-none', true);
-                $('#matchEditModal').find('.edit-title').toggleClass('d-none', false);
+function RenderProtocolInMatches(data) {
+    $('#protocol').find('tbody').html('');
+    if (Array.isArray(data)) {
+        let teamPlayersHtml = "";
+        let opponentPlayersHtml = "";
+        for (ind in data) {
+            let elem = data[ind];
+            console.log(elem)
+            let tmpHtml = `
+                <tr class="protocol-row" data-id="${elem.id}">
+                    <td>
+                        ${elem.p_num ? elem.p_num : '-'}
+                    </td>
+                    <td>
+                        ${elem.minute_from ? elem.minute_from : '-'}
+                    </td>
+                    <td>
+                        ${elem.minute_to ? elem.minute_to : '-'}
+                    </td>
+                    <td>
+                        ${elem.goal ? elem.goal : '-'}
+                    </td>
+                    <td>
+                        ${elem.penalty ? elem.penalty : '-'}
+                    </td>
+                    <td>
+                        ${elem.p_pass ? elem.p_pass : '-'}
+                    </td>
+                    <td>
+                        ${elem.yellow_card ? elem.yellow_card : '-'}
+                    </td>
+                    <td>
+                        ${elem.red_card ? elem.red_card : '-'}
+                    </td>
+                    <td>
+                        ${elem.estimation ? elem.estimation : '-'}
+                    </td>
+                </tr>
+            `;
+            if (!elem.is_opponent) {
+                teamPlayersHtml += tmpHtml;
+            } else {
+                opponentPlayersHtml += tmpHtml;
             }
-        },
-        error: function (res) {
-            console.log(res);
-        },
-        complete: function (res) {
-            $('.page-loader-wrapper').fadeOut();
         }
-    });
-
+        $('#protocol').find('tbody').html(`
+            ${teamPlayersHtml}
+            <tr style="background-color: black;"><td colspan="9"></td</tr>
+            ${opponentPlayersHtml}
+        `);
+    }
 }
 
 
 
 $(function() {
 
+    ToggleMatchEditFields();
     $('#addMatchBtn').on('click', (e) => {
         RenderMatchEditModal();
         $('#matchEditModal').modal('show');
     });
-    $('#matchEditModal').on('change', '.form-control[name="opponent_team"]', (e) => {
-        let val = $(e.currentTarget).val();
-        let teamName = $(e.currentTarget).find(`option[value="${val}"]`).text();
-        $('#matchEditModal').find('.form-control[name="opponent_name"]').val(teamName);
-    });
-    $('#matchEditModal').on('keyup', '.form-control[name="opponent_name"]', (e) => {
-        $('#matchEditModal').find('.form-control[name="opponent_team"]').val('');
-    });
-    $('#matchEditModal').on('click change', '.form-control', (e) => {
-        $(e.currentTarget).removeClass('not-valid');
-    });
-    $('#matchEditModal').on('click', '.btn[name="save"]', (e) => {
-        let dataToSend = {};
-        let wasValidated = true;
-        $('#matchEditModal').find('.form-control').removeClass('not-valid');
-        $('#matchEditModal').find('.form-control').each((ind, elem) => {
-            if ($(elem).attr('required') && $(elem).val() == "") {
-                $(elem).addClass('not-valid');
-                wasValidated = false;
-            }
-            if ($(elem).attr('type') == "number") {
-                let tNumVal = parseInt($(elem).val());
-                if (isNaN(tNumVal) || tNumVal < 0) {
-                    $(elem).val('0');
-                    $(elem).addClass('not-valid');
-                    wasValidated = false;
-                }
-            }
-            dataToSend[$(elem).attr('name')] = $(elem).val();
-        });
-
-        if (wasValidated) {
-            let cId = $('#matchEditModal').find('.modal-body').attr('data-id');
-            let data = {'edit_match': 1, 'data': JSON.stringify(dataToSend), 'id': cId};
-            $('.page-loader-wrapper').fadeIn();
-            $.ajax({
-                headers:{"X-CSRFToken": csrftoken},
-                data: data,
-                type: 'POST', // GET или POST
-                dataType: 'json',
-                url: "matches_api",
-                success: function (res) {
-                    if (res.success) {
-                        swal("Готово", "Матч успешно создан / изменен.", "success")
-                        .then((value) => {
-                            $('.page-loader-wrapper').fadeIn();
-                            window.location.reload();
-                        });
-                    } else {
-                        swal("Ошибка", `При создании / изменении матча произошла ошибка (${res.err}).`, "error");
-                    }
-                },
-                error: function (res) {
-                    swal("Ошибка", "Матч не удалось создать / изменить.", "error");
-                    console.log(res);
-                },
-                complete: function (res) {
-                    $('.page-loader-wrapper').fadeOut();
-                }
-            });
-        }
-    });
-
 
     // table matches
     matches_table = $('#matches').DataTable({
@@ -133,6 +99,7 @@ $(function() {
             { "searchable": false, "orderable": false, "targets": [2, 6] }
         ],
     });
+    // protocol_table = $('#protocol').DataTable(protocol_table_options);
 
     $('.card-header').on('click', '.clear-collapses', (e) => {
         $('.card-header').find('.toggle-collapse').removeClass('active');
@@ -153,6 +120,8 @@ $(function() {
         let isSelected = $(e.currentTarget).hasClass("selected");
         $('#matches').find('.match-row').removeClass("selected");
         $(e.currentTarget).toggleClass("selected", !isSelected);
+        let cId = $(e.currentTarget).attr('data-id');
+        LoadProtocolMatch(cId, false);
     });
 
     $('.card-body').on('click', 'a[action="goToMatchCard"]', (e) => {
@@ -212,7 +181,6 @@ $(function() {
             });
         }
     });
-
 
 
     // Toggle left menu

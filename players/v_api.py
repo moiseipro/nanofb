@@ -1,3 +1,4 @@
+from operator import is_
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from django.db.models import Q
@@ -670,7 +671,7 @@ def GET_get_player(request, cur_user, cur_team):
     return JsonResponse({"errors": "Player not found.", "success": False}, status=400)
 
 
-def GET_get_players_json(request, cur_user, cur_team):
+def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_JsonResponse=True):
     c_start = 0
     c_length = 10
     try:
@@ -700,11 +701,18 @@ def GET_get_players_json(request, cur_user, cur_team):
         search_val = request.GET.get('search[value]')
     except:
         pass
+    get_team = request.GET.get('team_id')
+    if get_team is not None:
+        try:
+            cur_team = int(get_team)
+        except:
+            pass
     players_data = []
     players = UserPlayer.objects.filter(user=cur_user, team=cur_team)
-    if search_val and search_val != "":
-        players = players.filter(Q(surname__istartswith=search_val) | Q(name__istartswith=search_val) | Q(patronymic__istartswith=search_val) | Q(card__citizenship__istartswith=search_val) | Q(team__name__istartswith=search_val) | Q(card__club_from__istartswith=search_val))
-    players = players.order_by(f'{column_order_dir}{column_order}')[c_start:(c_start+c_length)]
+    if is_for_table:
+        if search_val and search_val != "":
+            players = players.filter(Q(surname__istartswith=search_val) | Q(name__istartswith=search_val) | Q(patronymic__istartswith=search_val) | Q(card__citizenship__istartswith=search_val) | Q(team__name__istartswith=search_val) | Q(card__club_from__istartswith=search_val))
+        players = players.order_by(f'{column_order_dir}{column_order}')[c_start:(c_start+c_length)]
     for _i, player in enumerate(players):
         player_data = {
             'id': player.id,
@@ -722,7 +730,10 @@ def GET_get_players_json(request, cur_user, cur_team):
             'leave': player.card.leave if player.card else ""
         }
         players_data.append(player_data)
-    return JsonResponse({"data": players_data, "success": True}, status=200)
+    if return_JsonResponse:
+        return JsonResponse({"data": players_data, "success": True}, status=200)
+    else:
+        return players_data
 
 
 def GET_get_card_sections(request, cur_user):

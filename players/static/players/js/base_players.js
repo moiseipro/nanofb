@@ -21,7 +21,7 @@ function GeneratePlayersTable(scroll_y = '') {
         ],
         ajax: {
             url:'players_api',
-            data: {'get_players_json': 1},
+            data: {'get_players_json_table': 1},
         },
         columns: [
             {'data': 'id', 'name': 'id', render: function (data, type, row, meta) {
@@ -54,7 +54,6 @@ function LoadPlayersTableCols() {
         url: "/players/players_api",
         success: function (res) {
             if (res.success) {
-                console.log(res.data)
                 window.playersTableSettings = res.data;
             } else {
                 window.playersTableSettings = {};
@@ -187,7 +186,6 @@ function ToggleColumnOrder(dir) {
             }
             for (let i = children.length - 1; i >= 0; i--) {
                 let elem = children[i];
-                console.log(elem)
                 let parentId = $(elem).attr('data-parent');
                 $('#playersTableColsEdit').find(`.column-elem[data-id="${parentId}"]`).after(elem);
             }

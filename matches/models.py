@@ -1,16 +1,14 @@
 from datetime import timedelta
 from email.policy import default
-from django.utils import timezone
-
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy as _p
-
 from events.models import UserEvent, ClubEvent
 from references.models import UserTeam, ClubTeam
 from users.models import User
 from video.models import Video
+from players.models import UserPlayer, ClubPlayer
 
 
 
@@ -110,6 +108,8 @@ class UserMatch(AbstractMatch):
         UserTeam,
         on_delete=models.CASCADE
     )
+    class Meta:
+        abstract = False
 
 
 class ClubMatch(AbstractMatch):
@@ -123,3 +123,39 @@ class ClubMatch(AbstractMatch):
         ClubTeam,
         on_delete=models.CASCADE,
     )
+    class Meta:
+        abstract = False
+
+
+class AbstractProtocol(models.Model):
+    is_opponent = models.BooleanField(default=False)
+    p_num = models.SmallIntegerField(null=True, blank=True)
+    minute_from = models.SmallIntegerField(null=True, blank=True)
+    minute_to = models.SmallIntegerField(null=True, blank=True)
+    goal = models.SmallIntegerField(null=True, blank=True)
+    penalty = models.SmallIntegerField(null=True, blank=True)
+    p_pass = models.SmallIntegerField(null=True, blank=True)
+    yellow_card = models.SmallIntegerField(null=True, blank=True)
+    red_card = models.SmallIntegerField(null=True, blank=True)
+    estimation = models.SmallIntegerField(null=True, blank=True)
+    like = models.BooleanField(default=False)
+    dislike = models.BooleanField(default=False)
+
+    objects = models.Manager()
+    class Meta:
+        abstract = True
+
+
+class UserProtocol(AbstractProtocol):
+    match = models.ForeignKey(UserMatch, on_delete=models.CASCADE)
+    player = models.ForeignKey(UserPlayer, on_delete=models.CASCADE)
+    class Meta:
+        abstract = False
+
+
+class ClubProtocol(AbstractProtocol):
+    match = models.ForeignKey(ClubMatch, on_delete=models.CASCADE)
+    player = models.ForeignKey(ClubPlayer, on_delete=models.CASCADE)
+    class Meta:
+        abstract = False
+

@@ -42,3 +42,7 @@ table.dataTable.table-sm > thead > tr > th {
 }
 
 
+table.protocol-players > tbody > tr > td > .form-control {
+    height: 28px !important;
+}
+
