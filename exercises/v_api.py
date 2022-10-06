@@ -750,7 +750,7 @@ def GET_link_video_exs(request, cur_user):
         return JsonResponse({"logs": logs, "success": True}, status=200)
     except Exception as e:
         print(e)
-        return JsonResponse({"ERR": "Cant created or updated video in exs", "success": False}, status=400)
+        return JsonResponse({"ERR": f"Cant created or updated video in exs. {e}", "success": False}, status=400)
 
 
 def GET_get_exs_all(request, cur_user):
