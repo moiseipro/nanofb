@@ -171,7 +171,7 @@ $(window).on('load', function (){
     $('#form-event-edit').on('submit', function(e) {
         e.preventDefault()
         let data = getFormData($(this))
-        //console.log(data)
+        console.log(data)
         data['date'] = data['date']+' '+data['time']
         ajax_event_action($(this).attr('method'), data, 'update', cur_edit_data ? cur_edit_data.id : 0).done(function( data ) {
             if(events_table) events_table.ajax.reload()
@@ -201,6 +201,12 @@ $(window).on('load', function (){
     })
     $('#event_calendar').on('rescalendar.update', function () {
         events_table.ajax.reload()
+        $('#event_calendar .dataRow').each(function () {
+            console.log($(this).find('.data_cell[data-value!=""]').length)
+            if ($(this).find('.data_cell[data-value!=""]').length>0) return
+
+            $(this).hide()
+        })
     })
 })
 
@@ -283,6 +289,7 @@ function ajax_microcycle_update(method, data, id) {
     })
 }
 
+var microcycle_arr = null
 function generateNewCalendar(){
     newMicrocycle = []
     newEvent = []
@@ -293,7 +300,7 @@ function generateNewCalendar(){
         type: 'GET',
         dataType: "JSON",
         success: function(data){
-            let microcycle_arr = data['results']
+            microcycle_arr = data['results']
             for (var microcycle of microcycle_arr) {
                 newMicrocycle.push({
                     id: microcycle['id'],
@@ -311,7 +318,7 @@ function generateNewCalendar(){
                 type: 'GET',
                 dataType: "JSON",
                 success: function(data){
-                    console.log(data['results'])
+                    //console.log(data['results'])
                     let count_tr = 1, count_m = 1, event_date = '', event_class=''
                     for (var event of data['results']) {
                         let event_id = event['id'],
@@ -323,8 +330,8 @@ function generateNewCalendar(){
                             event_class = 'trainingClass'
                             count_tr = 1
                         } else if('match' in event && event['match'] != null){
-                            if(event_class === 'matchClass' && event['only_date'] === event_date) count_m++
-                            event_name = 'm'+count_tr
+                            if(event_class.indexOf('matchClass') != -1 && event['only_date'] === event_date) count_m++
+                            event_name = 'm'+count_m
                             event_class = 'matchClass'+event['match']['m_type']
                             count_m = 1
                         } else {
@@ -398,7 +405,7 @@ function generateMicrocyclesTable(){
         ajax: {
             url:'api/microcycles/?format=datatables',
             data: function(data){
-                console.log(data)
+                //console.log(data)
             },
         },
         columns: [
@@ -439,11 +446,11 @@ function generateEventTable(){
         ajax: {
             url:'api/action/?format=datatables',
             data: function(data){
-                console.log(data)
+                //console.log(data)
                 let from_date_str = $('#event_calendar .microcycle_cell.selected').attr('data-start')
                 let to_date_str = $('#event_calendar .microcycle_cell.selected').attr('data-end')
                 let today = $('#event_calendar .middleDay').attr('data-celldate')
-                console.log(today)
+                //console.log(today)
                 let from_date = undefined
                 let to_date = undefined
 
@@ -459,7 +466,7 @@ function generateEventTable(){
                     to_date = moment(today, 'DD/MM/YYYY').add(45, 'day').format('YYYY-MM-DD')
                 }
 
-                console.log(to_date)
+                //console.log(to_date)
                 // Append to data
                 //data.columns[1].search.value = {'date_after': from_date, 'date_before': to_date}
                 data.columns[1].search.value = {'only_date_after': from_date, 'only_date_before': to_date}
@@ -467,10 +474,13 @@ function generateEventTable(){
             },
         },
         columns: [
-            {'data': 'id'},
+            {'data': 'id', render: function (data, type, row, meta) {
+
+                return meta.row + meta.settings._iDisplayStart + 1;
+            }},
             {'data': 'only_date', 'name': 'only_date', 'type': 'datetime'},
             {'data': function (data, type, dataToSet) {
-                console.log(data)
+                //console.log(data)
                 if(type === 'display') {
                     if ('training' in data && data.training != null) {
                         return `<a href="/trainings/view/${data.training.event_id}" class="btn btn-sm btn-info py-0" data-id="${data.training.event_id}">${gettext('Training')}</a>`
@@ -482,9 +492,28 @@ function generateEventTable(){
                 } else return null
             }},
             {'data': function (data, type, dataToSet) {
+                //console.log(microcycle_arr)
                 //console.log(data)
+                let only_date = moment(data['only_date'], 'DD/MM/YYYY')
+                //console.log(only_date)
+                let count_day = 0
+                microcycle_arr.forEach(function(microcycle, i) {
+                    //console.log(microcycle);
+                    let date_with = moment(microcycle['date_with'], 'DD/MM/YYYY')
+                    let date_by = moment(microcycle['date_by'], 'DD/MM/YYYY')
+                    if(only_date.isBetween( date_with, date_by, undefined, '[]')){
+                        count_day = only_date.diff(date_with, "days")+1
+                        if(count_day < 3) count_day = '+'+count_day
+                        else{
+                            count_day = only_date.diff(date_by, "days")
+                            if(count_day==0) count_day = 'o'
+                        }
+                        console.log(count_day)
+                    }
+                });
                 if(type === 'display') {
-                    return '---'
+                    if(count_day==0) return `---`
+                    else return count_day
                 } else return null
             }},
             {'data': function (data, type, dataToSet) {

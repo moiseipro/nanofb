@@ -14,7 +14,12 @@ function ajax_event_action(method, data, action = '', id = '') {
         data: data,
         success: function(data){
             console.log(data)
-            swal(gettext('Event '+action), gettext('Event action "'+action+'" successfully!'), "success");
+            if(data['status'] == 'event_type_full'){
+                swal(gettext('Event '+action), gettext('You have created the maximum number of events of this type for one day!'), "error");
+            }else{
+                swal(gettext('Event '+action), gettext('Event action "'+action+'" successfully!'), "success");
+            }
+
         },
         error: function(jqXHR, textStatus){
             console.log(jqXHR)

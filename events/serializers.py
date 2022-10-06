@@ -28,6 +28,11 @@ class UserMicrocyclesUpdateSerializer(serializers.ModelSerializer):
         ]
 
 
+class UserMicrocycleDaySerializer(serializers.Serializer):
+    day = serializers.IntegerField()
+
+
+
 # Event
 class UserEventEditSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
@@ -35,7 +40,7 @@ class UserEventEditSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserEvent
         fields = [
-            'id', 'date'
+            'id', 'short_name', 'date'
         ]
 
 
