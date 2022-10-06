@@ -171,7 +171,7 @@ $(window).on('load', function (){
     $('#form-event-edit').on('submit', function(e) {
         e.preventDefault()
         let data = getFormData($(this))
-        //console.log(data)
+        console.log(data)
         data['date'] = data['date']+' '+data['time']
         ajax_event_action($(this).attr('method'), data, 'update', cur_edit_data ? cur_edit_data.id : 0).done(function( data ) {
             if(events_table) events_table.ajax.reload()
@@ -289,6 +289,7 @@ function ajax_microcycle_update(method, data, id) {
     })
 }
 
+var microcycle_arr = null
 function generateNewCalendar(){
     newMicrocycle = []
     newEvent = []
@@ -299,7 +300,7 @@ function generateNewCalendar(){
         type: 'GET',
         dataType: "JSON",
         success: function(data){
-            let microcycle_arr = data['results']
+            microcycle_arr = data['results']
             for (var microcycle of microcycle_arr) {
                 newMicrocycle.push({
                     id: microcycle['id'],
@@ -473,7 +474,10 @@ function generateEventTable(){
             },
         },
         columns: [
-            {'data': 'id'},
+            {'data': 'id', render: function (data, type, row, meta) {
+
+                return meta.row + meta.settings._iDisplayStart + 1;
+            }},
             {'data': 'only_date', 'name': 'only_date', 'type': 'datetime'},
             {'data': function (data, type, dataToSet) {
                 //console.log(data)
@@ -488,9 +492,28 @@ function generateEventTable(){
                 } else return null
             }},
             {'data': function (data, type, dataToSet) {
+                //console.log(microcycle_arr)
                 //console.log(data)
+                let only_date = moment(data['only_date'], 'DD/MM/YYYY')
+                //console.log(only_date)
+                let count_day = 0
+                microcycle_arr.forEach(function(microcycle, i) {
+                    //console.log(microcycle);
+                    let date_with = moment(microcycle['date_with'], 'DD/MM/YYYY')
+                    let date_by = moment(microcycle['date_by'], 'DD/MM/YYYY')
+                    if(only_date.isBetween( date_with, date_by, undefined, '[]')){
+                        count_day = only_date.diff(date_with, "days")+1
+                        if(count_day < 3) count_day = '+'+count_day
+                        else{
+                            count_day = only_date.diff(date_by, "days")
+                            if(count_day==0) count_day = 'o'
+                        }
+                        console.log(count_day)
+                    }
+                });
                 if(type === 'display') {
-                    return '---'
+                    if(count_day==0) return `---`
+                    else return count_day
                 } else return null
             }},
             {'data': function (data, type, dataToSet) {

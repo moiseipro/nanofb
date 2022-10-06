@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils.datetime_safe import datetime
-from django.db.models import Q, Count
+from django.db.models import Q, F, Count, Subquery
 from django.views.generic import TemplateView
 from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
@@ -113,9 +113,14 @@ class EventViewSet(viewsets.ModelViewSet):
                                           user_id=self.request.user,
                                           date__gte=season[0].date_with,
                                           date__lte=season[0].date_by)
+
+        microcycle = UserMicrocycles.objects.filter(date_with__gte=season[0].date_with,
+                                                    date_by__lte=season[0].date_by)
+
         if microcycle_before is not None and microcycle_after is not None:
             events = events.filter(date__gte=microcycle_after,
                                    date__lte=microcycle_before)
+        print(events.values())
         return events
 
 
