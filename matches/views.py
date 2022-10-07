@@ -32,6 +32,10 @@ def matches(request):
         match_obj['result'] = match_res[0]
         match_obj['goals_equal'] = match_res[1]
         match_obj['duration'] = v_api.get_duration_normal_format(match.duration)
+        match_obj['goals'] = match.goals if match.goals != 0 else '-'
+        match_obj['o_goals'] = match.o_goals if match.o_goals != 0 else '-'
+        match_obj['penalty'] = match.penalty if match.penalty != 0 else '-'
+        match_obj['o_penalty'] = match.o_penalty if match.o_penalty != 0 else '-'
         matches.append(match_obj)
     refs = {}
     # refs = v_api.get_players_refs(request)
@@ -60,7 +64,6 @@ def match(request):
     refs = {}
     # refs = v_api.get_players_refs(request)
     return render(request, 'matches/base_match.html', {
-        'match': match,
         'refs': refs,
         'menu_matches': 'active',
         'seasons_list': UserSeason.objects.filter(user_id=request.user),
@@ -76,6 +79,9 @@ def matches_api(request):
     if request.method == "POST" and is_ajax:
         edit_match_status = 0
         delete_match_status = 0
+        add_players_protocol_status = 0
+        delete_players_protocol_status = 0
+        edit_players_protocol_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         if not cur_user.exists() or cur_user[0].id == None:
@@ -92,10 +98,28 @@ def matches_api(request):
             delete_match_status = int(request.POST.get("delete_match", 0))
         except:
             pass
+        try:
+            add_players_protocol_status = int(request.POST.get("add_players_protocol", 0))
+        except:
+            pass
+        try:
+            delete_players_protocol_status = int(request.POST.get("delete_players_protocol", 0))
+        except:
+            pass
+        try:
+            edit_players_protocol_status = int(request.POST.get("edit_players_protocol", 0))
+        except:
+            pass
         if edit_match_status == 1:
             return v_api.POST_edit_match(request, cur_user[0], cur_team)
         elif delete_match_status == 1:
             return v_api.POST_delete_match(request, cur_user[0], cur_team)
+        elif add_players_protocol_status == 1:
+            return v_api.POST_add_delete_players_protocol(request, cur_user[0], True)
+        elif delete_players_protocol_status == 1:
+            return v_api.POST_add_delete_players_protocol(request, cur_user[0], False)
+        elif edit_players_protocol_status == 1:
+            return v_api.POST_edit_players_protocol(request, cur_user[0])
         return JsonResponse({"errors": "access_error"}, status=400)
     elif request.method == "GET" and is_ajax:
         get_match_status = 0
@@ -119,7 +143,7 @@ def matches_api(request):
         if get_match_status == 1:
             return v_api.GET_get_match(request, cur_user[0], cur_team)
         elif get_match_protocol_status == 1:
-            pass
+            return v_api.GET_get_match_protocol(request, cur_user[0], cur_team)
         return JsonResponse({"errors": "access_error"}, status=400)
     else:
         return JsonResponse({"errors": "access_error"}, status=400)

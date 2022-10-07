@@ -1,13 +1,13 @@
-from asyncio import events
-from turtle import pos
 from django.http import JsonResponse
-from references.models import UserTeam
-from events.models import UserEvent, ClubEvent
-from matches.models import UserMatch, ClubMatch
-from references.models import PlayerTeamStatus, PlayerPlayerStatus, PlayerLevel, PlayerPosition, PlayerFoot
-from datetime import datetime, date, timedelta
+from django.forms.models import model_to_dict
 import json
 import re
+from datetime import datetime, date, timedelta
+from references.models import UserTeam
+from events.models import UserEvent, ClubEvent
+from matches.models import UserMatch, ClubMatch, UserProtocol, ClubProtocol
+from references.models import PlayerTeamStatus, PlayerPlayerStatus, PlayerLevel, PlayerPosition, PlayerFoot
+from players.models import UserPlayer, ClubPlayer
 
 
 LANG_CODE_DEFAULT = "en"
@@ -217,6 +217,98 @@ def POST_delete_match(request, cur_user, cur_team):
             return JsonResponse({"errors": "Can't delete exercise"}, status=400)
 
 
+def POST_edit_players_protocol(request, cur_user):
+    protocol_id = -1
+    c_value = None
+    try:
+        protocol_id = int(request.POST.get("protocol_id", -1))
+    except:
+        pass
+    try:
+        c_value = int(request.POST.get("value", None))
+    except:
+        pass
+    c_key = request.POST.get("key", "")
+    try:
+        update_dict = {
+            f'{c_key}': c_value
+        }
+        if c_key == "dislike" and c_value == 1:
+            update_dict['like'] = 0
+        if c_key == "like" and c_value == 1:
+            update_dict['dislike'] = 0
+        print(update_dict)
+        UserProtocol.objects.filter(id=protocol_id).update(**update_dict)
+    except:
+        return JsonResponse({"err": "Can't edit match protocol.", "success": False}, status=400)
+    return JsonResponse({"data": update_dict, "success": True}, status=200)
+
+
+def POST_add_delete_players_protocol(request, cur_user, to_add = True):
+    match_id = -1
+    team_id = -1
+    is_opponent = 0
+    try:
+        match_id = int(request.POST.get("match_id", -1))
+    except:
+        pass
+    try:
+        team_id = int(request.POST.get("team_id", -1))
+    except:
+        pass
+    try:
+        is_opponent = int(request.POST.get("is_opponent", 0))
+    except:
+        pass
+    post_data = request.POST.get("data", None)
+    try:
+        post_data = json.loads(post_data)
+    except:
+        post_data = None
+    if not post_data:
+        return JsonResponse({"errors": "Can't parse post data"}, status=400)
+    res_data = []
+    for pl_id_str in post_data:
+        pl_id = None
+        try:
+            pl_id = int(pl_id_str)
+        except:
+            pass
+        if not pl_id:
+            continue
+        if to_add:
+            f_player = UserPlayer.objects.filter(id=pl_id, user=cur_user, team=team_id)
+            f_match = UserMatch.objects.filter(event_id=match_id)
+            if f_player.exists() and f_player[0].id != None and f_match.exists() and f_match[0].event_id != None:
+                protocol, created = UserProtocol.objects.get_or_create(match=f_match[0], player=f_player[0])
+                if created:
+                    try:
+                        protocol.is_opponent = is_opponent
+                        protocol.save()
+                        res_data.append(f"Created new protocol with id: {protocol.id}")
+                    except:
+                        pass
+                else:
+                    res_data.append(f"Protocol with id: {protocol.id} (refer on player: {f_player[0].id} and on match: {f_match[0].event_id}) already existed.")
+        else:
+            f_protocol = UserProtocol.objects.filter(id=pl_id)
+            if f_protocol.exists() and f_protocol[0].id != None:
+                try:
+                    f_protocol[0].delete()
+                    res_data.append(f"Protocol was deleted.")
+                except:
+                    res_data.append(f"Protocol couldnt delete.")
+            else:
+                res_data.append(f"Protocol not found for delete.")
+    is_success = True
+    status = 200
+    if len(res_data) == 0:
+        is_success = False
+        status = 400
+        res_data = "RESULT IS EMPTY."
+    return JsonResponse({"data": res_data, "success": is_success}, status=status)
+
+
 
 
 def GET_get_match(request, cur_user, cur_team, return_JsonResponse=True):
@@ -241,8 +333,26 @@ def GET_get_match(request, cur_user, cur_team, return_JsonResponse=True):
         else:
             return res_data
     if return_JsonResponse:
-        return JsonResponse({"errors": "Player not found.", "success": False}, status=400)
+        return JsonResponse({"errors": "Match not found.", "success": False}, status=400)
     else:
         return None
+
+
+def GET_get_match_protocol(request, cur_user, cur_team):
+    match_id = -1
+    try:
+        match_id = int(request.GET.get("id", -1))
+    except:
+        pass
+    res_data = []
+    protocol = UserProtocol.objects.filter(match=match_id)
+    if protocol.exists() and protocol[0].id != None:
+        for protocol_elem in protocol:
+            protocol_dict = model_to_dict(protocol_elem)
+            protocol_dict['player_name'] = f"{protocol_elem.player.surname} {protocol_elem.player.name}"
+            protocol_dict['player_name_full'] = f"{protocol_elem.player.surname} {protocol_elem.player.name} {protocol_elem.player.patronymic}"
+            res_data.append(protocol_dict)
+        return JsonResponse({"data": res_data, "success": True}, status=200)
+    return JsonResponse({"errors": "Match protocol not found.", "success": False}, status=400)
 
 
