@@ -202,7 +202,7 @@ $(window).on('load', function (){
     $('#event_calendar').on('rescalendar.update', function () {
         events_table.ajax.reload()
         $('#event_calendar .dataRow').each(function () {
-            console.log($(this).find('.data_cell[data-value!=""]').length)
+            //console.log($(this).find('.data_cell[data-value!=""]').length)
             if ($(this).find('.data_cell[data-value!=""]').length>0) return
 
             $(this).hide()
@@ -423,7 +423,8 @@ function generateMicrocyclesTable(){
 }
 
 function generateEventTable(){
-
+    let last_date = null
+    let last_event = ''
     events_table = $('#events').DataTable({
         language: {
             url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
@@ -437,6 +438,24 @@ function generateEventTable(){
         createdRow: function( row, data, dataIndex ) {
             $(row).attr('data-value', data.id)
             $(row).addClass('hasEvent')
+
+            console.log($(row).find('.btn').text())
+            if(last_date == null) {
+                last_date = moment(data['only_date'], 'DD/MM/YYYY')
+                if(data['training'] != null) last_event = 'training';
+                if(data['match'] != null) last_event = 'match';
+                return
+            }
+            let cur_date = moment(data['only_date'], 'DD/MM/YYYY')
+            let days = last_date.diff(cur_date, 'days')
+
+            if(days==0 && last_event != '') {
+                if(data[last_event]!=null){
+                    console.log(days)
+                    $(row).find('.btn').text($(row).find('.btn').text()+' 2')
+                }
+            }
+            last_date = cur_date
         },
         serverSide: true,
         processing: true,
@@ -508,7 +527,7 @@ function generateEventTable(){
                             count_day = only_date.diff(date_by, "days")
                             if(count_day==0) count_day = 'o'
                         }
-                        console.log(count_day)
+                        //console.log(count_day)
                     }
                 });
                 if(type === 'display') {

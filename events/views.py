@@ -1,4 +1,6 @@
-from django.http import HttpResponse
+from datetime import timedelta
+
+from django.http import HttpResponse, QueryDict
 from django.shortcuts import render
 from django.utils.datetime_safe import datetime
 from django.db.models import Q, F, Count, Subquery
@@ -96,6 +98,18 @@ class EventViewSet(viewsets.ModelViewSet):
     #
     #     serializer = self.get_serializer(queryset, many=True)
     #     return Response(serializer.data)
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        events = serializer.data
+        print(events)
+        return Response(serializer.data)
 
     def get_serializer_class(self):
         if self.action == 'update':
@@ -120,7 +134,23 @@ class EventViewSet(viewsets.ModelViewSet):
         if microcycle_before is not None and microcycle_after is not None:
             events = events.filter(date__gte=microcycle_after,
                                    date__lte=microcycle_before)
-        print(events.values())
+
+        # events_arr = list(events)
+        # events_list = list()
+        # print(events_arr)
+        # last_date = events_arr[0].date
+        # for event in events_arr:
+        #     days = (last_date - event.date).days
+        #     print(days)
+        #     if days > 0:
+        #         for day in range(days):
+        #             d = timedelta(days=day)
+        #             events_list.append(UserEvent(short_name="---", date=last_date+d))
+        #     events_list.append(event)
+        #     print(days)
+        # # query_dict = QueryDict('', mutable=True)
+        # # query_dict.update(dict(events))
+        # print(events_list.count())
         return events
 
 
