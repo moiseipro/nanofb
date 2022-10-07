@@ -32,6 +32,10 @@ def matches(request):
         match_obj['result'] = match_res[0]
         match_obj['goals_equal'] = match_res[1]
         match_obj['duration'] = v_api.get_duration_normal_format(match.duration)
+        match_obj['goals'] = match.goals if match.goals != 0 else '-'
+        match_obj['o_goals'] = match.o_goals if match.o_goals != 0 else '-'
+        match_obj['penalty'] = match.penalty if match.penalty != 0 else '-'
+        match_obj['o_penalty'] = match.o_penalty if match.o_penalty != 0 else '-'
         matches.append(match_obj)
     refs = {}
     # refs = v_api.get_players_refs(request)

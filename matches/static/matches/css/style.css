@@ -46,3 +46,11 @@ table.protocol-players > tbody > tr > td > .form-control {
     height: 28px !important;
 }
 
+.protocol-row.row-blue {
+    background-color: rgba(40, 110, 230, 0.05);
+}
+.protocol-row.row-red {
+    background-color: rgba(230, 110, 40, 0.05);
+}
+
+

@@ -15,43 +15,52 @@ let protocol_table_options = {
     select: false,
     drawCallback: function( settings ) {
     },
+    "orderFixed": [0, 'asc'],
+    "columnDefs": [
+        {"width": "35%", "targets": 2},
+        {"visible": false, "targets": 0}
+    ]
 };
 
 function RenderProtocolInMatches(data) {
+    protocol_table.destroy();
     $('#protocol').find('tbody').html('');
     if (Array.isArray(data)) {
         let teamPlayersHtml = "";
         let opponentPlayersHtml = "";
         for (ind in data) {
             let elem = data[ind];
-            console.log(elem)
             let tmpHtml = `
-                <tr class="protocol-row" data-id="${elem.id}">
-                    <td>
+                <tr class="protocol-row ${!elem.is_opponent ? 'row-blue' : 'row-red'}" data-id="${elem.id}">
+                    <td data-order="${!elem.is_opponent ? "a" : "b"}"></td>
+                    <td class="text-center">
                         ${elem.p_num ? elem.p_num : '-'}
                     </td>
                     <td>
+                        ${elem.player_name ? elem.player_name : '-'}
+                    </td>
+                    <td class="text-center">
                         ${elem.minute_from ? elem.minute_from : '-'}
                     </td>
-                    <td>
+                    <td class="text-center">
                         ${elem.minute_to ? elem.minute_to : '-'}
                     </td>
-                    <td>
+                    <td class="text-center">
                         ${elem.goal ? elem.goal : '-'}
                     </td>
-                    <td>
+                    <td class="text-center">
                         ${elem.penalty ? elem.penalty : '-'}
                     </td>
-                    <td>
+                    <td class="text-center">
                         ${elem.p_pass ? elem.p_pass : '-'}
                     </td>
-                    <td>
+                    <td class="text-center">
                         ${elem.yellow_card ? elem.yellow_card : '-'}
                     </td>
-                    <td>
+                    <td class="text-center">
                         ${elem.red_card ? elem.red_card : '-'}
                     </td>
-                    <td>
+                    <td class="text-center">
                         ${elem.estimation ? elem.estimation : '-'}
                     </td>
                 </tr>
@@ -64,10 +73,11 @@ function RenderProtocolInMatches(data) {
         }
         $('#protocol').find('tbody').html(`
             ${teamPlayersHtml}
-            <tr style="background-color: black;"><td colspan="9"></td</tr>
             ${opponentPlayersHtml}
         `);
     }
+    protocol_table = $('#protocol').DataTable(protocol_table_options);
+    protocol_table.draw();
 }
 
 
@@ -99,12 +109,14 @@ $(function() {
             { "searchable": false, "orderable": false, "targets": [2, 6] }
         ],
     });
-    // protocol_table = $('#protocol').DataTable(protocol_table_options);
+    protocol_table = $('#protocol').DataTable(protocol_table_options);
+    protocol_table.draw();
 
     $('.card-header').on('click', '.clear-collapses', (e) => {
         $('.card-header').find('.toggle-collapse').removeClass('active');
         $(e.currentTarget).addClass('active');
         $('.card-body').find('.collapse-block').collapse('hide');
+        matches_table.columns([8,9,10,11]).visible(true);
     });
     $('.card-header').on('click', '.toggle-collapse', (e) => {
         let isActive = $(e.currentTarget).hasClass('active');
@@ -112,6 +124,7 @@ $(function() {
         $('.card-header').find('.clear-collapses').toggleClass('active', isActive);
         $(e.currentTarget).toggleClass('active', !isActive);
         $('.card-body').find('.collapse-block').collapse('hide');
+        matches_table.columns([8,9,10,11]).visible(isActive);
     });
 
 
@@ -121,25 +134,34 @@ $(function() {
         $('#matches').find('.match-row').removeClass("selected");
         $(e.currentTarget).toggleClass("selected", !isSelected);
         let cId = $(e.currentTarget).attr('data-id');
-        LoadProtocolMatch(cId, false);
-    });
-
-    $('.card-body').on('click', 'a[action="goToMatchCard"]', (e) => {
-        let selectedRow = $('#matches').find('.match-row.selected');
-        if ($(selectedRow).length > 0) {
-            let cId = $(selectedRow).attr('data-id');
-            window.location.href = `match?id=${cId}`;
+        if (!isSelected) {
+            LoadProtocolMatch(cId, false);
+        } else {
+            LoadProtocolMatch(-1, false);
         }
     });
-    $('.card-body').on('click', 'a[action="editMatch"]', (e) => {
+
+    $('.card-body').on('click', 'button[action="goToMatchCard"]', (e) => {
+        let selectedRow = $('#matches').find('.match-row.selected');
+        if ($(selectedRow).length > 0) {
+            $('.page-loader-wrapper').fadeIn();
+            let cId = $(selectedRow).attr('data-id');
+            window.location.href = `match?id=${cId}`;
+        } else {
+            swal("Внимание", "Выберите сначала матч.", "warning");
+        }
+    });
+    $('.card-body').on('click', 'button[action="editMatch"]', (e) => {
         let selectedRow = $('#matches').find('.match-row.selected');
         if ($(selectedRow).length > 0) {
             let cId = $(selectedRow).attr('data-id');
             RenderMatchEditModal(cId);
             $('#matchEditModal').modal('show');
+        } else {
+            swal("Внимание", "Выберите сначала матч.", "warning");
         }
     });
-    $('.card-body').on('click', 'a[action="removeMatch"]', (e) => {
+    $('.card-body').on('click', 'button[action="removeMatch"]', (e) => {
         let selectedRow = $('#matches').find('.match-row.selected');
         if ($(selectedRow).length > 0) {
             swal({
@@ -179,6 +201,8 @@ $(function() {
                     });
                 }
             });
+        } else {
+            swal("Внимание", "Выберите сначала матч.", "warning");
         }
     });
 
