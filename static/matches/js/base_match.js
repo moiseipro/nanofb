@@ -42,16 +42,17 @@ function RenderProtocolInMatch(data) {
         let opponentPlayersHtml = "";
         for (ind in data) {
             let elem = data[ind];
+            let protocolStatusesElem = $('#protocolStatuses').parent().clone();
+            $(protocolStatusesElem).find('select').attr('id', ''); $(protocolStatusesElem).find('select').attr('name', 'status');
+            if ($(protocolStatusesElem).find(`option[value="${elem.p_status}"]`).length > 0) {
+                $(protocolStatusesElem).find(`option[selected]`).removeAttr('selected');
+                $(protocolStatusesElem).find(`option[value="${elem.p_status}"]`).attr('selected', "");
+            }
+            protocolStatusesElem = $(protocolStatusesElem).html();
             let tmpHtml = `
                 <tr class="protocol-row" data-id="${elem.id}">
                     <td>
-                        <select class="form-control form-control-sm" name="status">
-                            <option value="" selected="">игра</option>
-                            <option value="1">болен</option>
-                            <option value="2">травма</option>
-                            <option value="3">не участвовал</option>
-                            <option value="4">в сборной</option>
-                        </select>
+                        ${protocolStatusesElem}
                     </td>
                     <td>
                         <input class="form-control form-control-sm" name="p_num" type="text" value="${elem.p_num ? elem.p_num : ''}" placeholder="" autocomplete="off">

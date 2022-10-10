@@ -38,6 +38,9 @@ function RenderProtocolInMatches(data) {
                     </td>
                     <td>
                         ${elem.player_name ? elem.player_name : '-'}
+                        ${elem.status_full != "" ? `
+                            <span title="${elem.status_full}">[${elem.status_short}]</span>
+                        ` : ""}
                     </td>
                     <td class="text-center">
                         ${elem.minute_from ? elem.minute_from : '-'}
