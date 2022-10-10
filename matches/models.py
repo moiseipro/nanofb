@@ -1,11 +1,12 @@
 from datetime import timedelta
 from email.policy import default
+from statistics import mode
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy as _p
 from events.models import UserEvent, ClubEvent
-from references.models import UserTeam, ClubTeam
+from references.models import UserTeam, ClubTeam, PlayerProtocolStatus
 from users.models import User
 from video.models import Video
 from players.models import UserPlayer, ClubPlayer
@@ -140,6 +141,7 @@ class AbstractProtocol(models.Model):
     estimation = models.SmallIntegerField(null=True, blank=True)
     like = models.BooleanField(default=False)
     dislike = models.BooleanField(default=False)
+    p_status = models.ForeignKey(PlayerProtocolStatus, on_delete=models.SET_NULL, null=True, blank=True)
 
     objects = models.Manager()
     class Meta:

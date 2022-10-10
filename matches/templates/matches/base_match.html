@@ -119,6 +119,14 @@
                                                 </table>
                                             </div>
                                         </div>
+                                        <div class="col-12 d-none">
+                                            <select class="form-control form-control-sm" id="protocolStatuses">
+                                                <option value="" selected="">---</option>
+                                                {% for elem in refs.player_protocol_status %}
+                                                    <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

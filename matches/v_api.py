@@ -3,14 +3,27 @@ from django.forms.models import model_to_dict
 import json
 import re
 from datetime import datetime, date, timedelta
-from references.models import UserTeam
+from references.models import UserTeam, ClubTeam
 from events.models import UserEvent, ClubEvent
 from matches.models import UserMatch, ClubMatch, UserProtocol, ClubProtocol
-from references.models import PlayerTeamStatus, PlayerPlayerStatus, PlayerLevel, PlayerPosition, PlayerFoot
+from references.models import PlayerProtocolStatus
 from players.models import UserPlayer, ClubPlayer
 
 
 LANG_CODE_DEFAULT = "en"
+
+def get_by_language_code(value, code):
+    res = ""
+    try:
+        res = value[code]
+    except:
+        pass
+    if res == "":
+        try:
+            res = value[LANG_CODE_DEFAULT]
+        except:
+            pass
+    return res
 
 
 def set_value_as_int(value, def_value = None):
@@ -133,6 +146,33 @@ def get_match_result(data):
     return res
 
 
+def get_protocol_status(request, elem):
+    res = {'full': "", 'short': ""}
+    if elem and elem.translation_names:
+        if elem.translation_names[request.LANGUAGE_CODE]:
+            res["full"] = elem.translation_names[request.LANGUAGE_CODE]
+        else:
+            res["full"] = elem.translation_names[request.LANG_CODE_DEFAULT]
+        res["short"] = res["full"][:1]
+    return res
+
+
+def set_refs_translations(data, lang_code):
+    for key in data:
+        elems = data[key]
+        for elem in elems:
+            title = get_by_language_code(elem['translation_names'], lang_code)
+            elem['title'] = title if title != "" else elem['name']
+    return data
+
+
+def get_matches_refs(request):
+    refs = {}
+    refs['player_protocol_status'] = PlayerProtocolStatus.objects.filter().values()
+    refs = set_refs_translations(refs, request.LANGUAGE_CODE)
+    return refs
+
+
 
 # --------------------------------------------------
 # MATCHES API
@@ -238,6 +278,17 @@ def POST_edit_players_protocol(request, cur_user):
         if c_key == "like" and c_value == 1:
             update_dict['dislike'] = 0
         print(update_dict)
+        if c_key == "status":
+            c_status_id = -1
+            try:
+                c_status_id = int(c_value)
+            except:
+                pass
+            f_status = PlayerProtocolStatus.objects.filter(id=c_status_id)
+            if f_status.exists() and f_status[0].id != None:
+                update_dict = {'p_status': f_status[0].id}
+            else:
+                update_dict = {'p_status': None}
         UserProtocol.objects.filter(id=protocol_id).update(**update_dict)
     except:
         return JsonResponse({"err": "Can't edit match protocol.", "success": False}, status=400)
@@ -351,6 +402,9 @@ def GET_get_match_protocol(request, cur_user, cur_team):
             protocol_dict = model_to_dict(protocol_elem)
             protocol_dict['player_name'] = f"{protocol_elem.player.surname} {protocol_elem.player.name}"
             protocol_dict['player_name_full'] = f"{protocol_elem.player.surname} {protocol_elem.player.name} {protocol_elem.player.patronymic}"
+            tmp_status = get_protocol_status(request, protocol_elem.p_status)
+            protocol_dict['status_full'] = tmp_status['full']
+            protocol_dict['status_short'] = tmp_status['short']
             res_data.append(protocol_dict)
         return JsonResponse({"data": res_data, "success": True}, status=200)
     return JsonResponse({"errors": "Match protocol not found.", "success": False}, status=400)

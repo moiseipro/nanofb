@@ -38,7 +38,7 @@ def matches(request):
         match_obj['o_penalty'] = match.o_penalty if match.o_penalty != 0 else '-'
         matches.append(match_obj)
     refs = {}
-    # refs = v_api.get_players_refs(request)
+    refs = v_api.get_matches_refs(request)
     return render(request, 'matches/base_matches.html', {
         'matches': matches,
         'refs': refs,
@@ -62,7 +62,7 @@ def match(request):
     if match == None:
         return redirect("matches:base_matches")
     refs = {}
-    # refs = v_api.get_players_refs(request)
+    refs = v_api.get_matches_refs(request)
     return render(request, 'matches/base_match.html', {
         'refs': refs,
         'menu_matches': 'active',

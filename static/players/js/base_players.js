@@ -235,7 +235,8 @@ $(function() {
         if (selectedId) {
             window.location.href = `/players/player?id=${selectedId}`;
         } else {
-            swal("Внимание", "Выберите игрока из таблицы.", "info");
+            window.location.href = `/players/player`;
+            // swal("Внимание", "Выберите игрока из таблицы.", "info");
         }
     });
 
