@@ -221,8 +221,8 @@ var startDate, endDate, startSeason, endSeason;
                 clase_disabled  = '',
                 middleDay       = targetPanel.find('input.refDate').val();
             
-            startDate = f_inicio.format('DD.MM.YYYY');
-            endDate = f_fin.format('DD.MM.YYYY');
+            startDate = f_inicio.format('DD/MM/YYYY');
+            endDate = f_fin.format('DD/MM/YYYY');
             //console.log(startDate+":"+endDate);
 
             var moth_num = f_inicio.format('MM');
@@ -238,7 +238,7 @@ var startDate, endDate, startSeason, endSeason;
                 var cur_month = f_aux.format('MM');
 
                 dia        = f_aux.format('DD');
-                mes        = f_aux.locale( settings.locale ).format('MMMM').replace('.','');
+                mes        = f_aux.locale( settings.locale ).format('MMMM').replace('/','');
                 dia_semana = f_aux.locale( settings.locale ).format('dd');
                 num_dia_semana = f_aux.day();
 
@@ -475,7 +475,7 @@ var startDate, endDate, startSeason, endSeason;
 
             set_template( targetObj, settings);
 
-            setDayCells( targetObj, targetPanel, settings.refDate );
+
 
             // Events
             var move_to_last_month = targetPanel.find('.move_to_last_month'),
@@ -483,47 +483,51 @@ var startDate, endDate, startSeason, endSeason;
                 move_to_tomorrow   = targetPanel.find('.move_to_tomorrow'),
                 move_to_next_month = targetPanel.find('.move_to_next_month'),
                 move_to_today      = targetPanel.find('.move_to_today'),
-                refDate            = targetPanel.find('.refDate');
+                refDate            = targetPanel.find('input.refDate');
 
-            move_to_last_month.on('click', function(e){
-                
-                change_month( targetObj, targetPanel, 'subtract');
 
-            });
+            setDayCells( targetObj, targetPanel, refDate.val());
+            console.log(settings)
 
-            move_to_yesterday.on('click', function(e){
-                
-                change_day( targetObj, targetPanel, 'subtract', 1);
-
-            });
-
-            move_to_tomorrow.on('click', function(e){
-                
-                change_day( targetObj, targetPanel, 'add', 1);
-
-            });
-
-            move_to_next_month.on('click', function(e){
-                
-                change_month( targetObj, targetPanel, 'add');
-
-            });
-
-            refDate.on('blur', function(e){
-                
-                var refDate = targetPanel.find('input.refDate').val();
-                setDayCells( targetObj, targetPanel, refDate );
-
-            });
-
-            move_to_today.on('click', function(e){
-                
-                var today = moment().startOf('day').format( settings.format );
-                targetPanel.find('input.refDate').val( today );
-
-                today_month( targetObj, targetPanel );
-
-            });
+            // move_to_last_month.on('click', function(e){
+            //
+            //     change_month( targetObj, targetPanel, 'subtract');
+            //
+            // });
+            //
+            // move_to_yesterday.on('click', function(e){
+            //
+            //     change_day( targetObj, targetPanel, 'subtract', 1);
+            //
+            // });
+            //
+            // move_to_tomorrow.on('click', function(e){
+            //
+            //     change_day( targetObj, targetPanel, 'add', 1);
+            //
+            // });
+            //
+            // move_to_next_month.on('click', function(e){
+            //
+            //     change_month( targetObj, targetPanel, 'add');
+            //
+            // });
+            //
+            // refDate.on('blur', function(e){
+            //
+            //     var refDate = targetPanel.find('input.refDate').val();
+            //     setDayCells( targetObj, targetPanel, refDate );
+            //
+            // });
+            //
+            // move_to_today.on('click', function(e){
+            //
+            //     var today = moment().startOf('day').format( settings.format );
+            //     targetPanel.find('input.refDate').val( today );
+            //
+            //     today_month( targetObj, targetPanel );
+            //
+            // });
 
 
             return this;

@@ -75,11 +75,23 @@ class EventViewSet(viewsets.ModelViewSet):
             else:
                 return False
         elif 'event_type' in self.request.data and '2' in self.request.data['event_type']:
-            count_m = UserEvent.objects.filter(user_id=user, date__date=cur_date, usermatch__team_id=team).count()
-            print(count_m)
-            if count_m < 2:
+            match = UserEvent.objects.filter(user_id=user, date__date=cur_date, usermatch__team_id=team,
+                                          usermatch__m_type=0).count()
+            print(match)
+            if match == 0:
                 event = serializer.save(user_id=user)
-                new_match = UserMatch.objects.create(team_id=team, event_id=event)
+                new_match = UserMatch.objects.create(team_id=team, event_id=event, m_type=0)
+                new_match.save()
+                return True
+            else:
+                return False
+        elif 'event_type' in self.request.data and '3' in self.request.data['event_type']:
+            match = UserEvent.objects.filter(user_id=user, date__date=cur_date, usermatch__team_id=team,
+                                          usermatch__m_type=1).count()
+            print(match)
+            if match == 0:
+                event = serializer.save(user_id=user)
+                new_match = UserMatch.objects.create(team_id=team, event_id=event, m_type=1)
                 new_match.save()
                 return True
             else:
@@ -117,9 +129,11 @@ class EventViewSet(viewsets.ModelViewSet):
         return UserEventSerializer
 
     def get_queryset(self):
-        microcycle_before = self.request.query_params.get('columns[1][search][value][only_date_before]')
-        microcycle_after = self.request.query_params.get('columns[1][search][value][only_date_after]')
-        #print(self.request.query_params)
+        #microcycle_before = self.request.query_params.get('columns[1][search][value][only_date_before]')
+        #microcycle_after = self.request.query_params.get('columns[1][search][value][only_date_after]')
+        microcycle_before = self.request.query_params.get('to_date')
+        microcycle_after = self.request.query_params.get('from_date')
+        print(microcycle_after)
         team = self.request.session['team']
         season = UserSeason.objects.filter(id=self.request.session['season'])
         #print(season[0].date_with)
