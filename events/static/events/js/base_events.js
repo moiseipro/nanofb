@@ -133,17 +133,64 @@ $(window).on('load', function (){
     $('#event_calendar').on('click', '.microcycle_cell', function () {
         $('#event_calendar .microcycle_cell.selected').not($(this)).removeClass('selected')
         $(this).toggleClass('selected')
-        //events_table.draw()
+        generateNewCalendar()
     })
-    $(document).on('click', '.hasEvent', function () {
+    $(document).on('click', '.hasEvent', function (event) {
         let data_id = $(this).attr('data-value')
-        console.log(data_id)
-        if($(this).hasClass('selected')) {
-            $('.hasEvent').removeClass('selected')
-        }
-        else {
-            $('.hasEvent').removeClass('selected')
-            $('.hasEvent[data-value="'+data_id+'"]').addClass('selected')
+        console.log(event.target)
+
+        if($(event.target).is('td')) {
+            if ($(this).hasClass('selected')) {
+                $('.hasEvent').removeClass('selected')
+            } else {
+                $('.hasEvent').removeClass('selected')
+                $('.hasEvent[data-value="' + data_id + '"]').addClass('selected')
+                ajax_event_action('GET', null, 'view event', data_id).then(function (data) {
+                    let html_scheme = ``
+                    if ('training' in data && data.training != null) {
+                        console.log(data.training)
+                        if (data.training.exercises_info.length > 0) {
+                            let exercises = data.training.exercises_info
+                            for (let exercise of exercises) {
+                                html_scheme += `
+                            <div class="col-4 pb-2 px-1 exercise-visual-block" data-id="${exercise.id}">
+                                <div id="carouselSchema-${exercise.id}" class="carousel slide carouselSchema" data-ride="carousel" data-interval="false">
+                                    <ol class="carousel-indicators">
+                                        <li data-target="#carouselSchema-${exercise.id}" data-slide-to="0" class="active"></li>
+                                        <li data-target="#carouselSchema-${exercise.id}" data-slide-to="1"></li>
+                                    </ol>
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active">
+                                            ${exercise.exercise_scheme ? exercise.exercise_scheme['scheme_1'] : ''}
+                                        </div>
+                                        <div class="carousel-item">
+                                            ${exercise.exercise_scheme ? exercise.exercise_scheme['scheme_2'] : ''}
+                                        </div>
+                                    </div>
+                                    <a class="carousel-control-prev ml-2" href="#carouselSchema-${exercise.id}" role="button" data-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#carouselSchema-${exercise.id}" role="button" data-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
+                                <div class="row text-center">
+                                    <div class="col-9 pr-0"><div class="w-100 border text-truncate">${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}</div></div>
+                                    <div class="col pl-0"><div class="w-100 border">${exercise.duration}</div></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 additional-data-block"></div>
+                                </div>
+                            </div>
+                            `
+                            }
+                        }
+                        $('#block-event-info .event-info').html(html_scheme)
+                    }
+                })
+            }
         }
     })
 
@@ -225,6 +272,7 @@ $(window).on('load', function (){
     $('#toggle-calendar').on('click', function () {
         $('#event_calendar').toggleClass('d-none')
         $(this).children('i').toggleClass('fa-arrow-up').toggleClass('fa-arrow-down')
+        resize_events_table()
     })
 
     $('#events').on('click', '.switch-favorites', function () {
@@ -249,6 +297,15 @@ $(window).on('load', function (){
         })
     })
 })
+
+function resize_events_table(){
+    let css = "calc(94vh - "+Math.round($('#event_calendar').height())+"px - "+Math.round($('.header').height())+"px - "+Math.round($('.card-header').height())+"px)"
+    console.log(css)
+    $('#events-table').css({"max-height": css})
+    $('#events-table').css({"height": css})
+    $('#block-event-info .event-info').css({"max-height": css})
+    $('#block-event-info .event-info').css({"height": css})
+}
 
 function clear_event_form(){
     let nowdate = moment().format('DD/MM/YYYY')
@@ -334,10 +391,12 @@ function generateNewCalendar(){
     newMicrocycle = []
     newEvent = []
 
+    let microcycle_id = null
     let send_data ={}
 
     let from_date_str = $('#event_calendar .microcycle_cell.selected').attr('data-start')
     let to_date_str = $('#event_calendar .microcycle_cell.selected').attr('data-end')
+    microcycle_id = $('#event_calendar .microcycle_cell.selected').attr('data-id')
     let today = strDate
 
     console.log(strDate)
@@ -354,8 +413,8 @@ function generateNewCalendar(){
     }
 
     if(!from_date_str && !to_date_str && today){
-        from_date = moment(today, 'DD/MM/YYYY').add(-45, 'day').format('YYYY-MM-DD')
-        to_date = moment(today, 'DD/MM/YYYY').add(45, 'day').format('YYYY-MM-DD')
+        from_date = moment(today, 'DD/MM/YYYY').startOf('month').format('YYYY-MM-DD')
+        to_date = moment(today, 'DD/MM/YYYY').endOf('month').format('YYYY-MM-DD')
     }
 
     send_data['from_date'] = from_date
@@ -391,15 +450,15 @@ function generateNewCalendar(){
                 data: send_data,
                 success: function(data){
                     console.log(data['results'])
-                    let num_tr = 1, num_m = 1, count_tr = 0, count_m = 0, event_date = '', event_class=''
+                    let num_tr = 1, num_m = 1, count_tr = 0, count_m = 0, max_m = 0, event_date = '', event_class=''
                     let last_date = moment(to_date, 'YYYY-MM-DD')
                     let first_date = moment(from_date, 'YYYY-MM-DD')
                     let generated_events = []
 
-                    let days = last_date.diff(first_date, 'days')
+                    let days = last_date.diff(first_date, 'days')+1
+                    console.log(days)
                     if(days!=0) {
-                        for (let i = 0; i < days-1; i++){
-                            last_date.add(-1, 'days')
+                        for (let i = 0; i < days; i++){
                             let isSame = false
                             //console.log(last_date.format('DD/MM/YYYY'))
                             for (let event of data['results']) {
@@ -407,6 +466,10 @@ function generateNewCalendar(){
                                 if(cur_date.isSame(last_date)){
                                     generated_events.push(event)
                                     isSame = true
+                                    if(isSame && 'match' in event && event.match != null){
+                                        count_m++
+                                        max_m++
+                                    }
                                 }
                             }
                             if(!isSame) {
@@ -418,8 +481,8 @@ function generateNewCalendar(){
                                     match: null
                                 })
                             }
+                            last_date.add(-1, 'days')
                         }
-
                     }
 
                     $.each(generated_events, function( index, event ) {
@@ -452,9 +515,9 @@ function generateNewCalendar(){
                             count_tr++
 
                             tr_html += `
-                                <td>${count_tr}</td>
+                                <td>---</td>
                                 <td>${event['only_date']}</td>
-                                <td><a href="/trainings/view/${event.training.event_id}" class="btn btn-sm btn-block btn-info py-0" data-id="${event.training.event_id}">${gettext('Training')+' '+num_tr}</a></td>
+                                <td><a href="/trainings/view/${event.training.event_id}" class="btn btn-sm btn-block btn-info py-0" data-id="${event.training.event_id}">${gettext('Training')+' '+(num_tr == 2 ? '2' : '')}</a></td>
                                 <td>${count_day==0 ? '---' : count_day}</td>
                                 <td><i class="switch-favorites fa ${event.training.favourites ? 'fa-star':'fa-star-o'} aria-hidden="true"></i></td>
                                 <td>0</td>
@@ -463,11 +526,11 @@ function generateNewCalendar(){
                         } else if('match' in event && event['match'] != null){
                             event_name = 'm'+(event['match']['m_type']+1)
                             event_class = 'matchClass'+event['match']['m_type']
-                            count_m++
+                            count_m--
                             count_tr = 0
 
                             tr_html += `
-                                <td class="text-danger"><b>${count_m}</b></td>
+                                <td class="text-danger"><b>${count_m+1}</b></td>
                                 <td>${event['only_date']}</td>
                                 <td><a href="/matches/match?id=${event.match.event_id}" class="btn btn-sm btn-block ${event.match.m_type == 0 ?"btn-warning":"btn-success"} py-0" data-id="${event.match.event_id}">${gettext('Match')}</a></td>
                                 <td>${count_day==0 ? '---' : count_day}</td>
@@ -477,11 +540,10 @@ function generateNewCalendar(){
                             `
                         } else {
                             event_class = 'none'
-                            count_tr++
                             tr_html += `
-                                    <td>${count_tr}</td>
+                                    <td>---</td>
                                     <td>${event['only_date']}</td>
-                                    <td><a href="#" class="btn btn-sm btn-block btn-secondary py-0 disabled">${gettext('Recreation')}</a></td>
+                                    <td>${count_tr == 0 && count_m==max_m ? '---' : `<a href="#" class="btn btn-sm btn-block btn-secondary py-0 disabled">${gettext('Recreation')}</a></td>`}
                                     <td>${count_day==0 ? '---' : count_day}</td>
                                     <td>---</td>
                                     <td>---</td>
@@ -529,6 +591,14 @@ function generateNewCalendar(){
                         dataKeyField: 'name',
                         dataKeyValues: ['m2', 'm1', 'tr1', 'tr2']
                     });
+
+
+                    resize_events_table()
+
+                    if(microcycle_id){
+                        $('#event_calendar .microcycle_cell[data-id="'+microcycle_id+'"]').addClass('selected')
+                    }
+
                 }
             })
         },
@@ -763,11 +833,13 @@ $(function() {
                     } else if(key === 'edit'){
                         window.console && console.log(event_id);
                         $('#form-event-edit-modal').modal('show');
-                        cur_edit_data = events_table.row($('#events .hasEvent[data-value="'+event_id+'"]')).data()
-                        console.log(cur_edit_data);
-                        $('#form-event-edit #id_short_name').val(cur_edit_data['short_name'])
-                        $('#form-event-edit #datetimepicker-event').val(cur_edit_data['only_date'])
-                        $('#form-event-edit #timepicker-event').val(cur_edit_data['time'])
+                        ajax_event_action('GET', null, 'get', event_id).then(function( data ) {
+                            cur_edit_data = data
+                            console.log(cur_edit_data);
+                            $('#form-event-edit #id_short_name').val(cur_edit_data['short_name'])
+                            $('#form-event-edit #datetimepicker-event').val(cur_edit_data['only_date'])
+                            $('#form-event-edit #timepicker-event').val(cur_edit_data['time'])
+                        })
                     }
                 },
                 items: {

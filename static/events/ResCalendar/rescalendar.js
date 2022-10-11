@@ -111,6 +111,7 @@ var startDate, endDate, startSeason, endSeason;
             });
 
             var j = 0
+            let m_id = null
             for( var i=0; i<microcycles.length; i++){
                 title = '';
                 date    = '';
@@ -144,7 +145,7 @@ var startDate, endDate, startSeason, endSeason;
                 if( obj_data.customClass ){ customClass = obj_data.customClass }
 
 
-                if(filled_count!=0)html2 += '<td colspan="'+filled_count+'" data-start="'+obj_data.startDate+'" data-end="'+obj_data.endDate+'" data-toggle="tooltip" '+title+' data-html="true" class="microcycle_cell ' + customClass + '">' + day_count + '</td>';
+                if(filled_count!=0)html2 += '<td colspan="'+filled_count+'" data-start="'+obj_data.startDate+'" data-end="'+obj_data.endDate+'" data-id="'+obj_data.id+'" data-toggle="tooltip" '+title+' data-html="true" class="microcycle_cell ' + customClass + '">' + day_count + '</td>';
 
 
                 if(i==microcycles.length-1){

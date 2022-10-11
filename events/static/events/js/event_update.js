@@ -16,8 +16,10 @@ async function ajax_event_action(method, data, action = '', id = '') {
             console.log(data)
             if(data!= undefined && 'status' in data && data['status'] == 'event_type_full'){
                 swal(gettext('Event '+action), gettext('You have created the maximum number of events of this type for one day!'), "error");
-            }else{
+            }else if (method == 'POST' || method == 'UPDATE' || method == 'PUT' || method == 'DELETE'){
                 swal(gettext('Event '+action), gettext('Event action "'+action+'" successfully!'), "success");
+            } else {
+
             }
 
         },
