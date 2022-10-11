@@ -1,0 +1,340 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#: .\nanofootball\static\jquery-ui-1.13.1.custom\jquery-ui.min.js:6
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-10-10 16:18+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: .\events\static\events\js\base_events.js:307
+msgid "Save changes to the microcycle?"
+msgstr "Сохранить изменения микроцикла?"
+
+#: .\events\static\events\js\base_events.js:322
+msgid "The action with the microcycle was successfully completed!"
+msgstr ""
+
+#: .\events\static\events\js\base_events.js:328
+msgid "Error when updating the microcycle. "
+msgstr ""
+
+#: .\events\static\events\js\base_events.js:457
+#: .\events\static\events\js\base_events.js:657
+#: .\trainings\static\trainings\js\view_training.js:323
+msgid "Training"
+msgstr "Тренировка"
+
+#: .\events\static\events\js\base_events.js:472
+#: .\events\static\events\js\base_events.js:659
+msgid "Match"
+msgstr "Матч"
+
+#: .\events\static\events\js\base_events.js:484
+msgid "Recreation"
+msgstr "Отдых"
+
+#: .\events\static\events\js\base_events.js:510
+#: .\events\static\events\js\base_events.js:537
+msgid "Event save"
+msgstr "Сохранить событие"
+
+#: .\events\static\events\js\base_events.js:510
+#: .\events\static\events\js\base_events.js:537
+msgid "Error when action the event!"
+msgstr ""
+
+#: .\events\static\events\js\base_events.js:523
+msgid "Today"
+msgstr "Сегодня"
+
+#: .\events\static\events\js\base_events.js:524
+msgid "Failed to initialize"
+msgstr ""
+
+#: .\events\static\events\js\base_events.js:525
+msgid "No data was found to show"
+msgstr ""
+
+#: .\events\static\events\js\base_events.js:661
+msgid "---"
+msgstr "---"
+
+#: .\events\static\events\js\base_events.js:775
+#: .\exercises\static\exercises\js\base_exercises_folders.js:217
+msgid "Edit"
+msgstr "Редактировать"
+
+#: .\events\static\events\js\base_events.js:776
+#: .\exercises\static\exercises\js\base_exercises_folders.js:220
+msgid "Delete"
+msgstr "Удалить"
+
+#: .\events\static\events\js\base_events.js:778
+msgid "Close"
+msgstr "Закрыть"
+
+#: .\events\static\events\js\event_update.js:18
+#: .\events\static\events\js\event_update.js:20
+#: .\events\static\events\js\event_update.js:26
+msgid "Event "
+msgstr "Событие "
+
+#: .\events\static\events\js\event_update.js:18
+msgid "You have created the maximum number of events of this type for one day!"
+msgstr ""
+
+#: .\events\static\events\js\event_update.js:20
+msgid "Event action \""
+msgstr "Действие с событием \""
+
+#: .\events\static\events\js\event_update.js:26
+#: .\trainings\static\trainings\js\action_training.js:32
+#: .\trainings\static\trainings\js\view_protocol.js:25
+#: .\trainings\static\trainings\js\view_training.js:612
+#: .\trainings\static\trainings\js\view_training.js:641
+#: .\video\static\video\js\base_video.js:197
+msgid "Error when action \""
+msgstr "Ошибка при выполнении \""
+
+#: .\exercises\static\exercises\js\base_exercises_folders.js:213
+msgid "Add subfolder"
+msgstr ""
+
+#: .\exercises\static\exercises\js\base_exercises_folders.js:345
+msgid ""
+"Attention. The current folder structure will be completely cleared. Are you "
+"sure?"
+msgstr ""
+
+#: .\exercises\static\exercises\js\base_exercises_folders.js:359
+msgid "Error"
+msgstr "Ошибка"
+
+#: .\exercises\static\exercises\js\base_exercises_folders.js:359
+msgid "Failed to copy folder structure."
+msgstr ""
+
+#: .\nanofootball\static\jquery-ui-1.13.1.custom\jquery-ui.min.js:6
+msgid "'"
+msgstr ""
+
+#: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+msgid "PRE"
+msgstr ""
+
+#: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+msgid "LI"
+msgstr ""
+
+#: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+msgid "TABLE"
+msgstr ""
+
+#: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+msgid "DATA"
+msgstr ""
+
+#: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+msgid "HR"
+msgstr ""
+
+#: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+msgid "BLOCKQUOTE"
+msgstr ""
+
+#: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+msgid "A"
+msgstr ""
+
+#: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+msgid "BODY"
+msgstr ""
+
+#: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+msgid "TEXTAREA"
+msgstr ""
+
+#: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+msgid "DIV"
+msgstr ""
+
+#: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+msgid "BR"
+msgstr ""
+
+#: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+msgid "SPAN"
+msgstr ""
+
+#: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+msgid "B"
+msgstr ""
+
+#: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+msgid "U"
+msgstr ""
+
+#: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+msgid "S"
+msgstr ""
+
+#: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+msgid "I"
+msgstr ""
+
+#: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+msgid "IMG"
+msgstr ""
+
+#: .\nanofootball\static\video-js-7.20.0\alt\video.novtt.min.js:12
+#: .\nanofootball\static\video-js-7.20.0\video.min.js:12
+msgid "function"
+msgstr ""
+
+#: .\references\static\references\ref_settings.js:17
+#: .\references\static\references\ref_settings.js:55
+msgid "Create"
+msgstr "Создать"
+
+#: .\references\static\references\ref_settings.js:21
+msgid "Creating a team"
+msgstr "Создать команду"
+
+#: .\references\static\references\ref_settings.js:59
+msgid "Creating a season"
+msgstr "Создать сезон"
+
+#: .\references\static\references\ref_settings.js:86
+#: .\references\static\references\ref_settings.js:112
+msgid "Changing the team"
+msgstr ""
+
+#: .\references\static\references\ref_settings.js:152
+msgid "Apply action to team?"
+msgstr ""
+
+#: .\references\static\references\ref_settings.js:165
+msgid "Team saved successfully!"
+msgstr ""
+
+#: .\references\static\references\ref_settings.js:169
+msgid "Error when action the team!"
+msgstr ""
+
+#: .\references\static\references\ref_settings.js:180
+msgid "Apply an action to a season?"
+msgstr ""
+
+#: .\references\static\references\ref_settings.js:193
+msgid "Season saved successfully!"
+msgstr ""
+
+#: .\references\static\references\ref_settings.js:197
+msgid "Error when action the season!"
+msgstr ""
+
+#: .\trainings\static\trainings\js\action_training.js:19
+#: .\trainings\static\trainings\js\action_training.js:21
+#: .\trainings\static\trainings\js\action_training.js:23
+#: .\trainings\static\trainings\js\action_training.js:27
+#: .\trainings\static\trainings\js\action_training.js:32
+#: .\trainings\static\trainings\js\view_protocol.js:25
+#: .\trainings\static\trainings\js\view_training.js:612
+#: .\trainings\static\trainings\js\view_training.js:641
+#: .\video\static\video\js\base_video.js:194
+#: .\video\static\video\js\base_video.js:197
+msgid "Training "
+msgstr "Тренировка "
+
+#: .\trainings\static\trainings\js\action_training.js:19
+msgid "The limit of exercises for the selected group has been reached"
+msgstr ""
+
+#: .\trainings\static\trainings\js\action_training.js:21
+msgid ""
+"There are players in the protocol. Remove the players before unloading the "
+"entire team."
+msgstr ""
+
+#: .\trainings\static\trainings\js\action_training.js:23
+msgid "The limit of players for one protocol has been reached."
+msgstr ""
+
+#: .\trainings\static\trainings\js\action_training.js:27
+msgid "Training action \""
+msgstr ""
+
+#: .\trainings\static\trainings\js\view_training.js:17
+msgid "Delete this training?"
+msgstr "Удалить данную тренировку?"
+
+#: .\trainings\static\trainings\js\view_training.js:64
+msgid "Remove an exercise from a training?"
+msgstr ""
+
+#: .\trainings\static\trainings\js\view_training.js:121
+msgid "Remove an additional data from an exercise?"
+msgstr ""
+
+#: .\trainings\static\trainings\js\view_training.js:139
+msgid "Add all players from the team of this training session?"
+msgstr ""
+
+#: .\trainings\static\trainings\js\view_training.js:211
+msgid "Remove a player from the training protocol?"
+msgstr ""
+
+#: .\trainings\static\trainings\js\view_training.js:279
+msgid "Full name"
+msgstr "Полное имя"
+
+#: .\trainings\static\trainings\js\view_training.js:297
+msgid "Group "
+msgstr "Группа "
+
+#: .\trainings\static\trainings\js\view_training.js:341
+msgid "Delete player"
+msgstr "Удалить игрока"
+
+#: .\trainings\static\trainings\js\view_training.js:575
+msgid "Group A"
+msgstr "Группа A"
+
+#: .\trainings\static\trainings\js\view_training.js:578
+msgid "Group B"
+msgstr "Группа B"
+
+#: .\trainings\static\trainings\js\view_training.js:581
+msgid "Group C"
+msgstr "Группа C"
+
+#: .\trainings\static\trainings\js\view_training.js:584
+msgid "Group D (Individual)"
+msgstr "Группа D (Индивидуальная)"
+
+#: .\video\static\video\js\base_video.js:194
+msgid "Video action \""
+msgstr ""
+
+#: .\video\static\video\js\base_video.js:208
+msgid "Delete the selected video(s)?"
+msgstr ""
+
+#: .\video\static\video\js\base_video.js:221
+msgid "An error occurred when deleting the video. "
+msgstr ""

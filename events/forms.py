@@ -38,8 +38,9 @@ time_event_input_widget = forms.TimeInput(attrs={
 
 EVENT_TYPES =(
     ("1", _('Training')),
-    ("2", _('Match')),
-    ("3", _('Weekend')),
+    ("2", _('Unofficial match')),
+    ("3", _('Official match')),
+
 )
 
 

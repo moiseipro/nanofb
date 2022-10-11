@@ -85,57 +85,21 @@
                     </div>
                     <div class="row">
                         <div class="col px-0">
-                            <div class="table-responsive">
-                                <table id="events" class="table table-sm padding-none table-bordered table-hover dataTable" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">№</th>
-                                            <th class="text-center">{% trans 'Date' %}</th>
-                                            <th class="text-center">{% trans 'Event' %}</th>
-                                            <th class="text-center">{% trans 'M.D.' %}</th>
-                                            <th class="text-center"><i class="fa fa-star-o" aria-hidden="true"></i></th>
-                                            <th class="text-center">{% trans 'Players' %}</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="col collapse">
-                            <div class="table-responsive">
-                                <table id="matches" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th>Дата</th>
-                                            <th>Д.Н.</th>
-                                            <th><i class="fa fa-clock-o" aria-hidden="true"></i></th>
-                                            <th><i class="fa fa-trophy" aria-hidden="true"></i></th>
-                                            <th>Команда</th>
-                                            <th>Счет</th>
-                                            <th>Команда</th>
-                                            <th><i class="fa fa-cog" aria-hidden="true"></i></th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="col collapse" id="collapse-protocol">
-                            <div class="table-responsive">
-                                <table id="protocol" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th>№</th>
-                                            <th></th>
-                                            <th></th>
-                                            <th>с</th>
-                                            <th>по</th>
-                                            <th>гол.</th>
-                                            <th>пен.</th>
-                                            <th>пас.</th>
-                                            <th>ж.к.</th>
-                                            <th>к.к.</th>
-                                            <th>оц.</th>
-                                        </tr>
-                                    </thead>
+                            <div class="table-responsive" style="overflow-y: auto; max-height: 56vh;">
+                                <table id="events" class="table table-sm padding-none table-bordered table-hover dataTable" style="width:100%;">
+{#                                    <thead>#}
+{#                                        <tr>#}
+{#                                            <th class="text-center">№</th>#}
+{#                                            <th class="text-center">{% trans 'Date' %}</th>#}
+{#                                            <th class="text-center">{% trans 'Event' %}</th>#}
+{#                                            <th class="text-center">{% trans 'M.D.' %}</th>#}
+{#                                            <th class="text-center"><i class="fa fa-star-o" aria-hidden="true"></i></th>#}
+{#                                            <th class="text-center">{% trans 'Players' %}</th>#}
+{#                                        </tr>#}
+{#                                    </thead>#}
+                                    <tbody>
+
+                                    </tbody>
                                 </table>
                             </div>
                         </div>

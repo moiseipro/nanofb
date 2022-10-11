@@ -74,12 +74,44 @@ var newMicrocycle = [
 // );
 
 $(window).on('load', function (){
+    $('#toggle_btn').click()
     $('.move_to_today').text(moment().format('DD/MM/YYYY'))
-    $('.refDate').val(strDate);
+    $('input.refDate').val(strDate);
 
     generateNewCalendar()
     generateMicrocyclesTable()
-    generateEventTable()
+    //generateEventTable()
+
+    $('.move_to_last_month').on('click', function () {
+        today = moment(strDate, 'DD/MM/YYYY')
+        days = today.subtract(1, 'month').daysInMonth()-1
+        today.set('date', days/2)
+        middleDay = Math.floor(days%2==0 ? days/2 : days/2)
+        strDate = today.format('DD/MM/YYYY')
+
+        $('.refDate').val(strDate);
+        generateNewCalendar()
+    })
+    $('.move_to_next_month').on('click', function () {
+        today = moment(today, 'DD/MM/YYYY')
+        days = today.add(1, 'month').daysInMonth()-1
+        today.set('date', days/2)
+        middleDay = Math.floor(days%2==0 ? days/2 : days/2)
+        strDate = today.format('DD/MM/YYYY')
+
+        $('.refDate').val(strDate);
+        generateNewCalendar()
+    })
+    $('.move_to_today').on('click', function () {
+        today = moment()
+        days = today.daysInMonth()-1
+        today.set('date', days/2)
+        middleDay = Math.floor(days%2==0 ? days/2 : days/2)
+        strDate = today.format('DD/MM/YYYY')
+
+        $('.refDate').val(strDate);
+        generateNewCalendar()
+    })
 
     // Выделение ячеек календаря при наведении на строку
     $('#events tbody').on('mouseenter', 'tr', function () {
@@ -101,7 +133,18 @@ $(window).on('load', function (){
     $('#event_calendar').on('click', '.microcycle_cell', function () {
         $('#event_calendar .microcycle_cell.selected').not($(this)).removeClass('selected')
         $(this).toggleClass('selected')
-        events_table.draw()
+        //events_table.draw()
+    })
+    $(document).on('click', '.hasEvent', function () {
+        let data_id = $(this).attr('data-value')
+        console.log(data_id)
+        if($(this).hasClass('selected')) {
+            $('.hasEvent').removeClass('selected')
+        }
+        else {
+            $('.hasEvent').removeClass('selected')
+            $('.hasEvent[data-value="'+data_id+'"]').addClass('selected')
+        }
     })
 
 
@@ -160,8 +203,8 @@ $(window).on('load', function (){
         let data = getFormData($(this))
         //console.log(data)
         data['date'] = data['date']+' '+data['time']
-        ajax_event_action($(this).attr('method'), data, 'create', cur_edit_data ? cur_edit_data.id : 0).done(function( data ) {
-            if(events_table) events_table.ajax.reload()
+        ajax_event_action($(this).attr('method'), data, 'create', cur_edit_data ? cur_edit_data.id : 0).then(function( data ) {
+            //if(events_table) events_table.ajax.reload()
             clear_event_form()
             generateNewCalendar()
         })
@@ -173,8 +216,8 @@ $(window).on('load', function (){
         let data = getFormData($(this))
         console.log(data)
         data['date'] = data['date']+' '+data['time']
-        ajax_event_action($(this).attr('method'), data, 'update', cur_edit_data ? cur_edit_data.id : 0).done(function( data ) {
-            if(events_table) events_table.ajax.reload()
+        ajax_event_action($(this).attr('method'), data, 'update', cur_edit_data ? cur_edit_data.id : 0).then(function( data ) {
+            //if(events_table) events_table.ajax.reload()
             generateNewCalendar()
         })
     })
@@ -196,13 +239,10 @@ $(window).on('load', function (){
         })
     })
 
-    $('.rescalendar_controls button').on('click', function () {
-
-    })
     $('#event_calendar').on('rescalendar.update', function () {
-        events_table.ajax.reload()
+        //events_table.ajax.reload()
         $('#event_calendar .dataRow').each(function () {
-            console.log($(this).find('.data_cell[data-value!=""]').length)
+            //console.log($(this).find('.data_cell[data-value!=""]').length)
             if ($(this).find('.data_cell[data-value!=""]').length>0) return
 
             $(this).hide()
@@ -294,6 +334,37 @@ function generateNewCalendar(){
     newMicrocycle = []
     newEvent = []
 
+    let send_data ={}
+
+    let from_date_str = $('#event_calendar .microcycle_cell.selected').attr('data-start')
+    let to_date_str = $('#event_calendar .microcycle_cell.selected').attr('data-end')
+    let today = strDate
+
+    console.log(strDate)
+    console.log(middleDay)
+
+    let from_date = undefined
+    let to_date = undefined
+
+    if(from_date_str){
+        from_date = moment(from_date_str, 'DD/MM/YYYY').format('YYYY-MM-DD')
+    }
+    if(to_date_str){
+        to_date = moment(to_date_str, 'DD/MM/YYYY').format('YYYY-MM-DD')
+    }
+
+    if(!from_date_str && !to_date_str && today){
+        from_date = moment(today, 'DD/MM/YYYY').add(-45, 'day').format('YYYY-MM-DD')
+        to_date = moment(today, 'DD/MM/YYYY').add(45, 'day').format('YYYY-MM-DD')
+    }
+
+    send_data['from_date'] = from_date
+    send_data['to_date'] = to_date
+    console.log(send_data)
+
+    $('#events tbody').html('')
+
+    $('.page-loader-wrapper').fadeIn();
     $.ajax({
         headers:{"X-CSRFToken": csrftoken },
         url: 'api/microcycles/',
@@ -314,29 +385,110 @@ function generateNewCalendar(){
             //console.log(newMicrocycle)
             $.ajax({
                 headers:{"X-CSRFToken": csrftoken },
-                url: 'api/action/',
+                url: '/events/api/action/',
                 type: 'GET',
                 dataType: "JSON",
+                data: send_data,
                 success: function(data){
-                    //console.log(data['results'])
-                    let count_tr = 1, count_m = 1, event_date = '', event_class=''
-                    for (var event of data['results']) {
+                    console.log(data['results'])
+                    let num_tr = 1, num_m = 1, count_tr = 0, count_m = 0, event_date = '', event_class=''
+                    let last_date = moment(to_date, 'YYYY-MM-DD')
+                    let first_date = moment(from_date, 'YYYY-MM-DD')
+                    let generated_events = []
+
+                    let days = last_date.diff(first_date, 'days')
+                    if(days!=0) {
+                        for (let i = 0; i < days-1; i++){
+                            last_date.add(-1, 'days')
+                            let isSame = false
+                            //console.log(last_date.format('DD/MM/YYYY'))
+                            for (let event of data['results']) {
+                                let cur_date = moment(event['only_date'], 'DD/MM/YYYY')
+                                if(cur_date.isSame(last_date)){
+                                    generated_events.push(event)
+                                    isSame = true
+                                }
+                            }
+                            if(!isSame) {
+                                generated_events.push({
+                                    id: null,
+                                    short_name: '---',
+                                    only_date: last_date.format('DD/MM/YYYY'),
+                                    training: null,
+                                    match: null
+                                })
+                            }
+                        }
+
+                    }
+
+                    $.each(generated_events, function( index, event ) {
                         let event_id = event['id'],
                             event_name = '',
                             event_short_name = event['short_name']
+                        let tr_html = ``
+
+                        let only_date = moment(event['only_date'], 'DD/MM/YYYY')
+                        let count_day = 0
+                        newMicrocycle.forEach(function(microcycle, i) {
+                            let date_with = moment(microcycle['startDate'], 'DD/MM/YYYY')
+                            let date_by = moment(microcycle['endDate'], 'DD/MM/YYYY')
+                            if(only_date.isBetween( date_with, date_by, undefined, '[]')){
+                                count_day = only_date.diff(date_with, "days")+1
+                                if(count_day < 3) count_day = '+'+count_day
+                                else{
+                                    count_day = only_date.diff(date_by, "days")
+                                    if(count_day==0) count_day = 'o'
+                                }
+                            }
+                        });
+
+                        tr_html += `<tr class="${event_id!=null ? 'hasEvent' : ''}" data-value="${event_id}">`
                         if('training' in event && event['training'] != null){
-                            if(event_class === 'trainingClass' && event['only_date'] === event_date) count_tr++
-                            event_name = 'tr'+count_tr
+                            num_tr = 1
+                            if(event_class === 'trainingClass' && event['only_date'] === event_date) num_tr++
+                            event_name = 'tr'+num_tr
                             event_class = 'trainingClass'
-                            count_tr = 1
+                            count_tr++
+
+                            tr_html += `
+                                <td>${count_tr}</td>
+                                <td>${event['only_date']}</td>
+                                <td><a href="/trainings/view/${event.training.event_id}" class="btn btn-sm btn-block btn-info py-0" data-id="${event.training.event_id}">${gettext('Training')+' '+num_tr}</a></td>
+                                <td>${count_day==0 ? '---' : count_day}</td>
+                                <td><i class="switch-favorites fa ${event.training.favourites ? 'fa-star':'fa-star-o'} aria-hidden="true"></i></td>
+                                <td>0</td>
+                                <td>0</td>
+                            `
                         } else if('match' in event && event['match'] != null){
-                            if(event_class.indexOf('matchClass') != -1 && event['only_date'] === event_date) count_m++
-                            event_name = 'm'+count_m
+                            event_name = 'm'+(event['match']['m_type']+1)
                             event_class = 'matchClass'+event['match']['m_type']
-                            count_m = 1
+                            count_m++
+                            count_tr = 0
+
+                            tr_html += `
+                                <td class="text-danger"><b>${count_m}</b></td>
+                                <td>${event['only_date']}</td>
+                                <td><a href="/matches/match?id=${event.match.event_id}" class="btn btn-sm btn-block ${event.match.m_type == 0 ?"btn-warning":"btn-success"} py-0" data-id="${event.match.event_id}">${gettext('Match')}</a></td>
+                                <td>${count_day==0 ? '---' : count_day}</td>
+                                <td>---</td>
+                                <td>---</td>
+                                <td>---</td>
+                            `
                         } else {
                             event_class = 'none'
+                            count_tr++
+                            tr_html += `
+                                    <td>${count_tr}</td>
+                                    <td>${event['only_date']}</td>
+                                    <td><a href="#" class="btn btn-sm btn-block btn-secondary py-0 disabled">${gettext('Recreation')}</a></td>
+                                    <td>${count_day==0 ? '---' : count_day}</td>
+                                    <td>---</td>
+                                    <td>---</td>
+                                    <td>---</td>
+                                `
                         }
+                        tr_html += `</tr>`
                         event_date = event['only_date']
                         newEvent.push({
                             id: event_id,
@@ -346,10 +498,11 @@ function generateNewCalendar(){
                             customClass: event_class,
                             customValue: event_id,
                             title: 'TEST',
-                            href: '#event_2_'+2,
+                            href: '#',
                             text: event_short_name
                         })
-                    }
+                        $('#events tbody').append(tr_html)
+                    })
                     //console.log(newEvent)
                 },
                 error: function(jqXHR, textStatus){
@@ -357,7 +510,25 @@ function generateNewCalendar(){
                     swal(gettext('Event save'), gettext('Error when action the event!'), "error");
                 },
                 complete: function () {
-                    $('.move_to_today').click()
+                    $('.page-loader-wrapper').fadeOut();
+
+                    $('#event_calendar').rescalendar({
+                        id: 'training_calendar',
+                        format: 'DD/MM/YYYY',
+                        jumpSize: middleDay-1,
+                        calSize: days,
+                        locale: 'ru',
+                        refDate: strDate,
+                        lang: {
+                            'today': gettext('Today'),
+                            'init_error': gettext('Failed to initialize'),
+                            'no_data_error' : gettext('No data was found to show')
+                        },
+                        data: newEvent,
+                        microcycles: newMicrocycle,
+                        dataKeyField: 'name',
+                        dataKeyValues: ['m2', 'm1', 'tr1', 'tr2']
+                    });
                 }
             })
         },
@@ -366,27 +537,8 @@ function generateNewCalendar(){
             swal(gettext('Event save'), gettext('Error when action the event!'), "error");
         },
         complete: function () {
-            $('#event_calendar').rescalendar({
-                id: 'training_calendar',
-                format: 'DD/MM/YYYY',
-                jumpSize: middleDay-1,
-                calSize: days,
-                locale: 'ru',
-                refDate: strDate,
-                lang: {
-                    'today': gettext('Today'),
-                    'init_error': gettext('Failed to initialize'),
-                    'no_data_error' : gettext('No data was found to show')
-                },
-                data: newEvent,
-                microcycles: newMicrocycle,
-                dataKeyField: 'name',
-                dataKeyValues: ['m1', 'm2', 'tr1', 'tr2']
-            });
         }
     })
-
-
 }
 
 function generateMicrocyclesTable(){
@@ -423,7 +575,8 @@ function generateMicrocyclesTable(){
 }
 
 function generateEventTable(){
-
+    let last_date = null
+    let last_event = ''
     events_table = $('#events').DataTable({
         language: {
             url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
@@ -437,6 +590,24 @@ function generateEventTable(){
         createdRow: function( row, data, dataIndex ) {
             $(row).attr('data-value', data.id)
             $(row).addClass('hasEvent')
+
+            console.log($(row).find('.btn').text())
+            if(last_date == null) {
+                last_date = moment(data['only_date'], 'DD/MM/YYYY')
+                if(data['training'] != null) last_event = 'training';
+                if(data['match'] != null) last_event = 'match';
+                return
+            }
+            let cur_date = moment(data['only_date'], 'DD/MM/YYYY')
+            let days = last_date.diff(cur_date, 'days')
+
+            if(days==0 && last_event != '') {
+                if(data[last_event]!=null){
+                    console.log(days)
+                    $(row).find('.btn').text($(row).find('.btn').text()+' 2')
+                }
+            }
+            last_date = cur_date
         },
         serverSide: true,
         processing: true,
@@ -461,7 +632,7 @@ function generateEventTable(){
                     to_date = moment(to_date_str, 'DD/MM/YYYY').format('YYYY-MM-DD')
                 }
 
-                if(!from_date_str && !to_date_str && today){
+                if(!from_date_str && !to_date_str){
                     from_date = moment(today, 'DD/MM/YYYY').add(-45, 'day').format('YYYY-MM-DD')
                     to_date = moment(today, 'DD/MM/YYYY').add(45, 'day').format('YYYY-MM-DD')
                 }
@@ -508,7 +679,7 @@ function generateEventTable(){
                             count_day = only_date.diff(date_by, "days")
                             if(count_day==0) count_day = 'o'
                         }
-                        console.log(count_day)
+                        //console.log(count_day)
                     }
                 });
                 if(type === 'display') {
@@ -585,8 +756,8 @@ $(function() {
                     let event_id = $(this).attr('data-value')
                     if(key === 'delete'){
                         window.console && console.log(event_id);
-                        ajax_event_action('DELETE', null, 'delete', event_id).done(function( data ) {
-                            if(events_table) events_table.ajax.reload()
+                        ajax_event_action('DELETE', null, 'delete', event_id).then(function( data ) {
+                            //if(events_table) events_table.ajax.reload()
                             generateNewCalendar()
                         })
                     } else if(key === 'edit'){
