@@ -78,8 +78,13 @@ $(window).on('load', function (){
     $('.move_to_today').text(moment().format('DD/MM/YYYY'))
     $('input.refDate').val(strDate);
 
-    generateNewCalendar()
-    generateMicrocyclesTable()
+    if($('#select-season').val()!='' && $('#select-team').val()!=''){
+        generateNewCalendar()
+        generateMicrocyclesTable()
+    } else {
+        swal(gettext('Warning!'), gettext('Choose a team and a season!'), "warning");
+    }
+
     //generateEventTable()
 
     $('.move_to_last_month').on('click', function () {
@@ -607,6 +612,7 @@ function generateNewCalendar(){
             swal(gettext('Event save'), gettext('Error when action the event!'), "error");
         },
         complete: function () {
+            $('.page-loader-wrapper').fadeOut();
         }
     })
 }
