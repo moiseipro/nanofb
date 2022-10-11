@@ -54,14 +54,14 @@ table.protocol-players > tbody > tr > td > .form-control {
 }
 
 .protocol-row.border-red-top {
-    border-top: 2px solid red;
+    border-top: 2px solid red !important;
 }
 .protocol-row.border-red-bottom {
-    border-bottom: 2px solid red;
+    border-bottom: 2px solid red !important;
 }
 .protocol-row.border-black-top {
-    border-top: 2px solid black;
+    border-top: 2px solid black !important;
 }
 .protocol-row.border-black-bottom {
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid black !important;
 }
