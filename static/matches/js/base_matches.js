@@ -30,17 +30,30 @@ function RenderProtocolInMatches(data) {
         let opponentPlayersHtml = "";
         for (ind in data) {
             let elem = data[ind];
+            let rowClasses = "";
+            if (elem.border_red == 1) {rowClasses += "border-red-top ";}
+            else if (elem.border_red == -1) {rowClasses += "border-red-bottom ";}
+            if (elem.border_black == 1) {rowClasses += "border-black-top ";}
+            else if (elem.border_black == -1) {rowClasses += "border-black-bottom ";}
             let tmpHtml = `
-                <tr class="protocol-row ${!elem.is_opponent ? 'row-blue' : 'row-red'}" data-id="${elem.id}">
+                <tr class="protocol-row ${!elem.is_opponent ? 'row-blue' : 'row-red'} ${rowClasses}" data-id="${elem.id}">
                     <td data-order="${!elem.is_opponent ? "a" : "b"}"></td>
                     <td class="text-center">
                         ${elem.p_num ? elem.p_num : '-'}
                     </td>
                     <td>
-                        ${elem.player_name ? elem.player_name : '-'}
-                        ${elem.status_full != "" ? `
-                            <span title="${elem.status_full}">[${elem.status_short}]</span>
-                        ` : ""}
+                        <div class="row mx-0 justify-content-between">
+                            <div class="col-9 px-0 text-left">
+                                ${elem.player_name ? elem.player_name : '-'}
+                            </div>
+                            <div class="col-3 px-0 text-right">
+                                ${elem.status_full != "" ? `
+                                    <span title="${elem.status_full}"> ${elem.status_short} </span>
+                                ` : ""}
+                                ${elem.is_goalkeeper ? `<span title="Вратарь"> [G.] </span>` : ''}
+                                ${elem.is_captain ? `<span title="Капитан"> [К] </span>` : ''}
+                            </div>
+                        </div>
                     </td>
                     <td class="text-center">
                         ${elem.minute_from ? elem.minute_from : '-'}

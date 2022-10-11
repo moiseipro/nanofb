@@ -35,6 +35,10 @@ function RenderMatchOne(data) {
 }
 
 function RenderProtocolInMatch(data) {
+    try {
+        $('#team_players').DataTable().clear().destroy();
+        $('#opponent_players').DataTable().clear().destroy();
+    } catch(e) {}
     $('#team_players').find('tbody').html('');
     $('#opponent_players').find('tbody').html('');
     if (Array.isArray(data)) {
@@ -47,17 +51,38 @@ function RenderProtocolInMatch(data) {
             if ($(protocolStatusesElem).find(`option[value="${elem.p_status}"]`).length > 0) {
                 $(protocolStatusesElem).find(`option[selected]`).removeAttr('selected');
                 $(protocolStatusesElem).find(`option[value="${elem.p_status}"]`).attr('selected', "");
+                if (elem.status_order != 1) {
+                    $(protocolStatusesElem).find('select').css('color', 'red');
+                }
             }
             protocolStatusesElem = $(protocolStatusesElem).html();
+            let rowClasses = "";
+            if (elem.border_red == 1) {rowClasses += "border-red-top ";}
+            else if (elem.border_red == -1) {rowClasses += "border-red-bottom ";}
+            if (elem.border_black == 1) {rowClasses += "border-black-top ";}
+            else if (elem.border_black == -1) {rowClasses += "border-black-bottom ";}
             let tmpHtml = `
-                <tr class="protocol-row" data-id="${elem.id}">
+                <tr class="protocol-row ${rowClasses}" data-id="${elem.id}">
                     <td>
                         ${protocolStatusesElem}
                     </td>
                     <td>
                         <input class="form-control form-control-sm" name="p_num" type="text" value="${elem.p_num ? elem.p_num : ''}" placeholder="" autocomplete="off">
                     </td>
-                    <td>${elem.player_name}</td>
+                    <td>
+                        <input class="form-control form-control-sm" type="checkbox" name="in_reserve" ${elem.in_reserve ? "checked": ""}>
+                    </td>
+                    <td>
+                        <div class="row mx-0 justify-content-between">
+                            <div class="col-10 px-0 text-left">
+                                ${elem.player_name}
+                            </div>
+                            <div class="col-2 px-0 text-right">
+                                ${elem.is_goalkeeper ? `<span title="Вратарь"> [G.] </span>` : ''}
+                                ${elem.is_captain ? `<span title="Капитан"> [К] </span>` : ''}
+                            </div>
+                        </div>
+                    </td>
                     <td>
                         <input class="form-control form-control-sm" name="minute_from" type="text" value="${elem.minute_from ? elem.minute_from : ''}" placeholder="" autocomplete="off">
                     </td>
@@ -101,8 +126,9 @@ function RenderProtocolInMatch(data) {
         }
         $('#team_players').find('tbody').html(teamPlayersHtml);
         $('#opponent_players').find('tbody').html(opponentPlayersHtml);
-        $('.row.players-content').find('.form-control').prop('disabled', true);
-        $('.card-body').find('.collapse-block').collapse('show');
+        let isView = $('#saveMatchAll').hasClass('d-none');
+        $('.row.players-content').find('.form-control').prop('disabled', isView);
+        $('.card-body').find('.collapse-block').addClass('d-block');
         let tableOptions = {
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
@@ -120,17 +146,15 @@ function RenderProtocolInMatch(data) {
             },
             "columnDefs": [
                 {"width": "20%", "targets": 0},
-                {"width": "28%", "targets": 2},
-                {"width": "5%", "targets": [1, 3, 4, 5, 6, 7, 8, 9, 10]},
-                {"width": "2%", "targets": [11, 12]},
+                {"width": "28%", "targets": 3},
+                {"width": "5%", "targets": [1, 4, 5, 6, 7, 8, 9, 10, 11]},
+                {"width": "2%", "targets": [2, 12, 13]},
             ]
         };
         $('#team_players').DataTable(tableOptions);
         $('#opponent_players').DataTable(tableOptions);
-        $('.card-body').find('.toggle-collapse').removeClass('active');
-        $('.card-body').find('.collapse-block').collapse('hide');
         setTimeout(() => {
-            $('.card-body').find('.toggle-collapse[data-target="#collapse-team"]').click();
+            $('.card-body').find('.collapse-block').removeClass('d-block');
         }, 500);
     }
 }
@@ -217,6 +241,60 @@ function AddOrDeletePlayersInProtocol(dataArr, matchId, toAdd = true) {
     });
 }
 
+function ChangePlayersProtocolOrder(isToUp = true, id) {
+    let visibleRows = $('.players-content').find('.protocol-row:visible');
+    let fRow = $('.players-content').find('.protocol-row.selected:visible').first();
+    if (fRow.length > 0 && visibleRows.length > 1) {
+        if (isToUp) {
+            let prevElem = $(fRow).prev();
+            if (prevElem.length > 0) {
+                $(prevElem).before(fRow);
+            } else {
+                prevElem = $(visibleRows).last();
+                $(prevElem).after(fRow);
+            }
+        } else {
+            let nextElem = $(fRow).next();
+            if (nextElem.length > 0) {
+                $(nextElem).after(fRow);
+            } else {
+                nextElem = $(visibleRows).first();
+                $(nextElem).before(fRow);
+            }
+        }
+        let protocols = [];
+        $('.players-content').find('.protocol-row:visible').each((ind, elem) => {
+            protocols.push($(elem).attr('data-id'));
+        });
+        let data = {
+            'edit_players_protocol_order': 1,
+            'protocols': protocols
+        };
+        console.log(data)
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: data,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "matches_api",
+            success: function (res) {
+                if (res.success) {
+                    LoadProtocolMatch(id, true);
+                } else {
+                    $('.page-loader-wrapper').fadeOut();
+                }
+            },
+            error: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+                console.log(res);
+            },
+            complete: function (res) {
+            }
+        });
+    }
+}
+
 
 
 $(function() {
@@ -297,10 +375,147 @@ $(function() {
         AddOrDeletePlayersInProtocol(protocols, searchParams.get('id'), false);
     });
 
+    $('#upPlayerInProtocol').on('click', (e) => {
+        ChangePlayersProtocolOrder(true, searchParams.get('id'));
+    });
+    $('#downPlayerInProtocol').on('click', (e) => {
+        ChangePlayersProtocolOrder(false, searchParams.get('id'));
+    });
+
+    $('#setCaptainToPlayer').on('click', (e) => {
+        let fRow = $('.players-content').find('.protocol-row.selected:visible').first();
+        if (fRow.length > 0) {
+            let protocolId = $(fRow).attr('data-id');
+            let data = {
+                'edit_players_protocol': 1,
+                'protocol_id': protocolId,
+                'key': "is_captain",
+            };
+            $('.page-loader-wrapper').fadeIn();
+            $.ajax({
+                headers:{"X-CSRFToken": csrftoken},
+                data: data,
+                type: 'POST', // GET или POST
+                dataType: 'json',
+                url: "matches_api",
+                success: function (res) {
+                    if (res.success) {
+                        LoadProtocolMatch(searchParams.get('id'), true);
+                    }
+                },
+                error: function (res) {
+                    console.log(res);
+                },
+                complete: function (res) {
+                    $('.page-loader-wrapper').fadeOut();
+                }
+            });
+        } else {
+            swal("Внимание!", "Выберите игрока из протокола.", "warning");
+        }
+    });
+    $('#setGoalKeeperToPlayer').on('click', (e) => {
+        let fRow = $('.players-content').find('.protocol-row.selected:visible').first();
+        if (fRow.length > 0) {
+            let protocolId = $(fRow).attr('data-id');
+            let data = {
+                'edit_players_protocol': 1,
+                'protocol_id': protocolId,
+                'key': "is_goalkeeper",
+            };
+            $('.page-loader-wrapper').fadeIn();
+            $.ajax({
+                headers:{"X-CSRFToken": csrftoken},
+                data: data,
+                type: 'POST', // GET или POST
+                dataType: 'json',
+                url: "matches_api",
+                success: function (res) {
+                    if (res.success) {
+                        LoadProtocolMatch(searchParams.get('id'), true);
+                    }
+                },
+                error: function (res) {
+                    console.log(res);
+                },
+                complete: function (res) {
+                    $('.page-loader-wrapper').fadeOut();
+                }
+            });
+        } else {
+            swal("Внимание!", "Выберите игрока из протокола.", "warning");
+        }
+    });
+
+    $('#setBlackBorder').on('click', (e) => {
+        let fRow = $('.players-content').find('.protocol-row.selected:visible').first();
+        if (fRow.length > 0) {
+            let protocolId = $(fRow).attr('data-id');
+            let data = {
+                'edit_players_protocol': 1,
+                'protocol_id': protocolId,
+                'key': "border_black",
+            };
+            $('.page-loader-wrapper').fadeIn();
+            $.ajax({
+                headers:{"X-CSRFToken": csrftoken},
+                data: data,
+                type: 'POST', // GET или POST
+                dataType: 'json',
+                url: "matches_api",
+                success: function (res) {
+                    if (res.success) {
+                        LoadProtocolMatch(searchParams.get('id'), true);
+                    }
+                },
+                error: function (res) {
+                    console.log(res);
+                },
+                complete: function (res) {
+                    $('.page-loader-wrapper').fadeOut();
+                }
+            });
+        } else {
+            swal("Внимание!", "Выберите игрока из протокола.", "warning");
+        }
+    });
+    $('#setRedBorder').on('click', (e) => {
+        let fRow = $('.players-content').find('.protocol-row.selected:visible').first();
+        if (fRow.length > 0) {
+            let protocolId = $(fRow).attr('data-id');
+            let data = {
+                'edit_players_protocol': 1,
+                'protocol_id': protocolId,
+                'key': "border_red",
+            };
+            $('.page-loader-wrapper').fadeIn();
+            $.ajax({
+                headers:{"X-CSRFToken": csrftoken},
+                data: data,
+                type: 'POST', // GET или POST
+                dataType: 'json',
+                url: "matches_api",
+                success: function (res) {
+                    if (res.success) {
+                        LoadProtocolMatch(searchParams.get('id'), true);
+                    }
+                },
+                error: function (res) {
+                    console.log(res);
+                },
+                complete: function (res) {
+                    $('.page-loader-wrapper').fadeOut();
+                }
+            });
+        } else {
+            swal("Внимание!", "Выберите игрока из протокола.", "warning");
+        }
+    });
+
     $('.protocol-players').on('change', '.form-control', (e) => {
         let protocolId = $(e.currentTarget).parent().parent().attr('data-id');
         let cKey = $(e.currentTarget).attr('name');
-        if (cKey == "like" || cKey == "dislike") {
+        if (cKey == "like" || cKey == "dislike" || cKey == "in_reserve") {
             $(e.currentTarget).val($(e.currentTarget).prop('checked') ? 1 : 0);
         }
         let data = {
@@ -319,6 +534,10 @@ $(function() {
             success: function (res) {
                 if (res.success) {
                     for (let key in res.data) {
+                        if (key == "p_status" || key == "in_reserve") {
+                            LoadProtocolMatch(searchParams.get('id'), true);
+                            break;
+                        }
                         $(e.currentTarget).parent().parent().find(`.form-control[name="${key}"]`).val(res.data[key] ? res.data[key] : "");
                         if (key == "like" || key == "dislike") {
                             $(e.currentTarget).parent().parent().find(`.form-control[name="${key}"]`).prop('checked', res.data[key] == 1);

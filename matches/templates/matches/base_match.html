@@ -56,14 +56,29 @@
                                                 Оппонент
                                             </button>
                                             <div class="btn-group players-load size-max-w-x mx-2 d-none" style="--w-max-x:70%;">
+                                                <button type="button" class="btn btn-sm btn-primary mx-1" id="upPlayerInProtocol" title="Переместить вверх">
+                                                    <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-primary mx-1" id="downPlayerInProtocol" title="Переместить вниз">
+                                                    <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                                                </button>
                                                 <button type="button" class="btn btn-sm btn-success mx-1" data-toggle="modal" data-target="#addPlayerInProtocolModal" title="Добавить игрока">
                                                     <i class="fa fa-plus" aria-hidden="true"></i>
                                                 </button>
                                                 <button type="button" class="btn btn-sm btn-danger mx-1" data-toggle="modal" data-target="#deletePlayerInProtocolModal" title="Удалить игрока">
                                                     <i class="fa fa-minus" aria-hidden="true"></i>
                                                 </button>
-                                                <button type="button" class="btn btn-sm btn-warning mx-1" title="Назначить выбранного игрока капитаном">
+                                                <button type="button" class="btn btn-sm btn-warning mx-1" id="setCaptainToPlayer" title="Назначить выбранного игрока капитаном">
                                                     K
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-warning mx-1" id="setGoalKeeperToPlayer" title="Назначить выбранного игрока вратарём">
+                                                    G.
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-light mx-1" id="setBlackBorder" title="Установить черту в списке (чёрный)">
+                                                    <i class="fa fa-table" aria-hidden="true" style="color: rgb(57, 57, 57);"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-light mx-1" id="setRedBorder" title="Установить черту в списке (красный)">
+                                                    <i class="fa fa-table" aria-hidden="true" style="color: rgb(255, 50, 50);"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -76,6 +91,7 @@
                                                         <tr>
                                                             <th class="text-center"></th>
                                                             <th class="text-center">№</th>
+                                                            <th class="text-center" title="В запасе">Зп.</th>
                                                             <th class="text-center"></th>
                                                             <th class="text-center">с</th>
                                                             <th class="text-center">по</th>
@@ -101,6 +117,7 @@
                                                         <tr>
                                                             <th class="text-center"></th>
                                                             <th class="text-center">№</th>
+                                                            <th class="text-center" title="В запасе">Зп.</th>
                                                             <th class="text-center"></th>
                                                             <th class="text-center">с</th>
                                                             <th class="text-center">по</th>
@@ -121,9 +138,13 @@
                                         </div>
                                         <div class="col-12 d-none">
                                             <select class="form-control form-control-sm" id="protocolStatuses">
-                                                <option value="" selected="">---</option>
+                                                <option value="" style="color:red;" selected="">---</option>
                                                 {% for elem in refs.player_protocol_status %}
-                                                    <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                    {% if elem.order == 1 %}
+                                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                    {% else %}
+                                                        <option value="{{ elem.id }}" style="color:red;">{{ elem.title }}</option>
+                                                    {% endif %}
                                                 {% endfor %}
                                             </select>
                                         </div>

@@ -117,7 +117,10 @@
                                                         {% endif %}
                                                     </td>
                                                     <td class="text-center">
-                                                        {{ match.goals }}:{{ match.o_goals }} ({{ match.penalty }}:{{ match.o_penalty }})
+                                                        {{ match.goals }}:{{ match.o_goals }}
+                                                        {% if match.penalty > 0 or match.o_penalty > 0 %}
+                                                            ({{ match.penalty }}:{{ match.o_penalty }})
+                                                        {% endif %}
                                                     </td>
                                                     <td class="text-center">{{ match.opponent }}</td>
                                                     <td class="text-center">
