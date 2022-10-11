@@ -153,7 +153,8 @@ def get_protocol_status(request, elem):
             res["full"] = elem.translation_names[request.LANGUAGE_CODE]
         else:
             res["full"] = elem.translation_names[request.LANG_CODE_DEFAULT]
-    res["short"] = elem.short_name
+    if elem and elem.short_name:
+        res["short"] = elem.short_name
     return res
 
 
