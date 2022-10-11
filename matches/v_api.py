@@ -153,7 +153,8 @@ def get_protocol_status(request, elem):
             res["full"] = elem.translation_names[request.LANGUAGE_CODE]
         else:
             res["full"] = elem.translation_names[request.LANG_CODE_DEFAULT]
-        res["short"] = res["full"][:1]
+    if elem and elem.short_name:
+        res["short"] = elem.short_name
     return res
 
 
@@ -269,28 +270,55 @@ def POST_edit_players_protocol(request, cur_user):
     except:
         pass
     c_key = request.POST.get("key", "")
+    keys_with_values = ['minute_from', 'minute_to', 'goal', 'penalty', 'p_pass', 'yellow_card', 'red_card', 'estimation', 'like', 'dislike']
     try:
         update_dict = {
             f'{c_key}': c_value
         }
-        if c_key == "dislike" and c_value == 1:
+        if c_key in keys_with_values:
+            f_protocol = UserProtocol.objects.filter(id=protocol_id)
+            if f_protocol.exists() and f_protocol[0].id != None:
+                # p_status.order == 1 -> Участвовал
+                if f_protocol[0].p_status and f_protocol[0].p_status.order != 1:
+                    c_value = None
+            if c_value and c_value < 0:
+                c_value = None
+            update_dict[c_key] = c_value
+        elif c_key == "dislike" and c_value == 1:
             update_dict['like'] = 0
-        if c_key == "like" and c_value == 1:
+        elif c_key == "like" and c_value == 1:
             update_dict['dislike'] = 0
-        print(update_dict)
-        if c_key == "status":
+        elif c_key == "status":
             c_status_id = -1
             try:
                 c_status_id = int(c_value)
             except:
                 pass
             f_status = PlayerProtocolStatus.objects.filter(id=c_status_id)
+            is_reset_values = True
             if f_status.exists() and f_status[0].id != None:
+                is_reset_values = f_status[0].order != 1
                 update_dict = {'p_status': f_status[0].id}
             else:
                 update_dict = {'p_status': None}
+            if is_reset_values:
+                for t_key in keys_with_values:
+                    if t_key != "dislike" and t_key != "like":
+                        update_dict[t_key] = None
+        elif c_key == "is_captain" or c_key == "is_goalkeeper":
+            f_protocol = UserProtocol.objects.filter(id=protocol_id)
+            if f_protocol.exists() and f_protocol[0].id != None:
+                t_val = getattr(f_protocol[0], c_key)
+                update_dict[c_key] = not t_val
+        elif c_key == "border_black" or c_key == "border_red":
+            f_protocol = UserProtocol.objects.filter(id=protocol_id)
+            if f_protocol.exists() and f_protocol[0].id != None:
+                t_val = getattr(f_protocol[0], c_key) + 1
+                t_val = -1 if t_val > 1 else t_val
+                update_dict[c_key] = t_val
         UserProtocol.objects.filter(id=protocol_id).update(**update_dict)
-    except:
+    except Exception as e:
+        print(e)
         return JsonResponse({"err": "Can't edit match protocol.", "success": False}, status=400)
     return JsonResponse({"data": update_dict, "success": True}, status=200)
 
@@ -331,10 +359,16 @@ def POST_add_delete_players_protocol(request, cur_user, to_add = True):
             f_player = UserPlayer.objects.filter(id=pl_id, user=cur_user, team=team_id)
             f_match = UserMatch.objects.filter(event_id=match_id)
             if f_player.exists() and f_player[0].id != None and f_match.exists() and f_match[0].event_id != None:
+                f_protocol_status = None
+                try:
+                    f_protocol_status = PlayerProtocolStatus.objects.filter(order=1)[0]
+                except:
+                    pass
                 protocol, created = UserProtocol.objects.get_or_create(match=f_match[0], player=f_player[0])
                 if created:
                     try:
                         protocol.is_opponent = is_opponent
+                        protocol.p_status = f_protocol_status
                         protocol.save()
                         res_data.append(f"Created new protocol with id: {protocol.id}")
                     except:
@@ -358,6 +392,28 @@ def POST_add_delete_players_protocol(request, cur_user, to_add = True):
         status = 400
         res_data = "RESULT IS EMPTY."
     return JsonResponse({"data": res_data, "success": is_success}, status=status)
+
+
+def POST_edit_players_protocol_order(request, cur_user):
+    ids_data = request.POST.getlist("protocols[]", [])
+    temp_res_arr = []
+    for c_ind in range(len(ids_data)):
+        t_id = -1
+        t_order = c_ind + 1
+        try:
+            t_id = int(ids_data[c_ind])
+        except:
+            pass
+        found_protocol = UserProtocol.objects.get(id=t_id)
+        if found_protocol and found_protocol.id != None:
+            found_protocol.order = t_order
+            try:
+                found_protocol.save()
+                temp_res_arr.append(f'Folder [{found_protocol.id}] is order changed: {t_order}')
+            except Exception as e:
+                temp_res_arr.append(f'Folder [{found_protocol.id}] -> ERROR / Not access or another reason')
+    res_data = {'res_arr': temp_res_arr, 'type': "change_order"}
+    return JsonResponse({"data": res_data, "success": True}, status=200)
 
 
 
@@ -405,6 +461,7 @@ def GET_get_match_protocol(request, cur_user, cur_team):
             tmp_status = get_protocol_status(request, protocol_elem.p_status)
             protocol_dict['status_full'] = tmp_status['full']
             protocol_dict['status_short'] = tmp_status['short']
+            protocol_dict['status_order'] = protocol_elem.p_status.order if protocol_elem.p_status else -1
             res_data.append(protocol_dict)
         return JsonResponse({"data": res_data, "success": True}, status=200)
     return JsonResponse({"errors": "Match protocol not found.", "success": False}, status=400)

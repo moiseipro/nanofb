@@ -53,4 +53,15 @@ table.protocol-players > tbody > tr > td > .form-control {
     background-color: rgba(230, 110, 40, 0.05);
 }
 
-
+.protocol-row.border-red-top {
+    border-top: 2px solid red !important;
+}
+.protocol-row.border-red-bottom {
+    border-bottom: 2px solid red !important;
+}
+.protocol-row.border-black-top {
+    border-top: 2px solid black !important;
+}
+.protocol-row.border-black-bottom {
+    border-bottom: 2px solid black !important;
+}

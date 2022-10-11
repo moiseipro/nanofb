@@ -1,6 +1,4 @@
 from datetime import timedelta
-from email.policy import default
-from statistics import mode
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.translation import gettext_lazy as _
@@ -129,6 +127,7 @@ class ClubMatch(AbstractMatch):
 
 
 class AbstractProtocol(models.Model):
+    order = models.IntegerField(default=0)
     is_opponent = models.BooleanField(default=False)
     p_num = models.SmallIntegerField(null=True, blank=True)
     minute_from = models.SmallIntegerField(null=True, blank=True)
@@ -142,6 +141,11 @@ class AbstractProtocol(models.Model):
     like = models.BooleanField(default=False)
     dislike = models.BooleanField(default=False)
     p_status = models.ForeignKey(PlayerProtocolStatus, on_delete=models.SET_NULL, null=True, blank=True)
+    in_reserve = models.BooleanField(default=False)
+    is_captain = models.BooleanField(default=False)
+    is_goalkeeper = models.BooleanField(default=False)
+    border_red = models.SmallIntegerField(default=0)
+    border_black = models.SmallIntegerField(default=0)
 
     objects = models.Manager()
     class Meta:
@@ -153,6 +157,7 @@ class UserProtocol(AbstractProtocol):
     player = models.ForeignKey(UserPlayer, on_delete=models.CASCADE)
     class Meta:
         abstract = False
+        ordering = ['order', 'player__surname', 'player__name']
 
 
 class ClubProtocol(AbstractProtocol):
@@ -160,4 +165,5 @@ class ClubProtocol(AbstractProtocol):
     player = models.ForeignKey(ClubPlayer, on_delete=models.CASCADE)
     class Meta:
         abstract = False
+        ordering = ['order', 'player__surname', 'player__name']
 
