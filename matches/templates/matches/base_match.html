@@ -141,7 +141,7 @@
                                                 <option value="" style="color:red;" selected="">---</option>
                                                 {% for elem in refs.player_protocol_status %}
                                                     {% if elem.order == 1 %}
-                                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                        <option value="{{ elem.id }}" style="color:black;">{{ elem.title }}</option>
                                                     {% else %}
                                                         <option value="{{ elem.id }}" style="color:red;">{{ elem.title }}</option>
                                                     {% endif %}
