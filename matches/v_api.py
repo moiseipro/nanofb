@@ -313,8 +313,8 @@ def POST_edit_players_protocol(request, cur_user):
         elif c_key == "border_black" or c_key == "border_red":
             f_protocol = UserProtocol.objects.filter(id=protocol_id)
             if f_protocol.exists() and f_protocol[0].id != None:
-                t_val = getattr(f_protocol[0], c_key) + 1
-                t_val = -1 if t_val > 1 else t_val
+                t_val = getattr(f_protocol[0], c_key)
+                t_val = 1 if t_val == 0 else 0
                 update_dict[c_key] = t_val
         UserProtocol.objects.filter(id=protocol_id).update(**update_dict)
     except Exception as e:

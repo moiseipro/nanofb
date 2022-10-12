@@ -31,10 +31,8 @@ function RenderProtocolInMatches(data) {
         for (ind in data) {
             let elem = data[ind];
             let rowClasses = "";
-            if (elem.border_red == 1) {rowClasses += "border-red-top ";}
-            else if (elem.border_red == -1) {rowClasses += "border-red-bottom ";}
-            if (elem.border_black == 1) {rowClasses += "border-black-top ";}
-            else if (elem.border_black == -1) {rowClasses += "border-black-bottom ";}
+            if (elem.border_red == 1) {rowClasses += "border-red-bottom ";}
+            if (elem.border_black == 1) {rowClasses += "border-black-bottom ";}
             let tmpHtml = `
                 <tr class="protocol-row ${!elem.is_opponent ? 'row-blue' : 'row-red'} ${rowClasses}" data-id="${elem.id}">
                     <td data-order="${!elem.is_opponent ? "a" : "b"}"></td>
@@ -47,13 +45,13 @@ function RenderProtocolInMatches(data) {
                                 ${elem.player_name ? elem.player_name : '-'}
                             </div>
                             <div class="col-3 px-0 text-right">
-                                ${elem.status_full != "" ? `
-                                    <span title="${elem.status_full}"> ${elem.status_short} </span>
-                                ` : ""}
                                 ${elem.is_goalkeeper ? `<span title="Вратарь"> [G.] </span>` : ''}
                                 ${elem.is_captain ? `<span title="Капитан"> [К] </span>` : ''}
                             </div>
                         </div>
+                    </td>
+                    <td class="text-center">
+                        <span title="${elem.status_full}">${elem.status_short}</span>
                     </td>
                     <td class="text-center">
                         ${elem.minute_from ? elem.minute_from : '-'}
@@ -92,8 +90,8 @@ function RenderProtocolInMatches(data) {
             ${opponentPlayersHtml}
         `);
     }
-    protocol_table = $('#protocol').DataTable(protocol_table_options);
-    protocol_table.draw();
+    // protocol_table = $('#protocol').DataTable(protocol_table_options);
+    // protocol_table.draw();
 }
 
 

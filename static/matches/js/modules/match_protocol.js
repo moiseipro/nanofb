@@ -1,4 +1,4 @@
-function LoadProtocolMatch(id, isForMatch = true) {
+function LoadProtocolMatch(id, isForMatch = true, selectedRowId = null) {
     if (id != null && id != undefined) {
         let data = {'get_match_protocol': 1, 'id': id};
         let resultData = [];
@@ -19,7 +19,7 @@ function LoadProtocolMatch(id, isForMatch = true) {
             },
             complete: function (res) {
                 if (isForMatch) {
-                    RenderProtocolInMatch(resultData);
+                    RenderProtocolInMatch(resultData, selectedRowId);
                 } else {
                     RenderProtocolInMatches(resultData);
                 }

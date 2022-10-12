@@ -141,7 +141,6 @@ class AbstractProtocol(models.Model):
     like = models.BooleanField(default=False)
     dislike = models.BooleanField(default=False)
     p_status = models.ForeignKey(PlayerProtocolStatus, on_delete=models.SET_NULL, null=True, blank=True)
-    in_reserve = models.BooleanField(default=False)
     is_captain = models.BooleanField(default=False)
     is_goalkeeper = models.BooleanField(default=False)
     border_red = models.SmallIntegerField(default=0)

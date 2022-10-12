@@ -34,7 +34,7 @@ function RenderMatchOne(data) {
     $('.card-body').find('.toggle-collapse[data-target="#collapse-opponent"]').text(data.opponent_name);
 }
 
-function RenderProtocolInMatch(data) {
+function RenderProtocolInMatch(data, selectedRow = -1) {
     try {
         $('#team_players').DataTable().clear().destroy();
         $('#opponent_players').DataTable().clear().destroy();
@@ -57,10 +57,8 @@ function RenderProtocolInMatch(data) {
             }
             protocolStatusesElem = $(protocolStatusesElem).html();
             let rowClasses = "";
-            if (elem.border_red == 1) {rowClasses += "border-red-top ";}
-            else if (elem.border_red == -1) {rowClasses += "border-red-bottom ";}
-            if (elem.border_black == 1) {rowClasses += "border-black-top ";}
-            else if (elem.border_black == -1) {rowClasses += "border-black-bottom ";}
+            if (elem.border_red == 1) {rowClasses += "border-red-bottom ";}
+            if (elem.border_black == 1) {rowClasses += "border-black-bottom ";}
             let tmpHtml = `
                 <tr class="protocol-row ${rowClasses}" data-id="${elem.id}">
                     <td>
@@ -68,9 +66,6 @@ function RenderProtocolInMatch(data) {
                     </td>
                     <td>
                         <input class="form-control form-control-sm" name="p_num" type="text" value="${elem.p_num ? elem.p_num : ''}" placeholder="" autocomplete="off">
-                    </td>
-                    <td>
-                        <input class="form-control form-control-sm" type="checkbox" name="in_reserve" ${elem.in_reserve ? "checked": ""}>
                     </td>
                     <td>
                         <div class="row mx-0 justify-content-between">
@@ -146,13 +141,14 @@ function RenderProtocolInMatch(data) {
             },
             "columnDefs": [
                 {"width": "20%", "targets": 0},
-                {"width": "28%", "targets": 3},
-                {"width": "5%", "targets": [1, 4, 5, 6, 7, 8, 9, 10, 11]},
-                {"width": "2%", "targets": [2, 12, 13]},
+                {"width": "28%", "targets": 2},
+                {"width": "5%", "targets": [1, 3, 4, 5, 6, 7, 8, 9, 10]},
+                {"width": "2%", "targets": [11, 12]},
             ]
         };
         $('#team_players').DataTable(tableOptions);
         $('#opponent_players').DataTable(tableOptions);
+        $('.players-content').find(`tr.protocol-row[data-id="${selectedRow}"]`).addClass('selected');
         setTimeout(() => {
             $('.card-body').find('.collapse-block').removeClass('d-block');
         }, 500);
@@ -244,6 +240,7 @@ function AddOrDeletePlayersInProtocol(dataArr, matchId, toAdd = true) {
 function ChangePlayersProtocolOrder(isToUp = true, id) {
     let visibleRows = $('.players-content').find('.protocol-row:visible');
     let fRow = $('.players-content').find('.protocol-row.selected:visible').first();
+    let selectedRowId = $(fRow).attr('data-id');
     if (fRow.length > 0 && visibleRows.length > 1) {
         if (isToUp) {
             let prevElem = $(fRow).prev();
@@ -270,7 +267,6 @@ function ChangePlayersProtocolOrder(isToUp = true, id) {
             'edit_players_protocol_order': 1,
             'protocols': protocols
         };
-        console.log(data)
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
             headers:{"X-CSRFToken": csrftoken},
@@ -280,7 +276,7 @@ function ChangePlayersProtocolOrder(isToUp = true, id) {
             url: "matches_api",
             success: function (res) {
                 if (res.success) {
-                    LoadProtocolMatch(id, true);
+                    LoadProtocolMatch(id, true, selectedRowId);
                 } else {
                     $('.page-loader-wrapper').fadeOut();
                 }
@@ -400,7 +396,7 @@ $(function() {
                 url: "matches_api",
                 success: function (res) {
                     if (res.success) {
-                        LoadProtocolMatch(searchParams.get('id'), true);
+                        LoadProtocolMatch(searchParams.get('id'), true, protocolId);
                     }
                 },
                 error: function (res) {
@@ -432,7 +428,7 @@ $(function() {
                 url: "matches_api",
                 success: function (res) {
                     if (res.success) {
-                        LoadProtocolMatch(searchParams.get('id'), true);
+                        LoadProtocolMatch(searchParams.get('id'), true, protocolId);
                     }
                 },
                 error: function (res) {
@@ -465,7 +461,7 @@ $(function() {
                 url: "matches_api",
                 success: function (res) {
                     if (res.success) {
-                        LoadProtocolMatch(searchParams.get('id'), true);
+                        LoadProtocolMatch(searchParams.get('id'), true, protocolId);
                     }
                 },
                 error: function (res) {
@@ -497,7 +493,7 @@ $(function() {
                 url: "matches_api",
                 success: function (res) {
                     if (res.success) {
-                        LoadProtocolMatch(searchParams.get('id'), true);
+                        LoadProtocolMatch(searchParams.get('id'), true, protocolId);
                     }
                 },
                 error: function (res) {
@@ -515,7 +511,7 @@ $(function() {
     $('.protocol-players').on('change', '.form-control', (e) => {
         let protocolId = $(e.currentTarget).parent().parent().attr('data-id');
         let cKey = $(e.currentTarget).attr('name');
-        if (cKey == "like" || cKey == "dislike" || cKey == "in_reserve") {
+        if (cKey == "like" || cKey == "dislike") {
             $(e.currentTarget).val($(e.currentTarget).prop('checked') ? 1 : 0);
         }
         let data = {
@@ -534,7 +530,7 @@ $(function() {
             success: function (res) {
                 if (res.success) {
                     for (let key in res.data) {
-                        if (key == "p_status" || key == "in_reserve") {
+                        if (key == "p_status") {
                             LoadProtocolMatch(searchParams.get('id'), true);
                             break;
                         }
