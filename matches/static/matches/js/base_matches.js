@@ -90,8 +90,8 @@ function RenderProtocolInMatches(data) {
             ${opponentPlayersHtml}
         `);
     }
-    // protocol_table = $('#protocol').DataTable(protocol_table_options);
-    // protocol_table.draw();
+    protocol_table = $('#protocol').DataTable(protocol_table_options);
+    protocol_table.draw();
 }
 
 
