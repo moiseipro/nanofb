@@ -13,8 +13,8 @@ function LoadMatchEditModal(id) {
                 for (key in res.data) {
                     $('#matchEditModal').find(`.form-control[name="${key}"]`).val(res.data[key]);
                 }
-                $('#matchEditModal').find('.form-control[name="opponent_name"]').prop('disabled', true);
-                $('#matchEditModal').find('.form-control[name="opponent_team"]').prop('disabled', true);
+                $('#matchEditModal').find('.form-control[name="opponent_name"]').prop('disabled', false);
+                $('#matchEditModal').find('.form-control[name="opponent_team"]').prop('disabled', false);
                 $('#matchEditModal').find('.add-title').toggleClass('d-none', true);
                 $('#matchEditModal').find('.edit-title').toggleClass('d-none', false);
             }
@@ -47,8 +47,8 @@ function RenderMatchEditModal(id = null, data = null) {
         for (key in data) {
             $('#matchEditModal').find(`.form-control[name="${key}"]`).val(data[key]);
         }
-        $('#matchEditModal').find('.form-control[name="opponent_name"]').prop('disabled', true);
-        $('#matchEditModal').find('.form-control[name="opponent_team"]').prop('disabled', true);
+        $('#matchEditModal').find('.form-control[name="opponent_name"]').prop('disabled', false);
+        $('#matchEditModal').find('.form-control[name="opponent_team"]').prop('disabled', false);
         $('#matchEditModal').find('.add-title').toggleClass('d-none', true);
         $('#matchEditModal').find('.edit-title').toggleClass('d-none', false);
     }
