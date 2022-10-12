@@ -239,6 +239,25 @@ $(window).on('load', function (){
         let parentId = $(e.currentTarget).parent().parent().attr('id');
         open_graphics_modal('carouselSchema')
     });
+    
+    //Проставить все упражнения у группы
+    $('#player-protocol-table').on('click', '.all-player-check', function () {
+        let group_name = $(this).attr('data-group')
+        console.log($(this).is(':checked'))
+        if($(this).is(':checked')){
+            $('.select-all-group[data-group="'+group_name+'"]:not(:checked)').click()
+        } else {
+            $('.select-all-group[data-group="'+group_name+'"]:checked').click()
+        }
+    })
+    $('#player-protocol-table').on('click', '.select-all-group', function () {
+        let group_name = $(this).attr('data-group')
+        if($(this).is(':checked')){
+            $(this).closest('.player_row').find('.protocol-check-player[name="'+group_name+'"]:empty').click()
+        } else {
+            $(this).closest('.player_row').find('.protocol-check-player[name="'+group_name+'"] :is(.fa-check)').click()
+        }
+    })
 
     generate_exercises_module_data()
     render_exercises_training(id)
@@ -299,7 +318,7 @@ function render_protocol_training(training_id = null) {
             for (let j = 0; j < exs_group[i].ids.length; j++) {
                 if(j == 0){
                     protocol_header2 += `
-                    <th class="p-0 text-center align-middle border" width="40"><input type="checkbox" class="all-player-check" data-group="group_${i+1}" style="width: 25px; height: 25px;"></th>
+                    <th class="p-0 text-center align-middle border" width="40"><input type="checkbox" class="all-player-check edit-input" data-group="group_${i+1}" style="width: 25px; height: 25px;" ${!edit_mode ? 'disabled' : ''}></th>
                     `
                 }
                 protocol_header2 += `<th title="${(get_cur_lang() in exs_group[i].ids[j].exercise_name) ? exs_group[i].ids[j].exercise_name[get_cur_lang()] : Object.values(exs_group[i].ids[j].exercise_name)[0]}" class="p-0 text-center align-middle border">${j+1}</th>`
@@ -355,7 +374,7 @@ function render_protocol_training(training_id = null) {
                         for (let j = 0; j < exs_group[i].ids.length; j++) {
                             if(j == 0){
                                 player_row += `
-                                <td class="p-0 text-center align-middle" width="40"><input type="checkbox" class="select-all-group" data-group="group_${i+1}" style="width: 25px; height: 25px;"></td>
+                                <td class="p-0 text-center align-middle" width="40"><input type="checkbox" class="select-all-group edit-input" data-group="group_${i+1}" style="width: 25px; height: 25px;" ${!edit_mode ? 'disabled' : ''}></td>
                                 `
                             }
                             player_row += `<td name="group_${i+1}" data-num="${j}" data-exs-id="${exs_group[i].ids[j].id}" width="40" class="p-0 text-center align-middle protocol-check-player edit-custom-input ${!edit_mode ? 'disabled' : ''}">${$.inArray(exs_group[i].ids[j].id, player.training_exercise_check) != -1 ? '<i class="fa fa-check" aria-hidden="true"></i>' : ''}</td>`
@@ -365,9 +384,23 @@ function render_protocol_training(training_id = null) {
                     player_row += `</tr>`
                     $('#player-protocol-table').append(player_row)
                     $('#player-protocol-table .player_row[data-id="'+player.id+'"] select[name="status"]').val(player.status)
+
+                    for (let i = 0; i < exs_group.length; i++) {
+                        let all_select_check = $('#player-protocol-table .all-player-check[data-group="group_'+(i+1)+'"]')
+                        $('#player-protocol-table .player_row').each(function () {
+                            let select_check = $(this).find('.select-all-group[data-group="group_'+(i+1)+'"]')
+                            select_check.prop('checked', true)
+                            all_select_check.prop('checked', true)
+                            if($(this).find('[name="group_'+(i+1)+'"]').is(':empty')){
+                                select_check.prop('checked', false)
+                            }
+                        })
+                        if($('#player-protocol-table [name="group_'+(i+1)+'"]').is(':empty')){
+                            all_select_check.prop('checked', false)
+                        }
+                    }
+
                 })
-
-
             })
         })
     })
@@ -410,11 +443,11 @@ function render_exercises_training(training_id = null, group = null) {
                     </a>
                 </div>
                 <div class="row text-center">
-                    <div class="col-8 pr-0"><div class="w-100 border text-truncate">${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}</div></div>
-                    <div class="col-1 px-0 edit-button ${!edit_mode ? 'd-none' : ''}">
-                        <button type="button" class="btn btn-sm btn-block btn-warning rounded-0 py-0 h-100 float-right add-exercise-additional"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                    </div>
+                    <div class="col-9 pr-0"><div class="w-100 border text-truncate">${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}</div></div>
                     <div class="col pl-0"><div class="w-100 border">${exercise.duration}</div></div>
+                    <div class="col-1 pl-0 edit-button ${!edit_mode ? 'd-none' : ''}">
+                        <button type="button" class="btn btn-sm btn-block btn-warning rounded-0 p-0 h-100 float-right add-exercise-additional"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-12 additional-data-block">
@@ -430,7 +463,7 @@ function render_exercises_training(training_id = null, group = null) {
             <div id="order-${exercise.id}" class="row border-bottom exercise-row" data-id="${exercise.id}">
                 <div class="col pr-0 text-truncate" title="${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}">${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}</div>
                 <div class="col-sm-12 col-md-4 pl-0">
-                    <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 h-100 float-right delete-exercise edit-button ${!edit_mode ? 'd-none' : ''}"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                    <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 px-1 h-100 float-right delete-exercise edit-button ${!edit_mode ? 'd-none' : ''}"><i class="fa fa-trash" aria-hidden="true"></i></button>
                     <input type="number" name="duration" min="0" max="999" class="form-control form-control-sm rounded-0 p-0 h-auto text-center float-right edit-input" value="${exercise.duration}" style="width: 30px" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
                 </div>
             </div>`
@@ -439,6 +472,7 @@ function render_exercises_training(training_id = null, group = null) {
 
         $('.visual-block .group-block[data-group="'+send_data.group+'"]').html(exs_html).sortable({
             disabled: !edit_mode,
+            placeholder: "ui-state-highlight",
             scroll: false,
             stop: function( event, ui ) {
                 let ids = $(this).sortable( "serialize", { key: 'order[]' } );
@@ -481,7 +515,7 @@ function render_exercises_additional_data(training_exercise_id = null) {
                 `
             })
             select = `
-                <select class="select custom-select p-0 edit-input text-center" name="additional_id" tabindex="-1" aria-hidden="true" ${!edit_mode ? 'disabled' : ''} style="height: 25px;">
+                <select class="select custom-select p-0 edit-input text-center" name="additional_id" tabindex="-1" aria-hidden="true" ${!edit_mode ? 'disabled' : ''} style="height: 25px; color: black !important;">
                     ${ option_html }
                 </select>
             `
@@ -494,11 +528,11 @@ function render_exercises_additional_data(training_exercise_id = null) {
                     <div class="col pr-0">
                         ${select}
                     </div>
-                    <div class="col-sm-12 col-md-4 px-0">
-                        <input type="text" name="note" class="form-control form-control-sm rounded-0 w-100 py-0 h-auto text-center edit-input" value="${additional.note ? additional.note:''}" ${!edit_mode ? 'disabled' : ''}>
+                    <div class="col pl-0">
+                        <input type="text" name="note" class="form-control form-control-sm rounded-0 w-100 p-0 h-auto text-center edit-input" value="${additional.note ? additional.note:''}" ${!edit_mode ? 'disabled' : ''}>
                     </div>
-                    <div class="col-sm-12 col-md-3 pl-0">
-                        <button type="button" class="btn btn-sm btn-block btn-danger rounded-0 py-0 h-100 float-right edit-input delete-exercise-additional" ${!edit_mode ? 'disabled' : ''}><i class="fa fa-trash" aria-hidden="true"></i></button>
+                    <div class="col-sm-12 col-md-1 pl-0 edit-button ${!edit_mode ? 'd-none' : ''}">
+                        <button type="button" class="btn btn-sm btn-block btn-danger rounded-0 p-0 h-100 float-right edit-input delete-exercise-additional" ${!edit_mode ? 'disabled' : ''}><i class="fa fa-trash" aria-hidden="true"></i></button>
                     </div>
                 </div>
                 `

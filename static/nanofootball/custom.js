@@ -71,6 +71,7 @@ function toggle_edit_mode(toggle = null){
     $('.edit-button').toggleClass('d-none', !edit_mode)
     $('.edit-custom-input').toggleClass('disabled', !edit_mode)
     $('.view-button').toggleClass('d-none', edit_mode)
+    $('.row')
     if(edit_mode) $('.sortable-edit.ui-sortable-disabled').sortable("enable")
     else $('.sortable-edit.ui-sortable').sortable("disable")
 

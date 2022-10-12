@@ -72,10 +72,15 @@ class UserTrainingSerializer(serializers.ModelSerializer):
         source="usertrainingexercise_set",
         many=True
     )
+    protocol_info = UserTrainingProtocolSerializer(
+        read_only=True,
+        source="usertrainingprotocol_set",
+        many=True
+    )
 
     class Meta:
         model = UserTraining
         fields = [
-            'event_id', 'favourites', 'team_name', 'exercises_info'
+            'event_id', 'favourites', 'team_name', 'exercises_info', 'protocol_info'
         ]
         datatables_always_serialize = ('event_id',)

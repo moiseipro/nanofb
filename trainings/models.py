@@ -208,3 +208,6 @@ class UserTrainingProtocol(AbstractTrainingProtocol):
         UserTrainingExercise,
         blank=True
     )
+
+    class Meta:
+        ordering = ['status__order']

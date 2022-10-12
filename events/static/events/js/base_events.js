@@ -54,24 +54,6 @@ var newMicrocycle = [
         href: '#event_2_'+2,
     }
 ];
-// var minDate, maxDate
-// $.fn.dataTable.ext.search.push(
-//     function( settings, data, dataIndex ) {
-//         var min = minDate.val();
-//         var max = maxDate.val();
-//         var date = new Date( data[4] );
-//
-//         if (
-//             ( min === null && max === null ) ||
-//             ( min === null && date <= max ) ||
-//             ( min <= date   && max === null ) ||
-//             ( min <= date   && date <= max )
-//         ) {
-//             return true;
-//         }
-//         return false;
-//     }
-// );
 
 $(window).on('load', function (){
     $('#toggle_btn').click()
@@ -205,9 +187,7 @@ $(window).on('load', function (){
         //console.log('CREATE : ', cur_edit_data);
         $('#microcycles-form').attr('method', 'POST')
         $('#microcycles-form').removeClass('d-none')
-        $('#microcycles-form #id_name').val('')
-        $('#microcycles-form #datetimepicker-with-microcycle').val('')
-        $('#microcycles-form #datetimepicker-by-microcycle').val('')
+        clear_microcycle_form()
     })
     //Активация редактирования микроцикла
     $('#microcycles').on('click', '.edit', function() {
@@ -225,17 +205,13 @@ $(window).on('load', function (){
         //console.log('DELETE : ', cur_edit_data);
         $('#microcycles-form').attr('method', 'DELETE')
         $('#microcycles-form').addClass('d-none')
-        $('#microcycles-form #id_name').val('')
-        $('#microcycles-form #datetimepicker-with-microcycle').val('')
-        $('#microcycles-form #datetimepicker-by-microcycle').val('')
+        clear_microcycle_form()
         ajax_microcycle_update($('#microcycles-form').attr('method'), null, cur_edit_data ? cur_edit_data.id : 0)
     })
     //Отмена редактирования/добавления микроцикла
     $('#microcycles-form').on('click', '.cancel', function() {
         $('#microcycles-form').addClass('d-none')
-        $('#microcycles-form #id_name').val('')
-        $('#microcycles-form #datetimepicker-with-microcycle').val('')
-        $('#microcycles-form #datetimepicker-by-microcycle').val('')
+        clear_microcycle_form()
     })
     $('#microcycles-form').on('submit', function(e) {
         e.preventDefault()
@@ -320,6 +296,15 @@ function clear_event_form(){
     $('#form-event #id_event_type').trigger('change');
     $('#form-event #datetimepicker-event').val(nowdate)
     $('#form-event #timepicker-event').val(nowtime)
+}
+
+function clear_microcycle_form(){
+    let nowdate = moment().format('DD/MM/YYYY')
+    $('#microcycles-form #id_name').val('')
+    $('#microcycles-form #datetimepicker-with-microcycle').datetimepicker('clear')
+    $('#microcycles-form #datetimepicker-by-microcycle').datetimepicker('clear')
+    $('#datetimepicker-with-microcycle').datetimepicker('maxDate', false);
+    $('#datetimepicker-by-microcycle').datetimepicker('minDate', false);
 }
 
 // Инициализация datepicker для выбора промежутка
@@ -498,6 +483,8 @@ function generateNewCalendar(){
 
                         let only_date = moment(event['only_date'], 'DD/MM/YYYY')
                         let count_day = 0
+                        let isCurrentDate = false
+                        if(moment().startOf('day').isSame(only_date)) isCurrentDate = true
                         newMicrocycle.forEach(function(microcycle, i) {
                             let date_with = moment(microcycle['startDate'], 'DD/MM/YYYY')
                             let date_by = moment(microcycle['endDate'], 'DD/MM/YYYY')
@@ -511,17 +498,19 @@ function generateNewCalendar(){
                             }
                         });
 
-                        tr_html += `<tr class="${event_id!=null ? 'hasEvent' : ''}" data-value="${event_id}">`
+                        tr_html += `<tr class="${event_id!=null ? 'hasEvent' : ''}" data-value="${event_id}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
                         if('training' in event && event['training'] != null){
                             num_tr = 1
+                            let isFilled = true
                             if(event_class === 'trainingClass' && event['only_date'] === event_date) num_tr++
+                            if(event.training.exercises_info.length == 0 ||event.training.protocol_info.length == 0) isFilled = false
                             event_name = 'tr'+num_tr
                             event_class = 'trainingClass'
                             count_tr++
 
                             tr_html += `
                                 <td>---</td>
-                                <td>${event['only_date']}</td>
+                                <td class="${!isFilled ? 'text-danger' : ''}">${event['only_date']}</td>
                                 <td><a href="/trainings/view/${event.training.event_id}" class="btn btn-sm btn-block btn-info py-0" data-id="${event.training.event_id}">${gettext('Training')+' '+(num_tr == 2 ? '2' : '')}</a></td>
                                 <td>${count_day==0 ? '---' : count_day}</td>
                                 <td><i class="switch-favorites fa ${event.training.favourites ? 'fa-star':'fa-star-o'} aria-hidden="true"></i></td>
@@ -548,7 +537,7 @@ function generateNewCalendar(){
                             tr_html += `
                                     <td>---</td>
                                     <td>${event['only_date']}</td>
-                                    <td>${count_tr == 0 && count_m==max_m ? '---' : `<a href="#" class="btn btn-sm btn-block btn-secondary py-0 disabled">${gettext('Recreation')}</a></td>`}
+                                    <td>${count_tr == 0 && count_m==max_m ? '---' : `<a href="#" class="btn btn-sm btn-block btn-secondary py-0 disabled">${/*gettext('Recreation')*/'---'}</a></td>`}
                                     <td>${count_day==0 ? '---' : count_day}</td>
                                     <td>---</td>
                                     <td>---</td>

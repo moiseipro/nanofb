@@ -2,3 +2,5 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
 	-webkit-appearance: none;
 }
+
+.ui-state-highlight { height: 26px;}
