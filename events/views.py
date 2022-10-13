@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import timedelta, time
 
 from django.http import HttpResponse, QueryDict
 from django.shortcuts import render
@@ -133,7 +133,7 @@ class EventViewSet(viewsets.ModelViewSet):
         #microcycle_after = self.request.query_params.get('columns[1][search][value][only_date_after]')
         microcycle_before = self.request.query_params.get('to_date')
         microcycle_after = self.request.query_params.get('from_date')
-        print(microcycle_after)
+        #print(microcycle_after)
         team = self.request.session['team']
         season = UserSeason.objects.filter(id=self.request.session['season'])
         #print(season[0].date_with)
@@ -147,7 +147,7 @@ class EventViewSet(viewsets.ModelViewSet):
 
         if microcycle_before is not None and microcycle_after is not None:
             events = events.filter(date__gte=microcycle_after,
-                                   date__lte=microcycle_before)
+                                   date__lte=datetime.combine(datetime.strptime(microcycle_before, '%Y-%m-%d'), time.max))
 
         # events_arr = list(events)
         # events_list = list()

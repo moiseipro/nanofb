@@ -23,10 +23,9 @@ date_by_input_widget = forms.DateInput(attrs={
     'autocomplete': 'off'
 })
 date_event_input_widget = forms.DateTimeInput(attrs={
-    'class': '',
+    'class': 'datepicker-event',
     'id': 'datetimepicker-event',
     'data-toggle': 'datetimepicker',
-    'data-target': '#datetimepicker-event',
     'autocomplete': 'off'
 })
 time_event_input_widget = forms.TimeInput(attrs={
@@ -127,7 +126,7 @@ class EventEditUserForm(forms.ModelForm):
     helper.form_method = 'POST'
 
     date = forms.DateTimeField(
-        input_formats=['%d/%m/%Y %H:%M'],
+        input_formats=['%d/%m/%Y'],
         widget=date_event_input_widget
     )
 

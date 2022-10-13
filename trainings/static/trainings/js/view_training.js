@@ -11,7 +11,14 @@ $(window).on('load', function (){
     {
         id = urlsplit[urlsplit.length-2];
     }
-
+    
+    $('#back-button').on('click', function () {
+        Cookies.set('date', $('input[name="date"]').val(), { expires: 1 })
+        Cookies.set('event_id', id, { expires: 1 })
+        console.log(Cookies.get('event_id'))
+        //Cookies.remove('date')
+    })
+    
     $('#delete-training').on('click', function () {
         let send_data = {}
         swal(gettext("Delete this training?"), {
@@ -230,7 +237,9 @@ $(window).on('load', function (){
         data = {
             'date': date+' '+time
         }
-        ajax_event_action('PUT', data, 'save', id)
+        ajax_event_action('PUT', data, 'save', id).then(function (data) {
+            render_protocol_training(id)
+        })
     })
 
     // Open graphics in modal
@@ -258,6 +267,17 @@ $(window).on('load', function (){
             $(this).closest('.player_row').find('.protocol-check-player[name="'+group_name+'"] :is(.fa-check)').click()
         }
     })
+
+
+    // $('a[href="#training-card"]').on('show.bs.tab', function () {
+    //     render_exercises_training(id)
+    // })
+    $('a[href="#training-exercises"]').on('show.bs.tab', function () {
+        CountExsInFolder(false);
+    })
+    // $('a[href="#training-protocol"]').on('show.bs.tab', function () {
+    //     render_protocol_training(id)
+    // })
 
     generate_exercises_module_data()
     render_exercises_training(id)
@@ -351,11 +371,17 @@ function render_protocol_training(training_id = null) {
                         ${ option_html }
                     </select>
                 `
-
+                let player_line = false
                 $.each( players, function( key, player ) {
+                    let line_css
+                    console.log(player.status)
+                    if(!player_line && (player.status != null && player.status != 5)) {
+                        player_line = true
+                        line_css = 'border-top: solid 2px red'
+                    }
                     let player_row = ``
                     player_row += `
-                    <tr class="player_row" data-training="${player.training_id}" data-id="${player.id}">
+                    <tr class="player_row" data-training="${player.training_id}" data-id="${player.id}" style="${line_css != '' ? line_css : ''}">
                         <td width="20" class="p-0 text-right align-middle">
                             <button type="button" title="${gettext('Delete player')}" class="btn btn-sm btn-danger delete-player-button py-0 w-100 edit-input" style="height: 30px;" ${!edit_mode ? 'disabled' : ''}>X</button>
                         </td>
@@ -443,7 +469,7 @@ function render_exercises_training(training_id = null, group = null) {
                     </a>
                 </div>
                 <div class="row text-center">
-                    <div class="col-9 pr-0"><div class="w-100 border text-truncate">${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}</div></div>
+                    <div class="col-10 pr-0"><div class="w-100 border text-truncate">${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}</div></div>
                     <div class="col pl-0"><div class="w-100 border">${exercise.duration}</div></div>
                     <div class="col-1 pl-0 edit-button ${!edit_mode ? 'd-none' : ''}">
                         <button type="button" class="btn btn-sm btn-block btn-warning rounded-0 p-0 h-100 float-right add-exercise-additional"><i class="fa fa-plus" aria-hidden="true"></i></button>
@@ -540,8 +566,6 @@ function render_exercises_additional_data(training_exercise_id = null) {
                 block.find('.exercise-additional-row[data-id="'+additional.id+'"] select').val(additional.additional_id)
 
             })
-
-            //$('#card-scheme-block .exercise-visual-block[data-id="'+training_exercise_id+'"] .additional-data-block').html(additional_html)
         })
     })
 }

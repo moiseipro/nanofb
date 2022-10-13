@@ -1,7 +1,17 @@
-var d = new Date()
-var days = new Date(d.getFullYear(), d.getMonth()+1, 0).getDate()-1
-var middleDay = (("0" + Math.floor(days/2)).slice(-2))
-var strDate = middleDay + "/" + ("0" + (d.getMonth()+1)).slice(-2) + "/" + d.getFullYear()
+// var d = new Date()
+//
+// var days = new Date(d.getFullYear(), d.getMonth()+1, 0).getDate()-1
+// var middleDay = (("0" + Math.floor(days/2)).slice(-2))
+// var strDate = middleDay + "/" + ("0" + (d.getMonth()+1)).slice(-2) + "/" + d.getFullYear()
+
+var d = moment()
+if(Cookies.get('date')){
+    d = moment(Cookies.get('date'), 'DD/MM/YYYY')
+}
+var days = d.daysInMonth()-1
+d.set('date', days/2)
+var middleDay = Math.floor(days%2==0 ? days/2 : days/2)
+var strDate = d.format('DD/MM/YYYY')
 
 var microcycles_table, events_table
 var cur_edit_data
@@ -57,6 +67,7 @@ var newMicrocycle = [
 
 $(window).on('load', function (){
     $('#toggle_btn').click()
+
     $('.move_to_today').text(moment().format('DD/MM/YYYY'))
     $('input.refDate').val(strDate);
 
@@ -75,6 +86,7 @@ $(window).on('load', function (){
         today.set('date', days/2)
         middleDay = Math.floor(days%2==0 ? days/2 : days/2)
         strDate = today.format('DD/MM/YYYY')
+        Cookies.set('date', strDate, { expires: 1 })
 
         $('.refDate').val(strDate);
         generateNewCalendar()
@@ -85,6 +97,7 @@ $(window).on('load', function (){
         today.set('date', days/2)
         middleDay = Math.floor(days%2==0 ? days/2 : days/2)
         strDate = today.format('DD/MM/YYYY')
+        Cookies.set('date', strDate, { expires: 1 })
 
         $('.refDate').val(strDate);
         generateNewCalendar()
@@ -95,6 +108,7 @@ $(window).on('load', function (){
         today.set('date', days/2)
         middleDay = Math.floor(days%2==0 ? days/2 : days/2)
         strDate = today.format('DD/MM/YYYY')
+        Cookies.set('date', strDate, { expires: 1 })
 
         $('.refDate').val(strDate);
         generateNewCalendar()
@@ -164,8 +178,7 @@ $(window).on('load', function (){
                                     </a>
                                 </div>
                                 <div class="row text-center">
-                                    <div class="col-9 pr-0"><div class="w-100 border text-truncate">${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}</div></div>
-                                    <div class="col pl-0"><div class="w-100 border">${exercise.duration}</div></div>
+                                    <div class="col-12"><div class="w-100 border text-truncate">${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}</div></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12 additional-data-block"></div>
@@ -331,7 +344,7 @@ $(function () {
         useCurrent: false
     });
 
-    $('#datetimepicker-event').datetimepicker({
+    $('.datepicker-event').datetimepicker({
         format: 'DD/MM/YYYY',
         locale: get_cur_lang(),
         icons: {
@@ -350,29 +363,37 @@ $(function () {
     });
 })
 
-function ajax_microcycle_update(method, data, id) {
-    if (!confirm(gettext('Save changes to the microcycle?'))) return false
+async function ajax_microcycle_update(method, data, id) {
+    if (method != 'GET' && !confirm(gettext('Save changes to the microcycle?'))) return false
 
     let url = "api/microcycles/"
     if(method != 'POST') url += id+"/"
 
-    let request = $.ajax({
+    $('.page-loader-wrapper').fadeIn();
+
+    return await $.ajax({
         headers:{"X-CSRFToken": csrftoken },
         url: url,
         type: method,
         dataType: "JSON",
-        data: data
-    })
-
-    request.done(function( data ) {
-        //console.log(data)
-        create_alert('alert-update', {type: 'success', message: gettext('The action with the microcycle was successfully completed!')})
-        generateNewCalendar()
-        microcycles_table.ajax.reload()
-    })
-
-    request.fail(function( jqXHR, textStatus ) {
-        alert( gettext('Error when updating the microcycle. ') + gettext(textStatus) );
+        data: data,
+        success: function (data) {
+            //console.log(data)
+            if(method != 'GET') {
+                create_alert('alert-update', {
+                    type: 'success',
+                    message: gettext('The action with the microcycle was successfully completed!')
+                })
+                generateNewCalendar()
+                microcycles_table.ajax.reload()
+            }
+        },
+        error: function (jqXHR, textStatus) {
+            alert( gettext('Error when updating the microcycle. ') + gettext(textStatus) );
+        },
+        complete: function (data) {
+            $('.page-loader-wrapper').fadeOut();
+        }
     })
 }
 
@@ -537,12 +558,12 @@ function generateNewCalendar(){
                             tr_html += `
                                     <td>---</td>
                                     <td>${event['only_date']}</td>
-                                    <td>${count_tr == 0 && count_m==max_m ? '---' : `<a href="#" class="btn btn-sm btn-block btn-secondary py-0 disabled">${/*gettext('Recreation')*/'---'}</a></td>`}
+                                    <td>${count_tr == 0 && count_m==max_m ? '---' : '---'}</td>
                                     <td>${count_day==0 ? '---' : count_day}</td>
                                     <td>---</td>
                                     <td>---</td>
                                     <td>---</td>
-                                `
+                                ` //<a href="#" class="btn btn-sm btn-block btn-secondary py-0 disabled">${/*gettext('Recreation')*/'---'}</a>
                         }
                         tr_html += `</tr>`
                         event_date = event['only_date']
@@ -591,6 +612,10 @@ function generateNewCalendar(){
 
                     if(microcycle_id){
                         $('#event_calendar .microcycle_cell[data-id="'+microcycle_id+'"]').addClass('selected')
+                    }
+                    if(Cookies.get('event_id')){
+                        $('#events .hasEvent[data-value="'+Cookies.get('event_id')+'"] td').click()
+                        Cookies.remove('event_id')
                     }
 
                 }
@@ -834,6 +859,43 @@ $(function() {
                             $('#form-event-edit #id_short_name').val(cur_edit_data['short_name'])
                             $('#form-event-edit #datetimepicker-event').val(cur_edit_data['only_date'])
                             $('#form-event-edit #timepicker-event').val(cur_edit_data['time'])
+                        })
+                    }
+                },
+                items: {
+                    // "add": {name: gettext('Delete'), icon: "fa-trash"},
+                    "edit": {name: gettext('Edit'), icon: "fa-pencil"},
+                    "delete": {name: gettext('Delete'), icon: "fa-trash"},
+                    "sep1": "---------",
+                    "close": {name: gettext('Close'), icon: function(){
+                        return 'context-menu-icon context-menu-icon-quit';
+                    }}
+                }
+            };
+        },
+    });
+    $.contextMenu({
+        selector: '.microcycle_cell.green_cell',
+        build: function($triggerElement, e){
+            return {
+                callback: function(key, options){
+                    let microcycle_id = $(this).attr('data-id')
+                    if(key === 'delete'){
+                        window.console && console.log(microcycle_id);
+                        ajax_microcycle_update('DELETE', null, microcycle_id).then(function (data) {
+
+                        })
+                    } else if(key === 'edit'){
+                        window.console && console.log(microcycle_id);
+                        cur_edit_data = microcycles_table.row($(this).closest('tr')).data()
+                        $('#microcycle-modal').modal('show');
+                        ajax_microcycle_update('GET', null, microcycle_id).then(function( data ) {
+                            cur_edit_data = data
+                            $('#microcycles-form').attr('method', 'PATCH')
+                            $('#microcycles-form').removeClass('d-none')
+                            $('#microcycles-form #id_name').val(cur_edit_data['name'])
+                            $('#microcycles-form #datetimepicker-with-microcycle').val(cur_edit_data['date_with'])
+                            $('#microcycles-form #datetimepicker-by-microcycle').val(cur_edit_data['date_by'])
                         })
                     }
                 },
