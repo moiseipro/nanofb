@@ -928,8 +928,8 @@ $(function() {
         $('#splitCol_exscard_2').find('.btn-view').toggleClass('d-none', isActive != '1');
         $('#splitCol_exscard_2').find('.btn-edit').toggleClass('d-none', isActive == '1');
         ToggleEditFields(isActive != '1');
+        window.changedData = false;
         if (isActive == '1') {
-            window.changedData = false;
             LoadExerciseOne();
         }
         if (isActive != '1') {
@@ -1003,10 +1003,12 @@ $(function() {
     ToggleFoldersType();
     LoadExerciseOne();
     $('#exerciseCard').on('click', '#saveExs', (e) => {
+        window.changedData = false;
         SaveExerciseOne();
     });
 
     $('#exerciseCard').on('click', '#deleteExercise', (e) => {
+        window.changedData = false;
         DeleteExerciseOne();
     });
     

@@ -363,7 +363,8 @@ class EditTrainingsView(DetailView):
         found_folders, found_nfb_folders, refs = get_exercises_params(self.request, cur_user, self.request.session['team'])
         context['folders'] = found_folders
         context['folders_only_view'] = True
-        context['nfb_folders'] = found_nfb_folders
+        # context['nfb_folders'] = found_nfb_folders
+        context['nfb_folders'] = False
         context['refs'] = refs
         context['is_exercises'] = True
         context['ui_elements'] = get_ui_elements(self.request)
