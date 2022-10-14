@@ -68,7 +68,6 @@ var newMicrocycle = [
 $(window).on('load', function (){
     $('#toggle_btn').click()
 
-    $('.move_to_today').text(moment().format('DD/MM/YYYY'))
     $('input.refDate').val(strDate);
 
     if($('#select-season').val()!='' && $('#select-team').val()!=''){
@@ -245,7 +244,9 @@ $(window).on('load', function (){
         //console.log(data)
         data['date'] = data['date']+' '+data['time']
         ajax_event_action($(this).attr('method'), data, 'create', cur_edit_data ? cur_edit_data.id : 0).then(function( data ) {
-            //if(events_table) events_table.ajax.reload()
+            console.log(data)
+            let link = 'training' in data && data.training != null ? '/trainings/view/'+data.id : 'match' in data && data.match != null ? '/matches/match?id='+data.id : ''
+            $('#event-link').html(`<a href="${link}" class="btn btn-warning btn-block">${gettext('Go to the created event')}</a>`)
             clear_event_form()
             generateNewCalendar()
         })
@@ -266,6 +267,8 @@ $(window).on('load', function (){
     $('#toggle-calendar').on('click', function () {
         $('#event_calendar').toggleClass('d-none')
         $(this).children('i').toggleClass('fa-arrow-up').toggleClass('fa-arrow-down')
+        $('.move_to_today').toggleClass('isMonth')
+        set_month_or_date_button()
         resize_events_table()
     })
 
@@ -294,7 +297,7 @@ $(window).on('load', function (){
 
 function resize_events_table(){
     let css = "calc(94vh - "+Math.round($('#event_calendar').height())+"px - "+Math.round($('.header').height())+"px - "+Math.round($('.card-header').height())+"px)"
-    console.log(css)
+    //console.log(css)
     $('#events-table').css({"max-height": css})
     $('#events-table').css({"height": css})
     $('#block-event-info .event-info').css({"max-height": css})
@@ -410,8 +413,8 @@ function generateNewCalendar(){
     microcycle_id = $('#event_calendar .microcycle_cell.selected').attr('data-id')
     let today = strDate
 
-    console.log(strDate)
-    console.log(middleDay)
+    //(strDate)
+    //console.log(middleDay)
 
     let from_date = undefined
     let to_date = undefined
@@ -430,7 +433,7 @@ function generateNewCalendar(){
 
     send_data['from_date'] = from_date
     send_data['to_date'] = to_date
-    console.log(send_data)
+    //console.log(send_data)
 
     $('#events tbody').html('')
 
@@ -460,14 +463,14 @@ function generateNewCalendar(){
                 dataType: "JSON",
                 data: send_data,
                 success: function(data){
-                    console.log(data['results'])
+                    //console.log(data['results'])
                     let num_tr = 1, num_m = 1, count_tr = 0, count_m = 0, max_m = 0, event_date = '', event_class=''
                     let last_date = moment(to_date, 'YYYY-MM-DD')
                     let first_date = moment(from_date, 'YYYY-MM-DD')
                     let generated_events = []
 
                     let days = last_date.diff(first_date, 'days')+1
-                    console.log(days)
+                    //console.log(days)
                     if(days!=0) {
                         for (let i = 0; i < days; i++){
                             let isSame = false
@@ -594,7 +597,7 @@ function generateNewCalendar(){
                         format: 'DD/MM/YYYY',
                         jumpSize: middleDay-1,
                         calSize: days,
-                        locale: 'ru',
+                        locale: get_cur_lang(),
                         refDate: strDate,
                         lang: {
                             'today': gettext('Today'),
@@ -618,6 +621,8 @@ function generateNewCalendar(){
                         Cookies.remove('event_id')
                     }
 
+                    set_month_or_date_button()
+
                 }
             })
         },
@@ -629,6 +634,14 @@ function generateNewCalendar(){
             $('.page-loader-wrapper').fadeOut();
         }
     })
+}
+
+function set_month_or_date_button() {
+    if($('.move_to_today').hasClass('isMonth')){
+        $('.move_to_today').text(moment(strDate, 'DD/MM/YYYY').locale(get_cur_lang()).format('MMMM'))
+    } else {
+        $('.move_to_today').text(moment().locale(get_cur_lang()).format('DD/MM/YYYY'))
+    }
 }
 
 function generateMicrocyclesTable(){
@@ -681,7 +694,7 @@ function generateEventTable(){
             $(row).attr('data-value', data.id)
             $(row).addClass('hasEvent')
 
-            console.log($(row).find('.btn').text())
+            //console.log($(row).find('.btn').text())
             if(last_date == null) {
                 last_date = moment(data['only_date'], 'DD/MM/YYYY')
                 if(data['training'] != null) last_event = 'training';
@@ -693,7 +706,7 @@ function generateEventTable(){
 
             if(days==0 && last_event != '') {
                 if(data[last_event]!=null){
-                    console.log(days)
+                    //console.log(days)
                     $(row).find('.btn').text($(row).find('.btn').text()+' 2')
                 }
             }
