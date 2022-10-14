@@ -136,12 +136,12 @@
                                         </div>
                                         <div class="col-12 d-none">
                                             <select class="form-control form-control-sm" id="protocolStatuses">
-                                                <option value="" style="color:red;" selected="">---</option>
+                                                <option value="" style="color:black;" selected="">Играл</option>
                                                 {% for elem in refs.player_protocol_status %}
-                                                    {% if elem.order == 1 %}
-                                                        <option value="{{ elem.id }}" style="color:black;">{{ elem.title }}</option>
-                                                    {% else %}
+                                                    {% if elem.is_red %}
                                                         <option value="{{ elem.id }}" style="color:red;">{{ elem.title }}</option>
+                                                    {% else %}
+                                                        <option value="{{ elem.id }}" style="color:black;">{{ elem.title }}</option>
                                                     {% endif %}
                                                 {% endfor %}
                                             </select>

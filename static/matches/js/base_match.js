@@ -51,7 +51,7 @@ function RenderProtocolInMatch(data, selectedRow = -1) {
             if ($(protocolStatusesElem).find(`option[value="${elem.p_status}"]`).length > 0) {
                 $(protocolStatusesElem).find(`option[selected]`).removeAttr('selected');
                 $(protocolStatusesElem).find(`option[value="${elem.p_status}"]`).attr('selected', "");
-                if (elem.status_order != 1) {
+                if (elem.status_red == 1) {
                     $(protocolStatusesElem).find('select').css('color', 'red');
                 }
             }

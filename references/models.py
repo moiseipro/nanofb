@@ -243,5 +243,7 @@ class PlayerFoot(AbstractReference, MixTranslateReference):
 
 # --Players-- additional
 class PlayerProtocolStatus(AbstractReference, MixTranslateReference):
+    tags = models.JSONField(null=True, blank=True)
+
     class Meta(AbstractReference.Meta):
         pass

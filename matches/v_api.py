@@ -169,7 +169,9 @@ def set_refs_translations(data, lang_code):
 
 def get_matches_refs(request):
     refs = {}
-    refs['player_protocol_status'] = PlayerProtocolStatus.objects.filter().values()
+    refs['player_protocol_status'] = PlayerProtocolStatus.objects.filter(tags__matches=1).values()
+    for elem in refs['player_protocol_status']:
+        elem['is_red'] = "matches_red" in elem['tags'] and elem['tags']['matches_red'] == 1
     refs = set_refs_translations(refs, request.LANGUAGE_CODE)
     return refs
 
@@ -278,8 +280,7 @@ def POST_edit_players_protocol(request, cur_user):
         if c_key in keys_with_values:
             f_protocol = UserProtocol.objects.filter(id=protocol_id)
             if f_protocol.exists() and f_protocol[0].id != None:
-                # p_status.order == 1 -> Участвовал
-                if f_protocol[0].p_status and f_protocol[0].p_status.order != 1:
+                if f_protocol[0].p_status and 'matches_reset' in f_protocol[0].p_status.tags and f_protocol[0].p_status.tags['matches_reset'] == 1:
                     c_value = None
             if c_value and c_value < 0:
                 c_value = None
@@ -294,10 +295,10 @@ def POST_edit_players_protocol(request, cur_user):
                 c_status_id = int(c_value)
             except:
                 pass
-            f_status = PlayerProtocolStatus.objects.filter(id=c_status_id)
-            is_reset_values = True
+            f_status = PlayerProtocolStatus.objects.filter(id=c_status_id, tags__matches=1)
+            is_reset_values = False
             if f_status.exists() and f_status[0].id != None:
-                is_reset_values = f_status[0].order != 1
+                is_reset_values = 'matches_reset' in f_status[0].tags and f_status[0].tags['matches_reset'] == 1
                 update_dict = {'p_status': f_status[0].id}
             else:
                 update_dict = {'p_status': None}
@@ -359,16 +360,10 @@ def POST_add_delete_players_protocol(request, cur_user, to_add = True):
             f_player = UserPlayer.objects.filter(id=pl_id, user=cur_user, team=team_id)
             f_match = UserMatch.objects.filter(event_id=match_id)
             if f_player.exists() and f_player[0].id != None and f_match.exists() and f_match[0].event_id != None:
-                f_protocol_status = None
-                try:
-                    f_protocol_status = PlayerProtocolStatus.objects.filter(order=1)[0]
-                except:
-                    pass
                 protocol, created = UserProtocol.objects.get_or_create(match=f_match[0], player=f_player[0])
                 if created:
                     try:
                         protocol.is_opponent = is_opponent
-                        protocol.p_status = f_protocol_status
                         protocol.save()
                         res_data.append(f"Created new protocol with id: {protocol.id}")
                     except:
@@ -461,7 +456,7 @@ def GET_get_match_protocol(request, cur_user, cur_team):
             tmp_status = get_protocol_status(request, protocol_elem.p_status)
             protocol_dict['status_full'] = tmp_status['full']
             protocol_dict['status_short'] = tmp_status['short']
-            protocol_dict['status_order'] = protocol_elem.p_status.order if protocol_elem.p_status else -1
+            protocol_dict['status_red'] = 1 if protocol_elem.p_status and 'matches_red' in protocol_elem.p_status.tags and protocol_elem.p_status.tags['matches_red'] == 1 else 0
             res_data.append(protocol_dict)
         return JsonResponse({"data": res_data, "success": True}, status=200)
     return JsonResponse({"errors": "Match protocol not found.", "success": False}, status=400)

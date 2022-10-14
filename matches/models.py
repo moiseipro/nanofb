@@ -156,7 +156,7 @@ class UserProtocol(AbstractProtocol):
     player = models.ForeignKey(UserPlayer, on_delete=models.CASCADE)
     class Meta:
         abstract = False
-        ordering = ['order', 'player__surname', 'player__name']
+        ordering = ['p_status__order', 'order', 'player__surname', 'player__name']
 
 
 class ClubProtocol(AbstractProtocol):
