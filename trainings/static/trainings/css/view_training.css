@@ -3,4 +3,14 @@ input[type=number]::-webkit-outer-spin-button {
 	-webkit-appearance: none;
 }
 
-.ui-state-highlight { height: 26px;}
+.ui-state-highlight {
+	background: orange;
+	height: 30px;
+}
+
+.ui-sortable:not(.ui-sortable-disabled) .exercise-row:hover{
+	cursor: grab;
+}
+.ui-sortable:not(.ui-sortable-disabled) .exercise-row:active{
+	cursor: grabbing;
+}

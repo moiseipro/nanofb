@@ -15,8 +15,6 @@ $(window).on('load', function (){
     $('#back-button').on('click', function () {
         Cookies.set('date', $('input[name="date"]').val(), { expires: 1 })
         Cookies.set('event_id', id, { expires: 1 })
-        console.log(Cookies.get('event_id'))
-        //Cookies.remove('date')
     })
     
     $('#delete-training').on('click', function () {
@@ -238,7 +236,7 @@ $(window).on('load', function (){
             'date': date+' '+time
         }
         ajax_event_action('PUT', data, 'save', id).then(function (data) {
-            render_protocol_training(id)
+            render_protocol_training(id, true)
         })
     })
 
@@ -298,7 +296,7 @@ function toggle_folders_name(){
 }
 
 // Выгрузка игроков из тренировки
-function render_protocol_training(training_id = null) {
+function render_protocol_training(training_id = null, highlight_not_filled = false) {
     let send_data = {}
 
     ajax_training_action('GET', send_data, 'load', training_id, 'get_exercises').then(function (data) {
@@ -372,10 +370,11 @@ function render_protocol_training(training_id = null) {
                     </select>
                 `
                 let player_line = false
+                let isEmptyPlayer = false
                 $.each( players, function( key, player ) {
                     let line_css
                     console.log(player.status)
-                    if(!player_line && (player.status != null && player.status != 5)) {
+                    if(!player_line && (player.status != null)) {
                         player_line = true
                         line_css = 'border-top: solid 2px red'
                     }
@@ -392,7 +391,7 @@ function render_protocol_training(training_id = null) {
                         <td width="30" class="p-0 text-center align-middle estimation-change edit-custom-input ${!edit_mode ? 'disabled' : ''}" name="estimation" value="2"><i class="fa ${player.estimation == 2 ? 'fa-thumbs-up' : 'fa-thumbs-o-up'}" aria-hidden="true"></i></td>
                         <td width="40" class="p-0 text-center align-middle"></td>
                         <td width="200" class="align-middle">
-                            <span class="float-left " title="${player.full_name}">${player.full_name}</span>
+                            <span class="float-left player-name" title="${player.full_name}">${player.full_name}</span>
                         </td>
                     `
                     for (let i = 0; i < exs_group.length; i++) {
@@ -410,7 +409,6 @@ function render_protocol_training(training_id = null) {
                     player_row += `</tr>`
                     $('#player-protocol-table').append(player_row)
                     $('#player-protocol-table .player_row[data-id="'+player.id+'"] select[name="status"]').val(player.status)
-
                     for (let i = 0; i < exs_group.length; i++) {
                         let all_select_check = $('#player-protocol-table .all-player-check[data-group="group_'+(i+1)+'"]')
                         $('#player-protocol-table .player_row').each(function () {
@@ -420,6 +418,11 @@ function render_protocol_training(training_id = null) {
                             if($(this).find('[name="group_'+(i+1)+'"]').is(':empty')){
                                 select_check.prop('checked', false)
                             }
+
+                            if(highlight_not_filled && $(this).find('.fa-check').length == 0 && $(this).find('select[name="status"]').val() == ''){
+                                $(this).find('.player-name').addClass('text-danger')
+                                isEmptyPlayer = true
+                            }
                         })
                         if($('#player-protocol-table [name="group_'+(i+1)+'"]').is(':empty')){
                             all_select_check.prop('checked', false)
@@ -427,6 +430,9 @@ function render_protocol_training(training_id = null) {
                     }
 
                 })
+                if(isEmptyPlayer) {
+                    swal(gettext('Save training'), gettext('There are unfilled players! Fill in the players highlighted in red.'), "warning");
+                }
             })
         })
     })
@@ -486,7 +492,7 @@ function render_exercises_training(training_id = null, group = null) {
             if(group == null) return
 
             exs_html += `
-            <div id="order-${exercise.id}" class="row border-bottom exercise-row" data-id="${exercise.id}">
+            <div id="order-${exercise.id}" class="row border-bottom exercise-row bg-white" data-id="${exercise.id}">
                 <div class="col pr-0 text-truncate" title="${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}">${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}</div>
                 <div class="col-sm-12 col-md-4 pl-0">
                     <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 px-1 h-100 float-right delete-exercise edit-button ${!edit_mode ? 'd-none' : ''}"><i class="fa fa-trash" aria-hidden="true"></i></button>
@@ -605,7 +611,7 @@ function generate_exercises_module_data() {
     let html_data = `
     <div class="row w-100 font-weight-bold">
         <div class="col px-0">
-            <button type="button" class="btn btn-sm btn-block btn-warning add-exercise edit-input" data-group="" disabled><i class="fa fa-plus" aria-hidden="true"></i> <span class="badge badge-light font-weight-bold">0</span></button>
+            <button type="button" class="btn btn-sm btn-block btn-warning add-exercise edit-button d-none" data-group=""><i class="fa fa-plus" aria-hidden="true"></i> <span class="badge badge-light font-weight-bold">0</span></button>
         </div>
     </div>`
 

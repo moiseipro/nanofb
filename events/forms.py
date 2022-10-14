@@ -36,6 +36,7 @@ time_event_input_widget = forms.TimeInput(attrs={
 })
 
 EVENT_TYPES =(
+    ("", '---'),
     ("1", _('Training')),
     ("2", _('Unofficial match')),
     ("3", _('Official match')),
@@ -84,11 +85,13 @@ class EventUserForm(forms.ModelForm):
 
     event_type = forms.ChoiceField(
         choices=EVENT_TYPES,
+        label=_('Event type')
     )
 
     date = forms.DateTimeField(
         input_formats=['%d/%m/%Y %H:%M'],
-        widget=date_event_input_widget
+        widget=date_event_input_widget,
+        label=_('Date')
     )
 
     time = forms.TimeField(
@@ -112,6 +115,9 @@ class EventUserForm(forms.ModelForm):
                 Column('time', css_class='form-group col-md-6 mb-0'),
                 Column(
                     Submit('submit', _('Save'), css_class='btn-block save'),
+                    css_class='form-group col-md-12 mb-0'
+                ),
+                Column(css_id='event-link',
                     css_class='form-group col-md-12 mb-0'
                 ),
                 css_class='form-row'
