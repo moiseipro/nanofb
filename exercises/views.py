@@ -167,6 +167,7 @@ def exercises_api(request):
     elif request.method == "GET" and is_ajax:
         get_exs_all_status = 0
         get_exs_one_status = 0
+        get_exs_graphic_content_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         try:
@@ -183,10 +184,16 @@ def exercises_api(request):
             get_exs_one_status = int(request.GET.get("get_exs_one", 0))
         except:
             pass
+        try:
+            get_exs_graphic_content_status = int(request.GET.get("get_exs_graphic_content", 0))
+        except:
+            pass
         if get_exs_all_status == 1:
             return v_api.GET_get_exs_all(request, cur_user[0])
         elif get_exs_one_status == 1:
             return v_api.GET_get_exs_one(request, cur_user[0], cur_team)
+        elif get_exs_graphic_content_status == 1:
+            return v_api.GET_get_exs_graphic_content(request, cur_user[0], cur_team)
         return JsonResponse({"errors": "access_error"}, status=400)
     else:
         return JsonResponse({"errors": "access_error"}, status=400)

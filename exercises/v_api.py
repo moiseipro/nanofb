@@ -887,6 +887,37 @@ def GET_get_exs_one(request, cur_user, cur_team):
     return JsonResponse({"data": res_exs, "success": True}, status=200)
 
 
+def GET_get_exs_graphic_content(request, cur_user, cur_team):
+    exs_id = -1
+    folder_type = request.GET.get("f_type", "")
+    try:
+        exs_id = int(request.GET.get("exs", -1))
+    except:
+        pass
+    res_exs = {}
+    f_video_data = None
+    if folder_type == FOLDER_TEAM:
+        c_exs = UserExercise.objects.filter(id=exs_id, visible=True)
+        if c_exs.exists() and c_exs[0].id != None:
+            res_exs = c_exs.values()[0]
+        f_video_data = ExerciseVideo.objects.filter(exercise_user=c_exs[0].id)
+    elif folder_type == FOLDER_NFB:
+        c_exs = AdminExercise.objects.filter(id=exs_id, visible=True)
+        if c_exs.exists() and c_exs[0].id != None:
+            res_exs = c_exs.values()[0]
+        f_video_data = ExerciseVideo.objects.filter(exercise_nfb=c_exs[0].id)
+    elif folder_type == FOLDER_CLUB:
+        pass
+    else:
+        return JsonResponse({"errors": "Exercise not found.", "success": False}, status=400)
+    res_exs['description'] = get_by_language_code(res_exs['description'], request.LANGUAGE_CODE)
+    res_exs['scheme_data'] = get_exs_scheme_data(res_exs['scheme_data'])
+    res_exs['video_data'] = get_exs_video_data(res_exs['video_data'])
+    res_exs['animation_data'] = get_exs_animation_data(res_exs['animation_data'])
+    res_exs = get_exs_video_data2(res_exs, f_video_data)
+    return JsonResponse({"data": res_exs, "success": True}, status=200)
+
+
 
 # --------------------------------------------------
 # FOLDERS API

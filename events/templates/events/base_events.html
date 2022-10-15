@@ -172,12 +172,15 @@
     {% include 'events/forms/create_event.html' %}
     {% include 'events/forms/edit_event.html' %}
 
+    {% include "exercises/modules/exercise_graphic_modal.html" %}
+
 {% endblock %}
 {% block custom_style %}
     <link rel="stylesheet" href="{% static 'events/ResCalendar/rescalendar.css' %}">
     <link rel="stylesheet" href="{% static 'events/css/base_events.css' %}">
 {% endblock %}
 {% block custom_scripts %}
+    <script src="{% static 'exercises/js/modules/graphic_modal.js' %}"></script>
     <script src="{% static 'trainings/js/action_training.js' %}"></script>
     <script src="{% static 'events/ResCalendar/rescalendar.js' %}"></script>
     <script src="{% static 'events/js/event_update.js' %}"></script>

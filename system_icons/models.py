@@ -32,7 +32,7 @@ class IconsList(models.Model):
         return ""
     def icon_color_preview(self, title=""):
         if self.icon:
-            mask_str = f"-webkit-mask:url({self.icon.url}) center/contain; mask:url({self.icon.url}) center/contain;"
+            mask_str = f"-webkit-mask:url({self.icon.url}) center/contain; mask:url({self.icon.url}) center/contain; mask-repeat: no-repeat;"
             return mark_safe(f'<div class="" style="width:24px; height:24px; display:inline-block; background:{self.color}; {mask_str}" title="{title}"></div>')
         return ""
     icon_color_preview.short_description = "Icon With Color Preview"

@@ -19,3 +19,10 @@ a.matchButton0 {
 a.matchButton1 {
     background: orange;
 }
+
+
+
+.carousel-nav-icon-custom{
+    color: #000 !important;
+    font-size: 2.5em;
+}

@@ -120,6 +120,11 @@
                         </div>
                         <div class="tab-pane fade" id="training-exercises" role="tabpanel" aria-labelledby="training-exercises-tab">
                             <div class="row">
+                                <div class="col-12 d-none">
+                                    <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" id="toggleFoldersNames" title="Свернуть / Развернуть папки" style="--w-max-x:5%;" data-state="0">
+                                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                    </button>
+                                </div>
                                 <div class="col px-0">
                                     {% include "exercises/modules/exercises_list.html" %}
                                 </div>
@@ -241,6 +246,7 @@
     <script src="{% static 'exercises/js/modules/visual_block_control.js' %}"></script>
     <script src="{% static 'exercises/js/modules/exercises_list.js' %}"></script>
     <script src="{% static 'exercises/js/modules/exercise_card.js' %}"></script>
+    <script src="{% static 'exercises/js/folder_list.js' %}"></script>
 
     <script src="{% static 'trainings/js/action_training.js' %}"></script>
     <script src="{% static 'events/js/event_update.js' %}"></script>

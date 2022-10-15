@@ -241,10 +241,27 @@ $(window).on('load', function (){
     })
 
     // Open graphics in modal
-    $('.card-body').on('click', '.carousel-item', (e) => {
+    $('#carouselAll').on('click', '.carousel-item', (e) => {
+        let id = -1;
+        try {
+            id = parseInt($('.exercises-block').find('.exs-elem.active').attr('data-id'));
+        } catch (e) {}
+        let activeNum = 1;
+        activeNum += $('#carouselAll').find('.carousel-item').index($(e.currentTarget));
+        LoadGraphicsModal(id, "team_folders", activeNum);
+        return;
+
         e.preventDefault();
         let parentId = $(e.currentTarget).parent().parent().attr('id');
         open_graphics_modal('carouselSchema')
+    });
+    $('#card-scheme-block').on('click', '.carousel-item', (e) => {
+        let id = -1;
+        try {
+            id = parseInt($(e.currentTarget).parent().parent().parent().attr('data-exs-id'));
+        } catch (e) {}
+        let activeNum = 1;
+        LoadGraphicsModal(id, "team_folders", activeNum);
     });
     
     //Проставить все упражнения у группы
@@ -277,10 +294,16 @@ $(window).on('load', function (){
     //     render_protocol_training(id)
     // })
 
+    // sizes of columns in exercises list:
+    setTimeout(() => {
+        $('#toggleFoldersNames').attr('data-state', '1');
+        ResizeSplitCols();
+    }, 500);
+
+
     generate_exercises_module_data()
     render_exercises_training(id)
     render_protocol_training(id)
-    //CountExsInFolder(false);
 })
 
 function toggle_folders_name(){
@@ -455,7 +478,7 @@ function render_exercises_training(training_id = null, group = null) {
         $.each( exercises, function( key, exercise ) {
             counts_group[exercise.group-1]++;
             card_html += `
-            <div class="col-4 py-2 exercise-visual-block" data-id="${exercise.id}">
+            <div class="col-4 py-2 exercise-visual-block" data-id="${exercise.id}" data-exs-id="${exercise.exercise_id}">
                 <div id="carouselSchema-${key}" class="carousel slide carouselSchema" data-ride="carousel" data-interval="false">
                     <ol class="carousel-indicators">
                         <li data-target="#carouselSchema" data-slide-to="0" class="active"></li>

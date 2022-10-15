@@ -743,6 +743,27 @@ $(function() {
 
     // Open graphics in modal
     $('.visual-block').on('click', '.carousel-item', (e) => {
+        let folderType = $('.up-block-content').find('.folders-toggle:visible').first().attr('data-id');
+        let id = -1;
+        try {
+            id = parseInt($('.exercises-block').find('.exs-elem.active').attr('data-id'));
+        } catch (e) {}
+        let activeNum = 1; let tempCounter = 1;
+        let tParentId = $(e.currentTarget).parent().parent().attr('id');
+        console.log(tParentId)
+        if (tParentId == "carouselSchema") {
+            activeNum = $('#splitCol_2').find('#carouselSchema').find('.carousel-item').index($(e.currentTarget)) + tempCounter;
+        } else if (tParentId == "carouselVideo") {
+            tempCounter += $('#splitCol_2').find('#carouselSchema').find('.carousel-item').length;
+            activeNum = $('#splitCol_2').find('#carouselVideo').find('.carousel-item').index($(e.currentTarget)) + tempCounter;
+        } else if (tParentId == "carouselAnim") {
+            tempCounter += $('#splitCol_2').find('#carouselSchema').find('.carousel-item').length;
+            tempCounter += $('#splitCol_2').find('#carouselVideo').find('.carousel-item').length;
+            activeNum = $('#splitCol_2').find('#carouselAnim').find('.carousel-item').index($(e.currentTarget)) + tempCounter;
+        }
+        LoadGraphicsModal(id, folderType, activeNum);
+        return;
+
         e.preventDefault();
 
         $('#exerciseGraphicsModal').find('.modal-body').find('.carousel-item').each((ind, elem) => {
@@ -836,92 +857,6 @@ $(function() {
                 }
             });
         }
-
-        $('#exerciseGraphicsModal').modal('show');
-    });
-    $('#splitCol_exscard_2').on('click', '.carousel-item', (e) => {
-        e.preventDefault();
-        $('#exerciseGraphicsModal').find('.modal-body').find('.carousel-item').each((ind, elem) => {
-            $(elem).removeClass('active');
-            $(elem).remove();
-        });
-        let parentId = $(e.currentTarget).parent().parent().attr('id');
-        let items = $('#carouselSchema').find('.carousel-item:not(.d-none)').clone();
-        if (parentId != "carouselSchema") {$(items).removeClass('active');}
-        $('#exerciseGraphicsModal').find('#carouselGraphics > .carousel-inner').append(items);
-        
-        items = $('#carouselVideo').find('.carousel-item:not(.d-none)').clone();
-        if (parentId != "carouselVideo") {$(items).removeClass('active');}
-        for (let i = 0; i < items.length; i++) {
-            let item = items[i];
-            if ($(item).find('.video-js').length > 0) {
-                $(item).find('.video-js').removeClass('not-active');
-                $(item).find('.video-js').attr('id', `video-playerClone-${i}`);
-            }
-        }
-        $('#exerciseGraphicsModal').find('#carouselGraphics > .carousel-inner').append(items);
-        window.videoPlayerClones = [];
-        for (let i = 0; i < items.length; i++) {
-            window.videoPlayerClones[i] = videojs($('#exerciseGraphicsModal').find(`#video-playerClone-${i}`)[0], {
-                preload: 'auto',
-                autoplay: false,
-                controls: true,
-                aspectRatio: '16:9',
-                youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
-            });
-            window.videoPlayerClones[i].ready((e) => {
-                if (i == 0) {
-                    window.videoPlayerClones[i].src({
-                        type: window.videoPlayerCard1.currentType(),
-                        src: window.videoPlayerCard1.currentSrc()
-                    });
-                    window.videoPlayerClones[i].poster(window.videoPlayerCard1.poster());
-                } else if (i == 1) {
-                    window.videoPlayerClones[i].src({
-                        type: window.videoPlayerCard2.currentType(),
-                        src: window.videoPlayerCard2.currentSrc()
-                    });
-                    window.videoPlayerClones[i].poster(window.videoPlayerCard2.poster());
-                }
-            });
-        }
-
-        items = $('#carouselAnim').find('.carousel-item:not(.d-none)').clone();
-        if (parentId != "carouselAnim") {$(items).removeClass('active');}
-        let videoPlayersLength = window.videoPlayerClones.length;
-        for (let i = 0; i < items.length; i++) {
-            let item = items[i];
-            if ($(item).find('.video-js').length > 0) {
-                $(item).find('.video-js').removeClass('not-active');
-                $(item).find('.video-js').attr('id', `video-playerClone-${i + videoPlayersLength}`);
-            }
-        }
-        $('#exerciseGraphicsModal').find('#carouselGraphics > .carousel-inner').append(items);
-        for (let i = 0; i < items.length; i++) {
-            window.videoPlayerClones[i + videoPlayersLength] = videojs($('#exerciseGraphicsModal').find(`#video-playerClone-${i + videoPlayersLength}`)[0], {
-                preload: 'auto',
-                autoplay: false,
-                controls: true,
-                aspectRatio: '16:9',
-                youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
-            });
-            window.videoPlayerClones[i + videoPlayersLength].ready((e) => {
-                if (i == 0) {
-                    window.videoPlayerClones[i + videoPlayersLength].src({
-                        type: window.videoPlayerCard3.currentType(),
-                        src: window.videoPlayerCard3.currentSrc()
-                    });
-                    window.videoPlayerClones[i].poster(window.videoPlayerCard3.poster());
-                } else if (i == 1) {
-                    window.videoPlayerClones[i + videoPlayersLength].src({
-                        type: window.videoPlayerCard4.currentType(),
-                        src: window.videoPlayerCard4.currentSrc()
-                    });
-                    window.videoPlayerClones[i].poster(window.videoPlayerCard4.poster());
-                }
-            });
-        }
-
         $('#exerciseGraphicsModal').modal('show');
     });
     $('#exerciseGraphicsModal').on('hide.bs.modal', (e) => {

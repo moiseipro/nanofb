@@ -153,7 +153,7 @@ $(window).on('load', function (){
                             let exercises = data.training.exercises_info
                             for (let exercise of exercises) {
                                 html_scheme += `
-                            <div class="col-4 pb-2 px-1 exercise-visual-block" data-id="${exercise.id}">
+                            <div class="col-4 pb-2 px-1 exercise-visual-block" data-id="${exercise.id}" data-exs-id="${exercise.exercise_id}">
                                 <div id="carouselSchema-${exercise.id}" class="carousel slide carouselSchema" data-ride="carousel" data-interval="false">
                                     <ol class="carousel-indicators">
                                         <li data-target="#carouselSchema-${exercise.id}" data-slide-to="0" class="active"></li>
@@ -293,6 +293,17 @@ $(window).on('load', function (){
             $(this).hide()
         })
     })
+
+    $('.row.event-info').on('click', '.exercise-visual-block', (e) => {
+        if ($(e.target).is('a') || $(e.target).is('a')) {return;}
+        let id = -1;
+        try {
+            id = parseInt($(e.currentTarget).attr('data-exs-id'));
+        } catch (e) {}
+        let activeNum = 1;
+        LoadGraphicsModal(id, "team_folders", activeNum);
+    });
+
 })
 
 function resize_events_table(){

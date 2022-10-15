@@ -1,4 +1,4 @@
-function StopAllVideos() {
+function StopAllVideosTemp() {
     try {
         if (Array.isArray(window.videoPlayerClones)) {
             for (let i = 0; i < window.videoPlayerClones.length; i++) {
@@ -47,6 +47,28 @@ $(function() {
 
     // Open graphics in modal
     $('#splitCol_exscard_2').on('click', '.carousel-item', (e) => {
+        let searchParams = new URLSearchParams(window.location.search);
+        let id = -1;
+        try {
+            id = parseInt(searchParams.get('id'));
+        } catch (e) {}
+        let folderType = searchParams.get('type');
+        let activeNum = 1; let tempCounter = 1;
+        let tParentId = $(e.currentTarget).parent().parent().attr('id');
+        if (tParentId == "carouselSchema") {
+            activeNum = $('#splitCol_exscard_2').find('#carouselSchema').find('.carousel-item').index($(e.currentTarget)) + tempCounter;
+        } else if (tParentId == "carouselVideo") {
+            tempCounter += $('#splitCol_exscard_2').find('#carouselSchema').find('.carousel-item').length;
+            activeNum = $('#splitCol_exscard_2').find('#carouselVideo').find('.carousel-item').index($(e.currentTarget)) + tempCounter;
+        } else if (tParentId == "carouselAnim") {
+            tempCounter += $('#splitCol_exscard_2').find('#carouselSchema').find('.carousel-item').length;
+            tempCounter += $('#splitCol_exscard_2').find('#carouselVideo').find('.carousel-item').length;
+            activeNum = $('#splitCol_exscard_2').find('#carouselAnim').find('.carousel-item').index($(e.currentTarget)) + tempCounter;
+        }
+        LoadGraphicsModal(id, folderType, activeNum);
+        return;
+
+
         e.preventDefault();
         $('#exerciseGraphicsModal').find('.modal-body').find('.carousel-item').each((ind, elem) => {
             $(elem).removeClass('active');
