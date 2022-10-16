@@ -58,11 +58,11 @@ $(function() {
         if (tParentId == "carouselSchema") {
             activeNum = $('#splitCol_exscard_2').find('#carouselSchema').find('.carousel-item').index($(e.currentTarget)) + tempCounter;
         } else if (tParentId == "carouselVideo") {
-            tempCounter += $('#splitCol_exscard_2').find('#carouselSchema').find('.carousel-item').length;
+            tempCounter += $('#splitCol_exscard_2').find('#carouselSchema').find('.carousel-item:not(.d-none)').length;
             activeNum = $('#splitCol_exscard_2').find('#carouselVideo').find('.carousel-item').index($(e.currentTarget)) + tempCounter;
         } else if (tParentId == "carouselAnim") {
-            tempCounter += $('#splitCol_exscard_2').find('#carouselSchema').find('.carousel-item').length;
-            tempCounter += $('#splitCol_exscard_2').find('#carouselVideo').find('.carousel-item').length;
+            tempCounter += $('#splitCol_exscard_2').find('#carouselSchema').find('.carousel-item:not(.d-none)').length;
+            tempCounter += $('#splitCol_exscard_2').find('#carouselVideo').find('.carousel-item:not(.d-none)').length;
             activeNum = $('#splitCol_exscard_2').find('#carouselAnim').find('.carousel-item').index($(e.currentTarget)) + tempCounter;
         }
         LoadGraphicsModal(id, folderType, activeNum);

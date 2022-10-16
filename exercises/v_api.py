@@ -364,11 +364,19 @@ def POST_copy_exs(request, cur_user, cur_team):
                         setattr(new_exs, key, c_exs.values()[0][key])
                 new_exs.folder = found_folder[0]
                 new_exs.old_id = exs_id
+                c_exs_video = ExerciseVideo.objects.filter(exercise_nfb=c_exs[0])
+                if c_exs_video.exists() and c_exs_video[0].id != None:
+                    new_exs_video = ExerciseVideo(exercise_user=new_exs)
+                    for key in c_exs_video.values()[0]:
+                        if key != "id" and key != "exercise_user" and key != "exercise_club" and key != "exercise_nfb":
+                            setattr(new_exs_video, key, c_exs_video.values()[0][key])
                 try:
                     new_exs.save()
+                    new_exs_video.save()
                     res_data = {'id': new_exs.id}
                     success_status = True
                 except Exception as e:
+                    print(e)
                     res_data = {'id': new_exs.id, 'err': str(e)}
                 exs_params = UserExerciseParamTeam.objects.filter(exercise_nfb=exs_id)
                 if exs_params.exists() and exs_params[0].id != None and success_status:
@@ -393,8 +401,15 @@ def POST_copy_exs(request, cur_user, cur_team):
                     if key != "id" and key != "date_creation":
                         setattr(new_exs, key, c_exs.values()[0][key])
                 new_exs.folder = found_folder[0]
+                c_exs_video = ExerciseVideo.objects.filter(exercise_user=c_exs[0])
+                if c_exs_video.exists() and c_exs_video[0].id != None:
+                    new_exs_video = ExerciseVideo(exercise_user=new_exs)
+                    for key in c_exs_video.values()[0]:
+                        if key != "id" and key != "exercise_user" and key != "exercise_club" and key != "exercise_nfb":
+                            setattr(new_exs_video, key, c_exs_video.values()[0][key])
                 try:
                     new_exs.save()
+                    new_exs_video.save()
                     res_data = {'id': new_exs.id}
                     success_status = True
                 except Exception as e:
