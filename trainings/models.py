@@ -210,4 +210,4 @@ class UserTrainingProtocol(AbstractTrainingProtocol):
     )
 
     class Meta:
-        ordering = ['status__order', 'player_id__card__ref_position']
+        ordering = ['status__order', 'player_id__card__ref_position__order']

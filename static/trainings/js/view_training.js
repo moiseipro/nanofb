@@ -139,7 +139,7 @@ $(window).on('load', function (){
     })
 
     // Добавление игроков в протокол
-    $('#add-player-protocol-modal').on('click', '.add-all-players', function (){
+    $('#add-player-protocol-modal').on('click', '#add-all-players', function (){
         let send_data = {}
         swal(gettext("Add all players from the team of this training session?"), {
             buttons: {
@@ -149,6 +149,38 @@ $(window).on('load', function (){
         }).then(function(isConfirm) {
             if (isConfirm) {
                 ajax_training_action('POST', send_data, 'add all players to the protocol ', id, 'add_all_protocol').then(function (data) {
+                    //console.log(data)
+                    render_protocol_training(id)
+                })
+            }
+        });
+    })
+
+    // Добавление выбранных игроков в протокол
+    $('#add-player-protocol-modal').on('click', '#add-selected-players', function (){
+        let send_data = []
+
+        $('.players-list .player-add-row').each(function () {
+            if($(this).find('.edit-input').is(':checked')){
+                send_data.push({
+                    player_id: $(this).find('.edit-input').val(),
+                    training_id: id,
+                    estimation: 0,
+                    status: null,
+
+                })
+            }
+        })
+        let items = {'items': JSON.stringify(send_data)}
+        console.log(send_data)
+        swal(gettext("Add selected players?"), {
+            buttons: {
+                cancel: true,
+                confirm: true,
+            },
+        }).then(function(isConfirm) {
+            if (isConfirm) {
+                ajax_protocol_training('POST', items, 'add selected players to the protocol ').then(function (data) {
                     //console.log(data)
                     render_protocol_training(id)
                 })
@@ -183,29 +215,35 @@ $(window).on('load', function (){
     })
 
     // Изменение оценки игрока в протоколе
-    $('#player-protocol-table').on('click', '.estimation-change', function () {
+    $('#player-protocol-table').on('change', '.estimation-change', function () {
         let this_obj = $(this)
-        let cur_estimation = this_obj.attr('value')
-        if(cur_estimation == 1 && this_obj.children('i').hasClass('fa-thumbs-down') ||
-            cur_estimation == 2 && this_obj.children('i').hasClass('fa-thumbs-up'))
-            cur_estimation = 0
+        let cur_estimation = this_obj.is(':checked') ? this_obj.attr('value') : 0
+
+        console.log(cur_estimation)
+        this_obj.closest('.player_row').find('.estimation-change[value!="'+cur_estimation+'"]').prop('checked', false)
         let send_data = {"estimation" : cur_estimation}
         let protocol_id = this_obj.closest('.player_row').attr('data-id')
         ajax_protocol_training('PUT', send_data, 'estimation', protocol_id).then(function (data) {
             console.log(data)
-            $('.player_row[data-id="'+protocol_id+'"] .estimation-change[value="'+1+'"] i')
-                .removeClass('fa-thumbs-down').addClass('fa-thumbs-o-down')
-            $('.player_row[data-id="'+protocol_id+'"] .estimation-change[value="'+2+'"] i')
-                .removeClass('fa-thumbs-up').addClass('fa-thumbs-o-up')
-
-            if(data.estimation == 1) {
-                $('.player_row[data-id="' + protocol_id + '"] .estimation-change[value="' + data.estimation + '"] i')
-                    .removeClass('fa-thumbs-o-down').addClass('fa-thumbs-down')
-            }else if(data.estimation == 2) {
-                $('.player_row[data-id="' + protocol_id + '"] .estimation-change[value="' + data.estimation + '"] i')
-                    .removeClass('fa-thumbs-o-up').addClass('fa-thumbs-up')
-            }
         })
+    })
+
+    // Удаление всех игроков из протокола
+    $('#player-protocol-table').on('click', '#delete-all-protocol-players', function () {
+        let send_data = {}
+        swal(gettext("Remove all players from the training protocol?"), {
+            buttons: {
+                cancel: true,
+                confirm: true,
+            },
+        }).then(function(isConfirm) {
+            if (isConfirm) {
+                ajax_training_action('DELETE', send_data, 'delete all players', id, 'delete_all_protocol').then(function (data) {
+                    console.log(data)
+                    $('.player_row').remove()
+                })
+            }
+        });
     })
 
     // Удаление игрока из протокола
@@ -283,16 +321,67 @@ $(window).on('load', function (){
         }
     })
 
-
-    // $('a[href="#training-card"]').on('show.bs.tab', function () {
-    //     render_exercises_training(id)
-    // })
     $('a[href="#training-exercises"]').on('show.bs.tab', function () {
         CountExsInFolder(false);
     })
-    // $('a[href="#training-protocol"]').on('show.bs.tab', function () {
-    //     render_protocol_training(id)
-    // })
+
+    $('#player-protocol-table').on('update-select change', 'select[name="status"]', function () {
+        console.log("TEST")
+        if($(this).find('.red-select').is(':selected')){
+            console.log("SELECT")
+            $(this).addClass('red-select')
+            $(this).removeClass('black-select')
+        } else {
+            $(this).removeClass('red-select')
+            $(this).addClass('black-select')
+        }
+    })
+
+    // Выгрузка команд при открытии окна добавления игрока
+    $('#add-player-protocol-modal').on('show.bs.modal', function () {
+        let send_data = {}
+        ajax_team_action('GET', send_data, 'get teams', '').then(function (data) {
+            let select = ''
+            let options = data.results;
+            console.log(options)
+            let option_html = ''
+            option_html+=`
+                    <option value="" class="">${gettext('Not selected')}</option>
+                `
+            $.each( options, function( key, option ) {
+                option_html+=`
+                    <option value="${ option.id }" class="">${ option.name ? option.name : '---' }</option>
+                `
+            })
+            select = `
+                <select id="team-players-load" class="select custom-select p-0 edit-input text-center" name="status" tabindex="-1" aria-hidden="true" ${!edit_mode ? 'disabled' : ''} style="height: 30px;">
+                    ${ option_html }
+                </select>
+            `
+
+            $('#add-player-protocol-modal .modal-body .team-select').html(select)
+        })
+    })
+
+    // Выгрузка игроков из команды при выборе в селекторе
+    $('#add-player-protocol-modal').on('change', '#team-players-load', function () {
+        let send_data = {}
+        let team_id = $(this).val()
+        ajax_team_action('GET', send_data, 'get players on the team', team_id, 'get_team_players').then(function (data) {
+            console.log(data)
+            let players = data.objs
+            let players_html = ''
+            $.each( players, function( key, player ) {
+                players_html += `
+                    <div class="col-12 border player-add-row">
+                        <input id="player_${player.id}" type="checkbox" class="edit-input" name="id[]" value="${player.id}" style="" ${!edit_mode ? 'disabled' : ''}>
+                        <label class="form-check-label" for="player_${player.id}">${player.full_name}</label>
+                    </div>`
+            })
+            $('#add-player-protocol-modal .modal-body .players-list').html(players_html)
+        })
+
+    })
 
     // sizes of columns in exercises list:
     setTimeout(() => {
@@ -348,7 +437,10 @@ function render_protocol_training(training_id = null, highlight_not_filled = fal
             <th class="p-0 text-center align-middle border">
                 <button title="" class="btn btn-block btn-outline-success btn-sm edit-input" data-toggle="modal" data-target="#add-player-protocol-modal" ${!edit_mode ? 'disabled' : ''}><i class="fa fa-plus" aria-hidden="true"></i></button>
             </th>
-            <th colspan="5" class="p-0 text-center align-middle border">
+            <th class="p-0 text-center align-middle border">
+                <button title="${gettext('Delete all players')}" id="delete-all-protocol-players" class="btn btn-block btn-outline-danger btn-sm edit-input" ${!edit_mode ? 'disabled' : ''}>${gettext('Remove all players')}</button>
+            </th>
+            <th colspan="4" class="p-0 text-center align-middle border">
             </th>
         `
         for (let i = 0; i < exs_group.length; i++) {
@@ -380,11 +472,13 @@ function render_protocol_training(training_id = null, highlight_not_filled = fal
                 let options = data_status.results;
                 let option_html = ''
                 option_html+=`
-                        <option value="">${gettext('Training')}</option>
+                        <option value="" class="black-select">${gettext('Training')}</option>
                     `
                 $.each( options, function( key, option ) {
+                    if(!'trainings' in option.tags) return
+                    if(option.tags['trainings'] != 1) return
                     option_html+=`
-                        <option value="${ option.id }">${ (get_cur_lang() in option.translation_names) ? option.translation_names[get_cur_lang()] : Object.values(exercise.exercise_name)[0] }</option>
+                        <option value="${ option.id }" class="${'trainings_red' in option.tags && option.tags['trainings_red'] ? 'red-select' : 'black-select'}">${ (get_cur_lang() in option.translation_names) ? option.translation_names[get_cur_lang()] : Object.values(exercise.exercise_name)[0] }</option>
                     `
                 })
                 select = `
@@ -410,9 +504,9 @@ function render_protocol_training(training_id = null, highlight_not_filled = fal
                         <td width="150" class="p-0 align-middle">
                             ${select}
                         </td>
-                        <td width="30" class="p-0 text-center align-middle estimation-change edit-custom-input ${!edit_mode ? 'disabled' : ''}" name="estimation" value="1"><i class="fa ${player.estimation == 1 ? 'fa-thumbs-down' : 'fa-thumbs-o-down'}" aria-hidden="true"></i></td>
-                        <td width="30" class="p-0 text-center align-middle estimation-change edit-custom-input ${!edit_mode ? 'disabled' : ''}" name="estimation" value="2"><i class="fa ${player.estimation == 2 ? 'fa-thumbs-up' : 'fa-thumbs-o-up'}" aria-hidden="true"></i></td>
-                        <td width="40" class="p-0 text-center align-middle"></td>
+                        <td width="30" class="p-0 text-center align-middle"><input type="checkbox" class="estimation-change edit-input" name="estimation" value="1" style="width: 25px; height: 25px;" ${!edit_mode ? 'disabled' : ''} ${player.estimation == 1 ? 'checked' : ''}></td>
+                        <td width="30" class="p-0 text-center align-middle"><input type="checkbox" class="estimation-change edit-input" name="estimation" value="2" style="width: 25px; height: 25px;" ${!edit_mode ? 'disabled' : ''} ${player.estimation == 2 ? 'checked' : ''}></td>
+                        <td width="40" class="p-0 text-center align-middle">${player.position != null && player.position != undefined ? player.position : '---'}</td>
                         <td width="200" class="align-middle">
                             <span class="float-left player-name" title="${player.full_name}">${player.full_name}</span>
                         </td>
@@ -431,7 +525,7 @@ function render_protocol_training(training_id = null, highlight_not_filled = fal
                     }
                     player_row += `</tr>`
                     $('#player-protocol-table').append(player_row)
-                    $('#player-protocol-table .player_row[data-id="'+player.id+'"] select[name="status"]').val(player.status)
+                    $('#player-protocol-table .player_row[data-id="'+player.id+'"] select[name="status"]').val(player.status).trigger( "update-select", [ "Custom", "Event" ] )
                     for (let i = 0; i < exs_group.length; i++) {
                         let all_select_check = $('#player-protocol-table .all-player-check[data-group="group_'+(i+1)+'"]')
                         $('#player-protocol-table .player_row').each(function () {

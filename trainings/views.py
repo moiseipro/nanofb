@@ -1,3 +1,5 @@
+import json
+
 from django.http import QueryDict
 from django.shortcuts import render
 from django.views.generic import DetailView
@@ -348,6 +350,20 @@ class TrainingProtocolViewSet(viewsets.ModelViewSet):
             status_exs = 'error'
             return Response(status_exs,
                             status=status.HTTP_400_BAD_REQUEST)
+
+    def create(self, request, *args, **kwargs):
+        data = self.request.data.get('items')
+        data_players = json.loads(data)
+        print(data)
+        print(data_players)
+        if isinstance(data_players, list):  # <- is the main logic
+            serializer = self.get_serializer(data=data_players, many=True)
+        else:
+            serializer = self.get_serializer(data=data_players)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, *args, **kwargs):
         partial = True

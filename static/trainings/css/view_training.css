@@ -14,3 +14,10 @@ input[type=number]::-webkit-outer-spin-button {
 .ui-sortable:not(.ui-sortable-disabled) .exercise-row:active{
 	cursor: grabbing;
 }
+
+.red-select{
+	color: red !important;
+}
+.black-select{
+	color: black;
+}

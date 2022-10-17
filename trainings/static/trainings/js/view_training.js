@@ -159,11 +159,19 @@ $(window).on('load', function (){
     // Добавление выбранных игроков в протокол
     $('#add-player-protocol-modal').on('click', '#add-selected-players', function (){
         let send_data = []
+
         $('.players-list .player-add-row').each(function () {
             if($(this).find('.edit-input').is(':checked')){
-                send_data.push({player_id: $(this).find('.edit-input').val(), training_id: id})
+                send_data.push({
+                    player_id: $(this).find('.edit-input').val(),
+                    training_id: id,
+                    estimation: 0,
+                    status: null,
+
+                })
             }
         })
+        let items = {'items': JSON.stringify(send_data)}
         console.log(send_data)
         swal(gettext("Add selected players?"), {
             buttons: {
@@ -172,7 +180,7 @@ $(window).on('load', function (){
             },
         }).then(function(isConfirm) {
             if (isConfirm) {
-                ajax_protocol_training('PUT', send_data, 'add selected players to the protocol ').then(function (data) {
+                ajax_protocol_training('POST', items, 'add selected players to the protocol ').then(function (data) {
                     //console.log(data)
                     render_protocol_training(id)
                 })

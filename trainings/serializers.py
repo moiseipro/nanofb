@@ -13,8 +13,8 @@ class UserTrainingProtocolSerializer(serializers.ModelSerializer):
         read_only=True
     )
 
-    position = serializers.PrimaryKeyRelatedField(
-        source='player_id.card.ref_position',
+    position = serializers.CharField(
+        source='player_id.card.ref_position.short_name',
         read_only=True
     )
 
