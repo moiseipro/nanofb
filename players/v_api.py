@@ -63,6 +63,29 @@ def set_value_as_int(request, name, def_value = None):
     return res
 
 
+def set_value_as_ref(request, name, ref_type, def_value = None):
+    res = def_value
+    c_id = -1
+    try:
+        c_id = int(request.POST.get(name, def_value))
+    except:
+        pass
+    f_elem = None
+    if ref_type == "team_status":
+        f_elem = PlayerTeamStatus.objects.filter(id=c_id)
+    if ref_type == "player_status":
+        f_elem = PlayerPlayerStatus.objects.filter(id=c_id)
+    if ref_type == "level":
+        f_elem = PlayerLevel.objects.filter(id=c_id)
+    if ref_type == "position":
+        f_elem = PlayerPosition.objects.filter(id=c_id)
+    if ref_type == "foot":
+        f_elem = PlayerFoot.objects.filter(id=c_id)
+    if f_elem and f_elem.exists() and f_elem[0].id != None:
+        res = f_elem[0]
+    return res
+
+
 def set_value_as_date(request, name, def_value = None):
     format_ddmmyyyy = "%d/%m/%Y"
     format_yyyymmdd = "%Y-%m-%d"
@@ -151,11 +174,11 @@ def POST_edit_player(request, cur_user, cur_team):
     c_player_playercard.weight = set_value_as_int(request, "data[weight]", None)
     c_player_playercard.game_num = set_value_as_int(request, "data[game_num]", None)
     c_player_playercard.birthsday = set_value_as_date(request, "data[birthsday]", None)
-    c_player_playercard.ref_team_status = set_value_as_int(request, "data[ref_team_status]", None)
-    c_player_playercard.ref_player_status = set_value_as_int(request, "data[ref_player_status]", None)
-    c_player_playercard.ref_level = set_value_as_int(request, "data[ref_level]", None)
-    c_player_playercard.ref_position = set_value_as_int(request, "data[ref_position]", None)
-    c_player_playercard.ref_foot = set_value_as_int(request, "data[ref_foot]", None)
+    c_player_playercard.ref_team_status = set_value_as_ref(request, "data[ref_team_status]", "team_status", None)
+    c_player_playercard.ref_player_status = set_value_as_ref(request, "data[ref_player_status]", "player_status", None)
+    c_player_playercard.ref_level = set_value_as_ref(request, "data[ref_level]", "level", None)
+    c_player_playercard.ref_position = set_value_as_ref(request, "data[ref_position]", "position", None)
+    c_player_playercard.ref_foot = set_value_as_ref(request, "data[ref_foot]", "foot", None)
     c_player_playercard.come = set_value_as_date(request, "data[come]", None)
     c_player_playercard.leave = set_value_as_date(request, "data[leave]", None)
     try:

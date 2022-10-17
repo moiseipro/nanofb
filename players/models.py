@@ -2,6 +2,7 @@ from statistics import mode
 from django.db import models
 from users.models import User
 from references.models import UserTeam, ClubTeam
+from references.models import PlayerTeamStatus, PlayerPlayerStatus, PlayerLevel, PlayerPosition, PlayerFoot
 
 
 
@@ -12,11 +13,11 @@ class PlayerCard(models.Model):
     weight = models.IntegerField(null=True, blank=True)
     game_num = models.IntegerField(null=True, blank=True)
     birthsday = models.DateField(null=True, blank=True)
-    ref_team_status = models.IntegerField(null=True, blank=True)
-    ref_player_status = models.IntegerField(null=True, blank=True)
-    ref_level = models.IntegerField(null=True, blank=True)
-    ref_position = models.IntegerField(null=True, blank=True)
-    ref_foot = models.IntegerField(null=True, blank=True)
+    ref_team_status = models.ForeignKey(PlayerTeamStatus, on_delete=models.CASCADE, null=True, blank=True)
+    ref_player_status = models.ForeignKey(PlayerPlayerStatus, on_delete=models.CASCADE, null=True, blank=True)
+    ref_level = models.ForeignKey(PlayerLevel, on_delete=models.CASCADE, null=True, blank=True)
+    ref_position = models.ForeignKey(PlayerPosition, on_delete=models.CASCADE, null=True, blank=True)
+    ref_foot = models.ForeignKey(PlayerFoot, on_delete=models.CASCADE, null=True, blank=True)
     come = models.DateField(null=True, blank=True)
     leave = models.DateField(null=True, blank=True)
     contacts = models.JSONField(null=True, blank=True)

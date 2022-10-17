@@ -51,7 +51,6 @@ def player(request):
         if selected_player[0].team:
             cur_team = selected_player[0].team.id
             request.session['team'] = str(cur_team)
-            print(type(request.session['team']))
     # players = UserPlayer.objects.filter(user=cur_user[0], team=cur_team)
     players = v_api.GET_get_players_json(request, cur_user[0], cur_team, False, False)
     refs = {}
