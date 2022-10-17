@@ -121,8 +121,32 @@ class TrainingViewSet(viewsets.ModelViewSet):
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
 
+    @action(detail=True, methods=['delete'])
+    def delete_all_protocol(self, request, pk=None):
+        data = request.data
+        try:
+            UserTraining.objects.get(pk=pk).protocol.clear()
+            return Response({'status': 'protocol_clear', 'objs': None})
+        except:
+            return Response({'status': 'protocol_clear_error', 'objs': None},
+                            status=status.HTTP_400_BAD_REQUEST)
+
     @action(detail=True, methods=['post'])
     def add_protocol(self, request, pk=None):
+
+        data = request.data.get('players', request.data)
+        many = isinstance(data, list)
+        print(data, many)
+        serializer = self.get_serializer(data=data, many=many)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data,
+            status=status.HTTP_201_CREATED,
+            headers=headers
+        )
+
         data = request.data
 
         protocol_count = UserTrainingProtocol.objects.filter(training_id=pk).count()

@@ -2,8 +2,12 @@ from django.http import HttpResponseRedirect
 from django.views.generic.base import TemplateView
 from django.shortcuts import render
 from rest_framework import viewsets
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
+from players.models import UserPlayer
+from players.serializers import UserPlayerSerializer
 from references.forms import CreateTeamForm, CreateSeasonForm
 from references.models import UserSeason, UserTeam, ClubSeason, ClubTeam, ExsAdditionalData, PlayerProtocolStatus
 from references.serializers import UserTeamsSerializer, UserSeasonsSerializer, ExsAdditionalDataSerializer, \
@@ -16,6 +20,15 @@ class TeamViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user_id=self.request.user)
+
+    @action(detail=True, methods=['get'])
+    def get_team_players(self, request, pk=None):
+        data = request.data
+        queryset = UserPlayer.objects.filter(team=pk)
+        print(queryset)
+
+        serializer = UserPlayerSerializer(queryset, many=True)
+        return Response({'status': 'players_got', 'objs': serializer.data})
 
     def get_serializer_class(self):
         if self.action == 'partial_update':

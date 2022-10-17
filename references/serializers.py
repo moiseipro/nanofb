@@ -19,7 +19,7 @@ class PlayerProtocolStatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = PlayerProtocolStatus
         fields = (
-            'id', 'translation_names', 'short_name'
+            'id', 'translation_names', 'short_name', 'tags'
         )
 
 

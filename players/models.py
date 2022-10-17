@@ -39,6 +39,9 @@ class AbstractPlayer(models.Model):
     def get_full_name(self):
         return f"{self.surname} {self.name} {self.patronymic}"
 
+    def get_part_name(self):
+        return f"{self.surname} {self.name}"
+
     class Meta():
         abstract = True
         ordering = ['surname', 'name', 'patronymic']

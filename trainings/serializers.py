@@ -9,7 +9,12 @@ from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExe
 class UserTrainingProtocolSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     full_name = serializers.CharField(
-        source="player_id.get_full_name",
+        source="player_id.get_part_name",
+        read_only=True
+    )
+
+    position = serializers.PrimaryKeyRelatedField(
+        source='player_id.card.ref_position',
         read_only=True
     )
 
@@ -20,7 +25,7 @@ class UserTrainingProtocolSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserTrainingProtocol
         fields = [
-            'id', 'training_id', 'player_id', 'full_name', 'estimation', 'status', 'training_exercise_check'
+            'id', 'training_id', 'player_id', 'full_name', 'estimation', 'status', 'training_exercise_check', 'position'
         ]
 
 

@@ -1,16 +1,10 @@
-$(window).on('load', function (){
+async function ajax_team_action(method, data, action = '', id = '', func = '') {
 
-
-})
-
-async function ajax_protocol_training(method, data, action = '', id = '', func = '') {
-
-    let url = "/trainings/api/protocol/"
+    let url = "/references/api/teams/"
     if(id !== '') url += `${id}/`
     if(func !== '') url += `${func}/`
 
     $('.page-loader-wrapper').fadeIn();
-
     return await $.ajax({
         headers:{"X-CSRFToken": csrftoken },
         url: url,
@@ -18,9 +12,9 @@ async function ajax_protocol_training(method, data, action = '', id = '', func =
         dataType: "JSON",
         data: data,
         success: function(data){
-
+            console.log(data)
         },
-        error: function(jqXHR, textStatus, errorThrown){
+        error: function(jqXHR, textStatus){
             console.log(errorThrown)
             swal(gettext('Training '+action), gettext('Error when action "'+action+'" the training protocol!'), "error");
         },

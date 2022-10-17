@@ -217,11 +217,16 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        ...
+                                        <div class="row">
+                                            <div class="col-12 team-select"></div>
+                                        </div>
+                                        <div class="row players-list py-2">
+
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary add-all-players">{% trans "Add all players" %}</button>
-                                        <button type="button" class="btn btn-primary">{% trans "Add selected" %}</button>
+                                        <button id="add-all-players" type="button" class="btn btn-primary">{% trans "Add all players" %}</button>
+                                        <button id="add-selected-players" type="button" class="btn btn-primary">{% trans "Add selected" %}</button>
                                     </div>
                                 </div>
                             </div>
@@ -236,6 +241,7 @@
 {% endblock %}
 
 {% block custom_scripts %}
+    <script src="{% static 'references/team_ajax.js' %}"></script>
     <script src="{% static 'events/js/event_update.js' %}"></script>
     <script src="{% static 'references/exercise_additional_data.js' %}"></script>
     <script src="{% static 'references/player_protocol_status.js' %}"></script>
