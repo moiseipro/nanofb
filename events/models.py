@@ -1,5 +1,4 @@
-from datetime import date
-
+from statistics import mode
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -8,6 +7,19 @@ from django.utils.translation import pgettext_lazy as _p
 from clubs.models import Club
 from references.models import UserTeam, ClubTeam
 from users.models import User
+from video.models import Video
+
+
+
+class EventVideoLink(models.Model):
+    json_link = models.JSONField(null=True, blank=True) # ['link_1', 'link_2', 'link_3']
+    video = models.ForeignKey(Video, on_delete=models.SET_NULL, null=True, blank=True) # many to many
+    description = models.JSONField(null=True, blank=True) # ['note_1', 'note_2']
+
+    objects = models.Manager()
+    class Meta:
+        abstract = False
+
 
 
 # Create your models here.
@@ -31,6 +43,7 @@ class AbstractEvent(models.Model):
         blank=False,
         default=timezone.now
     )
+    video_link = models.ForeignKey(EventVideoLink, on_delete=models.SET_NULL, null=True, blank=True)
 
     @classmethod
     def get_default_pk(cls):
@@ -112,3 +125,7 @@ class ClubMicrocycles(AbstractMicrocycles):
 
     class Meta(AbstractMicrocycles.Meta):
         pass
+
+
+
+
