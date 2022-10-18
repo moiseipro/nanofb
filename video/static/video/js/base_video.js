@@ -34,7 +34,7 @@ $(window).on('load', function (){
     })
 
     generate_ajax_video_table("calc(100vh - 350px)")
-    //generate_ajax_video_exercise_table("calc(100vh - 350px)")
+    generate_ajax_video_exercise_table("calc(100vh - 350px)")
     video_table
         .on( 'select', function ( e, dt, type, indexes ) {
             let rowData = video_table.rows( indexes ).data().toArray();
@@ -95,9 +95,21 @@ $('#video-filters-clear').on('click', function (){
 
 //Переключение между блочной и табличной структурой видео
 $('#change-format').on('click', function (){
-    $(this).children('i').toggleClass('fa-list').toggleClass('fa-table')
-    $('#table-video-view').toggleClass('d-none')
-    $('#block-video-view').toggleClass('d-none')
+    if(!$('#table-exercises-video-view').is('.d-none')){
+        $('#table-video-view').removeClass('d-none')
+        $('#block-video-view').addClass('d-none')
+        $('#table-exercises-video-view').addClass('d-none')
+    } else {
+        $('#table-video-view').toggleClass('d-none')
+        $('#block-video-view').toggleClass('d-none')
+        $(this).children('i').toggleClass('fa-list').toggleClass('fa-table')
+    }
+})
+$('#exercise-video-format').on('click', function (){
+    $('#table-video-view').addClass('d-none')
+    $('#block-video-view').addClass('d-none')
+    $('#table-exercises-video-view').removeClass('d-none')
+    exercises_video_table.ajax.reload()
 })
 
 function ajax_video_info(id) {

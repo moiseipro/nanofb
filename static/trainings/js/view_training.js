@@ -191,6 +191,9 @@ $(window).on('load', function (){
     // Отметить выполнение упражнения в протоколе
     $('#player-protocol-table').on('click', '.protocol-check-player:not(.disabled)', function () {
         let this_obj = $(this)
+        let isCheck = this_obj.closest('.player_row').find('select').is('.red-select')
+        console.log(isCheck)
+        if(isCheck) return false
         let exercise_training = this_obj.attr('data-exs-id')
         let send_data = {exercise_training : exercise_training}
         let protocol_id = this_obj.closest('.player_row').attr('data-id')
@@ -211,6 +214,9 @@ $(window).on('load', function (){
         let protocol_id = this_obj.closest('.player_row').attr('data-id')
         ajax_protocol_training('PUT', send_data, 'change status', protocol_id).then(function (data) {
             console.log(data)
+            if(data.training_exercise_check.length == 0 || this_obj.closest('.player_row').find('select').is('.red-select')){
+                this_obj.closest('.player_row').find('.protocol-check-player').html('');
+            }
         })
     })
 
@@ -490,8 +496,8 @@ function render_protocol_training(training_id = null, highlight_not_filled = fal
                 let isEmptyPlayer = false
                 $.each( players, function( key, player ) {
                     let line_css
-                    console.log(player.status)
-                    if(!player_line && (player.status != null)) {
+                    console.log(player.status_info)
+                    if(!player_line && (player.status_info != null && 'trainings_red' in player.status_info.tags && player.status_info.tags.trainings_red != 0)) {
                         player_line = true
                         line_css = 'border-top: solid 2px red'
                     }

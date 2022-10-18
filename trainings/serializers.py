@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from exercises.serializers import UserExerciseSerializer
-from references.serializers import ExsAdditionalDataSerializer
+from references.serializers import ExsAdditionalDataSerializer, PlayerProtocolStatusSerializer
 from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExerciseAdditional, UserTrainingProtocol
 
 
@@ -18,6 +18,11 @@ class UserTrainingProtocolSerializer(serializers.ModelSerializer):
         read_only=True
     )
 
+    status_info = PlayerProtocolStatusSerializer(
+        source='status',
+        read_only=True
+    )
+
     def __init__(self, *args, **kwargs):
         many = kwargs.pop('many', True)
         super(UserTrainingProtocolSerializer, self).__init__(many=many, *args, **kwargs)
@@ -25,7 +30,7 @@ class UserTrainingProtocolSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserTrainingProtocol
         fields = [
-            'id', 'training_id', 'player_id', 'full_name', 'estimation', 'status', 'training_exercise_check', 'position'
+            'id', 'training_id', 'player_id', 'full_name', 'estimation', 'status', 'status_info', 'training_exercise_check', 'position'
         ]
 
 

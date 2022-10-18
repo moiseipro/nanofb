@@ -3,7 +3,6 @@ from rest_framework import serializers
 from taggit.serializers import (TagListSerializerField,
                                 TaggitSerializer)
 
-from exercises.serializers import ExerciseVideoSerializer, AdminExerciseSerializer
 from references.serializers import VideoSourceSerializer
 from video.models import Video, VideoTags
 
@@ -52,11 +51,3 @@ class VideoUpdateSerializer(TaggitSerializer, serializers.ModelSerializer):
         fields = (
             'id', 'videosource_id', 'name', 'taggit', 'duration', 'language', 'music', 'links', 'upload_date'
         )
-
-
-class VideoExerciseSerializer(serializers.Serializer):
-    exercise_nfb_id = AdminExerciseSerializer(read_only=True)
-    video = serializers.IntegerField(read_only=True)
-
-    class Meta:
-        datatables_always_serialize = ('exercise_nfb_id', 'video')

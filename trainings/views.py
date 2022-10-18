@@ -332,10 +332,9 @@ class TrainingProtocolViewSet(viewsets.ModelViewSet):
         data = request.data
         instance = self.get_object()
         print(data['exercise_training'])
-        #UserTrainingProtocol.objects.get(pk=pk).training_exercise_check.add(UserTrainingExercise.objects.first())
         training = UserTrainingProtocol.objects.get(pk=pk)
         edit_exercises = training.training_exercise_check
-        print(edit_exercises)
+        print(training.status)
 
         status_exs = ''
         if training:
@@ -348,7 +347,7 @@ class TrainingProtocolViewSet(viewsets.ModelViewSet):
             return Response({'status': status_exs})
         else:
             status_exs = 'error'
-            return Response(status_exs,
+            return Response({'status': status_exs},
                             status=status.HTTP_400_BAD_REQUEST)
 
     def create(self, request, *args, **kwargs):
@@ -372,6 +371,10 @@ class TrainingProtocolViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
+
+        print(serializer.data)
+        if serializer.data['status_info'] != None and 'trainings_reset' in serializer.data['status_info']['tags'] and serializer.data['status_info']['tags']['trainings_reset'] == 1:
+            UserTrainingProtocol.objects.get(pk=serializer.data['id']).training_exercise_check.clear()
 
         return Response(serializer.data)
 

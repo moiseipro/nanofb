@@ -25,8 +25,9 @@ from rest_framework.response import Response
 from taggit.models import Tag
 
 from exercises.models import ExerciseVideo
+from exercises.serializers import ExerciseVideoSerializer
 from video.filters import VideoGlobalFilter
-from video.serializers import VideoSerializer, VideoUpdateSerializer, OnlyVideoSerializer, VideoExerciseSerializer
+from video.serializers import VideoSerializer, VideoUpdateSerializer, OnlyVideoSerializer
 from references.models import VideoSource
 from video.forms import CreateVideoForm, UpdateVideoForm
 from video.models import Video, VideoTags
@@ -240,13 +241,14 @@ class VideoViewSet(viewsets.ModelViewSet):
 
             fs.delete(file_name)
         elif 'second_screensaver' in data:
-            if data['second_screensaver'] == '':
-                data['second_screensaver'] = "1"
+            second_screensaver = data['second_screensaver']
+            if second_screensaver == '':
+                second_screensaver = "1"
             mp_encoder = MultipartEncoder(
                 fields={
                     'id': data.links['nftv'],
                     'type': 'frame',
-                    'time': data['second_screensaver']
+                    'time': second_screensaver
                 }
             )
             response = requests.post(url, data=mp_encoder,
@@ -316,14 +318,27 @@ class VideoExerciseViewSet(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
     def get_serializer_class(self):
-        return VideoExerciseSerializer
+        return ExerciseVideoSerializer
 
     def get_queryset(self):
-        video1 = ExerciseVideo.objects.filter(exercise_nfb_id__isnull=False, video_1__isnull=False).exclude(video_1=None).values('exercise_nfb_id').annotate(video=F('video_1'))
-        video2 = ExerciseVideo.objects.filter(exercise_nfb_id__isnull=False, video_2__isnull=False).exclude(video_2=None).values('exercise_nfb_id').annotate(video=F('video_2'))
-        animation1 = ExerciseVideo.objects.filter(exercise_nfb_id__isnull=False, animation_1__isnull=False).exclude(animation_1=None).values('exercise_nfb_id').annotate(video=F('animation_1'))
-        animation2 = ExerciseVideo.objects.filter(exercise_nfb_id__isnull=False, animation_2__isnull=False).exclude(animation_2=None).values('exercise_nfb_id').annotate(video=F('animation_2'))
-        result = video1 | video2 | animation1 | animation2
+        video1 = ExerciseVideo.objects.filter(exercise_nfb__isnull=False, video_1__isnull=False).\
+            annotate(video_name=F('video_1__name'), video_tags=F('video_1__taggit'), video=F('video_1'),
+                     video_duration=F('video_1__duration'), video_date=F('video_1__upload_date'),
+                     video_source=F('video_1__videosource_id__name'))
+        video2 = ExerciseVideo.objects.filter(exercise_nfb__isnull=False, video_2__isnull=False).\
+            annotate(video_name=F('video_2__name'), video_tags=F('video_2__taggit'), video=F('video_2'),
+                     video_duration=F('video_2__duration'), video_date=F('video_2__upload_date'),
+                     video_source=F('video_2__videosource_id__name'))
+        animation1 = ExerciseVideo.objects.filter(exercise_nfb__isnull=False, animation_1__isnull=False).\
+            annotate(video_name=F('animation_1__name'), video_tags=F('animation_1__taggit'), video=F('animation_1'),
+                     video_duration=F('animation_1__duration'), video_date=F('animation_1__upload_date'),
+                     video_source=F('animation_1__videosource_id__name'))
+        animation2 = ExerciseVideo.objects.filter(exercise_nfb__isnull=False, animation_2__isnull=False).\
+            annotate(video_name=F('animation_2__name'), video_tags=F('animation_2__taggit'), video=F('animation_2'),
+                     video_duration=F('animation_2__duration'), video_date=F('animation_2__upload_date'),
+                     video_source=F('animation_2__videosource_id__name'))
+        #result = video1.union(video2, animation1, animation2, all=True)
+        result = (video1 | video2 | animation1 | animation2).distinct()
         print(result)
         return result
 
