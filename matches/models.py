@@ -3,7 +3,7 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy as _p
-from events.models import UserEvent, ClubEvent
+from events.models import UserEvent, ClubEvent, EventVideoLink
 from references.models import UserTeam, ClubTeam, PlayerProtocolStatus
 from users.models import User
 from video.models import Video
@@ -145,6 +145,8 @@ class AbstractProtocol(models.Model):
     is_goalkeeper = models.BooleanField(default=False)
     border_red = models.SmallIntegerField(default=0)
     border_black = models.SmallIntegerField(default=0)
+    
+    video_link = models.ForeignKey(EventVideoLink, on_delete=models.SET_NULL, null=True, blank=True)
 
     objects = models.Manager()
     class Meta:

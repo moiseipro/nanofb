@@ -4,7 +4,7 @@ import json
 import re
 from datetime import datetime, date, timedelta
 from references.models import UserTeam, ClubTeam
-from events.models import UserEvent, ClubEvent
+from events.models import UserEvent, ClubEvent, EventVideoLink
 from matches.models import UserMatch, ClubMatch, UserProtocol, ClubProtocol
 from references.models import PlayerProtocolStatus
 from players.models import UserPlayer, ClubPlayer
@@ -411,6 +411,72 @@ def POST_edit_players_protocol_order(request, cur_user):
     return JsonResponse({"data": res_data, "success": True}, status=200)
 
 
+def POST_edit_match_video_event(request, cur_user, cur_team):
+    links_data = request.POST.getlist("links[]", [])
+    notes_data = request.POST.getlist("notes[]", [])
+    event_id = -1
+    try:
+        event_id = int(request.POST.get("id", -1))
+    except:
+        pass
+    res_data = "ERROR."
+    success_state = False
+    status_state = 400
+    f_event = UserEvent.objects.filter(id=event_id)
+    if f_event.exists() and f_event[0].id != None:
+        f_event_video = f_event[0].video_link
+        if f_event_video == None:
+            f_event_video = EventVideoLink()
+        f_event_video.json_link = links_data
+        f_event_video.description = notes_data
+        try:
+            f_event_video.save()
+            f_event = f_event[0]
+            f_event.video_link = f_event_video
+            f_event.save()
+            success_state = True
+            status_state = 200
+            res_data = f"Event with video was saved: {f_event.id}."
+        except Exception as e:
+            print(e)
+            res_data = f"Event with video not saved: {f_event.id}"
+            pass
+    return JsonResponse({"data": res_data, "success": success_state}, status=status_state)
+
+
+def POST_edit_match_video_protocol(request, cur_user, cur_team):
+    links_data = request.POST.getlist("links[]", [])
+    notes_data = request.POST.getlist("notes[]", [])
+    protocol_id = -1
+    try:
+        protocol_id = int(request.POST.get("id", -1))
+    except:
+        pass
+    res_data = "ERROR."
+    success_state = False
+    status_state = 400
+    f_protocol = UserProtocol.objects.filter(id=protocol_id)
+    if f_protocol.exists() and f_protocol[0].id != None:
+        f_protocol_video = f_protocol[0].video_link
+        if f_protocol_video == None:
+            f_protocol_video = EventVideoLink()
+        f_protocol_video.json_link = links_data
+        f_protocol_video.description = notes_data
+        try:
+            f_protocol_video.save()
+            f_protocol = f_protocol[0]
+            f_protocol.video_link = f_protocol_video
+            f_protocol.save()
+            success_state = True
+            status_state = 200
+            res_data = f"Event with video was saved: {f_protocol.id}."
+        except Exception as e:
+            print(e)
+            res_data = f"Event with video not saved: {f_protocol.id}"
+            pass
+    return JsonResponse({"data": res_data, "success": success_state}, status=status_state)
+
+
 
 
 def GET_get_match(request, cur_user, cur_team, return_JsonResponse=True):
@@ -460,5 +526,42 @@ def GET_get_match_protocol(request, cur_user, cur_team):
             res_data.append(protocol_dict)
         return JsonResponse({"data": res_data, "success": True}, status=200)
     return JsonResponse({"errors": "Match protocol not found.", "success": False}, status=400)
+
+
+def GET_get_match_video_event(request, cur_user, cur_team):
+    event_id = -1
+    try:
+        event_id = int(request.GET.get("id", -1))
+    except:
+        pass
+    event = UserEvent.objects.filter(id=event_id)
+    if event.exists() and event[0].id != None:
+        res_data = {'links': [], 'notes': []}
+        try:
+            res_data["links"] = event[0].video_link.json_link
+            res_data["notes"] = event[0].video_link.description
+        except:
+            pass
+        return JsonResponse({"data": res_data, "success": True}, status=200)
+    return JsonResponse({"errors": "Event video not found.", "success": False}, status=400)
+
+
+def GET_get_match_video_protocol(request, cur_user, cur_team):
+    protocol_id = -1
+    try:
+        protocol_id = int(request.GET.get("id", -1))
+    except:
+        pass
+    protocol = UserProtocol.objects.filter(id=protocol_id)
+    if protocol.exists() and protocol[0].id != None:
+        res_data = {'links': [], 'notes': []}
+        try:
+            res_data["links"] = protocol[0].video_link.json_link
+            res_data["notes"] = protocol[0].video_link.description
+        except:
+            pass
+        return JsonResponse({"data": res_data, "success": True}, status=200)
+    return JsonResponse({"errors": "Protocol video not found.", "success": False}, status=400)
+
 
 

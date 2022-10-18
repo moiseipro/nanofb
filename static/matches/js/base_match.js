@@ -109,7 +109,9 @@ function RenderProtocolInMatch(data, selectedRow = -1) {
                         <input class="form-control form-control-sm" type="checkbox" name="like" ${elem.like ? "checked": ""}>
                     </td>
                     <td class="text-center">
-                        <i class="fa fa-video-camera" aria-hidden="true"></i>
+                    <button type="button" class="btn btn-sm btn-secondary video-player-protocol">
+                        Видео
+                    </button>
                     </td>
                 </tr>
             `;
@@ -309,6 +311,7 @@ $(function() {
 
     $('#editMatchAll').on('click', (e) => {
         ToggleMatchEditFields(true);
+        ToggleMatchVideoFields(true);
         $('.players-load').removeClass('d-none');
         $(e.currentTarget).addClass('d-none');
         $('#saveMatchAll').removeClass('d-none');
@@ -554,6 +557,15 @@ $(function() {
         let isSelected = $(e.currentTarget).hasClass('selected');
         $('.protocol-players').find('.protocol-row').removeClass('selected');
         $(e.currentTarget).toggleClass('selected', !isSelected);
+    });
+
+    // Video in match or in players protocol
+    $('#openVideoMatch').on('click', (e) => {
+        OpenMatchVideoModal("event", searchParams.get('id'));
+    });
+    $('.players-content').on('click', '.video-player-protocol', (e) => {
+        let protocolId = $(e.currentTarget).parent().parent().attr('data-id');
+        OpenMatchVideoModal("protocol", protocolId);
     });
 
 
