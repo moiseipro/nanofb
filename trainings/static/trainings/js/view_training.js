@@ -257,7 +257,8 @@ $(window).on('load', function (){
         let this_obj = $(this)
         let send_data = {}
         let protocol_id = this_obj.closest('.player_row').attr('data-id')
-        swal(gettext("Remove a player from the training protocol?"), {
+        $('.player_row[data-id="'+protocol_id+'"]').addClass('bg-light')
+        swal(gettext('Remove a player "'+$('.player_row[data-id="'+protocol_id+'"]').find('.player-name').text()+'" from the training protocol?'), {
             buttons: {
                 cancel: true,
                 confirm: true,
@@ -268,6 +269,8 @@ $(window).on('load', function (){
                     console.log(data)
                     $('.player_row[data-id="'+protocol_id+'"]').remove()
                 })
+            } else {
+                $('.player_row[data-id="'+protocol_id+'"]').removeClass('bg-light')
             }
         });
 
@@ -684,7 +687,7 @@ function render_exercises_additional_data(training_exercise_id = null) {
                         ${select}
                     </div>
                     <div class="col pl-0">
-                        <input type="text" name="note" class="form-control form-control-sm rounded-0 w-100 p-0 h-auto text-center edit-input" value="${additional.note ? additional.note:''}" ${!edit_mode ? 'disabled' : ''}>
+                        <input type="text" name="note" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded edit-input" value="${additional.note ? additional.note:''}" ${!edit_mode ? 'disabled' : ''}>
                     </div>
                     <div class="col-sm-12 col-md-1 pl-0 edit-button ${!edit_mode ? 'd-none' : ''}">
                         <button type="button" class="btn btn-sm btn-block btn-danger rounded-0 p-0 h-100 float-right edit-input delete-exercise-additional" ${!edit_mode ? 'disabled' : ''}><i class="fa fa-trash" aria-hidden="true"></i></button>
