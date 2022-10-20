@@ -124,7 +124,7 @@ DB_beget = {
 }
 
 DATABASES = {
-    'default': DB_beget
+    'default': DB_localhost
 }
 
 
