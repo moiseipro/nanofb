@@ -13,15 +13,11 @@ class Club(models.Model):
         max_length=100,
         verbose_name=_('title'),
         help_text=_('Club title. Maximum length of 100 characters.'),
-        null=False,
-        blank=False
     )
     subdomain = models.CharField(
         max_length=10,
         verbose_name=_('subdomain'),
         help_text=_('The domain that will be displayed. The maximum length is 10 characters.'),
-        null=False,
-        blank=False
     )
     groups = models.ManyToManyField(
         Group,
@@ -57,3 +53,10 @@ class Club(models.Model):
         null=False,
         blank=False,
     )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _('Club card')
+        verbose_name_plural = _('Club cards')

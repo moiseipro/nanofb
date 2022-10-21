@@ -1,5 +1,6 @@
-from django.db import models, transaction
+from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django_countries.fields import CountryField
 from django.utils.translation import gettext_lazy as _
 
 from clubs.models import Club
@@ -8,17 +9,68 @@ from version.models import Version
 
 
 class UserPersonal(models.Model):
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    father_name = models.CharField(max_length=30, null=True, blank=True, default=None)
-    country_id = models.IntegerField(null=True, blank=True, default=None)
+    first_name = models.CharField(
+        max_length=50,
+        verbose_name=_('Name'),
+        help_text=_('First name')
+    )
+    last_name = models.CharField(
+        max_length=50,
+        verbose_name=_('Surname'),
+        help_text=_('Last name')
+    )
+    father_name = models.CharField(
+        max_length=50,
+        null=True,
+        blank=True,
+        default=None,
+        verbose_name=_('Patronymic'),
+        help_text=_('Father name')
+    )
+    country_id = CountryField(
+        verbose_name=_('Country'),
+        help_text=_('Country of residence')
+    )
     region_id = models.IntegerField(null=True, blank=True, default=None)
     city = models.CharField(max_length=20, null=True, blank=True, default=None)
-    date_birthsday = models.DateField(null=True, blank=True, default=None)
-    phone = models.CharField(max_length=20, null=True, blank=True, default=None)
-    phone_2 = models.CharField(max_length=20, null=True, blank=True, default=None)
-    email_2 = models.CharField(max_length=20, null=True, blank=True, default=None)
-    skype = models.CharField(max_length=20, null=True, blank=True, default=None)
+    date_birthsday = models.DateField(
+        null=True,
+        blank=True,
+        default=None,
+        verbose_name=_('Birthday'),
+        help_text=_('Date of birth')
+    )
+    phone = models.CharField(
+        max_length=25,
+        null=True,
+        blank=True,
+        default=None,
+        verbose_name=_('Phone'),
+        help_text=_('Phone number')
+    )
+    phone_2 = models.CharField(
+        max_length=25,
+        null=True,
+        blank=True,
+        default=None,
+        verbose_name=_('Spare phone'),
+        help_text=_('Spare phone number')
+    )
+    email_2 = models.CharField(
+        max_length=60,
+        null=True,
+        blank=True,
+        default=None,
+        verbose_name=_('Spare email'),
+        help_text=_('Spare email')
+    )
+    skype = models.CharField(
+        max_length=20,
+        null=True,
+        blank=True,
+        default=None,
+        verbose_name=_('Skype'),
+    )
 
     @property
     def full_name(self):
@@ -33,6 +85,9 @@ class UserPersonal(models.Model):
     def __str__(self):
         return '%s %s %s' % (self.last_name, self.first_name, self.father_name)
 
+    class Meta:
+        verbose_name = _('Personal information')
+
 
 class UserPayment(models.Model):
     last_invoice_id = models.IntegerField(null=True, blank=True, default=None)
@@ -43,6 +98,9 @@ class UserPayment(models.Model):
     def get_default_pk(cls):
         payment = cls.objects.create()
         return payment.pk
+
+    class Meta:
+        verbose_name = _('Payment information')
 
 
 class User(AbstractUser):
@@ -108,4 +166,3 @@ class User(AbstractUser):
             self.payment = UserPayment.objects.create()
 
         super(User, self).save(*args, **kwargs)
-
