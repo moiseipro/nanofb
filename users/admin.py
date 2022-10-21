@@ -1,5 +1,5 @@
 from django.contrib import admin
-from users.models import User, UserPersonal
+from users.models import User, UserPersonal, UserPayment
 
 from django.utils.translation import gettext_lazy as _
 
@@ -19,3 +19,4 @@ class UserAdmin(admin.ModelAdmin):
 
 admin.site.register(User, UserAdmin)
 admin.site.register(UserPersonal)
+admin.site.register(UserPayment)
