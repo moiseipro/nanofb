@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'taggit',
     'colorfield',
+    'django_countries',
 
     'nanofootball.apps.NanofootballConfig',
     'users.apps.UsersConfig',
