@@ -32,6 +32,7 @@ function LoadMatchOne(id = null) {
 function RenderMatchOne(data) {
     $('.card-body').find('.toggle-collapse[data-target="#collapse-team"]').text(data.team_name);
     $('.card-body').find('.toggle-collapse[data-target="#collapse-opponent"]').text(data.opponent_name);
+    $('#openVideoMatch').toggleClass('btn-empty', !data.videos_count > 0);
 }
 
 function RenderProtocolInMatch(data, selectedRow = -1) {
@@ -109,7 +110,7 @@ function RenderProtocolInMatch(data, selectedRow = -1) {
                         <input class="form-control form-control-sm" type="checkbox" name="like" ${elem.like ? "checked": ""}>
                     </td>
                     <td class="text-center">
-                    <button type="button" class="btn btn-sm btn-secondary video-player-protocol">
+                    <button type="button" class="btn btn-sm btn-secondary video-player-protocol ${elem.videos_count > 0 ? '' : 'btn-empty'}">
                         Видео
                     </button>
                     </td>

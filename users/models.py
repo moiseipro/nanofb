@@ -26,8 +26,8 @@ class UserPersonal(models.Model):
 
     @classmethod
     def get_default_pk(cls):
-        personal, created = cls.objects.get_or_create(
-            first_name=_('No name'), last_name=_('No last name'))
+        personal = cls(first_name=_('No name'), last_name=_('No last name'))
+        personal.save()
         return personal.pk
 
     def __str__(self):
@@ -41,7 +41,8 @@ class UserPayment(models.Model):
 
     @classmethod
     def get_default_pk(cls):
-        payment, created = cls.objects.get_or_create()
+        payment = cls()
+        payment.save()
         return payment.pk
 
 

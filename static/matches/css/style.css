@@ -80,3 +80,10 @@ table.protocol-players > tbody > tr > td > .form-control {
 .form-error {
     border: 2px solid rgb(255, 51, 51) !important;
 }
+
+
+.btn.btn-empty {
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+}
+

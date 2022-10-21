@@ -176,6 +176,15 @@ def get_matches_refs(request):
     return refs
 
 
+def count_videos(data):
+    counter = 0
+    if data and data['links'] and isinstance(data['links'], list):
+        for elem in data['links']:
+            if elem != "":
+                counter += 1
+    return counter
+
+
 
 # --------------------------------------------------
 # MATCHES API
@@ -496,6 +505,8 @@ def GET_get_match(request, cur_user, cur_team, return_JsonResponse=True):
         res_data['opponent_name'] = match[0].opponent
         match_res = get_match_result(res_data)
         res_data['result'] = match_res[0]
+        match_videos = GET_get_match_video_event(request, cur_user, cur_team, False, match[0].event_id.id)
+        res_data['videos_count'] = count_videos(match_videos)
         if return_JsonResponse:
             return JsonResponse({"data": res_data, "success": True}, status=200)
         else:
@@ -523,17 +534,21 @@ def GET_get_match_protocol(request, cur_user, cur_team):
             protocol_dict['status_full'] = tmp_status['full']
             protocol_dict['status_short'] = tmp_status['short']
             protocol_dict['status_red'] = 1 if protocol_elem.p_status and 'matches_red' in protocol_elem.p_status.tags and protocol_elem.p_status.tags['matches_red'] == 1 else 0
+            protocol_videos = GET_get_match_video_protocol(request, cur_user, cur_team, False, protocol_elem.id)
+            protocol_dict['videos_count'] = count_videos(protocol_videos)
             res_data.append(protocol_dict)
         return JsonResponse({"data": res_data, "success": True}, status=200)
     return JsonResponse({"errors": "Match protocol not found.", "success": False}, status=400)
 
 
-def GET_get_match_video_event(request, cur_user, cur_team):
+def GET_get_match_video_event(request, cur_user, cur_team, returnJSONResponse=True, custom_id=None):
     event_id = -1
     try:
         event_id = int(request.GET.get("id", -1))
     except:
         pass
+    if custom_id:
+        event_id = custom_id
     event = UserEvent.objects.filter(id=event_id)
     if event.exists() and event[0].id != None:
         res_data = {'links': [], 'notes': []}
@@ -542,16 +557,24 @@ def GET_get_match_video_event(request, cur_user, cur_team):
             res_data["notes"] = event[0].video_link.description
         except:
             pass
-        return JsonResponse({"data": res_data, "success": True}, status=200)
-    return JsonResponse({"errors": "Event video not found.", "success": False}, status=400)
+        if returnJSONResponse:
+            return JsonResponse({"data": res_data, "success": True}, status=200)
+        else:
+            return res_data
+    if returnJSONResponse:
+        return JsonResponse({"errors": "Event video not found.", "success": False}, status=400)
+    else:
+        return None
 
 
-def GET_get_match_video_protocol(request, cur_user, cur_team):
+def GET_get_match_video_protocol(request, cur_user, cur_team, returnJSONResponse=True, custom_id=None):
     protocol_id = -1
     try:
         protocol_id = int(request.GET.get("id", -1))
     except:
         pass
+    if custom_id:
+        protocol_id = custom_id
     protocol = UserProtocol.objects.filter(id=protocol_id)
     if protocol.exists() and protocol[0].id != None:
         res_data = {'links': [], 'notes': []}
@@ -560,8 +583,14 @@ def GET_get_match_video_protocol(request, cur_user, cur_team):
             res_data["notes"] = protocol[0].video_link.description
         except:
             pass
-        return JsonResponse({"data": res_data, "success": True}, status=200)
-    return JsonResponse({"errors": "Protocol video not found.", "success": False}, status=400)
+        if returnJSONResponse:
+            return JsonResponse({"data": res_data, "success": True}, status=200)
+        else:
+            return res_data
+    if returnJSONResponse:
+        return JsonResponse({"errors": "Protocol video not found.", "success": False}, status=400)
+    else:
+        return None
 
 
 

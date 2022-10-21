@@ -100,7 +100,7 @@ def get_exercises_params(request, user, team):
     folders = []
     nfb_folders = []
     refs = {}
-    if user.exists() and user[0].club_id != None:
+    if user.exists() and user[0].id != None:
         # добавить проверку на клуб версию
         folders = UserFolder.objects.filter(user=user[0], team=team, visible=True).values()
     nfb_folders = AdminFolder.objects.filter(visible=True).values()
