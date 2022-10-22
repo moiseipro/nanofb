@@ -1,7 +1,9 @@
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 from users.models import User
 from references.models import UserTeam, ClubTeam
 from video.models import Video
+
 
 
 class AbstractFolder(models.Model):
@@ -66,6 +68,21 @@ class ClubFolder(AbstractFolder):
         return f"[id: {self.id}] {self.short_name}. {self.name}"
 
 
+class ExerciseVideo(models.Model):
+    video = models.ForeignKey(Video, on_delete=models.CASCADE, null=True, blank=True, related_name="video")
+    type = models.IntegerField(
+        help_text='1-2 - видео, 3-4 - анимация',
+        default=0,
+        validators=[
+            MaxValueValidator(4),
+            MinValueValidator(1)
+        ],
+    )
+    order = models.IntegerField(default=0)
+
+    objects = models.Manager()
+
+
 class AbstractExercise(models.Model):
     date_creation = models.DateField(auto_now_add=True)
     order = models.IntegerField(
@@ -98,6 +115,8 @@ class AbstractExercise(models.Model):
     video_data = models.JSONField(null=True, blank=True)
     animation_data = models.JSONField(null=True, blank=True) # {'data': {'custom': "<t>...</t>", default: ["id_1", "id_2"...]}}
 
+    videos = models.ManyToManyField(ExerciseVideo)
+
     old_id = models.IntegerField(null=True, blank=True) # from old site
     clone_nfb_id = models.IntegerField(null=True, blank=True) # id of admin exs after copy
 
@@ -112,6 +131,7 @@ class AbstractExercise(models.Model):
 
 class AdminExercise(AbstractExercise):
     folder = models.ForeignKey(AdminFolder, on_delete=models.CASCADE)
+    # videos = models.ManyToManyField(Video, through="ExerciseVideo", through_fields=("exercise_nfb", "video"))
     class Meta(AbstractExercise.Meta):
         abstract = False
 
@@ -119,6 +139,7 @@ class AdminExercise(AbstractExercise):
 class UserExercise(AbstractExercise):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     folder = models.ForeignKey(UserFolder, on_delete=models.CASCADE)
+    # videos = models.ManyToManyField(Video, through="ExerciseVideo", through_fields=("exercise_user", "video"))
     class Meta(AbstractExercise.Meta):
         abstract = False
 
@@ -126,6 +147,7 @@ class UserExercise(AbstractExercise):
 class ClubExercise(AbstractExercise):
     # club = models.ForeignKey(Club, on_delete=models.CASCADE)
     folder = models.ForeignKey(ClubFolder, on_delete=models.CASCADE)
+    # videos = models.ManyToManyField(Video, through="ExerciseVideo", through_fields=("exercise_club", "video"))
     class Meta(AbstractExercise.Meta):
         abstract = False
 
@@ -166,13 +188,3 @@ class UserExerciseParamTeam(models.Model):
 
 
 
-class ExerciseVideo(models.Model):
-    exercise_user = models.ForeignKey(UserExercise, on_delete=models.CASCADE, null=True, blank=True)
-    exercise_club = models.ForeignKey(ClubExercise, on_delete=models.CASCADE, null=True, blank=True)
-    exercise_nfb = models.ForeignKey(AdminExercise, on_delete=models.CASCADE, null=True, blank=True)
-    video_1 = models.ForeignKey(Video, on_delete=models.CASCADE, null=True, blank=True, related_name="video_1")
-    video_2 = models.ForeignKey(Video, on_delete=models.CASCADE, null=True, blank=True, related_name="video_2")
-    animation_1 = models.ForeignKey(Video, on_delete=models.CASCADE, null=True, blank=True, related_name="animation_1")
-    animation_2 = models.ForeignKey(Video, on_delete=models.CASCADE, null=True, blank=True, related_name="animation_2")
-
-    objects = models.Manager()
