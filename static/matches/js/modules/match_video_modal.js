@@ -117,7 +117,8 @@ function SaveMatchVideoModal() {
             if (res.success) {
                 swal("Готово", "Видео успешно обновлено.", "success")
                 .then((value) => {
-                    $('#matchVideoModal').modal('hide');
+                    $('.page-loader-wrapper').fadeIn();
+                    window.location.reload();
                 });
             }
         },
@@ -172,5 +173,15 @@ $(function() {
         SaveMatchVideoModal();
     });
 
+    $('#matchVideoModal').on('hide.bs.modal', (e) => {
+        $('#matchVideoModal').find('.video-js').each((ind, elem) => {
+            if (elem.player) {elem.player.pause();}
+        });
+    });
+    $('#matchVideoModal').on('click', '.col-1', (e) => {
+        $('#matchVideoModal').find('.video-js').each((ind, elem) => {
+            if (elem.player) {elem.player.pause();}
+        });
+    });
 
 });

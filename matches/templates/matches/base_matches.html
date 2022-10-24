@@ -97,6 +97,7 @@
                                                     <th class="text-center">Формат матча</th>
                                                     <th class="text-center">Турнир</th>
                                                     <th class="text-center">Место</th>
+                                                    <th class="text-center">Видео</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -145,6 +146,17 @@
                                                             {{ match.place }}
                                                         {% endif %}
                                                     </td>
+                                                    <td class="text-center">
+                                                        {% if match.videos_count > 0 %}
+                                                            <button type="button" class="btn btn-sm btn-secondary video-player-match">
+                                                                Видео
+                                                            </button>
+                                                        {% else %}
+                                                            <button type="button" class="btn btn-sm btn-secondary video-player-match btn-empty">
+                                                                Видео
+                                                            </button>
+                                                        {% endif %}
+                                                    </td>
                                                 </tr>
                                                 {% endfor %}
                                             </tbody>
@@ -168,6 +180,7 @@
                                                     <th class="text-center">ж.к.</th>
                                                     <th class="text-center">к.к.</th>
                                                     <th class="text-center">оц.</th>
+                                                    <th class="text-center">видео</th>
                                                 </tr>
                                             </thead>
                                             <tbody></tbody>
@@ -257,10 +270,12 @@
     </div>
 
     {% include 'matches/modules/match_edit_modal.html' %}
+    {% include 'matches/modules/match_video_modal.html' %}
 
 {% endblock %}
 {% block custom_scripts %}
     <script src="{% static 'matches/js/modules/match_edit_modal.js' %}"></script>
+    <script src="{% static 'matches/js/modules/match_video_modal.js' %}"></script>
     <script src="{% static 'matches/js/modules/match_protocol.js' %}"></script>
     <script src="{% static 'matches/js/base_matches.js' %}"></script>
 {% endblock %}

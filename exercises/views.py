@@ -87,7 +87,7 @@ def folders(request):
     except:
         pass
     found_folders = []
-    if cur_user.exists() and cur_user[0].club_id != None:
+    if cur_user.exists() and cur_user[0].id != None:
         # добавить проверку на клуб версию
         found_folders = UserFolder.objects.filter(user=cur_user[0], team=cur_team)
     return render(request, 'exercises/base_folders.html', {

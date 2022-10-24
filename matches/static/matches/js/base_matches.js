@@ -17,7 +17,8 @@ let protocol_table_options = {
     },
     "orderFixed": [0, 'asc'],
     "columnDefs": [
-        {"width": "35%", "targets": 2},
+        {"searchable": false, "orderable": false, "targets": [3, 12]},
+        {"width": "30%", "targets": 2},
         {"visible": false, "targets": 0}
     ]
 };
@@ -77,6 +78,11 @@ function RenderProtocolInMatches(data) {
                     <td class="text-center">
                         ${elem.estimation ? elem.estimation : '-'}
                     </td>
+                    <td class="text-center">
+                        <button type="button" class="btn btn-sm btn-secondary video-player-protocol ${elem.videos_count > 0 ? '' : 'btn-empty'}">
+                            Видео
+                        </button>
+                    </td>
                 </tr>
             `;
             if (!elem.is_opponent) {
@@ -120,7 +126,7 @@ $(function() {
         drawCallback: function( settings ) {
         },
         columnDefs: [
-            { "searchable": false, "orderable": false, "targets": [2, 6] }
+            {"searchable": false, "orderable": false, "targets": [2, 6, 12]}
         ],
     });
     protocol_table = $('#protocol').DataTable(protocol_table_options);
@@ -143,7 +149,7 @@ $(function() {
 
 
     $('#matches').on('click', '.match-row', (e) => {
-        if ($(e.target).is("a") || $(e.target).is('i')) {return;}
+        if ($(e.target).is("a") || $(e.target).is('i') || $(e.target).is('.btn')) {return;}
         let isSelected = $(e.currentTarget).hasClass("selected");
         $('#matches').find('.match-row').removeClass("selected");
         $(e.currentTarget).toggleClass("selected", !isSelected);
@@ -153,6 +159,15 @@ $(function() {
         } else {
             LoadProtocolMatch(-1, false);
         }
+    });
+    $('#matches').on('click', '.video-player-match', (e) => {
+        let cId = $(e.currentTarget).parent().parent().attr('data-id');
+        OpenMatchVideoModal("event", cId);
+    });
+
+    $('#protocol').on('click', '.video-player-protocol', (e) => {
+        let cId = $(e.currentTarget).parent().parent().attr('data-id');
+        OpenMatchVideoModal("protocol", cId);
     });
 
     $('.card-body').on('click', 'button[action="goToMatchCard"]', (e) => {

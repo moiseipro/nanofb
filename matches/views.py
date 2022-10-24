@@ -36,6 +36,8 @@ def matches(request):
         match_obj['o_goals'] = match.o_goals if match.o_goals != 0 else '-'
         match_obj['penalty'] = match.penalty if match.penalty != 0 else '-'
         match_obj['o_penalty'] = match.o_penalty if match.o_penalty != 0 else '-'
+        match_videos = v_api.GET_get_match_video_event(request, cur_user[0], cur_team, False, match.event_id.id)
+        match_obj['videos_count'] = v_api.count_videos(match_videos)
         matches.append(match_obj)
     refs = {}
     refs = v_api.get_matches_refs(request)
