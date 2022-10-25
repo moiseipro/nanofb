@@ -49,7 +49,7 @@ class MixUserReference(models.Model):
 
 
 class MixClubReference(models.Model):
-    user_id = models.ForeignKey(
+    club_id = models.ForeignKey(
         Club,
         on_delete=models.CASCADE
     )

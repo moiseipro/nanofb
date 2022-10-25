@@ -90,8 +90,6 @@ class SettingsView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['teams_list'] = UserTeam.objects.filter(user_id=self.request.user)
-        context['seasons_list'] = UserSeason.objects.filter(user_id=self.request.user)
         context['team_form'] = CreateTeamForm
         context['season_form'] = CreateSeasonForm
         return context

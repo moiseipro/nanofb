@@ -24,7 +24,7 @@ from requests_toolbelt.multipart.encoder import MultipartEncoder
 from rest_framework.response import Response
 from taggit.models import Tag
 
-from exercises.models import ExerciseVideo
+from exercises.models import ExerciseVideo, AdminExercise
 from exercises.serializers import ExerciseVideoSerializer
 from video.filters import VideoGlobalFilter
 from video.serializers import VideoSerializer, VideoUpdateSerializer, OnlyVideoSerializer
@@ -321,24 +321,8 @@ class VideoExerciseViewSet(viewsets.ModelViewSet):
         return ExerciseVideoSerializer
 
     def get_queryset(self):
-        video1 = ExerciseVideo.objects.filter(exercise_nfb__isnull=False, video_1__isnull=False).\
-            annotate(video_name=F('video_1__name'), video_tags=F('video_1__taggit'), video=F('video_1'),
-                     video_duration=F('video_1__duration'), video_date=F('video_1__upload_date'),
-                     video_source=F('video_1__videosource_id__name'))
-        video2 = ExerciseVideo.objects.filter(exercise_nfb__isnull=False, video_2__isnull=False).\
-            annotate(video_name=F('video_2__name'), video_tags=F('video_2__taggit'), video=F('video_2'),
-                     video_duration=F('video_2__duration'), video_date=F('video_2__upload_date'),
-                     video_source=F('video_2__videosource_id__name'))
-        animation1 = ExerciseVideo.objects.filter(exercise_nfb__isnull=False, animation_1__isnull=False).\
-            annotate(video_name=F('animation_1__name'), video_tags=F('animation_1__taggit'), video=F('animation_1'),
-                     video_duration=F('animation_1__duration'), video_date=F('animation_1__upload_date'),
-                     video_source=F('animation_1__videosource_id__name'))
-        animation2 = ExerciseVideo.objects.filter(exercise_nfb__isnull=False, animation_2__isnull=False).\
-            annotate(video_name=F('animation_2__name'), video_tags=F('animation_2__taggit'), video=F('animation_2'),
-                     video_duration=F('animation_2__duration'), video_date=F('animation_2__upload_date'),
-                     video_source=F('animation_2__videosource_id__name'))
-        #result = video1.union(video2, animation1, animation2, all=True)
-        result = (video1 | video2 | animation1 | animation2).distinct()
+        video = ExerciseVideo.objects.filter()
+        result = video
         print(result)
         return result
 
