@@ -144,6 +144,12 @@ class ClubTeam(AbstractReference, MixClubReference):
         help_text=_('Team status.'),
         default=TeamStatus.get_default_pk
     )
+    users = models.ManyToManyField(
+        User,
+        blank=True,
+        verbose_name=_('users'),
+        help_text=_('Users who have access to the team'),
+    )
 
     class Meta:
         verbose_name = _('Club Team')

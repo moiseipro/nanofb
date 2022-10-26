@@ -10,7 +10,7 @@ class TeamAndSeasons:
         # Code to be executed for each request before
         # the view (and later middleware) are called.
         if request.user.club_id is not None:
-            request.teams_list = ClubTeam.objects.filter(club_id=request.user.club_id)
+            request.teams_list = ClubTeam.objects.filter(club_id=request.user.club_id, users=request.user)
             request.seasons_list = ClubSeason.objects.filter(club_id=request.user.club_id)
         else:
             request.teams_list = UserTeam.objects.filter(user_id=request.user)
