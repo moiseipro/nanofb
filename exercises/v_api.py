@@ -198,8 +198,15 @@ def get_exs_animation_data(data):
     return res
 
 
-def get_exs_video_data2(data, exs):
-    for video in exs.videos.through.objects.all():
+def get_exs_video_data2(data, exs, folder_type):
+    videos = []
+    if folder_type == FOLDER_NFB:
+        videos = exs.videos.through.objects.filter(exercise_nfb=exs)
+    elif folder_type == FOLDER_TEAM:
+        videos = exs.videos.through.objects.filter(exercise_user=exs)
+    elif folder_type == FOLDER_CLUB:
+        videos = exs.videos.through.objects.filter(exercise_club=exs)
+    for video in videos:
         t_key = ""
         if video.type == 1:
             t_key = 'video_1'
@@ -957,7 +964,7 @@ def GET_get_exs_one(request, cur_user, cur_team):
     res_exs['ref_age_category'] = res_exs['ref_age_category_id']
     res_exs['ref_train_part'] = res_exs['ref_train_part_id']
     res_exs['ref_cognitive_load'] = res_exs['ref_cognitive_load_id']
-    res_exs = get_exs_video_data2(res_exs, c_exs[0])
+    res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type)
 
     # res_exs['stress_type'] = get_by_language_code(res_exs['stress_type'], request.LANGUAGE_CODE)
     return JsonResponse({"data": res_exs, "success": True}, status=200)
@@ -987,7 +994,7 @@ def GET_get_exs_graphic_content(request, cur_user, cur_team):
     res_exs['scheme_data'] = get_exs_scheme_data(res_exs['scheme_data'])
     res_exs['video_data'] = get_exs_video_data(res_exs['video_data'])
     res_exs['animation_data'] = get_exs_animation_data(res_exs['animation_data'])
-    res_exs = get_exs_video_data2(res_exs, c_exs[0])
+    res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type)
     return JsonResponse({"data": res_exs, "success": True}, status=200)
 
 
