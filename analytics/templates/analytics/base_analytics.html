@@ -1,0 +1,138 @@
+{% extends '../base/app_main.html' %}
+{% load static %}
+
+{% block title %}Аналитика{% endblock %}
+
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'analytics/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+    <main class="">
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-1">
+                    <div class="card-body py-0 scrollable-block">
+                        <div class="card-inside">
+                            <div class="up-block-content">
+                                <div class="row">
+                                    <div class="col-12 btn-group">
+                                        <button type="button" class="btn btn-primary btn-sm mx-1" id="">
+                                            Кнопка 1
+                                        </button>
+                                        <button type="button" class="btn btn-primary btn-sm mx-1" id="">
+                                            Кнопка 2
+                                        </button>
+                                        <button type="button" class="btn btn-primary btn-sm mx-1" id="">
+                                            Кнопка 3
+                                        </button>
+                                        <button type="button" class="btn btn-primary btn-sm mx-1" id="">
+                                            Кнопка 4
+                                        </button>
+                                        <button type="button" class="btn btn-primary btn-sm mx-1" id="">
+                                            Кнопка 5
+                                        </button>
+                                        <button type="button" class="btn btn-primary btn-sm mx-1" id="">
+                                            Кнопка 6
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="analytics-table-container mt-2">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="table-responsive">
+                                            <table id="analytics" class="table table-sm table-striped table-bordered dataTable" style="width:100%;">
+                                                <thead>
+                                                    <tr class="">
+                                                        <th class="border text-center"></th>
+                                                        <th class="border text-center" colspan="4">Статистика</th>
+                                                        <th class="border text-center" colspan="7">Игры</th>
+                                                        <th class="border text-center" colspan="3">Гол/Пас</th>
+                                                        <th class="border text-center" colspan="4">Тренировки</th>
+                                                        <th class="border text-center" colspan="{{ folders|length }}">Тип упр.</th>
+                                                        <th class="border text-center" colspan="2">С мячом</th>
+                                                    </tr>
+                                                    <tr class="">
+                                                        <th class="text-center">Фамилия Имя</th>
+        
+                                                        <th class="text-center" title="Болезни">
+                                                            <i class="fa fa-medkit text-secondary" aria-hidden="true"></i>
+                                                        </th>
+                                                        <th class="text-center" title="Травмы">
+                                                            <i class="fa fa-medkit text-danger" aria-hidden="true"></i>
+                                                        </th>
+                                                        <th class="text-center" title="Пропуски">
+                                                            <i class="fa fa-long-arrow-down" aria-hidden="true"></i>
+                                                        </th>
+                                                        <th class="text-center" title="В Сборной">A/U</th>
+        
+                                                        <th class="text-center" title="Количество игр">
+                                                            <i class="fa fa-futbol-o" aria-hidden="true"></i>
+                                                        </th>
+                                                        <th class="text-center" title="Суммарное время всех игр">
+                                                            <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                                        </th>
+                                                        <th class="text-center">ж.к.</th>
+                                                        <th class="text-center">к.к.</th>
+                                                        <th class="text-center">Оц.</th>
+                                                        <th class="text-center"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></th>
+                                                        <th class="text-center"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></th>
+        
+                                                        <th class="text-center">гол</th>
+                                                        <th class="text-center">пен</th>
+                                                        <th class="text-center">пас</th>
+        
+                                                        <th class="text-center" title="Количество тренировок">
+                                                            <i class="fa fa-futbol-o" aria-hidden="true"></i>
+                                                        </th>
+                                                        <th class="text-center" title="Суммарное время всех тренировок">
+                                                            <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                                        </th>
+                                                        <th class="text-center"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></th>
+                                                        <th class="text-center"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></th>
+                                                        
+                                                        {% for folder in folders %}
+                                                        <th class="text-center h-folder" data-id="{{ folder.id }}">{{ folder.short_name }}</th>
+                                                        {% endfor %}
+        
+                                                        <th class="text-center"><i class="fa fa-futbol-o" aria-hidden="true"></i></th>
+                                                        <th class="text-center"><i class="fa fa-times" aria-hidden="true"></i></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-1 px-0" style="max-width:4%!important;">
+                                        <div class="row mx-0 mb-1"><div class="col-12 d-flex justify-content-center">
+                                            <button class="btn btn-outline-primary season-toggle active" type="" title="Сезон">
+                                                C.
+                                            </button>
+                                        </div></div>
+                                        <div class="row mx-0 mb-1"><div class="col-12 d-flex justify-content-center">
+                                            <button class="btn btn-outline-primary season-toggle" type="-1" title="Последние 30 дней">
+                                                30
+                                            </button>
+                                        </div></div>
+                                        {% for month in months %}
+                                            <div class="row mx-0 mb-1"><div class="col-12 d-flex justify-content-center">
+                                                <button class="btn btn-outline-primary season-toggle" type="{{ forloop.counter }}" title="{{ month.name }}">
+                                                    {{ month.short }}
+                                                </button>
+                                            </div></div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
+{% block custom_scripts %}
+    <script src="{% static 'analytics/js/base_analytics.js' %}"></script>
+{% endblock %}

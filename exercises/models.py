@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from users.models import User
 from references.models import UserTeam, ClubTeam
+from references.models import ExsGoal, ExsBall, ExsTeamCategory, ExsAgeCategory, ExsTrainPart, ExsCognitiveLoad
 from video.models import Video
 
 
@@ -103,12 +104,12 @@ class AbstractExercise(models.Model):
     )
 
     title = models.JSONField(null=True, blank=True)
-    ref_goal = models.IntegerField(null=True, blank=True)
-    ref_ball = models.IntegerField(null=True, blank=True)
-    ref_team_category = models.IntegerField(null=True, blank=True)
-    ref_age_category = models.IntegerField(null=True, blank=True)
-    ref_train_part = models.IntegerField(null=True, blank=True)
-    ref_cognitive_load = models.IntegerField(null=True, blank=True)
+    ref_goal = models.ForeignKey(ExsGoal, on_delete=models.SET_NULL, null=True, blank=True)
+    ref_ball = models.ForeignKey(ExsBall, on_delete=models.SET_NULL, null=True, blank=True)
+    ref_team_category = models.ForeignKey(ExsTeamCategory, on_delete=models.SET_NULL, null=True, blank=True)
+    ref_age_category = models.ForeignKey(ExsAgeCategory, on_delete=models.SET_NULL, null=True, blank=True)
+    ref_train_part = models.ForeignKey(ExsTrainPart, on_delete=models.SET_NULL, null=True, blank=True)
+    ref_cognitive_load = models.ForeignKey(ExsCognitiveLoad, on_delete=models.SET_NULL, null=True, blank=True)
     description = models.JSONField(null=True, blank=True)
 
     scheme_data = models.JSONField(null=True, blank=True)

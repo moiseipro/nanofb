@@ -1,6 +1,4 @@
-from cmath import log
 import datetime
-from tkinter.messagebox import NO
 from django.http import JsonResponse
 from users.models import User
 from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, AdminExercise, ExerciseVideo
@@ -49,6 +47,32 @@ def set_value_as_int(request, name, def_value = None):
         res = int(request.POST.get(name, def_value))
     except:
         pass
+    return res
+
+
+def set_value_as_ref(request, name, def_value = None):
+    res = def_value
+    ref_id = -1
+    try:
+        ref_id = int(request.POST.get(name, def_value))
+    except:
+        pass
+    if name == "data[ref_goal]":
+        res = ExsGoal.objects.filter(id=ref_id)
+    elif name == "data[ref_ball]":
+        res = ExsBall.objects.filter(id=ref_id)
+    elif name == "data[ref_team_category]":
+        res = ExsTeamCategory.objects.filter(id=ref_id)
+    elif name == "data[ref_age_category]":
+        res = ExsAgeCategory.objects.filter(id=ref_id)
+    elif name == "data[ref_train_part]":
+        res = ExsTrainPart.objects.filter(id=ref_id)
+    elif name == "data[ref_cognitive_load]":
+        res = ExsCognitiveLoad.objects.filter(id=ref_id)
+    if res and res.exists() and res[0].id != None:
+        res = res[0]
+    else:
+        res = None
     return res
 
 
@@ -334,9 +358,9 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
         exercise['favorite_status'] = favorite_status
 
     if filter_goal != -1:
-        f_exercises = list(filter(lambda c: c['ref_goal'] == filter_goal, f_exercises))
+        f_exercises = list(filter(lambda c: c['ref_goal_id'] == filter_goal, f_exercises))
     if filter_ball != -1:
-        f_exercises = list(filter(lambda c: c['ref_ball'] == filter_ball, f_exercises))
+        f_exercises = list(filter(lambda c: c['ref_ball_id'] == filter_ball, f_exercises))
     if filter_watched != -1:
         f_exercises = list(filter(lambda c: c['watched_status'] == filter_watched, f_exercises))
     if filter_favorite != -1:
@@ -521,13 +545,17 @@ def POST_edit_exs(request, cur_user, cur_team):
     print(request.POST)
     c_exs.title = set_by_language_code(c_exs.title, request.LANGUAGE_CODE, request.POST.get("data[title]", ""))
     c_exs.description = set_by_language_code(c_exs.description, request.LANGUAGE_CODE, request.POST.get("data[description]", ""))
-    c_exs.ref_goal = set_value_as_int(request, "data[ref_goal]", None)
-    c_exs.ref_ball = set_value_as_int(request, "data[ref_ball]", None)
-    c_exs.ref_team_category = set_value_as_int(request, "data[ref_team_category]", None)
-    c_exs.ref_age_category = set_value_as_int(request, "data[ref_age_category]", None)
-    c_exs.ref_train_part = set_value_as_int(request, "data[ref_train_part]", None)
-    c_exs.ref_cognitive_load = set_value_as_int(request, "data[ref_cognitive_load]", None)
+    c_exs.ref_goal = set_value_as_ref(request, "data[ref_goal]", None)
+    c_exs.ref_ball = set_value_as_ref(request, "data[ref_ball]", None)
+    c_exs.ref_team_category = set_value_as_ref(request, "data[ref_team_category]", None)
+    c_exs.ref_age_category = set_value_as_ref(request, "data[ref_age_category]", None)
+    c_exs.ref_train_part = set_value_as_ref(request, "data[ref_train_part]", None)
+    c_exs.ref_cognitive_load = set_value_as_ref(request, "data[ref_cognitive_load]", None)
 
+    video1_id = -1
+    video2_id = -1
+    animation1_id = -1
+    animation2_id = -1
     if not copied_from_nfb:
         if type(c_exs.scheme_data) is dict:
             c_exs.scheme_data['scheme_1'] = request.POST.get("data[scheme_1]")
@@ -816,13 +844,13 @@ def GET_get_exs_all(request, cur_user):
         exs_data['video_2_watched'] = exercise['video_2_watched'] if 'video_2_watched' in exercise else None
         exs_data['animation_1_watched'] = exercise['animation_1_watched'] if 'animation_1_watched' in exercise else None
         exs_data['animation_2_watched'] = exercise['animation_2_watched'] if 'animation_2_watched' in exercise else None
-        goal_shortcode = ExsGoal.objects.filter(id = exercise['ref_goal']).only('id', 'short_name')
+        goal_shortcode = ExsGoal.objects.filter(id = exercise['ref_goal_id']).only('id', 'short_name')
         if goal_shortcode.exists() and goal_shortcode[0].id != None:
             goal_shortcode = goal_shortcode[0].short_name
         else:
             goal_shortcode = None
         exs_data['goal_code'] = goal_shortcode
-        exs_data['ball_val'] = exercise['ref_ball']
+        exs_data['ball_val'] = exercise['ref_ball_id']
         exs_data['favorite'] = exercise['favorite'] if 'favorite' in exercise else None
         exs_data['has_notes'] = exercise['has_notes'] if 'has_notes' in exercise else None
         res_exs.append(exs_data)
@@ -901,6 +929,12 @@ def GET_get_exs_one(request, cur_user, cur_team):
     res_exs['scheme_data'] = get_exs_scheme_data(res_exs['scheme_data'])
     res_exs['video_data'] = get_exs_video_data(res_exs['video_data'])
     res_exs['animation_data'] = get_exs_animation_data(res_exs['animation_data'])
+    res_exs['ref_goal'] = res_exs['ref_goal_id']
+    res_exs['ref_ball'] = res_exs['ref_ball_id']
+    res_exs['ref_team_category'] = res_exs['ref_team_category_id']
+    res_exs['ref_age_category'] = res_exs['ref_age_category_id']
+    res_exs['ref_train_part'] = res_exs['ref_train_part_id']
+    res_exs['ref_cognitive_load'] = res_exs['ref_cognitive_load_id']
     res_exs = get_exs_video_data2(res_exs, c_exs[0])
 
     # res_exs['stress_type'] = get_by_language_code(res_exs['stress_type'], request.LANGUAGE_CODE)
