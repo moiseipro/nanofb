@@ -1,6 +1,6 @@
 .scrollable-block {
     overflow-y: auto;
-    height: 90vh !important;
+    height: var(--scroll) !important;
 }
 
 
