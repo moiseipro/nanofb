@@ -43,7 +43,9 @@ function LoadAnalytics() {
 }
 
 function RenderAnalyticsTable(data) {
-    analytics_table.destroy();
+    try {
+        analytics_table.destroy();
+    } catch(e) {}
     $('#analytics').find('tbody').html('');
     if (data['players'] && typeof data['players'] === "object" && !Array.isArray(data['players'])) {
         let tmpHtml = "";
@@ -138,7 +140,7 @@ function RenderAnalyticsTable(data) {
         }
         $('#analytics').find('tbody').html(tmpHtml);
     }
-    analytics_table = $('#protocol').DataTable(analytics_table_options);
+    analytics_table = $('#analytics').DataTable(analytics_table_options);
     analytics_table.draw();
 }
 
@@ -146,8 +148,6 @@ function RenderAnalyticsTable(data) {
 
 $(function() {
 
-    analytics_table = $('#analytics').DataTable(analytics_table_options);
-    analytics_table.draw();
     LoadAnalytics();
 
     $('.analytics-table-container').on('click', '.season-toggle', (e) => {
