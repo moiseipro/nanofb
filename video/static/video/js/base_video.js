@@ -21,7 +21,7 @@ function formatState (state) {
     if (!state.id) {
         return state.text;
     }
-    console.log(state.element)
+    //console.log(state.element)
     var $state = $(
         '<span>' + state.text + '</span>' + '<span class="float-right">(' + state.element.getAttribute('data-count') + ')</span>'
     );
@@ -30,7 +30,7 @@ function formatState (state) {
 
 $(window).on('load', function (){
     $('.video-source').select2({
-        templateResult: formatState
+        templateResult: formatState,
     })
 
     generate_ajax_video_table("calc(100vh - 350px)")
