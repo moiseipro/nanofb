@@ -140,7 +140,7 @@ function RenderAnalyticsTable(data) {
         }
         $('#analytics').find('tbody').html(tmpHtml);
     }
-    analytics_table = $('#protocol').DataTable(analytics_table_options);
+    analytics_table = $('#analytics').DataTable(analytics_table_options);
     analytics_table.draw();
 }
 
