@@ -9,6 +9,19 @@ from video.models import Video
 from video.serializers import VideoSerializer
 
 
+class ExerciseVideoSerializer(serializers.ModelSerializer):
+    video = VideoSerializer(
+        read_only=True
+    )
+
+    class Meta:
+        model = ExerciseVideo
+        fields = [
+            'video', 'type'
+        ]
+
+
+
 class AdminFolderSerializer(serializers.ModelSerializer):
     class Meta:
         model = AdminFolder
@@ -18,6 +31,12 @@ class AdminFolderSerializer(serializers.ModelSerializer):
 class AdminExerciseSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     folder = AdminFolderSerializer(read_only=True)
+
+    video = ExerciseVideoSerializer(
+        read_only=True,
+        source="exercisevideo_set",
+        many=True
+    )
 
     class Meta:
         model = AdminExercise
@@ -38,23 +57,4 @@ class UserExerciseInTrainingSerializer(serializers.ModelSerializer):
         model = UserExercise
         fields = [
             'user', 'completed', 'title'
-        ]
-
-
-class ExerciseVideoSerializer(serializers.ModelSerializer):
-    exercise_nfb = AdminExerciseSerializer(
-        read_only=True,
-    )
-
-    video = serializers.IntegerField(read_only=True)
-    video_name = serializers.CharField(read_only=True)
-    #video_tags = TagListSerializerField()
-    video_duration = serializers.CharField(read_only=True)
-    video_date = serializers.CharField(read_only=True)
-    video_source = serializers.CharField(read_only=True)
-
-    class Meta:
-        model = ExerciseVideo
-        fields = [
-            'exercise_nfb', 'video', 'video_name', 'video_duration', 'video_date', 'video_source'
         ]

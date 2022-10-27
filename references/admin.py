@@ -6,7 +6,15 @@ from references.models import ExsCategory, ExsAdditionalData, ExsTitleName
 from references.models import VideoSource, UserSeason, UserTeam
 from references.models import PlayerTeamStatus, PlayerPlayerStatus, PlayerLevel, PlayerPosition, PlayerFoot
 
+
 # Register your models here.
+class ClubTeamAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'short_name')
+    list_display_links = ('name',)
+    search_fields = ('id', 'name')
+    filter_horizontal = ('users',)
+
+
 admin.site.register([VideoSource])
 admin.site.register([ExsGoal, ExsBall, ExsTeamCategory, ExsAgeCategory, ExsTrainPart, ExsCognitiveLoad])
 admin.site.register([ExsKeyword, ExsStressType, ExsPurpose, ExsCoaching])
@@ -16,4 +24,5 @@ admin.site.register([PlayerTeamStatus, PlayerPlayerStatus, PlayerLevel, PlayerPo
 
 
 #For Test
-admin.site.register([UserSeason, UserTeam, ClubSeason, ClubTeam])
+admin.site.register([UserSeason, UserTeam, ClubSeason])
+admin.site.register(ClubTeam, ClubTeamAdmin)

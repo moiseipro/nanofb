@@ -1,8 +1,11 @@
 {% load i18n %}
 
+{% if perms.clubs.club_admin or user.is_superuser %}
 <li class="menu-title">
     <span>{% trans 'Administration' %}</span>
 </li>
+{% endif %}
+{% if user.is_superuser %}
 <li class="submenu">
     <a href="#" class="btn disabled">
         {% if ui_elements.sidebar__client_system %}
@@ -19,6 +22,8 @@
         <li><a href="#">{% trans 'Federations' %}</a></li>
     </ul>
 </li>
+{% endif %}
+{% if perms.clubs.club_admin %}
 <li>
     <a href="#" class="btn disabled">
         {% if ui_elements.sidebar__club_panel %}
@@ -29,6 +34,8 @@
         <span>{% trans '«Club» panel' %}</span>
     </a>
 </li>
+{% endif %}
+{% if perms.federations.federation_admin %}
 <li>
     <a href="#" class="btn disabled">
         {% if ui_elements.sidebar__federation_panel %}
@@ -39,9 +46,11 @@
         <span>{% trans '«Federation» panel' %}</span>
     </a>
 </li>
+{% endif %}
 <li class="menu-title">
     <span>{% trans 'Main sections' %}</span>
 </li>
+{% if perms.events.view_userevent or perms.events.view_clubevent %}
 <li class="{{ menu_events }}">
     <a href="{% url 'events:base_events' %}" class="btn">
         {% if ui_elements.sidebar__events %}
@@ -52,6 +61,8 @@
         <span>{% trans 'Events' %}</span>
     </a>
 </li>
+{% endif %}
+{% if perms.matches.view_usermatch or perms.matches.view_clubmatch %}
 <li class="{{ menu_matches }}">
     <a href="{% url 'matches:base_matches' %}" class="btn">
         {% if ui_elements.sidebar__matches %}
@@ -62,6 +73,8 @@
         <span>{% trans 'Matches' %}</span>
     </a>
 </li>
+{% endif %}
+{% if perms.trainings.view_usertraining or perms.trainings.view_clubtraining %}
 <li class="{{ menu_trainings }}">
     <a href="{% url 'trainings:base_trainings' %}" class="btn">
         {% if ui_elements.sidebar__trainings %}
@@ -72,6 +85,8 @@
         <span>{% trans 'Training' %}</span>
     </a>
 </li>
+{% endif %}
+{% if perms.exercises.view_adminexercise or perms.exercises.view_userexercise or perms.exercises.view_clubexercise %}
 <li class="submenu">
     <a href="#">
         {% if ui_elements.sidebar__exercises %}
@@ -87,6 +102,8 @@
         <li><a class="nav-link {{ menu_exercises_folders }}" href="{% url 'exercises:folders' %}">{% trans 'Folders management' %}</a></li>
     </ul>
 </li>
+{% endif %}
+{% if perms.players.view_userplayer or perms.players.view_clubplayer %}
 <li class="{{ menu_players }}">
     <a href="{% url 'players:players' %}" class="btn">
         {% if ui_elements.sidebar__players %}
@@ -97,6 +114,7 @@
         <span>{% trans 'Players' %}</span>
     </a>
 </li>
+{% endif %}
 <li>
     <a href="{% url 'analytics:analytics' %}" class="btn">
         {% if ui_elements.sidebar__analytics %}
@@ -107,6 +125,7 @@
         <span>{% trans 'Analytics' %}</span>
     </a>
 </li>
+{% if user.is_superuser %}
 <li class="submenu">
     <a href="#">
         {% if ui_elements.sidebar__applications %}
@@ -125,6 +144,7 @@
         <li><a href="#">{% trans 'Finance' %}</a></li>
     </ul>
 </li>
+{% endif %}
 <li class="menu-title">
     <span>{% trans 'Education' %}</span>
 </li>

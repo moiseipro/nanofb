@@ -1,9 +1,10 @@
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponseRedirect
 from django.views.generic.base import TemplateView
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework.response import Response
 
 from players.models import UserPlayer
@@ -11,15 +12,31 @@ from players.serializers import UserPlayerSerializer
 from references.forms import CreateTeamForm, CreateSeasonForm
 from references.models import UserSeason, UserTeam, ClubSeason, ClubTeam, ExsAdditionalData, PlayerProtocolStatus
 from references.serializers import UserTeamsSerializer, UserSeasonsSerializer, ExsAdditionalDataSerializer, \
-    PlayerProtocolStatusSerializer
+    PlayerProtocolStatusSerializer, ClubTeamsSerializer, ClubSeasonsSerializer
+
+
+# REST PERMISSIONS
+class ReferencePermissions(DjangoModelPermissions):
+    perms_map = {
+        'GET': ['%(app_label)s.view_%(model_name)s'],
+        'OPTIONS': [],
+        'HEAD': [],
+        'POST': ['%(app_label)s.add_%(model_name)s'],
+        'PUT': ['%(app_label)s.change_%(model_name)s'],
+        'PATCH': ['%(app_label)s.change_%(model_name)s'],
+        'DELETE': ['%(app_label)s.delete_%(model_name)s'],
+    }
 
 
 # REST FRAMEWORK
 class TeamViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [ReferencePermissions]
 
     def perform_create(self, serializer):
-        serializer.save(user_id=self.request.user)
+        if self.request.user.club_id is not None:
+            serializer.save(club_id=self.request.user.club_id)
+        else:
+            serializer.save(user_id=self.request.user)
 
     @action(detail=True, methods=['get'])
     def get_team_players(self, request, pk=None):
@@ -31,31 +48,48 @@ class TeamViewSet(viewsets.ModelViewSet):
         return Response({'status': 'players_got', 'objs': serializer.data})
 
     def get_serializer_class(self):
-        if self.action == 'partial_update':
+        if self.request.user.club_id is not None:
+            return ClubTeamsSerializer
+        else:
             return UserTeamsSerializer
-        return UserTeamsSerializer
+        #if self.action == 'partial_update':
 
     def get_queryset(self):
-        return UserTeam.objects.filter(user_id=self.request.user)
+        request = self.request
+        if self.request.user.club_id is not None:
+            team = ClubTeam.objects.filter(club_id=request.user.club_id, users=request.user)
+        else:
+            team = UserTeam.objects.filter(user_id=request.user)
+        return team
 
 
 class SeasonViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [ReferencePermissions]
 
     def perform_create(self, serializer):
-        serializer.save(user_id=self.request.user)
+        if self.request.user.club_id is not None:
+            serializer.save(club_id=self.request.user.club_id)
+        else:
+            serializer.save(user_id=self.request.user)
 
     def get_serializer_class(self):
-        if self.action == 'partial_update':
+        if self.request.user.club_id is not None:
+            return ClubSeasonsSerializer
+        else:
             return UserSeasonsSerializer
-        return UserSeasonsSerializer
+        #if self.action == 'partial_update':
 
     def get_queryset(self):
-        return UserSeason.objects.filter(user_id=self.request.user)
+        request = self.request
+        if self.request.user.club_id is not None:
+            season = ClubSeason.objects.filter(club_id=request.user.club_id)
+        else:
+            season = UserSeason.objects.filter(user_id=request.user)
+        return season
 
 
 class ExsAdditionalViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [DjangoModelPermissions]
 
     def perform_create(self, serializer):
         serializer.save(user_id=self.request.user)
@@ -70,7 +104,7 @@ class ExsAdditionalViewSet(viewsets.ModelViewSet):
 
 
 class PlayerProtocolStatusViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [DjangoModelPermissions]
 
     def perform_create(self, serializer):
         serializer.save(user_id=self.request.user)
@@ -90,8 +124,6 @@ class SettingsView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['teams_list'] = UserTeam.objects.filter(user_id=self.request.user)
-        context['seasons_list'] = UserSeason.objects.filter(user_id=self.request.user)
         context['team_form'] = CreateTeamForm
         context['season_form'] = CreateSeasonForm
         return context

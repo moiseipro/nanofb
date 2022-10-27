@@ -11,6 +11,7 @@ class UserAdmin(admin.ModelAdmin):
     list_display_links = ('personal',)
     list_editable = ('is_active', 'is_staff')
     search_fields = ('id', 'date_joined')
+    filter_horizontal = ('groups', 'user_permissions')
 
     def get_club_name(self, object):
         if object.club_id:

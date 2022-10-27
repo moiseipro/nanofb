@@ -60,3 +60,9 @@ class Club(models.Model):
     class Meta:
         verbose_name = _('Club card')
         verbose_name_plural = _('Club cards')
+        permissions = [
+            (
+                "club_admin",
+                _('Access to the club admin panel')
+            )
+        ]

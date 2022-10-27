@@ -49,7 +49,7 @@ class MixUserReference(models.Model):
 
 
 class MixClubReference(models.Model):
-    user_id = models.ForeignKey(
+    club_id = models.ForeignKey(
         Club,
         on_delete=models.CASCADE
     )
@@ -143,6 +143,12 @@ class ClubTeam(AbstractReference, MixClubReference):
         verbose_name=_('team status'),
         help_text=_('Team status.'),
         default=TeamStatus.get_default_pk
+    )
+    users = models.ManyToManyField(
+        User,
+        blank=True,
+        verbose_name=_('users'),
+        help_text=_('Users who have access to the team'),
     )
 
     class Meta:
