@@ -1,0 +1,12 @@
+.scrollable-block {
+    overflow-y: auto;
+    height: 90vh !important;
+}
+
+
+.season-toggle {
+    min-width: 54px;
+    max-width: 54px;
+    font-size: 0.8rem;
+}
+

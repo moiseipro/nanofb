@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'clubs.apps.ClubsConfig',
     'schemeDrawer.apps.SchemedrawerConfig',
     'api.apps.ApiConfig',
+    'analytics.apps.AnalyticsConfig',
     'system_icons.apps.SystemIconsConfig',
 ]
 
