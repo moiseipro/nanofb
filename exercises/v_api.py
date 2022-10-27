@@ -199,7 +199,7 @@ def get_exs_animation_data(data):
 
 
 def get_exs_video_data2(data, exs):
-    for video in exs.videos.all():
+    for video in exs.videos.through.objects.all():
         t_key = ""
         if video.type == 1:
             t_key = 'video_1'
@@ -459,10 +459,20 @@ def POST_copy_exs(request, cur_user, cur_team):
             pass
         if c_exs and new_exs:
             try:
-                for video in c_exs[0].videos.all():
+                videos = []
+                if folder_type == FOLDER_NFB:
+                    videos = c_exs[0].videos.through.objects.filter(exercise_nfb=c_exs[0])
+                elif folder_type == FOLDER_TEAM:
+                    videos = c_exs[0].videos.through.objects.filter(exercise_user=c_exs[0])
+                elif folder_type == FOLDER_CLUB:
+                    videos = c_exs[0].videos.through.objects.filter(exercise_club=c_exs[0])
+                for video in videos:
                     video.pk = None
+                    video.exercise_nfb = None
+                    video.exercise_user = new_exs
+                    video.exercise_club = None
                     video.save()
-                    new_exs.videos.add(video)
+                    new_exs.videos.through.objects.add(video)
                 res_data = {'videos': "OK"}
             except Exception as e:
                 print(e)
@@ -589,10 +599,21 @@ def POST_edit_exs(request, cur_user, cur_team):
     animation1_obj = check_video(animation1_id)
     animation2_obj = check_video(animation2_id)
     try:
-        c_exs.videos.update_or_create(type=1, defaults={"video": video1_obj})
-        c_exs.videos.update_or_create(type=2, defaults={"video": video2_obj})
-        c_exs.videos.update_or_create(type=3, defaults={"video": animation1_obj})
-        c_exs.videos.update_or_create(type=4, defaults={"video": animation2_obj})
+        if folder_type == FOLDER_TEAM:
+            c_exs.videos.through.objects.update_or_create(type=1, exercise_user=c_exs, defaults={"video": video1_obj})
+            c_exs.videos.through.objects.update_or_create(type=2, exercise_user=c_exs, defaults={"video": video2_obj})
+            c_exs.videos.through.objects.update_or_create(type=3, exercise_user=c_exs, defaults={"video": animation1_obj})
+            c_exs.videos.through.objects.update_or_create(type=4, exercise_user=c_exs, defaults={"video": animation2_obj})
+        elif folder_type == FOLDER_NFB:
+            c_exs.videos.through.objects.update_or_create(type=1, exercise_nfb=c_exs, defaults={"video": video1_obj})
+            c_exs.videos.through.objects.update_or_create(type=2, exercise_nfb=c_exs, defaults={"video": video2_obj})
+            c_exs.videos.through.objects.update_or_create(type=3, exercise_nfb=c_exs, defaults={"video": animation1_obj})
+            c_exs.videos.through.objects.update_or_create(type=4, exercise_nfb=c_exs, defaults={"video": animation2_obj})
+        elif folder_type == FOLDER_CLUB:
+            c_exs.videos.through.objects.update_or_create(type=1, exercise_club=c_exs, defaults={"video": video1_obj})
+            c_exs.videos.through.objects.update_or_create(type=2, exercise_club=c_exs, defaults={"video": video2_obj})
+            c_exs.videos.through.objects.update_or_create(type=3, exercise_club=c_exs, defaults={"video": animation1_obj})
+            c_exs.videos.through.objects.update_or_create(type=4, exercise_club=c_exs, defaults={"video": animation2_obj})
     except Exception as e:
         print(e)
         res_data += f'Cant add link to <ExerciseVideo>.'
@@ -777,27 +798,28 @@ def GET_link_video_exs(request, cur_user):
             if exercise['animation_data'] and exercise['animation_data']['data'] and isinstance(exercise['animation_data']['data']['default'], list) and len(exercise['animation_data']['data']['default']) == 2:
                 animation_1 = check_video(exercise['animation_data']['data']['default'][0])
                 animation_2 = check_video(exercise['animation_data']['data']['default'][1])
-            cur_exs = None
             if folder_type == FOLDER_TEAM:
                 cur_exs = UserExercise.objects.filter(id=exercise['id'])
                 if not cur_exs.exists() or cur_exs[0].id == None:
                     logs.append(f"Exercise with id: {exercise['id']} not found. Skipped.")
                     continue
+                cur_exs[0].videos.through.objects.update_or_create(type=1, exercise_user=cur_exs[0], defaults={"video": video_1})
+                cur_exs[0].videos.through.objects.update_or_create(type=2, exercise_user=cur_exs[0], defaults={"video": video_2})
+                cur_exs[0].videos.through.objects.update_or_create(type=3, exercise_user=cur_exs[0], defaults={"video": animation_1})
+                cur_exs[0].videos.through.objects.update_or_create(type=4, exercise_user=cur_exs[0], defaults={"video": animation_2})
+                logs.append(f"Exercise with id: {exercise['id']} successfully changed.")
             elif folder_type == FOLDER_NFB:
                 cur_exs = AdminExercise.objects.filter(id=exercise['id'])
                 if not cur_exs.exists() or cur_exs[0].id == None:
                     logs.append(f"Exercise with id: {exercise['id']} not found. Skipped.")
                     continue
+                cur_exs[0].videos.through.objects.update_or_create(type=1, exercise_nfb=cur_exs[0], defaults={"video": video_1})
+                cur_exs[0].videos.through.objects.update_or_create(type=2, exercise_nfb=cur_exs[0], defaults={"video": video_2})
+                cur_exs[0].videos.through.objects.update_or_create(type=3, exercise_nfb=cur_exs[0], defaults={"video": animation_1})
+                cur_exs[0].videos.through.objects.update_or_create(type=4, exercise_nfb=cur_exs[0], defaults={"video": animation_2})
+                logs.append(f"Exercise with id: {exercise['id']} successfully changed.")
             elif folder_type == FOLDER_CLUB:
                 pass
-            if cur_exs:
-                cur_exs[0].videos.update_or_create(type=1, defaults={"video": video_1})
-                cur_exs[0].videos.update_or_create(type=2, defaults={"video": video_2})
-                cur_exs[0].videos.update_or_create(type=3, defaults={"video": animation_1})
-                cur_exs[0].videos.update_or_create(type=4, defaults={"video": animation_2})
-                logs.append(f"Exercise with id: {exercise['id']} successfully changed.")
-            else:
-                logs.append(f"Exercise with id: {exercise['id']} not found.")
         return JsonResponse({"logs": logs, "success": True}, status=200)
     except Exception as e:
         print(e)

@@ -294,11 +294,10 @@ $(window).on('load', function (){
         })
     })
 
-    $('.row.event-info').on('click', '.exercise-visual-block', (e) => {
-        if ($(e.target).is('a') || $(e.target).is('a')) {return;}
+    $('.row.event-info').on('click', '.carousel-item', (e) => {
         let id = -1;
         try {
-            id = parseInt($(e.currentTarget).attr('data-exs-id'));
+            id = parseInt($(e.currentTarget).parent().parent().parent().attr('data-exs-id'));
         } catch (e) {}
         let activeNum = 1;
         LoadGraphicsModal(id, "team_folders", activeNum);
