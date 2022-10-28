@@ -291,13 +291,15 @@ def POST_edit_players_protocol(request, cur_user):
             if f_protocol.exists() and f_protocol[0].id != None:
                 if f_protocol[0].p_status and 'matches_reset' in f_protocol[0].p_status.tags and f_protocol[0].p_status.tags['matches_reset'] == 1:
                     c_value = None
+                    if c_key == "dislike" or c_key == "like":
+                        c_value = False
             if c_value and c_value < 0:
                 c_value = None
             update_dict[c_key] = c_value
-        elif c_key == "dislike" and c_value == 1:
-            update_dict['like'] = 0
-        elif c_key == "like" and c_value == 1:
-            update_dict['dislike'] = 0
+            if c_key == "dislike" and c_value == 1:
+                update_dict['like'] = 0
+            elif c_key == "like" and c_value == 1:
+                update_dict['dislike'] = 0
         elif c_key == "status":
             c_status_id = -1
             try:
@@ -315,6 +317,8 @@ def POST_edit_players_protocol(request, cur_user):
                 for t_key in keys_with_values:
                     if t_key != "dislike" and t_key != "like":
                         update_dict[t_key] = None
+                    else:
+                        update_dict[t_key] = False
         elif c_key == "is_captain" or c_key == "is_goalkeeper":
             f_protocol = UserProtocol.objects.filter(id=protocol_id)
             if f_protocol.exists() and f_protocol[0].id != None:

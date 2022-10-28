@@ -32,20 +32,42 @@
                                         <button type="button" class="btn btn-primary btn-sm mx-1" id="">
                                             Кнопка 5
                                         </button>
-                                        <button type="button" class="btn btn-primary btn-sm mx-1" id="">
-                                            Кнопка 6
-                                        </button>
+                                        <select id="columnsVisibleSelect" class="form-control form-control-sm js-example-basic-multiple w-25" multiple="multiple">
+                                            <option value="col_disease">Болезни</option>
+                                            <option value="col_injury">Травмы</option>
+                                            <option value="col_skip">Пропуски</option>
+                                            <option value="col_au">В Сборной</option>
+                                            <option value="col_matches_count">Матчи. Количество</option>
+                                            <option value="col_matches_time">Матчи. Время</option>
+                                            <option value="col_matches_yellow_card">Матчи. Ж.К.</option>
+                                            <option value="col_matches_red_card">Матчи. К.К.</option>
+                                            <option value="col_matches_estimation">Матчи. Оценка</option>
+                                            <option value="col_matches_dislike">Матчи. Дизлайки</option>
+                                            <option value="col_matches_like">Матчи. Лайки</option>
+                                            <option value="col_matches_goal">Матчи. Голы</option>
+                                            <option value="col_matches_penalty">Матчи. Пенальти</option>
+                                            <option value="col_matches_pass">Матчи. Пасы</option>
+                                            <option value="col_trainings_count">Тренировки. Количество</option>
+                                            <option value="col_trainings_time">Тренировки. Время</option>
+                                            <option value="col_trainings_dislike">Тренировки. Дизлайки</option>
+                                            <option value="col_trainings_like">Тренировки. Лайки</option>
+                                            {% for folder in folders %}
+                                            <option value="col_folder_{{ folder.id }}">Тренировки. Папка {{ folder.short_name }}</option>
+                                            {% endfor %}
+                                            <option value="col_trainings_yes_ball">Тренировки. С мячом</option>
+                                            <option value="col_trainings_no_ball">Тренировки. Без мяча</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="analytics-table-container mt-2">
                                 <div class="row">
-                                    <div class="col">
+                                    <div class="col col-custom" style="--col-width:95%;">
                                         <div class="table-responsive">
                                             <table id="analytics" class="table table-sm table-striped table-bordered dataTable" style="width:100%;">
                                                 <thead>
                                                     <tr class="">
-                                                        <th class="border text-center"></th>
+                                                        <th class="border text-center" colspan="2"></th>
                                                         <th class="border text-center" colspan="4">Статистика</th>
                                                         <th class="border text-center" colspan="7">Игры</th>
                                                         <th class="border text-center" colspan="3">Гол/Пас</th>
@@ -54,50 +76,51 @@
                                                         <th class="border text-center" colspan="2">С мячом</th>
                                                     </tr>
                                                     <tr class="">
-                                                        <th class="text-center">Фамилия Имя</th>
+                                                        <th class="text-center visible-col">#</th>
+                                                        <th class="text-center visible-col">Фамилия Имя</th>
         
-                                                        <th class="text-center" title="Болезни">
+                                                        <th class="text-center visible-col" title="Болезни" data-col="col_disease">
                                                             <i class="fa fa-medkit text-secondary" aria-hidden="true"></i>
                                                         </th>
-                                                        <th class="text-center" title="Травмы">
+                                                        <th class="text-center visible-col" title="Травмы" data-col="col_injury">
                                                             <i class="fa fa-medkit text-danger" aria-hidden="true"></i>
                                                         </th>
-                                                        <th class="text-center" title="Пропуски">
+                                                        <th class="text-center visible-col" title="Пропуски" data-col="col_skip">
                                                             <i class="fa fa-long-arrow-down" aria-hidden="true"></i>
                                                         </th>
-                                                        <th class="text-center" title="В Сборной">A/U</th>
+                                                        <th class="text-center visible-col" title="В Сборной" data-col="col_au">A/U</th>
         
-                                                        <th class="text-center" title="Количество игр">
+                                                        <th class="text-center visible-col" title="Количество игр" data-col="col_matches_count">
                                                             <i class="fa fa-futbol-o" aria-hidden="true"></i>
                                                         </th>
-                                                        <th class="text-center" title="Суммарное время всех игр">
+                                                        <th class="text-center visible-col" title="Суммарное время всех игр" data-col="col_matches_time">
                                                             <i class="fa fa-clock-o" aria-hidden="true"></i>
                                                         </th>
-                                                        <th class="text-center">ж.к.</th>
-                                                        <th class="text-center">к.к.</th>
-                                                        <th class="text-center">Оц.</th>
-                                                        <th class="text-center"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></th>
-                                                        <th class="text-center"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></th>
+                                                        <th class="text-center visible-col" data-col="col_matches_yellow_card">ж.к.</th>
+                                                        <th class="text-center visible-col" data-col="col_matches_red_card">к.к.</th>
+                                                        <th class="text-center visible-col" data-col="col_matches_estimation">Оц.</th>
+                                                        <th class="text-center visible-col" data-col="col_matches_dislike"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></th>
+                                                        <th class="text-center visible-col" data-col="col_matches_like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></th>
         
-                                                        <th class="text-center">гол</th>
-                                                        <th class="text-center">пен</th>
-                                                        <th class="text-center">пас</th>
+                                                        <th class="text-center visible-col" data-col="col_matches_goal">гол</th>
+                                                        <th class="text-center visible-col" data-col="col_matches_penalty">пен</th>
+                                                        <th class="text-center visible-col" data-col="col_matches_pass">пас</th>
         
-                                                        <th class="text-center" title="Количество тренировок">
+                                                        <th class="text-center visible-col" title="Количество тренировок" data-col="col_trainings_count">
                                                             <i class="fa fa-futbol-o" aria-hidden="true"></i>
                                                         </th>
-                                                        <th class="text-center" title="Суммарное время всех тренировок">
+                                                        <th class="text-center visible-col" title="Суммарное время всех тренировок" data-col="col_trainings_time">
                                                             <i class="fa fa-clock-o" aria-hidden="true"></i>
                                                         </th>
-                                                        <th class="text-center"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></th>
-                                                        <th class="text-center"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></th>
+                                                        <th class="text-center visible-col" data-col="col_trainings_dislike"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></th>
+                                                        <th class="text-center visible-col" data-col="col_trainings_like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></th>
                                                         
                                                         {% for folder in folders %}
-                                                        <th class="text-center h-folder" data-id="{{ folder.id }}">{{ folder.short_name }}</th>
+                                                        <th class="text-center h-folder visible-col" data-id="{{ folder.id }}" data-col="col_folder_{{ folder.id }}">{{ folder.short_name }}</th>
                                                         {% endfor %}
         
-                                                        <th class="text-center"><i class="fa fa-futbol-o" aria-hidden="true"></i></th>
-                                                        <th class="text-center"><i class="fa fa-times" aria-hidden="true"></i></th>
+                                                        <th class="text-center visible-col" data-col="col_trainings_yes_ball"><i class="fa fa-futbol-o" aria-hidden="true"></i></th>
+                                                        <th class="text-center visible-col" data-col="col_trainings_no_ball"><i class="fa fa-times" aria-hidden="true"></i></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody></tbody>

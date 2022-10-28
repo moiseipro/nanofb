@@ -109,6 +109,7 @@ class UserMatch(AbstractMatch):
     )
     class Meta:
         abstract = False
+        ordering = ['-event_id__date']
 
 
 class ClubMatch(AbstractMatch):
@@ -124,6 +125,7 @@ class ClubMatch(AbstractMatch):
     )
     class Meta:
         abstract = False
+        ordering = ['-event_id__date']
 
 
 class AbstractProtocol(models.Model):

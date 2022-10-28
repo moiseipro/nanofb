@@ -10,3 +10,18 @@
     font-size: 0.8rem;
 }
 
+.col-custom {
+    -ms-flex: 0 0 var(--col-width) !important;
+    flex: 0 0 var(--col-width) !important;
+    max-width: var(--col-width) !important;
+}
+
+th.dt-vertical-center, td.dt-vertical-center {
+    vertical-align: middle !important;
+}
+
+.select2-container .select2-selection--multiple {
+    height: 32px;
+    overflow-y: auto;
+}
+

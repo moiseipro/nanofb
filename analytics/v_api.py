@@ -89,8 +89,8 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_session):
     res_data = {'players': {}}
     res_matches = {
         'matches_count': 0, 'matches_time': 0, 'matches_goals': 0, 'matches_penalty': 0, 'matches_pass': 0,
-        'matches_red_card': 0, 'matches_yellow_card': 0, 'matches_estimation': 0, 'matches_dislike': 0,
-        'matches_like': 0
+        'matches_red_card': 0, 'matches_yellow_card': 0, 'matches_estimation': 0, 'matches_estimation_count': 0, 
+        'matches_dislike': 0, 'matches_like': 0
     }
     res_trainings = {
         'trainings_count': 0, 'trainings_time': 0, 'trainings_dislike': 0, 'trainings_like': 0,
@@ -124,6 +124,8 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_session):
                 date_with = date_with + relativedelta(months=(season_type-1))
                 date_with.replace(day=1)
                 date_by = date_with + relativedelta(months=1)
+        if date.today() < f_season.date_by:
+            date_by = date.today()
         matches_protocols = UserProtocol.objects.filter(
             match_id__team_id=cur_team, match_id__event_id__user_id=cur_user,
             match_id__event_id__date__range=[
@@ -150,7 +152,9 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_session):
                     player_data['res_matches']['matches_pass'] += m_protocol.p_pass if m_protocol.p_pass else 0
                     player_data['res_matches']['matches_red_card'] += m_protocol.red_card if m_protocol.red_card else 0
                     player_data['res_matches']['matches_yellow_card'] += m_protocol.yellow_card if m_protocol.yellow_card else 0
-                    player_data['res_matches']['matches_estimation'] += m_protocol.estimation if m_protocol.estimation else 0
+                    if m_protocol.estimation:
+                        player_data['res_matches']['matches_estimation'] += m_protocol.estimation
+                        player_data['res_matches']['matches_estimation_count'] += 1
                     player_data['res_matches']['matches_dislike'] += m_protocol.dislike if m_protocol.dislike else 0
                     player_data['res_matches']['matches_like'] += m_protocol.like if m_protocol.like else 0
                 else:

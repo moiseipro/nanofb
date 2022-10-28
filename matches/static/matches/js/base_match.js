@@ -147,6 +147,7 @@ function RenderProtocolInMatch(data, selectedRow = -1) {
                 {"width": "28%", "targets": 2},
                 {"width": "5%", "targets": [1, 3, 4, 5, 6, 7, 8, 9, 10]},
                 {"width": "2%", "targets": [11, 12]},
+                {"className": "dt-vertical-center", "targets": "_all"}
             ]
         };
         $('#team_players').DataTable(tableOptions);

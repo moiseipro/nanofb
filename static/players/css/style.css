@@ -122,3 +122,8 @@
     border: 2px solid rgb(100, 100, 100) !important;
 }
 
+
+th.dt-vertical-center, td.dt-vertical-center {
+    vertical-align: middle !important;
+}
+
