@@ -18,6 +18,7 @@ class AdminFolderSerializer(serializers.ModelSerializer):
 class AdminExerciseSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     folder = AdminFolderSerializer(read_only=True)
+    title = serializers.JSONField(read_only=True)
 
     # video = ExerciseVideoSerializer(
     #     read_only=True,
@@ -27,7 +28,9 @@ class AdminExerciseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AdminExercise
-        fields = '__all__'
+        fields = [
+            'id', 'folder', 'title'
+        ]
 
 
 class ExerciseVideoSerializer(serializers.ModelSerializer):
