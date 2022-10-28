@@ -17,7 +17,8 @@ function GeneratePlayersTable(scroll_y = '') {
             // $('#video-table-counter').text(settings._iRecordsDisplay)
         },
         columnDefs: [
-            { "searchable": false, "orderable": false, "targets": 0 }
+            { "searchable": false, "orderable": false, "targets": 0 },
+            {"className": "dt-vertical-center", "targets": "_all"}
         ],
         ajax: {
             url:'players_api',

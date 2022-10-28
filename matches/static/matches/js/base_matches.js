@@ -19,7 +19,8 @@ let protocol_table_options = {
     "columnDefs": [
         {"searchable": false, "orderable": false, "targets": [3, 12]},
         {"width": "30%", "targets": 2},
-        {"visible": false, "targets": 0}
+        {"visible": false, "targets": 0},
+        {"className": "dt-vertical-center", "targets": "_all"}
     ]
 };
 
@@ -126,7 +127,8 @@ $(function() {
         drawCallback: function( settings ) {
         },
         columnDefs: [
-            {"searchable": false, "orderable": false, "targets": [2, 6, 12]}
+            {"searchable": false, "orderable": false, "targets": [2, 6, 12]},
+            {"className": "dt-vertical-center", "targets": "_all"}
         ],
     });
     protocol_table = $('#protocol').DataTable(protocol_table_options);

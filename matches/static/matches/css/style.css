@@ -87,3 +87,8 @@ table.protocol-players > tbody > tr > td > .form-control {
     color: black;
 }
 
+
+th.dt-vertical-center, td.dt-vertical-center {
+    vertical-align: middle !important;
+}
+

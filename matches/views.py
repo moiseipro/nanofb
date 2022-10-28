@@ -32,10 +32,10 @@ def matches(request):
         match_obj['result'] = match_res[0]
         match_obj['goals_equal'] = match_res[1]
         match_obj['duration'] = v_api.get_duration_normal_format(match.duration)
-        match_obj['goals'] = match.goals if match.goals != 0 else '-'
-        match_obj['o_goals'] = match.o_goals if match.o_goals != 0 else '-'
-        match_obj['penalty'] = match.penalty if match.penalty != 0 else '-'
-        match_obj['o_penalty'] = match.o_penalty if match.o_penalty != 0 else '-'
+        match_obj['goals'] = match.goals if (match.goals != 0 or match.o_goals != 0) else '-'
+        match_obj['o_goals'] = match.o_goals if (match.goals != 0 or match.o_goals != 0) else '-'
+        match_obj['penalty'] = match.penalty if (match.penalty != 0 or match.o_penalty != 0) else '-'
+        match_obj['o_penalty'] = match.o_penalty if (match.penalty != 0 or match.o_penalty != 0) else '-'
         match_videos = v_api.GET_get_match_video_event(request, cur_user[0], cur_team, False, match.event_id.id)
         match_obj['videos_count'] = v_api.count_videos(match_videos)
         matches.append(match_obj)

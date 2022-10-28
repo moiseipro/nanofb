@@ -8,7 +8,7 @@ let analytics_table_options = {
     dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
     "<'row'<'col-sm-12'tr>>" +
     "<'row'<'col-sm-12 col-md-5'><'col-sm-12 col-md-7'p>>",
-    scrollY: "72vh",
+    scrollY: "68vh",
     scrollCollapse: true,
     serverSide: false,
     processing: false,
@@ -17,6 +17,10 @@ let analytics_table_options = {
     select: false,
     drawCallback: function( settings ) {
     },
+    "columnDefs": [
+        {"width": "25%", "targets": 1},
+        {"className": "dt-vertical-center", "targets": "_all"}
+    ]
 };
 
 function LoadAnalytics() {
@@ -57,13 +61,23 @@ function RenderAnalyticsTable(data) {
             if (isNaN(tId)) {tId = -1;}
             foldersInHeader.push(tId);
         });
+        let cIndex = 1;
         for (let key in data['players']) {
             let player = data['players'][key];
             let exsFoldersHtml = "";
+            let foldersSum = 0;
             foldersInHeader.forEach(elem => {
                 let tVal = 0;
                 try {
-                    tVal = player.res_trainings.trainings_exs_folders[elem];
+                    tVal = parseInt(player.res_trainings.trainings_exs_folders[elem]);
+                    if (isNaN(tVal)) {tVal = 0;}
+                } catch(e) {}
+                foldersSum += tVal;
+            });
+            foldersInHeader.forEach(elem => {
+                let tVal = 0;
+                try {
+                    tVal = (parseInt(player.res_trainings.trainings_exs_folders[elem]) / foldersSum * 100).toFixed(0);
                 } catch(e) {}
                 exsFoldersHtml += `
                     <td class="text-center">
@@ -71,8 +85,22 @@ function RenderAnalyticsTable(data) {
                     </td>
                 `;
             });
+            let estimationAvg = 0;
+            try {
+                estimationAvg = (player.res_matches.matches_estimation / player.res_matches.matches_estimation_count).toFixed(1);
+            } catch(e) {}
+            let ballValsSum = 0;
+            let withBallPercent = 0; let withoutBallPercent = 0;
+            try {
+                ballValsSum = parseInt(player.res_trainings.trainings_with_ball) + parseInt(player.res_trainings.trainings_no_ball);
+                withBallPercent = (parseInt(player.res_trainings.trainings_with_ball) / ballValsSum * 100).toFixed(0);
+                withoutBallPercent = (parseInt(player.res_trainings.trainings_no_ball) / ballValsSum * 100).toFixed(0);
+            } catch(e) {}
             tmpHtml += `
                 <tr class="analytics-row" data-id="${key}">
+                    <td class="">
+                        ${cIndex}
+                    </td>
                     <td class="">
                         ${player.name}
                     </td>
@@ -101,7 +129,7 @@ function RenderAnalyticsTable(data) {
                         ${player.res_matches.matches_red_card > 0 ? player.res_matches.matches_red_card : '-'}
                     </td>
                     <td class="text-center">
-                        ${player.res_matches.matches_estimation > 0 ? player.res_matches.matches_estimation : '-'}
+                        ${estimationAvg > 0 ? estimationAvg : '-'}
                     </td>
                     <td class="text-center">
                         ${player.res_matches.matches_dislike > 0 ? player.res_matches.matches_dislike : '-'}
@@ -132,13 +160,14 @@ function RenderAnalyticsTable(data) {
                     </td>
                     ${exsFoldersHtml}
                     <td class="text-center">
-                        ${player.res_trainings.trainings_with_ball > 0 ? player.res_trainings.trainings_with_ball : '-'}
+                        ${withBallPercent > 0 ? withBallPercent : '-'}
                     </td>
                     <td class="text-center">
-                        ${player.res_trainings.trainings_no_ball > 0 ? player.res_trainings.trainings_no_ball : '-'}
+                        ${withoutBallPercent > 0 ? withoutBallPercent : '-'}
                     </td>
                 </tr>
             `;
+            cIndex ++;
         }
         $('#analytics').find('tbody').html(tmpHtml);
     }
@@ -161,6 +190,35 @@ $(function() {
         }
     });
 
+    let columnsIndexes = [];
+    $('#analytics').find('th.visible-col').each((ind, elem) => {
+        columnsIndexes.push($(elem).attr('data-col'));
+    });
+    $('#columnsVisibleSelect').find('option').prop('selected', 'selected').end();
+    $('#columnsVisibleSelect').select2({
+        placeholder: 'Колонки',
+        closeOnSelect: false
+    });
+    $('#columnsVisibleSelect').on('change', (e) => {
+        let visibleList = $(e.currentTarget).val();
+        if (Array.isArray(visibleList)) {
+            for (let i = 2; i < columnsIndexes.length; i++) {
+                analytics_table.column(i).visible(false);
+            }
+            visibleList.forEach(type => {
+                let cIndex = columnsIndexes.indexOf(type);
+                analytics_table.column(cIndex).visible(true);
+            });
+        }
+    });
+
+    $('#toggle_btn').on('click', (e) => {
+        setTimeout(() => {
+            try {
+                analytics_table.columns.adjust().draw();
+            } catch(e) {}
+        }, 500);
+    });
     // Toggle left menu
     setTimeout(() => {
         $('#toggle_btn').click();
