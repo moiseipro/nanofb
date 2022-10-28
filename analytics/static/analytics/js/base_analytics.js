@@ -5,9 +5,11 @@ let analytics_table_options = {
     language: {
         url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
     },
-    dom: "<'row'<'col-sm-12 col-md '><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
-         "<'row'<'col-sm-12'tr>>" +
-         "<'row'<'col-sm-12 col-md-5'l><'col-sm-12 col-md-7'p>>",
+    dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+    "<'row'<'col-sm-12'tr>>" +
+    "<'row'<'col-sm-12 col-md-5'><'col-sm-12 col-md-7'p>>",
+    scrollY: "72vh",
+    scrollCollapse: true,
     serverSide: false,
     processing: false,
     paging: false,
