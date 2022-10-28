@@ -10,7 +10,7 @@ function generate_ajax_video_table(scroll_y = ''){
              "<'row'<'col-sm-12 col-md-5'l><'col-sm-12 col-md-7'p>>",
         serverSide: true,
         processing: true,
-        select: true,
+        //select: 'single',
         scrollY: scroll_y,
         drawCallback: function( settings ) {
             $('#video-table-counter').text(settings._iRecordsDisplay)
@@ -21,6 +21,7 @@ function generate_ajax_video_table(scroll_y = ''){
         ajax: {
             url:'/video/api/all?format=datatables',
             data: function(data){
+                console.log(data)
             },
         },
         columns: [
@@ -36,6 +37,7 @@ function generate_ajax_video_table(scroll_y = ''){
                     console.log(exercise)
                     if(index>0) view_data += `, `
                     view_data += exercise.folder.short_name
+                    view_data += ` <span class="other-exercises font-weight-bold" data-ids="${exercise.videos.join(", ")}">(${exercise.videos.length>0 ? exercise.videos.length : 0})</span>`
                 });
                 return view_data;
             }},
@@ -44,6 +46,20 @@ function generate_ajax_video_table(scroll_y = ''){
             {'data': 'name', 'name': 'name'},
             {'data': 'taggit', 'name': 'taggit', 'defaultContent': "---", "orderable": false},
         ],
+
+    })
+    $('#video').on('click', 'td', function () {
+        console.log('TEST')
+        if($(this).has('.other-exercises').length == 0){
+            console.log('SELECT')
+            if($(this).parent().is('.selected')){
+                video_table.row($(this).parent()).deselect()
+            } else {
+                video_table.rows().deselect()
+                video_table.row($(this).parent()).select()
+            }
+
+        }
 
     })
 }

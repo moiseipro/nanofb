@@ -29,7 +29,7 @@ class AdminExerciseSerializer(serializers.ModelSerializer):
     class Meta:
         model = AdminExercise
         fields = [
-            'id', 'folder', 'title'
+            'id', 'folder', 'title', 'videos'
         ]
 
 

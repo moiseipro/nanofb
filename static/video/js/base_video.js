@@ -34,9 +34,10 @@ $(window).on('load', function (){
     })
 
     generate_ajax_video_table("calc(100vh - 350px)")
-    generate_ajax_video_exercise_table("calc(100vh - 350px)")
+    //generate_ajax_video_exercise_table("calc(100vh - 350px)")
     video_table
         .on( 'select', function ( e, dt, type, indexes ) {
+            console.log(type)
             let rowData = video_table.rows( indexes ).data().toArray();
             if(type=='row') {
                 toggle_edit_mode(false)
@@ -55,6 +56,12 @@ $(window).on('load', function (){
         ajax_video_info(url_video_id);
         console.log(url_video_id)
     }
+
+    $('#video').on('click', '.other-exercises', function () {
+        let ids_arr = $(this).attr('data-ids').split(',')
+        console.log(ids_arr)
+        video_table.columns([1]).search(ids_arr).draw()
+    })
 })
 
 // Следующий/предыдущий
@@ -81,8 +88,8 @@ $('.video-source').on('change', function (){
 
 $('.video-tags-filter').on('change', function (){
     let data_tag = $( this ).val()
-    //console.log(data_source)
-    video_table.columns([6]).search(data_tag).draw()
+    console.log(data_tag)
+    video_table.columns([7]).search(data_tag).draw()
 })
 
 //Сбросить фильтры

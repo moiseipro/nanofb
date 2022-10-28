@@ -15,7 +15,15 @@ class GlobalModelMultipleChoiceFilter(filters.ModelMultipleChoiceFilter):
     pass
 
 
-class GlobalModelChoiceFilter(GlobalFilter, filters.ModelChoiceFilter):
+class GlobalAllValuesMultipleFilter(filters.CharFilter):
+    def filter(self, qs, value):
+        if value:
+            chooses = [choose.strip() for choose in value.split(',')]
+            print(chooses)
+            qs = qs.filter(id__in=chooses).distinct()
+
+        return qs
+
     pass
 
 
@@ -23,6 +31,7 @@ class GlobalTagFilter(filters.CharFilter):
     def filter(self, qs, value):
         if value:
             tags = [tag.strip() for tag in value.split(',')]
+            print(tags)
             qs = qs.filter(taggit__name__in=tags).distinct()
 
         return qs
@@ -31,6 +40,11 @@ class GlobalTagFilter(filters.CharFilter):
 
 class VideoGlobalFilter(DatatablesFilterSet):
     """Filter name, artist and genre by name with icontains"""
+    id = GlobalAllValuesMultipleFilter(
+        field_name='id',
+        #lookup_expr='icontains'
+        #lookup_expr='in'
+    )
 
     name = GlobalCharFilter(field_name='name', lookup_expr='icontains')
     # videosource_name = GlobalModelMultipleChoiceFilter(

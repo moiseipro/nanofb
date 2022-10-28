@@ -10,7 +10,7 @@ function render_video_block_page(url) {
          $('#video-blocks-list .video-list').html('')
 
          $.each(data.results, function(index, element) {
-             console.log(element)
+             //console.log(element)
              let img_url = `https://213.108.4.28/video/poster/${element['links']['nftv']}`
 
              video_html += `
