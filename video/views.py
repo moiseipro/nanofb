@@ -306,7 +306,9 @@ class VideoViewSet(viewsets.ModelViewSet):
         return VideoSerializer
 
     def get_queryset(self):
-        return Video.objects.all()
+        exs_video = ExerciseVideo.objects.filter(video__isnull=False).values('video')
+        print(exs_video[0])
+        return Video.objects.all()#exclude(id__in=[o['video'] for o in exs_video])
 
 
 class VideoExerciseViewSet(viewsets.ModelViewSet):
@@ -344,7 +346,7 @@ class BaseVideoView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['sources'] = VideoSource.objects.all().annotate(videos=Count('video'))
+        context['sources'] = VideoSource.objects.all().annotate(videos=Count('video')).order_by('-videos')
         context['tags'] = Tag.objects.all()
         context['ui_elements'] = get_ui_elements(self.request)
         # context['update_form'] = UpdateVideoForm()

@@ -13,6 +13,10 @@
     height: 32px !important;
 }
 
+.select2-container--bootstrap4 .select2-results > .select2-results__options {
+    max-height: 70vh
+}
+
 .custom-file-label {
     height: auto;
     padding: 0px;
