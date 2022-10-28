@@ -33,7 +33,7 @@ $(window).on('load', function (){
         templateResult: formatState,
     })
 
-    generate_ajax_video_table("calc(100vh - 350px)")
+    generate_ajax_video_table("calc(100vh - 280px)")
     //generate_ajax_video_exercise_table("calc(100vh - 350px)")
     video_table
         .on( 'select', function ( e, dt, type, indexes ) {
