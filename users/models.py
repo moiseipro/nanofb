@@ -27,6 +27,13 @@ class UserPersonal(models.Model):
         verbose_name=_('Patronymic'),
         help_text=_('Father name')
     )
+    job_title = models.CharField(
+        max_length=60,
+        null=True,
+        blank=True,
+        verbose_name=_('Job title'),
+        help_text=_('User job title')
+    )
     country_id = CountryField(
         verbose_name=_('Country'),
         help_text=_('Country of residence')

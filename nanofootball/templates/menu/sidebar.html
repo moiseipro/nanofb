@@ -24,8 +24,8 @@
 </li>
 {% endif %}
 {% if perms.clubs.club_admin %}
-<li>
-    <a href="#" class="btn disabled">
+<li class="{{ menu_clubs }}">
+    <a href="{% url 'clubs:base_club' %}" class="btn">
         {% if ui_elements.sidebar__club_panel %}
             {{ ui_elements.sidebar__club_panel }}
         {% else %}
