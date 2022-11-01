@@ -1,0 +1,31 @@
+{% load i18n %}
+
+<div class="modal fade" id="edit-club-user-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{% trans 'User Parameters' %}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="pill" href="#user-permission" role="tab" aria-controls="user-permission" aria-selected="true">{% trans 'Permissions' %}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="pill" href="#user-team-permissions" role="tab" aria-controls="user-team-permissions" aria-selected="false">{% trans 'Team' %}</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="user-permissions" role="tabpanel" aria-labelledby="pills-home-tab">...</div>
+                    <div class="tab-pane fade" id="user-team-permissions" role="tabpanel" aria-labelledby="pills-profile-tab">...</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
