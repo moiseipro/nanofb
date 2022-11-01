@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 from django.db.models import Sum, Q
+from django.core.cache import cache
 from users.models import User
 from matches.models import UserMatch, ClubMatch, UserProtocol, ClubProtocol
 from trainings.models import UserTraining, ClubTraining, UserTrainingProtocol
@@ -11,6 +12,7 @@ from dateutil.relativedelta  import relativedelta
 
 
 LANG_CODE_DEFAULT = "en"
+CACHE_EXPIRES_SECS = 60*60*24
 
 
 
@@ -114,97 +116,103 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_session):
         pass
     f_season = UserSeason.objects.get(id=cur_session, user_id=cur_user)
     if f_season and f_season.id != None:
-        date_with = f_season.date_with
-        date_by = f_season.date_by
-        if season_type and season_type != 0:
-            if season_type == -1:
-                date_with = date.today() - timedelta(days=30)
+        cached_data = cache.get(f'analytics_{cur_user}_{cur_session}_{season_type}')
+        if cached_data is None:
+            date_with = f_season.date_with
+            date_by = f_season.date_by
+            if season_type and season_type != 0:
+                if season_type == -1:
+                    date_with = date.today() - timedelta(days=30)
+                    date_by = date.today()
+                else:
+                    date_with = date_with + relativedelta(months=(season_type-1))
+                    date_with.replace(day=1)
+                    date_by = date_with + relativedelta(months=1)
+            if date.today() < f_season.date_by:
                 date_by = date.today()
-            else:
-                date_with = date_with + relativedelta(months=(season_type-1))
-                date_with.replace(day=1)
-                date_by = date_with + relativedelta(months=1)
-        if date.today() < f_season.date_by:
-            date_by = date.today()
-        matches_protocols = UserProtocol.objects.filter(
-            match_id__team_id=cur_team, match_id__event_id__user_id=cur_user,
-            match_id__event_id__date__range=[
-                datetime.combine(date_with, datetime.min.time()),
-                datetime.combine(date_by, datetime.max.time())
-            ],
-        )
-        player_data = None
-        is_status_correct = False
-        for m_protocol in matches_protocols:
-            try:
-                player_data = res_data['players'][m_protocol.player.id]
-            except Exception as e:
-                pass
-            is_status_correct = check_protocol_status(m_protocol.p_status)
-            if player_data:
-                player_data['res_matches']['matches_count'] += 1
-                if is_status_correct:
-                    min_from = m_protocol.minute_from if m_protocol.minute_from else 0
-                    min_to = m_protocol.minute_to if m_protocol.minute_to else 0
-                    player_data['res_matches']['matches_time'] += min_to - min_from if min_to > 0 else 0
-                    player_data['res_matches']['matches_goals'] += m_protocol.goal if m_protocol.goal else 0
-                    player_data['res_matches']['matches_penalty'] += m_protocol.penalty if m_protocol.penalty else 0
-                    player_data['res_matches']['matches_pass'] += m_protocol.p_pass if m_protocol.p_pass else 0
-                    player_data['res_matches']['matches_red_card'] += m_protocol.red_card if m_protocol.red_card else 0
-                    player_data['res_matches']['matches_yellow_card'] += m_protocol.yellow_card if m_protocol.yellow_card else 0
-                    if m_protocol.estimation:
-                        player_data['res_matches']['matches_estimation'] += m_protocol.estimation
-                        player_data['res_matches']['matches_estimation_count'] += 1
-                    player_data['res_matches']['matches_dislike'] += m_protocol.dislike if m_protocol.dislike else 0
-                    player_data['res_matches']['matches_like'] += m_protocol.like if m_protocol.like else 0
-                else:
-                    if "type_ill" in m_protocol.p_status.tags and m_protocol.p_status.tags['type_ill'] == 1:
-                        player_data['res_protocols']['diseases_count'] += 1
-                    if "type_injury" in m_protocol.p_status.tags and m_protocol.p_status.tags['type_injury'] == 1:
-                        player_data['res_protocols']['injuries_count'] += 1
-                    if "type_au" in m_protocol.p_status.tags and m_protocol.p_status.tags['type_au'] == 1:
-                        player_data['res_protocols']['a_u_count'] += 1
-                    if "type_skip" in m_protocol.p_status.tags and m_protocol.p_status.tags['type_skip'] == 1:
-                        player_data['res_protocols']['skip_count'] += 1
-        player_data = None
-        is_status_correct = False
-        trainings_protocols = UserTrainingProtocol.objects.filter(
-            training_id__team_id=cur_team, training_id__event_id__user_id=cur_user,
-            training_id__event_id__date__range=[
-                datetime.combine(date_with, datetime.min.time()),
-                datetime.combine(date_by, datetime.max.time())
-            ],
-        )
-        for t_protocol in trainings_protocols:
-            try:
-                player_data = res_data['players'][t_protocol.player_id.id]
-            except Exception as e:
-                pass
-            is_status_correct = check_protocol_status(t_protocol.status)
-            if player_data:
-                player_data['res_trainings']['trainings_count'] += 1
-                if is_status_correct:
-                    if t_protocol.estimation == 1:
-                        player_data['res_trainings']['trainings_like'] += 1
-                    if t_protocol.estimation == 2:
-                        player_data['res_trainings']['trainings_dislike'] += 1
-                    for t_exercise in t_protocol.training_exercise_check.all():
-                        if t_exercise.exercise_id.ref_ball and t_exercise.exercise_id.ref_ball.name == "мяч":
-                            player_data['res_trainings']['trainings_with_ball'] += 1
-                        else:
-                            player_data['res_trainings']['trainings_no_ball'] += 1
-                        player_data['res_trainings']['trainings_time'] += t_exercise.duration
-                        if not t_exercise.exercise_id.folder.id in player_data['res_trainings']['trainings_exs_folders']:
-                            player_data['res_trainings']['trainings_exs_folders'][t_exercise.exercise_id.folder.id] = 0
-                        player_data['res_trainings']['trainings_exs_folders'][t_exercise.exercise_id.folder.id] += 1
-                else:
-                    if "type_ill" in t_protocol.status.tags and t_protocol.status.tags['type_ill'] == 1:
-                        player_data['res_protocols']['diseases_count'] += 1
-                    if "type_injury" in t_protocol.status.tags and t_protocol.status.tags['type_injury'] == 1:
-                        player_data['res_protocols']['injuries_count'] += 1
-                    if "type_au" in t_protocol.status.tags and t_protocol.status.tags['type_au'] == 1:
-                        player_data['res_protocols']['a_u_count'] += 1
-                    if "type_skip" in t_protocol.status.tags and t_protocol.status.tags['type_skip'] == 1:
-                        player_data['res_protocols']['skip_count'] += 1
+            matches_protocols = UserProtocol.objects.filter(
+                match_id__team_id=cur_team, match_id__event_id__user_id=cur_user,
+                match_id__event_id__date__range=[
+                    datetime.combine(date_with, datetime.min.time()),
+                    datetime.combine(date_by, datetime.max.time())
+                ],
+            )
+            player_data = None
+            is_status_correct = False
+            for m_protocol in matches_protocols:
+                try:
+                    player_data = res_data['players'][m_protocol.player.id]
+                except Exception as e:
+                    pass
+                is_status_correct = check_protocol_status(m_protocol.p_status)
+                if player_data:
+                    if is_status_correct:
+                        min_from = m_protocol.minute_from if m_protocol.minute_from else 0
+                        min_to = m_protocol.minute_to if m_protocol.minute_to else 0
+                        if min_to - min_from > 0:
+                            player_data['res_matches']['matches_count'] += 1
+                            player_data['res_matches']['matches_time'] += min_to - min_from if min_to > 0 else 0
+                            player_data['res_matches']['matches_goals'] += m_protocol.goal if m_protocol.goal else 0
+                            player_data['res_matches']['matches_penalty'] += m_protocol.penalty if m_protocol.penalty else 0
+                            player_data['res_matches']['matches_pass'] += m_protocol.p_pass if m_protocol.p_pass else 0
+                            player_data['res_matches']['matches_red_card'] += m_protocol.red_card if m_protocol.red_card else 0
+                            player_data['res_matches']['matches_yellow_card'] += m_protocol.yellow_card if m_protocol.yellow_card else 0
+                            if m_protocol.estimation:
+                                player_data['res_matches']['matches_estimation'] += m_protocol.estimation
+                                player_data['res_matches']['matches_estimation_count'] += 1
+                            player_data['res_matches']['matches_dislike'] += m_protocol.dislike if m_protocol.dislike else 0
+                            player_data['res_matches']['matches_like'] += m_protocol.like if m_protocol.like else 0
+                    else:
+                        if "type_ill" in m_protocol.p_status.tags and m_protocol.p_status.tags['type_ill'] == 1:
+                            player_data['res_protocols']['diseases_count'] += 1
+                        if "type_injury" in m_protocol.p_status.tags and m_protocol.p_status.tags['type_injury'] == 1:
+                            player_data['res_protocols']['injuries_count'] += 1
+                        if "type_au" in m_protocol.p_status.tags and m_protocol.p_status.tags['type_au'] == 1:
+                            player_data['res_protocols']['a_u_count'] += 1
+                        if "type_skip" in m_protocol.p_status.tags and m_protocol.p_status.tags['type_skip'] == 1:
+                            player_data['res_protocols']['skip_count'] += 1
+            player_data = None
+            is_status_correct = False
+            trainings_protocols = UserTrainingProtocol.objects.filter(
+                training_id__team_id=cur_team, training_id__event_id__user_id=cur_user,
+                training_id__event_id__date__range=[
+                    datetime.combine(date_with, datetime.min.time()),
+                    datetime.combine(date_by, datetime.max.time())
+                ],
+            )
+            for t_protocol in trainings_protocols:
+                try:
+                    player_data = res_data['players'][t_protocol.player_id.id]
+                except Exception as e:
+                    pass
+                is_status_correct = check_protocol_status(t_protocol.status)
+                if player_data:
+                    player_data['res_trainings']['trainings_count'] += 1
+                    if is_status_correct:
+                        if t_protocol.estimation == 1:
+                            player_data['res_trainings']['trainings_like'] += 1
+                        if t_protocol.estimation == 2:
+                            player_data['res_trainings']['trainings_dislike'] += 1
+                        for t_exercise in t_protocol.training_exercise_check.all():
+                            if t_exercise.exercise_id.ref_ball and t_exercise.exercise_id.ref_ball.name == "мяч":
+                                player_data['res_trainings']['trainings_with_ball'] += 1
+                            else:
+                                player_data['res_trainings']['trainings_no_ball'] += 1
+                            player_data['res_trainings']['trainings_time'] += t_exercise.duration
+                            if not t_exercise.exercise_id.folder.id in player_data['res_trainings']['trainings_exs_folders']:
+                                player_data['res_trainings']['trainings_exs_folders'][t_exercise.exercise_id.folder.id] = 0
+                            player_data['res_trainings']['trainings_exs_folders'][t_exercise.exercise_id.folder.id] += 1
+                    else:
+                        if "type_ill" in t_protocol.status.tags and t_protocol.status.tags['type_ill'] == 1:
+                            player_data['res_protocols']['diseases_count'] += 1
+                        if "type_injury" in t_protocol.status.tags and t_protocol.status.tags['type_injury'] == 1:
+                            player_data['res_protocols']['injuries_count'] += 1
+                        if "type_au" in t_protocol.status.tags and t_protocol.status.tags['type_au'] == 1:
+                            player_data['res_protocols']['a_u_count'] += 1
+                        if "type_skip" in t_protocol.status.tags and t_protocol.status.tags['type_skip'] == 1:
+                            player_data['res_protocols']['skip_count'] += 1
+            cache.set(f'analytics_{cur_user}_{cur_session}_{season_type}', res_data, CACHE_EXPIRES_SECS)
+        else:
+            res_data = cached_data
     return JsonResponse({"data": res_data, "success": True}, status=200)
 

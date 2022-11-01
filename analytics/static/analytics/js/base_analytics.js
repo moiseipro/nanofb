@@ -101,10 +101,10 @@ function RenderAnalyticsTable(data) {
                     <td class="">
                         ${cIndex}
                     </td>
-                    <td class="">
+                    <td class="border-custom-right">
                         ${player.name}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center border-custom-left">
                         ${player.res_protocols.diseases_count > 0 ? player.res_protocols.diseases_count : '-'}
                     </td>
                     <td class="text-center">
@@ -113,10 +113,10 @@ function RenderAnalyticsTable(data) {
                     <td class="text-center">
                         ${player.res_protocols.skip_count > 0 ? player.res_protocols.skip_count : '-'}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center border-custom-right">
                         ${player.res_protocols.a_u_count > 0 ? player.res_protocols.a_u_count : '-'}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center border-custom-left">
                         ${player.res_matches.matches_count > 0 ? player.res_matches.matches_count : '-'}
                     </td>
                     <td class="text-center">
@@ -134,19 +134,19 @@ function RenderAnalyticsTable(data) {
                     <td class="text-center">
                         ${player.res_matches.matches_dislike > 0 ? player.res_matches.matches_dislike : '-'}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center border-custom-right">
                         ${player.res_matches.matches_like > 0 ? player.res_matches.matches_like : '-'}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center border-custom-left">
                         ${player.res_matches.matches_goals > 0 ? player.res_matches.matches_goals : '-'}
                     </td>
                     <td class="text-center">
                         ${player.res_matches.matches_penalty > 0 ? player.res_matches.matches_penalty : '-'}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center border-custom-right">
                         ${player.res_matches.matches_pass > 0 ? player.res_matches.matches_pass : '-'}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center border-custom-left">
                         ${player.res_trainings.trainings_count > 0 ? player.res_trainings.trainings_count : '-'}
                     </td>
                     <td class="text-center">
@@ -155,11 +155,11 @@ function RenderAnalyticsTable(data) {
                     <td class="text-center">
                         ${player.res_trainings.trainings_dislike > 0 ? player.res_trainings.trainings_dislike : '-'}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center border-custom-right">
                         ${player.res_trainings.trainings_like > 0 ? player.res_trainings.trainings_like : '-'}
                     </td>
                     ${exsFoldersHtml}
-                    <td class="text-center">
+                    <td class="text-center border-custom-left">
                         ${withBallPercent > 0 ? withBallPercent : '-'}
                     </td>
                     <td class="text-center">
@@ -222,5 +222,10 @@ $(function() {
     // Toggle left menu
     setTimeout(() => {
         $('#toggle_btn').click();
+        setTimeout(() => {
+            try {
+                analytics_table.columns.adjust().draw();
+            } catch(e) {}
+        }, 500);
     }, 500);
 });
