@@ -25,3 +25,14 @@ th.dt-vertical-center, td.dt-vertical-center {
     overflow-y: auto;
 }
 
+
+.border-custom-left {
+    border-left: black solid 2px !important;
+}
+.border-custom-right {
+    border-right: black solid 2px !important;
+}
+.border-custom-x {
+    border-left: black solid 2px !important;
+    border-right: black solid 2px !important;
+}

@@ -66,6 +66,9 @@ function CountExsInFolder(useFilter = true) {
             CountFilteredExs();
         });
     }
+    $.when.apply($, window.count_exs_calls).then(() => {
+        CountExsInFoldersByType();
+    });
 }
 
 function CountFilteredExs() {
@@ -88,6 +91,20 @@ function CountFilteredExs() {
         }
     }
 }
+
+function CountExsInFoldersByType() {
+    let res = 0;
+    $('.folders-block').find('.folders_div:not(.d-none)').find('[data-root="0"]').find('.folder-exs-counter').each((ind, elem) =>{
+        let tVal = 0;
+        try {
+            tVal = parseInt($(elem).text());
+            if (isNaN(tVal)) {tVal = 0;}
+        } catch(e) {}
+        res += tVal;
+    });
+    $('.exs_counter').html(res > 0 ? `(${res})` : "(...)");
+}
+
 
 
 $(function() {

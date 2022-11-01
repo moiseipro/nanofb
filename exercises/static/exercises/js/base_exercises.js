@@ -43,6 +43,7 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem').removeClass('b-c-blue2');
             $('.up-tabs-elem').removeClass('b-c-green2');
             $('.up-tabs-elem').addClass('b-c-red2');
+            CountExsInFoldersByType();
             break;
         case "club_folders":
             $('.up-tabs-elem[data-id="club_folders"]').removeClass('selected3');
@@ -63,6 +64,7 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem').removeClass('b-c-green2');
             $('.up-tabs-elem').removeClass('b-c-red2');
             $('.up-tabs-elem').addClass('b-c-blue2');
+            CountExsInFoldersByType();
             break;
         case "team_folders":
             $('.up-tabs-elem[data-id="team_folders"]').removeClass('selected3');
@@ -87,6 +89,7 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem').removeClass('b-c-blue2');
             $('.up-tabs-elem').removeClass('b-c-red2');
             $('.up-tabs-elem').addClass('b-c-green2');
+            CountExsInFoldersByType();
             break;
         case "copy":
             if ($('.exercises-list').find('.exs-elem.active').length <= 0) {
