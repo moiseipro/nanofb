@@ -6,6 +6,7 @@ extra_context = {'menu_clubs': 'active'}
 
 router = routers.DefaultRouter()
 router.register(r'users', views.ClubUsersViewSet, basename='users_list')
+router.register(r'', views.ClubViewSet, basename='club')
 
 urlpatterns = [
     path('api/', include(router.urls), name='api_club'),
