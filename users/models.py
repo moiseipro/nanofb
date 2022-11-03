@@ -39,7 +39,8 @@ class UserPersonal(models.Model):
         help_text=_('Country of residence')
     )
     region_id = models.IntegerField(null=True, blank=True, default=None)
-    city = models.CharField(max_length=20, null=True, blank=True, default=None)
+    region = models.CharField(max_length=60, null=True, blank=True, default=None)
+    city = models.CharField(max_length=60, null=True, blank=True, default=None)
     date_birthsday = models.DateField(
         null=True,
         blank=True,

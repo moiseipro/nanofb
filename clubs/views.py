@@ -4,6 +4,7 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework.response import Response
 
+from clubs.forms import ClubAddUserForm, ClubAddPersonalForm
 from clubs.models import Club
 from clubs.serializers import ClubSerializer
 from users.models import User
@@ -29,7 +30,8 @@ class BaseClubView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # context['update_form'] = UpdateVideoForm()
+        context['add_user_form'] = ClubAddUserForm()
+        context['add_personal_form'] = ClubAddPersonalForm()
         return context
 
 

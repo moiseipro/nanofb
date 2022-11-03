@@ -1,5 +1,10 @@
 
+$(document).ready(function () {
+
+})
+
 $(window).on('load', function (){
+    initialize_phone_input();
     generate_ajax_club_users_table("calc(100vh - 310px)");
 
     $('#club-users').on('click', '.edit-club-user', function () {
@@ -13,7 +18,7 @@ $(window).on('load', function (){
             if(club.groups.length > 0){
                 html_permission += `<div class="row">`
                 $.each(club.groups, function(index, value){
-                    html_permission += `<div class="col-4 px-1">`
+                    html_permission += `<div class="col-12 px-1">`
                     html_permission +=
                     `<div class="custom-control custom-checkbox border">
                         <input type="checkbox" class="custom-control-input" id="group-permission-${value.id}">
@@ -27,6 +32,20 @@ $(window).on('load', function (){
         })
     })
 })
+
+function initialize_phone_input() {
+    var input = document.querySelector("#phone");
+    var iti = window.intlTelInput(input, {
+        initialCountry: "auto",
+        geoIpLookup: function(callback) {
+            $.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+            let countryCode = (resp && resp.country) ? resp.country : "";
+            callback(countryCode);
+            });
+        },
+        preferredCountries: ["ru", "ua", "by", "es"]
+    });
+}
 
 async function ajax_club_action(method, data, action = '', id = '', func = '') {
 
@@ -47,7 +66,7 @@ async function ajax_club_action(method, data, action = '', id = '', func = '') {
             if(data.status == 'exercise_limit'){
                 swal(gettext('Training '+action), gettext('The limit of exercises for the selected group has been reached'), "error");
             } else {
-                swal(gettext('Training '+action), gettext('Training action "'+action+'" successfully!'), "success");
+
             }
         },
         error: function(jqXHR, textStatus, errorThrown){
