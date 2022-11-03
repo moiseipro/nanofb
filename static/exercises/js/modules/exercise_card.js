@@ -150,7 +150,7 @@ function RenderExerciseOne(data) {
     if (data && data.id) {
         $(exsCard).attr('data-exs', data.id);
 
-        $('.modal-header').toggleClass('disabled', data.copied_from_nfb == true);
+        $('.modal-header-c').toggleClass('disabled', data.copied_from_nfb == true);
 
         ToggleFoldersType(data);
 
@@ -257,7 +257,7 @@ function RenderExerciseOne(data) {
     } else {
         $(exsCard).attr('data-exs', '-1');
 
-        $('.modal-header').toggleClass('disabled', false);
+        $('.modal-header-c').toggleClass('disabled', false);
 
         $(exsCard).find('.btn-only-edit').prop('disabled', true);
         $(exsCard).find('.btn-not-view').toggleClass('d-none', false);
@@ -924,7 +924,7 @@ $(function() {
         $('#saveExs').toggleClass('btn-secondary', isActive == '1');
         $('#saveExs').prop('disabled', isActive == '1');
         $('#saveExs').toggleClass('btn-success', isActive != '1');
-        $('.modal-header').toggleClass('d-none', isActive == '1');
+        $('.modal-header-c').toggleClass('d-none', isActive == '1');
         $('#splitCol_exscard_2').find('.btn-view').toggleClass('d-none', isActive != '1');
         $('#splitCol_exscard_2').find('.btn-edit').toggleClass('d-none', isActive == '1');
         ToggleEditFields(isActive != '1');
@@ -961,7 +961,7 @@ $(function() {
                 $('.scheme-editor').addClass('d-none');
             }
         }
-        let setColumnsShort = $('.modal-header').is(":visible");
+        let setColumnsShort = $('.modal-header-c').is(":visible");
         $('.left-col-card').toggleClass('short', setColumnsShort);
         $('.center-col-card').toggleClass('short', setColumnsShort);
         $('.right-col-card').toggleClass('short', setColumnsShort);

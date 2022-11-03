@@ -4209,6 +4209,9 @@ table.table-inbox tbody tr.checked {
 .icon--folder {
 	content: url(../img/icons/folder.png);
 }
+.icon--folder-o {
+	content: url(../img/icons/folder-o.png);
+}
 .icon--like {
 	content: url(../img/icons/like.png);
 }
