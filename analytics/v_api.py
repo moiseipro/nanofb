@@ -187,12 +187,7 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_session):
                     pass
                 is_status_correct = check_protocol_status(t_protocol.status)
                 if player_data:
-                    player_data['res_trainings']['trainings_count'] += 1
                     if is_status_correct:
-                        if t_protocol.estimation == 1:
-                            player_data['res_trainings']['trainings_like'] += 1
-                        if t_protocol.estimation == 2:
-                            player_data['res_trainings']['trainings_dislike'] += 1
                         for t_exercise in t_protocol.training_exercise_check.all():
                             if t_exercise.exercise_id.ref_ball and t_exercise.exercise_id.ref_ball.name == "мяч":
                                 player_data['res_trainings']['trainings_with_ball'] += 1
@@ -202,6 +197,13 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_session):
                             if not t_exercise.exercise_id.folder.id in player_data['res_trainings']['trainings_exs_folders']:
                                 player_data['res_trainings']['trainings_exs_folders'][t_exercise.exercise_id.folder.id] = 0
                             player_data['res_trainings']['trainings_exs_folders'][t_exercise.exercise_id.folder.id] += 1
+                        if player_data['res_trainings']['trainings_time'] > 0:
+                            player_data['res_trainings']['trainings_count'] += 1
+                            if t_protocol.estimation == 1:
+                                player_data['res_trainings']['trainings_like'] += 1
+                            if t_protocol.estimation == 2:
+                                player_data['res_trainings']['trainings_dislike'] += 1
+
                     else:
                         if "type_ill" in t_protocol.status.tags and t_protocol.status.tags['type_ill'] == 1:
                             player_data['res_protocols']['diseases_count'] += 1

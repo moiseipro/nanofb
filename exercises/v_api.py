@@ -894,13 +894,18 @@ def GET_get_exs_all(request, cur_user):
     return JsonResponse({"data": res_exs, "success": True}, status=200)
 
 
-def GET_get_exs_one(request, cur_user, cur_team):
+def GET_get_exs_one(request, cur_user, cur_team, additional={}):
     exs_id = -1
     folder_type = request.GET.get("f_type", "")
     try:
         exs_id = int(request.GET.get("exs", -1))
     except:
         pass
+    is_as_object = False
+    if "f_type" in additional and "exs" in additional:
+        folder_type = additional['f_type']
+        exs_id = additional['exs']
+        is_as_object = True
     res_exs = {}
     if folder_type == FOLDER_TEAM:
         c_exs = UserExercise.objects.filter(id=exs_id, visible=True)
@@ -952,7 +957,10 @@ def GET_get_exs_one(request, cur_user, cur_team):
     elif folder_type == FOLDER_CLUB:
         pass
     else:
-        return JsonResponse({"errors": "Exercise not found.", "success": False}, status=400)
+        if is_as_object:
+            return None
+        else:
+            return JsonResponse({"errors": "Exercise not found.", "success": False}, status=400)
     res_exs['title'] = get_by_language_code(res_exs['title'], request.LANGUAGE_CODE)
     res_exs['description'] = get_by_language_code(res_exs['description'], request.LANGUAGE_CODE)
     res_exs['scheme_data'] = get_exs_scheme_data(res_exs['scheme_data'])
@@ -967,7 +975,10 @@ def GET_get_exs_one(request, cur_user, cur_team):
     res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type)
 
     # res_exs['stress_type'] = get_by_language_code(res_exs['stress_type'], request.LANGUAGE_CODE)
-    return JsonResponse({"data": res_exs, "success": True}, status=200)
+    if is_as_object:
+        return res_exs
+    else:
+        return JsonResponse({"data": res_exs, "success": True}, status=200)
 
 
 def GET_get_exs_graphic_content(request, cur_user, cur_team):

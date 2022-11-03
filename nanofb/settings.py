@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'api.apps.ApiConfig',
     'analytics.apps.AnalyticsConfig',
     'system_icons.apps.SystemIconsConfig',
+    'shared.apps.SharedConfig',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

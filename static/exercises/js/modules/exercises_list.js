@@ -307,6 +307,7 @@ $(function() {
         if (!isActive) {LoadFolderExercises();}
         else {
             $('.exs_counter').html("(...)");
+            CountExsInFoldersByType();
             $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
         }
         window.lastListUsed = "folders";
@@ -318,6 +319,7 @@ $(function() {
         if (!isActive) {LoadFolderExercises();}
         else {
             $('.exs_counter').html("(...)");
+            CountExsInFoldersByType();
             $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
         }
         window.lastListUsed = "folders";

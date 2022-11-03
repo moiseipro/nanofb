@@ -113,6 +113,16 @@ function ToggleUpFilter(id, state) {
                 else {$('#exerciseCopyModal').modal('hide');}
             }
             break;
+        case "share":
+            if ($('.exercises-list').find('.exs-elem.active').length <= 0) {
+                $('.up-tabs-elem[data-id="share"]').removeClass('selected3');
+                $('.up-tabs-elem[data-id="share"]').attr('data-state', '0');
+                swal("Внимание", "Выберите упражнение из списка.", "info");
+            } else {
+                if (state) {$('#exerciseShareModal').modal('show');} 
+                else {$('#exerciseShareModal').modal('hide');}
+            }
+            break;
         case "prev_exs":
             currentList = '.exs-list-group';
             activeElem = $(currentList).find('.exs-elem.active');
@@ -208,6 +218,17 @@ function StopAllVideos() {
             }
         }
     } catch (e) {}
+}
+
+
+
+function getFormattedDateFromTodayWithDelta(delta=0) {
+    let date = new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * delta);
+    return date.getFullYear()
+        + "-"
+        + ("0" + (date.getMonth() + 1)).slice(-2)
+        + "-"
+        + ("0" + date.getDate()).slice(-2);
 }
 
 
@@ -686,6 +707,112 @@ $(function() {
         }
     });
 
+    let startDate = getFormattedDateFromTodayWithDelta(1);
+    let endDate = getFormattedDateFromTodayWithDelta(8);
+    $('#exerciseShareModal').find('input[name="date"]').val(startDate);
+    $('#exerciseShareModal').find('input[name="date"]').attr('min', startDate);
+    $('#exerciseShareModal').find('input[name="date"]').attr('max', endDate);
+    $('#exerciseShareModal').on('show.bs.modal', (e) => {
+        $('#exerciseShareModal').find('input[type="checkbox"]').prop('checked', true);
+        $('#exerciseShareModal').find('.form-check.form-check-inline').removeClass('d-none');
+
+        let isScheme1Hide = $('#splitCol_2').find('#carouselSchema').find('.carousel-item').first().hasClass('d-none');
+        let isScheme2Hide = $('#splitCol_2').find('#carouselSchema').find('.carousel-item').last().hasClass('d-none');
+        let isVideo1Hide = $('#splitCol_2').find('#carouselVideo').find('.carousel-item').first().hasClass('d-none');
+        let isVideo2Hide = $('#splitCol_2').find('#carouselVideo').find('.carousel-item').last().hasClass('d-none');
+        let isAnimation1Hide = $('#splitCol_2').find('#carouselAnim').find('.carousel-item').first().hasClass('d-none');
+        let isAnimation2Hide = $('#splitCol_2').find('#carouselAnim').find('.carousel-item').last().hasClass('d-none');
+        $('#exerciseShareModal').find('input[type="checkbox"][name="scheme_1"]').parent().toggleClass('d-none', isScheme1Hide);
+        $('#exerciseShareModal').find('input[type="checkbox"][name="scheme_2"]').parent().toggleClass('d-none', isScheme2Hide);
+        $('#exerciseShareModal').find('input[type="checkbox"][name="video_1"]').parent().toggleClass('d-none', isVideo1Hide);
+        $('#exerciseShareModal').find('input[type="checkbox"][name="video_2"]').parent().toggleClass('d-none', isVideo2Hide);
+        $('#exerciseShareModal').find('input[type="checkbox"][name="animation_1"]').parent().toggleClass('d-none', isAnimation1Hide);
+        $('#exerciseShareModal').find('input[type="checkbox"][name="animation_2"]').parent().toggleClass('d-none', isAnimation2Hide);
+        
+        $('#exerciseShareModal').find('.create-block').removeClass('d-none');
+        $('#exerciseShareModal').find('.link-text > a').text('-');
+        $('#exerciseShareModal').find('.link-text > a').attr('href', '');
+        $('#exerciseShareModal').find('button.btn-share').attr('data-link', "");
+
+        let exsId = $('.exercises-block').find('.exs-elem.active').attr('data-id');
+        let folderType = $('.up-block-content').find('.folders-toggle:visible').first().attr('data-id');
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: {'get_link': 1, 'id': exsId, 'type': `exercise_${folderType}`},
+            type: 'GET', // GET или POST
+            dataType: 'json',
+            url: "/shared/shared_link_api",
+            success: function (res) {
+                if (res.success) {
+                    $('#exerciseShareModal').find('.create-block').addClass('d-none');
+                    $('#exerciseShareModal').find('.link-text > a').text(res.data.link);
+                    $('#exerciseShareModal').find('.link-text > a').attr('href', res.data.link);
+                    $('#exerciseShareModal').find('button.btn-share').attr('data-link', res.data.link);
+                }
+            },
+            error: function (res) {
+                console.log(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
+    });
+    $('#exerciseShareModal').on('hidden.bs.modal', (e) => {
+        $('.up-tabs-elem[data-id="share"]').removeClass('selected3');
+        $('.up-tabs-elem[data-id="share"]').attr('data-state', '0');
+    });
+    $('#exerciseShareModal').on('click', '.btn-share', (e) => {
+        let cLink = $(e.currentTarget).attr('data-link');
+        if (cLink && cLink != "") {
+            navigator.clipboard.writeText(cLink);
+            swal("Готово", `Ссылка скопирована (${cLink})!`, "success");
+            return;
+        }
+        let exsId = $('.exercises-block').find('.exs-elem.active').attr('data-id');
+        let folderType = $('.up-block-content').find('.folders-toggle:visible').first().attr('data-id');
+        let expireDate = $('#exerciseShareModal').find('input[name="date"]').val();
+        let options = {};
+        $('#exerciseShareModal').find('input[type="checkbox"]:visible').each((ind, elem) => {
+            options[$(elem).attr('name')] = $(elem).prop('checked') ? 1 : 0;
+        });
+        let dataToSend = {
+            'add_link': 1,
+            'id': exsId,
+            'type': `exercise_${folderType}`,
+            'expire_date': expireDate,
+            'options': JSON.stringify(options)
+        };
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: dataToSend,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "/shared/shared_link_api",
+            success: function (res) {
+                if (res.success) {
+                    $('#exerciseShareModal').find('.link-text > a').text(res.data.link);
+                    $('#exerciseShareModal').find('.link-text > a').attr('href', res.data.link);
+                    $('#exerciseShareModal').find('button.btn-share').attr('data-link', res.data.link);
+                    navigator.clipboard.writeText(res.data.link);
+                    swal("Готово", `Ссылка скопирована (${res.data.link})!`, "success");
+                }
+            },
+            error: function (res) {
+                if (res.type == "date") {
+                    swal("Ошибка", "Дата введена не корректно!", "error");
+                } else if (res.type == "link") {
+                    swal("Ошибка", "Невозможно создать общую ссылку!", "error");
+                }
+                console.log(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
+    });
 
     // Open last exercise from card
     window.lastExercise = null;
