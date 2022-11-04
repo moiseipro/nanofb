@@ -11,17 +11,17 @@
     <main class="">
         <div class="row">
             <div class="col-12">
-                <div class="card mb-1">
+                <div class="card mb-1 mt-4 c-block">
                     <div class="card-body p-1">
                         <div class="card-inside">
                             <div class="row">
-                                <div class="col-sm-12 col-md-6">
+                                <div class="col-sm-12 col-md-7">
                                     <div class="row">
-                                        <div class="col-12 title-block">
+                                        <div class="col-12 title-block text-center">
                                             {{ exercise.title }}
                                         </div>
                                         {% if options.description == 1 %}
-                                        <div class="col-12 description-block">
+                                        <div class="col-12 description-block mt-2">
                                             <div class="resizeable-block">
                                                 <div id="descriptionEditor" class="ckeditor w-100" name="description_text" data-value="{{ exercise.description }}">
 
@@ -31,8 +31,8 @@
                                         {% endif %}
                                     </div>
                                 </div>
-                                <div class="col-sm-12 col-md-6">
-                                    <div class="row">
+                                <div class="col-sm-12 col-md-5">
+                                    <div class="row" style="overflow-y: auto;">
                                         <div class="col-12 scheme-block">
                                             <div id="carouselSchema" class="carousel slide" data-ride="carousel" data-interval="false">
                                                 <div class="carousel-inner">

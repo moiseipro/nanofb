@@ -9,6 +9,7 @@ $(function() {
     $('.header').remove();
     $('.sidebar').remove();
     $('.page-wrapper').removeClass('page-wrapper');
+    $('.main-wrapper > div').first().css('min-height', '');
     setTimeout(() => {
         $('.page-loader-wrapper').fadeOut();
     }, 500);
