@@ -1,8 +1,10 @@
 import django
 import os
+import sys
 from celery import Celery
 from celery.schedules import crontab
 
+sys.path.append('../')
 from shared.models import SharedLink
 from shared.v_api import check_link_expiration
 

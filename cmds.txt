@@ -39,4 +39,4 @@ django-admin makemessages -d djangojs -l ru
 
 
 --------- Периодические задачи, Celery:
-python -m celery -A tasks worker --loglevel=INFO
+python -m celery -A tasks.py worker --loglevel=INFO
