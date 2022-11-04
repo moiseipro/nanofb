@@ -1,9 +1,14 @@
+import django
+import os
 from celery import Celery
 from celery.schedules import crontab
+
 from shared.models import SharedLink
 from shared.v_api import check_link_expiration
 
 
+os.environ['DJANGO_SETTINGS_MODULE'] = 'nanofb.settings'
+django.setup()
 
 app = Celery()
 @app.on_after_configure.connect
