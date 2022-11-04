@@ -1,18 +1,14 @@
-import django
+from __future__ import absolute_import
 import os
 from celery import Celery
 from celery.schedules import crontab
 
-
-os.environ['DJANGO_SETTINGS_MODULE'] = 'nanofb.settings'
-django.setup()
-
-import sys
-sys.path.insert(0,'..')
 from shared.models import SharedLink
 from shared.v_api import check_link_expiration
 
-app = Celery()
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'nanofb.settings')
+app = Celery("nanofb", broker='pyamqp://guest@localhost//')
 @app.on_after_configure.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
