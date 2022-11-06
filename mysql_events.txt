@@ -1,0 +1,11 @@
+https://www.mysqltutorial.org/mysql-triggers/working-mysql-scheduled-event/
+
+
+CREATE EVENT event_shared_link_expire_check
+ON SCHEDULE EVERY 1 HOUR
+STARTS CURRENT_TIMESTAMP
+ENDS CURRENT_TIMESTAMP + INTERVAL 10 YEAR
+DO
+   DELETE FROM `shared_sharedlink` WHERE `expiration_date` < NOW();
+
+
