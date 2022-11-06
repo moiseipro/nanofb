@@ -7,7 +7,7 @@ from shared.v_api import check_link_expiration
 
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'nanofb.settings')
-app = Celery('celery')
+app = Celery('nanofb')
 app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
