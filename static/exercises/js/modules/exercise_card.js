@@ -150,7 +150,6 @@ function RenderExerciseOne(data) {
     if (data && data.id) {
         $(exsCard).attr('data-exs', data.id);
 
-        console.log(data)
         $('.exercise-card-header').toggleClass('disabled', data.copied_from_nfb == true);
 
         ToggleFoldersType(data);
