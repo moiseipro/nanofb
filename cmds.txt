@@ -44,3 +44,4 @@ celery -A celery worker -l info (в папке: nanofb, где лежит фай
 https://medium.com/@mahdi04/simple-async-django-app-with-celery-and-rabbitmq-ad4b1692c380
 https://docs.celeryq.dev/en/latest/userguide/periodic-tasks.html
 
+
