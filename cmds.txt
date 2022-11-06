@@ -39,4 +39,8 @@ django-admin makemessages -d djangojs -l ru
 
 
 --------- Периодические задачи, Celery:
-python -m celery -A tasks.py worker --loglevel=INFO
+celery -A celery worker -l info (в папке: nanofb, где лежит файл "celery.py")
+- help:
+https://medium.com/@mahdi04/simple-async-django-app-with-celery-and-rabbitmq-ad4b1692c380
+https://docs.celeryq.dev/en/latest/userguide/periodic-tasks.html
+
