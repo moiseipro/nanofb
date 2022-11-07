@@ -31,6 +31,25 @@ $(window).on('load', function (){
             $('#user-permissions').html(html_permission)
         })
     })
+
+    $('#form-add-user').validate()
+    $('#form-add-personal').validate()
+
+    $('#create-club-user').on('click', function () {
+        if(!$('#form-add-user').valid() || !$('#form-add-personal').valid()) return
+        let personal = $('#form-add-personal').serializeArray()
+        let send_data = personal
+        console.log(send_data);
+        // personal.forEach(function(value){
+        //     send_data.push({'personal': JSON.stringify(serializeArray())})
+        // })
+        send_data = $.merge(send_data, $('#form-add-user').serializeArray())
+        console.log(send_data);
+
+        ajax_club_users_action('POST', send_data, 'add user').then(function (data) {
+            console.log(data)
+        })
+    })
 })
 
 function initialize_phone_input() {
