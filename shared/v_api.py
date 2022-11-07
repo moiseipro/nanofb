@@ -6,6 +6,7 @@ import string
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.sites.shortcuts import get_current_site
+
 from users.models import User
 from shared.models import SharedLink
 from exercises.models import AdminExercise, UserExercise, ClubExercise
@@ -17,7 +18,6 @@ LANG_CODE_DEFAULT = "en"
 FOLDER_TEAM = "team_folders"
 FOLDER_NFB = "nfb_folders"
 FOLDER_CLUB = "club_folders"
-
 
 
 def get_by_language_code(value, code):

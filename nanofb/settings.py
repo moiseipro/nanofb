@@ -105,6 +105,9 @@ TEMPLATES = [
 WSGI_APPLICATION = 'nanofb.wsgi.application'
 
 
+CELERY_BROKER_URL = 'amqp://localhost'
+
+
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 DB_localhost = {
