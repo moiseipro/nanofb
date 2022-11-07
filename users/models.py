@@ -143,7 +143,7 @@ class User(AbstractUser):
     personal = models.OneToOneField(
         UserPersonal,
         null=True,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         default=None,
         verbose_name=_('Personal Information'),
         help_text=_('User Personal Information card'),

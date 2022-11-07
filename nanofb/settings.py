@@ -143,6 +143,14 @@ CACHES = {
 }
 
 
+# EMAIL
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'admin@nanofootball.ru'
+EMAIL_HOST_PASSWORD = 'nanofootball2020'
+EMAIL_USE_SSL = True
+
+
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 

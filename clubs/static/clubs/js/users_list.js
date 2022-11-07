@@ -60,11 +60,33 @@ function generate_ajax_club_users_table(scroll_y = ''){
     })
 }
 
-async function get_video_ids(video_id){
+async function ajax_club_users_action(method, data, action = '', id = '', func = '') {
+
+    let url = "/clubs/api/users/"
+    if(id !== '') url += `${id}/`
+    if(func !== '') url += `${func}/`
+
+    $('.page-loader-wrapper').fadeIn();
+
     return await $.ajax({
         headers:{"X-CSRFToken": csrftoken },
-        url: "/video/api/all/"+video_id+"/get_video",
-        type: "GET",
-        dataType: "JSON"
+        url: url,
+        type: method,
+        dataType: "JSON",
+        data: data,
+        success: function(data){
+            //console.log(data)
+            if(data.status == 'exercise_limit'){
+                swal(gettext('Users '+action), gettext('The limit of users for the club'), "error");
+            } else {
+
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+            swal(gettext('Users '+action), gettext('Error when action "'+action+'" the club users!'), "error");
+        },
+        complete: function () {
+            $('.page-loader-wrapper').fadeOut();
+        }
     })
 }

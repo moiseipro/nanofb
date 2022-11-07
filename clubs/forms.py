@@ -18,7 +18,6 @@ date_input_widget = forms.DateInput(attrs={
 phone_input_widget = forms.TextInput(attrs={
     'class': '',
     'id': 'phone',
-    'data-toggle': 'datetimepicker',
     'autocomplete': 'off',
     'type': 'tel'
 })

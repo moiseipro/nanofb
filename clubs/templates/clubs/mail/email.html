@@ -1,0 +1,16 @@
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans 'Registration on the Nanofootball website' %}</title>
+</head>
+<body>
+    <p>{% trans 'To log in to the site, use this data.' %}</p>
+    <p>
+        Email: {{ email }} <br>
+        {% trans 'Password' %}: {{ password }}
+    </p>
+</body>
+</html>
