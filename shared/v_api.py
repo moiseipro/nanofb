@@ -101,6 +101,7 @@ def POST_add_link(request, cur_user):
     c_dict = {
         'user': cur_user,
         'expiration_date': c_expire_date,
+        'language': request.LANGUAGE_CODE,
         'options': c_options
     }
     f_obj = None
@@ -159,13 +160,13 @@ def GET_get_link(request, cur_user=None):
                 return JsonResponse({"data": {"link": t_link}, "success": True}, status=200)
             else:
                 c_html_file = None
+                request.LANGUAGE_CODE = c_link.language if c_link.language else LANG_CODE_DEFAULT
                 data = {'options': c_link.options}
                 if c_link.exercise_nfb != None:
                     pass
                 elif c_link.exercise_user != None:
                     c_html_file = "shared/base_shared_exercise.html"
                     data['exercise'] = exercises_v_api.GET_get_exs_one(request, -1, -1, {'f_type': FOLDER_TEAM, 'exs': c_link.exercise_user.id})
-                    print(data)
                 elif c_link.exercise_club != None:
                     pass
                 if c_html_file:

@@ -5,3 +5,13 @@
     }
 }
 
+
+.carousel-control-custom {
+    color: black !important;
+    font-size: 2rem !important;
+}
+
+.px-custom-0 {
+    padding-left: 4rem !important;
+    padding-right: 4rem !important;
+}
