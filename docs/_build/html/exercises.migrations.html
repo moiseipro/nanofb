@@ -1,0 +1,659 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>exercises.migrations package &#8212; Nanofootball 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="exercises-migrations-package">
+<h1>exercises.migrations package<a class="headerlink" href="#exercises-migrations-package" title="Permalink to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-exercises.migrations.0001_initial">
+<span id="exercises-migrations-0001-initial-module"></span><h2>exercises.migrations.0001_initial module<a class="headerlink" href="#module-exercises.migrations.0001_initial" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="exercises.migrations.0001_initial.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exercises.migrations.0001_initial.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exercises.migrations.0001_initial.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0001_initial.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#exercises.migrations.0001_initial.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0001_initial.Migration.initial">
+<span class="sig-name descname"><span class="pre">initial</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#exercises.migrations.0001_initial.Migration.initial" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0001_initial.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;CreateModel</span>&#160; <span class="pre">name='AdminExercise',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('date_creation',</span> <span class="pre">&lt;django.db.models.fields.DateField&gt;),</span> <span class="pre">('order',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('visible',</span> <span class="pre">&lt;django.db.models.fields.BooleanField&gt;),</span> <span class="pre">('completed',</span> <span class="pre">&lt;django.db.models.fields.BooleanField&gt;),</span> <span class="pre">('completed_time',</span> <span class="pre">&lt;django.db.models.fields.DateField&gt;),</span> <span class="pre">('title',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('ref_ball',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('ref_goal',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('ref_workout_part',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('ref_cognitive_load',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('ref_age_category',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('description',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('players_amount',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('keyword',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('ref_source',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('condition',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('stress_type',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('purpose',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('coaching',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('notes',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('scheme_data',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('video_data',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('animation_data',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;)],</span> <span class="pre">options={'ordering':</span> <span class="pre">['order'],</span> <span class="pre">'abstract':</span> <span class="pre">False}&gt;,</span> <span class="pre">&lt;CreateModel</span>&#160; <span class="pre">name='AdminFolder',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('name',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('parent',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('visible',</span> <span class="pre">&lt;django.db.models.fields.BooleanField&gt;),</span> <span class="pre">('short_name',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('order',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;)],</span> <span class="pre">options={'ordering':</span> <span class="pre">['order'],</span> <span class="pre">'abstract':</span> <span class="pre">False}&gt;,</span> <span class="pre">&lt;CreateModel</span>&#160; <span class="pre">name='ClubExercise',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('date_creation',</span> <span class="pre">&lt;django.db.models.fields.DateField&gt;),</span> <span class="pre">('order',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('visible',</span> <span class="pre">&lt;django.db.models.fields.BooleanField&gt;),</span> <span class="pre">('completed',</span> <span class="pre">&lt;django.db.models.fields.BooleanField&gt;),</span> <span class="pre">('completed_time',</span> <span class="pre">&lt;django.db.models.fields.DateField&gt;),</span> <span class="pre">('title',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('ref_ball',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('ref_goal',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('ref_workout_part',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('ref_cognitive_load',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('ref_age_category',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('description',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('players_amount',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('keyword',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('ref_source',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('condition',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('stress_type',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('purpose',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('coaching',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('notes',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('scheme_data',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('video_data',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('animation_data',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;)],</span> <span class="pre">options={'ordering':</span> <span class="pre">['order'],</span> <span class="pre">'abstract':</span> <span class="pre">False}&gt;,</span> <span class="pre">&lt;CreateModel</span>&#160; <span class="pre">name='ClubFolder',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('name',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('parent',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('visible',</span> <span class="pre">&lt;django.db.models.fields.BooleanField&gt;),</span> <span class="pre">('short_name',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('order',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;)],</span> <span class="pre">options={'ordering':</span> <span class="pre">['order'],</span> <span class="pre">'abstract':</span> <span class="pre">False}&gt;,</span> <span class="pre">&lt;CreateModel</span>&#160; <span class="pre">name='UserExercise',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('date_creation',</span> <span class="pre">&lt;django.db.models.fields.DateField&gt;),</span> <span class="pre">('order',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('visible',</span> <span class="pre">&lt;django.db.models.fields.BooleanField&gt;),</span> <span class="pre">('completed',</span> <span class="pre">&lt;django.db.models.fields.BooleanField&gt;),</span> <span class="pre">('completed_time',</span> <span class="pre">&lt;django.db.models.fields.DateField&gt;),</span> <span class="pre">('title',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('ref_ball',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('ref_goal',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('ref_workout_part',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('ref_cognitive_load',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('ref_age_category',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('description',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('players_amount',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('keyword',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('ref_source',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('condition',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('stress_type',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('purpose',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('coaching',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('notes',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('scheme_data',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('video_data',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('animation_data',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;)],</span> <span class="pre">options={'ordering':</span> <span class="pre">['order'],</span> <span class="pre">'abstract':</span> <span class="pre">False}&gt;,</span> <span class="pre">&lt;CreateModel</span>&#160; <span class="pre">name='UserFolder',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('name',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('parent',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('visible',</span> <span class="pre">&lt;django.db.models.fields.BooleanField&gt;),</span> <span class="pre">('short_name',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('order',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;)],</span> <span class="pre">options={'ordering':</span> <span class="pre">['order'],</span> <span class="pre">'abstract':</span> <span class="pre">False}&gt;]</span></em><a class="headerlink" href="#exercises.migrations.0001_initial.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="exercises-migrations-0002-initial-module">
+<h2>exercises.migrations.0002_initial module<a class="headerlink" href="#exercises-migrations-0002-initial-module" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-exercises.migrations.0003_remove_adminexercise_ref_source_and_more">
+<span id="exercises-migrations-0003-remove-adminexercise-ref-source-and-more-module"></span><h2>exercises.migrations.0003_remove_adminexercise_ref_source_and_more module<a class="headerlink" href="#module-exercises.migrations.0003_remove_adminexercise_ref_source_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="exercises.migrations.0003_remove_adminexercise_ref_source_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exercises.migrations.0003_remove_adminexercise_ref_source_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exercises.migrations.0003_remove_adminexercise_ref_source_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0003_remove_adminexercise_ref_source_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('exercises',</span> <span class="pre">'0002_initial')]</span></em><a class="headerlink" href="#exercises.migrations.0003_remove_adminexercise_ref_source_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0003_remove_adminexercise_ref_source_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;RemoveField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='ref_source'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='ref_workout_part'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='ref_source'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='ref_workout_part'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='ref_source'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='ref_workout_part'&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='players_ages',</span> <span class="pre">field=&lt;django.db.models.fields.CharField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='players_ages',</span> <span class="pre">field=&lt;django.db.models.fields.CharField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='players_ages',</span> <span class="pre">field=&lt;django.db.models.fields.CharField&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='players_amount',</span> <span class="pre">field=&lt;django.db.models.fields.CharField&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='players_amount',</span> <span class="pre">field=&lt;django.db.models.fields.CharField&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='players_amount',</span> <span class="pre">field=&lt;django.db.models.fields.CharField&gt;&gt;]</span></em><a class="headerlink" href="#exercises.migrations.0003_remove_adminexercise_ref_source_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-exercises.migrations.0004_remove_adminexercise_players_ages_and_more">
+<span id="exercises-migrations-0004-remove-adminexercise-players-ages-and-more-module"></span><h2>exercises.migrations.0004_remove_adminexercise_players_ages_and_more module<a class="headerlink" href="#module-exercises.migrations.0004_remove_adminexercise_players_ages_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="exercises.migrations.0004_remove_adminexercise_players_ages_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exercises.migrations.0004_remove_adminexercise_players_ages_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exercises.migrations.0004_remove_adminexercise_players_ages_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0004_remove_adminexercise_players_ages_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('exercises',</span> <span class="pre">'0003_remove_adminexercise_ref_source_and_more')]</span></em><a class="headerlink" href="#exercises.migrations.0004_remove_adminexercise_players_ages_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0004_remove_adminexercise_players_ages_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;RemoveField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='players_ages'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='players_amount'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='players_ages'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='players_amount'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='players_ages'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='players_amount'&gt;]</span></em><a class="headerlink" href="#exercises.migrations.0004_remove_adminexercise_players_ages_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-exercises.migrations.0005_adminexercise_players_ages_and_more">
+<span id="exercises-migrations-0005-adminexercise-players-ages-and-more-module"></span><h2>exercises.migrations.0005_adminexercise_players_ages_and_more module<a class="headerlink" href="#module-exercises.migrations.0005_adminexercise_players_ages_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="exercises.migrations.0005_adminexercise_players_ages_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exercises.migrations.0005_adminexercise_players_ages_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exercises.migrations.0005_adminexercise_players_ages_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0005_adminexercise_players_ages_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('exercises',</span> <span class="pre">'0004_remove_adminexercise_players_ages_and_more')]</span></em><a class="headerlink" href="#exercises.migrations.0005_adminexercise_players_ages_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0005_adminexercise_players_ages_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AddField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='players_ages',</span> <span class="pre">field=&lt;django.db.models.fields.json.JSONField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='players_amount',</span> <span class="pre">field=&lt;django.db.models.fields.json.JSONField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='players_ages',</span> <span class="pre">field=&lt;django.db.models.fields.json.JSONField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='players_amount',</span> <span class="pre">field=&lt;django.db.models.fields.json.JSONField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='players_ages',</span> <span class="pre">field=&lt;django.db.models.fields.json.JSONField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='players_amount',</span> <span class="pre">field=&lt;django.db.models.fields.json.JSONField&gt;&gt;]</span></em><a class="headerlink" href="#exercises.migrations.0005_adminexercise_players_ages_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-exercises.migrations.0006_userfolder_team">
+<span id="exercises-migrations-0006-userfolder-team-module"></span><h2>exercises.migrations.0006_userfolder_team module<a class="headerlink" href="#module-exercises.migrations.0006_userfolder_team" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="exercises.migrations.0006_userfolder_team.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exercises.migrations.0006_userfolder_team.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exercises.migrations.0006_userfolder_team.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0006_userfolder_team.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('references',</span> <span class="pre">'0005_exsaddition'),</span> <span class="pre">('exercises',</span> <span class="pre">'0005_adminexercise_players_ages_and_more')]</span></em><a class="headerlink" href="#exercises.migrations.0006_userfolder_team.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0006_userfolder_team.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AddField</span>&#160; <span class="pre">model_name='userfolder',</span> <span class="pre">name='team',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;]</span></em><a class="headerlink" href="#exercises.migrations.0006_userfolder_team.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="exercises-migrations-0007-userexerciseparam-module">
+<h2>exercises.migrations.0007_userexerciseparam module<a class="headerlink" href="#exercises-migrations-0007-userexerciseparam-module" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-exercises.migrations.0008_userexerciseparamteam">
+<span id="exercises-migrations-0008-userexerciseparamteam-module"></span><h2>exercises.migrations.0008_userexerciseparamteam module<a class="headerlink" href="#module-exercises.migrations.0008_userexerciseparamteam" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="exercises.migrations.0008_userexerciseparamteam.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exercises.migrations.0008_userexerciseparamteam.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exercises.migrations.0008_userexerciseparamteam.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0008_userexerciseparamteam.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('references',</span> <span class="pre">'0005_exsaddition'),</span> <span class="pre">('exercises',</span> <span class="pre">'0007_userexerciseparam')]</span></em><a class="headerlink" href="#exercises.migrations.0008_userexerciseparamteam.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0008_userexerciseparamteam.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;CreateModel</span>&#160; <span class="pre">name='UserExerciseParamTeam',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('addition',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('purpose',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('stress_type',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('coaching',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('exercise_club',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;),</span> <span class="pre">('exercise_user',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;),</span> <span class="pre">('team',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;)]&gt;]</span></em><a class="headerlink" href="#exercises.migrations.0008_userexerciseparamteam.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="exercises-migrations-0009-alter-userexerciseparam-user-and-more-module">
+<h2>exercises.migrations.0009_alter_userexerciseparam_user_and_more module<a class="headerlink" href="#exercises-migrations-0009-alter-userexerciseparam-user-and-more-module" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-exercises.migrations.0010_remove_adminexercise_coaching_and_more">
+<span id="exercises-migrations-0010-remove-adminexercise-coaching-and-more-module"></span><h2>exercises.migrations.0010_remove_adminexercise_coaching_and_more module<a class="headerlink" href="#module-exercises.migrations.0010_remove_adminexercise_coaching_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="exercises.migrations.0010_remove_adminexercise_coaching_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exercises.migrations.0010_remove_adminexercise_coaching_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exercises.migrations.0010_remove_adminexercise_coaching_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0010_remove_adminexercise_coaching_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('exercises',</span> <span class="pre">'0009_alter_userexerciseparam_user_and_more')]</span></em><a class="headerlink" href="#exercises.migrations.0010_remove_adminexercise_coaching_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0010_remove_adminexercise_coaching_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;RemoveField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='coaching'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='condition'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='keyword'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='notes'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='players_ages'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='players_amount'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='purpose'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='stress_type'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='coaching'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='condition'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='keyword'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='notes'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='players_ages'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='players_amount'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='purpose'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='stress_type'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='coaching'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='condition'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='keyword'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='notes'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='players_ages'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='players_amount'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='purpose'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='stress_type'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='userexerciseparamteam',</span> <span class="pre">name='addition'&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='ref_team_category',</span> <span class="pre">field=&lt;django.db.models.fields.IntegerField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='ref_train_part',</span> <span class="pre">field=&lt;django.db.models.fields.IntegerField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='ref_team_category',</span> <span class="pre">field=&lt;django.db.models.fields.IntegerField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='ref_train_part',</span> <span class="pre">field=&lt;django.db.models.fields.IntegerField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='ref_team_category',</span> <span class="pre">field=&lt;django.db.models.fields.IntegerField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='ref_train_part',</span> <span class="pre">field=&lt;django.db.models.fields.IntegerField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userexerciseparamteam',</span> <span class="pre">name='ball_touch',</span> <span class="pre">field=&lt;django.db.models.fields.json.JSONField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userexerciseparamteam',</span> <span class="pre">name='group',</span> <span class="pre">field=&lt;django.db.models.fields.json.JSONField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userexerciseparamteam',</span> <span class="pre">name='keyword',</span> <span class="pre">field=&lt;django.db.models.fields.json.JSONField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userexerciseparamteam',</span> <span class="pre">name='neutral',</span> <span class="pre">field=&lt;django.db.models.fields.json.JSONField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userexerciseparamteam',</span> <span class="pre">name='note',</span> <span class="pre">field=&lt;django.db.models.fields.json.JSONField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userexerciseparamteam',</span> <span class="pre">name='play_zone',</span> <span class="pre">field=&lt;django.db.models.fields.json.JSONField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userexerciseparamteam',</span> <span class="pre">name='player',</span> <span class="pre">field=&lt;django.db.models.fields.json.JSONField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userexerciseparamteam',</span> <span class="pre">name='t_pause',</span> <span class="pre">field=&lt;django.db.models.fields.json.JSONField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userexerciseparamteam',</span> <span class="pre">name='t_repeat',</span> <span class="pre">field=&lt;django.db.models.fields.json.JSONField&gt;&gt;]</span></em><a class="headerlink" href="#exercises.migrations.0010_remove_adminexercise_coaching_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-exercises.migrations.0011_userexerciseparam_animation_1_watched_and_more">
+<span id="exercises-migrations-0011-userexerciseparam-animation-1-watched-and-more-module"></span><h2>exercises.migrations.0011_userexerciseparam_animation_1_watched_and_more module<a class="headerlink" href="#module-exercises.migrations.0011_userexerciseparam_animation_1_watched_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="exercises.migrations.0011_userexerciseparam_animation_1_watched_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exercises.migrations.0011_userexerciseparam_animation_1_watched_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exercises.migrations.0011_userexerciseparam_animation_1_watched_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0011_userexerciseparam_animation_1_watched_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('exercises',</span> <span class="pre">'0010_remove_adminexercise_coaching_and_more')]</span></em><a class="headerlink" href="#exercises.migrations.0011_userexerciseparam_animation_1_watched_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0011_userexerciseparam_animation_1_watched_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AddField</span>&#160; <span class="pre">model_name='userexerciseparam',</span> <span class="pre">name='animation_1_watched',</span> <span class="pre">field=&lt;django.db.models.fields.BooleanField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userexerciseparam',</span> <span class="pre">name='animation_2_watched',</span> <span class="pre">field=&lt;django.db.models.fields.BooleanField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userexerciseparam',</span> <span class="pre">name='video_1_watched',</span> <span class="pre">field=&lt;django.db.models.fields.BooleanField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userexerciseparam',</span> <span class="pre">name='video_2_watched',</span> <span class="pre">field=&lt;django.db.models.fields.BooleanField&gt;&gt;]</span></em><a class="headerlink" href="#exercises.migrations.0011_userexerciseparam_animation_1_watched_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-exercises.migrations.0012_remove_userexerciseparamteam_ball_touch_and_more">
+<span id="exercises-migrations-0012-remove-userexerciseparamteam-ball-touch-and-more-module"></span><h2>exercises.migrations.0012_remove_userexerciseparamteam_ball_touch_and_more module<a class="headerlink" href="#module-exercises.migrations.0012_remove_userexerciseparamteam_ball_touch_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="exercises.migrations.0012_remove_userexerciseparamteam_ball_touch_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exercises.migrations.0012_remove_userexerciseparamteam_ball_touch_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exercises.migrations.0012_remove_userexerciseparamteam_ball_touch_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0012_remove_userexerciseparamteam_ball_touch_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('exercises',</span> <span class="pre">'0011_userexerciseparam_animation_1_watched_and_more')]</span></em><a class="headerlink" href="#exercises.migrations.0012_remove_userexerciseparamteam_ball_touch_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0012_remove_userexerciseparamteam_ball_touch_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;RemoveField</span>&#160; <span class="pre">model_name='userexerciseparamteam',</span> <span class="pre">name='ball_touch'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='userexerciseparamteam',</span> <span class="pre">name='group'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='userexerciseparamteam',</span> <span class="pre">name='neutral'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='userexerciseparamteam',</span> <span class="pre">name='play_zone'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='userexerciseparamteam',</span> <span class="pre">name='player'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='userexerciseparamteam',</span> <span class="pre">name='t_pause'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='userexerciseparamteam',</span> <span class="pre">name='t_repeat'&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userexerciseparamteam',</span> <span class="pre">name='additional_data',</span> <span class="pre">field=&lt;django.db.models.fields.json.JSONField&gt;&gt;]</span></em><a class="headerlink" href="#exercises.migrations.0012_remove_userexerciseparamteam_ball_touch_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-exercises.migrations.0013_adminexercise_clone_nfb_id_adminexercise_old_id_and_more">
+<span id="exercises-migrations-0013-adminexercise-clone-nfb-id-adminexercise-old-id-and-more-module"></span><h2>exercises.migrations.0013_adminexercise_clone_nfb_id_adminexercise_old_id_and_more module<a class="headerlink" href="#module-exercises.migrations.0013_adminexercise_clone_nfb_id_adminexercise_old_id_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="exercises.migrations.0013_adminexercise_clone_nfb_id_adminexercise_old_id_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exercises.migrations.0013_adminexercise_clone_nfb_id_adminexercise_old_id_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exercises.migrations.0013_adminexercise_clone_nfb_id_adminexercise_old_id_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0013_adminexercise_clone_nfb_id_adminexercise_old_id_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('exercises',</span> <span class="pre">'0012_remove_userexerciseparamteam_ball_touch_and_more')]</span></em><a class="headerlink" href="#exercises.migrations.0013_adminexercise_clone_nfb_id_adminexercise_old_id_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0013_adminexercise_clone_nfb_id_adminexercise_old_id_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AddField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='clone_nfb_id',</span> <span class="pre">field=&lt;django.db.models.fields.IntegerField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='old_id',</span> <span class="pre">field=&lt;django.db.models.fields.IntegerField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='clone_nfb_id',</span> <span class="pre">field=&lt;django.db.models.fields.IntegerField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='old_id',</span> <span class="pre">field=&lt;django.db.models.fields.IntegerField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='clone_nfb_id',</span> <span class="pre">field=&lt;django.db.models.fields.IntegerField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='old_id',</span> <span class="pre">field=&lt;django.db.models.fields.IntegerField&gt;&gt;]</span></em><a class="headerlink" href="#exercises.migrations.0013_adminexercise_clone_nfb_id_adminexercise_old_id_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-exercises.migrations.0014_adminexercise_filter_favorite_and_more">
+<span id="exercises-migrations-0014-adminexercise-filter-favorite-and-more-module"></span><h2>exercises.migrations.0014_adminexercise_filter_favorite_and_more module<a class="headerlink" href="#module-exercises.migrations.0014_adminexercise_filter_favorite_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="exercises.migrations.0014_adminexercise_filter_favorite_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exercises.migrations.0014_adminexercise_filter_favorite_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exercises.migrations.0014_adminexercise_filter_favorite_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0014_adminexercise_filter_favorite_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('exercises',</span> <span class="pre">'0013_adminexercise_clone_nfb_id_adminexercise_old_id_and_more')]</span></em><a class="headerlink" href="#exercises.migrations.0014_adminexercise_filter_favorite_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0014_adminexercise_filter_favorite_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AddField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='filter_favorite',</span> <span class="pre">field=&lt;django.db.models.fields.IntegerField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='filter_watched',</span> <span class="pre">field=&lt;django.db.models.fields.IntegerField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='filter_favorite',</span> <span class="pre">field=&lt;django.db.models.fields.IntegerField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='filter_watched',</span> <span class="pre">field=&lt;django.db.models.fields.IntegerField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='filter_favorite',</span> <span class="pre">field=&lt;django.db.models.fields.IntegerField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='filter_watched',</span> <span class="pre">field=&lt;django.db.models.fields.IntegerField&gt;&gt;]</span></em><a class="headerlink" href="#exercises.migrations.0014_adminexercise_filter_favorite_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-exercises.migrations.0015_remove_adminexercise_filter_favorite_and_more">
+<span id="exercises-migrations-0015-remove-adminexercise-filter-favorite-and-more-module"></span><h2>exercises.migrations.0015_remove_adminexercise_filter_favorite_and_more module<a class="headerlink" href="#module-exercises.migrations.0015_remove_adminexercise_filter_favorite_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="exercises.migrations.0015_remove_adminexercise_filter_favorite_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exercises.migrations.0015_remove_adminexercise_filter_favorite_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exercises.migrations.0015_remove_adminexercise_filter_favorite_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0015_remove_adminexercise_filter_favorite_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('exercises',</span> <span class="pre">'0014_adminexercise_filter_favorite_and_more')]</span></em><a class="headerlink" href="#exercises.migrations.0015_remove_adminexercise_filter_favorite_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0015_remove_adminexercise_filter_favorite_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;RemoveField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='filter_favorite'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='filter_watched'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='filter_favorite'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='filter_watched'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='filter_favorite'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='filter_watched'&gt;]</span></em><a class="headerlink" href="#exercises.migrations.0015_remove_adminexercise_filter_favorite_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-exercises.migrations.0016_adminexercise_type_clubexercise_type_and_more">
+<span id="exercises-migrations-0016-adminexercise-type-clubexercise-type-and-more-module"></span><h2>exercises.migrations.0016_adminexercise_type_clubexercise_type_and_more module<a class="headerlink" href="#module-exercises.migrations.0016_adminexercise_type_clubexercise_type_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="exercises.migrations.0016_adminexercise_type_clubexercise_type_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exercises.migrations.0016_adminexercise_type_clubexercise_type_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exercises.migrations.0016_adminexercise_type_clubexercise_type_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0016_adminexercise_type_clubexercise_type_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('exercises',</span> <span class="pre">'0015_remove_adminexercise_filter_favorite_and_more')]</span></em><a class="headerlink" href="#exercises.migrations.0016_adminexercise_type_clubexercise_type_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0016_adminexercise_type_clubexercise_type_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AddField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='type',</span> <span class="pre">field=&lt;django.db.models.fields.CharField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='type',</span> <span class="pre">field=&lt;django.db.models.fields.CharField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='type',</span> <span class="pre">field=&lt;django.db.models.fields.CharField&gt;&gt;]</span></em><a class="headerlink" href="#exercises.migrations.0016_adminexercise_type_clubexercise_type_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-exercises.migrations.0017_remove_adminexercise_type_remove_clubexercise_type_and_more">
+<span id="exercises-migrations-0017-remove-adminexercise-type-remove-clubexercise-type-and-more-module"></span><h2>exercises.migrations.0017_remove_adminexercise_type_remove_clubexercise_type_and_more module<a class="headerlink" href="#module-exercises.migrations.0017_remove_adminexercise_type_remove_clubexercise_type_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="exercises.migrations.0017_remove_adminexercise_type_remove_clubexercise_type_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exercises.migrations.0017_remove_adminexercise_type_remove_clubexercise_type_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exercises.migrations.0017_remove_adminexercise_type_remove_clubexercise_type_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0017_remove_adminexercise_type_remove_clubexercise_type_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('exercises',</span> <span class="pre">'0016_adminexercise_type_clubexercise_type_and_more')]</span></em><a class="headerlink" href="#exercises.migrations.0017_remove_adminexercise_type_remove_clubexercise_type_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0017_remove_adminexercise_type_remove_clubexercise_type_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;RemoveField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='type'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='type'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='type'&gt;]</span></em><a class="headerlink" href="#exercises.migrations.0017_remove_adminexercise_type_remove_clubexercise_type_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-exercises.migrations.0018_userexerciseparam_exercise_nfb_and_more">
+<span id="exercises-migrations-0018-userexerciseparam-exercise-nfb-and-more-module"></span><h2>exercises.migrations.0018_userexerciseparam_exercise_nfb_and_more module<a class="headerlink" href="#module-exercises.migrations.0018_userexerciseparam_exercise_nfb_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="exercises.migrations.0018_userexerciseparam_exercise_nfb_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exercises.migrations.0018_userexerciseparam_exercise_nfb_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exercises.migrations.0018_userexerciseparam_exercise_nfb_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0018_userexerciseparam_exercise_nfb_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('exercises',</span> <span class="pre">'0017_remove_adminexercise_type_remove_clubexercise_type_and_more')]</span></em><a class="headerlink" href="#exercises.migrations.0018_userexerciseparam_exercise_nfb_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0018_userexerciseparam_exercise_nfb_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AddField</span>&#160; <span class="pre">model_name='userexerciseparam',</span> <span class="pre">name='exercise_nfb',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userexerciseparamteam',</span> <span class="pre">name='exercise_nfb',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;]</span></em><a class="headerlink" href="#exercises.migrations.0018_userexerciseparam_exercise_nfb_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-exercises.migrations.0019_alter_adminfolder_name_alter_clubfolder_name_and_more">
+<span id="exercises-migrations-0019-alter-adminfolder-name-alter-clubfolder-name-and-more-module"></span><h2>exercises.migrations.0019_alter_adminfolder_name_alter_clubfolder_name_and_more module<a class="headerlink" href="#module-exercises.migrations.0019_alter_adminfolder_name_alter_clubfolder_name_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="exercises.migrations.0019_alter_adminfolder_name_alter_clubfolder_name_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exercises.migrations.0019_alter_adminfolder_name_alter_clubfolder_name_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exercises.migrations.0019_alter_adminfolder_name_alter_clubfolder_name_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0019_alter_adminfolder_name_alter_clubfolder_name_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('exercises',</span> <span class="pre">'0018_userexerciseparam_exercise_nfb_and_more')]</span></em><a class="headerlink" href="#exercises.migrations.0019_alter_adminfolder_name_alter_clubfolder_name_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0019_alter_adminfolder_name_alter_clubfolder_name_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AlterField</span>&#160; <span class="pre">model_name='adminfolder',</span> <span class="pre">name='name',</span> <span class="pre">field=&lt;django.db.models.fields.CharField&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='clubfolder',</span> <span class="pre">name='name',</span> <span class="pre">field=&lt;django.db.models.fields.CharField&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='userfolder',</span> <span class="pre">name='name',</span> <span class="pre">field=&lt;django.db.models.fields.CharField&gt;&gt;]</span></em><a class="headerlink" href="#exercises.migrations.0019_alter_adminfolder_name_alter_clubfolder_name_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-exercises.migrations.0020_exercisevideo">
+<span id="exercises-migrations-0020-exercisevideo-module"></span><h2>exercises.migrations.0020_exercisevideo module<a class="headerlink" href="#module-exercises.migrations.0020_exercisevideo" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="exercises.migrations.0020_exercisevideo.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exercises.migrations.0020_exercisevideo.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exercises.migrations.0020_exercisevideo.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0020_exercisevideo.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('video',</span> <span class="pre">'0012_alter_video_taggit'),</span> <span class="pre">('exercises',</span> <span class="pre">'0019_alter_adminfolder_name_alter_clubfolder_name_and_more')]</span></em><a class="headerlink" href="#exercises.migrations.0020_exercisevideo.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0020_exercisevideo.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;CreateModel</span>&#160; <span class="pre">name='ExerciseVideo',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('exercise_club',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;),</span> <span class="pre">('exercise_nfb',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;),</span> <span class="pre">('exercise_user',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;),</span> <span class="pre">('video_1',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;)]&gt;]</span></em><a class="headerlink" href="#exercises.migrations.0020_exercisevideo.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-exercises.migrations.0021_exercisevideo_animation_1_exercisevideo_animation_2_and_more">
+<span id="exercises-migrations-0021-exercisevideo-animation-1-exercisevideo-animation-2-and-more-module"></span><h2>exercises.migrations.0021_exercisevideo_animation_1_exercisevideo_animation_2_and_more module<a class="headerlink" href="#module-exercises.migrations.0021_exercisevideo_animation_1_exercisevideo_animation_2_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="exercises.migrations.0021_exercisevideo_animation_1_exercisevideo_animation_2_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exercises.migrations.0021_exercisevideo_animation_1_exercisevideo_animation_2_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exercises.migrations.0021_exercisevideo_animation_1_exercisevideo_animation_2_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0021_exercisevideo_animation_1_exercisevideo_animation_2_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('video',</span> <span class="pre">'0012_alter_video_taggit'),</span> <span class="pre">('exercises',</span> <span class="pre">'0020_exercisevideo')]</span></em><a class="headerlink" href="#exercises.migrations.0021_exercisevideo_animation_1_exercisevideo_animation_2_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0021_exercisevideo_animation_1_exercisevideo_animation_2_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AddField</span>&#160; <span class="pre">model_name='exercisevideo',</span> <span class="pre">name='animation_1',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='exercisevideo',</span> <span class="pre">name='animation_2',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='exercisevideo',</span> <span class="pre">name='video_2',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='exercisevideo',</span> <span class="pre">name='video_1',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;]</span></em><a class="headerlink" href="#exercises.migrations.0021_exercisevideo_animation_1_exercisevideo_animation_2_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-exercises.migrations.0022_adminexercise_videos_clubexercise_videos_and_more">
+<span id="exercises-migrations-0022-adminexercise-videos-clubexercise-videos-and-more-module"></span><h2>exercises.migrations.0022_adminexercise_videos_clubexercise_videos_and_more module<a class="headerlink" href="#module-exercises.migrations.0022_adminexercise_videos_clubexercise_videos_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="exercises.migrations.0022_adminexercise_videos_clubexercise_videos_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exercises.migrations.0022_adminexercise_videos_clubexercise_videos_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exercises.migrations.0022_adminexercise_videos_clubexercise_videos_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0022_adminexercise_videos_clubexercise_videos_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('video',</span> <span class="pre">'0012_alter_video_taggit'),</span> <span class="pre">('exercises',</span> <span class="pre">'0021_exercisevideo_animation_1_exercisevideo_animation_2_and_more')]</span></em><a class="headerlink" href="#exercises.migrations.0022_adminexercise_videos_clubexercise_videos_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0022_adminexercise_videos_clubexercise_videos_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AddField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='videos',</span> <span class="pre">field=&lt;django.db.models.fields.related.ManyToManyField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='videos',</span> <span class="pre">field=&lt;django.db.models.fields.related.ManyToManyField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='exercisevideo',</span> <span class="pre">name='order',</span> <span class="pre">field=&lt;django.db.models.fields.IntegerField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='exercisevideo',</span> <span class="pre">name='type',</span> <span class="pre">field=&lt;django.db.models.fields.IntegerField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='exercisevideo',</span> <span class="pre">name='video',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='videos',</span> <span class="pre">field=&lt;django.db.models.fields.related.ManyToManyField&gt;&gt;]</span></em><a class="headerlink" href="#exercises.migrations.0022_adminexercise_videos_clubexercise_videos_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-exercises.migrations.0023_alter_exercisevideo_type">
+<span id="exercises-migrations-0023-alter-exercisevideo-type-module"></span><h2>exercises.migrations.0023_alter_exercisevideo_type module<a class="headerlink" href="#module-exercises.migrations.0023_alter_exercisevideo_type" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="exercises.migrations.0023_alter_exercisevideo_type.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exercises.migrations.0023_alter_exercisevideo_type.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exercises.migrations.0023_alter_exercisevideo_type.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0023_alter_exercisevideo_type.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('exercises',</span> <span class="pre">'0022_adminexercise_videos_clubexercise_videos_and_more')]</span></em><a class="headerlink" href="#exercises.migrations.0023_alter_exercisevideo_type.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0023_alter_exercisevideo_type.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AlterField</span>&#160; <span class="pre">model_name='exercisevideo',</span> <span class="pre">name='type',</span> <span class="pre">field=&lt;django.db.models.fields.IntegerField&gt;&gt;]</span></em><a class="headerlink" href="#exercises.migrations.0023_alter_exercisevideo_type.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-exercises.migrations.0024_remove_adminexercise_videos_and_more">
+<span id="exercises-migrations-0024-remove-adminexercise-videos-and-more-module"></span><h2>exercises.migrations.0024_remove_adminexercise_videos_and_more module<a class="headerlink" href="#module-exercises.migrations.0024_remove_adminexercise_videos_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="exercises.migrations.0024_remove_adminexercise_videos_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exercises.migrations.0024_remove_adminexercise_videos_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exercises.migrations.0024_remove_adminexercise_videos_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0024_remove_adminexercise_videos_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('exercises',</span> <span class="pre">'0023_alter_exercisevideo_type')]</span></em><a class="headerlink" href="#exercises.migrations.0024_remove_adminexercise_videos_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0024_remove_adminexercise_videos_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;RemoveField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='videos'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='videos'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='videos'&gt;]</span></em><a class="headerlink" href="#exercises.migrations.0024_remove_adminexercise_videos_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-exercises.migrations.0025_adminexercise_videos_clubexercise_videos_and_more">
+<span id="exercises-migrations-0025-adminexercise-videos-clubexercise-videos-and-more-module"></span><h2>exercises.migrations.0025_adminexercise_videos_clubexercise_videos_and_more module<a class="headerlink" href="#module-exercises.migrations.0025_adminexercise_videos_clubexercise_videos_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="exercises.migrations.0025_adminexercise_videos_clubexercise_videos_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exercises.migrations.0025_adminexercise_videos_clubexercise_videos_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exercises.migrations.0025_adminexercise_videos_clubexercise_videos_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0025_adminexercise_videos_clubexercise_videos_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('video',</span> <span class="pre">'0012_alter_video_taggit'),</span> <span class="pre">('exercises',</span> <span class="pre">'0024_remove_adminexercise_videos_and_more')]</span></em><a class="headerlink" href="#exercises.migrations.0025_adminexercise_videos_clubexercise_videos_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0025_adminexercise_videos_clubexercise_videos_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AddField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='videos',</span> <span class="pre">field=&lt;django.db.models.fields.related.ManyToManyField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='videos',</span> <span class="pre">field=&lt;django.db.models.fields.related.ManyToManyField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='videos',</span> <span class="pre">field=&lt;django.db.models.fields.related.ManyToManyField&gt;&gt;]</span></em><a class="headerlink" href="#exercises.migrations.0025_adminexercise_videos_clubexercise_videos_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-exercises.migrations.0026_remove_adminexercise_videos_and_more">
+<span id="exercises-migrations-0026-remove-adminexercise-videos-and-more-module"></span><h2>exercises.migrations.0026_remove_adminexercise_videos_and_more module<a class="headerlink" href="#module-exercises.migrations.0026_remove_adminexercise_videos_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="exercises.migrations.0026_remove_adminexercise_videos_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exercises.migrations.0026_remove_adminexercise_videos_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exercises.migrations.0026_remove_adminexercise_videos_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0026_remove_adminexercise_videos_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('exercises',</span> <span class="pre">'0025_adminexercise_videos_clubexercise_videos_and_more')]</span></em><a class="headerlink" href="#exercises.migrations.0026_remove_adminexercise_videos_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0026_remove_adminexercise_videos_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;RemoveField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='videos'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='videos'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='exercisevideo',</span> <span class="pre">name='exercise_club'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='exercisevideo',</span> <span class="pre">name='exercise_nfb'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='exercisevideo',</span> <span class="pre">name='exercise_user'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='videos'&gt;]</span></em><a class="headerlink" href="#exercises.migrations.0026_remove_adminexercise_videos_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-exercises.migrations.0027_adminexercise_videos_clubexercise_videos_and_more">
+<span id="exercises-migrations-0027-adminexercise-videos-clubexercise-videos-and-more-module"></span><h2>exercises.migrations.0027_adminexercise_videos_clubexercise_videos_and_more module<a class="headerlink" href="#module-exercises.migrations.0027_adminexercise_videos_clubexercise_videos_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="exercises.migrations.0027_adminexercise_videos_clubexercise_videos_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exercises.migrations.0027_adminexercise_videos_clubexercise_videos_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exercises.migrations.0027_adminexercise_videos_clubexercise_videos_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0027_adminexercise_videos_clubexercise_videos_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('exercises',</span> <span class="pre">'0026_remove_adminexercise_videos_and_more')]</span></em><a class="headerlink" href="#exercises.migrations.0027_adminexercise_videos_clubexercise_videos_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0027_adminexercise_videos_clubexercise_videos_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AddField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='videos',</span> <span class="pre">field=&lt;django.db.models.fields.related.ManyToManyField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='videos',</span> <span class="pre">field=&lt;django.db.models.fields.related.ManyToManyField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='videos',</span> <span class="pre">field=&lt;django.db.models.fields.related.ManyToManyField&gt;&gt;]</span></em><a class="headerlink" href="#exercises.migrations.0027_adminexercise_videos_clubexercise_videos_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-exercises.migrations.0028_remove_exercisevideo_animation_1_and_more">
+<span id="exercises-migrations-0028-remove-exercisevideo-animation-1-and-more-module"></span><h2>exercises.migrations.0028_remove_exercisevideo_animation_1_and_more module<a class="headerlink" href="#module-exercises.migrations.0028_remove_exercisevideo_animation_1_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="exercises.migrations.0028_remove_exercisevideo_animation_1_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exercises.migrations.0028_remove_exercisevideo_animation_1_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exercises.migrations.0028_remove_exercisevideo_animation_1_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0028_remove_exercisevideo_animation_1_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('exercises',</span> <span class="pre">'0027_adminexercise_videos_clubexercise_videos_and_more')]</span></em><a class="headerlink" href="#exercises.migrations.0028_remove_exercisevideo_animation_1_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0028_remove_exercisevideo_animation_1_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;RemoveField</span>&#160; <span class="pre">model_name='exercisevideo',</span> <span class="pre">name='animation_1'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='exercisevideo',</span> <span class="pre">name='animation_2'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='exercisevideo',</span> <span class="pre">name='video_1'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='exercisevideo',</span> <span class="pre">name='video_2'&gt;]</span></em><a class="headerlink" href="#exercises.migrations.0028_remove_exercisevideo_animation_1_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-exercises.migrations.0029_alter_adminexercise_ref_age_category_and_more">
+<span id="exercises-migrations-0029-alter-adminexercise-ref-age-category-and-more-module"></span><h2>exercises.migrations.0029_alter_adminexercise_ref_age_category_and_more module<a class="headerlink" href="#module-exercises.migrations.0029_alter_adminexercise_ref_age_category_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="exercises.migrations.0029_alter_adminexercise_ref_age_category_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exercises.migrations.0029_alter_adminexercise_ref_age_category_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exercises.migrations.0029_alter_adminexercise_ref_age_category_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0029_alter_adminexercise_ref_age_category_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('references',</span> <span class="pre">'0015_alter_clubseason_options_alter_clubteam_options_and_more'),</span> <span class="pre">('exercises',</span> <span class="pre">'0028_remove_exercisevideo_animation_1_and_more')]</span></em><a class="headerlink" href="#exercises.migrations.0029_alter_adminexercise_ref_age_category_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0029_alter_adminexercise_ref_age_category_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AlterField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='ref_age_category',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='ref_ball',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='ref_cognitive_load',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='ref_goal',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='ref_team_category',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='ref_train_part',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='ref_age_category',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='ref_ball',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='ref_cognitive_load',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='ref_goal',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='ref_team_category',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='ref_train_part',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='ref_age_category',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='ref_ball',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='ref_cognitive_load',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='ref_goal',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='ref_team_category',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='ref_train_part',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;]</span></em><a class="headerlink" href="#exercises.migrations.0029_alter_adminexercise_ref_age_category_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-exercises.migrations.0030_remove_adminexercise_videos_and_more">
+<span id="exercises-migrations-0030-remove-adminexercise-videos-and-more-module"></span><h2>exercises.migrations.0030_remove_adminexercise_videos_and_more module<a class="headerlink" href="#module-exercises.migrations.0030_remove_adminexercise_videos_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="exercises.migrations.0030_remove_adminexercise_videos_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exercises.migrations.0030_remove_adminexercise_videos_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exercises.migrations.0030_remove_adminexercise_videos_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0030_remove_adminexercise_videos_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('exercises',</span> <span class="pre">'0029_alter_adminexercise_ref_age_category_and_more')]</span></em><a class="headerlink" href="#exercises.migrations.0030_remove_adminexercise_videos_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0030_remove_adminexercise_videos_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;RemoveField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='videos'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='videos'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='videos'&gt;]</span></em><a class="headerlink" href="#exercises.migrations.0030_remove_adminexercise_videos_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-exercises.migrations.0031_adminexercise_videos_clubexercise_videos_and_more">
+<span id="exercises-migrations-0031-adminexercise-videos-clubexercise-videos-and-more-module"></span><h2>exercises.migrations.0031_adminexercise_videos_clubexercise_videos_and_more module<a class="headerlink" href="#module-exercises.migrations.0031_adminexercise_videos_clubexercise_videos_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="exercises.migrations.0031_adminexercise_videos_clubexercise_videos_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exercises.migrations.0031_adminexercise_videos_clubexercise_videos_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exercises.migrations.0031_adminexercise_videos_clubexercise_videos_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0031_adminexercise_videos_clubexercise_videos_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('video',</span> <span class="pre">'0012_alter_video_taggit'),</span> <span class="pre">('exercises',</span> <span class="pre">'0030_remove_adminexercise_videos_and_more')]</span></em><a class="headerlink" href="#exercises.migrations.0031_adminexercise_videos_clubexercise_videos_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercises.migrations.0031_adminexercise_videos_clubexercise_videos_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AddField</span>&#160; <span class="pre">model_name='adminexercise',</span> <span class="pre">name='videos',</span> <span class="pre">field=&lt;django.db.models.fields.related.ManyToManyField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='clubexercise',</span> <span class="pre">name='videos',</span> <span class="pre">field=&lt;django.db.models.fields.related.ManyToManyField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='exercisevideo',</span> <span class="pre">name='exercise_club',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='exercisevideo',</span> <span class="pre">name='exercise_nfb',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='exercisevideo',</span> <span class="pre">name='exercise_user',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userexercise',</span> <span class="pre">name='videos',</span> <span class="pre">field=&lt;django.db.models.fields.related.ManyToManyField&gt;&gt;]</span></em><a class="headerlink" href="#exercises.migrations.0031_adminexercise_videos_clubexercise_videos_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-exercises.migrations">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-exercises.migrations" title="Permalink to this heading">¶</a></h2>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Nanofootball</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules/events/views.html">Views</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Nanofootball team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/exercises.migrations.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

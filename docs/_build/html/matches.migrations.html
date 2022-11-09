@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>matches.migrations package &#8212; Nanofootball 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="matches-migrations-package">
+<h1>matches.migrations package<a class="headerlink" href="#matches-migrations-package" title="Permalink to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="matches-migrations-0001-initial-module">
+<h2>matches.migrations.0001_initial module<a class="headerlink" href="#matches-migrations-0001-initial-module" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-matches.migrations.0002_userprotocol_clubprotocol">
+<span id="matches-migrations-0002-userprotocol-clubprotocol-module"></span><h2>matches.migrations.0002_userprotocol_clubprotocol module<a class="headerlink" href="#module-matches.migrations.0002_userprotocol_clubprotocol" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="matches.migrations.0002_userprotocol_clubprotocol.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">matches.migrations.0002_userprotocol_clubprotocol.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#matches.migrations.0002_userprotocol_clubprotocol.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="matches.migrations.0002_userprotocol_clubprotocol.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('players',</span> <span class="pre">'0015_playerquestionnairesrows_playerquestionnaireuser_and_more'),</span> <span class="pre">('matches',</span> <span class="pre">'0001_initial')]</span></em><a class="headerlink" href="#matches.migrations.0002_userprotocol_clubprotocol.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="matches.migrations.0002_userprotocol_clubprotocol.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;CreateModel</span>&#160; <span class="pre">name='UserProtocol',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('minute_from',</span> <span class="pre">&lt;django.db.models.fields.SmallIntegerField&gt;),</span> <span class="pre">('minute_to',</span> <span class="pre">&lt;django.db.models.fields.SmallIntegerField&gt;),</span> <span class="pre">('goal',</span> <span class="pre">&lt;django.db.models.fields.SmallIntegerField&gt;),</span> <span class="pre">('penalty',</span> <span class="pre">&lt;django.db.models.fields.SmallIntegerField&gt;),</span> <span class="pre">('p_pass',</span> <span class="pre">&lt;django.db.models.fields.SmallIntegerField&gt;),</span> <span class="pre">('yellow_card',</span> <span class="pre">&lt;django.db.models.fields.SmallIntegerField&gt;),</span> <span class="pre">('red_card',</span> <span class="pre">&lt;django.db.models.fields.SmallIntegerField&gt;),</span> <span class="pre">('estimation',</span> <span class="pre">&lt;django.db.models.fields.SmallIntegerField&gt;),</span> <span class="pre">('like',</span> <span class="pre">&lt;django.db.models.fields.BooleanField&gt;),</span> <span class="pre">('dislike',</span> <span class="pre">&lt;django.db.models.fields.BooleanField&gt;),</span> <span class="pre">('match',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;),</span> <span class="pre">('player',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;)],</span> <span class="pre">options={'abstract':</span> <span class="pre">False}&gt;,</span> <span class="pre">&lt;CreateModel</span>&#160; <span class="pre">name='ClubProtocol',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('minute_from',</span> <span class="pre">&lt;django.db.models.fields.SmallIntegerField&gt;),</span> <span class="pre">('minute_to',</span> <span class="pre">&lt;django.db.models.fields.SmallIntegerField&gt;),</span> <span class="pre">('goal',</span> <span class="pre">&lt;django.db.models.fields.SmallIntegerField&gt;),</span> <span class="pre">('penalty',</span> <span class="pre">&lt;django.db.models.fields.SmallIntegerField&gt;),</span> <span class="pre">('p_pass',</span> <span class="pre">&lt;django.db.models.fields.SmallIntegerField&gt;),</span> <span class="pre">('yellow_card',</span> <span class="pre">&lt;django.db.models.fields.SmallIntegerField&gt;),</span> <span class="pre">('red_card',</span> <span class="pre">&lt;django.db.models.fields.SmallIntegerField&gt;),</span> <span class="pre">('estimation',</span> <span class="pre">&lt;django.db.models.fields.SmallIntegerField&gt;),</span> <span class="pre">('like',</span> <span class="pre">&lt;django.db.models.fields.BooleanField&gt;),</span> <span class="pre">('dislike',</span> <span class="pre">&lt;django.db.models.fields.BooleanField&gt;),</span> <span class="pre">('match',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;),</span> <span class="pre">('player',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;)],</span> <span class="pre">options={'abstract':</span> <span class="pre">False}&gt;]</span></em><a class="headerlink" href="#matches.migrations.0002_userprotocol_clubprotocol.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-matches.migrations.0003_clubprotocol_p_num_userprotocol_p_num">
+<span id="matches-migrations-0003-clubprotocol-p-num-userprotocol-p-num-module"></span><h2>matches.migrations.0003_clubprotocol_p_num_userprotocol_p_num module<a class="headerlink" href="#module-matches.migrations.0003_clubprotocol_p_num_userprotocol_p_num" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="matches.migrations.0003_clubprotocol_p_num_userprotocol_p_num.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">matches.migrations.0003_clubprotocol_p_num_userprotocol_p_num.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#matches.migrations.0003_clubprotocol_p_num_userprotocol_p_num.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="matches.migrations.0003_clubprotocol_p_num_userprotocol_p_num.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('matches',</span> <span class="pre">'0002_userprotocol_clubprotocol')]</span></em><a class="headerlink" href="#matches.migrations.0003_clubprotocol_p_num_userprotocol_p_num.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="matches.migrations.0003_clubprotocol_p_num_userprotocol_p_num.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AddField</span>&#160; <span class="pre">model_name='clubprotocol',</span> <span class="pre">name='p_num',</span> <span class="pre">field=&lt;django.db.models.fields.SmallIntegerField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userprotocol',</span> <span class="pre">name='p_num',</span> <span class="pre">field=&lt;django.db.models.fields.SmallIntegerField&gt;&gt;]</span></em><a class="headerlink" href="#matches.migrations.0003_clubprotocol_p_num_userprotocol_p_num.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-matches.migrations.0004_clubprotocol_is_opponent_userprotocol_is_opponent">
+<span id="matches-migrations-0004-clubprotocol-is-opponent-userprotocol-is-opponent-module"></span><h2>matches.migrations.0004_clubprotocol_is_opponent_userprotocol_is_opponent module<a class="headerlink" href="#module-matches.migrations.0004_clubprotocol_is_opponent_userprotocol_is_opponent" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="matches.migrations.0004_clubprotocol_is_opponent_userprotocol_is_opponent.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">matches.migrations.0004_clubprotocol_is_opponent_userprotocol_is_opponent.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#matches.migrations.0004_clubprotocol_is_opponent_userprotocol_is_opponent.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="matches.migrations.0004_clubprotocol_is_opponent_userprotocol_is_opponent.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('matches',</span> <span class="pre">'0003_clubprotocol_p_num_userprotocol_p_num')]</span></em><a class="headerlink" href="#matches.migrations.0004_clubprotocol_is_opponent_userprotocol_is_opponent.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="matches.migrations.0004_clubprotocol_is_opponent_userprotocol_is_opponent.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AddField</span>&#160; <span class="pre">model_name='clubprotocol',</span> <span class="pre">name='is_opponent',</span> <span class="pre">field=&lt;django.db.models.fields.BooleanField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userprotocol',</span> <span class="pre">name='is_opponent',</span> <span class="pre">field=&lt;django.db.models.fields.BooleanField&gt;&gt;]</span></em><a class="headerlink" href="#matches.migrations.0004_clubprotocol_is_opponent_userprotocol_is_opponent.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-matches.migrations.0005_clubprotocol_p_status_userprotocol_p_status">
+<span id="matches-migrations-0005-clubprotocol-p-status-userprotocol-p-status-module"></span><h2>matches.migrations.0005_clubprotocol_p_status_userprotocol_p_status module<a class="headerlink" href="#module-matches.migrations.0005_clubprotocol_p_status_userprotocol_p_status" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="matches.migrations.0005_clubprotocol_p_status_userprotocol_p_status.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">matches.migrations.0005_clubprotocol_p_status_userprotocol_p_status.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#matches.migrations.0005_clubprotocol_p_status_userprotocol_p_status.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="matches.migrations.0005_clubprotocol_p_status_userprotocol_p_status.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('references',</span> <span class="pre">'0013_playerprotocolstatus'),</span> <span class="pre">('matches',</span> <span class="pre">'0004_clubprotocol_is_opponent_userprotocol_is_opponent')]</span></em><a class="headerlink" href="#matches.migrations.0005_clubprotocol_p_status_userprotocol_p_status.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="matches.migrations.0005_clubprotocol_p_status_userprotocol_p_status.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AddField</span>&#160; <span class="pre">model_name='clubprotocol',</span> <span class="pre">name='p_status',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userprotocol',</span> <span class="pre">name='p_status',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;]</span></em><a class="headerlink" href="#matches.migrations.0005_clubprotocol_p_status_userprotocol_p_status.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-matches.migrations.0006_clubprotocol_in_reserve_clubprotocol_is_captain_and_more">
+<span id="matches-migrations-0006-clubprotocol-in-reserve-clubprotocol-is-captain-and-more-module"></span><h2>matches.migrations.0006_clubprotocol_in_reserve_clubprotocol_is_captain_and_more module<a class="headerlink" href="#module-matches.migrations.0006_clubprotocol_in_reserve_clubprotocol_is_captain_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="matches.migrations.0006_clubprotocol_in_reserve_clubprotocol_is_captain_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">matches.migrations.0006_clubprotocol_in_reserve_clubprotocol_is_captain_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#matches.migrations.0006_clubprotocol_in_reserve_clubprotocol_is_captain_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="matches.migrations.0006_clubprotocol_in_reserve_clubprotocol_is_captain_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('matches',</span> <span class="pre">'0005_clubprotocol_p_status_userprotocol_p_status')]</span></em><a class="headerlink" href="#matches.migrations.0006_clubprotocol_in_reserve_clubprotocol_is_captain_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="matches.migrations.0006_clubprotocol_in_reserve_clubprotocol_is_captain_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AddField</span>&#160; <span class="pre">model_name='clubprotocol',</span> <span class="pre">name='in_reserve',</span> <span class="pre">field=&lt;django.db.models.fields.BooleanField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='clubprotocol',</span> <span class="pre">name='is_captain',</span> <span class="pre">field=&lt;django.db.models.fields.BooleanField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='clubprotocol',</span> <span class="pre">name='is_goalkeeper',</span> <span class="pre">field=&lt;django.db.models.fields.BooleanField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userprotocol',</span> <span class="pre">name='in_reserve',</span> <span class="pre">field=&lt;django.db.models.fields.BooleanField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userprotocol',</span> <span class="pre">name='is_captain',</span> <span class="pre">field=&lt;django.db.models.fields.BooleanField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userprotocol',</span> <span class="pre">name='is_goalkeeper',</span> <span class="pre">field=&lt;django.db.models.fields.BooleanField&gt;&gt;]</span></em><a class="headerlink" href="#matches.migrations.0006_clubprotocol_in_reserve_clubprotocol_is_captain_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-matches.migrations.0007_alter_clubprotocol_options_and_more">
+<span id="matches-migrations-0007-alter-clubprotocol-options-and-more-module"></span><h2>matches.migrations.0007_alter_clubprotocol_options_and_more module<a class="headerlink" href="#module-matches.migrations.0007_alter_clubprotocol_options_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="matches.migrations.0007_alter_clubprotocol_options_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">matches.migrations.0007_alter_clubprotocol_options_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#matches.migrations.0007_alter_clubprotocol_options_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="matches.migrations.0007_alter_clubprotocol_options_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('matches',</span> <span class="pre">'0006_clubprotocol_in_reserve_clubprotocol_is_captain_and_more')]</span></em><a class="headerlink" href="#matches.migrations.0007_alter_clubprotocol_options_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="matches.migrations.0007_alter_clubprotocol_options_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AlterModelOptions</span>&#160; <span class="pre">name='clubprotocol',</span> <span class="pre">options={'ordering':</span> <span class="pre">['order',</span> <span class="pre">'player__surname',</span> <span class="pre">'player__name']}&gt;,</span> <span class="pre">&lt;AlterModelOptions</span>&#160; <span class="pre">name='userprotocol',</span> <span class="pre">options={'ordering':</span> <span class="pre">['order',</span> <span class="pre">'player__surname',</span> <span class="pre">'player__name']}&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='clubprotocol',</span> <span class="pre">name='order',</span> <span class="pre">field=&lt;django.db.models.fields.IntegerField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userprotocol',</span> <span class="pre">name='order',</span> <span class="pre">field=&lt;django.db.models.fields.IntegerField&gt;&gt;]</span></em><a class="headerlink" href="#matches.migrations.0007_alter_clubprotocol_options_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-matches.migrations.0008_clubprotocol_border_black_clubprotocol_border_red_and_more">
+<span id="matches-migrations-0008-clubprotocol-border-black-clubprotocol-border-red-and-more-module"></span><h2>matches.migrations.0008_clubprotocol_border_black_clubprotocol_border_red_and_more module<a class="headerlink" href="#module-matches.migrations.0008_clubprotocol_border_black_clubprotocol_border_red_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="matches.migrations.0008_clubprotocol_border_black_clubprotocol_border_red_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">matches.migrations.0008_clubprotocol_border_black_clubprotocol_border_red_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#matches.migrations.0008_clubprotocol_border_black_clubprotocol_border_red_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="matches.migrations.0008_clubprotocol_border_black_clubprotocol_border_red_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('matches',</span> <span class="pre">'0007_alter_clubprotocol_options_and_more')]</span></em><a class="headerlink" href="#matches.migrations.0008_clubprotocol_border_black_clubprotocol_border_red_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="matches.migrations.0008_clubprotocol_border_black_clubprotocol_border_red_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AddField</span>&#160; <span class="pre">model_name='clubprotocol',</span> <span class="pre">name='border_black',</span> <span class="pre">field=&lt;django.db.models.fields.SmallIntegerField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='clubprotocol',</span> <span class="pre">name='border_red',</span> <span class="pre">field=&lt;django.db.models.fields.SmallIntegerField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userprotocol',</span> <span class="pre">name='border_black',</span> <span class="pre">field=&lt;django.db.models.fields.SmallIntegerField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userprotocol',</span> <span class="pre">name='border_red',</span> <span class="pre">field=&lt;django.db.models.fields.SmallIntegerField&gt;&gt;]</span></em><a class="headerlink" href="#matches.migrations.0008_clubprotocol_border_black_clubprotocol_border_red_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-matches.migrations.0009_remove_clubprotocol_in_reserve_and_more">
+<span id="matches-migrations-0009-remove-clubprotocol-in-reserve-and-more-module"></span><h2>matches.migrations.0009_remove_clubprotocol_in_reserve_and_more module<a class="headerlink" href="#module-matches.migrations.0009_remove_clubprotocol_in_reserve_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="matches.migrations.0009_remove_clubprotocol_in_reserve_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">matches.migrations.0009_remove_clubprotocol_in_reserve_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#matches.migrations.0009_remove_clubprotocol_in_reserve_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="matches.migrations.0009_remove_clubprotocol_in_reserve_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('matches',</span> <span class="pre">'0008_clubprotocol_border_black_clubprotocol_border_red_and_more')]</span></em><a class="headerlink" href="#matches.migrations.0009_remove_clubprotocol_in_reserve_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="matches.migrations.0009_remove_clubprotocol_in_reserve_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;RemoveField</span>&#160; <span class="pre">model_name='clubprotocol',</span> <span class="pre">name='in_reserve'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='userprotocol',</span> <span class="pre">name='in_reserve'&gt;]</span></em><a class="headerlink" href="#matches.migrations.0009_remove_clubprotocol_in_reserve_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-matches.migrations.0010_alter_userprotocol_options">
+<span id="matches-migrations-0010-alter-userprotocol-options-module"></span><h2>matches.migrations.0010_alter_userprotocol_options module<a class="headerlink" href="#module-matches.migrations.0010_alter_userprotocol_options" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="matches.migrations.0010_alter_userprotocol_options.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">matches.migrations.0010_alter_userprotocol_options.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#matches.migrations.0010_alter_userprotocol_options.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="matches.migrations.0010_alter_userprotocol_options.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('matches',</span> <span class="pre">'0009_remove_clubprotocol_in_reserve_and_more')]</span></em><a class="headerlink" href="#matches.migrations.0010_alter_userprotocol_options.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="matches.migrations.0010_alter_userprotocol_options.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AlterModelOptions</span>&#160; <span class="pre">name='userprotocol',</span> <span class="pre">options={'ordering':</span> <span class="pre">['p_status__order',</span> <span class="pre">'order',</span> <span class="pre">'player__surname',</span> <span class="pre">'player__name']}&gt;]</span></em><a class="headerlink" href="#matches.migrations.0010_alter_userprotocol_options.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-matches.migrations.0011_clubprotocol_video_link_userprotocol_video_link">
+<span id="matches-migrations-0011-clubprotocol-video-link-userprotocol-video-link-module"></span><h2>matches.migrations.0011_clubprotocol_video_link_userprotocol_video_link module<a class="headerlink" href="#module-matches.migrations.0011_clubprotocol_video_link_userprotocol_video_link" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="matches.migrations.0011_clubprotocol_video_link_userprotocol_video_link.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">matches.migrations.0011_clubprotocol_video_link_userprotocol_video_link.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#matches.migrations.0011_clubprotocol_video_link_userprotocol_video_link.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="matches.migrations.0011_clubprotocol_video_link_userprotocol_video_link.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('events',</span> <span class="pre">'0009_eventvideolink_clubevent_video_link_and_more'),</span> <span class="pre">('matches',</span> <span class="pre">'0010_alter_userprotocol_options')]</span></em><a class="headerlink" href="#matches.migrations.0011_clubprotocol_video_link_userprotocol_video_link.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="matches.migrations.0011_clubprotocol_video_link_userprotocol_video_link.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AddField</span>&#160; <span class="pre">model_name='clubprotocol',</span> <span class="pre">name='video_link',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userprotocol',</span> <span class="pre">name='video_link',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;]</span></em><a class="headerlink" href="#matches.migrations.0011_clubprotocol_video_link_userprotocol_video_link.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-matches.migrations.0012_alter_clubmatch_options_alter_usermatch_options">
+<span id="matches-migrations-0012-alter-clubmatch-options-alter-usermatch-options-module"></span><h2>matches.migrations.0012_alter_clubmatch_options_alter_usermatch_options module<a class="headerlink" href="#module-matches.migrations.0012_alter_clubmatch_options_alter_usermatch_options" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="matches.migrations.0012_alter_clubmatch_options_alter_usermatch_options.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">matches.migrations.0012_alter_clubmatch_options_alter_usermatch_options.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#matches.migrations.0012_alter_clubmatch_options_alter_usermatch_options.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="matches.migrations.0012_alter_clubmatch_options_alter_usermatch_options.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('matches',</span> <span class="pre">'0011_clubprotocol_video_link_userprotocol_video_link')]</span></em><a class="headerlink" href="#matches.migrations.0012_alter_clubmatch_options_alter_usermatch_options.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="matches.migrations.0012_alter_clubmatch_options_alter_usermatch_options.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AlterModelOptions</span>&#160; <span class="pre">name='clubmatch',</span> <span class="pre">options={'ordering':</span> <span class="pre">['-event_id__date']}&gt;,</span> <span class="pre">&lt;AlterModelOptions</span>&#160; <span class="pre">name='usermatch',</span> <span class="pre">options={'ordering':</span> <span class="pre">['-event_id__date']}&gt;]</span></em><a class="headerlink" href="#matches.migrations.0012_alter_clubmatch_options_alter_usermatch_options.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-matches.migrations">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-matches.migrations" title="Permalink to this heading">¶</a></h2>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Nanofootball</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules/events/views.html">Views</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Nanofootball team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/matches.migrations.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

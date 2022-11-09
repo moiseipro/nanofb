@@ -306,8 +306,8 @@ class VideoViewSet(viewsets.ModelViewSet):
         return VideoSerializer
 
     def get_queryset(self):
-        exs_video = ExerciseVideo.objects.filter(video__isnull=False).values('video')
-        print(exs_video[0])
+        # exs_video = ExerciseVideo.objects.filter(video__isnull=False).values('video')
+        # print(exs_video[0])
         return Video.objects.all()#exclude(id__in=[o['video'] for o in exs_video])
 
 
