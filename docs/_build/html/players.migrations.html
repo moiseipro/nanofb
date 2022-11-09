@@ -1,0 +1,422 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>players.migrations package &#8212; Nanofootball 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="players-migrations-package">
+<h1>players.migrations package<a class="headerlink" href="#players-migrations-package" title="Permalink to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-players.migrations.0001_initial">
+<span id="players-migrations-0001-initial-module"></span><h2>players.migrations.0001_initial module<a class="headerlink" href="#module-players.migrations.0001_initial" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="players.migrations.0001_initial.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">players.migrations.0001_initial.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#players.migrations.0001_initial.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0001_initial.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('users',</span> <span class="pre">'__first__'),</span> <span class="pre">('references',</span> <span class="pre">'0011_exstitlename_delete_exstitlenames')]</span></em><a class="headerlink" href="#players.migrations.0001_initial.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0001_initial.Migration.initial">
+<span class="sig-name descname"><span class="pre">initial</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#players.migrations.0001_initial.Migration.initial" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0001_initial.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;CreateModel</span>&#160; <span class="pre">name='UserPlayer',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('date_creation',</span> <span class="pre">&lt;django.db.models.fields.DateField&gt;),</span> <span class="pre">('surname',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('name',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('patronymic',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('citizenship',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('photo',</span> <span class="pre">&lt;django.db.models.fields.files.ImageField&gt;),</span> <span class="pre">('team',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;),</span> <span class="pre">('user',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;)],</span> <span class="pre">options={'abstract':</span> <span class="pre">False}&gt;,</span> <span class="pre">&lt;CreateModel</span>&#160; <span class="pre">name='ClubPlayer',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('date_creation',</span> <span class="pre">&lt;django.db.models.fields.DateField&gt;),</span> <span class="pre">('surname',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('name',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('patronymic',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('citizenship',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('photo',</span> <span class="pre">&lt;django.db.models.fields.files.ImageField&gt;),</span> <span class="pre">('team',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;),</span> <span class="pre">('user',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;)],</span> <span class="pre">options={'abstract':</span> <span class="pre">False}&gt;]</span></em><a class="headerlink" href="#players.migrations.0001_initial.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-players.migrations.0002_alter_clubplayer_photo_alter_userplayer_photo">
+<span id="players-migrations-0002-alter-clubplayer-photo-alter-userplayer-photo-module"></span><h2>players.migrations.0002_alter_clubplayer_photo_alter_userplayer_photo module<a class="headerlink" href="#module-players.migrations.0002_alter_clubplayer_photo_alter_userplayer_photo" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="players.migrations.0002_alter_clubplayer_photo_alter_userplayer_photo.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">players.migrations.0002_alter_clubplayer_photo_alter_userplayer_photo.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#players.migrations.0002_alter_clubplayer_photo_alter_userplayer_photo.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0002_alter_clubplayer_photo_alter_userplayer_photo.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('players',</span> <span class="pre">'0001_initial')]</span></em><a class="headerlink" href="#players.migrations.0002_alter_clubplayer_photo_alter_userplayer_photo.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0002_alter_clubplayer_photo_alter_userplayer_photo.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AlterField</span>&#160; <span class="pre">model_name='clubplayer',</span> <span class="pre">name='photo',</span> <span class="pre">field=&lt;django.db.models.fields.files.ImageField&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='userplayer',</span> <span class="pre">name='photo',</span> <span class="pre">field=&lt;django.db.models.fields.files.ImageField&gt;&gt;]</span></em><a class="headerlink" href="#players.migrations.0002_alter_clubplayer_photo_alter_userplayer_photo.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-players.migrations.0003_alter_clubplayer_patronymic_alter_clubplayer_photo_and_more">
+<span id="players-migrations-0003-alter-clubplayer-patronymic-alter-clubplayer-photo-and-more-module"></span><h2>players.migrations.0003_alter_clubplayer_patronymic_alter_clubplayer_photo_and_more module<a class="headerlink" href="#module-players.migrations.0003_alter_clubplayer_patronymic_alter_clubplayer_photo_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="players.migrations.0003_alter_clubplayer_patronymic_alter_clubplayer_photo_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">players.migrations.0003_alter_clubplayer_patronymic_alter_clubplayer_photo_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#players.migrations.0003_alter_clubplayer_patronymic_alter_clubplayer_photo_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0003_alter_clubplayer_patronymic_alter_clubplayer_photo_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('players',</span> <span class="pre">'0002_alter_clubplayer_photo_alter_userplayer_photo')]</span></em><a class="headerlink" href="#players.migrations.0003_alter_clubplayer_patronymic_alter_clubplayer_photo_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0003_alter_clubplayer_patronymic_alter_clubplayer_photo_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AlterField</span>&#160; <span class="pre">model_name='clubplayer',</span> <span class="pre">name='patronymic',</span> <span class="pre">field=&lt;django.db.models.fields.CharField&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='clubplayer',</span> <span class="pre">name='photo',</span> <span class="pre">field=&lt;django.db.models.fields.files.ImageField&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='userplayer',</span> <span class="pre">name='patronymic',</span> <span class="pre">field=&lt;django.db.models.fields.CharField&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='userplayer',</span> <span class="pre">name='photo',</span> <span class="pre">field=&lt;django.db.models.fields.files.ImageField&gt;&gt;]</span></em><a class="headerlink" href="#players.migrations.0003_alter_clubplayer_patronymic_alter_clubplayer_photo_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-players.migrations.0004_alter_clubplayer_photo_alter_userplayer_photo">
+<span id="players-migrations-0004-alter-clubplayer-photo-alter-userplayer-photo-module"></span><h2>players.migrations.0004_alter_clubplayer_photo_alter_userplayer_photo module<a class="headerlink" href="#module-players.migrations.0004_alter_clubplayer_photo_alter_userplayer_photo" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="players.migrations.0004_alter_clubplayer_photo_alter_userplayer_photo.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">players.migrations.0004_alter_clubplayer_photo_alter_userplayer_photo.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#players.migrations.0004_alter_clubplayer_photo_alter_userplayer_photo.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0004_alter_clubplayer_photo_alter_userplayer_photo.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('players',</span> <span class="pre">'0003_alter_clubplayer_patronymic_alter_clubplayer_photo_and_more')]</span></em><a class="headerlink" href="#players.migrations.0004_alter_clubplayer_photo_alter_userplayer_photo.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0004_alter_clubplayer_photo_alter_userplayer_photo.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AlterField</span>&#160; <span class="pre">model_name='clubplayer',</span> <span class="pre">name='photo',</span> <span class="pre">field=&lt;django.db.models.fields.files.ImageField&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='userplayer',</span> <span class="pre">name='photo',</span> <span class="pre">field=&lt;django.db.models.fields.files.ImageField&gt;&gt;]</span></em><a class="headerlink" href="#players.migrations.0004_alter_clubplayer_photo_alter_userplayer_photo.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-players.migrations.0005_alter_clubplayer_photo_alter_userplayer_photo">
+<span id="players-migrations-0005-alter-clubplayer-photo-alter-userplayer-photo-module"></span><h2>players.migrations.0005_alter_clubplayer_photo_alter_userplayer_photo module<a class="headerlink" href="#module-players.migrations.0005_alter_clubplayer_photo_alter_userplayer_photo" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="players.migrations.0005_alter_clubplayer_photo_alter_userplayer_photo.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">players.migrations.0005_alter_clubplayer_photo_alter_userplayer_photo.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#players.migrations.0005_alter_clubplayer_photo_alter_userplayer_photo.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0005_alter_clubplayer_photo_alter_userplayer_photo.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('players',</span> <span class="pre">'0004_alter_clubplayer_photo_alter_userplayer_photo')]</span></em><a class="headerlink" href="#players.migrations.0005_alter_clubplayer_photo_alter_userplayer_photo.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0005_alter_clubplayer_photo_alter_userplayer_photo.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AlterField</span>&#160; <span class="pre">model_name='clubplayer',</span> <span class="pre">name='photo',</span> <span class="pre">field=&lt;django.db.models.fields.files.ImageField&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='userplayer',</span> <span class="pre">name='photo',</span> <span class="pre">field=&lt;django.db.models.fields.files.ImageField&gt;&gt;]</span></em><a class="headerlink" href="#players.migrations.0005_alter_clubplayer_photo_alter_userplayer_photo.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-players.migrations.0006_alter_clubplayer_options_alter_userplayer_options">
+<span id="players-migrations-0006-alter-clubplayer-options-alter-userplayer-options-module"></span><h2>players.migrations.0006_alter_clubplayer_options_alter_userplayer_options module<a class="headerlink" href="#module-players.migrations.0006_alter_clubplayer_options_alter_userplayer_options" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="players.migrations.0006_alter_clubplayer_options_alter_userplayer_options.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">players.migrations.0006_alter_clubplayer_options_alter_userplayer_options.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#players.migrations.0006_alter_clubplayer_options_alter_userplayer_options.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0006_alter_clubplayer_options_alter_userplayer_options.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('players',</span> <span class="pre">'0005_alter_clubplayer_photo_alter_userplayer_photo')]</span></em><a class="headerlink" href="#players.migrations.0006_alter_clubplayer_options_alter_userplayer_options.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0006_alter_clubplayer_options_alter_userplayer_options.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AlterModelOptions</span>&#160; <span class="pre">name='clubplayer',</span> <span class="pre">options={'ordering':</span> <span class="pre">['surname',</span> <span class="pre">'name',</span> <span class="pre">'patronymic']}&gt;,</span> <span class="pre">&lt;AlterModelOptions</span>&#160; <span class="pre">name='userplayer',</span> <span class="pre">options={'ordering':</span> <span class="pre">['surname',</span> <span class="pre">'name',</span> <span class="pre">'patronymic']}&gt;]</span></em><a class="headerlink" href="#players.migrations.0006_alter_clubplayer_options_alter_userplayer_options.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-players.migrations.0007_remove_clubplayer_citizenship_and_more">
+<span id="players-migrations-0007-remove-clubplayer-citizenship-and-more-module"></span><h2>players.migrations.0007_remove_clubplayer_citizenship_and_more module<a class="headerlink" href="#module-players.migrations.0007_remove_clubplayer_citizenship_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="players.migrations.0007_remove_clubplayer_citizenship_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">players.migrations.0007_remove_clubplayer_citizenship_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#players.migrations.0007_remove_clubplayer_citizenship_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0007_remove_clubplayer_citizenship_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('users',</span> <span class="pre">'__first__'),</span> <span class="pre">('players',</span> <span class="pre">'0006_alter_clubplayer_options_alter_userplayer_options')]</span></em><a class="headerlink" href="#players.migrations.0007_remove_clubplayer_citizenship_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0007_remove_clubplayer_citizenship_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;RemoveField</span>&#160; <span class="pre">model_name='clubplayer',</span> <span class="pre">name='citizenship'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='userplayer',</span> <span class="pre">name='citizenship'&gt;,</span> <span class="pre">&lt;CreateModel</span>&#160; <span class="pre">name='PlayerCard',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('citizenship',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('club_from',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('growth',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('weight',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('game_num',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('birthsday',</span> <span class="pre">&lt;django.db.models.fields.DateField&gt;),</span> <span class="pre">('ref_team_status',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('ref_player_status',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('ref_level',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('ref_position',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('ref_foot',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('come',</span> <span class="pre">&lt;django.db.models.fields.DateField&gt;),</span> <span class="pre">('leave',</span> <span class="pre">&lt;django.db.models.fields.DateField&gt;),</span> <span class="pre">('contacts',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('notes',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('player_club',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;),</span> <span class="pre">('player_user',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;),</span> <span class="pre">('user',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;)]&gt;]</span></em><a class="headerlink" href="#players.migrations.0007_remove_clubplayer_citizenship_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-players.migrations.0008_cardsection">
+<span id="players-migrations-0008-cardsection-module"></span><h2>players.migrations.0008_cardsection module<a class="headerlink" href="#module-players.migrations.0008_cardsection" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="players.migrations.0008_cardsection.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">players.migrations.0008_cardsection.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#players.migrations.0008_cardsection.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0008_cardsection.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('players',</span> <span class="pre">'0007_remove_clubplayer_citizenship_and_more')]</span></em><a class="headerlink" href="#players.migrations.0008_cardsection.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0008_cardsection.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;CreateModel</span>&#160; <span class="pre">name='CardSection',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('title',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('text_id',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('parent',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('visible',</span> <span class="pre">&lt;django.db.models.fields.BooleanField&gt;),</span> <span class="pre">('short_name',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('order',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;)],</span> <span class="pre">options={'ordering':</span> <span class="pre">['order']}&gt;]</span></em><a class="headerlink" href="#players.migrations.0008_cardsection.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-players.migrations.0009_delete_playercard">
+<span id="players-migrations-0009-delete-playercard-module"></span><h2>players.migrations.0009_delete_playercard module<a class="headerlink" href="#module-players.migrations.0009_delete_playercard" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="players.migrations.0009_delete_playercard.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">players.migrations.0009_delete_playercard.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#players.migrations.0009_delete_playercard.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0009_delete_playercard.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('players',</span> <span class="pre">'0008_cardsection')]</span></em><a class="headerlink" href="#players.migrations.0009_delete_playercard.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0009_delete_playercard.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;DeleteModel</span>&#160; <span class="pre">name='PlayerCard'&gt;]</span></em><a class="headerlink" href="#players.migrations.0009_delete_playercard.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-players.migrations.0010_playercard_clubplayer_card_userplayer_card">
+<span id="players-migrations-0010-playercard-clubplayer-card-userplayer-card-module"></span><h2>players.migrations.0010_playercard_clubplayer_card_userplayer_card module<a class="headerlink" href="#module-players.migrations.0010_playercard_clubplayer_card_userplayer_card" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="players.migrations.0010_playercard_clubplayer_card_userplayer_card.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">players.migrations.0010_playercard_clubplayer_card_userplayer_card.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#players.migrations.0010_playercard_clubplayer_card_userplayer_card.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0010_playercard_clubplayer_card_userplayer_card.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('players',</span> <span class="pre">'0009_delete_playercard')]</span></em><a class="headerlink" href="#players.migrations.0010_playercard_clubplayer_card_userplayer_card.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0010_playercard_clubplayer_card_userplayer_card.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;CreateModel</span>&#160; <span class="pre">name='PlayerCard',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('citizenship',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('club_from',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('growth',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('weight',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('game_num',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('birthsday',</span> <span class="pre">&lt;django.db.models.fields.DateField&gt;),</span> <span class="pre">('ref_team_status',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('ref_player_status',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('ref_level',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('ref_position',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('ref_foot',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('come',</span> <span class="pre">&lt;django.db.models.fields.DateField&gt;),</span> <span class="pre">('leave',</span> <span class="pre">&lt;django.db.models.fields.DateField&gt;),</span> <span class="pre">('contacts',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('notes',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;)]&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='clubplayer',</span> <span class="pre">name='card',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='userplayer',</span> <span class="pre">name='card',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;]</span></em><a class="headerlink" href="#players.migrations.0010_playercard_clubplayer_card_userplayer_card.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-players.migrations.0011_cardsectionuser_cardsectionclub">
+<span id="players-migrations-0011-cardsectionuser-cardsectionclub-module"></span><h2>players.migrations.0011_cardsectionuser_cardsectionclub module<a class="headerlink" href="#module-players.migrations.0011_cardsectionuser_cardsectionclub" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="players.migrations.0011_cardsectionuser_cardsectionclub.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">players.migrations.0011_cardsectionuser_cardsectionclub.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#players.migrations.0011_cardsectionuser_cardsectionclub.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0011_cardsectionuser_cardsectionclub.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('users',</span> <span class="pre">'__first__'),</span> <span class="pre">('references',</span> <span class="pre">'0012_playerfoot_playerlevel_playerplayerstatus_and_more'),</span> <span class="pre">('players',</span> <span class="pre">'0010_playercard_clubplayer_card_userplayer_card')]</span></em><a class="headerlink" href="#players.migrations.0011_cardsectionuser_cardsectionclub.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0011_cardsectionuser_cardsectionclub.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;CreateModel</span>&#160; <span class="pre">name='CardSectionUser',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('section',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;),</span> <span class="pre">('team',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;),</span> <span class="pre">('user',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;)]&gt;,</span> <span class="pre">&lt;CreateModel</span>&#160; <span class="pre">name='CardSectionClub',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('section',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;),</span> <span class="pre">('team',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;),</span> <span class="pre">('user',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;)]&gt;]</span></em><a class="headerlink" href="#players.migrations.0011_cardsectionuser_cardsectionclub.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-players.migrations.0012_playerstablecolumns">
+<span id="players-migrations-0012-playerstablecolumns-module"></span><h2>players.migrations.0012_playerstablecolumns module<a class="headerlink" href="#module-players.migrations.0012_playerstablecolumns" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="players.migrations.0012_playerstablecolumns.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">players.migrations.0012_playerstablecolumns.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#players.migrations.0012_playerstablecolumns.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0012_playerstablecolumns.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('players',</span> <span class="pre">'0011_cardsectionuser_cardsectionclub')]</span></em><a class="headerlink" href="#players.migrations.0012_playerstablecolumns.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0012_playerstablecolumns.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;CreateModel</span>&#160; <span class="pre">name='PlayersTableColumns',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('title',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('text_id',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('parent',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('visible',</span> <span class="pre">&lt;django.db.models.fields.BooleanField&gt;),</span> <span class="pre">('short_name',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('order',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;)],</span> <span class="pre">options={'ordering':</span> <span class="pre">['order']}&gt;]</span></em><a class="headerlink" href="#players.migrations.0012_playerstablecolumns.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-players.migrations.0013_playercharacteristicsrows_playercharacteristicuser_and_more">
+<span id="players-migrations-0013-playercharacteristicsrows-playercharacteristicuser-and-more-module"></span><h2>players.migrations.0013_playercharacteristicsrows_playercharacteristicuser_and_more module<a class="headerlink" href="#module-players.migrations.0013_playercharacteristicsrows_playercharacteristicuser_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="players.migrations.0013_playercharacteristicsrows_playercharacteristicuser_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">players.migrations.0013_playercharacteristicsrows_playercharacteristicuser_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#players.migrations.0013_playercharacteristicsrows_playercharacteristicuser_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0013_playercharacteristicsrows_playercharacteristicuser_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('users',</span> <span class="pre">'__first__'),</span> <span class="pre">('players',</span> <span class="pre">'0012_playerstablecolumns')]</span></em><a class="headerlink" href="#players.migrations.0013_playercharacteristicsrows_playercharacteristicuser_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0013_playercharacteristicsrows_playercharacteristicuser_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;CreateModel</span>&#160; <span class="pre">name='PlayerCharacteristicsRows',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('title',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('is_nfb',</span> <span class="pre">&lt;django.db.models.fields.BooleanField&gt;),</span> <span class="pre">('parent',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('visible',</span> <span class="pre">&lt;django.db.models.fields.BooleanField&gt;),</span> <span class="pre">('short_name',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('order',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('exercise_user',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;)],</span> <span class="pre">options={'ordering':</span> <span class="pre">['order']}&gt;,</span> <span class="pre">&lt;CreateModel</span>&#160; <span class="pre">name='PlayerCharacteristicUser',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('date_creation',</span> <span class="pre">&lt;django.db.models.fields.DateField&gt;),</span> <span class="pre">('value',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('notes',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('characteristics',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;),</span> <span class="pre">('player',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;),</span> <span class="pre">('user',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;)]&gt;,</span> <span class="pre">&lt;CreateModel</span>&#160; <span class="pre">name='PlayerCharacteristicClub',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('date_creation',</span> <span class="pre">&lt;django.db.models.fields.DateField&gt;),</span> <span class="pre">('value',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('notes',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('characteristics',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;),</span> <span class="pre">('player',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;)]&gt;]</span></em><a class="headerlink" href="#players.migrations.0013_playercharacteristicsrows_playercharacteristicuser_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-players.migrations.0014_remove_playercharacteristicsrows_exercise_user_and_more">
+<span id="players-migrations-0014-remove-playercharacteristicsrows-exercise-user-and-more-module"></span><h2>players.migrations.0014_remove_playercharacteristicsrows_exercise_user_and_more module<a class="headerlink" href="#module-players.migrations.0014_remove_playercharacteristicsrows_exercise_user_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="players.migrations.0014_remove_playercharacteristicsrows_exercise_user_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">players.migrations.0014_remove_playercharacteristicsrows_exercise_user_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#players.migrations.0014_remove_playercharacteristicsrows_exercise_user_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0014_remove_playercharacteristicsrows_exercise_user_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('users',</span> <span class="pre">'__first__'),</span> <span class="pre">('players',</span> <span class="pre">'0013_playercharacteristicsrows_playercharacteristicuser_and_more')]</span></em><a class="headerlink" href="#players.migrations.0014_remove_playercharacteristicsrows_exercise_user_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0014_remove_playercharacteristicsrows_exercise_user_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;RemoveField</span>&#160; <span class="pre">model_name='playercharacteristicsrows',</span> <span class="pre">name='exercise_user'&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='playercharacteristicsrows',</span> <span class="pre">name='user',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;]</span></em><a class="headerlink" href="#players.migrations.0014_remove_playercharacteristicsrows_exercise_user_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-players.migrations.0015_playerquestionnairesrows_playerquestionnaireuser_and_more">
+<span id="players-migrations-0015-playerquestionnairesrows-playerquestionnaireuser-and-more-module"></span><h2>players.migrations.0015_playerquestionnairesrows_playerquestionnaireuser_and_more module<a class="headerlink" href="#module-players.migrations.0015_playerquestionnairesrows_playerquestionnaireuser_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="players.migrations.0015_playerquestionnairesrows_playerquestionnaireuser_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">players.migrations.0015_playerquestionnairesrows_playerquestionnaireuser_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#players.migrations.0015_playerquestionnairesrows_playerquestionnaireuser_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0015_playerquestionnairesrows_playerquestionnaireuser_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('users',</span> <span class="pre">'__first__'),</span> <span class="pre">('players',</span> <span class="pre">'0014_remove_playercharacteristicsrows_exercise_user_and_more')]</span></em><a class="headerlink" href="#players.migrations.0015_playerquestionnairesrows_playerquestionnaireuser_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0015_playerquestionnairesrows_playerquestionnaireuser_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;CreateModel</span>&#160; <span class="pre">name='PlayerQuestionnairesRows',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('title',</span> <span class="pre">&lt;django.db.models.fields.json.JSONField&gt;),</span> <span class="pre">('is_nfb',</span> <span class="pre">&lt;django.db.models.fields.BooleanField&gt;),</span> <span class="pre">('parent',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('visible',</span> <span class="pre">&lt;django.db.models.fields.BooleanField&gt;),</span> <span class="pre">('short_name',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('order',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;),</span> <span class="pre">('user',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;)],</span> <span class="pre">options={'ordering':</span> <span class="pre">['order']}&gt;,</span> <span class="pre">&lt;CreateModel</span>&#160; <span class="pre">name='PlayerQuestionnaireUser',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('notes',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('player',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;),</span> <span class="pre">('questionnaire',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;),</span> <span class="pre">('user',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;)]&gt;,</span> <span class="pre">&lt;CreateModel</span>&#160; <span class="pre">name='PlayerQuestionnaireClub',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('notes',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('player',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;),</span> <span class="pre">('questionnaire',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;)]&gt;]</span></em><a class="headerlink" href="#players.migrations.0015_playerquestionnairesrows_playerquestionnaireuser_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-players.migrations.0016_alter_playercard_ref_foot_alter_playercard_ref_level_and_more">
+<span id="players-migrations-0016-alter-playercard-ref-foot-alter-playercard-ref-level-and-more-module"></span><h2>players.migrations.0016_alter_playercard_ref_foot_alter_playercard_ref_level_and_more module<a class="headerlink" href="#module-players.migrations.0016_alter_playercard_ref_foot_alter_playercard_ref_level_and_more" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="players.migrations.0016_alter_playercard_ref_foot_alter_playercard_ref_level_and_more.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">players.migrations.0016_alter_playercard_ref_foot_alter_playercard_ref_level_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#players.migrations.0016_alter_playercard_ref_foot_alter_playercard_ref_level_and_more.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0016_alter_playercard_ref_foot_alter_playercard_ref_level_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('references',</span> <span class="pre">'0014_playerprotocolstatus_tags'),</span> <span class="pre">('players',</span> <span class="pre">'0015_playerquestionnairesrows_playerquestionnaireuser_and_more')]</span></em><a class="headerlink" href="#players.migrations.0016_alter_playercard_ref_foot_alter_playercard_ref_level_and_more.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="players.migrations.0016_alter_playercard_ref_foot_alter_playercard_ref_level_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AlterField</span>&#160; <span class="pre">model_name='playercard',</span> <span class="pre">name='ref_foot',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='playercard',</span> <span class="pre">name='ref_level',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='playercard',</span> <span class="pre">name='ref_player_status',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='playercard',</span> <span class="pre">name='ref_position',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;,</span> <span class="pre">&lt;AlterField</span>&#160; <span class="pre">model_name='playercard',</span> <span class="pre">name='ref_team_status',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;]</span></em><a class="headerlink" href="#players.migrations.0016_alter_playercard_ref_foot_alter_playercard_ref_level_and_more.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-players.migrations">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-players.migrations" title="Permalink to this heading">¶</a></h2>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Nanofootball</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules/events/views.html">Views</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Nanofootball team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/players.migrations.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
