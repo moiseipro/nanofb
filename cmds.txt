@@ -40,8 +40,18 @@ django-admin makemessages -d djangojs -l ru
 
 --------- Периодические задачи, Celery:
 celery -A celery worker -l info (в папке: nanofb, где лежит файл "celery.py")
+
 - help:
 https://medium.com/@mahdi04/simple-async-django-app-with-celery-and-rabbitmq-ad4b1692c380
 https://docs.celeryq.dev/en/latest/userguide/periodic-tasks.html
 
+
+--------- Locust tests:
+python -m locust -f test_1.py
+// at localhost:8089
+
+- help:
+https://docs.locust.io/en/stable/
+https://medium.com/@tferreiraw/performing-load-tests-with-python-locust-io-62de7d91eebd
+https://docs.locust.io/en/stable/running-distributed.html
 
