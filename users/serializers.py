@@ -28,6 +28,16 @@ class GroupSerializer(serializers.ModelSerializer):
         ]
 
 
+class ClubUserEditPermission(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = User
+        fields = [
+            'id', 'user_permissions', 'groups'
+        ]
+
+
 class UserSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     full_name = serializers.CharField(
@@ -39,12 +49,14 @@ class UserSerializer(serializers.ModelSerializer):
     date_birthsday = serializers.DateField(
         source='personal.date_birthsday'
     )
+    groups = GroupSerializer(read_only=True, many=True)
 
     class Meta:
         model = User
         fields = [
-            'id', 'full_name', 'email', 'job_title', 'date_birthsday', 'days_entered', 'is_active'
+            'id', 'full_name', 'email', 'job_title', 'date_birthsday', 'days_entered', 'is_active', 'groups'
         ]
+        datatables_always_serialize = ('id', 'groups')
 
 
 class UserPersonalSerializer(serializers.ModelSerializer):
