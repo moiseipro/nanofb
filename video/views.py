@@ -416,20 +416,23 @@ def parse_video(request):
 
     if request.method == "GET":
         response = requests.get(
-            f'https://nanofootball.kz/api/token/3F4AwFqWHk3GYGJuDRWh/')  # ?&folders[]="Z10"&folders[]="Z11"&folders[]="Z12"&folders[]="Z13"&folders[]="Z14"&folders[]="Z15"&folders[]="Z16"&folders[]="Z17"&folders[]="Z18"&folders[]="Z19"&folders[]="Z20"&folders[]="Z21"&folders[]="Z22"&folders[]="Z23"&folders[]="Z24"&folders[]="Z25"&folders[]="Z26"&folders[]="Z27"&folders[]="Z28"&folders[]="Z29"&folders[]="Z30"&folders[]="Z31"&folders[]="Z32"&folders[]="Z33"&folders[]="Z34"&folders[]="Z35"&folders[]="Z36"&folders[]="Z37"
+            f'https://nanofootball.kz/api/token/3F4AwFqWHk3GYGJuDRWh/?&folders[]="A"&folders[]="B"&folders[]="C"&folders[]="D"', verify=False)  # ?&folders[]="Z10"&folders[]="Z11"&folders[]="Z12"&folders[]="Z13"&folders[]="Z14"&folders[]="Z15"&folders[]="Z16"&folders[]="Z17"&folders[]="Z18"&folders[]="Z19"&folders[]="Z20"&folders[]="Z21"&folders[]="Z22"&folders[]="Z23"&folders[]="Z24"&folders[]="Z25"&folders[]="Z26"&folders[]="Z27"&folders[]="Z28"&folders[]="Z29"&folders[]="Z30"&folders[]="Z31"&folders[]="Z32"&folders[]="Z33"&folders[]="Z34"&folders[]="Z35"&folders[]="Z36"&folders[]="Z37"
         context_page['content'] = json.loads(response.content.decode('utf-8'))
         videos = []
         sources = []
         sources_name = []
-        video_name = []
+        video_nftv = []
+        video_youtube = []
         server_sources = VideoSource.objects.all()
         server_video = Video.objects.all()
         for ss in server_sources:
             if ss.name not in sources_name:
                 sources_name.append(ss.name)
         for sv in server_video:
-            if sv.name not in video_name:
-                video_name.append(sv.name)
+            if 'nftv' in sv.links and sv.links['nftv'] not in video_nftv:
+                video_nftv.append(sv.links['nftv'])
+            if 'youtube' in sv.links and sv.links['youtube'] not in video_youtube:
+                video_youtube.append(sv.links['youtube'])
         for n in context_page['content']:
             if n['p_source'] is not None:
                 if n['p_source']['name'] not in sources_name:
@@ -465,7 +468,7 @@ def parse_video(request):
 
                                 if n['video_id_youtube'] is not None and n['video_id_youtube'][i] != '':
                                     links['youtube'] = n['video_id_youtube'][i]
-                                if links['nftv'] != '' or links['youtube'] != '':
+                                if (links['nftv'] != '' and links['nftv'] not in video_nftv) or (links['youtube'] != '' and links['youtube'] not in video_youtube):
                                     videos.append(Video(name=n['name'] if n['name'] else 'No name', old_id=n['id'],
                                                         links=links, videosource_id=ss,
                                                         duration=parse_duration(duration)))
@@ -497,7 +500,7 @@ def parse_video(request):
                                 links['nftv'] = ''
                         if n['video_id_youtube'] is not None and n['video_id_youtube'][i] != '':
                             links['youtube'] = n['video_id_youtube'][i]
-                        if links['nftv'] != '' or links['youtube'] != '':
+                        if (links['nftv'] != '' and links['nftv'] not in video_nftv) or (links['youtube'] != '' and links['youtube'] not in video_youtube):
                             videos.append(Video(name=n['name'] if n['name'] else 'No name', old_id=n['id'],
                                                 links=links, duration=parse_duration(duration)))
 
