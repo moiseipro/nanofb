@@ -8,12 +8,19 @@ $(window).on('load', function (){
     generate_ajax_club_users_table("calc(100vh - 310px)");
 
     $('#club-users').on('click', '.edit-club-user', function () {
+        let tr_obj = $(this).closest('tr')
         let send_data = {}
         let id = $(this).attr('data-id')
         console.log(id)
+        $('#edit-club-user-modal').attr('data-user', id)
         ajax_club_action('GET', send_data, 'Club').then(function (data) {
             let club = data.results[0]
-            console.log(club)
+            let row_data = club_users_table.row(tr_obj).data()
+            let group_arr = []
+            $.each( row_data.groups, function( key, value ) {
+                group_arr.push(value['id'])
+            });
+            console.log(group_arr)
             let html_permission = ``
             if(club.groups.length > 0){
                 html_permission += `<div class="row">`
@@ -21,7 +28,7 @@ $(window).on('load', function (){
                     html_permission += `<div class="col-12 px-1">`
                     html_permission +=
                     `<div class="custom-control custom-checkbox border">
-                        <input type="checkbox" class="custom-control-input" id="group-permission-${value.id}">
+                        <input type="checkbox" class="custom-control-input check-permission" data-id="${value.id}" ${$.inArray( value.id, group_arr) != -1 ? 'checked' : ''} id="group-permission-${value.id}">
                         <label class="custom-control-label" for="group-permission-${value.id}">${value.name}</label>
                     </div>`
                     html_permission += `</div>`
@@ -29,6 +36,17 @@ $(window).on('load', function (){
                 html_permission += `</div>`
             }
             $('#user-permissions').html(html_permission)
+        })
+
+    })
+    
+    $(document).on('click', '.check-permission', function () {
+        let user_id = $('#edit-club-user-modal').attr('data-user');
+        let group_id = $(this).attr('data-id')
+        let send_data = {group_id}
+        ajax_club_users_action('POST', send_data, 'change permission', user_id, 'change_permission').then(function (data) {
+            console.log(data)
+            club_users_table.ajax.reload()
         })
     })
 

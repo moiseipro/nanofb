@@ -1,9 +1,11 @@
+from django.contrib.auth.models import Group
 from django.template import Context
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework import viewsets, status
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework.response import Response
 from django.utils.translation import gettext_lazy as _
@@ -66,6 +68,21 @@ class ClubUsersViewSet(viewsets.ModelViewSet):
 
         headers = self.get_success_headers(serializer_personal.data)
         return Response(serializer_personal.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    @action(detail=True, methods=['post'])
+    def change_permission(self, request, pk=None):
+        data = request.data
+
+        user_edit = User.objects.get(id=pk, club_id=request.user.club_id)
+        print(user_edit.groups.all())
+        group = Group.objects.get(id=data['group_id'])
+        print(data)
+        if group in user_edit.groups.all():
+            user_edit.groups.remove(group)
+            return Response({'status': 'group_removed'})
+        else:
+            user_edit.groups.add(group)
+            return Response({'status': 'group_added'})
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
