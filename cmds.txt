@@ -55,3 +55,9 @@ https://docs.locust.io/en/stable/
 https://medium.com/@tferreiraw/performing-load-tests-with-python-locust-io-62de7d91eebd
 https://docs.locust.io/en/stable/running-distributed.html
 
+
+
+--------- Generate documentation, Sphinx:
+https://www.sphinx-doc.org/en/master/usage/installation.html#windows
+// Запуск из папки "docs"
+
