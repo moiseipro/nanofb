@@ -1,42 +1,200 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" />
 
-<!DOCTYPE html>
+    <meta name="generator" content="sphinx-5.3.0, furo 2022.09.29"/>
+        <title>version package - Nanofootball 0.2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=d81277517bee4d6b0349d71bb2661d4890b5617c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>version package &#8212; Nanofootball 0.1 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-   
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Nanofootball 0.2 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
-  </head><body>
+  <span class="sidebar-brand-text">Nanofootball 0.2 documentation</span>
   
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules/events/views.html">Views</a></li>
+</ul>
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
           
-
-          <div class="body" role="main">
-            
-  <section id="version-package">
-<h1>version package<a class="headerlink" href="#version-package" title="Permalink to this heading">¶</a></h1>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="version-package">
+<h1>version package<a class="headerlink" href="#version-package" title="Permalink to this heading">#</a></h1>
 <section id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading">¶</a></h2>
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading">#</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="version.migrations.html">version.migrations package</a><ul>
@@ -57,81 +215,81 @@
 </div>
 </section>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="module-version.admin">
-<span id="version-admin-module"></span><h2>version.admin module<a class="headerlink" href="#module-version.admin" title="Permalink to this heading">¶</a></h2>
+<span id="version-admin-module"></span><h2>version.admin module<a class="headerlink" href="#module-version.admin" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="version.admin.GroupAdmin">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">version.admin.</span></span><span class="sig-name descname"><span class="pre">GroupAdmin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">admin_site</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#version.admin.GroupAdmin" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">version.admin.</span></span><span class="sig-name descname"><span class="pre">GroupAdmin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">admin_site</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#version.admin.GroupAdmin" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">GroupAdmin</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="version.admin.GroupAdmin.inlines">
-<span class="sig-name descname"><span class="pre">inlines</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(&lt;class</span> <span class="pre">'version.admin.GroupInline'&gt;,)</span></em><a class="headerlink" href="#version.admin.GroupAdmin.inlines" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">inlines</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(&lt;class</span> <span class="pre">'version.admin.GroupInline'&gt;,)</span></em><a class="headerlink" href="#version.admin.GroupAdmin.inlines" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="version.admin.GroupAdmin.media">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#version.admin.GroupAdmin.media" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#version.admin.GroupAdmin.media" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="version.admin.GroupInline">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">version.admin.</span></span><span class="sig-name descname"><span class="pre">GroupInline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">admin_site</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#version.admin.GroupInline" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">version.admin.</span></span><span class="sig-name descname"><span class="pre">GroupInline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">admin_site</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#version.admin.GroupInline" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StackedInline</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="version.admin.GroupInline.can_delete">
-<span class="sig-name descname"><span class="pre">can_delete</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#version.admin.GroupInline.can_delete" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">can_delete</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#version.admin.GroupInline.can_delete" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="version.admin.GroupInline.media">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#version.admin.GroupInline.media" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#version.admin.GroupInline.media" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="version.admin.GroupInline.model">
-<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#version.admin.GroupInline.model" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#version.admin.GroupInline.model" title="Permalink to this definition">#</a></dt>
 <dd><p>alias of <a class="reference internal" href="#version.models.CustomGroup" title="version.models.CustomGroup"><code class="xref py py-class docutils literal notranslate"><span class="pre">CustomGroup</span></code></a></p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="version.admin.GroupInline.verbose_name_plural">
-<span class="sig-name descname"><span class="pre">verbose_name_plural</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'custom</span> <span class="pre">groups'</span></em><a class="headerlink" href="#version.admin.GroupInline.verbose_name_plural" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">verbose_name_plural</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'custom</span> <span class="pre">groups'</span></em><a class="headerlink" href="#version.admin.GroupInline.verbose_name_plural" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="version.admin.SectionAdmin">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">version.admin.</span></span><span class="sig-name descname"><span class="pre">SectionAdmin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">admin_site</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#version.admin.SectionAdmin" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">version.admin.</span></span><span class="sig-name descname"><span class="pre">SectionAdmin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">admin_site</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#version.admin.SectionAdmin" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelAdmin</span></code></p>
 <dl class="py property">
 <dt class="sig sig-object py" id="version.admin.SectionAdmin.media">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#version.admin.SectionAdmin.media" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#version.admin.SectionAdmin.media" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="version.admin.VersionAdmin">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">version.admin.</span></span><span class="sig-name descname"><span class="pre">VersionAdmin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">admin_site</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#version.admin.VersionAdmin" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">version.admin.</span></span><span class="sig-name descname"><span class="pre">VersionAdmin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">admin_site</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#version.admin.VersionAdmin" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelAdmin</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="version.admin.VersionAdmin.list_display">
-<span class="sig-name descname"><span class="pre">list_display</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('name',</span> <span class="pre">'price',</span> <span class="pre">'updated_date')</span></em><a class="headerlink" href="#version.admin.VersionAdmin.list_display" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">list_display</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('name',</span> <span class="pre">'price',</span> <span class="pre">'updated_date')</span></em><a class="headerlink" href="#version.admin.VersionAdmin.list_display" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="version.admin.VersionAdmin.media">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#version.admin.VersionAdmin.media" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#version.admin.VersionAdmin.media" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="version.admin.VersionAdmin.save_related">
-<span class="sig-name descname"><span class="pre">save_related</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">form</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formsets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">change</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#version.admin.VersionAdmin.save_related" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">save_related</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">form</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formsets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">change</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#version.admin.VersionAdmin.save_related" title="Permalink to this definition">#</a></dt>
 <dd><p>Given the <code class="docutils literal notranslate"><span class="pre">HttpRequest</span></code>, the parent <code class="docutils literal notranslate"><span class="pre">ModelForm</span></code> instance, the
 list of inline formsets and a boolean value based on whether the
 parent is being added or changed, save the related objects to the
@@ -143,50 +301,50 @@ already been called.</p>
 
 </section>
 <section id="module-version.apps">
-<span id="version-apps-module"></span><h2>version.apps module<a class="headerlink" href="#module-version.apps" title="Permalink to this heading">¶</a></h2>
+<span id="version-apps-module"></span><h2>version.apps module<a class="headerlink" href="#module-version.apps" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="version.apps.VersionConfig">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">version.apps.</span></span><span class="sig-name descname"><span class="pre">VersionConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_module</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#version.apps.VersionConfig" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">version.apps.</span></span><span class="sig-name descname"><span class="pre">VersionConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_module</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#version.apps.VersionConfig" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AppConfig</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="version.apps.VersionConfig.default_auto_field">
-<span class="sig-name descname"><span class="pre">default_auto_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'django.db.models.BigAutoField'</span></em><a class="headerlink" href="#version.apps.VersionConfig.default_auto_field" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">default_auto_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'django.db.models.BigAutoField'</span></em><a class="headerlink" href="#version.apps.VersionConfig.default_auto_field" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="version.apps.VersionConfig.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'version'</span></em><a class="headerlink" href="#version.apps.VersionConfig.name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'version'</span></em><a class="headerlink" href="#version.apps.VersionConfig.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="version.apps.VersionConfig.verbose_name">
-<span class="sig-name descname"><span class="pre">verbose_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'управление</span> <span class="pre">версиями'</span></em><a class="headerlink" href="#version.apps.VersionConfig.verbose_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">verbose_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'управление</span> <span class="pre">версиями'</span></em><a class="headerlink" href="#version.apps.VersionConfig.verbose_name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </section>
 <section id="module-version.models">
-<span id="version-models-module"></span><h2>version.models module<a class="headerlink" href="#module-version.models" title="Permalink to this heading">¶</a></h2>
+<span id="version-models-module"></span><h2>version.models module<a class="headerlink" href="#module-version.models" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="version.models.CustomGroup">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">version.models.</span></span><span class="sig-name descname"><span class="pre">CustomGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">price</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#version.models.CustomGroup" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">version.models.</span></span><span class="sig-name descname"><span class="pre">CustomGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">price</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#version.models.CustomGroup" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="version.models.CustomGroup.DoesNotExist">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#version.models.CustomGroup.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#version.models.CustomGroup.DoesNotExist" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="version.models.CustomGroup.MultipleObjectsReturned">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#version.models.CustomGroup.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#version.models.CustomGroup.MultipleObjectsReturned" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="version.models.CustomGroup.group">
-<span class="sig-name descname"><span class="pre">group</span></span><a class="headerlink" href="#version.models.CustomGroup.group" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">group</span></span><a class="headerlink" href="#version.models.CustomGroup.group" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related object on the forward side of a one-to-one relation.</p>
 <p>In the example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
@@ -198,24 +356,24 @@ already been called.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="version.models.CustomGroup.group_id">
-<span class="sig-name descname"><span class="pre">group_id</span></span><a class="headerlink" href="#version.models.CustomGroup.group_id" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">group_id</span></span><a class="headerlink" href="#version.models.CustomGroup.group_id" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="version.models.CustomGroup.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#version.models.CustomGroup.id" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#version.models.CustomGroup.id" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="version.models.CustomGroup.objects">
-<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#version.models.CustomGroup.objects" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#version.models.CustomGroup.objects" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="version.models.CustomGroup.price">
-<span class="sig-name descname"><span class="pre">price</span></span><a class="headerlink" href="#version.models.CustomGroup.price" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">price</span></span><a class="headerlink" href="#version.models.CustomGroup.price" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
@@ -224,47 +382,47 @@ object the first time, the query is executed.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="version.models.Section">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">version.models.</span></span><span class="sig-name descname"><span class="pre">Section</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#version.models.Section" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">version.models.</span></span><span class="sig-name descname"><span class="pre">Section</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#version.models.Section" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="version.models.Section.DoesNotExist">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#version.models.Section.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#version.models.Section.DoesNotExist" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="version.models.Section.MultipleObjectsReturned">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#version.models.Section.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#version.models.Section.MultipleObjectsReturned" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="version.models.Section.get_default_pk">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_default_pk</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#version.models.Section.get_default_pk" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_default_pk</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#version.models.Section.get_default_pk" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="version.models.Section.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#version.models.Section.id" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#version.models.Section.id" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="version.models.Section.name">
-<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#version.models.Section.name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#version.models.Section.name" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="version.models.Section.objects">
-<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#version.models.Section.objects" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#version.models.Section.objects" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="version.models.Section.tag">
-<span class="sig-name descname"><span class="pre">tag</span></span><a class="headerlink" href="#version.models.Section.tag" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">tag</span></span><a class="headerlink" href="#version.models.Section.tag" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
@@ -273,33 +431,33 @@ object the first time, the query is executed.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="version.models.Version">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">version.models.</span></span><span class="sig-name descname"><span class="pre">Version</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_active</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">price</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#version.models.Version" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">version.models.</span></span><span class="sig-name descname"><span class="pre">Version</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_active</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">price</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#version.models.Version" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="version.models.Version.DoesNotExist">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#version.models.Version.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#version.models.Version.DoesNotExist" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="version.models.Version.MultipleObjectsReturned">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#version.models.Version.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#version.models.Version.MultipleObjectsReturned" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="version.models.Version.get_next_by_updated_date">
-<span class="sig-name descname"><span class="pre">get_next_by_updated_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">updated_date&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#version.models.Version.get_next_by_updated_date" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_next_by_updated_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">updated_date&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#version.models.Version.get_next_by_updated_date" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="version.models.Version.get_previous_by_updated_date">
-<span class="sig-name descname"><span class="pre">get_previous_by_updated_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">updated_date&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#version.models.Version.get_previous_by_updated_date" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_previous_by_updated_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">updated_date&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#version.models.Version.get_previous_by_updated_date" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="version.models.Version.groups">
-<span class="sig-name descname"><span class="pre">groups</span></span><a class="headerlink" href="#version.models.Version.groups" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">groups</span></span><a class="headerlink" href="#version.models.Version.groups" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the forward and reverse sides of
 a many-to-many relation.</p>
 <p>In the example:</p>
@@ -315,33 +473,33 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="version.models.Version.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#version.models.Version.id" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#version.models.Version.id" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="version.models.Version.is_active">
-<span class="sig-name descname"><span class="pre">is_active</span></span><a class="headerlink" href="#version.models.Version.is_active" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_active</span></span><a class="headerlink" href="#version.models.Version.is_active" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="version.models.Version.name">
-<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#version.models.Version.name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#version.models.Version.name" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="version.models.Version.objects">
-<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#version.models.Version.objects" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#version.models.Version.objects" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="version.models.Version.permissions">
-<span class="sig-name descname"><span class="pre">permissions</span></span><a class="headerlink" href="#version.models.Version.permissions" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">permissions</span></span><a class="headerlink" href="#version.models.Version.permissions" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the forward and reverse sides of
 a many-to-many relation.</p>
 <p>In the example:</p>
@@ -357,28 +515,28 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="version.models.Version.price">
-<span class="sig-name descname"><span class="pre">price</span></span><a class="headerlink" href="#version.models.Version.price" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">price</span></span><a class="headerlink" href="#version.models.Version.price" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="version.models.Version.tag">
-<span class="sig-name descname"><span class="pre">tag</span></span><a class="headerlink" href="#version.models.Version.tag" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">tag</span></span><a class="headerlink" href="#version.models.Version.tag" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="version.models.Version.updated_date">
-<span class="sig-name descname"><span class="pre">updated_date</span></span><a class="headerlink" href="#version.models.Version.updated_date" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">updated_date</span></span><a class="headerlink" href="#version.models.Version.updated_date" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="version.models.Version.user_set">
-<span class="sig-name descname"><span class="pre">user_set</span></span><a class="headerlink" href="#version.models.Version.user_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">user_set</span></span><a class="headerlink" href="#version.models.Version.user_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -395,23 +553,23 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 </section>
 <section id="module-version.serializers">
-<span id="version-serializers-module"></span><h2>version.serializers module<a class="headerlink" href="#module-version.serializers" title="Permalink to this heading">¶</a></h2>
+<span id="version-serializers-module"></span><h2>version.serializers module<a class="headerlink" href="#module-version.serializers" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="version.serializers.SectionSerializer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">version.serializers.</span></span><span class="sig-name descname"><span class="pre">SectionSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#version.serializers.SectionSerializer" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">version.serializers.</span></span><span class="sig-name descname"><span class="pre">SectionSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#version.serializers.SectionSerializer" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelSerializer</span></code></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="version.serializers.SectionSerializer.Meta">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#version.serializers.SectionSerializer.Meta" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#version.serializers.SectionSerializer.Meta" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="version.serializers.SectionSerializer.Meta.fields">
-<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('id',</span> <span class="pre">'name',</span> <span class="pre">'tag')</span></em><a class="headerlink" href="#version.serializers.SectionSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('id',</span> <span class="pre">'name',</span> <span class="pre">'tag')</span></em><a class="headerlink" href="#version.serializers.SectionSerializer.Meta.fields" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="version.serializers.SectionSerializer.Meta.model">
-<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#version.serializers.SectionSerializer.Meta.model" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#version.serializers.SectionSerializer.Meta.model" title="Permalink to this definition">#</a></dt>
 <dd><p>alias of <a class="reference internal" href="#version.models.Section" title="version.models.Section"><code class="xref py py-class docutils literal notranslate"><span class="pre">Section</span></code></a></p>
 </dd></dl>
 
@@ -421,89 +579,175 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 </section>
 <section id="module-version.tests">
-<span id="version-tests-module"></span><h2>version.tests module<a class="headerlink" href="#module-version.tests" title="Permalink to this heading">¶</a></h2>
+<span id="version-tests-module"></span><h2>version.tests module<a class="headerlink" href="#module-version.tests" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="module-version.urls">
-<span id="version-urls-module"></span><h2>version.urls module<a class="headerlink" href="#module-version.urls" title="Permalink to this heading">¶</a></h2>
+<span id="version-urls-module"></span><h2>version.urls module<a class="headerlink" href="#module-version.urls" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="module-version.views">
-<span id="version-views-module"></span><h2>version.views module<a class="headerlink" href="#module-version.views" title="Permalink to this heading">¶</a></h2>
+<span id="version-views-module"></span><h2>version.views module<a class="headerlink" href="#module-version.views" title="Permalink to this heading">#</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="version.views.index">
-<span class="sig-prename descclassname"><span class="pre">version.views.</span></span><span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#version.views.index" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">version.views.</span></span><span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#version.views.index" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </section>
 <section id="module-version">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-version" title="Permalink to this heading">¶</a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-version" title="Permalink to this heading">#</a></h2>
 </section>
 </section>
 
-
-          </div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
           
         </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="index.html">Nanofootball</a></h1>
-
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="modules/events/views.html">Views</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-  </ul></li>
-</ul>
-</div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2022, Nanofootball team
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
     </div>
-</div>
-<script>document.getElementById('searchbox').style.display = "block"</script>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">version package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-version.admin">version.admin module</a><ul>
+<li><a class="reference internal" href="#version.admin.GroupAdmin"><code class="docutils literal notranslate"><span class="pre">GroupAdmin</span></code></a><ul>
+<li><a class="reference internal" href="#version.admin.GroupAdmin.inlines"><code class="docutils literal notranslate"><span class="pre">GroupAdmin.inlines</span></code></a></li>
+<li><a class="reference internal" href="#version.admin.GroupAdmin.media"><code class="docutils literal notranslate"><span class="pre">GroupAdmin.media</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version.admin.GroupInline"><code class="docutils literal notranslate"><span class="pre">GroupInline</span></code></a><ul>
+<li><a class="reference internal" href="#version.admin.GroupInline.can_delete"><code class="docutils literal notranslate"><span class="pre">GroupInline.can_delete</span></code></a></li>
+<li><a class="reference internal" href="#version.admin.GroupInline.media"><code class="docutils literal notranslate"><span class="pre">GroupInline.media</span></code></a></li>
+<li><a class="reference internal" href="#version.admin.GroupInline.model"><code class="docutils literal notranslate"><span class="pre">GroupInline.model</span></code></a></li>
+<li><a class="reference internal" href="#version.admin.GroupInline.verbose_name_plural"><code class="docutils literal notranslate"><span class="pre">GroupInline.verbose_name_plural</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version.admin.SectionAdmin"><code class="docutils literal notranslate"><span class="pre">SectionAdmin</span></code></a><ul>
+<li><a class="reference internal" href="#version.admin.SectionAdmin.media"><code class="docutils literal notranslate"><span class="pre">SectionAdmin.media</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version.admin.VersionAdmin"><code class="docutils literal notranslate"><span class="pre">VersionAdmin</span></code></a><ul>
+<li><a class="reference internal" href="#version.admin.VersionAdmin.list_display"><code class="docutils literal notranslate"><span class="pre">VersionAdmin.list_display</span></code></a></li>
+<li><a class="reference internal" href="#version.admin.VersionAdmin.media"><code class="docutils literal notranslate"><span class="pre">VersionAdmin.media</span></code></a></li>
+<li><a class="reference internal" href="#version.admin.VersionAdmin.save_related"><code class="docutils literal notranslate"><span class="pre">VersionAdmin.save_related()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-version.apps">version.apps module</a><ul>
+<li><a class="reference internal" href="#version.apps.VersionConfig"><code class="docutils literal notranslate"><span class="pre">VersionConfig</span></code></a><ul>
+<li><a class="reference internal" href="#version.apps.VersionConfig.default_auto_field"><code class="docutils literal notranslate"><span class="pre">VersionConfig.default_auto_field</span></code></a></li>
+<li><a class="reference internal" href="#version.apps.VersionConfig.name"><code class="docutils literal notranslate"><span class="pre">VersionConfig.name</span></code></a></li>
+<li><a class="reference internal" href="#version.apps.VersionConfig.verbose_name"><code class="docutils literal notranslate"><span class="pre">VersionConfig.verbose_name</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-version.models">version.models module</a><ul>
+<li><a class="reference internal" href="#version.models.CustomGroup"><code class="docutils literal notranslate"><span class="pre">CustomGroup</span></code></a><ul>
+<li><a class="reference internal" href="#version.models.CustomGroup.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">CustomGroup.DoesNotExist</span></code></a></li>
+<li><a class="reference internal" href="#version.models.CustomGroup.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">CustomGroup.MultipleObjectsReturned</span></code></a></li>
+<li><a class="reference internal" href="#version.models.CustomGroup.group"><code class="docutils literal notranslate"><span class="pre">CustomGroup.group</span></code></a></li>
+<li><a class="reference internal" href="#version.models.CustomGroup.group_id"><code class="docutils literal notranslate"><span class="pre">CustomGroup.group_id</span></code></a></li>
+<li><a class="reference internal" href="#version.models.CustomGroup.id"><code class="docutils literal notranslate"><span class="pre">CustomGroup.id</span></code></a></li>
+<li><a class="reference internal" href="#version.models.CustomGroup.objects"><code class="docutils literal notranslate"><span class="pre">CustomGroup.objects</span></code></a></li>
+<li><a class="reference internal" href="#version.models.CustomGroup.price"><code class="docutils literal notranslate"><span class="pre">CustomGroup.price</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version.models.Section"><code class="docutils literal notranslate"><span class="pre">Section</span></code></a><ul>
+<li><a class="reference internal" href="#version.models.Section.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Section.DoesNotExist</span></code></a></li>
+<li><a class="reference internal" href="#version.models.Section.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Section.MultipleObjectsReturned</span></code></a></li>
+<li><a class="reference internal" href="#version.models.Section.get_default_pk"><code class="docutils literal notranslate"><span class="pre">Section.get_default_pk()</span></code></a></li>
+<li><a class="reference internal" href="#version.models.Section.id"><code class="docutils literal notranslate"><span class="pre">Section.id</span></code></a></li>
+<li><a class="reference internal" href="#version.models.Section.name"><code class="docutils literal notranslate"><span class="pre">Section.name</span></code></a></li>
+<li><a class="reference internal" href="#version.models.Section.objects"><code class="docutils literal notranslate"><span class="pre">Section.objects</span></code></a></li>
+<li><a class="reference internal" href="#version.models.Section.tag"><code class="docutils literal notranslate"><span class="pre">Section.tag</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version.models.Version"><code class="docutils literal notranslate"><span class="pre">Version</span></code></a><ul>
+<li><a class="reference internal" href="#version.models.Version.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Version.DoesNotExist</span></code></a></li>
+<li><a class="reference internal" href="#version.models.Version.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Version.MultipleObjectsReturned</span></code></a></li>
+<li><a class="reference internal" href="#version.models.Version.get_next_by_updated_date"><code class="docutils literal notranslate"><span class="pre">Version.get_next_by_updated_date()</span></code></a></li>
+<li><a class="reference internal" href="#version.models.Version.get_previous_by_updated_date"><code class="docutils literal notranslate"><span class="pre">Version.get_previous_by_updated_date()</span></code></a></li>
+<li><a class="reference internal" href="#version.models.Version.groups"><code class="docutils literal notranslate"><span class="pre">Version.groups</span></code></a></li>
+<li><a class="reference internal" href="#version.models.Version.id"><code class="docutils literal notranslate"><span class="pre">Version.id</span></code></a></li>
+<li><a class="reference internal" href="#version.models.Version.is_active"><code class="docutils literal notranslate"><span class="pre">Version.is_active</span></code></a></li>
+<li><a class="reference internal" href="#version.models.Version.name"><code class="docutils literal notranslate"><span class="pre">Version.name</span></code></a></li>
+<li><a class="reference internal" href="#version.models.Version.objects"><code class="docutils literal notranslate"><span class="pre">Version.objects</span></code></a></li>
+<li><a class="reference internal" href="#version.models.Version.permissions"><code class="docutils literal notranslate"><span class="pre">Version.permissions</span></code></a></li>
+<li><a class="reference internal" href="#version.models.Version.price"><code class="docutils literal notranslate"><span class="pre">Version.price</span></code></a></li>
+<li><a class="reference internal" href="#version.models.Version.tag"><code class="docutils literal notranslate"><span class="pre">Version.tag</span></code></a></li>
+<li><a class="reference internal" href="#version.models.Version.updated_date"><code class="docutils literal notranslate"><span class="pre">Version.updated_date</span></code></a></li>
+<li><a class="reference internal" href="#version.models.Version.user_set"><code class="docutils literal notranslate"><span class="pre">Version.user_set</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-version.serializers">version.serializers module</a><ul>
+<li><a class="reference internal" href="#version.serializers.SectionSerializer"><code class="docutils literal notranslate"><span class="pre">SectionSerializer</span></code></a><ul>
+<li><a class="reference internal" href="#version.serializers.SectionSerializer.Meta"><code class="docutils literal notranslate"><span class="pre">SectionSerializer.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#version.serializers.SectionSerializer.Meta.fields"><code class="docutils literal notranslate"><span class="pre">SectionSerializer.Meta.fields</span></code></a></li>
+<li><a class="reference internal" href="#version.serializers.SectionSerializer.Meta.model"><code class="docutils literal notranslate"><span class="pre">SectionSerializer.Meta.model</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-version.tests">version.tests module</a></li>
+<li><a class="reference internal" href="#module-version.urls">version.urls module</a></li>
+<li><a class="reference internal" href="#module-version.views">version.views module</a><ul>
+<li><a class="reference internal" href="#version.views.index"><code class="docutils literal notranslate"><span class="pre">index()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-version">Module contents</a></li>
+</ul>
+</li>
+</ul>
 
-
-
-
-
-
-
-
+          </div>
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2022, Nanofootball team.
       
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
-      |
-      <a href="_sources/version.rst.txt"
-          rel="nofollow">Page source</a>
-    </div>
-
-    
-
-    
-  </body>
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/scripts/furo.js"></script>
+    </body>
 </html>

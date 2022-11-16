@@ -1,42 +1,200 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" />
 
-<!DOCTYPE html>
+    <meta name="generator" content="sphinx-5.3.0, furo 2022.09.29"/>
+        <title>video package - Nanofootball 0.2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=d81277517bee4d6b0349d71bb2661d4890b5617c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>video package &#8212; Nanofootball 0.1 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-   
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Nanofootball 0.2 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
-  </head><body>
+  <span class="sidebar-brand-text">Nanofootball 0.2 documentation</span>
   
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules/events/views.html">Views</a></li>
+</ul>
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
           
-
-          <div class="body" role="main">
-            
-  <section id="video-package">
-<h1>video package<a class="headerlink" href="#video-package" title="Permalink to this heading">¶</a></h1>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="video-package">
+<h1>video package<a class="headerlink" href="#video-package" title="Permalink to this heading">#</a></h1>
 <section id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading">¶</a></h2>
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading">#</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="video.migrations.html">video.migrations package</a><ul>
@@ -145,83 +303,83 @@
 </div>
 </section>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="module-video.admin">
-<span id="video-admin-module"></span><h2>video.admin module<a class="headerlink" href="#module-video.admin" title="Permalink to this heading">¶</a></h2>
+<span id="video-admin-module"></span><h2>video.admin module<a class="headerlink" href="#module-video.admin" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="module-video.apps">
-<span id="video-apps-module"></span><h2>video.apps module<a class="headerlink" href="#module-video.apps" title="Permalink to this heading">¶</a></h2>
+<span id="video-apps-module"></span><h2>video.apps module<a class="headerlink" href="#module-video.apps" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="video.apps.VideoConfig">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.apps.</span></span><span class="sig-name descname"><span class="pre">VideoConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_module</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.apps.VideoConfig" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.apps.</span></span><span class="sig-name descname"><span class="pre">VideoConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_module</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.apps.VideoConfig" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AppConfig</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.apps.VideoConfig.default_auto_field">
-<span class="sig-name descname"><span class="pre">default_auto_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'django.db.models.BigAutoField'</span></em><a class="headerlink" href="#video.apps.VideoConfig.default_auto_field" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">default_auto_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'django.db.models.BigAutoField'</span></em><a class="headerlink" href="#video.apps.VideoConfig.default_auto_field" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.apps.VideoConfig.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'video'</span></em><a class="headerlink" href="#video.apps.VideoConfig.name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'video'</span></em><a class="headerlink" href="#video.apps.VideoConfig.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </section>
 <section id="module-video.filters">
-<span id="video-filters-module"></span><h2>video.filters module<a class="headerlink" href="#module-video.filters" title="Permalink to this heading">¶</a></h2>
+<span id="video-filters-module"></span><h2>video.filters module<a class="headerlink" href="#module-video.filters" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="video.filters.GlobalAllValuesMultipleFilter">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.filters.</span></span><span class="sig-name descname"><span class="pre">GlobalAllValuesMultipleFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lookup_expr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distinct</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.filters.GlobalAllValuesMultipleFilter" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.filters.</span></span><span class="sig-name descname"><span class="pre">GlobalAllValuesMultipleFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lookup_expr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distinct</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.filters.GlobalAllValuesMultipleFilter" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">CharFilter</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="video.filters.GlobalAllValuesMultipleFilter.filter">
-<span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.filters.GlobalAllValuesMultipleFilter.filter" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.filters.GlobalAllValuesMultipleFilter.filter" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="video.filters.GlobalCharFilter">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.filters.</span></span><span class="sig-name descname"><span class="pre">GlobalCharFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lookup_expr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'exact'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distinct</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.filters.GlobalCharFilter" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.filters.</span></span><span class="sig-name descname"><span class="pre">GlobalCharFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lookup_expr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'exact'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distinct</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.filters.GlobalCharFilter" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">GlobalFilter</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">CharFilter</span></code></p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="video.filters.GlobalModelMultipleChoiceFilter">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.filters.</span></span><span class="sig-name descname"><span class="pre">GlobalModelMultipleChoiceFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.filters.GlobalModelMultipleChoiceFilter" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.filters.</span></span><span class="sig-name descname"><span class="pre">GlobalModelMultipleChoiceFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.filters.GlobalModelMultipleChoiceFilter" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelMultipleChoiceFilter</span></code></p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="video.filters.GlobalTagFilter">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.filters.</span></span><span class="sig-name descname"><span class="pre">GlobalTagFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lookup_expr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distinct</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.filters.GlobalTagFilter" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.filters.</span></span><span class="sig-name descname"><span class="pre">GlobalTagFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lookup_expr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distinct</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.filters.GlobalTagFilter" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">CharFilter</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="video.filters.GlobalTagFilter.filter">
-<span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.filters.GlobalTagFilter.filter" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.filters.GlobalTagFilter.filter" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="video.filters.VideoGlobalFilter">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.filters.</span></span><span class="sig-name descname"><span class="pre">VideoGlobalFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queryset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datatables_query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.filters.VideoGlobalFilter" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.filters.</span></span><span class="sig-name descname"><span class="pre">VideoGlobalFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queryset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datatables_query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.filters.VideoGlobalFilter" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DatatablesFilterSet</span></code></p>
 <p>Filter name, artist and genre by name with icontains</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="video.filters.VideoGlobalFilter.Meta">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#video.filters.VideoGlobalFilter.Meta" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#video.filters.VideoGlobalFilter.Meta" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.filters.VideoGlobalFilter.Meta.fields">
-<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['taggit',</span> <span class="pre">'id',</span> <span class="pre">'duration',</span> <span class="pre">'name',</span> <span class="pre">'upload_date',</span> <span class="pre">'videosource_name']</span></em><a class="headerlink" href="#video.filters.VideoGlobalFilter.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['taggit',</span> <span class="pre">'id',</span> <span class="pre">'duration',</span> <span class="pre">'name',</span> <span class="pre">'upload_date',</span> <span class="pre">'videosource_name']</span></em><a class="headerlink" href="#video.filters.VideoGlobalFilter.Meta.fields" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.filters.VideoGlobalFilter.Meta.model">
-<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#video.filters.VideoGlobalFilter.Meta.model" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#video.filters.VideoGlobalFilter.Meta.model" title="Permalink to this definition">#</a></dt>
 <dd><p>alias of <a class="reference internal" href="#video.models.Video" title="video.models.Video"><code class="xref py py-class docutils literal notranslate"><span class="pre">Video</span></code></a></p>
 </dd></dl>
 
@@ -229,73 +387,73 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.filters.VideoGlobalFilter.base_filters">
-<span class="sig-name descname"><span class="pre">base_filters</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'duration':</span> <span class="pre">&lt;django_filters.filters.DurationFilter</span> <span class="pre">object&gt;,</span> <span class="pre">'id':</span> <span class="pre">&lt;video.filters.GlobalAllValuesMultipleFilter</span> <span class="pre">object&gt;,</span> <span class="pre">'name':</span> <span class="pre">&lt;video.filters.GlobalCharFilter</span> <span class="pre">object&gt;,</span> <span class="pre">'taggit':</span> <span class="pre">&lt;video.filters.GlobalTagFilter</span> <span class="pre">object&gt;,</span> <span class="pre">'upload_date':</span> <span class="pre">&lt;django_filters.filters.DateFilter</span> <span class="pre">object&gt;,</span> <span class="pre">'videosource_name':</span> <span class="pre">&lt;django_filters.filters.CharFilter</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#video.filters.VideoGlobalFilter.base_filters" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">base_filters</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'duration':</span> <span class="pre">&lt;django_filters.filters.DurationFilter</span> <span class="pre">object&gt;,</span> <span class="pre">'id':</span> <span class="pre">&lt;video.filters.GlobalAllValuesMultipleFilter</span> <span class="pre">object&gt;,</span> <span class="pre">'name':</span> <span class="pre">&lt;video.filters.GlobalCharFilter</span> <span class="pre">object&gt;,</span> <span class="pre">'taggit':</span> <span class="pre">&lt;video.filters.GlobalTagFilter</span> <span class="pre">object&gt;,</span> <span class="pre">'upload_date':</span> <span class="pre">&lt;django_filters.filters.DateFilter</span> <span class="pre">object&gt;,</span> <span class="pre">'videosource_name':</span> <span class="pre">&lt;django_filters.filters.CharFilter</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#video.filters.VideoGlobalFilter.base_filters" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.filters.VideoGlobalFilter.declared_filters">
-<span class="sig-name descname"><span class="pre">declared_filters</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'id':</span> <span class="pre">&lt;video.filters.GlobalAllValuesMultipleFilter</span> <span class="pre">object&gt;,</span> <span class="pre">'name':</span> <span class="pre">&lt;video.filters.GlobalCharFilter</span> <span class="pre">object&gt;,</span> <span class="pre">'taggit':</span> <span class="pre">&lt;video.filters.GlobalTagFilter</span> <span class="pre">object&gt;,</span> <span class="pre">'videosource_name':</span> <span class="pre">&lt;django_filters.filters.CharFilter</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#video.filters.VideoGlobalFilter.declared_filters" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">declared_filters</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'id':</span> <span class="pre">&lt;video.filters.GlobalAllValuesMultipleFilter</span> <span class="pre">object&gt;,</span> <span class="pre">'name':</span> <span class="pre">&lt;video.filters.GlobalCharFilter</span> <span class="pre">object&gt;,</span> <span class="pre">'taggit':</span> <span class="pre">&lt;video.filters.GlobalTagFilter</span> <span class="pre">object&gt;,</span> <span class="pre">'videosource_name':</span> <span class="pre">&lt;django_filters.filters.CharFilter</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#video.filters.VideoGlobalFilter.declared_filters" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </section>
 <section id="module-video.forms">
-<span id="video-forms-module"></span><h2>video.forms module<a class="headerlink" href="#module-video.forms" title="Permalink to this heading">¶</a></h2>
+<span id="video-forms-module"></span><h2>video.forms module<a class="headerlink" href="#module-video.forms" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="video.forms.CreateVideoForm">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.forms.</span></span><span class="sig-name descname"><span class="pre">CreateVideoForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_id='id_%s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_class=&lt;class</span> <span class="pre">'django.forms.utils.ErrorList'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_suffix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">empty_permitted=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_required_attribute=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">renderer=None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.forms.CreateVideoForm" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.forms.</span></span><span class="sig-name descname"><span class="pre">CreateVideoForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_id='id_%s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_class=&lt;class</span> <span class="pre">'django.forms.utils.ErrorList'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_suffix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">empty_permitted=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_required_attribute=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">renderer=None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.forms.CreateVideoForm" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelForm</span></code></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="video.forms.CreateVideoForm.Meta">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#video.forms.CreateVideoForm.Meta" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#video.forms.CreateVideoForm.Meta" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.forms.CreateVideoForm.Meta.fields">
-<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['name',</span> <span class="pre">'videosource_id',</span> <span class="pre">'taggit',</span> <span class="pre">'duration']</span></em><a class="headerlink" href="#video.forms.CreateVideoForm.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['name',</span> <span class="pre">'videosource_id',</span> <span class="pre">'taggit',</span> <span class="pre">'duration']</span></em><a class="headerlink" href="#video.forms.CreateVideoForm.Meta.fields" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.forms.CreateVideoForm.Meta.help_texts">
-<span class="sig-name descname"><span class="pre">help_texts</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'name':</span> <span class="pre">None}</span></em><a class="headerlink" href="#video.forms.CreateVideoForm.Meta.help_texts" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">help_texts</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'name':</span> <span class="pre">None}</span></em><a class="headerlink" href="#video.forms.CreateVideoForm.Meta.help_texts" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.forms.CreateVideoForm.Meta.labels">
-<span class="sig-name descname"><span class="pre">labels</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'duration':</span> <span class="pre">'Video</span> <span class="pre">duration',</span> <span class="pre">'name':</span> <span class="pre">'Video</span> <span class="pre">title',</span> <span class="pre">'section_id':</span> <span class="pre">'Select</span> <span class="pre">a</span> <span class="pre">section',</span> <span class="pre">'videosource_id':</span> <span class="pre">'Выберите</span> <span class="pre">источник'}</span></em><a class="headerlink" href="#video.forms.CreateVideoForm.Meta.labels" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">labels</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'duration':</span> <span class="pre">'Video</span> <span class="pre">duration',</span> <span class="pre">'name':</span> <span class="pre">'Video</span> <span class="pre">title',</span> <span class="pre">'section_id':</span> <span class="pre">'Select</span> <span class="pre">a</span> <span class="pre">section',</span> <span class="pre">'videosource_id':</span> <span class="pre">'Выберите</span> <span class="pre">источник'}</span></em><a class="headerlink" href="#video.forms.CreateVideoForm.Meta.labels" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.forms.CreateVideoForm.Meta.model">
-<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#video.forms.CreateVideoForm.Meta.model" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#video.forms.CreateVideoForm.Meta.model" title="Permalink to this definition">#</a></dt>
 <dd><p>alias of <a class="reference internal" href="#video.models.Video" title="video.models.Video"><code class="xref py py-class docutils literal notranslate"><span class="pre">Video</span></code></a></p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.forms.CreateVideoForm.Meta.widgets">
-<span class="sig-name descname"><span class="pre">widgets</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'duration':</span> <span class="pre">&lt;django.forms.widgets.TimeInput</span> <span class="pre">object&gt;,</span> <span class="pre">'taggit':</span> <span class="pre">&lt;django.forms.widgets.SelectMultiple</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#video.forms.CreateVideoForm.Meta.widgets" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">widgets</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'duration':</span> <span class="pre">&lt;django.forms.widgets.TimeInput</span> <span class="pre">object&gt;,</span> <span class="pre">'taggit':</span> <span class="pre">&lt;django.forms.widgets.SelectMultiple</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#video.forms.CreateVideoForm.Meta.widgets" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.forms.CreateVideoForm.base_fields">
-<span class="sig-name descname"><span class="pre">base_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'duration':</span> <span class="pre">&lt;django.forms.fields.DurationField</span> <span class="pre">object&gt;,</span> <span class="pre">'file':</span> <span class="pre">&lt;django.forms.fields.FileField</span> <span class="pre">object&gt;,</span> <span class="pre">'name':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'taggit':</span> <span class="pre">&lt;taggit.forms.TagField</span> <span class="pre">object&gt;,</span> <span class="pre">'videosource_id':</span> <span class="pre">&lt;django.forms.models.ModelChoiceField</span> <span class="pre">object&gt;,</span> <span class="pre">'youtube_link':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#video.forms.CreateVideoForm.base_fields" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">base_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'duration':</span> <span class="pre">&lt;django.forms.fields.DurationField</span> <span class="pre">object&gt;,</span> <span class="pre">'file':</span> <span class="pre">&lt;django.forms.fields.FileField</span> <span class="pre">object&gt;,</span> <span class="pre">'name':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'taggit':</span> <span class="pre">&lt;taggit.forms.TagField</span> <span class="pre">object&gt;,</span> <span class="pre">'videosource_id':</span> <span class="pre">&lt;django.forms.models.ModelChoiceField</span> <span class="pre">object&gt;,</span> <span class="pre">'youtube_link':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#video.forms.CreateVideoForm.base_fields" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.forms.CreateVideoForm.declared_fields">
-<span class="sig-name descname"><span class="pre">declared_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'file':</span> <span class="pre">&lt;django.forms.fields.FileField</span> <span class="pre">object&gt;,</span> <span class="pre">'youtube_link':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#video.forms.CreateVideoForm.declared_fields" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">declared_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'file':</span> <span class="pre">&lt;django.forms.fields.FileField</span> <span class="pre">object&gt;,</span> <span class="pre">'youtube_link':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#video.forms.CreateVideoForm.declared_fields" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.forms.CreateVideoForm.helper">
-<span class="sig-name descname"><span class="pre">helper</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;crispy_forms.helper.FormHelper</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#video.forms.CreateVideoForm.helper" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">helper</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;crispy_forms.helper.FormHelper</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#video.forms.CreateVideoForm.helper" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="video.forms.CreateVideoForm.media">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#video.forms.CreateVideoForm.media" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#video.forms.CreateVideoForm.media" title="Permalink to this definition">#</a></dt>
 <dd><p>Return all media required to render the widgets on this form.</p>
 </dd></dl>
 
@@ -303,32 +461,32 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="video.forms.UpdateVideoForm">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.forms.</span></span><span class="sig-name descname"><span class="pre">UpdateVideoForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_id='id_%s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_class=&lt;class</span> <span class="pre">'django.forms.utils.ErrorList'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_suffix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">empty_permitted=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_required_attribute=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">renderer=None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.forms.UpdateVideoForm" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.forms.</span></span><span class="sig-name descname"><span class="pre">UpdateVideoForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_id='id_%s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_class=&lt;class</span> <span class="pre">'django.forms.utils.ErrorList'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_suffix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">empty_permitted=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_required_attribute=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">renderer=None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.forms.UpdateVideoForm" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelForm</span></code></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="video.forms.UpdateVideoForm.Meta">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#video.forms.UpdateVideoForm.Meta" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#video.forms.UpdateVideoForm.Meta" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#video.forms.CreateVideoForm.Meta" title="video.forms.CreateVideoForm.Meta"><code class="xref py py-class docutils literal notranslate"><span class="pre">Meta</span></code></a></p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.forms.UpdateVideoForm.base_fields">
-<span class="sig-name descname"><span class="pre">base_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'duration':</span> <span class="pre">&lt;django.forms.fields.DurationField</span> <span class="pre">object&gt;,</span> <span class="pre">'name':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'taggit':</span> <span class="pre">&lt;taggit.forms.TagField</span> <span class="pre">object&gt;,</span> <span class="pre">'videosource_id':</span> <span class="pre">&lt;django.forms.models.ModelChoiceField</span> <span class="pre">object&gt;,</span> <span class="pre">'youtube_link':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#video.forms.UpdateVideoForm.base_fields" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">base_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'duration':</span> <span class="pre">&lt;django.forms.fields.DurationField</span> <span class="pre">object&gt;,</span> <span class="pre">'name':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'taggit':</span> <span class="pre">&lt;taggit.forms.TagField</span> <span class="pre">object&gt;,</span> <span class="pre">'videosource_id':</span> <span class="pre">&lt;django.forms.models.ModelChoiceField</span> <span class="pre">object&gt;,</span> <span class="pre">'youtube_link':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#video.forms.UpdateVideoForm.base_fields" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.forms.UpdateVideoForm.declared_fields">
-<span class="sig-name descname"><span class="pre">declared_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'youtube_link':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#video.forms.UpdateVideoForm.declared_fields" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">declared_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'youtube_link':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#video.forms.UpdateVideoForm.declared_fields" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.forms.UpdateVideoForm.helper">
-<span class="sig-name descname"><span class="pre">helper</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;crispy_forms.helper.FormHelper</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#video.forms.UpdateVideoForm.helper" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">helper</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;crispy_forms.helper.FormHelper</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#video.forms.UpdateVideoForm.helper" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="video.forms.UpdateVideoForm.media">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#video.forms.UpdateVideoForm.media" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#video.forms.UpdateVideoForm.media" title="Permalink to this definition">#</a></dt>
 <dd><p>Return all media required to render the widgets on this form.</p>
 </dd></dl>
 
@@ -336,26 +494,26 @@
 
 </section>
 <section id="module-video.models">
-<span id="video-models-module"></span><h2>video.models module<a class="headerlink" href="#module-video.models" title="Permalink to this heading">¶</a></h2>
+<span id="video-models-module"></span><h2>video.models module<a class="headerlink" href="#module-video.models" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="video.models.Video">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.models.</span></span><span class="sig-name descname"><span class="pre">Video</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">videosource_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upload_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">music</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">links</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">screensaver</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">old_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.models.Video" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.models.</span></span><span class="sig-name descname"><span class="pre">Video</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">videosource_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upload_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">music</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">links</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">screensaver</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">old_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.models.Video" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="video.models.Video.DoesNotExist">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#video.models.Video.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#video.models.Video.DoesNotExist" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="video.models.Video.MultipleObjectsReturned">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#video.models.Video.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#video.models.Video.MultipleObjectsReturned" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.models.Video.adminexercise_set">
-<span class="sig-name descname"><span class="pre">adminexercise_set</span></span><a class="headerlink" href="#video.models.Video.adminexercise_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">adminexercise_set</span></span><a class="headerlink" href="#video.models.Video.adminexercise_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the forward and reverse sides of
 a many-to-many relation.</p>
 <p>In the example:</p>
@@ -371,7 +529,7 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.models.Video.clubexercise_set">
-<span class="sig-name descname"><span class="pre">clubexercise_set</span></span><a class="headerlink" href="#video.models.Video.clubexercise_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">clubexercise_set</span></span><a class="headerlink" href="#video.models.Video.clubexercise_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the forward and reverse sides of
 a many-to-many relation.</p>
 <p>In the example:</p>
@@ -387,7 +545,7 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.models.Video.clubmatch_set">
-<span class="sig-name descname"><span class="pre">clubmatch_set</span></span><a class="headerlink" href="#video.models.Video.clubmatch_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">clubmatch_set</span></span><a class="headerlink" href="#video.models.Video.clubmatch_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -402,21 +560,21 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.models.Video.created_date">
-<span class="sig-name descname"><span class="pre">created_date</span></span><a class="headerlink" href="#video.models.Video.created_date" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">created_date</span></span><a class="headerlink" href="#video.models.Video.created_date" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.models.Video.duration">
-<span class="sig-name descname"><span class="pre">duration</span></span><a class="headerlink" href="#video.models.Video.duration" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">duration</span></span><a class="headerlink" href="#video.models.Video.duration" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.models.Video.eventvideolink_set">
-<span class="sig-name descname"><span class="pre">eventvideolink_set</span></span><a class="headerlink" href="#video.models.Video.eventvideolink_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">eventvideolink_set</span></span><a class="headerlink" href="#video.models.Video.eventvideolink_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -431,86 +589,86 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py method">
 <dt class="sig sig-object py" id="video.models.Video.get_next_by_created_date">
-<span class="sig-name descname"><span class="pre">get_next_by_created_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">created_date&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.models.Video.get_next_by_created_date" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_next_by_created_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">created_date&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.models.Video.get_next_by_created_date" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="video.models.Video.get_next_by_upload_date">
-<span class="sig-name descname"><span class="pre">get_next_by_upload_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">upload_date&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.models.Video.get_next_by_upload_date" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_next_by_upload_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">upload_date&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.models.Video.get_next_by_upload_date" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="video.models.Video.get_previous_by_created_date">
-<span class="sig-name descname"><span class="pre">get_previous_by_created_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">created_date&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.models.Video.get_previous_by_created_date" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_previous_by_created_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">created_date&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.models.Video.get_previous_by_created_date" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="video.models.Video.get_previous_by_upload_date">
-<span class="sig-name descname"><span class="pre">get_previous_by_upload_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">upload_date&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.models.Video.get_previous_by_upload_date" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_previous_by_upload_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">upload_date&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.models.Video.get_previous_by_upload_date" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="video.models.Video.get_string_tags">
-<span class="sig-name descname"><span class="pre">get_string_tags</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#video.models.Video.get_string_tags" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_string_tags</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#video.models.Video.get_string_tags" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.models.Video.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#video.models.Video.id" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#video.models.Video.id" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.models.Video.language">
-<span class="sig-name descname"><span class="pre">language</span></span><a class="headerlink" href="#video.models.Video.language" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">language</span></span><a class="headerlink" href="#video.models.Video.language" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.models.Video.links">
-<span class="sig-name descname"><span class="pre">links</span></span><a class="headerlink" href="#video.models.Video.links" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">links</span></span><a class="headerlink" href="#video.models.Video.links" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.models.Video.music">
-<span class="sig-name descname"><span class="pre">music</span></span><a class="headerlink" href="#video.models.Video.music" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">music</span></span><a class="headerlink" href="#video.models.Video.music" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.models.Video.name">
-<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#video.models.Video.name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#video.models.Video.name" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.models.Video.objects">
-<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#video.models.Video.objects" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#video.models.Video.objects" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.models.Video.old_id">
-<span class="sig-name descname"><span class="pre">old_id</span></span><a class="headerlink" href="#video.models.Video.old_id" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">old_id</span></span><a class="headerlink" href="#video.models.Video.old_id" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.models.Video.screensaver">
-<span class="sig-name descname"><span class="pre">screensaver</span></span><a class="headerlink" href="#video.models.Video.screensaver" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">screensaver</span></span><a class="headerlink" href="#video.models.Video.screensaver" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.models.Video.tagged_items">
-<span class="sig-name descname"><span class="pre">tagged_items</span></span><a class="headerlink" href="#video.models.Video.tagged_items" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">tagged_items</span></span><a class="headerlink" href="#video.models.Video.tagged_items" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the one-to-many relation created
 by GenericRelation.</p>
 <p>In the example:</p>
@@ -523,19 +681,19 @@ by GenericRelation.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.models.Video.taggit">
-<span class="sig-name descname"><span class="pre">taggit</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;taggit.managers._TaggableManager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#video.models.Video.taggit" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">taggit</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;taggit.managers._TaggableManager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#video.models.Video.taggit" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.models.Video.upload_date">
-<span class="sig-name descname"><span class="pre">upload_date</span></span><a class="headerlink" href="#video.models.Video.upload_date" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">upload_date</span></span><a class="headerlink" href="#video.models.Video.upload_date" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.models.Video.userexercise_set">
-<span class="sig-name descname"><span class="pre">userexercise_set</span></span><a class="headerlink" href="#video.models.Video.userexercise_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">userexercise_set</span></span><a class="headerlink" href="#video.models.Video.userexercise_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the forward and reverse sides of
 a many-to-many relation.</p>
 <p>In the example:</p>
@@ -551,7 +709,7 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.models.Video.usermatch_set">
-<span class="sig-name descname"><span class="pre">usermatch_set</span></span><a class="headerlink" href="#video.models.Video.usermatch_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">usermatch_set</span></span><a class="headerlink" href="#video.models.Video.usermatch_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -566,7 +724,7 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.models.Video.video">
-<span class="sig-name descname"><span class="pre">video</span></span><a class="headerlink" href="#video.models.Video.video" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">video</span></span><a class="headerlink" href="#video.models.Video.video" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -581,7 +739,7 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.models.Video.videosource_id">
-<span class="sig-name descname"><span class="pre">videosource_id</span></span><a class="headerlink" href="#video.models.Video.videosource_id" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">videosource_id</span></span><a class="headerlink" href="#video.models.Video.videosource_id" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related object on the forward side of a many-to-one or
 one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <p>In the example:</p>
@@ -594,69 +752,69 @@ one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.models.Video.videosource_id_id">
-<span class="sig-name descname"><span class="pre">videosource_id_id</span></span><a class="headerlink" href="#video.models.Video.videosource_id_id" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">videosource_id_id</span></span><a class="headerlink" href="#video.models.Video.videosource_id_id" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="video.models.VideoTags">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.models.</span></span><span class="sig-name descname"><span class="pre">VideoTags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.models.VideoTags" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.models.</span></span><span class="sig-name descname"><span class="pre">VideoTags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.models.VideoTags" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="video.models.VideoTags.DoesNotExist">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#video.models.VideoTags.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#video.models.VideoTags.DoesNotExist" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="video.models.VideoTags.MultipleObjectsReturned">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#video.models.VideoTags.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#video.models.VideoTags.MultipleObjectsReturned" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.models.VideoTags.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#video.models.VideoTags.id" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#video.models.VideoTags.id" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.models.VideoTags.name">
-<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#video.models.VideoTags.name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#video.models.VideoTags.name" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.models.VideoTags.objects">
-<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#video.models.VideoTags.objects" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#video.models.VideoTags.objects" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </section>
 <section id="module-video.serializers">
-<span id="video-serializers-module"></span><h2>video.serializers module<a class="headerlink" href="#module-video.serializers" title="Permalink to this heading">¶</a></h2>
+<span id="video-serializers-module"></span><h2>video.serializers module<a class="headerlink" href="#module-video.serializers" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="video.serializers.OnlyVideoSerializer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.serializers.</span></span><span class="sig-name descname"><span class="pre">OnlyVideoSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.serializers.OnlyVideoSerializer" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.serializers.</span></span><span class="sig-name descname"><span class="pre">OnlyVideoSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.serializers.OnlyVideoSerializer" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Serializer</span></code></p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="video.serializers.StringTagsField">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.serializers.</span></span><span class="sig-name descname"><span class="pre">StringTagsField</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.serializers.StringTagsField" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.serializers.</span></span><span class="sig-name descname"><span class="pre">StringTagsField</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.serializers.StringTagsField" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ListField</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.serializers.StringTagsField.child">
-<span class="sig-name descname"><span class="pre">child</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">CharField()</span></em><a class="headerlink" href="#video.serializers.StringTagsField.child" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">child</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">CharField()</span></em><a class="headerlink" href="#video.serializers.StringTagsField.child" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="video.serializers.StringTagsField.to_representation">
-<span class="sig-name descname"><span class="pre">to_representation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.serializers.StringTagsField.to_representation" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">to_representation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.serializers.StringTagsField.to_representation" title="Permalink to this definition">#</a></dt>
 <dd><p>List of object instances -&gt; List of dicts of primitive datatypes.</p>
 </dd></dl>
 
@@ -664,25 +822,25 @@ object the first time, the query is executed.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="video.serializers.VideoSerializer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.serializers.</span></span><span class="sig-name descname"><span class="pre">VideoSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.serializers.VideoSerializer" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.serializers.</span></span><span class="sig-name descname"><span class="pre">VideoSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.serializers.VideoSerializer" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TaggitSerializer</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelSerializer</span></code></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="video.serializers.VideoSerializer.Meta">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#video.serializers.VideoSerializer.Meta" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#video.serializers.VideoSerializer.Meta" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.serializers.VideoSerializer.Meta.datatables_always_serialize">
-<span class="sig-name descname"><span class="pre">datatables_always_serialize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('id',</span> <span class="pre">'taggit')</span></em><a class="headerlink" href="#video.serializers.VideoSerializer.Meta.datatables_always_serialize" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">datatables_always_serialize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('id',</span> <span class="pre">'taggit')</span></em><a class="headerlink" href="#video.serializers.VideoSerializer.Meta.datatables_always_serialize" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.serializers.VideoSerializer.Meta.fields">
-<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('id',</span> <span class="pre">'videosource_id',</span> <span class="pre">'name',</span> <span class="pre">'duration',</span> <span class="pre">'language',</span> <span class="pre">'music',</span> <span class="pre">'links',</span> <span class="pre">'upload_date',</span> <span class="pre">'taggit',</span> <span class="pre">'videosource_name',</span> <span class="pre">'exercises')</span></em><a class="headerlink" href="#video.serializers.VideoSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('id',</span> <span class="pre">'videosource_id',</span> <span class="pre">'name',</span> <span class="pre">'duration',</span> <span class="pre">'language',</span> <span class="pre">'music',</span> <span class="pre">'links',</span> <span class="pre">'upload_date',</span> <span class="pre">'taggit',</span> <span class="pre">'videosource_name',</span> <span class="pre">'exercises')</span></em><a class="headerlink" href="#video.serializers.VideoSerializer.Meta.fields" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.serializers.VideoSerializer.Meta.model">
-<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#video.serializers.VideoSerializer.Meta.model" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#video.serializers.VideoSerializer.Meta.model" title="Permalink to this definition">#</a></dt>
 <dd><p>alias of <a class="reference internal" href="#video.models.Video" title="video.models.Video"><code class="xref py py-class docutils literal notranslate"><span class="pre">Video</span></code></a></p>
 </dd></dl>
 
@@ -692,20 +850,20 @@ object the first time, the query is executed.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="video.serializers.VideoTagsSerializer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.serializers.</span></span><span class="sig-name descname"><span class="pre">VideoTagsSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.serializers.VideoTagsSerializer" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.serializers.</span></span><span class="sig-name descname"><span class="pre">VideoTagsSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.serializers.VideoTagsSerializer" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelSerializer</span></code></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="video.serializers.VideoTagsSerializer.Meta">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#video.serializers.VideoTagsSerializer.Meta" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#video.serializers.VideoTagsSerializer.Meta" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.serializers.VideoTagsSerializer.Meta.fields">
-<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('id',</span> <span class="pre">'name')</span></em><a class="headerlink" href="#video.serializers.VideoTagsSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('id',</span> <span class="pre">'name')</span></em><a class="headerlink" href="#video.serializers.VideoTagsSerializer.Meta.fields" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.serializers.VideoTagsSerializer.Meta.model">
-<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#video.serializers.VideoTagsSerializer.Meta.model" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#video.serializers.VideoTagsSerializer.Meta.model" title="Permalink to this definition">#</a></dt>
 <dd><p>alias of <a class="reference internal" href="#video.models.VideoTags" title="video.models.VideoTags"><code class="xref py py-class docutils literal notranslate"><span class="pre">VideoTags</span></code></a></p>
 </dd></dl>
 
@@ -715,20 +873,20 @@ object the first time, the query is executed.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="video.serializers.VideoUpdateSerializer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.serializers.</span></span><span class="sig-name descname"><span class="pre">VideoUpdateSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.serializers.VideoUpdateSerializer" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.serializers.</span></span><span class="sig-name descname"><span class="pre">VideoUpdateSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.serializers.VideoUpdateSerializer" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TaggitSerializer</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelSerializer</span></code></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="video.serializers.VideoUpdateSerializer.Meta">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#video.serializers.VideoUpdateSerializer.Meta" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#video.serializers.VideoUpdateSerializer.Meta" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.serializers.VideoUpdateSerializer.Meta.fields">
-<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('id',</span> <span class="pre">'videosource_id',</span> <span class="pre">'name',</span> <span class="pre">'taggit',</span> <span class="pre">'duration',</span> <span class="pre">'language',</span> <span class="pre">'music',</span> <span class="pre">'links',</span> <span class="pre">'upload_date')</span></em><a class="headerlink" href="#video.serializers.VideoUpdateSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('id',</span> <span class="pre">'videosource_id',</span> <span class="pre">'name',</span> <span class="pre">'taggit',</span> <span class="pre">'duration',</span> <span class="pre">'language',</span> <span class="pre">'music',</span> <span class="pre">'links',</span> <span class="pre">'upload_date')</span></em><a class="headerlink" href="#video.serializers.VideoUpdateSerializer.Meta.fields" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.serializers.VideoUpdateSerializer.Meta.model">
-<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#video.serializers.VideoUpdateSerializer.Meta.model" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#video.serializers.VideoUpdateSerializer.Meta.model" title="Permalink to this definition">#</a></dt>
 <dd><p>alias of <a class="reference internal" href="#video.models.Video" title="video.models.Video"><code class="xref py py-class docutils literal notranslate"><span class="pre">Video</span></code></a></p>
 </dd></dl>
 
@@ -738,135 +896,135 @@ object the first time, the query is executed.</p>
 
 </section>
 <section id="module-video.tests">
-<span id="video-tests-module"></span><h2>video.tests module<a class="headerlink" href="#module-video.tests" title="Permalink to this heading">¶</a></h2>
+<span id="video-tests-module"></span><h2>video.tests module<a class="headerlink" href="#module-video.tests" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="module-video.urls">
-<span id="video-urls-module"></span><h2>video.urls module<a class="headerlink" href="#module-video.urls" title="Permalink to this heading">¶</a></h2>
+<span id="video-urls-module"></span><h2>video.urls module<a class="headerlink" href="#module-video.urls" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="module-video.views">
-<span id="video-views-module"></span><h2>video.views module<a class="headerlink" href="#module-video.views" title="Permalink to this heading">¶</a></h2>
+<span id="video-views-module"></span><h2>video.views module<a class="headerlink" href="#module-video.views" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="video.views.BaseVideoView">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.views.</span></span><span class="sig-name descname"><span class="pre">BaseVideoView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.views.BaseVideoView" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.views.</span></span><span class="sig-name descname"><span class="pre">BaseVideoView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.views.BaseVideoView" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LoginRequiredMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">TemplateView</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="video.views.BaseVideoView.get_context_data">
-<span class="sig-name descname"><span class="pre">get_context_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.views.BaseVideoView.get_context_data" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_context_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.views.BaseVideoView.get_context_data" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.views.BaseVideoView.redirect_field_name">
-<span class="sig-name descname"><span class="pre">redirect_field_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'authorization:login'</span></em><a class="headerlink" href="#video.views.BaseVideoView.redirect_field_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">redirect_field_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'authorization:login'</span></em><a class="headerlink" href="#video.views.BaseVideoView.redirect_field_name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.views.BaseVideoView.template_name">
-<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'video/base_video.html'</span></em><a class="headerlink" href="#video.views.BaseVideoView.template_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'video/base_video.html'</span></em><a class="headerlink" href="#video.views.BaseVideoView.template_name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="video.views.CreateVideoView">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.views.</span></span><span class="sig-name descname"><span class="pre">CreateVideoView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.views.CreateVideoView" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.views.</span></span><span class="sig-name descname"><span class="pre">CreateVideoView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.views.CreateVideoView" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LoginRequiredMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">CreateView</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.views.CreateVideoView.form_class">
-<span class="sig-name descname"><span class="pre">form_class</span></span><a class="headerlink" href="#video.views.CreateVideoView.form_class" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">form_class</span></span><a class="headerlink" href="#video.views.CreateVideoView.form_class" title="Permalink to this definition">#</a></dt>
 <dd><p>alias of <a class="reference internal" href="#video.forms.CreateVideoForm" title="video.forms.CreateVideoForm"><code class="xref py py-class docutils literal notranslate"><span class="pre">CreateVideoForm</span></code></a></p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="video.views.CreateVideoView.form_valid">
-<span class="sig-name descname"><span class="pre">form_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.views.CreateVideoView.form_valid" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">form_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.views.CreateVideoView.form_valid" title="Permalink to this definition">#</a></dt>
 <dd><p>If the form is valid, save the associated model.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="video.views.CreateVideoView.get_form_class">
-<span class="sig-name descname"><span class="pre">get_form_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#video.views.CreateVideoView.get_form_class" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_form_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#video.views.CreateVideoView.get_form_class" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the form class to use in this view.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.views.CreateVideoView.model">
-<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#video.views.CreateVideoView.model" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#video.views.CreateVideoView.model" title="Permalink to this definition">#</a></dt>
 <dd><p>alias of <a class="reference internal" href="#video.models.Video" title="video.models.Video"><code class="xref py py-class docutils literal notranslate"><span class="pre">Video</span></code></a></p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.views.CreateVideoView.redirect_field_name">
-<span class="sig-name descname"><span class="pre">redirect_field_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'authorization:login'</span></em><a class="headerlink" href="#video.views.CreateVideoView.redirect_field_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">redirect_field_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'authorization:login'</span></em><a class="headerlink" href="#video.views.CreateVideoView.redirect_field_name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.views.CreateVideoView.success_url">
-<span class="sig-name descname"><span class="pre">success_url</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/video/'</span></em><a class="headerlink" href="#video.views.CreateVideoView.success_url" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">success_url</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/video/'</span></em><a class="headerlink" href="#video.views.CreateVideoView.success_url" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.views.CreateVideoView.template_name">
-<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'video/add_video.html'</span></em><a class="headerlink" href="#video.views.CreateVideoView.template_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'video/add_video.html'</span></em><a class="headerlink" href="#video.views.CreateVideoView.template_name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="video.views.VideoDetailView">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.views.</span></span><span class="sig-name descname"><span class="pre">VideoDetailView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoDetailView" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.views.</span></span><span class="sig-name descname"><span class="pre">VideoDetailView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoDetailView" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LoginRequiredMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">DetailView</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="video.views.VideoDetailView.get_context_data">
-<span class="sig-name descname"><span class="pre">get_context_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoDetailView.get_context_data" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_context_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoDetailView.get_context_data" title="Permalink to this definition">#</a></dt>
 <dd><p>Insert the single object into the context dict.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.views.VideoDetailView.model">
-<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#video.views.VideoDetailView.model" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#video.views.VideoDetailView.model" title="Permalink to this definition">#</a></dt>
 <dd><p>alias of <a class="reference internal" href="#video.models.Video" title="video.models.Video"><code class="xref py py-class docutils literal notranslate"><span class="pre">Video</span></code></a></p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.views.VideoDetailView.redirect_field_name">
-<span class="sig-name descname"><span class="pre">redirect_field_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'authorization:login'</span></em><a class="headerlink" href="#video.views.VideoDetailView.redirect_field_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">redirect_field_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'authorization:login'</span></em><a class="headerlink" href="#video.views.VideoDetailView.redirect_field_name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.views.VideoDetailView.template_name">
-<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'video/view_video.html'</span></em><a class="headerlink" href="#video.views.VideoDetailView.template_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'video/view_video.html'</span></em><a class="headerlink" href="#video.views.VideoDetailView.template_name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="video.views.VideoExerciseViewSet">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.views.</span></span><span class="sig-name descname"><span class="pre">VideoExerciseViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoExerciseViewSet" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.views.</span></span><span class="sig-name descname"><span class="pre">VideoExerciseViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoExerciseViewSet" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelViewSet</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.views.VideoExerciseViewSet.basename">
-<span class="sig-name descname"><span class="pre">basename</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#video.views.VideoExerciseViewSet.basename" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">basename</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#video.views.VideoExerciseViewSet.basename" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.views.VideoExerciseViewSet.description">
-<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#video.views.VideoExerciseViewSet.description" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#video.views.VideoExerciseViewSet.description" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.views.VideoExerciseViewSet.detail">
-<span class="sig-name descname"><span class="pre">detail</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#video.views.VideoExerciseViewSet.detail" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">detail</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#video.views.VideoExerciseViewSet.detail" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="video.views.VideoExerciseViewSet.get_permissions">
-<span class="sig-name descname"><span class="pre">get_permissions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoExerciseViewSet.get_permissions" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_permissions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoExerciseViewSet.get_permissions" title="Permalink to this definition">#</a></dt>
 <dd><p>Instantiates and returns the list of permissions that this view requires.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="video.views.VideoExerciseViewSet.get_queryset">
-<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoExerciseViewSet.get_queryset" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoExerciseViewSet.get_queryset" title="Permalink to this definition">#</a></dt>
 <dd><p>Get the list of items for this view.
 This must be an iterable, and may be a queryset.
 Defaults to using <cite>self.queryset</cite>.</p>
@@ -880,7 +1038,7 @@ querysets depending on the incoming request.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="video.views.VideoExerciseViewSet.get_serializer_class">
-<span class="sig-name descname"><span class="pre">get_serializer_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoExerciseViewSet.get_serializer_class" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_serializer_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoExerciseViewSet.get_serializer_class" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the class to use for the serializer.
 Defaults to using <cite>self.serializer_class</cite>.</p>
 <p>You may want to override this if you need to provide different
@@ -890,65 +1048,65 @@ serializations depending on the incoming request.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.views.VideoExerciseViewSet.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#video.views.VideoExerciseViewSet.name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#video.views.VideoExerciseViewSet.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.views.VideoExerciseViewSet.suffix">
-<span class="sig-name descname"><span class="pre">suffix</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#video.views.VideoExerciseViewSet.suffix" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">suffix</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#video.views.VideoExerciseViewSet.suffix" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="video.views.VideoViewSet">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.views.</span></span><span class="sig-name descname"><span class="pre">VideoViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoViewSet" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">video.views.</span></span><span class="sig-name descname"><span class="pre">VideoViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoViewSet" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelViewSet</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.views.VideoViewSet.basename">
-<span class="sig-name descname"><span class="pre">basename</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#video.views.VideoViewSet.basename" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">basename</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#video.views.VideoViewSet.basename" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="video.views.VideoViewSet.create">
-<span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoViewSet.create" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoViewSet.create" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.views.VideoViewSet.description">
-<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#video.views.VideoViewSet.description" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#video.views.VideoViewSet.description" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="video.views.VideoViewSet.destroy">
-<span class="sig-name descname"><span class="pre">destroy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoViewSet.destroy" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">destroy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoViewSet.destroy" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.views.VideoViewSet.detail">
-<span class="sig-name descname"><span class="pre">detail</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#video.views.VideoViewSet.detail" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">detail</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#video.views.VideoViewSet.detail" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.views.VideoViewSet.filter_backends">
-<span class="sig-name descname"><span class="pre">filter_backends</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(&lt;class</span> <span class="pre">'rest_framework_datatables.django_filters.backends.DatatablesFilterBackend'&gt;,)</span></em><a class="headerlink" href="#video.views.VideoViewSet.filter_backends" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">filter_backends</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(&lt;class</span> <span class="pre">'rest_framework_datatables.django_filters.backends.DatatablesFilterBackend'&gt;,)</span></em><a class="headerlink" href="#video.views.VideoViewSet.filter_backends" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.views.VideoViewSet.filterset_class">
-<span class="sig-name descname"><span class="pre">filterset_class</span></span><a class="headerlink" href="#video.views.VideoViewSet.filterset_class" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">filterset_class</span></span><a class="headerlink" href="#video.views.VideoViewSet.filterset_class" title="Permalink to this definition">#</a></dt>
 <dd><p>alias of <a class="reference internal" href="#video.filters.VideoGlobalFilter" title="video.filters.VideoGlobalFilter"><code class="xref py py-class docutils literal notranslate"><span class="pre">VideoGlobalFilter</span></code></a></p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="video.views.VideoViewSet.get_permissions">
-<span class="sig-name descname"><span class="pre">get_permissions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoViewSet.get_permissions" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_permissions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoViewSet.get_permissions" title="Permalink to this definition">#</a></dt>
 <dd><p>Instantiates and returns the list of permissions that this view requires.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="video.views.VideoViewSet.get_queryset">
-<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoViewSet.get_queryset" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoViewSet.get_queryset" title="Permalink to this definition">#</a></dt>
 <dd><p>Get the list of items for this view.
 This must be an iterable, and may be a queryset.
 Defaults to using <cite>self.queryset</cite>.</p>
@@ -962,7 +1120,7 @@ querysets depending on the incoming request.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="video.views.VideoViewSet.get_serializer_class">
-<span class="sig-name descname"><span class="pre">get_serializer_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoViewSet.get_serializer_class" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_serializer_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoViewSet.get_serializer_class" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the class to use for the serializer.
 Defaults to using <cite>self.serializer_class</cite>.</p>
 <p>You may want to override this if you need to provide different
@@ -972,112 +1130,301 @@ serializations depending on the incoming request.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="video.views.VideoViewSet.get_video">
-<span class="sig-name descname"><span class="pre">get_video</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoViewSet.get_video" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_video</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoViewSet.get_video" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.views.VideoViewSet.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#video.views.VideoViewSet.name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#video.views.VideoViewSet.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="video.views.VideoViewSet.perform_update">
-<span class="sig-name descname"><span class="pre">perform_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">serializer</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoViewSet.perform_update" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">perform_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">serializer</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoViewSet.perform_update" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.views.VideoViewSet.queryset">
-<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;Video:</span> <span class="pre">Квадрат</span> <span class="pre">(3</span> <span class="pre">зоны)</span> <span class="pre">3</span> <span class="pre">v</span> <span class="pre">3</span> <span class="pre">+</span> <span class="pre">3</span> <span class="pre">&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Piedra,</span> <span class="pre">papel</span> <span class="pre">o</span> <span class="pre">tijera</span> <span class="pre">por</span> <span class="pre">RobertTejero&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Calentamiento</span> <span class="pre">completo</span>&#160;&#160; <span class="pre">Brazos</span> <span class="pre">y</span> <span class="pre">piernas,</span> <span class="pre">tecnica</span> <span class="pre">con</span> <span class="pre">balon</span>&#160;&#160; <span class="pre">Individual</span> <span class="pre">y</span> <span class="pre">por</span> <span class="pre">parejas&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Ejercicios</span> <span class="pre">de</span> <span class="pre">entrenamiento</span> <span class="pre">1x1</span> <span class="pre">Mourinho,</span> <span class="pre">Wenger</span> <span class="pre">y</span> <span class="pre">Zidane&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">RUEDA</span> <span class="pre">DE</span> <span class="pre">PASES</span> <span class="pre">al</span> <span class="pre">espacio</span> <span class="pre">y</span> <span class="pre">paredes&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">3</span> <span class="pre">en</span> <span class="pre">raya</span> <span class="pre">Cartagena</span> <span class="pre">Futbol</span> <span class="pre">sala&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Ejercicio</span> <span class="pre">de</span> <span class="pre">velocidad</span> <span class="pre">cognitivo</span> <span class="pre">Psg</span> <span class="pre">Blanc&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">El</span> <span class="pre">reencuentro</span> <span class="pre">con</span> <span class="pre">Aeris</span> <span class="pre">[Final</span> <span class="pre">Fantasy</span> <span class="pre">VII</span> <span class="pre">Remake]&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Partido</span> <span class="pre">doble</span> <span class="pre">area</span> <span class="pre">4x4+1&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Ejercicio</span> <span class="pre">de</span> <span class="pre">pases</span> <span class="pre">Atletico</span> <span class="pre">de</span> <span class="pre">Madrid&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Entrenamiento</span> <span class="pre">Getafe</span> <span class="pre">C</span> <span class="pre">f&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Ejercicios</span> <span class="pre">de</span> <span class="pre">coordinacion</span> <span class="pre">y</span> <span class="pre">velocidad&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Ejercicio</span> <span class="pre">tactico</span> <span class="pre">Talleres</span> <span class="pre">caras</span> <span class="pre">y</span> <span class="pre">juego</span> <span class="pre">profundo&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">MAURIZIO</span> <span class="pre">SARRI</span> <span class="pre">ANALISIS</span> <span class="pre">DE</span> <span class="pre">TACTICAS</span> <span class="pre">Y</span> <span class="pre">PRINCIPIOS</span> <span class="pre">OFENSIVOS</span> <span class="pre">Y</span> <span class="pre">DEFENSIVOS&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Ejercicio</span> <span class="pre">de</span> <span class="pre">Calentamiento</span> <span class="pre">tecnico</span> <span class="pre">conduccion</span> <span class="pre">y</span> <span class="pre">pases&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">JUGADAS</span> <span class="pre">COMBINADAS</span> <span class="pre">de</span> <span class="pre">8</span> <span class="pre">pases&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Ejercicio</span> <span class="pre">de</span> <span class="pre">futbol</span> <span class="pre">basico</span> <span class="pre">trabajar</span> <span class="pre">conduccion</span> <span class="pre">y</span> <span class="pre">1v1&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Video</span> <span class="pre">ejercicio</span> <span class="pre">del</span> <span class="pre">Bayern</span> <span class="pre">de</span> <span class="pre">Munich</span> <span class="pre">Pep</span> <span class="pre">Guardiola&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Circuito</span> <span class="pre">de</span> <span class="pre">Ejercicios</span> <span class="pre">de</span> <span class="pre">coordinacion</span> <span class="pre">pliometria&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Ejercicios</span> <span class="pre">de</span> <span class="pre">calentamiento</span> <span class="pre">en</span> <span class="pre">futbol</span>&#160;&#160; <span class="pre">Velocidad,</span> <span class="pre">coordinacion</span> <span class="pre">y</span> <span class="pre">juegos&gt;,</span> <span class="pre">'...(remaining</span> <span class="pre">elements</span> <span class="pre">truncated)...']&gt;</span></em><a class="headerlink" href="#video.views.VideoViewSet.queryset" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;Video:</span> <span class="pre">Комплексная</span> <span class="pre">разминка</span> <span class="pre">11&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Индивидуальная</span> <span class="pre">разминка</span> <span class="pre">(15</span> <span class="pre">мин.)&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Быстрота</span> <span class="pre">реакции</span> <span class="pre">/</span> <span class="pre">Спринты</span> <span class="pre">(эстафета)</span> <span class="pre">2&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Квадрат</span> <span class="pre">переходной</span> <span class="pre">(3</span> <span class="pre">зоны)</span> <span class="pre">4</span> <span class="pre">v</span> <span class="pre">4</span> <span class="pre">+</span> <span class="pre">1N&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Квадрат</span> <span class="pre">переходной</span> <span class="pre">(5</span> <span class="pre">+</span> <span class="pre">4)</span> <span class="pre">v</span> <span class="pre">(5</span> <span class="pre">+</span> <span class="pre">4)</span> <span class="pre">&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Квадрат</span> <span class="pre">переходной</span> <span class="pre">3</span> <span class="pre">v</span> <span class="pre">3</span> <span class="pre">+</span> <span class="pre">1N&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Квадрат</span> <span class="pre">переходной</span> <span class="pre">(2</span> <span class="pre">зоны)</span> <span class="pre">3</span> <span class="pre">v</span> <span class="pre">3</span> <span class="pre">+</span> <span class="pre">2N&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Угловой</span> <span class="pre">№1&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Квадрат</span> <span class="pre">переходной</span>&#160; <span class="pre">6</span> <span class="pre">v</span> <span class="pre">6</span> <span class="pre">+</span> <span class="pre">4N&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Квадрат</span> <span class="pre">переходной</span> <span class="pre">7</span> <span class="pre">v</span> <span class="pre">7</span> <span class="pre">+</span> <span class="pre">1N&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Квадрат</span> <span class="pre">переходной</span> <span class="pre">(2</span> <span class="pre">зоны)</span> <span class="pre">4</span> <span class="pre">v</span> <span class="pre">4</span> <span class="pre">+</span> <span class="pre">2N&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Пас</span> <span class="pre">/</span> <span class="pre">контроль</span> <span class="pre">ВИЛКА</span> <span class="pre">1&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Квадрат</span> <span class="pre">переходной</span> <span class="pre">4</span> <span class="pre">v</span> <span class="pre">4</span> <span class="pre">+</span> <span class="pre">2N</span> <span class="pre">(2)&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Квадрат</span> <span class="pre">переходной</span> <span class="pre">4</span> <span class="pre">v</span> <span class="pre">4</span> <span class="pre">+</span> <span class="pre">2N</span> <span class="pre">(2)&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Квадрат</span> <span class="pre">(3</span> <span class="pre">зоны)</span> <span class="pre">3</span> <span class="pre">v</span> <span class="pre">3</span> <span class="pre">+</span> <span class="pre">3</span> <span class="pre">&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Игра</span> <span class="pre">-</span> <span class="pre">3</span> <span class="pre">ворот</span> <span class="pre">9</span> <span class="pre">v</span> <span class="pre">8</span> <span class="pre">+</span> <span class="pre">3G&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Игра</span> <span class="pre">(4</span> <span class="pre">маленьких</span> <span class="pre">ворот)</span> <span class="pre">2</span> <span class="pre">v</span> <span class="pre">2</span> <span class="pre">&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Игра</span> <span class="pre">(коридоры)</span> <span class="pre">6</span> <span class="pre">v</span> <span class="pre">6</span> <span class="pre">+</span> <span class="pre">2N&gt;,</span> <span class="pre">&lt;Video:</span> <span class="pre">Игра</span> <span class="pre">(три</span> <span class="pre">команды)</span> <span class="pre">3</span> <span class="pre">+</span> <span class="pre">3</span>&#160; <span class="pre">v</span> <span class="pre">3</span> <span class="pre">&gt;,</span> <span class="pre">&lt;Video:</span>&#160; <span class="pre">Игра</span> <span class="pre">(2G</span> <span class="pre">+</span> <span class="pre">3</span> <span class="pre">+</span> <span class="pre">3)</span> <span class="pre">v</span> <span class="pre">3</span> <span class="pre">&gt;,</span> <span class="pre">'...(remaining</span> <span class="pre">elements</span> <span class="pre">truncated)...']&gt;</span></em><a class="headerlink" href="#video.views.VideoViewSet.queryset" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="video.views.VideoViewSet.suffix">
-<span class="sig-name descname"><span class="pre">suffix</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#video.views.VideoViewSet.suffix" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">suffix</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#video.views.VideoViewSet.suffix" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="video.views.VideoViewSet.update">
-<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwarg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoViewSet.update" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwarg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.views.VideoViewSet.update" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="video.views.parse_video">
-<span class="sig-prename descclassname"><span class="pre">video.views.</span></span><span class="sig-name descname"><span class="pre">parse_video</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.views.parse_video" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">video.views.</span></span><span class="sig-name descname"><span class="pre">parse_video</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#video.views.parse_video" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </section>
 <section id="module-video">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-video" title="Permalink to this heading">¶</a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-video" title="Permalink to this heading">#</a></h2>
 </section>
 </section>
 
-
-          </div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
           
         </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="index.html">Nanofootball</a></h1>
-
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="modules/events/views.html">Views</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-  </ul></li>
-</ul>
-</div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2022, Nanofootball team
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
     </div>
-</div>
-<script>document.getElementById('searchbox').style.display = "block"</script>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">video package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-video.admin">video.admin module</a></li>
+<li><a class="reference internal" href="#module-video.apps">video.apps module</a><ul>
+<li><a class="reference internal" href="#video.apps.VideoConfig"><code class="docutils literal notranslate"><span class="pre">VideoConfig</span></code></a><ul>
+<li><a class="reference internal" href="#video.apps.VideoConfig.default_auto_field"><code class="docutils literal notranslate"><span class="pre">VideoConfig.default_auto_field</span></code></a></li>
+<li><a class="reference internal" href="#video.apps.VideoConfig.name"><code class="docutils literal notranslate"><span class="pre">VideoConfig.name</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-video.filters">video.filters module</a><ul>
+<li><a class="reference internal" href="#video.filters.GlobalAllValuesMultipleFilter"><code class="docutils literal notranslate"><span class="pre">GlobalAllValuesMultipleFilter</span></code></a><ul>
+<li><a class="reference internal" href="#video.filters.GlobalAllValuesMultipleFilter.filter"><code class="docutils literal notranslate"><span class="pre">GlobalAllValuesMultipleFilter.filter()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#video.filters.GlobalCharFilter"><code class="docutils literal notranslate"><span class="pre">GlobalCharFilter</span></code></a></li>
+<li><a class="reference internal" href="#video.filters.GlobalModelMultipleChoiceFilter"><code class="docutils literal notranslate"><span class="pre">GlobalModelMultipleChoiceFilter</span></code></a></li>
+<li><a class="reference internal" href="#video.filters.GlobalTagFilter"><code class="docutils literal notranslate"><span class="pre">GlobalTagFilter</span></code></a><ul>
+<li><a class="reference internal" href="#video.filters.GlobalTagFilter.filter"><code class="docutils literal notranslate"><span class="pre">GlobalTagFilter.filter()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#video.filters.VideoGlobalFilter"><code class="docutils literal notranslate"><span class="pre">VideoGlobalFilter</span></code></a><ul>
+<li><a class="reference internal" href="#video.filters.VideoGlobalFilter.Meta"><code class="docutils literal notranslate"><span class="pre">VideoGlobalFilter.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#video.filters.VideoGlobalFilter.Meta.fields"><code class="docutils literal notranslate"><span class="pre">VideoGlobalFilter.Meta.fields</span></code></a></li>
+<li><a class="reference internal" href="#video.filters.VideoGlobalFilter.Meta.model"><code class="docutils literal notranslate"><span class="pre">VideoGlobalFilter.Meta.model</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#video.filters.VideoGlobalFilter.base_filters"><code class="docutils literal notranslate"><span class="pre">VideoGlobalFilter.base_filters</span></code></a></li>
+<li><a class="reference internal" href="#video.filters.VideoGlobalFilter.declared_filters"><code class="docutils literal notranslate"><span class="pre">VideoGlobalFilter.declared_filters</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-video.forms">video.forms module</a><ul>
+<li><a class="reference internal" href="#video.forms.CreateVideoForm"><code class="docutils literal notranslate"><span class="pre">CreateVideoForm</span></code></a><ul>
+<li><a class="reference internal" href="#video.forms.CreateVideoForm.Meta"><code class="docutils literal notranslate"><span class="pre">CreateVideoForm.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#video.forms.CreateVideoForm.Meta.fields"><code class="docutils literal notranslate"><span class="pre">CreateVideoForm.Meta.fields</span></code></a></li>
+<li><a class="reference internal" href="#video.forms.CreateVideoForm.Meta.help_texts"><code class="docutils literal notranslate"><span class="pre">CreateVideoForm.Meta.help_texts</span></code></a></li>
+<li><a class="reference internal" href="#video.forms.CreateVideoForm.Meta.labels"><code class="docutils literal notranslate"><span class="pre">CreateVideoForm.Meta.labels</span></code></a></li>
+<li><a class="reference internal" href="#video.forms.CreateVideoForm.Meta.model"><code class="docutils literal notranslate"><span class="pre">CreateVideoForm.Meta.model</span></code></a></li>
+<li><a class="reference internal" href="#video.forms.CreateVideoForm.Meta.widgets"><code class="docutils literal notranslate"><span class="pre">CreateVideoForm.Meta.widgets</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#video.forms.CreateVideoForm.base_fields"><code class="docutils literal notranslate"><span class="pre">CreateVideoForm.base_fields</span></code></a></li>
+<li><a class="reference internal" href="#video.forms.CreateVideoForm.declared_fields"><code class="docutils literal notranslate"><span class="pre">CreateVideoForm.declared_fields</span></code></a></li>
+<li><a class="reference internal" href="#video.forms.CreateVideoForm.helper"><code class="docutils literal notranslate"><span class="pre">CreateVideoForm.helper</span></code></a></li>
+<li><a class="reference internal" href="#video.forms.CreateVideoForm.media"><code class="docutils literal notranslate"><span class="pre">CreateVideoForm.media</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#video.forms.UpdateVideoForm"><code class="docutils literal notranslate"><span class="pre">UpdateVideoForm</span></code></a><ul>
+<li><a class="reference internal" href="#video.forms.UpdateVideoForm.Meta"><code class="docutils literal notranslate"><span class="pre">UpdateVideoForm.Meta</span></code></a></li>
+<li><a class="reference internal" href="#video.forms.UpdateVideoForm.base_fields"><code class="docutils literal notranslate"><span class="pre">UpdateVideoForm.base_fields</span></code></a></li>
+<li><a class="reference internal" href="#video.forms.UpdateVideoForm.declared_fields"><code class="docutils literal notranslate"><span class="pre">UpdateVideoForm.declared_fields</span></code></a></li>
+<li><a class="reference internal" href="#video.forms.UpdateVideoForm.helper"><code class="docutils literal notranslate"><span class="pre">UpdateVideoForm.helper</span></code></a></li>
+<li><a class="reference internal" href="#video.forms.UpdateVideoForm.media"><code class="docutils literal notranslate"><span class="pre">UpdateVideoForm.media</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-video.models">video.models module</a><ul>
+<li><a class="reference internal" href="#video.models.Video"><code class="docutils literal notranslate"><span class="pre">Video</span></code></a><ul>
+<li><a class="reference internal" href="#video.models.Video.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Video.DoesNotExist</span></code></a></li>
+<li><a class="reference internal" href="#video.models.Video.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Video.MultipleObjectsReturned</span></code></a></li>
+<li><a class="reference internal" href="#video.models.Video.adminexercise_set"><code class="docutils literal notranslate"><span class="pre">Video.adminexercise_set</span></code></a></li>
+<li><a class="reference internal" href="#video.models.Video.clubexercise_set"><code class="docutils literal notranslate"><span class="pre">Video.clubexercise_set</span></code></a></li>
+<li><a class="reference internal" href="#video.models.Video.clubmatch_set"><code class="docutils literal notranslate"><span class="pre">Video.clubmatch_set</span></code></a></li>
+<li><a class="reference internal" href="#video.models.Video.created_date"><code class="docutils literal notranslate"><span class="pre">Video.created_date</span></code></a></li>
+<li><a class="reference internal" href="#video.models.Video.duration"><code class="docutils literal notranslate"><span class="pre">Video.duration</span></code></a></li>
+<li><a class="reference internal" href="#video.models.Video.eventvideolink_set"><code class="docutils literal notranslate"><span class="pre">Video.eventvideolink_set</span></code></a></li>
+<li><a class="reference internal" href="#video.models.Video.get_next_by_created_date"><code class="docutils literal notranslate"><span class="pre">Video.get_next_by_created_date()</span></code></a></li>
+<li><a class="reference internal" href="#video.models.Video.get_next_by_upload_date"><code class="docutils literal notranslate"><span class="pre">Video.get_next_by_upload_date()</span></code></a></li>
+<li><a class="reference internal" href="#video.models.Video.get_previous_by_created_date"><code class="docutils literal notranslate"><span class="pre">Video.get_previous_by_created_date()</span></code></a></li>
+<li><a class="reference internal" href="#video.models.Video.get_previous_by_upload_date"><code class="docutils literal notranslate"><span class="pre">Video.get_previous_by_upload_date()</span></code></a></li>
+<li><a class="reference internal" href="#video.models.Video.get_string_tags"><code class="docutils literal notranslate"><span class="pre">Video.get_string_tags()</span></code></a></li>
+<li><a class="reference internal" href="#video.models.Video.id"><code class="docutils literal notranslate"><span class="pre">Video.id</span></code></a></li>
+<li><a class="reference internal" href="#video.models.Video.language"><code class="docutils literal notranslate"><span class="pre">Video.language</span></code></a></li>
+<li><a class="reference internal" href="#video.models.Video.links"><code class="docutils literal notranslate"><span class="pre">Video.links</span></code></a></li>
+<li><a class="reference internal" href="#video.models.Video.music"><code class="docutils literal notranslate"><span class="pre">Video.music</span></code></a></li>
+<li><a class="reference internal" href="#video.models.Video.name"><code class="docutils literal notranslate"><span class="pre">Video.name</span></code></a></li>
+<li><a class="reference internal" href="#video.models.Video.objects"><code class="docutils literal notranslate"><span class="pre">Video.objects</span></code></a></li>
+<li><a class="reference internal" href="#video.models.Video.old_id"><code class="docutils literal notranslate"><span class="pre">Video.old_id</span></code></a></li>
+<li><a class="reference internal" href="#video.models.Video.screensaver"><code class="docutils literal notranslate"><span class="pre">Video.screensaver</span></code></a></li>
+<li><a class="reference internal" href="#video.models.Video.tagged_items"><code class="docutils literal notranslate"><span class="pre">Video.tagged_items</span></code></a></li>
+<li><a class="reference internal" href="#video.models.Video.taggit"><code class="docutils literal notranslate"><span class="pre">Video.taggit</span></code></a></li>
+<li><a class="reference internal" href="#video.models.Video.upload_date"><code class="docutils literal notranslate"><span class="pre">Video.upload_date</span></code></a></li>
+<li><a class="reference internal" href="#video.models.Video.userexercise_set"><code class="docutils literal notranslate"><span class="pre">Video.userexercise_set</span></code></a></li>
+<li><a class="reference internal" href="#video.models.Video.usermatch_set"><code class="docutils literal notranslate"><span class="pre">Video.usermatch_set</span></code></a></li>
+<li><a class="reference internal" href="#video.models.Video.video"><code class="docutils literal notranslate"><span class="pre">Video.video</span></code></a></li>
+<li><a class="reference internal" href="#video.models.Video.videosource_id"><code class="docutils literal notranslate"><span class="pre">Video.videosource_id</span></code></a></li>
+<li><a class="reference internal" href="#video.models.Video.videosource_id_id"><code class="docutils literal notranslate"><span class="pre">Video.videosource_id_id</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#video.models.VideoTags"><code class="docutils literal notranslate"><span class="pre">VideoTags</span></code></a><ul>
+<li><a class="reference internal" href="#video.models.VideoTags.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">VideoTags.DoesNotExist</span></code></a></li>
+<li><a class="reference internal" href="#video.models.VideoTags.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">VideoTags.MultipleObjectsReturned</span></code></a></li>
+<li><a class="reference internal" href="#video.models.VideoTags.id"><code class="docutils literal notranslate"><span class="pre">VideoTags.id</span></code></a></li>
+<li><a class="reference internal" href="#video.models.VideoTags.name"><code class="docutils literal notranslate"><span class="pre">VideoTags.name</span></code></a></li>
+<li><a class="reference internal" href="#video.models.VideoTags.objects"><code class="docutils literal notranslate"><span class="pre">VideoTags.objects</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-video.serializers">video.serializers module</a><ul>
+<li><a class="reference internal" href="#video.serializers.OnlyVideoSerializer"><code class="docutils literal notranslate"><span class="pre">OnlyVideoSerializer</span></code></a></li>
+<li><a class="reference internal" href="#video.serializers.StringTagsField"><code class="docutils literal notranslate"><span class="pre">StringTagsField</span></code></a><ul>
+<li><a class="reference internal" href="#video.serializers.StringTagsField.child"><code class="docutils literal notranslate"><span class="pre">StringTagsField.child</span></code></a></li>
+<li><a class="reference internal" href="#video.serializers.StringTagsField.to_representation"><code class="docutils literal notranslate"><span class="pre">StringTagsField.to_representation()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#video.serializers.VideoSerializer"><code class="docutils literal notranslate"><span class="pre">VideoSerializer</span></code></a><ul>
+<li><a class="reference internal" href="#video.serializers.VideoSerializer.Meta"><code class="docutils literal notranslate"><span class="pre">VideoSerializer.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#video.serializers.VideoSerializer.Meta.datatables_always_serialize"><code class="docutils literal notranslate"><span class="pre">VideoSerializer.Meta.datatables_always_serialize</span></code></a></li>
+<li><a class="reference internal" href="#video.serializers.VideoSerializer.Meta.fields"><code class="docutils literal notranslate"><span class="pre">VideoSerializer.Meta.fields</span></code></a></li>
+<li><a class="reference internal" href="#video.serializers.VideoSerializer.Meta.model"><code class="docutils literal notranslate"><span class="pre">VideoSerializer.Meta.model</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#video.serializers.VideoTagsSerializer"><code class="docutils literal notranslate"><span class="pre">VideoTagsSerializer</span></code></a><ul>
+<li><a class="reference internal" href="#video.serializers.VideoTagsSerializer.Meta"><code class="docutils literal notranslate"><span class="pre">VideoTagsSerializer.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#video.serializers.VideoTagsSerializer.Meta.fields"><code class="docutils literal notranslate"><span class="pre">VideoTagsSerializer.Meta.fields</span></code></a></li>
+<li><a class="reference internal" href="#video.serializers.VideoTagsSerializer.Meta.model"><code class="docutils literal notranslate"><span class="pre">VideoTagsSerializer.Meta.model</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#video.serializers.VideoUpdateSerializer"><code class="docutils literal notranslate"><span class="pre">VideoUpdateSerializer</span></code></a><ul>
+<li><a class="reference internal" href="#video.serializers.VideoUpdateSerializer.Meta"><code class="docutils literal notranslate"><span class="pre">VideoUpdateSerializer.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#video.serializers.VideoUpdateSerializer.Meta.fields"><code class="docutils literal notranslate"><span class="pre">VideoUpdateSerializer.Meta.fields</span></code></a></li>
+<li><a class="reference internal" href="#video.serializers.VideoUpdateSerializer.Meta.model"><code class="docutils literal notranslate"><span class="pre">VideoUpdateSerializer.Meta.model</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-video.tests">video.tests module</a></li>
+<li><a class="reference internal" href="#module-video.urls">video.urls module</a></li>
+<li><a class="reference internal" href="#module-video.views">video.views module</a><ul>
+<li><a class="reference internal" href="#video.views.BaseVideoView"><code class="docutils literal notranslate"><span class="pre">BaseVideoView</span></code></a><ul>
+<li><a class="reference internal" href="#video.views.BaseVideoView.get_context_data"><code class="docutils literal notranslate"><span class="pre">BaseVideoView.get_context_data()</span></code></a></li>
+<li><a class="reference internal" href="#video.views.BaseVideoView.redirect_field_name"><code class="docutils literal notranslate"><span class="pre">BaseVideoView.redirect_field_name</span></code></a></li>
+<li><a class="reference internal" href="#video.views.BaseVideoView.template_name"><code class="docutils literal notranslate"><span class="pre">BaseVideoView.template_name</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#video.views.CreateVideoView"><code class="docutils literal notranslate"><span class="pre">CreateVideoView</span></code></a><ul>
+<li><a class="reference internal" href="#video.views.CreateVideoView.form_class"><code class="docutils literal notranslate"><span class="pre">CreateVideoView.form_class</span></code></a></li>
+<li><a class="reference internal" href="#video.views.CreateVideoView.form_valid"><code class="docutils literal notranslate"><span class="pre">CreateVideoView.form_valid()</span></code></a></li>
+<li><a class="reference internal" href="#video.views.CreateVideoView.get_form_class"><code class="docutils literal notranslate"><span class="pre">CreateVideoView.get_form_class()</span></code></a></li>
+<li><a class="reference internal" href="#video.views.CreateVideoView.model"><code class="docutils literal notranslate"><span class="pre">CreateVideoView.model</span></code></a></li>
+<li><a class="reference internal" href="#video.views.CreateVideoView.redirect_field_name"><code class="docutils literal notranslate"><span class="pre">CreateVideoView.redirect_field_name</span></code></a></li>
+<li><a class="reference internal" href="#video.views.CreateVideoView.success_url"><code class="docutils literal notranslate"><span class="pre">CreateVideoView.success_url</span></code></a></li>
+<li><a class="reference internal" href="#video.views.CreateVideoView.template_name"><code class="docutils literal notranslate"><span class="pre">CreateVideoView.template_name</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#video.views.VideoDetailView"><code class="docutils literal notranslate"><span class="pre">VideoDetailView</span></code></a><ul>
+<li><a class="reference internal" href="#video.views.VideoDetailView.get_context_data"><code class="docutils literal notranslate"><span class="pre">VideoDetailView.get_context_data()</span></code></a></li>
+<li><a class="reference internal" href="#video.views.VideoDetailView.model"><code class="docutils literal notranslate"><span class="pre">VideoDetailView.model</span></code></a></li>
+<li><a class="reference internal" href="#video.views.VideoDetailView.redirect_field_name"><code class="docutils literal notranslate"><span class="pre">VideoDetailView.redirect_field_name</span></code></a></li>
+<li><a class="reference internal" href="#video.views.VideoDetailView.template_name"><code class="docutils literal notranslate"><span class="pre">VideoDetailView.template_name</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#video.views.VideoExerciseViewSet"><code class="docutils literal notranslate"><span class="pre">VideoExerciseViewSet</span></code></a><ul>
+<li><a class="reference internal" href="#video.views.VideoExerciseViewSet.basename"><code class="docutils literal notranslate"><span class="pre">VideoExerciseViewSet.basename</span></code></a></li>
+<li><a class="reference internal" href="#video.views.VideoExerciseViewSet.description"><code class="docutils literal notranslate"><span class="pre">VideoExerciseViewSet.description</span></code></a></li>
+<li><a class="reference internal" href="#video.views.VideoExerciseViewSet.detail"><code class="docutils literal notranslate"><span class="pre">VideoExerciseViewSet.detail</span></code></a></li>
+<li><a class="reference internal" href="#video.views.VideoExerciseViewSet.get_permissions"><code class="docutils literal notranslate"><span class="pre">VideoExerciseViewSet.get_permissions()</span></code></a></li>
+<li><a class="reference internal" href="#video.views.VideoExerciseViewSet.get_queryset"><code class="docutils literal notranslate"><span class="pre">VideoExerciseViewSet.get_queryset()</span></code></a></li>
+<li><a class="reference internal" href="#video.views.VideoExerciseViewSet.get_serializer_class"><code class="docutils literal notranslate"><span class="pre">VideoExerciseViewSet.get_serializer_class()</span></code></a></li>
+<li><a class="reference internal" href="#video.views.VideoExerciseViewSet.name"><code class="docutils literal notranslate"><span class="pre">VideoExerciseViewSet.name</span></code></a></li>
+<li><a class="reference internal" href="#video.views.VideoExerciseViewSet.suffix"><code class="docutils literal notranslate"><span class="pre">VideoExerciseViewSet.suffix</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#video.views.VideoViewSet"><code class="docutils literal notranslate"><span class="pre">VideoViewSet</span></code></a><ul>
+<li><a class="reference internal" href="#video.views.VideoViewSet.basename"><code class="docutils literal notranslate"><span class="pre">VideoViewSet.basename</span></code></a></li>
+<li><a class="reference internal" href="#video.views.VideoViewSet.create"><code class="docutils literal notranslate"><span class="pre">VideoViewSet.create()</span></code></a></li>
+<li><a class="reference internal" href="#video.views.VideoViewSet.description"><code class="docutils literal notranslate"><span class="pre">VideoViewSet.description</span></code></a></li>
+<li><a class="reference internal" href="#video.views.VideoViewSet.destroy"><code class="docutils literal notranslate"><span class="pre">VideoViewSet.destroy()</span></code></a></li>
+<li><a class="reference internal" href="#video.views.VideoViewSet.detail"><code class="docutils literal notranslate"><span class="pre">VideoViewSet.detail</span></code></a></li>
+<li><a class="reference internal" href="#video.views.VideoViewSet.filter_backends"><code class="docutils literal notranslate"><span class="pre">VideoViewSet.filter_backends</span></code></a></li>
+<li><a class="reference internal" href="#video.views.VideoViewSet.filterset_class"><code class="docutils literal notranslate"><span class="pre">VideoViewSet.filterset_class</span></code></a></li>
+<li><a class="reference internal" href="#video.views.VideoViewSet.get_permissions"><code class="docutils literal notranslate"><span class="pre">VideoViewSet.get_permissions()</span></code></a></li>
+<li><a class="reference internal" href="#video.views.VideoViewSet.get_queryset"><code class="docutils literal notranslate"><span class="pre">VideoViewSet.get_queryset()</span></code></a></li>
+<li><a class="reference internal" href="#video.views.VideoViewSet.get_serializer_class"><code class="docutils literal notranslate"><span class="pre">VideoViewSet.get_serializer_class()</span></code></a></li>
+<li><a class="reference internal" href="#video.views.VideoViewSet.get_video"><code class="docutils literal notranslate"><span class="pre">VideoViewSet.get_video()</span></code></a></li>
+<li><a class="reference internal" href="#video.views.VideoViewSet.name"><code class="docutils literal notranslate"><span class="pre">VideoViewSet.name</span></code></a></li>
+<li><a class="reference internal" href="#video.views.VideoViewSet.perform_update"><code class="docutils literal notranslate"><span class="pre">VideoViewSet.perform_update()</span></code></a></li>
+<li><a class="reference internal" href="#video.views.VideoViewSet.queryset"><code class="docutils literal notranslate"><span class="pre">VideoViewSet.queryset</span></code></a></li>
+<li><a class="reference internal" href="#video.views.VideoViewSet.suffix"><code class="docutils literal notranslate"><span class="pre">VideoViewSet.suffix</span></code></a></li>
+<li><a class="reference internal" href="#video.views.VideoViewSet.update"><code class="docutils literal notranslate"><span class="pre">VideoViewSet.update()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#video.views.parse_video"><code class="docutils literal notranslate"><span class="pre">parse_video()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-video">Module contents</a></li>
+</ul>
+</li>
+</ul>
 
-
-
-
-
-
-
-
+          </div>
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2022, Nanofootball team.
       
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
-      |
-      <a href="_sources/video.rst.txt"
-          rel="nofollow">Page source</a>
-    </div>
-
-    
-
-    
-  </body>
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/scripts/furo.js"></script>
+    </body>
 </html>

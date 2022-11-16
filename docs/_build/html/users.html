@@ -1,42 +1,200 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" />
 
-<!DOCTYPE html>
+    <meta name="generator" content="sphinx-5.3.0, furo 2022.09.29"/>
+        <title>users package - Nanofootball 0.2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=d81277517bee4d6b0349d71bb2661d4890b5617c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>users package &#8212; Nanofootball 0.1 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-   
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Nanofootball 0.2 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
-  </head><body>
+  <span class="sidebar-brand-text">Nanofootball 0.2 documentation</span>
   
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules/events/views.html">Views</a></li>
+</ul>
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
           
-
-          <div class="body" role="main">
-            
-  <section id="users-package">
-<h1>users package<a class="headerlink" href="#users-package" title="Permalink to this heading">¶</a></h1>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="users-package">
+<h1>users package<a class="headerlink" href="#users-package" title="Permalink to this heading">#</a></h1>
 <section id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading">¶</a></h2>
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading">#</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="users.migrations.html">users.migrations package</a><ul>
@@ -186,98 +344,98 @@
 </div>
 </section>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="module-users.admin">
-<span id="users-admin-module"></span><h2>users.admin module<a class="headerlink" href="#module-users.admin" title="Permalink to this heading">¶</a></h2>
+<span id="users-admin-module"></span><h2>users.admin module<a class="headerlink" href="#module-users.admin" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="users.admin.UserAdmin">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">users.admin.</span></span><span class="sig-name descname"><span class="pre">UserAdmin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">admin_site</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.admin.UserAdmin" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">users.admin.</span></span><span class="sig-name descname"><span class="pre">UserAdmin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">admin_site</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.admin.UserAdmin" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelAdmin</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.admin.UserAdmin.filter_horizontal">
-<span class="sig-name descname"><span class="pre">filter_horizontal</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('groups',</span> <span class="pre">'user_permissions')</span></em><a class="headerlink" href="#users.admin.UserAdmin.filter_horizontal" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">filter_horizontal</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('groups',</span> <span class="pre">'user_permissions')</span></em><a class="headerlink" href="#users.admin.UserAdmin.filter_horizontal" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="users.admin.UserAdmin.get_club_name">
-<span class="sig-name descname"><span class="pre">get_club_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.admin.UserAdmin.get_club_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_club_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.admin.UserAdmin.get_club_name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="users.admin.UserAdmin.get_personal_country">
-<span class="sig-name descname"><span class="pre">get_personal_country</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.admin.UserAdmin.get_personal_country" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_personal_country</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.admin.UserAdmin.get_personal_country" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.admin.UserAdmin.list_display">
-<span class="sig-name descname"><span class="pre">list_display</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('id',</span> <span class="pre">'personal',</span> <span class="pre">'get_club_name',</span> <span class="pre">'get_personal_country',</span> <span class="pre">'p_version',</span> <span class="pre">'is_active',</span> <span class="pre">'is_staff')</span></em><a class="headerlink" href="#users.admin.UserAdmin.list_display" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">list_display</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('id',</span> <span class="pre">'personal',</span> <span class="pre">'get_club_name',</span> <span class="pre">'get_personal_country',</span> <span class="pre">'p_version',</span> <span class="pre">'is_active',</span> <span class="pre">'is_staff')</span></em><a class="headerlink" href="#users.admin.UserAdmin.list_display" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.admin.UserAdmin.list_display_links">
-<span class="sig-name descname"><span class="pre">list_display_links</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('personal',)</span></em><a class="headerlink" href="#users.admin.UserAdmin.list_display_links" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">list_display_links</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('personal',)</span></em><a class="headerlink" href="#users.admin.UserAdmin.list_display_links" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.admin.UserAdmin.list_editable">
-<span class="sig-name descname"><span class="pre">list_editable</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('is_active',</span> <span class="pre">'is_staff')</span></em><a class="headerlink" href="#users.admin.UserAdmin.list_editable" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">list_editable</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('is_active',</span> <span class="pre">'is_staff')</span></em><a class="headerlink" href="#users.admin.UserAdmin.list_editable" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="users.admin.UserAdmin.media">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#users.admin.UserAdmin.media" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#users.admin.UserAdmin.media" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.admin.UserAdmin.search_fields">
-<span class="sig-name descname"><span class="pre">search_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('id',</span> <span class="pre">'date_joined')</span></em><a class="headerlink" href="#users.admin.UserAdmin.search_fields" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">search_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('id',</span> <span class="pre">'date_joined')</span></em><a class="headerlink" href="#users.admin.UserAdmin.search_fields" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </section>
 <section id="module-users.apps">
-<span id="users-apps-module"></span><h2>users.apps module<a class="headerlink" href="#module-users.apps" title="Permalink to this heading">¶</a></h2>
+<span id="users-apps-module"></span><h2>users.apps module<a class="headerlink" href="#module-users.apps" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="users.apps.UsersConfig">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">users.apps.</span></span><span class="sig-name descname"><span class="pre">UsersConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_module</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.apps.UsersConfig" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">users.apps.</span></span><span class="sig-name descname"><span class="pre">UsersConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_module</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.apps.UsersConfig" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AppConfig</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.apps.UsersConfig.default_auto_field">
-<span class="sig-name descname"><span class="pre">default_auto_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'django.db.models.BigAutoField'</span></em><a class="headerlink" href="#users.apps.UsersConfig.default_auto_field" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">default_auto_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'django.db.models.BigAutoField'</span></em><a class="headerlink" href="#users.apps.UsersConfig.default_auto_field" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.apps.UsersConfig.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'users'</span></em><a class="headerlink" href="#users.apps.UsersConfig.name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'users'</span></em><a class="headerlink" href="#users.apps.UsersConfig.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.apps.UsersConfig.verbose_name">
-<span class="sig-name descname"><span class="pre">verbose_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Пользователи'</span></em><a class="headerlink" href="#users.apps.UsersConfig.verbose_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">verbose_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Пользователи'</span></em><a class="headerlink" href="#users.apps.UsersConfig.verbose_name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </section>
 <section id="module-users.managers">
-<span id="users-managers-module"></span><h2>users.managers module<a class="headerlink" href="#module-users.managers" title="Permalink to this heading">¶</a></h2>
+<span id="users-managers-module"></span><h2>users.managers module<a class="headerlink" href="#module-users.managers" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="users.managers.CustomUserManager">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">users.managers.</span></span><span class="sig-name descname"><span class="pre">CustomUserManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.managers.CustomUserManager" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">users.managers.</span></span><span class="sig-name descname"><span class="pre">CustomUserManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.managers.CustomUserManager" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseUserManager</span></code></p>
 <p>Custom user model manager where email is the unique identifiers
 for authentication instead of usernames.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="users.managers.CustomUserManager.create_superuser">
-<span class="sig-name descname"><span class="pre">create_superuser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">extra_fields</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.managers.CustomUserManager.create_superuser" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">create_superuser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">extra_fields</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.managers.CustomUserManager.create_superuser" title="Permalink to this definition">#</a></dt>
 <dd><p>Create and save a SuperUser with the given email and password.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="users.managers.CustomUserManager.create_user">
-<span class="sig-name descname"><span class="pre">create_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">extra_fields</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.managers.CustomUserManager.create_user" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">create_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">extra_fields</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.managers.CustomUserManager.create_user" title="Permalink to this definition">#</a></dt>
 <dd><p>Create and save a User with the given email and password.</p>
 </dd></dl>
 
@@ -285,36 +443,36 @@ for authentication instead of usernames.</p>
 
 </section>
 <section id="module-users.models">
-<span id="users-models-module"></span><h2>users.models module<a class="headerlink" href="#module-users.models" title="Permalink to this heading">¶</a></h2>
+<span id="users-models-module"></span><h2>users.models module<a class="headerlink" href="#module-users.models" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="users.models.User">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">users.models.</span></span><span class="sig-name descname"><span class="pre">User</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_login</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_superuser</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_staff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_active</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">club_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_archive</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_api_access</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_joined</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_last_login</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">days_entered</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">personal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payment</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.models.User" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">users.models.</span></span><span class="sig-name descname"><span class="pre">User</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_login</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_superuser</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_staff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_active</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">club_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_archive</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_api_access</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_joined</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_last_login</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">days_entered</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">personal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payment</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.models.User" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractUser</span></code></p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="users.models.User.DoesNotExist">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#users.models.User.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#users.models.User.DoesNotExist" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="users.models.User.MultipleObjectsReturned">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#users.models.User.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#users.models.User.MultipleObjectsReturned" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.REQUIRED_FIELDS">
-<span class="sig-name descname"><span class="pre">REQUIRED_FIELDS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#users.models.User.REQUIRED_FIELDS" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">REQUIRED_FIELDS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#users.models.User.REQUIRED_FIELDS" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.USERNAME_FIELD">
-<span class="sig-name descname"><span class="pre">USERNAME_FIELD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'email'</span></em><a class="headerlink" href="#users.models.User.USERNAME_FIELD" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">USERNAME_FIELD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'email'</span></em><a class="headerlink" href="#users.models.User.USERNAME_FIELD" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.apitoken_set">
-<span class="sig-name descname"><span class="pre">apitoken_set</span></span><a class="headerlink" href="#users.models.User.apitoken_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">apitoken_set</span></span><a class="headerlink" href="#users.models.User.apitoken_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -329,7 +487,7 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.auth_token">
-<span class="sig-name descname"><span class="pre">auth_token</span></span><a class="headerlink" href="#users.models.User.auth_token" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">auth_token</span></span><a class="headerlink" href="#users.models.User.auth_token" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related object on the reverse side of a one-to-one
 relation.</p>
 <p>In the example:</p>
@@ -342,7 +500,7 @@ relation.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.cardsectionclub_set">
-<span class="sig-name descname"><span class="pre">cardsectionclub_set</span></span><a class="headerlink" href="#users.models.User.cardsectionclub_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">cardsectionclub_set</span></span><a class="headerlink" href="#users.models.User.cardsectionclub_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -357,7 +515,7 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.cardsectionuser_set">
-<span class="sig-name descname"><span class="pre">cardsectionuser_set</span></span><a class="headerlink" href="#users.models.User.cardsectionuser_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">cardsectionuser_set</span></span><a class="headerlink" href="#users.models.User.cardsectionuser_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -372,7 +530,7 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.club_id">
-<span class="sig-name descname"><span class="pre">club_id</span></span><a class="headerlink" href="#users.models.User.club_id" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">club_id</span></span><a class="headerlink" href="#users.models.User.club_id" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related object on the forward side of a many-to-one or
 one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <p>In the example:</p>
@@ -385,12 +543,12 @@ one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.club_id_id">
-<span class="sig-name descname"><span class="pre">club_id_id</span></span><a class="headerlink" href="#users.models.User.club_id_id" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">club_id_id</span></span><a class="headerlink" href="#users.models.User.club_id_id" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.clubevent_set">
-<span class="sig-name descname"><span class="pre">clubevent_set</span></span><a class="headerlink" href="#users.models.User.clubevent_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">clubevent_set</span></span><a class="headerlink" href="#users.models.User.clubevent_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -405,7 +563,7 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.clubmatch_set">
-<span class="sig-name descname"><span class="pre">clubmatch_set</span></span><a class="headerlink" href="#users.models.User.clubmatch_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">clubmatch_set</span></span><a class="headerlink" href="#users.models.User.clubmatch_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -420,7 +578,7 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.clubplayer_set">
-<span class="sig-name descname"><span class="pre">clubplayer_set</span></span><a class="headerlink" href="#users.models.User.clubplayer_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">clubplayer_set</span></span><a class="headerlink" href="#users.models.User.clubplayer_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -435,7 +593,7 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.clubteam_set">
-<span class="sig-name descname"><span class="pre">clubteam_set</span></span><a class="headerlink" href="#users.models.User.clubteam_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">clubteam_set</span></span><a class="headerlink" href="#users.models.User.clubteam_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the forward and reverse sides of
 a many-to-many relation.</p>
 <p>In the example:</p>
@@ -451,7 +609,7 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.clubtraining_set">
-<span class="sig-name descname"><span class="pre">clubtraining_set</span></span><a class="headerlink" href="#users.models.User.clubtraining_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">clubtraining_set</span></span><a class="headerlink" href="#users.models.User.clubtraining_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -466,60 +624,60 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.date_joined">
-<span class="sig-name descname"><span class="pre">date_joined</span></span><a class="headerlink" href="#users.models.User.date_joined" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">date_joined</span></span><a class="headerlink" href="#users.models.User.date_joined" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.date_last_login">
-<span class="sig-name descname"><span class="pre">date_last_login</span></span><a class="headerlink" href="#users.models.User.date_last_login" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">date_last_login</span></span><a class="headerlink" href="#users.models.User.date_last_login" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.days_entered">
-<span class="sig-name descname"><span class="pre">days_entered</span></span><a class="headerlink" href="#users.models.User.days_entered" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">days_entered</span></span><a class="headerlink" href="#users.models.User.days_entered" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.email">
-<span class="sig-name descname"><span class="pre">email</span></span><a class="headerlink" href="#users.models.User.email" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">email</span></span><a class="headerlink" href="#users.models.User.email" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.first_name">
-<span class="sig-name descname"><span class="pre">first_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#users.models.User.first_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">first_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#users.models.User.first_name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="users.models.User.get_next_by_date_joined">
-<span class="sig-name descname"><span class="pre">get_next_by_date_joined</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">date_joined&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.models.User.get_next_by_date_joined" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_next_by_date_joined</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">date_joined&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.models.User.get_next_by_date_joined" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="users.models.User.get_next_by_date_last_login">
-<span class="sig-name descname"><span class="pre">get_next_by_date_last_login</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">date_last_login&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.models.User.get_next_by_date_last_login" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_next_by_date_last_login</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">date_last_login&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.models.User.get_next_by_date_last_login" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="users.models.User.get_previous_by_date_joined">
-<span class="sig-name descname"><span class="pre">get_previous_by_date_joined</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">date_joined&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.models.User.get_previous_by_date_joined" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_previous_by_date_joined</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">date_joined&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.models.User.get_previous_by_date_joined" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="users.models.User.get_previous_by_date_last_login">
-<span class="sig-name descname"><span class="pre">get_previous_by_date_last_login</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">date_last_login&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.models.User.get_previous_by_date_last_login" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_previous_by_date_last_login</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">date_last_login&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.models.User.get_previous_by_date_last_login" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.groups">
-<span class="sig-name descname"><span class="pre">groups</span></span><a class="headerlink" href="#users.models.User.groups" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">groups</span></span><a class="headerlink" href="#users.models.User.groups" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the forward and reverse sides of
 a many-to-many relation.</p>
 <p>In the example:</p>
@@ -535,61 +693,61 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#users.models.User.id" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#users.models.User.id" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.is_active">
-<span class="sig-name descname"><span class="pre">is_active</span></span><a class="headerlink" href="#users.models.User.is_active" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_active</span></span><a class="headerlink" href="#users.models.User.is_active" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.is_api_access">
-<span class="sig-name descname"><span class="pre">is_api_access</span></span><a class="headerlink" href="#users.models.User.is_api_access" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_api_access</span></span><a class="headerlink" href="#users.models.User.is_api_access" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.is_archive">
-<span class="sig-name descname"><span class="pre">is_archive</span></span><a class="headerlink" href="#users.models.User.is_archive" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_archive</span></span><a class="headerlink" href="#users.models.User.is_archive" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.is_staff">
-<span class="sig-name descname"><span class="pre">is_staff</span></span><a class="headerlink" href="#users.models.User.is_staff" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_staff</span></span><a class="headerlink" href="#users.models.User.is_staff" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.is_superuser">
-<span class="sig-name descname"><span class="pre">is_superuser</span></span><a class="headerlink" href="#users.models.User.is_superuser" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_superuser</span></span><a class="headerlink" href="#users.models.User.is_superuser" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.last_login">
-<span class="sig-name descname"><span class="pre">last_login</span></span><a class="headerlink" href="#users.models.User.last_login" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">last_login</span></span><a class="headerlink" href="#users.models.User.last_login" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.last_name">
-<span class="sig-name descname"><span class="pre">last_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#users.models.User.last_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">last_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#users.models.User.last_name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.logentry_set">
-<span class="sig-name descname"><span class="pre">logentry_set</span></span><a class="headerlink" href="#users.models.User.logentry_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">logentry_set</span></span><a class="headerlink" href="#users.models.User.logentry_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -604,12 +762,12 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.objects">
-<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;users.managers.CustomUserManager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#users.models.User.objects" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;users.managers.CustomUserManager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#users.models.User.objects" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.p_version">
-<span class="sig-name descname"><span class="pre">p_version</span></span><a class="headerlink" href="#users.models.User.p_version" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">p_version</span></span><a class="headerlink" href="#users.models.User.p_version" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related object on the forward side of a many-to-one or
 one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <p>In the example:</p>
@@ -622,19 +780,19 @@ one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.p_version_id">
-<span class="sig-name descname"><span class="pre">p_version_id</span></span><a class="headerlink" href="#users.models.User.p_version_id" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">p_version_id</span></span><a class="headerlink" href="#users.models.User.p_version_id" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.password">
-<span class="sig-name descname"><span class="pre">password</span></span><a class="headerlink" href="#users.models.User.password" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">password</span></span><a class="headerlink" href="#users.models.User.password" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.payment">
-<span class="sig-name descname"><span class="pre">payment</span></span><a class="headerlink" href="#users.models.User.payment" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">payment</span></span><a class="headerlink" href="#users.models.User.payment" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related object on the forward side of a one-to-one relation.</p>
 <p>In the example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
@@ -646,12 +804,12 @@ object the first time, the query is executed.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.payment_id">
-<span class="sig-name descname"><span class="pre">payment_id</span></span><a class="headerlink" href="#users.models.User.payment_id" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">payment_id</span></span><a class="headerlink" href="#users.models.User.payment_id" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.personal">
-<span class="sig-name descname"><span class="pre">personal</span></span><a class="headerlink" href="#users.models.User.personal" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">personal</span></span><a class="headerlink" href="#users.models.User.personal" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related object on the forward side of a one-to-one relation.</p>
 <p>In the example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
@@ -663,12 +821,12 @@ object the first time, the query is executed.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.personal_id">
-<span class="sig-name descname"><span class="pre">personal_id</span></span><a class="headerlink" href="#users.models.User.personal_id" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">personal_id</span></span><a class="headerlink" href="#users.models.User.personal_id" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.playercharacteristicsrows_set">
-<span class="sig-name descname"><span class="pre">playercharacteristicsrows_set</span></span><a class="headerlink" href="#users.models.User.playercharacteristicsrows_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">playercharacteristicsrows_set</span></span><a class="headerlink" href="#users.models.User.playercharacteristicsrows_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -683,7 +841,7 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.playercharacteristicuser_set">
-<span class="sig-name descname"><span class="pre">playercharacteristicuser_set</span></span><a class="headerlink" href="#users.models.User.playercharacteristicuser_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">playercharacteristicuser_set</span></span><a class="headerlink" href="#users.models.User.playercharacteristicuser_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -698,7 +856,7 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.playerquestionnairesrows_set">
-<span class="sig-name descname"><span class="pre">playerquestionnairesrows_set</span></span><a class="headerlink" href="#users.models.User.playerquestionnairesrows_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">playerquestionnairesrows_set</span></span><a class="headerlink" href="#users.models.User.playerquestionnairesrows_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -713,7 +871,7 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.playerquestionnaireuser_set">
-<span class="sig-name descname"><span class="pre">playerquestionnaireuser_set</span></span><a class="headerlink" href="#users.models.User.playerquestionnaireuser_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">playerquestionnaireuser_set</span></span><a class="headerlink" href="#users.models.User.playerquestionnaireuser_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -728,7 +886,7 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py method">
 <dt class="sig sig-object py" id="users.models.User.save">
-<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.models.User.save" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.models.User.save" title="Permalink to this definition">#</a></dt>
 <dd><p>Save the current instance. Override this in a subclass if you want to
 control the saving process.</p>
 <p>The ‘force_insert’ and ‘force_update’ parameters can be used to insist
@@ -738,7 +896,7 @@ non-SQL backends), respectively. Normally, they should not be set.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.sharedlink_set">
-<span class="sig-name descname"><span class="pre">sharedlink_set</span></span><a class="headerlink" href="#users.models.User.sharedlink_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">sharedlink_set</span></span><a class="headerlink" href="#users.models.User.sharedlink_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -753,7 +911,7 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.user_permissions">
-<span class="sig-name descname"><span class="pre">user_permissions</span></span><a class="headerlink" href="#users.models.User.user_permissions" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">user_permissions</span></span><a class="headerlink" href="#users.models.User.user_permissions" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the forward and reverse sides of
 a many-to-many relation.</p>
 <p>In the example:</p>
@@ -769,7 +927,7 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.userevent_set">
-<span class="sig-name descname"><span class="pre">userevent_set</span></span><a class="headerlink" href="#users.models.User.userevent_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">userevent_set</span></span><a class="headerlink" href="#users.models.User.userevent_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -784,7 +942,7 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.userexercise_set">
-<span class="sig-name descname"><span class="pre">userexercise_set</span></span><a class="headerlink" href="#users.models.User.userexercise_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">userexercise_set</span></span><a class="headerlink" href="#users.models.User.userexercise_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -799,7 +957,7 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.userexerciseparam_set">
-<span class="sig-name descname"><span class="pre">userexerciseparam_set</span></span><a class="headerlink" href="#users.models.User.userexerciseparam_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">userexerciseparam_set</span></span><a class="headerlink" href="#users.models.User.userexerciseparam_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -814,7 +972,7 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.userfolder_set">
-<span class="sig-name descname"><span class="pre">userfolder_set</span></span><a class="headerlink" href="#users.models.User.userfolder_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">userfolder_set</span></span><a class="headerlink" href="#users.models.User.userfolder_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -829,7 +987,7 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.usermatch_set">
-<span class="sig-name descname"><span class="pre">usermatch_set</span></span><a class="headerlink" href="#users.models.User.usermatch_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">usermatch_set</span></span><a class="headerlink" href="#users.models.User.usermatch_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -844,12 +1002,12 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.username">
-<span class="sig-name descname"><span class="pre">username</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#users.models.User.username" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">username</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#users.models.User.username" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.userplayer_set">
-<span class="sig-name descname"><span class="pre">userplayer_set</span></span><a class="headerlink" href="#users.models.User.userplayer_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">userplayer_set</span></span><a class="headerlink" href="#users.models.User.userplayer_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -864,7 +1022,7 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.userseason_set">
-<span class="sig-name descname"><span class="pre">userseason_set</span></span><a class="headerlink" href="#users.models.User.userseason_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">userseason_set</span></span><a class="headerlink" href="#users.models.User.userseason_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -879,7 +1037,7 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.userteam_set">
-<span class="sig-name descname"><span class="pre">userteam_set</span></span><a class="headerlink" href="#users.models.User.userteam_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">userteam_set</span></span><a class="headerlink" href="#users.models.User.userteam_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -894,7 +1052,7 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.User.usertraining_set">
-<span class="sig-name descname"><span class="pre">usertraining_set</span></span><a class="headerlink" href="#users.models.User.usertraining_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">usertraining_set</span></span><a class="headerlink" href="#users.models.User.usertraining_set" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -911,61 +1069,61 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 
 <dl class="py class">
 <dt class="sig sig-object py" id="users.models.UserPayment">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">users.models.</span></span><span class="sig-name descname"><span class="pre">UserPayment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_invoice_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autopay_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autopay_version</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.models.UserPayment" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">users.models.</span></span><span class="sig-name descname"><span class="pre">UserPayment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_invoice_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autopay_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autopay_version</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.models.UserPayment" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="users.models.UserPayment.DoesNotExist">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#users.models.UserPayment.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#users.models.UserPayment.DoesNotExist" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="users.models.UserPayment.MultipleObjectsReturned">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#users.models.UserPayment.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#users.models.UserPayment.MultipleObjectsReturned" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.UserPayment.autopay_id">
-<span class="sig-name descname"><span class="pre">autopay_id</span></span><a class="headerlink" href="#users.models.UserPayment.autopay_id" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">autopay_id</span></span><a class="headerlink" href="#users.models.UserPayment.autopay_id" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.UserPayment.autopay_version">
-<span class="sig-name descname"><span class="pre">autopay_version</span></span><a class="headerlink" href="#users.models.UserPayment.autopay_version" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">autopay_version</span></span><a class="headerlink" href="#users.models.UserPayment.autopay_version" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="users.models.UserPayment.get_default_pk">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_default_pk</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#users.models.UserPayment.get_default_pk" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_default_pk</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#users.models.UserPayment.get_default_pk" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.UserPayment.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#users.models.UserPayment.id" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#users.models.UserPayment.id" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.UserPayment.last_invoice_id">
-<span class="sig-name descname"><span class="pre">last_invoice_id</span></span><a class="headerlink" href="#users.models.UserPayment.last_invoice_id" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">last_invoice_id</span></span><a class="headerlink" href="#users.models.UserPayment.last_invoice_id" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.UserPayment.objects">
-<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#users.models.UserPayment.objects" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#users.models.UserPayment.objects" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.UserPayment.user">
-<span class="sig-name descname"><span class="pre">user</span></span><a class="headerlink" href="#users.models.UserPayment.user" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">user</span></span><a class="headerlink" href="#users.models.UserPayment.user" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related object on the reverse side of a one-to-one
 relation.</p>
 <p>In the example:</p>
@@ -980,30 +1138,30 @@ relation.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="users.models.UserPersonal">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">users.models.</span></span><span class="sig-name descname"><span class="pre">UserPersonal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">first_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">father_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">country_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">city</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_birthsday</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phone</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phone_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skype</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.models.UserPersonal" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">users.models.</span></span><span class="sig-name descname"><span class="pre">UserPersonal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">first_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">father_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">country_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">city</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_birthsday</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phone</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phone_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skype</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.models.UserPersonal" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="users.models.UserPersonal.DoesNotExist">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#users.models.UserPersonal.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#users.models.UserPersonal.DoesNotExist" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="users.models.UserPersonal.MultipleObjectsReturned">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#users.models.UserPersonal.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#users.models.UserPersonal.MultipleObjectsReturned" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.UserPersonal.city">
-<span class="sig-name descname"><span class="pre">city</span></span><a class="headerlink" href="#users.models.UserPersonal.city" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">city</span></span><a class="headerlink" href="#users.models.UserPersonal.city" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.UserPersonal.country_id">
-<span class="sig-name descname"><span class="pre">country_id</span></span><a class="headerlink" href="#users.models.UserPersonal.country_id" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">country_id</span></span><a class="headerlink" href="#users.models.UserPersonal.country_id" title="Permalink to this definition">#</a></dt>
 <dd><p>A descriptor for country fields on a model instance. Returns a Country when
 accessed so you can do things like:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">people</span> <span class="kn">import</span> <span class="n">Person</span>
@@ -1020,111 +1178,111 @@ accessed so you can do things like:</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.UserPersonal.date_birthsday">
-<span class="sig-name descname"><span class="pre">date_birthsday</span></span><a class="headerlink" href="#users.models.UserPersonal.date_birthsday" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">date_birthsday</span></span><a class="headerlink" href="#users.models.UserPersonal.date_birthsday" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.UserPersonal.email_2">
-<span class="sig-name descname"><span class="pre">email_2</span></span><a class="headerlink" href="#users.models.UserPersonal.email_2" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">email_2</span></span><a class="headerlink" href="#users.models.UserPersonal.email_2" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.UserPersonal.father_name">
-<span class="sig-name descname"><span class="pre">father_name</span></span><a class="headerlink" href="#users.models.UserPersonal.father_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">father_name</span></span><a class="headerlink" href="#users.models.UserPersonal.father_name" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.UserPersonal.first_name">
-<span class="sig-name descname"><span class="pre">first_name</span></span><a class="headerlink" href="#users.models.UserPersonal.first_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">first_name</span></span><a class="headerlink" href="#users.models.UserPersonal.first_name" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="users.models.UserPersonal.full_name">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">full_name</span></span><a class="headerlink" href="#users.models.UserPersonal.full_name" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">full_name</span></span><a class="headerlink" href="#users.models.UserPersonal.full_name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="users.models.UserPersonal.get_country_id_display">
-<span class="sig-name descname"><span class="pre">get_country_id_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django_countries.fields.CountryField:</span> <span class="pre">country_id&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.models.UserPersonal.get_country_id_display" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_country_id_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django_countries.fields.CountryField:</span> <span class="pre">country_id&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.models.UserPersonal.get_country_id_display" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="users.models.UserPersonal.get_default_pk">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_default_pk</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#users.models.UserPersonal.get_default_pk" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_default_pk</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#users.models.UserPersonal.get_default_pk" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.UserPersonal.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#users.models.UserPersonal.id" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#users.models.UserPersonal.id" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.UserPersonal.job_title">
-<span class="sig-name descname"><span class="pre">job_title</span></span><a class="headerlink" href="#users.models.UserPersonal.job_title" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">job_title</span></span><a class="headerlink" href="#users.models.UserPersonal.job_title" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.UserPersonal.last_name">
-<span class="sig-name descname"><span class="pre">last_name</span></span><a class="headerlink" href="#users.models.UserPersonal.last_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">last_name</span></span><a class="headerlink" href="#users.models.UserPersonal.last_name" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.UserPersonal.objects">
-<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#users.models.UserPersonal.objects" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#users.models.UserPersonal.objects" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.UserPersonal.phone">
-<span class="sig-name descname"><span class="pre">phone</span></span><a class="headerlink" href="#users.models.UserPersonal.phone" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">phone</span></span><a class="headerlink" href="#users.models.UserPersonal.phone" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.UserPersonal.phone_2">
-<span class="sig-name descname"><span class="pre">phone_2</span></span><a class="headerlink" href="#users.models.UserPersonal.phone_2" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">phone_2</span></span><a class="headerlink" href="#users.models.UserPersonal.phone_2" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.UserPersonal.region">
-<span class="sig-name descname"><span class="pre">region</span></span><a class="headerlink" href="#users.models.UserPersonal.region" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">region</span></span><a class="headerlink" href="#users.models.UserPersonal.region" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.UserPersonal.region_id">
-<span class="sig-name descname"><span class="pre">region_id</span></span><a class="headerlink" href="#users.models.UserPersonal.region_id" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">region_id</span></span><a class="headerlink" href="#users.models.UserPersonal.region_id" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.UserPersonal.skype">
-<span class="sig-name descname"><span class="pre">skype</span></span><a class="headerlink" href="#users.models.UserPersonal.skype" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">skype</span></span><a class="headerlink" href="#users.models.UserPersonal.skype" title="Permalink to this definition">#</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.models.UserPersonal.user">
-<span class="sig-name descname"><span class="pre">user</span></span><a class="headerlink" href="#users.models.UserPersonal.user" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">user</span></span><a class="headerlink" href="#users.models.UserPersonal.user" title="Permalink to this definition">#</a></dt>
 <dd><p>Accessor to the related object on the reverse side of a one-to-one
 relation.</p>
 <p>In the example:</p>
@@ -1139,23 +1297,46 @@ relation.</p>
 
 </section>
 <section id="module-users.serializers">
-<span id="users-serializers-module"></span><h2>users.serializers module<a class="headerlink" href="#module-users.serializers" title="Permalink to this heading">¶</a></h2>
+<span id="users-serializers-module"></span><h2>users.serializers module<a class="headerlink" href="#module-users.serializers" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="users.serializers.ClubUserEditPermission">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">users.serializers.</span></span><span class="sig-name descname"><span class="pre">ClubUserEditPermission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.serializers.ClubUserEditPermission" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="users.serializers.ClubUserEditPermission.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#users.serializers.ClubUserEditPermission.Meta" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="users.serializers.ClubUserEditPermission.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'user_permissions',</span> <span class="pre">'groups']</span></em><a class="headerlink" href="#users.serializers.ClubUserEditPermission.Meta.fields" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="users.serializers.ClubUserEditPermission.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#users.serializers.ClubUserEditPermission.Meta.model" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="#users.models.User" title="users.models.User"><code class="xref py py-class docutils literal notranslate"><span class="pre">User</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="users.serializers.CreateUserSerializer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">users.serializers.</span></span><span class="sig-name descname"><span class="pre">CreateUserSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.serializers.CreateUserSerializer" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">users.serializers.</span></span><span class="sig-name descname"><span class="pre">CreateUserSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.serializers.CreateUserSerializer" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelSerializer</span></code></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="users.serializers.CreateUserSerializer.Meta">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#users.serializers.CreateUserSerializer.Meta" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#users.serializers.CreateUserSerializer.Meta" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.serializers.CreateUserSerializer.Meta.fields">
-<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'club_id',</span> <span class="pre">'email',</span> <span class="pre">'password',</span> <span class="pre">'personal']</span></em><a class="headerlink" href="#users.serializers.CreateUserSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'club_id',</span> <span class="pre">'email',</span> <span class="pre">'password',</span> <span class="pre">'personal']</span></em><a class="headerlink" href="#users.serializers.CreateUserSerializer.Meta.fields" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.serializers.CreateUserSerializer.Meta.model">
-<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#users.serializers.CreateUserSerializer.Meta.model" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#users.serializers.CreateUserSerializer.Meta.model" title="Permalink to this definition">#</a></dt>
 <dd><p>alias of <a class="reference internal" href="#users.models.User" title="users.models.User"><code class="xref py py-class docutils literal notranslate"><span class="pre">User</span></code></a></p>
 </dd></dl>
 
@@ -1165,20 +1346,20 @@ relation.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="users.serializers.GroupSerializer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">users.serializers.</span></span><span class="sig-name descname"><span class="pre">GroupSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.serializers.GroupSerializer" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">users.serializers.</span></span><span class="sig-name descname"><span class="pre">GroupSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.serializers.GroupSerializer" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelSerializer</span></code></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="users.serializers.GroupSerializer.Meta">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#users.serializers.GroupSerializer.Meta" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#users.serializers.GroupSerializer.Meta" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.serializers.GroupSerializer.Meta.fields">
-<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'name',</span> <span class="pre">'permissions']</span></em><a class="headerlink" href="#users.serializers.GroupSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'name',</span> <span class="pre">'permissions']</span></em><a class="headerlink" href="#users.serializers.GroupSerializer.Meta.fields" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.serializers.GroupSerializer.Meta.model">
-<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#users.serializers.GroupSerializer.Meta.model" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#users.serializers.GroupSerializer.Meta.model" title="Permalink to this definition">#</a></dt>
 <dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Group</span></code></p>
 </dd></dl>
 
@@ -1188,20 +1369,20 @@ relation.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="users.serializers.PermissionSerializer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">users.serializers.</span></span><span class="sig-name descname"><span class="pre">PermissionSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.serializers.PermissionSerializer" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">users.serializers.</span></span><span class="sig-name descname"><span class="pre">PermissionSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.serializers.PermissionSerializer" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelSerializer</span></code></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="users.serializers.PermissionSerializer.Meta">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#users.serializers.PermissionSerializer.Meta" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#users.serializers.PermissionSerializer.Meta" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.serializers.PermissionSerializer.Meta.fields">
-<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'name']</span></em><a class="headerlink" href="#users.serializers.PermissionSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'name']</span></em><a class="headerlink" href="#users.serializers.PermissionSerializer.Meta.fields" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.serializers.PermissionSerializer.Meta.model">
-<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#users.serializers.PermissionSerializer.Meta.model" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#users.serializers.PermissionSerializer.Meta.model" title="Permalink to this definition">#</a></dt>
 <dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Permission</span></code></p>
 </dd></dl>
 
@@ -1211,20 +1392,20 @@ relation.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="users.serializers.UserPersonalSerializer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">users.serializers.</span></span><span class="sig-name descname"><span class="pre">UserPersonalSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.serializers.UserPersonalSerializer" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">users.serializers.</span></span><span class="sig-name descname"><span class="pre">UserPersonalSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.serializers.UserPersonalSerializer" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelSerializer</span></code></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="users.serializers.UserPersonalSerializer.Meta">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#users.serializers.UserPersonalSerializer.Meta" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#users.serializers.UserPersonalSerializer.Meta" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.serializers.UserPersonalSerializer.Meta.fields">
-<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'first_name',</span> <span class="pre">'last_name',</span> <span class="pre">'father_name',</span> <span class="pre">'email_2',</span> <span class="pre">'job_title',</span> <span class="pre">'date_birthsday',</span> <span class="pre">'country_id',</span> <span class="pre">'region',</span> <span class="pre">'city',</span> <span class="pre">'phone']</span></em><a class="headerlink" href="#users.serializers.UserPersonalSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'first_name',</span> <span class="pre">'last_name',</span> <span class="pre">'father_name',</span> <span class="pre">'email_2',</span> <span class="pre">'job_title',</span> <span class="pre">'date_birthsday',</span> <span class="pre">'country_id',</span> <span class="pre">'region',</span> <span class="pre">'city',</span> <span class="pre">'phone']</span></em><a class="headerlink" href="#users.serializers.UserPersonalSerializer.Meta.fields" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.serializers.UserPersonalSerializer.Meta.model">
-<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#users.serializers.UserPersonalSerializer.Meta.model" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#users.serializers.UserPersonalSerializer.Meta.model" title="Permalink to this definition">#</a></dt>
 <dd><p>alias of <a class="reference internal" href="#users.models.UserPersonal" title="users.models.UserPersonal"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserPersonal</span></code></a></p>
 </dd></dl>
 
@@ -1234,20 +1415,25 @@ relation.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="users.serializers.UserSerializer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">users.serializers.</span></span><span class="sig-name descname"><span class="pre">UserSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.serializers.UserSerializer" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">users.serializers.</span></span><span class="sig-name descname"><span class="pre">UserSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.serializers.UserSerializer" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelSerializer</span></code></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="users.serializers.UserSerializer.Meta">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#users.serializers.UserSerializer.Meta" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#users.serializers.UserSerializer.Meta" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py attribute">
+<dt class="sig sig-object py" id="users.serializers.UserSerializer.Meta.datatables_always_serialize">
+<span class="sig-name descname"><span class="pre">datatables_always_serialize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('id',</span> <span class="pre">'groups')</span></em><a class="headerlink" href="#users.serializers.UserSerializer.Meta.datatables_always_serialize" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="users.serializers.UserSerializer.Meta.fields">
-<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'full_name',</span> <span class="pre">'email',</span> <span class="pre">'job_title',</span> <span class="pre">'date_birthsday',</span> <span class="pre">'days_entered',</span> <span class="pre">'is_active']</span></em><a class="headerlink" href="#users.serializers.UserSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'full_name',</span> <span class="pre">'email',</span> <span class="pre">'job_title',</span> <span class="pre">'date_birthsday',</span> <span class="pre">'days_entered',</span> <span class="pre">'is_active',</span> <span class="pre">'groups']</span></em><a class="headerlink" href="#users.serializers.UserSerializer.Meta.fields" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="users.serializers.UserSerializer.Meta.model">
-<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#users.serializers.UserSerializer.Meta.model" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#users.serializers.UserSerializer.Meta.model" title="Permalink to this definition">#</a></dt>
 <dd><p>alias of <a class="reference internal" href="#users.models.User" title="users.models.User"><code class="xref py py-class docutils literal notranslate"><span class="pre">User</span></code></a></p>
 </dd></dl>
 
@@ -1257,89 +1443,274 @@ relation.</p>
 
 </section>
 <section id="module-users.tests">
-<span id="users-tests-module"></span><h2>users.tests module<a class="headerlink" href="#module-users.tests" title="Permalink to this heading">¶</a></h2>
+<span id="users-tests-module"></span><h2>users.tests module<a class="headerlink" href="#module-users.tests" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="module-users.urls">
-<span id="users-urls-module"></span><h2>users.urls module<a class="headerlink" href="#module-users.urls" title="Permalink to this heading">¶</a></h2>
+<span id="users-urls-module"></span><h2>users.urls module<a class="headerlink" href="#module-users.urls" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="module-users.views">
-<span id="users-views-module"></span><h2>users.views module<a class="headerlink" href="#module-users.views" title="Permalink to this heading">¶</a></h2>
+<span id="users-views-module"></span><h2>users.views module<a class="headerlink" href="#module-users.views" title="Permalink to this heading">#</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="users.views.profile_req">
-<span class="sig-prename descclassname"><span class="pre">users.views.</span></span><span class="sig-name descname"><span class="pre">profile_req</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.views.profile_req" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">users.views.</span></span><span class="sig-name descname"><span class="pre">profile_req</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.views.profile_req" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </section>
 <section id="module-users">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-users" title="Permalink to this heading">¶</a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-users" title="Permalink to this heading">#</a></h2>
 </section>
 </section>
 
-
-          </div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
           
         </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="index.html">Nanofootball</a></h1>
-
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="modules/events/views.html">Views</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-  </ul></li>
-</ul>
-</div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2022, Nanofootball team
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
     </div>
-</div>
-<script>document.getElementById('searchbox').style.display = "block"</script>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">users package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-users.admin">users.admin module</a><ul>
+<li><a class="reference internal" href="#users.admin.UserAdmin"><code class="docutils literal notranslate"><span class="pre">UserAdmin</span></code></a><ul>
+<li><a class="reference internal" href="#users.admin.UserAdmin.filter_horizontal"><code class="docutils literal notranslate"><span class="pre">UserAdmin.filter_horizontal</span></code></a></li>
+<li><a class="reference internal" href="#users.admin.UserAdmin.get_club_name"><code class="docutils literal notranslate"><span class="pre">UserAdmin.get_club_name()</span></code></a></li>
+<li><a class="reference internal" href="#users.admin.UserAdmin.get_personal_country"><code class="docutils literal notranslate"><span class="pre">UserAdmin.get_personal_country()</span></code></a></li>
+<li><a class="reference internal" href="#users.admin.UserAdmin.list_display"><code class="docutils literal notranslate"><span class="pre">UserAdmin.list_display</span></code></a></li>
+<li><a class="reference internal" href="#users.admin.UserAdmin.list_display_links"><code class="docutils literal notranslate"><span class="pre">UserAdmin.list_display_links</span></code></a></li>
+<li><a class="reference internal" href="#users.admin.UserAdmin.list_editable"><code class="docutils literal notranslate"><span class="pre">UserAdmin.list_editable</span></code></a></li>
+<li><a class="reference internal" href="#users.admin.UserAdmin.media"><code class="docutils literal notranslate"><span class="pre">UserAdmin.media</span></code></a></li>
+<li><a class="reference internal" href="#users.admin.UserAdmin.search_fields"><code class="docutils literal notranslate"><span class="pre">UserAdmin.search_fields</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-users.apps">users.apps module</a><ul>
+<li><a class="reference internal" href="#users.apps.UsersConfig"><code class="docutils literal notranslate"><span class="pre">UsersConfig</span></code></a><ul>
+<li><a class="reference internal" href="#users.apps.UsersConfig.default_auto_field"><code class="docutils literal notranslate"><span class="pre">UsersConfig.default_auto_field</span></code></a></li>
+<li><a class="reference internal" href="#users.apps.UsersConfig.name"><code class="docutils literal notranslate"><span class="pre">UsersConfig.name</span></code></a></li>
+<li><a class="reference internal" href="#users.apps.UsersConfig.verbose_name"><code class="docutils literal notranslate"><span class="pre">UsersConfig.verbose_name</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-users.managers">users.managers module</a><ul>
+<li><a class="reference internal" href="#users.managers.CustomUserManager"><code class="docutils literal notranslate"><span class="pre">CustomUserManager</span></code></a><ul>
+<li><a class="reference internal" href="#users.managers.CustomUserManager.create_superuser"><code class="docutils literal notranslate"><span class="pre">CustomUserManager.create_superuser()</span></code></a></li>
+<li><a class="reference internal" href="#users.managers.CustomUserManager.create_user"><code class="docutils literal notranslate"><span class="pre">CustomUserManager.create_user()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-users.models">users.models module</a><ul>
+<li><a class="reference internal" href="#users.models.User"><code class="docutils literal notranslate"><span class="pre">User</span></code></a><ul>
+<li><a class="reference internal" href="#users.models.User.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">User.DoesNotExist</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">User.MultipleObjectsReturned</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.REQUIRED_FIELDS"><code class="docutils literal notranslate"><span class="pre">User.REQUIRED_FIELDS</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.USERNAME_FIELD"><code class="docutils literal notranslate"><span class="pre">User.USERNAME_FIELD</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.apitoken_set"><code class="docutils literal notranslate"><span class="pre">User.apitoken_set</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.auth_token"><code class="docutils literal notranslate"><span class="pre">User.auth_token</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.cardsectionclub_set"><code class="docutils literal notranslate"><span class="pre">User.cardsectionclub_set</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.cardsectionuser_set"><code class="docutils literal notranslate"><span class="pre">User.cardsectionuser_set</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.club_id"><code class="docutils literal notranslate"><span class="pre">User.club_id</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.club_id_id"><code class="docutils literal notranslate"><span class="pre">User.club_id_id</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.clubevent_set"><code class="docutils literal notranslate"><span class="pre">User.clubevent_set</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.clubmatch_set"><code class="docutils literal notranslate"><span class="pre">User.clubmatch_set</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.clubplayer_set"><code class="docutils literal notranslate"><span class="pre">User.clubplayer_set</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.clubteam_set"><code class="docutils literal notranslate"><span class="pre">User.clubteam_set</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.clubtraining_set"><code class="docutils literal notranslate"><span class="pre">User.clubtraining_set</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.date_joined"><code class="docutils literal notranslate"><span class="pre">User.date_joined</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.date_last_login"><code class="docutils literal notranslate"><span class="pre">User.date_last_login</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.days_entered"><code class="docutils literal notranslate"><span class="pre">User.days_entered</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.email"><code class="docutils literal notranslate"><span class="pre">User.email</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.first_name"><code class="docutils literal notranslate"><span class="pre">User.first_name</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.get_next_by_date_joined"><code class="docutils literal notranslate"><span class="pre">User.get_next_by_date_joined()</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.get_next_by_date_last_login"><code class="docutils literal notranslate"><span class="pre">User.get_next_by_date_last_login()</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.get_previous_by_date_joined"><code class="docutils literal notranslate"><span class="pre">User.get_previous_by_date_joined()</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.get_previous_by_date_last_login"><code class="docutils literal notranslate"><span class="pre">User.get_previous_by_date_last_login()</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.groups"><code class="docutils literal notranslate"><span class="pre">User.groups</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.id"><code class="docutils literal notranslate"><span class="pre">User.id</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.is_active"><code class="docutils literal notranslate"><span class="pre">User.is_active</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.is_api_access"><code class="docutils literal notranslate"><span class="pre">User.is_api_access</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.is_archive"><code class="docutils literal notranslate"><span class="pre">User.is_archive</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.is_staff"><code class="docutils literal notranslate"><span class="pre">User.is_staff</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.is_superuser"><code class="docutils literal notranslate"><span class="pre">User.is_superuser</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.last_login"><code class="docutils literal notranslate"><span class="pre">User.last_login</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.last_name"><code class="docutils literal notranslate"><span class="pre">User.last_name</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.logentry_set"><code class="docutils literal notranslate"><span class="pre">User.logentry_set</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.objects"><code class="docutils literal notranslate"><span class="pre">User.objects</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.p_version"><code class="docutils literal notranslate"><span class="pre">User.p_version</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.p_version_id"><code class="docutils literal notranslate"><span class="pre">User.p_version_id</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.password"><code class="docutils literal notranslate"><span class="pre">User.password</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.payment"><code class="docutils literal notranslate"><span class="pre">User.payment</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.payment_id"><code class="docutils literal notranslate"><span class="pre">User.payment_id</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.personal"><code class="docutils literal notranslate"><span class="pre">User.personal</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.personal_id"><code class="docutils literal notranslate"><span class="pre">User.personal_id</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.playercharacteristicsrows_set"><code class="docutils literal notranslate"><span class="pre">User.playercharacteristicsrows_set</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.playercharacteristicuser_set"><code class="docutils literal notranslate"><span class="pre">User.playercharacteristicuser_set</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.playerquestionnairesrows_set"><code class="docutils literal notranslate"><span class="pre">User.playerquestionnairesrows_set</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.playerquestionnaireuser_set"><code class="docutils literal notranslate"><span class="pre">User.playerquestionnaireuser_set</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.save"><code class="docutils literal notranslate"><span class="pre">User.save()</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.sharedlink_set"><code class="docutils literal notranslate"><span class="pre">User.sharedlink_set</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.user_permissions"><code class="docutils literal notranslate"><span class="pre">User.user_permissions</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.userevent_set"><code class="docutils literal notranslate"><span class="pre">User.userevent_set</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.userexercise_set"><code class="docutils literal notranslate"><span class="pre">User.userexercise_set</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.userexerciseparam_set"><code class="docutils literal notranslate"><span class="pre">User.userexerciseparam_set</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.userfolder_set"><code class="docutils literal notranslate"><span class="pre">User.userfolder_set</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.usermatch_set"><code class="docutils literal notranslate"><span class="pre">User.usermatch_set</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.username"><code class="docutils literal notranslate"><span class="pre">User.username</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.userplayer_set"><code class="docutils literal notranslate"><span class="pre">User.userplayer_set</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.userseason_set"><code class="docutils literal notranslate"><span class="pre">User.userseason_set</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.userteam_set"><code class="docutils literal notranslate"><span class="pre">User.userteam_set</span></code></a></li>
+<li><a class="reference internal" href="#users.models.User.usertraining_set"><code class="docutils literal notranslate"><span class="pre">User.usertraining_set</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#users.models.UserPayment"><code class="docutils literal notranslate"><span class="pre">UserPayment</span></code></a><ul>
+<li><a class="reference internal" href="#users.models.UserPayment.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">UserPayment.DoesNotExist</span></code></a></li>
+<li><a class="reference internal" href="#users.models.UserPayment.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">UserPayment.MultipleObjectsReturned</span></code></a></li>
+<li><a class="reference internal" href="#users.models.UserPayment.autopay_id"><code class="docutils literal notranslate"><span class="pre">UserPayment.autopay_id</span></code></a></li>
+<li><a class="reference internal" href="#users.models.UserPayment.autopay_version"><code class="docutils literal notranslate"><span class="pre">UserPayment.autopay_version</span></code></a></li>
+<li><a class="reference internal" href="#users.models.UserPayment.get_default_pk"><code class="docutils literal notranslate"><span class="pre">UserPayment.get_default_pk()</span></code></a></li>
+<li><a class="reference internal" href="#users.models.UserPayment.id"><code class="docutils literal notranslate"><span class="pre">UserPayment.id</span></code></a></li>
+<li><a class="reference internal" href="#users.models.UserPayment.last_invoice_id"><code class="docutils literal notranslate"><span class="pre">UserPayment.last_invoice_id</span></code></a></li>
+<li><a class="reference internal" href="#users.models.UserPayment.objects"><code class="docutils literal notranslate"><span class="pre">UserPayment.objects</span></code></a></li>
+<li><a class="reference internal" href="#users.models.UserPayment.user"><code class="docutils literal notranslate"><span class="pre">UserPayment.user</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#users.models.UserPersonal"><code class="docutils literal notranslate"><span class="pre">UserPersonal</span></code></a><ul>
+<li><a class="reference internal" href="#users.models.UserPersonal.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">UserPersonal.DoesNotExist</span></code></a></li>
+<li><a class="reference internal" href="#users.models.UserPersonal.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">UserPersonal.MultipleObjectsReturned</span></code></a></li>
+<li><a class="reference internal" href="#users.models.UserPersonal.city"><code class="docutils literal notranslate"><span class="pre">UserPersonal.city</span></code></a></li>
+<li><a class="reference internal" href="#users.models.UserPersonal.country_id"><code class="docutils literal notranslate"><span class="pre">UserPersonal.country_id</span></code></a></li>
+<li><a class="reference internal" href="#users.models.UserPersonal.date_birthsday"><code class="docutils literal notranslate"><span class="pre">UserPersonal.date_birthsday</span></code></a></li>
+<li><a class="reference internal" href="#users.models.UserPersonal.email_2"><code class="docutils literal notranslate"><span class="pre">UserPersonal.email_2</span></code></a></li>
+<li><a class="reference internal" href="#users.models.UserPersonal.father_name"><code class="docutils literal notranslate"><span class="pre">UserPersonal.father_name</span></code></a></li>
+<li><a class="reference internal" href="#users.models.UserPersonal.first_name"><code class="docutils literal notranslate"><span class="pre">UserPersonal.first_name</span></code></a></li>
+<li><a class="reference internal" href="#users.models.UserPersonal.full_name"><code class="docutils literal notranslate"><span class="pre">UserPersonal.full_name</span></code></a></li>
+<li><a class="reference internal" href="#users.models.UserPersonal.get_country_id_display"><code class="docutils literal notranslate"><span class="pre">UserPersonal.get_country_id_display()</span></code></a></li>
+<li><a class="reference internal" href="#users.models.UserPersonal.get_default_pk"><code class="docutils literal notranslate"><span class="pre">UserPersonal.get_default_pk()</span></code></a></li>
+<li><a class="reference internal" href="#users.models.UserPersonal.id"><code class="docutils literal notranslate"><span class="pre">UserPersonal.id</span></code></a></li>
+<li><a class="reference internal" href="#users.models.UserPersonal.job_title"><code class="docutils literal notranslate"><span class="pre">UserPersonal.job_title</span></code></a></li>
+<li><a class="reference internal" href="#users.models.UserPersonal.last_name"><code class="docutils literal notranslate"><span class="pre">UserPersonal.last_name</span></code></a></li>
+<li><a class="reference internal" href="#users.models.UserPersonal.objects"><code class="docutils literal notranslate"><span class="pre">UserPersonal.objects</span></code></a></li>
+<li><a class="reference internal" href="#users.models.UserPersonal.phone"><code class="docutils literal notranslate"><span class="pre">UserPersonal.phone</span></code></a></li>
+<li><a class="reference internal" href="#users.models.UserPersonal.phone_2"><code class="docutils literal notranslate"><span class="pre">UserPersonal.phone_2</span></code></a></li>
+<li><a class="reference internal" href="#users.models.UserPersonal.region"><code class="docutils literal notranslate"><span class="pre">UserPersonal.region</span></code></a></li>
+<li><a class="reference internal" href="#users.models.UserPersonal.region_id"><code class="docutils literal notranslate"><span class="pre">UserPersonal.region_id</span></code></a></li>
+<li><a class="reference internal" href="#users.models.UserPersonal.skype"><code class="docutils literal notranslate"><span class="pre">UserPersonal.skype</span></code></a></li>
+<li><a class="reference internal" href="#users.models.UserPersonal.user"><code class="docutils literal notranslate"><span class="pre">UserPersonal.user</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-users.serializers">users.serializers module</a><ul>
+<li><a class="reference internal" href="#users.serializers.ClubUserEditPermission"><code class="docutils literal notranslate"><span class="pre">ClubUserEditPermission</span></code></a><ul>
+<li><a class="reference internal" href="#users.serializers.ClubUserEditPermission.Meta"><code class="docutils literal notranslate"><span class="pre">ClubUserEditPermission.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#users.serializers.ClubUserEditPermission.Meta.fields"><code class="docutils literal notranslate"><span class="pre">ClubUserEditPermission.Meta.fields</span></code></a></li>
+<li><a class="reference internal" href="#users.serializers.ClubUserEditPermission.Meta.model"><code class="docutils literal notranslate"><span class="pre">ClubUserEditPermission.Meta.model</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#users.serializers.CreateUserSerializer"><code class="docutils literal notranslate"><span class="pre">CreateUserSerializer</span></code></a><ul>
+<li><a class="reference internal" href="#users.serializers.CreateUserSerializer.Meta"><code class="docutils literal notranslate"><span class="pre">CreateUserSerializer.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#users.serializers.CreateUserSerializer.Meta.fields"><code class="docutils literal notranslate"><span class="pre">CreateUserSerializer.Meta.fields</span></code></a></li>
+<li><a class="reference internal" href="#users.serializers.CreateUserSerializer.Meta.model"><code class="docutils literal notranslate"><span class="pre">CreateUserSerializer.Meta.model</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#users.serializers.GroupSerializer"><code class="docutils literal notranslate"><span class="pre">GroupSerializer</span></code></a><ul>
+<li><a class="reference internal" href="#users.serializers.GroupSerializer.Meta"><code class="docutils literal notranslate"><span class="pre">GroupSerializer.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#users.serializers.GroupSerializer.Meta.fields"><code class="docutils literal notranslate"><span class="pre">GroupSerializer.Meta.fields</span></code></a></li>
+<li><a class="reference internal" href="#users.serializers.GroupSerializer.Meta.model"><code class="docutils literal notranslate"><span class="pre">GroupSerializer.Meta.model</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#users.serializers.PermissionSerializer"><code class="docutils literal notranslate"><span class="pre">PermissionSerializer</span></code></a><ul>
+<li><a class="reference internal" href="#users.serializers.PermissionSerializer.Meta"><code class="docutils literal notranslate"><span class="pre">PermissionSerializer.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#users.serializers.PermissionSerializer.Meta.fields"><code class="docutils literal notranslate"><span class="pre">PermissionSerializer.Meta.fields</span></code></a></li>
+<li><a class="reference internal" href="#users.serializers.PermissionSerializer.Meta.model"><code class="docutils literal notranslate"><span class="pre">PermissionSerializer.Meta.model</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#users.serializers.UserPersonalSerializer"><code class="docutils literal notranslate"><span class="pre">UserPersonalSerializer</span></code></a><ul>
+<li><a class="reference internal" href="#users.serializers.UserPersonalSerializer.Meta"><code class="docutils literal notranslate"><span class="pre">UserPersonalSerializer.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#users.serializers.UserPersonalSerializer.Meta.fields"><code class="docutils literal notranslate"><span class="pre">UserPersonalSerializer.Meta.fields</span></code></a></li>
+<li><a class="reference internal" href="#users.serializers.UserPersonalSerializer.Meta.model"><code class="docutils literal notranslate"><span class="pre">UserPersonalSerializer.Meta.model</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#users.serializers.UserSerializer"><code class="docutils literal notranslate"><span class="pre">UserSerializer</span></code></a><ul>
+<li><a class="reference internal" href="#users.serializers.UserSerializer.Meta"><code class="docutils literal notranslate"><span class="pre">UserSerializer.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#users.serializers.UserSerializer.Meta.datatables_always_serialize"><code class="docutils literal notranslate"><span class="pre">UserSerializer.Meta.datatables_always_serialize</span></code></a></li>
+<li><a class="reference internal" href="#users.serializers.UserSerializer.Meta.fields"><code class="docutils literal notranslate"><span class="pre">UserSerializer.Meta.fields</span></code></a></li>
+<li><a class="reference internal" href="#users.serializers.UserSerializer.Meta.model"><code class="docutils literal notranslate"><span class="pre">UserSerializer.Meta.model</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-users.tests">users.tests module</a></li>
+<li><a class="reference internal" href="#module-users.urls">users.urls module</a></li>
+<li><a class="reference internal" href="#module-users.views">users.views module</a><ul>
+<li><a class="reference internal" href="#users.views.profile_req"><code class="docutils literal notranslate"><span class="pre">profile_req()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-users">Module contents</a></li>
+</ul>
+</li>
+</ul>
 
-
-
-
-
-
-
-
+          </div>
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2022, Nanofootball team.
       
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
-      |
-      <a href="_sources/users.rst.txt"
-          rel="nofollow">Page source</a>
-    </div>
-
-    
-
-    
-  </body>
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/scripts/furo.js"></script>
+    </body>
 </html>

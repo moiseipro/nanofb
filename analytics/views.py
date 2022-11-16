@@ -8,6 +8,22 @@ from system_icons.views import get_ui_elements
 
 
 def analytics(request):
+    """
+    Return render page with given template. 
+        If the user is not authorized, then there will be a redirect to the page with authorization.
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :return: Return an HttpResponse whose content is filled with the result of calling django.template.loader.render_to_string() with the passed arguments.
+    Next arguments:\n
+    * 'refs' -> References of Analytics Section.
+    * 'folders' -> UserFolder or ClubFolder objects filtered by user and current team.
+    * 'months' -> List of current season's months.
+    * 'seasons_list' -> List of user's or club's seasons available current user.
+    * 'teams_list' -> List of user's or club's teams available current user.
+    * 'ui_elements' -> List of UI elements registered in icons' system. Check Module.system_icons.views.get_ui_elements(request) for see more.
+    :rtype: [HttpResponse]
+
+    """
     if not request.user.is_authenticated:
         return redirect("authorization:login")
     cur_user = User.objects.filter(email=request.user).only("club_id")
@@ -35,6 +51,22 @@ def analytics(request):
 
 
 def analytics_api(request):
+    """
+    Return JsonResponse depending on the request method and the parameter sent. 
+        If the user is not authorized, then there will be a redirect to the page with authorization.
+        In case of any error client will get next response: JsonResponse({"errors": "access_error"}, status=400).\n
+    Existing parameteres (Controlling Variable for any parameter is: 'parameter'_status):\n
+    * 'get_analytics_all' -> Getting analytics for the selected season, for the current team and additionally for a specific period of time. Check analytics.v_api.GET_get_analytics_in_team() for see more.
+    * 'edit_analytics' -> None
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :return: Return an JsonResponse with next parameteres:\n
+    * 'errors' -> Error text in case getting any error.
+    * 'status' -> Response code.
+    * 'data' -> Requiered data depending on the request method and the parameter sent, if status code is OK.
+    :rtype: [JsonResponse]
+
+    """
     if not request.user.is_authenticated:
         return JsonResponse({"errors": "authenticate_err"}, status=400)
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'

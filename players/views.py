@@ -13,6 +13,21 @@ import players.v_api as v_api
 
 
 def players(request):
+    """
+    Return render page with given template. 
+        If the user is not authorized, then there will be a redirect to the page with authorization.
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :return: Return an HttpResponse whose content is filled with the result of calling django.template.loader.render_to_string() with the passed arguments.
+    Next arguments:\n
+    * 'refs' -> References of Players Section.
+    * 'menu_players' -> Html tag class: "active" for Sidebar.
+    * 'seasons_list' -> List of user's or club's seasons available current user.
+    * 'teams_list' -> List of user's or club's teams available current user.
+    * 'ui_elements' -> List of UI elements registered in icons' system. Check Module.system_icons.views.get_ui_elements(request) for see more.
+    :rtype: [HttpResponse]
+
+    """
     if not request.user.is_authenticated:
         return redirect("authorization:login")
     cur_user = User.objects.filter(email=request.user).only("club_id")
@@ -33,6 +48,22 @@ def players(request):
 
 
 def player(request):
+    """
+    Return render page with given template. 
+        If the user is not authorized, then there will be a redirect to the page with authorization.
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :return: Return an HttpResponse whose content is filled with the result of calling django.template.loader.render_to_string() with the passed arguments.
+    Next arguments:\n
+    * 'players' -> List of players in current team.
+    * 'refs' -> References of Players Section.
+    * 'menu_players' -> Html tag class: "active" for Sidebar.
+    * 'seasons_list' -> List of user's or club's seasons available current user.
+    * 'teams_list' -> List of user's or club's teams available current user.
+    * 'ui_elements' -> List of UI elements registered in icons' system. Check Module.system_icons.views.get_ui_elements(request) for see more.
+    :rtype: [HttpResponse]
+
+    """
     if not request.user.is_authenticated:
         return redirect("authorization:login")
     cur_user = User.objects.filter(email=request.user).only("club_id")
@@ -66,6 +97,42 @@ def player(request):
 
 
 def players_api(request):
+    """
+    Return JsonResponse depending on the request method and the parameter sent. 
+        If the user is not authorized, then there will be a redirect to the page with authorization.
+        In case of any error client will get next response: JsonResponse({"errors": "access_error"}, status=400).\n
+    Existing parameteres (Controlling Variable for any parameter is: 'parameter'_status):\n
+    * 'edit_player' -> Edit player including creating new match.
+    * 'delete_player' -> Delete player by ID.
+    * 'edit_card_sections' -> Edit card sections.
+    * 'add_card_sections' -> Add card sections.
+    * 'delete_card_sections' -> Delete card sections.
+    * 'edit_players_table_cols' -> Edit players' table's columns.
+    * 'add_players_table_cols' -> Add players' table's columns.
+    * 'delete_players_table_cols' -> Delete players' table's columns.
+    * 'edit_characteristics_rows' -> Edit characteristics' rows.
+    * 'add_characteristics_rows' -> Add characteristics' rows.
+    * 'delete_characteristics_rows' -> Delete characteristics' rows.
+    * 'copy_characteristics_rows' -> Copy characteristics' rows.
+    * 'edit_questionnaires_rows' -> Edit questionnaires' rows.
+    * 'add_questionnaires_rows' -> Add questionnaires' rows.
+    * 'delete_questionnaires_rows' -> Delete questionnaires' rows.
+    * 'get_player' -> Get one player by ID.
+    * 'get_card_sections' -> Get card sections.
+    * 'get_players_json' -> Get all players by team in JSON format.
+    * 'get_players_json_table' -> Get all players by team in JSON format for table.
+    * 'get_players_table_cols' -> Get players' table's columns.
+    * 'get_characteristics_rows' -> Get characteristics' rows.
+    * 'get_questionnaires_rows' -> Get questionnaires' rows.
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :return: Return an JsonResponse with next parameteres:\n
+    * 'errors' -> Error text in case getting any error.
+    * 'status' -> Response code.
+    * 'data' -> Requiered data depending on the request method and the parameter sent, if status code is OK.
+    :rtype: [JsonResponse]
+
+    """
     if not request.user.is_authenticated:
         return JsonResponse({"errors": "authenticate_err"}, status=400)
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'

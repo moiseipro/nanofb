@@ -17,6 +17,19 @@ CACHE_EXPIRES_SECS = 60*60*24
 
 
 def get_by_language_code(value, code):
+    """
+    Return a value by current language's code.
+
+    :param value: Dictionary with structure("code_1": "value_1",...) for different languages. Usually "value" is STRING.
+    :type value: dict[str]
+    :param code: String key of any language. For example: "engilsh" -> "en", "russian" -> "ru".
+    :type code: [str]
+    :raise None. In case of an exception, the result: "". 
+        If it was not possible to find the desired value by the key, then an attempt will be made to take the default (LANG_CODE_DEFAULT).
+    :return: Value, depending on the current language.
+    :rtype: [str]
+
+    """
     res = ""
     try:
         res = value[code]
@@ -31,6 +44,18 @@ def get_by_language_code(value, code):
 
 
 def get_exs_folders(cur_user, cur_team):
+    """
+    Return a list of Model.UserFolder or Model.ClubFolder depending on current version.
+
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :raise None. In case of any error, the result: [].
+    :return: Empty list or list of exercises' folders.
+    :rtype: list[Model.object[UserFolder]]
+
+    """
     res = []
     folders = UserFolder.objects.filter(Q(parent=0) | Q(parent=None), user=cur_user, team=cur_team)
     if folders.exists() and folders[0].id != None:
@@ -39,6 +64,18 @@ def get_exs_folders(cur_user, cur_team):
 
 
 def months_between(start_date, end_date):
+    """
+    Return every first day of the month from start date to end date as DATE. Using yield.
+
+    :param start_date: Start date of required range.
+    :type start_date: [date]
+    :param end_date: End date of required range.
+    :type end_date: [date]
+    :raise AttributeError. In case "start_date" or "end_date" not DATE, result: exception.
+    :return: Every first day of the month from start date to end date.
+    :rtype: yield[date]
+
+    """
     year = start_date.year
     month = start_date.month
     while (year, month) <= (end_date.year, end_date.month):
@@ -51,6 +88,18 @@ def months_between(start_date, end_date):
 
 
 def get_season_months(request, season):
+    """
+    Return list of objects, which contains full name of month and short 3 letter word. Names of months selected by current system's language.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param season: Season's ID.
+    :type season: [int]
+    :raise None. In case of any error, result: [].
+    :return: List of current selected season's months. (Example: [{'name': "January", 'short': "Jan"},...]) or empty list
+    :rtype: list[{'name': [str], 'short': [str]}]
+
+    """
     months_defs = {
         'en': {
             '01': "January", '02': "February", '03': "March", '04': "April", '05': "May", '06': "June", '07': "July", 
@@ -76,6 +125,15 @@ def get_season_months(request, season):
 
 
 def check_protocol_status(status):
+    """
+    Return True or False, if tag "analytics" is 1 in status, then True, else False.
+
+    :param status: Protocol status.
+    :type status: Model.object[PlayerProtocolStatus]
+    :return: If tag "analytics" is 1 in status, then True, else False.
+    :rtype: [bool]
+
+    """
     if not status or (status and "analytics" in status.tags and status.tags['analytics'] == 1):
         return True
     return False
@@ -84,10 +142,43 @@ def check_protocol_status(status):
 # --------------------------------------------------
 # ANALYTICS API
 def POST_edit_analytics(request, cur_user, cur_team):
+    """
+    Template POST API FUNC
+
+    """
     return JsonResponse({"errors": "Can't edit analytics"}, status=400)
 
 
-def GET_get_analytics_in_team(request, cur_user, cur_team, cur_session):
+def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
+    """
+    Return JsonResponse which contains dictionary with players. Each object is a dictionary, where the key is what we consider, 
+    and the value, respectively, is its value.
+    Use cached data (stored at Database), if this data was expired by CACHE_EXPIRES_SECS, then server calculates actual values.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :param cur_season: Current season's ID.
+    :type cur_season: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+        "Data" example:
+        {
+            'players': {
+                '[player_id -> int]': {
+                    'matches_count: 0,
+                    'matches_time: 0,
+                    'matches_goals: 0,
+                    ...
+                }
+                ...
+            }
+        }
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]]
+
+    """
     res_data = {'players': {}}
     res_matches = {
         'matches_count': 0, 'matches_time': 0, 'matches_goals': 0, 'matches_penalty': 0, 'matches_pass': 0,
@@ -114,9 +205,9 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_session):
         season_type = int(request.GET.get("season_type", 0))
     except:
         pass
-    f_season = UserSeason.objects.get(id=cur_session, user_id=cur_user)
+    f_season = UserSeason.objects.get(id=cur_season, user_id=cur_user)
     if f_season and f_season.id != None:
-        cached_data = cache.get(f'analytics_{cur_user}_{cur_session}_{season_type}')
+        cached_data = cache.get(f'analytics_{cur_user}_{cur_season}_{season_type}')
         if cached_data is None:
             date_with = f_season.date_with
             date_by = f_season.date_by
@@ -213,7 +304,7 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_session):
                             player_data['res_protocols']['a_u_count'] += 1
                         if "type_skip" in t_protocol.status.tags and t_protocol.status.tags['type_skip'] == 1:
                             player_data['res_protocols']['skip_count'] += 1
-            cache.set(f'analytics_{cur_user}_{cur_session}_{season_type}', res_data, CACHE_EXPIRES_SECS)
+            cache.set(f'analytics_{cur_user}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
         else:
             res_data = cached_data
     return JsonResponse({"data": res_data, "success": True}, status=200)

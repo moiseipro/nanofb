@@ -16,6 +16,19 @@ LANG_CODE_DEFAULT = "en"
 
 
 def get_by_language_code(value, code):
+    """
+    Return a value by current language's code.
+
+    :param value: Dictionary with structure("code_1": "value_1",...) for different languages. Usually "value" is STRING.
+    :type value: dict[str]
+    :param code: String key of any language. For example: "engilsh" -> "en", "russian" -> "ru".
+    :type code: [str]
+    :raise None. In case of an exception, the result: "". 
+        If it was not possible to find the desired value by the key, then an attempt will be made to take the default (LANG_CODE_DEFAULT).
+    :return: Value, depending on the current language.
+    :rtype: [str]
+
+    """
     res = ""
     try:
         res = value[code]
@@ -30,6 +43,21 @@ def get_by_language_code(value, code):
 
 
 def set_by_language_code(elem, code, value, value2 = None):
+    """
+    Return edited object as dict where key: language code, value: string text.
+
+    :param elem: Field of current model. Usually it defined as title, name or description.
+    :type elem: [Model.field]
+    :param code: String key of any language. For example: "engilsh" -> "en", "russian" -> "ru".
+    :type code: [str]
+    :param value: New value for returned dictionary.
+    :type value: [str]
+    :param value2: Additional value for replace "value".
+    :type value2: [str] or None
+    :return: Object which is field of the Model.
+    :rtype: [object]
+
+    """
     if value2:
         value = value2 if value2 != "" else value
     if type(elem) is dict:
@@ -40,6 +68,17 @@ def set_by_language_code(elem, code, value, value2 = None):
 
 
 def set_refs_translations(data, lang_code):
+    """
+    Return data with new key "title". "Title" - translated value with key "translation_names" at current system's language.
+
+    :param data: Dictionary with references' elements.
+    :type data: dict[object]
+    :param lang_code: String key of any language. For example: "engilsh" -> "en", "russian" -> "ru".
+    :type lang_code: [str]
+    :return: Dictionary with references' elements with new value for key "title".
+    :rtype: dict[object]
+
+    """
     for key in data:
         elems = data[key]
         for elem in elems:
@@ -49,12 +88,30 @@ def set_refs_translations(data, lang_code):
 
 
 def photo_url_convert(photo_url):
+    """
+    Return converted url strin in case success else empty string.
+
+    """
     if "players/img/" not in photo_url or not isinstance(photo_url, str):
         return ""
     return f"/media/{photo_url}"
 
 
 def set_value_as_int(request, name, def_value = None):
+    """
+    Return new value for the Model's Field. Value is obtained by get from request parameter's value and try to transform it to int.
+    In case of success new value will be returned else returned default value.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param name: Name of getting request parameter.
+    :type name: [str]
+    :param def_value: Default value for new value.
+    :type def_value: [int] or None
+    :return: New value.
+    :rtype: [int] or None
+
+    """
     res = def_value
     try:
         res = int(request.POST.get(name, def_value))
@@ -64,6 +121,22 @@ def set_value_as_int(request, name, def_value = None):
 
 
 def set_value_as_ref(request, name, ref_type, def_value = None):
+    """
+    Return new value as Reference Model Object. Using argument "name" the appropriate directory is selected.
+    In case of success new value will be returned else returned default value.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param name: Name of getting request parameter.
+    :type name: [str]
+    :param ref_type: Reference's type.
+    :type ref_type: [str]
+    :param def_value: Default value for new value.
+    :type def_value: [int] or None
+    :return: New value for setting to field.
+    :rtype: [Model.object] or None
+
+    """
     res = def_value
     c_id = -1
     try:
@@ -87,6 +160,19 @@ def set_value_as_ref(request, name, ref_type, def_value = None):
 
 
 def set_value_as_date(request, name, def_value = None):
+    """
+    Return Date or None. Transforming value from request by "name" to date using format "ddmmyyyy" or "yyyymmdd".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param name: Name of parameter in request.
+    :type name: [str]
+    :param def_value: Default value for new value.
+    :type def_value: [date] or None
+    :return: Date or None.
+    :rtype: [date] or None
+
+    """
     format_ddmmyyyy = "%d/%m/%Y"
     format_yyyymmdd = "%Y-%m-%d"
     res = def_value
@@ -110,6 +196,15 @@ def set_value_as_date(request, name, def_value = None):
 
 
 def get_players_refs(request):
+    """
+    Return data of Players' References with translations.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :return: Dictionary of references.
+    :rtype: dict[list[object]]
+
+    """
     refs = {}
     refs['player_team_status'] = PlayerTeamStatus.objects.filter().values()
     refs['player_player_status'] = PlayerPlayerStatus.objects.filter().values()
@@ -124,6 +219,19 @@ def get_players_refs(request):
 # --------------------------------------------------
 # PLAYERS API
 def POST_edit_player(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on POST operation "Edit player".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     player_id = -1
     try:
         player_id = int(request.POST.get("id", -1))
@@ -259,6 +367,19 @@ def POST_edit_player(request, cur_user, cur_team):
 
 
 def POST_delete_player(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on POST operation "Delete player".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     player_id = -1
     try:
         player_id = int(request.POST.get("id", -1))
@@ -281,6 +402,17 @@ def POST_delete_player(request, cur_user, cur_team):
 
 
 def POST_edit_card_sections(request, cur_user):
+    """
+    Return JSON Response as result on POST operation "Edit card's sections".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     post_data = request.POST.get("data", None)
     try:
         post_data = json.loads(post_data)
@@ -309,6 +441,19 @@ def POST_edit_card_sections(request, cur_user):
 
 
 def POST_add_delete_card_sections(request, cur_user, to_add = True):
+    """
+    Return JSON Response as result on POST operation "Add or delete card's sections".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param to_add: If true then add new card section else delete existed by ID.
+    :type to_add: [bool]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     section_id = -1
     parent = -1
     try:
@@ -353,6 +498,17 @@ def POST_add_delete_card_sections(request, cur_user, to_add = True):
 
 
 def POST_edit_players_table_cols(request, cur_user):
+    """
+    Return JSON Response as result on POST operation "Edit table's columns".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     post_data = request.POST.get("data", None)
     try:
         post_data = json.loads(post_data)
@@ -381,6 +537,19 @@ def POST_edit_players_table_cols(request, cur_user):
 
 
 def POST_add_delete_players_table_cols(request, cur_user, to_add = True):
+    """
+    Return JSON Response as result on POST operation "Add or delete table's columns".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param to_add: If true then add new column else delete existed by ID.
+    :type to_add: [bool]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     col_id = -1
     parent = -1
     try:
@@ -424,6 +593,17 @@ def POST_add_delete_players_table_cols(request, cur_user, to_add = True):
 
 
 def POST_edit_characteristics_rows(request, cur_user):
+    """
+    Return JSON Response as result on POST operation "Edit characherstiscs' rows".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     is_nfb = 0
     post_data = request.POST.get("data", None)
     try:
@@ -470,6 +650,19 @@ def POST_edit_characteristics_rows(request, cur_user):
 
 
 def POST_add_delete_characteristics_rows(request, cur_user, to_add = True):
+    """
+    Return JSON Response as result on POST operation "Add or delete characteristics' row".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param to_add: If true then add new characteristic else delete existed by ID.
+    :type to_add: [bool]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     characteristic_id = -1
     parent = -1
     is_nfb = 0
@@ -545,6 +738,17 @@ def POST_add_delete_characteristics_rows(request, cur_user, to_add = True):
 
 
 def POST_copy_characteristics_rows(request, cur_user):
+    """
+    Return JSON Response as result on POST operation "Copy characherstiscs' rows".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     try:
         found_rows = PlayerCharacteristicsRows.objects.filter(is_nfb=False, user=cur_user)
         if found_rows.exists() and found_rows[0].id != None:
@@ -575,6 +779,17 @@ def POST_copy_characteristics_rows(request, cur_user):
 
 
 def POST_edit_questionnaires_rows(request, cur_user):
+    """
+    Return JSON Response as result on POST operation "Edit questionnaires' rows".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     post_data = request.POST.get("data", None)
     try:
         post_data = json.loads(post_data)
@@ -599,6 +814,19 @@ def POST_edit_questionnaires_rows(request, cur_user):
 
 
 def POST_add_delete_questionnaires_rows(request, cur_user, to_add = True):
+    """
+    Return JSON Response as result on POST operation "Add or delete questionnaires' row".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param to_add: If true then add new questionnaire else delete existed by ID.
+    :type to_add: [bool]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     row_id = -1
     parent = -1
     try:
@@ -641,6 +869,19 @@ def POST_add_delete_questionnaires_rows(request, cur_user, to_add = True):
 
 
 def GET_get_player(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on GET operation "Get one player".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     player_id = -1
     try:
         player_id = int(request.GET.get("id", -1))
@@ -695,6 +936,25 @@ def GET_get_player(request, cur_user, cur_team):
 
 
 def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_JsonResponse=True):
+    """
+    Return JSON Response or object as result on GET operation "Get players in JSON format".
+    If return_JsonResponse is False then function return Object
+    else JSON Response.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :param is_for_table: If it true then result will be with sorting, filtering, pagination for table.
+    :type is_for_table: [bool]
+    :param return_JsonResponse: Controls returning type.
+    :type return_JsonResponse: [bool]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code) or as object.
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]] or Object
+
+    """
     c_start = 0
     c_length = 10
     try:
@@ -760,6 +1020,17 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
 
 
 def GET_get_card_sections(request, cur_user):
+    """
+    Return JSON Response as result on GET operation "Get card sections".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     res_data = {'sections': [], 'user_params': [], 'mode': "nfb" if cur_user.is_superuser else "user"}
     sections = CardSection.objects.filter()
     sections = [entry for entry in sections.values()]
@@ -770,6 +1041,17 @@ def GET_get_card_sections(request, cur_user):
 
 
 def GET_get_players_table_cols(request, cur_user):
+    """
+    Return JSON Response as result on GET operation "Get players' table columns".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     res_data = {'columns': [], 'user_params': [], 'mode': "nfb" if cur_user.is_superuser else "user"}
     columns = PlayersTableColumns.objects.filter()
     columns = [entry for entry in columns.values()]
@@ -780,6 +1062,17 @@ def GET_get_players_table_cols(request, cur_user):
 
 
 def GET_get_characteristics_rows(request, cur_user):
+    """
+    Return JSON Response as result on GET operation "Get characteristics rows".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     res_data = {'characteristics': [], 'user_params': [], 'mode': "nfb" if cur_user.is_superuser else "user"}
     get_nfb = 0
     try:
@@ -799,6 +1092,17 @@ def GET_get_characteristics_rows(request, cur_user):
 
 
 def GET_get_questionnaires_rows(request, cur_user):
+    """
+    Return JSON Response as result on GET operation "Get questionnaires rows".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     res_data = {'questionnaires': [], 'user_params': [], 'mode': "nfb" if cur_user.is_superuser else "user"}
     get_nfb = 0
     try:

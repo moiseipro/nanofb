@@ -1,42 +1,200 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" />
 
-<!DOCTYPE html>
+    <meta name="generator" content="sphinx-5.3.0, furo 2022.09.29"/>
+        <title>analytics package - Nanofootball 0.2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=d81277517bee4d6b0349d71bb2661d4890b5617c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>analytics package &#8212; Nanofootball 0.1 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-   
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Nanofootball 0.2 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
-  </head><body>
+  <span class="sidebar-brand-text">Nanofootball 0.2 documentation</span>
   
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules/events/views.html">Views</a></li>
+</ul>
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
           
-
-          <div class="body" role="main">
-            
-  <section id="analytics-package">
-<h1>analytics package<a class="headerlink" href="#analytics-package" title="Permalink to this heading">¶</a></h1>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="analytics-package">
+<h1>analytics package<a class="headerlink" href="#analytics-package" title="Permalink to this heading">#</a></h1>
 <section id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading">¶</a></h2>
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading">#</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="analytics.migrations.html">analytics.migrations package</a><ul>
@@ -47,115 +205,358 @@
 </div>
 </section>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="module-analytics.admin">
-<span id="analytics-admin-module"></span><h2>analytics.admin module<a class="headerlink" href="#module-analytics.admin" title="Permalink to this heading">¶</a></h2>
+<span id="analytics-admin-module"></span><h2>analytics.admin module<a class="headerlink" href="#module-analytics.admin" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="module-analytics.apps">
-<span id="analytics-apps-module"></span><h2>analytics.apps module<a class="headerlink" href="#module-analytics.apps" title="Permalink to this heading">¶</a></h2>
+<span id="analytics-apps-module"></span><h2>analytics.apps module<a class="headerlink" href="#module-analytics.apps" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="analytics.apps.AnalyticsConfig">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">analytics.apps.</span></span><span class="sig-name descname"><span class="pre">AnalyticsConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_module</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#analytics.apps.AnalyticsConfig" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">analytics.apps.</span></span><span class="sig-name descname"><span class="pre">AnalyticsConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_module</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#analytics.apps.AnalyticsConfig" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AppConfig</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="analytics.apps.AnalyticsConfig.default_auto_field">
-<span class="sig-name descname"><span class="pre">default_auto_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'django.db.models.BigAutoField'</span></em><a class="headerlink" href="#analytics.apps.AnalyticsConfig.default_auto_field" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">default_auto_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'django.db.models.BigAutoField'</span></em><a class="headerlink" href="#analytics.apps.AnalyticsConfig.default_auto_field" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="analytics.apps.AnalyticsConfig.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'analytics'</span></em><a class="headerlink" href="#analytics.apps.AnalyticsConfig.name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'analytics'</span></em><a class="headerlink" href="#analytics.apps.AnalyticsConfig.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </section>
 <section id="module-analytics.models">
-<span id="analytics-models-module"></span><h2>analytics.models module<a class="headerlink" href="#module-analytics.models" title="Permalink to this heading">¶</a></h2>
+<span id="analytics-models-module"></span><h2>analytics.models module<a class="headerlink" href="#module-analytics.models" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="module-analytics.tests">
-<span id="analytics-tests-module"></span><h2>analytics.tests module<a class="headerlink" href="#module-analytics.tests" title="Permalink to this heading">¶</a></h2>
+<span id="analytics-tests-module"></span><h2>analytics.tests module<a class="headerlink" href="#module-analytics.tests" title="Permalink to this heading">#</a></h2>
 </section>
-<section id="analytics-urls-module">
-<h2>analytics.urls module<a class="headerlink" href="#analytics-urls-module" title="Permalink to this heading">¶</a></h2>
+<section id="module-analytics.urls">
+<span id="analytics-urls-module"></span><h2>analytics.urls module<a class="headerlink" href="#module-analytics.urls" title="Permalink to this heading">#</a></h2>
 </section>
-<section id="analytics-v-api-module">
-<h2>analytics.v_api module<a class="headerlink" href="#analytics-v-api-module" title="Permalink to this heading">¶</a></h2>
+<section id="module-analytics.v_api">
+<span id="analytics-v-api-module"></span><h2>analytics.v_api module<a class="headerlink" href="#module-analytics.v_api" title="Permalink to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="analytics.v_api.GET_get_analytics_in_team">
+<span class="sig-prename descclassname"><span class="pre">analytics.v_api.</span></span><span class="sig-name descname"><span class="pre">GET_get_analytics_in_team</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_team</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_season</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#analytics.v_api.GET_get_analytics_in_team" title="Permalink to this definition">#</a></dt>
+<dd><p>Return JsonResponse which contains dictionary with players. Each object is a dictionary, where the key is what we consider, 
+and the value, respectively, is its value.
+Use cached data (stored at Database), if this data was expired by CACHE_EXPIRES_SECS, then server calculates actual values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>[</em><em>HttpRequest</em><em>]</em>) – Django HttpRequest.</p></li>
+<li><p><strong>cur_user</strong> (<em>Model.object</em><em>[</em><a class="reference internal" href="users.html#users.models.User" title="users.models.User"><em>User</em></a><em>]</em>) – The current user of the system, who is currently authorized.</p></li>
+<li><p><strong>cur_team</strong> (<em>[</em><em>int</em><em>]</em>) – The current team, that is selected by the user.</p></li>
+<li><p><strong>cur_season</strong> (<em>[</em><em>int</em><em>]</em>) – Current season’s ID.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>JsonResponse with “data”, “success” flag (True or False) and “status” (response code).
+“Data” example:
+{</p>
+<blockquote>
+<div><dl class="simple">
+<dt>’players’: {</dt><dd><dl class="simple">
+<dt>‘[player_id -&gt; int]’: {</dt><dd><p>‘matches_count: 0,
+‘matches_time: 0,
+‘matches_goals: 0,
+…</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>}</p>
+</div></blockquote>
+<p>}</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>JsonResponse[{“data”: [obj], “success”: [bool]}, status=[int]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="analytics.v_api.POST_edit_analytics">
+<span class="sig-prename descclassname"><span class="pre">analytics.v_api.</span></span><span class="sig-name descname"><span class="pre">POST_edit_analytics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_team</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#analytics.v_api.POST_edit_analytics" title="Permalink to this definition">#</a></dt>
+<dd><p>Template POST API FUNC</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="analytics.v_api.check_protocol_status">
+<span class="sig-prename descclassname"><span class="pre">analytics.v_api.</span></span><span class="sig-name descname"><span class="pre">check_protocol_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#analytics.v_api.check_protocol_status" title="Permalink to this definition">#</a></dt>
+<dd><p>Return True or False, if tag “analytics” is 1 in status, then True, else False.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>status</strong> (<em>Model.object</em><em>[</em><a class="reference internal" href="references.html#references.models.PlayerProtocolStatus" title="references.models.PlayerProtocolStatus"><em>PlayerProtocolStatus</em></a><em>]</em>) – Protocol status.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>If tag “analytics” is 1 in status, then True, else False.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>[bool]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="analytics.v_api.get_by_language_code">
+<span class="sig-prename descclassname"><span class="pre">analytics.v_api.</span></span><span class="sig-name descname"><span class="pre">get_by_language_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#analytics.v_api.get_by_language_code" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a value by current language’s code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>dict</em><em>[</em><em>str</em><em>]</em>) – Dictionary with structure(“code_1”: “value_1”,…) for different languages. Usually “value” is STRING.</p></li>
+<li><p><strong>code</strong> (<em>[</em><em>str</em><em>]</em>) – String key of any language. For example: “engilsh” -&gt; “en”, “russian” -&gt; “ru”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>None. In case</strong><strong> of </strong><strong>an exception</strong><strong>, </strong><strong>the result</strong> – “”. 
+If it was not possible to find the desired value by the key, then an attempt will be made to take the default (LANG_CODE_DEFAULT).</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Value, depending on the current language.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="analytics.v_api.get_exs_folders">
+<span class="sig-prename descclassname"><span class="pre">analytics.v_api.</span></span><span class="sig-name descname"><span class="pre">get_exs_folders</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cur_user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_team</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#analytics.v_api.get_exs_folders" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a list of Model.UserFolder or Model.ClubFolder depending on current version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cur_user</strong> (<em>Model.object</em><em>[</em><a class="reference internal" href="users.html#users.models.User" title="users.models.User"><em>User</em></a><em>]</em>) – The current user of the system, who is currently authorized.</p></li>
+<li><p><strong>cur_team</strong> (<em>[</em><em>int</em><em>]</em>) – The current team, that is selected by the user.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>None. In case</strong><strong> of </strong><strong>any error</strong><strong>, </strong><strong>the result</strong> – [].</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Empty list or list of exercises’ folders.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[Model.object[<a class="reference internal" href="exercises.html#exercises.models.UserFolder" title="exercises.models.UserFolder">UserFolder</a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="analytics.v_api.get_season_months">
+<span class="sig-prename descclassname"><span class="pre">analytics.v_api.</span></span><span class="sig-name descname"><span class="pre">get_season_months</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">season</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#analytics.v_api.get_season_months" title="Permalink to this definition">#</a></dt>
+<dd><p>Return list of objects, which contains full name of month and short 3 letter word. Names of months selected by current system’s language.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>[</em><em>HttpRequest</em><em>]</em>) – Django HttpRequest.</p></li>
+<li><p><strong>season</strong> (<em>[</em><em>int</em><em>]</em>) – Season’s ID.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>None. In case</strong><strong> of </strong><strong>any error</strong><strong>, </strong><strong>result</strong> – [].</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of current selected season’s months. (Example: [{‘name’: “January”, ‘short’: “Jan”},…]) or empty list</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[{‘name’: [str], ‘short’: [str]}]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="analytics.v_api.months_between">
+<span class="sig-prename descclassname"><span class="pre">analytics.v_api.</span></span><span class="sig-name descname"><span class="pre">months_between</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#analytics.v_api.months_between" title="Permalink to this definition">#</a></dt>
+<dd><p>Return every first day of the month from start date to end date as DATE. Using yield.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start_date</strong> (<em>[</em><em>date</em><em>]</em>) – Start date of required range.</p></li>
+<li><p><strong>end_date</strong> (<em>[</em><em>date</em><em>]</em>) – End date of required range.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>AttributeError. In case &quot;start_date&quot;</strong><strong> or </strong><strong>&quot;end_date&quot; not DATE</strong><strong>, </strong><strong>result</strong> – exception.</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Every first day of the month from start date to end date.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>yield[date]</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
-<section id="analytics-views-module">
-<h2>analytics.views module<a class="headerlink" href="#analytics-views-module" title="Permalink to this heading">¶</a></h2>
+<section id="module-analytics.views">
+<span id="analytics-views-module"></span><h2>analytics.views module<a class="headerlink" href="#module-analytics.views" title="Permalink to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="analytics.views.analytics">
+<span class="sig-prename descclassname"><span class="pre">analytics.views.</span></span><span class="sig-name descname"><span class="pre">analytics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#analytics.views.analytics" title="Permalink to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Return render page with given template. </dt><dd><p>If the user is not authorized, then there will be a redirect to the page with authorization.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>[</em><em>HttpRequest</em><em>]</em>) – Django HttpRequest.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Return an HttpResponse whose content is filled with the result of calling django.template.loader.render_to_string() with the passed arguments.</p>
+</dd>
+</dl>
+<p>Next arguments:</p>
+<ul class="simple">
+<li><p>‘refs’ -&gt; References of Analytics Section.</p></li>
+<li><p>‘folders’ -&gt; UserFolder or ClubFolder objects filtered by user and current team.</p></li>
+<li><p>‘months’ -&gt; List of current season’s months.</p></li>
+<li><p>‘seasons_list’ -&gt; List of user’s or club’s seasons available current user.</p></li>
+<li><p>‘teams_list’ -&gt; List of user’s or club’s teams available current user.</p></li>
+<li><p>‘ui_elements’ -&gt; List of UI elements registered in icons’ system. Check Module.system_icons.views.get_ui_elements(request) for see more.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>[HttpResponse]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="analytics.views.analytics_api">
+<span class="sig-prename descclassname"><span class="pre">analytics.views.</span></span><span class="sig-name descname"><span class="pre">analytics_api</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#analytics.views.analytics_api" title="Permalink to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Return JsonResponse depending on the request method and the parameter sent. </dt><dd><p>If the user is not authorized, then there will be a redirect to the page with authorization.
+In case of any error client will get next response: JsonResponse({“errors”: “access_error”}, status=400).</p>
+</dd>
+</dl>
+<p>Existing parameteres (Controlling Variable for any parameter is: ‘parameter’_status):</p>
+<ul class="simple">
+<li><p>‘get_analytics_all’ -&gt; Getting analytics for the selected season, for the current team and additionally for a specific period of time. Check analytics.v_api.GET_get_analytics_in_team() for see more.</p></li>
+<li><p>‘edit_analytics’ -&gt; None</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>[</em><em>HttpRequest</em><em>]</em>) – Django HttpRequest.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Return an JsonResponse with next parameteres:</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>‘errors’ -&gt; Error text in case getting any error.</p></li>
+<li><p>‘status’ -&gt; Response code.</p></li>
+<li><p>‘data’ -&gt; Requiered data depending on the request method and the parameter sent, if status code is OK.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>[JsonResponse]</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="module-analytics">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-analytics" title="Permalink to this heading">¶</a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-analytics" title="Permalink to this heading">#</a></h2>
 </section>
 </section>
 
-
-          </div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
           
         </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="index.html">Nanofootball</a></h1>
-
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="modules/events/views.html">Views</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-  </ul></li>
-</ul>
-</div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2022, Nanofootball team
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
     </div>
-</div>
-<script>document.getElementById('searchbox').style.display = "block"</script>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">analytics package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-analytics.admin">analytics.admin module</a></li>
+<li><a class="reference internal" href="#module-analytics.apps">analytics.apps module</a><ul>
+<li><a class="reference internal" href="#analytics.apps.AnalyticsConfig"><code class="docutils literal notranslate"><span class="pre">AnalyticsConfig</span></code></a><ul>
+<li><a class="reference internal" href="#analytics.apps.AnalyticsConfig.default_auto_field"><code class="docutils literal notranslate"><span class="pre">AnalyticsConfig.default_auto_field</span></code></a></li>
+<li><a class="reference internal" href="#analytics.apps.AnalyticsConfig.name"><code class="docutils literal notranslate"><span class="pre">AnalyticsConfig.name</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-analytics.models">analytics.models module</a></li>
+<li><a class="reference internal" href="#module-analytics.tests">analytics.tests module</a></li>
+<li><a class="reference internal" href="#module-analytics.urls">analytics.urls module</a></li>
+<li><a class="reference internal" href="#module-analytics.v_api">analytics.v_api module</a><ul>
+<li><a class="reference internal" href="#analytics.v_api.GET_get_analytics_in_team"><code class="docutils literal notranslate"><span class="pre">GET_get_analytics_in_team()</span></code></a></li>
+<li><a class="reference internal" href="#analytics.v_api.POST_edit_analytics"><code class="docutils literal notranslate"><span class="pre">POST_edit_analytics()</span></code></a></li>
+<li><a class="reference internal" href="#analytics.v_api.check_protocol_status"><code class="docutils literal notranslate"><span class="pre">check_protocol_status()</span></code></a></li>
+<li><a class="reference internal" href="#analytics.v_api.get_by_language_code"><code class="docutils literal notranslate"><span class="pre">get_by_language_code()</span></code></a></li>
+<li><a class="reference internal" href="#analytics.v_api.get_exs_folders"><code class="docutils literal notranslate"><span class="pre">get_exs_folders()</span></code></a></li>
+<li><a class="reference internal" href="#analytics.v_api.get_season_months"><code class="docutils literal notranslate"><span class="pre">get_season_months()</span></code></a></li>
+<li><a class="reference internal" href="#analytics.v_api.months_between"><code class="docutils literal notranslate"><span class="pre">months_between()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-analytics.views">analytics.views module</a><ul>
+<li><a class="reference internal" href="#analytics.views.analytics"><code class="docutils literal notranslate"><span class="pre">analytics()</span></code></a></li>
+<li><a class="reference internal" href="#analytics.views.analytics_api"><code class="docutils literal notranslate"><span class="pre">analytics_api()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-analytics">Module contents</a></li>
+</ul>
+</li>
+</ul>
 
-
-
-
-
-
-
-
+          </div>
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2022, Nanofootball team.
       
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
-      |
-      <a href="_sources/analytics.rst.txt"
-          rel="nofollow">Page source</a>
-    </div>
-
-    
-
-    
-  </body>
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/scripts/furo.js"></script>
+    </body>
 </html>

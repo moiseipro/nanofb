@@ -1,42 +1,200 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" />
 
-<!DOCTYPE html>
+    <meta name="generator" content="sphinx-5.3.0, furo 2022.09.29"/>
+        <title>events package - Nanofootball 0.2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=d81277517bee4d6b0349d71bb2661d4890b5617c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>events package &#8212; Nanofootball 0.1 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-   
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Nanofootball 0.2 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
-  </head><body>
+  <span class="sidebar-brand-text">Nanofootball 0.2 documentation</span>
   
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules/events/views.html">Views</a></li>
+</ul>
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
           
-
-          <div class="body" role="main">
-            
-  <section id="events-package">
-<h1>events package<a class="headerlink" href="#events-package" title="Permalink to this heading">¶</a></h1>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="events-package">
+<h1>events package<a class="headerlink" href="#events-package" title="Permalink to this heading">#</a></h1>
 <section id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading">¶</a></h2>
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading">#</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="events.migrations.html">events.migrations package</a><ul>
@@ -59,7 +217,15 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="events.migrations.html#events-migrations-0003-initial-module">events.migrations.0003_initial module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="events.migrations.html#module-events.migrations.0003_initial">events.migrations.0003_initial module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="events.migrations.html#events.migrations.0003_initial.Migration"><code class="docutils literal notranslate"><span class="pre">Migration</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="events.migrations.html#events.migrations.0003_initial.Migration.dependencies"><code class="docutils literal notranslate"><span class="pre">Migration.dependencies</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="events.migrations.html#events.migrations.0003_initial.Migration.initial"><code class="docutils literal notranslate"><span class="pre">Migration.initial</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="events.migrations.html#events.migrations.0003_initial.Migration.operations"><code class="docutils literal notranslate"><span class="pre">Migration.operations</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="events.migrations.html#module-events.migrations.0004_alter_clubevent_notes_alter_userevent_notes">events.migrations.0004_alter_clubevent_notes_alter_userevent_notes module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="events.migrations.html#events.migrations.0004_alter_clubevent_notes_alter_userevent_notes.Migration"><code class="docutils literal notranslate"><span class="pre">Migration</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="events.migrations.html#events.migrations.0004_alter_clubevent_notes_alter_userevent_notes.Migration.dependencies"><code class="docutils literal notranslate"><span class="pre">Migration.dependencies</span></code></a></li>
@@ -131,126 +297,1573 @@
 </div>
 </section>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
 </section>
-<section id="events-admin-module">
-<h2>events.admin module<a class="headerlink" href="#events-admin-module" title="Permalink to this heading">¶</a></h2>
+<section id="module-events.admin">
+<span id="events-admin-module"></span><h2>events.admin module<a class="headerlink" href="#module-events.admin" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="module-events.apps">
-<span id="events-apps-module"></span><h2>events.apps module<a class="headerlink" href="#module-events.apps" title="Permalink to this heading">¶</a></h2>
+<span id="events-apps-module"></span><h2>events.apps module<a class="headerlink" href="#module-events.apps" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="events.apps.EventsConfig">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">events.apps.</span></span><span class="sig-name descname"><span class="pre">EventsConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_module</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.apps.EventsConfig" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">events.apps.</span></span><span class="sig-name descname"><span class="pre">EventsConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_module</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.apps.EventsConfig" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AppConfig</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="events.apps.EventsConfig.default_auto_field">
-<span class="sig-name descname"><span class="pre">default_auto_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'django.db.models.BigAutoField'</span></em><a class="headerlink" href="#events.apps.EventsConfig.default_auto_field" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">default_auto_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'django.db.models.BigAutoField'</span></em><a class="headerlink" href="#events.apps.EventsConfig.default_auto_field" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="events.apps.EventsConfig.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'events'</span></em><a class="headerlink" href="#events.apps.EventsConfig.name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'events'</span></em><a class="headerlink" href="#events.apps.EventsConfig.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="events.apps.EventsConfig.verbose_name">
-<span class="sig-name descname"><span class="pre">verbose_name</span></span><a class="headerlink" href="#events.apps.EventsConfig.verbose_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">verbose_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'События'</span></em><a class="headerlink" href="#events.apps.EventsConfig.verbose_name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </section>
-<section id="events-filters-module">
-<h2>events.filters module<a class="headerlink" href="#events-filters-module" title="Permalink to this heading">¶</a></h2>
+<section id="module-events.filters">
+<span id="events-filters-module"></span><h2>events.filters module<a class="headerlink" href="#module-events.filters" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="events.filters.EventGlobalFilter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">events.filters.</span></span><span class="sig-name descname"><span class="pre">EventGlobalFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queryset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datatables_query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.filters.EventGlobalFilter" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DatatablesFilterSet</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="events.filters.EventGlobalFilter.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#events.filters.EventGlobalFilter.Meta" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.filters.EventGlobalFilter.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['only_date',</span> <span class="pre">'date']</span></em><a class="headerlink" href="#events.filters.EventGlobalFilter.Meta.fields" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.filters.EventGlobalFilter.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#events.filters.EventGlobalFilter.Meta.model" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="#events.models.UserEvent" title="events.models.UserEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserEvent</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.filters.EventGlobalFilter.base_filters">
+<span class="sig-name descname"><span class="pre">base_filters</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'date':</span> <span class="pre">&lt;django_filters.filters.IsoDateTimeFilter</span> <span class="pre">object&gt;,</span> <span class="pre">'only_date':</span> <span class="pre">&lt;events.filters.GlobalDateTimeFromToRangeFilter</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#events.filters.EventGlobalFilter.base_filters" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.filters.EventGlobalFilter.declared_filters">
+<span class="sig-name descname"><span class="pre">declared_filters</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'only_date':</span> <span class="pre">&lt;events.filters.GlobalDateTimeFromToRangeFilter</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#events.filters.EventGlobalFilter.declared_filters" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="events.filters.GlobalCharFilter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">events.filters.</span></span><span class="sig-name descname"><span class="pre">GlobalCharFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lookup_expr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'exact'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distinct</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.filters.GlobalCharFilter" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">GlobalFilter</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">CharFilter</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="events.filters.GlobalDateFromToRangeFilter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">events.filters.</span></span><span class="sig-name descname"><span class="pre">GlobalDateFromToRangeFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lookup_expr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distinct</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.filters.GlobalDateFromToRangeFilter" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DateFromToRangeFilter</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="events.filters.GlobalDateTimeFromToRangeFilter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">events.filters.</span></span><span class="sig-name descname"><span class="pre">GlobalDateTimeFromToRangeFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lookup_expr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distinct</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.filters.GlobalDateTimeFromToRangeFilter" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DateTimeFromToRangeFilter</span></code></p>
+</dd></dl>
+
 </section>
-<section id="events-forms-module">
-<h2>events.forms module<a class="headerlink" href="#events-forms-module" title="Permalink to this heading">¶</a></h2>
+<section id="module-events.forms">
+<span id="events-forms-module"></span><h2>events.forms module<a class="headerlink" href="#module-events.forms" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="events.forms.EventEditUserForm">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">events.forms.</span></span><span class="sig-name descname"><span class="pre">EventEditUserForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.forms.EventEditUserForm" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelForm</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="events.forms.EventEditUserForm.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#events.forms.EventEditUserForm.Meta" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.forms.EventEditUserForm.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['short_name',</span> <span class="pre">'date',</span> <span class="pre">'time']</span></em><a class="headerlink" href="#events.forms.EventEditUserForm.Meta.fields" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.forms.EventEditUserForm.Meta.help_texts">
+<span class="sig-name descname"><span class="pre">help_texts</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'short_name':</span> <span class="pre">None}</span></em><a class="headerlink" href="#events.forms.EventEditUserForm.Meta.help_texts" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.forms.EventEditUserForm.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#events.forms.EventEditUserForm.Meta.model" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="#events.models.UserEvent" title="events.models.UserEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserEvent</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.forms.EventEditUserForm.base_fields">
+<span class="sig-name descname"><span class="pre">base_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'date':</span> <span class="pre">&lt;django.forms.fields.DateTimeField</span> <span class="pre">object&gt;,</span> <span class="pre">'short_name':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'time':</span> <span class="pre">&lt;django.forms.fields.TimeField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#events.forms.EventEditUserForm.base_fields" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.forms.EventEditUserForm.declared_fields">
+<span class="sig-name descname"><span class="pre">declared_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'date':</span> <span class="pre">&lt;django.forms.fields.DateTimeField</span> <span class="pre">object&gt;,</span> <span class="pre">'time':</span> <span class="pre">&lt;django.forms.fields.TimeField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#events.forms.EventEditUserForm.declared_fields" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.forms.EventEditUserForm.helper">
+<span class="sig-name descname"><span class="pre">helper</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;crispy_forms.helper.FormHelper</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#events.forms.EventEditUserForm.helper" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="events.forms.EventEditUserForm.media">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#events.forms.EventEditUserForm.media" title="Permalink to this definition">#</a></dt>
+<dd><p>Return all media required to render the widgets on this form.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="events.forms.EventUserForm">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">events.forms.</span></span><span class="sig-name descname"><span class="pre">EventUserForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.forms.EventUserForm" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelForm</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="events.forms.EventUserForm.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#events.forms.EventUserForm.Meta" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.forms.EventUserForm.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['short_name',</span> <span class="pre">'event_type',</span> <span class="pre">'date',</span> <span class="pre">'time']</span></em><a class="headerlink" href="#events.forms.EventUserForm.Meta.fields" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.forms.EventUserForm.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#events.forms.EventUserForm.Meta.model" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="#events.models.UserEvent" title="events.models.UserEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserEvent</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.forms.EventUserForm.base_fields">
+<span class="sig-name descname"><span class="pre">base_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'date':</span> <span class="pre">&lt;django.forms.fields.DateTimeField</span> <span class="pre">object&gt;,</span> <span class="pre">'event_type':</span> <span class="pre">&lt;django.forms.fields.ChoiceField</span> <span class="pre">object&gt;,</span> <span class="pre">'short_name':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'time':</span> <span class="pre">&lt;django.forms.fields.TimeField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#events.forms.EventUserForm.base_fields" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.forms.EventUserForm.declared_fields">
+<span class="sig-name descname"><span class="pre">declared_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'date':</span> <span class="pre">&lt;django.forms.fields.DateTimeField</span> <span class="pre">object&gt;,</span> <span class="pre">'event_type':</span> <span class="pre">&lt;django.forms.fields.ChoiceField</span> <span class="pre">object&gt;,</span> <span class="pre">'time':</span> <span class="pre">&lt;django.forms.fields.TimeField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#events.forms.EventUserForm.declared_fields" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.forms.EventUserForm.helper">
+<span class="sig-name descname"><span class="pre">helper</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;crispy_forms.helper.FormHelper</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#events.forms.EventUserForm.helper" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="events.forms.EventUserForm.media">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#events.forms.EventUserForm.media" title="Permalink to this definition">#</a></dt>
+<dd><p>Return all media required to render the widgets on this form.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="events.forms.MicrocycleUserForm">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">events.forms.</span></span><span class="sig-name descname"><span class="pre">MicrocycleUserForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.forms.MicrocycleUserForm" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelForm</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="events.forms.MicrocycleUserForm.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#events.forms.MicrocycleUserForm.Meta" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.forms.MicrocycleUserForm.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['name',</span> <span class="pre">'date_with',</span> <span class="pre">'date_by']</span></em><a class="headerlink" href="#events.forms.MicrocycleUserForm.Meta.fields" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.forms.MicrocycleUserForm.Meta.help_texts">
+<span class="sig-name descname"><span class="pre">help_texts</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'date_by':</span> <span class="pre">'',</span> <span class="pre">'date_with':</span> <span class="pre">'',</span> <span class="pre">'name':</span> <span class="pre">''}</span></em><a class="headerlink" href="#events.forms.MicrocycleUserForm.Meta.help_texts" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.forms.MicrocycleUserForm.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#events.forms.MicrocycleUserForm.Meta.model" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="#events.models.UserMicrocycles" title="events.models.UserMicrocycles"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserMicrocycles</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.forms.MicrocycleUserForm.Meta.widgets">
+<span class="sig-name descname"><span class="pre">widgets</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'date_by':</span> <span class="pre">&lt;django.forms.widgets.DateInput</span> <span class="pre">object&gt;,</span> <span class="pre">'date_with':</span> <span class="pre">&lt;django.forms.widgets.DateInput</span> <span class="pre">object&gt;,</span> <span class="pre">'name':</span> <span class="pre">&lt;django.forms.widgets.TextInput</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#events.forms.MicrocycleUserForm.Meta.widgets" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.forms.MicrocycleUserForm.base_fields">
+<span class="sig-name descname"><span class="pre">base_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'date_by':</span> <span class="pre">&lt;django.forms.fields.DateField</span> <span class="pre">object&gt;,</span> <span class="pre">'date_with':</span> <span class="pre">&lt;django.forms.fields.DateField</span> <span class="pre">object&gt;,</span> <span class="pre">'name':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#events.forms.MicrocycleUserForm.base_fields" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.forms.MicrocycleUserForm.declared_fields">
+<span class="sig-name descname"><span class="pre">declared_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#events.forms.MicrocycleUserForm.declared_fields" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="events.forms.MicrocycleUserForm.media">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#events.forms.MicrocycleUserForm.media" title="Permalink to this definition">#</a></dt>
+<dd><p>Return all media required to render the widgets on this form.</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="events-models-module">
-<h2>events.models module<a class="headerlink" href="#events-models-module" title="Permalink to this heading">¶</a></h2>
+<section id="module-events.models">
+<span id="events-models-module"></span><h2>events.models module<a class="headerlink" href="#module-events.models" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="events.models.AbstractEvent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">events.models.</span></span><span class="sig-name descname"><span class="pre">AbstractEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.models.AbstractEvent" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="events.models.AbstractEvent.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#events.models.AbstractEvent.Meta" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.AbstractEvent.Meta.abstract">
+<span class="sig-name descname"><span class="pre">abstract</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#events.models.AbstractEvent.Meta.abstract" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.AbstractEvent.Meta.ordering">
+<span class="sig-name descname"><span class="pre">ordering</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['-date']</span></em><a class="headerlink" href="#events.models.AbstractEvent.Meta.ordering" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.AbstractEvent.date">
+<span class="sig-name descname"><span class="pre">date</span></span><a class="headerlink" href="#events.models.AbstractEvent.date" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="events.models.AbstractEvent.get_default_pk">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_default_pk</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#events.models.AbstractEvent.get_default_pk" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="events.models.AbstractEvent.get_next_by_date">
+<span class="sig-name descname"><span class="pre">get_next_by_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">date&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.models.AbstractEvent.get_next_by_date" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="events.models.AbstractEvent.get_previous_by_date">
+<span class="sig-name descname"><span class="pre">get_previous_by_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">date&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.models.AbstractEvent.get_previous_by_date" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.AbstractEvent.notes">
+<span class="sig-name descname"><span class="pre">notes</span></span><a class="headerlink" href="#events.models.AbstractEvent.notes" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.AbstractEvent.short_name">
+<span class="sig-name descname"><span class="pre">short_name</span></span><a class="headerlink" href="#events.models.AbstractEvent.short_name" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.AbstractEvent.video_link">
+<span class="sig-name descname"><span class="pre">video_link</span></span><a class="headerlink" href="#events.models.AbstractEvent.video_link" title="Permalink to this definition">#</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.AbstractEvent.video_link_id">
+<span class="sig-name descname"><span class="pre">video_link_id</span></span><a class="headerlink" href="#events.models.AbstractEvent.video_link_id" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="events.models.AbstractMicrocycles">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">events.models.</span></span><span class="sig-name descname"><span class="pre">AbstractMicrocycles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.models.AbstractMicrocycles" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="events.models.AbstractMicrocycles.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#events.models.AbstractMicrocycles.Meta" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.AbstractMicrocycles.Meta.abstract">
+<span class="sig-name descname"><span class="pre">abstract</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#events.models.AbstractMicrocycles.Meta.abstract" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.AbstractMicrocycles.Meta.ordering">
+<span class="sig-name descname"><span class="pre">ordering</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['date_with']</span></em><a class="headerlink" href="#events.models.AbstractMicrocycles.Meta.ordering" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.AbstractMicrocycles.date_by">
+<span class="sig-name descname"><span class="pre">date_by</span></span><a class="headerlink" href="#events.models.AbstractMicrocycles.date_by" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.AbstractMicrocycles.date_with">
+<span class="sig-name descname"><span class="pre">date_with</span></span><a class="headerlink" href="#events.models.AbstractMicrocycles.date_with" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="events.models.AbstractMicrocycles.get_next_by_date_by">
+<span class="sig-name descname"><span class="pre">get_next_by_date_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">date_by&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.models.AbstractMicrocycles.get_next_by_date_by" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="events.models.AbstractMicrocycles.get_next_by_date_with">
+<span class="sig-name descname"><span class="pre">get_next_by_date_with</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">date_with&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.models.AbstractMicrocycles.get_next_by_date_with" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="events.models.AbstractMicrocycles.get_previous_by_date_by">
+<span class="sig-name descname"><span class="pre">get_previous_by_date_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">date_by&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.models.AbstractMicrocycles.get_previous_by_date_by" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="events.models.AbstractMicrocycles.get_previous_by_date_with">
+<span class="sig-name descname"><span class="pre">get_previous_by_date_with</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">date_with&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.models.AbstractMicrocycles.get_previous_by_date_with" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.AbstractMicrocycles.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#events.models.AbstractMicrocycles.name" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="events.models.ClubEvent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">events.models.</span></span><span class="sig-name descname"><span class="pre">ClubEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">short_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">video_link</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">club_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.models.ClubEvent" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#events.models.AbstractEvent" title="events.models.AbstractEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEvent</span></code></a></p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="events.models.ClubEvent.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#events.models.ClubEvent.DoesNotExist" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="events.models.ClubEvent.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#events.models.ClubEvent.MultipleObjectsReturned" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.ClubEvent.club_id">
+<span class="sig-name descname"><span class="pre">club_id</span></span><a class="headerlink" href="#events.models.ClubEvent.club_id" title="Permalink to this definition">#</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.ClubEvent.club_id_id">
+<span class="sig-name descname"><span class="pre">club_id_id</span></span><a class="headerlink" href="#events.models.ClubEvent.club_id_id" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.ClubEvent.clubmatch">
+<span class="sig-name descname"><span class="pre">clubmatch</span></span><a class="headerlink" href="#events.models.ClubEvent.clubmatch" title="Permalink to this definition">#</a></dt>
+<dd><p>Accessor to the related object on the reverse side of a one-to-one
+relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Place.restaurant</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseOneToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.ClubEvent.clubtraining">
+<span class="sig-name descname"><span class="pre">clubtraining</span></span><a class="headerlink" href="#events.models.ClubEvent.clubtraining" title="Permalink to this definition">#</a></dt>
+<dd><p>Accessor to the related object on the reverse side of a one-to-one
+relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Place.restaurant</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseOneToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.ClubEvent.date">
+<span class="sig-name descname"><span class="pre">date</span></span><a class="headerlink" href="#events.models.ClubEvent.date" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="events.models.ClubEvent.get_next_by_date">
+<span class="sig-name descname"><span class="pre">get_next_by_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">date&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.models.ClubEvent.get_next_by_date" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="events.models.ClubEvent.get_previous_by_date">
+<span class="sig-name descname"><span class="pre">get_previous_by_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">date&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.models.ClubEvent.get_previous_by_date" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.ClubEvent.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#events.models.ClubEvent.id" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.ClubEvent.notes">
+<span class="sig-name descname"><span class="pre">notes</span></span><a class="headerlink" href="#events.models.ClubEvent.notes" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.ClubEvent.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#events.models.ClubEvent.objects" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.ClubEvent.short_name">
+<span class="sig-name descname"><span class="pre">short_name</span></span><a class="headerlink" href="#events.models.ClubEvent.short_name" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.ClubEvent.sync_event">
+<span class="sig-name descname"><span class="pre">sync_event</span></span><a class="headerlink" href="#events.models.ClubEvent.sync_event" title="Permalink to this definition">#</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.ClubEvent.user_id">
+<span class="sig-name descname"><span class="pre">user_id</span></span><a class="headerlink" href="#events.models.ClubEvent.user_id" title="Permalink to this definition">#</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.ClubEvent.user_id_id">
+<span class="sig-name descname"><span class="pre">user_id_id</span></span><a class="headerlink" href="#events.models.ClubEvent.user_id_id" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.ClubEvent.video_link">
+<span class="sig-name descname"><span class="pre">video_link</span></span><a class="headerlink" href="#events.models.ClubEvent.video_link" title="Permalink to this definition">#</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.ClubEvent.video_link_id">
+<span class="sig-name descname"><span class="pre">video_link_id</span></span><a class="headerlink" href="#events.models.ClubEvent.video_link_id" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="events.models.ClubMicrocycles">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">events.models.</span></span><span class="sig-name descname"><span class="pre">ClubMicrocycles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_with</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_by</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">team_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.models.ClubMicrocycles" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#events.models.AbstractMicrocycles" title="events.models.AbstractMicrocycles"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractMicrocycles</span></code></a></p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="events.models.ClubMicrocycles.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#events.models.ClubMicrocycles.DoesNotExist" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="events.models.ClubMicrocycles.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#events.models.ClubMicrocycles.MultipleObjectsReturned" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.ClubMicrocycles.date_by">
+<span class="sig-name descname"><span class="pre">date_by</span></span><a class="headerlink" href="#events.models.ClubMicrocycles.date_by" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.ClubMicrocycles.date_with">
+<span class="sig-name descname"><span class="pre">date_with</span></span><a class="headerlink" href="#events.models.ClubMicrocycles.date_with" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="events.models.ClubMicrocycles.get_next_by_date_by">
+<span class="sig-name descname"><span class="pre">get_next_by_date_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">date_by&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.models.ClubMicrocycles.get_next_by_date_by" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="events.models.ClubMicrocycles.get_next_by_date_with">
+<span class="sig-name descname"><span class="pre">get_next_by_date_with</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">date_with&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.models.ClubMicrocycles.get_next_by_date_with" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="events.models.ClubMicrocycles.get_previous_by_date_by">
+<span class="sig-name descname"><span class="pre">get_previous_by_date_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">date_by&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.models.ClubMicrocycles.get_previous_by_date_by" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="events.models.ClubMicrocycles.get_previous_by_date_with">
+<span class="sig-name descname"><span class="pre">get_previous_by_date_with</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">date_with&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.models.ClubMicrocycles.get_previous_by_date_with" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.ClubMicrocycles.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#events.models.ClubMicrocycles.id" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.ClubMicrocycles.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#events.models.ClubMicrocycles.name" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.ClubMicrocycles.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#events.models.ClubMicrocycles.objects" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.ClubMicrocycles.team_id">
+<span class="sig-name descname"><span class="pre">team_id</span></span><a class="headerlink" href="#events.models.ClubMicrocycles.team_id" title="Permalink to this definition">#</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.ClubMicrocycles.team_id_id">
+<span class="sig-name descname"><span class="pre">team_id_id</span></span><a class="headerlink" href="#events.models.ClubMicrocycles.team_id_id" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="events.models.EventVideoLink">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">events.models.</span></span><span class="sig-name descname"><span class="pre">EventVideoLink</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_link</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">video</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.models.EventVideoLink" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="events.models.EventVideoLink.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#events.models.EventVideoLink.DoesNotExist" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="events.models.EventVideoLink.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#events.models.EventVideoLink.MultipleObjectsReturned" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.EventVideoLink.clubevent_set">
+<span class="sig-name descname"><span class="pre">clubevent_set</span></span><a class="headerlink" href="#events.models.EventVideoLink.clubevent_set" title="Permalink to this definition">#</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.EventVideoLink.clubprotocol_set">
+<span class="sig-name descname"><span class="pre">clubprotocol_set</span></span><a class="headerlink" href="#events.models.EventVideoLink.clubprotocol_set" title="Permalink to this definition">#</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.EventVideoLink.description">
+<span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#events.models.EventVideoLink.description" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.EventVideoLink.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#events.models.EventVideoLink.id" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.EventVideoLink.json_link">
+<span class="sig-name descname"><span class="pre">json_link</span></span><a class="headerlink" href="#events.models.EventVideoLink.json_link" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.EventVideoLink.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#events.models.EventVideoLink.objects" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.EventVideoLink.userevent_set">
+<span class="sig-name descname"><span class="pre">userevent_set</span></span><a class="headerlink" href="#events.models.EventVideoLink.userevent_set" title="Permalink to this definition">#</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.EventVideoLink.userprotocol_set">
+<span class="sig-name descname"><span class="pre">userprotocol_set</span></span><a class="headerlink" href="#events.models.EventVideoLink.userprotocol_set" title="Permalink to this definition">#</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.EventVideoLink.video">
+<span class="sig-name descname"><span class="pre">video</span></span><a class="headerlink" href="#events.models.EventVideoLink.video" title="Permalink to this definition">#</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.EventVideoLink.video_id">
+<span class="sig-name descname"><span class="pre">video_id</span></span><a class="headerlink" href="#events.models.EventVideoLink.video_id" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="events.models.UserEvent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">events.models.</span></span><span class="sig-name descname"><span class="pre">UserEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">short_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">video_link</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.models.UserEvent" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#events.models.AbstractEvent" title="events.models.AbstractEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEvent</span></code></a></p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="events.models.UserEvent.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#events.models.UserEvent.DoesNotExist" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="events.models.UserEvent.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#events.models.UserEvent.MultipleObjectsReturned" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.UserEvent.date">
+<span class="sig-name descname"><span class="pre">date</span></span><a class="headerlink" href="#events.models.UserEvent.date" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="events.models.UserEvent.get_next_by_date">
+<span class="sig-name descname"><span class="pre">get_next_by_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">date&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.models.UserEvent.get_next_by_date" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="events.models.UserEvent.get_previous_by_date">
+<span class="sig-name descname"><span class="pre">get_previous_by_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">date&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.models.UserEvent.get_previous_by_date" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.UserEvent.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#events.models.UserEvent.id" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.UserEvent.notes">
+<span class="sig-name descname"><span class="pre">notes</span></span><a class="headerlink" href="#events.models.UserEvent.notes" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.UserEvent.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#events.models.UserEvent.objects" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.UserEvent.short_name">
+<span class="sig-name descname"><span class="pre">short_name</span></span><a class="headerlink" href="#events.models.UserEvent.short_name" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.UserEvent.sync_event">
+<span class="sig-name descname"><span class="pre">sync_event</span></span><a class="headerlink" href="#events.models.UserEvent.sync_event" title="Permalink to this definition">#</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.UserEvent.user_id">
+<span class="sig-name descname"><span class="pre">user_id</span></span><a class="headerlink" href="#events.models.UserEvent.user_id" title="Permalink to this definition">#</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.UserEvent.user_id_id">
+<span class="sig-name descname"><span class="pre">user_id_id</span></span><a class="headerlink" href="#events.models.UserEvent.user_id_id" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.UserEvent.usermatch">
+<span class="sig-name descname"><span class="pre">usermatch</span></span><a class="headerlink" href="#events.models.UserEvent.usermatch" title="Permalink to this definition">#</a></dt>
+<dd><p>Accessor to the related object on the reverse side of a one-to-one
+relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Place.restaurant</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseOneToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.UserEvent.usertraining">
+<span class="sig-name descname"><span class="pre">usertraining</span></span><a class="headerlink" href="#events.models.UserEvent.usertraining" title="Permalink to this definition">#</a></dt>
+<dd><p>Accessor to the related object on the reverse side of a one-to-one
+relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Place.restaurant</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseOneToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.UserEvent.video_link">
+<span class="sig-name descname"><span class="pre">video_link</span></span><a class="headerlink" href="#events.models.UserEvent.video_link" title="Permalink to this definition">#</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.UserEvent.video_link_id">
+<span class="sig-name descname"><span class="pre">video_link_id</span></span><a class="headerlink" href="#events.models.UserEvent.video_link_id" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="events.models.UserMicrocycles">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">events.models.</span></span><span class="sig-name descname"><span class="pre">UserMicrocycles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_with</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_by</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">team_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.models.UserMicrocycles" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#events.models.AbstractMicrocycles" title="events.models.AbstractMicrocycles"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractMicrocycles</span></code></a></p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="events.models.UserMicrocycles.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#events.models.UserMicrocycles.DoesNotExist" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="events.models.UserMicrocycles.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#events.models.UserMicrocycles.MultipleObjectsReturned" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.UserMicrocycles.date_by">
+<span class="sig-name descname"><span class="pre">date_by</span></span><a class="headerlink" href="#events.models.UserMicrocycles.date_by" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.UserMicrocycles.date_with">
+<span class="sig-name descname"><span class="pre">date_with</span></span><a class="headerlink" href="#events.models.UserMicrocycles.date_with" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="events.models.UserMicrocycles.get_next_by_date_by">
+<span class="sig-name descname"><span class="pre">get_next_by_date_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">date_by&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.models.UserMicrocycles.get_next_by_date_by" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="events.models.UserMicrocycles.get_next_by_date_with">
+<span class="sig-name descname"><span class="pre">get_next_by_date_with</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">date_with&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.models.UserMicrocycles.get_next_by_date_with" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="events.models.UserMicrocycles.get_previous_by_date_by">
+<span class="sig-name descname"><span class="pre">get_previous_by_date_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">date_by&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.models.UserMicrocycles.get_previous_by_date_by" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="events.models.UserMicrocycles.get_previous_by_date_with">
+<span class="sig-name descname"><span class="pre">get_previous_by_date_with</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">date_with&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.models.UserMicrocycles.get_previous_by_date_with" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.UserMicrocycles.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#events.models.UserMicrocycles.id" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.UserMicrocycles.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#events.models.UserMicrocycles.name" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.UserMicrocycles.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#events.models.UserMicrocycles.objects" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.UserMicrocycles.team_id">
+<span class="sig-name descname"><span class="pre">team_id</span></span><a class="headerlink" href="#events.models.UserMicrocycles.team_id" title="Permalink to this definition">#</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.models.UserMicrocycles.team_id_id">
+<span class="sig-name descname"><span class="pre">team_id_id</span></span><a class="headerlink" href="#events.models.UserMicrocycles.team_id_id" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="events-serializers-module">
-<h2>events.serializers module<a class="headerlink" href="#events-serializers-module" title="Permalink to this heading">¶</a></h2>
+<section id="module-events.serializers">
+<span id="events-serializers-module"></span><h2>events.serializers module<a class="headerlink" href="#module-events.serializers" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="events.serializers.UserEventEditSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">events.serializers.</span></span><span class="sig-name descname"><span class="pre">UserEventEditSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.serializers.UserEventEditSerializer" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="events.serializers.UserEventEditSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#events.serializers.UserEventEditSerializer.Meta" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.serializers.UserEventEditSerializer.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'short_name',</span> <span class="pre">'date']</span></em><a class="headerlink" href="#events.serializers.UserEventEditSerializer.Meta.fields" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.serializers.UserEventEditSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#events.serializers.UserEventEditSerializer.Meta.model" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="#events.models.UserEvent" title="events.models.UserEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserEvent</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="events.serializers.UserEventSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">events.serializers.</span></span><span class="sig-name descname"><span class="pre">UserEventSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.serializers.UserEventSerializer" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="events.serializers.UserEventSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#events.serializers.UserEventSerializer.Meta" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.serializers.UserEventSerializer.Meta.datatables_always_serialize">
+<span class="sig-name descname"><span class="pre">datatables_always_serialize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('id',</span> <span class="pre">'short_name',</span> <span class="pre">'only_date',</span> <span class="pre">'time',</span> <span class="pre">'training',</span> <span class="pre">'match')</span></em><a class="headerlink" href="#events.serializers.UserEventSerializer.Meta.datatables_always_serialize" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.serializers.UserEventSerializer.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'short_name',</span> <span class="pre">'date',</span> <span class="pre">'only_date',</span> <span class="pre">'time',</span> <span class="pre">'training',</span> <span class="pre">'match']</span></em><a class="headerlink" href="#events.serializers.UserEventSerializer.Meta.fields" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.serializers.UserEventSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#events.serializers.UserEventSerializer.Meta.model" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="#events.models.UserEvent" title="events.models.UserEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserEvent</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="events.serializers.UserMicrocycleDaySerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">events.serializers.</span></span><span class="sig-name descname"><span class="pre">UserMicrocycleDaySerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.serializers.UserMicrocycleDaySerializer" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Serializer</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="events.serializers.UserMicrocyclesSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">events.serializers.</span></span><span class="sig-name descname"><span class="pre">UserMicrocyclesSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.serializers.UserMicrocyclesSerializer" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="events.serializers.UserMicrocyclesSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#events.serializers.UserMicrocyclesSerializer.Meta" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.serializers.UserMicrocyclesSerializer.Meta.datatables_always_serialize">
+<span class="sig-name descname"><span class="pre">datatables_always_serialize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('id',)</span></em><a class="headerlink" href="#events.serializers.UserMicrocyclesSerializer.Meta.datatables_always_serialize" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.serializers.UserMicrocyclesSerializer.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'name',</span> <span class="pre">'date_with',</span> <span class="pre">'date_by']</span></em><a class="headerlink" href="#events.serializers.UserMicrocyclesSerializer.Meta.fields" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.serializers.UserMicrocyclesSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#events.serializers.UserMicrocyclesSerializer.Meta.model" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="#events.models.UserMicrocycles" title="events.models.UserMicrocycles"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserMicrocycles</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="events.serializers.UserMicrocyclesUpdateSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">events.serializers.</span></span><span class="sig-name descname"><span class="pre">UserMicrocyclesUpdateSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.serializers.UserMicrocyclesUpdateSerializer" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="events.serializers.UserMicrocyclesUpdateSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#events.serializers.UserMicrocyclesUpdateSerializer.Meta" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.serializers.UserMicrocyclesUpdateSerializer.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['name',</span> <span class="pre">'date_with',</span> <span class="pre">'date_by']</span></em><a class="headerlink" href="#events.serializers.UserMicrocyclesUpdateSerializer.Meta.fields" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.serializers.UserMicrocyclesUpdateSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#events.serializers.UserMicrocyclesUpdateSerializer.Meta.model" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="#events.models.UserMicrocycles" title="events.models.UserMicrocycles"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserMicrocycles</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-events.tests">
-<span id="events-tests-module"></span><h2>events.tests module<a class="headerlink" href="#module-events.tests" title="Permalink to this heading">¶</a></h2>
+<span id="events-tests-module"></span><h2>events.tests module<a class="headerlink" href="#module-events.tests" title="Permalink to this heading">#</a></h2>
 </section>
-<section id="events-urls-module">
-<h2>events.urls module<a class="headerlink" href="#events-urls-module" title="Permalink to this heading">¶</a></h2>
+<section id="module-events.urls">
+<span id="events-urls-module"></span><h2>events.urls module<a class="headerlink" href="#module-events.urls" title="Permalink to this heading">#</a></h2>
 </section>
-<section id="events-views-module">
-<h2>events.views module<a class="headerlink" href="#events-views-module" title="Permalink to this heading">¶</a></h2>
+<section id="module-events.views">
+<span id="events-views-module"></span><h2>events.views module<a class="headerlink" href="#module-events.views" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="events.views.EventViewSet">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">events.views.</span></span><span class="sig-name descname"><span class="pre">EventViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.views.EventViewSet" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelViewSet</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.views.EventViewSet.basename">
+<span class="sig-name descname"><span class="pre">basename</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#events.views.EventViewSet.basename" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="events.views.EventViewSet.create">
+<span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.views.EventViewSet.create" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.views.EventViewSet.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#events.views.EventViewSet.description" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.views.EventViewSet.detail">
+<span class="sig-name descname"><span class="pre">detail</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#events.views.EventViewSet.detail" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="events.views.EventViewSet.get_queryset">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#events.views.EventViewSet.get_queryset" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="events.views.EventViewSet.get_serializer_class">
+<span class="sig-name descname"><span class="pre">get_serializer_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#events.views.EventViewSet.get_serializer_class" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the class to use for the serializer.
+Defaults to using <cite>self.serializer_class</cite>.</p>
+<p>You may want to override this if you need to provide different
+serializations depending on the incoming request.</p>
+<p>(Eg. admins get full serialization, others get basic serialization)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="events.views.EventViewSet.list">
+<span class="sig-name descname"><span class="pre">list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.views.EventViewSet.list" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.views.EventViewSet.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#events.views.EventViewSet.name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="events.views.EventViewSet.perform_create">
+<span class="sig-name descname"><span class="pre">perform_create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">serializer</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.views.EventViewSet.perform_create" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.views.EventViewSet.permission_classes">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#events.views.EventViewSet.permission_classes" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.views.EventViewSet.suffix">
+<span class="sig-name descname"><span class="pre">suffix</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#events.views.EventViewSet.suffix" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="events.views.EventsView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">events.views.</span></span><span class="sig-name descname"><span class="pre">EventsView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.views.EventsView" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TemplateView</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="events.views.EventsView.get_context_data">
+<span class="sig-name descname"><span class="pre">get_context_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.views.EventsView.get_context_data" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.views.EventsView.template_name">
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'events/base_events.html'</span></em><a class="headerlink" href="#events.views.EventsView.template_name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="events.views.MicrocycleViewSet">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">events.views.</span></span><span class="sig-name descname"><span class="pre">MicrocycleViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.views.MicrocycleViewSet" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelViewSet</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.views.MicrocycleViewSet.basename">
+<span class="sig-name descname"><span class="pre">basename</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#events.views.MicrocycleViewSet.basename" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.views.MicrocycleViewSet.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#events.views.MicrocycleViewSet.description" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.views.MicrocycleViewSet.detail">
+<span class="sig-name descname"><span class="pre">detail</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#events.views.MicrocycleViewSet.detail" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="events.views.MicrocycleViewSet.get_queryset">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#events.views.MicrocycleViewSet.get_queryset" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="events.views.MicrocycleViewSet.get_serializer_class">
+<span class="sig-name descname"><span class="pre">get_serializer_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#events.views.MicrocycleViewSet.get_serializer_class" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the class to use for the serializer.
+Defaults to using <cite>self.serializer_class</cite>.</p>
+<p>You may want to override this if you need to provide different
+serializations depending on the incoming request.</p>
+<p>(Eg. admins get full serialization, others get basic serialization)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.views.MicrocycleViewSet.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#events.views.MicrocycleViewSet.name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="events.views.MicrocycleViewSet.perform_create">
+<span class="sig-name descname"><span class="pre">perform_create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">serializer</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#events.views.MicrocycleViewSet.perform_create" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.views.MicrocycleViewSet.permission_classes">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#events.views.MicrocycleViewSet.permission_classes" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="events.views.MicrocycleViewSet.suffix">
+<span class="sig-name descname"><span class="pre">suffix</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#events.views.MicrocycleViewSet.suffix" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-events">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-events" title="Permalink to this heading">¶</a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-events" title="Permalink to this heading">#</a></h2>
 </section>
 </section>
 
-
-          </div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
           
         </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="index.html">Nanofootball</a></h1>
-
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="modules/events/views.html">Views</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-  </ul></li>
-</ul>
-</div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2022, Nanofootball team
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
     </div>
-</div>
-<script>document.getElementById('searchbox').style.display = "block"</script>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">events package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-events.admin">events.admin module</a></li>
+<li><a class="reference internal" href="#module-events.apps">events.apps module</a><ul>
+<li><a class="reference internal" href="#events.apps.EventsConfig"><code class="docutils literal notranslate"><span class="pre">EventsConfig</span></code></a><ul>
+<li><a class="reference internal" href="#events.apps.EventsConfig.default_auto_field"><code class="docutils literal notranslate"><span class="pre">EventsConfig.default_auto_field</span></code></a></li>
+<li><a class="reference internal" href="#events.apps.EventsConfig.name"><code class="docutils literal notranslate"><span class="pre">EventsConfig.name</span></code></a></li>
+<li><a class="reference internal" href="#events.apps.EventsConfig.verbose_name"><code class="docutils literal notranslate"><span class="pre">EventsConfig.verbose_name</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-events.filters">events.filters module</a><ul>
+<li><a class="reference internal" href="#events.filters.EventGlobalFilter"><code class="docutils literal notranslate"><span class="pre">EventGlobalFilter</span></code></a><ul>
+<li><a class="reference internal" href="#events.filters.EventGlobalFilter.Meta"><code class="docutils literal notranslate"><span class="pre">EventGlobalFilter.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#events.filters.EventGlobalFilter.Meta.fields"><code class="docutils literal notranslate"><span class="pre">EventGlobalFilter.Meta.fields</span></code></a></li>
+<li><a class="reference internal" href="#events.filters.EventGlobalFilter.Meta.model"><code class="docutils literal notranslate"><span class="pre">EventGlobalFilter.Meta.model</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#events.filters.EventGlobalFilter.base_filters"><code class="docutils literal notranslate"><span class="pre">EventGlobalFilter.base_filters</span></code></a></li>
+<li><a class="reference internal" href="#events.filters.EventGlobalFilter.declared_filters"><code class="docutils literal notranslate"><span class="pre">EventGlobalFilter.declared_filters</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#events.filters.GlobalCharFilter"><code class="docutils literal notranslate"><span class="pre">GlobalCharFilter</span></code></a></li>
+<li><a class="reference internal" href="#events.filters.GlobalDateFromToRangeFilter"><code class="docutils literal notranslate"><span class="pre">GlobalDateFromToRangeFilter</span></code></a></li>
+<li><a class="reference internal" href="#events.filters.GlobalDateTimeFromToRangeFilter"><code class="docutils literal notranslate"><span class="pre">GlobalDateTimeFromToRangeFilter</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-events.forms">events.forms module</a><ul>
+<li><a class="reference internal" href="#events.forms.EventEditUserForm"><code class="docutils literal notranslate"><span class="pre">EventEditUserForm</span></code></a><ul>
+<li><a class="reference internal" href="#events.forms.EventEditUserForm.Meta"><code class="docutils literal notranslate"><span class="pre">EventEditUserForm.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#events.forms.EventEditUserForm.Meta.fields"><code class="docutils literal notranslate"><span class="pre">EventEditUserForm.Meta.fields</span></code></a></li>
+<li><a class="reference internal" href="#events.forms.EventEditUserForm.Meta.help_texts"><code class="docutils literal notranslate"><span class="pre">EventEditUserForm.Meta.help_texts</span></code></a></li>
+<li><a class="reference internal" href="#events.forms.EventEditUserForm.Meta.model"><code class="docutils literal notranslate"><span class="pre">EventEditUserForm.Meta.model</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#events.forms.EventEditUserForm.base_fields"><code class="docutils literal notranslate"><span class="pre">EventEditUserForm.base_fields</span></code></a></li>
+<li><a class="reference internal" href="#events.forms.EventEditUserForm.declared_fields"><code class="docutils literal notranslate"><span class="pre">EventEditUserForm.declared_fields</span></code></a></li>
+<li><a class="reference internal" href="#events.forms.EventEditUserForm.helper"><code class="docutils literal notranslate"><span class="pre">EventEditUserForm.helper</span></code></a></li>
+<li><a class="reference internal" href="#events.forms.EventEditUserForm.media"><code class="docutils literal notranslate"><span class="pre">EventEditUserForm.media</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#events.forms.EventUserForm"><code class="docutils literal notranslate"><span class="pre">EventUserForm</span></code></a><ul>
+<li><a class="reference internal" href="#events.forms.EventUserForm.Meta"><code class="docutils literal notranslate"><span class="pre">EventUserForm.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#events.forms.EventUserForm.Meta.fields"><code class="docutils literal notranslate"><span class="pre">EventUserForm.Meta.fields</span></code></a></li>
+<li><a class="reference internal" href="#events.forms.EventUserForm.Meta.model"><code class="docutils literal notranslate"><span class="pre">EventUserForm.Meta.model</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#events.forms.EventUserForm.base_fields"><code class="docutils literal notranslate"><span class="pre">EventUserForm.base_fields</span></code></a></li>
+<li><a class="reference internal" href="#events.forms.EventUserForm.declared_fields"><code class="docutils literal notranslate"><span class="pre">EventUserForm.declared_fields</span></code></a></li>
+<li><a class="reference internal" href="#events.forms.EventUserForm.helper"><code class="docutils literal notranslate"><span class="pre">EventUserForm.helper</span></code></a></li>
+<li><a class="reference internal" href="#events.forms.EventUserForm.media"><code class="docutils literal notranslate"><span class="pre">EventUserForm.media</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#events.forms.MicrocycleUserForm"><code class="docutils literal notranslate"><span class="pre">MicrocycleUserForm</span></code></a><ul>
+<li><a class="reference internal" href="#events.forms.MicrocycleUserForm.Meta"><code class="docutils literal notranslate"><span class="pre">MicrocycleUserForm.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#events.forms.MicrocycleUserForm.Meta.fields"><code class="docutils literal notranslate"><span class="pre">MicrocycleUserForm.Meta.fields</span></code></a></li>
+<li><a class="reference internal" href="#events.forms.MicrocycleUserForm.Meta.help_texts"><code class="docutils literal notranslate"><span class="pre">MicrocycleUserForm.Meta.help_texts</span></code></a></li>
+<li><a class="reference internal" href="#events.forms.MicrocycleUserForm.Meta.model"><code class="docutils literal notranslate"><span class="pre">MicrocycleUserForm.Meta.model</span></code></a></li>
+<li><a class="reference internal" href="#events.forms.MicrocycleUserForm.Meta.widgets"><code class="docutils literal notranslate"><span class="pre">MicrocycleUserForm.Meta.widgets</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#events.forms.MicrocycleUserForm.base_fields"><code class="docutils literal notranslate"><span class="pre">MicrocycleUserForm.base_fields</span></code></a></li>
+<li><a class="reference internal" href="#events.forms.MicrocycleUserForm.declared_fields"><code class="docutils literal notranslate"><span class="pre">MicrocycleUserForm.declared_fields</span></code></a></li>
+<li><a class="reference internal" href="#events.forms.MicrocycleUserForm.media"><code class="docutils literal notranslate"><span class="pre">MicrocycleUserForm.media</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-events.models">events.models module</a><ul>
+<li><a class="reference internal" href="#events.models.AbstractEvent"><code class="docutils literal notranslate"><span class="pre">AbstractEvent</span></code></a><ul>
+<li><a class="reference internal" href="#events.models.AbstractEvent.Meta"><code class="docutils literal notranslate"><span class="pre">AbstractEvent.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#events.models.AbstractEvent.Meta.abstract"><code class="docutils literal notranslate"><span class="pre">AbstractEvent.Meta.abstract</span></code></a></li>
+<li><a class="reference internal" href="#events.models.AbstractEvent.Meta.ordering"><code class="docutils literal notranslate"><span class="pre">AbstractEvent.Meta.ordering</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#events.models.AbstractEvent.date"><code class="docutils literal notranslate"><span class="pre">AbstractEvent.date</span></code></a></li>
+<li><a class="reference internal" href="#events.models.AbstractEvent.get_default_pk"><code class="docutils literal notranslate"><span class="pre">AbstractEvent.get_default_pk()</span></code></a></li>
+<li><a class="reference internal" href="#events.models.AbstractEvent.get_next_by_date"><code class="docutils literal notranslate"><span class="pre">AbstractEvent.get_next_by_date()</span></code></a></li>
+<li><a class="reference internal" href="#events.models.AbstractEvent.get_previous_by_date"><code class="docutils literal notranslate"><span class="pre">AbstractEvent.get_previous_by_date()</span></code></a></li>
+<li><a class="reference internal" href="#events.models.AbstractEvent.notes"><code class="docutils literal notranslate"><span class="pre">AbstractEvent.notes</span></code></a></li>
+<li><a class="reference internal" href="#events.models.AbstractEvent.short_name"><code class="docutils literal notranslate"><span class="pre">AbstractEvent.short_name</span></code></a></li>
+<li><a class="reference internal" href="#events.models.AbstractEvent.video_link"><code class="docutils literal notranslate"><span class="pre">AbstractEvent.video_link</span></code></a></li>
+<li><a class="reference internal" href="#events.models.AbstractEvent.video_link_id"><code class="docutils literal notranslate"><span class="pre">AbstractEvent.video_link_id</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#events.models.AbstractMicrocycles"><code class="docutils literal notranslate"><span class="pre">AbstractMicrocycles</span></code></a><ul>
+<li><a class="reference internal" href="#events.models.AbstractMicrocycles.Meta"><code class="docutils literal notranslate"><span class="pre">AbstractMicrocycles.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#events.models.AbstractMicrocycles.Meta.abstract"><code class="docutils literal notranslate"><span class="pre">AbstractMicrocycles.Meta.abstract</span></code></a></li>
+<li><a class="reference internal" href="#events.models.AbstractMicrocycles.Meta.ordering"><code class="docutils literal notranslate"><span class="pre">AbstractMicrocycles.Meta.ordering</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#events.models.AbstractMicrocycles.date_by"><code class="docutils literal notranslate"><span class="pre">AbstractMicrocycles.date_by</span></code></a></li>
+<li><a class="reference internal" href="#events.models.AbstractMicrocycles.date_with"><code class="docutils literal notranslate"><span class="pre">AbstractMicrocycles.date_with</span></code></a></li>
+<li><a class="reference internal" href="#events.models.AbstractMicrocycles.get_next_by_date_by"><code class="docutils literal notranslate"><span class="pre">AbstractMicrocycles.get_next_by_date_by()</span></code></a></li>
+<li><a class="reference internal" href="#events.models.AbstractMicrocycles.get_next_by_date_with"><code class="docutils literal notranslate"><span class="pre">AbstractMicrocycles.get_next_by_date_with()</span></code></a></li>
+<li><a class="reference internal" href="#events.models.AbstractMicrocycles.get_previous_by_date_by"><code class="docutils literal notranslate"><span class="pre">AbstractMicrocycles.get_previous_by_date_by()</span></code></a></li>
+<li><a class="reference internal" href="#events.models.AbstractMicrocycles.get_previous_by_date_with"><code class="docutils literal notranslate"><span class="pre">AbstractMicrocycles.get_previous_by_date_with()</span></code></a></li>
+<li><a class="reference internal" href="#events.models.AbstractMicrocycles.name"><code class="docutils literal notranslate"><span class="pre">AbstractMicrocycles.name</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#events.models.ClubEvent"><code class="docutils literal notranslate"><span class="pre">ClubEvent</span></code></a><ul>
+<li><a class="reference internal" href="#events.models.ClubEvent.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">ClubEvent.DoesNotExist</span></code></a></li>
+<li><a class="reference internal" href="#events.models.ClubEvent.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">ClubEvent.MultipleObjectsReturned</span></code></a></li>
+<li><a class="reference internal" href="#events.models.ClubEvent.club_id"><code class="docutils literal notranslate"><span class="pre">ClubEvent.club_id</span></code></a></li>
+<li><a class="reference internal" href="#events.models.ClubEvent.club_id_id"><code class="docutils literal notranslate"><span class="pre">ClubEvent.club_id_id</span></code></a></li>
+<li><a class="reference internal" href="#events.models.ClubEvent.clubmatch"><code class="docutils literal notranslate"><span class="pre">ClubEvent.clubmatch</span></code></a></li>
+<li><a class="reference internal" href="#events.models.ClubEvent.clubtraining"><code class="docutils literal notranslate"><span class="pre">ClubEvent.clubtraining</span></code></a></li>
+<li><a class="reference internal" href="#events.models.ClubEvent.date"><code class="docutils literal notranslate"><span class="pre">ClubEvent.date</span></code></a></li>
+<li><a class="reference internal" href="#events.models.ClubEvent.get_next_by_date"><code class="docutils literal notranslate"><span class="pre">ClubEvent.get_next_by_date()</span></code></a></li>
+<li><a class="reference internal" href="#events.models.ClubEvent.get_previous_by_date"><code class="docutils literal notranslate"><span class="pre">ClubEvent.get_previous_by_date()</span></code></a></li>
+<li><a class="reference internal" href="#events.models.ClubEvent.id"><code class="docutils literal notranslate"><span class="pre">ClubEvent.id</span></code></a></li>
+<li><a class="reference internal" href="#events.models.ClubEvent.notes"><code class="docutils literal notranslate"><span class="pre">ClubEvent.notes</span></code></a></li>
+<li><a class="reference internal" href="#events.models.ClubEvent.objects"><code class="docutils literal notranslate"><span class="pre">ClubEvent.objects</span></code></a></li>
+<li><a class="reference internal" href="#events.models.ClubEvent.short_name"><code class="docutils literal notranslate"><span class="pre">ClubEvent.short_name</span></code></a></li>
+<li><a class="reference internal" href="#events.models.ClubEvent.sync_event"><code class="docutils literal notranslate"><span class="pre">ClubEvent.sync_event</span></code></a></li>
+<li><a class="reference internal" href="#events.models.ClubEvent.user_id"><code class="docutils literal notranslate"><span class="pre">ClubEvent.user_id</span></code></a></li>
+<li><a class="reference internal" href="#events.models.ClubEvent.user_id_id"><code class="docutils literal notranslate"><span class="pre">ClubEvent.user_id_id</span></code></a></li>
+<li><a class="reference internal" href="#events.models.ClubEvent.video_link"><code class="docutils literal notranslate"><span class="pre">ClubEvent.video_link</span></code></a></li>
+<li><a class="reference internal" href="#events.models.ClubEvent.video_link_id"><code class="docutils literal notranslate"><span class="pre">ClubEvent.video_link_id</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#events.models.ClubMicrocycles"><code class="docutils literal notranslate"><span class="pre">ClubMicrocycles</span></code></a><ul>
+<li><a class="reference internal" href="#events.models.ClubMicrocycles.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">ClubMicrocycles.DoesNotExist</span></code></a></li>
+<li><a class="reference internal" href="#events.models.ClubMicrocycles.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">ClubMicrocycles.MultipleObjectsReturned</span></code></a></li>
+<li><a class="reference internal" href="#events.models.ClubMicrocycles.date_by"><code class="docutils literal notranslate"><span class="pre">ClubMicrocycles.date_by</span></code></a></li>
+<li><a class="reference internal" href="#events.models.ClubMicrocycles.date_with"><code class="docutils literal notranslate"><span class="pre">ClubMicrocycles.date_with</span></code></a></li>
+<li><a class="reference internal" href="#events.models.ClubMicrocycles.get_next_by_date_by"><code class="docutils literal notranslate"><span class="pre">ClubMicrocycles.get_next_by_date_by()</span></code></a></li>
+<li><a class="reference internal" href="#events.models.ClubMicrocycles.get_next_by_date_with"><code class="docutils literal notranslate"><span class="pre">ClubMicrocycles.get_next_by_date_with()</span></code></a></li>
+<li><a class="reference internal" href="#events.models.ClubMicrocycles.get_previous_by_date_by"><code class="docutils literal notranslate"><span class="pre">ClubMicrocycles.get_previous_by_date_by()</span></code></a></li>
+<li><a class="reference internal" href="#events.models.ClubMicrocycles.get_previous_by_date_with"><code class="docutils literal notranslate"><span class="pre">ClubMicrocycles.get_previous_by_date_with()</span></code></a></li>
+<li><a class="reference internal" href="#events.models.ClubMicrocycles.id"><code class="docutils literal notranslate"><span class="pre">ClubMicrocycles.id</span></code></a></li>
+<li><a class="reference internal" href="#events.models.ClubMicrocycles.name"><code class="docutils literal notranslate"><span class="pre">ClubMicrocycles.name</span></code></a></li>
+<li><a class="reference internal" href="#events.models.ClubMicrocycles.objects"><code class="docutils literal notranslate"><span class="pre">ClubMicrocycles.objects</span></code></a></li>
+<li><a class="reference internal" href="#events.models.ClubMicrocycles.team_id"><code class="docutils literal notranslate"><span class="pre">ClubMicrocycles.team_id</span></code></a></li>
+<li><a class="reference internal" href="#events.models.ClubMicrocycles.team_id_id"><code class="docutils literal notranslate"><span class="pre">ClubMicrocycles.team_id_id</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#events.models.EventVideoLink"><code class="docutils literal notranslate"><span class="pre">EventVideoLink</span></code></a><ul>
+<li><a class="reference internal" href="#events.models.EventVideoLink.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">EventVideoLink.DoesNotExist</span></code></a></li>
+<li><a class="reference internal" href="#events.models.EventVideoLink.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">EventVideoLink.MultipleObjectsReturned</span></code></a></li>
+<li><a class="reference internal" href="#events.models.EventVideoLink.clubevent_set"><code class="docutils literal notranslate"><span class="pre">EventVideoLink.clubevent_set</span></code></a></li>
+<li><a class="reference internal" href="#events.models.EventVideoLink.clubprotocol_set"><code class="docutils literal notranslate"><span class="pre">EventVideoLink.clubprotocol_set</span></code></a></li>
+<li><a class="reference internal" href="#events.models.EventVideoLink.description"><code class="docutils literal notranslate"><span class="pre">EventVideoLink.description</span></code></a></li>
+<li><a class="reference internal" href="#events.models.EventVideoLink.id"><code class="docutils literal notranslate"><span class="pre">EventVideoLink.id</span></code></a></li>
+<li><a class="reference internal" href="#events.models.EventVideoLink.json_link"><code class="docutils literal notranslate"><span class="pre">EventVideoLink.json_link</span></code></a></li>
+<li><a class="reference internal" href="#events.models.EventVideoLink.objects"><code class="docutils literal notranslate"><span class="pre">EventVideoLink.objects</span></code></a></li>
+<li><a class="reference internal" href="#events.models.EventVideoLink.userevent_set"><code class="docutils literal notranslate"><span class="pre">EventVideoLink.userevent_set</span></code></a></li>
+<li><a class="reference internal" href="#events.models.EventVideoLink.userprotocol_set"><code class="docutils literal notranslate"><span class="pre">EventVideoLink.userprotocol_set</span></code></a></li>
+<li><a class="reference internal" href="#events.models.EventVideoLink.video"><code class="docutils literal notranslate"><span class="pre">EventVideoLink.video</span></code></a></li>
+<li><a class="reference internal" href="#events.models.EventVideoLink.video_id"><code class="docutils literal notranslate"><span class="pre">EventVideoLink.video_id</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#events.models.UserEvent"><code class="docutils literal notranslate"><span class="pre">UserEvent</span></code></a><ul>
+<li><a class="reference internal" href="#events.models.UserEvent.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">UserEvent.DoesNotExist</span></code></a></li>
+<li><a class="reference internal" href="#events.models.UserEvent.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">UserEvent.MultipleObjectsReturned</span></code></a></li>
+<li><a class="reference internal" href="#events.models.UserEvent.date"><code class="docutils literal notranslate"><span class="pre">UserEvent.date</span></code></a></li>
+<li><a class="reference internal" href="#events.models.UserEvent.get_next_by_date"><code class="docutils literal notranslate"><span class="pre">UserEvent.get_next_by_date()</span></code></a></li>
+<li><a class="reference internal" href="#events.models.UserEvent.get_previous_by_date"><code class="docutils literal notranslate"><span class="pre">UserEvent.get_previous_by_date()</span></code></a></li>
+<li><a class="reference internal" href="#events.models.UserEvent.id"><code class="docutils literal notranslate"><span class="pre">UserEvent.id</span></code></a></li>
+<li><a class="reference internal" href="#events.models.UserEvent.notes"><code class="docutils literal notranslate"><span class="pre">UserEvent.notes</span></code></a></li>
+<li><a class="reference internal" href="#events.models.UserEvent.objects"><code class="docutils literal notranslate"><span class="pre">UserEvent.objects</span></code></a></li>
+<li><a class="reference internal" href="#events.models.UserEvent.short_name"><code class="docutils literal notranslate"><span class="pre">UserEvent.short_name</span></code></a></li>
+<li><a class="reference internal" href="#events.models.UserEvent.sync_event"><code class="docutils literal notranslate"><span class="pre">UserEvent.sync_event</span></code></a></li>
+<li><a class="reference internal" href="#events.models.UserEvent.user_id"><code class="docutils literal notranslate"><span class="pre">UserEvent.user_id</span></code></a></li>
+<li><a class="reference internal" href="#events.models.UserEvent.user_id_id"><code class="docutils literal notranslate"><span class="pre">UserEvent.user_id_id</span></code></a></li>
+<li><a class="reference internal" href="#events.models.UserEvent.usermatch"><code class="docutils literal notranslate"><span class="pre">UserEvent.usermatch</span></code></a></li>
+<li><a class="reference internal" href="#events.models.UserEvent.usertraining"><code class="docutils literal notranslate"><span class="pre">UserEvent.usertraining</span></code></a></li>
+<li><a class="reference internal" href="#events.models.UserEvent.video_link"><code class="docutils literal notranslate"><span class="pre">UserEvent.video_link</span></code></a></li>
+<li><a class="reference internal" href="#events.models.UserEvent.video_link_id"><code class="docutils literal notranslate"><span class="pre">UserEvent.video_link_id</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#events.models.UserMicrocycles"><code class="docutils literal notranslate"><span class="pre">UserMicrocycles</span></code></a><ul>
+<li><a class="reference internal" href="#events.models.UserMicrocycles.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">UserMicrocycles.DoesNotExist</span></code></a></li>
+<li><a class="reference internal" href="#events.models.UserMicrocycles.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">UserMicrocycles.MultipleObjectsReturned</span></code></a></li>
+<li><a class="reference internal" href="#events.models.UserMicrocycles.date_by"><code class="docutils literal notranslate"><span class="pre">UserMicrocycles.date_by</span></code></a></li>
+<li><a class="reference internal" href="#events.models.UserMicrocycles.date_with"><code class="docutils literal notranslate"><span class="pre">UserMicrocycles.date_with</span></code></a></li>
+<li><a class="reference internal" href="#events.models.UserMicrocycles.get_next_by_date_by"><code class="docutils literal notranslate"><span class="pre">UserMicrocycles.get_next_by_date_by()</span></code></a></li>
+<li><a class="reference internal" href="#events.models.UserMicrocycles.get_next_by_date_with"><code class="docutils literal notranslate"><span class="pre">UserMicrocycles.get_next_by_date_with()</span></code></a></li>
+<li><a class="reference internal" href="#events.models.UserMicrocycles.get_previous_by_date_by"><code class="docutils literal notranslate"><span class="pre">UserMicrocycles.get_previous_by_date_by()</span></code></a></li>
+<li><a class="reference internal" href="#events.models.UserMicrocycles.get_previous_by_date_with"><code class="docutils literal notranslate"><span class="pre">UserMicrocycles.get_previous_by_date_with()</span></code></a></li>
+<li><a class="reference internal" href="#events.models.UserMicrocycles.id"><code class="docutils literal notranslate"><span class="pre">UserMicrocycles.id</span></code></a></li>
+<li><a class="reference internal" href="#events.models.UserMicrocycles.name"><code class="docutils literal notranslate"><span class="pre">UserMicrocycles.name</span></code></a></li>
+<li><a class="reference internal" href="#events.models.UserMicrocycles.objects"><code class="docutils literal notranslate"><span class="pre">UserMicrocycles.objects</span></code></a></li>
+<li><a class="reference internal" href="#events.models.UserMicrocycles.team_id"><code class="docutils literal notranslate"><span class="pre">UserMicrocycles.team_id</span></code></a></li>
+<li><a class="reference internal" href="#events.models.UserMicrocycles.team_id_id"><code class="docutils literal notranslate"><span class="pre">UserMicrocycles.team_id_id</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-events.serializers">events.serializers module</a><ul>
+<li><a class="reference internal" href="#events.serializers.UserEventEditSerializer"><code class="docutils literal notranslate"><span class="pre">UserEventEditSerializer</span></code></a><ul>
+<li><a class="reference internal" href="#events.serializers.UserEventEditSerializer.Meta"><code class="docutils literal notranslate"><span class="pre">UserEventEditSerializer.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#events.serializers.UserEventEditSerializer.Meta.fields"><code class="docutils literal notranslate"><span class="pre">UserEventEditSerializer.Meta.fields</span></code></a></li>
+<li><a class="reference internal" href="#events.serializers.UserEventEditSerializer.Meta.model"><code class="docutils literal notranslate"><span class="pre">UserEventEditSerializer.Meta.model</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#events.serializers.UserEventSerializer"><code class="docutils literal notranslate"><span class="pre">UserEventSerializer</span></code></a><ul>
+<li><a class="reference internal" href="#events.serializers.UserEventSerializer.Meta"><code class="docutils literal notranslate"><span class="pre">UserEventSerializer.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#events.serializers.UserEventSerializer.Meta.datatables_always_serialize"><code class="docutils literal notranslate"><span class="pre">UserEventSerializer.Meta.datatables_always_serialize</span></code></a></li>
+<li><a class="reference internal" href="#events.serializers.UserEventSerializer.Meta.fields"><code class="docutils literal notranslate"><span class="pre">UserEventSerializer.Meta.fields</span></code></a></li>
+<li><a class="reference internal" href="#events.serializers.UserEventSerializer.Meta.model"><code class="docutils literal notranslate"><span class="pre">UserEventSerializer.Meta.model</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#events.serializers.UserMicrocycleDaySerializer"><code class="docutils literal notranslate"><span class="pre">UserMicrocycleDaySerializer</span></code></a></li>
+<li><a class="reference internal" href="#events.serializers.UserMicrocyclesSerializer"><code class="docutils literal notranslate"><span class="pre">UserMicrocyclesSerializer</span></code></a><ul>
+<li><a class="reference internal" href="#events.serializers.UserMicrocyclesSerializer.Meta"><code class="docutils literal notranslate"><span class="pre">UserMicrocyclesSerializer.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#events.serializers.UserMicrocyclesSerializer.Meta.datatables_always_serialize"><code class="docutils literal notranslate"><span class="pre">UserMicrocyclesSerializer.Meta.datatables_always_serialize</span></code></a></li>
+<li><a class="reference internal" href="#events.serializers.UserMicrocyclesSerializer.Meta.fields"><code class="docutils literal notranslate"><span class="pre">UserMicrocyclesSerializer.Meta.fields</span></code></a></li>
+<li><a class="reference internal" href="#events.serializers.UserMicrocyclesSerializer.Meta.model"><code class="docutils literal notranslate"><span class="pre">UserMicrocyclesSerializer.Meta.model</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#events.serializers.UserMicrocyclesUpdateSerializer"><code class="docutils literal notranslate"><span class="pre">UserMicrocyclesUpdateSerializer</span></code></a><ul>
+<li><a class="reference internal" href="#events.serializers.UserMicrocyclesUpdateSerializer.Meta"><code class="docutils literal notranslate"><span class="pre">UserMicrocyclesUpdateSerializer.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#events.serializers.UserMicrocyclesUpdateSerializer.Meta.fields"><code class="docutils literal notranslate"><span class="pre">UserMicrocyclesUpdateSerializer.Meta.fields</span></code></a></li>
+<li><a class="reference internal" href="#events.serializers.UserMicrocyclesUpdateSerializer.Meta.model"><code class="docutils literal notranslate"><span class="pre">UserMicrocyclesUpdateSerializer.Meta.model</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-events.tests">events.tests module</a></li>
+<li><a class="reference internal" href="#module-events.urls">events.urls module</a></li>
+<li><a class="reference internal" href="#module-events.views">events.views module</a><ul>
+<li><a class="reference internal" href="#events.views.EventViewSet"><code class="docutils literal notranslate"><span class="pre">EventViewSet</span></code></a><ul>
+<li><a class="reference internal" href="#events.views.EventViewSet.basename"><code class="docutils literal notranslate"><span class="pre">EventViewSet.basename</span></code></a></li>
+<li><a class="reference internal" href="#events.views.EventViewSet.create"><code class="docutils literal notranslate"><span class="pre">EventViewSet.create()</span></code></a></li>
+<li><a class="reference internal" href="#events.views.EventViewSet.description"><code class="docutils literal notranslate"><span class="pre">EventViewSet.description</span></code></a></li>
+<li><a class="reference internal" href="#events.views.EventViewSet.detail"><code class="docutils literal notranslate"><span class="pre">EventViewSet.detail</span></code></a></li>
+<li><a class="reference internal" href="#events.views.EventViewSet.get_queryset"><code class="docutils literal notranslate"><span class="pre">EventViewSet.get_queryset()</span></code></a></li>
+<li><a class="reference internal" href="#events.views.EventViewSet.get_serializer_class"><code class="docutils literal notranslate"><span class="pre">EventViewSet.get_serializer_class()</span></code></a></li>
+<li><a class="reference internal" href="#events.views.EventViewSet.list"><code class="docutils literal notranslate"><span class="pre">EventViewSet.list()</span></code></a></li>
+<li><a class="reference internal" href="#events.views.EventViewSet.name"><code class="docutils literal notranslate"><span class="pre">EventViewSet.name</span></code></a></li>
+<li><a class="reference internal" href="#events.views.EventViewSet.perform_create"><code class="docutils literal notranslate"><span class="pre">EventViewSet.perform_create()</span></code></a></li>
+<li><a class="reference internal" href="#events.views.EventViewSet.permission_classes"><code class="docutils literal notranslate"><span class="pre">EventViewSet.permission_classes</span></code></a></li>
+<li><a class="reference internal" href="#events.views.EventViewSet.suffix"><code class="docutils literal notranslate"><span class="pre">EventViewSet.suffix</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#events.views.EventsView"><code class="docutils literal notranslate"><span class="pre">EventsView</span></code></a><ul>
+<li><a class="reference internal" href="#events.views.EventsView.get_context_data"><code class="docutils literal notranslate"><span class="pre">EventsView.get_context_data()</span></code></a></li>
+<li><a class="reference internal" href="#events.views.EventsView.template_name"><code class="docutils literal notranslate"><span class="pre">EventsView.template_name</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#events.views.MicrocycleViewSet"><code class="docutils literal notranslate"><span class="pre">MicrocycleViewSet</span></code></a><ul>
+<li><a class="reference internal" href="#events.views.MicrocycleViewSet.basename"><code class="docutils literal notranslate"><span class="pre">MicrocycleViewSet.basename</span></code></a></li>
+<li><a class="reference internal" href="#events.views.MicrocycleViewSet.description"><code class="docutils literal notranslate"><span class="pre">MicrocycleViewSet.description</span></code></a></li>
+<li><a class="reference internal" href="#events.views.MicrocycleViewSet.detail"><code class="docutils literal notranslate"><span class="pre">MicrocycleViewSet.detail</span></code></a></li>
+<li><a class="reference internal" href="#events.views.MicrocycleViewSet.get_queryset"><code class="docutils literal notranslate"><span class="pre">MicrocycleViewSet.get_queryset()</span></code></a></li>
+<li><a class="reference internal" href="#events.views.MicrocycleViewSet.get_serializer_class"><code class="docutils literal notranslate"><span class="pre">MicrocycleViewSet.get_serializer_class()</span></code></a></li>
+<li><a class="reference internal" href="#events.views.MicrocycleViewSet.name"><code class="docutils literal notranslate"><span class="pre">MicrocycleViewSet.name</span></code></a></li>
+<li><a class="reference internal" href="#events.views.MicrocycleViewSet.perform_create"><code class="docutils literal notranslate"><span class="pre">MicrocycleViewSet.perform_create()</span></code></a></li>
+<li><a class="reference internal" href="#events.views.MicrocycleViewSet.permission_classes"><code class="docutils literal notranslate"><span class="pre">MicrocycleViewSet.permission_classes</span></code></a></li>
+<li><a class="reference internal" href="#events.views.MicrocycleViewSet.suffix"><code class="docutils literal notranslate"><span class="pre">MicrocycleViewSet.suffix</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-events">Module contents</a></li>
+</ul>
+</li>
+</ul>
 
-
-
-
-
-
-
-
+          </div>
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2022, Nanofootball team.
       
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
-      |
-      <a href="_sources/events.rst.txt"
-          rel="nofollow">Page source</a>
-    </div>
-
-    
-
-    
-  </body>
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/scripts/furo.js"></script>
+    </body>
 </html>
