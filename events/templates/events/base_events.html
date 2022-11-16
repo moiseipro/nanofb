@@ -24,13 +24,15 @@
                     <div class="row">
                         <div class="col py-0">
                             <div class="row">
-                                <div class="col-4 px-1">
+                                <div class="col px-1">
                                     <button id="event-add" title="{% trans 'Event' %}" data-toggle="modal" data-target="#form-event-modal" class="btn btn-block btn-outline-dark btn-sm font-weight-bold"><i class="fa fa-plus" aria-hidden="true"></i></button>
                                 </div>
-                                <div class="col-4 px-1">
+                                {% if perms.events.add_clubmicrocycles or perms.events.add_usermicrocycles %}
+                                <div class="col px-1">
                                     <button id="microcycle" title="{% trans 'Microcycle' %}" data-toggle="modal" data-target="#microcycle-modal" class="btn btn-block btn-outline-success btn-sm font-weight-bold"><i class="fa fa-plus" aria-hidden="true"></i></button>
                                 </div>
-                                <div class="col-4 px-1">
+                                {% endif %}
+                                <div class="col px-1">
                                     <button id="toggle-calendar" title="{% trans 'Show/Hide calendar' %}" class="btn btn-block btn-outline-dark btn-sm font-weight-bold"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
                                 </div>
                             </div>

@@ -45,7 +45,6 @@ class TeamStatusSerializer(serializers.ModelSerializer):
 
 class UserTeamsSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    # team_status = serializers.RelatedField(source="ref_team_status", read_only=True)
     team_status_info = TeamStatusSerializer(source='ref_team_status', read_only=True)
 
     class Meta:
@@ -56,9 +55,16 @@ class UserTeamsSerializer(serializers.ModelSerializer):
         datatables_always_serialize = ('id',)
 
 
-class ClubTeamsSerializer(UserTeamsSerializer):
-    class Meta(UserTeamsSerializer.Meta):
+class ClubTeamsSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    team_status_info = TeamStatusSerializer(source='ref_team_status', read_only=True)
+
+    class Meta:
         model = ClubTeam
+        fields = [
+            'id', 'name', 'short_name', 'ref_team_status', 'team_status_info', 'users'
+        ]
+        datatables_always_serialize = ('id',)
 
 
 class UserSeasonsSerializer(serializers.ModelSerializer):

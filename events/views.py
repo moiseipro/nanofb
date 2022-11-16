@@ -6,48 +6,76 @@ from django.utils.datetime_safe import datetime
 from django.db.models import Q, F, Count, Subquery
 from django.views.generic import TemplateView
 from rest_framework import viewsets, status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework_datatables.django_filters.backends import DatatablesFilterBackend
 
 from events.filters import EventGlobalFilter
 from events.forms import MicrocycleUserForm, EventUserForm, EventEditUserForm
-from events.models import UserMicrocycles, UserEvent
+from events.models import UserMicrocycles, UserEvent, ClubMicrocycles
 from events.serializers import UserMicrocyclesSerializer, UserMicrocyclesUpdateSerializer, UserEventSerializer, \
-    UserEventEditSerializer
+    UserEventEditSerializer, ClubMicrocyclesSerializer, ClubMicrocyclesUpdateSerializer
 from matches.models import UserMatch
-from references.models import UserTeam, UserSeason
+from references.models import UserTeam, UserSeason, ClubSeason, ClubTeam
 from trainings.models import UserTraining
 from system_icons.views import get_ui_elements
 
 
+class BaseEventsPermissions(DjangoModelPermissions):
+    perms_map = {
+        'GET': ['%(app_label)s.view_%(model_name)s'],
+        'OPTIONS': [],
+        'HEAD': [],
+        'POST': ['%(app_label)s.add_%(model_name)s'],
+        'PUT': ['%(app_label)s.change_%(model_name)s'],
+        'PATCH': ['%(app_label)s.change_%(model_name)s'],
+        'DELETE': ['%(app_label)s.delete_%(model_name)s'],
+    }
+
+
 # REST FRAMEWORK
 class MicrocycleViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [BaseEventsPermissions]
 
     def perform_create(self, serializer):
-        team = UserTeam.objects.get(pk=self.request.session['team'])
+        if self.request.user.club_id is not None:
+            team = ClubTeam.objects.get(pk=self.request.session['team'], club_id=self.request.user.club_id)
+        else:
+            team = UserTeam.objects.get(pk=self.request.session['team'])
         serializer.save(team_id=team)
 
     def get_serializer_class(self):
         if self.action == 'partial_update':
-            return UserMicrocyclesUpdateSerializer
-        return UserMicrocyclesSerializer
+            if self.request.user.club_id is not None:
+                serial = ClubMicrocyclesUpdateSerializer
+            else:
+                serial = UserMicrocyclesUpdateSerializer
+            return serial
+        if self.request.user.club_id is not None:
+            serial = ClubMicrocyclesSerializer
+        else:
+            serial = UserMicrocyclesSerializer
+        return serial
 
     def get_queryset(self):
-        if self.action == 'partial_update':
-            return UserMicrocycles.objects.all()
-        season = UserSeason.objects.filter(id=self.request.session['season'])
-        return UserMicrocycles.objects.filter(team_id=self.request.session['team'],
-                                              date_with__gte=season[0].date_with,
-                                              date_by__lte=season[0].date_by)
+        # if self.action == 'partial_update':
+        #     return UserMicrocycles.objects.all()
+        if self.request.user.club_id is not None:
+            season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
+            microcycle = ClubMicrocycles.objects.filter(team_id=self.request.session['team'],
+                                                        date_with__gte=season[0].date_with,
+                                                        date_by__lte=season[0].date_by)
+        else:
+            season = UserSeason.objects.filter(id=self.request.session['season'])
+            microcycle = UserMicrocycles.objects.filter(team_id=self.request.session['team'],
+                                                  date_with__gte=season[0].date_with,
+                                                  date_by__lte=season[0].date_by)
+        return microcycle
 
 
 class EventViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
-    # filter_backends = (DatatablesFilterBackend,)
-    # filterset_class = EventGlobalFilter
+    permission_classes = [BaseEventsPermissions]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -97,19 +125,6 @@ class EventViewSet(viewsets.ModelViewSet):
             else:
                 return False
 
-    # def list(self, request, *args, **kwargs):
-    #     queryset = self.filter_queryset(self.get_queryset())
-    #
-    #     page = self.paginate_queryset(queryset)
-    #     if page is not None:
-    #         serializer = self.get_serializer(page, many=True)
-    #         new_serializer_data = {'new': 'item'}
-    #         new_serializer_data = list(serializer.data)
-    #         print(new_serializer_data)
-    #         return self.get_paginated_response(serializer.data)
-    #
-    #     serializer = self.get_serializer(queryset, many=True)
-    #     return Response(serializer.data)
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
 
@@ -129,8 +144,6 @@ class EventViewSet(viewsets.ModelViewSet):
         return UserEventSerializer
 
     def get_queryset(self):
-        #microcycle_before = self.request.query_params.get('columns[1][search][value][only_date_before]')
-        #microcycle_after = self.request.query_params.get('columns[1][search][value][only_date_after]')
         microcycle_before = self.request.query_params.get('to_date')
         microcycle_after = self.request.query_params.get('from_date')
         #print(microcycle_after)
@@ -149,22 +162,6 @@ class EventViewSet(viewsets.ModelViewSet):
             events = events.filter(date__gte=microcycle_after,
                                    date__lte=datetime.combine(datetime.strptime(microcycle_before, '%Y-%m-%d'), time.max))
 
-        # events_arr = list(events)
-        # events_list = list()
-        # print(events_arr)
-        # last_date = events_arr[0].date
-        # for event in events_arr:
-        #     days = (last_date - event.date).days
-        #     print(days)
-        #     if days > 0:
-        #         for day in range(days):
-        #             d = timedelta(days=day)
-        #             events_list.append(UserEvent(short_name="---", date=last_date+d))
-        #     events_list.append(event)
-        #     print(days)
-        # # query_dict = QueryDict('', mutable=True)
-        # # query_dict.update(dict(events))
-        # print(events_list.count())
         return events
 
 

@@ -53,8 +53,8 @@ class CreateSeasonForm(forms.ModelForm):
             'date_by': date_by_input_widget
         }
         labels = {
-            'name': _('Team title'),
-            'short_name': _('Team short name'),
+            'name': _('Season title'),
+            'short_name': _('Season short name'),
             'date_with': _('Season start date'),
             'date_by': _('End of season date'),
         }

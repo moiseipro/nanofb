@@ -11,7 +11,10 @@ class TeamAndSeasons:
         # the view (and later middleware) are called.
         if not request.user.is_anonymous:
             if request.user.club_id is not None:
-                request.teams_list = ClubTeam.objects.filter(club_id=request.user.club_id, users=request.user)
+                if request.user.has_perm('clubs.club_admin'):
+                    request.teams_list = ClubTeam.objects.filter(club_id=request.user.club_id)
+                else:
+                    request.teams_list = ClubTeam.objects.filter(club_id=request.user.club_id, users=request.user)
                 request.seasons_list = ClubSeason.objects.filter(club_id=request.user.club_id)
             else:
                 request.teams_list = UserTeam.objects.filter(user_id=request.user)
