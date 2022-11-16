@@ -4,6 +4,7 @@
 /Lib/
 
 /venv/
+/env/
 /.vscode/
 /.idea/
 
