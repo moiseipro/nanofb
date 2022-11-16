@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
-from events.models import UserMicrocycles, UserEvent
-
+from events.models import UserMicrocycles, UserEvent, ClubMicrocycles
 
 # Microcycles
 from matches.serializers import UserMatchSerializer
@@ -19,10 +18,30 @@ class UserMicrocyclesSerializer(serializers.ModelSerializer):
         datatables_always_serialize = ('id',)
 
 
+class ClubMicrocyclesSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = ClubMicrocycles
+        fields = [
+            'id', 'name', 'date_with', 'date_by'
+        ]
+        datatables_always_serialize = ('id',)
+
+
 class UserMicrocyclesUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserMicrocycles
+        fields = [
+            'name', 'date_with', 'date_by'
+        ]
+
+
+class ClubMicrocyclesUpdateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ClubMicrocycles
         fields = [
             'name', 'date_with', 'date_by'
         ]

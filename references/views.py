@@ -16,6 +16,9 @@ from references.serializers import UserTeamsSerializer, UserSeasonsSerializer, E
 
 
 # REST PERMISSIONS
+from users.models import User
+
+
 class ReferencePermissions(DjangoModelPermissions):
     perms_map = {
         'GET': ['%(app_label)s.view_%(model_name)s'],
@@ -47,6 +50,21 @@ class TeamViewSet(viewsets.ModelViewSet):
         serializer = UserPlayerSerializer(queryset, many=True)
         return Response({'status': 'players_got', 'objs': serializer.data})
 
+    @action(detail=True, methods=['post'])
+    def change_permission(self, request, pk=None):
+        data = request.data
+
+        team_edit = ClubTeam.objects.get(id=pk, club_id=request.user.club_id)
+        print(team_edit.users.all())
+        user = User.objects.get(id=data['user_id'])
+        print(data)
+        if user in team_edit.users.all():
+            team_edit.users.remove(user)
+            return Response({'status': 'user_removed'})
+        else:
+            team_edit.users.add(user)
+            return Response({'status': 'user_added'})
+
     def get_serializer_class(self):
         if self.request.user.club_id is not None:
             return ClubTeamsSerializer
@@ -56,8 +74,11 @@ class TeamViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         request = self.request
-        if self.request.user.club_id is not None:
-            team = ClubTeam.objects.filter(club_id=request.user.club_id, users=request.user)
+        if request.user.club_id is not None:
+            if request.user.has_perm('clubs.club_admin'):
+                team = ClubTeam.objects.filter(club_id=request.user.club_id)
+            else:
+                team = ClubTeam.objects.filter(club_id=request.user.club_id, users=request.user)
         else:
             team = UserTeam.objects.filter(user_id=request.user)
         return team
