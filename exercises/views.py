@@ -9,6 +9,25 @@ from system_icons.views import get_ui_elements
 
 
 def exercises(request):
+    """
+    Return render page with given template. 
+        If the user is not authorized, then there will be a redirect to the page with authorization.
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :return: Return an HttpResponse whose content is filled with the result of calling django.template.loader.render_to_string() with the passed arguments.
+    Next arguments:\n
+    * 'folders' -> UserFolder or ClubFolder objects filtered by user and current team.
+    * 'folders_only_view' -> True or False for folders_view_mode.
+    * 'nfb_folders' -> AdminFolder objects.
+    * 'refs' -> References of Exercises Section.
+    * 'is_exercises' -> True or False for section "Exercises".
+    * 'menu_exercises' -> Html tag class: "active" for Sidebar.
+    * 'seasons_list' -> List of user's or club's seasons available current user.
+    * 'teams_list' -> List of user's or club's teams available current user.
+    * 'ui_elements' -> List of UI elements registered in icons' system. Check Module.system_icons.views.get_ui_elements(request) for see more.
+    :rtype: [HttpResponse]
+
+    """
     if not request.user.is_authenticated:
         return redirect("authorization:login")
     cur_user = User.objects.filter(email=request.user).only("club_id")
@@ -35,6 +54,25 @@ def exercises(request):
 
 
 def exercise(request):
+    """
+    Return render page with given template. 
+        If the user is not authorized, then there will be a redirect to the page with authorization.
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :return: Return an HttpResponse whose content is filled with the result of calling django.template.loader.render_to_string() with the passed arguments.
+    Next arguments:\n
+    * 'exs' -> Found exercise.
+    * 'folders' -> UserFolder or ClubFolder objects filtered by user and current team.
+    * 'folders_only_view' -> True or False for folders_view_mode.
+    * 'nfb_folders' -> AdminFolder objects.
+    * 'refs' -> References of Exercises Section.
+    * 'menu_exercises' -> Html tag class: "active" for Sidebar.
+    * 'seasons_list' -> List of user's or club's seasons available current user.
+    * 'teams_list' -> List of user's or club's teams available current user.
+    * 'ui_elements' -> List of UI elements registered in icons' system. Check Module.system_icons.views.get_ui_elements(request) for see more.
+    :rtype: [HttpResponse]
+
+    """
     if not request.user.is_authenticated:
         return redirect("authorization:login")
     cur_user = User.objects.filter(email=request.user).only("club_id")
@@ -78,6 +116,23 @@ def exercise(request):
 
 
 def folders(request):
+    """
+    Return render page with given template. 
+        If the user is not authorized, then there will be a redirect to the page with authorization.
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :return: Return an HttpResponse whose content is filled with the result of calling django.template.loader.render_to_string() with the passed arguments.
+    Next arguments:\n
+    * 'folders' -> UserFolder or ClubFolder objects filtered by user and current team.
+    * 'folders_only_view' -> True or False for folders_view_mode.
+    * 'is_folders' -> True or False for section "Folders".
+    * 'menu_exercises_folders' -> Html tag class: "active" for Sidebar.
+    * 'seasons_list' -> List of user's or club's seasons available current user.
+    * 'teams_list' -> List of user's or club's teams available current user.
+    * 'ui_elements' -> List of UI elements registered in icons' system. Check Module.system_icons.views.get_ui_elements(request) for see more.
+    :rtype: [HttpResponse]
+
+    """
     if not request.user.is_authenticated:
         return redirect("authorization:login")
     cur_user = User.objects.filter(email=request.user).only("club_id")
@@ -103,12 +158,29 @@ def folders(request):
 
 
 def exercises_api(request):
+    """
+    Return JsonResponse depending on the request method and the parameter sent. 
+        If the user is not authorized, then there will be a redirect to the page with authorization.
+        In case of any error client will get next response: JsonResponse({"errors": "access_error"}, status=400).\n
+    Existing parameteres (Controlling Variable for any parameter is: 'parameter'_status):\n
+    * 'copy_exs' -> Copy exercise from one folder to another TEAM or CLUB folder.
+    * 'move_exs' -> Move exercise from one folder to another TEAM or CLUB folder.
+    * 'edit_exs' -> Edit exercise alse uses while creating exercise.
+    * 'delete_exs' -> Delete exercise.
+    * 'edit_exs_user_params' -> Edit exercise's user parameteres.
+    * 'count_exs' -> Count exercises in chosen folder.
+    * 'get_exs_all' -> Get all exercises from selected folder.
+    * 'get_exs_one' -> Get one exercise by ID.
+    * 'get_exs_graphic_content' -> Get graphic content (video, animation, schemas) of exercise.
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :return: Return an JsonResponse with next parameteres:\n
+    * 'errors' -> Error text in case getting any error.
+    * 'status' -> Response code.
+    * 'data' -> Requiered data depending on the request method and the parameter sent, if status code is OK.
+    :rtype: [JsonResponse]
 
-    # Greate solution
-    # Отдельное приложение, заточенное под API для любого раздела. Модель, содержащая в себе токен, доступные IPs,
-    # ид или тип доступа для определения корректности полученного токена, если нужно будет сделать разные токены под
-    # разные разделы, задачи
-
+    """
     if not request.user.is_authenticated:
         return JsonResponse({"errors": "authenticate_err"}, status=400)
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
@@ -200,6 +272,25 @@ def exercises_api(request):
 
 
 def folders_api(request):
+    """
+    Return JsonResponse depending on the request method and the parameter sent. 
+        If the user is not authorized, then there will be a redirect to the page with authorization.
+        In case of any error client will get next response: JsonResponse({"errors": "access_error"}, status=400).\n
+    Existing parameteres (Controlling Variable for any parameter is: 'parameter'_status):\n
+    * 'edit' -> Edit current folder or create new folder.
+    * 'delete' -> Delete current folder.
+    * 'change_order' -> Change folders' ordering.
+    * 'nfb_folders' -> Get all NFB folders.
+    * 'nfb_folders_set' -> Set NFB folders' structure to own TEAM or CLUB folders with replacing existed folders.
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :return: Return an JsonResponse with next parameteres:\n
+    * 'errors' -> Error text in case getting any error.
+    * 'status' -> Response code.
+    * 'data' -> Requiered data depending on the request method and the parameter sent, if status code is OK.
+    :rtype: [JsonResponse]
+
+    """
     if not request.user.is_authenticated:
         return JsonResponse({"errors": "authenticate_err"}, status=400)
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'

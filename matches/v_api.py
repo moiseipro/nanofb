@@ -13,6 +13,19 @@ from players.models import UserPlayer, ClubPlayer
 LANG_CODE_DEFAULT = "en"
 
 def get_by_language_code(value, code):
+    """
+    Return a value by current language's code.
+
+    :param value: Dictionary with structure("code_1": "value_1",...) for different languages. Usually "value" is STRING.
+    :type value: dict[str]
+    :param code: String key of any language. For example: "engilsh" -> "en", "russian" -> "ru".
+    :type code: [str]
+    :raise None. In case of an exception, the result: "". 
+        If it was not possible to find the desired value by the key, then an attempt will be made to take the default (LANG_CODE_DEFAULT).
+    :return: Value, depending on the current language.
+    :rtype: [str]
+
+    """
     res = ""
     try:
         res = value[code]
@@ -27,6 +40,20 @@ def get_by_language_code(value, code):
 
 
 def set_value_as_int(value, def_value = None):
+    """
+    Return new value for the Model's Field. Value is obtained by get from request parameter's value and try to transform it to int.
+    In case of success new value will be returned else returned default value.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param name: Name of getting request parameter.
+    :type name: [str]
+    :param def_value: Default value for new value.
+    :type def_value: [int] or None
+    :return: New value.
+    :rtype: [int] or None
+
+    """
     res = def_value
     try:
         res = int(value)
@@ -36,6 +63,15 @@ def set_value_as_int(value, def_value = None):
 
 
 def set_value_as_datetime(value):
+    """
+    Return Date or None. Transforming value to date using format "ddmmyyyy" or "yyyymmdd".
+
+    :param value: Date string.
+    :type value: [str]
+    :return: Date or None.
+    :rtype: [date] or None
+
+    """
     format_ddmmyyyy = "%d/%m/%Y %H:%M:%S"
     format_yyyymmdd = "%Y-%m-%d %H:%M:%S"
     date1 = None
@@ -58,6 +94,17 @@ def set_value_as_datetime(value):
 
 
 def set_value_as_duration(value, only_mins=True):
+    """
+    Return Timedelta. Transforming value to timeDelta.
+
+    :param value: Date string.
+    :type value: [str]
+    :param only_mins: If only minutes then time will be created using only minutes. Example: True -> "20", False -> "10:20:10"
+    :type only_mins: [bool]
+    :return: Timedelta.
+    :rtype: [timedelta]
+
+    """
     if not only_mins:
         m = re.match(r'(?P<h>\d+):(?P<m>\d+):'r'(?P<s>\d[\.\d+]*)', value)
         if not m:
@@ -74,6 +121,17 @@ def set_value_as_duration(value, only_mins=True):
 
 
 def get_date_str_from_datetime(datetime_obj, code):
+    """
+    Return Date string or None. For different languages different date's formats.
+
+    :param datetime_obj: Datetime object.
+    :type datetime_obj: [datetime]
+    :param code: String key of any language. For example: "engilsh" -> "en", "russian" -> "ru".
+    :type code: [str]
+    :return: Date string or None.
+    :rtype: [str] or None
+
+    """
     formats = {
         'en': "%Y-%m-%d",
         'ru': "%d/%m/%Y"
@@ -87,6 +145,17 @@ def get_date_str_from_datetime(datetime_obj, code):
 
 
 def get_day_from_datetime(datetime_obj, code):
+    """
+    Return Day of date string or None.
+
+    :param datetime_obj: Datetime object.
+    :type datetime_obj: [datetime]
+    :param code: String key of any language. For example: "engilsh" -> "en", "russian" -> "ru".
+    :type code: [str]
+    :return: Day string or None.
+    :rtype: [str] or None
+
+    """
     days = {
         'ru': ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"],
         'en': ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
@@ -100,6 +169,15 @@ def get_day_from_datetime(datetime_obj, code):
 
 
 def get_time_from_datetime(datetime_obj):
+    """
+    Return time string of datetime as "Hour:Minutes".
+
+    :param datetime_obj: Datetime object.
+    :type datetime_obj: [datetime]
+    :return: Time string or None.
+    :rtype: [str] or None
+
+    """
     time_str = None
     try:
         time_str = datetime_obj.strftime("%H:%M")
@@ -109,6 +187,17 @@ def get_time_from_datetime(datetime_obj):
 
 
 def get_duration_normal_format(timedelta_obj, only_mins=True):
+    """
+    Return duration of datetime as string.
+
+    :param timedelta_obj: Datetime object.
+    :type timedelta_obj: [datetime]
+    :param only_mins: If only minutes then duration will be created using only minutes. Example: True -> "20", False -> "10:20:10"
+    :type only_mins: [bool]
+    :return: Duration string of datetime object or None.
+    :rtype: [str] or None
+
+    """
     duration_str = None
     if not only_mins:
         try:
@@ -126,6 +215,24 @@ def get_duration_normal_format(timedelta_obj, only_mins=True):
 
 
 def get_match_result(data):
+    """
+    Return list of two elements for defining match's result. 
+    First element:
+    = 0 -> Draw
+    = 1 -> First team's win.
+    = 2 -> Second team's win.
+    = -1 -> Any error.
+    Second element:
+    = 1 -> The number of goals is equal.
+    = 0 -> The number of goals is not equal.
+    = -1 -> Any error.
+    
+    :param data: Match's object.
+    :type data: [object]
+    :return: List of two elements - statuses match's result.
+    :rtype: list[int]
+
+    """
     # первый элемент - 0:Ничья, 1:Победа_1-ой_команды, 2:Победа_2-ой.
     # Второй элемент - 1: кол-во голов равно, 0:не равно.
     res = [-1, -1]
@@ -147,6 +254,17 @@ def get_match_result(data):
 
 
 def get_protocol_status(request, elem):
+    """
+    Return dictionary with full protocol name and short.
+    
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param elem: status's object.
+    :type elem: [object]
+    :return: Dictionary with full protocol name and short.
+    :rtype: dict['full':[str], 'short':[str]]
+
+    """
     res = {'full': "", 'short': ""}
     if elem and elem.translation_names:
         if elem.translation_names[request.LANGUAGE_CODE]:
@@ -159,6 +277,17 @@ def get_protocol_status(request, elem):
 
 
 def set_refs_translations(data, lang_code):
+    """
+    Return data with new key "title". "Title" - translated value with key "translation_names" at current system's language.
+
+    :param data: Dictionary with references' elements.
+    :type data: dict[object]
+    :param lang_code: String key of any language. For example: "engilsh" -> "en", "russian" -> "ru".
+    :type lang_code: [str]
+    :return: Dictionary with references' elements with new value for key "title".
+    :rtype: dict[object]
+
+    """
     for key in data:
         elems = data[key]
         for elem in elems:
@@ -168,6 +297,15 @@ def set_refs_translations(data, lang_code):
 
 
 def get_matches_refs(request):
+    """
+    Return data of Matches' References with translations.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :return: Dictionary of references.
+    :rtype: dict[list[object]]
+
+    """
     refs = {}
     refs['player_protocol_status'] = PlayerProtocolStatus.objects.filter(tags__matches=1).values()
     for elem in refs['player_protocol_status']:
@@ -177,6 +315,15 @@ def get_matches_refs(request):
 
 
 def count_videos(data):
+    """
+    Return amount of videos at data. Data is usually match object.
+
+    :param data: Match object.
+    :type data: [object]
+    :return: Amount of videos.
+    :rtype: [int]
+
+    """
     counter = 0
     if data and data['links'] and isinstance(data['links'], list):
         for elem in data['links']:
@@ -189,6 +336,19 @@ def count_videos(data):
 # --------------------------------------------------
 # MATCHES API
 def POST_edit_match(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on POST operation "Edit match".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     match_id = -1
     try:
         match_id = int(request.POST.get("id", -1))
@@ -248,6 +408,19 @@ def POST_edit_match(request, cur_user, cur_team):
 
 
 def POST_delete_match(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on POST operation "Delete match".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     match_id = -1
     try:
         match_id = int(request.POST.get("id", -1))
@@ -270,6 +443,17 @@ def POST_delete_match(request, cur_user, cur_team):
 
 
 def POST_edit_players_protocol(request, cur_user):
+    """
+    Return JSON Response as result on POST operation "Edit players' protocol in match".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     protocol_id = -1
     c_value = None
     try:
@@ -338,6 +522,19 @@ def POST_edit_players_protocol(request, cur_user):
 
 
 def POST_add_delete_players_protocol(request, cur_user, to_add = True):
+    """
+    Return JSON Response as result on POST operation "Add or delete players' protocol in match".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param to_add: If true then add new protocol else delete existed by ID.
+    :type to_add: [bool]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     match_id = -1
     team_id = -1
     is_opponent = 0
@@ -403,6 +600,17 @@ def POST_add_delete_players_protocol(request, cur_user, to_add = True):
 
 
 def POST_edit_players_protocol_order(request, cur_user):
+    """
+    Return JSON Response as result on POST operation "Edit ordering of players' protocols in match".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     ids_data = request.POST.getlist("protocols[]", [])
     temp_res_arr = []
     for c_ind in range(len(ids_data)):
@@ -425,6 +633,20 @@ def POST_edit_players_protocol_order(request, cur_user):
 
 
 def POST_edit_match_video_event(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on POST operation "Edit match's video event".
+    Match is event, every event has video links' field. This function is allowed to edit these links.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     links_data = request.POST.getlist("links[]", [])
     notes_data = request.POST.getlist("notes[]", [])
     event_id = -1
@@ -458,6 +680,20 @@ def POST_edit_match_video_event(request, cur_user, cur_team):
 
 
 def POST_edit_match_video_protocol(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on POST operation "Edit match's video event".
+    Every player's protocol in match has field video_link also. This foreign key at the same Model(EventVideoLink) how for event.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     links_data = request.POST.getlist("links[]", [])
     notes_data = request.POST.getlist("notes[]", [])
     protocol_id = -1
@@ -493,6 +729,23 @@ def POST_edit_match_video_protocol(request, cur_user, cur_team):
 
 
 def GET_get_match(request, cur_user, cur_team, return_JsonResponse=True):
+    """
+    Return JSON Response or object as result on GET operation "Get one match".
+    If return_JsonResponse is False then function return Object
+    else JSON Response.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :param return_JsonResponse: Controls returning type.
+    :type return_JsonResponse: [bool]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code) or as match's object.
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]] or Object
+
+    """
     match_id = -1
     try:
         match_id = int(request.GET.get("id", -1))
@@ -522,6 +775,19 @@ def GET_get_match(request, cur_user, cur_team, return_JsonResponse=True):
 
 
 def GET_get_match_protocol(request, cur_user, cur_team):
+    """
+    Return JSON Response or object as result on GET operation "Get protocol of selected match".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     match_id = -1
     try:
         match_id = int(request.GET.get("id", -1))
@@ -546,6 +812,25 @@ def GET_get_match_protocol(request, cur_user, cur_team):
 
 
 def GET_get_match_video_event(request, cur_user, cur_team, returnJSONResponse=True, custom_id=None):
+    """
+    Return JSON Response or object as result on GET operation "Get one match's video event".
+    If return_JsonResponse is False then function return Object or None
+    else JSON Response.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :param returnJSONResponse: Controls returning type.
+    :type returnJSONResponse: [bool]
+    :param custom_id: Custom event's ID.
+    :type custom_id: [int] or None
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code) or as video_event's object.
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]] or Object or None
+
+    """
     event_id = -1
     try:
         event_id = int(request.GET.get("id", -1))
@@ -572,6 +857,25 @@ def GET_get_match_video_event(request, cur_user, cur_team, returnJSONResponse=Tr
 
 
 def GET_get_match_video_protocol(request, cur_user, cur_team, returnJSONResponse=True, custom_id=None):
+    """
+    Return JSON Response or object as result on GET operation "Get one match's protocol video".
+    If return_JsonResponse is False then function return Object or None
+    else JSON Response.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :param returnJSONResponse: Controls returning type.
+    :type returnJSONResponse: [bool]
+    :param custom_id: Custom protocol's ID.
+    :type custom_id: [int] or None
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code) or as video_protocol's object.
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]] or Object or None
+
+    """
     protocol_id = -1
     try:
         protocol_id = int(request.GET.get("id", -1))

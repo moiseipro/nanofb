@@ -1,42 +1,200 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" />
 
-<!DOCTYPE html>
+    <meta name="generator" content="sphinx-5.3.0, furo 2022.09.29"/>
+        <title>clubs package - Nanofootball 0.2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=d81277517bee4d6b0349d71bb2661d4890b5617c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>clubs package &#8212; Nanofootball 0.1 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-   
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Nanofootball 0.2 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
-  </head><body>
+  <span class="sidebar-brand-text">Nanofootball 0.2 documentation</span>
   
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules/events/views.html">Views</a></li>
+</ul>
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
           
-
-          <div class="body" role="main">
-            
-  <section id="clubs-package">
-<h1>clubs package<a class="headerlink" href="#clubs-package" title="Permalink to this heading">¶</a></h1>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="clubs-package">
+<h1>clubs package<a class="headerlink" href="#clubs-package" title="Permalink to this heading">#</a></h1>
 <section id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading">¶</a></h2>
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading">#</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="clubs.migrations.html">clubs.migrations package</a><ul>
@@ -73,123 +231,741 @@
 </div>
 </section>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
 </section>
-<section id="clubs-admin-module">
-<h2>clubs.admin module<a class="headerlink" href="#clubs-admin-module" title="Permalink to this heading">¶</a></h2>
-</section>
-<section id="module-clubs.apps">
-<span id="clubs-apps-module"></span><h2>clubs.apps module<a class="headerlink" href="#module-clubs.apps" title="Permalink to this heading">¶</a></h2>
+<section id="module-clubs.admin">
+<span id="clubs-admin-module"></span><h2>clubs.admin module<a class="headerlink" href="#module-clubs.admin" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="clubs.apps.ClubsConfig">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">clubs.apps.</span></span><span class="sig-name descname"><span class="pre">ClubsConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_module</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clubs.apps.ClubsConfig" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AppConfig</span></code></p>
+<dt class="sig sig-object py" id="clubs.admin.ClubAdmin">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">clubs.admin.</span></span><span class="sig-name descname"><span class="pre">ClubAdmin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">admin_site</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clubs.admin.ClubAdmin" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelAdmin</span></code></p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="clubs.apps.ClubsConfig.default_auto_field">
-<span class="sig-name descname"><span class="pre">default_auto_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'django.db.models.BigAutoField'</span></em><a class="headerlink" href="#clubs.apps.ClubsConfig.default_auto_field" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="clubs.admin.ClubAdmin.filter_horizontal">
+<span class="sig-name descname"><span class="pre">filter_horizontal</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('groups',</span> <span class="pre">'permissions')</span></em><a class="headerlink" href="#clubs.admin.ClubAdmin.filter_horizontal" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="clubs.apps.ClubsConfig.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'clubs'</span></em><a class="headerlink" href="#clubs.apps.ClubsConfig.name" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="clubs.admin.ClubAdmin.list_display">
+<span class="sig-name descname"><span class="pre">list_display</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('id',</span> <span class="pre">'name',</span> <span class="pre">'subdomain',</span> <span class="pre">'date_registration',</span> <span class="pre">'date_registration_to',</span> <span class="pre">'block')</span></em><a class="headerlink" href="#clubs.admin.ClubAdmin.list_display" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="clubs.apps.ClubsConfig.verbose_name">
-<span class="sig-name descname"><span class="pre">verbose_name</span></span><a class="headerlink" href="#clubs.apps.ClubsConfig.verbose_name" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="clubs.admin.ClubAdmin.list_display_links">
+<span class="sig-name descname"><span class="pre">list_display_links</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('name',)</span></em><a class="headerlink" href="#clubs.admin.ClubAdmin.list_display_links" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.admin.ClubAdmin.list_editable">
+<span class="sig-name descname"><span class="pre">list_editable</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('block',)</span></em><a class="headerlink" href="#clubs.admin.ClubAdmin.list_editable" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="clubs.admin.ClubAdmin.media">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#clubs.admin.ClubAdmin.media" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.admin.ClubAdmin.search_fields">
+<span class="sig-name descname"><span class="pre">search_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('id',</span> <span class="pre">'name',</span> <span class="pre">'date_registration')</span></em><a class="headerlink" href="#clubs.admin.ClubAdmin.search_fields" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </section>
-<section id="clubs-forms-module">
-<h2>clubs.forms module<a class="headerlink" href="#clubs-forms-module" title="Permalink to this heading">¶</a></h2>
+<section id="module-clubs.apps">
+<span id="clubs-apps-module"></span><h2>clubs.apps module<a class="headerlink" href="#module-clubs.apps" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="clubs.apps.ClubsConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">clubs.apps.</span></span><span class="sig-name descname"><span class="pre">ClubsConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_module</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clubs.apps.ClubsConfig" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AppConfig</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.apps.ClubsConfig.default_auto_field">
+<span class="sig-name descname"><span class="pre">default_auto_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'django.db.models.BigAutoField'</span></em><a class="headerlink" href="#clubs.apps.ClubsConfig.default_auto_field" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.apps.ClubsConfig.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'clubs'</span></em><a class="headerlink" href="#clubs.apps.ClubsConfig.name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.apps.ClubsConfig.verbose_name">
+<span class="sig-name descname"><span class="pre">verbose_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Клубы'</span></em><a class="headerlink" href="#clubs.apps.ClubsConfig.verbose_name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="clubs-models-module">
-<h2>clubs.models module<a class="headerlink" href="#clubs-models-module" title="Permalink to this heading">¶</a></h2>
+<section id="module-clubs.forms">
+<span id="clubs-forms-module"></span><h2>clubs.forms module<a class="headerlink" href="#module-clubs.forms" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="clubs.forms.ClubAddPersonalForm">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">clubs.forms.</span></span><span class="sig-name descname"><span class="pre">ClubAddPersonalForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clubs.forms.ClubAddPersonalForm" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelForm</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="clubs.forms.ClubAddPersonalForm.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#clubs.forms.ClubAddPersonalForm.Meta" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.forms.ClubAddPersonalForm.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['first_name',</span> <span class="pre">'last_name',</span> <span class="pre">'father_name',</span> <span class="pre">'job_title',</span> <span class="pre">'country_id',</span> <span class="pre">'region',</span> <span class="pre">'city',</span> <span class="pre">'date_birthsday',</span> <span class="pre">'email_2',</span> <span class="pre">'phone']</span></em><a class="headerlink" href="#clubs.forms.ClubAddPersonalForm.Meta.fields" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.forms.ClubAddPersonalForm.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#clubs.forms.ClubAddPersonalForm.Meta.model" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="users.html#users.models.UserPersonal" title="users.models.UserPersonal"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserPersonal</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.forms.ClubAddPersonalForm.base_fields">
+<span class="sig-name descname"><span class="pre">base_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'city':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'country_id':</span> <span class="pre">&lt;django_countries.fields.LazyTypedChoiceField</span> <span class="pre">object&gt;,</span> <span class="pre">'date_birthsday':</span> <span class="pre">&lt;django.forms.fields.DateField</span> <span class="pre">object&gt;,</span> <span class="pre">'email_2':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'father_name':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'first_name':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'job_title':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'last_name':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'phone':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'region':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#clubs.forms.ClubAddPersonalForm.base_fields" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.forms.ClubAddPersonalForm.declared_fields">
+<span class="sig-name descname"><span class="pre">declared_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'date_birthsday':</span> <span class="pre">&lt;django.forms.fields.DateField</span> <span class="pre">object&gt;,</span> <span class="pre">'phone':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#clubs.forms.ClubAddPersonalForm.declared_fields" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.forms.ClubAddPersonalForm.helper">
+<span class="sig-name descname"><span class="pre">helper</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;crispy_forms.helper.FormHelper</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#clubs.forms.ClubAddPersonalForm.helper" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="clubs.forms.ClubAddPersonalForm.media">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#clubs.forms.ClubAddPersonalForm.media" title="Permalink to this definition">#</a></dt>
+<dd><p>Return all media required to render the widgets on this form.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="clubs.forms.ClubAddUserForm">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">clubs.forms.</span></span><span class="sig-name descname"><span class="pre">ClubAddUserForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clubs.forms.ClubAddUserForm" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelForm</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="clubs.forms.ClubAddUserForm.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#clubs.forms.ClubAddUserForm.Meta" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.forms.ClubAddUserForm.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['email']</span></em><a class="headerlink" href="#clubs.forms.ClubAddUserForm.Meta.fields" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.forms.ClubAddUserForm.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#clubs.forms.ClubAddUserForm.Meta.model" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="users.html#users.models.User" title="users.models.User"><code class="xref py py-class docutils literal notranslate"><span class="pre">User</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.forms.ClubAddUserForm.base_fields">
+<span class="sig-name descname"><span class="pre">base_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'date':</span> <span class="pre">&lt;django.forms.fields.DateTimeField</span> <span class="pre">object&gt;,</span> <span class="pre">'email':</span> <span class="pre">&lt;django.forms.fields.EmailField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#clubs.forms.ClubAddUserForm.base_fields" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.forms.ClubAddUserForm.declared_fields">
+<span class="sig-name descname"><span class="pre">declared_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'date':</span> <span class="pre">&lt;django.forms.fields.DateTimeField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#clubs.forms.ClubAddUserForm.declared_fields" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.forms.ClubAddUserForm.helper">
+<span class="sig-name descname"><span class="pre">helper</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;crispy_forms.helper.FormHelper</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#clubs.forms.ClubAddUserForm.helper" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="clubs.forms.ClubAddUserForm.media">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#clubs.forms.ClubAddUserForm.media" title="Permalink to this definition">#</a></dt>
+<dd><p>Return all media required to render the widgets on this form.</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="clubs-serializers-module">
-<h2>clubs.serializers module<a class="headerlink" href="#clubs-serializers-module" title="Permalink to this heading">¶</a></h2>
+<section id="module-clubs.models">
+<span id="clubs-models-module"></span><h2>clubs.models module<a class="headerlink" href="#module-clubs.models" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="clubs.models.Club">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">clubs.models.</span></span><span class="sig-name descname"><span class="pre">Club</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subdomain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_registration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_registration_to</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clubs.models.Club" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="clubs.models.Club.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#clubs.models.Club.DoesNotExist" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="clubs.models.Club.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#clubs.models.Club.MultipleObjectsReturned" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.models.Club.block">
+<span class="sig-name descname"><span class="pre">block</span></span><a class="headerlink" href="#clubs.models.Club.block" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.models.Club.clubevent_set">
+<span class="sig-name descname"><span class="pre">clubevent_set</span></span><a class="headerlink" href="#clubs.models.Club.clubevent_set" title="Permalink to this definition">#</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.models.Club.clubseason_set">
+<span class="sig-name descname"><span class="pre">clubseason_set</span></span><a class="headerlink" href="#clubs.models.Club.clubseason_set" title="Permalink to this definition">#</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.models.Club.clubteam_set">
+<span class="sig-name descname"><span class="pre">clubteam_set</span></span><a class="headerlink" href="#clubs.models.Club.clubteam_set" title="Permalink to this definition">#</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.models.Club.date_registration">
+<span class="sig-name descname"><span class="pre">date_registration</span></span><a class="headerlink" href="#clubs.models.Club.date_registration" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.models.Club.date_registration_to">
+<span class="sig-name descname"><span class="pre">date_registration_to</span></span><a class="headerlink" href="#clubs.models.Club.date_registration_to" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clubs.models.Club.get_next_by_date_registration">
+<span class="sig-name descname"><span class="pre">get_next_by_date_registration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">date_registration&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clubs.models.Club.get_next_by_date_registration" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clubs.models.Club.get_next_by_date_registration_to">
+<span class="sig-name descname"><span class="pre">get_next_by_date_registration_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">date_registration_to&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clubs.models.Club.get_next_by_date_registration_to" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clubs.models.Club.get_previous_by_date_registration">
+<span class="sig-name descname"><span class="pre">get_previous_by_date_registration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">date_registration&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clubs.models.Club.get_previous_by_date_registration" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clubs.models.Club.get_previous_by_date_registration_to">
+<span class="sig-name descname"><span class="pre">get_previous_by_date_registration_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">date_registration_to&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clubs.models.Club.get_previous_by_date_registration_to" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.models.Club.groups">
+<span class="sig-name descname"><span class="pre">groups</span></span><a class="headerlink" href="#clubs.models.Club.groups" title="Permalink to this definition">#</a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.models.Club.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#clubs.models.Club.id" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.models.Club.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#clubs.models.Club.name" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.models.Club.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#clubs.models.Club.objects" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.models.Club.permissions">
+<span class="sig-name descname"><span class="pre">permissions</span></span><a class="headerlink" href="#clubs.models.Club.permissions" title="Permalink to this definition">#</a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.models.Club.subdomain">
+<span class="sig-name descname"><span class="pre">subdomain</span></span><a class="headerlink" href="#clubs.models.Club.subdomain" title="Permalink to this definition">#</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.models.Club.user_set">
+<span class="sig-name descname"><span class="pre">user_set</span></span><a class="headerlink" href="#clubs.models.Club.user_set" title="Permalink to this definition">#</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-clubs.serializers">
+<span id="clubs-serializers-module"></span><h2>clubs.serializers module<a class="headerlink" href="#module-clubs.serializers" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="clubs.serializers.ClubSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">clubs.serializers.</span></span><span class="sig-name descname"><span class="pre">ClubSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clubs.serializers.ClubSerializer" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="clubs.serializers.ClubSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#clubs.serializers.ClubSerializer.Meta" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.serializers.ClubSerializer.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'name',</span> <span class="pre">'subdomain',</span> <span class="pre">'groups',</span> <span class="pre">'permissions',</span> <span class="pre">'date_registration',</span> <span class="pre">'date_registration_to']</span></em><a class="headerlink" href="#clubs.serializers.ClubSerializer.Meta.fields" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.serializers.ClubSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#clubs.serializers.ClubSerializer.Meta.model" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="#clubs.models.Club" title="clubs.models.Club"><code class="xref py py-class docutils literal notranslate"><span class="pre">Club</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-clubs.tests">
-<span id="clubs-tests-module"></span><h2>clubs.tests module<a class="headerlink" href="#module-clubs.tests" title="Permalink to this heading">¶</a></h2>
+<span id="clubs-tests-module"></span><h2>clubs.tests module<a class="headerlink" href="#module-clubs.tests" title="Permalink to this heading">#</a></h2>
 </section>
-<section id="clubs-urls-module">
-<h2>clubs.urls module<a class="headerlink" href="#clubs-urls-module" title="Permalink to this heading">¶</a></h2>
+<section id="module-clubs.urls">
+<span id="clubs-urls-module"></span><h2>clubs.urls module<a class="headerlink" href="#module-clubs.urls" title="Permalink to this heading">#</a></h2>
 </section>
-<section id="clubs-views-module">
-<h2>clubs.views module<a class="headerlink" href="#clubs-views-module" title="Permalink to this heading">¶</a></h2>
+<section id="module-clubs.views">
+<span id="clubs-views-module"></span><h2>clubs.views module<a class="headerlink" href="#module-clubs.views" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="clubs.views.BaseClubView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">clubs.views.</span></span><span class="sig-name descname"><span class="pre">BaseClubView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clubs.views.BaseClubView" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LoginRequiredMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">TemplateView</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="clubs.views.BaseClubView.get_context_data">
+<span class="sig-name descname"><span class="pre">get_context_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clubs.views.BaseClubView.get_context_data" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.views.BaseClubView.redirect_field_name">
+<span class="sig-name descname"><span class="pre">redirect_field_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'authorization:login'</span></em><a class="headerlink" href="#clubs.views.BaseClubView.redirect_field_name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.views.BaseClubView.template_name">
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'clubs/admin_panel.html'</span></em><a class="headerlink" href="#clubs.views.BaseClubView.template_name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="clubs.views.ClubPermissions">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">clubs.views.</span></span><span class="sig-name descname"><span class="pre">ClubPermissions</span></span><a class="headerlink" href="#clubs.views.ClubPermissions" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DjangoModelPermissions</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.views.ClubPermissions.perms_map">
+<span class="sig-name descname"><span class="pre">perms_map</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'DELETE':</span> <span class="pre">['clubs.club_admin'],</span> <span class="pre">'GET':</span> <span class="pre">['clubs.club_admin'],</span> <span class="pre">'HEAD':</span> <span class="pre">[],</span> <span class="pre">'OPTIONS':</span> <span class="pre">[],</span> <span class="pre">'PATCH':</span> <span class="pre">['clubs.club_admin'],</span> <span class="pre">'POST':</span> <span class="pre">['clubs.club_admin'],</span> <span class="pre">'PUT':</span> <span class="pre">['clubs.club_admin']}</span></em><a class="headerlink" href="#clubs.views.ClubPermissions.perms_map" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="clubs.views.ClubUsersViewSet">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">clubs.views.</span></span><span class="sig-name descname"><span class="pre">ClubUsersViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clubs.views.ClubUsersViewSet" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelViewSet</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.views.ClubUsersViewSet.basename">
+<span class="sig-name descname"><span class="pre">basename</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#clubs.views.ClubUsersViewSet.basename" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clubs.views.ClubUsersViewSet.change_permission">
+<span class="sig-name descname"><span class="pre">change_permission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clubs.views.ClubUsersViewSet.change_permission" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clubs.views.ClubUsersViewSet.create">
+<span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clubs.views.ClubUsersViewSet.create" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.views.ClubUsersViewSet.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#clubs.views.ClubUsersViewSet.description" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.views.ClubUsersViewSet.detail">
+<span class="sig-name descname"><span class="pre">detail</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#clubs.views.ClubUsersViewSet.detail" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clubs.views.ClubUsersViewSet.get_permissions">
+<span class="sig-name descname"><span class="pre">get_permissions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#clubs.views.ClubUsersViewSet.get_permissions" title="Permalink to this definition">#</a></dt>
+<dd><p>Instantiates and returns the list of permissions that this view requires.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clubs.views.ClubUsersViewSet.get_queryset">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#clubs.views.ClubUsersViewSet.get_queryset" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clubs.views.ClubUsersViewSet.get_serializer_class">
+<span class="sig-name descname"><span class="pre">get_serializer_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#clubs.views.ClubUsersViewSet.get_serializer_class" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the class to use for the serializer.
+Defaults to using <cite>self.serializer_class</cite>.</p>
+<p>You may want to override this if you need to provide different
+serializations depending on the incoming request.</p>
+<p>(Eg. admins get full serialization, others get basic serialization)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.views.ClubUsersViewSet.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#clubs.views.ClubUsersViewSet.name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clubs.views.ClubUsersViewSet.retrieve">
+<span class="sig-name descname"><span class="pre">retrieve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clubs.views.ClubUsersViewSet.retrieve" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.views.ClubUsersViewSet.suffix">
+<span class="sig-name descname"><span class="pre">suffix</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#clubs.views.ClubUsersViewSet.suffix" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="clubs.views.ClubViewSet">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">clubs.views.</span></span><span class="sig-name descname"><span class="pre">ClubViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clubs.views.ClubViewSet" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelViewSet</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.views.ClubViewSet.basename">
+<span class="sig-name descname"><span class="pre">basename</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#clubs.views.ClubViewSet.basename" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.views.ClubViewSet.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#clubs.views.ClubViewSet.description" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.views.ClubViewSet.detail">
+<span class="sig-name descname"><span class="pre">detail</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#clubs.views.ClubViewSet.detail" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clubs.views.ClubViewSet.get_permissions">
+<span class="sig-name descname"><span class="pre">get_permissions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#clubs.views.ClubViewSet.get_permissions" title="Permalink to this definition">#</a></dt>
+<dd><p>Instantiates and returns the list of permissions that this view requires.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clubs.views.ClubViewSet.get_queryset">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#clubs.views.ClubViewSet.get_queryset" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clubs.views.ClubViewSet.get_serializer_class">
+<span class="sig-name descname"><span class="pre">get_serializer_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#clubs.views.ClubViewSet.get_serializer_class" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the class to use for the serializer.
+Defaults to using <cite>self.serializer_class</cite>.</p>
+<p>You may want to override this if you need to provide different
+serializations depending on the incoming request.</p>
+<p>(Eg. admins get full serialization, others get basic serialization)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.views.ClubViewSet.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#clubs.views.ClubViewSet.name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clubs.views.ClubViewSet.retrieve">
+<span class="sig-name descname"><span class="pre">retrieve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clubs.views.ClubViewSet.retrieve" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clubs.views.ClubViewSet.suffix">
+<span class="sig-name descname"><span class="pre">suffix</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#clubs.views.ClubViewSet.suffix" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-clubs">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-clubs" title="Permalink to this heading">¶</a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-clubs" title="Permalink to this heading">#</a></h2>
 </section>
 </section>
 
-
-          </div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
           
         </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="index.html">Nanofootball</a></h1>
-
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="modules/events/views.html">Views</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-  </ul></li>
-</ul>
-</div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2022, Nanofootball team
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
     </div>
-</div>
-<script>document.getElementById('searchbox').style.display = "block"</script>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">clubs package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-clubs.admin">clubs.admin module</a><ul>
+<li><a class="reference internal" href="#clubs.admin.ClubAdmin"><code class="docutils literal notranslate"><span class="pre">ClubAdmin</span></code></a><ul>
+<li><a class="reference internal" href="#clubs.admin.ClubAdmin.filter_horizontal"><code class="docutils literal notranslate"><span class="pre">ClubAdmin.filter_horizontal</span></code></a></li>
+<li><a class="reference internal" href="#clubs.admin.ClubAdmin.list_display"><code class="docutils literal notranslate"><span class="pre">ClubAdmin.list_display</span></code></a></li>
+<li><a class="reference internal" href="#clubs.admin.ClubAdmin.list_display_links"><code class="docutils literal notranslate"><span class="pre">ClubAdmin.list_display_links</span></code></a></li>
+<li><a class="reference internal" href="#clubs.admin.ClubAdmin.list_editable"><code class="docutils literal notranslate"><span class="pre">ClubAdmin.list_editable</span></code></a></li>
+<li><a class="reference internal" href="#clubs.admin.ClubAdmin.media"><code class="docutils literal notranslate"><span class="pre">ClubAdmin.media</span></code></a></li>
+<li><a class="reference internal" href="#clubs.admin.ClubAdmin.search_fields"><code class="docutils literal notranslate"><span class="pre">ClubAdmin.search_fields</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-clubs.apps">clubs.apps module</a><ul>
+<li><a class="reference internal" href="#clubs.apps.ClubsConfig"><code class="docutils literal notranslate"><span class="pre">ClubsConfig</span></code></a><ul>
+<li><a class="reference internal" href="#clubs.apps.ClubsConfig.default_auto_field"><code class="docutils literal notranslate"><span class="pre">ClubsConfig.default_auto_field</span></code></a></li>
+<li><a class="reference internal" href="#clubs.apps.ClubsConfig.name"><code class="docutils literal notranslate"><span class="pre">ClubsConfig.name</span></code></a></li>
+<li><a class="reference internal" href="#clubs.apps.ClubsConfig.verbose_name"><code class="docutils literal notranslate"><span class="pre">ClubsConfig.verbose_name</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-clubs.forms">clubs.forms module</a><ul>
+<li><a class="reference internal" href="#clubs.forms.ClubAddPersonalForm"><code class="docutils literal notranslate"><span class="pre">ClubAddPersonalForm</span></code></a><ul>
+<li><a class="reference internal" href="#clubs.forms.ClubAddPersonalForm.Meta"><code class="docutils literal notranslate"><span class="pre">ClubAddPersonalForm.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#clubs.forms.ClubAddPersonalForm.Meta.fields"><code class="docutils literal notranslate"><span class="pre">ClubAddPersonalForm.Meta.fields</span></code></a></li>
+<li><a class="reference internal" href="#clubs.forms.ClubAddPersonalForm.Meta.model"><code class="docutils literal notranslate"><span class="pre">ClubAddPersonalForm.Meta.model</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#clubs.forms.ClubAddPersonalForm.base_fields"><code class="docutils literal notranslate"><span class="pre">ClubAddPersonalForm.base_fields</span></code></a></li>
+<li><a class="reference internal" href="#clubs.forms.ClubAddPersonalForm.declared_fields"><code class="docutils literal notranslate"><span class="pre">ClubAddPersonalForm.declared_fields</span></code></a></li>
+<li><a class="reference internal" href="#clubs.forms.ClubAddPersonalForm.helper"><code class="docutils literal notranslate"><span class="pre">ClubAddPersonalForm.helper</span></code></a></li>
+<li><a class="reference internal" href="#clubs.forms.ClubAddPersonalForm.media"><code class="docutils literal notranslate"><span class="pre">ClubAddPersonalForm.media</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#clubs.forms.ClubAddUserForm"><code class="docutils literal notranslate"><span class="pre">ClubAddUserForm</span></code></a><ul>
+<li><a class="reference internal" href="#clubs.forms.ClubAddUserForm.Meta"><code class="docutils literal notranslate"><span class="pre">ClubAddUserForm.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#clubs.forms.ClubAddUserForm.Meta.fields"><code class="docutils literal notranslate"><span class="pre">ClubAddUserForm.Meta.fields</span></code></a></li>
+<li><a class="reference internal" href="#clubs.forms.ClubAddUserForm.Meta.model"><code class="docutils literal notranslate"><span class="pre">ClubAddUserForm.Meta.model</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#clubs.forms.ClubAddUserForm.base_fields"><code class="docutils literal notranslate"><span class="pre">ClubAddUserForm.base_fields</span></code></a></li>
+<li><a class="reference internal" href="#clubs.forms.ClubAddUserForm.declared_fields"><code class="docutils literal notranslate"><span class="pre">ClubAddUserForm.declared_fields</span></code></a></li>
+<li><a class="reference internal" href="#clubs.forms.ClubAddUserForm.helper"><code class="docutils literal notranslate"><span class="pre">ClubAddUserForm.helper</span></code></a></li>
+<li><a class="reference internal" href="#clubs.forms.ClubAddUserForm.media"><code class="docutils literal notranslate"><span class="pre">ClubAddUserForm.media</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-clubs.models">clubs.models module</a><ul>
+<li><a class="reference internal" href="#clubs.models.Club"><code class="docutils literal notranslate"><span class="pre">Club</span></code></a><ul>
+<li><a class="reference internal" href="#clubs.models.Club.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Club.DoesNotExist</span></code></a></li>
+<li><a class="reference internal" href="#clubs.models.Club.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Club.MultipleObjectsReturned</span></code></a></li>
+<li><a class="reference internal" href="#clubs.models.Club.block"><code class="docutils literal notranslate"><span class="pre">Club.block</span></code></a></li>
+<li><a class="reference internal" href="#clubs.models.Club.clubevent_set"><code class="docutils literal notranslate"><span class="pre">Club.clubevent_set</span></code></a></li>
+<li><a class="reference internal" href="#clubs.models.Club.clubseason_set"><code class="docutils literal notranslate"><span class="pre">Club.clubseason_set</span></code></a></li>
+<li><a class="reference internal" href="#clubs.models.Club.clubteam_set"><code class="docutils literal notranslate"><span class="pre">Club.clubteam_set</span></code></a></li>
+<li><a class="reference internal" href="#clubs.models.Club.date_registration"><code class="docutils literal notranslate"><span class="pre">Club.date_registration</span></code></a></li>
+<li><a class="reference internal" href="#clubs.models.Club.date_registration_to"><code class="docutils literal notranslate"><span class="pre">Club.date_registration_to</span></code></a></li>
+<li><a class="reference internal" href="#clubs.models.Club.get_next_by_date_registration"><code class="docutils literal notranslate"><span class="pre">Club.get_next_by_date_registration()</span></code></a></li>
+<li><a class="reference internal" href="#clubs.models.Club.get_next_by_date_registration_to"><code class="docutils literal notranslate"><span class="pre">Club.get_next_by_date_registration_to()</span></code></a></li>
+<li><a class="reference internal" href="#clubs.models.Club.get_previous_by_date_registration"><code class="docutils literal notranslate"><span class="pre">Club.get_previous_by_date_registration()</span></code></a></li>
+<li><a class="reference internal" href="#clubs.models.Club.get_previous_by_date_registration_to"><code class="docutils literal notranslate"><span class="pre">Club.get_previous_by_date_registration_to()</span></code></a></li>
+<li><a class="reference internal" href="#clubs.models.Club.groups"><code class="docutils literal notranslate"><span class="pre">Club.groups</span></code></a></li>
+<li><a class="reference internal" href="#clubs.models.Club.id"><code class="docutils literal notranslate"><span class="pre">Club.id</span></code></a></li>
+<li><a class="reference internal" href="#clubs.models.Club.name"><code class="docutils literal notranslate"><span class="pre">Club.name</span></code></a></li>
+<li><a class="reference internal" href="#clubs.models.Club.objects"><code class="docutils literal notranslate"><span class="pre">Club.objects</span></code></a></li>
+<li><a class="reference internal" href="#clubs.models.Club.permissions"><code class="docutils literal notranslate"><span class="pre">Club.permissions</span></code></a></li>
+<li><a class="reference internal" href="#clubs.models.Club.subdomain"><code class="docutils literal notranslate"><span class="pre">Club.subdomain</span></code></a></li>
+<li><a class="reference internal" href="#clubs.models.Club.user_set"><code class="docutils literal notranslate"><span class="pre">Club.user_set</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-clubs.serializers">clubs.serializers module</a><ul>
+<li><a class="reference internal" href="#clubs.serializers.ClubSerializer"><code class="docutils literal notranslate"><span class="pre">ClubSerializer</span></code></a><ul>
+<li><a class="reference internal" href="#clubs.serializers.ClubSerializer.Meta"><code class="docutils literal notranslate"><span class="pre">ClubSerializer.Meta</span></code></a><ul>
+<li><a class="reference internal" href="#clubs.serializers.ClubSerializer.Meta.fields"><code class="docutils literal notranslate"><span class="pre">ClubSerializer.Meta.fields</span></code></a></li>
+<li><a class="reference internal" href="#clubs.serializers.ClubSerializer.Meta.model"><code class="docutils literal notranslate"><span class="pre">ClubSerializer.Meta.model</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-clubs.tests">clubs.tests module</a></li>
+<li><a class="reference internal" href="#module-clubs.urls">clubs.urls module</a></li>
+<li><a class="reference internal" href="#module-clubs.views">clubs.views module</a><ul>
+<li><a class="reference internal" href="#clubs.views.BaseClubView"><code class="docutils literal notranslate"><span class="pre">BaseClubView</span></code></a><ul>
+<li><a class="reference internal" href="#clubs.views.BaseClubView.get_context_data"><code class="docutils literal notranslate"><span class="pre">BaseClubView.get_context_data()</span></code></a></li>
+<li><a class="reference internal" href="#clubs.views.BaseClubView.redirect_field_name"><code class="docutils literal notranslate"><span class="pre">BaseClubView.redirect_field_name</span></code></a></li>
+<li><a class="reference internal" href="#clubs.views.BaseClubView.template_name"><code class="docutils literal notranslate"><span class="pre">BaseClubView.template_name</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#clubs.views.ClubPermissions"><code class="docutils literal notranslate"><span class="pre">ClubPermissions</span></code></a><ul>
+<li><a class="reference internal" href="#clubs.views.ClubPermissions.perms_map"><code class="docutils literal notranslate"><span class="pre">ClubPermissions.perms_map</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#clubs.views.ClubUsersViewSet"><code class="docutils literal notranslate"><span class="pre">ClubUsersViewSet</span></code></a><ul>
+<li><a class="reference internal" href="#clubs.views.ClubUsersViewSet.basename"><code class="docutils literal notranslate"><span class="pre">ClubUsersViewSet.basename</span></code></a></li>
+<li><a class="reference internal" href="#clubs.views.ClubUsersViewSet.change_permission"><code class="docutils literal notranslate"><span class="pre">ClubUsersViewSet.change_permission()</span></code></a></li>
+<li><a class="reference internal" href="#clubs.views.ClubUsersViewSet.create"><code class="docutils literal notranslate"><span class="pre">ClubUsersViewSet.create()</span></code></a></li>
+<li><a class="reference internal" href="#clubs.views.ClubUsersViewSet.description"><code class="docutils literal notranslate"><span class="pre">ClubUsersViewSet.description</span></code></a></li>
+<li><a class="reference internal" href="#clubs.views.ClubUsersViewSet.detail"><code class="docutils literal notranslate"><span class="pre">ClubUsersViewSet.detail</span></code></a></li>
+<li><a class="reference internal" href="#clubs.views.ClubUsersViewSet.get_permissions"><code class="docutils literal notranslate"><span class="pre">ClubUsersViewSet.get_permissions()</span></code></a></li>
+<li><a class="reference internal" href="#clubs.views.ClubUsersViewSet.get_queryset"><code class="docutils literal notranslate"><span class="pre">ClubUsersViewSet.get_queryset()</span></code></a></li>
+<li><a class="reference internal" href="#clubs.views.ClubUsersViewSet.get_serializer_class"><code class="docutils literal notranslate"><span class="pre">ClubUsersViewSet.get_serializer_class()</span></code></a></li>
+<li><a class="reference internal" href="#clubs.views.ClubUsersViewSet.name"><code class="docutils literal notranslate"><span class="pre">ClubUsersViewSet.name</span></code></a></li>
+<li><a class="reference internal" href="#clubs.views.ClubUsersViewSet.retrieve"><code class="docutils literal notranslate"><span class="pre">ClubUsersViewSet.retrieve()</span></code></a></li>
+<li><a class="reference internal" href="#clubs.views.ClubUsersViewSet.suffix"><code class="docutils literal notranslate"><span class="pre">ClubUsersViewSet.suffix</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#clubs.views.ClubViewSet"><code class="docutils literal notranslate"><span class="pre">ClubViewSet</span></code></a><ul>
+<li><a class="reference internal" href="#clubs.views.ClubViewSet.basename"><code class="docutils literal notranslate"><span class="pre">ClubViewSet.basename</span></code></a></li>
+<li><a class="reference internal" href="#clubs.views.ClubViewSet.description"><code class="docutils literal notranslate"><span class="pre">ClubViewSet.description</span></code></a></li>
+<li><a class="reference internal" href="#clubs.views.ClubViewSet.detail"><code class="docutils literal notranslate"><span class="pre">ClubViewSet.detail</span></code></a></li>
+<li><a class="reference internal" href="#clubs.views.ClubViewSet.get_permissions"><code class="docutils literal notranslate"><span class="pre">ClubViewSet.get_permissions()</span></code></a></li>
+<li><a class="reference internal" href="#clubs.views.ClubViewSet.get_queryset"><code class="docutils literal notranslate"><span class="pre">ClubViewSet.get_queryset()</span></code></a></li>
+<li><a class="reference internal" href="#clubs.views.ClubViewSet.get_serializer_class"><code class="docutils literal notranslate"><span class="pre">ClubViewSet.get_serializer_class()</span></code></a></li>
+<li><a class="reference internal" href="#clubs.views.ClubViewSet.name"><code class="docutils literal notranslate"><span class="pre">ClubViewSet.name</span></code></a></li>
+<li><a class="reference internal" href="#clubs.views.ClubViewSet.retrieve"><code class="docutils literal notranslate"><span class="pre">ClubViewSet.retrieve()</span></code></a></li>
+<li><a class="reference internal" href="#clubs.views.ClubViewSet.suffix"><code class="docutils literal notranslate"><span class="pre">ClubViewSet.suffix</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-clubs">Module contents</a></li>
+</ul>
+</li>
+</ul>
 
-
-
-
-
-
-
-
+          </div>
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2022, Nanofootball team.
       
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
-      |
-      <a href="_sources/clubs.rst.txt"
-          rel="nofollow">Page source</a>
-    </div>
-
-    
-
-    
-  </body>
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/scripts/furo.js"></script>
+    </body>
 </html>

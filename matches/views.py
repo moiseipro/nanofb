@@ -12,6 +12,22 @@ import calendar
 
 
 def matches(request):
+    """
+    Return render page with given template. 
+        If the user is not authorized, then there will be a redirect to the page with authorization.
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :return: Return an HttpResponse whose content is filled with the result of calling django.template.loader.render_to_string() with the passed arguments.
+    Next arguments:\n
+    * 'matches' -> Matches objects filtered by user.
+    * 'refs' -> References of Matches Section.
+    * 'menu_matches' -> Html tag class: "active" for Sidebar.
+    * 'seasons_list' -> List of user's or club's seasons available current user.
+    * 'teams_list' -> List of user's or club's teams available current user.
+    * 'ui_elements' -> List of UI elements registered in icons' system. Check Module.system_icons.views.get_ui_elements(request) for see more.
+    :rtype: [HttpResponse]
+
+    """
     if not request.user.is_authenticated:
         return redirect("authorization:login")
     cur_user = User.objects.filter(email=request.user).only("club_id")
@@ -52,6 +68,21 @@ def matches(request):
 
 
 def match(request):
+    """
+    Return render page with given template. 
+        If the user is not authorized, then there will be a redirect to the page with authorization.
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :return: Return an HttpResponse whose content is filled with the result of calling django.template.loader.render_to_string() with the passed arguments.
+    Next arguments:\n
+    * 'refs' -> References of Matches Section.
+    * 'menu_matches' -> Html tag class: "active" for Sidebar.
+    * 'seasons_list' -> List of user's or club's seasons available current user.
+    * 'teams_list' -> List of user's or club's teams available current user.
+    * 'ui_elements' -> List of UI elements registered in icons' system. Check Module.system_icons.views.get_ui_elements(request) for see more.
+    :rtype: [HttpResponse]
+
+    """
     if not request.user.is_authenticated:
         return redirect("authorization:login")
     cur_user = User.objects.filter(email=request.user).only("club_id")
@@ -75,6 +106,32 @@ def match(request):
 
 
 def matches_api(request):
+    """
+    Return JsonResponse depending on the request method and the parameter sent. 
+        If the user is not authorized, then there will be a redirect to the page with authorization.
+        In case of any error client will get next response: JsonResponse({"errors": "access_error"}, status=400).\n
+    Existing parameteres (Controlling Variable for any parameter is: 'parameter'_status):\n
+    * 'edit_match' -> Edit match including creating new match.
+    * 'delete_match' -> Delete match by ID.
+    * 'add_players_protocol' -> Add players to match's protocol.
+    * 'delete_players_protocol' -> Delete players in match's protocol.
+    * 'edit_players_protocol' -> Edit players in match's protocol.
+    * 'edit_players_protocol_order' -> Edit players' order in match's protocol.
+    * 'edit_match_video_event' -> Edit match's video.
+    * 'edit_match_video_protocol' -> Edit match's protocol's video.
+    * 'get_match' -> Get one match by ID.
+    * 'get_match_protocol' -> Get one match's protocol by match's ID.
+    * 'get_match_video_event' -> Get match's video by match's ID.
+    * 'get_match_video_protocol' -> Get match's protocol's video by match's ID.
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :return: Return an JsonResponse with next parameteres:\n
+    * 'errors' -> Error text in case getting any error.
+    * 'status' -> Response code.
+    * 'data' -> Requiered data depending on the request method and the parameter sent, if status code is OK.
+    :rtype: [JsonResponse]
+
+    """
     if not request.user.is_authenticated:
         return JsonResponse({"errors": "authenticate_err"}, status=400)
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'

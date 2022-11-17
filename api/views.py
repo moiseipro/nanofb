@@ -5,11 +5,20 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework.authtoken.models import Token
 from api.models import APIToken
 from users.models import User
-import exercises.v_api as v_api
+import exercises.v_api as exercises_v_api
 
 
 
 def check_token(get_token):
+    """
+    Return User if token for this user is corrected.
+
+    :param get_token: string token is sent by user in GET request as parameter "token".
+    :type get_token: [str]
+    :return: User if token found, else False.
+    :rtype: [User] or False
+
+    """
     f_user = False
     users_with_api = User.objects.filter(is_api_access=True).only("club_id")
     if users_with_api.exists() and users_with_api[0].id != None:
@@ -28,6 +37,23 @@ def check_token(get_token):
 @authentication_classes([])
 @permission_classes([])
 def exercises(request):
+    """
+    Return JsonResponse depending on the parameter sent. Can get data without authentication and permission. Only GET requests.
+    Check exercises.v_api for more information.
+    Existing parameteres (Controlling Variable for any parameter is: 'parameter'_status):\n
+    * 'get_exs_all' -> Get all exercises in selected folder.
+    * 'get_exs_one' -> Get exercise by ID.
+    * 'get_link_video_exs' -> Update exercises.ExerciseVideo using video_data and anim_data in Exercise (useful after parsing).
+    
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :return: Return an JsonResponse with next parameteres:\n
+    * 'errors' -> Error text in case getting any error.
+    * 'status' -> Response code.
+    * 'data' -> Requiered data depending on the request method and the parameter sent, if status code is OK.
+    :rtype: [JsonResponse]
+
+    """
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
     token = request.data.get('token', "")
     cur_user = check_token(token)
@@ -50,15 +76,15 @@ def exercises(request):
     except:
         pass
     if get_exs_all_status == 1:
-        return v_api.GET_get_exs_all(request, cur_user)
+        return exercises_v_api.GET_get_exs_all(request, cur_user)
     elif get_exs_one_status == 1:
         cur_team = -1
         try:
             cur_team = int(request.GET.get('team', -1))
         except:
             pass
-        return v_api.GET_get_exs_one(request, cur_user, cur_team)
+        return exercises_v_api.GET_get_exs_one(request, cur_user, cur_team)
     elif get_link_video_exs_status:
-        return v_api.GET_link_video_exs(request, cur_user)
+        return exercises_v_api.GET_link_video_exs(request, cur_user)
     return JsonResponse({"err": "Access denied!"}, status=400)
 

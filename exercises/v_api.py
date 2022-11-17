@@ -18,6 +18,19 @@ FOLDER_CLUB = "club_folders"
 
 
 def get_by_language_code(value, code):
+    """
+    Return a value by current language's code.
+
+    :param value: Dictionary with structure("code_1": "value_1",...) for different languages. Usually "value" is STRING.
+    :type value: dict[str]
+    :param code: String key of any language. For example: "engilsh" -> "en", "russian" -> "ru".
+    :type code: [str]
+    :raise None. In case of an exception, the result: "". 
+        If it was not possible to find the desired value by the key, then an attempt will be made to take the default (LANG_CODE_DEFAULT).
+    :return: Value, depending on the current language.
+    :rtype: [str]
+
+    """
     res = ""
     try:
         res = value[code]
@@ -32,6 +45,21 @@ def get_by_language_code(value, code):
 
 
 def set_by_language_code(elem, code, value, value2 = None):
+    """
+    Return edited object as dict where key: language code, value: string text.
+
+    :param elem: Field of current model. Usually it defined as title, name or description.
+    :type elem: [Model.field]
+    :param code: String key of any language. For example: "engilsh" -> "en", "russian" -> "ru".
+    :type code: [str]
+    :param value: New value for returned dictionary.
+    :type value: [str]
+    :param value2: Additional value for replace "value".
+    :type value2: [str] or None
+    :return: Object which is field of the Model.
+    :rtype: [object]
+
+    """
     if value2:
         value = value2 if value2 != "" else value
     if type(elem) is dict:
@@ -42,6 +70,20 @@ def set_by_language_code(elem, code, value, value2 = None):
 
 
 def set_value_as_int(request, name, def_value = None):
+    """
+    Return new value for the Model's Field. Value is obtained by get from request parameter's value and try to transform it to int.
+    In case of success new value will be returned else returned default value.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param name: Name of getting request parameter.
+    :type name: [str]
+    :param def_value: Default value for new value.
+    :type def_value: [int] or None
+    :return: New value.
+    :rtype: [int] or None
+
+    """
     res = def_value
     try:
         res = int(request.POST.get(name, def_value))
@@ -51,6 +93,20 @@ def set_value_as_int(request, name, def_value = None):
 
 
 def set_value_as_ref(request, name, def_value = None):
+    """
+    Return new value as Reference Model Object. Using argument "name" the appropriate directory is selected.
+    In case of success new value will be returned else returned default value.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param name: Name of getting request parameter.
+    :type name: [str]
+    :param def_value: Default value for new value.
+    :type def_value: [int] or None
+    :return: New value for setting to field.
+    :rtype: [Model.object] or None
+
+    """
     res = def_value
     ref_id = -1
     try:
@@ -77,6 +133,22 @@ def set_value_as_ref(request, name, def_value = None):
 
 
 def set_value_as_list(request, name, name2 = None, def_value = None):
+    """
+    Return new value as list which was received by request using argument "name" or additional: "name2".
+    In case of success new value will be returned else returned default value.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param name: Name of getting request parameter.
+    :type name: [str]
+    :param name2: Additional name of getting request parameter.
+    :type name2: [str]
+    :param def_value: Default value for new value.
+    :type def_value: [int] or None
+    :return: New value for setting to field.
+    :rtype: list[any] or None
+
+    """
     res = def_value
     value_from_req = request.POST.getlist(name, def_value)
     value2_from_req = request.POST.getlist(name2, def_value)
@@ -88,6 +160,17 @@ def set_value_as_list(request, name, name2 = None, def_value = None):
 
 
 def set_refs_translations(data, lang_code):
+    """
+    Return data with new key "title". "Title" - translated value with key "translation_names" at current system's language.
+
+    :param data: Dictionary with references' elements.
+    :type data: dict[object]
+    :param lang_code: String key of any language. For example: "engilsh" -> "en", "russian" -> "ru".
+    :type lang_code: [str]
+    :return: Dictionary with references' elements with new value for key "title".
+    :rtype: dict[object]
+
+    """
     for key in data:
         elems = data[key]
         for elem in elems:
@@ -97,6 +180,23 @@ def set_refs_translations(data, lang_code):
 
 
 def set_as_object(request, data, name, lang):
+    """
+    Return changed data of JSONField, checking values from request by parametres: "type", "value", "id".
+    JSONField is a dictionary whose keys are language's codes and values are list of objects:
+    {'type': [str], 'value': [str], 'id': [str]}
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param data: JSONField with next template: {'en': [{'type': [str], 'value': [str], 'id': [str]}, ...], 'ru': [], ...}.
+    :type data: Model.Field[object]
+    :param name: Name of request parameter.
+    :type name: [str]
+    :param lang: String key of any language. For example: "engilsh" -> "en", "russian" -> "ru".
+    :type lang: [str]
+    :return: JSONField with edited values.
+    :rtype: Model.Field[object]
+
+    """
     value = []
     flag = True
     iterator = 0
@@ -121,6 +221,19 @@ def set_as_object(request, data, name, lang):
 
 
 def get_exercises_params(request, user, team):
+    """
+    Return data of User folders, NFB Folders, References.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param user: The current user of the system, who is currently authorized.
+    :type user: <QuerySet>Model.object[User], not only ONE (Use Models.objects.filter NOT Models.objects.get to get user).
+    :param team: The current team, that is selected by the user.
+    :type team: [int]
+    :return: List of three elements: Folders, NFB Folders, References.
+    :rtype: list[object]
+
+    """
     folders = []
     nfb_folders = []
     refs = {}
@@ -150,6 +263,15 @@ def get_exercises_params(request, user, team):
 
 
 def get_exs_scheme_data(data):
+    """
+    Return list of two schemas. Inaccessible scheme is changed to standard.
+
+    :param data: Object with key "scheme_1" and "scheme_2". Values by these keys are html strings.
+    :type data: [object]
+    :return: List of schemas.
+    :rtype: list[str]
+
+    """
     empty_scheme = """
         <svg id="block" class="d-block bg-success mx-auto" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -185,6 +307,10 @@ def get_exs_scheme_data(data):
 
 
 def get_exs_video_data(data):
+    """
+    Return list of videos transforming incoming argument "data".
+
+    """
     res = []
     if data and data['data']:
         res = data['data']
@@ -192,6 +318,10 @@ def get_exs_video_data(data):
 
 
 def get_exs_animation_data(data):
+    """
+    Return list of animations transforming incoming argument "data".
+
+    """
     res = {'custom': '', 'default': []}
     if data and data['data']:
         res = data['data']
@@ -199,6 +329,20 @@ def get_exs_animation_data(data):
 
 
 def get_exs_video_data2(data, exs, folder_type):
+    """
+    Return changed data with fields: "video_1", "video_2", "animation_1", "animation_2".
+    Exercise has linked videos. Using exercise object and folder's type function add these new keys.
+
+    :param data: Exercise object with all keys.
+    :type data: Model.Field[object]
+    :param exs: The current exercise.
+    :type exs: Model.object[UserExercise] or Model.object[ClubExercise] or Model.object[AdminExercise].
+    :param folder_type: The current folder, that is selected by the user.
+    :type folder_type: [str]
+    :return: Updated exercise.
+    :rtype: Model.Field[object]
+
+    """
     videos = []
     if folder_type == FOLDER_NFB:
         videos = exs.videos.through.objects.filter(exercise_nfb=exs)
@@ -241,6 +385,24 @@ def get_exs_video_data2(data, exs, folder_type):
 
 
 def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = None, cur_club = None):
+    """
+    Return list of exercise objects. If filter options exist then current list will be filtered.
+    Filter options are defined via next parameters of request: filter["filter_name"].
+
+    :param folder_id: Folder's ID.
+    :type folder_id: [int]
+    :param folder_type: The current folder, that is selected by the user.
+    :type folder_type: [str]
+    :param req: Django HttpRequest.
+    :type req: [HttpRequest] or None
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User] or None
+    :param cur_club: The current club of User, available only at "Club" version.
+    :type cur_club: Model.object[Club] or None
+    :return: List of filtered exercises (as objects).
+    :rtype: list[object]
+
+    """
     def days_between(date):
         return abs((datetime.date.today() - date).days)
     filter_goal = -1
@@ -378,6 +540,15 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
 
 
 def check_video(id):
+    """
+    Return Video object if it existed by ID or None.
+
+    :param id: Video's ID.
+    :type id: [int]
+    :return: Video object or None.
+    :rtype: Model.object[Video]
+
+    """
     f_video = Video.objects.filter(id=id)
     if f_video.exists() and f_video[0].id != None:
         return f_video[0]
@@ -385,6 +556,20 @@ def check_video(id):
 # --------------------------------------------------
 # EXERCISES API
 def POST_copy_exs(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on POST operation "Copy exercise". User can copy the exercise from
+    NFB folder or from TEAM folder. Copied exercise from NFB Folder is not available to edit video, animation and schemas.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     exs_id = -1
     folder_id = -1
     folder_type = request.POST.get("type", "")
@@ -489,6 +674,18 @@ def POST_copy_exs(request, cur_user, cur_team):
 
 
 def POST_move_exs(request, cur_user):
+    """
+    Return JSON Response as result on POST operation "Moving exercise". This works only for TEAM exercises.
+    User can't move exercise from NFB folder to another.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     exs_id = -1
     folder_id = -1
     try:
@@ -514,6 +711,20 @@ def POST_move_exs(request, cur_user):
 
 
 def POST_edit_exs(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on POST operation "Edit exercise". Editing exercise's object, UserExerciseParamTeam's object.
+    Only user with adminstrator status can edit NFB exercises.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     exs_id = -1
     folder_id = -1
     folder_type = request.POST.get("type", "")
@@ -667,6 +878,18 @@ def POST_edit_exs(request, cur_user, cur_team):
 
 
 def POST_delete_exs(request, cur_user):
+    """
+    Return JSON Response as result on POST operation "Delete exercise".
+    Only user with adminstrator status can delete NFB exercises.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     exs_id = -1
     folder_type = request.POST.get("type", "")
     try:
@@ -694,6 +917,18 @@ def POST_delete_exs(request, cur_user):
 
 
 def POST_edit_exs_user_params(request, cur_user):
+    """
+    Return JSON Response as result on POST operation "Edit exercise's user parameteres".
+    These parameteres are the user's notes on this or that exercise.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     exs_id = -1
     post_key = request.POST.get("data[key]", "")
     post_value = 0
@@ -761,6 +996,18 @@ def POST_edit_exs_user_params(request, cur_user):
 
 
 def POST_count_exs(request, cur_user):
+    """
+    Return JSON Response as result on POST operation "Count exercises in folder".
+    Uses exercises.v_api.get_excerises_data(...)
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]]
+
+    """
     folder_id = -1
     folder_type = ""
     try:
@@ -779,8 +1026,21 @@ def POST_count_exs(request, cur_user):
     return JsonResponse({"data": found_exercises, "success": True}, status=200)
 
 
-# Temp func
+
 def GET_link_video_exs(request, cur_user):
+    """
+    Return JSON Response as result on GET operation "Link videos from exercise video_data".
+    Uses after parsing exercises from old site's version. Exercise has fields: "video_data" and "animation_data" which represented as
+    list of video's ids. This function trying to find video objects by id and add to exercise in case success.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
     folder_id = -1
     folder_type = ""
     try:
@@ -834,6 +1094,17 @@ def GET_link_video_exs(request, cur_user):
 
 
 def GET_get_exs_all(request, cur_user):
+    """
+    Return JSON Response as result on GET operation "Get all exercises from folder".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]]
+
+    """
     folder_id = -1
     folder_type = ""
     try:
@@ -895,6 +1166,23 @@ def GET_get_exs_all(request, cur_user):
 
 
 def GET_get_exs_one(request, cur_user, cur_team, additional={}):
+    """
+    Return JSON Response or object as result on GET operation "Get one exercise".
+    If keys "f_type" and "exs" will be in <additional> dictionary then function return Object or None
+    else JSON Response.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :param additional: Uses for custom change folder's type and exercise's id.
+    :type additional: dict[]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code) or as exercise's object.
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]] or Object
+
+    """
     exs_id = -1
     folder_type = request.GET.get("f_type", "")
     try:
@@ -973,8 +1261,6 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
     res_exs['ref_train_part'] = res_exs['ref_train_part_id']
     res_exs['ref_cognitive_load'] = res_exs['ref_cognitive_load_id']
     res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type)
-
-    # res_exs['stress_type'] = get_by_language_code(res_exs['stress_type'], request.LANGUAGE_CODE)
     if is_as_object:
         return res_exs
     else:
@@ -982,6 +1268,19 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
 
 
 def GET_get_exs_graphic_content(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on GET operation "Get graphic content of exercise".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]]
+
+    """
     exs_id = -1
     folder_type = request.GET.get("f_type", "")
     try:
@@ -1013,6 +1312,23 @@ def GET_get_exs_graphic_content(request, cur_user, cur_team):
 # --------------------------------------------------
 # FOLDERS API
 def POST_edit_folder(request, cur_user, cur_team, c_id, parent_id):
+    """
+    Return JSON Response as result on POST operation "Edit folder".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :param c_id: The ID of current folder, that is selected by the user.
+    :type c_id: [int]
+    :param parent_id: The ID of parent folder in case of creating folder.
+    :type parent_id: [int]
+    :return: JsonResponse with "data", "status" (response code).
+    :rtype: JsonResponse[{"data": [obj]}, status=[int]]
+
+    """
     name = request.POST.get("name", "")
     short_name = request.POST.get("short_name", "")
     found_folder = None
@@ -1043,6 +1359,19 @@ def POST_edit_folder(request, cur_user, cur_team, c_id, parent_id):
 
 
 def POST_delete_folder(request, cur_user, c_id):
+    """
+    Return JSON Response as result on POST operation "Delete folder".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param c_id: The ID of current folder, that is selected by the user.
+    :type c_id: [int]
+    :return: JsonResponse with "data", "status" (response code).
+    :rtype: JsonResponse[{"data": [obj]}, status=[int]]
+
+    """
     res_data = {'type': "error", 'err': "Cant delete record."}
     found_folder = UserFolder.objects.get(id=c_id, user=cur_user) # либо проверка клубной папки
     if found_folder and found_folder.id != None:
@@ -1056,6 +1385,17 @@ def POST_delete_folder(request, cur_user, c_id):
 
 
 def POST_change_order_folder(request, cur_user):
+    """
+    Return JSON Response as result on POST operation "Change folders's ordering".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :return: JsonResponse with "data", "status" (response code).
+    :rtype: JsonResponse[{"data": [obj]}, status=[int]]
+
+    """
     ids_data = request.POST.getlist("ids_arr[]", [])
     ordering_data = request.POST.getlist("order_arr[]", [])
     temp_res_arr = []
@@ -1080,6 +1420,13 @@ def POST_change_order_folder(request, cur_user):
 
 
 def GET_nfb_folders():
+    """
+    Return JSON Response as result on GET operation "Get NFB folders".
+
+    :return: JsonResponse with "data", "status" (response code).
+    :rtype: JsonResponse[{"data": [obj]}, status=[int]]
+
+    """
     folders = AdminFolder.objects.only("short_name", "name", "parent")
     res_folders = []
     for folder in folders:
@@ -1089,8 +1436,21 @@ def GET_nfb_folders():
 
 
 def GET_nfb_folders_set(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on GET operation "Set NFB folders' structure to TEAM / CLUB folders".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :return: JsonResponse with "data", "status" (response code).
+    :rtype: JsonResponse[{"data": [obj]}, status=[int]]
+
+    """
     is_success = True
-    # Либо удалять, потом добавлять для клуба, в зависимости от вепсии пользователя и его прав
+    # Либо удалять, потом добавлять для клуба, в зависимости от версии пользователя и его прав
     user_old_folders = UserFolder.objects.filter(user=cur_user, team=cur_team)
     try:
         user_old_folders.delete()

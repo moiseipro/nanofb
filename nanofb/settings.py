@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-(8i@$r9s^-es5gveieq%!ao9d&fvq(=*&s^s2w&c$!kgon&hdh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['nanofb.pythonanywhere.com', '127.0.0.1', 'localhost', '91.245.227.74', 'nanofootball.com', 'www.nanofootball.com']
+ALLOWED_HOSTS = ['nanofb.pythonanywhere.com', '127.0.0.1', 'localhost', '91.245.227.74', 'nanofootball.com', 'www.nanofootball.com', 'http.nanofootball.com', 'https.nanofootball.com']
 
 
 # Application definition
