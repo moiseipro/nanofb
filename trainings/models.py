@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 from events.models import UserEvent, ClubEvent
 from exercises.models import UserExercise, ClubExercise
-from players.models import UserPlayer
+from players.models import UserPlayer, ClubPlayer
 from references.models import UserTeam, ClubTeam, ExsAdditionalData, PlayerProtocolStatus
 from users.models import User
 
@@ -206,6 +206,24 @@ class UserTrainingProtocol(AbstractTrainingProtocol):
     )
     training_exercise_check = models.ManyToManyField(
         UserTrainingExercise,
+        blank=True
+    )
+
+    class Meta:
+        ordering = ['status__order', 'player_id__card__ref_position__order']
+
+
+class ClubTrainingProtocol(AbstractTrainingProtocol):
+    training_id = models.ForeignKey(
+        ClubTraining,
+        on_delete=models.CASCADE
+    )
+    player_id = models.ForeignKey(
+        ClubPlayer,
+        on_delete=models.CASCADE
+    )
+    training_exercise_check = models.ManyToManyField(
+        ClubTrainingExercise,
         blank=True
     )
 

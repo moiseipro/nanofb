@@ -13,12 +13,13 @@ from rest_framework_datatables.django_filters.backends import DatatablesFilterBa
 
 from events.filters import EventGlobalFilter
 from events.forms import MicrocycleUserForm, EventUserForm, EventEditUserForm
-from events.models import UserMicrocycles, UserEvent, ClubMicrocycles
+from events.models import UserMicrocycles, UserEvent, ClubMicrocycles, ClubEvent
 from events.serializers import UserMicrocyclesSerializer, UserMicrocyclesUpdateSerializer, UserEventSerializer, \
-    UserEventEditSerializer, ClubMicrocyclesSerializer, ClubMicrocyclesUpdateSerializer
-from matches.models import UserMatch
+    UserEventEditSerializer, ClubMicrocyclesSerializer, ClubMicrocyclesUpdateSerializer, ClubEventSerializer, \
+    ClubEventEditSerializer
+from matches.models import UserMatch, ClubMatch
 from references.models import UserTeam, UserSeason, ClubSeason, ClubTeam
-from trainings.models import UserTraining
+from trainings.models import UserTraining, ClubTraining
 from system_icons.views import get_ui_elements
 
 
@@ -69,8 +70,8 @@ class MicrocycleViewSet(viewsets.ModelViewSet):
         else:
             season = UserSeason.objects.filter(id=self.request.session['season'])
             microcycle = UserMicrocycles.objects.filter(team_id=self.request.session['team'],
-                                                  date_with__gte=season[0].date_with,
-                                                  date_by__lte=season[0].date_by)
+                                                        date_with__gte=season[0].date_with,
+                                                        date_by__lte=season[0].date_by)
         return microcycle
 
 
@@ -91,35 +92,63 @@ class EventViewSet(viewsets.ModelViewSet):
         user = self.request.user
         cur_date = datetime.strptime(self.request.data['date'], "%d/%m/%Y %H:%M").date()
         print(cur_date)
-        team = UserTeam.objects.get(pk=self.request.session['team'])
+        if self.request.user.club_id is not None:
+            team = ClubTeam.objects.get(pk=self.request.session['team'])
+        else:
+            team = UserTeam.objects.get(pk=self.request.session['team'])
         if 'event_type' in self.request.data and '1' in self.request.data['event_type']:
-            count_tr = UserEvent.objects.filter(user_id=user, date__date=cur_date, usertraining__team_id=team).count()
+            if self.request.user.club_id is not None:
+                count_tr = ClubEvent.objects.filter(club_id=self.request.user.club_id, date__date=cur_date,
+                                                    clubtraining__team_id=team).count()
+            else:
+                count_tr = UserEvent.objects.filter(user_id=user, date__date=cur_date,
+                                                    usertraining__team_id=team).count()
             print(count_tr)
             if count_tr < 2:
-                event = serializer.save(user_id=user)
-                new_training = UserTraining.objects.create(team_id=team, event_id=event)
+                if self.request.user.club_id is not None:
+                    event = serializer.save(user_id=user, club_id=self.request.user.club_id)
+                    new_training = ClubTraining.objects.create(team_id=team, event_id=event)
+                else:
+                    event = serializer.save(user_id=user)
+                    new_training = UserTraining.objects.create(team_id=team, event_id=event)
                 new_training.save()
                 return True
             else:
                 return False
         elif 'event_type' in self.request.data and '2' in self.request.data['event_type']:
-            match = UserEvent.objects.filter(user_id=user, date__date=cur_date, usermatch__team_id=team,
-                                          usermatch__m_type=0).count()
+            if self.request.user.club_id is not None:
+                match = ClubEvent.objects.filter(club_id=self.request.user.club_id, date__date=cur_date,
+                                                 clubmatch__team_id=team, clubmatch__m_type=0).count()
+            else:
+                match = UserEvent.objects.filter(user_id=user, date__date=cur_date, usermatch__team_id=team,
+                                                 usermatch__m_type=0).count()
             print(match)
             if match == 0:
-                event = serializer.save(user_id=user)
-                new_match = UserMatch.objects.create(team_id=team, event_id=event, m_type=0)
+                if self.request.user.club_id is not None:
+                    event = serializer.save(user_id=user, club_id=self.request.user.club_id)
+                    new_match = ClubMatch.objects.create(team_id=team, event_id=event, m_type=0)
+                else:
+                    event = serializer.save(user_id=user)
+                    new_match = UserMatch.objects.create(team_id=team, event_id=event, m_type=0)
                 new_match.save()
                 return True
             else:
                 return False
         elif 'event_type' in self.request.data and '3' in self.request.data['event_type']:
-            match = UserEvent.objects.filter(user_id=user, date__date=cur_date, usermatch__team_id=team,
-                                          usermatch__m_type=1).count()
+            if self.request.user.club_id is not None:
+                match = ClubEvent.objects.filter(club_id=self.request.user.club_id, date__date=cur_date,
+                                                 clubmatch__team_id=team, clubmatch__m_type=1).count()
+            else:
+                match = UserEvent.objects.filter(user_id=user, date__date=cur_date, usermatch__team_id=team,
+                                                 usermatch__m_type=1).count()
             print(match)
             if match == 0:
-                event = serializer.save(user_id=user)
-                new_match = UserMatch.objects.create(team_id=team, event_id=event, m_type=1)
+                if self.request.user.club_id is not None:
+                    event = serializer.save(user_id=user, club_id=self.request.user.club_id)
+                    new_match = ClubMatch.objects.create(team_id=team, event_id=event, m_type=1)
+                else:
+                    event = serializer.save(user_id=user)
+                    new_match = UserMatch.objects.create(team_id=team, event_id=event, m_type=1)
                 new_match.save()
                 return True
             else:
@@ -140,27 +169,39 @@ class EventViewSet(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         if self.action == 'update':
-            return UserEventEditSerializer
-        return UserEventSerializer
+            if self.request.user.club_id is not None:
+                serial = ClubEventEditSerializer
+            else:
+                serial = UserEventEditSerializer
+            return serial
+        if self.request.user.club_id is not None:
+            serial = ClubEventSerializer
+        else:
+            serial = UserEventSerializer
+        return serial
 
     def get_queryset(self):
         microcycle_before = self.request.query_params.get('to_date')
         microcycle_after = self.request.query_params.get('from_date')
-        #print(microcycle_after)
+        # print(microcycle_after)
         team = self.request.session['team']
-        season = UserSeason.objects.filter(id=self.request.session['season'])
-        #print(season[0].date_with)
-        events = UserEvent.objects.filter(Q(usertraining__team_id=team) | Q(usermatch__team_id=team),
-                                          user_id=self.request.user,
-                                          date__gte=season[0].date_with,
-                                          date__lte=season[0].date_by)
-
-        microcycle = UserMicrocycles.objects.filter(date_with__gte=season[0].date_with,
-                                                    date_by__lte=season[0].date_by)
+        if self.request.user.club_id is not None:
+            season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
+            events = ClubEvent.objects.filter(Q(clubtraining__team_id=team) | Q(clubmatch__team_id=team),
+                                              club_id=self.request.user.club_id,
+                                              date__gte=season[0].date_with,
+                                              date__lte=season[0].date_by)
+        else:
+            season = UserSeason.objects.filter(id=self.request.session['season'])
+            events = UserEvent.objects.filter(Q(usertraining__team_id=team) | Q(usermatch__team_id=team),
+                                              user_id=self.request.user,
+                                              date__gte=season[0].date_with,
+                                              date__lte=season[0].date_by)
 
         if microcycle_before is not None and microcycle_after is not None:
             events = events.filter(date__gte=microcycle_after,
-                                   date__lte=datetime.combine(datetime.strptime(microcycle_before, '%Y-%m-%d'), time.max))
+                                   date__lte=datetime.combine(datetime.strptime(microcycle_before, '%Y-%m-%d'),
+                                                              time.max))
 
         return events
 

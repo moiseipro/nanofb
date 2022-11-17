@@ -1,10 +1,10 @@
 from rest_framework import serializers
 
-from events.models import UserMicrocycles, UserEvent, ClubMicrocycles
+from events.models import UserMicrocycles, UserEvent, ClubMicrocycles, ClubEvent
 
 # Microcycles
-from matches.serializers import UserMatchSerializer
-from trainings.serializers import UserTrainingSerializer
+from matches.serializers import UserMatchSerializer, ClubMatchSerializer
+from trainings.serializers import UserTrainingSerializer, ClubTrainingSerializer
 
 
 class UserMicrocyclesSerializer(serializers.ModelSerializer):
@@ -12,9 +12,9 @@ class UserMicrocyclesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserMicrocycles
-        fields = [
+        fields = (
             'id', 'name', 'date_with', 'date_by'
-        ]
+        )
         datatables_always_serialize = ('id',)
 
 
@@ -23,54 +23,55 @@ class ClubMicrocyclesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ClubMicrocycles
-        fields = [
+        fields = (
             'id', 'name', 'date_with', 'date_by'
-        ]
+        )
         datatables_always_serialize = ('id',)
 
 
 class UserMicrocyclesUpdateSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = UserMicrocycles
-        fields = [
+        fields = (
             'name', 'date_with', 'date_by'
-        ]
+        )
 
 
 class ClubMicrocyclesUpdateSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = ClubMicrocycles
-        fields = [
+        fields = (
             'name', 'date_with', 'date_by'
-        ]
+        )
 
 
 class UserMicrocycleDaySerializer(serializers.Serializer):
     day = serializers.IntegerField()
 
 
-
 # Event
-class UserEventEditSerializer(serializers.ModelSerializer):
+class EventEditSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
 
     class Meta:
-        model = UserEvent
-        fields = [
+        fields = (
             'id', 'short_name', 'date'
-        ]
+        )
 
 
-class UserEventSerializer(serializers.ModelSerializer):
+class UserEventEditSerializer(EventEditSerializer):
+    class Meta(EventEditSerializer.Meta):
+        model = UserEvent
+
+
+class ClubEventEditSerializer(EventEditSerializer):
+    class Meta(EventEditSerializer.Meta):
+        model = ClubEvent
+
+
+class EventSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
 
-    # dater = serializers.DateTimeField(
-    #     format='%d/%m/%Y',
-    #     source='date',
-    #     read_only=True
-    # )
     only_date = serializers.DateTimeField(
         format='%d/%m/%Y',
         source='date',
@@ -82,6 +83,14 @@ class UserEventSerializer(serializers.ModelSerializer):
         read_only=True
     )
 
+    class Meta:
+        fields = (
+            'id', 'short_name', 'date', 'only_date', 'time'
+        )
+        datatables_always_serialize = ('id', 'short_name', 'only_date', 'time')
+
+
+class UserEventSerializer(EventSerializer):
     training = UserTrainingSerializer(
         source='usertraining',
         read_only=True
@@ -92,9 +101,26 @@ class UserEventSerializer(serializers.ModelSerializer):
         read_only=True
     )
 
-    class Meta:
+    class Meta(EventSerializer.Meta):
         model = UserEvent
-        fields = [
-            'id', 'short_name', 'date', 'only_date', 'time', 'training', 'match'
-        ]
-        datatables_always_serialize = ('id', 'short_name', 'only_date', 'time', 'training', 'match')
+
+    Meta.fields += ('training', 'match')
+    Meta.datatables_always_serialize += ('training', 'match')
+
+
+class ClubEventSerializer(EventSerializer):
+    training = ClubTrainingSerializer(
+        source='clubtraining',
+        read_only=True
+    )
+
+    match = ClubMatchSerializer(
+        source='clubmatch',
+        read_only=True
+    )
+
+    class Meta(EventSerializer.Meta):
+        model = ClubEvent
+
+    Meta.fields += ('training', 'match')
+    Meta.datatables_always_serialize += ('training', 'match')
