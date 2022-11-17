@@ -195,6 +195,7 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
         </div>
     `;
     $('#exerciseGraphicsModal').find('#carouselGraphics > .carousel-inner').html(htmlStr);
+    console.log('test')
     let items = $('#exerciseGraphicsModal').find('.video-modal');
     for (let i = 0; i < items.length; i++) {
         let tId = $(items[i]).attr('id');
@@ -205,6 +206,9 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
             aspectRatio: '16:9',
             youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
         });
+    }
+    for (let i = 0; i < items.length; i++) {
+        console.log( window.videoPlayerClones[i] )
     }
     $('#exerciseGraphicsModal').find('#carouselGraphics > .carousel-inner').find(`.carousel-item:nth-child(${activeNum})`).addClass('active');
     $('#exerciseGraphicsModal').modal('show');

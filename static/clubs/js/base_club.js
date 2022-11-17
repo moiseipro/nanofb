@@ -37,6 +37,23 @@ $(window).on('load', function (){
             }
             $('#user-permissions').html(html_permission)
         })
+        ajax_team_action('GET', send_data, 'get team').then(function (data) {
+            let teams = data.results
+            let row_data = club_users_table.row(tr_obj).data()
+            console.log(teams)
+            if(teams.length > 0) {
+                let html_teams = ``
+                $.each(teams, function (key, value) {
+                    html_teams +=
+                    `<div class="custom-control custom-checkbox border">
+                        <input type="checkbox" class="custom-control-input check-team" data-id="${value.id}" ${$.inArray( row_data.id, value.users) != -1 ? 'checked' : ''} id="team-permission-${value.id}">
+                        <label class="custom-control-label" for="team-permission-${value.id}">${value.name}</label>
+                    </div>`
+                });
+                $('#user-team-permissions').html(html_teams)
+            }
+
+        })
 
     })
     
@@ -45,6 +62,15 @@ $(window).on('load', function (){
         let group_id = $(this).attr('data-id')
         let send_data = {group_id}
         ajax_club_users_action('POST', send_data, 'change permission', user_id, 'change_permission').then(function (data) {
+            console.log(data)
+            club_users_table.ajax.reload()
+        })
+    })
+    $(document).on('click', '.check-team', function () {
+        let user_id = $('#edit-club-user-modal').attr('data-user');
+        let team_id = $(this).attr('data-id')
+        let send_data = {user_id}
+        ajax_team_action('POST', send_data, 'change permission', team_id, 'change_permission').then(function (data) {
             console.log(data)
             club_users_table.ajax.reload()
         })
