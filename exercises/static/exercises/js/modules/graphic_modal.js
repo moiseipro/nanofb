@@ -199,9 +199,9 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
     let items = $('#exerciseGraphicsModal').find('.video-modal');
     for (let i = 0; i < items.length; i++) {
         let tId = $(items[i]).attr('id');
-        if(videojs.getPlayers()[tId]) {
-            delete videojs.getPlayers()[tId];
-        }
+        // if(videojs.getPlayers()[tId]) {
+        //     delete videojs.getPlayers()[tId];
+        // }
         window.videoPlayerClones[i] = videojs($('#exerciseGraphicsModal').find(`#${tId}`)[0], {
             preload: 'auto',
             autoplay: false,
@@ -211,7 +211,7 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
         });
     }
     for (let i = 0; i < items.length; i++) {
-        console.log( window.videoPlayerClones[i] )
+        window.videoPlayerClones[i].load();
     }
     $('#exerciseGraphicsModal').find('#carouselGraphics > .carousel-inner').find(`.carousel-item:nth-child(${activeNum})`).addClass('active');
     $('#exerciseGraphicsModal').modal('show');
