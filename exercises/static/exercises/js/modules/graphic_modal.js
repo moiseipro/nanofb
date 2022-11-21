@@ -194,14 +194,16 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
             </div>
         </div>
     `;
+    for (let i = 0; i < window.videoPlayerClones.length; i++) {
+        window.videoPlayerClones[i].dispose();
+    }
     $('#exerciseGraphicsModal').find('#carouselGraphics > .carousel-inner').html(htmlStr);
-    console.log('test')
     let items = $('#exerciseGraphicsModal').find('.video-modal');
     for (let i = 0; i < items.length; i++) {
         let tId = $(items[i]).attr('id');
-        if(videojs.getPlayers()[tId]) {
-            delete videojs.getPlayers()[tId];
-        }
+        // if(videojs.getPlayers()[tId]) {
+        //     delete videojs.getPlayers()[tId];
+        // }
         window.videoPlayerClones[i] = videojs($('#exerciseGraphicsModal').find(`#${tId}`)[0], {
             preload: 'auto',
             autoplay: false,
