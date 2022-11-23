@@ -21,7 +21,7 @@ function generate_ajax_club_users_table(scroll_y = ''){
             },
         },
         columns: [
-            {'data': 'is_active', 'name': 'is_active', render: function (data, type, row, meta) {
+            {'data': 'is_active', 'name': 'is_active', sortable: false, searchable: false, render: function (data, type, row, meta) {
                 let view_data = ''
                 if(data==true) view_data = `<span class="badge badge-success" style="font-size: 14px;">${gettext('Activation')}</span>`
                 else view_data = `<span class="badge badge-secondary" style="font-size: 14px;">${gettext('Archive')}</span>`
@@ -32,7 +32,7 @@ function generate_ajax_club_users_table(scroll_y = ''){
             {'data': 'job_title', 'name': 'job_title', 'defaultContent': "---"},
 
             {'data': 'date_birthsday', 'name': 'date_birthsday'},
-            {'data': 'days_entered', 'name': 'days_entered', render: function (data, type, row, meta) {
+            {'data': 'days_entered', 'name': 'days_entered', sortable: false, searchable: false, render: function (data, type, row, meta) {
                 return data;
             }},
             {'data': 'id', sortable: false, searchable: false, render: function (data, type, row, meta) {

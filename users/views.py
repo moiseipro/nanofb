@@ -1,6 +1,25 @@
 import imp
+
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
+from django.views.generic import TemplateView, DetailView
+
 from system_icons.views import get_ui_elements
+
+
+# Create your views here.
+from users.models import User
+
+
+class BaseProfileView(LoginRequiredMixin, TemplateView):
+    redirect_field_name = "authorization:login"
+    template_name = 'users/base_profile.html'
+    model = User
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['ui_elements'] = get_ui_elements(self.request)
+        return context
 
 
 def profile_req(request):

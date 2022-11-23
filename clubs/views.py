@@ -8,6 +8,7 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework.response import Response
+from rest_framework_datatables.django_filters.backends import DatatablesFilterBackend
 from django.utils.translation import gettext_lazy as _
 
 from clubs.forms import ClubAddUserForm, ClubAddPersonalForm
@@ -42,7 +43,8 @@ class BaseClubView(LoginRequiredMixin, TemplateView):
 
 
 class ClubUsersViewSet(viewsets.ModelViewSet):
-    # filter_backends = (DatatablesFilterBackend,)
+    filter_backends = (DatatablesFilterBackend,)
+    filterset_fields = '__all__'
     # filterset_class = VideoGlobalFilter
 
     def create(self, request, *args, **kwargs):
