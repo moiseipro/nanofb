@@ -6,6 +6,25 @@ $(document).ready(function () {
 $(window).on('load', function (){
     initialize_phone_input();
     generate_ajax_club_users_table("calc(100vh - 310px)");
+    let send_data = {}
+    ajax_club_action('GET', send_data, 'Club').then(function (data) {
+        let club = data.results[0]
+        let group_arr = []
+        console.log(group_arr)
+        let html_permission = ``
+        if(club.groups.length > 0){
+            $.each(club.groups, function(index, value){
+                html_permission +=
+                `<span class="badge badge-primary mx-1">${value.name}</span>`
+            });
+        }
+        $('#club-groups').html(html_permission)
+        $('#club-name').html(club.name)
+        $('#club-subdomain').html(club.subdomain)
+        $('#date-registration').html(club.date_registration)
+        $('#registration-to').html(club.date_registration_to)
+        $('#club-user-info').html('---')
+    })
 
     $('#club-users').on('click', '.edit-club-user', function () {
         let tr_obj = $(this).closest('tr')
@@ -108,35 +127,4 @@ function initialize_phone_input() {
         },
         preferredCountries: ["ru", "ua", "by", "es"]
     });
-}
-
-async function ajax_club_action(method, data, action = '', id = '', func = '') {
-
-    let url = "/clubs/api/"
-    if(id !== '') url += `${id}/`
-    if(func !== '') url += `${func}/`
-
-    $('.page-loader-wrapper').fadeIn();
-
-    return await $.ajax({
-        headers:{"X-CSRFToken": csrftoken },
-        url: url,
-        type: method,
-        dataType: "JSON",
-        data: data,
-        success: function(data){
-            //console.log(data)
-            if(data.status == 'exercise_limit'){
-                swal(gettext('Training '+action), gettext('The limit of exercises for the selected group has been reached'), "error");
-            } else {
-
-            }
-        },
-        error: function(jqXHR, textStatus, errorThrown){
-            swal(gettext('Training '+action), gettext('Error when action "'+action+'" the training!'), "error");
-        },
-        complete: function () {
-            $('.page-loader-wrapper').fadeOut();
-        }
-    })
 }

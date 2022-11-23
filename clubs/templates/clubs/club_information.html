@@ -8,24 +8,24 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-6">Название:</div>
-                    <div class="col-6">TEST</div>
+                    <div class="col-6">{% trans 'Tittle' %}</div>
+                    <div id="club-name" class="col-6">TEST</div>
                 </div>
                 <div class="row">
-                    <div class="col-6">Субдомен:</div>
-                    <div class="col-6">nanofootball.test.ru</div>
+                    <div class="col-6">{% trans 'Subdomain' %}</div>
+                    <div id="club-subdomain" class="col-6">nanofootball.test.ru</div>
                 </div>
                 <div class="row">
-                    <div class="col-6">Дата регистрации:</div>
-                    <div class="col-6">01/01/2022</div>
+                    <div class="col-6">{% trans 'Date registration' %}</div>
+                    <div id="date-registration" class="col-6">01/01/2022</div>
                 </div>
                 <div class="row">
-                    <div class="col-6">Лицензия до:</div>
-                    <div class="col-6">01/01/2023</div>
+                    <div class="col-6">{% trans 'Registration to' %}</div>
+                    <div id="registration-to" class="col-6">01/01/2023</div>
                 </div>
                 <div class="row">
-                    <div class="col-6">Пользователи:</div>
-                    <div class="col-6">10 из 30</div>
+                    <div class="col-6">{% trans 'Users' %}</div>
+                    <div id="club-user-info" class="col-6">10 из 30</div>
                 </div>
             </div>
         </div>
@@ -35,7 +35,7 @@
             <div class="card-header">
                 <h5 class="card-title">{% trans 'Club permissions' %}</h5>
             </div>
-            <div class="card-body">
+            <div id="club-groups" class="card-body">
                 <span class="badge badge-primary">События</span>
                 <span class="badge badge-primary">Матчи</span>
                 <span class="badge badge-primary">Тренировки</span>
@@ -43,15 +43,15 @@
             </div>
         </div>
     </div>
-    <div class="col-6">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title">{% trans 'Additional club accesses' %}</h5>
-            </div>
-            <div class="card-body">
-                <span class="badge badge-primary">Создание клубных админов</span>
-                <span class="badge badge-primary">Создание клубных пользователей</span>
-            </div>
-        </div>
-    </div>
+{#    <div class="col-6">#}
+{#        <div class="card">#}
+{#            <div class="card-header">#}
+{#                <h5 class="card-title">{% trans 'Additional club accesses' %}</h5>#}
+{#            </div>#}
+{#            <div id="club-permissions" class="card-body">#}
+{#                <span class="badge badge-primary">Создание клубных админов</span>#}
+{#                <span class="badge badge-primary">Создание клубных пользователей</span>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
 </div>
