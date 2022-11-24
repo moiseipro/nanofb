@@ -18,7 +18,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 from rest_framework_datatables.django_filters.backends import DatatablesFilterBackend
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, DjangoModelPermissions
 from django.core.files.storage import FileSystemStorage
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 from rest_framework.response import Response
@@ -36,6 +36,18 @@ from system_icons.views import get_ui_elements
 context_page = {'menu_video': 'active'}
 
 
+class VideoPermissions(DjangoModelPermissions):
+    perms_map = {
+        'GET': [],
+        'OPTIONS': [],
+        'HEAD': [],
+        'POST': ['%(app_label)s.add_%(model_name)s'],
+        'PUT': ['%(app_label)s.change_%(model_name)s'],
+        'PATCH': ['%(app_label)s.change_%(model_name)s'],
+        'DELETE': ['%(app_label)s.delete_%(model_name)s'],
+    }
+
+
 # API REST
 class VideoViewSet(viewsets.ModelViewSet):
     queryset = Video.objects.all().order_by('videosource_id')
@@ -43,7 +55,7 @@ class VideoViewSet(viewsets.ModelViewSet):
     filterset_class = VideoGlobalFilter
 
     def get_permissions(self):
-        permission_classes = [IsAuthenticated]
+        permission_classes = [IsAuthenticated, VideoPermissions]
         return [permission() for permission in permission_classes]
 
 
