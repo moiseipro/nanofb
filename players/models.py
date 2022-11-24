@@ -1,6 +1,7 @@
 from statistics import mode
 from django.db import models
 from users.models import User
+from clubs.models import Club
 from references.models import UserTeam, ClubTeam
 from references.models import PlayerTeamStatus, PlayerPlayerStatus, PlayerLevel, PlayerPosition, PlayerFoot
 
@@ -138,7 +139,7 @@ class PlayerCharacteristicsRows(models.Model):
         default=False
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    # club = models.ForeignKey(ClubUser, on_delete=models.CASCADE, null=True, blank=True)
+    club = models.ForeignKey(Club, on_delete=models.CASCADE, null=True, blank=True)
     parent = models.IntegerField(
         help_text='Ид раздела родителя',
         null=True,
@@ -174,9 +175,9 @@ class PlayerCharacteristicUser(models.Model):
 
 class PlayerCharacteristicClub(models.Model):
     characteristics = models.ForeignKey(PlayerCharacteristicsRows, on_delete=models.CASCADE)
-    # club = models.ForeignKey(User, on_delete=models.CASCADE)
-    date_creation = models.DateField(auto_now_add=True)
+    club = models.ForeignKey(Club, on_delete=models.CASCADE, null=True, blank=True)
     player = models.ForeignKey(ClubPlayer, on_delete=models.CASCADE)
+    date_creation = models.DateField(auto_now_add=True)
     value = models.IntegerField(default=0)
     notes = models.CharField(null=True, blank=True, max_length=255)
 
@@ -189,7 +190,7 @@ class PlayerQuestionnairesRows(models.Model):
         default=False
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    # club = models.ForeignKey(ClubUser, on_delete=models.CASCADE, null=True, blank=True)
+    club = models.ForeignKey(Club, on_delete=models.CASCADE, null=True, blank=True)
     parent = models.IntegerField(
         help_text='Ид раздела родителя',
         null=True,
@@ -223,7 +224,7 @@ class PlayerQuestionnaireUser(models.Model):
 
 class PlayerQuestionnaireClub(models.Model):
     questionnaire = models.ForeignKey(PlayerQuestionnairesRows, on_delete=models.CASCADE)
-    # club = models.ForeignKey(User, on_delete=models.CASCADE)
+    club = models.ForeignKey(Club, on_delete=models.CASCADE, null=True, blank=True)
     player = models.ForeignKey(ClubPlayer, on_delete=models.CASCADE)
     notes = models.CharField(null=True, blank=True, max_length=255)
 

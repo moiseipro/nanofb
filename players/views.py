@@ -8,6 +8,7 @@ from users.models import User
 from references.models import UserSeason, UserTeam
 from players.models import UserPlayer, ClubPlayer, CardSection
 from system_icons.views import get_ui_elements
+from nanofootball.views import util_check_access
 import players.v_api as v_api
 
 
@@ -31,6 +32,10 @@ def players(request):
     if not request.user.is_authenticated:
         return redirect("authorization:login")
     cur_user = User.objects.filter(email=request.user).only("club_id")
+    if not util_check_access(cur_user[0], 
+        {'perms_user': ["players.view_userplayer"], 'perms_club': ["players.view_clubplayer"]}
+    ):
+        return redirect("users:profile")
     cur_team = -1
     try:
         cur_team = int(request.session['team'])
@@ -41,8 +46,8 @@ def players(request):
     return render(request, 'players/base_players.html', {
         'refs': refs,
         'menu_players': 'active',
-        'seasons_list': UserSeason.objects.filter(user_id=request.user),
-        'teams_list': UserTeam.objects.filter(user_id=request.user),
+        'seasons_list': request.seasons_list,
+        'teams_list': request.teams_list,
         'ui_elements': get_ui_elements(request)
     })
 
@@ -67,6 +72,10 @@ def player(request):
     if not request.user.is_authenticated:
         return redirect("authorization:login")
     cur_user = User.objects.filter(email=request.user).only("club_id")
+    if not util_check_access(cur_user[0], 
+        {'perms_user': ["players.view_userplayer"], 'perms_club': ["players.view_clubplayer"]}
+    ):
+        return redirect("users:profile")
     cur_team = -1
     try:
         cur_team = int(request.session['team'])
@@ -82,16 +91,18 @@ def player(request):
         if selected_player[0].team:
             cur_team = selected_player[0].team.id
             request.session['team'] = str(cur_team)
-    # players = UserPlayer.objects.filter(user=cur_user[0], team=cur_team)
     players = v_api.GET_get_players_json(request, cur_user[0], cur_team, False, False)
     refs = {}
     refs = v_api.get_players_refs(request)
+
+    # user.hasperms_ -> для проверки прав
+
     return render(request, 'players/base_player.html', {
         'players': players,
         'refs': refs,
         'menu_players': 'active',
-        'seasons_list': UserSeason.objects.filter(user_id=request.user),
-        'teams_list': UserTeam.objects.filter(user_id=request.user),
+        'seasons_list': request.seasons_list,
+        'teams_list': request.teams_list,
         'ui_elements': get_ui_elements(request)
     })
 
@@ -312,5 +323,4 @@ def players_api(request):
         return JsonResponse({"errors": "access_error"}, status=400)
     else:
         return JsonResponse({"errors": "access_error"}, status=400)
-
 

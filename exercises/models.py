@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from users.models import User
+from clubs.models import Club
 from references.models import UserTeam, ClubTeam
 from references.models import ExsGoal, ExsBall, ExsTeamCategory, ExsAgeCategory, ExsTrainPart, ExsCognitiveLoad
 from video.models import Video
@@ -59,7 +60,7 @@ class UserFolder(AbstractFolder):
 
 
 class ClubFolder(AbstractFolder):
-    # club = models.ForeignKey(Club, on_delete=models.CASCADE)
+    club = models.ForeignKey(Club, on_delete=models.CASCADE, null=True, blank=True)
     objects = models.Manager()
     
     class Meta(AbstractFolder.Meta):
@@ -126,7 +127,7 @@ class UserExercise(AbstractExercise):
 
 
 class ClubExercise(AbstractExercise):
-    # club = models.ForeignKey(Club, on_delete=models.CASCADE)
+    club = models.ForeignKey(Club, on_delete=models.CASCADE, null=True, blank=True)
     folder = models.ForeignKey(ClubFolder, on_delete=models.CASCADE)
     videos = models.ManyToManyField(Video, through="ExerciseVideo", through_fields=("exercise_club", "video"))
     class Meta(AbstractExercise.Meta):
