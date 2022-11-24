@@ -43,8 +43,9 @@ class VideoViewSet(viewsets.ModelViewSet):
     filterset_class = VideoGlobalFilter
 
     def get_permissions(self):
-        permission_classes = [IsAuthenticated, IsAdminUser]
+        permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
+
 
     def create(self, request, *args, **kwargs):
         data = request.data
