@@ -7,8 +7,8 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework.response import Response
 
-from players.models import UserPlayer
-from players.serializers import UserPlayerSerializer
+from players.models import UserPlayer, ClubPlayer
+from players.serializers import UserPlayerSerializer, ClubPlayerSerializer
 from references.forms import CreateTeamForm, CreateSeasonForm
 from references.models import UserSeason, UserTeam, ClubSeason, ClubTeam, ExsAdditionalData, PlayerProtocolStatus
 from references.serializers import UserTeamsSerializer, UserSeasonsSerializer, ExsAdditionalDataSerializer, \
@@ -44,7 +44,13 @@ class TeamViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['get'])
     def get_team_players(self, request, pk=None):
         data = request.data
-        queryset = UserPlayer.objects.filter(team=pk)
+        if self.request.user.club_id is not None:
+            serializer_class = ClubPlayerSerializer
+            team = ClubPlayer
+        else:
+            team = UserPlayer
+            serializer_class = UserPlayerSerializer
+        queryset = team.objects.filter(team=pk)
         print(queryset)
 
         serializer = UserPlayerSerializer(queryset, many=True)

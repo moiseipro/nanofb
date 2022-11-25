@@ -1,9 +1,9 @@
 from rest_framework import serializers
 
-from players.models import UserPlayer
+from players.models import UserPlayer, ClubPlayer
 
 
-class UserPlayerSerializer(serializers.ModelSerializer):
+class PlayerSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
 
     full_name = serializers.CharField(
@@ -12,7 +12,16 @@ class UserPlayerSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        model = UserPlayer
         fields = [
             'id', 'full_name'
         ]
+
+
+class UserPlayerSerializer(PlayerSerializer):
+    class Meta(PlayerSerializer.Meta):
+        model = UserPlayer
+
+
+class ClubPlayerSerializer(PlayerSerializer):
+    class Meta(PlayerSerializer.Meta):
+        model = ClubPlayer
