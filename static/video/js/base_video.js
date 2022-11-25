@@ -26,11 +26,23 @@ function formatState (state) {
         '<span>' + state.text + '</span>' + '<span class="float-right">(' + state.element.getAttribute('data-count') + ')</span>'
     );
     return $state;
+}
+function formatFolders (state) {
+    if (!state.id) {
+        return state.text;
+    }
+    var $state = $(
+        '<span>' + state.text + '</span>' + '<span class="float-right">(' + state.element.getAttribute('value') + ')</span>'
+    );
+    return $state;
 };
 
 $(window).on('load', function (){
     $('.video-source').select2({
         templateResult: formatState,
+    })
+    $('.exercise-folder').select2({
+        templateResult: formatFolders,
     })
 
     generate_ajax_video_table("calc(100vh - 280px)")
@@ -86,6 +98,12 @@ $('.video-source').on('change', function (){
     video_table.columns([2]).search(data_source).draw()
 })
 
+$('.exercise-folder').on('change', function (){
+    let data_folder = $( this ).val()
+    //console.log(data_source)
+    video_table.columns([3]).search(data_folder).draw()
+})
+
 $('.video-tags-filter').on('change', function (){
     let data_tag = $( this ).val()
     console.log(data_tag)
@@ -95,8 +113,10 @@ $('.video-tags-filter').on('change', function (){
 //Сбросить фильтры
 $('#video-filters-clear').on('click', function (){
     $('.video-source').val(null).trigger('change');
+    $('.exercise-folder').val(null).trigger('change');
     $('.video-tags-filter').val(null).trigger('change');
     $('input[type="search"]').val('').change()
+    video_table.columns([1]).search('').draw()
 })
 
 
