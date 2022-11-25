@@ -1,13 +1,14 @@
 import datetime
 from django.http import JsonResponse
 from users.models import User
-from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, AdminExercise, ExerciseVideo
+from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, ClubExercise, AdminExercise, ExerciseVideo
 from exercises.models import UserExerciseParam, UserExerciseParamTeam
 from references.models import ExsGoal, ExsBall, ExsTeamCategory, ExsAgeCategory, ExsTrainPart, ExsCognitiveLoad
 from references.models import ExsKeyword, ExsStressType, ExsPurpose, ExsCoaching
 from references.models import ExsCategory, ExsAdditionalData, ExsTitleName
-from references.models import UserSeason, UserTeam
+from references.models import UserSeason, ClubSeason, UserTeam, ClubTeam
 from video.models import Video
+from nanofootball.views import util_check_access
 
 
 LANG_CODE_DEFAULT = "en"
@@ -235,11 +236,19 @@ def get_exercises_params(request, user, team):
 
     """
     folders = []
+    club_folders = []
     nfb_folders = []
     refs = {}
     if user.exists() and user[0].id != None:
-        # добавить проверку на клуб версию
-        folders = UserFolder.objects.filter(user=user[0], team=team, visible=True).values()
+        if util_check_access(user[0], {
+            'perms_user': ["exercises.view_userfolder"], 
+            'perms_club': ["exercises.view_clubfolder"]
+        }):
+            if request.user.club_id is not None:
+                folders = ClubFolder.objects.filter(club=request.user.club_id, visible=True).values()
+                club_folders = ClubFolder.objects.filter(club=request.user.club_id, visible=True).values()
+            else:
+                folders = UserFolder.objects.filter(user=user[0], team=team, visible=True).values()
     nfb_folders = AdminFolder.objects.filter(visible=True).values()
     for elem in folders:
         elem['root'] = False if elem['parent'] and elem['parent'] != 0 else True
@@ -259,7 +268,7 @@ def get_exercises_params(request, user, team):
     refs['exs_category'] = ExsCategory.objects.filter().values()
     refs['exs_title_names'] = ExsTitleName.objects.filter().values()
     refs = set_refs_translations(refs, request.LANGUAGE_CODE)
-    return [folders, nfb_folders, refs]
+    return [folders, club_folders, nfb_folders, refs]
 
 
 def get_exs_scheme_data(data):
@@ -328,7 +337,7 @@ def get_exs_animation_data(data):
     return res
 
 
-def get_exs_video_data2(data, exs, folder_type):
+def get_exs_video_data2(data, exs, folder_type, club_id):
     """
     Return changed data with fields: "video_1", "video_2", "animation_1", "animation_2".
     Exercise has linked videos. Using exercise object and folder's type function add these new keys.
@@ -346,9 +355,9 @@ def get_exs_video_data2(data, exs, folder_type):
     videos = []
     if folder_type == FOLDER_NFB:
         videos = exs.videos.through.objects.filter(exercise_nfb=exs)
-    elif folder_type == FOLDER_TEAM:
+    elif folder_type == FOLDER_TEAM and club_id is None:
         videos = exs.videos.through.objects.filter(exercise_user=exs)
-    elif folder_type == FOLDER_CLUB:
+    elif folder_type == FOLDER_CLUB or folder_type == FOLDER_TEAM and club_id is not None:
         videos = exs.videos.through.objects.filter(exercise_club=exs)
     for video in videos:
         t_key = ""
@@ -364,27 +373,10 @@ def get_exs_video_data2(data, exs, folder_type):
             'id': video.video.id if video.video else -1, 
             'links': video.video.links if video.video else ""
         }
-    # if video and video.exists() and video[0].id != None:
-    #     data['video_1'] = {
-    #         'id': video[0].video_1.id if video[0].video_1 else -1, 
-    #         'links': video[0].video_1.links if video[0].video_1 else ""
-    #     }
-    #     data['video_2'] = {
-    #         'id': video[0].video_2.id if video[0].video_2 else -1, 
-    #         'links': video[0].video_2.links if video[0].video_2 else ""
-    #     }
-    #     data['animation_1'] = {
-    #         'id': video[0].animation_1.id if video[0].animation_1 else -1, 
-    #         'links': video[0].animation_1.links if video[0].animation_1 else ""
-    #     }
-    #     data['animation_2'] = {
-    #         'id': video[0].animation_2.id if video[0].animation_2 else -1, 
-    #         'links': video[0].animation_2.links if video[0].animation_2 else ""
-    #     }
     return data
 
 
-def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = None, cur_club = None):
+def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = None, cur_team = None):
     """
     Return list of exercise objects. If filter options exist then current list will be filtered.
     Filter options are defined via next parameters of request: filter["filter_name"].
@@ -397,8 +389,8 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
     :type req: [HttpRequest] or None
     :param cur_user: The current user of the system, who is currently authorized.
     :type cur_user: Model.object[User] or None
-    :param cur_club: The current club of User, available only at "Club" version.
-    :type cur_club: Model.object[Club] or None
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
     :return: List of filtered exercises (as objects).
     :rtype: list[object]
 
@@ -447,26 +439,51 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
         pass
 
     f_exercises = []
+    c_folder = None
+    child_folders = None
     if folder_type == FOLDER_TEAM:
-        c_folder = UserFolder.objects.filter(id=folder_id)
-        if not c_folder.exists() or c_folder[0].id == None:
-            return JsonResponse({"err": "Folder not found.", "success": False}, status=200)
-        child_folders = UserFolder.objects.filter(parent=c_folder[0].id)
-        if child_folders.count() > 0:
-            f_exercises = UserExercise.objects.filter(folder__in = child_folders)
+        if req.user.club_id is not None:
+            c_folder = ClubFolder.objects.filter(id=folder_id, club=req.user.club_id)
         else:
-            f_exercises = UserExercise.objects.filter(folder = c_folder[0])
+            c_folder = UserFolder.objects.filter(id=folder_id)
+        if not c_folder.exists() or c_folder[0].id == None:
+            # return JsonResponse({"err": "Folder not found.", "success": False}, status=200)
+            return []
+        if req.user.club_id is not None:
+            child_folders = ClubFolder.objects.filter(parent=c_folder[0].id, club=req.user.club_id)
+        else:
+            child_folders = UserFolder.objects.filter(parent=c_folder[0].id)
+        if child_folders.count() > 0:
+            if req.user.club_id is not None:
+                f_exercises = ClubExercise.objects.filter(folder__in = child_folders, team=cur_team)
+            else:
+                f_exercises = UserExercise.objects.filter(folder__in = child_folders)
+        else:
+            if req.user.club_id is not None:
+                f_exercises = ClubExercise.objects.filter(folder = c_folder[0], team=cur_team)
+            else:
+                f_exercises = UserExercise.objects.filter(folder = c_folder[0])
     elif folder_type == FOLDER_NFB:
         c_folder = AdminFolder.objects.filter(id=folder_id)
         if not c_folder.exists() or c_folder[0].id == None:
-            return JsonResponse({"err": "Folder not found.", "success": False}, status=200)
+            # return JsonResponse({"err": "Folder not found.", "success": False}, status=200)
+            return []
         child_folders = AdminFolder.objects.filter(parent=c_folder[0].id)
         if child_folders.count() > 0:
             f_exercises = AdminExercise.objects.filter(folder__in = child_folders)
         else:
             f_exercises = AdminExercise.objects.filter(folder = c_folder[0])
     elif folder_type == FOLDER_CLUB:
-        pass
+        if req.user.club_id is not None:
+            c_folder = ClubFolder.objects.filter(id=folder_id, club=req.user.club_id)
+            if not c_folder.exists() or c_folder[0].id == None:
+                # return JsonResponse({"err": "Folder not found.", "success": False}, status=200)
+                return []
+            child_folders = ClubFolder.objects.filter(parent=c_folder[0].id, club=req.user.club_id)
+            if child_folders.count() > 0:
+                f_exercises = ClubExercise.objects.filter(folder__in = child_folders)
+            else:
+                f_exercises = ClubExercise.objects.filter(folder = c_folder[0])
     f_exercises = [entry for entry in f_exercises.values()]
     for exercise in f_exercises:
         exercise['has_video_1'] = False
@@ -489,7 +506,10 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
                 exercise['has_animation_2'] = True
         user_params = None
         if folder_type == FOLDER_TEAM:
-            user_params = UserExerciseParam.objects.filter(exercise_user=exercise['id'], user=cur_user)
+            if req.user.club_id is not None:
+                user_params = UserExerciseParam.objects.filter(exercise_club=exercise['id'], user=cur_user)
+            else:
+                user_params = UserExerciseParam.objects.filter(exercise_user=exercise['id'], user=cur_user)
         elif folder_type == FOLDER_NFB:
             user_params = UserExerciseParam.objects.filter(exercise_nfb=exercise['id'], user=cur_user)
             if cur_user.is_superuser:
@@ -553,6 +573,8 @@ def check_video(id):
     if f_video.exists() and f_video[0].id != None:
         return f_video[0]
     return None
+
+
 # --------------------------------------------------
 # EXERCISES API
 def POST_copy_exs(request, cur_user, cur_team):
@@ -581,31 +603,42 @@ def POST_copy_exs(request, cur_user, cur_team):
         folder_id = int(request.POST.get("folder", -1))
     except:
         pass
-    found_folder = UserFolder.objects.filter(id=folder_id)
+    found_folder = None
+    if not util_check_access(cur_user, {
+        'perms_user': ["exercises.change_userexercise", "exercises.add_userexercise"], 
+        'perms_club': ["exercises.change_clubexercise", "exercises.add_clubexercise"]
+    }):
+        return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    if request.user.club_id is not None:
+        found_folder = ClubFolder.objects.filter(id=folder_id, club=request.user.club_id)
+    else:
+        found_folder = UserFolder.objects.filter(id=folder_id)
     success_status = False
     c_exs = None
     new_exs = None
-    if found_folder.exists() and found_folder[0].id != None:
+    found_team = None
+    if request.user.club_id is not None:
+        found_team = ClubTeam.objects.filter(id=cur_team, club_id=request.user.club_id)
+    else:
+        found_team = UserTeam.objects.filter(id=cur_team, user_id=cur_user)
+    if not found_team or not found_team.exists() or found_team[0].id == None:
+        return JsonResponse({"err": "Cant find team.", "success": False}, status=400)
+    if found_folder and found_folder.exists() and found_folder[0].id != None:
         res_data = {'err': "NULL"}
         if folder_type == FOLDER_NFB:
-            c_exs = AdminExercise.objects.filter(id=exs_id)
+            c_exs = AdminExercise.objects.filter(id=exs_id, visible=True)
             if c_exs.exists() and c_exs[0].id != None:
-                new_exs = UserExercise(user=cur_user)
+                if request.user.club_id is not None:
+                    new_exs = ClubExercise(user=cur_user, club=request.user.club_id, team=found_team[0])
+                else:
+                    new_exs = UserExercise(user=cur_user)
                 for key in c_exs.values()[0]:
                     if key != "id" and key != "date_creation":
                         setattr(new_exs, key, c_exs.values()[0][key])
                 new_exs.folder = found_folder[0]
                 new_exs.old_id = exs_id
-               
-                # c_exs_video = ExerciseVideo.objects.filter(exercise_nfb=c_exs[0])
-                # if c_exs_video.exists() and c_exs_video[0].id != None:
-                    # new_exs_video = ExerciseVideo(exercise_user=new_exs)
-                    # for key in c_exs_video.values()[0]:
-                    #     if key != "id" and key != "exercise_user" and key != "exercise_club" and key != "exercise_nfb":
-                    #         setattr(new_exs_video, key, c_exs_video.values()[0][key])
                 try:
                     new_exs.save()
-                    # new_exs_video.save()
                     res_data = {'id': new_exs.id}
                     success_status = True
                 except Exception as e:
@@ -613,9 +646,12 @@ def POST_copy_exs(request, cur_user, cur_team):
                     res_data = {'id': new_exs.id, 'err': str(e)}
                 exs_params = UserExerciseParamTeam.objects.filter(exercise_nfb=exs_id)
                 if exs_params.exists() and exs_params[0].id != None and success_status:
-                    found_team = UserTeam.objects.filter(id=cur_team)
-                    if found_team.exists() and found_team[0].id != None:
-                        new_exs_params = UserExerciseParamTeam(exercise_user=new_exs, team=found_team[0])
+                    if found_team and found_team.exists() and found_team[0].id != None:
+                        new_exs_params = None
+                        if request.user.club_id is not None:
+                            new_exs_params = UserExerciseParamTeam(exercise_club=new_exs, team_club=found_team[0])
+                        else:
+                            new_exs_params = UserExerciseParamTeam(exercise_user=new_exs, team=found_team[0])
                         for key in exs_params.values()[0]:
                             if key != "id" and key != "exercise_user_id" and key != "exercise_club_id" and key != "exercise_nfb_id" and key != "team_id":
                                 setattr(new_exs_params, key, exs_params.values()[0][key])
@@ -627,22 +663,23 @@ def POST_copy_exs(request, cur_user, cur_team):
                             success_status = False
                             res_data = {'id': new_exs.id, 'err': str(e)}
         elif folder_type == FOLDER_TEAM:
-            c_exs = UserExercise.objects.filter(id=exs_id)
+            c_exs = None
+            if request.user.club_id is not None:
+                c_exs = ClubExercise.objects.filter(id=exs_id, team=found_team[0], club=request.user.club_id)
+            else:
+                c_exs = UserExercise.objects.filter(id=exs_id, user=cur_user)
             if c_exs.exists() and c_exs[0].id != None:
-                new_exs = UserExercise(user=cur_user)
+                new_exs = None
+                if request.user.club_id is not None:
+                    new_exs = ClubExercise(user=cur_user, club=request.user.club_id, team=found_team[0])
+                else:
+                    new_exs = UserExercise(user=cur_user)
                 for key in c_exs.values()[0]:
                     if key != "id" and key != "date_creation":
                         setattr(new_exs, key, c_exs.values()[0][key])
                 new_exs.folder = found_folder[0]
-                # c_exs_video = ExerciseVideo.objects.filter(exercise_user=c_exs[0])
-                # if c_exs_video.exists() and c_exs_video[0].id != None:
-                #     new_exs_video = ExerciseVideo(exercise_user=new_exs)
-                #     for key in c_exs_video.values()[0]:
-                #         if key != "id" and key != "exercise_user" and key != "exercise_club" and key != "exercise_nfb":
-                #             setattr(new_exs_video, key, c_exs_video.values()[0][key])
                 try:
                     new_exs.save()
-                    # new_exs_video.save()
                     res_data = {'id': new_exs.id}
                     success_status = True
                 except Exception as e:
@@ -655,7 +692,10 @@ def POST_copy_exs(request, cur_user, cur_team):
                 if folder_type == FOLDER_NFB:
                     videos = c_exs[0].videos.through.objects.filter(exercise_nfb=c_exs[0])
                 elif folder_type == FOLDER_TEAM:
-                    videos = c_exs[0].videos.through.objects.filter(exercise_user=c_exs[0])
+                    if request.user.club_id is not None:
+                        videos = c_exs[0].videos.through.objects.filter(exercise_club=c_exs[0])
+                    else:
+                        videos = c_exs[0].videos.through.objects.filter(exercise_user=c_exs[0])
                 elif folder_type == FOLDER_CLUB:
                     videos = c_exs[0].videos.through.objects.filter(exercise_club=c_exs[0])
                 for video in videos:
@@ -673,7 +713,7 @@ def POST_copy_exs(request, cur_user, cur_team):
     return JsonResponse({"errors": "Can't copy exercise"}, status=400)
 
 
-def POST_move_exs(request, cur_user):
+def POST_move_exs(request, cur_user, cur_team):
     """
     Return JSON Response as result on POST operation "Moving exercise". This works only for TEAM exercises.
     User can't move exercise from NFB folder to another.
@@ -696,10 +736,23 @@ def POST_move_exs(request, cur_user):
         folder_id = int(request.POST.get("folder", -1))
     except:
         pass
-    found_folder = UserFolder.objects.filter(id=folder_id, user=cur_user)
+    found_folder = None
+    if not util_check_access(cur_user, {
+        'perms_user': ["exercises.change_userexercise"], 
+        'perms_club': ["exercises.change_clubexercise"]
+    }):
+        return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    if request.user.club_id is not None:
+         found_folder = ClubFolder.objects.filter(id=folder_id, club=request.user.club_id)
+    else:
+        found_folder = UserFolder.objects.filter(id=folder_id, user=cur_user)
     if found_folder.exists() and found_folder[0].id != None:
-        found_exs = UserExercise.objects.filter(id=exs_id, user=cur_user)
-        if found_exs.exists() and found_exs[0].id != None:
+        found_exs = None
+        if request.user.club_id is not None:
+            found_exs = ClubExercise.objects.filter(id=exs_id, club=request.user.club_id, team=cur_team)
+        else:
+            found_exs = UserExercise.objects.filter(id=exs_id, user=cur_user)
+        if found_exs and found_exs.exists() and found_exs[0].id != None:
             found_exs = found_exs[0]
             found_exs.folder = found_folder[0]
             try:
@@ -739,23 +792,47 @@ def POST_edit_exs(request, cur_user, cur_team):
     c_exs = None
     access_denied = False
     copied_from_nfb = False
+    found_team = None
+    if request.user.club_id is not None:
+        found_team = ClubTeam.objects.filter(id=cur_team, club_id=request.user.club_id)
+    else:
+        found_team = UserTeam.objects.filter(id=cur_team, user_id=cur_user)
+    if not found_team or not found_team.exists() or found_team[0].id == None:
+        return JsonResponse({"err": "Team not found.", "success": False}, status=400)
     if folder_type == FOLDER_TEAM:
-        if access_denied:
+        if not util_check_access(cur_user, {
+            'perms_user': ["exercises.change_userexercise", "exercises.add_userexercise"], 
+            'perms_club': ["exercises.change_clubexercise", "exercises.add_clubexercise"]
+        }):
             return JsonResponse({"err": "Access denied.", "success": False}, status=400)
-        c_folder = UserFolder.objects.filter(id=folder_id)
+        c_folder = None
+        if request.user.club_id is not None:
+            c_folder = ClubFolder.objects.filter(id=folder_id, club=request.user.club_id)
+        else:
+            c_folder = UserFolder.objects.filter(id=folder_id, user=cur_user)
         if not c_folder.exists() or c_folder[0].id == None:
             return JsonResponse({"err": "Folder not found.", "success": False}, status=400)
-        c_exs = UserExercise.objects.filter(id=exs_id)
+        c_exs = None
+        if request.user.club_id is not None:
+            c_exs = ClubExercise.objects.filter(id=exs_id, club=request.user.club_id, team=found_team[0])
+        else:
+            c_exs = UserExercise.objects.filter(id=exs_id, user=cur_user)
         if not c_exs.exists() or c_exs[0].id == None:
-            c_exs = UserExercise(user=cur_user, folder=c_folder[0])
+            if request.user.club_id is not None:
+                c_exs = ClubExercise(user=cur_user, folder=c_folder[0], club=request.user.club_id, team=found_team[0])
+            else:
+                c_exs = UserExercise(user=cur_user, folder=c_folder[0])
         else:
             c_exs = c_exs[0]
             c_exs.folder = c_folder[0]
             copied_from_nfb = c_exs.old_id != None
     elif folder_type == FOLDER_NFB:
-        if access_denied or not cur_user.is_superuser:
+        if not util_check_access(cur_user, {
+            'perms_user': ["exercises.change_adminexercise", "exercises.add_adminexercise"], 
+            'perms_club': ["exercises.change_adminexercise", "exercises.add_adminexercise"]
+        }):
             return JsonResponse({"err": "Access denied.", "success": False}, status=400)
-        c_folder = AdminFolder.objects.filter(id=folder_id)
+        c_folder = AdminFolder.objects.filter(id=folder_id, visible=True)
         if not c_folder.exists() or c_folder[0].id == None:
             return JsonResponse({"err": "Folder not found.", "success": False}, status=400)
         c_exs = AdminExercise.objects.filter(id=exs_id)
@@ -805,7 +882,6 @@ def POST_edit_exs(request, cur_user, cur_team):
             c_exs.animation_data['data']['default'] = [animation1_id, animation2_id]
         else:
             c_exs.animation_data = {'data': {'custom': "", 'default': [animation1_id, animation2_id]}}
-    # c_exs.notes = set_by_language_code(c_exs.notes, request.LANGUAGE_CODE, request.POST.getlist("data[notes[]]", ""), request.POST.getlist("data[notes[]][]", ""))
     try:
         c_exs.save()
         res_data = f'Exs with id: [{c_exs.id}] is added / edited successfully.'
@@ -817,7 +893,7 @@ def POST_edit_exs(request, cur_user, cur_team):
     animation1_obj = check_video(animation1_id)
     animation2_obj = check_video(animation2_id)
     try:
-        if folder_type == FOLDER_TEAM:
+        if folder_type == FOLDER_TEAM and request.user.club_id is None:
             c_exs.videos.through.objects.update_or_create(type=1, exercise_user=c_exs, defaults={"video": video1_obj})
             c_exs.videos.through.objects.update_or_create(type=2, exercise_user=c_exs, defaults={"video": video2_obj})
             c_exs.videos.through.objects.update_or_create(type=3, exercise_user=c_exs, defaults={"video": animation1_obj})
@@ -827,7 +903,7 @@ def POST_edit_exs(request, cur_user, cur_team):
             c_exs.videos.through.objects.update_or_create(type=2, exercise_nfb=c_exs, defaults={"video": video2_obj})
             c_exs.videos.through.objects.update_or_create(type=3, exercise_nfb=c_exs, defaults={"video": animation1_obj})
             c_exs.videos.through.objects.update_or_create(type=4, exercise_nfb=c_exs, defaults={"video": animation2_obj})
-        elif folder_type == FOLDER_CLUB:
+        elif folder_type == FOLDER_CLUB or folder_type == FOLDER_TEAM and request.user.club_id is not None:
             c_exs.videos.through.objects.update_or_create(type=1, exercise_club=c_exs, defaults={"video": video1_obj})
             c_exs.videos.through.objects.update_or_create(type=2, exercise_club=c_exs, defaults={"video": video2_obj})
             c_exs.videos.through.objects.update_or_create(type=3, exercise_club=c_exs, defaults={"video": animation1_obj})
@@ -837,11 +913,17 @@ def POST_edit_exs(request, cur_user, cur_team):
         res_data += f'Cant add link to <ExerciseVideo>.'
 
     if folder_type == FOLDER_TEAM:
-        found_team = UserTeam.objects.filter(id=cur_team)
         if found_team.exists() and found_team[0].id != None:
-            c_exs_team_params = UserExerciseParamTeam.objects.filter(team=found_team[0], exercise_user=c_exs)
+            c_exs_team_params = None
+            if request.user.club_id is not None:
+                c_exs_team_params = UserExerciseParamTeam.objects.filter(team_club=found_team[0], exercise_club=c_exs)
+            else:
+                c_exs_team_params = UserExerciseParamTeam.objects.filter(team=found_team[0], exercise_user=c_exs)
             if not c_exs_team_params.exists() or c_exs_team_params[0].id == None:
-                c_exs_team_params = UserExerciseParamTeam(team=found_team[0], exercise_user=c_exs)
+                if request.user.club_id is not None:
+                    c_exs_team_params = UserExerciseParamTeam(team_club=found_team[0], exercise_club=c_exs)
+                else:
+                    c_exs_team_params = UserExerciseParamTeam(team=found_team[0], exercise_user=c_exs)
             else:
                 c_exs_team_params = c_exs_team_params[0]
             c_exs_team_params.additional_data = set_as_object(request, c_exs_team_params.additional_data, "additional_data", request.LANGUAGE_CODE)
@@ -877,7 +959,7 @@ def POST_edit_exs(request, cur_user, cur_team):
     return JsonResponse({"data": res_data, "success": True}, status=200)
 
 
-def POST_delete_exs(request, cur_user):
+def POST_delete_exs(request, cur_user, cur_team):
     """
     Return JSON Response as result on POST operation "Delete exercise".
     Only user with adminstrator status can delete NFB exercises.
@@ -897,13 +979,23 @@ def POST_delete_exs(request, cur_user):
     except:
         pass
     c_exs = None
-    access_denied = False
     if folder_type == FOLDER_TEAM:
-        if not access_denied:
+        if not util_check_access(cur_user, {
+            'perms_user': ["exercises.delete_userexercise"], 
+            'perms_club': ["exercises.delete_clubexercise"]
+        }):
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        if request.user.club_id is not None:
+            c_exs = ClubExercise.objects.filter(id=exs_id, club=request.user.club_id, team=cur_team)
+        else:
             c_exs = UserExercise.objects.filter(id=exs_id, user=cur_user)
     elif folder_type == FOLDER_NFB:
-        if not access_denied and cur_user.is_superuser:
-            c_exs = AdminExercise.objects.filter(id=exs_id)
+        if not util_check_access(cur_user, {
+            'perms_user': ["exercises.delete_adminexercise"], 
+            'perms_club': ["exercises.delete_adminexercise"]
+        }):
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        c_exs = AdminExercise.objects.filter(id=exs_id)
     elif folder_type == FOLDER_CLUB:
         pass
     if c_exs == None or not c_exs.exists() or c_exs[0].id == None:
@@ -916,7 +1008,7 @@ def POST_delete_exs(request, cur_user):
             return JsonResponse({"errors": "Can't delete exercise"}, status=400)
 
 
-def POST_edit_exs_user_params(request, cur_user):
+def POST_edit_exs_user_params(request, cur_user, cur_team):
     """
     Return JSON Response as result on POST operation "Edit exercise's user parameteres".
     These parameteres are the user's notes on this or that exercise.
@@ -942,19 +1034,32 @@ def POST_edit_exs_user_params(request, cur_user):
     except:
         pass
     c_exs = None
-    access_denied = False
     if folder_type == FOLDER_TEAM:
-        if not access_denied:
+        if not util_check_access(cur_user, {
+            'perms_user': ["exercises.change_userexercise"], 
+            'perms_club': ["exercises.change_clubexercise"]
+        }):
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        if request.user.club_id is not None:
+            c_exs = ClubExercise.objects.filter(id=exs_id, club=request.user.club_id, team=cur_team)
+        else:
             c_exs = UserExercise.objects.filter(id=exs_id, user=cur_user)
     elif folder_type == FOLDER_NFB:
-        if not access_denied:
-            c_exs = AdminExercise.objects.filter(id=exs_id)
+        if not util_check_access(cur_user, {
+            'perms_user': ["exercises.change_adminexercise"], 
+            'perms_club': ["exercises.change_adminexercise"]
+        }):
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        c_exs = AdminExercise.objects.filter(id=exs_id)
     elif folder_type == FOLDER_CLUB:
         pass
     if c_exs != None and c_exs.exists() and c_exs[0].id != None:
         c_exs_params = None
         if folder_type == FOLDER_TEAM:
-            c_exs_params = UserExerciseParam.objects.filter(exercise_user=c_exs[0], user=cur_user)
+            if request.user.club_id is not None:
+                c_exs_params = UserExerciseParam.objects.filter(exercise_club=c_exs[0], user=cur_user)
+            else:
+                c_exs_params = UserExerciseParam.objects.filter(exercise_user=c_exs[0], user=cur_user)
         elif folder_type == FOLDER_NFB:
             c_exs_params = UserExerciseParam.objects.filter(exercise_nfb=c_exs[0], user=cur_user)
         elif folder_type == FOLDER_CLUB:
@@ -981,7 +1086,10 @@ def POST_edit_exs_user_params(request, cur_user):
         else:
             new_params = None
             if folder_type == FOLDER_TEAM:
-                new_params = UserExerciseParam(exercise_user=c_exs[0], user=cur_user)
+                if request.user.club_id is not None:
+                    new_params = UserExerciseParam(exercise_club=c_exs[0], user=cur_user)
+                else:
+                    new_params = UserExerciseParam(exercise_user=c_exs[0], user=cur_user)
             elif folder_type == FOLDER_NFB:
                 new_params = UserExerciseParam(exercise_nfb=c_exs[0], user=cur_user)
             elif folder_type == FOLDER_CLUB:
@@ -995,7 +1103,7 @@ def POST_edit_exs_user_params(request, cur_user):
     return JsonResponse({"errors": "Can't edit exs param"}, status=400)
 
 
-def POST_count_exs(request, cur_user):
+def POST_count_exs(request, cur_user, cur_team):
     """
     Return JSON Response as result on POST operation "Count exercises in folder".
     Uses exercises.v_api.get_excerises_data(...)
@@ -1019,15 +1127,20 @@ def POST_count_exs(request, cur_user):
     except:
         pass
     found_exercises = 0
+    if not util_check_access(cur_user, {
+        'perms_user': ["exercises.view_userexercise"], 
+        'perms_club': ["exercises.view_clubexercise"]
+    }):
+        return JsonResponse({"err": "Access denied.", "success": False}, status=400)
     try:
-        found_exercises = len(get_excerises_data(folder_id, folder_type, request, cur_user))
+        found_exercises = len(get_excerises_data(folder_id, folder_type, request, cur_user, cur_team))
     except:
         pass
     return JsonResponse({"data": found_exercises, "success": True}, status=200)
 
 
 
-def GET_link_video_exs(request, cur_user):
+def GET_link_video_exs(request, cur_user, cur_team):
     """
     Return JSON Response as result on GET operation "Link videos from exercise video_data".
     Uses after parsing exercises from old site's version. Exercise has fields: "video_data" and "animation_data" which represented as
@@ -1052,7 +1165,7 @@ def GET_link_video_exs(request, cur_user):
     except:
         pass
     try:
-        found_exercises = get_excerises_data(folder_id, folder_type, request, cur_user)
+        found_exercises = get_excerises_data(folder_id, folder_type, request, cur_user, cur_team)
         logs = []
         for exercise in found_exercises:
             video_1 = None
@@ -1093,7 +1206,7 @@ def GET_link_video_exs(request, cur_user):
         return JsonResponse({"ERR": f"Cant created or updated video in exs. {e}", "success": False}, status=400)
 
 
-def GET_get_exs_all(request, cur_user):
+def GET_get_exs_all(request, cur_user, cur_team):
     """
     Return JSON Response as result on GET operation "Get all exercises from folder".
 
@@ -1115,9 +1228,14 @@ def GET_get_exs_all(request, cur_user):
         folder_type = request.GET.get("f_type", "")
     except:
         pass
-    # Check if folder is USER or CLUB
     res_exs = []
-    found_exercises = get_excerises_data(folder_id, folder_type, request, cur_user)
+    if not util_check_access(cur_user, {
+        'perms_user': ["exercises.view_userexercise"], 
+        'perms_club': ["exercises.view_clubexercise"]
+    }):
+        return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    found_exercises = get_excerises_data(folder_id, folder_type, request, cur_user, cur_team)
+    print(found_exercises)
     for exercise in found_exercises:
         exs_title = get_by_language_code(exercise['title'], request.LANGUAGE_CODE)
         exs_data = {
@@ -1195,14 +1313,30 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
         exs_id = additional['exs']
         is_as_object = True
     res_exs = {}
+    c_exs = None
     if folder_type == FOLDER_TEAM:
-        c_exs = UserExercise.objects.filter(id=exs_id, visible=True)
+        if not util_check_access(cur_user, {
+            'perms_user': ["exercises.view_userexercise"], 
+            'perms_club': ["exercises.view_clubexercise"]
+        }):
+            if is_as_object:
+                return None
+            else:
+                return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        if request.user.club_id is not None:
+            c_exs = ClubExercise.objects.filter(id=exs_id, visible=True, club=request.user.club_id, team=cur_team)
+        else:
+            c_exs = UserExercise.objects.filter(id=exs_id, visible=True, user=cur_user)
         if c_exs.exists() and c_exs[0].id != None:
             res_exs = c_exs.values()[0]
             res_exs['nfb'] = False
             res_exs['folder_parent_id'] = c_exs[0].folder.parent
             res_exs['copied_from_nfb'] = c_exs[0].old_id != None
-        user_params = UserExerciseParam.objects.filter(exercise_user=c_exs[0].id, user=cur_user)
+        user_params = None
+        if request.user.club_id is not None:
+            user_params = UserExerciseParam.objects.filter(exercise_club=c_exs[0].id, user=cur_user)
+        else:
+            user_params = UserExerciseParam.objects.filter(exercise_user=c_exs[0].id, user=cur_user)
         if user_params.exists() and user_params[0].id != None:
             user_params = user_params.values()[0]
             res_exs['favorite'] = user_params['favorite']
@@ -1210,7 +1344,11 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
             res_exs['video_2_watched'] = user_params['video_2_watched']
             res_exs['animation_1_watched'] = user_params['animation_1_watched']
             res_exs['animation_2_watched'] = user_params['animation_2_watched']
-        team_params = UserExerciseParamTeam.objects.filter(exercise_user=c_exs[0].id, team=cur_team)
+        team_params = None
+        if request.user.club_id is not None:
+            team_params = UserExerciseParamTeam.objects.filter(exercise_club=c_exs[0].id, team_club=cur_team)
+        else:
+            team_params = UserExerciseParamTeam.objects.filter(exercise_user=c_exs[0].id, team=cur_team)
         if team_params.exists() and team_params[0].id != None:
             team_params = team_params.values()[0]
             res_exs['additional_data'] = get_by_language_code(team_params['additional_data'], request.LANGUAGE_CODE)
@@ -1243,7 +1381,42 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
             res_exs['coaching'] = get_by_language_code(team_params['coaching'], request.LANGUAGE_CODE)
             res_exs['notes'] = get_by_language_code(team_params['note'], request.LANGUAGE_CODE)
     elif folder_type == FOLDER_CLUB:
-        pass
+        if not util_check_access(cur_user, {
+            'perms_user': ["exercises.view_userexercise"], 
+            'perms_club': ["exercises.view_clubexercise"]
+        }):
+            if is_as_object:
+                return None
+            else:
+                return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        if request.user.club_id is not None:
+            c_exs = ClubExercise.objects.filter(id=exs_id, visible=True, club=request.user.club_id)
+        if c_exs and c_exs.exists() and c_exs[0].id != None:
+            res_exs = c_exs.values()[0]
+            res_exs['nfb'] = False
+            res_exs['folder_parent_id'] = c_exs[0].folder.parent
+            res_exs['copied_from_nfb'] = c_exs[0].old_id != None
+        user_params = None
+        if request.user.club_id is not None:
+            user_params = UserExerciseParam.objects.filter(exercise_club=c_exs[0].id, user=cur_user)
+        if user_params and user_params.exists() and user_params[0].id != None:
+            user_params = user_params.values()[0]
+            res_exs['favorite'] = user_params['favorite']
+            res_exs['video_1_watched'] = user_params['video_1_watched']
+            res_exs['video_2_watched'] = user_params['video_2_watched']
+            res_exs['animation_1_watched'] = user_params['animation_1_watched']
+            res_exs['animation_2_watched'] = user_params['animation_2_watched']
+        team_params = None
+        if request.user.club_id is not None:
+            team_params = UserExerciseParamTeam.objects.filter(exercise_club=c_exs[0].id, team_club=cur_team)
+        if team_params and team_params.exists() and team_params[0].id != None:
+            team_params = team_params.values()[0]
+            res_exs['additional_data'] = get_by_language_code(team_params['additional_data'], request.LANGUAGE_CODE)
+            res_exs['keyword'] = get_by_language_code(team_params['keyword'], request.LANGUAGE_CODE)
+            res_exs['stress_type'] = get_by_language_code(team_params['stress_type'], request.LANGUAGE_CODE)
+            res_exs['purposes'] = get_by_language_code(team_params['purpose'], request.LANGUAGE_CODE)
+            res_exs['coaching'] = get_by_language_code(team_params['coaching'], request.LANGUAGE_CODE)
+            res_exs['notes'] = get_by_language_code(team_params['note'], request.LANGUAGE_CODE)
     else:
         if is_as_object:
             return None
@@ -1260,7 +1433,7 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
     res_exs['ref_age_category'] = res_exs['ref_age_category_id']
     res_exs['ref_train_part'] = res_exs['ref_train_part_id']
     res_exs['ref_cognitive_load'] = res_exs['ref_cognitive_load_id']
-    res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type)
+    res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type, request.user.club_id)
     if is_as_object:
         return res_exs
     else:
@@ -1288,8 +1461,17 @@ def GET_get_exs_graphic_content(request, cur_user, cur_team):
     except:
         pass
     res_exs = {}
+    c_exs = None
     if folder_type == FOLDER_TEAM:
-        c_exs = UserExercise.objects.filter(id=exs_id, visible=True)
+        if not util_check_access(cur_user, {
+            'perms_user': ["exercises.view_userexercise"], 
+            'perms_club': ["exercises.view_clubexercise"]
+        }):
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        if request.user.club_id is not None:
+            c_exs = ClubExercise.objects.filter(id=exs_id, visible=True, club=request.user.club_id, team=cur_team)
+        else:
+            c_exs = UserExercise.objects.filter(id=exs_id, visible=True, user=cur_user)
         if c_exs.exists() and c_exs[0].id != None:
             res_exs = c_exs.values()[0]
     elif folder_type == FOLDER_NFB:
@@ -1304,9 +1486,8 @@ def GET_get_exs_graphic_content(request, cur_user, cur_team):
     res_exs['scheme_data'] = get_exs_scheme_data(res_exs['scheme_data'])
     res_exs['video_data'] = get_exs_video_data(res_exs['video_data'])
     res_exs['animation_data'] = get_exs_animation_data(res_exs['animation_data'])
-    res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type)
+    res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type, request.user.club_id)
     return JsonResponse({"data": res_exs, "success": True}, status=200)
-
 
 
 # --------------------------------------------------
@@ -1332,8 +1513,16 @@ def POST_edit_folder(request, cur_user, cur_team, c_id, parent_id):
     name = request.POST.get("name", "")
     short_name = request.POST.get("short_name", "")
     found_folder = None
+    if not util_check_access(cur_user, {
+        'perms_user': ["exercises.change_userfolder", "exercises.add_userfolder"], 
+        'perms_club': ["exercises.change_clubfolder", "exercises.add_clubfolder"]
+    }):
+        return JsonResponse({"err": "Access denied.", "success": False}, status=400)
     try:
-        found_folder = UserFolder.objects.get(id=c_id, user=cur_user, team=cur_team) # либо проверка клубной папки
+        if request.user.club_id is not None:
+            found_folder = ClubFolder.objects.get(id=c_id, club=request.user.club_id)
+        else:
+            found_folder = UserFolder.objects.get(id=c_id, user=cur_user, team=cur_team)
     except:
         pass
     res_data = {'type': "error", 'err': "Cant create or edit record."}
@@ -1347,8 +1536,12 @@ def POST_edit_folder(request, cur_user, cur_team, c_id, parent_id):
             res_data = {'id': found_folder.id, 'type': "error", 'err': str(e)}
     else:
         try:
-            found_team = UserTeam.objects.get(id=cur_team, user_id=cur_user)
-            new_folder = UserFolder(name=name, short_name=short_name, parent=parent_id, user=cur_user, team=found_team)
+            if request.user.club_id is not None:
+                found_team = ClubTeam.objects.get(id=cur_team, club_id=request.user.club_id)
+                new_folder = ClubFolder(name=name, short_name=short_name, parent=parent_id, club=request.user.club_id)
+            else:
+                found_team = UserTeam.objects.get(id=cur_team, user_id=cur_user)
+                new_folder = UserFolder(name=name, short_name=short_name, parent=parent_id, user=cur_user, team=found_team)
             new_folder.save()
             new_folder.order = new_folder.id
             new_folder.save()
@@ -1373,11 +1566,27 @@ def POST_delete_folder(request, cur_user, c_id):
 
     """
     res_data = {'type': "error", 'err': "Cant delete record."}
-    found_folder = UserFolder.objects.get(id=c_id, user=cur_user) # либо проверка клубной папки
+    found_folder = None
+    if not util_check_access(cur_user, {
+        'perms_user': ["exercises.delete_userfolder"], 
+        'perms_club': ["exercises.delete_clubfolder"]
+    }):
+        return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    if request.user.club_id is not None:
+        found_folder = ClubFolder.objects.get(id=c_id, club=request.user.club_id)
+    else:
+        found_folder = UserFolder.objects.get(id=c_id, user=cur_user)
     if found_folder and found_folder.id != None:
         fId = found_folder.id
         try:
             found_folder.delete()
+            found_child_folders = None
+            if request.user.club_id is not None:
+                found_child_folders = ClubFolder.objects.filter(parent=c_id, club=request.user.club_id)
+            else:
+                found_child_folders = UserFolder.objects.filter(parent=c_id, user=cur_user)
+            for folder in found_child_folders:
+                folder.delete()
             res_data = {'id': fId, 'type': "delete"}
         except Exception as e:
             res_data = {'id': fId, 'type': "error", 'err': str(e)}
@@ -1399,6 +1608,11 @@ def POST_change_order_folder(request, cur_user):
     ids_data = request.POST.getlist("ids_arr[]", [])
     ordering_data = request.POST.getlist("order_arr[]", [])
     temp_res_arr = []
+    if not util_check_access(cur_user, {
+        'perms_user': ["exercises.change_userfolder"], 
+        'perms_club': ["exercises.change_clubfolder"]
+    }):
+        return JsonResponse({"err": "Access denied.", "success": False}, status=400)
     for c_ind in range(len(ids_data)):
         t_id = -1
         t_order = 0
@@ -1407,7 +1621,11 @@ def POST_change_order_folder(request, cur_user):
             t_order = int(ordering_data[c_ind])
         except:
             pass
-        found_folder = UserFolder.objects.get(id=t_id, user=cur_user)
+        found_folder = None
+        if request.user.club_id is not None:
+            found_folder = ClubFolder.objects.get(id=t_id, club=request.user.club_id)
+        else:
+            found_folder = UserFolder.objects.get(id=t_id, user=cur_user)
         if found_folder and found_folder.id != None:
             found_folder.order = t_order
             try:
@@ -1419,7 +1637,7 @@ def POST_change_order_folder(request, cur_user):
     return JsonResponse({"data": res_data}, status=200)
 
 
-def GET_nfb_folders():
+def GET_nfb_folders(request, cur_user):
     """
     Return JSON Response as result on GET operation "Get NFB folders".
 
@@ -1427,7 +1645,9 @@ def GET_nfb_folders():
     :rtype: JsonResponse[{"data": [obj]}, status=[int]]
 
     """
-    folders = AdminFolder.objects.only("short_name", "name", "parent")
+    folders = AdminFolder.objects.filter(visible=True).only("short_name", "name", "parent")
+    if not cur_user.is_superuser:
+        folders = folders.filter(active=True)
     res_folders = []
     for folder in folders:
         res_folders.append({'id': folder.id, 'short_name': folder.short_name, 'name': folder.name, 'parent': folder.parent})
@@ -1450,20 +1670,34 @@ def GET_nfb_folders_set(request, cur_user, cur_team):
 
     """
     is_success = True
-    # Либо удалять, потом добавлять для клуба, в зависимости от версии пользователя и его прав
-    user_old_folders = UserFolder.objects.filter(user=cur_user, team=cur_team)
+    if not util_check_access(cur_user, {
+        'perms_user': ["exercises.change_userfolder", "exercises.add_userfolder", "exercises.delete_userfolder"], 
+        'perms_club': ["exercises.change_clubfolder", "exercises.add_clubfolder", "exercises.delete_clubfolder"]
+    }):
+        return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    old_folders = None
+    if request.user.club_id is not None:
+        old_folders = ClubFolder.objects.filter(club=request.user.club_id)
+    else:
+        old_folders = UserFolder.objects.filter(user=cur_user, team=cur_team)
     try:
-        user_old_folders.delete()
+        old_folders.delete()
     except Exception as e:
         res_data = {'type': "error", 'err': str(e)}
         is_success = False
     folders = []
     if is_success:
-        folders = AdminFolder.objects.only("short_name", "name", "parent")
+        folders = AdminFolder.objects.filter(visible=True, active=True).only("short_name", "name", "parent")
         for folder in folders:
             try:
-                found_team = UserTeam.objects.get(id=cur_team, user_id=cur_user)
-                new_folder = UserFolder(name=folder.name, short_name=folder.short_name, order=folder.order, parent=0, user=cur_user, team=found_team)
+                found_team = None
+                new_folder = None
+                if request.user.club_id is not None:
+                    found_team = ClubTeam.objects.get(id=cur_team, club_id=request.user.club_id)
+                    new_folder = ClubFolder(name=folder.name, short_name=folder.short_name, order=folder.order, parent=0, club=request.user.club_id, team=found_team)
+                else:
+                    found_team = UserTeam.objects.get(id=cur_team, user_id=cur_user)
+                    new_folder = UserFolder(name=folder.name, short_name=folder.short_name, order=folder.order, parent=0, user=cur_user, team=found_team)
                 new_folder.save()
                 folder.new_id = new_folder.id
             except Exception as e:
@@ -1475,7 +1709,11 @@ def GET_nfb_folders_set(request, cur_user, cur_team):
             for compare_folder in folders:
                 if folder.parent == compare_folder.id:
                     try:
-                        c_folder = UserFolder.objects.get(id=folder.new_id, user=cur_user, team=cur_team)
+                        c_folder = None
+                        if request.user.club_id is not None:
+                            c_folder = ClubFolder.objects.get(id=folder.new_id, club=request.user.club_id)
+                        else:
+                            c_folder = UserFolder.objects.get(id=folder.new_id, user=cur_user, team=cur_team)
                         if c_folder and c_folder.id != None:
                             c_folder.parent = compare_folder.new_id
                             c_folder.save()
@@ -1488,5 +1726,4 @@ def GET_nfb_folders_set(request, cur_user, cur_team):
     if is_success:
         res_data = {'type': "nfb_folders_set"}
     return JsonResponse({"data": res_data}, status=200)
-
 

@@ -57,11 +57,17 @@ let exercises = {"nfb": {}};
 window.exercisesFilter = {};
 function LoadFolderExercises() {
     let activeRow = $('.folders_list').find('.list-group-item.active');
+    let isClub = false;
+    if (activeRow.length <= 0) {
+        activeRow = $('.folders_club_list').find('.list-group-item.active');
+        isClub = true;
+    }
     let activeNfbRow = $('.folders_nfb_list').find('.list-group-item.active');
     if (activeRow.length <= 0 && activeNfbRow.length <= 0) {return;}
     let isNfbExs = activeNfbRow.length > 0;
     let fType = $('.folders-block').find('.folders_div:not(.d-none)').attr('data-id');
-    let cFolderId = !isNfbExs ? $(activeRow).find('.folder-elem').attr('data-id') : $(activeNfbRow).find('.folder-nfb-elem').attr('data-id');
+    let folderElemStr = isClub ? '.folder-club-elem' : '.folder-elem';
+    let cFolderId = !isNfbExs ? $(activeRow).find(folderElemStr).attr('data-id') : $(activeNfbRow).find('.folder-nfb-elem').attr('data-id');
     let tExs = !isNfbExs ? exercises : exercises['nfb'];
     if (cFolderId in tExs) {
         RenderFolderExercises(cFolderId, tExs);
@@ -315,6 +321,18 @@ $(function() {
     $('.folders_nfb_list').on('click', '.list-group-item', (e) => {
         let isActive = $(e.currentTarget).hasClass('active');
         $('.folders_nfb_list').find('.list-group-item').removeClass('active');
+        $(e.currentTarget).toggleClass('active', !isActive);
+        if (!isActive) {LoadFolderExercises();}
+        else {
+            $('.exs_counter').html("(...)");
+            CountExsInFoldersByType();
+            $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
+        }
+        window.lastListUsed = "folders";
+    });
+    $('.folders_club_list').on('click', '.list-group-item', (e) => {
+        let isActive = $(e.currentTarget).hasClass('active');
+        $('.folders_club_list').find('.list-group-item').removeClass('active');
         $(e.currentTarget).toggleClass('active', !isActive);
         if (!isActive) {LoadFolderExercises();}
         else {

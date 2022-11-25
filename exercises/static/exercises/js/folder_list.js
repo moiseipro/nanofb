@@ -90,4 +90,45 @@ $(function() {
             $('.folders_nfb_list > .list-group').append(tElem);
         }
     }
+
+    let folderClubList = {'order': [], 'data': {}};
+    $('.folders_club_list').find('.list-group-item').each((ind, elem) => {
+        let nums = GetHierarchyNum($(elem).find('.folder-club-elem'), "folders_club_list", "folder-club-elem");
+        let cNum = nums[0];
+        let isParent = nums[1];
+        if (folderClubList['data'][cNum]) {
+            if (isParent) {
+                folderClubList['data'][cNum].unshift(elem);
+            } else {
+                folderClubList['data'][cNum].push(elem);
+            }
+        } else {
+            folderClubList['data'][cNum] = [elem];
+        }
+        if (!folderClubList['order'].includes(cNum) && isParent) {
+            folderClubList['order'].push(cNum);
+        }
+    });
+    $('.folders_club_list > .list-group').empty();
+    for (let ind in folderClubList['order']) {
+        let key = folderClubList['order'][ind];
+        for (let keyElem in folderClubList['data'][key]) {
+            let tElem = folderClubList['data'][key][keyElem];
+            let cId = $(tElem).find('.folder-club-elem').attr('data-id');
+            if (cId != key) {
+                // $(tElem).find('.folder-point').html('<i class="fa fa-folder-o ml-4" aria-hidden="true"></i>');
+                $(tElem).find('.folder-point').html(`
+                    <span class="icon-custom icon--folder ml-4" style="--i-w: 1em; --i-h: 1em;"></span>
+                `);
+                $(tElem).find('.folder-sub-add').empty();
+                $(tElem).find('.folder-club-elem').attr('data-root', '0');
+            } else {
+                $(tElem).find('.folder-club-elem').attr('data-root', '1');
+                $(tElem).find('.folder-club-elem').find('.pull-right.border-left').addClass('d-none');
+                $(tElem).addClass('root-elem');
+            }
+            $('.folders_club_list > .list-group').append(tElem);
+        }
+    }
+
 });

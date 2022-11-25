@@ -182,7 +182,7 @@ function CheckLastExs() {
                 } else if (window.lastExercise.type == "nfb_folders") {
                     $('.folders_nfb_list').find(`.folder-nfb-elem[data-id="${window.lastExercise.folder}"]`).click();
                 } else if (window.lastExercise.type == "club_folders") {
-    
+                    $('.folders_club_list').find(`.folder-club-elem[data-id="${window.lastExercise.folder}"]`).click();
                 }
             }
         }, 200);
@@ -237,6 +237,7 @@ $(function() {
 
     $('.folders_list').toggleClass('d-none', true);
     $('.folders_nfb_list').toggleClass('d-none', false);
+    $('.folders_club_list').toggleClass('d-none', false);
 
 
     // Toggle upper buttons panel
@@ -312,6 +313,10 @@ $(function() {
             $(elem).find('.folder-title').text(tmpText);
         });
         $('.folders-block').find('.folder-nfb-elem').each((ind, elem) => {
+            let tmpText = !state ? `${$(elem).attr('data-short')}. ${$(elem).attr('data-name')}` : `${$(elem).attr('data-short')}`;
+            $(elem).find('.folder-title').text(tmpText);
+        });
+        $('.folders-block').find('.folder-club-elem').each((ind, elem) => {
             let tmpText = !state ? `${$(elem).attr('data-short')}. ${$(elem).attr('data-name')}` : `${$(elem).attr('data-short')}`;
             $(elem).find('.folder-title').text(tmpText);
         });
