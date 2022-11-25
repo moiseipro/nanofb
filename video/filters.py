@@ -56,8 +56,12 @@ class VideoGlobalFilter(DatatablesFilterSet):
         field_name='videosource_id__name',
         lookup_expr='icontains'
     )
+    exercises = filters.CharFilter(
+        field_name='adminexercise__folder__short_name',
+        lookup_expr='icontains'
+    )
     taggit = GlobalTagFilter(field_name="taggit")
 
     class Meta:
-        model = Video
-        fields = ['taggit', 'id', 'duration', 'name', 'upload_date', 'videosource_name']
+        #model = Video
+        fields = ['taggit', 'id', 'exercises', 'duration', 'name', 'upload_date', 'videosource_name']
