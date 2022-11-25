@@ -47,8 +47,8 @@ def exercises(request):
         'refs': refs, 
         'is_exercises': True,
         'menu_exercises': 'active',
-        'seasons_list': UserSeason.objects.filter(user_id=request.user),
-        'teams_list': UserTeam.objects.filter(user_id=request.user),
+        'seasons_list': request.seasons_list,
+        'teams_list': request.teams_list,
         'ui_elements': get_ui_elements(request)
     })
 
@@ -109,8 +109,8 @@ def exercise(request):
         'nfb_folders': found_nfb_folders, 
         'refs': refs,
         'menu_exercises': 'active',
-        'seasons_list': UserSeason.objects.filter(user_id=request.user),
-        'teams_list': UserTeam.objects.filter(user_id=request.user),
+        'seasons_list': request.seasons_list,
+        'teams_list': request.teams_list,
         'ui_elements': get_ui_elements(request)
     })
 
@@ -150,8 +150,8 @@ def folders(request):
         'folders_only_view': False, 
         'is_folders': True,
         'menu_exercises_folders': 'active',
-        'seasons_list': UserSeason.objects.filter(user_id=request.user),
-        'teams_list': UserTeam.objects.filter(user_id=request.user),
+        'seasons_list': request.seasons_list,
+        'teams_list': request.teams_list,
         'ui_elements': get_ui_elements(request)
     })
 

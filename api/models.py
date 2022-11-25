@@ -3,7 +3,7 @@ from users.models import User
 
 
 class APIToken(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, unique=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     token = models.CharField(max_length=100, null=True)
     accesses = models.JSONField(null=True, blank=True)
     ip_whitelist = models.JSONField(null=True, blank=True)

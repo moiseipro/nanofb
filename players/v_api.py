@@ -2,11 +2,12 @@ from operator import is_
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from django.db.models import Q
-from references.models import UserTeam
+from references.models import UserTeam, ClubTeam
 from players.models import UserPlayer, ClubPlayer, CardSection, PlayerCard, PlayersTableColumns
 from players.models import PlayerCharacteristicsRows, PlayerCharacteristicUser, PlayerCharacteristicClub
 from players.models import PlayerQuestionnairesRows, PlayerQuestionnaireUser, PlayerQuestionnaireClub
 from references.models import PlayerTeamStatus, PlayerPlayerStatus, PlayerLevel, PlayerPosition, PlayerFoot
+from nanofootball.views import util_check_access
 from datetime import datetime, date
 import json
 
@@ -238,19 +239,32 @@ def POST_edit_player(request, cur_user, cur_team):
     except:
         pass
     c_player = None
-    access_denied = False
     c_team = None
-    if access_denied:
+    if not util_check_access(cur_user, {
+        'perms_user': ["players.change_userplayer", "players.add_userplayer"], 
+        'perms_club': ["players.change_clubplayer", "players.add_clubplayer"]
+    }):
         return JsonResponse({"err": "Access denied.", "success": False}, status=400)
-    c_player = UserPlayer.objects.filter(id=player_id, user=cur_user, team=cur_team)
-    if not c_player.exists() or c_player[0].id == None:
-        c_team = UserTeam.objects.filter(id=cur_team)
-        if not c_team.exists() or c_team[0].id == None:
-            return JsonResponse({"err": "Team not found.", "success": False}, status=400)
-        c_player = UserPlayer(user=cur_user, team=c_team[0])
-        is_new_player = True
+    if request.user.club_id is not None:
+        c_player = ClubPlayer.objects.filter(id=player_id, team=cur_team)
+        if not c_player.exists() or c_player[0].id == None:
+            c_team = ClubTeam.objects.filter(id=cur_team)
+            if not c_team.exists() or c_team[0].id == None:
+                return JsonResponse({"err": "Team not found.", "success": False}, status=400)
+            c_player = ClubPlayer(user=cur_user, team=c_team[0])
+            is_new_player = True
+        else:
+            c_player = c_player[0]
     else:
-        c_player = c_player[0]
+        c_player = UserPlayer.objects.filter(id=player_id, user=cur_user, team=cur_team)
+        if not c_player.exists() or c_player[0].id == None:
+            c_team = UserTeam.objects.filter(id=cur_team)
+            if not c_team.exists() or c_team[0].id == None:
+                return JsonResponse({"err": "Team not found.", "success": False}, status=400)
+            c_player = UserPlayer(user=cur_user, team=c_team[0])
+            is_new_player = True
+        else:
+            c_player = c_player[0]
     if c_player == None:
             return JsonResponse({"err": "Player not found.", "success": False}, status=400)
     print(request.POST)
@@ -259,8 +273,12 @@ def POST_edit_player(request, cur_user, cur_team):
     c_player.patronymic = request.POST.get("data[patronymic]", "")
 
     new_team_id = set_value_as_int(request, "data[team]", None)
-    new_team = UserTeam.objects.filter(id=new_team_id) if c_team == None else c_team
-    if not new_team.exists() or new_team[0].id == None:
+    new_team = None
+    if request.user.club_id is not None:
+        new_team = ClubTeam.objects.filter(id=new_team_id) if c_team == None else c_team
+    else:
+        new_team = UserTeam.objects.filter(id=new_team_id) if c_team == None else c_team
+    if new_team == None or not new_team.exists() or new_team[0].id == None:
         return JsonResponse({"err": "Team not found.", "success": False}, status=400)
     c_player.team = new_team[0]
 
@@ -319,14 +337,26 @@ def POST_edit_player(request, cur_user, cur_team):
                     c_note = characteristics_notes[_i]
                 except:
                     pass
-                f_row = PlayerCharacteristicsRows.objects.filter(id=c_id, is_nfb=False, user=cur_user)
-                if f_row.exists() and f_row[0].id != None:
+                f_row = None
+                if request.user.club_id is not None:
+                    f_row = PlayerCharacteristicsRows.objects.filter(id=c_id, is_nfb=False, club=request.user.club_id)
+                else:
+                    f_row = PlayerCharacteristicsRows.objects.filter(id=c_id, is_nfb=False, user=cur_user)
+                if f_row != None and f_row.exists() and f_row[0].id != None:
                     f_row = f_row[0]
-                    c_characteristics = PlayerCharacteristicUser.objects.filter(characteristics=f_row, user=cur_user, player=c_player, date_creation=current_date)
-                    if c_characteristics.exists() and c_characteristics[0].id != None:
-                        c_characteristics = c_characteristics[0]
+                    c_characteristics = None
+                    if request.user.club_id is not None:
+                        c_characteristics = PlayerCharacteristicClub.objects.filter(characteristics=f_row, club=request.user.club_id, player=c_player, date_creation=current_date)
+                        if c_characteristics.exists() and c_characteristics[0].id != None:
+                            c_characteristics = c_characteristics[0]
+                        else:
+                            c_characteristics = PlayerCharacteristicClub(characteristics=f_row, club=request.user.club_id, player=c_player)
                     else:
-                        c_characteristics = PlayerCharacteristicUser(characteristics=f_row, user=cur_user, player=c_player)
+                        c_characteristics = PlayerCharacteristicUser.objects.filter(characteristics=f_row, user=cur_user, player=c_player, date_creation=current_date)
+                        if c_characteristics.exists() and c_characteristics[0].id != None:
+                            c_characteristics = c_characteristics[0]
+                        else:
+                            c_characteristics = PlayerCharacteristicUser(characteristics=f_row, user=cur_user, player=c_player)
                     try:
                         c_characteristics.value = c_value
                         c_characteristics.notes = c_note
@@ -349,14 +379,26 @@ def POST_edit_player(request, cur_user, cur_team):
                     c_note = questionnaires_notes[_i]
                 except:
                     pass
-                f_row = PlayerQuestionnairesRows.objects.filter(id=c_id, is_nfb=False, user=cur_user)
-                if f_row.exists() and f_row[0].id != None:
+                f_row = None
+                if request.user.club_id is not None:
+                    f_row = PlayerQuestionnairesRows.objects.filter(id=c_id, is_nfb=False, club=request.user.club_id)
+                else:
+                    f_row = PlayerQuestionnairesRows.objects.filter(id=c_id, is_nfb=False, user=cur_user)
+                if f_row != None and f_row.exists() and f_row[0].id != None:
                     f_row = f_row[0]
-                    c_questionnaires = PlayerQuestionnaireUser.objects.filter(questionnaire=f_row, user=cur_user, player=c_player)
-                    if c_questionnaires.exists() and c_questionnaires[0].id != None:
-                        c_questionnaires = c_questionnaires[0]
+                    c_questionnaires = None
+                    if request.user.club_id is not None:
+                        c_questionnaires = PlayerQuestionnaireClub.objects.filter(questionnaire=f_row, club=request.user.club_id, player=c_player)
+                        if c_questionnaires.exists() and c_questionnaires[0].id != None:
+                            c_questionnaires = c_questionnaires[0]
+                        else:
+                            c_questionnaires = PlayerQuestionnaireClub(questionnaire=f_row, club=request.user.club_id, player=c_player)
                     else:
-                        c_questionnaires = PlayerQuestionnaireUser(questionnaire=f_row, user=cur_user, player=c_player)
+                        c_questionnaires = PlayerQuestionnaireUser.objects.filter(questionnaire=f_row, user=cur_user, player=c_player)
+                        if c_questionnaires.exists() and c_questionnaires[0].id != None:
+                            c_questionnaires = c_questionnaires[0]
+                        else:
+                            c_questionnaires = PlayerQuestionnaireUser(questionnaire=f_row, user=cur_user, player=c_player)
                     try:
                         c_questionnaires.notes = c_note
                         c_questionnaires.save()
@@ -386,10 +428,14 @@ def POST_delete_player(request, cur_user, cur_team):
     except:
         pass
     c_player = None
-    access_denied = False
-    if access_denied:
+    if not util_check_access(cur_user, {
+        'perms_user': ["players.delete_userplayer"], 
+        'perms_club': ["players.delete_clubplayer"]
+    }):
         return JsonResponse({"err": "Access denied.", "success": False}, status=400)
-    if not access_denied:
+    if request.user.club_id is not None:
+        c_player = ClubPlayer.objects.filter(id=player_id, team=cur_team)
+    else:
         c_player = UserPlayer.objects.filter(id=player_id, user=cur_user, team=cur_team)
     if c_player == None or not c_player.exists() or c_player[0].id == None:
         return JsonResponse({"errors": "access_error"}, status=400)
@@ -635,8 +681,12 @@ def POST_edit_characteristics_rows(request, cur_user):
             pass
     else:
         for elem in post_data:
-            f_row = PlayerCharacteristicsRows.objects.filter(id=elem['id'], is_nfb=False, user=cur_user)
-            if f_row.exists() and f_row[0].id != None:
+            f_row = None
+            if request.user.club_id is not None:
+                f_row = PlayerCharacteristicsRows.objects.filter(id=elem['id'], is_nfb=False, club=request.user.club_id)
+            else:
+                f_row = PlayerCharacteristicsRows.objects.filter(id=elem['id'], is_nfb=False, user=cur_user)
+            if f_row != None and f_row.exists() and f_row[0].id != None:
                 f_row = f_row[0]
                 f_row.title = set_by_language_code(f_row.title, request.LANGUAGE_CODE, elem['title'])
                 f_row.order = elem['order']
@@ -698,7 +748,7 @@ def POST_add_delete_characteristics_rows(request, cur_user, to_add = True):
                 if found_row.exists() and found_row[0].id != None:
                     try:
                         found_row.delete()
-                        found_rows = PlayersTableColumns.objects.filter(parent=characteristic_id, is_nfb=True)
+                        found_rows = PlayerCharacteristicsRows.objects.filter(parent=characteristic_id, is_nfb=True)
                         if found_rows.exists() and found_rows[0].id != None:
                             for col in found_rows:
                                 col.delete()
@@ -710,24 +760,39 @@ def POST_add_delete_characteristics_rows(request, cur_user, to_add = True):
             pass
     else:
         if to_add:
-            found_row = PlayerCharacteristicsRows.objects.filter(id=parent, parent=None, is_nfb=False, user=cur_user)
             new_row = None
-            if found_row.exists() and found_row[0].id != None:
-                new_row = PlayerCharacteristicsRows(parent=parent, is_nfb=False, user=cur_user)
+            if request.user.club_id is not None:
+                found_row = PlayerCharacteristicsRows.objects.filter(id=parent, parent=None, is_nfb=False, club=request.user.club_id)
+                if found_row.exists() and found_row[0].id != None:
+                    new_row = PlayerCharacteristicsRows(parent=parent, is_nfb=False, club=request.user.club_id)
+                else:
+                    new_row = PlayerCharacteristicsRows(is_nfb=False, club=request.user.club_id)
             else:
-                new_row = PlayerCharacteristicsRows(is_nfb=False, user=cur_user)
+                found_row = PlayerCharacteristicsRows.objects.filter(id=parent, parent=None, is_nfb=False, user=cur_user)
+                if found_row.exists() and found_row[0].id != None:
+                    new_row = PlayerCharacteristicsRows(parent=parent, is_nfb=False, user=cur_user)
+                else:
+                    new_row = PlayerCharacteristicsRows(is_nfb=False, user=cur_user)
             try:
                 new_row.save()
                 res_data += f'New characteristic added.'
             except:
                 return JsonResponse({"errors": "Can't save new characteristic", "success": False}, status=400)
         else:
-            found_row = PlayerCharacteristicsRows.objects.filter(id=characteristic_id, is_nfb=False, user=cur_user)
-            if found_row.exists() and found_row[0].id != None:
+            found_row = None
+            if request.user.club_id is not None:
+                found_row = PlayerCharacteristicsRows.objects.filter(id=characteristic_id, is_nfb=False, club=request.user.club_id)
+            else:
+                found_row = PlayerCharacteristicsRows.objects.filter(id=characteristic_id, is_nfb=False, user=cur_user)
+            if found_row != None and found_row.exists() and found_row[0].id != None:
                 try:
                     found_row.delete()
-                    found_rows = PlayersTableColumns.objects.filter(parent=characteristic_id, is_nfb=False, user=cur_user)
-                    if found_rows.exists() and found_rows[0].id != None:
+                    found_rows = None
+                    if request.user.club_id is not None:
+                        found_rows = PlayerCharacteristicsRows.objects.filter(parent=characteristic_id, is_nfb=False, club=request.user.club_id)
+                    else:
+                        found_rows = PlayerCharacteristicsRows.objects.filter(parent=characteristic_id, is_nfb=False, user=cur_user)
+                    if found_rows != None and found_rows.exists() and found_rows[0].id != None:
                         for col in found_rows:
                             col.delete()
                 except:
@@ -750,8 +815,12 @@ def POST_copy_characteristics_rows(request, cur_user):
 
     """
     try:
-        found_rows = PlayerCharacteristicsRows.objects.filter(is_nfb=False, user=cur_user)
-        if found_rows.exists() and found_rows[0].id != None:
+        found_rows = None
+        if request.user.club_id is not None:
+            found_rows = PlayerCharacteristicsRows.objects.filter(is_nfb=False, club=request.user.club_id)
+        else:
+            found_rows = PlayerCharacteristicsRows.objects.filter(is_nfb=False, user=cur_user)
+        if found_rows != None and found_rows.exists() and found_rows[0].id != None:
             for row in found_rows:
                 row.delete()
     except:
@@ -765,6 +834,8 @@ def POST_copy_characteristics_rows(request, cur_user):
                 parent_row.user = cur_user
                 parent_row.is_nfb = False
                 parent_row.parent = None
+                if request.user.club_id is not None:
+                    parent_row.club = request.user.club_id
                 parent_row.save()
                 found_child_rows = PlayerCharacteristicsRows.objects.filter(is_nfb=True, parent=old_parent_id)
                 for child_row in found_child_rows:
@@ -772,6 +843,8 @@ def POST_copy_characteristics_rows(request, cur_user):
                     child_row.user = cur_user
                     child_row.is_nfb = False
                     child_row.parent = parent_row.id
+                    if request.user.club_id is not None:
+                        child_row.club = request.user.club_id
                     child_row.save()
     except:
         return JsonResponse({"errors": "Can't copy characteristic.", "success": False}, status=400)
@@ -799,8 +872,12 @@ def POST_edit_questionnaires_rows(request, cur_user):
         return JsonResponse({"errors": "Can't parse post data"}, status=400)
     res_data = ""
     for elem in post_data:
-        f_row = PlayerQuestionnairesRows.objects.filter(id=elem['id'], is_nfb=False, user=cur_user)
-        if f_row.exists() and f_row[0].id != None:
+        f_row = None
+        if request.user.club_id is not None:
+            f_row = PlayerQuestionnairesRows.objects.filter(id=elem['id'], is_nfb=False, club=request.user.club_id)
+        else:
+            f_row = PlayerQuestionnairesRows.objects.filter(id=elem['id'], is_nfb=False, user=cur_user)
+        if f_row != None and f_row.exists() and f_row[0].id != None:
             f_row = f_row[0]
             f_row.title = set_by_language_code(f_row.title, request.LANGUAGE_CODE, elem['title'])
             f_row.order = elem['order']
@@ -839,20 +916,31 @@ def POST_add_delete_questionnaires_rows(request, cur_user, to_add = True):
         pass
     res_data = ""
     if to_add:
-        found_row = PlayerQuestionnairesRows.objects.filter(id=parent, parent=None, is_nfb=False, user=cur_user)
         new_row = None
-        if found_row.exists() and found_row[0].id != None:
-            new_row = PlayerQuestionnairesRows(parent=parent, is_nfb=False, user=cur_user)
+        if request.user.club_id is not None:
+            found_row = PlayerQuestionnairesRows.objects.filter(id=parent, parent=None, is_nfb=False, club=request.user.club_id)
+            if found_row.exists() and found_row[0].id != None:
+                new_row = PlayerQuestionnairesRows(parent=parent, is_nfb=False, club=request.user.club_id)
+            else:
+                new_row = PlayerQuestionnairesRows(is_nfb=False, club=request.user.club_id)
         else:
-            new_row = PlayerQuestionnairesRows(is_nfb=False, user=cur_user)
+            found_row = PlayerQuestionnairesRows.objects.filter(id=parent, parent=None, is_nfb=False, user=cur_user)
+            if found_row.exists() and found_row[0].id != None:
+                new_row = PlayerQuestionnairesRows(parent=parent, is_nfb=False, user=cur_user)
+            else:
+                new_row = PlayerQuestionnairesRows(is_nfb=False, user=cur_user)
         try:
             new_row.save()
             res_data += f'New row added.'
         except:
             return JsonResponse({"errors": "Can't save new row", "success": False}, status=400)
     else:
-        found_row = PlayerQuestionnairesRows.objects.filter(id=row_id, is_nfb=False, user=cur_user)
-        if found_row.exists() and found_row[0].id != None:
+        found_row = None
+        if request.user.club_id is not None:
+            found_row = PlayerQuestionnairesRows.objects.filter(id=row_id, is_nfb=False, club=request.user.club_id)
+        else:
+            found_row = PlayerQuestionnairesRows.objects.filter(id=row_id, is_nfb=False, user=cur_user)
+        if found_row != None and found_row.exists() and found_row[0].id != None:
             try:
                 found_row.delete()
                 found_rows = PlayerQuestionnairesRows.objects.filter(parent=row_id, is_nfb=False, user=cur_user)
@@ -888,8 +976,17 @@ def GET_get_player(request, cur_user, cur_team):
     except:
         pass
     res_data = {}
-    player = UserPlayer.objects.filter(id=player_id, user=cur_user, team=cur_team)
-    if player.exists() and player[0].id != None:
+    player = None
+    if not util_check_access(cur_user, {
+        'perms_user': ["players.view_userplayer"], 
+        'perms_club': ["players.view_clubplayer"]
+    }):
+        return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    if request.user.club_id is not None:
+        player = ClubPlayer.objects.filter(id=player_id, team=cur_team)
+    else:
+        player = UserPlayer.objects.filter(id=player_id, user=cur_user, team=cur_team)
+    if player != None and player.exists() and player[0].id != None:
         res_data = player.values()[0]
         res_data['team'] = player[0].team.id
         res_data['team_name'] = player[0].team.name
@@ -900,11 +997,19 @@ def GET_get_player(request, cur_user, cur_team):
                 if key != "id":
                     res_data[key] = player_card[key]
         res_data['characteristics'] = []
-        f_characteristics_rows = PlayerCharacteristicsRows.objects.exclude(parent__isnull=True).filter(is_nfb=False, user=cur_user)
-        if f_characteristics_rows.exists() and f_characteristics_rows[0].id != None:
+        f_characteristics_rows = None
+        if request.user.club_id is not None:
+            f_characteristics_rows = PlayerCharacteristicsRows.objects.exclude(parent__isnull=True).filter(is_nfb=False, club=request.user.club_id)
+        else:
+            f_characteristics_rows = PlayerCharacteristicsRows.objects.exclude(parent__isnull=True).filter(is_nfb=False, user=cur_user)
+        if f_characteristics_rows != None and f_characteristics_rows.exists() and f_characteristics_rows[0].id != None:
             for f_row in f_characteristics_rows:
-                f_characteristics_elem = PlayerCharacteristicUser.objects.filter(characteristics=f_row, user=cur_user, player=player[0]).order_by('-date_creation')
-                if f_characteristics_elem.exists() and f_characteristics_elem[0].id != None:
+                f_characteristics_elem = None
+                if request.user.club_id is not None:
+                    f_characteristics_elem = PlayerCharacteristicClub.objects.filter(characteristics=f_row, player=player[0]).order_by('-date_creation')
+                else:
+                    f_characteristics_elem = PlayerCharacteristicUser.objects.filter(characteristics=f_row, user=cur_user, player=player[0]).order_by('-date_creation')
+                if f_characteristics_elem != None and f_characteristics_elem.exists() and f_characteristics_elem[0].id != None:
                     f_characteristic_one = f_characteristics_elem[0]
                     diff = "-"
                     if len(f_characteristics_elem) > 1 and f_characteristics_elem[1].id != None:
@@ -921,10 +1026,18 @@ def GET_get_player(request, cur_user, cur_team):
                         'diff': diff
                     })
         res_data['questionnaires'] = []
-        f_questionnaires_rows = PlayerQuestionnairesRows.objects.filter(is_nfb=False, user=cur_user)
-        if f_questionnaires_rows.exists() and f_questionnaires_rows[0].id != None:
+        f_questionnaires_rows = None
+        if request.user.club_id is not None:
+            f_questionnaires_rows = PlayerQuestionnairesRows.objects.filter(is_nfb=False, club=request.user.club_id)
+        else:
+            f_questionnaires_rows = PlayerQuestionnairesRows.objects.filter(is_nfb=False, user=cur_user)
+        if f_questionnaires_rows != None and f_questionnaires_rows.exists() and f_questionnaires_rows[0].id != None:
             for f_row in f_questionnaires_rows:
-                f_questionnaire_elem = PlayerQuestionnaireUser.objects.filter(questionnaire=f_row, user=cur_user, player=player[0])
+                f_questionnaire_elem = None
+                if request.user.club_id is not None:
+                    f_questionnaire_elem = PlayerQuestionnaireClub.objects.filter(questionnaire=f_row, player=player[0])
+                else:
+                    f_questionnaire_elem = PlayerQuestionnaireUser.objects.filter(questionnaire=f_row, user=cur_user, player=player[0])
                 if f_questionnaire_elem.exists() and f_questionnaire_elem[0].id != None:
                     f_questionnaire_one = f_questionnaire_elem[0]
                     res_data['questionnaires'].append({
@@ -991,28 +1104,41 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
         except:
             pass
     players_data = []
-    players = UserPlayer.objects.filter(user=cur_user, team=cur_team)
-    if is_for_table:
-        if search_val and search_val != "":
-            players = players.filter(Q(surname__istartswith=search_val) | Q(name__istartswith=search_val) | Q(patronymic__istartswith=search_val) | Q(card__citizenship__istartswith=search_val) | Q(team__name__istartswith=search_val) | Q(card__club_from__istartswith=search_val))
-        players = players.order_by(f'{column_order_dir}{column_order}')[c_start:(c_start+c_length)]
-    for _i, player in enumerate(players):
-        player_data = {
-            'id': player.id,
-            'surname': player.surname,
-            'name': player.name,
-            'patronymic': player.patronymic,
-            'citizenship': player.card.citizenship if player.card else "",
-            'team': player.team.name if player.team else "",
-            'club_from': player.card.club_from if player.card else "",
-            'growth': player.card.growth if player.card else "",
-            'weight': player.card.weight if player.card else "",
-            'game_num': player.card.game_num if player.card else "",
-            'birthsday': player.card.birthsday if player.card else "",
-            'come': player.card.come if player.card else "",
-            'leave': player.card.leave if player.card else ""
-        }
-        players_data.append(player_data)
+    if not util_check_access(cur_user, {
+        'perms_user': ["players.view_userplayer"], 
+        'perms_club': ["players.view_clubplayer"]
+    }):
+        if return_JsonResponse:
+            return JsonResponse({"data": players_data, "success": True, "err": "Access denied."}, status=200)
+        else:
+            return players_data
+    players = None
+    if request.user.club_id is not None:
+        players = ClubPlayer.objects.filter(team=cur_team)
+    else:
+        players = UserPlayer.objects.filter(user=cur_user, team=cur_team)
+    if players is not None:
+        if is_for_table:
+            if search_val and search_val != "":
+                players = players.filter(Q(surname__istartswith=search_val) | Q(name__istartswith=search_val) | Q(patronymic__istartswith=search_val) | Q(card__citizenship__istartswith=search_val) | Q(team__name__istartswith=search_val) | Q(card__club_from__istartswith=search_val))
+            players = players.order_by(f'{column_order_dir}{column_order}')[c_start:(c_start+c_length)]
+        for _i, player in enumerate(players):
+            player_data = {
+                'id': player.id,
+                'surname': player.surname,
+                'name': player.name,
+                'patronymic': player.patronymic,
+                'citizenship': player.card.citizenship if player.card else "",
+                'team': player.team.name if player.team else "",
+                'club_from': player.card.club_from if player.card else "",
+                'growth': player.card.growth if player.card else "",
+                'weight': player.card.weight if player.card else "",
+                'game_num': player.card.game_num if player.card else "",
+                'birthsday': player.card.birthsday if player.card else "",
+                'come': player.card.come if player.card else "",
+                'leave': player.card.leave if player.card else ""
+            }
+            players_data.append(player_data)
     if return_JsonResponse:
         return JsonResponse({"data": players_data, "success": True}, status=200)
     else:
@@ -1083,7 +1209,10 @@ def GET_get_characteristics_rows(request, cur_user):
     if get_nfb == 1:
         characteristics = PlayerCharacteristicsRows.objects.filter(is_nfb=True)
     else:
-        characteristics = PlayerCharacteristicsRows.objects.filter(is_nfb=False, user=cur_user)
+        if request.user.club_id is not None:
+            characteristics = PlayerCharacteristicsRows.objects.filter(is_nfb=False, club=request.user.club_id)
+        else:
+            characteristics = PlayerCharacteristicsRows.objects.filter(is_nfb=False, user=cur_user)
     characteristics = [entry for entry in characteristics.values()]
     for characteristic in characteristics:
         characteristic['title'] = get_by_language_code(characteristic['title'], request.LANGUAGE_CODE)
@@ -1110,11 +1239,13 @@ def GET_get_questionnaires_rows(request, cur_user):
     except:
         pass
     questionnaires = []
-    questionnaires = PlayerQuestionnairesRows.objects.filter(is_nfb=False, user=cur_user)
+    if request.user.club_id is not None:
+        questionnaires = PlayerQuestionnairesRows.objects.filter(is_nfb=False, club=request.user.club_id)
+    else:
+        questionnaires = PlayerQuestionnairesRows.objects.filter(is_nfb=False, user=cur_user)
     questionnaires = [entry for entry in questionnaires.values()]
     for questionnaire in questionnaires:
         questionnaire['title'] = get_by_language_code(questionnaire['title'], request.LANGUAGE_CODE)
     res_data["questionnaires"] = questionnaires
     return JsonResponse({"data": res_data, "success": True}, status=200)
-
 

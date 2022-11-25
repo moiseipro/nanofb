@@ -44,8 +44,8 @@ def analytics(request):
         'refs': refs, 
         'folders': folders,
         'months': months,
-        'seasons_list': UserSeason.objects.filter(user_id=request.user),
-        'teams_list': UserTeam.objects.filter(user_id=request.user),
+        'seasons_list': request.seasons_list,
+        'teams_list': request.teams_list,
         'ui_elements': get_ui_elements(request)
     })
 

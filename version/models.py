@@ -21,6 +21,7 @@ class CustomGroup(models.Model):
         decimal_places=2,
         default=0.00
     )
+    text_id = models.CharField(max_length=25, null=True, blank=True)
 
     def __str__(self):
         return self.group.name

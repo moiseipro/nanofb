@@ -6,6 +6,7 @@ from users.models import User
 from references.models import UserTeam, UserSeason
 from system_icons.views import get_ui_elements
 from matches.models import UserMatch, ClubMatch
+from nanofootball.views import util_check_access
 import matches.v_api as v_api
 import calendar
 
@@ -31,13 +32,20 @@ def matches(request):
     if not request.user.is_authenticated:
         return redirect("authorization:login")
     cur_user = User.objects.filter(email=request.user).only("club_id")
+    if not util_check_access(cur_user[0], 
+        {'perms_user': ["matches.view_usermatch"], 'perms_club': ["matches.view_clubmatch"]}
+    ):
+        return redirect("users:profile")
     cur_team = -1
     try:
         cur_team = int(request.session['team'])
     except:
         pass
     matches = []
-    f_matches = UserMatch.objects.filter(team_id=cur_team, event_id__user_id=cur_user[0])
+    if request.user.club_id is not None:
+        f_matches = ClubMatch.objects.filter(team_id=cur_team, event_id__club_id=request.user.club_id)
+    else:
+        f_matches = UserMatch.objects.filter(team_id=cur_team, event_id__user_id=cur_user[0])
     for match in f_matches:
         match_obj = model_to_dict(match)
         match_obj['team_name'] = match.team_id.name
@@ -61,8 +69,8 @@ def matches(request):
         'matches': matches,
         'refs': refs,
         'menu_matches': 'active',
-        'seasons_list': UserSeason.objects.filter(user_id=request.user),
-        'teams_list': UserTeam.objects.filter(user_id=request.user),
+        'seasons_list': request.seasons_list,
+        'teams_list': request.teams_list,
         'ui_elements': get_ui_elements(request)
     })
 
@@ -86,6 +94,10 @@ def match(request):
     if not request.user.is_authenticated:
         return redirect("authorization:login")
     cur_user = User.objects.filter(email=request.user).only("club_id")
+    if not util_check_access(cur_user[0], 
+        {'perms_user': ["matches.view_usermatch"], 'perms_club': ["matches.view_clubmatch"]}
+    ):
+        return redirect("users:profile")
     cur_team = -1
     try:
         cur_team = int(request.session['team'])
@@ -99,8 +111,8 @@ def match(request):
     return render(request, 'matches/base_match.html', {
         'refs': refs,
         'menu_matches': 'active',
-        'seasons_list': UserSeason.objects.filter(user_id=request.user),
-        'teams_list': UserTeam.objects.filter(user_id=request.user),
+        'seasons_list': request.seasons_list,
+        'teams_list': request.teams_list,
         'ui_elements': get_ui_elements(request)
     })
 
