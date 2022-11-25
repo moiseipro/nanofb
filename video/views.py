@@ -24,7 +24,7 @@ from requests_toolbelt.multipart.encoder import MultipartEncoder
 from rest_framework.response import Response
 from taggit.models import Tag
 
-from exercises.models import ExerciseVideo, AdminExercise
+from exercises.models import ExerciseVideo, AdminExercise, AdminFolder
 from exercises.serializers import ExerciseVideoSerializer
 from video.filters import VideoGlobalFilter
 from video.serializers import VideoSerializer, VideoUpdateSerializer, OnlyVideoSerializer
@@ -360,6 +360,7 @@ class BaseVideoView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['sources'] = VideoSource.objects.all().annotate(videos=Count('video')).order_by('-videos')
+        context['folders'] = AdminFolder.objects.exclude(parent=None).order_by('parent', 'order')
         context['tags'] = Tag.objects.all()
         context['ui_elements'] = get_ui_elements(self.request)
         # context['update_form'] = UpdateVideoForm()
