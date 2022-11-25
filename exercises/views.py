@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from users.models import User
-from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, AdminExercise
+from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, ClubExercise, AdminExercise
 from references.models import UserSeason, UserTeam
+from nanofootball.views import util_check_access
 import exercises.v_api as v_api
 from system_icons.views import get_ui_elements
 
@@ -31,17 +32,23 @@ def exercises(request):
     if not request.user.is_authenticated:
         return redirect("authorization:login")
     cur_user = User.objects.filter(email=request.user).only("club_id")
+    if not util_check_access(cur_user[0], 
+        {'perms_user': ["exercises.view_userexercise"], 'perms_club': ["exercises.view_clubexercise"]}
+    ):
+        return redirect("users:profile")
     cur_team = -1
     try:
         cur_team = int(request.session['team'])
     except:
         pass
     found_folders = []
+    found_club_folders = []
     found_nfb_folders = []
     refs = {}
-    found_folders, found_nfb_folders, refs = v_api.get_exercises_params(request, cur_user, cur_team)
+    found_folders, found_club_folders, found_nfb_folders, refs = v_api.get_exercises_params(request, cur_user, cur_team)
     return render(request, 'exercises/base_exercises.html', {
-        'folders': found_folders, 
+        'folders': found_folders,
+        'club_folders': found_club_folders,
         'folders_only_view': True, 
         'nfb_folders': found_nfb_folders, 
         'refs': refs, 
@@ -76,6 +83,10 @@ def exercise(request):
     if not request.user.is_authenticated:
         return redirect("authorization:login")
     cur_user = User.objects.filter(email=request.user).only("club_id")
+    if not util_check_access(cur_user[0], 
+        {'perms_user': ["exercises.view_userexercise"], 'perms_club': ["exercises.view_clubexercise"]}
+    ):
+        return redirect("users:profile")
     cur_team = -1
     try:
         cur_team = int(request.session['team'])
@@ -90,21 +101,26 @@ def exercise(request):
         pass
     folder_type = request.GET.get("type", "")
     found_exercise = None
-    access_denied = False
     if folder_type == v_api.FOLDER_TEAM:
-        if cur_user.exists() and not access_denied:
-            found_exercise = UserExercise.objects.filter(id=c_id, user=cur_user[0]).values()
+        if cur_user.exists():
+            if request.user.club_id is not None:
+                found_exercise = ClubExercise.objects.filter(id=c_id, club=request.user.club_id).values()
+            else:
+                found_exercise = UserExercise.objects.filter(id=c_id, user=cur_user[0]).values()
     elif folder_type == v_api.FOLDER_NFB:
-        if cur_user.exists() and not access_denied and cur_user[0].is_superuser:
+        if cur_user.exists() and cur_user[0].is_superuser:
             found_exercise = AdminExercise.objects.filter(id=c_id).values()
     elif folder_type == v_api.FOLDER_CLUB:
-        pass
+        if cur_user.exists():
+            if request.user.club_id is not None:
+                found_exercise = ClubExercise.objects.filter(id=c_id, club=request.user.club_id).values()
     if not found_exercise and not is_new_exs:
         return redirect('/exercises')
-    found_folders, found_nfb_folders, refs = v_api.get_exercises_params(request, cur_user, cur_team)
+    found_folders, found_club_folders, found_nfb_folders, refs = v_api.get_exercises_params(request, cur_user, cur_team)
     return render(request, 'exercises/base_exercise.html', {
         'exs': found_exercise,
         'folders': found_folders, 
+        'club_folders': found_club_folders, 
         'folders_only_view': True, 
         'nfb_folders': found_nfb_folders, 
         'refs': refs,
@@ -136,6 +152,10 @@ def folders(request):
     if not request.user.is_authenticated:
         return redirect("authorization:login")
     cur_user = User.objects.filter(email=request.user).only("club_id")
+    if not util_check_access(cur_user[0], 
+        {'perms_user': ["exercises.view_userfolder"], 'perms_club': ["exercises.view_clubfolder"]}
+    ):
+        return redirect("users:profile")
     cur_team = -1
     try:
         cur_team = int(request.session['team'])
@@ -143,8 +163,10 @@ def folders(request):
         pass
     found_folders = []
     if cur_user.exists() and cur_user[0].id != None:
-        # добавить проверку на клуб версию
-        found_folders = UserFolder.objects.filter(user=cur_user[0], team=cur_team)
+        if request.user.club_id is not None:
+            found_folders = ClubFolder.objects.filter(club=request.user.club_id)
+        else:
+            found_folders = UserFolder.objects.filter(user=cur_user[0], team=cur_team)
     return render(request, 'exercises/base_folders.html', {
         'folders': found_folders, 
         'folders_only_view': False, 
@@ -226,15 +248,15 @@ def exercises_api(request):
         if copy_exs_status == 1:
             return v_api.POST_copy_exs(request, cur_user[0], cur_team)
         elif move_exs_status == 1:
-            return v_api.POST_move_exs(request, cur_user[0])
+            return v_api.POST_move_exs(request, cur_user[0], cur_team)
         elif edit_exs_status == 1:
             return v_api.POST_edit_exs(request, cur_user[0], cur_team)
         elif delete_exs_status == 1:
-            return v_api.POST_delete_exs(request, cur_user[0])
+            return v_api.POST_delete_exs(request, cur_user[0], cur_team)
         elif edit_exs_user_params_status == 1:
-            return v_api.POST_edit_exs_user_params(request, cur_user[0])
+            return v_api.POST_edit_exs_user_params(request, cur_user[0], cur_team)
         elif count_exs_status == 1:
-            return v_api.POST_count_exs(request, cur_user[0])
+            return v_api.POST_count_exs(request, cur_user[0], cur_team)
         return JsonResponse({"errors": "access_error"}, status=400)
     elif request.method == "GET" and is_ajax:
         get_exs_all_status = 0
@@ -261,7 +283,7 @@ def exercises_api(request):
         except:
             pass
         if get_exs_all_status == 1:
-            return v_api.GET_get_exs_all(request, cur_user[0])
+            return v_api.GET_get_exs_all(request, cur_user[0], cur_team)
         elif get_exs_one_status == 1:
             return v_api.GET_get_exs_one(request, cur_user[0], cur_team)
         elif get_exs_graphic_content_status == 1:
@@ -355,9 +377,9 @@ def folders_api(request):
         except:
             pass
         if nfb_folders_status == 1:
-            return v_api.GET_nfb_folders()
+            return v_api.GET_nfb_folders(request, cur_user[0])
         elif nfb_folders_set_status == 1:
-            return v_api.GET_nfb_folders_set(request, cur_user, cur_team)
+            return v_api.GET_nfb_folders_set(request, cur_user[0], cur_team)
         return JsonResponse({"errors": "access_error"}, status=400)
     else:
         return JsonResponse({"errors": "access_error"}, status=400)

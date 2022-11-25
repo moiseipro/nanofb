@@ -343,6 +343,18 @@ tr.bck-custom > td {
 .folders_nfb_list > .list-group > .list-group-item.root-elem {
     font-weight: bold;
 }
+.folders_club_list > .list-group > .list-group-item {
+    background-color: #ececec;
+}
+.folders_club_list > .list-group > .list-group-item.active {
+    background-color: #d4d4d4;
+    border-color: #b9b8b8;
+    color: #5a6268;
+    border: 2px solid rgb(100, 100, 100) !important;
+}
+.folders_club_list > .list-group > .list-group-item.root-elem {
+    font-weight: bold;
+}
 
 
 .exs-list-group > .list-group-item.active {

@@ -3,7 +3,7 @@ from django.db.models import Sum, Q
 from django.core.cache import cache
 from users.models import User
 from matches.models import UserMatch, ClubMatch, UserProtocol, ClubProtocol
-from trainings.models import UserTraining, ClubTraining, UserTrainingProtocol
+from trainings.models import UserTraining, ClubTraining, UserTrainingProtocol, ClubTrainingProtocol
 from players.models import UserPlayer, ClubPlayer
 from references.models import UserTeam, UserSeason, ClubTeam, ClubSeason
 from exercises.models import UserFolder, ClubFolder
@@ -192,7 +192,11 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
     res_protocols = {
         'diseases_count': 0, 'injuries_count': 0, 'skip_count': 0, 'a_u_count': 0
     }
-    players = UserPlayer.objects.filter(team=cur_team, user=cur_user)
+    players = []
+    if request.user.club_id is not None:
+        players = ClubPlayer.objects.filter(team=cur_team)
+    else:
+        players = UserPlayer.objects.filter(team=cur_team, user=cur_user)
     for player in players:
         res_data['players'][player.id] = {
             'name': f'{player.surname} {player.name}',
@@ -205,9 +209,17 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
         season_type = int(request.GET.get("season_type", 0))
     except:
         pass
-    f_season = UserSeason.objects.get(id=cur_season, user_id=cur_user)
+    f_season = None
+    if request.user.club_id is not None:
+        f_season = ClubSeason.objects.get(id=cur_season, club_id=request.user.club_id)
+    else:
+        f_season = UserSeason.objects.get(id=cur_season, user_id=cur_user)
     if f_season and f_season.id != None:
-        cached_data = cache.get(f'analytics_{cur_user}_{cur_season}_{season_type}')
+        cached_data = None
+        if request.user.club_id is not None:
+            cached_data = cache.get(f'analytics_club_{request.user.club_id.id}_{cur_season}_{season_type}')
+        else:
+            cached_data = cache.get(f'analytics_{cur_user}_{cur_season}_{season_type}')
         if cached_data is None:
             date_with = f_season.date_with
             date_by = f_season.date_by
@@ -221,13 +233,23 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
                     date_by = date_with + relativedelta(months=1)
             if date.today() < f_season.date_by:
                 date_by = date.today()
-            matches_protocols = UserProtocol.objects.filter(
-                match_id__team_id=cur_team, match_id__event_id__user_id=cur_user,
-                match_id__event_id__date__range=[
-                    datetime.combine(date_with, datetime.min.time()),
-                    datetime.combine(date_by, datetime.max.time())
-                ],
-            )
+            matches_protocols = []
+            if request.user.club_id is not None:
+                matches_protocols = ClubProtocol.objects.filter(
+                    match_id__team_id=cur_team,
+                    match_id__event_id__date__range=[
+                        datetime.combine(date_with, datetime.min.time()),
+                        datetime.combine(date_by, datetime.max.time())
+                    ],
+                )
+            else:
+                matches_protocols = UserProtocol.objects.filter(
+                    match_id__team_id=cur_team, match_id__event_id__user_id=cur_user,
+                    match_id__event_id__date__range=[
+                        datetime.combine(date_with, datetime.min.time()),
+                        datetime.combine(date_by, datetime.max.time())
+                    ],
+                )
             player_data = None
             is_status_correct = False
             for m_protocol in matches_protocols:
@@ -264,13 +286,23 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
                             player_data['res_protocols']['skip_count'] += 1
             player_data = None
             is_status_correct = False
-            trainings_protocols = UserTrainingProtocol.objects.filter(
-                training_id__team_id=cur_team, training_id__event_id__user_id=cur_user,
-                training_id__event_id__date__range=[
-                    datetime.combine(date_with, datetime.min.time()),
-                    datetime.combine(date_by, datetime.max.time())
-                ],
-            )
+            trainings_protocols = []
+            if request.user.club_id is not None:
+                trainings_protocols = ClubTrainingProtocol.objects.filter(
+                    training_id__team_id=cur_team,
+                    training_id__event_id__date__range=[
+                        datetime.combine(date_with, datetime.min.time()),
+                        datetime.combine(date_by, datetime.max.time())
+                    ],
+                )
+            else:
+                trainings_protocols = UserTrainingProtocol.objects.filter(
+                    training_id__team_id=cur_team, training_id__event_id__user_id=cur_user,
+                    training_id__event_id__date__range=[
+                        datetime.combine(date_with, datetime.min.time()),
+                        datetime.combine(date_by, datetime.max.time())
+                    ],
+                )
             for t_protocol in trainings_protocols:
                 try:
                     player_data = res_data['players'][t_protocol.player_id.id]
@@ -304,7 +336,10 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
                             player_data['res_protocols']['a_u_count'] += 1
                         if "type_skip" in t_protocol.status.tags and t_protocol.status.tags['type_skip'] == 1:
                             player_data['res_protocols']['skip_count'] += 1
-            cache.set(f'analytics_{cur_user}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
+            if request.user.club_id is not None:
+                cache.set(f'analytics_club_{request.user.club_id.id}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
+            else:
+                cache.set(f'analytics_{cur_user}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
         else:
             res_data = cached_data
     return JsonResponse({"data": res_data, "success": True}, status=200)

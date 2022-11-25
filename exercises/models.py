@@ -39,6 +39,10 @@ class AbstractFolder(models.Model):
 
 
 class AdminFolder(AbstractFolder):
+    active = models.BooleanField(
+        help_text='Показывать папку любому пользователю на релизе, неактивные папки доступны администрации.',
+        default=True
+    )
     objects = models.Manager()
 
     class Meta(AbstractFolder.Meta):
@@ -61,6 +65,7 @@ class UserFolder(AbstractFolder):
 
 class ClubFolder(AbstractFolder):
     club = models.ForeignKey(Club, on_delete=models.CASCADE, null=True, blank=True)
+    team = models.ForeignKey(ClubTeam, on_delete=models.CASCADE, null=True, blank=True)
     objects = models.Manager()
     
     class Meta(AbstractFolder.Meta):
@@ -127,7 +132,9 @@ class UserExercise(AbstractExercise):
 
 
 class ClubExercise(AbstractExercise):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     club = models.ForeignKey(Club, on_delete=models.CASCADE, null=True, blank=True)
+    team = models.ForeignKey(ClubTeam, on_delete=models.CASCADE, null=True, blank=True)
     folder = models.ForeignKey(ClubFolder, on_delete=models.CASCADE)
     videos = models.ManyToManyField(Video, through="ExerciseVideo", through_fields=("exercise_club", "video"))
     class Meta(AbstractExercise.Meta):
@@ -174,6 +181,7 @@ class UserExerciseParamTeam(models.Model):
     exercise_club = models.ForeignKey(ClubExercise, on_delete=models.CASCADE, null=True, blank=True)
     exercise_nfb = models.ForeignKey(AdminExercise, on_delete=models.CASCADE, null=True, blank=True)
     team = models.ForeignKey(UserTeam, on_delete=models.SET_NULL, null=True)
+    team_club = models.ForeignKey(ClubTeam, on_delete=models.SET_NULL, null=True)
 
     additional_data = models.JSONField(null=True, blank=True)
 

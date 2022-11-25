@@ -248,7 +248,7 @@ def POST_edit_player(request, cur_user, cur_team):
     if request.user.club_id is not None:
         c_player = ClubPlayer.objects.filter(id=player_id, team=cur_team)
         if not c_player.exists() or c_player[0].id == None:
-            c_team = ClubTeam.objects.filter(id=cur_team)
+            c_team = ClubTeam.objects.filter(id=cur_team, club_id=request.user.club_id)
             if not c_team.exists() or c_team[0].id == None:
                 return JsonResponse({"err": "Team not found.", "success": False}, status=400)
             c_player = ClubPlayer(user=cur_user, team=c_team[0])
@@ -275,7 +275,7 @@ def POST_edit_player(request, cur_user, cur_team):
     new_team_id = set_value_as_int(request, "data[team]", None)
     new_team = None
     if request.user.club_id is not None:
-        new_team = ClubTeam.objects.filter(id=new_team_id) if c_team == None else c_team
+        new_team = ClubTeam.objects.filter(id=new_team_id, club_id=request.user.club_id) if c_team == None else c_team
     else:
         new_team = UserTeam.objects.filter(id=new_team_id) if c_team == None else c_team
     if new_team == None or not new_team.exists() or new_team[0].id == None:
