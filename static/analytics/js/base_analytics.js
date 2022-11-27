@@ -8,13 +8,13 @@ let analytics_table_options = {
     dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
     "<'row'<'col-sm-12'tr>>" +
     "<'row'<'col-sm-12 col-md-5'><'col-sm-12 col-md-7'p>>",
-    scrollY: "68vh",
+    scrollY: "70vh",
     scrollCollapse: true,
     serverSide: false,
     processing: false,
     paging: false,
     searching: false,
-    select: false,
+    select: true,
     drawCallback: function( settings ) {
     },
     "columnDefs": [
@@ -195,10 +195,12 @@ $(function() {
         columnsIndexes.push($(elem).attr('data-col'));
     });
     $('#columnsVisibleSelect').find('option').prop('selected', 'selected').end();
-    $('#columnsVisibleSelect').select2({
-        placeholder: 'Колонки',
-        closeOnSelect: false
-    });
+    $('#columnsVisibleSelect').selectpicker();
+    // $('#columnsVisibleSelect').select2({
+    //     tags: "false",
+    //     placeholder: 'Колонки',
+    //     closeOnSelect: false,
+    // });
     $('#columnsVisibleSelect').on('change', (e) => {
         let visibleList = $(e.currentTarget).val();
         if (Array.isArray(visibleList)) {
@@ -210,6 +212,29 @@ $(function() {
                 analytics_table.column(cIndex).visible(true);
             });
         }
+    });
+
+    $('#resetCachedData').on('click', (e) => {
+        let dataToSend = {'reset_cache': 1, 'season_type': season_type};
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: dataToSend,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "analytics_api",
+            success: function (res) {
+                if (res.success) {
+                    window.location.reload();
+                }
+            },
+            error: function (res) {
+                console.log(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
     });
 
     $('#toggle_btn').on('click', (e) => {

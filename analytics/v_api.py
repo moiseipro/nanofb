@@ -149,6 +149,30 @@ def POST_edit_analytics(request, cur_user, cur_team):
     return JsonResponse({"errors": "Can't edit analytics"}, status=400)
 
 
+def POST_reset_cache(request, cur_user, cur_team, cur_season):
+    """
+    Template POST API FUNC
+
+    """
+    season_type = None
+    try:
+        season_type = int(request.GET.get("season_type", 0))
+    except:
+        pass
+    if season_type == 0:
+        season_type = None
+    status = None
+    if request.user.club_id is not None:
+        status = cache.delete(f'analytics_club_{request.user.club_id.id}_{cur_team}_{cur_season}_{season_type}')
+    else:
+        status = cache.delete(f'analytics_{cur_user}_{cur_team}_{cur_season}_{season_type}')
+    res_data = "Cached data deleted successfully!"
+    if not status:
+        res_data = "Cached data has not been deleted. Not found or another reason."
+    return JsonResponse({"data": res_data, "success": True}, status=200)
+
+
+
 def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
     """
     Return JsonResponse which contains dictionary with players. Each object is a dictionary, where the key is what we consider, 
@@ -217,9 +241,9 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
     if f_season and f_season.id != None:
         cached_data = None
         if request.user.club_id is not None:
-            cached_data = cache.get(f'analytics_club_{request.user.club_id.id}_{cur_season}_{season_type}')
+            cached_data = cache.get(f'analytics_club_{request.user.club_id.id}_{cur_team}_{cur_season}_{season_type}')
         else:
-            cached_data = cache.get(f'analytics_{cur_user}_{cur_season}_{season_type}')
+            cached_data = cache.get(f'analytics_{cur_user}_{cur_team}_{cur_season}_{season_type}')
         if cached_data is None:
             date_with = f_season.date_with
             date_by = f_season.date_by
@@ -337,9 +361,9 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
                         if "type_skip" in t_protocol.status.tags and t_protocol.status.tags['type_skip'] == 1:
                             player_data['res_protocols']['skip_count'] += 1
             if request.user.club_id is not None:
-                cache.set(f'analytics_club_{request.user.club_id.id}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
+                cache.set(f'analytics_club_{request.user.club_id.id}_{cur_team}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
             else:
-                cache.set(f'analytics_{cur_user}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
+                cache.set(f'analytics_{cur_user}_{cur_team}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
         else:
             res_data = cached_data
     return JsonResponse({"data": res_data, "success": True}, status=200)
