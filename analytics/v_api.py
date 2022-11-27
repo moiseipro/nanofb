@@ -161,7 +161,6 @@ def POST_reset_cache(request, cur_user, cur_team, cur_season):
         pass
     if season_type == 0:
         season_type = None
-    print(season_type)
     status = None
     if request.user.club_id is not None:
         status = cache.delete(f'analytics_club_{request.user.club_id.id}_{cur_team}_{cur_season}_{season_type}')
@@ -234,7 +233,6 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
         season_type = int(request.GET.get("season_type", 0))
     except:
         pass
-    print(season_type)
     f_season = None
     if request.user.club_id is not None:
         f_season = ClubSeason.objects.get(id=cur_season, club_id=request.user.club_id)
@@ -257,8 +255,9 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
                     date_with = date_with + relativedelta(months=(season_type-1))
                     date_with.replace(day=1)
                     date_by = date_with + relativedelta(months=1)
-            if date.today() < f_season.date_by:
-                date_by = date.today()
+            else:
+                if date.today() < f_season.date_by:
+                    date_by = date.today()
             matches_protocols = []
             if request.user.club_id is not None:
                 matches_protocols = ClubProtocol.objects.filter(
