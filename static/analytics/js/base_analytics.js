@@ -1,4 +1,6 @@
 let season_type = null;
+let season_type_in_storage = window.sessionStorage.getItem('analytics__season_type');
+if (season_type_in_storage) {season_type = season_type_in_storage;}
 let analytics_table
 
 let analytics_table_options = {
@@ -181,11 +183,20 @@ $(function() {
 
     LoadAnalytics();
 
+    $('.analytics-table-container').find('.season-toggle').removeClass('active');
+    let foundBtn = $('.analytics-table-container').find(`.season-toggle[type=${season_type}]`);
+    if (foundBtn.length > 0) {
+        $(foundBtn).addClass('active');
+    } else {
+        $('.analytics-table-container').find(`.season-toggle`).first().addClass('active');
+    }
+
     $('.analytics-table-container').on('click', '.season-toggle', (e) => {
         if (!$(e.currentTarget).hasClass('active')) {
             $('.analytics-table-container').find('.season-toggle').removeClass('active');
             $(e.currentTarget).addClass('active');
             season_type = $(e.currentTarget).attr('type');
+            window.sessionStorage.setItem('analytics__season_type', season_type);
             LoadAnalytics();
         }
     });

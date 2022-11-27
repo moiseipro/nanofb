@@ -156,11 +156,12 @@ def POST_reset_cache(request, cur_user, cur_team, cur_season):
     """
     season_type = None
     try:
-        season_type = int(request.GET.get("season_type", 0))
+        season_type = int(request.POST.get("season_type", 0))
     except:
         pass
     if season_type == 0:
         season_type = None
+    print(season_type)
     status = None
     if request.user.club_id is not None:
         status = cache.delete(f'analytics_club_{request.user.club_id.id}_{cur_team}_{cur_season}_{season_type}')
@@ -233,6 +234,7 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
         season_type = int(request.GET.get("season_type", 0))
     except:
         pass
+    print(season_type)
     f_season = None
     if request.user.club_id is not None:
         f_season = ClubSeason.objects.get(id=cur_season, club_id=request.user.club_id)
