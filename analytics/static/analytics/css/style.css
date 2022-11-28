@@ -20,11 +20,6 @@ th.dt-vertical-center, td.dt-vertical-center {
     vertical-align: middle !important;
 }
 
-.select2-container .select2-selection--multiple {
-    height: 32px;
-    overflow-y: auto;
-}
-
 
 .border-custom-left {
     border-left: black solid 2px !important;

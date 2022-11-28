@@ -145,6 +145,22 @@ def get_date_str_from_datetime(datetime_obj, code):
     return date_str
 
 
+def get_date_timestamp_from_datetime(datetime_obj):
+    """
+    Return Date's timestamp or None.
+
+    :param datetime_obj: Datetime object.
+    :type datetime_obj: [datetime]
+    :return: Date's timestamp or None.
+    :rtype: [int] or None
+
+    """
+    try:
+        return datetime_obj.timestamp()
+    except:
+        return None
+
+
 def get_day_from_datetime(datetime_obj, code):
     """
     Return Day of date string or None.

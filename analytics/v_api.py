@@ -7,6 +7,7 @@ from trainings.models import UserTraining, ClubTraining, UserTrainingProtocol, C
 from players.models import UserPlayer, ClubPlayer
 from references.models import UserTeam, UserSeason, ClubTeam, ClubSeason
 from exercises.models import UserFolder, ClubFolder
+from nanofootball.views import util_check_access
 from datetime import datetime, date, timedelta
 from dateutil.relativedelta  import relativedelta
 
@@ -149,6 +150,30 @@ def POST_edit_analytics(request, cur_user, cur_team):
     return JsonResponse({"errors": "Can't edit analytics"}, status=400)
 
 
+def POST_reset_cache(request, cur_user, cur_team, cur_season):
+    """
+    Template POST API FUNC
+
+    """
+    season_type = None
+    try:
+        season_type = int(request.POST.get("season_type", 0))
+    except:
+        pass
+    if season_type == 0:
+        season_type = None
+    status = None
+    if request.user.club_id is not None:
+        status = cache.delete(f'analytics_club_{request.user.club_id.id}_{cur_team}_{cur_season}_{season_type}')
+    else:
+        status = cache.delete(f'analytics_{cur_user}_{cur_team}_{cur_season}_{season_type}')
+    res_data = "Cached data deleted successfully!"
+    if not status:
+        res_data = "Cached data has not been deleted. Not found or another reason."
+    return JsonResponse({"data": res_data, "success": True}, status=200)
+
+
+
 def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
     """
     Return JsonResponse which contains dictionary with players. Each object is a dictionary, where the key is what we consider, 
@@ -217,9 +242,9 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
     if f_season and f_season.id != None:
         cached_data = None
         if request.user.club_id is not None:
-            cached_data = cache.get(f'analytics_club_{request.user.club_id.id}_{cur_season}_{season_type}')
+            cached_data = cache.get(f'analytics_club_{request.user.club_id.id}_{cur_team}_{cur_season}_{season_type}')
         else:
-            cached_data = cache.get(f'analytics_{cur_user}_{cur_season}_{season_type}')
+            cached_data = cache.get(f'analytics_{cur_user}_{cur_team}_{cur_season}_{season_type}')
         if cached_data is None:
             date_with = f_season.date_with
             date_by = f_season.date_by
@@ -231,28 +256,33 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
                     date_with = date_with + relativedelta(months=(season_type-1))
                     date_with.replace(day=1)
                     date_by = date_with + relativedelta(months=1)
-            if date.today() < f_season.date_by:
-                date_by = date.today()
-            matches_protocols = []
-            if request.user.club_id is not None:
-                matches_protocols = ClubProtocol.objects.filter(
-                    match_id__team_id=cur_team,
-                    match_id__event_id__date__range=[
-                        datetime.combine(date_with, datetime.min.time()),
-                        datetime.combine(date_by, datetime.max.time())
-                    ],
-                )
             else:
-                matches_protocols = UserProtocol.objects.filter(
-                    match_id__team_id=cur_team, match_id__event_id__user_id=cur_user,
-                    match_id__event_id__date__range=[
-                        datetime.combine(date_with, datetime.min.time()),
-                        datetime.combine(date_by, datetime.max.time())
-                    ],
-                )
-            player_data = None
+                if date.today() < f_season.date_by:
+                    date_by = date.today()
+            matches_protocols = []
+            if util_check_access(cur_user, {
+                'perms_user': ["matches.analytics_usermatch"],
+                'perms_club': ["matches.analytics_clubmatch"]
+            }):
+                if request.user.club_id is not None:
+                    matches_protocols = ClubProtocol.objects.filter(
+                        match_id__team_id=cur_team,
+                        match_id__event_id__date__range=[
+                            datetime.combine(date_with, datetime.min.time()),
+                            datetime.combine(date_by, datetime.max.time())
+                        ],
+                    )
+                else:
+                    matches_protocols = UserProtocol.objects.filter(
+                        match_id__team_id=cur_team, match_id__event_id__user_id=cur_user,
+                        match_id__event_id__date__range=[
+                            datetime.combine(date_with, datetime.min.time()),
+                            datetime.combine(date_by, datetime.max.time())
+                        ],
+                    )
             is_status_correct = False
             for m_protocol in matches_protocols:
+                player_data = None
                 try:
                     player_data = res_data['players'][m_protocol.player.id]
                 except Exception as e:
@@ -287,22 +317,26 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
             player_data = None
             is_status_correct = False
             trainings_protocols = []
-            if request.user.club_id is not None:
-                trainings_protocols = ClubTrainingProtocol.objects.filter(
-                    training_id__team_id=cur_team,
-                    training_id__event_id__date__range=[
-                        datetime.combine(date_with, datetime.min.time()),
-                        datetime.combine(date_by, datetime.max.time())
-                    ],
-                )
-            else:
-                trainings_protocols = UserTrainingProtocol.objects.filter(
-                    training_id__team_id=cur_team, training_id__event_id__user_id=cur_user,
-                    training_id__event_id__date__range=[
-                        datetime.combine(date_with, datetime.min.time()),
-                        datetime.combine(date_by, datetime.max.time())
-                    ],
-                )
+            if util_check_access(cur_user, {
+                'perms_user': ["trainings.analytics_usertraining"],
+                'perms_club': ["trainings.analytics_clubtraining"]
+            }):
+                if request.user.club_id is not None:
+                    trainings_protocols = ClubTrainingProtocol.objects.filter(
+                        training_id__team_id=cur_team,
+                        training_id__event_id__date__range=[
+                            datetime.combine(date_with, datetime.min.time()),
+                            datetime.combine(date_by, datetime.max.time())
+                        ],
+                    )
+                else:
+                    trainings_protocols = UserTrainingProtocol.objects.filter(
+                        training_id__team_id=cur_team, training_id__event_id__user_id=cur_user,
+                        training_id__event_id__date__range=[
+                            datetime.combine(date_with, datetime.min.time()),
+                            datetime.combine(date_by, datetime.max.time())
+                        ],
+                    )
             for t_protocol in trainings_protocols:
                 try:
                     player_data = res_data['players'][t_protocol.player_id.id]
@@ -322,9 +356,9 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
                             player_data['res_trainings']['trainings_exs_folders'][t_exercise.exercise_id.folder.id] += 1
                         if player_data['res_trainings']['trainings_time'] > 0:
                             player_data['res_trainings']['trainings_count'] += 1
-                            if t_protocol.estimation == 1:
-                                player_data['res_trainings']['trainings_like'] += 1
                             if t_protocol.estimation == 2:
+                                player_data['res_trainings']['trainings_like'] += 1
+                            if t_protocol.estimation == 1:
                                 player_data['res_trainings']['trainings_dislike'] += 1
 
                     else:
@@ -337,9 +371,9 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
                         if "type_skip" in t_protocol.status.tags and t_protocol.status.tags['type_skip'] == 1:
                             player_data['res_protocols']['skip_count'] += 1
             if request.user.club_id is not None:
-                cache.set(f'analytics_club_{request.user.club_id.id}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
+                cache.set(f'analytics_club_{request.user.club_id.id}_{cur_team}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
             else:
-                cache.set(f'analytics_{cur_user}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
+                cache.set(f'analytics_{cur_user}_{cur_team}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
         else:
             res_data = cached_data
     return JsonResponse({"data": res_data, "success": True}, status=200)

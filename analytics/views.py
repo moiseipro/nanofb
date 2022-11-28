@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from users.models import User
 from references.models import UserSeason, UserTeam
+from nanofootball.views import util_check_access
 import analytics.v_api as v_api
 from system_icons.views import get_ui_elements
 
@@ -27,6 +28,11 @@ def analytics(request):
     if not request.user.is_authenticated:
         return redirect("authorization:login")
     cur_user = User.objects.filter(email=request.user).only("club_id")
+    if not util_check_access(cur_user[0], {
+        'perms_user': ["matches.analytics_usermatch", "trainings.analytics_usertraining"],
+        'perms_club': ["matches.analytics_clubmatch", "trainings.analytics_clubtraining"]
+    }):
+        return redirect("users:profile")
     cur_team = -1
     cur_season = -1
     try:
@@ -72,10 +78,16 @@ def analytics_api(request):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
     if request.method == "POST" and is_ajax:
         edit_analytics_status = 0
+        reset_cache_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
+        cur_season = -1
         try:
             cur_team = int(request.session['team'])
+        except:
+            pass
+        try:
+            cur_season = int(request.session['season'])
         except:
             pass
         if not cur_user.exists() or cur_user[0].id == None:
@@ -84,8 +96,14 @@ def analytics_api(request):
             edit_analytics_status = int(request.POST.get("edit_analytics", 0))
         except:
             pass
+        try:
+            reset_cache_status = int(request.POST.get("reset_cache", 0))
+        except:
+            pass
         if edit_analytics_status == 1:
             return v_api.POST_edit_analytics(request, cur_user[0], cur_team)
+        elif reset_cache_status == 1:
+            return v_api.POST_reset_cache(request, cur_user[0], cur_team, cur_season)
         return JsonResponse({"errors": "access_error"}, status=400)
     elif request.method == "GET" and is_ajax:
         get_analytics_all_status = 0

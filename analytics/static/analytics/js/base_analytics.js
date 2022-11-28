@@ -1,4 +1,6 @@
 let season_type = null;
+let season_type_in_storage = window.sessionStorage.getItem('analytics__season_type');
+if (season_type_in_storage) {season_type = season_type_in_storage;}
 let analytics_table
 
 let analytics_table_options = {
@@ -8,13 +10,13 @@ let analytics_table_options = {
     dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
     "<'row'<'col-sm-12'tr>>" +
     "<'row'<'col-sm-12 col-md-5'><'col-sm-12 col-md-7'p>>",
-    scrollY: "68vh",
+    scrollY: "70vh",
     scrollCollapse: true,
     serverSide: false,
     processing: false,
     paging: false,
     searching: false,
-    select: false,
+    select: true,
     drawCallback: function( settings ) {
     },
     "columnDefs": [
@@ -181,11 +183,20 @@ $(function() {
 
     LoadAnalytics();
 
+    $('.analytics-table-container').find('.season-toggle').removeClass('active');
+    let foundBtn = $('.analytics-table-container').find(`.season-toggle[type=${season_type}]`);
+    if (foundBtn.length > 0) {
+        $(foundBtn).addClass('active');
+    } else {
+        $('.analytics-table-container').find(`.season-toggle`).first().addClass('active');
+    }
+
     $('.analytics-table-container').on('click', '.season-toggle', (e) => {
         if (!$(e.currentTarget).hasClass('active')) {
             $('.analytics-table-container').find('.season-toggle').removeClass('active');
             $(e.currentTarget).addClass('active');
             season_type = $(e.currentTarget).attr('type');
+            window.sessionStorage.setItem('analytics__season_type', season_type);
             LoadAnalytics();
         }
     });
@@ -195,10 +206,12 @@ $(function() {
         columnsIndexes.push($(elem).attr('data-col'));
     });
     $('#columnsVisibleSelect').find('option').prop('selected', 'selected').end();
-    $('#columnsVisibleSelect').select2({
-        placeholder: 'Колонки',
-        closeOnSelect: false
-    });
+    $('#columnsVisibleSelect').selectpicker();
+    // $('#columnsVisibleSelect').select2({
+    //     tags: "false",
+    //     placeholder: 'Колонки',
+    //     closeOnSelect: false,
+    // });
     $('#columnsVisibleSelect').on('change', (e) => {
         let visibleList = $(e.currentTarget).val();
         if (Array.isArray(visibleList)) {
@@ -210,6 +223,29 @@ $(function() {
                 analytics_table.column(cIndex).visible(true);
             });
         }
+    });
+
+    $('#resetCachedData').on('click', (e) => {
+        let dataToSend = {'reset_cache': 1, 'season_type': season_type};
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: dataToSend,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "analytics_api",
+            success: function (res) {
+                if (res.success) {
+                    window.location.reload();
+                }
+            },
+            error: function (res) {
+                console.log(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
     });
 
     $('#toggle_btn').on('click', (e) => {

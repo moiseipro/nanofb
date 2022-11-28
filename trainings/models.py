@@ -56,6 +56,14 @@ class UserTraining(AbstractTraining):
         through="UserTrainingProtocol",
         through_fields=('training_id', 'player_id'),
     )
+    class Meta:
+        abstract = False
+        permissions = [
+            (
+                "analytics_usertraining",
+                _('Access to the section "Analytics" for UserTraining')
+            )
+        ]
 
 
 class ClubTraining(AbstractTraining):
@@ -73,6 +81,14 @@ class ClubTraining(AbstractTraining):
         through="ClubTrainingExercise",
         through_fields=('training_id', 'exercise_id')
     )
+    class Meta:
+        abstract = False
+        permissions = [
+            (
+                "analytics_clubtraining",
+                _('Access to the section "Analytics" for ClubTraining')
+            )
+        ]
 
 
 class AbstractTrainingExercise(models.Model):
