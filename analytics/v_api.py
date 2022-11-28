@@ -347,9 +347,9 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
                             player_data['res_trainings']['trainings_exs_folders'][t_exercise.exercise_id.folder.id] += 1
                         if player_data['res_trainings']['trainings_time'] > 0:
                             player_data['res_trainings']['trainings_count'] += 1
-                            if t_protocol.estimation == 1:
-                                player_data['res_trainings']['trainings_like'] += 1
                             if t_protocol.estimation == 2:
+                                player_data['res_trainings']['trainings_like'] += 1
+                            if t_protocol.estimation == 1:
                                 player_data['res_trainings']['trainings_dislike'] += 1
 
                     else:
