@@ -44,7 +44,7 @@ def get_by_language_code(value, code):
     return res
 
 
-def get_exs_folders(cur_user, cur_team):
+def get_exs_folders(request, cur_user, cur_team):
     """
     Return a list of Model.UserFolder or Model.ClubFolder depending on current version.
 
@@ -58,8 +58,12 @@ def get_exs_folders(cur_user, cur_team):
 
     """
     res = []
-    folders = UserFolder.objects.filter(Q(parent=0) | Q(parent=None), user=cur_user, team=cur_team)
-    if folders.exists() and folders[0].id != None:
+    folders = None
+    if request.user.club_id is not None:
+        folders = ClubFolder.objects.filter(Q(parent=0) | Q(parent=None))
+    else:
+        folders = UserFolder.objects.filter(Q(parent=0) | Q(parent=None), user=cur_user, team=cur_team)
+    if folders is not None and folders.exists() and folders[0].id != None:
         res = folders
     return res
 
@@ -351,9 +355,9 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
                             else:
                                 player_data['res_trainings']['trainings_no_ball'] += 1
                             player_data['res_trainings']['trainings_time'] += t_exercise.duration
-                            if not t_exercise.exercise_id.folder.id in player_data['res_trainings']['trainings_exs_folders']:
-                                player_data['res_trainings']['trainings_exs_folders'][t_exercise.exercise_id.folder.id] = 0
-                            player_data['res_trainings']['trainings_exs_folders'][t_exercise.exercise_id.folder.id] += 1
+                            if not t_exercise.exercise_id.folder.parent in player_data['res_trainings']['trainings_exs_folders']:
+                                player_data['res_trainings']['trainings_exs_folders'][t_exercise.exercise_id.folder.parent] = 0
+                            player_data['res_trainings']['trainings_exs_folders'][t_exercise.exercise_id.folder.parent] += 1
                         if player_data['res_trainings']['trainings_time'] > 0:
                             player_data['res_trainings']['trainings_count'] += 1
                             if t_protocol.estimation == 2:

@@ -31,6 +31,35 @@ function CountExsInFolder(useFilter = true) {
             );
         }
     }
+    folders = $('.folders_club_list').find('.list-group-item > div');
+    for (let i = 0; i < folders.length; i++) {
+        let folder = $(folders[i]);
+        if ($(folder).attr('data-root') != '1') {
+            $(folder).find('.folder-exs-counter').html('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
+            let data = {'count_exs': 1, 'folder': $(folder).attr('data-id'), 'type': "club_folders", 'filter': window.exercisesFilter};
+            window.count_exs_calls.push(
+                $.ajax({
+                    headers:{"X-CSRFToken": csrftoken},
+                    data: data,
+                    type: 'POST', // GET или POST
+                    dataType: 'json',
+                    url: "/exercises/exercises_api",
+                    timeout: 60000,
+                    success: function (res) {
+                        if (res.success && res.data != 0) {
+                            $(folder).find('.folder-exs-counter').html(res.data);
+                        } else {
+                            $(folder).find('.folder-exs-counter').html('...');
+                        }
+                    },
+                    error: function (res) {
+                        $(folder).find('.folder-exs-counter').html('...');
+                    },
+                    complete: function (res) {}
+                })
+            );
+        }
+    }
     folders = $('.folders_nfb_list').find('.list-group-item > div');
     for (let i = 0; i < folders.length; i++) {
         let folder = $(folders[i]);
