@@ -28,9 +28,10 @@ def analytics(request):
     if not request.user.is_authenticated:
         return redirect("authorization:login")
     cur_user = User.objects.filter(email=request.user).only("club_id")
-    if not util_check_access(cur_user[0], 
-        {'perms_user': ["analytics.view_analytics"], 'perms_club': ["analytics.view_analytics"]}
-    ):
+    if not util_check_access(cur_user[0], {
+        'perms_user': ["matches.analytics_usermatch", "trainings.analytics_usertraining"],
+        'perms_club': ["matches.analytics_clubmatch", "trainings.analytics_clubtraining"]
+    }):
         return redirect("users:profile")
     cur_team = -1
     cur_season = -1

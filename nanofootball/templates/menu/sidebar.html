@@ -115,7 +115,7 @@
     </a>
 </li>
 {% endif %}
-{% if perms.analytics.view_analytics %}
+{% if perms.matches.analytics_usermatch or perms.matches.analytics_clubmatch or perms.trainings.analytics_usertraining or perms.trainings.analytics_clubtraining %}
 <li>
     <a href="{% url 'analytics:analytics' %}" class="btn">
         {% if ui_elements.sidebar__analytics %}

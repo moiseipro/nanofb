@@ -7,6 +7,7 @@ from trainings.models import UserTraining, ClubTraining, UserTrainingProtocol, C
 from players.models import UserPlayer, ClubPlayer
 from references.models import UserTeam, UserSeason, ClubTeam, ClubSeason
 from exercises.models import UserFolder, ClubFolder
+from nanofootball.views import util_check_access
 from datetime import datetime, date, timedelta
 from dateutil.relativedelta  import relativedelta
 
@@ -259,22 +260,26 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
                 if date.today() < f_season.date_by:
                     date_by = date.today()
             matches_protocols = []
-            if request.user.club_id is not None:
-                matches_protocols = ClubProtocol.objects.filter(
-                    match_id__team_id=cur_team,
-                    match_id__event_id__date__range=[
-                        datetime.combine(date_with, datetime.min.time()),
-                        datetime.combine(date_by, datetime.max.time())
-                    ],
-                )
-            else:
-                matches_protocols = UserProtocol.objects.filter(
-                    match_id__team_id=cur_team, match_id__event_id__user_id=cur_user,
-                    match_id__event_id__date__range=[
-                        datetime.combine(date_with, datetime.min.time()),
-                        datetime.combine(date_by, datetime.max.time())
-                    ],
-                )
+            if util_check_access(cur_user, {
+                'perms_user': ["matches.analytics_usermatch"],
+                'perms_club': ["matches.analytics_clubmatch"]
+            }):
+                if request.user.club_id is not None:
+                    matches_protocols = ClubProtocol.objects.filter(
+                        match_id__team_id=cur_team,
+                        match_id__event_id__date__range=[
+                            datetime.combine(date_with, datetime.min.time()),
+                            datetime.combine(date_by, datetime.max.time())
+                        ],
+                    )
+                else:
+                    matches_protocols = UserProtocol.objects.filter(
+                        match_id__team_id=cur_team, match_id__event_id__user_id=cur_user,
+                        match_id__event_id__date__range=[
+                            datetime.combine(date_with, datetime.min.time()),
+                            datetime.combine(date_by, datetime.max.time())
+                        ],
+                    )
             is_status_correct = False
             for m_protocol in matches_protocols:
                 player_data = None
@@ -312,22 +317,26 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
             player_data = None
             is_status_correct = False
             trainings_protocols = []
-            if request.user.club_id is not None:
-                trainings_protocols = ClubTrainingProtocol.objects.filter(
-                    training_id__team_id=cur_team,
-                    training_id__event_id__date__range=[
-                        datetime.combine(date_with, datetime.min.time()),
-                        datetime.combine(date_by, datetime.max.time())
-                    ],
-                )
-            else:
-                trainings_protocols = UserTrainingProtocol.objects.filter(
-                    training_id__team_id=cur_team, training_id__event_id__user_id=cur_user,
-                    training_id__event_id__date__range=[
-                        datetime.combine(date_with, datetime.min.time()),
-                        datetime.combine(date_by, datetime.max.time())
-                    ],
-                )
+            if util_check_access(cur_user, {
+                'perms_user': ["trainings.analytics_usertraining"],
+                'perms_club': ["trainings.analytics_clubtraining"]
+            }):
+                if request.user.club_id is not None:
+                    trainings_protocols = ClubTrainingProtocol.objects.filter(
+                        training_id__team_id=cur_team,
+                        training_id__event_id__date__range=[
+                            datetime.combine(date_with, datetime.min.time()),
+                            datetime.combine(date_by, datetime.max.time())
+                        ],
+                    )
+                else:
+                    trainings_protocols = UserTrainingProtocol.objects.filter(
+                        training_id__team_id=cur_team, training_id__event_id__user_id=cur_user,
+                        training_id__event_id__date__range=[
+                            datetime.combine(date_with, datetime.min.time()),
+                            datetime.combine(date_by, datetime.max.time())
+                        ],
+                    )
             for t_protocol in trainings_protocols:
                 try:
                     player_data = res_data['players'][t_protocol.player_id.id]
