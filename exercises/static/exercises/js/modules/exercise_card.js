@@ -666,8 +666,10 @@ function RenderVideo(value, htmlElem, windowElem) {
             if ('nftv' in data['links'] && data['links']['nftv'] != '') {
                 windowElem.src({type: 'video/mp4', src: `https://213.108.4.28/video/player/${data['links']['nftv']}`});
                 windowElem.poster(`https://213.108.4.28/video/poster/${data['links']['nftv']}`);
+                $(htmlElem).find('.vjs-poster').removeClass('d-none');
             } else if ('youtube' in data['links'] && data['links']['youtube'] != '') {
                 windowElem.src({techOrder: ["youtube"], type: 'video/youtube', src: `https://www.youtube.com/watch?v=${data['links']['youtube']}`});
+                $(htmlElem).find('.vjs-poster').addClass('d-none');
             }
         } else {
             $(htmlElem).addClass('d-none');

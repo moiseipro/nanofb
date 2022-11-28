@@ -8,9 +8,56 @@ function StopAllVideosTemp() {
     } catch (e) {}
 }
 
+function formatState(state) {
+    if (!state.id) {
+        return state.text;
+    }
+    var $state = $(
+        '<span>' + state.text + '</span>' + '<span class="float-right">(' + state.element.getAttribute('data-count') + ')</span>'
+    );
+    return $state;
+}
+function formatFolders(state) {
+    if (!state.id) {
+        return state.text;
+    }
+    var $state = $(
+        '<span>' + state.text + '</span>' + '<span class="float-right">(' + state.element.getAttribute('value') + ')</span>'
+    );
+    return $state;
+};
+
 
 
 $(function() {
+
+    // For videos' filter
+    $('.video-source').select2({
+        templateResult: formatState,
+    });
+    $('.exercise-folder').select2({
+        templateResult: formatFolders,
+    });
+    $('.video-source').on('change', function (){
+        let data_source = $( this ).val();
+        video_table.columns([2]).search(data_source).draw();
+    });
+    $('.exercise-folder').on('change', function (){
+        let data_folder = $( this ).val();
+        video_table.columns([3]).search(data_folder).draw();
+    });
+    $('.video-tags-filter').on('change', function (){
+        let data_tag = $( this ).val();
+        video_table.columns([7]).search(data_tag).draw();
+    });
+    $('#video-filters-clear').on('click', function (){
+        $('.video-source').val(null).trigger('change');
+        $('.exercise-folder').val(null).trigger('change');
+        $('.video-tags-filter').val(null).trigger('change');
+        $('input[type="search"]').val('').change();
+        video_table.columns([1]).search('').draw();
+    });
+    // END For videos' filter
 
     $('#exerciseCard').find('.modal-body').removeClass('size-h-x');
     $('#exerciseCard').find('.modal-body').attr('style', '');
