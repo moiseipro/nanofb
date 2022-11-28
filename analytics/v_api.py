@@ -275,9 +275,9 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
                         datetime.combine(date_by, datetime.max.time())
                     ],
                 )
-            player_data = None
             is_status_correct = False
             for m_protocol in matches_protocols:
+                player_data = None
                 try:
                     player_data = res_data['players'][m_protocol.player.id]
                 except Exception as e:
