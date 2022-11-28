@@ -3,12 +3,12 @@ from django.http import JsonResponse
 from django.forms.models import model_to_dict
 
 from users.models import User
-from references.models import UserTeam, UserSeason
+from references.models import UserTeam, UserSeason, ClubTeam, ClubSeason
 from system_icons.views import get_ui_elements
 from matches.models import UserMatch, ClubMatch
 from nanofootball.views import util_check_access
 import matches.v_api as v_api
-import calendar
+from datetime import datetime
 
 
 
@@ -37,33 +37,54 @@ def matches(request):
     ):
         return redirect("users:profile")
     cur_team = -1
+    cur_season = -1
     try:
         cur_team = int(request.session['team'])
     except:
         pass
+    try:
+        cur_season = int(request.session['season'])
+    except:
+        pass
     matches = []
+    f_season = None
     if request.user.club_id is not None:
-        f_matches = ClubMatch.objects.filter(team_id=cur_team, event_id__club_id=request.user.club_id)
+        f_season = ClubSeason.objects.get(id=cur_season, club_id=request.user.club_id)
     else:
-        f_matches = UserMatch.objects.filter(team_id=cur_team, event_id__user_id=cur_user[0])
-    for match in f_matches:
-        match_obj = model_to_dict(match)
-        match_obj['team_name'] = match.team_id.name
-        match_obj['date_timestamp'] = v_api.get_date_timestamp_from_datetime(match.event_id.date)
-        match_obj['date'] = v_api.get_date_str_from_datetime(match.event_id.date, request.LANGUAGE_CODE)
-        match_obj['date_day'] = v_api.get_day_from_datetime(match.event_id.date, request.LANGUAGE_CODE)
-        match_obj['date_time'] = v_api.get_time_from_datetime(match.event_id.date)
-        match_res = v_api.get_match_result(match_obj)
-        match_obj['result'] = match_res[0]
-        match_obj['goals_equal'] = match_res[1]
-        match_obj['duration'] = v_api.get_duration_normal_format(match.duration)
-        match_obj['goals'] = match.goals if (match.goals != 0 or match.o_goals != 0) else '-'
-        match_obj['o_goals'] = match.o_goals if (match.goals != 0 or match.o_goals != 0) else '-'
-        match_obj['penalty'] = match.penalty if (match.penalty != 0 or match.o_penalty != 0) else '-'
-        match_obj['o_penalty'] = match.o_penalty if (match.penalty != 0 or match.o_penalty != 0) else '-'
-        match_videos = v_api.GET_get_match_video_event(request, cur_user[0], cur_team, False, match.event_id.id)
-        match_obj['videos_count'] = v_api.count_videos(match_videos)
-        matches.append(match_obj)
+        f_season = UserSeason.objects.get(id=cur_season, user_id=cur_user)
+    if f_season and f_season.id != None:
+        if request.user.club_id is not None:
+            f_matches = ClubMatch.objects.filter(team_id=cur_team, event_id__club_id=request.user.club_id,
+                event_id__date__range=[
+                    datetime.combine(f_season.date_with, datetime.min.time()),
+                    datetime.combine(f_season.date_by, datetime.max.time())
+                ],
+            )
+        else:
+            f_matches = UserMatch.objects.filter(team_id=cur_team, event_id__user_id=cur_user[0],
+                event_id__date__range=[
+                    datetime.combine(f_season.date_with, datetime.min.time()),
+                    datetime.combine(f_season.date_by, datetime.max.time())
+                ],
+            )
+        for match in f_matches:
+            match_obj = model_to_dict(match)
+            match_obj['team_name'] = match.team_id.name
+            match_obj['date_timestamp'] = v_api.get_date_timestamp_from_datetime(match.event_id.date)
+            match_obj['date'] = v_api.get_date_str_from_datetime(match.event_id.date, request.LANGUAGE_CODE)
+            match_obj['date_day'] = v_api.get_day_from_datetime(match.event_id.date, request.LANGUAGE_CODE)
+            match_obj['date_time'] = v_api.get_time_from_datetime(match.event_id.date)
+            match_res = v_api.get_match_result(match_obj)
+            match_obj['result'] = match_res[0]
+            match_obj['goals_equal'] = match_res[1]
+            match_obj['duration'] = v_api.get_duration_normal_format(match.duration)
+            match_obj['goals'] = match.goals if (match.goals != 0 or match.o_goals != 0) else '-'
+            match_obj['o_goals'] = match.o_goals if (match.goals != 0 or match.o_goals != 0) else '-'
+            match_obj['penalty'] = match.penalty if (match.penalty != 0 or match.o_penalty != 0) else '-'
+            match_obj['o_penalty'] = match.o_penalty if (match.penalty != 0 or match.o_penalty != 0) else '-'
+            match_videos = v_api.GET_get_match_video_event(request, cur_user[0], cur_team, False, match.event_id.id)
+            match_obj['videos_count'] = v_api.count_videos(match_videos)
+            matches.append(match_obj)
     refs = {}
     refs = v_api.get_matches_refs(request)
     return render(request, 'matches/base_matches.html', {
