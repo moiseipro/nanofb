@@ -115,6 +115,7 @@
     </a>
 </li>
 {% endif %}
+{% if perms.analytics.view_analytics %}
 <li>
     <a href="{% url 'analytics:analytics' %}" class="btn">
         {% if ui_elements.sidebar__analytics %}
@@ -125,6 +126,7 @@
         <span>{% trans 'Analytics' %}</span>
     </a>
 </li>
+{% endif %}
 {% if user.is_superuser %}
 <li class="submenu">
     <a href="#">

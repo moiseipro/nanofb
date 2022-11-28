@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from users.models import User
 from references.models import UserSeason, UserTeam
+from nanofootball.views import util_check_access
 import analytics.v_api as v_api
 from system_icons.views import get_ui_elements
 
@@ -27,6 +28,10 @@ def analytics(request):
     if not request.user.is_authenticated:
         return redirect("authorization:login")
     cur_user = User.objects.filter(email=request.user).only("club_id")
+    if not util_check_access(cur_user[0], 
+        {'perms_user': ["analytics.view_analytics"], 'perms_club': ["analytics.view_analytics"]}
+    ):
+        return redirect("users:profile")
     cur_team = -1
     cur_season = -1
     try:
