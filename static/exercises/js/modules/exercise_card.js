@@ -670,6 +670,7 @@ function RenderVideo(value, htmlElem, windowElem) {
             } else if ('youtube' in data['links'] && data['links']['youtube'] != '') {
                 $(htmlElem).find('.vjs-poster').addClass('d-none');
                 windowElem.src({techOrder: ["youtube"], type: 'video/youtube', src: `https://www.youtube.com/watch?v=${data['links']['youtube']}`});
+                windowElem.poster('');
             }
         } else {
             $(htmlElem).addClass('d-none');
