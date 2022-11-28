@@ -91,7 +91,7 @@ $(window).on('load', function (){
         generateNewCalendar()
     })
     $('.move_to_next_month').on('click', function () {
-        today = moment(today, 'DD/MM/YYYY')
+        today = moment(strDate, 'DD/MM/YYYY')
         days = today.add(1, 'month').daysInMonth()-1
         today.set('date', days/2)
         middleDay = Math.floor(days%2==0 ? days/2 : days/2)
