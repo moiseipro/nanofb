@@ -104,7 +104,7 @@
                                                 {% for match in matches %}
                                                 <tr class="match-row" data-id="{{ match.event_id }}">
                                                     <td class="text-center">{{ forloop.counter }}</td>
-                                                    <td class="text-center">{{ match.date }}</td>
+                                                    <td class="text-center" data-order="{{ match.date_timestamp }}">{{ match.date }}</td>
                                                     <td class="text-center">{{ match.date_day }}</td>
                                                     <td class="text-center">{{ match.date_time }}</td>
                                                     <td class="text-center">{{ match.duration }}</td>

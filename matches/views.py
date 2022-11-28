@@ -49,6 +49,7 @@ def matches(request):
     for match in f_matches:
         match_obj = model_to_dict(match)
         match_obj['team_name'] = match.team_id.name
+        match_obj['date_timestamp'] = v_api.get_date_timestamp_from_datetime(match.event_id.date)
         match_obj['date'] = v_api.get_date_str_from_datetime(match.event_id.date, request.LANGUAGE_CODE)
         match_obj['date_day'] = v_api.get_day_from_datetime(match.event_id.date, request.LANGUAGE_CODE)
         match_obj['date_time'] = v_api.get_time_from_datetime(match.event_id.date)
