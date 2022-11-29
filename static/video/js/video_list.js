@@ -25,8 +25,10 @@ function generate_ajax_video_table(scroll_y = ''){
             }
         },
         rowCallback: function( row, data ) {
-            if ( data.DT_RowId == Cookies.get('video_id')) {
-                $(row).addClass('selected');
+            if(Cookies.get('video_id')){
+                if ( data.DT_RowId == Cookies.get('video_id')) {
+                    $(row).addClass('selected');
+                }
             }
         },
         rowId: 'id',
