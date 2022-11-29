@@ -92,10 +92,10 @@
 .right-col-card.short {
     height: 78vh !important;
 }
-.video-list-container {
+/* .video-list-container {
     height: 65vh !important;
     overflow-y: auto;
-}
+} */
 
 
 .vert-line-left {
