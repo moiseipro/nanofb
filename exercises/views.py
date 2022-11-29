@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
+from django.db.models import Q, Count, F
 from users.models import User
 from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, ClubExercise, AdminExercise
 from references.models import UserSeason, UserTeam
+from video.models import VideoSource
+from taggit.models import Tag
 from nanofootball.views import util_check_access
 import exercises.v_api as v_api
 from system_icons.views import get_ui_elements
@@ -117,6 +120,12 @@ def exercise(request):
     if not found_exercise and not is_new_exs:
         return redirect('/exercises')
     found_folders, found_club_folders, found_nfb_folders, refs = v_api.get_exercises_params(request, cur_user, cur_team)
+
+    video_params = {}
+    video_params['sources'] = VideoSource.objects.all().annotate(videos=Count('video')).order_by('-videos')
+    video_params['folders'] = AdminFolder.objects.exclude(parent=None).order_by('parent', 'order')
+    video_params['tags'] = Tag.objects.all()
+
     return render(request, 'exercises/base_exercise.html', {
         'exs': found_exercise,
         'folders': found_folders, 
@@ -125,6 +134,7 @@ def exercise(request):
         'nfb_folders': found_nfb_folders, 
         'refs': refs,
         'menu_exercises': 'active',
+        'video_params': video_params,
         'seasons_list': request.seasons_list,
         'teams_list': request.teams_list,
         'ui_elements': get_ui_elements(request)

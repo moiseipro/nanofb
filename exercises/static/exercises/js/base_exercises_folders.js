@@ -188,6 +188,7 @@ $(function() {
         let shortName = $('#folderChangeModal').find('input[name="short_name"]').val();
         let name = $('#folderChangeModal').find('input[name="name"]').val();
         let data = {'edit': 1, 'id': cFolderIdToChange, 'parent_id': cParentIdToChange, 'name': name, 'short_name': shortName};
+        $('.page-loader-wrapper').fadeIn();
         $.ajax({
             headers:{"X-CSRFToken": csrftoken},
             data: data,
@@ -196,6 +197,8 @@ $(function() {
             url: "folders_api",
             success: function (res) {
                 if (res.data.type && res.data.type == "add") {
+                    window.location.reload();
+                    return;
                     let hasParent = $('.folders_list').find(`.folder-elem[data-id="${res.data.parent_id}"]`).length > 0;
                     let elemToAdd = `
                         <li class="list-group-item p-1">
@@ -245,6 +248,9 @@ $(function() {
             },
             error: function (res) {
                 console.log(res.responseJSON.errors)
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
             }
         });
     });
@@ -252,6 +258,7 @@ $(function() {
     $('#folderDeleteModal').on('click', 'button[type="submit"]', (e) => {
         $('#folderDeleteModal').find('button.btn-submit').prop('disabled', true);
         let data = {'id': cFolderIdToDelete, 'delete': 1};
+        $('.page-loader-wrapper').fadeIn();
         $.ajax({
             headers:{"X-CSRFToken": csrftoken},
             data: data,
@@ -260,6 +267,8 @@ $(function() {
             url: "folders_api",
             success: function (res) {
                 if (res.data.type && res.data.type == "delete") {
+                    window.location.reload();
+                    return;
                     $('.folders_list').find(`.folder-elem[data-id="${res.data.id}"]`).parent().remove();
                     $('.folders_list').find(`.folder-elem[data-parent="${res.data.id}"]`).find('.folder-point').html(`
                         <span class="icon-custom icon--folder ml-1" style="--i-w: 1em; --i-h: 1em;"></span>
@@ -270,6 +279,9 @@ $(function() {
             },
             error: function (res) {
                 console.log(res.responseJSON.errors)
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
             }
         });
     });

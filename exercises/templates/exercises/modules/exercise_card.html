@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <div class="modal-content1" id="exerciseCard">
     <div class="modal-header py-2 d-none exercise-card-header">
         <div class="row w-100">
@@ -604,6 +606,46 @@
                                             <tbody class="video-current-body">
                                             </tbody>
                                         </table>
+                                    </div>
+                                </div>
+                                <div class="col-12 video-filter-container mb-2">
+                                    <div class="row">
+                                        <div class="col-md-1 col-lg-1">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <button id="video-filters-clear" class="btn btn-secondary btn-block font-weight-bold"><i class="fa fa-reply" aria-hidden="true"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-lg-4 px-1 form-select-sm">
+                                            <select class="select form-control form-control-sm video-source" data-theme="bootstrap4">
+                                                <option value="">{% trans 'All' %}</option>
+                                                {% for source in video_params.sources %}
+                                                    <option value="{{ source.name }}" data-count="{{ source.videos }}">{{ source.name }}</option>
+                                                {% empty %}
+                                                    <option value="">{% trans 'No sources' %}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 col-lg-4 px-1 form-select-sm">
+                                            <select class="select form-control form-control-sm exercise-folder" data-theme="bootstrap4">
+                                                <option value="">{% trans 'All' %}</option>
+                                                {% for folder in video_params.folders %}
+                                                    <option value="{{ folder.short_name }}">{{ folder.name }}</option>
+                                                {% empty %}
+                                                    <option value="">{% trans 'No sources' %}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3 col-lg-3 pl-1 form-select-sm">
+                                            <select class="select form-control form-control-sm video-tags-filter" multiple data-theme="bootstrap4">
+                                                {% for tag in video_params.tags %}
+                                                    <option value="{{ tag.name }}">{{ tag.name }}</option>
+                                                {% empty %}
+                                                    <option value="">{% trans 'No tags' %}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-12 video-list-container">

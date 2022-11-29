@@ -701,8 +701,12 @@ def POST_copy_exs(request, cur_user, cur_team):
                 for video in videos:
                     video.pk = None
                     video.exercise_nfb = None
-                    video.exercise_user = new_exs
+                    video.exercise_user = None
                     video.exercise_club = None
+                    if request.user.club_id is not None:
+                        video.exercise_club = new_exs
+                    else:
+                        video.exercise_user = new_exs
                     video.save()
                     new_exs.videos.through.objects.add(video)
                 res_data = {'videos': "OK"}
@@ -1479,14 +1483,22 @@ def GET_get_exs_graphic_content(request, cur_user, cur_team):
         if c_exs.exists() and c_exs[0].id != None:
             res_exs = c_exs.values()[0]
     elif folder_type == FOLDER_CLUB:
-        pass
+        if request.user.club_id is not None:
+            if not util_check_access(cur_user, {
+                'perms_club': ["exercises.view_clubexercise"]
+            }):
+                return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        c_exs = ClubExercise.objects.filter(id=exs_id, visible=True, club=request.user.club_id)
+        if c_exs.exists() and c_exs[0].id != None:
+            res_exs = c_exs.values()[0]
     else:
         return JsonResponse({"errors": "Exercise not found.", "success": False}, status=400)
-    res_exs['description'] = get_by_language_code(res_exs['description'], request.LANGUAGE_CODE)
-    res_exs['scheme_data'] = get_exs_scheme_data(res_exs['scheme_data'])
-    res_exs['video_data'] = get_exs_video_data(res_exs['video_data'])
-    res_exs['animation_data'] = get_exs_animation_data(res_exs['animation_data'])
-    res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type, request.user.club_id)
+    if c_exs is not None and c_exs.exists() and c_exs[0].id != None:
+        res_exs['description'] = get_by_language_code(res_exs['description'], request.LANGUAGE_CODE)
+        res_exs['scheme_data'] = get_exs_scheme_data(res_exs['scheme_data'])
+        res_exs['video_data'] = get_exs_video_data(res_exs['video_data'])
+        res_exs['animation_data'] = get_exs_animation_data(res_exs['animation_data'])
+        res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type, request.user.club_id)
     return JsonResponse({"data": res_exs, "success": True}, status=200)
 
 
