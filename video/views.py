@@ -253,7 +253,7 @@ class VideoViewSet(viewsets.ModelViewSet):
                 print(content)
 
             fs.delete(file_name)
-        elif 'second_screensaver' in data:
+        elif 'second_screensaver' in data and 'nftv' in data.links and data.links['nftv'] != '':
             second_screensaver = data['second_screensaver']
             if second_screensaver == '':
                 second_screensaver = "1"

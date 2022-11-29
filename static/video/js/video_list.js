@@ -22,8 +22,14 @@ function generate_ajax_video_table(scroll_y = ''){
             url:'/video/api/all?format=datatables',
             data: function(data){
                 console.log(data)
-            },
+            }
         },
+        rowCallback: function( row, data ) {
+            if ( data.DT_RowId == Cookies.get('video_id')) {
+                $(row).addClass('selected');
+            }
+        },
+        rowId: 'id',
         columns: [
             {'data': 'id', render: function (data, type, row, meta) {
 

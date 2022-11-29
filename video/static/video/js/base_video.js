@@ -54,6 +54,7 @@ $(window).on('load', function (){
             if(type=='row') {
                 toggle_edit_mode(false)
                 cur_edit_data = rowData[0]
+                Cookies.set('video_id', cur_edit_data.id, { expires: 1 })
                 ajax_video_info(cur_edit_data.id)
             }
         })
@@ -117,6 +118,8 @@ $('#video-filters-clear').on('click', function (){
     $('.video-tags-filter').val(null).trigger('change');
     $('input[type="search"]').val('').change()
     video_table.columns([1]).search('').draw()
+    Cookies.remove('page')
+    Cookies.remove('video_id')
 })
 
 
@@ -207,11 +210,19 @@ $('#video-action-form').submit(function (event) {
     ajax_video_action($(this).attr('method'), form_Data, 'update', cur_edit_data ? cur_edit_data.id : '').done(function (data) {
         video_table.ajax.reload()
         cur_edit_data = data
+        $('#cancel-edit-button').click()
         ajax_video_info(cur_edit_data.id)
+        if(Cookies.get('page')) video_table.page(parseInt(Cookies.get('page'))).draw(false);
     })
 
     event.preventDefault();
 });
+
+$(document).on("page.dt", () => {
+    let info = video_table.page.info()
+    Cookies.set('page', info.page, { expires: 1 })
+    console.log(info.page)
+})
 
 function ajax_video_action(method, data, action = '', id = '', func = '') {
     let url = "/video/api/all/"
