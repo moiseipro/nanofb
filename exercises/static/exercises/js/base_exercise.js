@@ -50,12 +50,18 @@ $(function() {
         let data_tag = $( this ).val();
         video_table.columns([7]).search(data_tag).draw();
     });
+    $('.video-search').on('keyup', function (){
+        let data_search = $( this ).val();
+        video_table.search(data_search).draw();
+    });
     $('#video-filters-clear').on('click', function (){
         $('.video-source').val(null).trigger('change');
         $('.exercise-folder').val(null).trigger('change');
         $('.video-tags-filter').val(null).trigger('change');
-        $('input[type="search"]').val('').change();
-        video_table.columns([1]).search('').draw();
+        $('.video-search').val('').trigger('change');
+        video_table.search('').draw();
+        // $('.video-list-container').find('input[type="search"]').val('').change();
+        // video_table.columns([1]).search('').draw();
     });
     // END For videos' filter
 

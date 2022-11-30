@@ -541,3 +541,9 @@ a.text-dark:hover {
 .video-current-body > tr {
     background-color: #e4eeff;
 }
+
+#video > tbody > tr.current {
+    background-color: #b0eca8;
+}
+
+
