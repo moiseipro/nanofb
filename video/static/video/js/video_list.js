@@ -18,6 +18,7 @@ function generate_ajax_video_table(scroll_y = ''){
         columnDefs: [
             { "searchable": false, "targets": 0 }
         ],
+        order: [[3, 'asc']],
         ajax: {
             url:'/video/api/all?format=datatables',
             data: function(data){
@@ -41,6 +42,7 @@ function generate_ajax_video_table(scroll_y = ''){
             {'data': 'videosource_name', 'name': 'videosource_name'},
             {'data': 'exercises', 'name': 'exercises', render: function (data, type, row, meta) {
                 let view_data = ''
+                console.log(meta)
                 data.forEach((exercise, index) => {
                     console.log(exercise)
                     if(index>0) view_data += `, `
@@ -49,7 +51,7 @@ function generate_ajax_video_table(scroll_y = ''){
                 });
                 return view_data;
             }},
-            {'data': 'upload_date', 'name': 'upload_date', "searchable": false},
+            //{'data': 'upload_date', 'name': 'upload_date', "searchable": false},
             {'data': 'duration', "searchable": false},
             {'data': 'name', 'name': 'name'},
             {'data': 'taggit', 'name': 'taggit', 'defaultContent': "---", "orderable": false},

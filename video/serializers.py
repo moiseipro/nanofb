@@ -49,7 +49,7 @@ class VideoSerializer(TaggitSerializer, serializers.ModelSerializer):
             'id', 'videosource_id', 'name', 'duration', 'language', 'music', 'links', 'upload_date', 'taggit',
             'videosource_name', 'exercises'
         )
-        datatables_always_serialize = ('id', 'taggit')
+        datatables_always_serialize = ('id', 'taggit', 'exercises')
 
 
 class VideoUpdateSerializer(TaggitSerializer, serializers.ModelSerializer):
