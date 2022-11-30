@@ -796,6 +796,9 @@ $(function() {
         StopVideoForEdit();
         CheckSelectedRowInVideoTable();
         $('.video-editor').removeClass('d-none');
+        try {
+            video_table.columns.adjust().draw();
+        } catch(e) {}
     });
     $('#exerciseCard').on('click', '#openVideo2', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
@@ -810,6 +813,9 @@ $(function() {
         StopVideoForEdit();
         CheckSelectedRowInVideoTable();
         $('.video-editor').removeClass('d-none');
+        try {
+            video_table.columns.adjust().draw();
+        } catch(e) {}
     });
     $('#exerciseCard').on('click', '#openAnimation1', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
@@ -824,6 +830,9 @@ $(function() {
         StopVideoForEdit();
         CheckSelectedRowInVideoTable();
         $('.video-editor').removeClass('d-none');
+        try {
+            video_table.columns.adjust().draw();
+        } catch(e) {}
     });
     $('#exerciseCard').on('click', '#openAnimation2', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
@@ -838,6 +847,9 @@ $(function() {
         StopVideoForEdit();
         CheckSelectedRowInVideoTable();
         $('.video-editor').removeClass('d-none');
+        try {
+            video_table.columns.adjust().draw();
+        } catch(e) {}
     });
 
 
@@ -1069,7 +1081,7 @@ $(function() {
 
     window.currentVideoId = -1;
     try {
-        generate_ajax_video_table();
+        generate_ajax_video_table('50vh');
         $('#video').on('xhr.dt', (e, settings, json, xhr) => {
             setTimeout(() => {
                 let value = -1;
@@ -1099,7 +1111,7 @@ $(function() {
             .on( 'deselect', (e, dt, type, indexes) => {});
         $('#video').on('click', 'tr', (e) => {
             let isSelected = $(e.currentTarget).hasClass('selected');
-            if (isSelected) {
+            if (!isSelected) {
                 RenderVideo(-1, $('.video-editor').find('#video-player-card-edit'), window.videoPlayerCardEdit);
                 CheckSelectedRowInVideoTable(true);
             }
