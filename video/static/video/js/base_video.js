@@ -163,6 +163,8 @@ function ajax_video_info(id) {
 
 $('#delete-video').on('click', function (){
     ajax_video_action('DELETE', null, 'delete', cur_edit_data ? cur_edit_data.id : '').done(function (data) {
+        Cookies.remove('page')
+        Cookies.remove('video_id')
         video_table.ajax.reload()
         cur_edit_data = null
         $('#video-card-modal').modal('hide')

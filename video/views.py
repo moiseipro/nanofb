@@ -283,7 +283,7 @@ class VideoViewSet(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         try:
             instance = self.get_object()
-            is_delete = True
+            is_delete = False
             server_id = None
             print(instance.links)
             if 'nftv' in instance.links:
@@ -299,7 +299,8 @@ class VideoViewSet(viewsets.ModelViewSet):
                 content = response.json()
                 print(content)
                 video_data = content['data'][0]
-                is_delete = video_data['success']
+                is_delete = video_data['success'] or 'error' in video_data and video_data[
+                    'error'] == 'not found by this ids'
             if is_delete:
                 self.perform_destroy(instance)
         except Http404:
