@@ -618,7 +618,6 @@ async function SetCurrentVideo(value) {
                     <td>${data.id}</td>
                     <td>${data.videosource_name}</td>
                     <td>${exsFoldersStr}</td>
-                    <td>${data.upload_date}</td>
                     <td>${data.duration}</td>
                     <td>${data.name}</td>
                     <td>${tags}</td>
