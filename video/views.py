@@ -283,7 +283,7 @@ class VideoViewSet(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         try:
             instance = self.get_object()
-            is_delete = False
+            is_delete = True
             server_id = None
             print(instance.links)
             if 'nftv' in instance.links:
@@ -332,7 +332,7 @@ def delete_video_nf(video_id):
 
 def delete_video_obj_nf(video_obj):
     instance = video_obj
-    is_delete = False
+    is_delete = True
     server_id = None
     if 'nftv' in instance.links:
         server_id = instance.links['nftv']
