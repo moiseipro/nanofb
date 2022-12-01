@@ -289,18 +289,7 @@ class VideoViewSet(viewsets.ModelViewSet):
             if 'nftv' in instance.links:
                 server_id = instance.links['nftv']
             if server_id:
-                url = 'http://213.108.4.28/api/remove_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
-                post_data = {
-                    "videos": [
-                        {"id": server_id},
-                    ]
-                }
-                response = requests.post(url, json=post_data, headers={'Content-Type': 'application/json'})
-                content = response.json()
-                print(content)
-                video_data = content['data'][0]
-                is_delete = video_data['success'] or 'error' in video_data and video_data[
-                    'error'] == 'not found by this ids'
+                is_delete = delete_video_nf(server_id)
             if is_delete:
                 self.perform_destroy(instance)
         except Http404:
@@ -323,6 +312,44 @@ class VideoViewSet(viewsets.ModelViewSet):
         # exs_video = ExerciseVideo.objects.filter(video__isnull=False).values('video')
         # print(exs_video[0])
         return Video.objects.all()#exclude(id__in=[o['video'] for o in exs_video])
+
+
+def delete_video_nf(video_id):
+    url = 'http://213.108.4.28/api/remove_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
+    post_data = {
+        "videos": [
+            {"id": video_id},
+        ]
+    }
+    response = requests.post(url, json=post_data, headers={'Content-Type': 'application/json'})
+    content = response.json()
+    print(content)
+    video_data = content['data'][0]
+    is_delete = video_data['success'] or 'error' in video_data and video_data[
+        'error'] == 'not found by this ids'
+    return is_delete
+
+
+def delete_video_obj_nf(video_obj):
+    instance = video_obj
+    is_delete = False
+    server_id = None
+    if 'nftv' in instance.links:
+        server_id = instance.links['nftv']
+    if server_id:
+        url = 'http://213.108.4.28/api/remove_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
+        post_data = {
+            "videos": [
+                {"id": server_id},
+            ]
+        }
+        response = requests.post(url, json=post_data, headers={'Content-Type': 'application/json'})
+        content = response.json()
+        print(content)
+        video_data = content['data'][0]
+        is_delete = video_data['success'] or 'error' in video_data and video_data[
+            'error'] == 'not found by this ids'
+    return is_delete
 
 
 class VideoExerciseViewSet(viewsets.ModelViewSet):

@@ -111,6 +111,10 @@ $('.video-tags-filter').on('change', function (){
     video_table.columns([7]).search(data_tag).draw()
 })
 
+$('#search-video-table').on('change', function () {
+    video_table.search($(this).val()).draw();
+})
+
 //Сбросить фильтры
 $('#video-filters-clear').on('click', function (){
     $('.video-source').val(null).trigger('change');
