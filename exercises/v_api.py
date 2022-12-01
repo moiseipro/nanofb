@@ -9,6 +9,7 @@ from references.models import ExsCategory, ExsAdditionalData, ExsTitleName
 from references.models import UserSeason, ClubSeason, UserTeam, ClubTeam
 from video.models import Video
 from nanofootball.views import util_check_access
+from video.views import delete_video_obj_nf
 
 
 LANG_CODE_DEFAULT = "en"
@@ -1022,8 +1023,9 @@ def POST_delete_exs(request, cur_user, cur_team):
                     exs_videos = c_exs[0].videos.through.objects.filter(exercise_nfb=c_exs[0])
                     for video in exs_videos:
                         if video.video is not None:
-                            
-                            video.video.delete()
+                            ready_to_delete = delete_video_obj_nf(video.video)
+                            if ready_to_delete:
+                                video.video.delete()
                     if delete_type == 2:
                         c_exs.delete()
             return JsonResponse({"data": {"id": exs_id}, "success": True}, status=200)
