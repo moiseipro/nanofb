@@ -414,7 +414,7 @@ function DeleteExerciseOne() {
         buttons: ["Отмена", "Подтвердить"],
         dangerMode: true,
     });
-    if ($('#splitCol_exscard_2').find('.delete-exs-radio')) {
+    if ($('#splitCol_exscard_2').find('.delete-exs-radio').length > 0) {
         let htmlStr = `<br>${$('#splitCol_exscard_2').find('.delete-exs-radio').html()}<br>`;
         $(document).find('.swal-modal > .swal-text').prepend(htmlStr);
     }
