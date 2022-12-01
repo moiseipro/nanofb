@@ -11,6 +11,12 @@
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openVideo2">Видео 2</button>
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openAnimation1">Анимация 1</button>
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openAnimation2">Анимация 2</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom exs-change btn-view size-max-w-x" data-dir="prev" style="--w-max-x:5%;" title="Предыдущее">
+                    <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom exs-change btn-view size-max-w-x" data-dir="next" style="--w-max-x:5%;" title="Следующее">
+                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                </button>
                 <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x selected" data-type="add" data-id="list" title="Режим добавления: список" style="--w-max-x:3%;">
                     <i class="fa fa-list-alt" aria-hidden="true"></i>
                 </button>
@@ -346,6 +352,30 @@
                                         <i class="fa fa-floppy-o" aria-hidden="true"></i>
                                     </button>
                                 </div>
+                                {% if user.is_superuser %}
+                                <div class="col-12 d-none">
+                                    <div class="delete-exs-radio">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input type="radio" class="form-check-input" name="delete_exs_type" value="0" checked>
+                                                Удалить только упражнение
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input type="radio" class="form-check-input" name="delete_exs_type" value="1">
+                                                Удалить только видео
+                                            </label>
+                                        </div>
+                                        <div class="form-check disabled">
+                                            <label class="form-check-label">
+                                                <input type="radio" class="form-check-input" name="delete_exs_type" value="2">
+                                                Удалить упражнение и видео
+                                            </label>
+                                        </div> 
+                                    </div>
+                                </div>
+                                {% endif %}
                                 <div class="col-12 mt-2">
                                     <div id="carouselSchema" class="carousel slide" data-ride="carousel" data-interval="false">
                                         <ol class="carousel-indicators">
@@ -591,23 +621,6 @@
                     <div class="row">
                         <div class="col-8">
                             <div class="row">
-                                <div class="col-12 video-current-container mb-2">
-                                    <div class="container table-responsive px-0">
-                                        <table class="table table-sm table-bordered" style="table-layout: fixed;">
-                                            <colgroup>
-                                                <col span="1" style="width: 8%;">
-                                                <col span="1" style="width: 8%;">
-                                                <col span="1" style="width: 10%;">
-                                                <col span="1" style="width: 12%;">
-                                                <col span="1" style="width: 11%;">
-                                                <col span="1" style="width: 25%;">
-                                                <col span="1" style="width: 26%;">
-                                            </colgroup>
-                                            <tbody class="video-current-body">
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
                                 <div class="col-12 video-filter-container mb-2">
                                     <div class="row">
                                         <div class="col-md-1 col-lg-1">
@@ -627,7 +640,7 @@
                                                 {% endfor %}
                                             </select>
                                         </div>
-                                        <div class="col-md-4 col-lg-4 px-1 form-select-sm">
+                                        <div class="col-md-4 col-lg-3 px-1 form-select-sm">
                                             <select class="select form-control form-control-sm exercise-folder" data-theme="bootstrap4">
                                                 <option value="">{% trans 'All' %}</option>
                                                 {% for folder in video_params.folders %}
@@ -637,7 +650,7 @@
                                                 {% endfor %}
                                             </select>
                                         </div>
-                                        <div class="col-md-3 col-lg-3 pl-1 form-select-sm">
+                                        <div class="col-md-3 col-lg-2 px-1 form-select-sm">
                                             <select class="select form-control form-control-sm video-tags-filter" multiple data-theme="bootstrap4">
                                                 {% for tag in video_params.tags %}
                                                     <option value="{{ tag.name }}">{{ tag.name }}</option>
@@ -645,6 +658,9 @@
                                                     <option value="">{% trans 'No tags' %}</option>
                                                 {% endfor %}
                                             </select>
+                                        </div>
+                                        <div class="col-md-2 col-lg-2 pl-1 form-select-sm">
+                                            <input type="search" class="form-control video-search" placeholder="Поиск" aria-controls="video">
                                         </div>
                                     </div>
                                 </div>
@@ -660,6 +676,9 @@
                                         <video id="video-player-card-edit" class="video-js resize-block not-active">
                                         </video>
                                     </div>
+                                </div>
+                                <div class="col-12 mt-2 video-info text-center">
+
                                 </div>
                                 <div class="col-12 mt-2">
                                     <button class="btn btn-primary btn-sm video-toggle" data-state="0">Прикрепить / Открепить</button>

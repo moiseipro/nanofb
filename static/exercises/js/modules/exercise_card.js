@@ -407,19 +407,24 @@ function SaveExerciseOne() {
 }
 
 function DeleteExerciseOne() {
-    swal({
+    let deleteSwal = swal({
         title: "Вы точно хотите удалить упражнение?",
-        text: "После удаления данное упражнение невозможно будет восстановить!",
+        text: `После удаления данное упражнение невозможно будет восстановить!`,
         icon: "warning",
         buttons: ["Отмена", "Подтвердить"],
         dangerMode: true,
-    })
-    .then((willDelete) => {
+    });
+    if ($('#splitCol_exscard_2').find('.delete-exs-radio')) {
+        let htmlStr = `<br>${$('#splitCol_exscard_2').find('.delete-exs-radio').html()}<br>`;
+        $(document).find('.swal-modal > .swal-text').prepend(htmlStr);
+    }
+    deleteSwal.then((willDelete) => {
         if (willDelete) {
             let searchParams = new URLSearchParams(window.location.search);
             let folderType = searchParams.get('type');
             let exsId = $('#exerciseCard').attr('data-exs');
-            let data = {'delete_exs': 1, 'exs': exsId, 'type': folderType};
+            let deleteType = $(document).find('.swal-modal').find('input[name="delete_exs_type"]:checked').val();
+            let data = {'delete_exs': 1, 'exs': exsId, 'type': folderType, 'delete_type': deleteType};
             $('.page-loader-wrapper').fadeIn();
             $.ajax({
                 headers:{"X-CSRFToken": csrftoken},
@@ -506,6 +511,7 @@ function ToggleExsDir(dir = 0) {
     } catch(e) {}
     const params = new URLSearchParams(window.location.search);
     let nfbVal = params.get('nfb') == '1' ? 1 : 0;
+    let folderType = params.get('type');
     let isPrevOn = false, isNextOn = false;
     try {
         isPrevOn = window.exsList.list[window.exsList.index - 1] ? true : false;
@@ -522,7 +528,7 @@ function ToggleExsDir(dir = 0) {
         // dir = -1 -> previous exs
         case -1:
             if (isPrevOn) {
-                window.location.href = `/exercises/exercise?id=${window.exsList.list[window.exsList.index - 1]}&nfb=${nfbVal}`;
+                window.location.href = `/exercises/exercise?id=${window.exsList.list[window.exsList.index - 1]}&nfb=${nfbVal}&type=${folderType}`;
                 try {
                     lastExsData.exs = window.exsList.list[window.exsList.index - 1];
                 } catch(e) {}
@@ -532,7 +538,7 @@ function ToggleExsDir(dir = 0) {
         // dir = 1 -> next exs
         case 1:
             if (isNextOn) {
-                window.location.href = `/exercises/exercise?id=${window.exsList.list[window.exsList.index + 1]}&nfb=${nfbVal}`;
+                window.location.href = `/exercises/exercise?id=${window.exsList.list[window.exsList.index + 1]}&nfb=${nfbVal}&type=${folderType}`;
                 try {
                     lastExsData.exs = window.exsList.list[window.exsList.index + 1];
                 } catch(e) {}
@@ -599,46 +605,43 @@ function SelectRowInVideoTable(table, value) {
 }
 
 async function SetCurrentVideo(value) {
-    let htmlStr = "";
     ajax_get_video_data(value)
         .then((data) => {
+            let exsFoldersStr = "";
+            for (let exs_ind in data.exercises) {
+                let elem = data.exercises[exs_ind];
+                if (elem.folder && Array.isArray(elem.videos)) {
+                    exsFoldersStr += `
+                        ${elem.folder.short_name} <span class="other-exercises font-weight-bold" data-ids="${elem.videos.toString()}">(${elem.videos.length})</span>
+                    `;
+                }
+            }
             let tags = Array.isArray(data.taggit) ? data.taggit.toString() : "";
-            htmlStr = `
-                <tr class="text-center">
-                    <td>
-                        <i class="fa fa-bookmark-o" aria-hidden="true"></i>
-                    </td>
+            let htmlStr = `
+                <tr id="${data.id}" role="row" class="odd current">
+                    <td class="sorting_1"> -> </td>
                     <td>${data.id}</td>
                     <td>${data.videosource_name}</td>
-                    <td>${data.upload_date}</td>
+                    <td>${exsFoldersStr}</td>
                     <td>${data.duration}</td>
                     <td>${data.name}</td>
                     <td>${tags}</td>
                 </tr>
             `;
+            $('#video').find('tbody').find('tr.current').remove();
+            $('#video').find('tbody').prepend(htmlStr);
+
             $('.video-editor').find('.video-toggle').attr('data-state', '1');
             $('.video-editor').find('.video-toggle').text('Открепить');
+            $('.video-editor').find('.video-info').text(`Прикреплено. ID: ${data.id}, ${data.name}`);
         })
         .catch((e) => {
-            htmlStr = `
-                <tr class="text-center">
-                    <td>
-                        <i class="fa fa-bookmark-o" aria-hidden="true"></i>
-                    </td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                </tr>
-            `;
+            console.log(e)
             $('.video-editor').find('.video-toggle').attr('data-state', '0');
             $('.video-editor').find('.video-toggle').text('Прикрепить');
+            $('.video-editor').find('.video-info').text(``);
         })
-        .finally(() => {
-            $('.video-editor').find('.video-current-body').html(htmlStr);
-        });
+        .finally(() => {});
 }
 
 async function GoToVideoLink(value) {
@@ -1081,7 +1084,7 @@ $(function() {
 
     window.currentVideoId = -1;
     try {
-        generate_ajax_video_table('50vh');
+        generate_ajax_video_table('56vh');
         $('#video').on('xhr.dt', (e, settings, json, xhr) => {
             setTimeout(() => {
                 let value = -1;
@@ -1095,6 +1098,10 @@ $(function() {
                 } catch(e) {}
                 SelectRowInVideoTable(video_table, value);
             }, 500);
+        });
+
+        $('#video').on('draw.dt', () => {
+            SetCurrentVideo(window.currentVideoId);
         });
 
         video_table
