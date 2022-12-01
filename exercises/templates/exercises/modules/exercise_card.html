@@ -352,6 +352,30 @@
                                         <i class="fa fa-floppy-o" aria-hidden="true"></i>
                                     </button>
                                 </div>
+                                {% if user.is_superuser %}
+                                <div class="col-12 d-none">
+                                    <div class="delete-exs-radio">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input type="radio" class="form-check-input" name="delete_exs_type" value="0" checked>
+                                                Удалить только упражнение
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input type="radio" class="form-check-input" name="delete_exs_type" value="1">
+                                                Удалить только видео
+                                            </label>
+                                        </div>
+                                        <div class="form-check disabled">
+                                            <label class="form-check-label">
+                                                <input type="radio" class="form-check-input" name="delete_exs_type" value="2">
+                                                Удалить упражнение и видео
+                                            </label>
+                                        </div> 
+                                    </div>
+                                </div>
+                                {% endif %}
                                 <div class="col-12 mt-2">
                                     <div id="carouselSchema" class="carousel slide" data-ride="carousel" data-interval="false">
                                         <ol class="carousel-indicators">

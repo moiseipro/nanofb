@@ -407,19 +407,24 @@ function SaveExerciseOne() {
 }
 
 function DeleteExerciseOne() {
-    swal({
+    let deleteSwal = swal({
         title: "Вы точно хотите удалить упражнение?",
-        text: "После удаления данное упражнение невозможно будет восстановить!",
+        text: `После удаления данное упражнение невозможно будет восстановить!`,
         icon: "warning",
         buttons: ["Отмена", "Подтвердить"],
         dangerMode: true,
-    })
-    .then((willDelete) => {
+    });
+    if ($('#splitCol_exscard_2').find('.delete-exs-radio')) {
+        let htmlStr = `<br>${$('#splitCol_exscard_2').find('.delete-exs-radio').html()}<br>`;
+        $(document).find('.swal-modal > .swal-text').prepend(htmlStr);
+    }
+    deleteSwal.then((willDelete) => {
         if (willDelete) {
             let searchParams = new URLSearchParams(window.location.search);
             let folderType = searchParams.get('type');
             let exsId = $('#exerciseCard').attr('data-exs');
-            let data = {'delete_exs': 1, 'exs': exsId, 'type': folderType};
+            let deleteType = $(document).find('.swal-modal').find('input[name="delete_exs_type"]:checked').val();
+            let data = {'delete_exs': 1, 'exs': exsId, 'type': folderType, 'delete_type': deleteType};
             $('.page-loader-wrapper').fadeIn();
             $.ajax({
                 headers:{"X-CSRFToken": csrftoken},

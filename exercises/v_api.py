@@ -977,9 +977,15 @@ def POST_delete_exs(request, cur_user, cur_team):
 
     """
     exs_id = -1
+    delete_type = 0
+    delete_type_access = False
     folder_type = request.POST.get("type", "")
     try:
         exs_id = int(request.POST.get("exs", -1))
+    except:
+        pass
+    try:
+        delete_type = int(request.POST.get("delete_type", -1))
     except:
         pass
     c_exs = None
@@ -999,6 +1005,7 @@ def POST_delete_exs(request, cur_user, cur_team):
             'perms_club': ["exercises.delete_adminexercise"]
         }):
             return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        delete_type_access = True
         c_exs = AdminExercise.objects.filter(id=exs_id)
     elif folder_type == FOLDER_CLUB:
         pass
@@ -1006,9 +1013,22 @@ def POST_delete_exs(request, cur_user, cur_team):
         return JsonResponse({"errors": "access_error"}, status=400)
     else:
         try:
-            c_exs.delete()
+            if not delete_type_access:
+                c_exs.delete()
+            else:
+                if delete_type == 0:
+                    c_exs.delete()
+                elif delete_type == 1 or delete_type == 2:
+                    exs_videos = c_exs[0].videos.through.objects.filter(exercise_nfb=c_exs[0])
+                    for video in exs_videos:
+                        if video.video is not None:
+                            
+                            video.video.delete()
+                    if delete_type == 2:
+                        c_exs.delete()
             return JsonResponse({"data": {"id": exs_id}, "success": True}, status=200)
-        except:
+        except Exception as e:
+            print(e)
             return JsonResponse({"errors": "Can't delete exercise"}, status=400)
 
 
