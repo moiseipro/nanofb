@@ -35,7 +35,10 @@
     height: auto;
 }
 
+.exercise-folder {
+    color: black;
+}
 .exercise-folder:hover {
     font-weight: bold;
-    background: #3a87ad;
+    background: lightgrey;
 }
