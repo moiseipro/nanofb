@@ -34,3 +34,8 @@
 .custom-file {
     height: auto;
 }
+
+.exercise-folder:hover {
+    font-weight: bold;
+    background: #3a87ad;
+}
