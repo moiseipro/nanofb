@@ -46,7 +46,7 @@ function generate_ajax_video_table(scroll_y = ''){
                 data.forEach((exercise, index) => {
                     console.log(exercise)
                     if(index>0) view_data += `, `
-                    view_data += exercise.folder.short_name
+                    view_data += `<a href="/exercises/exercise?id=${exercise.id}&nfb=1&type=nfb_folders" class="">${exercise.folder.short_name}</a>`
                     view_data += ` <span class="other-exercises font-weight-bold" data-ids="${exercise.videos.join(", ")}">(${exercise.videos.length>0 ? exercise.videos.length : 0})</span>`
                 });
                 return view_data;
