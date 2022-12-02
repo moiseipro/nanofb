@@ -802,9 +802,9 @@ def POST_edit_exs(request, cur_user, cur_team):
         found_team = ClubTeam.objects.filter(id=cur_team, club_id=request.user.club_id)
     else:
         found_team = UserTeam.objects.filter(id=cur_team, user_id=cur_user)
-    if not found_team or not found_team.exists() or found_team[0].id == None:
-        return JsonResponse({"err": "Team not found.", "success": False}, status=400)
     if folder_type == FOLDER_TEAM:
+        if not found_team or not found_team.exists() or found_team[0].id == None:
+            return JsonResponse({"err": "Team not found.", "success": False}, status=400)
         if not util_check_access(cur_user, {
             'perms_user': ["exercises.change_userexercise", "exercises.add_userexercise"], 
             'perms_club': ["exercises.change_clubexercise", "exercises.add_clubexercise"]
@@ -847,6 +847,8 @@ def POST_edit_exs(request, cur_user, cur_team):
             c_exs = c_exs[0]
             c_exs.folder = c_folder[0]
     elif folder_type == FOLDER_CLUB:
+        if not found_team or not found_team.exists() or found_team[0].id == None:
+            return JsonResponse({"err": "Team not found.", "success": False}, status=400)
         if access_denied:
             return JsonResponse({"err": "Access denied.", "success": False}, status=400)
         pass
