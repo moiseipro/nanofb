@@ -28,9 +28,11 @@ function generate_ajax_video_table(scroll_y = ''){
         createdRow: function(row, data, dataIndex) {
             console.log(data)
             let $dateCell = $(row).find('td:eq(3)'); // get first column
-            let exercise_data = 'folder' in data.exercises[0] ? data.exercises[0].folder.short_name : '';
-            $dateCell
-            .data('order', exercise_data)
+            if(data.exercises.length>0) {
+                let folder_data = 'folder' in data.exercises[0] ? data.exercises[0].folder.short_name : '';
+                $dateCell
+                    .data('order', folder_data)
+            }
         },
         rowCallback: function( row, data ) {
             if(Cookies.get('video_id')){
