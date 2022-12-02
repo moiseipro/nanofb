@@ -298,7 +298,7 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
                         min_to = m_protocol.minute_to if m_protocol.minute_to else 0
                         if min_to - min_from > 0:
                             player_data['res_matches']['matches_count'] += 1
-                            player_data['res_matches']['matches_time'] += min_to - min_from if min_to > 0 else 0
+                            player_data['res_matches']['matches_time'] += min_to - min_from + 1 if min_to > 0 else 0
                             player_data['res_matches']['matches_goals'] += m_protocol.goal if m_protocol.goal else 0
                             player_data['res_matches']['matches_penalty'] += m_protocol.penalty if m_protocol.penalty else 0
                             player_data['res_matches']['matches_pass'] += m_protocol.p_pass if m_protocol.p_pass else 0
