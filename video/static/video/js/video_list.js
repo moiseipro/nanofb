@@ -25,6 +25,13 @@ function generate_ajax_video_table(scroll_y = ''){
                 console.log(data)
             }
         },
+        createdRow: function(row, data, dataIndex) {
+            console.log(data)
+            let $dateCell = $(row).find('td:eq(3)'); // get first column
+            let exercise_data = 'folder' in data.exercises ? data.exercises.folder.short_name : '';
+            $dateCell
+            .data('order', exercise_data)
+        },
         rowCallback: function( row, data ) {
             if(Cookies.get('video_id')){
                 if ( data.DT_RowId == Cookies.get('video_id')) {
@@ -42,9 +49,7 @@ function generate_ajax_video_table(scroll_y = ''){
             {'data': 'videosource_name', 'name': 'videosource_name'},
             {'data': 'exercises', 'name': 'exercises', render: function (data, type, row, meta) {
                 let view_data = ''
-                console.log(meta)
                 data.forEach((exercise, index) => {
-                    console.log(exercise)
                     if(index>0) view_data += `, `
                     view_data += `<a href="/exercises/exercise?id=${exercise.id}&nfb=1&type=nfb_folders" target="_blank" class="exercise-folder">${exercise.folder.short_name}</a>`
                     view_data += ` <span class="other-exercises font-weight-bold" data-ids="${exercise.videos.join(", ")}">(${exercise.videos.length>0 ? exercise.videos.length : 0})</span>`

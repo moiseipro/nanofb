@@ -56,7 +56,7 @@ class VideoGlobalFilter(DatatablesFilterSet):
         field_name='videosource_id__name',
         lookup_expr='exact'
     )
-    exercises = filters.CharFilter(
+    exercises = GlobalCharFilter(
         field_name='adminexercise__folder__short_name',
         lookup_expr='exact'
     )
