@@ -28,7 +28,7 @@ function generate_ajax_video_table(scroll_y = ''){
         createdRow: function(row, data, dataIndex) {
             console.log(data)
             let $dateCell = $(row).find('td:eq(3)'); // get first column
-            let exercise_data = 'folder' in data.exercises ? data.exercises.folder.short_name : '';
+            let exercise_data = 'folder' in data.exercises[0] ? data.exercises[0].folder.short_name : '';
             $dateCell
             .data('order', exercise_data)
         },
