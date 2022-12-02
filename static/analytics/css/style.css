@@ -31,3 +31,28 @@ th.dt-vertical-center, td.dt-vertical-center {
     border-left: black solid 2px !important;
     border-right: black solid 2px !important;
 }
+
+
+.sorting, .sorting_asc, .sorting_desc {
+    background : none;
+}
+.dataTable > thead > tr > th[class*="sort"]:before,
+.dataTable > thead > tr > th[class*="sort"]:after {
+    content: "" !important;
+}
+.dataTable thead > tr > th.sorting_asc, 
+.dataTable thead > tr > th.sorting_desc, 
+.dataTable thead > tr > th.sorting, 
+.dataTable thead > tr > td.sorting_asc, 
+.dataTable thead > tr > td.sorting_desc, 
+.dataTable thead > tr > td.sorting {
+    /* padding-right: inherit !important; */
+    padding-right: .3rem !important;
+}
+
+.dataTable > thead > tr > th.sorting_asc,
+.dataTable > thead > tr > th.sorting_desc,
+.dataTable > tbody > tr > td.sorting_1 {
+    background-color: #ffce904f !important;
+}
+

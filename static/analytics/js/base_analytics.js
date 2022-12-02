@@ -100,7 +100,7 @@ function RenderAnalyticsTable(data) {
             } catch(e) {}
             tmpHtml += `
                 <tr class="analytics-row" data-id="${key}">
-                    <td class="">
+                    <td class="text-center">
                         ${cIndex}
                     </td>
                     <td class="border-custom-right">
