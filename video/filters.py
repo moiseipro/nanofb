@@ -66,7 +66,7 @@ class VideoGlobalFilter(DatatablesFilterSet):
         lookup_expr='exact'
     )
     exercises = GlobalExerciseFilter(
-        field_name='adminexercise__folder__parent || adminexercise__folder__order'
+        field_name='adminexercise__folder__parent && adminexercise__folder__order'
     )
     taggit = GlobalTagFilter(field_name="taggit")
 
