@@ -651,7 +651,6 @@ async function SetCurrentVideo(value) {
 async function GoToVideoLink(value) {
     ajax_get_video_data(value)
         .then((data) => {
-            console.log(data)
             window.open(`/video/?id=${data.id}`, '_blank').focus();
         });
 
@@ -1146,6 +1145,20 @@ $(function() {
         });
         $('.video-editor').on('click', '.video-link', (e) => {
             GoToVideoLink(window.currentVideoId);
+        });
+
+        $('#video-card-modal-open').on('click', (e) => {
+            let cId = -1;
+            try {
+                cId = parseInt($('#video').find('tbody > tr.selected').attr('id'));
+                if (isNaN(cId)) {cId = -1;}
+            } catch(e) {}
+            if (cId != -1) {
+                ajax_get_video_data(cId)
+                .then((data) => {
+                    render_json_block(data);
+                });
+            }
         });
 
     } catch(e) {}
