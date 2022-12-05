@@ -52,7 +52,7 @@
                             <select class="select form-control form-control-sm video-source" data-theme="bootstrap4">
                                 <option value="">{% trans 'All' %}</option>
                                 {% for source in sources %}
-                                    <option value="{{ source.name }}" data-count="{{ source.videos }}">{{ source.name }}</option>
+                                    <option value="{{ source.name }}" data-right="{{ source.videos }}">{{ source.name }}</option>
                                 {% empty %}
                                     <option value="">{% trans 'No sources' %}</option>
                                 {% endfor %}
@@ -62,9 +62,9 @@
                             <select class="select form-control form-control-sm exercise-folder" data-theme="bootstrap4">
                                 <option value="">{% trans 'All' %}</option>
                                 {% for folder in folders %}
-                                    <option value="{{ folder.short_name }}">{{ folder.name }}</option>
+                                    <option value="{{ folder.short_name }}" data-right="{{ folder.short_name }}">{{ folder.name }}</option>
                                 {% empty %}
-                                    <option value="">{% trans 'No sources' %}</option>
+                                    <option value="">{% trans 'No folders' %}</option>
                                 {% endfor %}
                             </select>
                         </div>

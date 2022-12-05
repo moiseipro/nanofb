@@ -25,15 +25,6 @@ function generate_ajax_video_table(scroll_y = ''){
                 console.log(data)
             }
         },
-        createdRow: function(row, data, dataIndex) {
-            console.log(data)
-            let $dateCell = $(row).find('td:eq(3)'); // get first column
-            if(data.exercises.length>0) {
-                let folder_data = 'folder' in data.exercises[0] ? data.exercises[0].folder.short_name : '';
-                $dateCell
-                    .data('order', folder_data)
-            }
-        },
         rowCallback: function( row, data ) {
             if(Cookies.get('video_id')){
                 if ( data.DT_RowId == Cookies.get('video_id')) {
@@ -49,14 +40,21 @@ function generate_ajax_video_table(scroll_y = ''){
             }},
             {'data': 'id', 'name': 'id'},
             {'data': 'videosource_name', 'name': 'videosource_name'},
-            {'data': 'exercises', 'name': 'exercises', render: function (data, type, row, meta) {
+            {'data': 'exercises', 'name': 'exercises', render: function (row, type, set, meta) {
                 let view_data = ''
-                data.forEach((exercise, index) => {
-                    if(index>0) view_data += `, `
-                    view_data += `<a href="/exercises/exercise?id=${exercise.id}&nfb=1&type=nfb_folders" target="_blank" class="exercise-folder">${exercise.folder.short_name}</a>`
-                    view_data += ` <span class="other-exercises font-weight-bold" data-ids="${exercise.videos.join(", ")}">(${exercise.videos.length>0 ? exercise.videos.length : 0})</span>`
-                });
-                return view_data;
+                let sort_data = ''
+                console.log(type)
+                console.log(row)
+                if(type==='sort'){
+                    return sort_data
+                }else{
+                    row.forEach((exercise, index) => {
+                        if(index>0) view_data += `, `
+                        view_data += `<a href="/exercises/exercise?id=${exercise.id}&nfb=1&type=nfb_folders" target="_blank" class="exercise-folder">${exercise.folder.short_name}</a>`
+                        view_data += ` <span class="other-exercises font-weight-bold" data-ids="${exercise.videos.join(", ")}">(${exercise.videos.length>0 ? exercise.videos.length : 0})</span>`
+                    });
+                    return view_data
+                }
             }},
             //{'data': 'upload_date', 'name': 'upload_date', "searchable": false},
             {'data': 'duration', "searchable": false},
