@@ -279,7 +279,7 @@ $(function() {
         $(e.currentTarget).attr('data-state', state ? '0' : '1');
     });
 
-    $('.exs-search').on('change', (e) => {
+    $('.exs-search').on('keyup', (e) => {
         let val = $(e.currentTarget).val();
         window.exercisesFilter['_search'] = val;
         for (ind in window.count_exs_calls) {
