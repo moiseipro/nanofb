@@ -50,7 +50,6 @@ class VideoPermissions(DjangoModelPermissions):
 
 # API REST
 class VideoViewSet(viewsets.ModelViewSet):
-    queryset = Video.objects.all().order_by('videosource_id')
     filter_backends = (DatatablesFilterBackend,)
     filterset_class = VideoGlobalFilter
 
@@ -309,9 +308,7 @@ class VideoViewSet(viewsets.ModelViewSet):
         return VideoSerializer
 
     def get_queryset(self):
-        # exs_video = ExerciseVideo.objects.filter(video__isnull=False).values('video')
-        # print(exs_video[0])
-        return Video.objects.all()#exclude(id__in=[o['video'] for o in exs_video])
+        return Video.objects.all().order_by('videosource_id')
 
 
 def delete_video_nf(video_id):

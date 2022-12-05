@@ -23,26 +23,17 @@ function formatState (state) {
     }
     //console.log(state.element)
     var $state = $(
-        '<span>' + state.text + '</span>' + '<span class="float-right">(' + state.element.getAttribute('data-count') + ')</span>'
+        '<span>' + state.text + '</span>' + '<span class="float-right">(' + state.element.getAttribute('data-right') + ')</span>'
     );
     return $state;
 }
-function formatFolders (state) {
-    if (!state.id) {
-        return state.text;
-    }
-    var $state = $(
-        '<span>' + state.text + '</span>' + '<span class="float-right">(' + state.element.getAttribute('value') + ')</span>'
-    );
-    return $state;
-};
 
 $(window).on('load', function (){
     $('.video-source').select2({
         templateResult: formatState,
     })
     $('.exercise-folder').select2({
-        templateResult: formatFolders,
+        templateResult: formatState,
     })
 
     generate_ajax_video_table("calc(100vh - 280px)")

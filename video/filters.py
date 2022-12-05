@@ -27,6 +27,15 @@ class GlobalAllValuesMultipleFilter(filters.CharFilter):
     pass
 
 
+class GlobalExerciseFilter(filters.CharFilter):
+    def filter(self, qs, value):
+        if value:
+            short_name = value
+            qs = qs.filter(adminexercise__folder__short_name=short_name)
+        return qs
+    pass
+
+
 class GlobalTagFilter(filters.CharFilter):
     def filter(self, qs, value):
         if value:
@@ -56,9 +65,8 @@ class VideoGlobalFilter(DatatablesFilterSet):
         field_name='videosource_id__name',
         lookup_expr='exact'
     )
-    exercises = GlobalCharFilter(
-        field_name='adminexercise__folder__short_name',
-        lookup_expr='exact'
+    exercises = GlobalExerciseFilter(
+        field_name='adminexercise__folder__parent || adminexercise__folder__order'
     )
     taggit = GlobalTagFilter(field_name="taggit")
 
