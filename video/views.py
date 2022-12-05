@@ -159,13 +159,21 @@ class VideoViewSet(viewsets.ModelViewSet):
 
     def perform_update(self, serializer):
         music = False
+        note_video = False
+        note_animation = False
         duration = '00:00:00'
-        instance = self.get_object().links
+        instance = self.get_object()
+        if 'note_animation' in self.request.data:
+            note_animation = True
+        if 'note_video' in self.request.data:
+            note_video = True
+        note = {'video': note_video, 'animation': note_animation}
+        print(note)
         if 'music' in self.request.data:
             music = True
-        if 'duration' in self.request.data and self.request.data['duration'] == '00:00:00' and instance['nftv'] != '':
+        if 'duration' in self.request.data and self.request.data['duration'] == '00:00:00' and instance.links['nftv'] != '':
             # print(serializer)
-            url = 'http://213.108.4.28/video/length/' + instance['nftv']
+            url = 'http://213.108.4.28/video/length/' + instance.links['nftv']
             try:
                 response = requests.get(url)
                 content = json.loads(response.content.decode('utf-8'))
@@ -175,9 +183,9 @@ class VideoViewSet(viewsets.ModelViewSet):
             except requests.exceptions.ConnectionError as e:
                 response = "No response"
         if duration == '00:00:00':
-            serializer.save(music=music)
+            serializer.save(music=music, note=note)
         else:
-            serializer.save(music=music, duration=parse_duration(duration))
+            serializer.save(music=music, note=note, duration=parse_duration(duration))
 
     def update(self, request, *args, **kwarg):
         partial = True

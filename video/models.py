@@ -79,6 +79,12 @@ class Video(models.Model):
         null=True,
         blank=True
     )
+    note = models.JSONField(
+        verbose_name=_('Notes'),
+        help_text=_('Notes in json format'),
+        null=True,
+        blank=True
+    )
     taggit = TaggableManager()
 
     def get_string_tags(self):

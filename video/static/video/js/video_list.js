@@ -58,6 +58,21 @@ function generate_ajax_video_table(scroll_y = ''){
             }},
             //{'data': 'upload_date', 'name': 'upload_date', "searchable": false},
             {'data': 'duration', "searchable": false},
+            {'data': 'note', "searchable": false, render: function (row, type, set, meta) {
+                console.log(row)
+                let view_data = '<b class="text-center">'
+                let has_video = false
+                if(row && 'video' in row && row.video){
+                    view_data+=`${row.video ? 'V': ''}`
+                    has_video = true
+                }
+                if(row && 'animation' in row && row.animation){
+                    has_video ? view_data+=` / ` : ''
+                    view_data+=`${row.animation ? 'A': ''}`
+                }
+                view_data += '</b>'
+                return view_data
+            }},
             {'data': 'name', 'name': 'name'},
             {'data': 'taggit', 'name': 'taggit', 'defaultContent': "---", "orderable": false},
         ],
