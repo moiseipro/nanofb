@@ -137,5 +137,12 @@ function CountExsInFoldersByType() {
 
 
 $(function() {
-    
+    $(window).on('beforeunload', (e) => {
+        for (let i in window.count_exs_calls) {
+            let call = window.count_exs_calls[i];
+            call.abort();
+        }
+        return;
+    });
 });
+
