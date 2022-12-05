@@ -264,10 +264,10 @@ $(function() {
             let id = $(e.currentTarget).attr('data-id');
             if (!state) {
                 $(e.currentTarget).find('.row > div:nth-child(2)').html(`<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`);
-                window.exercisesFilter = {[type]: id};
+                window.exercisesFilter[type] = id;
             } else {
                 $(e.currentTarget).find('.row > div:nth-child(2)').html('');
-                window.exercisesFilter = {};
+                delete window.exercisesFilter[type];
             }
             for (ind in window.count_exs_calls) {
                 window.count_exs_calls[ind].abort();
@@ -277,6 +277,16 @@ $(function() {
         }
         $(e.currentTarget).toggleClass('active', !state);
         $(e.currentTarget).attr('data-state', state ? '0' : '1');
+    });
+
+    $('.exs-search').on('keyup', (e) => {
+        let val = $(e.currentTarget).val();
+        window.exercisesFilter['_search'] = val;
+        for (ind in window.count_exs_calls) {
+            window.count_exs_calls[ind].abort();
+        }
+        LoadFolderExercises();
+        CountExsInFolder();
     });
 
 
@@ -289,10 +299,11 @@ $(function() {
 
     // Reset side filter
     $('#filterReset').on('click', (e) => {
-        if ($($('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').hasClass('active')).length > 0) {
+        if ($($('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').hasClass('active')).length > 0 || $('.exs-search').val() != "") {
             $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').attr('data-state', '0');
             $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').toggleClass('active', false);
             $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').find('.row > div:nth-child(2)').html('');
+            $('.exs-search').val('');
             window.exercisesFilter = {};
             LoadFolderExercises();
             CountExsInFolder();

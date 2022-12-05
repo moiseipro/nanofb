@@ -442,7 +442,11 @@ function DeleteExerciseOne() {
                     }
                 },
                 error: function (res) {
-                    swal("Ошибка", "Упражнение удалить не удалось.", "error");
+                    let errText = "Упражнение удалить не удалось.";
+                    if (res.responseJSON.in_training == true) {
+                        errText += "\nТак как данное упражнение прикреплено к тренировке.";
+                    }
+                    swal("Ошибка", errText, "error");
                     console.log(res);
                 },
                 complete: function (res) {
