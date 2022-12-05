@@ -10,6 +10,7 @@ from references.models import UserSeason, ClubSeason, UserTeam, ClubTeam
 from video.models import Video
 from nanofootball.views import util_check_access
 from video.views import delete_video_obj_nf
+from trainings.models import UserTraining, ClubTraining
 
 
 LANG_CODE_DEFAULT = "en"
@@ -403,6 +404,7 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
     filter_watched = -1
     filter_favorite = -1
     filter_new_exs = -1
+    filter_search = ""
     try:
         if req.method == "GET":
             filter_goal = int(req.GET.get("filter[goal]", -1))
@@ -436,6 +438,13 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
             filter_new_exs = int(req.GET.get("filter[new_exs]", -1))
         elif req.method == "POST":
             filter_new_exs = int(req.POST.get("filter[new_exs]", -1))
+    except:
+        pass
+    try:
+        if req.method == "GET":
+            filter_search = req.GET.get("filter[_search]", "")
+        elif req.method == "POST":
+            filter_search = req.POST.get("filter[_search]", "")
     except:
         pass
 
@@ -487,6 +496,7 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
                 f_exercises = ClubExercise.objects.filter(folder = c_folder[0])
     f_exercises = [entry for entry in f_exercises.values()]
     for exercise in f_exercises:
+        exercise['search_title'] = get_by_language_code(exercise['title'], req.LANGUAGE_CODE).lower()
         exercise['has_video_1'] = False
         exercise['has_video_2'] = False
         exercise['has_animation_1'] = False
@@ -557,6 +567,9 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
         f_exercises = list(filter(lambda c: c['favorite_status'] == filter_favorite, f_exercises))
     if filter_new_exs != -1:
         f_exercises = list(filter(lambda c: days_between(c['date_creation']) < 15, f_exercises))
+    if filter_search != "":
+        filter_search = filter_search.lower()
+        f_exercises = list(filter(lambda c: filter_search in c['search_title'], f_exercises))
     return f_exercises
 
 
@@ -988,10 +1001,11 @@ def POST_delete_exs(request, cur_user, cur_team):
     except:
         pass
     try:
-        delete_type = int(request.POST.get("delete_type", -1))
+        delete_type = int(request.POST.get("delete_type", -1)) # delete only exercise, only video in it, or both
     except:
         pass
     c_exs = None
+    f_exs_in_training = None
     if folder_type == FOLDER_TEAM:
         if not util_check_access(cur_user, {
             'perms_user': ["exercises.delete_userexercise"], 
@@ -1000,8 +1014,13 @@ def POST_delete_exs(request, cur_user, cur_team):
             return JsonResponse({"err": "Access denied.", "success": False}, status=400)
         if request.user.club_id is not None:
             c_exs = ClubExercise.objects.filter(id=exs_id, club=request.user.club_id, team=cur_team)
+            if c_exs.exists() and c_exs[0].id != None:
+                f_exs_in_training = ClubTraining.objects.filter(event_id__club_id=request.user.club_id, exercises__in=c_exs)
         else:
             c_exs = UserExercise.objects.filter(id=exs_id, user=cur_user)
+            print(c_exs[0])
+            if c_exs.exists() and c_exs[0].id != None:
+                f_exs_in_training = UserTraining.objects.filter(event_id__user_id=cur_user, exercises__in=c_exs)
     elif folder_type == FOLDER_NFB:
         if not util_check_access(cur_user, {
             'perms_user': ["exercises.delete_adminexercise"], 
@@ -1015,6 +1034,8 @@ def POST_delete_exs(request, cur_user, cur_team):
     if c_exs == None or not c_exs.exists() or c_exs[0].id == None:
         return JsonResponse({"errors": "access_error"}, status=400)
     else:
+        if f_exs_in_training != None and f_exs_in_training.exists() and f_exs_in_training[0].event_id != None:
+            return JsonResponse({"errors": "access_error", "in_training": True}, status=400)
         try:
             if not delete_type_access:
                 c_exs.delete()
