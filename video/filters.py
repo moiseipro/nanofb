@@ -29,7 +29,7 @@ class GlobalAllValuesMultipleFilter(filters.CharFilter):
     pass
 
 
-class GlobalExerciseFilter(GlobalFilter, filters.CharFilter):
+class GlobalExerciseFilter(filters.CharFilter):
     def filter(self, qs, value):
         if value:
             short_name = value
