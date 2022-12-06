@@ -56,7 +56,6 @@ function generate_ajax_video_table(scroll_y = ''){
                     return view_data
                 }
             }},
-            //{'data': 'upload_date', 'name': 'upload_date', "searchable": false},
             {'data': 'duration', "searchable": false},
             {'data': 'note', "searchable": false, render: function (row, type, set, meta) {
                 console.log(row)
