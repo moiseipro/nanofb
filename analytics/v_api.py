@@ -64,6 +64,14 @@ def get_exs_folders(request, cur_user, cur_team):
     else:
         folders = UserFolder.objects.filter(Q(parent=0) | Q(parent=None), user=cur_user, team=cur_team)
     if folders is not None and folders.exists() and folders[0].id != None:
+        for folder in folders:
+            subfolders = []
+            if request.user.club_id is not None:
+                subfolders = ClubFolder.objects.filter(parent=folder.id)
+            else:
+                subfolders = UserFolder.objects.filter(parent=folder.id)
+            setattr(folder, "subfolders", subfolders)
+    if folders is not None and folders.exists() and folders[0].id != None:
         res = folders
     return res
 
@@ -378,6 +386,112 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
                 cache.set(f'analytics_club_{request.user.club_id.id}_{cur_team}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
             else:
                 cache.set(f'analytics_{cur_user}_{cur_team}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
+        else:
+            res_data = cached_data
+    return JsonResponse({"data": res_data, "success": True}, status=200)
+
+
+def GET_get_analytics_by_folders_in_team(request, cur_user, cur_team, cur_season):
+    """
+    Return JsonResponse which contains dictionary with players. Each object is a dictionary, where the key is what we consider, 
+    and the value, respectively, is its value.
+    Use cached data (stored at Database), if this data was expired by CACHE_EXPIRES_SECS, then server calculates actual values.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :param cur_season: Current season's ID.
+    :type cur_season: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]]
+
+    """
+    res_data = {'players': {}}
+    res_trainings = {
+        'trainings_exs_folders': {}
+    }
+    players = []
+    if request.user.club_id is not None:
+        players = ClubPlayer.objects.filter(team=cur_team)
+    else:
+        players = UserPlayer.objects.filter(team=cur_team, user=cur_user)
+    for player in players:
+        res_data['players'][player.id] = {
+            'name': f'{player.surname} {player.name}',
+            'res_trainings': {k: v for k, v in res_trainings.items()}
+        }
+    season_type = None
+    try:
+        season_type = int(request.GET.get("season_type", 0))
+    except:
+        pass
+    f_season = None
+    if request.user.club_id is not None:
+        f_season = ClubSeason.objects.get(id=cur_season, club_id=request.user.club_id)
+    else:
+        f_season = UserSeason.objects.get(id=cur_season, user_id=cur_user)
+    if f_season and f_season.id != None:
+        cached_data = None
+        if request.user.club_id is not None:
+            cached_data = cache.get(f'analytics_by_folders_club_{request.user.club_id.id}_{cur_team}_{cur_season}_{season_type}')
+        else:
+            cached_data = cache.get(f'analytics_by_folders_{cur_user}_{cur_team}_{cur_season}_{season_type}')
+        if cached_data is None:
+            date_with = f_season.date_with
+            date_by = f_season.date_by
+            if season_type and season_type != 0:
+                if season_type == -1:
+                    date_with = date.today() - timedelta(days=30)
+                    date_by = date.today()
+                else:
+                    date_with = date_with + relativedelta(months=(season_type-1))
+                    date_with.replace(day=1)
+                    date_by = date_with + relativedelta(months=1)
+            else:
+                if date.today() < f_season.date_by:
+                    date_by = date.today()
+            player_data = None
+            is_status_correct = False
+            trainings_protocols = []
+            if util_check_access(cur_user, {
+                'perms_user': ["trainings.analytics_usertraining"],
+                'perms_club': ["trainings.analytics_clubtraining"]
+            }):
+                if request.user.club_id is not None:
+                    trainings_protocols = ClubTrainingProtocol.objects.filter(
+                        training_id__team_id=cur_team,
+                        training_id__event_id__date__range=[
+                            datetime.combine(date_with, datetime.min.time()),
+                            datetime.combine(date_by, datetime.max.time())
+                        ],
+                    )
+                else:
+                    trainings_protocols = UserTrainingProtocol.objects.filter(
+                        training_id__team_id=cur_team, training_id__event_id__user_id=cur_user,
+                        training_id__event_id__date__range=[
+                            datetime.combine(date_with, datetime.min.time()),
+                            datetime.combine(date_by, datetime.max.time())
+                        ],
+                    )
+            for t_protocol in trainings_protocols:
+                try:
+                    player_data = res_data['players'][t_protocol.player_id.id]
+                except Exception as e:
+                    pass
+                is_status_correct = check_protocol_status(t_protocol.status)
+                if player_data:
+                    if is_status_correct:
+                        for t_exercise in t_protocol.training_exercise_check.all():
+                            if not t_exercise.exercise_id.folder.id in player_data['res_trainings']['trainings_exs_folders']:
+                                player_data['res_trainings']['trainings_exs_folders'][t_exercise.exercise_id.folder.id] = 0
+                            player_data['res_trainings']['trainings_exs_folders'][t_exercise.exercise_id.folder.id] += 1
+            if request.user.club_id is not None:
+                cache.set(f'analytics_by_folders_club_{request.user.club_id.id}_{cur_team}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
+            else:
+                cache.set(f'analytics_by_folders_{cur_user}_{cur_team}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
         else:
             res_data = cached_data
     return JsonResponse({"data": res_data, "success": True}, status=200)
