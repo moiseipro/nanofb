@@ -223,7 +223,7 @@ $(function() {
         StopAllVideos();
     });
 
-
+    
     // Toggle left menu
     setTimeout(() => {
         $('#toggle_btn').click();
