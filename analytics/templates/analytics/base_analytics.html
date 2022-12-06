@@ -20,16 +20,16 @@
                                         <button type="button" class="btn btn-success btn-sm mx-1" id="resetCachedData">
                                             Обновить
                                         </button>
-                                        <button type="button" class="btn btn-primary btn-sm mx-1" id="">
-                                            Кнопка 2
+                                        <button type="button" class="btn btn-primary btn-sm mx-1 toggle-tables selected" id="defaultTable">
+                                            Общая таблица
                                         </button>
-                                        <button type="button" class="btn btn-primary btn-sm mx-1" id="">
-                                            Кнопка 3
+                                        <button type="button" class="btn btn-primary btn-sm mx-1 toggle-tables" id="foldersTable">
+                                            Таблица по папкам
                                         </button>
-                                        <button type="button" class="btn btn-primary btn-sm mx-1" id="">
+                                        <button type="button" class="btn btn-secondary btn-sm mx-1" id="">
                                             Кнопка 4
                                         </button>
-                                        <button type="button" class="btn btn-primary btn-sm mx-1" id="">
+                                        <button type="button" class="btn btn-secondary btn-sm mx-1" id="">
                                             Кнопка 5
                                         </button>
                                         <select id="columnsVisibleSelect" class="form-control form-control-sm selectpicker w-25" multiple data-selected-text-format="count">
@@ -62,7 +62,7 @@
                             </div>
                             <div class="analytics-table-container mt-2">
                                 <div class="row">
-                                    <div class="col col-custom" style="--col-width:95%;">
+                                    <div class="col col-custom table-block" data-id="defaultTable" style="--col-width:95%;">
                                         <div class="table-responsive">
                                             <table id="analytics" class="table table-sm table-striped table-bordered dataTable" style="width:100%;">
                                                 <thead>
@@ -127,7 +127,47 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <div class="col-1 px-0" style="max-width:4%!important;">
+                                    <div class="col col-custom table-block d-none" data-id="foldersTable" style="--col-width:95%;">
+                                        <div class="table-responsive">
+                                            <table id="analytics-by-folders" class="table table-sm table-striped table-bordered dataTable" style="width:100%;">
+                                                <thead>
+                                                    <tr class="">
+                                                        <th class="border text-center border-custom-right" colspan="2"></th>
+                                                        {% for folder in folders %}
+                                                            {% if folder.subfolders|length > 0 %}
+                                                            
+                                                            <th class="border text-center 
+                                                                {% if forloop.last %}border-custom-left{% else %}border-custom-x{% endif %}" 
+                                                            colspan="{{ folder.subfolders|length }}" title="{{ folder.name }}">{{ folder.short_name }}</th>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </tr>
+                                                    <tr class="">
+                                                        <th class="text-center">#</th>
+                                                        <th class="text-center border-custom-right">Фамилия Имя</th>
+                                                        {% for folder in folders %}
+                                                            {% if folder.subfolders|length > 0 %}
+                                                                {% if forloop.last %}
+                                                                    {% for subfolder in folder.subfolders %}
+                                                                    <th class="text-center h-subfolder "
+                                                                    data-id="{{ subfolder.id }}" data-parent="{{ folder.id }}" data-col="col_folder_{{ subfolder.id }}" title="{{ subfolder.name }}">{{ subfolder.short_name }}</th>
+                                                                    {% endfor %}
+                                                                {% else %}
+                                                                    {% for subfolder in folder.subfolders %}
+                                                                    <th class="text-center h-subfolder 
+                                                                    {% if forloop.last %}border-custom-right{% endif %}"
+                                                                    data-id="{{ subfolder.id }}" data-parent="{{ folder.id }}" data-col="col_folder_{{ subfolder.id }}" title="{{ subfolder.name }}">{{ subfolder.short_name }}</th>
+                                                                    {% endfor %}
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-1 px-0 seasons-block" style="max-width:4%!important;">
                                         <div class="row mx-0 mb-1"><div class="col-12 d-flex justify-content-center">
                                             <button class="btn btn-outline-primary season-toggle active" type="" title="Сезон">
                                                 C.

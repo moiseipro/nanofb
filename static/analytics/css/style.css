@@ -56,3 +56,9 @@ th.dt-vertical-center, td.dt-vertical-center {
     background-color: #ffce904f !important;
 }
 
+
+.btn.toggle-tables.selected {
+    opacity: 0.7;
+    text-transform: uppercase;
+}
+

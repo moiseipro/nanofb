@@ -2,8 +2,30 @@ let season_type = null;
 let season_type_in_storage = window.sessionStorage.getItem('analytics__season_type');
 if (season_type_in_storage) {season_type = season_type_in_storage;}
 let analytics_table
-
 let analytics_table_options = {
+    language: {
+        url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
+    },
+    dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+    "<'row'<'col-sm-12'tr>>" +
+    "<'row'<'col-sm-12 col-md-5'><'col-sm-12 col-md-7'p>>",
+    scrollY: "73vh",
+    scrollCollapse: true,
+    serverSide: false,
+    processing: false,
+    paging: false,
+    searching: false,
+    select: true,
+    drawCallback: function( settings ) {
+    },
+    "columnDefs": [
+        {"width": "25%", "targets": 1},
+        {"className": "dt-vertical-center", "targets": "_all"}
+    ]
+};
+
+let analytics_by_folders_table
+let analytics_by_folders_table_options = {
     language: {
         url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
     },
@@ -177,6 +199,105 @@ function RenderAnalyticsTable(data) {
     analytics_table.draw();
 }
 
+function LoadAnalyticsByFolders() {
+    let dataToSend = {'get_analytics_by_folders': 1, 'season_type': season_type};
+    let dataRes = {};
+    $('.page-loader-wrapper').fadeIn();
+    $.ajax({
+        headers:{"X-CSRFToken": csrftoken},
+        data: dataToSend,
+        type: 'GET', // GET или POST
+        dataType: 'json',
+        url: "analytics_api",
+        success: function (res) {
+            if (res.success) {
+                dataRes = res.data;
+            }
+        },
+        error: function (res) {
+            console.log(res);
+        },
+        complete: function (res) {
+            RenderAnalyticsByFoldersTable(dataRes);
+            $('.page-loader-wrapper').fadeOut();
+        }
+    });
+}
+
+function RenderAnalyticsByFoldersTable(data) {
+    try {
+        analytics_by_folders_table.destroy();
+    } catch(e) {}
+    $('#analytics-by-folders').find('tbody').html('');
+    if (data['players'] && typeof data['players'] === "object" && !Array.isArray(data['players'])) {
+        let tmpHtml = "";
+        let foldersInHeader = {};
+        $('#analytics-by-folders').find('th.h-subfolder').each((ind, elem) => {
+            let tId = parseInt($(elem).attr('data-id'));
+            let tParentId = parseInt($(elem).attr('data-parent'));
+            if (isNaN(tId)) {tId = -1;}
+            if (isNaN(tParentId)) {tParentId = -1;}
+            if (!foldersInHeader[tParentId]) {
+                foldersInHeader[tParentId] = {'folders': [], 'sum': 0};
+            }
+            foldersInHeader[tParentId]['folders'].push(tId);
+        });
+        let cIndex = 1;
+        for (let key in data['players']) {
+            let player = data['players'][key];
+            let exsFoldersHtml = "";
+            for (let key in foldersInHeader) {
+                let foldersSum = 0;
+                foldersInHeader[key]['folders'].forEach(elem => {
+                    let tVal = 0;
+                    try {
+                        tVal = parseInt(player.res_trainings.trainings_exs_folders[elem]);
+                        if (isNaN(tVal)) {tVal = 0;}
+                    } catch(e) {}
+                    foldersSum += tVal;
+                });
+                foldersInHeader[key]['sum'] = foldersSum;
+            }
+            for (let key in foldersInHeader) {
+                for (let i = 0; i < foldersInHeader[key]['folders'].length; i++) {
+                    let elem = foldersInHeader[key]['folders'][i];
+                    let tVal = 0;
+                    try {
+                        tVal = (parseInt(player.res_trainings.trainings_exs_folders[elem]) / foldersInHeader[key]['sum'] * 100).toFixed(0);
+                    } catch(e) {}
+                    let verticalLineClass = "";
+                    if (i == foldersInHeader[key]['folders'].length - 1) {
+                        let cHeader = $('#analytics-by-folders').find(`th[data-id="${elem}"]`);
+                        if ($(cHeader).hasClass('border-custom-right')) {verticalLineClass = "border-custom-right";}
+                        if ($(cHeader).hasClass('border-custom-x')) {verticalLineClass = "border-custom-x";}
+                        if ($(cHeader).hasClass('border-custom-left')) {verticalLineClass = "border-custom-left";}
+                    }
+                    exsFoldersHtml += `
+                        <td class="text-center ${verticalLineClass}">
+                            ${tVal > 0 ? tVal : '-'}
+                        </td>
+                    `;
+                }
+            }
+            tmpHtml += `
+                <tr class="analytics-by-folders-row" data-id="${key}">
+                    <td class="text-center">
+                        ${cIndex}
+                    </td>
+                    <td class="border-custom-right">
+                        ${player.name}
+                    </td>
+                    ${exsFoldersHtml}
+                </tr>
+            `;
+            cIndex ++;
+        }
+        $('#analytics-by-folders').find('tbody').html(tmpHtml);
+    }
+    analytics_by_folders_table = $('#analytics-by-folders').DataTable(analytics_by_folders_table_options);
+    analytics_by_folders_table.draw();
+}
+
 
 
 $(function() {
@@ -197,7 +318,11 @@ $(function() {
             $(e.currentTarget).addClass('active');
             season_type = $(e.currentTarget).attr('type');
             window.sessionStorage.setItem('analytics__season_type', season_type);
-            LoadAnalytics();
+            if ($('.toggle-tables.selected').attr('id') == "defaultTable") {
+                LoadAnalytics();
+            } else if ($('.toggle-tables.selected').attr('id') == "foldersTable") {
+                LoadAnalyticsByFolders();
+            }
         }
     });
 
@@ -246,6 +371,19 @@ $(function() {
                 $('.page-loader-wrapper').fadeOut();
             }
         });
+    });
+
+    $('.toggle-tables').on('click', (e) => {
+        let cId = $(e.currentTarget).attr('id');
+        $('.toggle-tables').removeClass('selected');
+        $('.analytics-table-container').find('.table-block').addClass('d-none');
+        $('.analytics-table-container').find(`.table-block[data-id="${cId}"]`).removeClass('d-none');
+        $(e.currentTarget).addClass('selected');
+        if ($('.toggle-tables.selected').attr('id') == "defaultTable") {
+            LoadAnalytics();
+        } else if ($('.toggle-tables.selected').attr('id') == "foldersTable") {
+            LoadAnalyticsByFolders();
+        }
     });
 
     $('#toggle_btn').on('click', (e) => {
