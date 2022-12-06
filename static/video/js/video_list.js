@@ -18,7 +18,6 @@ function generate_ajax_video_table(scroll_y = ''){
         columnDefs: [
             { "searchable": false, "targets": 0 }
         ],
-        order: [[3, 'asc']],
         ajax: {
             url:'/video/api/all?format=datatables',
             data: function(data){
@@ -34,7 +33,7 @@ function generate_ajax_video_table(scroll_y = ''){
         },
         rowId: 'id',
         columns: [
-            {'data': 'id', render: function (data, type, row, meta) {
+            {'data': 'id', "orderable": false, render: function (data, type, row, meta) {
 
                 return meta.row + meta.settings._iDisplayStart + 1;
             }},
@@ -56,7 +55,6 @@ function generate_ajax_video_table(scroll_y = ''){
                     return view_data
                 }
             }},
-            //{'data': 'upload_date', 'name': 'upload_date', "searchable": false},
             {'data': 'duration', "searchable": false},
             {'data': 'note', "searchable": false, render: function (row, type, set, meta) {
                 console.log(row)
