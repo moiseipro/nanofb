@@ -40,7 +40,7 @@ function generate_ajax_video_table(scroll_y = ''){
             }},
             {'data': 'id', 'name': 'id'},
             {'data': 'videosource_name', 'name': 'videosource_name'},
-            {'data': 'exercises', 'name': 'exercises', render: function (row, type, set, meta) {
+            {'data': 'exercises', 'name': 'exercises', 'type': 'num', render: function (row, type, set, meta) {
                 let view_data = ''
                 let sort_data = ''
                 console.log(type)

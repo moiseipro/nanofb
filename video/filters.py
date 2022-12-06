@@ -1,3 +1,5 @@
+from django.db.models import IntegerField
+from django.db.models.functions import Cast
 from django_filters import filters
 from rest_framework_datatables.django_filters.filterset import DatatablesFilterSet
 from rest_framework_datatables.django_filters.filters import GlobalFilter, SwitchRegexFilter
@@ -27,11 +29,11 @@ class GlobalAllValuesMultipleFilter(filters.CharFilter):
     pass
 
 
-class GlobalExerciseFilter(filters.CharFilter):
+class GlobalExerciseFilter(GlobalFilter, filters.CharFilter):
     def filter(self, qs, value):
         if value:
             short_name = value
-            qs = qs.filter(adminexercise__folder__short_name=short_name)
+            qs = qs.filter(adminexercise__folder__short_name__exact=short_name)
         return qs
     pass
 
@@ -66,8 +68,8 @@ class VideoGlobalFilter(DatatablesFilterSet):
         lookup_expr='exact'
     )
     exercises = GlobalExerciseFilter(
-        field_name='adminexercise__folder__order',
-        lookup_expr='exact'
+        field_name='adminexercise__folder__parent',
+        lookup_expr='icontains'
     )
     taggit = GlobalTagFilter(field_name="taggit")
 

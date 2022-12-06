@@ -316,7 +316,7 @@ class VideoViewSet(viewsets.ModelViewSet):
         return VideoSerializer
 
     def get_queryset(self):
-        return Video.objects.all().order_by('adminexercise__folder__parent')
+        return Video.objects.all()
 
 
 def delete_video_nf(video_id):
