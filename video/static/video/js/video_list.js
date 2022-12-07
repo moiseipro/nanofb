@@ -16,7 +16,17 @@ function generate_ajax_video_table(scroll_y = ''){
             $('#video-table-counter').text(settings._iRecordsDisplay)
         },
         columnDefs: [
-            { "searchable": false, "targets": 0 }
+            { "searchable": false, "targets": 0 },
+            { targets: 3, type: 'num', createdCell:  function (td, cellData, rowData, row, col) {
+                    let exercises = rowData.exercises
+                    console.log(exercises)
+                    if(exercises.length > 0){
+                        exercises.forEach((exercise, index) => {
+                            $(td).attr('data-sort', exercise.folder.parent*1000 + exercise.folder.order)
+                        });
+                    }
+                }
+            }
         ],
         ajax: {
             url:'/video/api/all?format=datatables',
@@ -25,6 +35,13 @@ function generate_ajax_video_table(scroll_y = ''){
             }
         },
         rowCallback: function( row, data ) {
+            // let exercises = data.exercises
+            // console.log(exercises)
+            // if(exercises.length > 0){
+            //     exercises.forEach((exercise, index) => {
+            //         $(row).attr('data-sort', exercise.folder.parent*1000 + exercise.folder.order)
+            //     });
+            // }
             if(Cookies.get('video_id')){
                 if ( data.DT_RowId == Cookies.get('video_id')) {
                     $(row).addClass('selected');
@@ -42,8 +59,6 @@ function generate_ajax_video_table(scroll_y = ''){
             {'data': 'exercises', 'name': 'exercises', render: function (row, type, set, meta) {
                 let view_data = ''
                 let sort_data = ''
-                console.log(type)
-                console.log(row)
                 if(type==='sort'){
                     return sort_data
                 }else{
