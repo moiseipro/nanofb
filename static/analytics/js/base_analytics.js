@@ -353,7 +353,6 @@ function RenderAnalyticsByFoldersFullTable(data) {
         analytics_by_folders_full_table.destroy();
     } catch(e) {}
     $('#analytics-by-folders-full').find('tbody').html('');
-    console.log(data)
     if (data['months'] && typeof data['months'] === "object" && !Array.isArray(data['months'])) {
         let tmpHtml = "";
         let foldersInHeader = {'folders': [], 'subfolders': []};
