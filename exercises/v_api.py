@@ -394,12 +394,12 @@ def get_tags_of_exercise(exs, use_lower=False):
 
     """
     data = []
-    tags = exs.tags.through.objects.all()
+    tags = exs.tags.all()
     for tag in tags:
         if not use_lower:
-            data.append(tag.exercisetag.name)
+            data.append(tag.name)
         else:
-            data.append(tag.exercisetag.lowercase_name)
+            data.append(tag.lowercase_name)
     return data
 
 
