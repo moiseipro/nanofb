@@ -1,7 +1,8 @@
 import datetime
 from django.http import JsonResponse
+from django.db.models import Sum, Q
 from users.models import User
-from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, ClubExercise, AdminExercise, ExerciseVideo
+from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, ClubExercise, AdminExercise, ExerciseVideo, ExerciseTag
 from exercises.models import UserExerciseParam, UserExerciseParamTeam
 from references.models import ExsGoal, ExsBall, ExsTeamCategory, ExsAgeCategory, ExsTrainPart, ExsCognitiveLoad
 from references.models import ExsKeyword, ExsStressType, ExsPurpose, ExsCoaching
@@ -378,6 +379,30 @@ def get_exs_video_data2(data, exs, folder_type, club_id):
     return data
 
 
+def get_tags_of_exercise(exs, use_lower=False):
+    """
+    Return tags of exercise.
+
+    :param data: Exercise object with all keys.
+    :type data: Model.Field[object]
+    :param exs: The current exercise.
+    :type exs: Model.object[UserExercise] or Model.object[ClubExercise] or Model.object[AdminExercise].
+    :param folder_type: The current folder, that is selected by the user.
+    :type folder_type: [str]
+    :return: Updated exercise.
+    :rtype: Model.Field[object]
+
+    """
+    data = []
+    tags = exs.tags.through.objects.all()
+    for tag in tags:
+        if not use_lower:
+            data.append(tag.exercisetag.name)
+        else:
+            data.append(tag.exercisetag.lowercase_name)
+    return data
+
+
 def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = None, cur_team = None):
     """
     Return list of exercise objects. If filter options exist then current list will be filtered.
@@ -405,6 +430,7 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
     filter_favorite = -1
     filter_new_exs = -1
     filter_search = ""
+    filter_tags = []
     try:
         if req.method == "GET":
             filter_goal = int(req.GET.get("filter[goal]", -1))
@@ -447,7 +473,13 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
             filter_search = req.POST.get("filter[_search]", "")
     except:
         pass
-
+    try:
+        if req.method == "GET":
+            filter_tags = req.GET.getlist("filter[tags][]")
+        elif req.method == "POST":
+            filter_tags = req.POST.getlist("filter[tags][]")
+    except:
+        pass
     f_exercises = []
     c_folder = None
     child_folders = None
@@ -494,9 +526,18 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
                 f_exercises = ClubExercise.objects.filter(folder__in = child_folders)
             else:
                 f_exercises = ClubExercise.objects.filter(folder = c_folder[0])
-    f_exercises = [entry for entry in f_exercises.values()]
-    for exercise in f_exercises:
+    
+    if filter_goal != -1:
+        f_exercises = f_exercises.filter(ref_goal=filter_goal)
+    if filter_ball != -1:
+        f_exercises = f_exercises.filter(ref_ball=filter_ball)
+    if len(filter_tags) > 0:
+        f_exercises = f_exercises.filter(tags__lowercase_name__in=filter_tags).distinct()
+
+    res_exercises = [entry for entry in f_exercises.values()]
+    for _index, exercise in enumerate(res_exercises):
         exercise['search_title'] = get_by_language_code(exercise['title'], req.LANGUAGE_CODE).lower()
+        exercise['tags'] = get_tags_of_exercise(f_exercises[_index], True)
         exercise['has_video_1'] = False
         exercise['has_video_2'] = False
         exercise['has_animation_1'] = False
@@ -556,21 +597,17 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
             favorite_status = 1 if exercise['favorite'] else 0
         exercise['watched_status'] = watched_status
         exercise['favorite_status'] = favorite_status
-
-    if filter_goal != -1:
-        f_exercises = list(filter(lambda c: c['ref_goal_id'] == filter_goal, f_exercises))
-    if filter_ball != -1:
-        f_exercises = list(filter(lambda c: c['ref_ball_id'] == filter_ball, f_exercises))
+    
     if filter_watched != -1:
-        f_exercises = list(filter(lambda c: c['watched_status'] == filter_watched, f_exercises))
+        res_exercises = list(filter(lambda c: c['watched_status'] == filter_watched, res_exercises))
     if filter_favorite != -1:
-        f_exercises = list(filter(lambda c: c['favorite_status'] == filter_favorite, f_exercises))
+        res_exercises = list(filter(lambda c: c['favorite_status'] == filter_favorite, res_exercises))
     if filter_new_exs != -1:
-        f_exercises = list(filter(lambda c: days_between(c['date_creation']) < 15, f_exercises))
+        res_exercises = list(filter(lambda c: days_between(c['date_creation']) < 15, res_exercises))
     if filter_search != "":
         filter_search = filter_search.lower()
-        f_exercises = list(filter(lambda c: filter_search in c['search_title'], f_exercises))
-    return f_exercises
+        res_exercises = list(filter(lambda c: filter_search in c['search_title'], res_exercises))
+    return res_exercises
 
 
 def check_video(id):
@@ -587,6 +624,29 @@ def check_video(id):
     if f_video.exists() and f_video[0].id != None:
         return f_video[0]
     return None
+
+
+def get_exercises_tags(request, user, team):
+    """
+    Return data of Exercises' tags.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param user: The current user of the system, who is currently authorized.
+    :type user: <QuerySet>Model.object[User], not only ONE (Use Models.objects.filter NOT Models.objects.get to get user).
+    :param team: The current team, that is selected by the user.
+    :type team: [int]
+    :return: List of tags.
+    :rtype: list[object]
+
+    """
+    tags = []
+    if request.user.club_id is not None:
+        tags = ExerciseTag.objects.filter(Q(is_nfb=True) | Q(is_nfb=False, club=request.user.club_id))
+    else:
+        tags = ExerciseTag.objects.filter(Q(is_nfb=True) | Q(is_nfb=False, user=user))
+    return tags
+
 
 
 # --------------------------------------------------
@@ -877,6 +937,38 @@ def POST_edit_exs(request, cur_user, cur_team):
     c_exs.ref_train_part = set_value_as_ref(request, "data[ref_train_part]", None)
     c_exs.ref_cognitive_load = set_value_as_ref(request, "data[ref_cognitive_load]", None)
 
+    c_exs.tags.clear()
+    tags_arr = set_value_as_list(request, "data[tags]", "data[tags][]", [])
+    for c_tag in tags_arr:
+        c_tag_lower = c_tag.lower()
+        f_tag = None
+        try:
+            if folder_type == FOLDER_TEAM and request.user.club_id is None:
+                f_tag = ExerciseTag.objects.filter(user=cur_user, lowercase_name=c_tag_lower)
+                if f_tag.exists() and f_tag[0].id != None:
+                    f_tag = f_tag[0]
+                else:
+                    f_tag = ExerciseTag(is_nfb=False, user=cur_user, name=c_tag, lowercase_name=c_tag_lower)
+                    f_tag.save()
+            elif folder_type == FOLDER_NFB:
+                f_tag = ExerciseTag.objects.filter(is_nfb=True, lowercase_name=c_tag_lower)
+                if f_tag.exists() and f_tag[0].id != None:
+                    f_tag = f_tag[0]
+                else:
+                    f_tag = ExerciseTag(is_nfb=True, name=c_tag, lowercase_name=c_tag_lower)
+                    f_tag.save()
+            elif folder_type == FOLDER_CLUB or folder_type == FOLDER_TEAM and request.user.club_id is not None:
+                f_tag = ExerciseTag.objects.filter(club=request.user.club_id, lowercase_name=c_tag_lower)
+                if f_tag.exists() and f_tag[0].id != None:
+                    f_tag = f_tag[0]
+                else:
+                    f_tag = ExerciseTag(is_nfb=False, club=request.user.club_id, name=c_tag, lowercase_name=c_tag_lower)
+                    f_tag.save()
+        except:
+            pass
+        if f_tag is not None:
+            c_exs.tags.add(f_tag)
+    
     video1_id = -1
     video2_id = -1
     animation1_id = -1
@@ -1483,6 +1575,7 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
     res_exs['ref_train_part'] = res_exs['ref_train_part_id']
     res_exs['ref_cognitive_load'] = res_exs['ref_cognitive_load_id']
     res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type, request.user.club_id)
+    res_exs['tags'] = get_tags_of_exercise(c_exs[0])
     if is_as_object:
         return res_exs
     else:

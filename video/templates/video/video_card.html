@@ -150,7 +150,7 @@
 {#                                    <input type="text" data-role="tagsinput" name="taggit" class="form-control edit-input" disabled>#}
 {#                                </div>#}
                                 <div class="col-12 px-0 text-center">
-                                    <select name="taggit" class="select w-100 custom-select custom-select-sm tag-select edit-input" multiple data-tags="true" data-theme="bootstrap4" disabled>
+                                    <select name="taggit" class="select w-100 custom-select custom-select-sm tag-select edit-input" multiple data-tags="true" data-theme="bootstrap4">
                                         {% for tag in tags %}
                                             <option value="{{ tag.name }}">{{ tag.name }}</option>
                                         {% endfor %}

@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from users.models import User
 from clubs.models import Club
-from references.models import UserTeam, ClubTeam
+from references.models import UserTeam, ClubTeam, CustomTag
 from references.models import ExsGoal, ExsBall, ExsTeamCategory, ExsAgeCategory, ExsTrainPart, ExsCognitiveLoad
 from video.models import Video
 
@@ -75,6 +75,16 @@ class ClubFolder(AbstractFolder):
         return f"[id: {self.id}] {self.short_name}. {self.name}"
 
 
+class ExerciseTag(CustomTag):
+    is_nfb = models.BooleanField(default=False)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    club = models.ForeignKey(Club, on_delete=models.SET_NULL, null=True, blank=True)
+
+    objects = models.Manager()
+    class Meta(CustomTag.Meta):
+        abstract = False
+
+
 class AbstractExercise(models.Model):
     date_creation = models.DateField(auto_now_add=True)
     order = models.IntegerField(
@@ -106,6 +116,8 @@ class AbstractExercise(models.Model):
     animation_data = models.JSONField(null=True, blank=True) # {'data': {'custom': "<t>...</t>", default: ["id_1", "id_2"...]}}
     old_id = models.IntegerField(null=True, blank=True) # from old site
     clone_nfb_id = models.IntegerField(null=True, blank=True) # id of admin exs after copy
+
+    tags = models.ManyToManyField(ExerciseTag)
 
     objects = models.Manager()
 
@@ -192,6 +204,5 @@ class UserExerciseParamTeam(models.Model):
     note = models.JSONField(null=True, blank=True)
 
     objects = models.Manager()
-
 
 
