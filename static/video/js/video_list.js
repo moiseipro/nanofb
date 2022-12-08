@@ -25,6 +25,13 @@ function generate_ajax_video_table(scroll_y = ''){
             }
         },
         rowCallback: function( row, data ) {
+            // let exercises = data.exercises
+            // console.log(exercises)
+            // if(exercises.length > 0){
+            //     exercises.forEach((exercise, index) => {
+            //         $(row).attr('data-sort', exercise.folder.parent*1000 + exercise.folder.order)
+            //     });
+            // }
             if(Cookies.get('video_id')){
                 if ( data.DT_RowId == Cookies.get('video_id')) {
                     $(row).addClass('selected');
@@ -42,8 +49,6 @@ function generate_ajax_video_table(scroll_y = ''){
             {'data': 'exercises', 'name': 'exercises', render: function (row, type, set, meta) {
                 let view_data = ''
                 let sort_data = ''
-                console.log(type)
-                console.log(row)
                 if(type==='sort'){
                     return sort_data
                 }else{

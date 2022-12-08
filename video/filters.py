@@ -68,7 +68,11 @@ class VideoGlobalFilter(DatatablesFilterSet):
         lookup_expr='exact'
     )
     exercises = GlobalExerciseFilter(
-        field_name='adminexercise__folder__parent',
+        field_name='adminexercise__folder__id',
+        lookup_expr='icontains'
+    )
+    duration = filters.CharFilter(
+        field_name='duration',
         lookup_expr='icontains'
     )
     taggit = GlobalTagFilter(field_name="taggit")

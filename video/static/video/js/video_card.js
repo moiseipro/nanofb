@@ -68,6 +68,7 @@ function ajax_video_info(id) {
 
     request.done(function( data ) {
         clear_video_form()
+        cur_edit_data = data
         $('#video-action-form').attr('method', 'PUT')
         render_json_block(data)
     })
