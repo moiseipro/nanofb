@@ -535,9 +535,8 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
         f_exercises = f_exercises.filter(tags__lowercase_name__in=filter_tags).distinct()
 
     res_exercises = [entry for entry in f_exercises.values()]
-    for _index, exercise in enumerate(res_exercises):
+    for exercise in res_exercises:
         exercise['search_title'] = get_by_language_code(exercise['title'], req.LANGUAGE_CODE).lower()
-        exercise['tags'] = get_tags_of_exercise(f_exercises[_index], True)
         exercise['has_video_1'] = False
         exercise['has_video_2'] = False
         exercise['has_animation_1'] = False
