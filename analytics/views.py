@@ -108,6 +108,7 @@ def analytics_api(request):
     elif request.method == "GET" and is_ajax:
         get_analytics_all_status = 0
         get_analytics_by_folders_status = 0
+        get_analytics_by_folders_full_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         cur_season = -1
@@ -129,10 +130,16 @@ def analytics_api(request):
             get_analytics_by_folders_status = int(request.GET.get("get_analytics_by_folders", 0))
         except:
             pass
+        try:
+            get_analytics_by_folders_full_status = int(request.GET.get("get_analytics_by_folders_full", 0))
+        except:
+            pass
         if get_analytics_all_status == 1:
             return v_api.GET_get_analytics_in_team(request, cur_user[0], cur_team, cur_season)
         elif get_analytics_by_folders_status == 1:
             return v_api.GET_get_analytics_by_folders_in_team(request, cur_user[0], cur_team, cur_season)
+        elif get_analytics_by_folders_full_status == 1:
+            return v_api.GET_get_analytics_by_folders_full_in_team(request, cur_user[0], cur_team, cur_season)
         return JsonResponse({"errors": "access_error"}, status=400)
     else:
         return JsonResponse({"errors": "access_error"}, status=400)

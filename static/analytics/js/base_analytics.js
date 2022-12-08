@@ -9,7 +9,7 @@ let analytics_table_options = {
     dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
     "<'row'<'col-sm-12'tr>>" +
     "<'row'<'col-sm-12 col-md-5'><'col-sm-12 col-md-7'p>>",
-    scrollY: "73vh",
+    scrollY: "36vh",
     scrollCollapse: true,
     serverSide: false,
     processing: false,
@@ -32,7 +32,7 @@ let analytics_by_folders_table_options = {
     dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
     "<'row'<'col-sm-12'tr>>" +
     "<'row'<'col-sm-12 col-md-5'><'col-sm-12 col-md-7'p>>",
-    scrollY: "73vh",
+    scrollY: "36vh",
     scrollCollapse: true,
     serverSide: false,
     processing: false,
@@ -45,6 +45,31 @@ let analytics_by_folders_table_options = {
         {"width": "25%", "targets": 1},
         {"className": "dt-vertical-center", "targets": "_all"}
     ]
+};
+
+let analytics_by_folders_full_table
+let analytics_by_folders_full_table_options = {
+    language: {
+        url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
+    },
+    dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+    "<'row'<'col-sm-12'tr>>" +
+    "<'row'<'col-sm-12 col-md-5'><'col-sm-12 col-md-7'p>>",
+    scrollY: "36vh",
+    scrollCollapse: true,
+    serverSide: false,
+    processing: false,
+    paging: false,
+    searching: false,
+    select: true,
+    drawCallback: function( settings ) {
+    },
+    "columnDefs": [
+        {"width": "25%", "targets": 0},
+        {"className": "dt-vertical-center", "targets": "_all"},
+        {"orderable": false, "targets": 0}
+    ],
+    "orderFixed": [0, 'asc']
 };
 
 function LoadAnalytics() {
@@ -298,6 +323,106 @@ function RenderAnalyticsByFoldersTable(data) {
     analytics_by_folders_table.draw();
 }
 
+function LoadAnalyticsByFoldersFull() {
+    let dataToSend = {'get_analytics_by_folders_full': 1};
+    let dataRes = {};
+    $('.page-loader-wrapper').fadeIn();
+    $.ajax({
+        headers:{"X-CSRFToken": csrftoken},
+        data: dataToSend,
+        type: 'GET', // GET или POST
+        dataType: 'json',
+        url: "analytics_api",
+        success: function (res) {
+            if (res.success) {
+                dataRes = res.data;
+            }
+        },
+        error: function (res) {
+            console.log(res);
+        },
+        complete: function (res) {
+            RenderAnalyticsByFoldersFullTable(dataRes);
+            $('.page-loader-wrapper').fadeOut();
+        }
+    });
+}
+
+function RenderAnalyticsByFoldersFullTable(data) {
+    try {
+        analytics_by_folders_full_table.destroy();
+    } catch(e) {}
+    $('#analytics-by-folders-full').find('tbody').html('');
+    console.log(data)
+    if (data['months'] && typeof data['months'] === "object" && !Array.isArray(data['months'])) {
+        let tmpHtml = "";
+        let foldersInHeader = {'folders': [], 'subfolders': []};
+        $('#analytics-by-folders-full').find('th.h-folder').each((ind, elem) => {
+            let tId = parseInt($(elem).attr('data-id'));
+            if (isNaN(tId)) {tId = -1;}
+            if (!foldersInHeader['folders'].includes(tId) && tId != -1) {
+                foldersInHeader['folders'].push(tId);
+            }
+        });
+        $('#analytics-by-folders-full').find('th.h-subfolder').each((ind, elem) => {
+            let tId = parseInt($(elem).attr('data-id'));
+            if (isNaN(tId)) {tId = -1;}
+            if (!foldersInHeader['subfolders'].includes(tId) && tId != -1) {
+                foldersInHeader['subfolders'].push(tId);
+            }
+        });
+        let cIndex = 1;
+        for (let key in data['months']) {
+            let cMonth = data['months'][key];
+            let exsFoldersHtml = "";
+            for (let folderIndex in foldersInHeader['folders']) {
+                let tVal = 0;
+                try {
+                    tVal = cMonth['trainings_exs_folders'][foldersInHeader['folders'][folderIndex]];
+                } catch(e) {}
+                let verticalLineClass = "";
+                let cHeader = $('#analytics-by-folders-full').find(`th[data-id="${foldersInHeader['folders'][folderIndex]}"]`);
+                if ($(cHeader).hasClass('border-custom-right')) {verticalLineClass = "border-custom-right";}
+                if ($(cHeader).hasClass('border-custom-x')) {verticalLineClass = "border-custom-x";}
+                if ($(cHeader).hasClass('border-custom-left')) {verticalLineClass = "border-custom-left";}
+                exsFoldersHtml += `
+                    <td class="text-center ${verticalLineClass}">
+                        ${tVal > 0 ? tVal : '-'}
+                    </td>
+                `;
+            }
+            for (let folderIndex in foldersInHeader['subfolders']) {
+                let tVal = 0;
+                try {
+                    tVal = cMonth['trainings_exs_subfolders'][foldersInHeader['subfolders'][folderIndex]];
+                } catch(e) {}
+                let verticalLineClass = "";
+                let cHeader = $('#analytics-by-folders-full').find(`th[data-id="${foldersInHeader['subfolders'][folderIndex]}"]`);
+                if ($(cHeader).hasClass('border-custom-right')) {verticalLineClass = "border-custom-right";}
+                if ($(cHeader).hasClass('border-custom-x')) {verticalLineClass = "border-custom-x";}
+                if ($(cHeader).hasClass('border-custom-left')) {verticalLineClass = "border-custom-left";}
+                exsFoldersHtml += `
+                    <td class="text-center ${verticalLineClass}">
+                        ${tVal > 0 ? tVal : '-'}
+                    </td>
+                `;
+            }
+            tmpHtml += `
+                <tr class="analytics-by-folders-full-row" data-id="${key}">
+                    <td class="text-center" data-order="${key}">
+                        ${cMonth['name']}
+                    </td>
+                    ${exsFoldersHtml}
+                </tr>
+            `;
+            cIndex ++;
+        }
+        $('#analytics-by-folders-full').find('tbody').html(tmpHtml);
+    }
+    analytics_by_folders_full_table = $('#analytics-by-folders-full').DataTable(analytics_by_folders_full_table_options);
+    analytics_by_folders_full_table.draw();
+}
+
 
 
 $(function() {
@@ -322,6 +447,8 @@ $(function() {
                 LoadAnalytics();
             } else if ($('.toggle-tables.selected').attr('id') == "foldersTable") {
                 LoadAnalyticsByFolders();
+            } else if ($('.toggle-tables.selected').attr('id') == "foldersFullTable") {
+                LoadAnalyticsByFoldersFull();
             }
         }
     });
@@ -383,6 +510,8 @@ $(function() {
             LoadAnalytics();
         } else if ($('.toggle-tables.selected').attr('id') == "foldersTable") {
             LoadAnalyticsByFolders();
+        } else if ($('.toggle-tables.selected').attr('id') == "foldersFullTable") {
+            LoadAnalyticsByFoldersFull();
         }
     });
 
