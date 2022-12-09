@@ -365,19 +365,30 @@ function RenderAnalyticsByFoldersFullTable(data) {
         });
         $('#analytics-by-folders-full').find('th.h-subfolder').each((ind, elem) => {
             let tId = parseInt($(elem).attr('data-id'));
+            let tParentId = parseInt($(elem).attr('data-parent'));
             if (isNaN(tId)) {tId = -1;}
-            if (!foldersInHeader['subfolders'].includes(tId) && tId != -1) {
-                foldersInHeader['subfolders'].push(tId);
+            if (isNaN(tParentId)) {tParentId = -1;}
+            if (foldersInHeader['subfolders'].findIndex(x => x.id === tId) == -1 && tId != -1) {
+                foldersInHeader['subfolders'].push({'id': tId, 'parent': tParentId});
             }
         });
         let cIndex = 1;
         for (let key in data['months']) {
             let cMonth = data['months'][key];
             let exsFoldersHtml = "";
+            let foldersSum = 0;
             for (let folderIndex in foldersInHeader['folders']) {
                 let tVal = 0;
                 try {
-                    tVal = cMonth['trainings_exs_folders'][foldersInHeader['folders'][folderIndex]];
+                    tVal = parseInt(cMonth['trainings_exs_folders'][foldersInHeader['folders'][folderIndex]]);
+                    if (isNaN(tVal)) {tVal = 0;}
+                } catch(e) {}
+                foldersSum += tVal;
+            }
+            for (let folderIndex in foldersInHeader['folders']) {
+                let tVal = 0;
+                try {
+                    tVal = (parseInt(cMonth['trainings_exs_folders'][foldersInHeader['folders'][folderIndex]]) / foldersSum * 100).toFixed(0);
                 } catch(e) {}
                 let verticalLineClass = "";
                 let cHeader = $('#analytics-by-folders-full').find(`th[data-id="${foldersInHeader['folders'][folderIndex]}"]`);
@@ -391,12 +402,16 @@ function RenderAnalyticsByFoldersFullTable(data) {
                 `;
             }
             for (let folderIndex in foldersInHeader['subfolders']) {
+                let cHeader = $('#analytics-by-folders-full').find(`th[data-id="${foldersInHeader['subfolders'][folderIndex]['id']}"]`);
+                let cParentId = parseInt($(cHeader).attr('data-parent'));
+                if (isNaN(cParentId)) {cParentId = -1;}
                 let tVal = 0;
                 try {
-                    tVal = cMonth['trainings_exs_subfolders'][foldersInHeader['subfolders'][folderIndex]];
+                    let subfoldersSum = parseInt(cMonth['trainings_exs_folders'][cParentId]);
+                    tVal = (parseInt(cMonth['trainings_exs_subfolders'][foldersInHeader['subfolders'][folderIndex]['id']]) / subfoldersSum * 100).toFixed(0);
                 } catch(e) {}
                 let verticalLineClass = "";
-                let cHeader = $('#analytics-by-folders-full').find(`th[data-id="${foldersInHeader['subfolders'][folderIndex]}"]`);
+                
                 if ($(cHeader).hasClass('border-custom-right')) {verticalLineClass = "border-custom-right";}
                 if ($(cHeader).hasClass('border-custom-x')) {verticalLineClass = "border-custom-x";}
                 if ($(cHeader).hasClass('border-custom-left')) {verticalLineClass = "border-custom-left";}

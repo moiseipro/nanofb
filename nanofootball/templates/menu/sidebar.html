@@ -123,10 +123,32 @@
         {% else %}
             <i class="icon-custom" style="--i-w: 1.3em; --i-h: 1.3em;"></i>
         {% endif %}
-        <span>{% trans 'Parents' %}</span>
+        <span>Родители</span>
     </a>
 </li>
 {% endif %}
+
+<li class="{{ menu_trainer }}">
+    <a href="#" class="btn">
+        {% if ui_elements.sidebar__trainer %}
+            {{ ui_elements.sidebar__trainer }}
+        {% else %}
+            <i class="icon-custom" style="--i-w: 1.3em; --i-h: 1.3em;"></i>
+        {% endif %}
+        <span>Тренер</span>
+    </a>
+</li>
+<li class="{{ menu_leader }}">
+    <a href="#" class="btn">
+        {% if ui_elements.sidebar__leader %}
+            {{ ui_elements.sidebar__leader }}
+        {% else %}
+            <i class="icon-custom" style="--i-w: 1.3em; --i-h: 1.3em;"></i>
+        {% endif %}
+        <span>Руководитель</span>
+    </a>
+</li>
+
 {% if perms.matches.analytics_usermatch or perms.matches.analytics_clubmatch or perms.trainings.analytics_usertraining or perms.trainings.analytics_clubtraining %}
 <li>
     <a href="{% url 'analytics:analytics' %}" class="btn">
