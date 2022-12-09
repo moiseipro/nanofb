@@ -115,6 +115,18 @@
     </a>
 </li>
 {% endif %}
+{% if perms.players.view_userplayer or perms.players.view_clubplayer %}
+<li class="{{ menu_parents }}">
+    <a href="{% url 'players:parents' %}" class="btn">
+        {% if ui_elements.sidebar__parents %}
+            {{ ui_elements.sidebar__parents }}
+        {% else %}
+            <i class="icon-custom" style="--i-w: 1.3em; --i-h: 1.3em;"></i>
+        {% endif %}
+        <span>{% trans 'Parents' %}</span>
+    </a>
+</li>
+{% endif %}
 {% if perms.matches.analytics_usermatch or perms.matches.analytics_clubmatch or perms.trainings.analytics_usertraining or perms.trainings.analytics_clubtraining %}
 <li>
     <a href="{% url 'analytics:analytics' %}" class="btn">
