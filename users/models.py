@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django_countries.fields import CountryField
 from django.utils.translation import gettext_lazy as _
 
@@ -116,7 +118,14 @@ class User(AbstractUser):
     last_name = None
     first_name = None
     email = models.EmailField(_("email address"), unique=True)
-    p_version = models.ForeignKey(Version, on_delete=models.SET_NULL, null=True)
+    p_version = models.ForeignKey(
+        Version,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name=_('Version'),
+        help_text=_('User version'),
+    )
     club_id = models.ForeignKey(
         Club,
         null=True,
@@ -143,6 +152,7 @@ class User(AbstractUser):
     personal = models.OneToOneField(
         UserPersonal,
         null=True,
+        blank=True,
         on_delete=models.CASCADE,
         default=None,
         verbose_name=_('Personal Information'),
@@ -153,6 +163,7 @@ class User(AbstractUser):
     payment = models.OneToOneField(
         UserPayment,
         null=True,
+        blank=True,
         on_delete=models.SET_NULL,
         default=None,
         verbose_name=_('Payment Information'),

@@ -22,5 +22,6 @@ class ClubSerializer(serializers.ModelSerializer):
     class Meta:
         model = Club
         fields = [
-            'id', 'name', 'subdomain', 'groups', 'permissions', 'date_registration', 'date_registration_to'
+            'id', 'name', 'subdomain', 'groups', 'permissions', 'date_registration', 'date_registration_to',
+            'team_limit', 'player_limit', 'user_limit'
         ]
