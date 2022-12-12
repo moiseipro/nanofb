@@ -24,10 +24,10 @@
                                             Общая таблица
                                         </button>
                                         <button type="button" class="btn btn-primary btn-sm mx-1 toggle-tables" id="foldersTable">
-                                            Таблица по папкам
+                                            Папки / по игрокам
                                         </button>
-                                        <button type="button" class="btn btn-secondary btn-sm mx-1" id="">
-                                            Кнопка 4
+                                        <button type="button" class="btn btn-primary btn-sm mx-1 toggle-tables" id="foldersFullTable">
+                                            Папки / по месяцам
                                         </button>
                                         <button type="button" class="btn btn-secondary btn-sm mx-1" id="">
                                             Кнопка 5
@@ -62,110 +62,157 @@
                             </div>
                             <div class="analytics-table-container mt-2">
                                 <div class="row">
-                                    <div class="col col-custom table-block" data-id="defaultTable" style="--col-width:95%;">
-                                        <div class="table-responsive">
-                                            <table id="analytics" class="table table-sm table-striped table-bordered dataTable" style="width:100%;">
-                                                <thead>
-                                                    <tr class="">
-                                                        <th class="border text-center border-custom-right" colspan="2"></th>
-                                                        <th class="border text-center border-custom-x" colspan="4">Статистика</th>
-                                                        <th class="border text-center border-custom-x" colspan="7">Игры</th>
-                                                        <th class="border text-center border-custom-x" colspan="3">Гол/Пас</th>
-                                                        <th class="border text-center border-custom-x" colspan="4">Тренировки</th>
-                                                        <th class="border text-center border-custom-x" colspan="{{ folders|length }}">Тип упр.</th>
-                                                        <th class="border text-center border-custom-left" colspan="2">С мячом</th>
-                                                    </tr>
-                                                    <tr class="">
-                                                        <th class="text-center visible-col">#</th>
-                                                        <th class="text-center visible-col border-custom-right">Фамилия Имя</th>
-        
-                                                        <th class="text-center visible-col border-custom-left" title="Болезни" data-col="col_disease">
-                                                            <i class="fa fa-medkit text-secondary" aria-hidden="true"></i>
-                                                        </th>
-                                                        <th class="text-center visible-col" title="Травмы" data-col="col_injury">
-                                                            <i class="fa fa-medkit text-danger" aria-hidden="true"></i>
-                                                        </th>
-                                                        <th class="text-center visible-col" title="Пропуски" data-col="col_skip">
-                                                            <i class="fa fa-long-arrow-down" aria-hidden="true"></i>
-                                                        </th>
-                                                        <th class="text-center visible-col border-custom-right" title="В Сборной" data-col="col_au">A/U</th>
-        
-                                                        <th class="text-center visible-col border-custom-left" title="Количество игр" data-col="col_matches_count">
-                                                            <i class="fa fa-futbol-o" aria-hidden="true"></i>
-                                                        </th>
-                                                        <th class="text-center visible-col" title="Суммарное время всех игр" data-col="col_matches_time">
-                                                            <i class="fa fa-clock-o" aria-hidden="true"></i>
-                                                        </th>
-                                                        <th class="text-center visible-col" data-col="col_matches_yellow_card">ж.к.</th>
-                                                        <th class="text-center visible-col" data-col="col_matches_red_card">к.к.</th>
-                                                        <th class="text-center visible-col" data-col="col_matches_estimation">Оц.</th>
-                                                        <th class="text-center visible-col" data-col="col_matches_dislike"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></th>
-                                                        <th class="text-center visible-col border-custom-right" data-col="col_matches_like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></th>
-        
-                                                        <th class="text-center visible-col border-custom-left" data-col="col_matches_goal">гол</th>
-                                                        <th class="text-center visible-col" data-col="col_matches_penalty">пен</th>
-                                                        <th class="text-center visible-col border-custom-right" data-col="col_matches_pass">пас</th>
-        
-                                                        <th class="text-center visible-col border-custom-left" title="Количество тренировок" data-col="col_trainings_count">
-                                                            <i class="fa fa-futbol-o" aria-hidden="true"></i>
-                                                        </th>
-                                                        <th class="text-center visible-col" title="Суммарное время всех тренировок" data-col="col_trainings_time">
-                                                            <i class="fa fa-clock-o" aria-hidden="true"></i>
-                                                        </th>
-                                                        <th class="text-center visible-col" data-col="col_trainings_dislike"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></th>
-                                                        <th class="text-center visible-col border-custom-right" data-col="col_trainings_like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></th>
-                                                        
-                                                        {% for folder in folders %}
-                                                        <th class="text-center h-folder visible-col" data-id="{{ folder.id }}" data-col="col_folder_{{ folder.id }}">{{ folder.short_name }}</th>
-                                                        {% endfor %}
-        
-                                                        <th class="text-center visible-col border-custom-left" data-col="col_trainings_yes_ball"><i class="fa fa-futbol-o" aria-hidden="true"></i></th>
-                                                        <th class="text-center visible-col" data-col="col_trainings_no_ball"><i class="fa fa-times" aria-hidden="true"></i></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody></tbody>
-                                            </table>
+                                    <div class="col col-custom" style="--col-width:95%;">
+                                        <div class="row">
+                                            <div class="col-12" style="height: 45vh;">
+                                                <div class="row table-block h-100" data-id="defaultTable">
+                                                    <div class="col-12 h-100">
+                                                        <div class="table-responsive h-100">
+                                                            <table id="analytics" class="table table-sm table-striped table-bordered dataTable" style="width:100%;">
+                                                                <thead>
+                                                                    <tr class="">
+                                                                        <th class="border text-center border-custom-right" colspan="2"></th>
+                                                                        <th class="border text-center border-custom-x" colspan="4">Статистика</th>
+                                                                        <th class="border text-center border-custom-x" colspan="7">Игры</th>
+                                                                        <th class="border text-center border-custom-x" colspan="3">Гол/Пас</th>
+                                                                        <th class="border text-center border-custom-x" colspan="4">Тренировки</th>
+                                                                        <th class="border text-center border-custom-x" colspan="{{ folders|length }}">Тип упр.</th>
+                                                                        <th class="border text-center border-custom-left" colspan="2">С мячом</th>
+                                                                    </tr>
+                                                                    <tr class="">
+                                                                        <th class="text-center visible-col">#</th>
+                                                                        <th class="text-center visible-col border-custom-right">Фамилия Имя</th>
+                        
+                                                                        <th class="text-center visible-col border-custom-left" title="Болезни" data-col="col_disease">
+                                                                            <i class="fa fa-medkit text-secondary" aria-hidden="true"></i>
+                                                                        </th>
+                                                                        <th class="text-center visible-col" title="Травмы" data-col="col_injury">
+                                                                            <i class="fa fa-medkit text-danger" aria-hidden="true"></i>
+                                                                        </th>
+                                                                        <th class="text-center visible-col" title="Пропуски" data-col="col_skip">
+                                                                            <i class="fa fa-long-arrow-down" aria-hidden="true"></i>
+                                                                        </th>
+                                                                        <th class="text-center visible-col border-custom-right" title="В Сборной" data-col="col_au">A/U</th>
+                        
+                                                                        <th class="text-center visible-col border-custom-left" title="Количество игр" data-col="col_matches_count">
+                                                                            <i class="fa fa-futbol-o" aria-hidden="true"></i>
+                                                                        </th>
+                                                                        <th class="text-center visible-col" title="Суммарное время всех игр" data-col="col_matches_time">
+                                                                            <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                                                        </th>
+                                                                        <th class="text-center visible-col" data-col="col_matches_yellow_card">ж.к.</th>
+                                                                        <th class="text-center visible-col" data-col="col_matches_red_card">к.к.</th>
+                                                                        <th class="text-center visible-col" data-col="col_matches_estimation">Оц.</th>
+                                                                        <th class="text-center visible-col" data-col="col_matches_dislike"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></th>
+                                                                        <th class="text-center visible-col border-custom-right" data-col="col_matches_like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></th>
+                        
+                                                                        <th class="text-center visible-col border-custom-left" data-col="col_matches_goal">гол</th>
+                                                                        <th class="text-center visible-col" data-col="col_matches_penalty">пен</th>
+                                                                        <th class="text-center visible-col border-custom-right" data-col="col_matches_pass">пас</th>
+                        
+                                                                        <th class="text-center visible-col border-custom-left" title="Количество тренировок" data-col="col_trainings_count">
+                                                                            <i class="fa fa-futbol-o" aria-hidden="true"></i>
+                                                                        </th>
+                                                                        <th class="text-center visible-col" title="Суммарное время всех тренировок" data-col="col_trainings_time">
+                                                                            <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                                                        </th>
+                                                                        <th class="text-center visible-col" data-col="col_trainings_dislike"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></th>
+                                                                        <th class="text-center visible-col border-custom-right" data-col="col_trainings_like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></th>
+                                                                        
+                                                                        {% for folder in folders %}
+                                                                        <th class="text-center h-folder visible-col" data-id="{{ folder.id }}" data-col="col_folder_{{ folder.id }}">{{ folder.short_name }}</th>
+                                                                        {% endfor %}
+                        
+                                                                        <th class="text-center visible-col border-custom-left" data-col="col_trainings_yes_ball"><i class="fa fa-futbol-o" aria-hidden="true"></i></th>
+                                                                        <th class="text-center visible-col" data-col="col_trainings_no_ball"><i class="fa fa-times" aria-hidden="true"></i></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody></tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row table-block h-100 d-none" data-id="foldersTable">
+                                                    <div class="col-12 h-100">
+                                                        <div class="table-responsive h-100">
+                                                            <table id="analytics-by-folders" class="table table-sm table-striped table-bordered dataTable" style="width:100%;">
+                                                                <thead>
+                                                                    <tr class="">
+                                                                        <th class="border text-center border-custom-right" colspan="2"></th>
+                                                                        {% for folder in folders %}
+                                                                            {% if folder.subfolders|length > 0 %}
+                                                                            
+                                                                            <th class="border text-center 
+                                                                                {% if forloop.last %}border-custom-left{% else %}border-custom-x{% endif %}" 
+                                                                            colspan="{{ folder.subfolders|length }}" title="{{ folder.name }}">{{ folder.short_name }}</th>
+                                                                            {% endif %}
+                                                                        {% endfor %}
+                                                                    </tr>
+                                                                    <tr class="">
+                                                                        <th class="text-center">#</th>
+                                                                        <th class="text-center border-custom-right">Фамилия Имя</th>
+                                                                        {% for folder in folders %}
+                                                                            {% if folder.subfolders|length > 0 %}
+                                                                                {% if forloop.last %}
+                                                                                    {% for subfolder in folder.subfolders %}
+                                                                                    <th class="text-center h-subfolder "
+                                                                                    data-id="{{ subfolder.id }}" data-parent="{{ folder.id }}" data-col="col_folder_{{ subfolder.id }}" title="{{ subfolder.name }}">{{ subfolder.short_name }}</th>
+                                                                                    {% endfor %}
+                                                                                {% else %}
+                                                                                    {% for subfolder in folder.subfolders %}
+                                                                                    <th class="text-center h-subfolder 
+                                                                                    {% if forloop.last %}border-custom-right{% endif %}"
+                                                                                    data-id="{{ subfolder.id }}" data-parent="{{ folder.id }}" data-col="col_folder_{{ subfolder.id }}" title="{{ subfolder.name }}">{{ subfolder.short_name }}</th>
+                                                                                    {% endfor %}
+                                                                                {% endif %}
+                                                                            {% endif %}
+                                                                        {% endfor %}
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody></tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row table-block h-100 d-none" data-id="foldersFullTable">
+                                                    <div class="col-12 h-100">
+                                                        <div class="table-responsive h-100">
+                                                            <table id="analytics-by-folders-full" class="table table-sm table-striped table-bordered dataTable" style="width:100%;">
+                                                                <thead>
+                                                                    <tr class="">
+                                                                        <th class="text-center"></th>
+                                                                        {% for folder in folders %}
+                                                                        <th class="border text-center h-folder {% if forloop.last %}border-custom-right{% endif %}" data-id="{{ folder.id }}" data-col="col_folder_{{ folder.id }}" title="{{ folder.name }}">{{ folder.short_name }}</th>
+                                                                        {% endfor %}
+                                                                        {% for folder in folders %}
+                                                                            {% if folder.subfolders|length > 0 %}
+                                                                                {% if forloop.last %}
+                                                                                    {% for subfolder in folder.subfolders %}
+                                                                                    <th class="text-center h-subfolder "
+                                                                                    data-id="{{ subfolder.id }}" data-parent="{{ folder.id }}" data-col="col_subfolder_{{ subfolder.id }}" title="{{ subfolder.name }}">{{ subfolder.short_name }}</th>
+                                                                                    {% endfor %}
+                                                                                {% else %}
+                                                                                    {% for subfolder in folder.subfolders %}
+                                                                                    <th class="text-center h-subfolder 
+                                                                                    {% if forloop.last %}border-custom-right{% endif %}"
+                                                                                    data-id="{{ subfolder.id }}" data-parent="{{ folder.id }}" data-col="col_folder_{{ subfolder.id }}" title="{{ subfolder.name }}">{{ subfolder.short_name }}</th>
+                                                                                    {% endfor %}
+                                                                                {% endif %}
+                                                                            {% endif %}
+                                                                        {% endfor %}
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody></tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12" style="height: 38vh;">
+
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col col-custom table-block d-none" data-id="foldersTable" style="--col-width:95%;">
-                                        <div class="table-responsive">
-                                            <table id="analytics-by-folders" class="table table-sm table-striped table-bordered dataTable" style="width:100%;">
-                                                <thead>
-                                                    <tr class="">
-                                                        <th class="border text-center border-custom-right" colspan="2"></th>
-                                                        {% for folder in folders %}
-                                                            {% if folder.subfolders|length > 0 %}
-                                                            
-                                                            <th class="border text-center 
-                                                                {% if forloop.last %}border-custom-left{% else %}border-custom-x{% endif %}" 
-                                                            colspan="{{ folder.subfolders|length }}" title="{{ folder.name }}">{{ folder.short_name }}</th>
-                                                            {% endif %}
-                                                        {% endfor %}
-                                                    </tr>
-                                                    <tr class="">
-                                                        <th class="text-center">#</th>
-                                                        <th class="text-center border-custom-right">Фамилия Имя</th>
-                                                        {% for folder in folders %}
-                                                            {% if folder.subfolders|length > 0 %}
-                                                                {% if forloop.last %}
-                                                                    {% for subfolder in folder.subfolders %}
-                                                                    <th class="text-center h-subfolder "
-                                                                    data-id="{{ subfolder.id }}" data-parent="{{ folder.id }}" data-col="col_folder_{{ subfolder.id }}" title="{{ subfolder.name }}">{{ subfolder.short_name }}</th>
-                                                                    {% endfor %}
-                                                                {% else %}
-                                                                    {% for subfolder in folder.subfolders %}
-                                                                    <th class="text-center h-subfolder 
-                                                                    {% if forloop.last %}border-custom-right{% endif %}"
-                                                                    data-id="{{ subfolder.id }}" data-parent="{{ folder.id }}" data-col="col_folder_{{ subfolder.id }}" title="{{ subfolder.name }}">{{ subfolder.short_name }}</th>
-                                                                    {% endfor %}
-                                                                {% endif %}
-                                                            {% endif %}
-                                                        {% endfor %}
-                                                    </tr>
-                                                </thead>
-                                                <tbody></tbody>
-                                            </table>
-                                        </div>
+                                    
                                     </div>
                                     <div class="col-1 px-0 seasons-block" style="max-width:4%!important;">
                                         <div class="row mx-0 mb-1"><div class="col-12 d-flex justify-content-center">

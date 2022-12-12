@@ -1,0 +1,67 @@
+{% extends '../base/app_main.html' %}
+{% load static %}
+
+{% block title %}Игроки{% endblock %}
+
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'players/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+    <main class="">
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-1">
+                    <div class="card-body p-1">
+                        <div class="card-inside">
+                            <div class="parents-table-container mt-1">
+                                <div class="table-responsive">
+                                    <table id="parents" class="table table-sm table-striped table-bordered dataTable" style="width:100%;">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center border" colspan="1">Команда</th>
+                                                <th class="text-center border" colspan="1">Карточки</th>
+                                                <th class="text-center border" colspan="4">Статистика</th>
+                                                <th class="text-center border" colspan="1">Видео</th>
+                                                <th class="text-center border" colspan="1">Контакты</th>
+                                                <th class="text-center border" colspan="1">Документы</th>
+                                                <th class="text-center border" colspan="1">Оплата</th>
+                                                <th class="text-center border" colspan="1">Родители</th>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-center border"></th>
+                                                <th class="text-center border"></th>
+                                          
+                                                <th class="text-center border" title="Болезни" data-col="col_disease">
+                                                    <i class="fa fa-medkit text-secondary" aria-hidden="true"></i>
+                                                </th>
+                                                <th class="text-center border" title="Травмы" data-col="col_injury">
+                                                    <i class="fa fa-medkit text-danger" aria-hidden="true"></i>
+                                                </th>
+                                                <th class="text-center border" title="Пропуски" data-col="col_skip">
+                                                    <i class="fa fa-long-arrow-down" aria-hidden="true"></i>
+                                                </th>
+                                                <th class="text-center border" title="В Сборной" data-col="col_au">A/U</th>
+
+                                                <th class="text-center border"></th>
+                                                <th class="text-center border"></th>
+                                                <th class="text-center border"></th>
+                                                <th class="text-center border"></th>
+                                                <th class="text-center border"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
+{% block custom_scripts %}
+    <script src="{% static 'players/js/base_parents.js' %}"></script>
+{% endblock %}

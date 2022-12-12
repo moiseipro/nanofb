@@ -290,3 +290,21 @@ class PlayerProtocolStatus(AbstractReference, MixTranslateReference):
     class Meta(AbstractReference.Meta):
         verbose_name = _('Player protocol status')
         verbose_name_plural = _('Player protocol statuses')
+
+
+# --Tags--
+class CustomTag(AbstractReference):
+    lowercase_name = models.CharField(
+        max_length=255,
+        verbose_name=_('lowercase title'),
+        help_text=_(''),
+        unique=True,
+        null=False
+    )
+
+    class Meta(AbstractReference.Meta):
+        verbose_name = _('Custom tags')
+        verbose_name_plural = _('Custom tags')
+        abstract = True
+
+

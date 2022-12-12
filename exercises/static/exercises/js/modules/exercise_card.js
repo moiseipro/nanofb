@@ -161,12 +161,16 @@ function RenderExerciseOne(data) {
         $(exsCard).find('.exs_edit_field[name="ref_train_part"]').val(data.ref_train_part);
         $(exsCard).find('.exs_edit_field[name="ref_cognitive_load"]').val(data.ref_cognitive_load);
 
-        // CheckMultiRows(exsCard, data.additional_data, '.exs_edit_field[name="additional_data[]"]', 'additional_data');
-        CheckMultiRows(exsCard, data.keyword, '.exs_edit_field[name="keyword[]"]', 'keyword');
-        CheckMultiRows(exsCard, data.stress_type, '.exs_edit_field[name="stress_type[]"]', 'stress_type');
-        CheckMultiRows(exsCard, data.purposes, '.exs_edit_field[name="purposes[]"]', 'purposes');
-        // CheckMultiRows(exsCard, data.coaching, '.exs_edit_field[name="coaching[]"]', 'coaching');
-        CheckMultiRows(exsCard, data.notes, '.exs_edit_field[name="notes[]"]', 'notes');
+        $(exsCard).find('.exs_edit_field[name="tags"]').val(data.tags).trigger('change');
+        window.changedData = false;
+
+        // // CheckMultiRows(exsCard, data.additional_data, '.exs_edit_field[name="additional_data[]"]', 'additional_data');
+        // CheckMultiRows(exsCard, data.keyword, '.exs_edit_field[name="keyword[]"]', 'keyword');
+        // CheckMultiRows(exsCard, data.stress_type, '.exs_edit_field[name="stress_type[]"]', 'stress_type');
+        // CheckMultiRows(exsCard, data.purposes, '.exs_edit_field[name="purposes[]"]', 'purposes');
+        // // CheckMultiRows(exsCard, data.coaching, '.exs_edit_field[name="coaching[]"]', 'coaching');
+        // CheckMultiRows(exsCard, data.notes, '.exs_edit_field[name="notes[]"]', 'notes');
+
         CorrectBlockBorders();
 
         $(exsCard).find('.exs_edit_field[name="coaching[]"]').trigger('onkeyup');

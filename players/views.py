@@ -324,3 +324,42 @@ def players_api(request):
     else:
         return JsonResponse({"errors": "access_error"}, status=400)
 
+
+def parents(request):
+    """
+    Return render page with given template. 
+        If the user is not authorized, then there will be a redirect to the page with authorization.
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :return: Return an HttpResponse whose content is filled with the result of calling django.template.loader.render_to_string() with the passed arguments.
+    Next arguments:\n
+    * 'refs' -> References of Players Section.
+    * 'menu_parents' -> Html tag class: "active" for Sidebar.
+    * 'seasons_list' -> List of user's or club's seasons available current user.
+    * 'teams_list' -> List of user's or club's teams available current user.
+    * 'ui_elements' -> List of UI elements registered in icons' system. Check Module.system_icons.views.get_ui_elements(request) for see more.
+    :rtype: [HttpResponse]
+
+    """
+    if not request.user.is_authenticated:
+        return redirect("authorization:login")
+    cur_user = User.objects.filter(email=request.user).only("club_id")
+    if not util_check_access(cur_user[0], 
+        {'perms_user': ["players.view_userplayer"], 'perms_club': ["players.view_clubplayer"]}
+    ):
+        return redirect("users:profile")
+    cur_team = -1
+    try:
+        cur_team = int(request.session['team'])
+    except:
+        pass
+    refs = {}
+    refs = v_api.get_players_refs(request)
+    return render(request, 'players/base_parents.html', {
+        'refs': refs,
+        'menu_parents': 'active',
+        'seasons_list': request.seasons_list,
+        'teams_list': request.teams_list,
+        'ui_elements': get_ui_elements(request)
+    })
+
