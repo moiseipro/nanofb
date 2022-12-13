@@ -15,8 +15,13 @@ async function ajax_team_action(method, data, action = '', id = '', func = '') {
             console.log(data)
         },
         error: function(jqXHR, textStatus){
-            console.log(errorThrown)
-            swal(gettext('Training '+action), gettext('Error when action "'+action+'" the training protocol!'), "error");
+            console.log(textStatus)
+            if('limit' in jqXHR.responseJSON){
+                swal(gettext('Team '+action), gettext('The team limit has been reached!'), "error");
+            }else{
+                swal(gettext('Team '+action), gettext('Error when action "'+action+'" the team!'), "error");
+            }
+
         },
         complete: function () {
             $('.page-loader-wrapper').fadeOut();

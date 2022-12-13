@@ -57,8 +57,9 @@ class VideoViewSet(viewsets.ModelViewSet):
         permission_classes = [IsAuthenticated, VideoPermissions]
         return [permission() for permission in permission_classes]
 
-
     def create(self, request, *args, **kwargs):
+        note_video = False
+        note_animation = False
         data = request.data
         print(data)
         links = {'nftv': '', 'youtube': ''}
@@ -68,6 +69,12 @@ class VideoViewSet(viewsets.ModelViewSet):
             language=data['language'],
             videosource_id=data['videosource_id']
         )
+        if 'note_animation' in data:
+            note_animation = True
+        if 'note_video' in data:
+            note_video = True
+        note = json.dumps({'video': note_video, 'animation': note_animation})
+        data_dict['note'] = note
         if 'music' in data:
             data_dict['music'] = data['music']
         else:
@@ -91,9 +98,11 @@ class VideoViewSet(viewsets.ModelViewSet):
                 print(mp_encoder)
                 response = requests.post(url, data=mp_encoder, headers={'Content-Type': mp_encoder.content_type})
                 content = response.json()
-                video_data = content['data'][0]
+                if 'data' in content:
+                    video_data = content['data'][0]
+                else:
+                    video_data = content
                 print(content)
-
             fs.delete(file_name)
 
             if video_data['success']:
@@ -146,16 +155,20 @@ class VideoViewSet(viewsets.ModelViewSet):
             if id_video:
                 links['youtube'] = id_video
 
-        data_dict['links'] = json.dumps(links)
+        print(links)
+        if links['nftv'] or links['youtube']:
+            data_dict['links'] = json.dumps(links)
 
-        query_dict = QueryDict('', mutable=True)
-        query_dict.update(data_dict)
-        print(query_dict)
-        serializer = self.get_serializer(data=query_dict)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+            query_dict = QueryDict('', mutable=True)
+            query_dict.update(data_dict)
+            print(query_dict)
+            serializer = self.get_serializer(data=query_dict)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        else:
+            return Response({'empty_load': 'You cant create an object without links to the video'}, status=status.HTTP_423_LOCKED)
 
     def perform_update(self, serializer):
         music = False
