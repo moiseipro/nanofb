@@ -95,10 +95,14 @@ function ajax_video_action(method, data, action = '', id = '', func = '') {
             processData: false,
             contentType: false,
             success: function(data){
-                swal(gettext('Training '+action), gettext('Video action "'+action+'" successfully!'), "success");
+                swal(gettext('Video '+action), gettext('Video action "'+action+'" successfully!'), "success");
             },
             error: function(jqXHR, textStatus){
-                swal(gettext('Training '+action), gettext('Error when action "'+action+'" the video!'), "error");
+                if('empty_load' in jqXHR.responseJSON){
+                    swal(gettext('Video '+action), gettext(jqXHR.responseJSON['empty_load']), "error");
+                } else {
+                    swal(gettext('Video '+action), gettext('Error when action "'+action+'" the video!'), "error");
+                }
             },
             complete: function () {
                 $('.page-loader-wrapper').fadeOut();
