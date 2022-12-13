@@ -677,20 +677,23 @@ $(function() {
     // Copy Exs
     let foldersLoadedForCopy = false;
     $('#exerciseCopyModal').on('show.bs.modal', (e) => {
+        let isNfb = $('#exerciseCopyModal').find('input[name="nfb"]').val() == '1' && $('.folders_div:not(.d-none)').attr('data-id') == "nfb_folders";
+        let htmlList = isNfb ? "folders_nfb_list" : "folders_list";
+        let htmlElemInList = isNfb ? "folder-nfb-elem" : "folder-elem";
         if (!foldersLoadedForCopy) {
-            let tList = $('.exercises-list').find('.folders_list').clone();
+            let tList = $('.exercises-list').find(`.${htmlList}`).clone();
             $(tList).removeClass('d-none');
-            $(tList).removeClass('folders_list');
+            $(tList).removeClass(htmlList);
             $(tList).addClass('folders_list_copy');
-            $(tList).find('.folder-elem').addClass('folder-copy-elem');
-            $(tList).find('.folder-elem').removeClass('folder-elem');
+            $(tList).find(`.${htmlElemInList}`).addClass('folder-copy-elem');
+            $(tList).find(`.${htmlElemInList}`).removeClass(htmlElemInList);
             $(tList).find('.pull-right').remove();
             $(tList).find('.list-group-item > div').each((ind, elem) => {
                 let tText = `${$(elem).attr('data-short')}. ${$(elem).attr('data-name')}`;
                 $(elem).find('.folder-title').html(tText);
             });
             $('#exerciseCopyModal').find('.modal-body').html(tList);
-            foldersLoadedForCopy = true;
+            // foldersLoadedForCopy = true;
         }
     });
     $('#exerciseCopyModal').on('hidden.bs.modal', (e) => {

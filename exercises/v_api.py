@@ -4,6 +4,7 @@ from django.db.models import Sum, Q
 from users.models import User
 from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, ClubExercise, AdminExercise, ExerciseVideo, ExerciseTag
 from exercises.models import UserExerciseParam, UserExerciseParamTeam
+from exercises.models import AdminExerciseAdditionalParams, UserExerciseAdditionalParams, ClubExerciseAdditionalParams
 from references.models import ExsGoal, ExsBall, ExsTeamCategory, ExsAgeCategory, ExsTrainPart, ExsCognitiveLoad
 from references.models import ExsKeyword, ExsStressType, ExsPurpose, ExsCoaching
 from references.models import ExsCategory, ExsAdditionalData, ExsTitleName
@@ -252,7 +253,10 @@ def get_exercises_params(request, user, team):
                 club_folders = ClubFolder.objects.filter(club=request.user.club_id, visible=True).values()
             else:
                 folders = UserFolder.objects.filter(user=user[0], team=team, visible=True).values()
-    nfb_folders = AdminFolder.objects.filter(visible=True).values()
+    nfb_folders = AdminFolder.objects.filter(visible=True)
+    if not user[0].is_superuser:
+        nfb_folders = folders.filter(active=True)
+    nfb_folders = nfb_folders.values()
     for elem in folders:
         elem['root'] = False if elem['parent'] and elem['parent'] != 0 else True
     for elem in nfb_folders:
@@ -541,26 +545,20 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
         exercise['has_video_2'] = False
         exercise['has_animation_1'] = False
         exercise['has_animation_2'] = False
-        videos_arr = get_exs_video_data(exercise['video_data'])
-        anims_arr = get_exs_video_data(exercise['animation_data'])
-        if isinstance(anims_arr, dict):
-            anims_arr = anims_arr['default']
-        if len(videos_arr) == 2:
-            if videos_arr[0] != -1:
-                exercise['has_video_1'] = True
-            if videos_arr[1] != -1:
-                exercise['has_video_2'] = True
-        if len(anims_arr) == 2:
-            if anims_arr[0] != -1:
-                exercise['has_animation_1'] = True
-            if anims_arr[1] != -1:
-                exercise['has_animation_2'] = True
         user_params = None
+        video_1 = None
+        video_2 = None
+        anim_1 = None
+        anim_2 = None
         if folder_type == FOLDER_TEAM:
             if req.user.club_id is not None:
                 user_params = UserExerciseParam.objects.filter(exercise_club=exercise['id'], user=cur_user)
             else:
                 user_params = UserExerciseParam.objects.filter(exercise_user=exercise['id'], user=cur_user)
+            video_1 = ExerciseVideo.objects.filter(exercise_user=exercise['id'], type=1).first()
+            video_2 = ExerciseVideo.objects.filter(exercise_user=exercise['id'], type=2).first()
+            anim_1 = ExerciseVideo.objects.filter(exercise_user=exercise['id'], type=3).first()
+            anim_2 = ExerciseVideo.objects.filter(exercise_user=exercise['id'], type=4).first()
         elif folder_type == FOLDER_NFB:
             user_params = UserExerciseParam.objects.filter(exercise_nfb=exercise['id'], user=cur_user)
             if cur_user.is_superuser:
@@ -569,8 +567,24 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
                     notes = notes[0].note
                     if notes and req.LANGUAGE_CODE in notes and notes[req.LANGUAGE_CODE] and len(notes[req.LANGUAGE_CODE]) > 0:
                         exercise['has_notes'] = True
+            video_1 = ExerciseVideo.objects.filter(exercise_nfb=exercise['id'], type=1).first()
+            video_2 = ExerciseVideo.objects.filter(exercise_nfb=exercise['id'], type=2).first()
+            anim_1 = ExerciseVideo.objects.filter(exercise_nfb=exercise['id'], type=3).first()
+            anim_2 = ExerciseVideo.objects.filter(exercise_nfb=exercise['id'], type=4).first()
         elif folder_type == FOLDER_CLUB:
             user_params = UserExerciseParam.objects.filter(exercise_club=exercise['id'], user=cur_user)
+            video_1 = ExerciseVideo.objects.filter(exercise_club=exercise['id'], type=1).first()
+            video_2 = ExerciseVideo.objects.filter(exercise_club=exercise['id'], type=2).first()
+            anim_1 = ExerciseVideo.objects.filter(exercise_club=exercise['id'], type=3).first()
+            anim_2 = ExerciseVideo.objects.filter(exercise_club=exercise['id'], type=4).first()
+        if video_1 and video_1.video:
+            exercise['has_video_1'] = True
+        if video_2 and video_2.video:
+            exercise['has_video_2'] = True
+        if anim_1 and anim_1.video:
+            exercise['has_animation_1'] = True
+        if anim_2 and anim_2.video:
+            exercise['has_animation_2'] = True
         if user_params != None and user_params.exists() and user_params[0].id != None:
             user_params = user_params.values()[0]
             exercise['favorite'] = user_params['favorite']
@@ -646,6 +660,31 @@ def get_exercises_tags(request, user, team):
         tags = ExerciseTag.objects.filter(Q(is_nfb=True) | Q(is_nfb=False, user=user))
     return tags
 
+
+def get_exercises_additional_params(request, user):
+    """
+    Return data of Exercises' additional parametres.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param user: The current user of the system, who is currently authorized.
+    :type user: <QuerySet>Model.object[User], not only ONE (Use Models.objects.filter NOT Models.objects.get to get user).
+    :return: List of additional parametres.
+    :rtype: list[object]
+
+    """
+    params = []
+    if user.is_superuser:
+        params = AdminExerciseAdditionalParams.objects.all()
+    else:
+        if request.user.club_id is not None:
+            params = ClubExerciseAdditionalParams.objects.all()
+        else:
+            params = UserExerciseAdditionalParams.objects.all()
+    for param in params:
+        field = get_by_language_code(param.title['field'], request.LANGUAGE_CODE)
+        setattr(param, 'field', field)
+    return params
 
 
 # --------------------------------------------------
@@ -805,6 +844,7 @@ def POST_move_exs(request, cur_user, cur_team):
     """
     exs_id = -1
     folder_id = -1
+    folder_type = request.POST.get("type", "")
     try:
         exs_id = int(request.POST.get("exs", -1))
     except:
@@ -820,15 +860,19 @@ def POST_move_exs(request, cur_user, cur_team):
     }):
         return JsonResponse({"err": "Access denied.", "success": False}, status=400)
     if request.user.club_id is not None:
-         found_folder = ClubFolder.objects.filter(id=folder_id, club=request.user.club_id)
+        found_folder = ClubFolder.objects.filter(id=folder_id, club=request.user.club_id)
     else:
         found_folder = UserFolder.objects.filter(id=folder_id, user=cur_user)
+    if folder_type == FOLDER_NFB and cur_user.is_superuser:
+        found_folder = AdminFolder.objects.filter(id=folder_id)
     if found_folder.exists() and found_folder[0].id != None:
         found_exs = None
         if request.user.club_id is not None:
             found_exs = ClubExercise.objects.filter(id=exs_id, club=request.user.club_id, team=cur_team)
         else:
             found_exs = UserExercise.objects.filter(id=exs_id, user=cur_user)
+        if folder_type == FOLDER_NFB and cur_user.is_superuser:
+            found_exs = AdminExercise.objects.filter(id=exs_id)
         if found_exs and found_exs.exists() and found_exs[0].id != None:
             found_exs = found_exs[0]
             found_exs.folder = found_folder[0]
