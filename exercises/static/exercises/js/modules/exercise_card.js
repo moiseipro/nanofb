@@ -148,6 +148,7 @@ function RenderExerciseOne(data) {
 
     let exsCard = $('#exerciseCard');
     if (data && data.id) {
+        console.log(data)
         $(exsCard).attr('data-exs', data.id);
 
         $('.exercise-card-header').toggleClass('disabled', data.copied_from_nfb == true);
@@ -170,6 +171,24 @@ function RenderExerciseOne(data) {
         // CheckMultiRows(exsCard, data.purposes, '.exs_edit_field[name="purposes[]"]', 'purposes');
         // // CheckMultiRows(exsCard, data.coaching, '.exs_edit_field[name="coaching[]"]', 'coaching');
         // CheckMultiRows(exsCard, data.notes, '.exs_edit_field[name="notes[]"]', 'notes');
+
+        $(exsCard).find('tr.additional-params-container').remove();
+        let htmlParamsStr = "";
+        for (let i in data.additional_params) {
+            let tmpParam = data.additional_params[i];
+            htmlParamsStr += `
+                <tr class="bck-custom border-y-custom additional-params-container">
+                    <td class="text-center align-middle">
+                        ${tmpParam.title}
+                    </td>
+                    <td class="text-center">
+                        <input name="additional_params__${tmpParam.id}" class="form-control form-control-sm exs_edit_field text-center" type="text" 
+                        value="${tmpParam.value ? tmpParam.value : ''}" placeholder="" autocomplete="off" disabled="">
+                    </td>
+                </tr>
+            `;
+        }
+        $(exsCard).find('tr.folder-container-after').after(htmlParamsStr);
 
         CorrectBlockBorders();
 
@@ -566,6 +585,8 @@ function ToggleFoldersType(data = null) {
     let searchParams = new URLSearchParams(window.location.search);
     let folderType = searchParams.get('type');
     let exsCard = $('#exerciseCard');
+    let folderName = "";
+    $(exsCard).find('tr.folder-container').addClass('d-none');
     if (data == null) {
         $(exsCard).find('.exs_edit_field.nfb_folders').toggleClass('d-none', folderType != "nfb_folders");
         $(exsCard).find('.exs_edit_field.team_folders').toggleClass('d-none', folderType != "team_folders");
@@ -579,7 +600,9 @@ function ToggleFoldersType(data = null) {
         $(exsCard).find('[name="folder_main"]').find('option').addClass('d-none');
         $(exsCard).find('[name="folder_main"]').find(`option[data-parent=${data.folder_parent_id}]`).removeClass('d-none');
         $(exsCard).find(`.${folderType}[name="folder_main"]`).val(data.folder_id);
+        folderName = $(exsCard).find(`.${folderType}[name="folder_main"]`).find(`option[value="${data.folder_id}"]`).text();
     }
+    $(exsCard).find('td.folder-text').text(folderName);
 }
 
 function CheckSelectedRowInVideoTable(onlySetVideo = false) {
@@ -703,6 +726,136 @@ function StopVideoForEdit() {
     } catch (e) {}
 }
 
+function RenderExsAdditionalParams(data, disabled=true, selectedRow=null) {
+    $('#exerciseAdditionalParamsModal').find('tbody').html('');
+    let htmlStr = "";
+    for (let i in data) {
+        let elem = data[i];
+        htmlStr += `
+        <tr class="column-elem" data-id="${elem.id}">
+            <td class=""></td>
+            <td class="">
+                <input name="field" class="form-control form-control-sm" type="text" value="${elem.field ? elem.field : ''}" placeholder="" autocomplete="off" ${disabled ? 'disabled=""' : ''} ">
+            </td>
+            <td class="text-center">
+                <input type="checkbox" class="form-check-input" name="visible" ${elem.visible ? 'checked=""' : ''}>
+            </td>
+        </tr>
+        `;
+    }
+    $('#exerciseAdditionalParamsModal').find('tbody').html(htmlStr);
+    $('#exerciseAdditionalParamsModal').find(`.column-elem[data-id="${selectedRow}"]`).addClass('selected');
+}
+
+function EditExsAdditionalParam(mode="edit", fields={}) {
+    let rowId = $('#exerciseAdditionalParamsModal').find('.column-elem.selected').attr('data-id');
+    let dataToSend = {'edit_exs_additional_param': 1, 'mode': mode, 'row': rowId};
+    dataToSend = Object.assign({}, dataToSend, fields);
+    $('.page-loader-wrapper').fadeIn();
+    $.ajax({
+        headers:{"X-CSRFToken": csrftoken},
+        data: dataToSend,
+        type: 'POST', // GET или POST
+        dataType: 'json',
+        url: "exercises_api",
+        success: function (res) {
+            if (res.success) {
+                let statusText = "";
+                if (res.mode == "add") {
+                    statusText = "Новый параметр успешно создан.";
+                } else if (res.mode == "edit") {
+                    statusText = "Параметр успешно изменён.";
+                } else if (res.mode == "delete") {
+                    statusText = "Параметр успешно удалён.";
+                }
+                swal("Готово", statusText, "success")
+                .then((value) => {
+                    RenderExsAdditionalParams(res.data, res.disabled, rowId);
+                });
+            } else {
+                swal("Ошибка", `При создании / изменении параметра произошла ошибка (${res.err}).`, "error");
+            }
+        },
+        error: function (res) {
+            swal("Ошибка", "Параметр не удалось создать / изменить.", "error");
+            console.log(res);
+        },
+        complete: function (res) {
+            $('.page-loader-wrapper').fadeOut();
+        }
+    });
+}
+
+function ToggleExsAdditionalParamsOrder(dir) {
+    let wasChanged = false;
+    let cID = $('#exerciseAdditionalParamsModal').find('.column-elem.selected').attr('data-id');
+    let elems = $('#exerciseAdditionalParamsModal').find(`tr.column-elem`);
+    let tFirst = null; let tLast = null; let newInd = 0;
+    for (let i = 0; i < elems.length; i++) {
+        if ($(elems[i]).attr('data-id') == cID) {
+            wasChanged = true;
+            if (dir == "up") {
+                tLast = $(elems[i]);
+                if (i - 1 < 0) {
+                    newInd = elems.length - 1;
+                    tFirst = $(elems[newInd]);
+                    $(tLast).detach().insertAfter($(tFirst));
+                } else {
+                    newInd = i - 1;
+                    tFirst = $(elems[newInd]);
+                    $(tLast).detach().insertBefore($(tFirst));
+                }
+            } else if (dir == "down") {
+                tFirst = $(elems[i]);
+                if (i + 1 > elems.length - 1) {
+                    newInd = 0;
+                    tLast = $(elems[newInd]);
+                    $(tFirst).detach().insertBefore($(tLast));
+                } else {
+                    newInd = i + 1;
+                    tLast = $(elems[newInd]);
+                    $(tFirst).detach().insertAfter($(tLast));
+                }
+            }
+            break;
+        }             
+    }
+    EditExsAdditionalParamsOrder();
+}
+
+function EditExsAdditionalParamsOrder() {
+    let rowId = $('#exerciseAdditionalParamsModal').find('.column-elem.selected').attr('data-id');
+    let arrForIds = []; let arrForOrder = [];
+    $('#exerciseAdditionalParamsModal').find('.column-elem').each((ind, elem) => {
+        let tId = $(elem).attr('data-id');
+        arrForIds.push(tId);
+        arrForOrder.push(ind+1);
+    });
+    let dataToSend = {'change_order_exs_additional_param': 1, 'ids_arr': arrForIds, 'order_arr': arrForOrder};
+    $('.page-loader-wrapper').fadeIn();
+    $.ajax({
+        headers:{"X-CSRFToken": csrftoken},
+        data: dataToSend,
+        type: 'POST', // GET или POST
+        dataType: 'json',
+        url: "exercises_api",
+        success: function (res) {
+            if (res.success) {
+                RenderExsAdditionalParams(res.data, res.disabled, rowId);
+            } else {
+                swal("Ошибка", `При изменении порядка параметров произошла ошибка (${res.err}).`, "error");
+            }
+        },
+        error: function (res) {
+            swal("Ошибка", "Не удалось изменить порядок параметров.", "error");
+            console.log(res);
+        },
+        complete: function (res) {
+            $('.page-loader-wrapper').fadeOut();
+        }
+    });
+}
+
 
 
 $(function() {
@@ -720,7 +873,7 @@ $(function() {
                     $(document).find('.ck-editor__top').addClass('d-none');
                     $(document).find('.ck-editor__main').addClass('read-mode');
                 }
-                $('.resizeable-block').css('height', `235px`);
+                $('.resizeable-block').css('height', `50vh`);
             })
             .catch(err => {
                 console.error(err);
@@ -956,6 +1109,7 @@ $(function() {
             LoadExerciseOne();
         }
         if (isActive != '1') {
+            $('#exerciseCard').find('tr.folder-container').removeClass('d-none');
             if ($('#card_drawing1').hasClass('active')) {
                 $('#card_drawing1').addClass('d-none');
                 $('.scheme-editor').find('iframe').contents().find('#svgparent').html($('#card_drawing1').find('.card').html());
@@ -1169,9 +1323,39 @@ $(function() {
 
 
     $('#exsAdditionalParamsRef').on('click', (e) => {
-        console.log('x')
         $('#exerciseAdditionalParamsModal').modal();
     });
+    $('#exerciseAdditionalParamsModal').on('click', '.column-elem', (e) => {
+        let wasActive = $(e.currentTarget).hasClass('selected');
+        $('#exerciseAdditionalParamsModal').find('.column-elem').removeClass('selected');
+        $(e.currentTarget).toggleClass('selected', !wasActive);
+    });
+    $('#exerciseAdditionalParamsModal').on('click', '.col-add', (e => {
+        $('#exerciseAdditionalParamsModal').find('.column-elem').removeClass('selected');
+        EditExsAdditionalParam("edit");
+    }));
+    $('#exerciseAdditionalParamsModal').on('click', '.col-edit', (e => {
+        $('#exerciseAdditionalParamsModal').find('input').prop('disabled', false);
+    }));
+    $('#exerciseAdditionalParamsModal').on('change', 'input', (e => {
+        $('#exerciseAdditionalParamsModal').find('.column-elem').removeClass('selected');
+        $(e.currentTarget).parent().parent().addClass('selected');
+        let fieldName = $(e.currentTarget).attr('name');
+        let fieldVal = $(e.currentTarget).attr('type') == "checkbox" ? $(e.currentTarget).prop('checked') : $(e.currentTarget).val();
+        let field = {[fieldName]: fieldVal};
+        EditExsAdditionalParam("edit", field);
+    }));
+    $('#exerciseAdditionalParamsModal').on('click', '.col-delete', (e => {
+        if ($('#exerciseAdditionalParamsModal').find('.column-elem.selected').length > 0) {
+            EditExsAdditionalParam("delete");
+        }
+    }));
+    $('#exerciseAdditionalParamsModal').on('click', '.col-up', (e => {
+        ToggleExsAdditionalParamsOrder("up");
+    }));
+    $('#exerciseAdditionalParamsModal').on('click', '.col-down', (e => {
+        ToggleExsAdditionalParamsOrder("down");
+    }));
 
 
 
