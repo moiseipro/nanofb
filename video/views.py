@@ -58,6 +58,8 @@ class VideoViewSet(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
     def create(self, request, *args, **kwargs):
+        note_video = False
+        note_animation = False
         data = request.data
         print(data)
         links = {'nftv': '', 'youtube': ''}
