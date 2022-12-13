@@ -255,7 +255,7 @@ def get_exercises_params(request, user, team):
                 folders = UserFolder.objects.filter(user=user[0], team=team, visible=True).values()
     nfb_folders = AdminFolder.objects.filter(visible=True)
     if not user[0].is_superuser:
-        nfb_folders = folders.filter(active=True)
+        nfb_folders = nfb_folders.filter(active=True)
     nfb_folders = nfb_folders.values()
     for elem in folders:
         elem['root'] = False if elem['parent'] and elem['parent'] != 0 else True
