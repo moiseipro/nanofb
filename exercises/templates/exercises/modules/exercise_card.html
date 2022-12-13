@@ -40,20 +40,25 @@
                 <div class="tab-pane fade show active" id="card_description" role="tabpanel" aria-labelledby="card_description-tab">
                     <div class="card-description split">
                         <div class="left-col-card" id="splitCol_exscard_0">
-                            <div class="container table-responsive pl-0">
+                            <div class="container table-responsive px-0">
                                 <table class="table table-sm table-bordered" style="table-layout: fixed;">
                                     <colgroup>
                                         <col span="1" style="width: 50%;">
                                         <col span="1" style="width: 50%;">
                                     </colgroup>
                                     <tbody class="">
-                                        <tr class="bck-custom text-center font-weight-bold border-bottom-custom">
+                                        <tr class="bck-custom text-center font-weight-bold border-bottom-custom d-none">
                                             <td class="align-middle" colspan="2">
                                                 {% for elem in refs.exs_title_names %}
                                                     {% if elem.name == "exercise" %}
                                                         {{ elem.title }}
                                                     {% endif %}
                                                 {% endfor %}
+                                            </td>
+                                        </tr>
+                                        <tr class="bck-custom text-center font-weight-bold text-uppercase" data-id="folder_name">
+                                            <td class="align-middle" colspan="2">
+                                                folder
                                             </td>
                                         </tr>
                                         <tr class="bck-custom border-y-custom">
@@ -96,7 +101,7 @@
                                                 </select>
                                             </td>
                                         </tr>
-                                        <tr class="bck-custom border-y-custom">
+                                        <tr class="bck-custom border-y-custom d-none">
                                             <td colspan="2">
                                                 <select name="ref_goal" class="form-control form-control-sm exs_edit_field" autocomplete="off">
                                                     <option value="">Ворота</option>
@@ -106,7 +111,7 @@
                                                 </select>
                                             </td>
                                         </tr>
-                                        <tr class="bck-custom border-y-custom">
+                                        <tr class="bck-custom border-y-custom d-none">
                                             <td colspan="2">
                                                 <select name="ref_ball" class="form-control form-control-sm exs_edit_field" autocomplete="off">
                                                     <option value="">Мяч</option>
@@ -116,7 +121,7 @@
                                                 </select>
                                             </td>
                                         </tr>
-                                        <tr class="bck-custom border-y-custom">
+                                        <tr class="bck-custom border-y-custom d-none">
                                             <td colspan="2">
                                                 <select name="ref_team_category" class="form-control form-control-sm exs_edit_field" autocomplete="off">
                                                     <option value="">Категория команды</option>
@@ -126,7 +131,7 @@
                                                 </select>
                                             </td>
                                         </tr>
-                                        <tr class="bck-custom border-y-custom">
+                                        <tr class="bck-custom border-y-custom d-none">
                                             <td colspan="2">
                                                 <select name="ref_age_category" class="form-control form-control-sm exs_edit_field" autocomplete="off">
                                                     <option value="">Возрастная категория</option>
@@ -136,7 +141,7 @@
                                                 </select>
                                             </td>
                                         </tr>
-                                        <tr class="bck-custom border-y-custom">
+                                        <tr class="bck-custom border-y-custom d-none">
                                             <td colspan="2">
                                                 <select name="ref_train_part" class="form-control form-control-sm exs_edit_field" autocomplete="off">
                                                     <option value="">Части тренировки</option>
@@ -146,7 +151,7 @@
                                                 </select>
                                             </td>
                                         </tr>
-                                        <tr class="bck-custom border-top-custom">
+                                        <tr class="bck-custom border-top-custom d-none">
                                             <td colspan="2">
                                                 <select name="ref_cognitive_load" class="form-control form-control-sm exs_edit_field" autocomplete="off">
                                                     <option value="">Когнитивная нагрузка</option>
@@ -232,7 +237,7 @@
                             </div>
                         </div>
                         <div class="center-col-card" id="splitCol_exscard_1">
-                            <div class="container table-responsive">
+                            <div class="container table-responsive px-2">
                                 <table class="table table-sm table-bordered" style="table-layout: fixed;">
                                     <colgroup>
                                         <col span="1" style="width: 100%;">
@@ -373,6 +378,9 @@
                                     </button>
                                     <button type="button" class="btn btn-secondary btn-sm btn-custom btn-view size-max-w-x" id="columnsSizeToggle" data-active="0" style="--w-max-x:20%;" title="Изменить ширину колонок">
                                         <i class="fa fa-cog" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-secondary btn-sm btn-custom btn-view size-max-w-x" id="exsAdditionalParamsRef" data-active="0" style="--w-max-x:20%;" title="Изменить ширину колонок">
+                                        Спр.
                                     </button>
                                     <button type="button" class="btn btn-secondary btn-sm btn-custom btn-view size-max-w-x" data-dismiss="modal" style="--w-max-x:20%;" title="Выйти">
                                         <i class="fa fa-times text-danger" aria-hidden="true"></i>
@@ -933,4 +941,6 @@
     {% include 'video/video_card.html' %}
 
 </div>
+
+
 

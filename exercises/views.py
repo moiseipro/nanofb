@@ -123,6 +123,7 @@ def exercise(request):
         return redirect('/exercises')
     found_folders, found_club_folders, found_nfb_folders, refs = v_api.get_exercises_params(request, cur_user, cur_team)
     exs_tags = v_api.get_exercises_tags(request, cur_user[0], cur_team)
+    exs_additional_params = v_api.get_exercises_additional_params(request, cur_user[0])
     video_params = {}
     video_params['sources'] = VideoSource.objects.all().annotate(videos=Count('video')).order_by('-videos')
     video_params['folders'] = AdminFolder.objects.exclude(parent=None).order_by('parent', 'order')
@@ -136,6 +137,7 @@ def exercise(request):
         'refs': refs,
         'menu_exercises': 'active',
         'exercises_tags': exs_tags,
+        'exercises_additional_params': exs_additional_params,
         'video_params': video_params,
         'seasons_list': request.seasons_list,
         'teams_list': request.teams_list,

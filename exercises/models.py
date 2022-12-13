@@ -85,6 +85,51 @@ class ExerciseTag(CustomTag):
         abstract = False
 
 
+class AdminExerciseAdditionalParams(models.Model):
+    field = models.JSONField(null=True, blank=True)
+    order = models.IntegerField(
+        help_text='Индекс сортировки',
+        default=0
+    )
+    visible = models.BooleanField(
+        help_text='Показывать параметр пользователю или нет',
+        default=True
+    )
+    objects = models.Manager()
+    class Meta():
+        ordering = ['order']
+
+
+class UserExerciseAdditionalParams(models.Model):
+    param = models.ForeignKey(AdminExerciseAdditionalParams, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    order = models.IntegerField(
+        help_text='Индекс сортировки',
+        default=0
+    )
+    visible = models.BooleanField(
+        help_text='Показывать параметр пользователю или нет',
+        default=True
+    )
+    class Meta():
+        ordering = ['order']
+
+
+class ClubExerciseAdditionalParams(models.Model):
+    param = models.ForeignKey(AdminExerciseAdditionalParams, on_delete=models.CASCADE)
+    club = models.ForeignKey(Club, on_delete=models.CASCADE)
+    order = models.IntegerField(
+        help_text='Индекс сортировки',
+        default=0
+    )
+    visible = models.BooleanField(
+        help_text='Показывать параметр пользователю или нет',
+        default=True
+    )
+    class Meta():
+        ordering = ['order']
+
+
 class AbstractExercise(models.Model):
     date_creation = models.DateField(auto_now_add=True)
     order = models.IntegerField(
@@ -131,6 +176,7 @@ class AbstractExercise(models.Model):
 class AdminExercise(AbstractExercise):
     folder = models.ForeignKey(AdminFolder, on_delete=models.CASCADE)
     videos = models.ManyToManyField(Video, through="ExerciseVideo", through_fields=("exercise_nfb", "video"))
+    additional_params = models.ManyToManyField(AdminExerciseAdditionalParams)
     class Meta(AbstractExercise.Meta):
         abstract = False
 
@@ -139,6 +185,7 @@ class UserExercise(AbstractExercise):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     folder = models.ForeignKey(UserFolder, on_delete=models.CASCADE)
     videos = models.ManyToManyField(Video, through="ExerciseVideo", through_fields=("exercise_user", "video"))
+    additional_params = models.ManyToManyField(UserExerciseAdditionalParams)
     class Meta(AbstractExercise.Meta):
         abstract = False
 
@@ -149,6 +196,7 @@ class ClubExercise(AbstractExercise):
     team = models.ForeignKey(ClubTeam, on_delete=models.CASCADE, null=True, blank=True)
     folder = models.ForeignKey(ClubFolder, on_delete=models.CASCADE)
     videos = models.ManyToManyField(Video, through="ExerciseVideo", through_fields=("exercise_club", "video"))
+    additional_params = models.ManyToManyField(ClubExerciseAdditionalParams)
     class Meta(AbstractExercise.Meta):
         abstract = False
 

@@ -650,6 +650,9 @@
         </div>
 
         <div class="modal fade" id="exerciseCopyModal" tabindex="-1" role="dialog" aria-labelledby="exerciseCopyModalLbl" aria-hidden="true">
+            {% if user.is_superuser %}
+            <input type="hidden" name="nfb" value="1" />
+            {% endif %}
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">

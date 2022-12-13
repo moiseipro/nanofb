@@ -1168,5 +1168,12 @@ $(function() {
     } catch(e) {}
 
 
+    $('#exsAdditionalParamsRef').on('click', (e) => {
+        console.log('x')
+        $('#exerciseAdditionalParamsModal').modal();
+    });
+
+
+
 });
 
