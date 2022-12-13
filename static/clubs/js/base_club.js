@@ -23,7 +23,9 @@ $(window).on('load', function (){
         $('#club-subdomain').html(club.subdomain)
         $('#date-registration').html(club.date_registration)
         $('#registration-to').html(club.date_registration_to)
-        $('#club-user-info').html('---')
+        $('#club-user-info').html(club.user_limit)
+        $('#club-team-info').html(club.team_limit)
+        $('#club-player-info').html(club.player_limit)
     })
 
     $('#club-users').on('click', '.edit-club-user', function () {

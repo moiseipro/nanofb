@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
 from django.contrib.auth.models import Group
 
-from .models import Section, Version, CustomGroup
+from .models import Section, Version, CustomGroup, Limitations, ClubLimitations
 from django.utils.translation import gettext_lazy as _
 
 
@@ -19,6 +19,7 @@ class SectionAdmin(admin.ModelAdmin):
 @admin.register(Version)
 class VersionAdmin(admin.ModelAdmin):
     list_display = ("name", "price", "updated_date")
+    filter_horizontal = ('groups', 'permissions')
 
     def save_related(self, request, form, formsets, change):
         super(VersionAdmin, self).save_related(request, form, formsets, change)
@@ -26,7 +27,10 @@ class VersionAdmin(admin.ModelAdmin):
         new_price = Decimal("0.00")
         for group in groups:
             print(group)
-            new_price += group.customgroup.price
+            try:
+                new_price += group.customgroup.price
+            except:
+                pass
         form.instance.price = new_price
         form.instance.save()
 
@@ -44,3 +48,4 @@ class GroupAdmin(BaseGroupAdmin):
 # Re-register GroupAdmin
 admin.site.unregister(Group)
 admin.site.register(Group, GroupAdmin)
+

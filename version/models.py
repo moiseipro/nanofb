@@ -30,6 +30,33 @@ class CustomGroup(models.Model):
         verbose_name = _('Custom group params')
 
 
+class Limitations(models.Model):
+    team_limit = models.IntegerField(
+        verbose_name=_('number of teams'),
+        help_text=_("limit on the number of teams"),
+        default=2
+    )
+    player_limit = models.IntegerField(
+        verbose_name=_('number of players'),
+        help_text=_("limit on the number of players in a team"),
+        default=25
+    )
+
+    class Meta:
+        abstract = True
+
+
+class ClubLimitations(Limitations):
+    user_limit = models.IntegerField(
+        verbose_name=_('number of users'),
+        help_text=_("limit on the number of users"),
+        default=50
+    )
+
+    class Meta(Limitations.Meta):
+        abstract = True
+
+
 class Section(models.Model):
     name = models.CharField(
         max_length=255,
@@ -57,7 +84,7 @@ class Section(models.Model):
         verbose_name_plural = _('sections')
 
 
-class Version(models.Model):
+class Version(Limitations):
     name = models.CharField(
         max_length=255,
         verbose_name=_('title'),
@@ -100,6 +127,14 @@ class Version(models.Model):
         decimal_places=2,
         default=0.00
     )
+    # limits = models.ForeignKey(
+    #     Limitations,
+    #     verbose_name=_('limits'),
+    #     help_text=_("User limits"),
+    #     on_delete=models.SET_NULL,
+    #     null=True,
+    #     blank=True
+    # )
     objects = models.Manager()
 
     def __str__(self):

@@ -5,10 +5,11 @@ from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy as _p
 
 from django.contrib.auth.models import Permission, Group
+from version.models import ClubLimitations
 
 
 # Create your models here.
-class Club(models.Model):
+class Club(ClubLimitations):
     name = models.CharField(
         max_length=100,
         verbose_name=_('title'),
@@ -53,6 +54,14 @@ class Club(models.Model):
         null=False,
         blank=False,
     )
+    # limits = models.ForeignKey(
+    #     ClubLimitations,
+    #     verbose_name=_('limits'),
+    #     help_text=_("Club limits"),
+    #     on_delete=models.SET_NULL,
+    #     null=True,
+    #     blank=True
+    # )
 
     def __str__(self):
         return self.name
