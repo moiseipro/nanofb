@@ -231,7 +231,7 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
         'trainings_exs_folders': {}, 'trainings_with_ball': 0, 'trainings_no_ball': 0
     }
     res_protocols = {
-        'diseases_count': 0, 'injuries_count': 0, 'skip_count': 0, 'a_u_count': 0
+        'diseases_count': 0, 'injuries_count': 0, 'skip_count': 0, 'a_u_count': 0, 'disqualification_count': 0
     }
     players = []
     if request.user.club_id is not None:
@@ -330,6 +330,8 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
                             player_data['res_protocols']['a_u_count'] += 1
                         if "type_skip" in m_protocol.p_status.tags and m_protocol.p_status.tags['type_skip'] == 1:
                             player_data['res_protocols']['skip_count'] += 1
+                        if "type_disqualification" in m_protocol.p_status.tags and m_protocol.p_status.tags['type_disqualification'] == 1:
+                            player_data['res_protocols']['disqualification_count'] += 1
             player_data = None
             is_status_correct = False
             trainings_protocols = []
@@ -386,6 +388,8 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
                             player_data['res_protocols']['a_u_count'] += 1
                         if "type_skip" in t_protocol.status.tags and t_protocol.status.tags['type_skip'] == 1:
                             player_data['res_protocols']['skip_count'] += 1
+                        if "type_disqualification" in t_protocol.status.tags and t_protocol.status.tags['type_disqualification'] == 1:
+                            player_data['res_protocols']['disqualification_count'] += 1
             if request.user.club_id is not None:
                 cache.set(f'analytics_club_{request.user.club_id.id}_{cur_team}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
             else:

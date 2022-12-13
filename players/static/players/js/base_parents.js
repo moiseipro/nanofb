@@ -87,6 +87,9 @@ function RenderParentsTable(data) {
                     <td class="text-center border-custom-right">
                         ${player.res_protocols.a_u_count > 0 ? player.res_protocols.a_u_count : '-'}
                     </td>
+                    <td class="text-center border-custom-right">
+                        ${player.res_protocols.disqualification_count > 0 ? player.res_protocols.disqualification_count : '-'}
+                    </td>
 
                     <td class="text-center">-</td>
                     <td class="text-center">-</td>
