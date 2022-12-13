@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponseRedirect
 from django.views.generic.base import TemplateView
 from django.shortcuts import render
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework.response import Response
@@ -36,10 +36,34 @@ class TeamViewSet(viewsets.ModelViewSet):
     permission_classes = [ReferencePermissions]
 
     def perform_create(self, serializer):
+        is_limit = False
         if self.request.user.club_id is not None:
-            serializer.save(club_id=self.request.user.club_id)
+            teams = ClubTeam.objects.filter(club_id=self.request.user.club_id)
+            if len(teams) < self.request.user.club_id.team_limit:
+                serializer.save(club_id=self.request.user.club_id)
+            else:
+                is_limit = True
         else:
-            serializer.save(user_id=self.request.user)
+
+            teams = UserTeam.objects.filter(user_id=self.request.user)
+            if self.request.user.p_version is not None:
+                if len(teams) < self.request.user.p_version.team_limit:
+                    serializer.save(user_id=self.request.user)
+                else:
+                    is_limit = True
+            else:
+                is_limit = True
+        return is_limit
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        limits = self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        if limits:
+            return Response({'limit': 'team_limit'}, status=status.HTTP_403_FORBIDDEN)
+        else:
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     @action(detail=True, methods=['get'])
     def get_team_players(self, request, pk=None):

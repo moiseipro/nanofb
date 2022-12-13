@@ -83,7 +83,12 @@ async function ajax_club_users_action(method, data, action = '', id = '', func =
             }
         },
         error: function(jqXHR, textStatus, errorThrown){
-            swal(gettext('Users '+action), gettext('Error when action "'+action+'" the club users!'), "error");
+            console.log(jqXHR)
+            if('limit' in jqXHR.responseJSON){
+                swal(gettext('Users '+action), gettext('The limit of users for the club has been reached!'), "error");
+            }else{
+                swal(gettext('Users '+action), gettext('Error when action "'+action+'" the club users!'), "error");
+            }
         },
         complete: function () {
             $('.page-loader-wrapper').fadeOut();

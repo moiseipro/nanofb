@@ -166,7 +166,12 @@ function ajax_team_action(method, data, id = '') {
             team_table.ajax.reload()
         },
         error: function(jqXHR, textStatus){
-            create_alert('alert-update', {type: 'danger', message: gettext('Error when action the team!')})
+            if('limit' in jqXHR.responseJSON){
+                swal(gettext('Team'), gettext('The team limit has been reached!'), "error");
+            }else{
+                swal(gettext('Team'), gettext('Error when action the team!'), "error");
+            }
+            //create_alert('alert-update', {type: 'danger', message: gettext('Error when action the team!')})
         },
         complete: function () {
             if(method === 'POST') {

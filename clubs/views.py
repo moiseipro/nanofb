@@ -49,27 +49,31 @@ class ClubUsersViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         print(request.data)
-        serializer_personal = UserPersonalSerializer(data=request.data)
-        serializer_personal.is_valid(raise_exception=True)
-        serializer_personal.save()
-        print(serializer_personal.data)
+        users = User.objects.filter(club_id=self.request.user.club_id)
+        if len(users) < self.request.user.club_id.user_limit:
+            serializer_personal = UserPersonalSerializer(data=request.data)
+            serializer_personal.is_valid(raise_exception=True)
+            serializer_personal.save()
+            print(serializer_personal.data)
 
-        password = User.objects.make_random_password()
-        new_user = User.objects.create_user(request.data['email'], password, club_id=self.request.user.club_id,
-                                            personal=UserPersonal.objects.get(id=serializer_personal.data['id']))
+            password = User.objects.make_random_password()
+            new_user = User.objects.create_user(request.data['email'], password, club_id=self.request.user.club_id,
+                                                personal=UserPersonal.objects.get(id=serializer_personal.data['id']))
 
-        print(new_user)
-        context = {'email': new_user.email, 'password': password}
-        text_content = render_to_string('clubs/mail/email.txt', context)
-        html_content = render_to_string('clubs/mail/email.html', context)
+            print(new_user)
+            context = {'email': new_user.email, 'password': password}
+            text_content = render_to_string('clubs/mail/email.txt', context)
+            html_content = render_to_string('clubs/mail/email.html', context)
 
-        email = EmailMultiAlternatives(_('Registration on the Nanofootball website'), text_content)
-        email.attach_alternative(html_content, "text/html")
-        email.to = [new_user.email]
-        email.send()
+            email = EmailMultiAlternatives(_('Registration on the Nanofootball website'), text_content)
+            email.attach_alternative(html_content, "text/html")
+            email.to = [new_user.email]
+            email.send()
 
-        headers = self.get_success_headers(serializer_personal.data)
-        return Response(serializer_personal.data, status=status.HTTP_201_CREATED, headers=headers)
+            headers = self.get_success_headers(serializer_personal.data)
+            return Response(serializer_personal.data, status=status.HTTP_201_CREATED, headers=headers)
+        else:
+            return Response({'limit': 'user_limit'}, status=status.HTTP_403_FORBIDDEN)
 
     @action(detail=True, methods=['post'])
     def change_permission(self, request, pk=None):
