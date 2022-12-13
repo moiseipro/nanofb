@@ -57,7 +57,6 @@ class VideoViewSet(viewsets.ModelViewSet):
         permission_classes = [IsAuthenticated, VideoPermissions]
         return [permission() for permission in permission_classes]
 
-
     def create(self, request, *args, **kwargs):
         data = request.data
         print(data)
@@ -68,6 +67,12 @@ class VideoViewSet(viewsets.ModelViewSet):
             language=data['language'],
             videosource_id=data['videosource_id']
         )
+        if 'note_animation' in data:
+            note_animation = True
+        if 'note_video' in data:
+            note_video = True
+        note = {'video': note_video, 'animation': note_animation}
+        data_dict['note'] = note
         if 'music' in data:
             data_dict['music'] = data['music']
         else:
@@ -91,9 +96,8 @@ class VideoViewSet(viewsets.ModelViewSet):
                 print(mp_encoder)
                 response = requests.post(url, data=mp_encoder, headers={'Content-Type': mp_encoder.content_type})
                 content = response.json()
-                video_data = content['data'][0]
                 print(content)
-
+                video_data = content['data'][0]
             fs.delete(file_name)
 
             if video_data['success']:
