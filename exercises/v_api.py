@@ -614,6 +614,7 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
         startdate = enddate - datetime.timedelta(days=15)
         f_exercises = f_exercises.filter(date_creation__range=[startdate, enddate])
     if filter_watched != -1:
+        filter_watched = True if filter_watched == 1 else False
         f_exercises = f_exercises.filter(
             Q(Q(exercisevideo__type=1) & Q(exercisevideo__video__isnull=False) & Q(userexerciseparam__video_1_watched=filter_watched)) |
             Q(Q(exercisevideo__type=2) & Q(exercisevideo__video__isnull=False) & Q(userexerciseparam__video_2_watched=filter_watched)) |
