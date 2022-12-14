@@ -9,7 +9,7 @@ let analytics_table_options = {
     dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
     "<'row'<'col-sm-12'tr>>" +
     "<'row'<'col-sm-12 col-md-5'><'col-sm-12 col-md-7'p>>",
-    scrollY: "36vh",
+    scrollY: "73vh",
     scrollCollapse: true,
     serverSide: false,
     processing: false,
@@ -32,7 +32,7 @@ let analytics_by_folders_table_options = {
     dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
     "<'row'<'col-sm-12'tr>>" +
     "<'row'<'col-sm-12 col-md-5'><'col-sm-12 col-md-7'p>>",
-    scrollY: "36vh",
+    scrollY: "73vh",
     scrollCollapse: true,
     serverSide: false,
     processing: false,
@@ -55,7 +55,7 @@ let analytics_by_folders_full_table_options = {
     dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
     "<'row'<'col-sm-12'tr>>" +
     "<'row'<'col-sm-12 col-md-5'><'col-sm-12 col-md-7'p>>",
-    scrollY: "36vh",
+    scrollY: "73vh",
     scrollCollapse: true,
     serverSide: false,
     processing: false,
@@ -162,8 +162,11 @@ function RenderAnalyticsTable(data) {
                     <td class="text-center">
                         ${player.res_protocols.skip_count > 0 ? player.res_protocols.skip_count : '-'}
                     </td>
-                    <td class="text-center border-custom-right">
+                    <td class="text-center">
                         ${player.res_protocols.a_u_count > 0 ? player.res_protocols.a_u_count : '-'}
+                    </td>
+                    <td class="text-center border-custom-right">
+                        ${player.res_protocols.disqualification_count > 0 ? player.res_protocols.disqualification_count : '-'}
                     </td>
                     <td class="text-center border-custom-left">
                         ${player.res_matches.matches_count > 0 ? player.res_matches.matches_count : '-'}

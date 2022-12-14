@@ -10,6 +10,7 @@ from exercises.models import UserFolder, ClubFolder
 from nanofootball.views import util_check_access
 from datetime import datetime, date, timedelta
 from dateutil.relativedelta  import relativedelta
+import json
 
 
 LANG_CODE_DEFAULT = "en"
@@ -231,7 +232,7 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
         'trainings_exs_folders': {}, 'trainings_with_ball': 0, 'trainings_no_ball': 0
     }
     res_protocols = {
-        'diseases_count': 0, 'injuries_count': 0, 'skip_count': 0, 'a_u_count': 0
+        'diseases_count': 0, 'injuries_count': 0, 'skip_count': 0, 'a_u_count': 0, 'disqualification_count': 0
     }
     players = []
     if request.user.club_id is not None:
@@ -241,9 +242,9 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
     for player in players:
         res_data['players'][player.id] = {
             'name': f'{player.surname} {player.name}',
-            'res_matches': {k: v for k, v in res_matches.items()}, 
-            'res_trainings': {k: v for k, v in res_trainings.items()}, 
-            'res_protocols': {k: v for k, v in res_protocols.items()}
+            'res_matches': json.loads(json.dumps(res_matches)), 
+            'res_trainings': json.loads(json.dumps(res_trainings)), 
+            'res_protocols': json.loads(json.dumps(res_protocols))
         }
     season_type = None
     try:
@@ -330,6 +331,8 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
                             player_data['res_protocols']['a_u_count'] += 1
                         if "type_skip" in m_protocol.p_status.tags and m_protocol.p_status.tags['type_skip'] == 1:
                             player_data['res_protocols']['skip_count'] += 1
+                        if "type_disqualification" in m_protocol.p_status.tags and m_protocol.p_status.tags['type_disqualification'] == 1:
+                            player_data['res_protocols']['disqualification_count'] += 1
             player_data = None
             is_status_correct = False
             trainings_protocols = []
@@ -376,7 +379,6 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
                                 player_data['res_trainings']['trainings_like'] += 1
                             if t_protocol.estimation == 1:
                                 player_data['res_trainings']['trainings_dislike'] += 1
-
                     else:
                         if "type_ill" in t_protocol.status.tags and t_protocol.status.tags['type_ill'] == 1:
                             player_data['res_protocols']['diseases_count'] += 1
@@ -386,6 +388,8 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
                             player_data['res_protocols']['a_u_count'] += 1
                         if "type_skip" in t_protocol.status.tags and t_protocol.status.tags['type_skip'] == 1:
                             player_data['res_protocols']['skip_count'] += 1
+                        if "type_disqualification" in t_protocol.status.tags and t_protocol.status.tags['type_disqualification'] == 1:
+                            player_data['res_protocols']['disqualification_count'] += 1
             if request.user.club_id is not None:
                 cache.set(f'analytics_club_{request.user.club_id.id}_{cur_team}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
             else:
@@ -425,7 +429,7 @@ def GET_get_analytics_by_folders_in_team(request, cur_user, cur_team, cur_season
     for player in players:
         res_data['players'][player.id] = {
             'name': f'{player.surname} {player.name}',
-            'res_trainings': {k: v for k, v in res_trainings.items()}
+            'res_trainings': json.loads(json.dumps(res_trainings))
         }
     season_type = None
     try:
@@ -520,20 +524,6 @@ def GET_get_analytics_by_folders_full_in_team(request, cur_user, cur_team, cur_s
 
     """
     res_data = {'months': {}}
-    res_trainings = {
-        'trainings_exs_folders': {}
-    }
-    players = []
-    if request.user.club_id is not None:
-        players = ClubPlayer.objects.filter(team=cur_team)
-    else:
-        players = UserPlayer.objects.filter(team=cur_team, user=cur_user)
-    # for player in players:
-    #     res_data['players'][player.id] = {
-    #         'name': f'{player.surname} {player.name}',
-    #         'res_trainings': {k: v for k, v in res_trainings.items()}
-    #     }
-    season_types = [-1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     season_type = None
     s_months = get_season_months(request, cur_season)
     for index in range(len(s_months)):

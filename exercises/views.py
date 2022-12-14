@@ -227,6 +227,9 @@ def exercises_api(request):
         delete_exs_status = 0
         edit_exs_user_params_status = 0
         count_exs_status = 0
+        edit_exs_additional_param_status = 0
+        delete_exs_additional_param_status = 0
+        change_order_exs_additional_param_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         try:
@@ -259,6 +262,18 @@ def exercises_api(request):
             count_exs_status = int(request.POST.get("count_exs", 0))
         except:
             pass
+        try:
+            edit_exs_additional_param_status = int(request.POST.get("edit_exs_additional_param", 0))
+        except:
+            pass
+        try:
+            delete_exs_additional_param_status = int(request.POST.get("delete_exs_additional_param", 0))
+        except:
+            pass
+        try:
+            change_order_exs_additional_param_status = int(request.POST.get("change_order_exs_additional_param", 0))
+        except:
+            pass
         if copy_exs_status == 1:
             return v_api.POST_copy_exs(request, cur_user[0], cur_team)
         elif move_exs_status == 1:
@@ -271,6 +286,12 @@ def exercises_api(request):
             return v_api.POST_edit_exs_user_params(request, cur_user[0], cur_team)
         elif count_exs_status == 1:
             return v_api.POST_count_exs(request, cur_user[0], cur_team)
+        elif edit_exs_additional_param_status == 1:
+            return v_api.POST_edit_exs_additional_param(request, cur_user[0])
+        elif delete_exs_additional_param_status == 1:
+            return v_api.POST_edit_exs_additional_param(request, cur_user[0])
+        elif change_order_exs_additional_param_status == 1:
+            return v_api.POST_change_order_exs_additional_param(request, cur_user[0])
         return JsonResponse({"errors": "access_error"}, status=400)
     elif request.method == "GET" and is_ajax:
         get_exs_all_status = 0

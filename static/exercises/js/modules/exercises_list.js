@@ -74,7 +74,7 @@ function LoadFolderExercises() {
     } else {
         let data = {'get_exs_all': 1, 'folder': cFolderId, 'get_nfb': isNfbExs ? 1 : 0, 'f_type': fType, 'filter': window.exercisesFilter};
         $('.page-loader-wrapper').fadeIn();
-        $.ajax({
+        let tCall = $.ajax({
             headers:{"X-CSRFToken": csrftoken},
             data: data,
             type: 'GET', // GET или POST
@@ -100,6 +100,7 @@ function LoadFolderExercises() {
                 }
             }
         });
+        PauseCountExsCalls(tCall);
     }
 }
 
@@ -185,6 +186,7 @@ function LoadExerciseOneHandler() {
     let fromNFB = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? 1 : 0;
     let folderType = $('.folders_div:not(.d-none)').attr('data-id');
     LoadExerciseOne(cId, fromNFB, folderType);
+
 }
 
 function RenderExerciseOne(data) {
@@ -295,6 +297,25 @@ function ToggleMarkersInExs() {
     //     $('.exs-list-group').find('button[data-type="icons"]').addClass('d-none');
     // }
 }
+
+function PauseCountExsCalls(currentCall) {
+    let restartCallsList = [];
+    for (let i in window.count_exs_calls) {
+        let call = window.count_exs_calls[i]['call'];
+        if (call.status != 200) {
+            restartCallsList.push(window.count_exs_calls[i]);
+        }
+        call.abort();
+    }
+    if (restartCallsList.length > 0) {
+        $(document).ajaxComplete((event,request, settings) => {
+            if (request == currentCall) {
+                RestartCountExsInFolders(restartCallsList);
+            }
+        });
+    }
+}
+
 
 
 $(function() {

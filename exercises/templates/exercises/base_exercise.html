@@ -93,7 +93,8 @@
                     <div class="table-columns">
                         <table class="table table-sm table-bordered" style="table-layout: fixed;">
                             <colgroup>
-                                <col span="1" style="width: 85%;">
+                                <col span="1" style="width: 5%;">
+                                <col span="1" style="width: 80%;">
                                 <col span="1" style="width: 15%;">
                             </colgroup>
                             <thead>
@@ -105,16 +106,31 @@
                                 </th>
                             </thead>
                             <tbody class="columns-body">
-                            {% for param in exercises_additional_params %}
-                                <tr class="column-elem" data-id="{{ param.id }}">
-                                    <td class="">
-                                        <input name="field" class="form-control form-control-sm" type="text" value="{{ param.field }}" placeholder="" autocomplete="off" disabled="">
-                                    </td>
-                                    <td class="text-center">
-                                        <input type="checkbox" class="form-check-input" name="visible" checked="{{ param.visible }}">
-                                    </td>
-                                </tr>
-                            {% endfor %}
+                            {% if user.is_superuser %}
+                                {% for param in exercises_additional_params.admin_params %}
+                                    <tr class="column-elem" data-id="{{ param.id }}">
+                                        <td class=""></td>
+                                        <td class="">
+                                            <input name="field" class="form-control form-control-sm" type="text" value="{{ param.field }}" placeholder="" autocomplete="off" disabled="">
+                                        </td>
+                                        <td class="text-center">
+                                            <input type="checkbox" class="form-check-input" name="visible" {% if param.visible %}checked=""{% endif %}>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                {% for param in exercises_additional_params.params %}
+                                    <tr class="column-elem" data-id="{{ param.id }}">
+                                        <td class=""></td>
+                                        <td class="">
+                                            <input name="field" class="form-control form-control-sm" type="text" value="{{ param.field }}" placeholder="" autocomplete="off" disabled="">
+                                        </td>
+                                        <td class="text-center">
+                                            <input type="checkbox" class="form-check-input" name="visible" {% if param.visible %}checked=""{% endif %}>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
                             </tbody>
                         </table>
                     </div>

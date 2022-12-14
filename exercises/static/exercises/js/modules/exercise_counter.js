@@ -1,3 +1,39 @@
+function CountExsAjaxReq(data, folder) {
+    $(folder).find('.folder-exs-counter').html('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
+    return $.ajax({
+        headers:{"X-CSRFToken": csrftoken},
+        data: data,
+        type: 'POST', // GET или POST
+        dataType: 'json',
+        url: "/exercises/exercises_api",
+        timeout: 60000,
+        success: function (res) {
+            if (res.success && res.data != 0) {
+                $(folder).find('.folder-exs-counter').html(res.data);
+            } else {
+                $(folder).find('.folder-exs-counter').html('...');
+            }
+        },
+        error: function (res) {
+            $(folder).find('.folder-exs-counter').html('...');
+        },
+        complete: function (res) {
+        }
+    });
+}
+
+function RestartCountExsInFolders(data) {
+    window.count_exs_calls = [];
+    for (let i = 0; i < data.length; i++) {
+        let elem = data[i];
+        window.count_exs_calls.push({
+            'data': elem.data,
+            'folderElem': elem.folderElem,
+            'call': CountExsAjaxReq(elem.data, elem.folderElem)
+        });
+    } 
+}
+
 function CountExsInFolder(useFilter = true) {
     window.filterIsLoaded = false;
     window.count_exs_calls = [];
@@ -5,99 +41,47 @@ function CountExsInFolder(useFilter = true) {
     for (let i = 0; i < folders.length; i++) {
         let folder = $(folders[i]);
         if ($(folder).attr('data-root') != '1') {
-            $(folder).find('.folder-exs-counter').html('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
             let data = {'count_exs': 1, 'folder': $(folder).attr('data-id'), 'type': "team_folders", 'filter': window.exercisesFilter};
-            window.count_exs_calls.push(
-                $.ajax({
-                    headers:{"X-CSRFToken": csrftoken},
-                    data: data,
-                    type: 'POST', // GET или POST
-                    dataType: 'json',
-                    url: "/exercises/exercises_api",
-                    timeout: 60000,
-                    success: function (res) {
-                        if (res.success && res.data != 0) {
-                            $(folder).find('.folder-exs-counter').html(res.data);
-                        } else {
-                            $(folder).find('.folder-exs-counter').html('...');
-                        }
-                    },
-                    error: function (res) {
-                        $(folder).find('.folder-exs-counter').html('...');
-                    },
-                    complete: function (res) {
-                    }
-                })
-            );
+            window.count_exs_calls.push({
+                'data': data,
+                'folderElem': folder,
+                'call': CountExsAjaxReq(data, folder)
+            });
         }
     }
     folders = $('.folders_club_list').find('.list-group-item > div');
     for (let i = 0; i < folders.length; i++) {
         let folder = $(folders[i]);
         if ($(folder).attr('data-root') != '1') {
-            $(folder).find('.folder-exs-counter').html('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
             let data = {'count_exs': 1, 'folder': $(folder).attr('data-id'), 'type': "club_folders", 'filter': window.exercisesFilter};
-            window.count_exs_calls.push(
-                $.ajax({
-                    headers:{"X-CSRFToken": csrftoken},
-                    data: data,
-                    type: 'POST', // GET или POST
-                    dataType: 'json',
-                    url: "/exercises/exercises_api",
-                    timeout: 60000,
-                    success: function (res) {
-                        if (res.success && res.data != 0) {
-                            $(folder).find('.folder-exs-counter').html(res.data);
-                        } else {
-                            $(folder).find('.folder-exs-counter').html('...');
-                        }
-                    },
-                    error: function (res) {
-                        $(folder).find('.folder-exs-counter').html('...');
-                    },
-                    complete: function (res) {}
-                })
-            );
+            window.count_exs_calls.push({
+                'data': data,
+                'folderElem': folder,
+                'call': CountExsAjaxReq(data, folder)
+            });
         }
     }
     folders = $('.folders_nfb_list').find('.list-group-item > div');
     for (let i = 0; i < folders.length; i++) {
         let folder = $(folders[i]);
         if ($(folder).attr('data-root') != '1') {
-            $(folder).find('.folder-exs-counter').html('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
             let data = {'count_exs': 1, 'folder': $(folder).attr('data-id'), 'type': "nfb_folders", 'filter': window.exercisesFilter};
-            window.count_exs_calls.push(
-                $.ajax({
-                    headers:{"X-CSRFToken": csrftoken},
-                    data: data,
-                    type: 'POST', // GET или POST
-                    dataType: 'json',
-                    url: "/exercises/exercises_api",
-                    timeout: 60000,
-                    success: function (res) {
-                        if (res.success && res.data != 0) {
-                            $(folder).find('.folder-exs-counter').html(res.data);
-                        } else {
-                            $(folder).find('.folder-exs-counter').html('...');
-                        }
-                    },
-                    error: function (res) {
-                        $(folder).find('.folder-exs-counter').html('...');
-                    },
-                    complete: function (res) {}
-                })
-            );
+            window.count_exs_calls.push({
+                'data': data,
+                'folderElem': folder,
+                'call': CountExsAjaxReq(data, folder)
+            });
         }
     }
-    if (useFilter) {
-        $.when.apply($, window.count_exs_calls).then(() => {
-            window.filterIsLoaded = true;
-            CountFilteredExs();
-        });
-    }
-    $.when.apply($, window.count_exs_calls).then(() => {
-        CountExsInFoldersByType();
-    });
+    // if (useFilter) {
+    //     $.when.apply($, window.count_exs_calls).then(() => {
+    //         window.filterIsLoaded = true;
+    //         CountFilteredExs();
+    //     });
+    // }
+    // $.when.apply($, window.count_exs_calls).then(() => {
+    //     CountExsInFoldersByType();
+    // });
 }
 
 function CountFilteredExs() {
@@ -139,7 +123,7 @@ function CountExsInFoldersByType() {
 $(function() {
     $(window).on('beforeunload', (e) => {
         for (let i in window.count_exs_calls) {
-            let call = window.count_exs_calls[i];
+            let call = window.count_exs_calls[i]['call'];
             call.abort();
         }
         return;

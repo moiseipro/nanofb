@@ -176,7 +176,7 @@ class AbstractExercise(models.Model):
 class AdminExercise(AbstractExercise):
     folder = models.ForeignKey(AdminFolder, on_delete=models.CASCADE)
     videos = models.ManyToManyField(Video, through="ExerciseVideo", through_fields=("exercise_nfb", "video"))
-    additional_params = models.ManyToManyField(AdminExerciseAdditionalParams)
+    additional_params = models.ManyToManyField(AdminExerciseAdditionalParams, through="ExerciseAdditionalParamValue", through_fields=("exercise_nfb", "param_nfb"))
     class Meta(AbstractExercise.Meta):
         abstract = False
 
@@ -185,7 +185,7 @@ class UserExercise(AbstractExercise):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     folder = models.ForeignKey(UserFolder, on_delete=models.CASCADE)
     videos = models.ManyToManyField(Video, through="ExerciseVideo", through_fields=("exercise_user", "video"))
-    additional_params = models.ManyToManyField(UserExerciseAdditionalParams)
+    additional_params = models.ManyToManyField(UserExerciseAdditionalParams, through="ExerciseAdditionalParamValue", through_fields=("exercise_user", "param_user"))
     class Meta(AbstractExercise.Meta):
         abstract = False
 
@@ -196,9 +196,19 @@ class ClubExercise(AbstractExercise):
     team = models.ForeignKey(ClubTeam, on_delete=models.CASCADE, null=True, blank=True)
     folder = models.ForeignKey(ClubFolder, on_delete=models.CASCADE)
     videos = models.ManyToManyField(Video, through="ExerciseVideo", through_fields=("exercise_club", "video"))
-    additional_params = models.ManyToManyField(ClubExerciseAdditionalParams)
+    additional_params = models.ManyToManyField(ClubExerciseAdditionalParams, through="ExerciseAdditionalParamValue", through_fields=("exercise_club", "param_club"))
     class Meta(AbstractExercise.Meta):
         abstract = False
+
+
+class ExerciseAdditionalParamValue(models.Model):
+    param_nfb = models.ForeignKey(AdminExerciseAdditionalParams, on_delete=models.SET_NULL, null=True, blank=True)
+    param_user = models.ForeignKey(UserExerciseAdditionalParams, on_delete=models.SET_NULL, null=True, blank=True)
+    param_club = models.ForeignKey(ClubExerciseAdditionalParams, on_delete=models.SET_NULL, null=True, blank=True)
+    exercise_nfb = models.ForeignKey(AdminExercise, on_delete=models.CASCADE, null=True, blank=True)
+    exercise_user = models.ForeignKey(UserExercise, on_delete=models.CASCADE, null=True, blank=True)
+    exercise_club = models.ForeignKey(ClubExercise, on_delete=models.CASCADE, null=True, blank=True)
+    value = models.CharField(max_length=255, null=True, blank=True)
 
 
 class ExerciseVideo(models.Model):

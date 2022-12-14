@@ -4,7 +4,7 @@ from django.db.models import Sum, Q
 from users.models import User
 from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, ClubExercise, AdminExercise, ExerciseVideo, ExerciseTag
 from exercises.models import UserExerciseParam, UserExerciseParamTeam
-from exercises.models import AdminExerciseAdditionalParams, UserExerciseAdditionalParams, ClubExerciseAdditionalParams
+from exercises.models import AdminExerciseAdditionalParams, UserExerciseAdditionalParams, ClubExerciseAdditionalParams, ExerciseAdditionalParamValue
 from references.models import ExsGoal, ExsBall, ExsTeamCategory, ExsAgeCategory, ExsTrainPart, ExsCognitiveLoad
 from references.models import ExsKeyword, ExsStressType, ExsPurpose, ExsCoaching
 from references.models import ExsCategory, ExsAdditionalData, ExsTitleName
@@ -37,6 +37,8 @@ def get_by_language_code(value, code):
 
     """
     res = ""
+    if not isinstance(value, dict):
+        value = {}
     try:
         res = value[code]
     except:
@@ -46,6 +48,8 @@ def get_by_language_code(value, code):
             res = value[LANG_CODE_DEFAULT]
         except:
             pass
+    if res is None:
+        res = ""
     return res
 
 
@@ -223,6 +227,22 @@ def set_as_object(request, data, name, lang):
     else:
         data = {lang: value}
     return data
+
+
+def set_exs_additional_params(request, exs, folder_type):
+    params = []
+    params = exs.additional_params.filter()
+    if folder_type == FOLDER_NFB:
+        params = exs.additional_params.through.objects.filter(exercise_nfb=exs, param_nfb__visible=True)
+    elif folder_type == FOLDER_TEAM and request.user.club_id is None:
+        params = exs.additional_params.through.objects.filter(exercise_user=exs, param_user__visible=True)
+    elif folder_type == FOLDER_CLUB or folder_type == FOLDER_TEAM and request.user.club_id is not None:
+        params = exs.additional_params.through.objects.filter(exercise_club=exs, param_club__visible=True)
+    for param in params:
+        new_val = request.POST.get(f"data[additional_params__{param.id}]", "")
+        param.value = new_val
+        param.save()
+    return exs
 
 
 def get_exercises_params(request, user, team):
@@ -407,6 +427,60 @@ def get_tags_of_exercise(exs, use_lower=False):
     return data
 
 
+def get_exs_additional_params(data, exs, folder_type, user, club_id, lang_code):
+    """
+    Return changed data with additional params.
+
+    :param data: Exercise object with all keys.
+    :type data: Model.Field[object]
+    :param exs: The current exercise.
+    :type exs: Model.object[UserExercise] or Model.object[ClubExercise] or Model.object[AdminExercise].
+    :param folder_type: The current folder, that is selected by the user.
+    :type folder_type: [str]
+    :return: Updated exercise.
+    :rtype: Model.Field[object]
+
+    """
+    t_params = []
+    additional_params = []
+    if folder_type == FOLDER_NFB:
+        nonexistent_params = AdminExerciseAdditionalParams.objects.exclude(exerciseadditionalparamvalue__exercise_nfb=exs)
+        for param in nonexistent_params:
+            new_param = ExerciseAdditionalParamValue(param_nfb=param, exercise_nfb=exs)
+            new_param.save()
+        t_params = exs.additional_params.through.objects.filter(exercise_nfb=exs, param_nfb__visible=True)
+        t_params = t_params.order_by('param_nfb__order')
+    elif folder_type == FOLDER_TEAM and club_id is None:
+        nonexistent_params = UserExerciseAdditionalParams.objects.exclude(exerciseadditionalparamvalue__exercise_user=exs, user=user)
+        for param in nonexistent_params:
+            new_param = ExerciseAdditionalParamValue(param_user=param, exercise_user=exs)
+            new_param.save()
+        t_params = exs.additional_params.through.objects.filter(exercise_user=exs, param_user__visible=True)
+        t_params = t_params.order_by('param_user__order')
+    elif folder_type == FOLDER_CLUB or folder_type == FOLDER_TEAM and club_id is not None:
+        nonexistent_params = ClubExerciseAdditionalParams.objects.exclude(exerciseadditionalparamvalue__exercise_club=exs, club=club_id)
+        for param in nonexistent_params:
+            new_param = ExerciseAdditionalParamValue(param_club=param, exercise_club=exs)
+            new_param.save()
+        t_params = exs.additional_params.through.objects.filter(exercise_club=exs, param_club__visible=True)
+        t_params = t_params.order_by('param_club__order')
+    for param in t_params:
+        c_title = ""
+        if folder_type == FOLDER_NFB:
+            c_title = get_by_language_code(param.param_nfb.field, lang_code)
+        elif folder_type == FOLDER_TEAM and club_id is None:
+            c_title = get_by_language_code(param.param_user.param.field, lang_code)
+        elif folder_type == FOLDER_CLUB or folder_type == FOLDER_TEAM and club_id is not None:
+            c_title = get_by_language_code(param.param_club.param.field, lang_code)
+        additional_params.append({
+            'id': param.id,
+            'title': c_title,
+            'value': param.value
+        })
+    data['additional_params'] = additional_params
+    return data
+
+
 def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = None, cur_team = None):
     """
     Return list of exercise objects. If filter options exist then current list will be filtered.
@@ -537,6 +611,10 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
         f_exercises = f_exercises.filter(ref_ball=filter_ball)
     if len(filter_tags) > 0:
         f_exercises = f_exercises.filter(tags__lowercase_name__in=filter_tags).distinct()
+    if filter_new_exs != -1:
+        enddate = datetime.date.today()
+        startdate = enddate - datetime.timedelta(days=15)
+        f_exercises = f_exercises.filter(date_creation__range=[startdate, enddate])
 
     res_exercises = [entry for entry in f_exercises.values()]
     for exercise in res_exercises:
@@ -615,8 +693,6 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
         res_exercises = list(filter(lambda c: c['watched_status'] == filter_watched, res_exercises))
     if filter_favorite != -1:
         res_exercises = list(filter(lambda c: c['favorite_status'] == filter_favorite, res_exercises))
-    if filter_new_exs != -1:
-        res_exercises = list(filter(lambda c: days_between(c['date_creation']) < 15, res_exercises))
     if filter_search != "":
         filter_search = filter_search.lower()
         res_exercises = list(filter(lambda c: filter_search in c['search_title'], res_exercises))
@@ -673,18 +749,29 @@ def get_exercises_additional_params(request, user):
     :rtype: list[object]
 
     """
+    admin_params = []
     params = []
     if user.is_superuser:
-        params = AdminExerciseAdditionalParams.objects.all()
+        admin_params = AdminExerciseAdditionalParams.objects.all()
+        for param in admin_params:
+            field = get_by_language_code(param.field, request.LANGUAGE_CODE)
+            setattr(param, 'field', field)
+    if request.user.club_id is not None:
+        nonexistent_params = AdminExerciseAdditionalParams.objects.exclude(clubexerciseadditionalparams__club=request.user.club_id)
+        for param in nonexistent_params:
+            new_param = ClubExerciseAdditionalParams(param=param, club=request.user.club_id, order=param.order, visible=param.visible)
+            new_param.save()
+        params = ClubExerciseAdditionalParams.objects.filter(club=request.user.club_id, param__visible=True)
     else:
-        if request.user.club_id is not None:
-            params = ClubExerciseAdditionalParams.objects.all()
-        else:
-            params = UserExerciseAdditionalParams.objects.all()
+        nonexistent_params = AdminExerciseAdditionalParams.objects.exclude(userexerciseadditionalparams__user=user)
+        for param in nonexistent_params:
+            new_param = UserExerciseAdditionalParams(param=param, user=user, order=param.order, visible=param.visible)
+            new_param.save()
+        params = UserExerciseAdditionalParams.objects.filter(user=user, param__visible=True)
     for param in params:
-        field = get_by_language_code(param.title['field'], request.LANGUAGE_CODE)
+        field = get_by_language_code(param.param.field, request.LANGUAGE_CODE)
         setattr(param, 'field', field)
-    return params
+    return {'params': params, 'admin_params': admin_params}
 
 
 # --------------------------------------------------
@@ -943,6 +1030,10 @@ def POST_edit_exs(request, cur_user, cur_team):
                 c_exs = ClubExercise(user=cur_user, folder=c_folder[0], club=request.user.club_id, team=found_team[0])
             else:
                 c_exs = UserExercise(user=cur_user, folder=c_folder[0])
+            try:
+                c_exs.save()
+            except Exception as e:
+                return JsonResponse({"err": "Can't edit the exs.", "success": False}, status=200)
         else:
             c_exs = c_exs[0]
             c_exs.folder = c_folder[0]
@@ -959,6 +1050,10 @@ def POST_edit_exs(request, cur_user, cur_team):
         c_exs = AdminExercise.objects.filter(id=exs_id)
         if not c_exs.exists() or c_exs[0].id == None:
             c_exs = AdminExercise(folder=c_folder[0])
+            try:
+                c_exs.save()
+            except Exception as e:
+                return JsonResponse({"err": "Can't edit the exs.", "success": False}, status=200)
         else:
             c_exs = c_exs[0]
             c_exs.folder = c_folder[0]
@@ -987,7 +1082,10 @@ def POST_edit_exs(request, cur_user, cur_team):
         f_tag = None
         try:
             if folder_type == FOLDER_TEAM and request.user.club_id is None:
-                f_tag = ExerciseTag.objects.filter(user=cur_user, lowercase_name=c_tag_lower)
+                
+                f_tag = ExerciseTag.objects.filter(
+                    Q(is_nfb=True, lowercase_name=c_tag_lower) | Q(is_nfb=False, user=cur_user, lowercase_name=c_tag_lower)
+                )
                 if f_tag.exists() and f_tag[0].id != None:
                     f_tag = f_tag[0]
                 else:
@@ -1001,7 +1099,9 @@ def POST_edit_exs(request, cur_user, cur_team):
                     f_tag = ExerciseTag(is_nfb=True, name=c_tag, lowercase_name=c_tag_lower)
                     f_tag.save()
             elif folder_type == FOLDER_CLUB or folder_type == FOLDER_TEAM and request.user.club_id is not None:
-                f_tag = ExerciseTag.objects.filter(club=request.user.club_id, lowercase_name=c_tag_lower)
+                f_tag = ExerciseTag.objects.filter(
+                    Q(is_nfb=True, lowercase_name=c_tag_lower) | Q(is_nfb=False, club=request.user.club_id, lowercase_name=c_tag_lower)
+                )
                 if f_tag.exists() and f_tag[0].id != None:
                     f_tag = f_tag[0]
                 else:
@@ -1011,6 +1111,8 @@ def POST_edit_exs(request, cur_user, cur_team):
             pass
         if f_tag is not None:
             c_exs.tags.add(f_tag)
+    
+    c_exs = set_exs_additional_params(request, c_exs, folder_type)
     
     video1_id = -1
     video2_id = -1
@@ -1323,6 +1425,147 @@ def POST_count_exs(request, cur_user, cur_team):
     return JsonResponse({"data": found_exercises, "success": True}, status=200)
 
 
+def POST_edit_exs_additional_param(request, cur_user):
+    status = False
+    disabled_status = True
+    data = []
+    mode = request.POST.get("mode", "")
+    rowId = -1
+    try:
+        rowId = int(request.POST.get("row", -1))
+    except:
+        pass
+    fieldValue = request.POST.get("field", None)
+    visibleValue = request.POST.get("visible", None)
+    foundRow = None
+    if cur_user.is_superuser:
+        foundRow = AdminExerciseAdditionalParams.objects.filter(id=rowId)
+    else:
+        if request.user.club_id is not None:
+            foundRow = ClubExerciseAdditionalParams.objects.filter(id=rowId, club=request.user.club_id)
+        else:
+            foundRow = UserExerciseAdditionalParams.objects.filter(id=rowId, user=cur_user)
+    if mode == "edit":
+        if foundRow is not None and foundRow.exists() and foundRow[0].id != None:
+            foundRow = foundRow[0]
+            if cur_user.is_superuser:
+                if not util_check_access(cur_user, {
+                    'perms_user': ["exercises.change_adminexerciseadditionalparams"], 
+                    'perms_club': ["exercises.change_adminexerciseadditionalparams"]
+                }):
+                    return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+                try:
+                    if fieldValue != None:
+                        foundRow.field = set_by_language_code(foundRow.field, request.LANGUAGE_CODE, fieldValue, "")
+                    if visibleValue != None:
+                        visibleValue = True if visibleValue == "true" else False
+                        foundRow.visible = visibleValue
+                    foundRow.save()
+                    status = True
+                    disabled_status = False
+                    data = get_exercises_additional_params(request, cur_user)
+                    data = data['admin_params'] if cur_user.is_superuser else data['params']
+                    data = [{'id': entry.id, 'field': entry.field, 'visible': entry.visible} for entry in data]
+                except:
+                    pass
+            else:
+                if not util_check_access(cur_user, {
+                    'perms_user': ["exercises.change_userexerciseadditionalparams"], 
+                    'perms_club': ["exercises.change_clubexerciseadditionalparams"]
+                }):
+                    return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+                if visibleValue != None:
+                    try:
+                        visibleValue = True if visibleValue == "true" else False
+                        foundRow.visible = visibleValue
+                        foundRow.save()
+                        status = True
+                        data = get_exercises_additional_params(request, cur_user)
+                        data = data['admin_params'] if cur_user.is_superuser else data['params']
+                        data = [{'id': entry.id, 'field': entry.field, 'visible': entry.visible} for entry in data]
+                    except:
+                        pass
+        else:
+            if not util_check_access(cur_user, {
+                'perms_user': ["exercises.add_adminexerciseadditionalparams"], 
+                'perms_club': ["exercises.add_adminexerciseadditionalparams"]
+            }):
+                return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+            if cur_user.is_superuser:
+                new_param = AdminExerciseAdditionalParams()
+                try:
+                    new_param.save()
+                    status = True
+                    mode = "add"
+                    disabled_status = False
+                    data = get_exercises_additional_params(request, cur_user)
+                    data = data['admin_params'] if cur_user.is_superuser else data['params']
+                    data = [{'id': entry.id, 'field': entry.field, 'visible': entry.visible} for entry in data]
+                except:
+                    pass
+    elif mode == "delete":
+        if foundRow is not None and foundRow.exists() and foundRow[0].id != None:
+            foundRow = foundRow[0]
+            if not util_check_access(cur_user, {
+                'perms_user': ["exercises.delete_adminexerciseadditionalparams"], 
+                'perms_club': ["exercises.delete_adminexerciseadditionalparams"]
+            }):
+                return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+            if cur_user.is_superuser:
+                try:
+                    foundRow.delete()
+                    status = True
+                    disabled_status = False
+                    data = get_exercises_additional_params(request, cur_user)
+                    data = data['admin_params'] if cur_user.is_superuser else data['params']
+                    data = [{'id': entry.id, 'field': entry.field, 'visible': entry.visible} for entry in data]
+                except:
+                    pass
+    else:
+        return JsonResponse({"err": "Incorrect mode.", "success": False}, status=400) 
+    return JsonResponse({"data": data, "success": status, "mode": mode, "disabled": disabled_status}, status=200)
+
+
+def POST_change_order_exs_additional_param(request, cur_user):
+    status = True
+    disabled_status = True
+    data = []
+    ids_data = request.POST.getlist("ids_arr[]", [])
+    ordering_data = request.POST.getlist("order_arr[]", [])
+    logs_arr = []
+    if not util_check_access(cur_user, {
+        'perms_user': ["exercises.change_userexerciseadditionalparams"], 
+        'perms_club': ["exercises.change_clubexerciseadditionalparams"]
+    }):
+        return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    for c_ind in range(len(ids_data)):
+        t_id = -1
+        t_order = 0
+        try:
+            t_id = int(ids_data[c_ind])
+            t_order = int(ordering_data[c_ind])
+        except:
+            pass
+        found_param = None
+        if cur_user.is_superuser:
+            found_param = AdminExerciseAdditionalParams.objects.get(id=t_id)
+        else:
+            if request.user.club_id is not None:
+                found_param = ClubExerciseAdditionalParams.objects.get(id=t_id, club=request.user.club_id)
+            else:
+                found_param = UserExerciseAdditionalParams.objects.get(id=t_id, user=cur_user)
+        if found_param and found_param.id != None:
+            found_param.order = t_order
+            try:
+                found_param.save()
+                logs_arr.append(f'Folder [{found_param.id}] is order changed: {t_order}')
+            except Exception as e:
+                logs_arr.append(f'Folder [{found_param.id}] -> ERROR / Not access or another reason')
+    data = get_exercises_additional_params(request, cur_user)
+    data = data['admin_params'] if cur_user.is_superuser else data['params']
+    data = [{'id': entry.id, 'field': entry.field, 'visible': entry.visible} for entry in data]
+    return JsonResponse({"data": data, "success": status, "mode": "order", "disabled": disabled_status, "logs": logs_arr}, status=200)
+
 
 def GET_link_video_exs(request, cur_user, cur_team):
     """
@@ -1618,6 +1861,7 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
     res_exs['ref_train_part'] = res_exs['ref_train_part_id']
     res_exs['ref_cognitive_load'] = res_exs['ref_cognitive_load_id']
     res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type, request.user.club_id)
+    res_exs = get_exs_additional_params(res_exs, c_exs[0], folder_type, cur_user, request.user.club_id, request.LANGUAGE_CODE)
     res_exs['tags'] = get_tags_of_exercise(c_exs[0])
     if is_as_object:
         return res_exs

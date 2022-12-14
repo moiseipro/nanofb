@@ -313,10 +313,12 @@ tr.bck-custom > td {
 }
 .bck-custom-color {
     background-color: var(--bck-color) !important;
+    border: 2px solid rgb(100, 100, 100) !important;
 }
 .bck-custom-color:hover {
     text-decoration: none !important;
     background-color: var(--bck-color-h) !important;
+    border: 2px solid rgb(100, 100, 100) !important;
 }
 
 .folders_list > .list-group > .list-group-item {
@@ -551,3 +553,15 @@ input.exs-search {
     background-color: #efefef;
 
 }
+
+
+.column-elem:hover {
+    background-color: rgb(240, 240, 240);
+    border: 2px solid rgb(100, 100, 100) !important;
+}
+.column-elem.selected {
+    background-color: #d4d4d4;
+    color: #5a6268;
+    border: 2px solid rgb(100, 100, 100) !important;
+}
+
