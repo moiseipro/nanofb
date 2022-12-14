@@ -24,7 +24,7 @@ async function ajax_training_action(method, data, action = '', id = '', func = '
                 } else if(data.status == 'exercise_got' || data.status == 'sort_exercise' || data.status == 'protocol_got'){
 
                 } else {
-                    swal(gettext('Training '+action), gettext('Training action "'+action+'" successfully!'), "success");
+                    if(method != 'GET') swal(gettext('Training '+action), gettext('Training action "'+action+'" successfully!'), "success");
                 }
             },
             error: function(jqXHR, textStatus, errorThrown){
