@@ -140,7 +140,8 @@ $(window).on('load', function (){
         console.log(event.target)
 
         if($(event.target).is('td')) {
-            if ($(this).hasClass('selected')) {
+            let this_obj = $(this)
+            if (this_obj.hasClass('selected')) {
                 $('.hasEvent').removeClass('selected')
             } else {
                 $('.hasEvent').removeClass('selected')
@@ -150,6 +151,9 @@ $(window).on('load', function (){
                     if ('training' in data && data.training != null) {
                         console.log(data.training)
                         if (data.training.exercises_info.length > 0) {
+                            if (this_obj.hasClass('data_cell')){
+                                show_training_card(data.training.event_id)
+                            }
                             let exercises = data.training.exercises_info
                             for (let exercise of exercises) {
                                 html_scheme += `
