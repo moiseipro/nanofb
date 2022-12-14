@@ -163,7 +163,7 @@ def players_api(request):
         edit_questionnaires_rows_status = 0
         add_questionnaires_rows_status = 0
         delete_questionnaires_rows_status = 0
-        cur_user = User.objects.filter(email=request.user).only("id")
+        cur_user = User.objects.filter(email=request.user).only("id", "p_version")
         cur_team = -1
         if not cur_user.exists() or cur_user[0].id == None:
             return JsonResponse({"errors": "trouble_with_user"}, status=400)

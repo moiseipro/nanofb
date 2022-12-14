@@ -77,7 +77,7 @@ function LoadExerciseOne(exsID = null, fromNFB = 0, folderType = "") {
     if (!exsID) {return;}
     let data = {'get_exs_one': 1, 'exs': exsID, 'get_nfb': fromNFB, 'f_type': folderType};
     $('.page-loader-wrapper').fadeIn();
-    $.ajax({
+    let tCall = $.ajax({
         headers:{"X-CSRFToken": csrftoken},
         data: data,
         type: 'GET', // GET или POST
@@ -96,6 +96,9 @@ function LoadExerciseOne(exsID = null, fromNFB = 0, folderType = "") {
             window.lastListUsed = "exercises";
         }
     });
+    try {
+        PauseCountExsCalls(tCall);
+    } catch(e) {}
 }
 
 function RenderExerciseOne(data) {
@@ -148,7 +151,6 @@ function RenderExerciseOne(data) {
 
     let exsCard = $('#exerciseCard');
     if (data && data.id) {
-        console.log(data)
         $(exsCard).attr('data-exs', data.id);
 
         $('.exercise-card-header').toggleClass('disabled', data.copied_from_nfb == true);
@@ -174,16 +176,21 @@ function RenderExerciseOne(data) {
 
         $(exsCard).find('tr.additional-params-container').remove();
         let htmlParamsStr = "";
+        let vhValue = 80;
+        if (data.additional_params.length > 0) {
+            vhValue /= data.additional_params.length;
+            vhValue = vhValue.toFixed(2);
+        }
         for (let i in data.additional_params) {
             let tmpParam = data.additional_params[i];
             htmlParamsStr += `
-                <tr class="bck-custom border-y-custom additional-params-container">
+                <tr class="bck-custom border-y-custom additional-params-container" style="height: ${vhValue}vh;">
                     <td class="text-center align-middle">
                         ${tmpParam.title}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center h-100">
                         <input name="additional_params__${tmpParam.id}" class="form-control form-control-sm exs_edit_field text-center" type="text" 
-                        value="${tmpParam.value ? tmpParam.value : ''}" placeholder="" autocomplete="off" disabled="">
+                        value="${tmpParam.value ? tmpParam.value : ''}" placeholder="" autocomplete="off" disabled="" style="height: 100% !important;">
                     </td>
                 </tr>
             `;
@@ -745,6 +752,8 @@ function RenderExsAdditionalParams(data, disabled=true, selectedRow=null) {
     }
     $('#exerciseAdditionalParamsModal').find('tbody').html(htmlStr);
     $('#exerciseAdditionalParamsModal').find(`.column-elem[data-id="${selectedRow}"]`).addClass('selected');
+
+    LoadExerciseOne();
 }
 
 function EditExsAdditionalParam(mode="edit", fields={}) {

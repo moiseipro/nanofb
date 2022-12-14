@@ -251,6 +251,15 @@ def POST_edit_player(request, cur_user, cur_team):
             c_team = ClubTeam.objects.filter(id=cur_team, club_id=request.user.club_id)
             if not c_team.exists() or c_team[0].id == None:
                 return JsonResponse({"err": "Team not found.", "success": False}, status=400)
+            players_add_limit_flag = False
+            players_add_limit_amount = 0
+            try:
+                players_add_limit_amount = cur_user.p_version.player_limit
+                players_add_limit_flag = ClubPlayer.objects.filter(team=cur_team).count() < players_add_limit_amount
+            except:
+                pass
+            if not players_add_limit_flag:
+                return JsonResponse({"err": "Players' amount limits by version.", "success": False, "err_code": "players_limit", "r_value": players_add_limit_amount}, status=400)
             c_player = ClubPlayer(user=cur_user, team=c_team[0])
             is_new_player = True
         else:
@@ -261,6 +270,15 @@ def POST_edit_player(request, cur_user, cur_team):
             c_team = UserTeam.objects.filter(id=cur_team)
             if not c_team.exists() or c_team[0].id == None:
                 return JsonResponse({"err": "Team not found.", "success": False}, status=400)
+            players_add_limit_flag = False
+            players_add_limit_amount = 0
+            try:
+                players_add_limit_amount = cur_user.p_version.player_limit
+                players_add_limit_flag = UserPlayer.objects.filter(user=cur_user, team=cur_team).count() < players_add_limit_amount
+            except:
+                pass
+            if not players_add_limit_flag:
+                return JsonResponse({"err": "Players' amount limits by version.", "success": False, "err_code": "players_limit", "r_value": players_add_limit_amount}, status=400)
             c_player = UserPlayer(user=cur_user, team=c_team[0])
             is_new_player = True
         else:

@@ -611,6 +611,10 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
         f_exercises = f_exercises.filter(ref_ball=filter_ball)
     if len(filter_tags) > 0:
         f_exercises = f_exercises.filter(tags__lowercase_name__in=filter_tags).distinct()
+    if filter_new_exs != -1:
+        enddate = datetime.date.today()
+        startdate = enddate - datetime.timedelta(days=15)
+        f_exercises = f_exercises.filter(date_creation__range=[startdate, enddate])
 
     res_exercises = [entry for entry in f_exercises.values()]
     for exercise in res_exercises:
@@ -689,8 +693,6 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
         res_exercises = list(filter(lambda c: c['watched_status'] == filter_watched, res_exercises))
     if filter_favorite != -1:
         res_exercises = list(filter(lambda c: c['favorite_status'] == filter_favorite, res_exercises))
-    if filter_new_exs != -1:
-        res_exercises = list(filter(lambda c: days_between(c['date_creation']) < 15, res_exercises))
     if filter_search != "":
         filter_search = filter_search.lower()
         res_exercises = list(filter(lambda c: filter_search in c['search_title'], res_exercises))
@@ -1028,6 +1030,10 @@ def POST_edit_exs(request, cur_user, cur_team):
                 c_exs = ClubExercise(user=cur_user, folder=c_folder[0], club=request.user.club_id, team=found_team[0])
             else:
                 c_exs = UserExercise(user=cur_user, folder=c_folder[0])
+            try:
+                c_exs.save()
+            except Exception as e:
+                return JsonResponse({"err": "Can't edit the exs.", "success": False}, status=200)
         else:
             c_exs = c_exs[0]
             c_exs.folder = c_folder[0]
@@ -1044,6 +1050,10 @@ def POST_edit_exs(request, cur_user, cur_team):
         c_exs = AdminExercise.objects.filter(id=exs_id)
         if not c_exs.exists() or c_exs[0].id == None:
             c_exs = AdminExercise(folder=c_folder[0])
+            try:
+                c_exs.save()
+            except Exception as e:
+                return JsonResponse({"err": "Can't edit the exs.", "success": False}, status=200)
         else:
             c_exs = c_exs[0]
             c_exs.folder = c_folder[0]

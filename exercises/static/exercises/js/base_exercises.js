@@ -271,7 +271,7 @@ $(function() {
                 delete window.exercisesFilter[type];
             }
             for (ind in window.count_exs_calls) {
-                window.count_exs_calls[ind].abort();
+                window.count_exs_calls[ind]['call'].abort();
             }
             LoadFolderExercises();
             CountExsInFolder();
@@ -293,7 +293,7 @@ $(function() {
                 }
             }
             for (ind in window.count_exs_calls) {
-                window.count_exs_calls[ind].abort();
+                window.count_exs_calls[ind]['call'].abort();
             }
             LoadFolderExercises();
             CountExsInFolder();
@@ -306,7 +306,7 @@ $(function() {
         let val = $(e.currentTarget).val();
         window.exercisesFilter['_search'] = val;
         for (ind in window.count_exs_calls) {
-            window.count_exs_calls[ind].abort();
+            window.count_exs_calls[ind]['call'].abort();
         }
         LoadFolderExercises();
         CountExsInFolder();

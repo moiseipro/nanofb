@@ -796,7 +796,9 @@ $(function() {
                 }
             },
             error: function (res) {
-                swal("Ошибка", "Игрока не удалось создать / изменить.", "error");
+                let optionalInfo = "";
+                if (res.responseJSON.err_code == "players_limit") {optionalInfo = `Ограничение версии. Максимум игроков: ${res.responseJSON.r_value}.`;}
+                swal("Ошибка", `Игрока не удалось создать / изменить. ${optionalInfo}`, "error");
                 console.error(res);
             },
             complete: function (res) {
