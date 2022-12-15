@@ -30,8 +30,8 @@ django-admin startproject PROJECTNAME
 python manage.py collectstatic
 
 --------- Перевести слова:
-django-admin makemessages -l ru
 django-admin makemessages -l en
+django-admin makemessages -l ru
 django-admin compilemessages
 --------- Выгрузить переводы в JS
 django-admin makemessages -d djangojs -l en

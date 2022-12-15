@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#: .\references\models.py:300
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-24 12:38+0300\n"
+"POT-Creation-Date: 2022-12-15 15:05+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +18,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\Lib\site-packages\alabaster\layout.html:98
+msgid "Page source"
+msgstr ""
+
+#: .\Lib\site-packages\alabaster\navigation.html:1
+msgid "Navigation"
+msgstr ""
 
 #: .\Lib\site-packages\click\_termui_impl.py:496
 #: .\env\Lib\site-packages\click\_termui_impl.py:496
@@ -1855,87 +1864,224 @@ msgstr ""
 msgid "show this help message and exit"
 msgstr ""
 
-#: .\clubs\apps.py:8 .\nanofootball\templates\menu\sidebar.html:18
+#: .\Lib\site-packages\kombu\transport\qpid.py:1309
+#: .\env\Lib\site-packages\kombu\transport\qpid.py:1309
+#, python-format
+msgid "Attempting to connect to qpid with SASL mechanism %s"
+msgstr ""
+
+#: .\Lib\site-packages\kombu\transport\qpid.py:1314
+#: .\env\Lib\site-packages\kombu\transport\qpid.py:1314
+#, python-format
+msgid "Connected to qpid with SASL mechanism %s"
+msgstr ""
+
+#: .\Lib\site-packages\kombu\transport\qpid.py:1332
+#: .\env\Lib\site-packages\kombu\transport\qpid.py:1332
+#, python-format
+msgid "Unable to connect to qpid with SASL mechanism %s"
+msgstr ""
+
+#: .\clubs\apps.py:8 .\nanofootball\templates\menu\sidebar.html:21
 msgid "Clubs"
 msgstr ""
 
-#: .\clubs\models.py:14 .\events\models.py:87
-#: .\events\templates\events\base_events.html:150 .\references\models.py:16
-#: .\references\templates\references\base_settings.html:40
-#: .\references\templates\references\base_settings.html:55
-#: .\version\models.py:35 .\version\models.py:62 .\video\models.py:17
+#: .\clubs\forms.py:33 .\events\forms.py:94
+#: .\trainings\templates\trainings\view_training.html:73
+#: .\video\templates\video\modules\video_list_exercises.html:12
+#: .\video\templates\video\video_card.html:88
+msgid "Date"
+msgstr ""
+
+#: .\clubs\forms.py:59 .\users\models.py:50
+msgid "Birthday"
+msgstr ""
+
+#: .\clubs\models.py:15 .\events\models.py:87
+#: .\events\templates\events\base_events.html:152 .\references\models.py:16
+#: .\references\templates\references\base_settings.html:45
+#: .\references\templates\references\base_settings.html:62
+#: .\version\models.py:63 .\version\models.py:90 .\video\models.py:17
 #: .\video\models.py:28
 msgid "title"
 msgstr ""
 
-#: .\clubs\models.py:15
+#: .\clubs\models.py:16
 msgid "Club title. Maximum length of 100 characters."
 msgstr ""
 
-#: .\clubs\models.py:19
+#: .\clubs\models.py:20
 msgid "subdomain"
 msgstr ""
 
-#: .\clubs\models.py:20
+#: .\clubs\models.py:21
 msgid "The domain that will be displayed. The maximum length is 10 characters."
 msgstr ""
 
-#: .\clubs\models.py:24 .\version\models.py:77
+#: .\clubs\models.py:25 .\version\models.py:105
 msgid "groups"
 msgstr ""
 
-#: .\clubs\models.py:27
+#: .\clubs\models.py:28
 msgid ""
 "The groups this club belongs to. A club will get all permissions granted to "
 "each of their groups."
 msgstr ""
 
-#: .\clubs\models.py:33 .\version\models.py:86
+#: .\clubs\models.py:34 .\version\models.py:114
 msgid "permissions"
 msgstr ""
 
-#: .\clubs\models.py:35
+#: .\clubs\models.py:36
 msgid "Specific permissions for this club."
 msgstr ""
 
-#: .\clubs\models.py:39
+#: .\clubs\models.py:40
 msgid "date registration"
 msgstr ""
 
-#: .\clubs\models.py:40
+#: .\clubs\models.py:41
 msgid "Date of registration of the club in the program."
 msgstr ""
 
-#: .\clubs\models.py:44
+#: .\clubs\models.py:45
 msgid "License termination"
 msgstr ""
 
-#: .\clubs\models.py:45
+#: .\clubs\models.py:46
 msgid "License expiration date."
 msgstr ""
 
-#: .\clubs\models.py:51
+#: .\clubs\models.py:52
 msgid "block"
 msgstr ""
 
-#: .\clubs\models.py:52
+#: .\clubs\models.py:53
 msgid "Is the club blocked?"
 msgstr ""
 
-#: .\clubs\models.py:61
+#: .\clubs\models.py:70
 msgid "Club card"
 msgstr ""
 
-#: .\clubs\models.py:62
+#: .\clubs\models.py:71
 msgid "Club cards"
 msgstr ""
 
+#: .\clubs\models.py:75
+msgid "Access to the club admin panel"
+msgstr ""
+
+#: .\clubs\templates\clubs\admin_panel.html:6
+#: .\nanofootball\templates\menu\header.html:210
+msgid "Admin panel"
+msgstr ""
+
+#: .\clubs\templates\clubs\admin_panel.html:20
+#: .\clubs\templates\clubs\club_information.html:27
+#: .\nanofootball\templates\menu\sidebar.html:20 .\users\apps.py:8
+msgid "Users"
+msgstr ""
+
+#: .\clubs\templates\clubs\admin_panel.html:23
+msgid "Add user"
+msgstr ""
+
+#: .\clubs\templates\clubs\admin_panel.html:26
+msgid "Club information"
+msgstr ""
+
+#: .\clubs\templates\clubs\club_information.html:7
+msgid "General information"
+msgstr ""
+
+#: .\clubs\templates\clubs\club_information.html:11
+msgid "Tittle"
+msgstr ""
+
+#: .\clubs\templates\clubs\club_information.html:15
+msgid "Subdomain"
+msgstr ""
+
+#: .\clubs\templates\clubs\club_information.html:19
+msgid "Date registration"
+msgstr ""
+
+#: .\clubs\templates\clubs\club_information.html:23
+msgid "Registration to"
+msgstr ""
+
+#: .\clubs\templates\clubs\club_information.html:31
+#: .\nanofootball\templates\menu\header.html:44
+#: .\references\templates\references\base_settings.html:27
+msgid "Teams"
+msgstr ""
+
+#: .\clubs\templates\clubs\club_information.html:35
+msgid "Players per team"
+msgstr ""
+
+#: .\clubs\templates\clubs\club_information.html:44
+msgid "Club permissions"
+msgstr ""
+
+#: .\clubs\templates\clubs\edit_club_user.html:7
+msgid "User Parameters"
+msgstr ""
+
+#: .\clubs\templates\clubs\edit_club_user.html:15
+msgid "Permissions"
+msgstr ""
+
+#: .\clubs\templates\clubs\edit_club_user.html:18
+msgid "Team"
+msgstr ""
+
+#: .\clubs\templates\clubs\forms\add_user.html:11
+msgid "Create user"
+msgstr ""
+
+#: .\clubs\templates\clubs\mail\email.html:7 .\clubs\views.py:68
+msgid "Registration on the Nanofootball website"
+msgstr ""
+
+#: .\clubs\templates\clubs\mail\email.html:10
+msgid "To log in to the site, use this data."
+msgstr ""
+
+#: .\clubs\templates\clubs\mail\email.html:13
+#: .\users\templates\users\base_profile.html:57
+msgid "Password"
+msgstr ""
+
+#: .\clubs\templates\clubs\users_table.html:7
+msgid "Activation"
+msgstr ""
+
+#: .\clubs\templates\clubs\users_table.html:8 .\users\models.py:16
+#: .\users\templates\users\base_profile.html:76
+msgid "Name"
+msgstr ""
+
+#: .\clubs\templates\clubs\users_table.html:9
+#: .\users\templates\users\base_profile.html:84
+msgid "Email"
+msgstr ""
+
+#: .\clubs\templates\clubs\users_table.html:10
+msgid "Job Title"
+msgstr ""
+
+#: .\clubs\templates\clubs\users_table.html:11 .\users\models.py:51
+msgid "Date of birth"
+msgstr ""
+
 #: .\events\apps.py:8 .\events\templates\events\base_events.html:5
-#: .\nanofootball\templates\menu\sidebar.html:52
+#: .\nanofootball\templates\menu\sidebar.html:61
 msgid "Events"
 msgstr ""
 
-#: .\events\forms.py:40 .\nanofootball\templates\menu\sidebar.html:72
+#: .\events\forms.py:40 .\nanofootball\templates\menu\sidebar.html:85
 msgid "Training"
 msgstr ""
 
@@ -1967,16 +2113,9 @@ msgstr ""
 msgid "Event type"
 msgstr ""
 
-#: .\events\forms.py:94 .\trainings\templates\trainings\view_training.html:73
-#: .\video\templates\video\modules\video_list.html:10
-#: .\video\templates\video\modules\video_list_exercises.html:12
-#: .\video\templates\video\video_card.html:88
-msgid "Date"
-msgstr ""
-
 #: .\events\models.py:28 .\references\models.py:23
-#: .\references\templates\references\base_settings.html:41
-#: .\references\templates\references\base_settings.html:56
+#: .\references\templates\references\base_settings.html:46
+#: .\references\templates\references\base_settings.html:63
 msgid "short name"
 msgstr ""
 
@@ -2008,13 +2147,13 @@ msgstr ""
 msgid "Name of the microcycle. The maximum length is 80 characters"
 msgstr ""
 
-#: .\events\models.py:90 .\events\templates\events\base_events.html:31
+#: .\events\models.py:90 .\events\templates\events\base_events.html:32
 msgid "Microcycle"
 msgstr ""
 
-#: .\events\models.py:93 .\events\templates\events\base_events.html:151
-#: .\references\models.py:123 .\references\models.py:155
-#: .\references\templates\references\base_settings.html:57
+#: .\events\models.py:93 .\events\templates\events\base_events.html:153
+#: .\references\models.py:123 .\references\models.py:161
+#: .\references\templates\references\base_settings.html:64
 msgid "start date"
 msgstr ""
 
@@ -2022,9 +2161,9 @@ msgstr ""
 msgid "Start date of the microcycle."
 msgstr ""
 
-#: .\events\models.py:97 .\events\templates\events\base_events.html:152
-#: .\references\models.py:128 .\references\models.py:160
-#: .\references\templates\references\base_settings.html:58
+#: .\events\models.py:97 .\events\templates\events\base_events.html:154
+#: .\references\models.py:128 .\references\models.py:166
+#: .\references\templates\references\base_settings.html:65
 msgid "end date"
 msgstr ""
 
@@ -2032,21 +2171,21 @@ msgstr ""
 msgid "End date of the microcycle."
 msgstr ""
 
-#: .\events\templates\events\base_events.html:34
+#: .\events\templates\events\base_events.html:36
 msgid "Show/Hide calendar"
 msgstr ""
 
-#: .\events\templates\events\base_events.html:137
+#: .\events\templates\events\base_events.html:139
 msgid "Working with microcycles"
 msgstr ""
 
-#: .\events\templates\events\base_events.html:139
+#: .\events\templates\events\base_events.html:141
 msgid "Create"
 msgstr ""
 
-#: .\events\templates\events\base_events.html:153
-#: .\references\templates\references\base_settings.html:43
-#: .\references\templates\references\base_settings.html:59
+#: .\events\templates\events\base_events.html:155
+#: .\references\templates\references\base_settings.html:48
+#: .\references\templates\references\base_settings.html:66
 msgid "options"
 msgstr ""
 
@@ -2058,13 +2197,13 @@ msgstr ""
 msgid "Event Update"
 msgstr ""
 
-#: .\exercises\apps.py:8 .\nanofootball\templates\menu\sidebar.html:82
+#: .\exercises\apps.py:8 .\nanofootball\templates\menu\sidebar.html:97
 #: .\trainings\templates\trainings\view_training.html:50
 msgid "Exercises"
 msgstr ""
 
 #: .\exercises\templates\exercises\base_folders.html:5
-#: .\nanofootball\templates\menu\sidebar.html:87
+#: .\nanofootball\templates\menu\sidebar.html:102
 msgid "Folders management"
 msgstr ""
 
@@ -2091,7 +2230,7 @@ msgstr ""
 
 #: .\exercises\templates\exercises\base_folders.html:79
 #: .\exercises\templates\exercises\base_folders.html:80
-#: .\video\templates\video\modules\video_list.html:12
+#: .\video\templates\video\modules\video_list.html:14
 #: .\video\templates\video\modules\video_list_exercises.html:14
 #: .\video\templates\video\video_card.html:41
 msgid "Title"
@@ -2118,8 +2257,27 @@ msgstr ""
 msgid "Choose this structure"
 msgstr ""
 
+#: .\exercises\templates\exercises\modules\exercise_card.html:694
+#: .\exercises\templates\exercises\modules\exercise_card.html:704
+#: .\video\templates\video\base_video.html:53
+#: .\video\templates\video\base_video.html:63
+msgid "All"
+msgstr ""
+
+#: .\exercises\templates\exercises\modules\exercise_card.html:698
+#: .\exercises\templates\exercises\modules\exercise_card.html:708
+#: .\video\templates\video\base_video.html:57
+#: .\video\templates\video\video_card.html:82
+msgid "No sources"
+msgstr ""
+
+#: .\exercises\templates\exercises\modules\exercise_card.html:717
+#: .\video\templates\video\base_video.html:76
+msgid "No tags"
+msgstr ""
+
 #: .\matches\apps.py:8 .\matches\templates\matches\base_matches.html:5
-#: .\nanofootball\templates\menu\sidebar.html:62
+#: .\nanofootball\templates\menu\sidebar.html:73
 msgid "Matches"
 msgstr ""
 
@@ -2171,7 +2329,7 @@ msgstr ""
 msgid "Number of opponent team penalties per match."
 msgstr ""
 
-#: .\matches\models.py:54 .\trainings\models.py:183
+#: .\matches\models.py:54 .\trainings\models.py:199
 msgid "estimation"
 msgstr ""
 
@@ -2203,25 +2361,33 @@ msgstr ""
 msgid "Match format."
 msgstr ""
 
+#: .\matches\models.py:116
+msgid "Access to the section \"Analytics\" for UserMatch"
+msgstr ""
+
+#: .\matches\models.py:138
+msgid "Access to the section \"Analytics\" for ClubMatch"
+msgstr ""
+
 #: .\matches\templates\matches\base_match.html:5
 msgid "Match"
 msgstr ""
 
 #: .\matches\templates\matches\base_match.html:178
-#: .\nanofootball\templates\menu\header.html:63
+#: .\nanofootball\templates\menu\header.html:69
 msgid "No team selected"
 msgstr ""
 
 #: .\matches\templates\matches\base_match.html:182
-#: .\nanofootball\templates\menu\header.html:67
+#: .\nanofootball\templates\menu\header.html:73
 msgid "No teams"
 msgstr ""
 
-#: .\nanofb\settings.py:182
+#: .\nanofb\settings.py:206
 msgid "Russian"
 msgstr ""
 
-#: .\nanofb\settings.py:183
+#: .\nanofb\settings.py:207
 msgid "English"
 msgstr ""
 
@@ -2233,116 +2399,108 @@ msgstr ""
 msgid "Nanofootball admin panel"
 msgstr ""
 
-#: .\nanofootball\templates\menu\header.html:43
-#: .\references\templates\references\base_settings.html:26
-msgid "Teams"
-msgstr ""
-
-#: .\nanofootball\templates\menu\header.html:49
+#: .\nanofootball\templates\menu\header.html:51
 msgid "No season selected"
 msgstr ""
 
-#: .\nanofootball\templates\menu\header.html:53
+#: .\nanofootball\templates\menu\header.html:55
 msgid "No seasons"
 msgstr ""
 
-#: .\nanofootball\templates\menu\header.html:58
+#: .\nanofootball\templates\menu\header.html:62
 msgid "Create a season"
 msgstr ""
 
-#: .\nanofootball\templates\menu\header.html:72
+#: .\nanofootball\templates\menu\header.html:80
 msgid "Create a team"
 msgstr ""
 
-#: .\nanofootball\templates\menu\header.html:74
+#: .\nanofootball\templates\menu\header.html:84
 #: .\references\templates\references\base_settings.html:5
-#: .\references\templates\references\base_settings.html:28
+#: .\references\templates\references\base_settings.html:32
 msgid "Settings"
 msgstr ""
 
-#: .\nanofootball\templates\menu\header.html:198
+#: .\nanofootball\templates\menu\header.html:212
 msgid "My Profile"
 msgstr ""
 
-#: .\nanofootball\templates\menu\header.html:199
+#: .\nanofootball\templates\menu\header.html:213
 msgid "Logout"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:4
+#: .\nanofootball\templates\menu\sidebar.html:5
 msgid "Administration"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:13
+#: .\nanofootball\templates\menu\sidebar.html:16
 msgid "«Client» system"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:17 .\users\apps.py:8
-msgid "Users"
-msgstr ""
-
-#: .\nanofootball\templates\menu\sidebar.html:19
+#: .\nanofootball\templates\menu\sidebar.html:22
 msgid "Federations"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:29
+#: .\nanofootball\templates\menu\sidebar.html:34
 msgid "«Club» panel"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:39
+#: .\nanofootball\templates\menu\sidebar.html:46
 msgid "«Federation» panel"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:43
+#: .\nanofootball\templates\menu\sidebar.html:51
 msgid "Main sections"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:86
-msgid "List of exercises"
+#: .\nanofootball\templates\menu\sidebar.html:101
+msgid "Exercise lists"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:97 .\players\apps.py:8
-#: .\trainings\templates\trainings\view_training.html:214
+#: .\nanofootball\templates\menu\sidebar.html:114 .\players\apps.py:8
+#: .\trainings\templates\trainings\view_training.html:205
 msgid "Players"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:107
+#: .\nanofootball\templates\menu\sidebar.html:160
 msgid "Analytics"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:117
+#: .\nanofootball\templates\menu\sidebar.html:172
 msgid "Applications"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:121
+#: .\nanofootball\templates\menu\sidebar.html:176
 msgid "Mailing"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:122
+#: .\nanofootball\templates\menu\sidebar.html:177
 msgid "Chat"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:123
+#: .\nanofootball\templates\menu\sidebar.html:178
 #: .\video\templates\video\base_video.html:10
+#: .\video\templates\video\video_card.html:135
 msgid "Video"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:124
+#: .\nanofootball\templates\menu\sidebar.html:179
 msgid "Tests"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:125
+#: .\nanofootball\templates\menu\sidebar.html:180
 msgid "Finance"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:129
+#: .\nanofootball\templates\menu\sidebar.html:185
 msgid "Education"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:138
+#: .\nanofootball\templates\menu\sidebar.html:194
 msgid "Methodology"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:148
+#: .\nanofootball\templates\menu\sidebar.html:204
 msgid "Courses"
 msgstr ""
 
@@ -2350,16 +2508,24 @@ msgstr ""
 msgid "References"
 msgstr ""
 
-#: .\references\forms.py:34 .\references\forms.py:56
+#: .\references\forms.py:34
 msgid "Team title"
 msgstr ""
 
-#: .\references\forms.py:35 .\references\forms.py:57
+#: .\references\forms.py:35
 msgid "Team short name"
 msgstr ""
 
 #: .\references\forms.py:36 .\references\models.py:102
 msgid "Team status"
+msgstr ""
+
+#: .\references\forms.py:56
+msgid "Season title"
+msgstr ""
+
+#: .\references\forms.py:57
+msgid "Season short name"
 msgstr ""
 
 #: .\references\forms.py:58
@@ -2382,11 +2548,11 @@ msgstr ""
 msgid "Empty"
 msgstr ""
 
-#: .\references\models.py:28 .\trainings\models.py:98
+#: .\references\models.py:28 .\trainings\models.py:114
 msgid "order"
 msgstr ""
 
-#: .\references\models.py:29 .\trainings\models.py:99
+#: .\references\models.py:29 .\trainings\models.py:115
 msgid "Sorting index"
 msgstr ""
 
@@ -2427,7 +2593,7 @@ msgid "Team statuses"
 msgstr ""
 
 #: .\references\models.py:111 .\references\models.py:143
-#: .\references\templates\references\base_settings.html:42
+#: .\references\templates\references\base_settings.html:47
 msgid "team status"
 msgstr ""
 
@@ -2443,11 +2609,11 @@ msgstr ""
 msgid "User Teams"
 msgstr ""
 
-#: .\references\models.py:124 .\references\models.py:156
+#: .\references\models.py:124 .\references\models.py:162
 msgid "Start date of the season."
 msgstr ""
 
-#: .\references\models.py:129 .\references\models.py:161
+#: .\references\models.py:129 .\references\models.py:167
 msgid "End date of the season."
 msgstr ""
 
@@ -2459,163 +2625,179 @@ msgstr ""
 msgid "User Seasons"
 msgstr ""
 
-#: .\references\models.py:149
+#: .\references\models.py:150
+msgid "users"
+msgstr ""
+
+#: .\references\models.py:151
+msgid "Users who have access to the team"
+msgstr ""
+
+#: .\references\models.py:155
 msgid "Club Team"
 msgstr ""
 
-#: .\references\models.py:150
+#: .\references\models.py:156
 msgid "Club Teams"
 msgstr ""
 
-#: .\references\models.py:166
+#: .\references\models.py:172
 msgid "Club Season"
 msgstr ""
 
-#: .\references\models.py:167
+#: .\references\models.py:173
 msgid "Club Seasons"
 msgstr ""
 
-#: .\references\models.py:173
+#: .\references\models.py:179
 msgid "Exercise goal"
 msgstr ""
 
-#: .\references\models.py:174
+#: .\references\models.py:180
 msgid "Exercise goals"
 msgstr ""
 
-#: .\references\models.py:179 .\references\models.py:180
+#: .\references\models.py:185 .\references\models.py:186
 msgid "Exercise with a ball"
 msgstr ""
 
-#: .\references\models.py:185
+#: .\references\models.py:191
 msgid "Exercise team category"
 msgstr ""
 
-#: .\references\models.py:186
+#: .\references\models.py:192
 msgid "Exercise team categories"
 msgstr ""
 
-#: .\references\models.py:191
+#: .\references\models.py:197
 msgid "Exercise age category"
 msgstr ""
 
-#: .\references\models.py:192
+#: .\references\models.py:198
 msgid "Exercise age categories"
 msgstr ""
 
-#: .\references\models.py:197
+#: .\references\models.py:203
 msgid "Exercise part of the training"
 msgstr ""
 
-#: .\references\models.py:198
+#: .\references\models.py:204
 msgid "Exercise parts of the training"
 msgstr ""
 
-#: .\references\models.py:203
+#: .\references\models.py:209
 msgid "Exercise cognitive load"
 msgstr ""
 
-#: .\references\models.py:204
+#: .\references\models.py:210
 msgid "Exercise cognitive loads"
 msgstr ""
 
-#: .\references\models.py:209
+#: .\references\models.py:215
 msgid "Exercise keyword"
 msgstr ""
 
-#: .\references\models.py:210
+#: .\references\models.py:216
 msgid "Exercise keywords"
 msgstr ""
 
-#: .\references\models.py:215
+#: .\references\models.py:221
 msgid "Exercise stress type"
 msgstr ""
 
-#: .\references\models.py:216
+#: .\references\models.py:222
 msgid "Exercise stress types"
 msgstr ""
 
-#: .\references\models.py:221
+#: .\references\models.py:227
 msgid "Exercise purpose"
 msgstr ""
 
-#: .\references\models.py:222
+#: .\references\models.py:228
 msgid "Exercise purposes"
 msgstr ""
 
-#: .\references\models.py:227 .\references\models.py:228
+#: .\references\models.py:233 .\references\models.py:234
 msgid "Exercise coaching"
 msgstr ""
 
-#: .\references\models.py:233
+#: .\references\models.py:239
 msgid "Exercise category"
 msgstr ""
 
-#: .\references\models.py:234
+#: .\references\models.py:240
 msgid "Exercise categories"
 msgstr ""
 
-#: .\references\models.py:239 .\references\models.py:240
+#: .\references\models.py:245 .\references\models.py:246
 msgid "Exercise additional data"
 msgstr ""
 
-#: .\references\models.py:245
+#: .\references\models.py:251
 msgid "Exercise title name"
 msgstr ""
 
-#: .\references\models.py:246
+#: .\references\models.py:252
 msgid "Exercise title names"
 msgstr ""
 
-#: .\references\models.py:252
+#: .\references\models.py:258
 msgid "Player team status"
 msgstr ""
 
-#: .\references\models.py:253
+#: .\references\models.py:259
 msgid "Player team statuses"
 msgstr ""
 
-#: .\references\models.py:258
+#: .\references\models.py:264
 msgid "Player status"
 msgstr ""
 
-#: .\references\models.py:259
+#: .\references\models.py:265
 msgid "Player statuses"
 msgstr ""
 
-#: .\references\models.py:264
+#: .\references\models.py:270
 msgid "Player level"
 msgstr ""
 
-#: .\references\models.py:265
+#: .\references\models.py:271
 msgid "Player levels"
 msgstr ""
 
-#: .\references\models.py:270
+#: .\references\models.py:276
 msgid "Player position"
 msgstr ""
 
-#: .\references\models.py:271
+#: .\references\models.py:277
 msgid "Player positions"
 msgstr ""
 
-#: .\references\models.py:276
+#: .\references\models.py:282
 msgid "Player leg"
 msgstr ""
 
-#: .\references\models.py:277
+#: .\references\models.py:283
 msgid "Player legs"
 msgstr ""
 
-#: .\references\models.py:285
+#: .\references\models.py:291
 msgid "Player protocol status"
 msgstr ""
 
-#: .\references\models.py:286
+#: .\references\models.py:292
 msgid "Player protocol statuses"
 msgstr ""
 
-#: .\references\templates\references\base_settings.html:27
+#: .\references\models.py:299
+msgid "lowercase title"
+msgstr ""
+
+#: .\references\models.py:306 .\references\models.py:307
+msgid "Custom tags"
+msgstr ""
+
+#: .\references\templates\references\base_settings.html:30
 msgid "Seasons"
 msgstr ""
 
@@ -2660,32 +2842,44 @@ msgstr ""
 msgid "Objectives for training groups"
 msgstr ""
 
-#: .\trainings\models.py:87
+#: .\trainings\models.py:64
+msgid "Access to the section \"Analytics\" for UserTraining"
+msgstr ""
+
+#: .\trainings\models.py:89
+msgid "Access to the section \"Analytics\" for ClubTraining"
+msgstr ""
+
+#: .\trainings\models.py:103
 msgid "group"
 msgstr ""
 
-#: .\trainings\models.py:88
+#: .\trainings\models.py:104
 msgid "The group to which the exercise belongs"
 msgstr ""
 
-#: .\trainings\models.py:92
+#: .\trainings\models.py:108
 msgid "duration"
 msgstr ""
 
-#: .\trainings\models.py:93
+#: .\trainings\models.py:109
 msgid "Duration of the exercise"
 msgstr ""
 
-#: .\trainings\models.py:143
+#: .\trainings\models.py:159
 msgid "note"
 msgstr ""
 
-#: .\trainings\models.py:144
+#: .\trainings\models.py:160
 msgid "Note to the reference book"
 msgstr ""
 
-#: .\trainings\models.py:184
+#: .\trainings\models.py:200
 msgid "Player rating like/dislike"
+msgstr ""
+
+#: .\trainings\templates\trainings\training_card.html:9
+msgid "Training Card"
 msgstr ""
 
 #: .\trainings\templates\trainings\view_training.html:34
@@ -2693,6 +2887,7 @@ msgid "Back"
 msgstr ""
 
 #: .\trainings\templates\trainings\view_training.html:38
+#: .\users\templates\users\base_profile.html:73
 #: .\video\templates\video\video_card.html:10
 msgid "Edit"
 msgstr ""
@@ -2706,22 +2901,26 @@ msgid "Protocol"
 msgstr ""
 
 #: .\trainings\templates\trainings\view_training.html:85
-msgid "All group"
+msgid "Group A"
 msgstr ""
 
-#: .\trainings\templates\trainings\view_training.html:228
+#: .\trainings\templates\trainings\view_training.html:88
+msgid "Group B"
+msgstr ""
+
+#: .\trainings\templates\trainings\view_training.html:219
 msgid "Add all players"
 msgstr ""
 
-#: .\trainings\templates\trainings\view_training.html:229
+#: .\trainings\templates\trainings\view_training.html:220
 msgid "Add selected"
 msgstr ""
 
-#: .\users\admin.py:22 .\users\models.py:118
+#: .\users\admin.py:23 .\users\models.py:135
 msgid "Club"
 msgstr ""
 
-#: .\users\admin.py:23 .\users\models.py:31
+#: .\users\admin.py:24 .\users\models.py:40
 msgid "Country"
 msgstr ""
 
@@ -2737,115 +2936,147 @@ msgstr ""
 msgid "Superuser must have is_superuser=True."
 msgstr ""
 
-#: .\users\models.py:14
-msgid "Name"
-msgstr ""
-
-#: .\users\models.py:15
+#: .\users\models.py:17
 msgid "First name"
 msgstr ""
 
-#: .\users\models.py:19
+#: .\users\models.py:21
 msgid "Surname"
 msgstr ""
 
-#: .\users\models.py:20
+#: .\users\models.py:22
 msgid "Last name"
 msgstr ""
 
-#: .\users\models.py:27
+#: .\users\models.py:29
 msgid "Patronymic"
 msgstr ""
 
-#: .\users\models.py:28
+#: .\users\models.py:30
 msgid "Father name"
 msgstr ""
 
-#: .\users\models.py:32
-msgid "Country of residence"
+#: .\users\models.py:36
+msgid "Job title"
 msgstr ""
 
-#: .\users\models.py:40
-msgid "Birthday"
+#: .\users\models.py:37
+msgid "User job title"
 msgstr ""
 
 #: .\users\models.py:41
-msgid "Date of birth"
+msgid "Country of residence"
 msgstr ""
 
-#: .\users\models.py:48
+#: .\users\models.py:58
 msgid "Phone"
 msgstr ""
 
-#: .\users\models.py:49
+#: .\users\models.py:59
 msgid "Phone number"
 msgstr ""
 
-#: .\users\models.py:56
+#: .\users\models.py:66
 msgid "Spare phone"
 msgstr ""
 
-#: .\users\models.py:57
+#: .\users\models.py:67
 msgid "Spare phone number"
 msgstr ""
 
-#: .\users\models.py:64 .\users\models.py:65
+#: .\users\models.py:74 .\users\models.py:75
 msgid "Spare email"
 msgstr ""
 
-#: .\users\models.py:72
+#: .\users\models.py:82
 msgid "Skype"
 msgstr ""
 
-#: .\users\models.py:82 .\users\models.py:164
+#: .\users\models.py:92 .\users\models.py:183
 msgid "No name"
 msgstr ""
 
-#: .\users\models.py:82 .\users\models.py:164
+#: .\users\models.py:92 .\users\models.py:183
 msgid "No last name"
 msgstr ""
 
-#: .\users\models.py:89
+#: .\users\models.py:99
 msgid "Personal information"
 msgstr ""
 
-#: .\users\models.py:103
+#: .\users\models.py:113
 msgid "Payment information"
 msgstr ""
 
-#: .\users\models.py:110
+#: .\users\models.py:120
 msgid "email address"
 msgstr ""
 
-#: .\users\models.py:119
+#: .\users\models.py:126
+msgid "Version"
+msgstr ""
+
+#: .\users\models.py:127
+msgid "User version"
+msgstr ""
+
+#: .\users\models.py:136
 msgid "The club the user is a member of"
 msgstr ""
 
-#: .\users\models.py:125 .\users\models.py:126
+#: .\users\models.py:142 .\users\models.py:143
 msgid "Date of registration"
 msgstr ""
 
-#: .\users\models.py:130 .\users\models.py:131
+#: .\users\models.py:147 .\users\models.py:148
 msgid "Last login date"
 msgstr ""
 
-#: .\users\models.py:140
+#: .\users\models.py:158
 msgid "Personal Information"
 msgstr ""
 
-#: .\users\models.py:141
+#: .\users\models.py:159
 msgid "User Personal Information card"
 msgstr ""
 
-#: .\users\models.py:150
+#: .\users\models.py:169
 msgid "Payment Information"
 msgstr ""
 
-#: .\users\models.py:151
+#: .\users\models.py:170
 msgid "User Payment Information card"
 msgstr ""
 
-#: .\version\admin.py:37
+#: .\users\templates\users\base_profile.html:11
+msgid "Profile"
+msgstr ""
+
+#: .\users\templates\users\base_profile.html:54
+msgid "About"
+msgstr ""
+
+#: .\users\templates\users\base_profile.html:72
+msgid "Personal Details"
+msgstr ""
+
+#: .\users\templates\users\base_profile.html:80
+msgid "Date of Birth"
+msgstr ""
+
+#: .\users\templates\users\base_profile.html:88
+msgid "Email 2"
+msgstr ""
+
+#: .\users\templates\users\base_profile.html:92
+msgid "Mobile"
+msgstr ""
+
+#: .\users\templates\users\base_profile.html:96
+msgid "Address"
+msgstr ""
+
+#: .\version\admin.py:41
 msgid "custom groups"
 msgstr ""
 
@@ -2853,7 +3084,7 @@ msgstr ""
 msgid "version control"
 msgstr ""
 
-#: .\version\models.py:18 .\version\models.py:96
+#: .\version\models.py:18 .\version\models.py:124
 msgid "price"
 msgstr ""
 
@@ -2861,77 +3092,101 @@ msgstr ""
 msgid "The cost of the Group in the currency"
 msgstr ""
 
-#: .\version\models.py:29
+#: .\version\models.py:30
 msgid "Custom group params"
 msgstr ""
 
-#: .\version\models.py:36
-msgid "Section name"
+#: .\version\models.py:35
+msgid "number of teams"
 msgstr ""
 
-#: .\version\models.py:40 .\version\models.py:92
-msgid "tag"
+#: .\version\models.py:36
+msgid "limit on the number of teams"
+msgstr ""
+
+#: .\version\models.py:40
+msgid "number of players"
 msgstr ""
 
 #: .\version\models.py:41
+msgid "limit on the number of players in a team"
+msgstr ""
+
+#: .\version\models.py:51
+msgid "number of users"
+msgstr ""
+
+#: .\version\models.py:52
+msgid "limit on the number of users"
+msgstr ""
+
+#: .\version\models.py:64
+msgid "Section name"
+msgstr ""
+
+#: .\version\models.py:68 .\version\models.py:120
+msgid "tag"
+msgstr ""
+
+#: .\version\models.py:69
 msgid "Section tag"
 msgstr ""
 
-#: .\version\models.py:48
+#: .\version\models.py:76
 msgid "Default"
 msgstr ""
 
-#: .\version\models.py:55
+#: .\version\models.py:83
 msgid "section"
 msgstr ""
 
-#: .\version\models.py:56
+#: .\version\models.py:84
 msgid "sections"
 msgstr ""
 
-#: .\version\models.py:63
+#: .\version\models.py:91
 msgid "Version name"
 msgstr ""
 
-#: .\version\models.py:66
+#: .\version\models.py:94
 msgid "last update"
 msgstr ""
 
-#: .\version\models.py:67
+#: .\version\models.py:95
 msgid "Version update date"
 msgstr ""
 
-#: .\version\models.py:71
+#: .\version\models.py:99
 msgid "active"
 msgstr ""
 
-#: .\version\models.py:72
+#: .\version\models.py:100
 msgid "The version is active for user selection"
 msgstr ""
 
-#: .\version\models.py:80
+#: .\version\models.py:108
 msgid ""
 "The groups this version belongs to. A version will get all permissions "
 "granted to each of their groups."
 msgstr ""
 
-#: .\version\models.py:88
+#: .\version\models.py:116
 msgid "Specific permissions for this version."
 msgstr ""
 
-#: .\version\models.py:93
+#: .\version\models.py:121
 msgid "Version tag"
 msgstr ""
 
-#: .\version\models.py:97
+#: .\version\models.py:125
 msgid "The cost of the version in the currency"
 msgstr ""
 
-#: .\version\models.py:108
+#: .\version\models.py:144
 msgid "version"
 msgstr ""
 
-#: .\version\models.py:109
+#: .\version\models.py:145
 msgid "versions"
 msgstr ""
 
@@ -3031,28 +3286,27 @@ msgstr ""
 msgid "ID of the exercise that the video was linked to"
 msgstr ""
 
-#: .\video\templates\video\base_video.html:31
+#: .\video\models.py:83
+msgid "Notes"
+msgstr ""
+
+#: .\video\models.py:84
+msgid "Notes in json format"
+msgstr ""
+
+#: .\video\templates\video\base_video.html:33
 msgid "Add video"
 msgstr ""
 
-#: .\video\templates\video\base_video.html:34
+#: .\video\templates\video\base_video.html:36
 msgid "Parse video"
 msgstr ""
 
-#: .\video\templates\video\base_video.html:48
-msgid "All"
+#: .\video\templates\video\base_video.html:67
+msgid "No folders"
 msgstr ""
 
-#: .\video\templates\video\base_video.html:52
-#: .\video\templates\video\video_card.html:82
-msgid "No sources"
-msgstr ""
-
-#: .\video\templates\video\base_video.html:61
-msgid "No tags"
-msgstr ""
-
-#: .\video\templates\video\base_video.html:66
+#: .\video\templates\video\base_video.html:81
 msgid "Search"
 msgstr ""
 
@@ -3070,22 +3324,28 @@ msgstr ""
 msgid "Source"
 msgstr ""
 
-#: .\video\templates\video\modules\video_list.html:11
+#: .\video\templates\video\modules\video_list.html:10
+#: .\video\templates\video\modules\video_list_exercises.html:10
+msgid "Folder"
+msgstr ""
+
+#: .\video\templates\video\modules\video_list.html:12
 #: .\video\templates\video\modules\video_list_exercises.html:13
 msgid "Minutes"
 msgstr ""
 
 #: .\video\templates\video\modules\video_list.html:13
-#: .\video\templates\video\video_card.html:129
+msgid "V/A"
+msgstr ""
+
+#: .\video\templates\video\modules\video_list.html:15
+#: .\video\templates\video\modules\video_list_exercises.html:15
+#: .\video\templates\video\video_card.html:148
 msgid "Tags"
 msgstr ""
 
 #: .\video\templates\video\modules\video_list_exercises.html:9
 msgid "Exercise"
-msgstr ""
-
-#: .\video\templates\video\modules\video_list_exercises.html:10
-msgid "Folder"
 msgstr ""
 
 #: .\video\templates\video\video_card.html:45
@@ -3114,4 +3374,12 @@ msgstr ""
 
 #: .\video\templates\video\video_card.html:125
 msgid "Sections"
+msgstr ""
+
+#: .\video\templates\video\video_card.html:129
+msgid "Video / Animation"
+msgstr ""
+
+#: .\video\templates\video\video_card.html:141
+msgid "Animation"
 msgstr ""

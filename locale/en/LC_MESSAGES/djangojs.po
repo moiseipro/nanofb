@@ -4,12 +4,13 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #: .\nanofootball\static\jquery-ui-1.13.1.custom\jquery-ui.min.js:6
+#: .\static\jquery-ui-1.13.1.custom\jquery-ui.min.js:6
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-14 14:21+0300\n"
+"POT-Creation-Date: 2022-12-15 14:34+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,339 +20,865 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: .\clubs\static\clubs\js\club_ajax.js:18
+#: .\clubs\static\clubs\js\club_ajax.js:24 .\static\clubs\js\club_ajax.js:18
+#: .\static\clubs\js\club_ajax.js:24
+#: .\static\trainings\js\action_training.js:19
+#: .\static\trainings\js\action_training.js:21
+#: .\static\trainings\js\action_training.js:23
+#: .\static\trainings\js\action_training.js:27
+#: .\static\trainings\js\action_training.js:32
+#: .\static\trainings\js\view_protocol.js:25
+#: .\static\trainings\js\view_training.js:804
+#: .\static\trainings\js\view_training.js:833
+#: .\static\trainings\view_training.js:32
+#: .\static\trainings\view_training.js:36
+#: .\trainings\static\trainings\js\action_training.js:19
+#: .\trainings\static\trainings\js\action_training.js:21
+#: .\trainings\static\trainings\js\action_training.js:23
+#: .\trainings\static\trainings\js\action_training.js:27
+#: .\trainings\static\trainings\js\action_training.js:32
+#: .\trainings\static\trainings\js\view_protocol.js:25
+#: .\trainings\static\trainings\js\view_training.js:804
+#: .\trainings\static\trainings\js\view_training.js:833
+msgid "Training "
+msgstr ""
+
+#: .\clubs\static\clubs\js\club_ajax.js:18 .\static\clubs\js\club_ajax.js:18
+#: .\static\trainings\js\action_training.js:19
+#: .\trainings\static\trainings\js\action_training.js:19
+msgid "The limit of exercises for the selected group has been reached"
+msgstr ""
+
+#: .\clubs\static\clubs\js\club_ajax.js:24
+#: .\clubs\static\clubs\js\users_list.js:90
+#: .\events\static\events\js\event_update.js:28
+#: .\references\static\references\team_ajax.js:22
+#: .\static\clubs\js\club_ajax.js:24 .\static\clubs\js\users_list.js:90
+#: .\static\events\base_events.js:244 .\static\events\js\event_update.js:28
+#: .\static\references\team_ajax.js:22
+#: .\static\trainings\js\action_training.js:32
+#: .\static\trainings\js\view_protocol.js:25
+#: .\static\trainings\js\view_training.js:804
+#: .\static\trainings\js\view_training.js:833
+#: .\static\trainings\view_training.js:36 .\static\video\js\video_card.js:104
+#: .\trainings\static\trainings\js\action_training.js:32
+#: .\trainings\static\trainings\js\view_protocol.js:25
+#: .\trainings\static\trainings\js\view_training.js:804
+#: .\trainings\static\trainings\js\view_training.js:833
+#: .\video\static\video\js\video_card.js:104
+msgid "Error when action \""
+msgstr ""
+
+#: .\clubs\static\clubs\js\users_list.js:26 .\static\clubs\js\users_list.js:26
+msgid "Activation"
+msgstr ""
+
+#: .\clubs\static\clubs\js\users_list.js:27 .\static\clubs\js\users_list.js:27
+msgid "Archive"
+msgstr ""
+
+#: .\clubs\static\clubs\js\users_list.js:80
+#: .\clubs\static\clubs\js\users_list.js:88
+#: .\clubs\static\clubs\js\users_list.js:90 .\static\clubs\js\users_list.js:80
+#: .\static\clubs\js\users_list.js:88 .\static\clubs\js\users_list.js:90
+msgid "Users "
+msgstr ""
+
+#: .\clubs\static\clubs\js\users_list.js:80 .\static\clubs\js\users_list.js:80
+msgid "The limit of users for the club"
+msgstr ""
+
+#: .\clubs\static\clubs\js\users_list.js:88 .\static\clubs\js\users_list.js:88
+msgid "The limit of users for the club has been reached!"
+msgstr ""
+
+#: .\docs\_build\html\_static\searchtools.js:105
+msgid "Search Results"
+msgstr ""
+
+#: .\docs\_build\html\_static\searchtools.js:108
+msgid ""
+"Your search did not match any documents. Please make sure that all words are "
+"spelled correctly and that you've selected enough categories."
+msgstr ""
+
+#: .\docs\_build\html\_static\searchtools.js:209
+msgid "Searching"
+msgstr ""
+
+#: .\docs\_build\html\_static\searchtools.js:225
+msgid "Preparing search..."
+msgstr ""
+
+#: .\docs\_build\html\_static\searchtools.js:413
+msgid ", in "
+msgstr ""
+
+#: .\docs\_build\html\_static\sphinx_highlight.js:107
+msgid "Hide Search Matches"
+msgstr ""
+
 #: .\events\static\events\js\base_events.js:77
+#: .\static\events\js\base_events.js:77
 msgid "Warning!"
 msgstr ""
 
 #: .\events\static\events\js\base_events.js:77
+#: .\static\events\js\base_events.js:77
 msgid "Choose a team and a season!"
 msgstr ""
 
-#: .\events\static\events\js\base_events.js:249
+#: .\events\static\events\js\base_events.js:253
+#: .\static\events\js\base_events.js:253
 msgid "Go to the created event"
 msgstr ""
 
-#: .\events\static\events\js\base_events.js:370
+#: .\events\static\events\js\base_events.js:384
+#: .\static\events\base_events.js:192 .\static\events\js\base_events.js:384
 msgid "Save changes to the microcycle?"
 msgstr ""
 
-#: .\events\static\events\js\base_events.js:388
+#: .\events\static\events\js\base_events.js:402
+#: .\static\events\base_events.js:207 .\static\events\js\base_events.js:402
 msgid "The action with the microcycle was successfully completed!"
 msgstr ""
 
-#: .\events\static\events\js\base_events.js:395
+#: .\events\static\events\js\base_events.js:409
+#: .\static\events\base_events.js:213 .\static\events\js\base_events.js:409
 msgid "Error when updating the microcycle. "
 msgstr ""
 
-#: .\events\static\events\js\base_events.js:538
-#: .\events\static\events\js\base_events.js:760
-#: .\trainings\static\trainings\js\view_training.js:360
+#: .\events\static\events\js\base_events.js:558
+#: .\events\static\events\js\base_events.js:780
+#: .\static\events\base_events.js:409 .\static\events\js\base_events.js:558
+#: .\static\events\js\base_events.js:780
+#: .\static\trainings\js\view_training.js:490
+#: .\trainings\static\trainings\js\view_training.js:490
 msgid "Training"
 msgstr ""
 
-#: .\events\static\events\js\base_events.js:553
-#: .\events\static\events\js\base_events.js:762
+#: .\events\static\events\js\base_events.js:573
+#: .\events\static\events\js\base_events.js:782
+#: .\static\events\base_events.js:411 .\static\events\js\base_events.js:573
+#: .\static\events\js\base_events.js:782
 msgid "Match"
 msgstr ""
 
-#: .\events\static\events\js\base_events.js:590
-#: .\events\static\events\js\base_events.js:631
+#: .\events\static\events\js\base_events.js:610
+#: .\events\static\events\js\base_events.js:651
+#: .\static\events\base_events.js:318 .\static\events\base_events.js:327
+#: .\static\events\js\base_events.js:610 .\static\events\js\base_events.js:651
 msgid "Event save"
 msgstr ""
 
-#: .\events\static\events\js\base_events.js:590
-#: .\events\static\events\js\base_events.js:631
+#: .\events\static\events\js\base_events.js:610
+#: .\events\static\events\js\base_events.js:651
+#: .\static\events\base_events.js:318 .\static\events\base_events.js:327
+#: .\static\events\js\base_events.js:610 .\static\events\js\base_events.js:651
 msgid "Error when action the event!"
 msgstr ""
 
-#: .\events\static\events\js\base_events.js:603
+#: .\events\static\events\js\base_events.js:623
+#: .\static\admin\js\admin\DateTimeShortcuts.js:239
+#: .\static\admin\js\admin\DateTimeShortcuts.js:319
+#: .\static\events\base_events.js:338 .\static\events\js\base_events.js:623
 msgid "Today"
 msgstr ""
 
-#: .\events\static\events\js\base_events.js:604
+#: .\events\static\events\js\base_events.js:624
+#: .\static\events\base_events.js:339 .\static\events\js\base_events.js:624
 msgid "Failed to initialize"
 msgstr ""
 
-#: .\events\static\events\js\base_events.js:605
+#: .\events\static\events\js\base_events.js:625
+#: .\static\events\base_events.js:340 .\static\events\js\base_events.js:625
 msgid "No data was found to show"
 msgstr ""
 
-#: .\events\static\events\js\base_events.js:764
+#: .\events\static\events\js\base_events.js:784
+#: .\static\events\js\base_events.js:784 .\static\video\base_video.js:83
 msgid "---"
 msgstr ""
 
-#: .\events\static\events\js\base_events.js:880
-#: .\events\static\events\js\base_events.js:917
-#: .\exercises\static\exercises\js\base_exercises_folders.js:217
+#: .\events\static\events\js\base_events.js:900
+#: .\events\static\events\js\base_events.js:937
+#: .\exercises\static\exercises\js\base_exercises_folders.js:220
+#: .\static\events\base_events.js:439 .\static\events\js\base_events.js:900
+#: .\static\events\js\base_events.js:937
+#: .\static\exercises\js\base_exercises_folders.js:220
+#: .\static\video\base_video.js:47
 msgid "Edit"
 msgstr ""
 
-#: .\events\static\events\js\base_events.js:881
-#: .\events\static\events\js\base_events.js:918
-#: .\exercises\static\exercises\js\base_exercises_folders.js:220
+#: .\events\static\events\js\base_events.js:901
+#: .\events\static\events\js\base_events.js:938
+#: .\exercises\static\exercises\js\base_exercises_folders.js:223
+#: .\static\events\base_events.js:440 .\static\events\js\base_events.js:901
+#: .\static\events\js\base_events.js:938
+#: .\static\exercises\js\base_exercises_folders.js:223
+#: .\static\video\base_video.js:57
 msgid "Delete"
 msgstr ""
 
-#: .\events\static\events\js\base_events.js:883
-#: .\events\static\events\js\base_events.js:920
+#: .\events\static\events\js\base_events.js:903
+#: .\events\static\events\js\base_events.js:940
+#: .\static\events\base_events.js:442 .\static\events\js\base_events.js:903
+#: .\static\events\js\base_events.js:940
 msgid "Close"
 msgstr ""
 
 #: .\events\static\events\js\event_update.js:18
 #: .\events\static\events\js\event_update.js:20
 #: .\events\static\events\js\event_update.js:28
+#: .\static\events\base_events.js:239 .\static\events\base_events.js:244
+#: .\static\events\js\event_update.js:18 .\static\events\js\event_update.js:20
+#: .\static\events\js\event_update.js:28
 msgid "Event "
 msgstr ""
 
 #: .\events\static\events\js\event_update.js:18
+#: .\static\events\js\event_update.js:18
 msgid "You have created the maximum number of events of this type for one day!"
 msgstr ""
 
 #: .\events\static\events\js\event_update.js:20
+#: .\static\events\base_events.js:239 .\static\events\js\event_update.js:20
 msgid "Event action \""
 msgstr ""
 
-#: .\events\static\events\js\event_update.js:28
-#: .\trainings\static\trainings\js\action_training.js:32
-#: .\trainings\static\trainings\js\view_protocol.js:25
-#: .\trainings\static\trainings\js\view_training.js:676
-#: .\trainings\static\trainings\js\view_training.js:705
-#: .\video\static\video\js\base_video.js:197
-msgid "Error when action \""
-msgstr ""
-
-#: .\exercises\static\exercises\js\base_exercises_folders.js:213
+#: .\exercises\static\exercises\js\base_exercises_folders.js:216
+#: .\static\exercises\js\base_exercises_folders.js:216
 msgid "Add subfolder"
 msgstr ""
 
-#: .\exercises\static\exercises\js\base_exercises_folders.js:345
+#: .\exercises\static\exercises\js\base_exercises_folders.js:357
+#: .\static\exercises\js\base_exercises_folders.js:357
 msgid ""
 "Attention. The current folder structure will be completely cleared. Are you "
 "sure?"
 msgstr ""
 
-#: .\exercises\static\exercises\js\base_exercises_folders.js:359
+#: .\exercises\static\exercises\js\base_exercises_folders.js:371
+#: .\static\exercises\js\base_exercises_folders.js:371
 msgid "Error"
 msgstr ""
 
-#: .\exercises\static\exercises\js\base_exercises_folders.js:359
+#: .\exercises\static\exercises\js\base_exercises_folders.js:371
+#: .\static\exercises\js\base_exercises_folders.js:371
 msgid "Failed to copy folder structure."
 msgstr ""
 
 #: .\nanofootball\static\jquery-ui-1.13.1.custom\jquery-ui.min.js:6
+#: .\static\jquery-ui-1.13.1.custom\jquery-ui.min.js:6
 msgid "'"
 msgstr ""
 
 #: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+#: .\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
 msgid "PRE"
 msgstr ""
 
 #: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+#: .\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
 msgid "LI"
 msgstr ""
 
 #: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+#: .\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
 msgid "TABLE"
 msgstr ""
 
 #: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+#: .\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
 msgid "DATA"
 msgstr ""
 
 #: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+#: .\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
 msgid "HR"
 msgstr ""
 
 #: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+#: .\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
 msgid "BLOCKQUOTE"
 msgstr ""
 
 #: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+#: .\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
 msgid "A"
 msgstr ""
 
 #: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+#: .\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
 msgid "BODY"
 msgstr ""
 
 #: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+#: .\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
 msgid "TEXTAREA"
 msgstr ""
 
 #: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+#: .\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
 msgid "DIV"
 msgstr ""
 
 #: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+#: .\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
 msgid "BR"
 msgstr ""
 
 #: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+#: .\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
 msgid "SPAN"
 msgstr ""
 
 #: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+#: .\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
 msgid "B"
 msgstr ""
 
 #: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+#: .\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
 msgid "U"
 msgstr ""
 
 #: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+#: .\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
 msgid "S"
 msgstr ""
 
 #: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+#: .\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
 msgid "I"
 msgstr ""
 
 #: .\nanofootball\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
+#: .\static\preadmin\plugins\summernote\dist\summernote-lite.min.js:3
 msgid "IMG"
 msgstr ""
 
 #: .\nanofootball\static\video-js-7.20.0\alt\video.novtt.min.js:12
 #: .\nanofootball\static\video-js-7.20.0\video.min.js:12
+#: .\static\video-js-7.20.0\alt\video.novtt.min.js:12
+#: .\static\video-js-7.20.0\video.min.js:12
 msgid "function"
 msgstr ""
 
 #: .\references\static\references\ref_settings.js:17
 #: .\references\static\references\ref_settings.js:55
+#: .\static\references\ref_settings.js:17
+#: .\static\references\ref_settings.js:55
 msgid "Create"
 msgstr ""
 
 #: .\references\static\references\ref_settings.js:21
+#: .\static\references\ref_settings.js:21
 msgid "Creating a team"
 msgstr ""
 
 #: .\references\static\references\ref_settings.js:59
+#: .\static\references\ref_settings.js:59
 msgid "Creating a season"
 msgstr ""
 
 #: .\references\static\references\ref_settings.js:86
 #: .\references\static\references\ref_settings.js:112
+#: .\static\references\ref_settings.js:86
+#: .\static\references\ref_settings.js:112
 msgid "Changing the team"
 msgstr ""
 
 #: .\references\static\references\ref_settings.js:152
+#: .\static\references\ref_settings.js:152
 msgid "Apply action to team?"
 msgstr ""
 
 #: .\references\static\references\ref_settings.js:165
+#: .\static\references\ref_settings.js:165
 msgid "Team saved successfully!"
 msgstr ""
 
-#: .\references\static\references\ref_settings.js:169
+#: .\references\static\references\ref_settings.js:170
+#: .\references\static\references\ref_settings.js:172
+#: .\static\references\ref_settings.js:170
+#: .\static\references\ref_settings.js:172
+msgid "Team"
+msgstr ""
+
+#: .\references\static\references\ref_settings.js:170
+#: .\references\static\references\team_ajax.js:20
+#: .\static\references\ref_settings.js:170 .\static\references\team_ajax.js:20
+msgid "The team limit has been reached!"
+msgstr ""
+
+#: .\references\static\references\ref_settings.js:172
+#: .\static\references\ref_settings.js:172
 msgid "Error when action the team!"
 msgstr ""
 
-#: .\references\static\references\ref_settings.js:180
+#: .\references\static\references\ref_settings.js:185
+#: .\static\references\ref_settings.js:185
 msgid "Apply an action to a season?"
 msgstr ""
 
-#: .\references\static\references\ref_settings.js:193
+#: .\references\static\references\ref_settings.js:198
+#: .\static\references\ref_settings.js:198
 msgid "Season saved successfully!"
 msgstr ""
 
-#: .\references\static\references\ref_settings.js:197
+#: .\references\static\references\ref_settings.js:202
+#: .\static\references\ref_settings.js:202
 msgid "Error when action the season!"
 msgstr ""
 
-#: .\trainings\static\trainings\js\action_training.js:19
-#: .\trainings\static\trainings\js\action_training.js:21
-#: .\trainings\static\trainings\js\action_training.js:23
-#: .\trainings\static\trainings\js\action_training.js:27
-#: .\trainings\static\trainings\js\action_training.js:32
-#: .\trainings\static\trainings\js\view_protocol.js:25
-#: .\trainings\static\trainings\js\view_training.js:676
-#: .\trainings\static\trainings\js\view_training.js:705
-#: .\video\static\video\js\base_video.js:194
-#: .\video\static\video\js\base_video.js:197
-msgid "Training "
+#: .\references\static\references\team_ajax.js:20
+#: .\references\static\references\team_ajax.js:22
+#: .\static\references\team_ajax.js:20 .\static\references\team_ajax.js:22
+msgid "Team "
 msgstr ""
 
-#: .\trainings\static\trainings\js\action_training.js:19
-msgid "The limit of exercises for the selected group has been reached"
+#: .\static\admin\js\SelectFilter2.js:38
+#, javascript-format
+msgid "Available %s"
 msgstr ""
 
+#: .\static\admin\js\SelectFilter2.js:44
+#, javascript-format
+msgid ""
+"This is the list of available %s. You may choose some by selecting them in "
+"the box below and then clicking the \"Choose\" arrow between the two boxes."
+msgstr ""
+
+#: .\static\admin\js\SelectFilter2.js:60
+#, javascript-format
+msgid "Type into this box to filter down the list of available %s."
+msgstr ""
+
+#: .\static\admin\js\SelectFilter2.js:65
+msgid "Filter"
+msgstr ""
+
+#: .\static\admin\js\SelectFilter2.js:69
+msgid "Choose all"
+msgstr ""
+
+#: .\static\admin\js\SelectFilter2.js:69
+#, javascript-format
+msgid "Click to choose all %s at once."
+msgstr ""
+
+#: .\static\admin\js\SelectFilter2.js:75
+msgid "Choose"
+msgstr ""
+
+#: .\static\admin\js\SelectFilter2.js:77
+msgid "Remove"
+msgstr ""
+
+#: .\static\admin\js\SelectFilter2.js:83
+#, javascript-format
+msgid "Chosen %s"
+msgstr ""
+
+#: .\static\admin\js\SelectFilter2.js:89
+#, javascript-format
+msgid ""
+"This is the list of chosen %s. You may remove some by selecting them in the "
+"box below and then clicking the \"Remove\" arrow between the two boxes."
+msgstr ""
+
+#: .\static\admin\js\SelectFilter2.js:99
+msgid "Remove all"
+msgstr ""
+
+#: .\static\admin\js\SelectFilter2.js:99
+#, javascript-format
+msgid "Click to remove all chosen %s at once."
+msgstr ""
+
+#: .\static\admin\js\actions.js:67
+msgid "%(sel)s of %(cnt)s selected"
+msgid_plural "%(sel)s of %(cnt)s selected"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\static\admin\js\actions.js:161
+msgid ""
+"You have unsaved changes on individual editable fields. If you run an "
+"action, your unsaved changes will be lost."
+msgstr ""
+
+#: .\static\admin\js\actions.js:174
+msgid ""
+"You have selected an action, but you haven’t saved your changes to "
+"individual fields yet. Please click OK to save. You’ll need to re-run the "
+"action."
+msgstr ""
+
+#: .\static\admin\js\actions.js:175
+msgid ""
+"You have selected an action, and you haven’t made any changes on individual "
+"fields. You’re probably looking for the Go button rather than the Save "
+"button."
+msgstr ""
+
+#: .\static\admin\js\admin\DateTimeShortcuts.js:13
+#: .\static\admin\js\admin\DateTimeShortcuts.js:111
+msgid "Now"
+msgstr ""
+
+#: .\static\admin\js\admin\DateTimeShortcuts.js:14
+msgid "Midnight"
+msgstr ""
+
+#: .\static\admin\js\admin\DateTimeShortcuts.js:15
+msgid "6 a.m."
+msgstr ""
+
+#: .\static\admin\js\admin\DateTimeShortcuts.js:16
+msgid "Noon"
+msgstr ""
+
+#: .\static\admin\js\admin\DateTimeShortcuts.js:17
+msgid "6 p.m."
+msgstr ""
+
+#: .\static\admin\js\admin\DateTimeShortcuts.js:78
+#, javascript-format
+msgid "Note: You are %s hour ahead of server time."
+msgid_plural "Note: You are %s hours ahead of server time."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\static\admin\js\admin\DateTimeShortcuts.js:86
+#, javascript-format
+msgid "Note: You are %s hour behind server time."
+msgid_plural "Note: You are %s hours behind server time."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\static\admin\js\admin\DateTimeShortcuts.js:129
+msgid "Choose a Time"
+msgstr ""
+
+#: .\static\admin\js\admin\DateTimeShortcuts.js:159
+msgid "Choose a time"
+msgstr ""
+
+#: .\static\admin\js\admin\DateTimeShortcuts.js:176
+#: .\static\admin\js\admin\DateTimeShortcuts.js:334
+msgid "Cancel"
+msgstr ""
+
+#: .\static\admin\js\admin\DateTimeShortcuts.js:256
+msgid "Choose a Date"
+msgstr ""
+
+#: .\static\admin\js\admin\DateTimeShortcuts.js:313
+msgid "Yesterday"
+msgstr ""
+
+#: .\static\admin\js\admin\DateTimeShortcuts.js:325
+msgid "Tomorrow"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:11
+msgid "January"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:12
+msgid "February"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:13
+msgid "March"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:14
+msgid "April"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:15
+msgid "May"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:16
+msgid "June"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:17
+msgid "July"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:18
+msgid "August"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:19
+msgid "September"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:20
+msgid "October"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:21
+msgid "November"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:22
+msgid "December"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:25
+msgctxt "abbrev. month January"
+msgid "Jan"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:26
+msgctxt "abbrev. month February"
+msgid "Feb"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:27
+msgctxt "abbrev. month March"
+msgid "Mar"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:28
+msgctxt "abbrev. month April"
+msgid "Apr"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:29
+msgctxt "abbrev. month May"
+msgid "May"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:30
+msgctxt "abbrev. month June"
+msgid "Jun"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:31
+msgctxt "abbrev. month July"
+msgid "Jul"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:32
+msgctxt "abbrev. month August"
+msgid "Aug"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:33
+msgctxt "abbrev. month September"
+msgid "Sep"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:34
+msgctxt "abbrev. month October"
+msgid "Oct"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:35
+msgctxt "abbrev. month November"
+msgid "Nov"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:36
+msgctxt "abbrev. month December"
+msgid "Dec"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:39
+msgctxt "one letter Sunday"
+msgid "S"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:40
+msgctxt "one letter Monday"
+msgid "M"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:41
+msgctxt "one letter Tuesday"
+msgid "T"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:42
+msgctxt "one letter Wednesday"
+msgid "W"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:43
+msgctxt "one letter Thursday"
+msgid "T"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:44
+msgctxt "one letter Friday"
+msgid "F"
+msgstr ""
+
+#: .\static\admin\js\calendar.js:45
+msgctxt "one letter Saturday"
+msgid "S"
+msgstr ""
+
+#: .\static\admin\js\collapse.js:16 .\static\admin\js\collapse.js:34
+msgid "Show"
+msgstr ""
+
+#: .\static\admin\js\collapse.js:30
+msgid "Hide"
+msgstr ""
+
+#: .\static\events\base_events.js:220
+msgid "Apply action \""
+msgstr ""
+
+#: .\static\events\base_events.js:413
+msgid "Event"
+msgstr ""
+
+#: .\static\trainings\js\action_training.js:21
 #: .\trainings\static\trainings\js\action_training.js:21
 msgid ""
 "There are players in the protocol. Remove the players before unloading the "
 "entire team."
 msgstr ""
 
+#: .\static\trainings\js\action_training.js:23
 #: .\trainings\static\trainings\js\action_training.js:23
 msgid "The limit of players for one protocol has been reached."
 msgstr ""
 
+#: .\static\trainings\js\action_training.js:27
+#: .\static\trainings\view_training.js:32
 #: .\trainings\static\trainings\js\action_training.js:27
 msgid "Training action \""
 msgstr ""
 
+#: .\static\trainings\js\view_training.js:22
 #: .\trainings\static\trainings\js\view_training.js:22
 msgid "Delete this training?"
 msgstr ""
 
-#: .\trainings\static\trainings\js\view_training.js:69
+#: .\static\trainings\js\view_training.js:75
+#: .\trainings\static\trainings\js\view_training.js:75
 msgid "Remove an exercise from a training?"
 msgstr ""
 
-#: .\trainings\static\trainings\js\view_training.js:126
+#: .\static\trainings\js\view_training.js:132
+#: .\trainings\static\trainings\js\view_training.js:132
 msgid "Remove an additional data from an exercise?"
 msgstr ""
 
-#: .\trainings\static\trainings\js\view_training.js:144
+#: .\static\trainings\js\view_training.js:150
+#: .\trainings\static\trainings\js\view_training.js:150
 msgid "Add all players from the team of this training session?"
 msgstr ""
 
-#: .\trainings\static\trainings\js\view_training.js:216
-msgid "Remove a player from the training protocol?"
+#: .\static\trainings\js\view_training.js:182
+#: .\trainings\static\trainings\js\view_training.js:182
+msgid "Add selected players?"
 msgstr ""
 
-#: .\trainings\static\trainings\js\view_training.js:316
+#: .\static\trainings\js\view_training.js:246
+#: .\trainings\static\trainings\js\view_training.js:246
+msgid "Remove all players from the training protocol?"
+msgstr ""
+
+#: .\static\trainings\js\view_training.js:267
+#: .\trainings\static\trainings\js\view_training.js:267
+msgid "Remove a player \""
+msgstr ""
+
+#: .\static\trainings\js\view_training.js:364
+#: .\trainings\static\trainings\js\view_training.js:364
+msgid "Not selected"
+msgstr ""
+
+#: .\static\trainings\js\view_training.js:443
+#: .\trainings\static\trainings\js\view_training.js:443
 msgid "Full name"
 msgstr ""
 
-#: .\trainings\static\trainings\js\view_training.js:334
+#: .\static\trainings\js\view_training.js:456
+#: .\trainings\static\trainings\js\view_training.js:456
+msgid "Delete all players"
+msgstr ""
+
+#: .\static\trainings\js\view_training.js:456
+#: .\trainings\static\trainings\js\view_training.js:456
+msgid "Remove all players"
+msgstr ""
+
+#: .\static\trainings\js\view_training.js:464
+#: .\trainings\static\trainings\js\view_training.js:464
 msgid "Group "
 msgstr ""
 
-#: .\trainings\static\trainings\js\view_training.js:385
+#: .\static\trainings\js\view_training.js:517
+#: .\trainings\static\trainings\js\view_training.js:517
 msgid "Delete player"
 msgstr ""
 
-#: .\trainings\static\trainings\js\view_training.js:434
+#: .\static\trainings\js\view_training.js:566
+#: .\trainings\static\trainings\js\view_training.js:566
 msgid "Save training"
 msgstr ""
 
-#: .\trainings\static\trainings\js\view_training.js:434
+#: .\static\trainings\js\view_training.js:566
+#: .\trainings\static\trainings\js\view_training.js:566
 msgid "There are unfilled players! Fill in the players highlighted in red."
 msgstr ""
 
-#: .\trainings\static\trainings\js\view_training.js:639
+#: .\static\trainings\js\view_training.js:772
+#: .\trainings\static\trainings\js\view_training.js:772
 msgid "Group A"
 msgstr ""
 
-#: .\trainings\static\trainings\js\view_training.js:642
+#: .\static\trainings\js\view_training.js:775
+#: .\trainings\static\trainings\js\view_training.js:775
 msgid "Group B"
 msgstr ""
 
-#: .\trainings\static\trainings\js\view_training.js:645
-msgid "Group C"
+#: .\static\video\base_video.js:37
+msgid "Add"
 msgstr ""
 
-#: .\trainings\static\trainings\js\view_training.js:648
-msgid "Group D (Individual)"
+#: .\static\video\base_video.js:142
+msgid "Save changes to the selected video?"
 msgstr ""
 
-#: .\video\static\video\js\base_video.js:194
-msgid "Video action \""
+#: .\static\video\base_video.js:154
+msgid "Video saved successfully!"
 msgstr ""
 
-#: .\video\static\video\js\base_video.js:208
+#: .\static\video\base_video.js:159
+msgid "Error when updating the video. "
+msgstr ""
+
+#: .\static\video\base_video.js:166 .\static\video\js\video_card.js:114
+#: .\video\static\video\js\video_card.js:114
 msgid "Delete the selected video(s)?"
 msgstr ""
 
-#: .\video\static\video\js\base_video.js:221
+#: .\static\video\base_video.js:180 .\static\video\js\video_card.js:127
+#: .\video\static\video\js\video_card.js:127
 msgid "An error occurred when deleting the video. "
+msgstr ""
+
+#: .\static\video\js\video_card.js:98 .\static\video\js\video_card.js:102
+#: .\static\video\js\video_card.js:104 .\video\static\video\js\video_card.js:98
+#: .\video\static\video\js\video_card.js:102
+#: .\video\static\video\js\video_card.js:104
+msgid "Video "
+msgstr ""
+
+#: .\static\video\js\video_card.js:98 .\video\static\video\js\video_card.js:98
+msgid "Video action \""
 msgstr ""

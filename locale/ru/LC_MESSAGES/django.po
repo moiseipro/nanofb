@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#: .\references\models.py:300
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-24 13:13+0300\n"
+"POT-Creation-Date: 2022-12-15 15:06+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +20,18 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: .\Lib\site-packages\alabaster\layout.html:98
+#, fuzzy
+#| msgid "Federations"
+msgid "Page source"
+msgstr "Федерации"
+
+#: .\Lib\site-packages\alabaster\navigation.html:1
+#, fuzzy
+#| msgid "estimation"
+msgid "Navigation"
+msgstr "оценка"
 
 #: .\Lib\site-packages\click\_termui_impl.py:496
 #: .\env\Lib\site-packages\click\_termui_impl.py:496
@@ -1871,93 +1884,260 @@ msgstr ""
 msgid "show this help message and exit"
 msgstr ""
 
-#: .\clubs\apps.py:8 .\nanofootball\templates\menu\sidebar.html:18
+#: .\Lib\site-packages\kombu\transport\qpid.py:1309
+#: .\env\Lib\site-packages\kombu\transport\qpid.py:1309
+#, python-format
+msgid "Attempting to connect to qpid with SASL mechanism %s"
+msgstr ""
+
+#: .\Lib\site-packages\kombu\transport\qpid.py:1314
+#: .\env\Lib\site-packages\kombu\transport\qpid.py:1314
+#, python-format
+msgid "Connected to qpid with SASL mechanism %s"
+msgstr ""
+
+#: .\Lib\site-packages\kombu\transport\qpid.py:1332
+#: .\env\Lib\site-packages\kombu\transport\qpid.py:1332
+#, python-format
+msgid "Unable to connect to qpid with SASL mechanism %s"
+msgstr ""
+
+#: .\clubs\apps.py:8 .\nanofootball\templates\menu\sidebar.html:21
 msgid "Clubs"
 msgstr "Клубы"
 
-#: .\clubs\models.py:14 .\events\models.py:87
-#: .\events\templates\events\base_events.html:150 .\references\models.py:16
-#: .\references\templates\references\base_settings.html:40
-#: .\references\templates\references\base_settings.html:55
-#: .\version\models.py:35 .\version\models.py:62 .\video\models.py:17
+#: .\clubs\forms.py:33 .\events\forms.py:94
+#: .\trainings\templates\trainings\view_training.html:73
+#: .\video\templates\video\modules\video_list_exercises.html:12
+#: .\video\templates\video\video_card.html:88
+msgid "Date"
+msgstr "Дата"
+
+#: .\clubs\forms.py:59 .\users\models.py:50
+msgid "Birthday"
+msgstr "День рождения"
+
+#: .\clubs\models.py:15 .\events\models.py:87
+#: .\events\templates\events\base_events.html:152 .\references\models.py:16
+#: .\references\templates\references\base_settings.html:45
+#: .\references\templates\references\base_settings.html:62
+#: .\version\models.py:63 .\version\models.py:90 .\video\models.py:17
 #: .\video\models.py:28
 msgid "title"
 msgstr "Название"
 
-#: .\clubs\models.py:15
+#: .\clubs\models.py:16
 msgid "Club title. Maximum length of 100 characters."
 msgstr "Название клуба. Максимальная длинна 100 символов."
 
-#: .\clubs\models.py:19
+#: .\clubs\models.py:20
 msgid "subdomain"
 msgstr "субдомен"
 
-#: .\clubs\models.py:20
+#: .\clubs\models.py:21
 msgid "The domain that will be displayed. The maximum length is 10 characters."
 msgstr "Домен, который будет отображаться. Максимальная длина - 10 символов."
 
-#: .\clubs\models.py:24 .\version\models.py:77
+#: .\clubs\models.py:25 .\version\models.py:105
 msgid "groups"
 msgstr "группы"
 
-#: .\clubs\models.py:27
+#: .\clubs\models.py:28
 msgid ""
 "The groups this club belongs to. A club will get all permissions granted to "
 "each of their groups."
 msgstr ""
 
-#: .\clubs\models.py:33 .\version\models.py:86
+#: .\clubs\models.py:34 .\version\models.py:114
 msgid "permissions"
 msgstr "доступы"
 
-#: .\clubs\models.py:35
+#: .\clubs\models.py:36
 msgid "Specific permissions for this club."
 msgstr "Особые разрешения для этого клуба."
 
-#: .\clubs\models.py:39
+#: .\clubs\models.py:40
 #, fuzzy
 #| msgid "Administration"
 msgid "date registration"
 msgstr "дата регистрации"
 
-#: .\clubs\models.py:40
+#: .\clubs\models.py:41
 msgid "Date of registration of the club in the program."
 msgstr "Дата регистрации клуба в программе."
 
-#: .\clubs\models.py:44
+#: .\clubs\models.py:45
 #, fuzzy
 #| msgid "Administration"
 msgid "License termination"
 msgstr "Прекращение действия лицензии"
 
-#: .\clubs\models.py:45
+#: .\clubs\models.py:46
 msgid "License expiration date."
 msgstr "Срок действия лицензии."
 
-#: .\clubs\models.py:51
+#: .\clubs\models.py:52
 msgid "block"
 msgstr "блок"
 
-#: .\clubs\models.py:52
+#: .\clubs\models.py:53
 msgid "Is the club blocked?"
 msgstr "Клуб заблокирован?"
 
-#: .\clubs\models.py:61
+#: .\clubs\models.py:70
 msgid "Club card"
 msgstr "Карточка клуба"
 
-#: .\clubs\models.py:62
+#: .\clubs\models.py:71
 #, fuzzy
 #| msgid "Clubs"
 msgid "Club cards"
 msgstr "Карточки клубов"
 
+#: .\clubs\models.py:75
+msgid "Access to the club admin panel"
+msgstr ""
+
+#: .\clubs\templates\clubs\admin_panel.html:6
+#: .\nanofootball\templates\menu\header.html:210
+#, fuzzy
+#| msgid "Nanofb admin panel"
+msgid "Admin panel"
+msgstr "Панель администратора Nanofb"
+
+#: .\clubs\templates\clubs\admin_panel.html:20
+#: .\clubs\templates\clubs\club_information.html:27
+#: .\nanofootball\templates\menu\sidebar.html:20 .\users\apps.py:8
+msgid "Users"
+msgstr "Пользователи"
+
+#: .\clubs\templates\clubs\admin_panel.html:23
+#, fuzzy
+#| msgid "Add selected"
+msgid "Add user"
+msgstr "Добавить выбранных"
+
+#: .\clubs\templates\clubs\admin_panel.html:26
+#, fuzzy
+#| msgid "estimation"
+msgid "Club information"
+msgstr "Личная информация"
+
+#: .\clubs\templates\clubs\club_information.html:7
+#, fuzzy
+#| msgid "estimation"
+msgid "General information"
+msgstr "Личная информация"
+
+#: .\clubs\templates\clubs\club_information.html:11
+msgid "Tittle"
+msgstr ""
+
+#: .\clubs\templates\clubs\club_information.html:15
+#, fuzzy
+#| msgid "subdomain"
+msgid "Subdomain"
+msgstr "субдомен"
+
+#: .\clubs\templates\clubs\club_information.html:19
+#, fuzzy
+#| msgid "Administration"
+msgid "Date registration"
+msgstr "дата регистрации"
+
+#: .\clubs\templates\clubs\club_information.html:23
+#, fuzzy
+#| msgid "Administration"
+msgid "Registration to"
+msgstr "дата регистрации"
+
+#: .\clubs\templates\clubs\club_information.html:31
+#: .\nanofootball\templates\menu\header.html:44
+#: .\references\templates\references\base_settings.html:27
+msgid "Teams"
+msgstr "Команды"
+
+#: .\clubs\templates\clubs\club_information.html:35
+#, fuzzy
+#| msgid "Player team status"
+msgid "Players per team"
+msgstr "Статус игрока в команде"
+
+#: .\clubs\templates\clubs\club_information.html:44
+#, fuzzy
+#| msgid "permissions"
+msgid "Club permissions"
+msgstr "доступы"
+
+#: .\clubs\templates\clubs\edit_club_user.html:7
+#, fuzzy
+#| msgid "Users"
+msgid "User Parameters"
+msgstr "Команды пользователей"
+
+#: .\clubs\templates\clubs\edit_club_user.html:15
+#, fuzzy
+#| msgid "permissions"
+msgid "Permissions"
+msgstr "доступы"
+
+#: .\clubs\templates\clubs\edit_club_user.html:18
+#, fuzzy
+#| msgid "Teams"
+msgid "Team"
+msgstr "Команды"
+
+#: .\clubs\templates\clubs\forms\add_user.html:11
+#, fuzzy
+#| msgid "Create"
+msgid "Create user"
+msgstr "Создать"
+
+#: .\clubs\templates\clubs\mail\email.html:7 .\clubs\views.py:68
+msgid "Registration on the Nanofootball website"
+msgstr ""
+
+#: .\clubs\templates\clubs\mail\email.html:10
+msgid "To log in to the site, use this data."
+msgstr ""
+
+#: .\clubs\templates\clubs\mail\email.html:13
+#: .\users\templates\users\base_profile.html:57
+msgid "Password"
+msgstr ""
+
+#: .\clubs\templates\clubs\users_table.html:7
+#, fuzzy
+#| msgid "estimation"
+msgid "Activation"
+msgstr "оценка"
+
+#: .\clubs\templates\clubs\users_table.html:8 .\users\models.py:16
+#: .\users\templates\users\base_profile.html:76
+msgid "Name"
+msgstr "Имя"
+
+#: .\clubs\templates\clubs\users_table.html:9
+#: .\users\templates\users\base_profile.html:84
+msgid "Email"
+msgstr ""
+
+#: .\clubs\templates\clubs\users_table.html:10
+#, fuzzy
+#| msgid "Title"
+msgid "Job Title"
+msgstr "Название"
+
+#: .\clubs\templates\clubs\users_table.html:11 .\users\models.py:51
+msgid "Date of birth"
+msgstr "День рождения"
+
 #: .\events\apps.py:8 .\events\templates\events\base_events.html:5
-#: .\nanofootball\templates\menu\sidebar.html:52
+#: .\nanofootball\templates\menu\sidebar.html:61
 msgid "Events"
 msgstr "События"
 
-#: .\events\forms.py:40 .\nanofootball\templates\menu\sidebar.html:72
+#: .\events\forms.py:40 .\nanofootball\templates\menu\sidebar.html:85
 msgid "Training"
 msgstr "Тренировки"
 
@@ -1993,16 +2173,9 @@ msgstr "Отменить"
 msgid "Event type"
 msgstr "Тип события"
 
-#: .\events\forms.py:94 .\trainings\templates\trainings\view_training.html:73
-#: .\video\templates\video\modules\video_list.html:10
-#: .\video\templates\video\modules\video_list_exercises.html:12
-#: .\video\templates\video\video_card.html:88
-msgid "Date"
-msgstr "Дата"
-
 #: .\events\models.py:28 .\references\models.py:23
-#: .\references\templates\references\base_settings.html:41
-#: .\references\templates\references\base_settings.html:56
+#: .\references\templates\references\base_settings.html:46
+#: .\references\templates\references\base_settings.html:63
 msgid "short name"
 msgstr "Короткий код"
 
@@ -2036,13 +2209,13 @@ msgstr "События"
 msgid "Name of the microcycle. The maximum length is 80 characters"
 msgstr "Название микроцикла. Максимальная длина - 80 символов"
 
-#: .\events\models.py:90 .\events\templates\events\base_events.html:31
+#: .\events\models.py:90 .\events\templates\events\base_events.html:32
 msgid "Microcycle"
 msgstr "Микроциклы"
 
-#: .\events\models.py:93 .\events\templates\events\base_events.html:151
-#: .\references\models.py:123 .\references\models.py:155
-#: .\references\templates\references\base_settings.html:57
+#: .\events\models.py:93 .\events\templates\events\base_events.html:153
+#: .\references\models.py:123 .\references\models.py:161
+#: .\references\templates\references\base_settings.html:64
 msgid "start date"
 msgstr "Дата начала"
 
@@ -2050,9 +2223,9 @@ msgstr "Дата начала"
 msgid "Start date of the microcycle."
 msgstr "Дата начала микроцикла"
 
-#: .\events\models.py:97 .\events\templates\events\base_events.html:152
-#: .\references\models.py:128 .\references\models.py:160
-#: .\references\templates\references\base_settings.html:58
+#: .\events\models.py:97 .\events\templates\events\base_events.html:154
+#: .\references\models.py:128 .\references\models.py:166
+#: .\references\templates\references\base_settings.html:65
 msgid "end date"
 msgstr "Дата окончания"
 
@@ -2060,21 +2233,21 @@ msgstr "Дата окончания"
 msgid "End date of the microcycle."
 msgstr "Дата окончания микроцикла"
 
-#: .\events\templates\events\base_events.html:34
+#: .\events\templates\events\base_events.html:36
 msgid "Show/Hide calendar"
 msgstr "Показать/скрыть календарь"
 
-#: .\events\templates\events\base_events.html:137
+#: .\events\templates\events\base_events.html:139
 msgid "Working with microcycles"
 msgstr "Работа с микроциклами"
 
-#: .\events\templates\events\base_events.html:139
+#: .\events\templates\events\base_events.html:141
 msgid "Create"
 msgstr "Создать"
 
-#: .\events\templates\events\base_events.html:153
-#: .\references\templates\references\base_settings.html:43
-#: .\references\templates\references\base_settings.html:59
+#: .\events\templates\events\base_events.html:155
+#: .\references\templates\references\base_settings.html:48
+#: .\references\templates\references\base_settings.html:66
 #, fuzzy
 #| msgid "Applications"
 msgid "options"
@@ -2088,13 +2261,13 @@ msgstr "Создать событие"
 msgid "Event Update"
 msgstr "Редактировать событие"
 
-#: .\exercises\apps.py:8 .\nanofootball\templates\menu\sidebar.html:82
+#: .\exercises\apps.py:8 .\nanofootball\templates\menu\sidebar.html:97
 #: .\trainings\templates\trainings\view_training.html:50
 msgid "Exercises"
 msgstr "Упражнения"
 
 #: .\exercises\templates\exercises\base_folders.html:5
-#: .\nanofootball\templates\menu\sidebar.html:87
+#: .\nanofootball\templates\menu\sidebar.html:102
 msgid "Folders management"
 msgstr "Управление папками"
 
@@ -2121,7 +2294,7 @@ msgstr "Короткий ключ"
 
 #: .\exercises\templates\exercises\base_folders.html:79
 #: .\exercises\templates\exercises\base_folders.html:80
-#: .\video\templates\video\modules\video_list.html:12
+#: .\video\templates\video\modules\video_list.html:14
 #: .\video\templates\video\modules\video_list_exercises.html:14
 #: .\video\templates\video\video_card.html:41
 msgid "Title"
@@ -2148,8 +2321,27 @@ msgstr "Папки NFB"
 msgid "Choose this structure"
 msgstr "Выберите эту структуру"
 
+#: .\exercises\templates\exercises\modules\exercise_card.html:694
+#: .\exercises\templates\exercises\modules\exercise_card.html:704
+#: .\video\templates\video\base_video.html:53
+#: .\video\templates\video\base_video.html:63
+msgid "All"
+msgstr "Все"
+
+#: .\exercises\templates\exercises\modules\exercise_card.html:698
+#: .\exercises\templates\exercises\modules\exercise_card.html:708
+#: .\video\templates\video\base_video.html:57
+#: .\video\templates\video\video_card.html:82
+msgid "No sources"
+msgstr "Нет источников"
+
+#: .\exercises\templates\exercises\modules\exercise_card.html:717
+#: .\video\templates\video\base_video.html:76
+msgid "No tags"
+msgstr "Нет тегов"
+
 #: .\matches\apps.py:8 .\matches\templates\matches\base_matches.html:5
-#: .\nanofootball\templates\menu\sidebar.html:62
+#: .\nanofootball\templates\menu\sidebar.html:73
 msgid "Matches"
 msgstr "Матчи"
 
@@ -2201,7 +2393,7 @@ msgstr "пенальти соперника"
 msgid "Number of opponent team penalties per match."
 msgstr "Количество пенальти команды соперника за матч."
 
-#: .\matches\models.py:54 .\trainings\models.py:183
+#: .\matches\models.py:54 .\trainings\models.py:199
 msgid "estimation"
 msgstr "оценка"
 
@@ -2233,6 +2425,14 @@ msgstr "Тип матча, 0 - неофициальный, 1 - официаль�
 msgid "Match format."
 msgstr "Формат матча."
 
+#: .\matches\models.py:116
+msgid "Access to the section \"Analytics\" for UserMatch"
+msgstr ""
+
+#: .\matches\models.py:138
+msgid "Access to the section \"Analytics\" for ClubMatch"
+msgstr ""
+
 #: .\matches\templates\matches\base_match.html:5
 #, fuzzy
 #| msgid "Matches"
@@ -2240,20 +2440,20 @@ msgid "Match"
 msgstr "Матчи"
 
 #: .\matches\templates\matches\base_match.html:178
-#: .\nanofootball\templates\menu\header.html:63
+#: .\nanofootball\templates\menu\header.html:69
 msgid "No team selected"
 msgstr "Команда не выбрана"
 
 #: .\matches\templates\matches\base_match.html:182
-#: .\nanofootball\templates\menu\header.html:67
+#: .\nanofootball\templates\menu\header.html:73
 msgid "No teams"
 msgstr "Нет команд"
 
-#: .\nanofb\settings.py:182
+#: .\nanofb\settings.py:206
 msgid "Russian"
 msgstr "Русский"
 
-#: .\nanofb\settings.py:183
+#: .\nanofb\settings.py:207
 msgid "English"
 msgstr "Английский"
 
@@ -2265,120 +2465,112 @@ msgstr "Панель администратора Nanofb"
 msgid "Nanofootball admin panel"
 msgstr "Панель администратора Nanofootball"
 
-#: .\nanofootball\templates\menu\header.html:43
-#: .\references\templates\references\base_settings.html:26
-msgid "Teams"
-msgstr "Команды"
-
-#: .\nanofootball\templates\menu\header.html:49
+#: .\nanofootball\templates\menu\header.html:51
 msgid "No season selected"
 msgstr "Сезон не выбран"
 
-#: .\nanofootball\templates\menu\header.html:53
+#: .\nanofootball\templates\menu\header.html:55
 msgid "No seasons"
 msgstr "Нет сезонов"
 
-#: .\nanofootball\templates\menu\header.html:58
+#: .\nanofootball\templates\menu\header.html:62
 msgid "Create a season"
 msgstr "Создать сезон"
 
-#: .\nanofootball\templates\menu\header.html:72
+#: .\nanofootball\templates\menu\header.html:80
 msgid "Create a team"
 msgstr "Создать команду"
 
-#: .\nanofootball\templates\menu\header.html:74
+#: .\nanofootball\templates\menu\header.html:84
 #: .\references\templates\references\base_settings.html:5
-#: .\references\templates\references\base_settings.html:28
+#: .\references\templates\references\base_settings.html:32
 msgid "Settings"
 msgstr "Настройки"
 
-#: .\nanofootball\templates\menu\header.html:198
+#: .\nanofootball\templates\menu\header.html:212
 msgid "My Profile"
 msgstr "Профиль"
 
-#: .\nanofootball\templates\menu\header.html:199
+#: .\nanofootball\templates\menu\header.html:213
 msgid "Logout"
 msgstr "Выйти"
 
-#: .\nanofootball\templates\menu\sidebar.html:4
+#: .\nanofootball\templates\menu\sidebar.html:5
 msgid "Administration"
 msgstr "Администрирование"
 
-#: .\nanofootball\templates\menu\sidebar.html:13
+#: .\nanofootball\templates\menu\sidebar.html:16
 msgid "«Client» system"
 msgstr "Система «Клиент»"
 
-#: .\nanofootball\templates\menu\sidebar.html:17 .\users\apps.py:8
-msgid "Users"
-msgstr "Пользователи"
-
-#: .\nanofootball\templates\menu\sidebar.html:19
+#: .\nanofootball\templates\menu\sidebar.html:22
 msgid "Federations"
 msgstr "Федерации"
 
-#: .\nanofootball\templates\menu\sidebar.html:29
+#: .\nanofootball\templates\menu\sidebar.html:34
 msgid "«Club» panel"
 msgstr "Панель «Клуб»"
 
-#: .\nanofootball\templates\menu\sidebar.html:39
+#: .\nanofootball\templates\menu\sidebar.html:46
 msgid "«Federation» panel"
 msgstr "Панель «Федерация»"
 
-#: .\nanofootball\templates\menu\sidebar.html:43
+#: .\nanofootball\templates\menu\sidebar.html:51
 msgid "Main sections"
 msgstr "Основные разделы"
 
-#: .\nanofootball\templates\menu\sidebar.html:86
+#: .\nanofootball\templates\menu\sidebar.html:101
 #, fuzzy
 #| msgid "Exercises"
-msgid "List of exercises"
-msgstr "Упражнения"
+msgid "Exercise lists"
+msgstr "Список упражнений"
 
-#: .\nanofootball\templates\menu\sidebar.html:97 .\players\apps.py:8
-#: .\trainings\templates\trainings\view_training.html:214
+#: .\nanofootball\templates\menu\sidebar.html:114 .\players\apps.py:8
+#: .\trainings\templates\trainings\view_training.html:205
 msgid "Players"
 msgstr "Игроки"
 
-#: .\nanofootball\templates\menu\sidebar.html:107
+#: .\nanofootball\templates\menu\sidebar.html:160
 msgid "Analytics"
 msgstr "Аналитика"
 
-#: .\nanofootball\templates\menu\sidebar.html:117
+#: .\nanofootball\templates\menu\sidebar.html:172
 msgid "Applications"
 msgstr "Приложения"
 
-#: .\nanofootball\templates\menu\sidebar.html:121
+#: .\nanofootball\templates\menu\sidebar.html:176
 msgid "Mailing"
 msgstr "Рассылки"
 
-#: .\nanofootball\templates\menu\sidebar.html:122
+#: .\nanofootball\templates\menu\sidebar.html:177
 msgid "Chat"
 msgstr "Чат"
 
-#: .\nanofootball\templates\menu\sidebar.html:123
+#: .\nanofootball\templates\menu\sidebar.html:178
 #: .\video\templates\video\base_video.html:10
+#: .\video\templates\video\video_card.html:135
 msgid "Video"
 msgstr "Видео"
 
-#: .\nanofootball\templates\menu\sidebar.html:124
+#: .\nanofootball\templates\menu\sidebar.html:179
 msgid "Tests"
 msgstr "Тесты"
 
-#: .\nanofootball\templates\menu\sidebar.html:125
+#: .\nanofootball\templates\menu\sidebar.html:180
 msgid "Finance"
 msgstr "Финансы"
 
-#: .\nanofootball\templates\menu\sidebar.html:129
+#: .\nanofootball\templates\menu\sidebar.html:185
 #, fuzzy
 #| msgid "Federations"
 msgid "Education"
 msgstr "Обучение"
 
-#: .\nanofootball\templates\menu\sidebar.html:138
+#: .\nanofootball\templates\menu\sidebar.html:194
 msgid "Methodology"
 msgstr "Методология"
 
-#: .\nanofootball\templates\menu\sidebar.html:148
+#: .\nanofootball\templates\menu\sidebar.html:204
 msgid "Courses"
 msgstr "Курсы"
 
@@ -2386,17 +2578,29 @@ msgstr "Курсы"
 msgid "References"
 msgstr "Справочники"
 
-#: .\references\forms.py:34 .\references\forms.py:56
+#: .\references\forms.py:34
 msgid "Team title"
 msgstr "Название команды"
 
-#: .\references\forms.py:35 .\references\forms.py:57
+#: .\references\forms.py:35
 msgid "Team short name"
 msgstr "Короткий код команды"
 
 #: .\references\forms.py:36 .\references\models.py:102
 msgid "Team status"
 msgstr "Статус команды"
+
+#: .\references\forms.py:56
+#, fuzzy
+#| msgid "Team title"
+msgid "Season title"
+msgstr "Название команды"
+
+#: .\references\forms.py:57
+#, fuzzy
+#| msgid "Team short name"
+msgid "Season short name"
+msgstr "Короткий код команды"
 
 #: .\references\forms.py:58
 msgid "Season start date"
@@ -2418,11 +2622,11 @@ msgstr "Краткое имя не более 10 символов"
 msgid "Empty"
 msgstr "Пусто"
 
-#: .\references\models.py:28 .\trainings\models.py:98
+#: .\references\models.py:28 .\trainings\models.py:114
 msgid "order"
 msgstr "порядок"
 
-#: .\references\models.py:29 .\trainings\models.py:99
+#: .\references\models.py:29 .\trainings\models.py:115
 msgid "Sorting index"
 msgstr "Порядковый номер"
 
@@ -2465,7 +2669,7 @@ msgid "Team statuses"
 msgstr "Статусы команды"
 
 #: .\references\models.py:111 .\references\models.py:143
-#: .\references\templates\references\base_settings.html:42
+#: .\references\templates\references\base_settings.html:47
 msgid "team status"
 msgstr "статус команды"
 
@@ -2483,11 +2687,11 @@ msgstr "Команда пользователя"
 msgid "User Teams"
 msgstr "Команды пользователей"
 
-#: .\references\models.py:124 .\references\models.py:156
+#: .\references\models.py:124 .\references\models.py:162
 msgid "Start date of the season."
 msgstr "Дата начала сезона."
 
-#: .\references\models.py:129 .\references\models.py:161
+#: .\references\models.py:129 .\references\models.py:167
 msgid "End date of the season."
 msgstr "Дата окончания сезона."
 
@@ -2501,207 +2705,227 @@ msgstr "Сезон пользователя"
 msgid "User Seasons"
 msgstr "Сезоны пользователей"
 
-#: .\references\models.py:149
+#: .\references\models.py:150
+#, fuzzy
+#| msgid "Users"
+msgid "users"
+msgstr "Пользователи"
+
+#: .\references\models.py:151
+msgid "Users who have access to the team"
+msgstr ""
+
+#: .\references\models.py:155
 msgid "Club Team"
 msgstr "Команда клуба"
 
-#: .\references\models.py:150
+#: .\references\models.py:156
 #, fuzzy
 #| msgid "Clubs"
 msgid "Club Teams"
 msgstr "Команды клубов"
 
-#: .\references\models.py:166
+#: .\references\models.py:172
 #, fuzzy
 #| msgid "Clubs"
 msgid "Club Season"
 msgstr "Сезон клуба"
 
-#: .\references\models.py:167
+#: .\references\models.py:173
 msgid "Club Seasons"
 msgstr "Сезоны клубов"
 
-#: .\references\models.py:173
+#: .\references\models.py:179
 #, fuzzy
 #| msgid "Exercises"
 msgid "Exercise goal"
 msgstr "Цель упражнения"
 
-#: .\references\models.py:174
+#: .\references\models.py:180
 #, fuzzy
 #| msgid "Exercises"
 msgid "Exercise goals"
 msgstr "Цели упражнения"
 
-#: .\references\models.py:179 .\references\models.py:180
+#: .\references\models.py:185 .\references\models.py:186
 msgid "Exercise with a ball"
 msgstr "Упражнение с мячом"
 
-#: .\references\models.py:185
+#: .\references\models.py:191
 msgid "Exercise team category"
 msgstr "Категория команды упражнения"
 
-#: .\references\models.py:186
+#: .\references\models.py:192
 msgid "Exercise team categories"
 msgstr "Категории команд упражнения"
 
-#: .\references\models.py:191
+#: .\references\models.py:197
 msgid "Exercise age category"
 msgstr "Возрастная категория упражнения"
 
-#: .\references\models.py:192
+#: .\references\models.py:198
 msgid "Exercise age categories"
 msgstr "Возрастные категории упражнения"
 
-#: .\references\models.py:197
+#: .\references\models.py:203
 msgid "Exercise part of the training"
 msgstr "Часть тренировки упражнения"
 
-#: .\references\models.py:198
+#: .\references\models.py:204
 msgid "Exercise parts of the training"
 msgstr "Части тренировки упражнения"
 
-#: .\references\models.py:203
+#: .\references\models.py:209
 msgid "Exercise cognitive load"
 msgstr "Когнитивная нагрузка упражнения"
 
-#: .\references\models.py:204
+#: .\references\models.py:210
 msgid "Exercise cognitive loads"
 msgstr "Когнитивные нагрузки упражнения"
 
-#: .\references\models.py:209
+#: .\references\models.py:215
 #, fuzzy
 #| msgid "Exercises"
 msgid "Exercise keyword"
 msgstr "Ключевое слово упражнения"
 
-#: .\references\models.py:210
+#: .\references\models.py:216
 #, fuzzy
 #| msgid "Exercises"
 msgid "Exercise keywords"
 msgstr "Ключевые слова упражнения"
 
-#: .\references\models.py:215
+#: .\references\models.py:221
 #, fuzzy
 #| msgid "Exercises"
 msgid "Exercise stress type"
 msgstr "Тип физической нагрузки"
 
-#: .\references\models.py:216
+#: .\references\models.py:222
 #, fuzzy
 #| msgid "Exercises"
 msgid "Exercise stress types"
 msgstr "Типы физической нагрузки"
 
-#: .\references\models.py:221
+#: .\references\models.py:227
 #, fuzzy
 #| msgid "Exercises"
 msgid "Exercise purpose"
 msgstr "Цель упражнения"
 
-#: .\references\models.py:222
+#: .\references\models.py:228
 #, fuzzy
 #| msgid "Exercises"
 msgid "Exercise purposes"
 msgstr "Цели упражнения"
 
-#: .\references\models.py:227 .\references\models.py:228
-#, fuzzy
-#| msgid "Exercises"
+#: .\references\models.py:233 .\references\models.py:234
 msgid "Exercise coaching"
 msgstr ""
 
-#: .\references\models.py:233
+#: .\references\models.py:239
 #, fuzzy
 #| msgid "Exercises"
 msgid "Exercise category"
 msgstr "Категория упражнения"
 
-#: .\references\models.py:234
+#: .\references\models.py:240
 #, fuzzy
 #| msgid "Exercises"
 msgid "Exercise categories"
 msgstr "Категории упражнения"
 
-#: .\references\models.py:239 .\references\models.py:240
+#: .\references\models.py:245 .\references\models.py:246
 msgid "Exercise additional data"
 msgstr "Дополнительные данные упражнения"
 
-#: .\references\models.py:245
+#: .\references\models.py:251
 msgid "Exercise title name"
 msgstr "Название упражнения"
 
-#: .\references\models.py:246
+#: .\references\models.py:252
 #, fuzzy
 #| msgid "Exercises"
 msgid "Exercise title names"
 msgstr "Названия упражнения"
 
-#: .\references\models.py:252
+#: .\references\models.py:258
 msgid "Player team status"
 msgstr "Статус игрока в команде"
 
-#: .\references\models.py:253
+#: .\references\models.py:259
 msgid "Player team statuses"
 msgstr "Статусы игроков в команде"
 
-#: .\references\models.py:258
+#: .\references\models.py:264
 #, fuzzy
 #| msgid "Players"
 msgid "Player status"
 msgstr "Статус игрока"
 
-#: .\references\models.py:259
+#: .\references\models.py:265
 #, fuzzy
 #| msgid "Players"
 msgid "Player statuses"
 msgstr "Статусы игрока"
 
-#: .\references\models.py:264
+#: .\references\models.py:270
 #, fuzzy
 #| msgid "Players"
 msgid "Player level"
 msgstr "Уровень игрока"
 
-#: .\references\models.py:265
+#: .\references\models.py:271
 #, fuzzy
 #| msgid "Players"
 msgid "Player levels"
 msgstr "Уровни игрока"
 
-#: .\references\models.py:270
+#: .\references\models.py:276
 #, fuzzy
 #| msgid "Players"
 msgid "Player position"
 msgstr "Позиция игрока"
 
-#: .\references\models.py:271
+#: .\references\models.py:277
 #, fuzzy
 #| msgid "Players"
 msgid "Player positions"
 msgstr "Позиции игрока"
 
-#: .\references\models.py:276
+#: .\references\models.py:282
 #, fuzzy
 #| msgid "Players"
 msgid "Player leg"
 msgstr "Нога игрока"
 
-#: .\references\models.py:277
+#: .\references\models.py:283
 #, fuzzy
 #| msgid "Players"
 msgid "Player legs"
 msgstr "Ноги игрока"
 
-#: .\references\models.py:285
+#: .\references\models.py:291
 msgid "Player protocol status"
 msgstr "Статус протокола игрока"
 
-#: .\references\models.py:286
+#: .\references\models.py:292
 msgid "Player protocol statuses"
 msgstr "Статусы протокола игрока"
 
-#: .\references\templates\references\base_settings.html:27
+#: .\references\models.py:299
+#, fuzzy
+#| msgid "Exercise title name"
+msgid "lowercase title"
+msgstr "Название упражнения"
+
+#: .\references\models.py:306 .\references\models.py:307
+#, fuzzy
+#| msgid "No tags"
+msgid "Custom tags"
+msgstr "Нет тегов"
+
+#: .\references\templates\references\base_settings.html:30
 msgid "Seasons"
 msgstr "Сезоны"
 
@@ -2750,41 +2974,56 @@ msgstr "цели"
 msgid "Objectives for training groups"
 msgstr "Цели для групп тренировки"
 
-#: .\trainings\models.py:87
+#: .\trainings\models.py:64
+msgid "Access to the section \"Analytics\" for UserTraining"
+msgstr ""
+
+#: .\trainings\models.py:89
+msgid "Access to the section \"Analytics\" for ClubTraining"
+msgstr ""
+
+#: .\trainings\models.py:103
 msgid "group"
 msgstr "группа"
 
-#: .\trainings\models.py:88
+#: .\trainings\models.py:104
 msgid "The group to which the exercise belongs"
 msgstr "Группа, к которой относится упражнение"
 
-#: .\trainings\models.py:92
+#: .\trainings\models.py:108
 #, fuzzy
 #| msgid "Federations"
 msgid "duration"
 msgstr "длительность"
 
-#: .\trainings\models.py:93
+#: .\trainings\models.py:109
 msgid "Duration of the exercise"
 msgstr "Длительность упражнения"
 
-#: .\trainings\models.py:143
+#: .\trainings\models.py:159
 msgid "note"
 msgstr "примечание"
 
-#: .\trainings\models.py:144
+#: .\trainings\models.py:160
 msgid "Note to the reference book"
 msgstr "Примечание к справочнику"
 
-#: .\trainings\models.py:184
+#: .\trainings\models.py:200
 msgid "Player rating like/dislike"
 msgstr "Рейтинг игрока нравится/не нравится"
+
+#: .\trainings\templates\trainings\training_card.html:9
+#, fuzzy
+#| msgid "Training"
+msgid "Training Card"
+msgstr "Тренировки"
 
 #: .\trainings\templates\trainings\view_training.html:34
 msgid "Back"
 msgstr "Назад"
 
 #: .\trainings\templates\trainings\view_training.html:38
+#: .\users\templates\users\base_profile.html:73
 #: .\video\templates\video\video_card.html:10
 msgid "Edit"
 msgstr "Редактировать"
@@ -2800,24 +3039,30 @@ msgstr "Протокол"
 #: .\trainings\templates\trainings\view_training.html:85
 #, fuzzy
 #| msgid "group"
-msgid "All group"
+msgid "Group A"
 msgstr "группа"
 
-#: .\trainings\templates\trainings\view_training.html:228
+#: .\trainings\templates\trainings\view_training.html:88
+#, fuzzy
+#| msgid "group"
+msgid "Group B"
+msgstr "группа"
+
+#: .\trainings\templates\trainings\view_training.html:219
 msgid "Add all players"
 msgstr "Добавить всех игроков"
 
-#: .\trainings\templates\trainings\view_training.html:229
+#: .\trainings\templates\trainings\view_training.html:220
 msgid "Add selected"
 msgstr "Добавить выбранных"
 
-#: .\users\admin.py:22 .\users\models.py:118
+#: .\users\admin.py:23 .\users\models.py:135
 #, fuzzy
 #| msgid "Clubs"
 msgid "Club"
 msgstr "Клубы"
 
-#: .\users\admin.py:23 .\users\models.py:31
+#: .\users\admin.py:24 .\users\models.py:40
 msgid "Country"
 msgstr "Страна"
 
@@ -2833,131 +3078,179 @@ msgstr ""
 msgid "Superuser must have is_superuser=True."
 msgstr ""
 
-#: .\users\models.py:14
-msgid "Name"
-msgstr "Имя"
-
-#: .\users\models.py:15
+#: .\users\models.py:17
 #, fuzzy
 #| msgid "short name"
 msgid "First name"
 msgstr "Имя"
 
-#: .\users\models.py:19
+#: .\users\models.py:21
 msgid "Surname"
 msgstr "Фамилия"
 
-#: .\users\models.py:20
+#: .\users\models.py:22
 #, fuzzy
 #| msgid "short name"
 msgid "Last name"
 msgstr "Фамилия"
 
-#: .\users\models.py:27
+#: .\users\models.py:29
 msgid "Patronymic"
 msgstr "Отчество"
 
-#: .\users\models.py:28
+#: .\users\models.py:30
 #, fuzzy
 #| msgid "short name"
 msgid "Father name"
 msgstr "Отчество"
 
-#: .\users\models.py:32
+#: .\users\models.py:36
+#, fuzzy
+#| msgid "title"
+msgid "Job title"
+msgstr "Название"
+
+#: .\users\models.py:37
+#, fuzzy
+#| msgid "Video"
+msgid "User job title"
+msgstr "Видео"
+
+#: .\users\models.py:41
 msgid "Country of residence"
 msgstr "Страна проживания"
 
-#: .\users\models.py:40
-msgid "Birthday"
-msgstr "День рождения"
-
-#: .\users\models.py:41
-msgid "Date of birth"
-msgstr "День рождения"
-
-#: .\users\models.py:48
+#: .\users\models.py:58
 msgid "Phone"
 msgstr "Телефон"
 
-#: .\users\models.py:49
+#: .\users\models.py:59
 msgid "Phone number"
 msgstr "Номер телефона"
 
-#: .\users\models.py:56
+#: .\users\models.py:66
 msgid "Spare phone"
 msgstr "Запасной телефон"
 
-#: .\users\models.py:57
+#: .\users\models.py:67
 msgid "Spare phone number"
 msgstr "Запасной номер телефона"
 
-#: .\users\models.py:64 .\users\models.py:65
+#: .\users\models.py:74 .\users\models.py:75
 msgid "Spare email"
 msgstr "Запасной email"
 
-#: .\users\models.py:72
+#: .\users\models.py:82
 msgid "Skype"
 msgstr ""
 
-#: .\users\models.py:82 .\users\models.py:164
+#: .\users\models.py:92 .\users\models.py:183
 #, fuzzy
 #| msgid "short name"
 msgid "No name"
 msgstr "Нет имени"
 
-#: .\users\models.py:82 .\users\models.py:164
+#: .\users\models.py:92 .\users\models.py:183
 #, fuzzy
 #| msgid "short name"
 msgid "No last name"
 msgstr "Нет фамилии"
 
-#: .\users\models.py:89
+#: .\users\models.py:99
 #, fuzzy
 #| msgid "estimation"
 msgid "Personal information"
 msgstr "Личная информация"
 
-#: .\users\models.py:103
+#: .\users\models.py:113
 #, fuzzy
 #| msgid "estimation"
 msgid "Payment information"
 msgstr "Платежная информация"
 
-#: .\users\models.py:110
+#: .\users\models.py:120
 msgid "email address"
 msgstr "адрес электронной почты"
 
-#: .\users\models.py:119
+#: .\users\models.py:126
+#, fuzzy
+#| msgid "version"
+msgid "Version"
+msgstr "версия"
+
+#: .\users\models.py:127
+#, fuzzy
+#| msgid "Users"
+msgid "User version"
+msgstr "Сезон пользователя"
+
+#: .\users\models.py:136
 msgid "The club the user is a member of"
 msgstr "Клуб, членом которого является пользователь"
 
-#: .\users\models.py:125 .\users\models.py:126
+#: .\users\models.py:142 .\users\models.py:143
 #, fuzzy
 #| msgid "Administration"
 msgid "Date of registration"
 msgstr "Дата регистрации"
 
-#: .\users\models.py:130 .\users\models.py:131
+#: .\users\models.py:147 .\users\models.py:148
 msgid "Last login date"
 msgstr "Дата последнего входа"
 
-#: .\users\models.py:140
+#: .\users\models.py:158
 msgid "Personal Information"
 msgstr "Личная информация"
 
-#: .\users\models.py:141
+#: .\users\models.py:159
 msgid "User Personal Information card"
 msgstr "Карточка личной информации пользователя"
 
-#: .\users\models.py:150
+#: .\users\models.py:169
 msgid "Payment Information"
 msgstr "Платежная информация"
 
-#: .\users\models.py:151
+#: .\users\models.py:170
 msgid "User Payment Information card"
 msgstr "Карточка платежной информации пользователя"
 
-#: .\version\admin.py:37
+#: .\users\templates\users\base_profile.html:11
+#, fuzzy
+#| msgid "My Profile"
+msgid "Profile"
+msgstr "Профиль"
+
+#: .\users\templates\users\base_profile.html:54
+msgid "About"
+msgstr ""
+
+#: .\users\templates\users\base_profile.html:72
+#, fuzzy
+#| msgid "estimation"
+msgid "Personal Details"
+msgstr "Личная информация"
+
+#: .\users\templates\users\base_profile.html:80
+#, fuzzy
+#| msgid "Date of birth"
+msgid "Date of Birth"
+msgstr "День рождения"
+
+#: .\users\templates\users\base_profile.html:88
+msgid "Email 2"
+msgstr ""
+
+#: .\users\templates\users\base_profile.html:92
+msgid "Mobile"
+msgstr ""
+
+#: .\users\templates\users\base_profile.html:96
+#, fuzzy
+#| msgid "email address"
+msgid "Address"
+msgstr "адрес электронной почты"
+
+#: .\version\admin.py:41
 msgid "custom groups"
 msgstr ""
 
@@ -2965,7 +3258,7 @@ msgstr ""
 msgid "version control"
 msgstr "управление версиями"
 
-#: .\version\models.py:18 .\version\models.py:96
+#: .\version\models.py:18 .\version\models.py:124
 msgid "price"
 msgstr "цена"
 
@@ -2973,77 +3266,103 @@ msgstr "цена"
 msgid "The cost of the Group in the currency"
 msgstr "Стоимость Группы доступов в валюте"
 
-#: .\version\models.py:29
+#: .\version\models.py:30
 msgid "Custom group params"
 msgstr ""
 
+#: .\version\models.py:35
+#, fuzzy
+#| msgid "No teams"
+msgid "number of teams"
+msgstr "Нет команд"
+
 #: .\version\models.py:36
+msgid "limit on the number of teams"
+msgstr ""
+
+#: .\version\models.py:40
+msgid "number of players"
+msgstr ""
+
+#: .\version\models.py:41
+msgid "limit on the number of players in a team"
+msgstr ""
+
+#: .\version\models.py:51
+msgid "number of users"
+msgstr ""
+
+#: .\version\models.py:52
+msgid "limit on the number of users"
+msgstr ""
+
+#: .\version\models.py:64
 msgid "Section name"
 msgstr ""
 
-#: .\version\models.py:40 .\version\models.py:92
+#: .\version\models.py:68 .\version\models.py:120
 msgid "tag"
 msgstr "тег"
 
-#: .\version\models.py:41
+#: .\version\models.py:69
 msgid "Section tag"
 msgstr ""
 
-#: .\version\models.py:48
+#: .\version\models.py:76
 msgid "Default"
 msgstr ""
 
-#: .\version\models.py:55
+#: .\version\models.py:83
 msgid "section"
 msgstr ""
 
-#: .\version\models.py:56
+#: .\version\models.py:84
 msgid "sections"
 msgstr ""
 
-#: .\version\models.py:63
+#: .\version\models.py:91
 msgid "Version name"
 msgstr "Название версии"
 
-#: .\version\models.py:66
+#: .\version\models.py:94
 msgid "last update"
 msgstr "последнее обновление"
 
-#: .\version\models.py:67
+#: .\version\models.py:95
 msgid "Version update date"
 msgstr "Дата обновления версии"
 
-#: .\version\models.py:71
+#: .\version\models.py:99
 msgid "active"
 msgstr "активно"
 
-#: .\version\models.py:72
+#: .\version\models.py:100
 msgid "The version is active for user selection"
 msgstr "Версия активна для выбора пользователем"
 
-#: .\version\models.py:80
+#: .\version\models.py:108
 msgid ""
 "The groups this version belongs to. A version will get all permissions "
 "granted to each of their groups."
 msgstr ""
 
-#: .\version\models.py:88
+#: .\version\models.py:116
 msgid "Specific permissions for this version."
 msgstr "Особые разрешения для этой версии"
 
-#: .\version\models.py:93
+#: .\version\models.py:121
 msgid "Version tag"
 msgstr "Тег веосии"
 
-#: .\version\models.py:97
+#: .\version\models.py:125
 msgid "The cost of the version in the currency"
 msgstr "Стоимость версии в валюте"
 
-#: .\version\models.py:108
+#: .\version\models.py:144
 msgid "version"
 msgstr "версия"
 
-#: .\version\models.py:109
+#: .\version\models.py:145
 msgid "versions"
 msgstr "версии"
 
@@ -3151,28 +3470,31 @@ msgstr "старое id"
 msgid "ID of the exercise that the video was linked to"
 msgstr "Идентификатор упражнения, на которое было привязано видео"
 
-#: .\video\templates\video\base_video.html:31
+#: .\video\models.py:83
+#, fuzzy
+#| msgid "notes"
+msgid "Notes"
+msgstr "заметки"
+
+#: .\video\models.py:84
+msgid "Notes in json format"
+msgstr ""
+
+#: .\video\templates\video\base_video.html:33
 msgid "Add video"
 msgstr "Добавить видео"
 
-#: .\video\templates\video\base_video.html:34
+#: .\video\templates\video\base_video.html:36
 msgid "Parse video"
 msgstr ""
 
-#: .\video\templates\video\base_video.html:48
-msgid "All"
-msgstr "Все"
+#: .\video\templates\video\base_video.html:67
+#, fuzzy
+#| msgid "NFB Folders"
+msgid "No folders"
+msgstr "Папки NFB"
 
-#: .\video\templates\video\base_video.html:52
-#: .\video\templates\video\video_card.html:82
-msgid "No sources"
-msgstr "Нет источников"
-
-#: .\video\templates\video\base_video.html:61
-msgid "No tags"
-msgstr "Нет тегов"
-
-#: .\video\templates\video\base_video.html:66
+#: .\video\templates\video\base_video.html:81
 msgid "Search"
 msgstr "Поиск"
 
@@ -3190,13 +3512,23 @@ msgstr "Следующий"
 msgid "Source"
 msgstr "Источник"
 
-#: .\video\templates\video\modules\video_list.html:11
+#: .\video\templates\video\modules\video_list.html:10
+#: .\video\templates\video\modules\video_list_exercises.html:10
+msgid "Folder"
+msgstr "Папка"
+
+#: .\video\templates\video\modules\video_list.html:12
 #: .\video\templates\video\modules\video_list_exercises.html:13
 msgid "Minutes"
 msgstr "Минуты"
 
 #: .\video\templates\video\modules\video_list.html:13
-#: .\video\templates\video\video_card.html:129
+msgid "V/A"
+msgstr ""
+
+#: .\video\templates\video\modules\video_list.html:15
+#: .\video\templates\video\modules\video_list_exercises.html:15
+#: .\video\templates\video\video_card.html:148
 msgid "Tags"
 msgstr "Теги"
 
@@ -3205,10 +3537,6 @@ msgstr "Теги"
 #| msgid "Exercises"
 msgid "Exercise"
 msgstr "Упражнения"
-
-#: .\video\templates\video\modules\video_list_exercises.html:10
-msgid "Folder"
-msgstr "Папка"
 
 #: .\video\templates\video\video_card.html:45
 msgid "Youtube link"
@@ -3241,6 +3569,28 @@ msgstr "Музыка"
 #| msgid "Main sections"
 msgid "Sections"
 msgstr "Основные разделы"
+
+#: .\video\templates\video\video_card.html:129
+#, fuzzy
+#| msgid "Federations"
+msgid "Video / Animation"
+msgstr "Федерации"
+
+#: .\video\templates\video\video_card.html:141
+#, fuzzy
+#| msgid "estimation"
+msgid "Animation"
+msgstr "оценка"
+
+#, fuzzy
+#~| msgid "Exercises"
+#~ msgid "List of exercises"
+#~ msgstr "Упражнения"
+
+#, fuzzy
+#~| msgid "group"
+#~ msgid "All group"
+#~ msgstr "группа"
 
 #~ msgid "Weekend"
 #~ msgstr "Выходные"

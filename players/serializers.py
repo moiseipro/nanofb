@@ -1,6 +1,21 @@
 from rest_framework import serializers
 
-from players.models import UserPlayer, ClubPlayer
+from players.models import UserPlayer, ClubPlayer, PlayerCard
+from references.serializers import PlayerPositionSerializer
+
+
+class PlayerCardSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    ref_position = PlayerPositionSerializer(
+        read_only=True
+    )
+
+    class Meta:
+        model = PlayerCard
+        fields = [
+            'id', 'ref_position'
+        ]
 
 
 class PlayerSerializer(serializers.ModelSerializer):
@@ -11,9 +26,13 @@ class PlayerSerializer(serializers.ModelSerializer):
         read_only=True
     )
 
+    card = PlayerCardSerializer(
+        read_only=True
+    )
+
     class Meta:
         fields = [
-            'id', 'full_name'
+            'id', 'full_name', 'card'
         ]
 
 

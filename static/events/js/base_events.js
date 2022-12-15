@@ -539,20 +539,26 @@ function generateNewCalendar(){
                         tr_html += `<tr class="${event_id!=null ? 'hasEvent' : ''}" data-value="${event_id}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
                         if('training' in event && event['training'] != null){
                             num_tr = 1
+                            let count_player = 0
                             let isFilled = true
                             if(event_class === 'trainingClass' && event['only_date'] === event_date) num_tr++
                             if(event.training.exercises_info.length == 0 ||event.training.protocol_info.length == 0) isFilled = false
+                            if('protocol_info' in event.training){
+                                $.each(event.training.protocol_info, function( index, value ) {
+                                    count_player++;
+                                });
+                            }
                             event_name = 'tr'+num_tr
                             event_class = 'trainingClass'
                             count_tr++
-
+                            console.log(event.training)
                             tr_html += `
                                 <td>---</td>
                                 <td class="${!isFilled ? 'text-danger' : ''}">${event['only_date']}</td>
                                 <td><a href="/trainings/view/${event.training.event_id}" class="btn btn-sm btn-block btn-info py-0" data-id="${event.training.event_id}">${gettext('Training')+' '+(num_tr == 2 ? '2' : '')}</a></td>
                                 <td>${count_day==0 ? '---' : count_day}</td>
                                 <td><i class="switch-favorites fa ${event.training.favourites ? 'fa-star':'fa-star-o'} aria-hidden="true"></i></td>
-                                <td>0</td>
+                                <td>${count_player}</td>
                                 <td>0</td>
                             `
                         } else if('match' in event && event['match'] != null){

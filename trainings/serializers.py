@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from exercises.serializers import UserExerciseSerializer
+from players.serializers import PlayerSerializer, UserPlayerSerializer, ClubPlayerSerializer
 from references.serializers import ExsAdditionalDataSerializer, PlayerProtocolStatusSerializer
 from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExerciseAdditional, UserTrainingProtocol, \
     ClubTrainingProtocol, ClubTrainingExercise
@@ -35,6 +36,10 @@ class UserTrainingProtocolSerializer(TrainingProtocolSerializer):
         many = kwargs.pop('many', True)
         super(UserTrainingProtocolSerializer, self).__init__(many=many, *args, **kwargs)
 
+    player_id = UserPlayerSerializer(
+        read_only=True
+    )
+
     class Meta(TrainingProtocolSerializer.Meta):
         model = UserTrainingProtocol
 
@@ -43,6 +48,10 @@ class ClubTrainingProtocolSerializer(TrainingProtocolSerializer):
     def __init__(self, *args, **kwargs):
         many = kwargs.pop('many', True)
         super(ClubTrainingProtocolSerializer, self).__init__(many=many, *args, **kwargs)
+
+    player_id = ClubPlayerSerializer(
+        read_only=True
+    )
 
     class Meta(TrainingProtocolSerializer.Meta):
         model = ClubTrainingProtocol

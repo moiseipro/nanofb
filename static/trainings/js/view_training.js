@@ -40,14 +40,14 @@ $(window).on('load', function (){
         data.duration = 0
         data.exercise_id = $('.exs-elem.active').attr('data-id')
         ajax_training_action('POST', data, 'add exercise', id, 'add_exercise').then(function (data) {
-            //console.log(data)
+            console.log(data)
             let exercise = data.obj
             if(data.status=="exercise_added"){
                 $('.group-block[data-group="'+exercise.group+'"]').append(`
-                <div class="row border-bottom exercise-row" data-id="${exercise.id}">
-                    <div class="col pr-0">${exercise.exercise_name[get_cur_lang()]}</div>
-                    <div class="col-sm-12 col-md-3 pl-0">
-                        <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 h-100 float-right delete-exercise edit-button ${!edit_mode ? 'd-none' : ''}"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                <div class="row border-bottom exercise-row" data-id="${exercise.id}" data-exercise="${exercise.exercise_id}">
+                    <div class="col px-0">${exercise.exercise_name[get_cur_lang()]}</div>
+                    <div class="col-sm-12 col-md-3 px-0">
+                        <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 px-1 h-100 float-right delete-exercise edit-button ${!edit_mode ? 'd-none' : ''}"><i class="fa fa-trash" aria-hidden="true"></i></button>
                         <input type="number" name="duration" min="0" max="999" class="form-control form-control-sm rounded-0 py-0 h-auto text-center float-right edit-input" value="${exercise.duration}" style="width: 30px" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
                     </div>
                 </div>
@@ -55,6 +55,12 @@ $(window).on('load', function (){
                 set_count_exercises()
             }
         })
+    })
+    $('.visual-block').on('click', '.exercise-row', function (){
+        let cId = $(this).attr('data-exercise')
+        let fromNFB = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? 1 : 0;
+        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        LoadExerciseOne(cId, fromNFB, folderType);
     })
     $('.visual-block').on('change', '.exercise-row [name="duration"]', function (){
         let exercises_training_id = $(this).closest('.exercise-row').attr('data-id')
@@ -618,9 +624,9 @@ function render_exercises_training(training_id = null, group = null) {
             if(group == null) return
 
             exs_html += `
-            <div id="order-${exercise.id}" class="row border-bottom exercise-row bg-white" data-id="${exercise.id}">
-                <div class="col pr-0 text-truncate" title="${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}">${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}</div>
-                <div class="col-sm-12 col-md-4 pl-0">
+            <div id="order-${exercise.id}" class="row border-bottom exercise-row bg-white" data-id="${exercise.id}" data-exercise="${exercise.exercise_id}">
+                <div class="col px-0 text-truncate" title="${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}">${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}</div>
+                <div class="col-sm-12 col-md-3 px-0">
                     <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 px-1 h-100 float-right delete-exercise edit-button ${!edit_mode ? 'd-none' : ''}"><i class="fa fa-trash" aria-hidden="true"></i></button>
                     <input type="number" name="duration" min="0" max="999" class="form-control form-control-sm rounded-0 p-0 h-auto text-center float-right edit-input" value="${exercise.duration}" style="width: 30px" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
                 </div>
@@ -735,45 +741,41 @@ function set_sum_duration_group() {
 // Добавление дополнительных данных в модуль списка упражнений
 function generate_exercises_module_data() {
     let html_data = `
-    <div class="row w-100 font-weight-bold">
+    <div class="row mx-0 font-weight-bold">
         <div class="col px-0">
             <button type="button" class="btn btn-sm btn-block btn-warning add-exercise edit-button d-none" data-group=""><i class="fa fa-plus" aria-hidden="true"></i> <span class="badge badge-light font-weight-bold">0</span></button>
         </div>
     </div>`
 
     html_data += `
-    <div class="row w-100 border border-dark bg-default-light font-weight-bold">
+    <div class="row mx-0 border border-dark bg-default-light font-weight-bold">
         <div class="col px-0">
             <span class="sum-duration-group btn btn-sm float-right rounded-0 py-0 h-100 font-weight-bold" style="width: 50px">00</span>
         </div>
     </div>`
 
     html_data += `
-    <div class="row w-100" style="min-height: 230px">
-        <div class="tab-content w-100 pt-0" id="groups-tabContent">
-            <div class="tab-pane fade group-block sortable-edit" id="group_A" data-group="1" role="tabpanel" aria-labelledby="group_A-tab">...1</div>
-            <div class="tab-pane fade group-block sortable-edit" id="group_B" data-group="2" role="tabpanel" aria-labelledby="group_B-tab">...2</div>
-            <div class="tab-pane fade group-block sortable-edit" id="group_C" data-group="3" role="tabpanel" aria-labelledby="group_C-tab">...3</div>
-            <div class="tab-pane fade group-block sortable-edit" id="group_D" data-group="4" role="tabpanel" aria-labelledby="group_D-tab">...4</div>
+    <div class="row mx-0" style="min-height: 230px">
+        <div class="col">
+            <div class="tab-content w-100 pt-0" id="groups-tabContent">
+                <div class="tab-pane fade group-block sortable-edit" id="group_A" data-group="1" role="tabpanel" aria-labelledby="group_A-tab">...1</div>
+                <div class="tab-pane fade group-block sortable-edit" id="group_B" data-group="2" role="tabpanel" aria-labelledby="group_B-tab">...2</div>
+            </div>
         </div>
     </div>`
 
     html_data += `
-    <div class="row w-100">
-        <ul class="nav nav-pills nav-fill">
-            <li class="nav-item px-1 pt-1">
-                <a class="btn btn-sm btn-block btn-outline-warning font-weight-bold group-button" data-group="1" data-toggle="pill" href="#group_A" role="tab">${ gettext("Group A") } <span class="badge badge-dark font-weight-bold">0</span></a>
-            </li>
-            <li class="nav-item px-1 pt-1">
-                <a class="btn btn-sm btn-block btn-outline-warning font-weight-bold group-button" data-group="2" data-toggle="pill" href="#group_B" role="tab">${ gettext("Group B") } <span class="badge badge-dark font-weight-bold">0</span></a>
-            </li>
-            <li class="nav-item px-1 pt-1">
-                <a class="btn btn-sm btn-block btn-outline-warning font-weight-bold group-button" data-group="3" data-toggle="pill" href="#group_C" role="tab">${ gettext("Group C") } <span class="badge badge-dark font-weight-bold">0</span></a>
-            </li>
-            <li class="nav-item px-1 pt-1">
-                <a class="btn btn-sm btn-block btn-outline-warning font-weight-bold group-button" data-group="4" data-toggle="pill" href="#group_D" role="tab">${ gettext("Group D (Individual)") } <span class="badge badge-dark font-weight-bold">0</span></a>
-            </li>
-        </ul>
+    <div class="row mx-0">
+        <div class="col px-0">
+            <ul class="nav nav-pills nav-fill">
+                <li class="nav-item px-1 pt-1">
+                    <a class="btn btn-sm btn-block btn-outline-warning font-weight-bold group-button" data-group="1" data-toggle="pill" href="#group_A" role="tab">${ gettext("Group A") } <span class="badge badge-dark font-weight-bold">0</span></a>
+                </li>
+                <li class="nav-item px-1 pt-1">
+                    <a class="btn btn-sm btn-block btn-outline-warning font-weight-bold group-button" data-group="2" data-toggle="pill" href="#group_B" role="tab">${ gettext("Group B") } <span class="badge badge-dark font-weight-bold">0</span></a>
+                </li>
+            </ul>
+        </div>
     </div>`
 
     $('.visual-block').append(html_data)
