@@ -1,11 +1,30 @@
 {% load i18n %}
 
 {% if perms.clubs.club_admin or user.is_superuser %}
-<li class="menu-title">
-    <span>{% trans 'Administration' %}</span>
+<li class="submenu">
+    <a href="#">
+        {% if ui_elements.sidebar__client_system %}
+            {{ ui_elements.sidebar__client_system }}
+        {% else %}
+            <i class=""></i>
+        {% endif %}
+        <span>{% trans 'Administration' %}</span>
+        <span class="menu-arrow"></span>
+    </a>
+    <ul style="display: none;">
+        {% if user.is_superuser %}
+        <li><a class="nav-link disabled" href="#">{% trans '«Client» system' %}</a></li>
+        {% endif %}
+        {% if perms.clubs.club_admin %}
+        <li><a class="nav-link {{ menu_clubs }}" href="{% url 'clubs:base_club' %}">{% trans '«Club» panel' %}</a></li>
+        {% endif %}
+        {% if perms.federations.federation_admin %}
+        <li><a class="nav-link disabled" href="#">{% trans '«Federation» panel' %}</a></li>
+        {% endif %}
+    </ul>
 </li>
 {% endif %}
-{% if user.is_superuser %}
+<!-- {% if user.is_superuser %}
 <li class="submenu">
     <a href="#" class="btn disabled">
         {% if ui_elements.sidebar__client_system %}
@@ -22,8 +41,8 @@
         <li><a href="#">{% trans 'Federations' %}</a></li>
     </ul>
 </li>
-{% endif %}
-{% if perms.clubs.club_admin %}
+{% endif %} -->
+<!-- {% if perms.clubs.club_admin %}
 <li class="{{ menu_clubs }}">
     <a href="{% url 'clubs:base_club' %}" class="btn">
         {% if ui_elements.sidebar__club_panel %}
@@ -34,8 +53,8 @@
         <span>{% trans '«Club» panel' %}</span>
     </a>
 </li>
-{% endif %}
-{% if perms.federations.federation_admin %}
+{% endif %} -->
+<!-- {% if perms.federations.federation_admin %}
 <li>
     <a href="#" class="btn disabled">
         {% if ui_elements.sidebar__federation_panel %}
@@ -46,9 +65,19 @@
         <span>{% trans '«Federation» panel' %}</span>
     </a>
 </li>
-{% endif %}
-<li class="menu-title">
+{% endif %} -->
+<!-- <li class="menu-title">
     <span>{% trans 'Main sections' %}</span>
+</li> -->
+<li class="{{ menu_profile }}">
+    <a href="{% url 'users:profile' %}" class="btn">
+        {% if ui_elements.sidebar__profile %}
+            {{ ui_elements.sidebar__profile }}
+        {% else %}
+            <i class=""></i>
+        {% endif %}
+        <span>{% translate "My Profile" %}</span>
+    </a>
 </li>
 {% if perms.events.view_userevent or perms.events.view_clubevent %}
 <li class="{{ menu_events }}">
@@ -150,7 +179,7 @@
 </li>
 
 {% if perms.matches.analytics_usermatch or perms.matches.analytics_clubmatch or perms.trainings.analytics_usertraining or perms.trainings.analytics_clubtraining %}
-<li>
+<li class="{{ menu_analytics }}">
     <a href="{% url 'analytics:analytics' %}" class="btn">
         {% if ui_elements.sidebar__analytics %}
             {{ ui_elements.sidebar__analytics }}

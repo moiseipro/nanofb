@@ -1700,12 +1700,16 @@ html.menu-opened body {
     color: #000;
 }
 .sidebar-menu > ul > li.active > a:hover {
-    background-color: #0044ff;
-    color: #fff;
+    /* background-color: #0044ff; */
+    /* color: #fff; */
+	border: 1px solid #2962ff;
+	font-weight: bolder;
 }
 .sidebar-menu li.active a {
-    background-color: #2962ff;
-    color: #fff;
+    /* background-color: #2962ff; */
+    /* color: #fff; */
+	border: 1px solid #2962ff;
+	font-weight: bolder;
 }
 .menu-title {
     color: #9e9e9e;

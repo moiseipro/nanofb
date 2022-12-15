@@ -13,6 +13,7 @@ from video.models import Video
 from nanofootball.views import util_check_access
 from video.views import delete_video_obj_nf
 from trainings.models import UserTraining, ClubTraining
+import re
 
 
 LANG_CODE_DEFAULT = "en"
@@ -615,19 +616,27 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
         f_exercises = f_exercises.filter(date_creation__range=[startdate, enddate])
     if filter_watched != -1:
         filter_watched = True if filter_watched == 1 else False
-        f_exercises = f_exercises.filter(
-            Q(Q(exercisevideo__type=1) & Q(exercisevideo__video__isnull=False) & Q(userexerciseparam__video_1_watched=filter_watched)) |
-            Q(Q(exercisevideo__type=2) & Q(exercisevideo__video__isnull=False) & Q(userexerciseparam__video_2_watched=filter_watched)) |
-            Q(Q(exercisevideo__type=3) & Q(exercisevideo__video__isnull=False) & Q(userexerciseparam__animation_1_watched=filter_watched)) |
-            Q(Q(exercisevideo__type=4) & Q(exercisevideo__video__isnull=False) & Q(userexerciseparam__animation_2_watched=filter_watched))
-        )
+        if filter_watched:
+            f_exercises = f_exercises.filter(
+                Q(Q(exercisevideo__type=1) & Q(exercisevideo__video__isnull=False) & Q(userexerciseparam__video_1_watched=filter_watched)) |
+                Q(Q(exercisevideo__type=2) & Q(exercisevideo__video__isnull=False) & Q(userexerciseparam__video_2_watched=filter_watched)) |
+                Q(Q(exercisevideo__type=3) & Q(exercisevideo__video__isnull=False) & Q(userexerciseparam__animation_1_watched=filter_watched)) |
+                Q(Q(exercisevideo__type=4) & Q(exercisevideo__video__isnull=False) & Q(userexerciseparam__animation_2_watched=filter_watched))
+            )
+        else:
+            f_exercises = f_exercises.filter(
+                Q(Q(exercisevideo__type=1) & Q(exercisevideo__video__isnull=False) & (Q(userexerciseparam__video_1_watched=filter_watched) | Q(userexerciseparam__id__isnull=True))) |
+                Q(Q(exercisevideo__type=2) & Q(exercisevideo__video__isnull=False) &(Q(userexerciseparam__video_2_watched=filter_watched) | Q(userexerciseparam__id__isnull=True))) |
+                Q(Q(exercisevideo__type=3) & Q(exercisevideo__video__isnull=False) & (Q(userexerciseparam__animation_1_watched=filter_watched) | Q(userexerciseparam__id__isnull=True))) |
+                Q(Q(exercisevideo__type=4) & Q(exercisevideo__video__isnull=False) & (Q(userexerciseparam__animation_2_watched=filter_watched) | Q(userexerciseparam__id__isnull=True)))
+            )
     if filter_favorite != -1:
         f_exercises = f_exercises.filter(
             Q(userexerciseparam__favorite=filter_favorite)
         )
     if filter_search != "":
-        searh_str = f'"{req.LANGUAGE_CODE}": "{filter_search.lower()}'
-        f_exercises = f_exercises.filter(title__icontains=searh_str)
+        searh_regex = r'(.*)[\"]' + re.escape(req.LANGUAGE_CODE) + r'[\"][:](.*)[\"](.*)(' + re.escape(filter_search.lower()) + r')(.*)[\"]'
+        f_exercises = f_exercises.filter(title__iregex=searh_regex)
 
     if not to_count:
         f_exercises_list = [entry for entry in f_exercises.values()]

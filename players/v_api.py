@@ -1139,7 +1139,8 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
         if is_for_table:
             if search_val and search_val != "":
                 players = players.filter(Q(surname__istartswith=search_val) | Q(name__istartswith=search_val) | Q(patronymic__istartswith=search_val) | Q(card__citizenship__istartswith=search_val) | Q(team__name__istartswith=search_val) | Q(card__club_from__istartswith=search_val))
-            players = players.order_by(f'{column_order_dir}{column_order}')[c_start:(c_start+c_length)]
+            # players = players.order_by(f'{column_order_dir}{column_order}')[c_start:(c_start+c_length)] with pagination
+            players = players.order_by(f'{column_order_dir}{column_order}')
         for _i, player in enumerate(players):
             player_data = {
                 'id': player.id,

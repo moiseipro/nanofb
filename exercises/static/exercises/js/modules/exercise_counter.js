@@ -73,15 +73,16 @@ function CountExsInFolder(useFilter = true) {
             });
         }
     }
-    // if (useFilter) {
-    //     $.when.apply($, window.count_exs_calls).then(() => {
-    //         window.filterIsLoaded = true;
-    //         CountFilteredExs();
-    //     });
-    // }
-    // $.when.apply($, window.count_exs_calls).then(() => {
-    //     CountExsInFoldersByType();
-    // });
+    let callsList = window.count_exs_calls.map(obj => obj.call);
+    if (useFilter) {
+        $.when.apply($, callsList).then(() => {
+            window.filterIsLoaded = true;
+            CountFilteredExs();
+        });
+    }
+    $.when.apply($, callsList).then(() => {
+        CountExsInFoldersByType();
+    });
 }
 
 function CountFilteredExs() {

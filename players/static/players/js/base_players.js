@@ -10,6 +10,7 @@ function GeneratePlayersTable(scroll_y = '') {
              "<'row'<'col-sm-12 col-md-5'l><'col-sm-12 col-md-7'p>>",
         serverSide: true,
         processing: true,
+        paging: false,
         select: true,
         scrollY: scroll_y,
         drawCallback: function( settings ) {
@@ -228,7 +229,7 @@ function ToggleColumnOrder(dir) {
 
 
 $(function() {
-    GeneratePlayersTable("calc(100vh - 350px)");
+    GeneratePlayersTable("calc(100vh - 250px)");
 
     $('#playerCard').on('click', (e) => {
         let selectedRow = players_table.rows({selected: true}).data().toArray()[0];
