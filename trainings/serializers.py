@@ -36,12 +36,15 @@ class UserTrainingProtocolSerializer(TrainingProtocolSerializer):
         many = kwargs.pop('many', True)
         super(UserTrainingProtocolSerializer, self).__init__(many=many, *args, **kwargs)
 
-    player_id = UserPlayerSerializer(
-        read_only=True
+    player_info = UserPlayerSerializer(
+        read_only=True,
+        source='player_id'
     )
 
     class Meta(TrainingProtocolSerializer.Meta):
         model = UserTrainingProtocol
+
+    Meta.fields += ('player_info',)
 
 
 class ClubTrainingProtocolSerializer(TrainingProtocolSerializer):
@@ -49,12 +52,15 @@ class ClubTrainingProtocolSerializer(TrainingProtocolSerializer):
         many = kwargs.pop('many', True)
         super(ClubTrainingProtocolSerializer, self).__init__(many=many, *args, **kwargs)
 
-    player_id = ClubPlayerSerializer(
-        read_only=True
+    player_info = UserPlayerSerializer(
+        read_only=True,
+        source='player_id'
     )
 
     class Meta(TrainingProtocolSerializer.Meta):
         model = ClubTrainingProtocol
+
+    Meta.fields += ('player_info',)
 
 
 class TrainingExerciseAdditionalSerializer(serializers.ModelSerializer):
