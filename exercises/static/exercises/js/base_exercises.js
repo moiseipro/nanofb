@@ -304,6 +304,9 @@ $(function() {
 
     $('.exs-search').on('keyup', (e) => {
         let val = $(e.currentTarget).val();
+        if ((window.exercisesFilter['_search'] && window.exercisesFilter['_search'] == val) || (!window.exercisesFilter['_search'] && val == "")) {
+            return;
+        }
         window.exercisesFilter['_search'] = val;
         for (ind in window.count_exs_calls) {
             window.count_exs_calls[ind]['call'].abort();
@@ -677,7 +680,10 @@ $(function() {
     // Copy Exs
     let foldersLoadedForCopy = false;
     $('#exerciseCopyModal').on('show.bs.modal', (e) => {
-        let isNfb = $('#exerciseCopyModal').find('input[name="nfb"]').val() == '1' && $('.folders_div:not(.d-none)').attr('data-id') == "nfb_folders";
+        
+        let isNfb = $('#exerciseCopyModal').find('input[name="nfb"]').val() == '1' && 
+            $('.folders_div:not(.d-none)').attr('data-id') == "nfb_folders" && 
+            $('#exerciseCopyModal').find('[name="copy_mode"]').val() != '1';
         let htmlList = isNfb ? "folders_nfb_list" : "folders_list";
         let htmlElemInList = isNfb ? "folder-nfb-elem" : "folder-elem";
         if (!foldersLoadedForCopy) {

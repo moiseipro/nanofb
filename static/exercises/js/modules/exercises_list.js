@@ -152,7 +152,7 @@ function RenderFolderExercises(id, tExs) {
                         <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="goal" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="">
                             ${exElem.goal_code}
                         </button>
-                    ` : ''}
+                    ` : '-'}
 
 
                     ${exElem.has_notes == true ? `
