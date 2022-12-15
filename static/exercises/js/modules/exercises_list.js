@@ -163,7 +163,6 @@ function RenderFolderExercises(id, tExs) {
                         </button>
                     ` : `
                     <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="" title="Есть примечания!">
-                        -
                     </button>
                     `}
                 </div>
