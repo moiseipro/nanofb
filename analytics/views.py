@@ -52,6 +52,7 @@ def analytics(request):
         'months': months,
         'seasons_list': request.seasons_list,
         'teams_list': request.teams_list,
+        'menu_analytics': "active",
         'ui_elements': get_ui_elements(request)
     })
 

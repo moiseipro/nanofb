@@ -13,6 +13,7 @@ from video.models import Video
 from nanofootball.views import util_check_access
 from video.views import delete_video_obj_nf
 from trainings.models import UserTraining, ClubTraining
+import re
 
 
 LANG_CODE_DEFAULT = "en"
@@ -481,7 +482,7 @@ def get_exs_additional_params(data, exs, folder_type, user, club_id, lang_code):
     return data
 
 
-def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = None, cur_team = None):
+def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = None, cur_team = None, to_count=False):
     """
     Return list of exercise objects. If filter options exist then current list will be filtered.
     Filter options are defined via next parameters of request: filter["filter_name"].
@@ -500,8 +501,6 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
     :rtype: list[object]
 
     """
-    def days_between(date):
-        return abs((datetime.date.today() - date).days)
     filter_goal = -1
     filter_ball = -1
     filter_watched = -1
@@ -615,88 +614,105 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
         enddate = datetime.date.today()
         startdate = enddate - datetime.timedelta(days=15)
         f_exercises = f_exercises.filter(date_creation__range=[startdate, enddate])
-
-    res_exercises = [entry for entry in f_exercises.values()]
-    for exercise in res_exercises:
-        exercise['search_title'] = get_by_language_code(exercise['title'], req.LANGUAGE_CODE).lower()
-        exercise['has_video_1'] = False
-        exercise['has_video_2'] = False
-        exercise['has_animation_1'] = False
-        exercise['has_animation_2'] = False
-        user_params = None
-        video_1 = None
-        video_2 = None
-        anim_1 = None
-        anim_2 = None
-        if folder_type == FOLDER_TEAM:
-            if req.user.club_id is not None:
-                user_params = UserExerciseParam.objects.filter(exercise_club=exercise['id'], user=cur_user)
-            else:
-                user_params = UserExerciseParam.objects.filter(exercise_user=exercise['id'], user=cur_user)
-            video_1 = ExerciseVideo.objects.filter(exercise_user=exercise['id'], type=1).first()
-            video_2 = ExerciseVideo.objects.filter(exercise_user=exercise['id'], type=2).first()
-            anim_1 = ExerciseVideo.objects.filter(exercise_user=exercise['id'], type=3).first()
-            anim_2 = ExerciseVideo.objects.filter(exercise_user=exercise['id'], type=4).first()
-        elif folder_type == FOLDER_NFB:
-            user_params = UserExerciseParam.objects.filter(exercise_nfb=exercise['id'], user=cur_user)
-            if cur_user.is_superuser:
-                notes = UserExerciseParamTeam.objects.filter(exercise_nfb=exercise['id']).only('id', 'note')
-                if notes.exists() and notes[0].id != None:
-                    notes = notes[0].note
-                    if notes and req.LANGUAGE_CODE in notes and notes[req.LANGUAGE_CODE] and len(notes[req.LANGUAGE_CODE]) > 0:
-                        exercise['has_notes'] = True
-            video_1 = ExerciseVideo.objects.filter(exercise_nfb=exercise['id'], type=1).first()
-            video_2 = ExerciseVideo.objects.filter(exercise_nfb=exercise['id'], type=2).first()
-            anim_1 = ExerciseVideo.objects.filter(exercise_nfb=exercise['id'], type=3).first()
-            anim_2 = ExerciseVideo.objects.filter(exercise_nfb=exercise['id'], type=4).first()
-        elif folder_type == FOLDER_CLUB:
-            user_params = UserExerciseParam.objects.filter(exercise_club=exercise['id'], user=cur_user)
-            video_1 = ExerciseVideo.objects.filter(exercise_club=exercise['id'], type=1).first()
-            video_2 = ExerciseVideo.objects.filter(exercise_club=exercise['id'], type=2).first()
-            anim_1 = ExerciseVideo.objects.filter(exercise_club=exercise['id'], type=3).first()
-            anim_2 = ExerciseVideo.objects.filter(exercise_club=exercise['id'], type=4).first()
-        if video_1 and video_1.video:
-            exercise['has_video_1'] = True
-        if video_2 and video_2.video:
-            exercise['has_video_2'] = True
-        if anim_1 and anim_1.video:
-            exercise['has_animation_1'] = True
-        if anim_2 and anim_2.video:
-            exercise['has_animation_2'] = True
-        if user_params != None and user_params.exists() and user_params[0].id != None:
-            user_params = user_params.values()[0]
-            exercise['favorite'] = user_params['favorite']
-            exercise['video_1_watched'] = user_params['video_1_watched']
-            exercise['video_2_watched'] = user_params['video_2_watched']
-            exercise['animation_1_watched'] = user_params['animation_1_watched']
-            exercise['animation_2_watched'] = user_params['animation_2_watched']
-        watched_status = 0
-        if 'video_1_watched' in exercise:
-            if exercise['has_video_1'] and exercise['video_1_watched']:
-                watched_status = 1
-        if 'video_2_watched' in exercise:
-            if exercise['has_video_2'] and exercise['video_2_watched']:
-                watched_status = 1
-        if 'animation_1_watched' in exercise:
-            if exercise['has_animation_1'] and exercise['animation_1_watched']:
-                watched_status = 1
-        if 'animation_2_watched' in exercise:
-            if exercise['has_animation_2'] and exercise['animation_2_watched']:
-                watched_status = 1
-        favorite_status = 0
-        if 'favorite' in exercise:
-            favorite_status = 1 if exercise['favorite'] else 0
-        exercise['watched_status'] = watched_status
-        exercise['favorite_status'] = favorite_status
-    
     if filter_watched != -1:
-        res_exercises = list(filter(lambda c: c['watched_status'] == filter_watched, res_exercises))
+        filter_watched = True if filter_watched == 1 else False
+        if filter_watched:
+            f_exercises = f_exercises.filter(
+                Q(Q(exercisevideo__type=1) & Q(exercisevideo__video__isnull=False) & Q(userexerciseparam__video_1_watched=filter_watched)) |
+                Q(Q(exercisevideo__type=2) & Q(exercisevideo__video__isnull=False) & Q(userexerciseparam__video_2_watched=filter_watched)) |
+                Q(Q(exercisevideo__type=3) & Q(exercisevideo__video__isnull=False) & Q(userexerciseparam__animation_1_watched=filter_watched)) |
+                Q(Q(exercisevideo__type=4) & Q(exercisevideo__video__isnull=False) & Q(userexerciseparam__animation_2_watched=filter_watched))
+            )
+        else:
+            f_exercises = f_exercises.filter(
+                Q(Q(exercisevideo__type=1) & Q(exercisevideo__video__isnull=False) & (Q(userexerciseparam__video_1_watched=filter_watched) | Q(userexerciseparam__id__isnull=True))) |
+                Q(Q(exercisevideo__type=2) & Q(exercisevideo__video__isnull=False) &(Q(userexerciseparam__video_2_watched=filter_watched) | Q(userexerciseparam__id__isnull=True))) |
+                Q(Q(exercisevideo__type=3) & Q(exercisevideo__video__isnull=False) & (Q(userexerciseparam__animation_1_watched=filter_watched) | Q(userexerciseparam__id__isnull=True))) |
+                Q(Q(exercisevideo__type=4) & Q(exercisevideo__video__isnull=False) & (Q(userexerciseparam__animation_2_watched=filter_watched) | Q(userexerciseparam__id__isnull=True)))
+            )
     if filter_favorite != -1:
-        res_exercises = list(filter(lambda c: c['favorite_status'] == filter_favorite, res_exercises))
+        f_exercises = f_exercises.filter(
+            Q(userexerciseparam__favorite=filter_favorite)
+        )
     if filter_search != "":
-        filter_search = filter_search.lower()
-        res_exercises = list(filter(lambda c: filter_search in c['search_title'], res_exercises))
-    return res_exercises
+        searh_regex = r'(.*)[\"]' + re.escape(req.LANGUAGE_CODE) + r'[\"][:](.*)[\"](.*)(' + re.escape(filter_search.lower()) + r')(.*)[\"]'
+        f_exercises = f_exercises.filter(title__iregex=searh_regex)
+
+    if not to_count:
+        f_exercises_list = [entry for entry in f_exercises.values()]
+        for exercise in f_exercises_list:
+            exercise['search_title'] = get_by_language_code(exercise['title'], req.LANGUAGE_CODE).lower()
+            exercise['has_video_1'] = False
+            exercise['has_video_2'] = False
+            exercise['has_animation_1'] = False
+            exercise['has_animation_2'] = False
+            user_params = None
+            video_1 = None
+            video_2 = None
+            anim_1 = None
+            anim_2 = None
+            if folder_type == FOLDER_TEAM:
+                if req.user.club_id is not None:
+                    user_params = UserExerciseParam.objects.filter(exercise_club=exercise['id'], user=cur_user)
+                else:
+                    user_params = UserExerciseParam.objects.filter(exercise_user=exercise['id'], user=cur_user)
+                video_1 = ExerciseVideo.objects.filter(exercise_user=exercise['id'], type=1).first()
+                video_2 = ExerciseVideo.objects.filter(exercise_user=exercise['id'], type=2).first()
+                anim_1 = ExerciseVideo.objects.filter(exercise_user=exercise['id'], type=3).first()
+                anim_2 = ExerciseVideo.objects.filter(exercise_user=exercise['id'], type=4).first()
+            elif folder_type == FOLDER_NFB:
+                user_params = UserExerciseParam.objects.filter(exercise_nfb=exercise['id'], user=cur_user)
+                if cur_user.is_superuser:
+                    notes = UserExerciseParamTeam.objects.filter(exercise_nfb=exercise['id']).only('id', 'note')
+                    if notes.exists() and notes[0].id != None:
+                        notes = notes[0].note
+                        if notes and req.LANGUAGE_CODE in notes and notes[req.LANGUAGE_CODE] and len(notes[req.LANGUAGE_CODE]) > 0:
+                            exercise['has_notes'] = True
+                video_1 = ExerciseVideo.objects.filter(exercise_nfb=exercise['id'], type=1).first()
+                video_2 = ExerciseVideo.objects.filter(exercise_nfb=exercise['id'], type=2).first()
+                anim_1 = ExerciseVideo.objects.filter(exercise_nfb=exercise['id'], type=3).first()
+                anim_2 = ExerciseVideo.objects.filter(exercise_nfb=exercise['id'], type=4).first()
+            elif folder_type == FOLDER_CLUB:
+                user_params = UserExerciseParam.objects.filter(exercise_club=exercise['id'], user=cur_user)
+                video_1 = ExerciseVideo.objects.filter(exercise_club=exercise['id'], type=1).first()
+                video_2 = ExerciseVideo.objects.filter(exercise_club=exercise['id'], type=2).first()
+                anim_1 = ExerciseVideo.objects.filter(exercise_club=exercise['id'], type=3).first()
+                anim_2 = ExerciseVideo.objects.filter(exercise_club=exercise['id'], type=4).first()
+            if video_1 and video_1.video:
+                exercise['has_video_1'] = True
+            if video_2 and video_2.video:
+                exercise['has_video_2'] = True
+            if anim_1 and anim_1.video:
+                exercise['has_animation_1'] = True
+            if anim_2 and anim_2.video:
+                exercise['has_animation_2'] = True
+            if user_params != None and user_params.exists() and user_params[0].id != None:
+                user_params = user_params.values()[0]
+                exercise['favorite'] = user_params['favorite']
+                exercise['video_1_watched'] = user_params['video_1_watched']
+                exercise['video_2_watched'] = user_params['video_2_watched']
+                exercise['animation_1_watched'] = user_params['animation_1_watched']
+                exercise['animation_2_watched'] = user_params['animation_2_watched']
+            watched_status = 0
+            if 'video_1_watched' in exercise:
+                if exercise['has_video_1'] and exercise['video_1_watched']:
+                    watched_status = 1
+            if 'video_2_watched' in exercise:
+                if exercise['has_video_2'] and exercise['video_2_watched']:
+                    watched_status = 1
+            if 'animation_1_watched' in exercise:
+                if exercise['has_animation_1'] and exercise['animation_1_watched']:
+                    watched_status = 1
+            if 'animation_2_watched' in exercise:
+                if exercise['has_animation_2'] and exercise['animation_2_watched']:
+                    watched_status = 1
+            favorite_status = 0
+            if 'favorite' in exercise:
+                favorite_status = 1 if exercise['favorite'] else 0
+            exercise['watched_status'] = watched_status
+            exercise['favorite_status'] = favorite_status
+        return f_exercises_list
+    return f_exercises
 
 
 def check_video(id):
@@ -1419,8 +1435,10 @@ def POST_count_exs(request, cur_user, cur_team):
     }):
         return JsonResponse({"err": "Access denied.", "success": False}, status=400)
     try:
-        found_exercises = len(get_excerises_data(folder_id, folder_type, request, cur_user, cur_team))
-    except:
+        found_exercises = get_excerises_data(folder_id, folder_type, request, cur_user, cur_team, True).count()
+        # found_exercises = len(get_excerises_data(folder_id, folder_type, request, cur_user, cur_team))
+    except Exception as e:
+        print(e)
         pass
     return JsonResponse({"data": found_exercises, "success": True}, status=200)
 
