@@ -1142,6 +1142,11 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
             # players = players.order_by(f'{column_order_dir}{column_order}')[c_start:(c_start+c_length)] with pagination
             players = players.order_by(f'{column_order_dir}{column_order}')
         for _i, player in enumerate(players):
+            player_position = ""
+            try:
+                player_position = player.card.ref_position.short_name
+            except:
+                pass
             player_data = {
                 'id': player.id,
                 'surname': player.surname,
@@ -1150,6 +1155,7 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
                 'citizenship': player.card.citizenship if player.card else "",
                 'team': player.team.name if player.team else "",
                 'club_from': player.card.club_from if player.card else "",
+                'position': player_position,
                 'growth': player.card.growth if player.card else "",
                 'weight': player.card.weight if player.card else "",
                 'game_num': player.card.game_num if player.card else "",

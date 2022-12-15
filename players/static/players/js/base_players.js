@@ -35,6 +35,7 @@ function GeneratePlayersTable(scroll_y = '') {
             {'data': 'citizenship', 'name': 'card__citizenship'},
             {'data': 'team', 'name': 'team__name'},
             {'data': 'club_from', 'name': 'card__club_from'},
+            {'data': 'position', 'name': 'card__position'},
             {'data': 'growth', 'name': 'card__growth'},
             {'data': 'weight', 'name': 'card__weight'},
             {'data': 'game_num', 'name': 'card__game_num'},
