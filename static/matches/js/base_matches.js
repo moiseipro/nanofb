@@ -49,6 +49,7 @@ function RenderProtocolInMatches(data) {
                             <div class="col-3 px-0 text-right">
                                 ${elem.is_goalkeeper ? `<span title="Вратарь"> [G.] </span>` : ''}
                                 ${elem.is_captain ? `<span title="Капитан"> [К] </span>` : ''}
+                                ${elem.player_position ? `<span title="Позиция"> (${elem.player_position}) </span>` : ''}
                             </div>
                         </div>
                     </td>
