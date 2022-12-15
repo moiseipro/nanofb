@@ -697,6 +697,7 @@ $(function() {
             let reader = new FileReader();
             reader.onload = (e2) => {
               $('#showImgPhoto').find('.img-photo').attr('src', e2.target.result);
+              $('.cnt-center-block').find('.img-photo').attr('src', e2.target.result);
             };
             reader.readAsDataURL($(e.currentTarget)[0].files[0]);
         }

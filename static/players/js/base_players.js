@@ -365,6 +365,13 @@ $(function() {
     });
 
     // Toggle left menu
+    $('#toggle_btn').on('click', (e) => {
+        setTimeout(() => {
+            try {
+                players_table.columns.adjust().draw();
+            } catch(e) {}
+        }, 500);
+    });
     setTimeout(() => {
         $('#toggle_btn').click();
         try {
