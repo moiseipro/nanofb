@@ -13,6 +13,7 @@ function GeneratePlayersTable(scroll_y = '') {
         paging: false,
         select: true,
         scrollY: scroll_y,
+        colReorder: true,
         drawCallback: function( settings ) {
             //console.log(settings)
             // $('#video-table-counter').text(settings._iRecordsDisplay)
@@ -32,16 +33,17 @@ function GeneratePlayersTable(scroll_y = '') {
             {'data': 'surname', 'name': 'surname'},
             {'data': 'name', 'name': 'name'},
             {'data': 'patronymic', 'name': 'patronymic'},
+            {'data': 'birthsday', 'name': 'card__birthsday'},
             {'data': 'citizenship', 'name': 'card__citizenship'},
             {'data': 'team', 'name': 'team__name'},
-            {'data': 'club_from', 'name': 'card__club_from'},
             {'data': 'position', 'name': 'card__position'},
             {'data': 'growth', 'name': 'card__growth'},
             {'data': 'weight', 'name': 'card__weight'},
             {'data': 'game_num', 'name': 'card__game_num'},
-            {'data': 'birthsday', 'name': 'card__birthsday'},
             {'data': 'come', 'name': 'card__come'},
-            {'data': 'leave', 'name': 'card__leave'}
+            {'data': 'club_from', 'name': 'card__club_from'},
+            {'data': 'contract_with', 'name': 'card__contract_with'},
+            {'data': 'contract_by', 'name': 'card__contract_by'},
         ],
     });
 }
@@ -134,6 +136,15 @@ function RenderPlayersTableCols(data) {
         for (let i = 0; i < headers.length; i++) {
             let header = headers[i];
             if (header.visible) {
+                if (rows[header.id] && Array.isArray(rows[header.id])) {
+                    for (let j = 0; j < rows[header.id].length; j++) {
+                        let row = rows[header.id][j];
+                        let cIndex = players_table.column(`${row.text_id}:name`).index();
+                        if (cIndex) {
+                            players_table.colReorder.move(cIndex, j);
+                        }
+                    }
+                }
                 players_table.columns().visible(false);
                 if (rows[header.id] && Array.isArray(rows[header.id])) {
                     for (let j = 0; j < rows[header.id].length; j++) {

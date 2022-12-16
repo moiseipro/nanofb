@@ -103,10 +103,14 @@
                                                 <table class="table table-sm table-bordered" id="players">
                                                     <tbody>
                                                         {% for player in players %}
-                                                        <tr class="player-row text-center" data-id="{{ player.id }}">
-                                                            <td>{{ forloop.counter }}</td>
-                                                            <td>{{ player.surname }}</td>
-                                                            <td>{{ player.name }}</td>
+                                                        <tr class="player-row" data-id="{{ player.id }}">
+                                                            <td class="text-center">{{ forloop.counter }}</td>
+                                                            <td class="">
+                                                                <span class="ml-2">{{ player.surname }}</span>
+                                                            </td>
+                                                            <td class="">
+                                                                <span class="">{{ player.name }}</span>
+                                                            </td>
                                                         </tr>
                                                         {% endfor %}
                                                     </tbody>
@@ -127,8 +131,8 @@
                                             <div class="col-9">
                                                 <table class="table table-sm table-bordered card-content">
                                                     <tbody>
-                                                        <col style="width: 40%;" />
-                                                        <col style="width: 60%;" />
+                                                        <col style="width: 35%;" />
+                                                        <col style="width: 65%;" />
                                                         <tr class="">
                                                             <td>Фамилия *</td>
                                                             <td>
@@ -261,16 +265,46 @@
                                                                 <input name="leave" class="form-control form-control-sm edit-field" type="date" value="" placeholder="---" autocomplete="off">
                                                             </td>
                                                         </tr>
+                                                        <tr class="">
+                                                            <td>Контракт с</td>
+                                                            <td>
+                                                                <input name="contract_with" class="form-control form-control-sm edit-field" type="date" value="" placeholder="---" autocomplete="off">
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="">
+                                                            <td>Контракт по</td>
+                                                            <td>
+                                                                <input name="contract_by" class="form-control form-control-sm edit-field" type="date" value="" placeholder="---" autocomplete="off">
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="">
+                                                            <td>Email</td>
+                                                            <td>
+                                                                <input name="email" class="form-control form-control-sm edit-field" type="text" value="" placeholder="---" autocomplete="off">
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="">
+                                                            <td>Телефон</td>
+                                                            <td>
+                                                                <input name="phone" class="form-control form-control-sm edit-field" type="text" value="" placeholder="---" autocomplete="off">
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="">
+                                                            <td>Телефон 2</td>
+                                                            <td>
+                                                                <input name="phone_2" class="form-control form-control-sm edit-field" type="text" value="" placeholder="---" autocomplete="off">
+                                                            </td>
+                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
                                         <div class="row center-content" data-id="characteristics">
-                                            <span class="badge badge-primary">Характеристики</span>
+                                            <span class="ml-3 badge badge-primary">Характеристики</span>
                                             <span class="badge badge-warning ml-1" title="Редактировать" id="editCharacteristicsRows">
                                                 <i class="fa fa-pencil" aria-hidden="true"></i>
                                             </span>
-                                            <div class="table-responsive">
+                                            <div class="mx-3 table-responsive">
                                                 <table id="playerCharacteristicsTable" class="table table-sm table-bordered" style="table-layout: fixed;">
                                                     <colgroup>
                                                         <col span="1" style="width: 30%;">
@@ -300,11 +334,11 @@
                                             </div>
                                         </div>
                                         <div class="row center-content" data-id="questionnaire">
-                                            <span class="badge badge-primary">Анкета</span>
+                                            <span class="ml-3 badge badge-primary">Анкета</span>
                                             <span class="badge badge-warning ml-1" title="Редактировать" id="editQuestionnaireRows">
                                                 <i class="fa fa-pencil" aria-hidden="true"></i>
                                             </span>
-                                            <div class="table-responsive">
+                                            <div class="mx-3 table-responsive">
                                                 <table id="playerQuestionnaireTable" class="table table-sm table-bordered" style="table-layout: fixed;">
                                                     <colgroup>
                                                         <col span="1" style="width: 30%;">

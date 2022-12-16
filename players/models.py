@@ -23,6 +23,11 @@ class PlayerCard(models.Model):
     leave = models.DateField(null=True, blank=True)
     contacts = models.JSONField(null=True, blank=True)
     notes = models.JSONField(null=True, blank=True)
+    contract_with = models.DateField(null=True, blank=True)
+    contract_by = models.DateField(null=True, blank=True)
+    email = models.CharField(max_length=30, null=True, blank=True)
+    phone = models.CharField(max_length=30, null=True, blank=True)
+    phone_2 = models.CharField(max_length=30, null=True, blank=True)
 
     objects = models.Manager()
 

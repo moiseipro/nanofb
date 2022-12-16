@@ -428,6 +428,7 @@ def POST_edit_match(request, cur_user, cur_team):
         return JsonResponse({"err": "Match not found.", "success": False}, status=400)
     if c_datetime:
         c_match.event_id.date = c_datetime
+        c_match.event_id.save()
     c_match.duration = set_value_as_duration(post_data['duration'])
     c_match.goals = set_value_as_int(post_data['goals'], 0)
     c_match.penalty = set_value_as_int(post_data['penalty'], 0)

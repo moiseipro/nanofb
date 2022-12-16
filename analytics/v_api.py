@@ -272,7 +272,7 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
                 else:
                     date_with = date_with + relativedelta(months=(season_type-1))
                     date_with.replace(day=1)
-                    date_by = date_with + relativedelta(months=1)
+                    date_by = date_with + relativedelta(months=1) - relativedelta(days=1)
             else:
                 if date.today() < f_season.date_by:
                     date_by = date.today()
@@ -457,7 +457,7 @@ def GET_get_analytics_by_folders_in_team(request, cur_user, cur_team, cur_season
                 else:
                     date_with = date_with + relativedelta(months=(season_type-1))
                     date_with.replace(day=1)
-                    date_by = date_with + relativedelta(months=1)
+                    date_by = date_with + relativedelta(months=1) - relativedelta(days=1)
             else:
                 if date.today() < f_season.date_by:
                     date_by = date.today()
@@ -557,7 +557,7 @@ def GET_get_analytics_by_folders_full_in_team(request, cur_user, cur_team, cur_s
                     else:
                         date_with = date_with + relativedelta(months=(s_month['id']-1))
                         date_with.replace(day=1)
-                        date_by = date_with + relativedelta(months=1)
+                        date_by = date_with + relativedelta(months=1) - relativedelta(days=1)
                 else:
                     if date.today() < f_season.date_by:
                         date_by = date.today()
