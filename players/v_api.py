@@ -325,6 +325,11 @@ def POST_edit_player(request, cur_user, cur_team):
     c_player_playercard.ref_foot = set_value_as_ref(request, "data[ref_foot]", "foot", None)
     c_player_playercard.come = set_value_as_date(request, "data[come]", None)
     c_player_playercard.leave = set_value_as_date(request, "data[leave]", None)
+    c_player_playercard.contract_with = set_value_as_date(request, "data[contract_with]", None)
+    c_player_playercard.contract_by = set_value_as_date(request, "data[contract_by]", None)
+    c_player_playercard.email = request.POST.get("data[email]", None)
+    c_player_playercard.phone = request.POST.get("data[phone]", None)
+    c_player_playercard.phone_2 = request.POST.get("data[phone_2]", None)
     try:
         c_player_playercard.save()
         c_player.card = c_player_playercard
@@ -1161,7 +1166,9 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
                 'game_num': player.card.game_num if player.card else "",
                 'birthsday': player.card.birthsday if player.card else "",
                 'come': player.card.come if player.card else "",
-                'leave': player.card.leave if player.card else ""
+                'leave': player.card.leave if player.card else "",
+                'contract_with': player.card.contract_with if player.card else "",
+                'contract_by': player.card.contract_by if player.card else ""
             }
             players_data.append(player_data)
     if return_JsonResponse:

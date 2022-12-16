@@ -776,7 +776,6 @@ $(function() {
             return;
         }
         $('.page-loader-wrapper').fadeIn();
-        
         $.ajax({
             headers:{"X-CSRFToken": csrftoken},
             data: dataToSend,
@@ -790,7 +789,7 @@ $(function() {
                     swal("Готово", "Игрок успешно создан / изменён.", "success")
                     .then((value) => {
                         $('.page-loader-wrapper').fadeIn();
-                        window.location.reload();
+                        window.location.href = `player?id=${selectedRowId}`;
                     });
                 } else {
                     swal("Ошибка", `При создании / изменении игрока произошла ошибка (${res.err}).`, "error");
