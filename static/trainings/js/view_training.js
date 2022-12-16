@@ -63,10 +63,15 @@ $(window).on('load', function (){
         LoadExerciseOne(cId, fromNFB, folderType);
     })
     $('.visual-block').on('change', '.exercise-row [name="duration"]', function (){
+        let cur_obj = $(this);
         let exercises_training_id = $(this).closest('.exercise-row').attr('data-id')
         let data = {}
         data.duration = $(this).val()
-        ajax_training_exercise_action('PUT', data, 'update', exercises_training_id, '')
+        ajax_training_exercise_action('PUT', data, 'update', exercises_training_id, '').done(function () {
+            cur_obj.attr('value', data.duration)
+        })
+
+
     })
     // Удаление упражнения из тренировки
     $('.visual-block').on('click', '.exercise-row .delete-exercise', function (){
@@ -335,6 +340,15 @@ $(window).on('load', function (){
             $(this).closest('.player_row').find('.protocol-check-player[name="'+group_name+'"] :is(.fa-check)').click()
         }
     })
+    $('#player-protocol-table').on('click', '.select-all-exercise', function () {
+        let exs_tr_id = $(this).attr('data-exs')
+        console.log(exs_tr_id)
+        if($(this).is(':checked')){
+            $('#player-protocol-table').find('.protocol-check-player[data-exs-id="'+exs_tr_id+'"]:empty').click()
+        } else {
+            $('#player-protocol-table').find('.protocol-check-player[data-exs-id="'+exs_tr_id+'"] :is(.fa-check)').click()
+        }
+    })
 
     $('a[href="#training-exercises"]').on('show.bs.tab', function () {
         CountExsInFolder(false);
@@ -458,6 +472,7 @@ function render_protocol_training(training_id = null, highlight_not_filled = fal
             <th colspan="4" class="p-0 text-center align-middle border">
             </th>
         `
+        console.log(exs_group)
         for (let i = 0; i < exs_group.length; i++) {
             if(exs_group[i].ids.length == 0) continue
             let group = i == 0 ? 'A' : i == 1 ? 'B' : i == 2 ? 'C' : 'D'
@@ -466,10 +481,18 @@ function render_protocol_training(training_id = null, highlight_not_filled = fal
             for (let j = 0; j < exs_group[i].ids.length; j++) {
                 if(j == 0){
                     protocol_header2 += `
-                    <th class="p-0 text-center align-middle border" width="40"><input type="checkbox" class="all-player-check edit-input" data-group="group_${i+1}" style="width: 25px; height: 25px;" ${!edit_mode ? 'disabled' : ''}></th>
+                    <th class="p-0 text-center align-middle border" width="40">
+                        <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                            <input type="checkbox" class="custom-control-input all-player-check edit-input" data-group="group_${i+1}" style="width: 25px; height: 25px;" ${!edit_mode ? 'disabled' : ''}>
+                            <label class="custom-control-label" for="customControlInline"></label>
+                        </div>
+                        <input type="checkbox" class=""  style="width: 25px; height: 25px;" >
+                    </th>
                     `
                 }
-                protocol_header2 += `<th title="${(get_cur_lang() in exs_group[i].ids[j].exercise_name) ? exs_group[i].ids[j].exercise_name[get_cur_lang()] : Object.values(exs_group[i].ids[j].exercise_name)[0]}" class="p-0 text-center align-middle border">${j+1}</th>`
+                protocol_header2 += `<th title="${(get_cur_lang() in exs_group[i].ids[j].exercise_name) ? exs_group[i].ids[j].exercise_name[get_cur_lang()] : Object.values(exs_group[i].ids[j].exercise_name)[0]}" class="p-0 text-center align-middle border">
+                    <input type="checkbox" class="select-all-exercise edit-input" data-exs="${exs_group[i].ids[j].id}" style="width: 25px; height: 25px;" ${!edit_mode ? 'disabled' : ''}
+                </th>`
             }
 
         }
@@ -608,7 +631,7 @@ function render_exercises_training(training_id = null, group = null) {
                 </div>
                 <div class="row text-center">
                     <div class="col-10 pr-0"><div class="w-100 border text-truncate">${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}</div></div>
-                    <div class="col pl-0"><div class="w-100 border">${exercise.duration}</div></div>
+                    <div class="col pl-0"><div class="w-100 border ${exercise.duration==0 ? 'font-weight-bold text-danger':''}">${exercise.duration}</div></div>
                     <div class="col-1 pl-0 edit-button ${!edit_mode ? 'd-none' : ''}">
                         <button type="button" class="btn btn-sm btn-block btn-warning rounded-0 p-0 h-100 float-right add-exercise-additional"><i class="fa fa-plus" aria-hidden="true"></i></button>
                     </div>
