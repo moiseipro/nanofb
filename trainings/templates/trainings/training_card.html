@@ -2,157 +2,100 @@
 {% load static %}
 {% load language_json %}
 
-<div class="modal fade" id="view-training-card-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="view-training-card-title">{% trans 'Training Card' %}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
+
+<div id="training-content" class="row mt-2 border-top d-none">
+    <div class="col">
+        <div class="row text-center">
+            <div class="col-12">
                 <div class="row">
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-12 px-0">
-                                <div class="nav nav-pills nav-justified nav-warning" role="tablist">
-                                    <a class="nav-item nav-link active" id="pills-group-A-tab" data-toggle="pill" href="#pills-group-A" role="tab" aria-selected="true">Группа А</a>
-                                    <a class="nav-item nav-link" id="pills-group-B-tab" data-toggle="pill" href="#pills-group-B" role="tab" aria-selected="false">Группа Б</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-content pt-0" id="pills-tabContent">
-                            <div class="tab-pane fade show active text-center" id="pills-group-A" role="tabpanel">
-                                <div class="row">
-                                    <div class="col-12 btn btn-primary border border-light">1. Совершенствование атаки по центру с завершающим ударом по воротам</div>
-                                    <div class="col-12 btn btn-primary border border-light">2. Скоростные качества</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border border-light bg-secondary text-white">Дата</div>
-                                    <div class="col-6 border border-light">03.12.2022</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border border-light bg-secondary text-white">Время</div>
-                                    <div class="col-6 border border-light">17:30</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border border-light bg-secondary text-white">Команда</div>
-                                    <div class="col-6 border border-light">TEST TEAM</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border border-light bg-secondary text-white">Возраст</div>
-                                    <div class="col-6 border border-light">U-13</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border border-light bg-secondary text-white">Тренер</div>
-                                    <div class="col-6 border border-light">Иванов Иван Иванович</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border border-light bg-secondary text-white">Тренер 2</div>
-                                    <div class="col-6 border border-light"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border border-light bg-secondary text-white">Тренер (G)</div>
-                                    <div class="col-6 border border-light"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border border-light bg-secondary text-white">Время t`</div>
-                                    <div class="col-6 border border-light">90`</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border border-light bg-secondary text-white">Пространство</div>
-                                    <div class="col-6 border border-light"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border border-light bg-secondary text-white">Игроки</div>
-                                    <div class="col-6 border border-light">20</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border border-light bg-secondary text-white">Вратари</div>
-                                    <div class="col-6 border border-light">2</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border border-light bg-secondary text-white">Ворота G</div>
-                                    <div class="col-6 border border-light"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border border-light bg-secondary text-white">Инвентарь</div>
-                                    <div class="col-6 border border-light"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border border-light bg-secondary text-white">Инвентарь</div>
-                                    <div class="col-6 border border-light"></div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade text-center" id="pills-group-B" role="tabpanel">
-                                <div class="row">
-                                    <div class="col-12 btn btn-primary border border-light">1. Скоростные качества</div>
-                                    <div class="col-12 btn btn-primary border border-light">2. Совершенствование атаки по центру с завершающим ударом по воротам</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border border-light bg-secondary text-white">Дата</div>
-                                    <div class="col-6 border border-light">03.12.2022</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border border-light bg-secondary text-white">Время</div>
-                                    <div class="col-6 border border-light">17:30</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border border-light bg-secondary text-white">Команда</div>
-                                    <div class="col-6 border border-light">TEST TEAM</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border border-light bg-secondary text-white">Возраст</div>
-                                    <div class="col-6 border border-light">U-13</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border border-light bg-secondary text-white">Тренер</div>
-                                    <div class="col-6 border border-light">Иванов Иван Иванович</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border border-light bg-secondary text-white">Тренер 2</div>
-                                    <div class="col-6 border border-light"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border border-light bg-secondary text-white">Тренер (G)</div>
-                                    <div class="col-6 border border-light"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border border-light bg-secondary text-white">Время t`</div>
-                                    <div class="col-6 border border-light">90`</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border border-light bg-secondary text-white">Пространство</div>
-                                    <div class="col-6 border border-light"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border border-light bg-secondary text-white">Игроки</div>
-                                    <div class="col-6 border border-light">15</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border border-light bg-secondary text-white">Вратари</div>
-                                    <div class="col-6 border border-light">1</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border border-light bg-secondary text-white">Ворота G</div>
-                                    <div class="col-6 border border-light"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border border-light bg-secondary text-white">Инвентарь</div>
-                                    <div class="col-6 border border-light"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border border-light bg-secondary text-white">Инвентарь</div>
-                                    <div class="col-6 border border-light"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="col px-0"><button class="btn btn-sm btn-info btn-block border-white rounded-0">A</button></div>
+                    <div class="col px-0"><button class="btn btn-sm btn-info btn-block border-white rounded-0">1</button></div>
+                    <div class="col px-0"><button class="btn btn-sm btn-info btn-block border-white rounded-0">2</button></div>
+                    <div class="col px-0"><button class="btn btn-sm btn-info btn-block border-white rounded-0">3</button></div>
+                    <div class="col px-0"><button class="btn btn-sm btn-info btn-block border-white rounded-0">4</button></div>
+                    <div class="col px-0"><button class="btn btn-sm btn-info btn-block border-white rounded-0">5</button></div>
+                    <div class="col px-0"><button class="btn btn-sm btn-info btn-block border-white rounded-0">6</button></div>
+                </div>
+                <div class="row">
+                    <div class="col px-0"><button class="btn btn-sm btn-info btn-block border-white rounded-0">B</button></div>
+                    <div class="col px-0"><button class="btn btn-sm btn-info btn-block border-white rounded-0">1</button></div>
+                    <div class="col px-0"><button class="btn btn-sm btn-info btn-block border-white rounded-0">2</button></div>
+                    <div class="col px-0"><button class="btn btn-sm btn-info btn-block border-white rounded-0">3</button></div>
+                    <div class="col px-0"></div>
+                    <div class="col px-0"></div>
+                    <div class="col px-0"></div>
                 </div>
             </div>
-            <div class="modal-footer">
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-6 border border-white bg-secondary text-white">Дата</div>
+                    <div class="col-6 border border-white bg-light">03.12.2022</div>
+                </div>
+                <div class="row">
+                    <div class="col-6 border border-white bg-secondary text-white">Время</div>
+                    <div class="col-6 border border-white bg-light">17:30</div>
+                </div>
+                <div class="row">
+                    <div class="col-6 border border-white bg-secondary text-white">Команда</div>
+                    <div class="col-6 border border-white bg-light">TEST TEAM</div>
+                </div>
+                <div class="row">
+                    <div class="col-6 border border-white bg-secondary text-white">Возраст</div>
+                    <div class="col-6 border border-white bg-light">U-13</div>
+                </div>
+                <div class="row">
+                    <div class="col-6 border border-white bg-secondary text-white">Тренер</div>
+                    <div class="col-6 border border-white bg-light">Иванов Иван Иванович</div>
+                </div>
+                <div class="row">
+                    <div class="col-6 border border-white bg-secondary text-white">Тренер 2</div>
+                    <div class="col-6 border border-white bg-light"></div>
+                </div>
+                <div class="row">
+                    <div class="col-6 border border-white bg-secondary text-white">Тренер (G)</div>
+                    <div class="col-6 border border-white bg-light"></div>
+                </div>
+                <div class="row">
+                    <div class="col-6 border border-white bg-secondary text-white">Время t`</div>
+                    <div class="col-6 border border-white bg-light">90`</div>
+                </div>
+                <div class="row">
+                    <div class="col-6 border border-white bg-secondary text-white">Пространство</div>
+                    <div class="col-6 border border-white bg-light"></div>
+                </div>
+                <div class="row">
+                    <div class="col-6 border border-white bg-secondary text-white">Игроки</div>
+                    <div class="col-6 border border-white bg-light">20</div>
+                </div>
+                <div class="row">
+                    <div class="col-6 border border-white bg-secondary text-white">Вратари</div>
+                    <div class="col-6 border border-white bg-light">2</div>
+                </div>
+                <div class="row">
+                    <div class="col-6 border border-white bg-secondary text-white">Ворота G</div>
+                    <div class="col-6 border border-white bg-light"></div>
+                </div>
+                <div class="row">
+                    <div class="col-6 border border-white bg-secondary text-white">Инвентарь</div>
+                    <div class="col-6 border border-white bg-light"></div>
+                </div>
+                <div class="row">
+                    <div class="col-6 border border-white bg-secondary text-white">Инвентарь</div>
+                    <div class="col-6 border border-white bg-light"></div>
+                </div>
             </div>
+        </div>
+    </div>
+    <div class="col-8" id="block-training-info">
+        <div class="row">
+            <div class="col-12 btn btn-sm btn-info border border-light">1. Совершенствование атаки по центру с завершающим ударом по воротам</div>
+        </div>
+        <div class="row">
+            <div class="col-12 btn btn-sm btn-info border border-light">2. Скоростные качества</div>
+        </div>
+        <div class="row training-info" style="overflow-y: auto; overflow-x: hidden">
         </div>
     </div>
 </div>

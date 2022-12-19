@@ -85,6 +85,7 @@
                     <div class="row">
                         <div id="event_calendar" class="rescalendar"></div>
                     </div>
+                    {% include 'trainings/training_card.html' %}
                     <div id="events-content" class="row mt-2 border-top">
                         <div class="col px-0">
                             <div id="events-table" class="table-responsive" style="overflow-y: auto;">
@@ -170,7 +171,6 @@
             </div>
         </div>
     </div>
-    {% include 'trainings/training_card.html' %}
     {% include 'events/forms/create_event.html' %}
     {% include 'events/forms/edit_event.html' %}
 

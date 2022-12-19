@@ -143,6 +143,8 @@ $(window).on('load', function (){
             let this_obj = $(this)
             if (this_obj.hasClass('selected')) {
                 $('.hasEvent').removeClass('selected')
+                hide_training_card()
+                $('#events-content').removeClass('d-none')
             } else {
                 $('.hasEvent').removeClass('selected')
                 $('.hasEvent[data-value="' + data_id + '"]').addClass('selected')
@@ -153,6 +155,10 @@ $(window).on('load', function (){
                         if (data.training.exercises_info.length > 0) {
                             if (this_obj.hasClass('data_cell')){
                                 show_training_card(data.training.event_id)
+                                $('#events-content').addClass('d-none')
+                            } else {
+                                hide_training_card()
+                                $('#events-content').removeClass('d-none')
                             }
                             let exercises = data.training.exercises_info
                             for (let exercise of exercises) {
@@ -191,6 +197,7 @@ $(window).on('load', function (){
                             }
                         }
                         $('#block-event-info .event-info').html(html_scheme)
+                        $('#training-content .training-info').html(html_scheme)
                     }
                 })
             }

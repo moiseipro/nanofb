@@ -7,10 +7,10 @@ function show_training_card(id = ''){
     let data_send = {}
     ajax_training_action('GET', data_send, 'view card', id).then(function (data) {
         console.log(data)
-        $('#view-training-card-modal').modal('show')
+        $('#training-content').removeClass('d-none')
     })
 }
 
-$('#view-training-card-modal').on('show.bs.modal', function (e) {
-
-})
+function hide_training_card() {
+    $('#training-content').addClass('d-none')
+}
