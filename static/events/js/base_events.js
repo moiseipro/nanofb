@@ -545,7 +545,7 @@ function generateNewCalendar(){
                             if(event.training.exercises_info.length == 0 ||event.training.protocol_info.length == 0) isFilled = false
                             if('protocol_info' in event.training){
                                 $.each(event.training.protocol_info, function( index, value ) {
-                                    count_player++;
+                                    if(value.status==null) count_player++;
                                 });
                             }
                             event_name = 'tr'+num_tr

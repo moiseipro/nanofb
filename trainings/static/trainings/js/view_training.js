@@ -328,8 +328,10 @@ $(window).on('load', function (){
         console.log($(this).is(':checked'))
         if($(this).is(':checked')){
             $('.select-all-group[data-group="'+group_name+'"]:not(:checked)').click()
+            $('.select-all-exercise[data-group="'+group_name+'"]').prop('checked', true)
         } else {
             $('.select-all-group[data-group="'+group_name+'"]:checked').click()
+            $('.select-all-exercise[data-group="'+group_name+'"]').prop('checked', false)
         }
     })
     $('#player-protocol-table').on('click', '.select-all-group', function () {
@@ -450,7 +452,7 @@ function render_protocol_training(training_id = null, highlight_not_filled = fal
 
         protocol_header2 += `
         <tr>
-            <th colspan="2"></th>
+            <th colspan="3"></th>
             <th class="p-0 text-center align-middle border"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></th>
             <th class="p-0 text-center align-middle border"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></th>
             <th class="p-0 text-center align-middle border">#</th>
@@ -463,7 +465,7 @@ function render_protocol_training(training_id = null, highlight_not_filled = fal
 
         protocol_header += `
         <tr>
-            <th class="p-0 text-center align-middle border">
+            <th colspan="2" class="p-0 text-center align-middle border">
                 <button title="" class="btn btn-block btn-outline-success btn-sm edit-input" data-toggle="modal" data-target="#add-player-protocol-modal" ${!edit_mode ? 'disabled' : ''}><i class="fa fa-plus" aria-hidden="true"></i></button>
             </th>
             <th class="p-0 text-center align-middle border">
@@ -476,22 +478,18 @@ function render_protocol_training(training_id = null, highlight_not_filled = fal
         for (let i = 0; i < exs_group.length; i++) {
             if(exs_group[i].ids.length == 0) continue
             let group = i == 0 ? 'A' : i == 1 ? 'B' : i == 2 ? 'C' : 'D'
-            protocol_header += `<th colspan="${exs_group[i].ids.length+1}" class="p-0 text-center align-middle border">${gettext('Group '+group+' (Exercises)')}</th>`
+            protocol_header += `<th colspan="${exs_group[i].ids.length+1}" class="p-0 text-center align-middle border">${gettext('Group')+' '+group+' '+gettext('(Exercises)')}</th>`
 
             for (let j = 0; j < exs_group[i].ids.length; j++) {
                 if(j == 0){
                     protocol_header2 += `
                     <th class="p-0 text-center align-middle border" width="40">
-                        <div class="custom-control custom-checkbox my-1 mr-sm-2">
-                            <input type="checkbox" class="custom-control-input all-player-check edit-input" data-group="group_${i+1}" style="width: 25px; height: 25px;" ${!edit_mode ? 'disabled' : ''}>
-                            <label class="custom-control-label" for="customControlInline"></label>
-                        </div>
-                        <input type="checkbox" class=""  style="width: 25px; height: 25px;" >
+                        <input type="checkbox" class="all-player-check edit-input" data-group="group_${i+1}" style="width: 25px; height: 25px;" ${!edit_mode ? 'disabled' : ''}>
                     </th>
                     `
                 }
                 protocol_header2 += `<th title="${(get_cur_lang() in exs_group[i].ids[j].exercise_name) ? exs_group[i].ids[j].exercise_name[get_cur_lang()] : Object.values(exs_group[i].ids[j].exercise_name)[0]}" class="p-0 text-center align-middle border">
-                    <input type="checkbox" class="select-all-exercise edit-input" data-exs="${exs_group[i].ids[j].id}" style="width: 25px; height: 25px;" ${!edit_mode ? 'disabled' : ''}
+                    <input type="checkbox" class="select-all-exercise edit-input" data-group="group_${i+1}" data-exs="${exs_group[i].ids[j].id}" style="width: 25px; height: 25px;" ${!edit_mode ? 'disabled' : ''}
                 </th>`
             }
 
@@ -536,6 +534,9 @@ function render_protocol_training(training_id = null, highlight_not_filled = fal
                     let player_row = ``
                     player_row += `
                     <tr class="player_row" data-training="${player.training_id}" data-id="${player.id}" style="${line_css != '' ? line_css : ''}">
+                        <td width="10" class="p-0 text-center align-middle">
+                            ${key+1}
+                        </td>
                         <td width="20" class="p-0 text-right align-middle">
                             <button type="button" title="${gettext('Delete player')}" class="btn btn-sm btn-danger delete-player-button py-0 w-100 edit-input" style="height: 30px;" ${!edit_mode ? 'disabled' : ''}>X</button>
                         </td>
@@ -565,7 +566,19 @@ function render_protocol_training(training_id = null, highlight_not_filled = fal
                     $('#player-protocol-table').append(player_row)
                     $('#player-protocol-table .player_row[data-id="'+player.id+'"] select[name="status"]').val(player.status).trigger( "update-select", [ "Custom", "Event" ] )
                     for (let i = 0; i < exs_group.length; i++) {
+                        console.log(exs_group)
                         let all_select_check = $('#player-protocol-table .all-player-check[data-group="group_'+(i+1)+'"]')
+                        for (let j = 0; j < exs_group[i].ids.length; j++){
+                            let exs_select_check = $('#player-protocol-table .select-all-exercise[data-exs="'+(exs_group[i].ids[j].id)+'"]')
+                            exs_select_check.prop('checked', true)
+                            $('#player-protocol-table .player_row').each(function () {
+                                if(!$(this).find('select[name="status"]').hasClass('red-select') && $(this).find('[name="group_'+(i+1)+'"][data-exs-id="'+(exs_group[i].ids[j].id)+'"]').is(':empty')){
+                                    exs_select_check.prop('checked', false)
+                                }
+                            })
+                        }
+
+                        let is_all_select = true;
                         $('#player-protocol-table .player_row').each(function () {
                             let select_check = $(this).find('.select-all-group[data-group="group_'+(i+1)+'"]')
                             select_check.prop('checked', true)
@@ -578,10 +591,11 @@ function render_protocol_training(training_id = null, highlight_not_filled = fal
                                 $(this).find('.player-name').addClass('text-danger')
                                 isEmptyPlayer = true
                             }
+                            if(!$(this).find('select[name="status"]').hasClass('red-select') && $(this).find('[name="group_'+(i+1)+'"]').is(':empty')){
+                                is_all_select = false
+                            }
                         })
-                        if($('#player-protocol-table [name="group_'+(i+1)+'"]').is(':empty')){
-                            all_select_check.prop('checked', false)
-                        }
+                        all_select_check.prop('checked', is_all_select)
                     }
 
                 })
