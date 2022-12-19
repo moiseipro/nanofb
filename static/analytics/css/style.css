@@ -55,6 +55,10 @@ th.dt-vertical-center, td.dt-vertical-center {
 .dataTable > tbody > tr > td.sorting_1 {
     background-color: #ffce904f !important;
 }
+.dataTable > tbody > tr.selected > * {
+    box-shadow: inset 0 0 0 9999px #ffce904f !important;
+    color: black !important;
+}
 
 
 .btn.toggle-tables.selected {

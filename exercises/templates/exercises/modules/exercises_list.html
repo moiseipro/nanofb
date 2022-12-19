@@ -275,6 +275,19 @@
             </li>
         </ul>
         <div class="d-flex justify-content-center btn-tab-second">
+            <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content mb-1" data-id="video_sources">Источники</button>
+        </div>
+        <ul class="list-group list-group-flush d-none" data-id="video_sources">
+            <li class="side-filter-elem list-group-item py-0 px-2" data-type="video_sources" data-id="-2">
+                ---
+            </li>
+            {% for source in video_params.sources %}
+                <li class="side-filter-elem list-group-item py-0 px-2" data-type="video_sources" data-id="{{ source.id }}">
+                    {{ source.name }}
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="d-flex justify-content-center btn-tab-second">
             <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content mb-1" data-id="tags">Тэги</button>
         </div>
         <ul class="list-group list-group-flush d-none" data-id="tags">
