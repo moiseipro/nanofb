@@ -33,7 +33,7 @@ function GeneratePlayersTable(scroll_y = '') {
             {'data': 'surname', 'name': 'surname'},
             {'data': 'name', 'name': 'name'},
             {'data': 'patronymic', 'name': 'patronymic'},
-            {'data': 'birthsday', 'name': 'card__birthsday'},
+            {'data': 'birthsday', 'name': 'card__birthsday', className: "dt-vertical-center border-black-left"},
             {'data': 'citizenship', 'name': 'card__citizenship'},
             {'data': 'team', 'name': 'team__name'},
             {'data': 'position', 'name': 'card__position'},
@@ -45,6 +45,8 @@ function GeneratePlayersTable(scroll_y = '') {
             {'data': 'club_from', 'name': 'card__club_from'},
             {'data': 'contract_with', 'name': 'card__contract_with'},
             {'data': 'contract_by', 'name': 'card__contract_by'},
+            {'data': 'video', 'name': 'card__video'},
+            {'data': 'notes', 'name': 'card__notes'}
         ],
     });
 }
@@ -239,6 +241,38 @@ function ToggleColumnOrder(dir) {
     }
 }
 
+function LoadPlayerData(id = null) {
+    let cPlayerData = null;
+    let data = {'get_player': 1, 'id': id};
+    $('.page-loader-wrapper').fadeIn();
+    $.ajax({
+        headers:{"X-CSRFToken": csrftoken},
+        data: data,
+        type: 'GET', // GET или POST
+        dataType: 'json',
+        url: "/players/players_api",
+        success: function (res) {
+            if (res.success) {
+                cPlayerData = res.data;
+            }
+        },
+        error: function (res) {},
+        complete: function (res) {
+            $('.page-loader-wrapper').fadeOut();
+            RenderPlayerData(cPlayerData);
+        }
+    });
+}
+
+function RenderPlayerData(data = null) {
+    if (data) {
+        $('.right-content-container').find('.img-photo').attr('src', data.photo ? data.photo : '#');
+    } else {
+        $('.right-content-container').find('.img-photo').attr('src', '/static/players/img/player-avatar.png');
+        $('.right-content-container').find('.img-field').attr('src', '/static/players/img/player_plane.svg');
+    }
+}
+
 
 
 $(function() {
@@ -375,6 +409,18 @@ $(function() {
             $('.columns-body').find('tr[data-root="1"]').find('input[name="visible"]').prop('checked', false);
             $(e.currentTarget).prop('checked', val);
         }
+    });
+
+    // Load player's data
+    players_table
+    .on( 'select', (e, dt, type, indexes) => {
+        let rowData = players_table.rows(indexes).data().toArray();
+        if (type=='row') {
+            LoadPlayerData(rowData[0].id);
+        }
+    })
+    .on( 'deselect', (e, dt, type, indexes) => {
+        LoadPlayerData();
     });
 
     // Toggle left menu

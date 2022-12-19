@@ -1101,7 +1101,12 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
         c_length = int(request.GET.get('length'))
     except:
         pass
-    columns = ['id', 'surname', 'name', 'patronymic', 'card__citizenship', 'team__name', 'card__club_from', 'card__growth', 'card__weight', 'card__game_num', 'card__birthsday', 'card__come', 'card__leave']
+    columns = [
+        'id', 'surname', 'name', 'patronymic', 'card__birthsday', 
+        'card__citizenship', 'team__name', 'card__position', 'card__foot', 'card__growth', 
+        'card__weight', 'card__game_num', 'card__come', 'card__club_from', 'card__contract_with',
+        'card__contract_by', 'card__video', 'card__notes'
+    ]
     column_order_id = 0
     column_order = 'id'
     column_order_dir = ''
@@ -1174,7 +1179,9 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
                 'come': player.card.come if player.card else "",
                 'leave': player.card.leave if player.card else "",
                 'contract_with': player.card.contract_with if player.card else "",
-                'contract_by': player.card.contract_by if player.card else ""
+                'contract_by': player.card.contract_by if player.card else "",
+                'video': "",
+                'notes': "записи (0)"
             }
             players_data.append(player_data)
     if return_JsonResponse:

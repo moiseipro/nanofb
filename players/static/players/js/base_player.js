@@ -1,29 +1,29 @@
 let cPlayerData = {};
 function LoadPlayerOne(id = null) {
     let data = {'get_player': 1, 'id': id};
-        $('.page-loader-wrapper').fadeIn();
-        $.ajax({
-            headers:{"X-CSRFToken": csrftoken},
-            data: data,
-            type: 'GET', // GET или POST
-            dataType: 'json',
-            url: "/players/players_api",
-            success: function (res) {
-                if (res.success) {
-                    cPlayerData = res.data;
-                } else {
-                    cPlayerData = {};
-                }
-            },
-            error: function (res) {
+    $('.page-loader-wrapper').fadeIn();
+    $.ajax({
+        headers:{"X-CSRFToken": csrftoken},
+        data: data,
+        type: 'GET', // GET или POST
+        dataType: 'json',
+        url: "/players/players_api",
+        success: function (res) {
+            if (res.success) {
+                cPlayerData = res.data;
+            } else {
                 cPlayerData = {};
-                console.error(res);
-            },
-            complete: function (res) {
-                $('.page-loader-wrapper').fadeOut();
-                RenderPlayerOne(cPlayerData);
             }
-        });
+        },
+        error: function (res) {
+            cPlayerData = {};
+            console.error(res);
+        },
+        complete: function (res) {
+            $('.page-loader-wrapper').fadeOut();
+            RenderPlayerOne(cPlayerData);
+        }
+    });
 }
 
 function RenderPlayerOne(data = {}) {
@@ -647,6 +647,10 @@ $(function() {
         let cId = $(e.currentTarget).attr('data-id');
         $('table#players').find('.player-row').removeClass('selected');
         $(e.currentTarget).addClass('selected');
+        $('.b-add-on').addClass('d-none');
+        $('.b-edit-on').addClass('d-none');
+        $('.b-edit-off').removeClass('d-none');
+        window.editingMode = false;
         LoadPlayerOne(cId);
     });
 
