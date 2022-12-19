@@ -508,6 +508,7 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
     filter_new_exs = -1
     filter_search = ""
     filter_tags = []
+    filter_video_source = -1
     try:
         if req.method == "GET":
             filter_goal = int(req.GET.get("filter[goal]", -1))
@@ -555,6 +556,13 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
             filter_tags = req.GET.getlist("filter[tags][]")
         elif req.method == "POST":
             filter_tags = req.POST.getlist("filter[tags][]")
+    except:
+        pass
+    try:
+        if req.method == "GET":
+            filter_video_source = int(req.GET.get("filter[video_sources]", -1))
+        elif req.method == "POST":
+            filter_video_source = int(req.POST.get("filter[video_sources]", -1))
     except:
         pass
     f_exercises = []
@@ -637,6 +645,15 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
     if filter_search != "":
         searh_regex = r'(.*)[\"]' + re.escape(req.LANGUAGE_CODE) + r'[\"][:](.*)[\"](.*)(' + re.escape(filter_search.lower()) + r')(.*)[\"]'
         f_exercises = f_exercises.filter(title__iregex=searh_regex)
+    if filter_video_source != -1:
+        if filter_video_source == -2:
+            f_exercises = f_exercises.filter(
+                Q(exercisevideo__video__isnull=False) & Q(exercisevideo__video__videosource_id__isnull=True)
+            )
+        else:
+            f_exercises = f_exercises.filter(
+                Q(exercisevideo__video__isnull=False) & Q(exercisevideo__video__videosource_id=filter_video_source)
+            )
 
     if not to_count:
         f_exercises_list = [entry for entry in f_exercises.values()]

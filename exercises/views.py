@@ -50,6 +50,8 @@ def exercises(request):
     refs = {}
     found_folders, found_club_folders, found_nfb_folders, refs = v_api.get_exercises_params(request, cur_user, cur_team)
     exs_tags = v_api.get_exercises_tags(request, cur_user[0], cur_team)
+    video_params = {}
+    video_params['sources'] = VideoSource.objects.all().annotate(videos=Count('video')).order_by('-videos')
     return render(request, 'exercises/base_exercises.html', {
         'folders': found_folders,
         'club_folders': found_club_folders,
@@ -59,6 +61,7 @@ def exercises(request):
         'is_exercises': True,
         'menu_exercises': 'active',
         'exercises_tags': exs_tags,
+        'video_params': video_params,
         'seasons_list': request.seasons_list,
         'teams_list': request.teams_list,
         'ui_elements': get_ui_elements(request)
