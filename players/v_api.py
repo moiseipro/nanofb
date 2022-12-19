@@ -1174,7 +1174,9 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
                 'come': player.card.come if player.card else "",
                 'leave': player.card.leave if player.card else "",
                 'contract_with': player.card.contract_with if player.card else "",
-                'contract_by': player.card.contract_by if player.card else ""
+                'contract_by': player.card.contract_by if player.card else "",
+                'video': "",
+                'notes': "записи (0)"
             }
             players_data.append(player_data)
     if return_JsonResponse:

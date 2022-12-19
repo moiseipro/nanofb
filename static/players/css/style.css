@@ -154,5 +154,7 @@ th.dt-vertical-center, td.dt-vertical-center {
     box-shadow: inset 0 0 0 9999px #ffce904f !important;
     color: black !important;
 }
-
+.dataTable > tbody td.border-black-left, .dataTable > thead th.border-black-left {
+    border-left: 2px solid black !important;
+}
 
