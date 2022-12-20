@@ -142,9 +142,19 @@ $(window).on('load', function (){
         if($(event.target).is('td')) {
             let this_obj = $(this)
             if (this_obj.hasClass('selected')) {
-                $('.hasEvent').removeClass('selected')
-                hide_training_card()
-                $('#events-content').removeClass('d-none')
+                if (this_obj.hasClass('data_cell')){
+                    if($('#events-content').hasClass('d-none')){
+                        hide_training_card()
+                        $('#events-content').removeClass('d-none')
+                    } else {
+                        show_training_card(data_id)
+                        $('#events-content').addClass('d-none')
+                    }
+
+                } else {
+                    $('.hasEvent').removeClass('selected')
+                }
+
             } else {
                 $('.hasEvent').removeClass('selected')
                 $('.hasEvent[data-value="' + data_id + '"]').addClass('selected')
@@ -152,18 +162,18 @@ $(window).on('load', function (){
                     let html_scheme = ``
                     if ('training' in data && data.training != null) {
                         console.log(data.training)
+                        if (this_obj.hasClass('data_cell')){
+                            show_training_card(data.training.event_id)
+                            $('#events-content').addClass('d-none')
+                        } else {
+                            hide_training_card()
+                            $('#events-content').removeClass('d-none')
+                        }
                         if (data.training.exercises_info.length > 0) {
-                            if (this_obj.hasClass('data_cell')){
-                                show_training_card(data.training.event_id)
-                                $('#events-content').addClass('d-none')
-                            } else {
-                                hide_training_card()
-                                $('#events-content').removeClass('d-none')
-                            }
                             let exercises = data.training.exercises_info
                             for (let exercise of exercises) {
                                 html_scheme += `
-                            <div class="col-4 pb-2 px-1 exercise-visual-block" data-id="${exercise.id}" data-exs-id="${exercise.exercise_id}">
+                            <div class="col-4 pb-2 px-1 exercise-visual-block" data-id="${exercise.id}" data-exs-id="${exercise.exercise_id}" data-group="${exercise.group}">
                                 <div id="carouselSchema-${exercise.id}" class="carousel slide carouselSchema" data-ride="carousel" data-interval="false">
                                     <ol class="carousel-indicators">
                                         <li data-target="#carouselSchema-${exercise.id}" data-slide-to="0" class="active"></li>
@@ -197,7 +207,6 @@ $(window).on('load', function (){
                             }
                         }
                         $('#block-event-info .event-info').html(html_scheme)
-                        $('#training-content .training-info').html(html_scheme)
                     }
                 })
             }
@@ -306,6 +315,15 @@ $(window).on('load', function (){
     })
 
     $('.row.event-info').on('click', '.carousel-item', (e) => {
+        let id = -1;
+        try {
+            id = parseInt($(e.currentTarget).parent().parent().parent().attr('data-exs-id'));
+        } catch (e) {}
+        let activeNum = 1;
+        LoadGraphicsModal(id, "team_folders", activeNum);
+    });
+
+    $('.row.training-info').on('click', '.carousel-item', (e) => {
         let id = -1;
         try {
             id = parseInt($(e.currentTarget).parent().parent().parent().attr('data-exs-id'));
@@ -538,7 +556,7 @@ function generateNewCalendar(){
                                 if(count_day < 3) count_day = '+'+count_day
                                 else{
                                     count_day = only_date.diff(date_by, "days")
-                                    if(count_day==0) count_day = 'o'
+                                    if(count_day==0) count_day = '---'
                                 }
                             }
                         });
@@ -560,10 +578,9 @@ function generateNewCalendar(){
                             count_tr++
                             console.log(event.training)
                             tr_html += `
-                                <td>---</td>
+                                <td>${count_day==0 ? '---' : count_day}</td>
                                 <td class="${!isFilled ? 'text-danger' : ''}">${event['only_date']}</td>
                                 <td><a href="/trainings/view/${event.training.event_id}" class="btn btn-sm btn-block btn-info py-0" data-id="${event.training.event_id}">${gettext('Training')+' '+(num_tr == 2 ? '2' : '')}</a></td>
-                                <td>${count_day==0 ? '---' : count_day}</td>
                                 <td><i class="switch-favorites fa ${event.training.favourites ? 'fa-star':'fa-star-o'} aria-hidden="true"></i></td>
                                 <td>${count_player}</td>
                                 <td>0</td>
@@ -575,10 +592,9 @@ function generateNewCalendar(){
                             count_tr = 0
 
                             tr_html += `
-                                <td class="text-danger"><b>${count_m+1}</b></td>
-                                <td>${event['only_date']}</td>
-                                <td><a href="/matches/match?id=${event.match.event_id}" class="btn btn-sm btn-block ${event.match.m_type == 0 ?"btn-warning":"btn-success"} py-0" data-id="${event.match.event_id}">${gettext('Match')}</a></td>
                                 <td>${count_day==0 ? '---' : count_day}</td>
+                                <td>${event['only_date']}</td>
+                                <td><a href="/matches/match?id=${event.match.event_id}" data-count="${count_m+1}" class="btn btn-sm btn-block ${event.match.m_type == 0 ?"btn-warning":"btn-success"} py-0" data-id="${event.match.event_id}">${gettext('Match')}</a></td>
                                 <td>---</td>
                                 <td>---</td>
                                 <td>---</td>
@@ -586,10 +602,9 @@ function generateNewCalendar(){
                         } else {
                             event_class = 'none'
                             tr_html += `
-                                    <td>---</td>
+                                    <td>${count_day==0 ? '---' : count_day}</td>
                                     <td>${event['only_date']}</td>
                                     <td>${count_tr == 0 && count_m==max_m ? '---' : '---'}</td>
-                                    <td>${count_day==0 ? '---' : count_day}</td>
                                     <td>---</td>
                                     <td>---</td>
                                     <td>---</td>
