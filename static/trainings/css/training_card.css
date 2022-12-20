@@ -9,3 +9,12 @@
     font-weight: bold;
     background-color: #f7f28e;
 }
+
+.group-filter-card.active{
+    font-weight: bold;
+    color: black !important;
+}
+.exs-filter-card.active{
+    font-weight: bold;
+    color: black !important;
+}
