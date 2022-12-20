@@ -77,6 +77,8 @@ class ClubFolder(AbstractFolder):
 
 class ExerciseTag(CustomTag):
     is_nfb = models.BooleanField(default=False)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
+    visible = models.BooleanField(default=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     club = models.ForeignKey(Club, on_delete=models.SET_NULL, null=True, blank=True)
 
@@ -156,6 +158,7 @@ class AbstractExercise(models.Model):
     ref_train_part = models.ForeignKey(ExsTrainPart, on_delete=models.SET_NULL, null=True, blank=True)
     ref_cognitive_load = models.ForeignKey(ExsCognitiveLoad, on_delete=models.SET_NULL, null=True, blank=True)
     description = models.JSONField(null=True, blank=True)
+    field_players = models.JSONField(null=True, blank=True)
     scheme_data = models.JSONField(null=True, blank=True)
     video_data = models.JSONField(null=True, blank=True)
     animation_data = models.JSONField(null=True, blank=True) # {'data': {'custom': "<t>...</t>", default: ["id_1", "id_2"...]}}

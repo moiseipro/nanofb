@@ -163,6 +163,7 @@ function RenderExerciseOne(data) {
         $(exsCard).find('.exs_edit_field[name="ref_age_category"]').val(data.ref_age_category);
         $(exsCard).find('.exs_edit_field[name="ref_train_part"]').val(data.ref_train_part);
         $(exsCard).find('.exs_edit_field[name="ref_cognitive_load"]').val(data.ref_cognitive_load);
+        $(exsCard).find('.exs_edit_field[name="field_players"]').val(data.field_players);
 
         $(exsCard).find('.exs_edit_field[name="tags"]').val(data.tags).trigger('change');
         window.changedData = false;
@@ -176,7 +177,7 @@ function RenderExerciseOne(data) {
 
         $(exsCard).find('tr.additional-params-container').remove();
         let htmlParamsStr = "";
-        let vhValue = 80;
+        let vhValue = 65;
         if (data.additional_params.length > 0) {
             vhValue /= data.additional_params.length;
             vhValue = vhValue.toFixed(2);
@@ -195,7 +196,7 @@ function RenderExerciseOne(data) {
                 </tr>
             `;
         }
-        $(exsCard).find('tr.folder-container-after').after(htmlParamsStr);
+        $(exsCard).find('tr.add-params-container-after').after(htmlParamsStr);
 
         CorrectBlockBorders();
 
@@ -1366,6 +1367,10 @@ $(function() {
         ToggleExsAdditionalParamsOrder("down");
     }));
 
+
+    $('#exsTagsRef').on('click', (e) => {
+        $('#exerciseTagsModal').modal();
+    });
 
 
 });

@@ -977,6 +977,10 @@ $(function() {
 
     $('.card-sections').on('click', '.section-toggle', (e) => {
         let cId = $(e.currentTarget).attr('data-text-id');
+        let selected = $(e.currentTarget).hasClass('selected');
+        if (selected && cId != "card") {
+            cId = "card";
+        }
         $('.cnt-center-block').find('.center-content').fadeOut(250);
         $('.card-sections').find('.section-toggle').removeClass('selected');
         $('.cnt-center-block').find(`.center-content[data-id="${cId}"]`).fadeIn(250);
