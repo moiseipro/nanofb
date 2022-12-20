@@ -119,7 +119,6 @@ function RenderFolderExercises(id, tExs) {
                         <span class="num">${i+1}.</span>
                         <span class="title">${exElem.title == "" ? "-- None --" : exElem.title}</span>
                     </span>
-
                     ${exElem.has_video_1 == true ? `
                         <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.video_1_watched == true ? 'selected' : ''}" data-type="marker" data-id="video_1_watched" style="--w-x:24px; --h-x:24px;" title="Видео 1">
                             <input type="checkbox" value="" ${exElem.video_1_watched == true ? 'checked' : ''}>
@@ -143,19 +142,23 @@ function RenderFolderExercises(id, tExs) {
                     <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.favorite == true ? 'selected' : ''}" data-type="marker" data-id="favorite" style="--w-x:24px; --h-x:24px;" title="Избранное">
                         <span class="icon-custom ${exElem.favorite == true ? 'icon--favorite-selected' : 'icon--favorite'}" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                     </button>
-
-                 
-                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="players" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="">
-                        #
-                    </button>
-                    ${exElem.goal_code ? `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="goal" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="">
-                            ${exElem.goal_code}
+                    ${exElem.field_players && exElem.field_players != "" ? `
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="players" style="--w-x:24px; min-width: 40px; --h-x:24px;" disabled="">
+                            ${exElem.field_players}
                         </button>
                     ` : `
-                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="goal" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="">
-                        -
-                    </button>
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="players" style="--w-x:24px; min-width: 40px; --h-x:24px;" disabled="">
+                            -
+                        </button>
+                    `}
+                    ${exElem.field_goal && exElem.field_goal != "" ? `
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="goal" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="">
+                            ${exElem.field_goal}
+                        </button>
+                    ` : `
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="goal" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="">
+                            -
+                        </button>
                     `}
                     ${exElem.has_notes == true ? `
                         <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="" title="Есть примечания!">

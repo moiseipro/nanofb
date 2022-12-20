@@ -43,6 +43,8 @@ function ToggleEditFields(flag) {
     $('#exerciseCard').find('.add-row').toggleClass('d-none', !flag);
     $('#exerciseCard').find('.remove-row').toggleClass('d-none', !flag);
     $('#exerciseCard').find('.remove-row').parent().toggleClass('d-none', !flag);
+
+    $('#exerciseCard').find('tr.additional-params-container.empty').toggleClass('d-none', !flag);
     try {
         if (flag) {
             document.descriptionEditor2.disableReadOnlyMode('');
@@ -181,7 +183,7 @@ function RenderExerciseOne(data) {
         for (let i in data.additional_params) {
             let tmpParam = data.additional_params[i];
             htmlParamsStr += `
-                <tr class="bck-custom border-y-custom additional-params-container">
+                <tr class="bck-custom border-y-custom additional-params-container ${!tmpParam.value || tmpParam.value == "" ? 'empty d-none' : ''}">
                     <td class="text-center align-middle">
                         ${tmpParam.title}
                     </td>
