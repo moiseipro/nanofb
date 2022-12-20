@@ -99,11 +99,21 @@
                                                 </select>
                                             </td>
                                         </tr>
-                                        <tr class="bck-custom border-y-custom">
+                                        <!-- <tr class="bck-custom border-y-custom">
                                             <td colspan="2">
                                                 <select name="ref_goal" class="form-control form-control-sm exs_edit_field" autocomplete="off">
                                                     <option value="">Ворота</option>
                                                     {% for elem in refs.exs_goal %}
+                                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </td>
+                                        </tr> -->
+                                        <tr class="bck-custom border-y-custom">
+                                            <td colspan="2">
+                                                <select name="ref_team_category" class="form-control form-control-sm exs_edit_field" autocomplete="off">
+                                                    <option value="">Категория команды</option>
+                                                    {% for elem in refs.exs_team_category %}
                                                         <option value="{{ elem.id }}">{{ elem.title }}</option>
                                                     {% endfor %}
                                                 </select>
@@ -120,20 +130,21 @@
                                             </td>
                                         </tr>
                                         <tr class="bck-custom border-y-custom">
-                                            <td colspan="2">
-                                                <input name="field_players" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="Полевые игроки" autocomplete="off">
+                                            <td class="text-center align-middle">Ворота</td>
+                                            <td class="text-center">
+                                                <input name="field_goal" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="Ворота" autocomplete="off">
                                             </td>
                                         </tr>
-                                        <tr class="bck-custom border-y-custom add-params-container-after">
-                                            <td colspan="2">
-                                                <select name="ref_team_category" class="form-control form-control-sm exs_edit_field" autocomplete="off">
-                                                    <option value="">Категория команды</option>
-                                                    {% for elem in refs.exs_team_category %}
-                                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
-                                                    {% endfor %}
-                                                </select>
+                                        <tr class="bck-custom border-y-custom">
+                                            <td class="text-center align-middle">Полевые игроки</td>
+                                            <td class="text-center">
+                                                <input name="field_players" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="Полевые игроки" autocomplete="off">
                                             </td>
                                         </tr>
+                                        <tr class="bck-custom-color text-center font-weight-bold text-uppercase add-params-container-after" style="--bck-color:#eecd38; --bck-color-h:#eecd38;">
+                                            <td class="align-middle folder-text" colspan="2">Справочник</td>
+                                        </tr>
+                                        
 
                                         <tr class="bck-custom border-y-custom d-none">
                                             <td colspan="2">
@@ -266,8 +277,21 @@
                                         <tr class="wider_row bck-custom" data-id="additional_characteristics_data">
                                             <td>
                                                 <select name="tags" class="select w-100 custom-select custom-select-sm tag-select exs_edit_field" multiple data-tags="true" data-theme="bootstrap4" disabled>
-                                                    {% for tag in exercises_tags %}
-                                                        <option value="{{ tag.name }}">{{ tag.name }}</option>
+                                                    {% for tag in exercises_tags.nfb %}
+                                                        <option value="{{ tag.name }}">
+                                                            {% if tag.parent %}
+                                                                {{ tag.parent.name }}.
+                                                            {% endif %}
+                                                            {{ tag.name }}
+                                                        </option>
+                                                    {% endfor %}
+                                                    {% for tag in exercises_tags.self %}
+                                                        <option value="{{ tag.name }}">
+                                                            {% if tag.parent %}
+                                                                {{ tag.parent.name }}.
+                                                            {% endif %}
+                                                            {{ tag.name }}
+                                                        </option>
                                                     {% endfor %}
                                                 </select>
                                             </td>

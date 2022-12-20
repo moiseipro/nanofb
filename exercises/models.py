@@ -159,6 +159,7 @@ class AbstractExercise(models.Model):
     ref_cognitive_load = models.ForeignKey(ExsCognitiveLoad, on_delete=models.SET_NULL, null=True, blank=True)
     description = models.JSONField(null=True, blank=True)
     field_players = models.JSONField(null=True, blank=True)
+    field_goal = models.JSONField(null=True, blank=True)
     scheme_data = models.JSONField(null=True, blank=True)
     video_data = models.JSONField(null=True, blank=True)
     animation_data = models.JSONField(null=True, blank=True) # {'data': {'custom': "<t>...</t>", default: ["id_1", "id_2"...]}}
