@@ -59,6 +59,7 @@ function RenderPlayerOne(data = {}) {
         let fRow = $('.cnt-center-block').find(`.questionnaire-elem[data-id="${questionnaire.row_id}"]`);
         $(fRow).find('[name="questionnaires_notes"]').val(questionnaire.notes);
     }
+    $('#playerNotesTable').find('tbody').html('');
     for (let ind in data.card_records) {
         let record = data.card_records[ind];
         let dateStr = record.date.substr(0, 10);
