@@ -139,6 +139,90 @@
         </div>
     </div>
 
+    <div class="modal fade" id="exerciseTagsModal" tabindex="-1" role="dialog" aria-labelledby="exerciseTagsModalLbl" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document" style="max-width: 60vw;">
+            <div class="modal-content">
+                <div class="modal-header py-1">
+                    <h5 class="modal-title">Ключевые слова</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body py-0">
+                    <div class="btns-control">
+                        <span class="badge badge-success col-add" title="Добавить элемент">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                        </span>
+                        <span class="badge badge-secondary col-edit" title="Изменить элемент">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </span>
+                        <span class="badge badge-danger col-delete" title="Удалить элемент">
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        </span>
+                        <span class="badge badge-info col-up" title="Move up">
+                            <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                        </span>
+                        <span class="badge badge-info col-down" title="Move down">
+                            <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="table-columns">
+                        <div class="">
+                            <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#collapseTagsSelfTable" aria-expanded="true" aria-controls="collapseTagsSelfTable">
+                                Свои
+                            </button>
+                            <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#collapseTagsNfbTable" aria-expanded="false" aria-controls="collapseTagsNfbTable">
+                                NFB
+                            </button>
+                        </div>
+                        <div class="collapse" id="collapseTagsNfbTable">
+                            <p>NFB:</p>
+                            <table class="table table-sm table-bordered" style="table-layout: fixed;">
+                                <colgroup>
+                                    <col span="1" style="width: 5%;">
+                                    <col span="1" style="width: 80%;">
+                                    <col span="1" style="width: 15%;">
+                                </colgroup>
+                                <thead>
+                                    <th class="text-center"></th>
+                                    <th class="text-center">
+                                        Название
+                                    </th>
+                                    <th class="text-center">
+                                        Видимость
+                                    </th>
+                                </thead>
+                                <tbody class="columns-body">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="collapse show" id="collapseTagsSelfTable">
+                            <p>Свои:</p>
+                            <table class="table table-sm table-bordered" style="table-layout: fixed;">
+                                <colgroup>
+                                    <col span="1" style="width: 5%;">
+                                    <col span="1" style="width: 80%;">
+                                    <col span="1" style="width: 15%;">
+                                </colgroup>
+                                <thead>
+                                    <th class="text-center"></th>
+                                    <th class="text-center">
+                                        Название
+                                    </th>
+                                    <th class="text-center">
+                                        Видимость
+                                    </th>
+                                </thead>
+                                <tbody class="columns-body">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </main>
 {% endblock %}
 

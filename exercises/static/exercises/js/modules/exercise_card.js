@@ -163,6 +163,8 @@ function RenderExerciseOne(data) {
         $(exsCard).find('.exs_edit_field[name="ref_age_category"]').val(data.ref_age_category);
         $(exsCard).find('.exs_edit_field[name="ref_train_part"]').val(data.ref_train_part);
         $(exsCard).find('.exs_edit_field[name="ref_cognitive_load"]').val(data.ref_cognitive_load);
+        $(exsCard).find('.exs_edit_field[name="field_players"]').val(data.field_players);
+        $(exsCard).find('.exs_edit_field[name="field_goal"]').val(data.field_goal);
 
         $(exsCard).find('.exs_edit_field[name="tags"]').val(data.tags).trigger('change');
         window.changedData = false;
@@ -176,15 +178,10 @@ function RenderExerciseOne(data) {
 
         $(exsCard).find('tr.additional-params-container').remove();
         let htmlParamsStr = "";
-        let vhValue = 80;
-        if (data.additional_params.length > 0) {
-            vhValue /= data.additional_params.length;
-            vhValue = vhValue.toFixed(2);
-        }
         for (let i in data.additional_params) {
             let tmpParam = data.additional_params[i];
             htmlParamsStr += `
-                <tr class="bck-custom border-y-custom additional-params-container" style="height: ${vhValue}vh;">
+                <tr class="bck-custom border-y-custom additional-params-container">
                     <td class="text-center align-middle">
                         ${tmpParam.title}
                     </td>
@@ -195,7 +192,7 @@ function RenderExerciseOne(data) {
                 </tr>
             `;
         }
-        $(exsCard).find('tr.folder-container-after').after(htmlParamsStr);
+        $(exsCard).find('tr.add-params-container-after').after(htmlParamsStr);
 
         CorrectBlockBorders();
 
@@ -609,7 +606,7 @@ function ToggleFoldersType(data = null) {
         $(exsCard).find(`.${folderType}[name="folder_main"]`).val(data.folder_id);
         folderName = $(exsCard).find(`.${folderType}[name="folder_main"]`).find(`option[value="${data.folder_id}"]`).text();
     }
-    $(exsCard).find('td.folder-text').text(folderName);
+    $(exsCard).find('tr[data-id="folder_name"] > td.folder-text').text(folderName);
 }
 
 function CheckSelectedRowInVideoTable(onlySetVideo = false) {
@@ -1330,6 +1327,9 @@ $(function() {
 
     } catch(e) {}
 
+    $('#exerciseCard').on('click', 'tr.add-params-container-after', (e) => {
+        $('#exerciseCard').find('tr.additional-params-container').toggleClass('d-none');
+    });
 
     $('#exsAdditionalParamsRef').on('click', (e) => {
         $('#exerciseAdditionalParamsModal').modal();
@@ -1366,6 +1366,10 @@ $(function() {
         ToggleExsAdditionalParamsOrder("down");
     }));
 
+
+    $('#exsTagsRef').on('click', (e) => {
+        $('#exerciseTagsModal').modal();
+    });
 
 
 });
