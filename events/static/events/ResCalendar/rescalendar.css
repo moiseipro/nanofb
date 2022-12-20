@@ -88,9 +88,9 @@
 	color: black;
 }
 
-.rescalendar_day_cells td.middleDay{
-	border: 2px solid blue;
-}
+/*.rescalendar_day_cells td.middleDay{*/
+/*	border: 2px solid blue;*/
+/*}*/
 
 .rescalendar_day_cells td:hover{
 	background: rgb(210, 210, 210);
