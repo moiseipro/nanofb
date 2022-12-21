@@ -49,7 +49,7 @@ def exercises(request):
     found_nfb_folders = []
     refs = {}
     found_folders, found_club_folders, found_nfb_folders, refs = v_api.get_exercises_params(request, cur_user, cur_team)
-    exs_tags = v_api.get_exercises_tags(request, cur_user[0], cur_team, True)
+    exs_tags = v_api.get_exercises_tags(request, cur_user[0], cur_team)
     video_params = {}
     video_params['sources'] = VideoSource.objects.all().annotate(videos=Count('video')).order_by('-videos')
     return render(request, 'exercises/base_exercises.html', {
@@ -125,7 +125,7 @@ def exercise(request):
     if not found_exercise and not is_new_exs:
         return redirect('/exercises')
     found_folders, found_club_folders, found_nfb_folders, refs = v_api.get_exercises_params(request, cur_user, cur_team)
-    exs_tags = v_api.get_exercises_tags(request, cur_user[0], cur_team, True)
+    exs_tags = v_api.get_exercises_tags(request, cur_user[0], cur_team)
     exs_additional_params = v_api.get_exercises_additional_params(request, cur_user[0])
     video_params = {}
     video_params['sources'] = VideoSource.objects.all().annotate(videos=Count('video')).order_by('-videos')

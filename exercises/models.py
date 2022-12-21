@@ -3,7 +3,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from users.models import User
 from clubs.models import Club
 from references.models import UserTeam, ClubTeam, CustomTag
-from references.models import ExsGoal, ExsBall, ExsTeamCategory, ExsAgeCategory, ExsTrainPart, ExsCognitiveLoad
+from references.models import ExsGoal, ExsBall, ExsTeamCategory, ExsAgeCategory, ExsTrainPart, ExsCognitiveLoad, ExsStressType
 from video.models import Video
 
 
@@ -77,8 +77,6 @@ class ClubFolder(AbstractFolder):
 
 class ExerciseTag(CustomTag):
     is_nfb = models.BooleanField(default=False)
-    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
-    visible = models.BooleanField(default=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     club = models.ForeignKey(Club, on_delete=models.SET_NULL, null=True, blank=True)
 
@@ -157,9 +155,12 @@ class AbstractExercise(models.Model):
     ref_age_category = models.ForeignKey(ExsAgeCategory, on_delete=models.SET_NULL, null=True, blank=True)
     ref_train_part = models.ForeignKey(ExsTrainPart, on_delete=models.SET_NULL, null=True, blank=True)
     ref_cognitive_load = models.ForeignKey(ExsCognitiveLoad, on_delete=models.SET_NULL, null=True, blank=True)
+    ref_stress_type = models.ForeignKey(ExsStressType, on_delete=models.SET_NULL, null=True, blank=True)
     description = models.JSONField(null=True, blank=True)
     field_players = models.JSONField(null=True, blank=True)
     field_goal = models.JSONField(null=True, blank=True)
+    field_age = models.JSONField(null=True, blank=True)
+    field_task = models.JSONField(null=True, blank=True)
     scheme_data = models.JSONField(null=True, blank=True)
     video_data = models.JSONField(null=True, blank=True)
     animation_data = models.JSONField(null=True, blank=True) # {'data': {'custom': "<t>...</t>", default: ["id_1", "id_2"...]}}

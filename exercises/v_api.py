@@ -135,6 +135,8 @@ def set_value_as_ref(request, name, def_value = None):
         res = ExsTrainPart.objects.filter(id=ref_id)
     elif name == "data[ref_cognitive_load]":
         res = ExsCognitiveLoad.objects.filter(id=ref_id)
+    elif name == "data[ref_stress_type]":
+        res = ExsStressType.objects.filter(id=ref_id)
     if res and res.exists() and res[0].id != None:
         res = res[0]
     else:
@@ -748,7 +750,7 @@ def check_video(id):
     return None
 
 
-def get_exercises_tags(request, user, team, visible_only=False):
+def get_exercises_tags(request, user, team):
     """
     Return data of Exercises' tags.
 
@@ -762,19 +764,11 @@ def get_exercises_tags(request, user, team, visible_only=False):
     :rtype: list[object]
 
     """
-    tags = {'nfb': [], 'self': []}
-    nfb_query_searh = Q(is_nfb=True)
-    self_club_query_searh = Q(is_nfb=False, club=request.user.club_id)
-    self_user_query_searh = Q(is_nfb=False, user=user)
-    if visible_only:
-        nfb_query_searh = Q(is_nfb=True) & Q(visible=True)
-        self_club_query_searh = Q(is_nfb=False, club=request.user.club_id) & Q(visible=True)
-        self_user_query_searh = Q(is_nfb=False, user=user) & Q(visible=True)
-    tags['nfb'] = ExerciseTag.objects.filter(nfb_query_searh)
+    tags = []
     if request.user.club_id is not None:
-        tags['self'] = ExerciseTag.objects.filter(self_club_query_searh)
+        tags = ExerciseTag.objects.filter(Q(is_nfb=True) | Q(is_nfb=False, club=request.user.club_id))
     else:
-        tags['self'] = ExerciseTag.objects.filter(self_user_query_searh)
+        tags = ExerciseTag.objects.filter(Q(is_nfb=True) | Q(is_nfb=False, user=user))
     return tags
 
 
@@ -1115,8 +1109,11 @@ def POST_edit_exs(request, cur_user, cur_team):
     c_exs.ref_age_category = set_value_as_ref(request, "data[ref_age_category]", None)
     c_exs.ref_train_part = set_value_as_ref(request, "data[ref_train_part]", None)
     c_exs.ref_cognitive_load = set_value_as_ref(request, "data[ref_cognitive_load]", None)
+    c_exs.ref_stress_type = set_value_as_ref(request, "data[ref_stress_type]", None)
     c_exs.field_players = set_by_language_code(c_exs.field_players, request.LANGUAGE_CODE, request.POST.get("data[field_players]", ""))
     c_exs.field_goal = set_by_language_code(c_exs.field_goal, request.LANGUAGE_CODE, request.POST.get("data[field_goal]", ""))
+    c_exs.field_age = set_by_language_code(c_exs.field_age, request.LANGUAGE_CODE, request.POST.get("data[field_age]", ""))
+    c_exs.field_task = set_by_language_code(c_exs.field_task, request.LANGUAGE_CODE, request.POST.get("data[field_task]", ""))
 
     c_exs.tags.clear()
     tags_arr = set_value_as_list(request, "data[tags]", "data[tags][]", [])
@@ -1908,8 +1905,11 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
     res_exs['ref_age_category'] = res_exs['ref_age_category_id']
     res_exs['ref_train_part'] = res_exs['ref_train_part_id']
     res_exs['ref_cognitive_load'] = res_exs['ref_cognitive_load_id']
+    res_exs['ref_stress_type'] = res_exs['ref_stress_type_id']
     res_exs['field_players'] = get_by_language_code(res_exs['field_players'], request.LANGUAGE_CODE)
     res_exs['field_goal'] = get_by_language_code(res_exs['field_goal'], request.LANGUAGE_CODE)
+    res_exs['field_age'] = get_by_language_code(res_exs['field_age'], request.LANGUAGE_CODE)
+    res_exs['field_task'] = get_by_language_code(res_exs['field_task'], request.LANGUAGE_CODE)
     res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type, request.user.club_id)
     res_exs = get_exs_additional_params(res_exs, c_exs[0], folder_type, cur_user, request.user.club_id, request.LANGUAGE_CODE)
     res_exs['tags'] = get_tags_of_exercise(c_exs[0])

@@ -165,8 +165,11 @@ function RenderExerciseOne(data) {
         $(exsCard).find('.exs_edit_field[name="ref_age_category"]').val(data.ref_age_category);
         $(exsCard).find('.exs_edit_field[name="ref_train_part"]').val(data.ref_train_part);
         $(exsCard).find('.exs_edit_field[name="ref_cognitive_load"]').val(data.ref_cognitive_load);
+        $(exsCard).find('.exs_edit_field[name="ref_stress_type"]').val(data.ref_stress_type);
         $(exsCard).find('.exs_edit_field[name="field_players"]').val(data.field_players);
         $(exsCard).find('.exs_edit_field[name="field_goal"]').val(data.field_goal);
+        $(exsCard).find('.exs_edit_field[name="field_age"]').val(data.field_age);
+        $(exsCard).find('.exs_edit_field[name="field_task"]').val(data.field_task);
 
         $(exsCard).find('.exs_edit_field[name="tags"]').val(data.tags).trigger('change');
         window.changedData = false;
@@ -898,6 +901,9 @@ $(function() {
 
     ToggleEditFields(false);
 
+    $('#exerciseCard').find('.exs_edit_field[name="tags"]').select2({
+        maximumSelectionLength: 4
+    });
 
     $('#exerciseCard').on('click', '#openDescription', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
@@ -1330,7 +1336,7 @@ $(function() {
     } catch(e) {}
 
     $('#exerciseCard').on('click', 'tr.add-params-container-after', (e) => {
-        $('#exerciseCard').find('tr.additional-params-container').toggleClass('d-none');
+        $('#exerciseCard').find('tr.additional-params-container:not(.empty)').toggleClass('d-none');
     });
 
     $('#exsAdditionalParamsRef').on('click', (e) => {
