@@ -171,6 +171,9 @@ function RenderExerciseOne(data) {
         $(exsCard).find('.exs_edit_field[name="field_age"]').val(data.field_age);
         $(exsCard).find('.exs_edit_field[name="field_task"]').val(data.field_task);
 
+        $(exsCard).find('.exs_edit_field[name="scheme_1"]').val(data.scheme_1);
+        $(exsCard).find('.exs_edit_field[name="scheme_2"]').val(data.scheme_2);
+
         $(exsCard).find('.exs_edit_field[name="tags"]').val(data.tags).trigger('change');
         window.changedData = false;
 
@@ -929,11 +932,23 @@ $(function() {
 
         if ($('#editExs').attr('data-active') == '1') {
             $('#card_drawing1').addClass('d-none');
-            $('.scheme-editor').find('iframe').contents().find('#svgparent').html($('#card_drawing1').find('.card').html());
-            $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
-            setTimeout((e) => {
-                $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
-            }, 100);
+            // $('.scheme-editor').find('iframe').contents().find('#svgparent').html($('#card_drawing1').find('.card').html());
+            // $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
+            // setTimeout((e) => {
+            //     $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
+            // }, 100);
+            let cId = $('#exerciseCard').find('.exs_edit_field[name="scheme_1"]').val();
+            let cSrc = "http://62.113.105.179/canvas/new";
+            if (cId && cId != "") {
+                cSrc = `http://62.113.105.179/canvas/edit/${cId}`;
+            }
+            $('.scheme-editor').find('iframe').attr('src', cSrc);
+
+            $('.scheme-editor').find('iframe').on('load', (e) => {
+                console.log('laod ', e)
+                console.log('con: ',  $('.scheme-editor').find('iframe')[0].contentWindow.document)
+            });
+
             $('.scheme-editor').removeClass('d-none');
         }
         StopVideoForEdit();
@@ -950,11 +965,18 @@ $(function() {
 
         if ($('#editExs').attr('data-active') == '1') {
             $('#card_drawing2').addClass('d-none');
-            $('.scheme-editor').find('iframe').contents().find('#svgparent').html($('#card_drawing2').find('.card').html());
-            $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
-            setTimeout((e) => {
-                $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
-            }, 100);
+            // $('.scheme-editor').find('iframe').contents().find('#svgparent').html($('#card_drawing2').find('.card').html());
+            // $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
+            // setTimeout((e) => {
+            //     $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
+            // }, 100);
+            let cId = $('#exerciseCard').find('.exs_edit_field[name="scheme_2"]').val();
+            let cSrc = "http://62.113.105.179/canvas/new";
+            if (cId && cId != "") {
+                cSrc = `http://62.113.105.179/canvas/edit/${cId}`;
+            }
+            $('.scheme-editor').find('iframe').attr('src', cSrc);
+
             $('.scheme-editor').removeClass('d-none');
         }
         StopVideoForEdit();

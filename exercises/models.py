@@ -162,6 +162,8 @@ class AbstractExercise(models.Model):
     field_age = models.JSONField(null=True, blank=True)
     field_task = models.JSONField(null=True, blank=True)
     scheme_data = models.JSONField(null=True, blank=True)
+    scheme_1 = models.CharField(max_length=30, null=True, blank=True)
+    scheme_2 = models.CharField(max_length=30, null=True, blank=True)
     video_data = models.JSONField(null=True, blank=True)
     animation_data = models.JSONField(null=True, blank=True) # {'data': {'custom': "<t>...</t>", default: ["id_1", "id_2"...]}}
     old_id = models.IntegerField(null=True, blank=True) # from old site
