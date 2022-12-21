@@ -73,11 +73,17 @@ class TrainingViewSet(viewsets.ModelViewSet):
         data = request.data
         if self.request.user.club_id is not None:
             exercise_count = ClubTrainingExercise.objects.filter(training_id=pk, group=data['group']).count()
+            current_exercise = ClubTrainingExercise.objects.filter(training_id=pk, group=data['group'],
+                                                                   exercise_id=data['exercise_id']).count()
         else:
             exercise_count = UserTrainingExercise.objects.filter(training_id=pk, group=data['group']).count()
+            current_exercise = UserTrainingExercise.objects.filter(training_id=pk, group=data['group'],
+                                                                   exercise_id=data['exercise_id']).count()
         print(exercise_count)
-        if exercise_count > 7:
+        if exercise_count > 6:
             return Response({'status': 'exercise_limit'})
+        if current_exercise > 0:
+            return Response({'status': 'exercise_repeated'})
         data_dict = dict(
             training_id=pk,
             exercise_id=data['exercise_id'],

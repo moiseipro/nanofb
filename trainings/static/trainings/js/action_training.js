@@ -17,6 +17,8 @@ async function ajax_training_action(method, data, action = '', id = '', func = '
                 //console.log(data)
                 if(data.status == 'exercise_limit'){
                     swal(gettext('Training '+action), gettext('The limit of exercises for the selected group has been reached'), "error");
+                } else if(data.status == 'exercise_repeated'){
+                    swal(gettext('Training '+action), gettext('There cannot be two identical exercises in the same group.'), "error");
                 } else if(data.status == 'protocol_not_empty'){
                     swal(gettext('Training '+action), gettext('There are players in the protocol. Remove the players before unloading the entire team.'), "error");
                 } else if(data.status == 'protocol_limit'){
