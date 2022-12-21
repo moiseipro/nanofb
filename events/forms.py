@@ -68,7 +68,7 @@ class MicrocycleUserForm(forms.ModelForm):
                 Column('date_with', css_class='form-group col-md-3 mb-0'),
                 Column('date_by', css_class='form-group col-md-3 mb-0'),
                 Column(
-                    Submit('submit', _('Save'), css_class='btn-sm btn-block save'),
+                    Submit('submit', _('Save'), css_class='btn-sm btn-block btn-success save'),
                     Button('button', _('Cancel'), css_class='btn-sm btn-block btn-secondary cancel'),
                     css_class='form-group col-md-3 mb-0'
                 ),

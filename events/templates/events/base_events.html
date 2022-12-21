@@ -139,14 +139,33 @@
     <div class="modal fade" id="microcycle-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="microcycle-modal-title">{% trans 'Working with microcycles' %}</h5>
-                    <button type="button" class="ml-3 btn btn-sm btn-success create">
-                        <span aria-hidden="true">{% trans 'Create' %}</span>
-                    </button>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                <div class="modal-header block">
+                    <div class="row pb-2">
+                        <div class="col-4">
+                            <h5 class="modal-title" id="microcycle-modal-title">{% trans 'Working with microcycles' %}</h5>
+                        </div>
+                        <div class="col-4">
+                            <button type="button" class="ml-3 btn btn-sm btn-primary create">
+                                <span aria-hidden="true">{% trans 'Create' %}</span>
+                            </button>
+                        </div>
+                        <div class="col-4">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row pt-2 border-top">
+                        <div class="col-12">
+                            <form id="microcycles-form" method="post" class="d-none">
+                                {% load crispy_forms_tags %}
+                                {% crispy microcycle_form %}
+                            </form>
+                            <div id="alert-update">
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-body">
                     <div class="table-responsive">
@@ -163,13 +182,7 @@
                     </div>
                 </div>
                 <div class="modal-footer block">
-                    <form id="microcycles-form" method="post" class="d-none">
-                        {% load crispy_forms_tags %}
-                        {% crispy microcycle_form %}
-                    </form>
-                    <div id="alert-update">
 
-                    </div>
                 </div>
             </div>
         </div>

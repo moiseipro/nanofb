@@ -698,7 +698,7 @@ function generateMicrocyclesTable(){
         serverSide: true,
         processing: true,
         lengthChange: false,
-        pageLength: 20,
+        pageLength: 10,
         ajax: {
             url:'api/microcycles/?format=datatables',
             data: function(data){
