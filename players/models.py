@@ -1,10 +1,18 @@
 from statistics import mode
 from django.db import models
+from django.utils import timezone
 from users.models import User
 from clubs.models import Club
 from references.models import UserTeam, ClubTeam
 from references.models import PlayerTeamStatus, PlayerPlayerStatus, PlayerLevel, PlayerPosition, PlayerFoot
 
+
+
+class PlayerRecord(models.Model):
+    date = models.DateTimeField(blank=False, default=timezone.now)
+    record = models.CharField(max_length=30, null=True, blank=True)
+    class Meta:
+        ordering = ['date']
 
 
 class PlayerCard(models.Model):
@@ -28,6 +36,7 @@ class PlayerCard(models.Model):
     email = models.CharField(max_length=30, null=True, blank=True)
     phone = models.CharField(max_length=30, null=True, blank=True)
     phone_2 = models.CharField(max_length=30, null=True, blank=True)
+    records = models.ManyToManyField(PlayerRecord)
 
     objects = models.Manager()
 

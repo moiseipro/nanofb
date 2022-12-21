@@ -59,6 +59,22 @@ function RenderPlayerOne(data = {}) {
         let fRow = $('.cnt-center-block').find(`.questionnaire-elem[data-id="${questionnaire.row_id}"]`);
         $(fRow).find('[name="questionnaires_notes"]').val(questionnaire.notes);
     }
+    $('#playerNotesTable').find('tbody').html('');
+    for (let ind in data.card_records) {
+        let record = data.card_records[ind];
+        let dateStr = record.date.substr(0, 10);
+        $('#playerNotesTable').find('tbody').append(`
+            <tr class="record-elem">
+                <td class=""></td>
+                <td class="">
+                    <input name="record_dates" class="form-control form-control-sm edit-field" type="date" value="${dateStr}" placeholder="" autocomplete="off" disabled="">
+                </td>
+                <td class="">
+                    <input name="record_notes" class="form-control form-control-sm edit-field" type="text" value="${record.record}" placeholder="" autocomplete="off" disabled="">
+                </td>
+            </tr>
+        `);
+    }
 }
 
 function LoadCardSections() {
@@ -1257,6 +1273,31 @@ $(function() {
         });
     });
 
+
+    // Edit PlayerRecords
+    $('#playerNotesTable').on('click', 'tr.record-elem', (e) => {
+        let isSelected = $(e.currentTarget).hasClass('selected');
+        $('#playerNotesTable').find('tr.record-elem').removeClass('selected');
+        $(e.currentTarget).toggleClass('selected', !isSelected);
+    });
+    $('.center-content[data-id="notes"]').on('click', '.notes-add', (e) => {
+        let dateStr = new Date().toISOString().substr(0, 10);
+        $('#playerNotesTable').find('tbody').append(`
+            <tr class="record-elem">
+                <td class=""></td>
+                <td class="">
+                    <input name="record_dates" class="form-control form-control-sm edit-field" type="date" value="${dateStr}" placeholder="" autocomplete="off">
+                </td>
+                <td class="">
+                    <input name="record_notes" class="form-control form-control-sm edit-field" type="text" value="" placeholder="" autocomplete="off">
+                </td>
+            </tr>
+        `);
+    });
+    $('.center-content[data-id="notes"]').on('click', '.notes-delete', (e) => {
+        let fRow = $('#playerNotesTable').find('tr.record-elem.selected');
+        if (fRow.length > 0) {fRow.remove();}
+    });
 
 
     // Toggle left menu

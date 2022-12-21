@@ -1707,13 +1707,16 @@ def GET_get_exs_all(request, cur_user, cur_team):
     }):
         return JsonResponse({"err": "Access denied.", "success": False}, status=400)
     found_exercises = get_excerises_data(folder_id, folder_type, request, cur_user, cur_team)
-    print(found_exercises)
     for exercise in found_exercises:
         exs_title = get_by_language_code(exercise['title'], request.LANGUAGE_CODE)
+        exs_field_players = get_by_language_code(exercise['field_players'], request.LANGUAGE_CODE)
+        exs_field_goal = get_by_language_code(exercise['field_goal'], request.LANGUAGE_CODE)
         exs_data = {
             'id': exercise['id'], 
             'folder': exercise['folder_id'], 
             'title': exs_title,
+            'field_players': exs_field_players,
+            'field_goal': exs_field_goal,
             'has_video_1': exercise['has_video_1'],
             'has_video_2': exercise['has_video_2'],
             'has_animation_1': exercise['has_animation_1'],

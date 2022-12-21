@@ -3,12 +3,12 @@ from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from django.db.models import Q
 from references.models import UserTeam, ClubTeam
-from players.models import UserPlayer, ClubPlayer, CardSection, PlayerCard, PlayersTableColumns
+from players.models import UserPlayer, ClubPlayer, CardSection, PlayerCard, PlayersTableColumns, PlayerRecord
 from players.models import PlayerCharacteristicsRows, PlayerCharacteristicUser, PlayerCharacteristicClub
 from players.models import PlayerQuestionnairesRows, PlayerQuestionnaireUser, PlayerQuestionnaireClub
 from references.models import PlayerTeamStatus, PlayerPlayerStatus, PlayerLevel, PlayerPosition, PlayerFoot
 from nanofootball.views import util_check_access
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 import json
 
 
@@ -309,6 +309,18 @@ def POST_edit_player(request, cur_user, cur_team):
         res_data = f'Player with id: [{c_player.id}] is added / edited successfully.'
     except Exception as e:
         return JsonResponse({"err": "Can't edit or add the player.", "success": False}, status=200)
+    
+    try:
+        old_records = c_player.card.records.all()
+        for record in old_records:
+            record.delete()
+    except:
+        pass
+    try:
+        c_player.card.records.clear()
+    except:
+        pass
+
     c_player_playercard = c_player.card
     if not c_player_playercard or not c_player_playercard.id == None:
         c_player_playercard = PlayerCard()
@@ -337,6 +349,27 @@ def POST_edit_player(request, cur_user, cur_team):
         res_data += '\nAdded player card for player.'
     except:
         res_data += '\nErr while saving player card.'
+    
+    record_dates = request.POST.getlist("data[record_dates]")
+    record_notes = request.POST.getlist("data[record_notes]")
+    if isinstance(record_dates, list) and isinstance(record_notes, list):
+        if len(record_dates) == len(record_notes):
+            for _i in range(len(record_dates)):
+                c_date = None
+                c_note = ""
+                try:
+                    c_date = set_value_as_date(request, "", record_dates[_i])
+                except:
+                    pass
+                try:
+                    c_note = record_notes[_i]
+                except:
+                    pass
+                if c_date is not None:
+                    new_row = PlayerRecord(date=c_date, record=c_note)
+                    new_row.save()
+                    c_player.card.records.add(new_row)
+
     characteristics_ids = request.POST.getlist("data[characteristics_id]")
     characteristics_stars = request.POST.getlist("data[characteristics_stars]")
     characteristics_notes = request.POST.getlist("data[characteristics_notes]")
@@ -1017,8 +1050,11 @@ def GET_get_player(request, cur_user, cur_team):
         if player[0].card and player[0].card.id != None:
             player_card = model_to_dict(player[0].card)
             for key in player_card:
-                if key != "id":
+                if key != "id" and key != "records":
                     res_data[key] = player_card[key]
+            res_data['card_records'] = []
+            for record in player[0].card.records.all():
+                res_data['card_records'].append({'date': record.date, 'record': record.record})
         res_data['characteristics'] = []
         f_characteristics_rows = None
         if request.user.club_id is not None:
@@ -1146,6 +1182,7 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
     else:
         players = UserPlayer.objects.filter(user=cur_user, team=cur_team)
     if players is not None:
+        startdate = date.today() - timedelta(days=3)
         if is_for_table:
             if search_val and search_val != "":
                 players = players.filter(Q(surname__istartswith=search_val) | Q(name__istartswith=search_val) | Q(patronymic__istartswith=search_val) | Q(card__citizenship__istartswith=search_val) | Q(team__name__istartswith=search_val) | Q(card__club_from__istartswith=search_val))
@@ -1154,12 +1191,24 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
         for _i, player in enumerate(players):
             player_position = ""
             player_foot = ""
+            player_notes_amount = 0
+            player_notes_recent = ""
             try:
                 player_position = player.card.ref_position.short_name
             except:
                 pass
             try:
                 player_foot = player.card.ref_foot.short_name
+            except:
+                pass
+            try:
+                player_notes_amount = player.card.records.all().count()
+            except:
+                pass
+            try:
+                f_records = player.card.records.filter(date__gte=startdate)
+                if f_records.exists() and f_records[0].id != None:
+                    player_notes_recent = "color: #be0000;"
             except:
                 pass
             player_data = {
@@ -1181,7 +1230,7 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
                 'contract_with': player.card.contract_with if player.card else "",
                 'contract_by': player.card.contract_by if player.card else "",
                 'video': "",
-                'notes': "записи (0)"
+                'notes': f'<span style="{player_notes_recent}">записи ({player_notes_amount})</span>'
             }
             players_data.append(player_data)
     if return_JsonResponse:
