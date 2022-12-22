@@ -12,9 +12,16 @@
 
 .group-filter-card.active{
     font-weight: bold;
-    color: black !important;
+    color: darkred !important;
+    background: #f9db48 !important;
 }
 .exs-filter-card.active{
     font-weight: bold;
-    color: black !important;
+    color: darkred !important;
+    background: #f9db48 !important;
+}
+
+.training-exercise-name{
+    background: #eecd38;
+    border: 2px solid rgb(100, 100, 100) !important;
 }

@@ -36,3 +36,7 @@ input[name="duration"]{
 .black-select{
 	color: black;
 }
+
+.exercise-row.selected{
+	background: lightgrey !important;
+}

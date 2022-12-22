@@ -5,6 +5,9 @@ $(window).on('load', function (){
         $('.training-info .exercise-visual-block').addClass('d-none').addClass('col-4').removeClass('col-12')
         $('.training-info .exercise-visual-block[data-group="'+group_id+'"]').removeClass('d-none')
 
+        $('.exercise-data-row').addClass('d-none')
+        $('.training-data-row').removeClass('d-none')
+
         $('#training-content .group-filter-card').removeClass('active')
         $('#training-content .exs-filter-card').removeClass('active')
         $(this).addClass('active')
@@ -15,6 +18,8 @@ $(window).on('load', function (){
         $('.training-info .exercise-visual-block').addClass('d-none').addClass('col-4').removeClass('col-12')
         $('.training-info .exercise-visual-block[data-id="'+exs_id+'"]').removeClass('d-none').removeClass('col-4').addClass('col-12')
 
+        $('.exercise-data-row').removeClass('d-none')
+        $('.training-data-row').addClass('d-none')
 
         $('#training-content .group-filter-card').removeClass('active')
         $('#training-content .exs-filter-card').removeClass('active')
@@ -113,6 +118,7 @@ function show_training_card(id = ''){
         $('#training-content .training-info').html(html_scheme)
         $('#training-content .group-filter-card[data-group="1"]').click()
         $('#training-content').removeClass('d-none')
+        resize_trainings_block()
     })
 }
 

@@ -60,6 +60,8 @@ $(window).on('load', function (){
         let cId = $(this).attr('data-exercise')
         let fromNFB = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? 1 : 0;
         let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        $('.visual-block .exercise-row').removeClass('selected')
+        $(this).addClass('selected')
         LoadExerciseOne(cId, fromNFB, folderType);
     })
     $('.visual-block').on('change', '.exercise-row [name="duration"]', function (){

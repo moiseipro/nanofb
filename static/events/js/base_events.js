@@ -290,6 +290,7 @@ $(window).on('load', function (){
         $('.move_to_today').toggleClass('isMonth')
         set_month_or_date_button()
         resize_events_table()
+        resize_trainings_block()
     })
 
     $('#events').on('click', '.switch-favorites', function () {
@@ -341,6 +342,15 @@ function resize_events_table(){
     $('#events-table').css({"height": css})
     $('#block-event-info .event-info').css({"max-height": css})
     $('#block-event-info .event-info').css({"height": css})
+}
+
+function resize_trainings_block(){
+    let css = "calc(94vh - "+Math.round($('#event_calendar').height())+"px - "+Math.round($('.header').height())+"px - "+Math.round($('.card-header').height())+"px)"
+    //console.log(css)
+    $('#training-content .training-data').css({"max-height": css})
+    $('#training-content .training-data').css({"height": css})
+    $('#block-training-info .training-info').css({"max-height": css})
+    $('#block-training-info .training-info').css({"height": css})
 }
 
 function clear_event_form(){
