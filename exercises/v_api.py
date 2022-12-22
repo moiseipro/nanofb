@@ -1115,6 +1115,9 @@ def POST_edit_exs(request, cur_user, cur_team):
     c_exs.field_age = set_by_language_code(c_exs.field_age, request.LANGUAGE_CODE, request.POST.get("data[field_age]", ""))
     c_exs.field_task = set_by_language_code(c_exs.field_task, request.LANGUAGE_CODE, request.POST.get("data[field_task]", ""))
 
+    c_exs.scheme_1 = request.POST.get("data[scheme_1]", None)
+    c_exs.scheme_2 = request.POST.get("data[scheme_2]", None)
+
     c_exs.tags.clear()
     tags_arr = set_value_as_list(request, "data[tags]", "data[tags][]", [])
     for c_tag in tags_arr:
