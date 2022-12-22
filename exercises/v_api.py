@@ -1163,12 +1163,12 @@ def POST_edit_exs(request, cur_user, cur_team):
     animation2_id = -1
     if not copied_from_nfb:
         if type(c_exs.scheme_data) is dict:
-            c_exs.scheme_data['scheme_1'] = request.POST.get("data[scheme_1]")
-            c_exs.scheme_data['scheme_2'] = request.POST.get("data[scheme_2]")
+            c_exs.scheme_data['scheme_1'] = request.POST.get("data[scheme_1_old]")
+            c_exs.scheme_data['scheme_2'] = request.POST.get("data[scheme_2_old]")
         else:
             c_exs.scheme_data = {
-                'scheme_1': request.POST.get("data[scheme_1]"),
-                'scheme_2': request.POST.get("data[scheme_2]")
+                'scheme_1': request.POST.get("data[scheme_1_old]"),
+                'scheme_2': request.POST.get("data[scheme_2_old]")
             }   
         video1_id = int(request.POST.get("data[video_1]")) if request.POST.get("data[video_1]").isdigit() else -1
         video2_id = int(request.POST.get("data[video_2]")) if request.POST.get("data[video_2]").isdigit() else -1
