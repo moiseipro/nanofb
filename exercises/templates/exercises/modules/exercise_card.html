@@ -1,9 +1,9 @@
 {% load i18n %}
 
 <div class="modal-content1" id="exerciseCard">
-    <div class="modal-header py-2 d-none exercise-card-header">
+    <div class="modal-header py-1 d-none exercise-card-header">
         <div class="row w-100">
-            <div class="col-12 p-1 btn-group btn-group-custom">
+            <div class="col-12 px-1 btn-group btn-group-custom">
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn selected2" id="openDescription">Описание</button>
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openDrawing1">Рисунок 1</button>
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openDrawing2">Рисунок 2</button>
@@ -166,19 +166,19 @@
                                         <tr class="bck-custom border-y-custom">
                                             <td class="text-center align-middle">Возраст</td>
                                             <td class="text-center">
-                                                <input name="field_age" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="Возраст" autocomplete="off">
+                                                <input name="field_age" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="" autocomplete="off">
                                             </td>
                                         </tr>
                                         <tr class="bck-custom border-y-custom">
                                             <td class="text-center align-middle">Ворота</td>
                                             <td class="text-center">
-                                                <input name="field_goal" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="Ворота" autocomplete="off">
+                                                <input name="field_goal" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="" autocomplete="off">
                                             </td>
                                         </tr>
                                         <tr class="bck-custom border-y-custom">
                                             <td class="text-center align-middle">Полевые игроки</td>
                                             <td class="text-center">
-                                                <input name="field_players" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="Полевые игроки" autocomplete="off">
+                                                <input name="field_players" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="" autocomplete="off">
                                             </td>
                                         </tr>
                                         <tr class="bck-custom-color text-center font-weight-bold" style="--bck-color:#eecd38; --bck-color-h:#eecd38;">
@@ -195,9 +195,9 @@
                                                 </select>
                                             </td>
                                         </tr>
-                                        <tr class="bck-custom-color text-center font-weight-bold add-params-container-after" style="--bck-color:#eecd38; --bck-color-h:#eecd38;">
+                                        <!-- <tr class="bck-custom-color text-center font-weight-bold add-params-container-after" style="--bck-color:#eecd38; --bck-color-h:#eecd38;">
                                             <td class="align-middle folder-text" colspan="2">Условия упражнения</td>
-                                        </tr>
+                                        </tr> -->
 
 
                                         <tr class="bck-custom border-y-custom d-none">
@@ -311,12 +311,14 @@
                                         </tr>
                                         <tr class="bck-custom">
                                             <td title="Описание" style="background-color: white;">
-                                                <div class="resizeable-block" style="resize: vertical; overflow: auto;">
+                                                <!-- <div class="resizeable-block" style="resize: vertical; overflow: auto;"> -->
+                                                <div class="resizeable-block">
                                                     <div id="descriptionEditor2" class="ckeditor w-100" name="description_text"></div>
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr class="bck-custom">
+
+                                        <!-- <tr class="bck-custom">
                                             <td>
                                                 <div class="btn-group w-100 mt-1" role="group">
                                                     <button type="button" class="btn btn-sm btn-primary mr-1">Описание</button>
@@ -329,7 +331,7 @@
                                         </tr>
                                         <tr class="d-none">
                                             <td>&nbsp;</td>
-                                        </tr>
+                                        </tr> -->
 
                                         <tr class="wider_row bck-custom border-bottom-custom d-none" data-id="purposes">
                                             <td>
