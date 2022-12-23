@@ -1,7 +1,9 @@
 $(window).on('load', function (){
+    //Переключатель по группам
     $('#training-content').on('click', '.group-filter-card', function () {
         let group_id = $(this).attr('data-group')
-        console.log(group_id)
+        let training_id = $('#training-content').attr('data-training')
+        //console.log(group_id)
         $('.training-info .exercise-visual-block').addClass('d-none').addClass('col-4').removeClass('col-12')
         $('.training-info .exercise-visual-block[data-group="'+group_id+'"]').removeClass('d-none')
 
@@ -11,10 +13,12 @@ $(window).on('load', function (){
         $('#training-content .group-filter-card').removeClass('active')
         $('#training-content .exs-filter-card').removeClass('active')
         $(this).addClass('active')
+        load_all_exercises_training(training_id, group_id)
     })
+    //Переключатель по упражнениям
     $('#training-content').on('click', '.exs-filter-card', function () {
         let exs_id = $(this).attr('data-id')
-        console.log(exs_id)
+        //console.log(exs_id)
         $('.training-info .exercise-visual-block').addClass('d-none').addClass('col-4').removeClass('col-12')
         $('.training-info .exercise-visual-block[data-id="'+exs_id+'"]').removeClass('d-none').removeClass('col-4').addClass('col-12')
 
@@ -24,6 +28,55 @@ $(window).on('load', function (){
         $('#training-content .group-filter-card').removeClass('active')
         $('#training-content .exs-filter-card').removeClass('active')
         $(this).addClass('active')
+        load_exercises_training_data(exs_id)
+        load_exercises_additional_data(exs_id)
+    })
+    // Добавление дополнительных данных в тренировку
+    $('#training-content').on('click', '.add-exercise-additional', function (){
+        let training_exercise_id = $('#training-content').find('.exs-filter-card.active').attr('data-id')
+
+        let send_data = {}
+        send_data.additional_id = 0
+        send_data.note = ''
+
+        ajax_training_exercise_action('POST', send_data, 'load data', training_exercise_id, 'add_data').then(function (data) {
+            //console.log(data)
+            load_exercises_additional_data(training_exercise_id)
+        })
+    })
+    // Удаление дополнительных данных в упражнении
+    $('#training-content').on('click', '.delete-exercise-additional', function (){
+        let cur_row = $(this).closest('.exercise-additional-row')
+        let exercise_additional_id = cur_row.attr('data-id')
+
+        let send_data = {}
+        swal(gettext("Remove an additional data from an exercise?"), {
+            buttons: {
+                cancel: true,
+                confirm: true,
+            },
+        }).then(function(isConfirm) {
+            if (isConfirm) {
+                ajax_training_exercise_data_action('DELETE', send_data, 'delete data', exercise_additional_id).done(function (data) {
+                    //console.log(data)
+                    cur_row.remove();
+                })
+            }
+        });
+    })
+    // Редактирование дополнительных данных в упражнении
+    $('#training-exercise-additional').on('change', '.edit-input', function (){
+        let cur_row = $(this).closest('.exercise-additional-row')
+        let exercise_additional_id = cur_row.attr('data-id')
+
+        let send_data = {}
+        send_data.additional_id = cur_row.find('[name="additional_id"]').val()
+        send_data.note = cur_row.find('[name="note"]').val()
+
+        ajax_training_exercise_data_action('PUT', send_data, 'update data', exercise_additional_id).done(function (data) {
+            console.log(data)
+            //render_exercises_additional_data(training_exercise_id)
+        })
     })
 })
 
@@ -33,6 +86,7 @@ function show_training_card(id = ''){
         console.log('id is empty')
         return false;
     }
+    $('#training-content').attr('data-training', id)
     let data_send = {}
     ajax_training_action('GET', data_send, 'view card', id).then(function (data) {
         console.log(data)
@@ -76,7 +130,19 @@ function show_training_card(id = ''){
         $('.exercise-list[data-group="1"]').html(html_group_1)
         $('.exercise-list[data-group="2"]').html(html_group_2)
 
-        let html_scheme = ``
+        $('#training-content .group-filter-card[data-group="1"]').click()
+        $('#training-content').removeClass('d-none')
+    })
+}
+
+// Выгрузить упражнений из тренировки
+function load_all_exercises_training(training_id = null, group = null) {
+    let send_data = {}
+    if(group != null) send_data.group = group
+
+    ajax_training_action('GET', send_data, 'view card training', training_id).then(function (data) {
+        console.log(data)
+        let html_scheme = `<div class="row training-info">`
         if (data.exercises_info.length > 0) {
             let exercises = data.exercises_info
             for (let exercise of exercises) {
@@ -105,7 +171,12 @@ function show_training_card(id = ''){
                         </a>
                     </div>
                     <div class="row text-center">
-                        <div class="col-12"><div class="w-100 border text-truncate">${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}</div></div>
+                        <div class="col-10 pr-0">
+                            <div class="w-100 border text-truncate">${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}</div>
+                        </div>
+                        <div class="col pl-0">
+                            <div class="w-100 border ${exercise.duration==0 ? 'font-weight-bold text-danger':''}">${exercise.duration}</div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-12 additional-data-block"></div>
@@ -114,11 +185,109 @@ function show_training_card(id = ''){
                 `
             }
         }
+        html_scheme += `</div>`
 
-        $('#training-content .training-info').html(html_scheme)
-        $('#training-content .group-filter-card[data-group="1"]').click()
-        $('#training-content').removeClass('d-none')
-        resize_trainings_block()
+        $('#training-content #block-training-info').html(html_scheme)
+        //resize_trainings_block()
+    })
+}
+
+// Выгрузить данных упрежнения из тренировки
+function load_exercises_training_data(training_exercise_id = null) {
+    let send_data = {}
+    ajax_training_exercise_action('GET', send_data, 'load exercise', training_exercise_id).then(function (exercise) {
+        console.log(exercise)
+
+        $('#block-training-info').html('')
+
+        $('.training-exercise-name .exercise-time').html(`
+            <div class="w-100 ${exercise.duration==0 ? 'font-weight-bold text-danger':''}">${exercise.duration}</div>
+        `)
+
+        let html_exs_data = ''
+        html_exs_data += `
+            <div class="row exercise-data-row">
+                <div class="col-12 btn btn-sm btn-info border border-light font-weight-bold">
+                    ${(get_cur_lang() in exercise.exercise_id.title) ? exercise.exercise_id.title[get_cur_lang()] : Object.values(exercise.exercise_id.title)[0]}
+                </div>
+            </div>
+            <div class="row exercise-data-row">
+                <div class="col-6 btn btn-sm btn-info border border-light">
+                    ${exercise.exercise_id.field_task ? exercise.exercise_id.field_task : '---'}
+                </div>
+                <div class="col-6 btn btn-sm btn-info border border-light">
+                    ${exercise.exercise_id.field_task ? exercise.exercise_id.field_task : '---'}
+                </div>
+            </div>
+            <div class="offset-1 col-10 pb-2 px-1 exercise-visual-block" data-id="${exercise.id}" data-exs-id="${exercise.exercise_id}" data-group="${exercise.group}">
+                <div id="carouselTrainingSchema-${exercise.id}" class="carousel slide carouselSchema" data-ride="carousel" data-interval="false">
+                    <ol class="carousel-indicators">
+                        <li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="0" class="active"></li>
+                        <li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="1"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            ${exercise.exercise_scheme ? exercise.exercise_scheme['scheme_1'] : ''}
+                        </div>
+                        <div class="carousel-item">
+                            ${exercise.exercise_scheme ? exercise.exercise_scheme['scheme_2'] : ''}
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev ml-2" href="#carouselTrainingSchema-${exercise.id}" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">-</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselTrainingSchema-${exercise.id}" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">+</span>
+                    </a>
+                </div>
+            </div>
+        `
+        $('#block-training-info').html(html_exs_data)
+    })
+}
+
+// Выгрузить дополнительных данных из упрежнения в тренировке
+function load_exercises_additional_data(training_exercise_id = null) {
+    let send_data = {}
+    ajax_training_exercise_action('GET', send_data, 'load data', training_exercise_id, 'get_data').then(function (data) {
+        //console.log(data)
+        var select = ''
+        ajax_exercise_additional('GET').then(function (data_additional) {
+            let options = data_additional.results;
+            let option_html = ''
+            $.each( options, function( key, option ) {
+                option_html+=`
+                    <option value="${ option.id }">${ (get_cur_lang() in option.translation_names) ? option.translation_names[get_cur_lang()] : Object.values(exercise.exercise_name)[0] }</option>
+                `
+            })
+            select = `
+                <select class="select custom-select p-0 edit-input text-center" name="additional_id" tabindex="-1" aria-hidden="true" ${!edit_mode ? 'disabled' : ''} style="height: 25px; color: black !important;">
+                    ${ option_html }
+                </select>
+            `
+            $('#training-exercise-additional').html('')
+            let additional_html = ''
+            $.each( data.objs, function( key, additional ) {
+                additional_html = `
+                <div class="row exercise-additional-row" data-id="${additional.id}">
+                    <div class="col px-0">
+                        ${select}
+                    </div>
+                    <div class="col px-0">
+                        <input type="text" name="note" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded edit-input" value="${additional.note ? additional.note:''}" ${!edit_mode ? 'disabled' : ''}>
+                    </div>
+                    <div class="col-sm-12 col-md-1 px-0 edit-button ${!edit_mode ? 'd-none' : ''}">
+                        <button type="button" class="btn btn-sm btn-block btn-danger rounded-0 p-0 h-100 float-right edit-input delete-exercise-additional" ${!edit_mode ? 'disabled' : ''}><i class="fa fa-trash" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+                `
+                $('#training-exercise-additional').append(additional_html)
+                $('.exercise-additional-row[data-id="'+additional.id+'"] select').val(additional.additional_id)
+
+            })
+        })
     })
 }
 

@@ -39,3 +39,32 @@ async function ajax_training_action(method, data, action = '', id = '', func = '
             }
         })
 }
+
+async function ajax_training_exercise_action(method, data, action = '', id = '', func = '') {
+
+    let url = "/trainings/api/exercise/"
+    if(id !== '') url += `${id}/`
+    if(func !== '') url += `${func}/`
+
+    $('.page-loader-wrapper').fadeIn();
+
+    return await $.ajax({
+            headers:{"X-CSRFToken": csrftoken },
+            url: url,
+            type: method,
+            dataType: "JSON",
+            data: data,
+            success: function(data){
+                //console.log(data)
+                //swal(gettext('Training '+action), gettext('Exercise action "'+action+'" successfully!'), "success");
+            },
+            error: function(jqXHR, textStatus){
+                //console.log(jqXHR)
+                swal(gettext('Training '+action), gettext('Error when action "'+action+'" the exercise!'), "error");
+            },
+            complete: function () {
+                $('.page-loader-wrapper').fadeOut();
+                //set_sum_duration_group()
+            }
+        })
+}

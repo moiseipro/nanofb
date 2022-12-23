@@ -6,6 +6,7 @@
 {% block custom_style %}
     <link rel="stylesheet" href="{% static 'exercises/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'trainings/css/view_training.css' %}">
+    <link rel="stylesheet" href="{% static 'trainings/css/training_card.css' %}">
 {% endblock %}
 
 {% block title %}{% trans 'Trainings' %}{% endblock %}
@@ -66,48 +67,7 @@
                 <div class="card-body py-2">
                     <div class="tab-content p-0" id="training-tabContent">
                         <div class="tab-pane fade show active" id="training-card" role="tabpanel" aria-labelledby="training-card-tab">
-                            <div class="row">
-                                <div class="col">
-                                    <div id="block-training-info" class="row">
-                                        <div class="col px-1">
-                                            <input type="text" name="date" class="form-control form-control-sm rounded-0 py-0 h-auto text-center datetimepicker edit-input" data-toggle="datetimepicker" value="{{ object.event_id.date|date:"d/m/Y" }}" placeholder="{% trans "Date" %}" disabled>
-                                        </div>
-                                        <div class="col px-1">
-                                            <input type="text" name="time" class="form-control form-control-sm rounded-0 py-0 h-auto text-center timepicker edit-input" data-toggle="datetimepicker" value="{{ object.event_id.date|date:"H:i" }}" disabled>
-                                        </div>
-                                        <div class="col px-1 text-center">{{ object.team_id.name }}</div>
-                                        <div class="col px-1 text-center">{{ object.trainer_user_id.get_full_name }}</div>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="row">
-                                        <div class="col-2 px-1">
-                                            <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold group-button" data-group="1">{% trans "Group A" %}</button>
-                                        </div>
-                                        <div class="col-2 px-1">
-                                            <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold group-button" data-group="2">{% trans "Group B" %}</button>
-                                        </div>
-                                        <!--<div class="col px-1">
-                                            <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm"><i class="fa fa-files-o" aria-hidden="true"></i></button>
-                                        </div>
-                                        <div class="col px-1">
-                                            <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm"><i class="fa fa-bar-chart" aria-hidden="true"></i></button>
-                                        </div>
-                                        <div class="col px-1">
-                                            <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm"><i class="fa fa-print" aria-hidden="true"></i></button>
-                                        </div>
-                                        <div class="col px-1">
-                                            <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm"><i class="fa fa-external-link" aria-hidden="true"></i></button>
-                                        </div>
-                                        <div class="col px-1">
-                                            <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm"><i class="fa fa-cog" aria-hidden="true"></i></button>
-                                        </div>-->
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="card-scheme-block" class="row">
-
-                            </div>
+                            {% include 'trainings/training_card.html' %}
                         </div>
                         <div class="tab-pane fade" id="training-exercises" role="tabpanel" aria-labelledby="training-exercises-tab">
                             <div class="row">
@@ -237,6 +197,7 @@
     <script src="{% static 'references/exercise_additional_data.js' %}"></script>
     <script src="{% static 'references/player_protocol_status.js' %}"></script>
     <script src="{% static 'trainings/js/view_protocol.js' %}"></script>
+    <script src="{% static 'trainings/js/training_card.js' %}"></script>
 
     <script src="{% static 'exercises/js/modules/graphic_modal.js' %}"></script>
     <script src="{% static 'exercises/js/modules/exercise_counter.js' %}"></script>

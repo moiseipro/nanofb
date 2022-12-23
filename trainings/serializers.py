@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from exercises.serializers import UserExerciseSerializer
+from exercises.serializers import UserExerciseSerializer, ClubExerciseSerializer
 from players.serializers import PlayerSerializer, UserPlayerSerializer, ClubPlayerSerializer
 from references.serializers import ExsAdditionalDataSerializer, PlayerProtocolStatusSerializer
 from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExerciseAdditional, UserTrainingProtocol, \
@@ -104,6 +104,9 @@ class TrainingExerciseSerializer(serializers.ModelSerializer):
 
 
 class UserTrainingExerciseSerializer(TrainingExerciseSerializer):
+    exercise_id = UserExerciseSerializer(
+        read_only=True
+    )
     additional = UserTrainingExerciseAdditionalSerializer(
         read_only=True,
         source="usertrainingexerciseadditional_set",
@@ -117,6 +120,9 @@ class UserTrainingExerciseSerializer(TrainingExerciseSerializer):
 
 
 class ClubTrainingExerciseSerializer(TrainingExerciseSerializer):
+    exercise_id = ClubExerciseSerializer(
+        read_only=True
+    )
     additional = ClubTrainingExerciseAdditionalSerializer(
         read_only=True,
         source="clubtrainingexerciseadditional_set",
