@@ -213,9 +213,36 @@ function RenderExerciseOne(data) {
         if (document.descriptionEditorView) {
             document.descriptionEditorView.setData(data.description);
         }
-
+        
+        $('#carouselSchema').find('.carousel-item.new-scheme').remove();
+        $('#carouselSchema').find('.carousel-indicators > li.new-scheme').remove();
         $('#carouselSchema').find('.carousel-item').first().html(data.scheme_data[0]);
         $('#carouselSchema').find('.carousel-item').last().html(data.scheme_data[1]);
+        let carouselIndicatorNum = 2;
+        if (data.scheme_2 && data.scheme_2 != "") {
+            let link = `http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_2}`;
+            $('#carouselSchema').find('.carousel-item').first().before(`
+                <div class="carousel-item new-scheme">
+                    <img src="${link}" alt="scheme" width="100%" height="100%"> 
+                </div>
+            `);
+            $('#carouselSchema').find('.carousel-indicators > li').last().after(`
+                <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
+            `);
+            carouselIndicatorNum ++;
+        }
+        if (data.scheme_1 && data.scheme_1 != "") {
+            let link = `http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_1}`;
+            $('#carouselSchema').find('.carousel-item').first().before(`
+                <div class="carousel-item new-scheme">
+                    <img src="${link}" alt="scheme" width="100%" height="100%"> 
+                </div>
+            `);
+            $('#carouselSchema').find('.carousel-indicators > li').last().after(`
+                <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
+            `);
+        }
+
         $('#card_drawing1').find('.card').last().html(data.scheme_data[0]);
         $('#card_drawing2').find('.card').last().html(data.scheme_data[1]);
 
@@ -335,6 +362,8 @@ function RenderExerciseOne(data) {
         $(exsCard).find('.video-value[name="video2"]').val('');
         $(exsCard).find('.video-value[name="animation1"]').val('');
         $(exsCard).find('.video-value[name="animation2"]').val('');
+        $('#carouselSchema').find('.carousel-item.new-scheme').remove();
+        $('#carouselSchema').find('.carousel-indicators > li.new-scheme').remove();
         $('#carouselSchema').find('.carousel-item').removeClass('active');
         $('#carouselSchema').find('.carousel-item:not(.d-none)').first().addClass('active');
         $('#carouselSchema').find('.carousel-indicators > li').removeClass('active');
@@ -953,7 +982,9 @@ $(function() {
                     if (newId && newId != "") {
                         let cSrc = `http://62.113.105.179/canvas/edit/${newId}`;
                         $('.scheme-editor').find('iframe').attr('src', cSrc);
-                        $('#exerciseCard').find('.exs_edit_field[name="scheme_1"]').val(newId);
+                        if ($('#openDrawing1').hasClass('selected2')) {
+                            $('#exerciseCard').find('.exs_edit_field[name="scheme_1"]').val(newId);
+                        }
                     }
                 }
             });
@@ -994,7 +1025,9 @@ $(function() {
                     if (newId && newId != "") {
                         let cSrc = `http://62.113.105.179/canvas/edit/${newId}`;
                         $('.scheme-editor').find('iframe').attr('src', cSrc);
-                        $('#exerciseCard').find('.exs_edit_field[name="scheme_2"]').val(newId);
+                        if ($('#openDrawing2').hasClass('selected2')) {
+                            $('#exerciseCard').find('.exs_edit_field[name="scheme_2"]').val(newId);
+                        }
                     }
                 }
             });
