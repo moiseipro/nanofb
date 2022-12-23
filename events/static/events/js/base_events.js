@@ -333,6 +333,16 @@ $(window).on('load', function (){
         LoadGraphicsModal(id, "team_folders", activeNum);
     });
 
+    $('#training-content').on('click', '.group-filter-card', function () {
+        $('#calendar-row').removeClass('d-none')
+        $('.card-header').removeClass('d-none')
+        resize_trainings_block()
+    })
+    $('#training-content').on('click', '.exs-filter-card', function () {
+        $('#calendar-row').addClass('d-none')
+        $('.card-header').addClass('d-none')
+        resize_trainings_block()
+    })
 })
 
 function resize_events_table(){
@@ -349,8 +359,8 @@ function resize_trainings_block(){
     //console.log(css)
     $('#training-content .training-data').css({"max-height": css})
     $('#training-content .training-data').css({"height": css})
-    $('#block-training-info .training-info').css({"max-height": css})
-    $('#block-training-info .training-info').css({"height": css})
+    $('#block-training-info').css({"max-height": css})
+    $('#block-training-info').css({"height": css})
 }
 
 function clear_event_form(){

@@ -36,7 +36,7 @@
                                     <button id="toggle-calendar" title="{% trans 'Show/Hide calendar' %}" class="btn btn-block btn-outline-dark btn-sm font-weight-bold"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
                                 </div>
                                 <div class="col px-1">
-                                    <button id="toggle-calendar" title="{% trans 'Show/Hide calendar' %}" class="btn btn-block btn-outline-dark btn-sm font-weight-bold"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+                                    <button id="microcycle-match-day" title="{% trans 'M.C.' %}" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">M.C.</button>
                                 </div>
                             </div>
                         </div>
@@ -85,8 +85,10 @@
                     </div>
                 </div>
                 <div class="card-body py-2">
-                    <div class="row">
-                        <div id="event_calendar" class="rescalendar"></div>
+                    <div id="calendar-row" class="row">
+                        <div class="col-12 px-0">
+                            <div id="event_calendar" class="rescalendar"></div>
+                        </div>
                     </div>
                     {% include 'trainings/training_card.html' %}
                     <div id="events-content" class="row mt-2 border-top">

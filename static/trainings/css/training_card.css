@@ -1,13 +1,12 @@
 .nav-warning.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
-    color: black;
     font-weight: bold;
-    background-color: #f1d42a;
+    color: darkred !important;
+    background: #f9db48 !important;
 }
 
 .nav-warning.nav-pills .nav-link, .nav-pills .show>.nav-link {
-    color: black;
-    font-weight: bold;
-    background-color: #f7f28e;
+    color: white;
+    background-color: #009efb;
 }
 
 .group-filter-card.active{
@@ -23,5 +22,16 @@
 
 .training-exercise-name{
     background: #eecd38;
-    border: 2px solid rgb(100, 100, 100) !important;
+    border: 1px solid white !important;
+}
+
+.training-exercise-additional{
+    background-color: #d5d5d5;
+    color: #5a6268 !important;
+    border: 1px solid white !important;
+}
+.training-exercise-additional-data{
+    background-color: #ececec;
+    color: #1f1f24 !important;
+    border: 1px solid white !important;
 }
