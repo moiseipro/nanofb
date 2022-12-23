@@ -366,16 +366,18 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
                 is_status_correct = check_protocol_status(t_protocol.status)
                 if player_data:
                     if is_status_correct:
+                        training_full_time = 0
                         for t_exercise in t_protocol.training_exercise_check.all():
                             if t_exercise.exercise_id.ref_ball and t_exercise.exercise_id.ref_ball.name == "мяч":
                                 player_data['res_trainings']['trainings_with_ball'] += 1
                             else:
                                 player_data['res_trainings']['trainings_no_ball'] += 1
                             player_data['res_trainings']['trainings_time'] += t_exercise.duration
+                            training_full_time += t_exercise.duration
                             if not t_exercise.exercise_id.folder.parent in player_data['res_trainings']['trainings_exs_folders']:
                                 player_data['res_trainings']['trainings_exs_folders'][t_exercise.exercise_id.folder.parent] = 0
                             player_data['res_trainings']['trainings_exs_folders'][t_exercise.exercise_id.folder.parent] += 1
-                        if player_data['res_trainings']['trainings_time'] > 0:
+                        if training_full_time > 0:
                             player_data['res_trainings']['trainings_count'] += 1
                             if t_protocol.estimation == 2:
                                 player_data['res_trainings']['trainings_like'] += 1

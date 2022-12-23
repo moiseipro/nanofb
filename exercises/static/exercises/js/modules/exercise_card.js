@@ -213,9 +213,36 @@ function RenderExerciseOne(data) {
         if (document.descriptionEditorView) {
             document.descriptionEditorView.setData(data.description);
         }
-
+        
+        $('#carouselSchema').find('.carousel-item.new-scheme').remove();
+        $('#carouselSchema').find('.carousel-indicators > li.new-scheme').remove();
         $('#carouselSchema').find('.carousel-item').first().html(data.scheme_data[0]);
         $('#carouselSchema').find('.carousel-item').last().html(data.scheme_data[1]);
+        let carouselIndicatorNum = 2;
+        if (data.scheme_2 && data.scheme_2 != "") {
+            let link = `http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_2}`;
+            $('#carouselSchema').find('.carousel-item').first().before(`
+                <div class="carousel-item new-scheme">
+                    <img src="${link}" alt="scheme" width="100%" height="100%"> 
+                </div>
+            `);
+            $('#carouselSchema').find('.carousel-indicators > li').last().after(`
+                <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
+            `);
+            carouselIndicatorNum ++;
+        }
+        if (data.scheme_1 && data.scheme_1 != "") {
+            let link = `http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_1}`;
+            $('#carouselSchema').find('.carousel-item').first().before(`
+                <div class="carousel-item new-scheme">
+                    <img src="${link}" alt="scheme" width="100%" height="100%"> 
+                </div>
+            `);
+            $('#carouselSchema').find('.carousel-indicators > li').last().after(`
+                <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
+            `);
+        }
+
         $('#card_drawing1').find('.card').last().html(data.scheme_data[0]);
         $('#card_drawing2').find('.card').last().html(data.scheme_data[1]);
 
@@ -335,6 +362,8 @@ function RenderExerciseOne(data) {
         $(exsCard).find('.video-value[name="video2"]').val('');
         $(exsCard).find('.video-value[name="animation1"]').val('');
         $(exsCard).find('.video-value[name="animation2"]').val('');
+        $('#carouselSchema').find('.carousel-item.new-scheme').remove();
+        $('#carouselSchema').find('.carousel-indicators > li.new-scheme').remove();
         $('#carouselSchema').find('.carousel-item').removeClass('active');
         $('#carouselSchema').find('.carousel-item:not(.d-none)').first().addClass('active');
         $('#carouselSchema').find('.carousel-indicators > li').removeClass('active');
@@ -403,8 +432,8 @@ function SaveExerciseOne() {
         swal("Внимание", "Выберите папку для упражнения.", "info");
         return;
     }
-    dataToSend.data['scheme_1'] = $('#card_drawing1').find('.card').html();
-    dataToSend.data['scheme_2'] = $('#card_drawing2').find('.card').html();
+    dataToSend.data['scheme_1_old'] = $('#card_drawing1').find('.card').html();
+    dataToSend.data['scheme_2_old'] = $('#card_drawing2').find('.card').html();
     dataToSend.data['video_1'] = $('#card_video1').find('.video-value').val();
     dataToSend.data['video_2'] = $('#card_video2').find('.video-value').val();
     dataToSend.data['animation_1'] = $('#card_animation1').find('.video-value').val();
@@ -943,12 +972,22 @@ $(function() {
                 cSrc = `http://62.113.105.179/canvas/edit/${cId}`;
             }
             $('.scheme-editor').find('iframe').attr('src', cSrc);
-
-            $('.scheme-editor').find('iframe').on('load', (e) => {
-                console.log('laod ', e)
-                console.log('con: ',  $('.scheme-editor').find('iframe')[0].contentWindow.document)
+            window.addEventListener('message', (e) => {
+                if (e.origin === "http://62.113.105.179") {
+                    const { event, payload } = e.data;
+                    let newId = null;
+                    try {
+                        newId = payload.canvas.id;
+                    } catch (e) {}
+                    if (newId && newId != "") {
+                        let cSrc = `http://62.113.105.179/canvas/edit/${newId}`;
+                        $('.scheme-editor').find('iframe').attr('src', cSrc);
+                        if ($('#openDrawing1').hasClass('selected2')) {
+                            $('#exerciseCard').find('.exs_edit_field[name="scheme_1"]').val(newId);
+                        }
+                    }
+                }
             });
-
             $('.scheme-editor').removeClass('d-none');
         }
         StopVideoForEdit();
@@ -976,7 +1015,22 @@ $(function() {
                 cSrc = `http://62.113.105.179/canvas/edit/${cId}`;
             }
             $('.scheme-editor').find('iframe').attr('src', cSrc);
-
+            window.addEventListener('message', (e) => {
+                if (e.origin === "http://62.113.105.179") {
+                    const { event, payload } = e.data;
+                    let newId = null;
+                    try {
+                        newId = payload.canvas.id;
+                    } catch (e) {}
+                    if (newId && newId != "") {
+                        let cSrc = `http://62.113.105.179/canvas/edit/${newId}`;
+                        $('.scheme-editor').find('iframe').attr('src', cSrc);
+                        if ($('#openDrawing2').hasClass('selected2')) {
+                            $('#exerciseCard').find('.exs_edit_field[name="scheme_2"]').val(newId);
+                        }
+                    }
+                }
+            });
             $('.scheme-editor').removeClass('d-none');
         }
         StopVideoForEdit();
@@ -1050,7 +1104,6 @@ $(function() {
             video_table.columns.adjust().draw();
         } catch(e) {}
     });
-
 
     $('#exerciseCard').on('click', 'button[data-type="add"]', (e) => {
         $('#exerciseCard').find('button[data-type="add"]').removeClass('selected');

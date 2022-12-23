@@ -119,6 +119,16 @@ function LoadGraphicsModal(id = -1, f_type="team_folders", activeNum = 1) {
 function RenderGraphicsModal(data = null, activeNum = 1) {
     window.videoPlayerClones = [];
     let htmlStr = `
+        ${data && data.scheme_1 && data.scheme_1 != "" ? `
+        <div class="carousel-item">
+            <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_1}" alt="scheme" width="100%" height="100%"> 
+        </div>
+        ` : ''}
+        ${data && data.scheme_2 && data.scheme_2 != "" ? `
+        <div class="carousel-item">
+            <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_2}" alt="scheme" width="100%" height="100%"> 
+        </div>
+        ` : ''}
         <div class="carousel-item">
             ${data && data.scheme_data && data.scheme_data[0] ? data.scheme_data[0] : `
             <svg id="" class="d-block bg-success mx-auto" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" "="">

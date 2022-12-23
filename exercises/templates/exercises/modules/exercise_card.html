@@ -481,9 +481,11 @@
                                 </div>
                                 {% endif %}
                                 <div class="col-12 mt-2">
-                                    <input name="scheme_1" class="form-control form-control-sm exs_edit_field text-center" type="hidden" value="" placeholder="" autocomplete="off">
-                                    <input name="scheme_2" class="form-control form-control-sm exs_edit_field text-center" type="hidden" value="" placeholder="" autocomplete="off">
-                                    
+                                    <div class="schemas_data d-none">
+                                        <input name="scheme_1" class="exs_edit_field" type="hidden" value="">
+                                        <input name="scheme_2" class="exs_edit_field" type="hidden" value="">
+                                    </div>
+                                  
                                     <div id="carouselSchema" class="carousel slide" data-ride="carousel" data-interval="false">
                                         <ol class="carousel-indicators">
                                             <li data-target="#carouselSchema" data-slide-to="0" class="active"></li>
@@ -717,10 +719,16 @@
                 </div>
                 <div class="scheme-editor d-none">
                     <div class="row">
+                        <div class="col-12">
+                            <div class="alert alert-warning py-1 mb-1" role="alert">
+                                Внимание! Редактирование старых рисунков невозможно, так как используется новая система рисования схем.
+                                При сохранении новой схемы, она будет добавлена в графический блок.
+                            </div>
+                        </div>
                         <div class="col-12 d-flex justify-content-center">
-                            <button type="button" class="btn btn-sm btn-success d-none" id="saveScheme"></button>
-                            <button type="button" class="btn btn-sm btn-success d-none" id="copyScheme"></button>
-                            <iframe src="http://62.113.105.179/canvas/new" style="width:80vw; height: 75vh;"></iframe> 
+                            <!-- <button type="button" class="btn btn-sm btn-success d-none" id="saveScheme"></button>
+                            <button type="button" class="btn btn-sm btn-success d-none" id="copyScheme"></button> -->
+                            <iframe src="http://62.113.105.179/canvas/new" style="width:80vw; height: 70vh;"></iframe> 
                             <!-- <iframe src="/schemeDrawer" style="width:80vw; height: 75vh;"></iframe>  -->
                         </div>
                     </div>
