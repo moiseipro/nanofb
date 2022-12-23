@@ -916,7 +916,7 @@ $(function() {
                     $(document).find('.ck-editor__top').addClass('d-none');
                     $(document).find('.ck-editor__main').addClass('read-mode');
                 }
-                $('.resizeable-block').css('height', `50vh`);
+                $('.resizeable-block').css('height', `75vh`);
             })
             .catch(err => {
                 console.error(err);
