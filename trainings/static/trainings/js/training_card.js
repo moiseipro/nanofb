@@ -4,8 +4,6 @@ $(window).on('load', function (){
         let group_id = $(this).attr('data-group')
         let training_id = $('#training-content').attr('data-training')
         //console.log(group_id)
-        $('.training-info .exercise-visual-block').addClass('d-none').addClass('col-4').removeClass('col-12')
-        $('.training-info .exercise-visual-block[data-group="'+group_id+'"]').removeClass('d-none')
 
         $('.exercise-data-row').addClass('d-none')
         $('.training-data-row').removeClass('d-none')
@@ -19,9 +17,6 @@ $(window).on('load', function (){
     $('#training-content').on('click', '.exs-filter-card', function () {
         let exs_id = $(this).attr('data-id')
         //console.log(exs_id)
-        $('.training-info .exercise-visual-block').addClass('d-none').addClass('col-4').removeClass('col-12')
-        $('.training-info .exercise-visual-block[data-id="'+exs_id+'"]').removeClass('d-none').removeClass('col-4').addClass('col-12')
-
         $('.exercise-data-row').removeClass('d-none')
         $('.training-data-row').addClass('d-none')
 
@@ -229,6 +224,8 @@ function load_all_exercises_training(training_id = null, group = null) {
         html_scheme += `</div>`
 
         $('#training-content #block-training-info').html(html_scheme)
+        $('#training-content .training-info .exercise-visual-block').addClass('d-none')
+        $('#training-content .training-info .exercise-visual-block[data-group="'+group+'"]').removeClass('d-none')
         //resize_trainings_block()
     })
 }
