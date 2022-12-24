@@ -3,11 +3,10 @@ from exercises.models import UserExercise, ExerciseVideo, AdminExercise, AdminFo
 from taggit.serializers import (TagListSerializerField,
                                 TaggitSerializer)
 
+
+
 # Exercise
 from video.models import Video
-
-
-# from video.serializers import VideoSerializer
 
 
 class AdminFolderSerializer(serializers.ModelSerializer):
@@ -46,10 +45,27 @@ class ExerciseVideoSerializer(serializers.ModelSerializer):
         ]
 
 
+class BaseVideoSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    note = serializers.JSONField()
+
+    class Meta:
+        model = Video
+        fields = (
+            'id', 'name', 'duration', 'language', 'music', 'links', 'upload_date', 'note'
+        )
+        datatables_always_serialize = ('id', 'taggit', 'exercises')
+
+
 class ExerciseSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    videos = BaseVideoSerializer(read_only=True, many=True)
+
     class Meta:
         fields = [
-            'user', 'field_task', 'title'
+            'id', 'user', 'field_task', 'title', 'videos', 'description'
         ]
 
 

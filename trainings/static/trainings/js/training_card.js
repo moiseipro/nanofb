@@ -4,8 +4,6 @@ $(window).on('load', function (){
         let group_id = $(this).attr('data-group')
         let training_id = $('#training-content').attr('data-training')
         //console.log(group_id)
-        $('.training-info .exercise-visual-block').addClass('d-none').addClass('col-4').removeClass('col-12')
-        $('.training-info .exercise-visual-block[data-group="'+group_id+'"]').removeClass('d-none')
 
         $('.exercise-data-row').addClass('d-none')
         $('.training-data-row').removeClass('d-none')
@@ -19,9 +17,6 @@ $(window).on('load', function (){
     $('#training-content').on('click', '.exs-filter-card', function () {
         let exs_id = $(this).attr('data-id')
         //console.log(exs_id)
-        $('.training-info .exercise-visual-block').addClass('d-none').addClass('col-4').removeClass('col-12')
-        $('.training-info .exercise-visual-block[data-id="'+exs_id+'"]').removeClass('d-none').removeClass('col-4').addClass('col-12')
-
         $('.exercise-data-row').removeClass('d-none')
         $('.training-data-row').addClass('d-none')
 
@@ -38,11 +33,38 @@ $(window).on('load', function (){
         let send_data = {}
         send_data.additional_id = 0
         send_data.note = ''
+        swal(gettext("Adding additional conditions to the exercise."), {
+            buttons: {
+                load_all: {
+                    text: gettext("Load all"),
+                    value: "all",
+                    className:'btn-warning'
+                },
+                load_one: {
+                    text: gettext("Load one"),
+                    value: "one",
+                    className:'btn-warning'
+                },
+                cancel: true,
+            },
+        }).then((value) => {
+            switch (value) {
+                case "one":
+                    ajax_training_exercise_action('POST', send_data, 'load data', training_exercise_id, 'add_data').then(function (data) {
+                        //console.log(data)
+                        load_exercises_additional_data(training_exercise_id)
+                    })
+                    break;
+                case "all":
+                    ajax_training_exercise_action('POST', send_data, 'load data', training_exercise_id, 'add_all_data').then(function (data) {
+                        //console.log(data)
+                        load_exercises_additional_data(training_exercise_id)
+                    })
+                    break;
+                default:
+            }
+        });
 
-        ajax_training_exercise_action('POST', send_data, 'load data', training_exercise_id, 'add_data').then(function (data) {
-            //console.log(data)
-            load_exercises_additional_data(training_exercise_id)
-        })
     })
     // Удаление дополнительных данных в упражнении
     $('#training-content').on('click', '.delete-exercise-additional', function (){
@@ -93,23 +115,23 @@ function show_training_card(id = ''){
         let count_1 = 0, count_2 = 0;
         let html_group_1 = `
                 <div class="col px-0">
-                    <button data-group="1" class="btn btn-sm btn-info btn-block border-white rounded-0 group-filter-card">A</button>
+                    <button data-group="1" class="btn btn-sm btn-block border-white rounded-0 group-filter-card">A</button>
                 </div>`
         let html_group_2 = `
                 <div class="col px-0">
-                    <button data-group="2" class="btn btn-sm btn-info btn-block border-white rounded-0 group-filter-card">B</button>
+                    <button data-group="2" class="btn btn-sm btn-block border-white rounded-0 group-filter-card">B</button>
                 </div>`
         $.each( data.exercises_info, function( key, value ) {
             if (value.group==1){
                 html_group_1 += `
                 <div class="col px-0">
-                    <button data-id="${value.id}" class="btn btn-sm btn-info btn-block border-white rounded-0 exs-filter-card" title="${(get_cur_lang() in value.exercise_name) ? value.exercise_name[get_cur_lang()] : Object.values(value.exercise_name)[0]}">${count_1+1}</button>
+                    <button data-id="${value.id}" class="btn btn-sm btn-block border-white rounded-0 exs-filter-card" title="${(get_cur_lang() in value.exercise_name) ? value.exercise_name[get_cur_lang()] : Object.values(value.exercise_name)[0]}">${count_1+1}</button>
                 </div>`
                 count_1++
             } else if (value.group==2){
                 html_group_2 += `
                 <div class="col px-0">
-                    <button data-id="${value.id}" class="btn btn-sm btn-info btn-block border-white rounded-0 exs-filter-card" title="${(get_cur_lang() in value.exercise_name) ? value.exercise_name[get_cur_lang()] : Object.values(value.exercise_name)[0]}">${count_2+1}</button>
+                    <button data-id="${value.id}" class="btn btn-sm btn-block border-white rounded-0 exs-filter-card" title="${(get_cur_lang() in value.exercise_name) ? value.exercise_name[get_cur_lang()] : Object.values(value.exercise_name)[0]}">${count_2+1}</button>
                 </div>`
                 count_2++
             }
@@ -145,21 +167,35 @@ function load_all_exercises_training(training_id = null, group = null) {
         let html_scheme = `<div class="row training-info">`
         if (data.exercises_info.length > 0) {
             let exercises = data.exercises_info
+            let count_slide = 0
             for (let exercise of exercises) {
+                let select_html = '', carousel_html = ''
+                if(exercise.exercise_scheme){
+                    if(exercise.exercise_scheme['scheme_1']){
+                        select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="active"></li>`
+                        count_slide++
+                        carousel_html+= `
+                            <div class="carousel-item active">
+                                ${exercise.exercise_scheme['scheme_1']}
+                            </div>`
+                    }
+                    if(exercise.exercise_scheme['scheme_2']){
+                        select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class=""></li>`
+                        count_slide++
+                        carousel_html+= `
+                            <div class="carousel-item">
+                                ${exercise.exercise_scheme['scheme_2']}
+                            </div>`
+                    }
+                }
                 html_scheme += `
-                <div class="col-4 pb-2 px-1 exercise-visual-block" data-id="${exercise.id}" data-exs-id="${exercise.exercise_id}" data-group="${exercise.group}">
+                <div class="col-4 pb-2 px-1 exercise-visual-block" data-id="${exercise.id}" data-exs-id="${exercise.exercise_id.id}" data-group="${exercise.group}">
                     <div id="carouselTrainingSchema-${exercise.id}" class="carousel slide carouselSchema" data-ride="carousel" data-interval="false">
                         <ol class="carousel-indicators">
-                            <li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="0" class="active"></li>
-                            <li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="1"></li>
+                            ${select_html}
                         </ol>
                         <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                ${exercise.exercise_scheme ? exercise.exercise_scheme['scheme_1'] : ''}
-                            </div>
-                            <div class="carousel-item">
-                                ${exercise.exercise_scheme ? exercise.exercise_scheme['scheme_2'] : ''}
-                            </div>
+                            ${carousel_html}
                         </div>
                         <a class="carousel-control-prev ml-2" href="#carouselTrainingSchema-${exercise.id}" role="button" data-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -188,6 +224,8 @@ function load_all_exercises_training(training_id = null, group = null) {
         html_scheme += `</div>`
 
         $('#training-content #block-training-info').html(html_scheme)
+        $('#training-content .training-info .exercise-visual-block').addClass('d-none')
+        $('#training-content .training-info .exercise-visual-block[data-group="'+group+'"]').removeClass('d-none')
         //resize_trainings_block()
     })
 }
@@ -198,40 +236,81 @@ function load_exercises_training_data(training_exercise_id = null) {
     ajax_training_exercise_action('GET', send_data, 'load exercise', training_exercise_id).then(function (exercise) {
         console.log(exercise)
 
+        let video_data = null
         $('#block-training-info').html('')
 
         $('.training-exercise-name .exercise-time').html(`
             <div class="w-100 ${exercise.duration==0 ? 'font-weight-bold text-danger':''}">${exercise.duration}</div>
         `)
+        let count_slide = 0
+        let select_html = '', carousel_html = ''
+        if(exercise.exercise_scheme){
+            if(exercise.exercise_scheme['scheme_1']){
+                select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="active"></li>`
+                count_slide++
+                carousel_html+= `
+                    <div class="carousel-item active">
+                        ${exercise.exercise_scheme['scheme_1']}
+                    </div>`
+            }
+            if(exercise.exercise_scheme['scheme_2']){
+                select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class=""></li>`
+                count_slide++
+                carousel_html+= `
+                    <div class="carousel-item">
+                        ${exercise.exercise_scheme['scheme_2']}
+                    </div>`
+            }
+        }
+        if(exercise.exercise_data.videos.length > 0){
+            for (let key in exercise.exercise_data.videos) {
+                video_data = exercise.exercise_data.videos
+                select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}"></li>`
+                count_slide++
+                carousel_html+= `
+                    <div class="carousel-item">
+                        <video id="video-exercise-${key}" class="video-js resize-block">
+                        </video>
+                    </div>`
+            }
+        }
+        if(exercise.exercise_data.description){
+            let descr = (get_cur_lang() in exercise.exercise_data.description) ? exercise.exercise_data.description[get_cur_lang()] : Object.values(exercise.exercise_data.description)[0]
+            if(descr!=''){
+                select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}"></li>`
+                count_slide++
+                carousel_html+= `
+                    <div class="carousel-item">
+                        <div id="descriptionEditorView" class="ckeditor">
+                            ${descr}
+                        </div>
+                        
+                    </div>`
+            }
+        }
 
         let html_exs_data = ''
         html_exs_data += `
             <div class="row exercise-data-row">
-                <div class="col-12 btn btn-sm btn-info border border-light font-weight-bold">
-                    ${(get_cur_lang() in exercise.exercise_id.title) ? exercise.exercise_id.title[get_cur_lang()] : Object.values(exercise.exercise_id.title)[0]}
+                <div class="col-12 btn btn-sm btn-lightblue border border-light font-weight-bold">
+                    ${(get_cur_lang() in exercise.exercise_data.title) ? exercise.exercise_data.title[get_cur_lang()] : Object.values(exercise.exercise_data.title)[0]}
                 </div>
             </div>
             <div class="row exercise-data-row">
-                <div class="col-6 btn btn-sm btn-info border border-light">
-                    ${exercise.exercise_id.field_task ? exercise.exercise_id.field_task : '---'}
+                <div class="col-6 btn btn-sm btn-lightblue border border-light">
+                    ${exercise.exercise_data.field_task ? exercise.exercise_data.field_task : '---'}
                 </div>
-                <div class="col-6 btn btn-sm btn-info border border-light">
-                    ${exercise.exercise_id.field_task ? exercise.exercise_id.field_task : '---'}
+                <div class="col-6 btn btn-sm btn-lightblue border border-light">
+                    ${exercise.exercise_data.field_task ? exercise.exercise_data.field_task : '---'}
                 </div>
             </div>
-            <div class="offset-1 col-10 pb-2 px-1 exercise-visual-block" data-id="${exercise.id}" data-exs-id="${exercise.exercise_id}" data-group="${exercise.group}">
+            <div class="offset-1 col-10 pb-2 px-1 exercise-visual-block" data-id="${exercise.id}" data-exs-id="${exercise.exercise_data}" data-group="${exercise.group}">
                 <div id="carouselTrainingSchema-${exercise.id}" class="carousel slide carouselSchema" data-ride="carousel" data-interval="false">
                     <ol class="carousel-indicators">
-                        <li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="0" class="active"></li>
-                        <li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="1"></li>
+                        ${select_html}
                     </ol>
                     <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            ${exercise.exercise_scheme ? exercise.exercise_scheme['scheme_1'] : ''}
-                        </div>
-                        <div class="carousel-item">
-                            ${exercise.exercise_scheme ? exercise.exercise_scheme['scheme_2'] : ''}
-                        </div>
+                        ${carousel_html}
                     </div>
                     <a class="carousel-control-prev ml-2" href="#carouselTrainingSchema-${exercise.id}" role="button" data-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -245,6 +324,36 @@ function load_exercises_training_data(training_exercise_id = null) {
             </div>
         `
         $('#block-training-info').html(html_exs_data)
+        if(video_data != null){
+            for (let key in video_data) {
+                console.log(video_data[key])
+                if(video_data[key].links != null){
+                    if('nftv' in video_data[key].links && video_data[key].links['nftv']){
+                        let videoPlayerExercise = videojs($('#block-training-info').find(`#video-exercise-${key}`)[0], {
+                            preload: 'auto',
+                            autoplay: false,
+                            controls: true,
+                            aspectRatio: '16:9',
+                        });
+                        videoPlayerExercise.poster(`https://213.108.4.28/video/poster/${video_data[key].links['nftv']}`)
+                        videoPlayerExercise.src({type: 'video/mp4', src: `https://213.108.4.28/video/player/${video_data[key].links['nftv']}`});
+                    } else if ('youtube' in video_data[key].links && video_data[key].links['youtube']){
+                        let videoPlayerExercise = videojs($('#block-training-info').get(`#video-exercise-${key}`)[0], {
+                            preload: 'auto',
+                            autoplay: false,
+                            controls: true,
+                            aspectRatio: '16:9',
+                            sources: [{type: 'video/youtube'}],
+                            techOrder: ["youtube"],
+                            youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 }
+                        });
+                        videoPlayerExercise.poster(`https://213.108.4.28/video/poster/${video_data[key].links['youtube']}`)
+                        videoPlayerExercise.src({type: 'video/mp4', src: `https://213.108.4.28/video/player/${video_data[key].links['youtube']}`});
+                    }
+                }
+
+            }
+        }
     })
 }
 

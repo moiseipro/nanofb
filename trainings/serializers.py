@@ -104,7 +104,8 @@ class TrainingExerciseSerializer(serializers.ModelSerializer):
 
 
 class UserTrainingExerciseSerializer(TrainingExerciseSerializer):
-    exercise_id = UserExerciseSerializer(
+    exercise_data = UserExerciseSerializer(
+        source='exercise_id',
         read_only=True
     )
     additional = UserTrainingExerciseAdditionalSerializer(
@@ -116,11 +117,12 @@ class UserTrainingExerciseSerializer(TrainingExerciseSerializer):
     class Meta(TrainingExerciseSerializer.Meta):
         model = UserTrainingExercise
 
-    Meta.fields += ('additional',)
+    Meta.fields += ('additional', 'exercise_data')
 
 
 class ClubTrainingExerciseSerializer(TrainingExerciseSerializer):
-    exercise_id = ClubExerciseSerializer(
+    exercise_data = UserExerciseSerializer(
+        source='exercise_id',
         read_only=True
     )
     additional = ClubTrainingExerciseAdditionalSerializer(
@@ -132,7 +134,7 @@ class ClubTrainingExerciseSerializer(TrainingExerciseSerializer):
     class Meta(TrainingExerciseSerializer.Meta):
         model = ClubTrainingExercise
 
-    Meta.fields += ('additional',)
+    Meta.fields += ('additional', 'exercise_data')
 
 
 class TrainingSerializer(serializers.ModelSerializer):
