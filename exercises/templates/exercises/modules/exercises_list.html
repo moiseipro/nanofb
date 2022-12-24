@@ -291,8 +291,20 @@
             <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content mb-1" data-id="tags">Тэги</button>
         </div>
         <ul class="list-group list-group-flush d-none" data-id="tags">
-            {% for tag in exercises_tags %}
+            {% for tag in exercises_tags.nfb %}
                 <li class="side-filter-elem list-group-item py-0 px-2" data-type="tags" data-id="{{ tag.lowercase_name }}">
+                    [NFB]
+                    {% if tag.category %}
+                        {{ tag.category.name }}. 
+                    {% endif %}
+                    {{ tag.name }}
+                </li>
+            {% endfor %}
+            {% for tag in exercises_tags.self %}
+                <li class="side-filter-elem list-group-item py-0 px-2" data-type="tags" data-id="{{ tag.lowercase_name }}">
+                    {% if tag.category %}
+                        {{ tag.category.name }}. 
+                    {% endif %}
                     {{ tag.name }}
                 </li>
             {% endfor %}

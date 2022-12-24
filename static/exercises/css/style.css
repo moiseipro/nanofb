@@ -565,3 +565,22 @@ input.exs-search {
     border: 2px solid rgb(100, 100, 100) !important;
 }
 
+
+#exerciseTagsModal .category-block {
+    padding: 20px;
+    background: #eee;
+    min-height: 100px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+#exerciseTagsModal .drag {
+    border-radius: 5px;
+}
+#exerciseTagsModal .category-container:hover {
+    background-color: rgb(230, 230, 230);
+}
+#exerciseTagsModal .category-container.selected {
+    border: 2px solid black;
+    border-radius: 10px;
+}
+

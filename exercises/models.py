@@ -75,10 +75,24 @@ class ClubFolder(AbstractFolder):
         return f"[id: {self.id}] {self.short_name}. {self.name}"
 
 
-class ExerciseTag(CustomTag):
+class ExerciseTagCategory(CustomTag):
     is_nfb = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     club = models.ForeignKey(Club, on_delete=models.SET_NULL, null=True, blank=True)
+    visible = models.BooleanField(default=True)
+    lowercase_name = None
+
+    objects = models.Manager()
+    class Meta(CustomTag.Meta):
+        abstract = False
+
+
+class ExerciseTag(CustomTag):
+    is_nfb = models.BooleanField(default=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    club = models.ForeignKey(Club, on_delete=models.CASCADE, null=True, blank=True)
+    visible = models.BooleanField(default=True)
+    category = models.ForeignKey(ExerciseTagCategory, on_delete=models.SET_NULL, null=True, blank=True)
 
     objects = models.Manager()
     class Meta(CustomTag.Meta):
