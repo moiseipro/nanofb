@@ -278,16 +278,18 @@ function load_exercises_training_data(training_exercise_id = null) {
             }
         }
         if(exercise.exercise_data.description){
-            console.log(exercise.exercise_data.description)
-            select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}"></li>`
-            count_slide++
-            carousel_html+= `
-                <div class="carousel-item">
-                    <div id="descriptionEditorView" class="ckeditor">
-                        ${(get_cur_lang() in exercise.exercise_data.description) ? exercise.exercise_data.description[get_cur_lang()] : Object.values(exercise.exercise_data.description)[0]}
-                    </div>
-                    
-                </div>`
+            let descr = (get_cur_lang() in exercise.exercise_data.description) ? exercise.exercise_data.description[get_cur_lang()] : Object.values(exercise.exercise_data.description)[0]
+            if(descr!=''){
+                select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}"></li>`
+                count_slide++
+                carousel_html+= `
+                    <div class="carousel-item">
+                        <div id="descriptionEditorView" class="ckeditor">
+                            ${descr}
+                        </div>
+                        
+                    </div>`
+            }
         }
 
         let html_exs_data = ''
