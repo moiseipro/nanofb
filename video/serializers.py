@@ -3,7 +3,7 @@ from rest_framework import serializers
 from taggit.serializers import (TagListSerializerField,
                                 TaggitSerializer)
 
-from exercises.serializers import ExerciseVideoSerializer, AdminExerciseSerializer
+from exercises.serializers import AdminExerciseSerializer
 from references.serializers import VideoSourceSerializer
 from video.models import Video, VideoTags
 

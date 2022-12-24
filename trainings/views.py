@@ -288,6 +288,27 @@ class TrainingExerciseViewSet(viewsets.ModelViewSet):
         return Response({'status': 'data_got', 'objs': serializer.data})
 
     @action(detail=True, methods=['post'])
+    def add_all_data(self, request, pk=None):
+        data = request.data
+
+        if self.request.user.club_id is not None:
+            training_exercise = ClubTrainingExercise.objects.get(id=pk)
+        else:
+            training_exercise = UserTrainingExercise.objects.get(id=pk)
+        data_count = training_exercise.additional.all().count()
+        additionals = ExsAdditionalData.objects.all()
+
+        print(data_count)
+        print(pk)
+        if data_count > 0:
+            training_exercise.additional.clear()
+
+        if training_exercise.additional.add(*additionals):
+            return Response({'status': 'data_added', 'obj': training_exercise.additional.values()})
+        else:
+            return Response({'status': 'data_error'})
+
+    @action(detail=True, methods=['post'])
     def add_data(self, request, pk=None):
         data = request.data
 
@@ -300,7 +321,7 @@ class TrainingExerciseViewSet(viewsets.ModelViewSet):
 
         print(data_count)
         print(pk)
-        if data_count > 5:
+        if data_count > 14:
             return Response({'status': 'data_limit'})
         data_dict = dict(
             training_exercise_id=pk,
