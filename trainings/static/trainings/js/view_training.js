@@ -253,7 +253,7 @@ $(window).on('load', function (){
         })
 
         let training_data = {}
-        if($('#block-training-info').is('input[name="objectives_1"]') && $('#block-training-info').is('input[name="objectives_2"]')){
+        if($('#block-training-info input[name="objectives_1"]').length>0 && $('#block-training-info input[name="objectives_2"]').length>0){
             let text1 = $('#block-training-info input[name="objectives_1"]').val();
             let text2 = $('#block-training-info input[name="objectives_2"]').val();
             training_data['objectives'] = '[ "'+text1+'", "'+text2+'" ]'
