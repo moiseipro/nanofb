@@ -164,12 +164,52 @@ function load_all_exercises_training(training_id = null, group = null) {
 
     ajax_training_action('GET', send_data, 'view card training', training_id).then(function (data) {
         console.log(data)
-        let html_scheme = `<div class="row training-info">`
+
+        var select = ''
+        ajax_training_space('GET').then(function (training_space) {
+            let options = training_space.results;
+            let option_html = ''
+            $.each( options, function( key, option ) {
+                option_html+=`
+                    <option value="${ option.id }">${ (get_cur_lang() in option.translation_names) ? option.translation_names[get_cur_lang()] : Object.values(exercise.exercise_name)[0] }</option>
+                `
+            })
+            select = `
+                <select class="select custom-select p-0 edit-input text-center" name="additional_id" tabindex="-1" aria-hidden="true" ${!edit_mode ? 'disabled' : ''} style="height: 25px; color: black !important;">
+                    ${ option_html }
+                </select>
+            `
+            $('#training-main-data .space-select').html(select)
+
+            $('#training-main-data .space-select select').val(data.space_info)
+        })
+
+        $('#training-main-data [name="date"]').val(data.event_date);
+        $('#training-main-data [name="time"]').val(data.event_time);
+        $('#training-main-data .team-name').text(data.team_info.name);
+        $('#training-main-data .trainer-select').text(data.trainer);
+
+        let exs_time = 0
+        let html_scheme = ''
+        html_scheme += `
+            <div class="row training-data-row">
+                <div class="col-12 px-0">
+                    <input type="text" name="objectives[]" class="form-control form-control-sm btn btn-sm btn-lightblue border border-light font-weight-bold text-center edit-input" value="${1}" placeholder="" ${!edit_mode ? 'disabled' : ''}>
+                </div>
+            </div>
+            <div class="row training-data-row">
+                <div class="col-12 px-0">
+                    <input type="text" name="objectives[]" class="form-control form-control-sm btn btn-sm btn-lightblue border border-light font-weight-bold text-center edit-input" value="${1}" placeholder="" ${!edit_mode ? 'disabled' : ''}>
+                </div>
+            </div>`
+
+        html_scheme += `<div class="row training-info">`
         if (data.exercises_info.length > 0) {
             let exercises = data.exercises_info
             let count_slide = 0
             for (let exercise of exercises) {
                 let select_html = '', carousel_html = ''
+                exs_time += exercise.duration
                 if(exercise.exercise_scheme){
                     if(exercise.exercise_scheme['scheme_1']){
                         select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="active"></li>`
@@ -222,6 +262,20 @@ function load_all_exercises_training(training_id = null, group = null) {
             }
         }
         html_scheme += `</div>`
+
+        let player_count = 0
+        if (data.protocol_info.length > 0) {
+            let players = data.protocol_info
+            for (let player of players) {
+                player_count++
+            }
+        }
+
+
+        $('#training-main-data .all-exercise-time').text(exs_time+'`')
+        $('#training-main-data .training-players').text(player_count)
+        $('#training-main-data .training-goalkeepers').text('---')
+
 
         $('#training-content #block-training-info').html(html_scheme)
         $('#training-content .training-info .exercise-visual-block').addClass('d-none')
@@ -312,11 +366,11 @@ function load_exercises_training_data(training_exercise_id = null) {
                     <div class="carousel-inner">
                         ${carousel_html}
                     </div>
-                    <a class="carousel-control-prev ml-2" href="#carouselTrainingSchema-${exercise.id}" role="button" data-slide="prev">
+                    <a class="carousel-control-prev" href="#carouselTrainingSchema-${exercise.id}" role="button" data-slide="prev" style="margin-left: -12.5%; width: 12%; background: lightblue;">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="sr-only">-</span>
                     </a>
-                    <a class="carousel-control-next" href="#carouselTrainingSchema-${exercise.id}" role="button" data-slide="next">
+                    <a class="carousel-control-next" href="#carouselTrainingSchema-${exercise.id}" role="button" data-slide="next" style="margin-right: -12.5%; width: 12%; background: lightblue;">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="sr-only">+</span>
                     </a>
@@ -372,7 +426,7 @@ function load_exercises_additional_data(training_exercise_id = null) {
                 `
             })
             select = `
-                <select class="select custom-select p-0 edit-input text-center" name="additional_id" tabindex="-1" aria-hidden="true" ${!edit_mode ? 'disabled' : ''} style="height: 25px; color: black !important;">
+                <select class="select custom-select p-0 edit-input text-left" name="additional_id" tabindex="-1" aria-hidden="true" ${!edit_mode ? 'disabled' : ''} style="height: 25px; color: black !important;">
                     ${ option_html }
                 </select>
             `
@@ -381,7 +435,7 @@ function load_exercises_additional_data(training_exercise_id = null) {
             $.each( data.objs, function( key, additional ) {
                 additional_html = `
                 <div class="row exercise-additional-row" data-id="${additional.id}">
-                    <div class="col px-0">
+                    <div class="col-5 px-0">
                         ${select}
                     </div>
                     <div class="col px-0">

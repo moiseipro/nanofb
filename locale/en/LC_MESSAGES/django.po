@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: .\references\models.py:300
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-15 15:05+0300\n"
+"POT-Creation-Date: 2022-12-25 11:08+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1088,7 +1087,7 @@ msgstr ""
 
 #: .\Lib\site-packages\django\forms\formsets.py:483
 #: .\env\Lib\site-packages\django\forms\formsets.py:483
-#: .\trainings\templates\trainings\view_training.html:62
+#: .\trainings\templates\trainings\view_training.html:63
 #: .\video\templates\video\video_card.html:23
 msgid "Delete"
 msgstr ""
@@ -1882,12 +1881,12 @@ msgstr ""
 msgid "Unable to connect to qpid with SASL mechanism %s"
 msgstr ""
 
-#: .\clubs\apps.py:8 .\nanofootball\templates\menu\sidebar.html:21
+#: .\clubs\apps.py:8 .\nanofootball\templates\menu\sidebar.html:40
 msgid "Clubs"
 msgstr ""
 
 #: .\clubs\forms.py:33 .\events\forms.py:94
-#: .\trainings\templates\trainings\view_training.html:73
+#: .\trainings\templates\trainings\training_card.html:35
 #: .\video\templates\video\modules\video_list_exercises.html:12
 #: .\video\templates\video\video_card.html:88
 msgid "Date"
@@ -1898,7 +1897,7 @@ msgid "Birthday"
 msgstr ""
 
 #: .\clubs\models.py:15 .\events\models.py:87
-#: .\events\templates\events\base_events.html:152 .\references\models.py:16
+#: .\events\templates\events\base_events.html:177 .\references\models.py:16
 #: .\references\templates\references\base_settings.html:45
 #: .\references\templates\references\base_settings.html:62
 #: .\version\models.py:63 .\version\models.py:90 .\video\models.py:17
@@ -1979,7 +1978,7 @@ msgstr ""
 
 #: .\clubs\templates\clubs\admin_panel.html:20
 #: .\clubs\templates\clubs\club_information.html:27
-#: .\nanofootball\templates\menu\sidebar.html:20 .\users\apps.py:8
+#: .\nanofootball\templates\menu\sidebar.html:39 .\users\apps.py:8
 msgid "Users"
 msgstr ""
 
@@ -2077,11 +2076,11 @@ msgid "Date of birth"
 msgstr ""
 
 #: .\events\apps.py:8 .\events\templates\events\base_events.html:5
-#: .\nanofootball\templates\menu\sidebar.html:61
+#: .\nanofootball\templates\menu\sidebar.html:90
 msgid "Events"
 msgstr ""
 
-#: .\events\forms.py:40 .\nanofootball\templates\menu\sidebar.html:85
+#: .\events\forms.py:40 .\nanofootball\templates\menu\sidebar.html:114
 msgid "Training"
 msgstr ""
 
@@ -2096,7 +2095,7 @@ msgstr ""
 #: .\events\forms.py:71 .\events\forms.py:83 .\events\forms.py:117
 #: .\events\forms.py:131 .\events\forms.py:161 .\references\forms.py:27
 #: .\references\forms.py:45
-#: .\trainings\templates\trainings\view_training.html:39 .\video\forms.py:19
+#: .\trainings\templates\trainings\view_training.html:40 .\video\forms.py:19
 #: .\video\forms.py:53 .\video\templates\video\video_card.html:18
 msgid "Save"
 msgstr ""
@@ -2104,7 +2103,7 @@ msgstr ""
 #: .\events\forms.py:72 .\exercises\templates\exercises\base_folders.html:88
 #: .\exercises\templates\exercises\base_folders.html:108
 #: .\exercises\templates\exercises\base_folders.html:132
-#: .\trainings\templates\trainings\view_training.html:35
+#: .\trainings\templates\trainings\view_training.html:36
 #: .\video\templates\video\video_card.html:13
 msgid "Cancel"
 msgstr ""
@@ -2151,7 +2150,7 @@ msgstr ""
 msgid "Microcycle"
 msgstr ""
 
-#: .\events\models.py:93 .\events\templates\events\base_events.html:153
+#: .\events\models.py:93 .\events\templates\events\base_events.html:178
 #: .\references\models.py:123 .\references\models.py:161
 #: .\references\templates\references\base_settings.html:64
 msgid "start date"
@@ -2161,7 +2160,7 @@ msgstr ""
 msgid "Start date of the microcycle."
 msgstr ""
 
-#: .\events\models.py:97 .\events\templates\events\base_events.html:154
+#: .\events\models.py:97 .\events\templates\events\base_events.html:179
 #: .\references\models.py:128 .\references\models.py:166
 #: .\references\templates\references\base_settings.html:65
 msgid "end date"
@@ -2175,15 +2174,19 @@ msgstr ""
 msgid "Show/Hide calendar"
 msgstr ""
 
-#: .\events\templates\events\base_events.html:139
+#: .\events\templates\events\base_events.html:39
+msgid "M.C."
+msgstr ""
+
+#: .\events\templates\events\base_events.html:147
 msgid "Working with microcycles"
 msgstr ""
 
-#: .\events\templates\events\base_events.html:141
+#: .\events\templates\events\base_events.html:151
 msgid "Create"
 msgstr ""
 
-#: .\events\templates\events\base_events.html:155
+#: .\events\templates\events\base_events.html:180
 #: .\references\templates\references\base_settings.html:48
 #: .\references\templates\references\base_settings.html:66
 msgid "options"
@@ -2197,13 +2200,13 @@ msgstr ""
 msgid "Event Update"
 msgstr ""
 
-#: .\exercises\apps.py:8 .\nanofootball\templates\menu\sidebar.html:97
-#: .\trainings\templates\trainings\view_training.html:50
+#: .\exercises\apps.py:8 .\nanofootball\templates\menu\sidebar.html:126
+#: .\trainings\templates\trainings\view_training.html:51
 msgid "Exercises"
 msgstr ""
 
 #: .\exercises\templates\exercises\base_folders.html:5
-#: .\nanofootball\templates\menu\sidebar.html:102
+#: .\nanofootball\templates\menu\sidebar.html:131
 msgid "Folders management"
 msgstr ""
 
@@ -2257,27 +2260,27 @@ msgstr ""
 msgid "Choose this structure"
 msgstr ""
 
-#: .\exercises\templates\exercises\modules\exercise_card.html:694
-#: .\exercises\templates\exercises\modules\exercise_card.html:704
+#: .\exercises\templates\exercises\modules\exercise_card.html:753
+#: .\exercises\templates\exercises\modules\exercise_card.html:763
 #: .\video\templates\video\base_video.html:53
 #: .\video\templates\video\base_video.html:63
 msgid "All"
 msgstr ""
 
-#: .\exercises\templates\exercises\modules\exercise_card.html:698
-#: .\exercises\templates\exercises\modules\exercise_card.html:708
+#: .\exercises\templates\exercises\modules\exercise_card.html:757
+#: .\exercises\templates\exercises\modules\exercise_card.html:767
 #: .\video\templates\video\base_video.html:57
 #: .\video\templates\video\video_card.html:82
 msgid "No sources"
 msgstr ""
 
-#: .\exercises\templates\exercises\modules\exercise_card.html:717
+#: .\exercises\templates\exercises\modules\exercise_card.html:776
 #: .\video\templates\video\base_video.html:76
 msgid "No tags"
 msgstr ""
 
 #: .\matches\apps.py:8 .\matches\templates\matches\base_matches.html:5
-#: .\nanofootball\templates\menu\sidebar.html:73
+#: .\nanofootball\templates\menu\sidebar.html:102
 msgid "Matches"
 msgstr ""
 
@@ -2383,11 +2386,11 @@ msgstr ""
 msgid "No teams"
 msgstr ""
 
-#: .\nanofb\settings.py:206
+#: .\nanofb\settings.py:208
 msgid "Russian"
 msgstr ""
 
-#: .\nanofb\settings.py:207
+#: .\nanofb\settings.py:209
 msgid "English"
 msgstr ""
 
@@ -2422,6 +2425,7 @@ msgid "Settings"
 msgstr ""
 
 #: .\nanofootball\templates\menu\header.html:212
+#: .\nanofootball\templates\menu\sidebar.html:79
 msgid "My Profile"
 msgstr ""
 
@@ -2429,78 +2433,81 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:5
+#: .\nanofootball\templates\menu\sidebar.html:11
 msgid "Administration"
 msgstr ""
 
 #: .\nanofootball\templates\menu\sidebar.html:16
+#: .\nanofootball\templates\menu\sidebar.html:35
 msgid "«Client» system"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:22
-msgid "Federations"
-msgstr ""
-
-#: .\nanofootball\templates\menu\sidebar.html:34
+#: .\nanofootball\templates\menu\sidebar.html:19
+#: .\nanofootball\templates\menu\sidebar.html:53
 msgid "«Club» panel"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:46
+#: .\nanofootball\templates\menu\sidebar.html:22
+#: .\nanofootball\templates\menu\sidebar.html:65
 msgid "«Federation» panel"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:51
+#: .\nanofootball\templates\menu\sidebar.html:41
+msgid "Federations"
+msgstr ""
+
+#: .\nanofootball\templates\menu\sidebar.html:70
 msgid "Main sections"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:101
+#: .\nanofootball\templates\menu\sidebar.html:130
 msgid "Exercise lists"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:114 .\players\apps.py:8
-#: .\trainings\templates\trainings\view_training.html:205
+#: .\nanofootball\templates\menu\sidebar.html:143 .\players\apps.py:8
+#: .\trainings\templates\trainings\view_training.html:165
 msgid "Players"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:160
+#: .\nanofootball\templates\menu\sidebar.html:189
 msgid "Analytics"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:172
+#: .\nanofootball\templates\menu\sidebar.html:201
 msgid "Applications"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:176
+#: .\nanofootball\templates\menu\sidebar.html:205
 msgid "Mailing"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:177
+#: .\nanofootball\templates\menu\sidebar.html:206
 msgid "Chat"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:178
+#: .\nanofootball\templates\menu\sidebar.html:207
 #: .\video\templates\video\base_video.html:10
 #: .\video\templates\video\video_card.html:135
 msgid "Video"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:179
+#: .\nanofootball\templates\menu\sidebar.html:208
 msgid "Tests"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:180
+#: .\nanofootball\templates\menu\sidebar.html:209
 msgid "Finance"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:185
+#: .\nanofootball\templates\menu\sidebar.html:214
 msgid "Education"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:194
+#: .\nanofootball\templates\menu\sidebar.html:223
 msgid "Methodology"
 msgstr ""
 
-#: .\nanofootball\templates\menu\sidebar.html:204
+#: .\nanofootball\templates\menu\sidebar.html:233
 msgid "Courses"
 msgstr ""
 
@@ -2789,7 +2796,7 @@ msgstr ""
 msgid "Player protocol statuses"
 msgstr ""
 
-#: .\references\models.py:299
+#: .\references\models.py:299 .\references\models.py:300
 msgid "lowercase title"
 msgstr ""
 
@@ -2818,7 +2825,7 @@ msgid "Nanofb administration"
 msgstr ""
 
 #: .\trainings\apps.py:8 .\trainings\templates\trainings\base_trainings.html:5
-#: .\trainings\templates\trainings\view_training.html:11
+#: .\trainings\templates\trainings\view_training.html:12
 msgid "Trainings"
 msgstr ""
 
@@ -2878,41 +2885,29 @@ msgstr ""
 msgid "Player rating like/dislike"
 msgstr ""
 
-#: .\trainings\templates\trainings\training_card.html:9
-msgid "Training Card"
-msgstr ""
-
-#: .\trainings\templates\trainings\view_training.html:34
+#: .\trainings\templates\trainings\view_training.html:35
 msgid "Back"
 msgstr ""
 
-#: .\trainings\templates\trainings\view_training.html:38
+#: .\trainings\templates\trainings\view_training.html:39
 #: .\users\templates\users\base_profile.html:73
 #: .\video\templates\video\video_card.html:10
 msgid "Edit"
 msgstr ""
 
-#: .\trainings\templates\trainings\view_training.html:46
+#: .\trainings\templates\trainings\view_training.html:47
 msgid "Card"
 msgstr ""
 
-#: .\trainings\templates\trainings\view_training.html:57
+#: .\trainings\templates\trainings\view_training.html:58
 msgid "Protocol"
 msgstr ""
 
-#: .\trainings\templates\trainings\view_training.html:85
-msgid "Group A"
-msgstr ""
-
-#: .\trainings\templates\trainings\view_training.html:88
-msgid "Group B"
-msgstr ""
-
-#: .\trainings\templates\trainings\view_training.html:219
+#: .\trainings\templates\trainings\view_training.html:179
 msgid "Add all players"
 msgstr ""
 
-#: .\trainings\templates\trainings\view_training.html:220
+#: .\trainings\templates\trainings\view_training.html:180
 msgid "Add selected"
 msgstr ""
 

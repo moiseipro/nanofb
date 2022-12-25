@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-15 14:33+0300\n"
+"POT-Creation-Date: 2022-12-25 11:10+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,21 +28,23 @@ msgstr ""
 #: .\static\trainings\js\action_training.js:19
 #: .\static\trainings\js\action_training.js:21
 #: .\static\trainings\js\action_training.js:23
-#: .\static\trainings\js\action_training.js:27
-#: .\static\trainings\js\action_training.js:32
+#: .\static\trainings\js\action_training.js:25
+#: .\static\trainings\js\action_training.js:29
+#: .\static\trainings\js\action_training.js:34
+#: .\static\trainings\js\action_training.js:63
 #: .\static\trainings\js\view_protocol.js:25
-#: .\static\trainings\js\view_training.js:804
-#: .\static\trainings\js\view_training.js:833
+#: .\static\trainings\js\view_training.js:799
 #: .\static\trainings\view_training.js:32
 #: .\static\trainings\view_training.js:36
 #: .\trainings\static\trainings\js\action_training.js:19
 #: .\trainings\static\trainings\js\action_training.js:21
 #: .\trainings\static\trainings\js\action_training.js:23
-#: .\trainings\static\trainings\js\action_training.js:27
-#: .\trainings\static\trainings\js\action_training.js:32
+#: .\trainings\static\trainings\js\action_training.js:25
+#: .\trainings\static\trainings\js\action_training.js:29
+#: .\trainings\static\trainings\js\action_training.js:34
+#: .\trainings\static\trainings\js\action_training.js:63
 #: .\trainings\static\trainings\js\view_protocol.js:25
-#: .\trainings\static\trainings\js\view_training.js:804
-#: .\trainings\static\trainings\js\view_training.js:833
+#: .\trainings\static\trainings\js\view_training.js:799
 msgid "Training "
 msgstr "Тренировка "
 
@@ -59,15 +61,15 @@ msgstr "Лимит упражнений для выбранной группы �
 #: .\static\clubs\js\club_ajax.js:24 .\static\clubs\js\users_list.js:90
 #: .\static\events\base_events.js:244 .\static\events\js\event_update.js:28
 #: .\static\references\team_ajax.js:22
-#: .\static\trainings\js\action_training.js:32
+#: .\static\trainings\js\action_training.js:34
+#: .\static\trainings\js\action_training.js:63
 #: .\static\trainings\js\view_protocol.js:25
-#: .\static\trainings\js\view_training.js:804
-#: .\static\trainings\js\view_training.js:833
+#: .\static\trainings\js\view_training.js:799
 #: .\static\trainings\view_training.js:36 .\static\video\js\video_card.js:104
-#: .\trainings\static\trainings\js\action_training.js:32
+#: .\trainings\static\trainings\js\action_training.js:34
+#: .\trainings\static\trainings\js\action_training.js:63
 #: .\trainings\static\trainings\js\view_protocol.js:25
-#: .\trainings\static\trainings\js\view_training.js:804
-#: .\trainings\static\trainings\js\view_training.js:833
+#: .\trainings\static\trainings\js\view_training.js:799
 #: .\video\static\video\js\video_card.js:104
 msgid "Error when action \""
 msgstr "Ошибка при выполнении \""
@@ -141,102 +143,102 @@ msgstr "Тренировка"
 msgid "Choose a team and a season!"
 msgstr "Создать сезон"
 
-#: .\events\static\events\js\base_events.js:253
-#: .\static\events\js\base_events.js:253
+#: .\events\static\events\js\base_events.js:269
+#: .\static\events\js\base_events.js:269
 msgid "Go to the created event"
 msgstr "Перейти к созданному событию"
 
-#: .\events\static\events\js\base_events.js:384
-#: .\static\events\base_events.js:192 .\static\events\js\base_events.js:384
+#: .\events\static\events\js\base_events.js:429
+#: .\static\events\base_events.js:192 .\static\events\js\base_events.js:429
 msgid "Save changes to the microcycle?"
 msgstr "Сохранить изменения микроцикла?"
 
-#: .\events\static\events\js\base_events.js:402
-#: .\static\events\base_events.js:207 .\static\events\js\base_events.js:402
+#: .\events\static\events\js\base_events.js:447
+#: .\static\events\base_events.js:207 .\static\events\js\base_events.js:447
 msgid "The action with the microcycle was successfully completed!"
 msgstr "было успешно завершено!"
 
-#: .\events\static\events\js\base_events.js:409
-#: .\static\events\base_events.js:213 .\static\events\js\base_events.js:409
+#: .\events\static\events\js\base_events.js:454
+#: .\static\events\base_events.js:213 .\static\events\js\base_events.js:454
 msgid "Error when updating the microcycle. "
 msgstr "Ошибка обновления микроцикла. "
 
-#: .\events\static\events\js\base_events.js:558
-#: .\events\static\events\js\base_events.js:780
-#: .\static\events\base_events.js:409 .\static\events\js\base_events.js:558
-#: .\static\events\js\base_events.js:780
-#: .\static\trainings\js\view_training.js:490
-#: .\trainings\static\trainings\js\view_training.js:490
+#: .\events\static\events\js\base_events.js:603
+#: .\events\static\events\js\base_events.js:822
+#: .\static\events\base_events.js:409 .\static\events\js\base_events.js:603
+#: .\static\events\js\base_events.js:822
+#: .\static\trainings\js\view_training.js:514
+#: .\trainings\static\trainings\js\view_training.js:514
 msgid "Training"
 msgstr "Тренировка"
 
-#: .\events\static\events\js\base_events.js:573
-#: .\events\static\events\js\base_events.js:782
-#: .\static\events\base_events.js:411 .\static\events\js\base_events.js:573
-#: .\static\events\js\base_events.js:782
+#: .\events\static\events\js\base_events.js:617
+#: .\events\static\events\js\base_events.js:824
+#: .\static\events\base_events.js:411 .\static\events\js\base_events.js:617
+#: .\static\events\js\base_events.js:824
 msgid "Match"
 msgstr "Матч"
 
-#: .\events\static\events\js\base_events.js:610
-#: .\events\static\events\js\base_events.js:651
+#: .\events\static\events\js\base_events.js:652
+#: .\events\static\events\js\base_events.js:693
 #: .\static\events\base_events.js:318 .\static\events\base_events.js:327
-#: .\static\events\js\base_events.js:610 .\static\events\js\base_events.js:651
+#: .\static\events\js\base_events.js:652 .\static\events\js\base_events.js:693
 msgid "Event save"
 msgstr "Сохранить событие"
 
-#: .\events\static\events\js\base_events.js:610
-#: .\events\static\events\js\base_events.js:651
+#: .\events\static\events\js\base_events.js:652
+#: .\events\static\events\js\base_events.js:693
 #: .\static\events\base_events.js:318 .\static\events\base_events.js:327
-#: .\static\events\js\base_events.js:610 .\static\events\js\base_events.js:651
+#: .\static\events\js\base_events.js:652 .\static\events\js\base_events.js:693
 msgid "Error when action the event!"
 msgstr "Ошибка при выполнении события!"
 
-#: .\events\static\events\js\base_events.js:623
+#: .\events\static\events\js\base_events.js:665
 #: .\static\admin\js\admin\DateTimeShortcuts.js:239
 #: .\static\admin\js\admin\DateTimeShortcuts.js:319
-#: .\static\events\base_events.js:338 .\static\events\js\base_events.js:623
+#: .\static\events\base_events.js:338 .\static\events\js\base_events.js:665
 msgid "Today"
 msgstr "Сегодня"
 
-#: .\events\static\events\js\base_events.js:624
-#: .\static\events\base_events.js:339 .\static\events\js\base_events.js:624
+#: .\events\static\events\js\base_events.js:666
+#: .\static\events\base_events.js:339 .\static\events\js\base_events.js:666
 msgid "Failed to initialize"
 msgstr "Не удалось инициализировать"
 
-#: .\events\static\events\js\base_events.js:625
-#: .\static\events\base_events.js:340 .\static\events\js\base_events.js:625
+#: .\events\static\events\js\base_events.js:667
+#: .\static\events\base_events.js:340 .\static\events\js\base_events.js:667
 msgid "No data was found to show"
 msgstr "Не было найдено данных для отображения"
 
-#: .\events\static\events\js\base_events.js:784
-#: .\static\events\js\base_events.js:784 .\static\video\base_video.js:83
+#: .\events\static\events\js\base_events.js:826
+#: .\static\events\js\base_events.js:826 .\static\video\base_video.js:83
 msgid "---"
 msgstr "---"
 
-#: .\events\static\events\js\base_events.js:900
-#: .\events\static\events\js\base_events.js:937
+#: .\events\static\events\js\base_events.js:942
+#: .\events\static\events\js\base_events.js:979
 #: .\exercises\static\exercises\js\base_exercises_folders.js:220
-#: .\static\events\base_events.js:439 .\static\events\js\base_events.js:900
-#: .\static\events\js\base_events.js:937
+#: .\static\events\base_events.js:439 .\static\events\js\base_events.js:942
+#: .\static\events\js\base_events.js:979
 #: .\static\exercises\js\base_exercises_folders.js:220
 #: .\static\video\base_video.js:47
 msgid "Edit"
 msgstr "Редактировать"
 
-#: .\events\static\events\js\base_events.js:901
-#: .\events\static\events\js\base_events.js:938
+#: .\events\static\events\js\base_events.js:943
+#: .\events\static\events\js\base_events.js:980
 #: .\exercises\static\exercises\js\base_exercises_folders.js:223
-#: .\static\events\base_events.js:440 .\static\events\js\base_events.js:901
-#: .\static\events\js\base_events.js:938
+#: .\static\events\base_events.js:440 .\static\events\js\base_events.js:943
+#: .\static\events\js\base_events.js:980
 #: .\static\exercises\js\base_exercises_folders.js:223
 #: .\static\video\base_video.js:57
 msgid "Delete"
 msgstr "Удалить"
 
-#: .\events\static\events\js\base_events.js:903
-#: .\events\static\events\js\base_events.js:940
-#: .\static\events\base_events.js:442 .\static\events\js\base_events.js:903
-#: .\static\events\js\base_events.js:940
+#: .\events\static\events\js\base_events.js:945
+#: .\events\static\events\js\base_events.js:982
+#: .\static\events\base_events.js:442 .\static\events\js\base_events.js:945
+#: .\static\events\js\base_events.js:982
 msgid "Close"
 msgstr "Закрыть"
 
@@ -769,116 +771,143 @@ msgstr "Событие "
 
 #: .\static\trainings\js\action_training.js:21
 #: .\trainings\static\trainings\js\action_training.js:21
-msgid ""
-"There are players in the protocol. Remove the players before unloading the "
-"entire team."
+msgid "There cannot be two identical exercises in the same group."
 msgstr ""
-"В протоколе есть игроки. Удалите игроков перед выгрузкой "
-"всей команды."
 
 #: .\static\trainings\js\action_training.js:23
 #: .\trainings\static\trainings\js\action_training.js:23
+msgid ""
+"There are players in the protocol. Remove the players before unloading the "
+"entire team."
+msgstr "В протоколе есть игроки. Удалите игроков перед выгрузкой всей команды."
+
+#: .\static\trainings\js\action_training.js:25
+#: .\trainings\static\trainings\js\action_training.js:25
 msgid "The limit of players for one protocol has been reached."
 msgstr "Лимит игроков для данного протокола достигнут."
 
-#: .\static\trainings\js\action_training.js:27
+#: .\static\trainings\js\action_training.js:29
 #: .\static\trainings\view_training.js:32
-#: .\trainings\static\trainings\js\action_training.js:27
+#: .\trainings\static\trainings\js\action_training.js:29
 msgid "Training action \""
 msgstr "Действие с тренировкой \""
+
+#: .\static\trainings\js\training_card.js:36
+#: .\trainings\static\trainings\js\training_card.js:36
+#, fuzzy
+#| msgid "Remove an additional data from an exercise?"
+msgid "Adding additional conditions to the exercise."
+msgstr "Удалить дополнительные данные из упражнения?"
+
+#: .\static\trainings\js\training_card.js:39
+#: .\trainings\static\trainings\js\training_card.js:39
+msgid "Load all"
+msgstr ""
+
+#: .\static\trainings\js\training_card.js:44
+#: .\trainings\static\trainings\js\training_card.js:44
+msgid "Load one"
+msgstr ""
+
+#: .\static\trainings\js\training_card.js:75
+#: .\trainings\static\trainings\js\training_card.js:75
+msgid "Remove an additional data from an exercise?"
+msgstr "Удалить дополнительные данные из упражнения?"
 
 #: .\static\trainings\js\view_training.js:22
 #: .\trainings\static\trainings\js\view_training.js:22
 msgid "Delete this training?"
 msgstr "Удалить данную тренировку?"
 
-#: .\static\trainings\js\view_training.js:75
-#: .\trainings\static\trainings\js\view_training.js:75
+#: .\static\trainings\js\view_training.js:82
+#: .\trainings\static\trainings\js\view_training.js:82
 msgid "Remove an exercise from a training?"
 msgstr "Удалить упражнение из тренировки?"
 
-#: .\static\trainings\js\view_training.js:132
-#: .\trainings\static\trainings\js\view_training.js:132
-msgid "Remove an additional data from an exercise?"
-msgstr "Удалить дополнительные данные из упражнения?"
-
-#: .\static\trainings\js\view_training.js:150
-#: .\trainings\static\trainings\js\view_training.js:150
+#: .\static\trainings\js\view_training.js:157
+#: .\trainings\static\trainings\js\view_training.js:157
 msgid "Add all players from the team of this training session?"
 msgstr "Добавьте всех игроков из команды этой тренировки?"
 
-#: .\static\trainings\js\view_training.js:182
-#: .\trainings\static\trainings\js\view_training.js:182
+#: .\static\trainings\js\view_training.js:189
+#: .\trainings\static\trainings\js\view_training.js:189
 #, fuzzy
 #| msgid "Delete player"
 msgid "Add selected players?"
 msgstr "Удалить игрока"
 
-#: .\static\trainings\js\view_training.js:246
-#: .\trainings\static\trainings\js\view_training.js:246
+#: .\static\trainings\js\view_training.js:253
+#: .\trainings\static\trainings\js\view_training.js:253
 #, fuzzy
 #| msgid "Remove a player from the training protocol?"
 msgid "Remove all players from the training protocol?"
 msgstr "Удалить игрока из протокола тренировки?"
 
-#: .\static\trainings\js\view_training.js:267
-#: .\trainings\static\trainings\js\view_training.js:267
+#: .\static\trainings\js\view_training.js:274
+#: .\trainings\static\trainings\js\view_training.js:274
 #, fuzzy
 #| msgid "Delete player"
 msgid "Remove a player \""
 msgstr "Удалить игрока"
 
-#: .\static\trainings\js\view_training.js:364
-#: .\trainings\static\trainings\js\view_training.js:364
+#: .\static\trainings\js\view_training.js:382
+#: .\trainings\static\trainings\js\view_training.js:382
 msgid "Not selected"
 msgstr "Не выбрано"
 
-#: .\static\trainings\js\view_training.js:443
-#: .\trainings\static\trainings\js\view_training.js:443
+#: .\static\trainings\js\view_training.js:462
+#: .\trainings\static\trainings\js\view_training.js:462
 msgid "Full name"
 msgstr "Полное имя"
 
-#: .\static\trainings\js\view_training.js:456
-#: .\trainings\static\trainings\js\view_training.js:456
+#: .\static\trainings\js\view_training.js:475
+#: .\trainings\static\trainings\js\view_training.js:475
 #, fuzzy
 #| msgid "Delete player"
 msgid "Delete all players"
 msgstr "Удалить игрока"
 
-#: .\static\trainings\js\view_training.js:456
-#: .\trainings\static\trainings\js\view_training.js:456
+#: .\static\trainings\js\view_training.js:475
+#: .\trainings\static\trainings\js\view_training.js:475
 msgid "Remove all players"
 msgstr "Удалить всех игроков"
 
-#: .\static\trainings\js\view_training.js:464
-#: .\trainings\static\trainings\js\view_training.js:464
-msgid "Group "
+#: .\static\trainings\js\view_training.js:484
+#: .\trainings\static\trainings\js\view_training.js:484
+#, fuzzy
+#| msgid "Group "
+msgid "Group"
 msgstr "Группа "
 
-#: .\static\trainings\js\view_training.js:517
-#: .\trainings\static\trainings\js\view_training.js:517
+#: .\static\trainings\js\view_training.js:484
+#: .\trainings\static\trainings\js\view_training.js:484
+msgid "(Exercises)"
+msgstr ""
+
+#: .\static\trainings\js\view_training.js:544
+#: .\trainings\static\trainings\js\view_training.js:544
 msgid "Delete player"
 msgstr "Удалить игрока"
 
-#: .\static\trainings\js\view_training.js:566
-#: .\trainings\static\trainings\js\view_training.js:566
+#: .\static\trainings\js\view_training.js:606
+#: .\trainings\static\trainings\js\view_training.js:606
 #, fuzzy
 #| msgid "Training"
 msgid "Save training"
 msgstr "Тренировка"
 
-#: .\static\trainings\js\view_training.js:566
-#: .\trainings\static\trainings\js\view_training.js:566
+#: .\static\trainings\js\view_training.js:606
+#: .\trainings\static\trainings\js\view_training.js:606
 msgid "There are unfilled players! Fill in the players highlighted in red."
 msgstr "Есть незаполненные игроки! Заполните игроков, выделенных красным."
 
-#: .\static\trainings\js\view_training.js:772
-#: .\trainings\static\trainings\js\view_training.js:772
+#: .\static\trainings\js\view_training.js:767
+#: .\trainings\static\trainings\js\view_training.js:767
 msgid "Group A"
 msgstr "Группа A"
 
-#: .\static\trainings\js\view_training.js:775
-#: .\trainings\static\trainings\js\view_training.js:775
+#: .\static\trainings\js\view_training.js:770
+#: .\trainings\static\trainings\js\view_training.js:770
 msgid "Group B"
 msgstr "Группа B"
 

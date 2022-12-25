@@ -95,61 +95,14 @@ $(window).on('load', function (){
         });
     })
 
+    $('#training-exercises-button').on('click', function () {
+        $('#training-exercises .visual-block .group-button[data-group="1"]').click()
+    })
+
     //Выгрузка упражнений в группу при клике по кнопке
     $('.card-body').on('click', '.group-button', function () {
         render_exercises_training(id, $(this).attr('data-group'))
     })
-
-    // Добавление дополнительных данных в тренировку
-    // $('#training-card').on('click', '.add-exercise-additional', function (){
-    //     let cur_block = $(this).closest('.exercise-visual-block')
-    //     let training_exercise_id = cur_block.attr('data-id')
-    //
-    //     let send_data = {}
-    //     send_data.additional_id = 0
-    //     send_data.note = ''
-    //
-    //     ajax_training_exercise_action('POST', send_data, 'load data', training_exercise_id, 'add_data').then(function (data) {
-    //         //console.log(data)
-    //         render_exercises_additional_data(training_exercise_id)
-    //     })
-    // })
-
-    // Редактирование дополнительных данных в упражнении
-    // $('#training-card').on('change', '.additional-data-block .edit-input', function (){
-    //     let cur_row = $(this).closest('.exercise-additional-row')
-    //     let exercise_additional_id = cur_row.attr('data-id')
-    //
-    //     let send_data = {}
-    //     send_data.additional_id = cur_row.find('[name="additional_id"]').val()
-    //     send_data.note = cur_row.find('[name="note"]').val()
-    //
-    //     ajax_training_exercise_data_action('PUT', send_data, 'update data', exercise_additional_id).done(function (data) {
-    //         console.log(data)
-    //         //render_exercises_additional_data(training_exercise_id)
-    //     })
-    // })
-
-    // Удаление дополнительных данных в упражнении
-    // $('#training-card').on('click', '.additional-data-block .delete-exercise-additional', function (){
-    //     let cur_row = $(this).closest('.exercise-additional-row')
-    //     let exercise_additional_id = cur_row.attr('data-id')
-    //
-    //     let send_data = {}
-    //     swal(gettext("Remove an additional data from an exercise?"), {
-    //         buttons: {
-    //             cancel: true,
-    //             confirm: true,
-    //         },
-    //     }).then(function(isConfirm) {
-    //         if (isConfirm) {
-    //             ajax_training_exercise_data_action('DELETE', send_data, 'delete data', exercise_additional_id).done(function (data) {
-    //                 //console.log(data)
-    //                 cur_row.remove();
-    //             })
-    //         }
-    //     });
-    // })
 
     // Добавление игроков в протокол
     $('#add-player-protocol-modal').on('click', '#add-all-players', function (){
@@ -655,6 +608,7 @@ function render_exercises_training(training_id = null, group = null) {
             }
         });
 
+        $('#training-exercises .visual-block .group-block[data-group="'+group+'"] .exercise-row:first').click()
         set_count_exercises(counts_group)
     })
 }

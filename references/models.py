@@ -297,7 +297,7 @@ class CustomTag(AbstractReference):
     lowercase_name = models.CharField(
         max_length=255,
         verbose_name=_('lowercase title'),
-        help_text=_(''),
+        help_text=_('lowercase title'),
         unique=True,
         null=False
     )
@@ -308,3 +308,6 @@ class CustomTag(AbstractReference):
         abstract = True
 
 
+# Trainings
+class TrainingSpace(AbstractReference, MixTranslateReference):
+    pass

@@ -7,6 +7,7 @@ router.register(r'teams', views.TeamViewSet, basename="teams")
 router.register(r'seasons', views.SeasonViewSet, basename="seasons")
 router.register(r'exercise_additional', views.ExsAdditionalViewSet, basename="exercise_additional")
 router.register(r'protocol_status', views.PlayerProtocolStatusViewSet, basename="protocol_status")
+router.register(r'training_space', views.TrainingSpaceViewSet, basename="training_space")
 
 
 urlpatterns = [

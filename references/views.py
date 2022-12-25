@@ -10,10 +10,10 @@ from rest_framework.response import Response
 from players.models import UserPlayer, ClubPlayer
 from players.serializers import UserPlayerSerializer, ClubPlayerSerializer
 from references.forms import CreateTeamForm, CreateSeasonForm
-from references.models import UserSeason, UserTeam, ClubSeason, ClubTeam, ExsAdditionalData, PlayerProtocolStatus
+from references.models import UserSeason, UserTeam, ClubSeason, ClubTeam, ExsAdditionalData, PlayerProtocolStatus, \
+    TrainingSpace
 from references.serializers import UserTeamsSerializer, UserSeasonsSerializer, ExsAdditionalDataSerializer, \
-    PlayerProtocolStatusSerializer, ClubTeamsSerializer, ClubSeasonsSerializer
-
+    PlayerProtocolStatusSerializer, ClubTeamsSerializer, ClubSeasonsSerializer, TrainingSpaceSerializer
 
 # REST PERMISSIONS
 from users.models import User
@@ -167,6 +167,21 @@ class PlayerProtocolStatusViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return PlayerProtocolStatus.objects.all()
+
+
+class TrainingSpaceViewSet(viewsets.ModelViewSet):
+    permission_classes = [DjangoModelPermissions]
+
+    def perform_create(self, serializer):
+        serializer.save(user_id=self.request.user)
+
+    def get_serializer_class(self):
+        if self.action == 'partial_update':
+            return TrainingSpaceSerializer
+        return TrainingSpaceSerializer
+
+    def get_queryset(self):
+        return TrainingSpace.objects.all()
 
 
 # DJANGO

@@ -5,6 +5,9 @@
 
 <div id="training-content" data-training="" class="row mt-2 border-top d-none">
     <div class="col training-data" style="overflow-y: auto; overflow-x: hidden">
+        <div class="row font-weight-bold training-exercise-name">
+            <div class="col text-center py-1 px-0">Упражнения</div>
+        </div>
         <div class="row text-center">
             <div class="col-12">
                 <div class="row exercise-list" data-group="1">
@@ -27,24 +30,26 @@
                 </div>
             </div>
         </div>
+        <div class="row training-data-row font-weight-bold training-exercise-name">
+            <div class="col text-center py-1 px-0">Тренировка</div>
+        </div>
         <div id="training-main-data" class="row text-center training-data-row">
             <div class="col-12">
                 <div class="row">
                     <div class="col-6 border border-white bg-secondary text-white">Дата</div>
                     <div class="col-6 px-0 border-bottom border-dark bg-light">
-                        <input type="text" name="date" class="form-control form-control-sm rounded-0 py-0 h-auto text-center datetimepicker edit-input" data-toggle="datetimepicker" value="{{ object.event_id.date|date:"d/m/Y" }}" placeholder="{% trans "Date" %}" disabled>
+                        <input type="text" name="date" class="form-control form-control-sm rounded-0 py-0 h-auto text-center datetimepicker edit-input" data-toggle="datetimepicker" value="" placeholder="{% trans "Date" %}" disabled>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-6 border border-white bg-secondary text-white">Время</div>
                     <div class="col-6 px-0 border-bottom border-dark bg-light">
-                        <input type="text" name="time" class="form-control form-control-sm rounded-0 py-0 h-auto text-center timepicker edit-input" data-toggle="datetimepicker" value="{{ object.event_id.date|date:"H:i" }}" disabled>
+                        <input type="text" name="time" class="form-control form-control-sm rounded-0 py-0 h-auto text-center timepicker edit-input" data-toggle="datetimepicker" value="" disabled>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-6 border border-white bg-secondary text-white">Команда</div>
                     <div class="col-6 px-0 border-bottom border-dark bg-light team-name">
-                        {{ object.team_id.name }}
                     </div>
                 </div>
 {#                <div class="row">#}
@@ -53,48 +58,51 @@
 {#                </div>#}
                 <div class="row">
                     <div class="col-6 border border-white bg-secondary text-white">Тренер</div>
-                    <div class="col-6 px-0 border-bottom border-dark bg-light">
-                        {{ object.trainer_user_id.get_full_name }}
+                    <div class="col-6 px-0 border-bottom border-dark bg-light trainer-select">
+
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-6 border border-white bg-secondary text-white">Пространство</div>
-                    <div class="col-6 px-0 border-bottom border-dark bg-light">
+                    <div class="col-6 px-0 border-bottom border-dark bg-light space-select">
 
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-6 border border-white bg-secondary text-white">Время t`</div>
-                    <div class="col-6 px-0 border-bottom border-dark bg-light">
-                        90`
+                    <div class="col-6 px-0 border-bottom border-dark bg-light all-exercise-time">
+
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-6 border border-white bg-secondary text-white">Полевые игроки</div>
-                    <div class="col-6 px-0 border-bottom border-dark bg-light">
-                        20
+                    <div class="col-6 px-0 border-bottom border-dark bg-light training-players">
+
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-6 border border-white bg-secondary text-white">Вратари</div>
-                    <div class="col-6 px-0 border-bottom border-dark bg-light">
-                        2
+                    <div class="col-6 px-0 border-bottom border-dark bg-light training-goalkeepers">
+
                     </div>
                 </div>
             </div>
         </div>
         <div class="row exercise-data-row font-weight-bold training-exercise-name">
-            <div class="col text-center py-1 px-0">Упражнение</div>
-            <div class="col-1 text-center py-1 px-0 exercise-time"></div>
+            <div class="col text-center py-1 px-0">Описание</div>
+            <div class="col-1 text-center py-1 px-0 exercise-time">
+
+            </div>
         </div>
         <div class="row exercise-data-row">
-            <div id="training-exercise-description" class="col-12 py-4">
+            <div id="training-exercise-description" class="col-12 p-0">
+                <textarea class="form-control exercise-description" rows="3"></textarea>
             </div>
         </div>
         <div class="row exercise-data-row font-weight-bold training-exercise-name">
             <div class="col text-center py-1 px-0">Доп. Условия</div>
             <div class="col-1 text-center px-0 edit-button d-none">
-                <button type="button" class="btn btn-sm btn-block btn-warning rounded-0 p-0 h-100 float-right add-exercise-additional"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                <button type="button" class="btn btn-sm btn-block btn-success rounded-0 p-0 h-100 float-right add-exercise-additional"><i class="fa fa-plus" aria-hidden="true"></i></button>
             </div>
         </div>
         <div class="row exercise-data-row">

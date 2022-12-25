@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from events.models import UserEvent, ClubEvent
 from exercises.models import UserExercise, ClubExercise
 from players.models import UserPlayer, ClubPlayer
-from references.models import UserTeam, ClubTeam, ExsAdditionalData, PlayerProtocolStatus
+from references.models import UserTeam, ClubTeam, ExsAdditionalData, PlayerProtocolStatus, TrainingSpace
 from users.models import User
 
 
@@ -24,6 +24,14 @@ class AbstractTraining(models.Model):
         verbose_name=_('favourites'),
         help_text=_('Favorites training'),
         default=False
+    )
+    space = models.ForeignKey(
+        TrainingSpace,
+        verbose_name=_('space'),
+        help_text=_('Training space'),
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
     )
     objectives = models.JSONField(
         verbose_name=_('purposes'),

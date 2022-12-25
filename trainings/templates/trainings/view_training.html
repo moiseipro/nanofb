@@ -47,7 +47,7 @@
                                     <a class="btn btn-sm btn-block btn-outline-primary font-weight-bold active" data-toggle="pill" href="#training-card" role="tab">{% trans "Card" %}</a>
                                 </li>
                                 <li class="nav-item px-1">
-                                    <a class="btn btn-sm btn-block btn-outline-primary font-weight-bold" data-toggle="pill" href="#training-exercises" role="tab">
+                                    <a id="training-exercises-button" class="btn btn-sm btn-block btn-outline-primary font-weight-bold" data-toggle="pill" href="#training-exercises" role="tab">
                                         {% trans "Exercises" %}
                                         <span class="float-right" id="columnsSizeToggle" title="Поменять размер колонок">
                                             <i class="fa fa-cog" aria-hidden="true"></i>
@@ -196,6 +196,7 @@
     <script src="{% static 'events/js/event_update.js' %}"></script>
     <script src="{% static 'references/exercise_additional_data.js' %}"></script>
     <script src="{% static 'references/player_protocol_status.js' %}"></script>
+    <script src="{% static 'references/training_space.js' %}"></script>
     <script src="{% static 'trainings/js/view_protocol.js' %}"></script>
     <script src="{% static 'trainings/js/training_card.js' %}"></script>
 

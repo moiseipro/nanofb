@@ -1,13 +1,17 @@
 from rest_framework import serializers
 
-from exercises.serializers import UserExerciseSerializer, ClubExerciseSerializer
-from players.serializers import PlayerSerializer, UserPlayerSerializer, ClubPlayerSerializer
-from references.serializers import ExsAdditionalDataSerializer, PlayerProtocolStatusSerializer
+from exercises.serializers import UserExerciseSerializer
+from players.serializers import UserPlayerSerializer
+from references.serializers import PlayerProtocolStatusSerializer, TrainingSpaceSerializer, \
+    UserTeamsSerializer, ClubTeamsSerializer
 from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExerciseAdditional, UserTrainingProtocol, \
     ClubTrainingProtocol, ClubTrainingExercise
 
 
 # Training
+from users.serializers import UserSerializer
+
+
 class TrainingProtocolSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     full_name = serializers.CharField(
@@ -139,19 +143,37 @@ class ClubTrainingExerciseSerializer(TrainingExerciseSerializer):
 
 class TrainingSerializer(serializers.ModelSerializer):
     event_id = serializers.PrimaryKeyRelatedField(read_only=True)
-    team_name = serializers.CharField(
-        source='team_id.name',
+    event_date = serializers.DateTimeField(
+        format='%d/%m/%Y',
+        source='event_id.date',
+        read_only=True
+    )
+    event_time = serializers.DateTimeField(
+        format='%H:%M',
+        source='event_id.date',
+        read_only=True
+    )
+    space_info = TrainingSpaceSerializer(
+        source='space',
+        read_only=True
+    )
+    trainer = UserSerializer(
+        source='trainer_user_id',
         read_only=True
     )
 
     class Meta:
         fields = (
-            'event_id', 'favourites', 'team_name'
+            'event_id', 'event_date', 'event_time', 'favourites', 'trainer', 'space_info', 'objectives'
         )
         datatables_always_serialize = ('event_id',)
 
 
 class UserTrainingSerializer(TrainingSerializer):
+    team_info = UserTeamsSerializer(
+        read_only=True,
+        source="team_id",
+    )
     exercises_info = UserTrainingExerciseSerializer(
         read_only=True,
         source="usertrainingexercise_set",
@@ -166,10 +188,14 @@ class UserTrainingSerializer(TrainingSerializer):
     class Meta(TrainingSerializer.Meta):
         model = UserTraining
 
-    Meta.fields += ('exercises_info', 'protocol_info')
+    Meta.fields += ('exercises_info', 'protocol_info', 'team_info')
 
 
 class ClubTrainingSerializer(TrainingSerializer):
+    team_info = ClubTeamsSerializer(
+        read_only=True,
+        source="team_id",
+    )
     exercises_info = ClubTrainingExerciseSerializer(
         read_only=True,
         source="clubtrainingexercise_set",
@@ -184,4 +210,4 @@ class ClubTrainingSerializer(TrainingSerializer):
     class Meta(TrainingSerializer.Meta):
         model = UserTraining
 
-    Meta.fields += ('exercises_info', 'protocol_info')
+    Meta.fields += ('exercises_info', 'protocol_info', 'team_info')
