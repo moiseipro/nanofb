@@ -64,7 +64,6 @@ $(window).on('load', function (){
                 default:
             }
         });
-
     })
     // Удаление дополнительных данных в упражнении
     $('#training-content').on('click', '.delete-exercise-additional', function (){
@@ -98,6 +97,16 @@ $(window).on('load', function (){
         ajax_training_exercise_data_action('PUT', send_data, 'update data', exercise_additional_id).done(function (data) {
             console.log(data)
             //render_exercises_additional_data(training_exercise_id)
+        })
+    })
+
+    $('#training-exercise-description .exercise-description').on('change', function () {
+        let exs_id = $('.exs-filter-card.active').attr('data-id')
+        console.log(exs_id)
+        let data = {}
+        data.description = $(this).val()
+        ajax_training_exercise_action('PUT', data, 'update', exs_id, '').then(function () {
+
         })
     })
 })
@@ -175,13 +184,13 @@ function load_all_exercises_training(training_id = null, group = null) {
                 `
             })
             select = `
-                <select class="select custom-select p-0 edit-input text-center" name="additional_id" tabindex="-1" aria-hidden="true" ${!edit_mode ? 'disabled' : ''} style="height: 25px; color: black !important;">
+                <select class="select custom-select p-0 edit-input text-center" tabindex="-1" aria-hidden="true" ${!edit_mode ? 'disabled' : ''} style="height: 25px; color: black !important;">
                     ${ option_html }
                 </select>
             `
             $('#training-main-data .space-select').html(select)
 
-            $('#training-main-data .space-select select').val(data.space_info)
+            $('#training-main-data .space-select select').val(data.space)
         })
 
         $('#training-main-data [name="date"]').val(data.event_date);
@@ -194,12 +203,12 @@ function load_all_exercises_training(training_id = null, group = null) {
         html_scheme += `
             <div class="row training-data-row">
                 <div class="col-12 px-0">
-                    <input type="text" name="objectives[]" class="form-control form-control-sm btn btn-sm btn-lightblue border border-light font-weight-bold text-center edit-input" value="${1}" placeholder="" ${!edit_mode ? 'disabled' : ''}>
+                    <input type="text" name="objectives_1" class="form-control form-control-sm btn btn-sm btn-lightblue border border-light font-weight-bold text-center edit-input" value="${data.objectives ? data.objectives[0] : '---'}" placeholder="" ${!edit_mode ? 'disabled' : ''} autocomplete="off">
                 </div>
             </div>
             <div class="row training-data-row">
                 <div class="col-12 px-0">
-                    <input type="text" name="objectives[]" class="form-control form-control-sm btn btn-sm btn-lightblue border border-light font-weight-bold text-center edit-input" value="${1}" placeholder="" ${!edit_mode ? 'disabled' : ''}>
+                    <input type="text" name="objectives_2" class="form-control form-control-sm btn btn-sm btn-lightblue border border-light font-weight-bold text-center edit-input" value="${data.objectives ? data.objectives[1] : '---'}" placeholder="" ${!edit_mode ? 'disabled' : ''} autocomplete="off">
                 </div>
             </div>`
 
@@ -296,6 +305,7 @@ function load_exercises_training_data(training_exercise_id = null) {
         $('.training-exercise-name .exercise-time').html(`
             <div class="w-100 ${exercise.duration==0 ? 'font-weight-bold text-danger':''}">${exercise.duration}</div>
         `)
+        $('#training-exercise-description .exercise-description').val(exercise.description)
         let count_slide = 0
         let select_html = '', carousel_html = ''
         if(exercise.exercise_scheme){

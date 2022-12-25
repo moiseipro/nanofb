@@ -103,7 +103,8 @@ class TrainingExerciseSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = (
-            'id', 'training_id', 'exercise_id', 'exercise_name', 'exercise_scheme', 'group', 'duration', 'order'
+            'id', 'training_id', 'exercise_id', 'exercise_name', 'exercise_scheme', 'group', 'duration', 'order',
+            'description'
         )
 
 
@@ -164,7 +165,7 @@ class TrainingSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = (
-            'event_id', 'event_date', 'event_time', 'favourites', 'trainer', 'space_info', 'objectives'
+            'event_id', 'event_date', 'event_time', 'favourites', 'trainer', 'space', 'space_info', 'objectives'
         )
         datatables_always_serialize = ('event_id',)
 

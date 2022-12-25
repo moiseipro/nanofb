@@ -343,6 +343,15 @@ $(window).on('load', function (){
         $('.card-header').addClass('d-none')
         resize_trainings_block()
     })
+    //Открыть карточку тренировки при клике на карандаш
+    $('#open-select-exercise').on('click', function () {
+        let id = $('td.hasEvent.trainingClass.selected').attr('data-value')
+        console.log("id")
+        if(id != null && id != ''){
+            window.location.href = "/trainings/view/"+id;
+        }
+
+    })
 })
 
 function resize_events_table(){

@@ -367,10 +367,11 @@ class TrainingExerciseViewSet(viewsets.ModelViewSet):
             )
         print(edit_object)
 
-        data_dict = dict(
-            duration=data['duration'],
-            order=1
-        )
+        data_dict = {}
+        if(data['duration']):
+            data_dict['duration'] = data['duration']
+            data_dict['order'] = 1
+
         query_dict = QueryDict('', mutable=True)
         query_dict.update(data_dict)
 

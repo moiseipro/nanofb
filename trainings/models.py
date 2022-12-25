@@ -118,6 +118,12 @@ class AbstractTrainingExercise(models.Model):
         null=False,
         default=0,
     )
+    description = models.TextField(
+        verbose_name=_('description'),
+        help_text=_('Description of the exercise inside the training'),
+        null=True,
+        blank=True
+    )
     order = models.IntegerField(
         verbose_name=_('order'),
         help_text=_('Sorting index'),

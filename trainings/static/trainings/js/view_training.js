@@ -245,11 +245,24 @@ $(window).on('load', function (){
     $('#save-training').on('click', function () {
         let date = $('#training-main-data input[name="date"]').val()
         let time = $('#training-main-data input[name="time"]').val()
-        data = {
+        let data = {
             'date': date+' '+time
         }
         ajax_event_action('PUT', data, 'save', id).then(function (data) {
             render_protocol_training(id, true)
+        })
+
+        let training_data = {}
+        if($('#block-training-info input[name="objectives_1"]') && $('#block-training-info input[name="objectives_2"]')){
+            let text1 = $('#block-training-info input[name="objectives_1"]').val();
+            let text2 = $('#block-training-info input[name="objectives_2"]').val();
+            training_data['objectives'] = '[ "'+text1+'", "'+text2+'" ]'
+        }
+        training_data['space'] = $('#training-main-data .space-select select').val()
+        console.log(training_data)
+
+        ajax_training_action('PUT', training_data, 'save', id).then(function (data) {
+
         })
     })
 
