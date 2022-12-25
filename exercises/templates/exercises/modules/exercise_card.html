@@ -187,8 +187,20 @@
                                         <tr class="wider_row bck-custom" data-id="additional_characteristics_data">
                                             <td colspan="2">
                                                 <select name="tags" class="select w-100 custom-select custom-select-sm tag-select exs_edit_field" multiple data-tags="true" data-theme="bootstrap4" disabled style="width: 100%;">
-                                                    {% for tag in exercises_tags %}
+                                                    {% for tag in exercises_tags.nfb %}
                                                         <option value="{{ tag.name }}">
+                                                            [NFB]
+                                                            {% if tag.category %}
+                                                                {{ tag.category.name }}. 
+                                                            {% endif %}
+                                                            {{ tag.name }}
+                                                        </option>
+                                                    {% endfor %}
+                                                    {% for tag in exercises_tags.self %}
+                                                        <option value="{{ tag.name }}">
+                                                            {% if tag.category %}
+                                                                {{ tag.category.name }}. 
+                                                            {% endif %}
                                                             {{ tag.name }}
                                                         </option>
                                                     {% endfor %}
@@ -445,8 +457,11 @@
                                     <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="columnsSizeToggle" data-active="0" style="--w-max-x:20%;" title="Изменить ширину колонок">
                                         <i class="fa fa-cog" aria-hidden="true"></i>
                                     </button>
-                                    <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="exsAdditionalParamsRef" data-active="0" style="--w-max-x:20%;" title="Настроить условия упражнения">
+                                    <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="exsAdditionalParamsRef" data-active="0" style="--w-max-x:20%;" title="Настроить условия упражнения">
                                         Усл-ия
+                                    </button> -->
+                                    <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="exsTagsRef" data-active="0" style="--w-max-x:20%;" title="Настроить ключевые слова">
+                                        Кл.сл.
                                     </button>
                                     <button type="button" class="btn btn-secondary btn-sm btn-custom btn-view size-max-w-x" data-dismiss="modal" style="--w-max-x:20%;" title="Выйти">
                                         <i class="fa fa-times text-danger" aria-hidden="true"></i>

@@ -2,7 +2,7 @@ import datetime
 from django.http import JsonResponse
 from django.db.models import Sum, Q
 from users.models import User
-from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, ClubExercise, AdminExercise, ExerciseVideo, ExerciseTag
+from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, ClubExercise, AdminExercise, ExerciseVideo, ExerciseTag, ExerciseTagCategory
 from exercises.models import UserExerciseParam, UserExerciseParamTeam
 from exercises.models import AdminExerciseAdditionalParams, UserExerciseAdditionalParams, ClubExerciseAdditionalParams, ExerciseAdditionalParamValue
 from references.models import ExsGoal, ExsBall, ExsTeamCategory, ExsAgeCategory, ExsTrainPart, ExsCognitiveLoad
@@ -750,7 +750,7 @@ def check_video(id):
     return None
 
 
-def get_exercises_tags(request, user, team):
+def get_exercises_tags(request, user, team, only_visible=False):
     """
     Return data of Exercises' tags.
 
@@ -764,11 +764,22 @@ def get_exercises_tags(request, user, team):
     :rtype: list[object]
 
     """
-    tags = []
+    tags = {'nfb': [], 'self': [], 'categories': {'nfb': [], 'self': []}}
+    query_nfb_str = Q(is_nfb=True)
+    query_club_str = Q(is_nfb=False, club=request.user.club_id)
+    query_user_str = Q(is_nfb=False, user=user)
+    if only_visible:
+        query_nfb_str = query_nfb_str & Q(visible=True)
+        query_club_str = query_club_str & Q(visible=True)
+        query_user_str = query_user_str & Q(visible=True)
+    tags['nfb'] = ExerciseTag.objects.filter(query_nfb_str)
+    tags['categories']['nfb'] = ExerciseTagCategory.objects.filter(query_nfb_str)
     if request.user.club_id is not None:
-        tags = ExerciseTag.objects.filter(Q(is_nfb=True) | Q(is_nfb=False, club=request.user.club_id))
+        tags['self'] = ExerciseTag.objects.filter(query_club_str)
+        tags['categories']['self'] = ExerciseTagCategory.objects.filter(query_club_str)
     else:
-        tags = ExerciseTag.objects.filter(Q(is_nfb=True) | Q(is_nfb=False, user=user))
+        tags['self'] = ExerciseTag.objects.filter(query_user_str)
+        tags['categories']['self'] = ExerciseTagCategory.objects.filter(query_user_str)
     return tags
 
 
@@ -1612,6 +1623,246 @@ def POST_change_order_exs_additional_param(request, cur_user):
     return JsonResponse({"data": data, "success": status, "mode": "order", "disabled": disabled_status, "logs": logs_arr}, status=200)
 
 
+def POST_edit_exs_tag_category(request, cur_user):
+    status = False
+    c_type = request.POST.get("type", "")
+    c_id = -1
+    delete_status = -1
+    try:
+        c_id = int(request.POST.get("id", -1))
+    except:
+        pass
+    try:
+        delete_status = int(request.POST.get("delete", -1))
+    except:
+        pass
+    c_name = request.POST.get("name", "")
+    if c_type == "nfb":
+        if cur_user.is_superuser:
+            c_category = ExerciseTagCategory.objects.filter(id=c_id, is_nfb=True).first()
+            if delete_status != 1:
+                if c_category:
+                    c_category.name = c_name
+                else:
+                    c_category = ExerciseTagCategory(is_nfb=True)
+                try:
+                    c_category.save()
+                    status = True
+                except Exception as e:
+                    pass
+            else:
+                if c_category:
+                    try:
+                        c_category.delete()
+                        status = True
+                    except Exception as e:
+                        pass
+    elif c_type == "self":
+        c_category = None
+        if request.user.club_id is not None:
+            c_category = ExerciseTagCategory.objects.filter(id=c_id, is_nfb=False, club=request.user.club_id).first()
+        else:
+            c_category = ExerciseTagCategory.objects.filter(id=c_id, is_nfb=False, user=cur_user).first()
+        if delete_status != 1:
+            if c_category:
+                c_category.name = c_name
+            else:
+                if request.user.club_id is not None:
+                    c_category = ExerciseTagCategory(is_nfb=False, club=request.user.club_id)
+                else:
+                    c_category = ExerciseTagCategory(is_nfb=False, user=cur_user)
+            try:
+                c_category.save()
+                status = True
+            except Exception as e:
+                pass
+        else:
+            if c_category:
+                try:
+                    c_category.delete()
+                    status = True
+                except Exception as e:
+                    pass  
+    return JsonResponse({"success": status, "type": c_type}, status=200)
+
+
+def POST_change_order_exs_tag_category(request, cur_user):
+    status = True
+    ids_data = request.POST.getlist("ids_arr[]", [])
+    ordering_data = request.POST.getlist("order_arr[]", [])
+    c_type = request.POST.get("type", "")
+    logs_arr = []
+    for c_ind in range(len(ids_data)):
+        t_id = -1
+        t_order = 0
+        try:
+            t_id = int(ids_data[c_ind])
+            t_order = int(ordering_data[c_ind])
+        except:
+            pass
+        found_param = None
+        if c_type == "nfb":
+            if cur_user.is_superuser:
+                found_param = ExerciseTagCategory.objects.filter(id=t_id, is_nfb=True).first()
+        elif c_type == "self":
+            if request.user.club_id is not None:
+                found_param = ExerciseTagCategory.objects.filter(id=t_id, is_nfb=False, club=request.user.club_id).first()
+            else:
+                found_param = ExerciseTagCategory.objects.filter(id=t_id, is_nfb=False, user=cur_user).first()
+        if found_param and found_param.id != None:
+            found_param.order = t_order
+            try:
+                found_param.save()
+                logs_arr.append(f'Folder [{found_param.id}] is order changed: {t_order}')
+            except Exception as e:
+                logs_arr.append(f'Folder [{found_param.id}] -> ERROR / Not access or another reason')
+    return JsonResponse({"success": status, "type": c_type, "logs": logs_arr}, status=200)
+
+
+def POST_edit_exs_tag_one(request, cur_user):
+    status = False
+    c_type = request.POST.get("type", "")
+    c_id = -1
+    c_category_id = -1
+    delete_status = -1
+    try:
+        c_id = int(request.POST.get("id", -1))
+    except:
+        pass
+    try:
+        c_category_id = int(request.POST.get("category", -1))
+    except:
+        pass
+    try:
+        delete_status = int(request.POST.get("delete", -1))
+    except:
+        pass
+    c_name = request.POST.get("name", "")
+    lowercase_name = c_name.lower()
+    if c_type == "nfb":
+        if cur_user.is_superuser:
+            c_tag = ExerciseTag.objects.filter(id=c_id, is_nfb=True).first()
+            c_category = ExerciseTagCategory.objects.filter(id=c_category_id, is_nfb=True).first()
+            if delete_status != 1:
+                c_tag = ExerciseTag(is_nfb=True, name=c_name, lowercase_name=lowercase_name, category=c_category)
+                try:
+                    c_tag.save()
+                    status = True
+                except Exception as e:
+                    pass
+            else:
+                if c_tag:
+                    try:
+                        c_tag.delete()
+                        status = True
+                    except Exception as e:
+                        pass
+    elif c_type == "self":
+        c_tag = None
+        if request.user.club_id is not None:
+            c_tag = ExerciseTag.objects.filter(id=c_id, is_nfb=False, club=request.user.club_id).first()
+            c_category = ExerciseTagCategory.objects.filter(id=c_category_id, is_nfb=False, club=request.user.club_id).first()
+        else:
+            c_tag = ExerciseTag.objects.filter(id=c_id, is_nfb=False, user=cur_user).first()
+            c_category = ExerciseTagCategory.objects.filter(id=c_category_id, is_nfb=False, user=cur_user).first()
+        if delete_status != 1:
+            if request.user.club_id is not None:
+                c_tag = ExerciseTag(is_nfb=False, club=request.user.club_id, name=c_name, lowercase_name=lowercase_name, category=c_category)
+            else:
+                c_tag = ExerciseTag(is_nfb=False, user=cur_user, name=c_name, lowercase_name=lowercase_name, category=c_category)
+            try:
+                c_tag.save()
+                status = True
+            except Exception as e:
+                pass
+        else:
+            if c_tag:
+                try:
+                    c_tag.delete()
+                    status = True
+                except Exception as e:
+                    pass  
+    return JsonResponse({"success": status, "type": c_type}, status=200)
+
+
+def POST_change_order_exs_tag_one(request, cur_user):
+    status = True
+    ids_data = request.POST.getlist("ids_arr[]", [])
+    ordering_data = request.POST.getlist("order_arr[]", [])
+    c_type = request.POST.get("type", "")
+    logs_arr = []
+    for c_ind in range(len(ids_data)):
+        t_id = -1
+        t_order = 0
+        try:
+            t_id = int(ids_data[c_ind])
+            t_order = int(ordering_data[c_ind])
+        except:
+            pass
+        found_param = None
+        if c_type == "nfb":
+            if cur_user.is_superuser:
+                found_param = ExerciseTag.objects.filter(id=t_id, is_nfb=True).first()
+        elif c_type == "self":
+            if request.user.club_id is not None:
+                found_param = ExerciseTag.objects.filter(id=t_id, is_nfb=False, club=request.user.club_id).first()
+            else:
+                found_param = ExerciseTag.objects.filter(id=t_id, is_nfb=False, user=cur_user).first()
+        if found_param and found_param.id != None:
+            found_param.order = t_order
+            try:
+                found_param.save()
+                logs_arr.append(f'Folder [{found_param.id}] is order changed: {t_order}')
+            except Exception as e:
+                logs_arr.append(f'Folder [{found_param.id}] -> ERROR / Not access or another reason')
+    print(logs_arr)
+    return JsonResponse({"success": status, "type": c_type, "logs": logs_arr}, status=200)
+
+
+def POST_change_exs_tag_category(request, cur_user):
+    status = False
+    c_type = request.POST.get("type", "")
+    c_id = -1
+    c_category_id = -1
+    try:
+        c_id = int(request.POST.get("id", -1))
+    except:
+        pass
+    try:
+        c_category_id = int(request.POST.get("category", -1))
+    except:
+        pass
+    if c_type == "nfb":
+        if cur_user.is_superuser:
+            c_tag = ExerciseTag.objects.filter(id=c_id, is_nfb=True).first()
+            c_category = ExerciseTagCategory.objects.filter(id=c_category_id, is_nfb=True).first()
+            if c_tag:
+                c_tag.category = c_category
+                try:
+                    c_tag.save()
+                    status = True
+                except Exception as e:
+                    pass
+    elif c_type == "self":
+        c_tag = None
+        c_category = None
+        if request.user.club_id is not None:
+            c_tag = ExerciseTag.objects.filter(id=c_id, is_nfb=False, club=request.user.club_id).first()
+            c_category = ExerciseTagCategory.objects.filter(id=c_category_id, is_nfb=False, club=request.user.club_id).first()
+        else:
+            c_tag = ExerciseTag.objects.filter(id=c_id, is_nfb=False, user=cur_user).first()
+            c_category = ExerciseTagCategory.objects.filter(id=c_category_id, is_nfb=False, user=cur_user).first()
+        if c_tag:
+            c_tag.category = c_category
+            try:
+                c_tag.save()
+                status = True
+            except Exception as e:
+                pass
+    return JsonResponse({"success": status, "type": c_type}, status=200)
+
+
+
 def GET_link_video_exs(request, cur_user, cur_team):
     """
     Return JSON Response as result on GET operation "Link videos from exercise video_data".
@@ -1978,6 +2229,52 @@ def GET_get_exs_graphic_content(request, cur_user, cur_team):
         res_exs['animation_data'] = get_exs_animation_data(res_exs['animation_data'])
         res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type, request.user.club_id)
     return JsonResponse({"data": res_exs, "success": True}, status=200)
+
+
+def GET_get_exs_all_tags(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on GET operation "Get all exercises' tags".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]]
+
+    """
+    data = {'nfb': [], 'self': [], 'categories': {'nfb': [], 'self': []}}
+    if not util_check_access(cur_user, {
+            'perms_user': ["exercises.view_userexercise"], 
+            'perms_club': ["exercises.view_clubexercise"]
+        }):
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    tags = get_exercises_tags(request, cur_user, cur_team)
+    for entry in tags['nfb']:
+        data['nfb'].append({
+            'id': entry.id,
+            'name': entry.name,
+            'category': entry.category.id if getattr(entry, 'category') is not None else ""
+        })
+    for entry in tags['self']:
+        data['self'].append({
+            'id': entry.id,
+            'name': entry.name,
+            'category': entry.category.id if getattr(entry, 'category') is not None else ""
+        })
+    for entry in tags['categories']['nfb']:
+        data['categories']['nfb'].append({
+            'id': entry.id,
+            'name': entry.name,
+        })
+    for entry in tags['categories']['self']:
+        data['categories']['self'].append({
+            'id': entry.id,
+            'name': entry.name,
+        })
+    return JsonResponse({"data": data, "success": True}, status=200)
 
 
 # --------------------------------------------------

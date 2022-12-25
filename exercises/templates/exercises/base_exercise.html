@@ -166,58 +166,54 @@
                             <i class="fa fa-arrow-down" aria-hidden="true"></i>
                         </span>
                     </div>
-                    <div class="table-columns">
-                        <div class="">
-                            <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#collapseTagsSelfTable" aria-expanded="true" aria-controls="collapseTagsSelfTable">
-                                Свои
-                            </button>
-                            <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#collapseTagsNfbTable" aria-expanded="false" aria-controls="collapseTagsNfbTable">
-                                NFB
-                            </button>
-                        </div>
-                        <div class="collapse" id="collapseTagsNfbTable">
-                            <p>NFB:</p>
-                            <table class="table table-sm table-bordered" style="table-layout: fixed;">
-                                <colgroup>
-                                    <col span="1" style="width: 5%;">
-                                    <col span="1" style="width: 80%;">
-                                    <col span="1" style="width: 15%;">
-                                </colgroup>
-                                <thead>
-                                    <th class="text-center"></th>
-                                    <th class="text-center">
-                                        Название
-                                    </th>
-                                    <th class="text-center">
-                                        Видимость
-                                    </th>
-                                </thead>
-                                <tbody class="columns-body">
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="collapse show" id="collapseTagsSelfTable">
-                            <p>Свои:</p>
-                            <table class="table table-sm table-bordered" style="table-layout: fixed;">
-                                <colgroup>
-                                    <col span="1" style="width: 5%;">
-                                    <col span="1" style="width: 80%;">
-                                    <col span="1" style="width: 15%;">
-                                </colgroup>
-                                <thead>
-                                    <th class="text-center"></th>
-                                    <th class="text-center">
-                                        Название
-                                    </th>
-                                    <th class="text-center">
-                                        Видимость
-                                    </th>
-                                </thead>
-                                <tbody class="columns-body">
-                                </tbody>
-                            </table>
+                    <div class="tag-add-control d-none">
+                        <div class="row">
+                            <div class="col-12 d-flex">
+                                <input name="add_new_tag" class="form-control form-control-sm w-25" type="text" value="" placeholder="Ключевое слово" autocomplete="off">
+                                <span class="badge badge-success tag-new-add align-middle" title="Добавить элемент">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                </span>
+                            </div>
                         </div>
                     </div>
+                    <div class="table-columns">
+                        <div class="tabs-container mb-2">
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-id="self">Свои</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-id="nfb">NFB</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="content-container" data-id="self">
+                            <div class="row category-container category-no" data-id="-1">
+                                <div class="col-12 mb-1">
+                                    <input name="" class="form-control form-control-sm" type="text" value="Без категории" placeholder="" autocomplete="off" disabled=""> 
+                                </div>
+                                <div class="col-12">
+                                    <div class="category-block" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-container d-none" data-id="nfb">
+                            <div class="row category-container category-no" data-id="-1">
+                                <div class="col-12 mb-1">
+                                    <input name="" class="form-control form-control-sm" type="text" value="Без категории" placeholder="" autocomplete="off" disabled=""> 
+                                </div>
+                                <div class="col-12">
+                                    <div class="category-block" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary save">Сохранить</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
                 </div>
             </div>
         </div>
