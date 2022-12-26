@@ -182,13 +182,13 @@
                                             </td>
                                         </tr>
                                         <tr class="bck-custom-color text-center font-weight-bold" style="--bck-color:#eecd38; --bck-color-h:#eecd38;">
-                                            <td class="align-middle folder-text" colspan="2">Ключевое слово</td>
+                                            <td class="align-middle folder-text" colspan="2">Ключевые характеристики</td>
                                         </tr>
                                         <tr class="wider_row bck-custom" data-id="additional_characteristics_data">
                                             <td colspan="2">
                                                 <select name="tags" class="select w-100 custom-select custom-select-sm tag-select exs_edit_field" multiple data-tags="true" data-theme="bootstrap4" disabled style="width: 100%;">
                                                     {% for tag in exercises_tags.nfb %}
-                                                        <option value="{{ tag.name }}">
+                                                        <option value="{{ tag.name }}" data-color="{{ tag.category.color }}">
                                                             [NFB]
                                                             {% if tag.category %}
                                                                 {{ tag.category.name }}. 
@@ -197,7 +197,7 @@
                                                         </option>
                                                     {% endfor %}
                                                     {% for tag in exercises_tags.self %}
-                                                        <option value="{{ tag.name }}">
+                                                        <option value="{{ tag.name }}" data-color="{{ tag.category.color }}">
                                                             {% if tag.category %}
                                                                 {{ tag.category.name }}. 
                                                             {% endif %}
@@ -460,8 +460,8 @@
                                     <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="exsAdditionalParamsRef" data-active="0" style="--w-max-x:20%;" title="Настроить условия упражнения">
                                         Усл-ия
                                     </button> -->
-                                    <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="exsTagsRef" data-active="0" style="--w-max-x:20%;" title="Настроить ключевые слова">
-                                        Кл.сл.
+                                    <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="exsTagsRef" data-active="0" style="--w-max-x:20%;" title="Настроить ключевые характеристики">
+                                        Кл.х.
                                     </button>
                                     <button type="button" class="btn btn-secondary btn-sm btn-custom btn-view size-max-w-x" data-dismiss="modal" style="--w-max-x:20%;" title="Выйти">
                                         <i class="fa fa-times text-danger" aria-hidden="true"></i>

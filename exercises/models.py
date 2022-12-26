@@ -5,6 +5,7 @@ from clubs.models import Club
 from references.models import UserTeam, ClubTeam, CustomTag
 from references.models import ExsGoal, ExsBall, ExsTeamCategory, ExsAgeCategory, ExsTrainPart, ExsCognitiveLoad, ExsStressType
 from video.models import Video
+from colorfield.fields import ColorField
 
 
 
@@ -80,6 +81,7 @@ class ExerciseTagCategory(CustomTag):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     club = models.ForeignKey(Club, on_delete=models.SET_NULL, null=True, blank=True)
     visible = models.BooleanField(default=True)
+    color = ColorField(default='#000000')
     lowercase_name = None
 
     objects = models.Manager()

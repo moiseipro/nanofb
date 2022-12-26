@@ -322,6 +322,63 @@ function PauseCountExsCalls(currentCall) {
     }
 }
 
+function LoadExercisesTagsInExsList() {
+    let dataSend = {'get_exs_all_tags': 1};
+    let dataResponse = null;
+    $.ajax({
+        headers:{"X-CSRFToken": csrftoken},
+        data: dataSend,
+        type: 'GET', // GET или POST
+        dataType: 'json',
+        url: "/exercises/exercises_api",
+        success: function (res) {
+            if (res.success) {
+                dataResponse = res.data;
+            }
+        },
+        error: function (res) {},
+        complete: function (res) {
+            RenderExercisesTagsInExsList(dataResponse);
+        }
+    });
+}
+
+function RenderExercisesTagsInExsList(data) {
+    function _rendering(data, type="nfb") {
+        let categoriesHtml = "";
+        if (data && data['categories'] && Array.isArray(data['categories'][type])) {
+            for (let i = 0; i < data['categories'][type].length; i++) {
+                let elem = data['categories'][type][i];
+                categoriesHtml += `
+                    <li class="btn btn-sm btn-outline-secondary category-container" data-id="${type}_${elem.id}">
+                        ${type == "nfb" ? '[NFB]. ' : ''}
+                        ${elem.name ? elem.name : ''}
+                    </li>
+                `;
+            }
+        }
+        $('.side-filter-block').find('ul.list-group[data-id="tags"]').append(categoriesHtml);
+        if (data && Array.isArray(data[type])) {
+            for (let i = 0; i < data[type].length; i++) {
+                let elem = data[type][i];
+                let tagHtml = `
+                    <li class="side-filter-elem list-group-item py-0 px-2 d-none" data-type="tags" data-id="${elem.lowercase_name}" data-category="${type}_${elem.category}">
+                        <span class="tag-dot" style="--color: ${elem.color && elem.color != "" ? elem.color : ''};"></span>
+                        ${type == "nfb" ? '[NFB]. ' : ''}
+                        ${elem.name ? elem.name : ''}
+                    </li>
+                `;
+                let fContainer = $('.side-filter-block').find('ul.list-group[data-id="tags"]').find(`.category-container[data-id="${type}_${elem.category}"]`);
+                if (fContainer.length > 0) {
+                    $(fContainer).after(tagHtml);
+                }
+            }
+        }
+    }
+    _rendering(data, "nfb");
+    _rendering(data, "self");
+}
+
 
 
 $(function() {
@@ -456,4 +513,10 @@ $(function() {
     RenderSplitCols();
 
     
+    LoadExercisesTagsInExsList();
+    $('.side-filter-block').on('click', 'li.category-container', (e) => {
+        let cId = $(e.currentTarget).attr('data-id');
+        $('.side-filter-block').find(`.side-filter-elem[data-category="${cId}"]`).toggleClass('d-none');
+    });
+
 });

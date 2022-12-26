@@ -946,8 +946,12 @@ function RenderExercisesTagsAll(data) {
                 let elem = data['categories'][type][i];
                 categoriesHtml += `
                     <div class="row category-container" data-id="${elem.id}">
-                        <div class="col-12 mb-1">
-                            <input name="" class="form-control form-control-sm category-title" type="text" value="${elem.name ? elem.name : ''}" placeholder="Название категории" autocomplete="off" disabled=""> 
+                        <div class="col-12 d-flex mb-1">
+                            <input name="title" class="form-control form-control-sm category-field" type="text" 
+                                value="${elem.name ? elem.name : ''}" placeholder="Название категории" autocomplete="off" disabled="" 
+                                style="width: 85% !important;">
+                            <input name="color" class="form-control form-control-sm category-field" type="color" value="${elem.color ? elem.color : ''}" 
+                                style="width: 15% !important;">
                         </div>
                         <div class="col-12">
                             <div class="category-block" ondrop="drop(event)" ondragover="allowDrop(event)">
@@ -964,8 +968,9 @@ function RenderExercisesTagsAll(data) {
             for (let i = 0; i < data[type].length; i++) {
                 let elem = data[type][i];
                 let tagHtml = `
-                    <span class="drag" draggable="true" ondragstart="drag(event)" id="ex_tag_${type}_${i}" data-id="${elem.id}">
+                    <span class="drag" draggable="true" ondragstart="drag(event)" id="ex_tag_${type}_${i}" data-id="${elem.id}" data-category-id="${elem.category}">
                         <a class="btn btn-sm btn-light">
+                            <span class="tag-dot" style="--color: ${elem.color && elem.color != "" ? elem.color : ''};"></span>
                             <span class="mr-1">${elem.name}</span>
                             <span class="badge badge-danger tag-delete" title="Удалить элемент">
                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
@@ -983,10 +988,12 @@ function RenderExercisesTagsAll(data) {
     }
     _rendering(data, "nfb");
     _rendering(data, "self");
+    $('#exerciseTagsModal').find(`.category-container[data-id="${window.selectedCategoryId}"]`).addClass('selected');
 }
 
-function EditExsTagCategory(id, name, type, toDelete=0) {
-    let dataSend = {'edit_exs_tag_category': 1, id, name, type, 'delete': toDelete};
+function EditExsTagCategory(id, name, color, type, toDelete=0) {
+    window.selectedCategoryId = id;
+    let dataSend = {'edit_exs_tag_category': 1, id, name, color, type, 'delete': toDelete};
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
         headers:{"X-CSRFToken": csrftoken},
@@ -1112,6 +1119,7 @@ function SaveExsTagsOrder() {
 
 function EditExsTagOne(id, name, type, category, toDelete=0) {
     let dataSend = {'edit_exs_tag_one': 1, id, name, type, category, 'delete': toDelete};
+    window.selectedCategoryId = category;
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
         headers:{"X-CSRFToken": csrftoken},
@@ -1139,6 +1147,9 @@ function ChangeExsTagCategory(categoryElem, tagElem) {
     let cType = $('#exerciseTagsModal').find(`.content-container:visible`).attr('data-id');
     let category = $(categoryElem).parent().parent().attr('data-id');
     let id = $(tagElem).attr('data-id');
+    let oldCategoryId = $(tagElem).attr('data-category-id');
+    if ((oldCategoryId == category) || (oldCategoryId == "" && category == "-1")) {return;}
+    window.selectedCategoryId = null;
     let dataSend = {'change_exs_tag_category': 1, id, category, 'type': cType};
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
@@ -1198,7 +1209,20 @@ $(function() {
     ToggleEditFields(false);
 
     $('#exerciseCard').find('.exs_edit_field[name="tags"]').select2({
-        maximumSelectionLength: 4
+        maximumSelectionLength: 20,
+        templateResult: (state) => {
+            console.log(state)
+            if (!state.id) {
+                return state.text;
+            }
+            let text = state.text;
+            let color = $(state.element).attr('data-color');
+            let $state = $(`
+                <span class="tag-dot" style="--color: ${color};"></span>
+                <span>${text}</span>
+            `);
+            return $state;
+        }
     });
 
     $('#exerciseCard').on('click', '#openDescription', (e) => {
@@ -1741,21 +1765,22 @@ $(function() {
     });
     $('#exerciseTagsModal').on('click', '.col-add', (e) => {
         let cType = $('#exerciseTagsModal').find(`.content-container:visible`).attr('data-id');
-        EditExsTagCategory(null, "", cType);
+        EditExsTagCategory(null, "", null, cType);
     });
     $('#exerciseTagsModal').on('click', '.col-edit', (e) => {
-        $('#exerciseTagsModal').find('.category-title').prop('disabled', false);
+        $('#exerciseTagsModal').find('.category-field').prop('disabled', false);
     });
-    $('#exerciseTagsModal').on('change', '.category-title', (e) => {
+    $('#exerciseTagsModal').on('change', '.category-field', (e) => {
         let cType = $('#exerciseTagsModal').find(`.content-container:visible`).attr('data-id');
         let cId = $(e.currentTarget).parent().parent().attr('data-id');
-        let cName = $(e.currentTarget).val();
-        EditExsTagCategory(cId, cName, cType);
+        let cName = $(e.currentTarget).parent().find('.category-field[name="title"]').val();
+        let cColor = $(e.currentTarget).parent().find('.category-field[name="color"]').val();
+        EditExsTagCategory(cId, cName, cColor, cType);
     });
     $('#exerciseTagsModal').on('click', '.col-delete', (e) => {
         let cType = $('#exerciseTagsModal').find(`.content-container:visible`).attr('data-id');
         let cId = $('#exerciseTagsModal').find('.row.category-container.selected:visible').attr('data-id');
-        EditExsTagCategory(cId, "", cType, 1);
+        EditExsTagCategory(cId, "", null, cType, 1);
     });
     $('#exerciseTagsModal').on('click', '.col-up', (e) => {
         ToggleExsTagCategoryOrder("up");
@@ -1764,6 +1789,7 @@ $(function() {
         ToggleExsTagCategoryOrder("down");
     });
     $('#exerciseTagsModal').on('click', 'button.save', (e) => {
+        window.selectedCategoryId = null;
         SaveExsTagCategoryOrder();
         SaveExsTagsOrder();
     });

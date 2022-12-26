@@ -584,3 +584,11 @@ input.exs-search {
     border-radius: 10px;
 }
 
+.tag-dot {
+    height: 10px;
+    width: 10px;
+    background-color: var(--color);
+    border-radius: 50%;
+    display: inline-block;
+}
+

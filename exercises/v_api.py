@@ -1637,12 +1637,15 @@ def POST_edit_exs_tag_category(request, cur_user):
     except:
         pass
     c_name = request.POST.get("name", "")
+    c_color = request.POST.get("color", None)
     if c_type == "nfb":
         if cur_user.is_superuser:
             c_category = ExerciseTagCategory.objects.filter(id=c_id, is_nfb=True).first()
             if delete_status != 1:
                 if c_category:
                     c_category.name = c_name
+                    if c_color is not None:
+                        c_category.color = c_color
                 else:
                     c_category = ExerciseTagCategory(is_nfb=True)
                 try:
@@ -1666,6 +1669,8 @@ def POST_edit_exs_tag_category(request, cur_user):
         if delete_status != 1:
             if c_category:
                 c_category.name = c_name
+                if c_color is not None:
+                        c_category.color = c_color
             else:
                 if request.user.club_id is not None:
                     c_category = ExerciseTagCategory(is_nfb=False, club=request.user.club_id)
@@ -1815,7 +1820,6 @@ def POST_change_order_exs_tag_one(request, cur_user):
                 logs_arr.append(f'Folder [{found_param.id}] is order changed: {t_order}')
             except Exception as e:
                 logs_arr.append(f'Folder [{found_param.id}] -> ERROR / Not access or another reason')
-    print(logs_arr)
     return JsonResponse({"success": status, "type": c_type, "logs": logs_arr}, status=200)
 
 
@@ -2256,23 +2260,29 @@ def GET_get_exs_all_tags(request, cur_user, cur_team):
         data['nfb'].append({
             'id': entry.id,
             'name': entry.name,
-            'category': entry.category.id if getattr(entry, 'category') is not None else ""
+            'lowercase_name': entry.lowercase_name,
+            'category': entry.category.id if getattr(entry, 'category') is not None else "",
+            'color': entry.category.color if getattr(entry, 'category') is not None else ""
         })
     for entry in tags['self']:
         data['self'].append({
             'id': entry.id,
             'name': entry.name,
-            'category': entry.category.id if getattr(entry, 'category') is not None else ""
+            'lowercase_name': entry.lowercase_name,
+            'category': entry.category.id if getattr(entry, 'category') is not None else "",
+            'color': entry.category.color if getattr(entry, 'category') is not None else ""
         })
     for entry in tags['categories']['nfb']:
         data['categories']['nfb'].append({
             'id': entry.id,
             'name': entry.name,
+            'color': entry.color
         })
     for entry in tags['categories']['self']:
         data['categories']['self'].append({
             'id': entry.id,
             'name': entry.name,
+            'color': entry.color
         })
     return JsonResponse({"data": data, "success": True}, status=200)
 
