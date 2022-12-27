@@ -592,3 +592,6 @@ input.exs-search {
     display: inline-block;
 }
 
+.custom-border-top {
+    border-top: 1px solid var(--color);
+}

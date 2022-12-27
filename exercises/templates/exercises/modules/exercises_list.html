@@ -299,7 +299,7 @@
         </div>
         <div class="row mb-1">
             <div class="col-6 pr-0">
-                <button type="button" class="btn btn-outline-secondary btn-block toggle-tag-category-type" data-id="self">
+                <button type="button" class="btn btn-outline-secondary btn-block toggle-tag-category-type {% if ui_elements.sidebar__trainer %}pb-0{% endif %}" data-id="self">
                 {% if ui_elements.sidebar__trainer %}
                     {{ ui_elements.sidebar__trainer }}
                 {% else %}
@@ -317,7 +317,7 @@
         <div class="d-flex1 justify-content-center btn-tab-second d-none">
             <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content mb-1" data-id="tags_category_{{ category.id }}">[NFB] {{ category.name }}</button>
         </div>
-        <ul class="list-group list-group-flush" data-id="tags_category_{{ category.id }}" data-t="nfb">
+        <ul class="list-group list-group-flush custom-border-top" data-id="tags_category_{{ category.id }}" data-t="nfb" style="--color: {{ category.color }};">
             {% for tag in exercises_tags.nfb %}
                 {% if tag.category.id == category.id %}
                 <li class="side-filter-elem list-group-item py-0 px-2" data-type="tags" data-id="{{ tag.lowercase_name }}">
@@ -337,7 +337,7 @@
         <div class="d-flex1 justify-content-center btn-tab-second d-none">
             <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content mb-1" data-id="tags_category_{{ category.id }}">{{ category.name }}</button>
         </div>
-        <ul class="list-group list-group-flush d-none" data-id="tags_category_{{ category.id }}" data-t="self">
+        <ul class="list-group list-group-flush custom-border-top d-none" data-id="tags_category_{{ category.id }}" data-t="self" style="--color: {{ category.color }};">
             {% for tag in exercises_tags.self %}
                 {% if tag.category.id == category.id %}
                 <li class="side-filter-elem list-group-item py-0 px-2" data-type="tags" data-id="{{ tag.lowercase_name }}">

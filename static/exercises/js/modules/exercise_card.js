@@ -941,17 +941,41 @@ function LoadExercisesTagsAll() {
 function RenderExercisesTagsAll(data) {
     function _rendering(data, type="nfb") {
         let categoriesHtml = "";
+        let colorsPack = [
+            {'color': "#000000", 'name': "Чёрный"},
+            {'color': "#24ae39", 'name': "Зелёный"},
+            {'color': "#e0e01f", 'name': "Жёлтый"},
+            {'color': "#e31c1c", 'name': "Красный"},
+            {'color': "#2417bb", 'name': "Синий"},
+            {'color': "#921ab9", 'name': "Фиолетовый"},
+            {'color': "#ff8040", 'name': "Оранжевый"},
+        ];
         if (data && data['categories'] && Array.isArray(data['categories'][type])) {
             for (let i = 0; i < data['categories'][type].length; i++) {
                 let elem = data['categories'][type][i];
+                let colorsOptionsHtml = "";
+                colorsPack.forEach(colorElem => {
+                    colorsOptionsHtml += `
+                        <option value="${colorElem.color}" ${elem.color == colorElem.color ? 'selected' : ''} style="
+                            color: ${colorElem.color} !important;
+                        ">${colorElem.name}</option>
+                    `;
+                });
+                /*
+                    <input name="color" class="form-control form-control-sm category-field" type="color" disabled=""
+                        value="${elem.color ? elem.color : ''}" style="width: 15% !important;" 
+                        title="Изменить цвет категории">
+                */
                 categoriesHtml += `
                     <div class="row category-container" data-id="${elem.id}">
                         <div class="col-12 d-flex mb-1">
                             <input name="title" class="form-control form-control-sm category-field" type="text" 
                                 value="${elem.name ? elem.name : ''}" placeholder="Название категории" autocomplete="off" disabled="" 
                                 style="width: 85% !important;">
-                            <input name="color" class="form-control form-control-sm category-field" type="color" value="${elem.color ? elem.color : ''}" 
-                                style="width: 15% !important;" title="Изменить цвет категории">
+                            <select name="color" class="form-control form-control-sm category-field" type="color" disabled="" 
+                                autocomplete="off" title="Изменить цвет категории" style="width: 15% !important;">
+                                ${colorsOptionsHtml}
+                            </select>
                         </div>
                         <div class="col-12">
                             <div class="category-block" ondrop="drop(event)" ondragover="allowDrop(event)">
@@ -1208,21 +1232,22 @@ $(function() {
 
     ToggleEditFields(false);
 
+    let templateSelect2 = (state) => {
+        if (!state.id) {
+            return state.text;
+        }
+        let text = state.text;
+        let color = $(state.element).attr('data-color');
+        let $state = $(`
+            <span class="tag-dot" style="--color: ${color};"></span>
+            <span>${text}</span>
+        `);
+        return $state;
+    };
     $('#exerciseCard').find('.exs_edit_field[name="tags"]').select2({
         maximumSelectionLength: 20,
-        templateResult: (state) => {
-            console.log(state)
-            if (!state.id) {
-                return state.text;
-            }
-            let text = state.text;
-            let color = $(state.element).attr('data-color');
-            let $state = $(`
-                <span class="tag-dot" style="--color: ${color};"></span>
-                <span>${text}</span>
-            `);
-            return $state;
-        }
+        templateSelection: templateSelect2,
+        templateResult: templateSelect2
     });
 
     $('#exerciseCard').on('click', '#openDescription', (e) => {
