@@ -181,7 +181,7 @@
                                                 <input name="field_players" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="" autocomplete="off">
                                             </td>
                                         </tr>
-                                        <tr class="bck-custom-color text-center font-weight-bold" style="--bck-color:#eecd38; --bck-color-h:#eecd38;">
+                                        <tr class="bck-custom-color text-center font-weight-bold toggle-additional-characteristics" style="--bck-color:#eecd38; --bck-color-h:#eecd38;">
                                             <td class="align-middle folder-text" colspan="2">Ключевые характеристики</td>
                                         </tr>
                                         <tr class="wider_row bck-custom" data-id="additional_characteristics_data">
@@ -189,7 +189,6 @@
                                                 <select name="tags" class="select w-100 custom-select custom-select-sm tag-select exs_edit_field" multiple data-tags="true" data-theme="bootstrap4" disabled style="width: 100%;">
                                                     {% for tag in exercises_tags.nfb %}
                                                         <option value="{{ tag.name }}" data-color="{{ tag.category.color }}">
-                                                            [NFB]
                                                             {% if tag.category %}
                                                                 {{ tag.category.name }}. 
                                                             {% endif %}

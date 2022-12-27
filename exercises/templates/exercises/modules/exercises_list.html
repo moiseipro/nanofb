@@ -195,7 +195,7 @@
     </div>
     <div class="px-1 mr-custom-1 mt-2 side-filter-block d-none" id="splitCol_3" style="width: 16%;">
         <div class="d-flex justify-content-center btn-tab-second">
-            <button type="button" class="btn btn-outline-danger btn-sm btn-block mb-1" id="filterReset">Сбросить</button>
+            <button type="button" class="btn btn-outline-danger btn-sm btn-block mb-1 filter-all-reset">Сбросить</button>
         </div>
         <div class="d-flex justify-content-center btn-tab-second">
             <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content mb-1" data-id="category">Категория</button>
@@ -288,32 +288,71 @@
             {% endfor %}
         </ul>
         <div class="d-flex justify-content-center btn-tab-second">
-            <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content mb-1" data-id="tags">Ключевые характеристики</button>
-        </div>
-        <ul class="list-group list-group-flush d-none" data-id="tags">
-            <!-- {% for tag in exercises_tags.nfb %}
-                <li class="side-filter-elem list-group-item py-0 px-2" data-type="tags" data-id="{{ tag.lowercase_name }}">
-                    [NFB]
-                    {% if tag.category %}
-                        {{ tag.category.name }}. 
-                    {% endif %}
-                    {{ tag.name }}
-                </li>
-            {% endfor %}
-            {% for tag in exercises_tags.self %}
-                <li class="side-filter-elem list-group-item py-0 px-2" data-type="tags" data-id="{{ tag.lowercase_name }}">
-                    {% if tag.category %}
-                        {{ tag.category.name }}. 
-                    {% endif %}
-                    {{ tag.name }}
-                </li>
-            {% endfor %} -->
-        </ul>
-        <div class="d-flex justify-content-center btn-tab-second">
             <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content mb-1" data-id="newexs">Новые упражнения</button>
         </div>
         <ul class="list-group list-group-flush d-none" data-id="newexs">
         </ul>
+    </div>
+    <div class="px-1 mr-custom-1 mt-2 tags-filter-block d-none" id="" style="width: 25%;">
+        <div class="d-flex justify-content-center btn-tab-second">
+            <button type="button" class="btn btn-outline-danger btn-sm btn-block mb-1 filter-all-reset">Сбросить</button>
+        </div>
+        <div class="row mb-1">
+            <div class="col-6 pr-0">
+                <button type="button" class="btn btn-outline-secondary btn-sm btn-block toggle-tag-category-type" data-id="self">
+                {% if ui_elements.sidebar__trainer %}
+                    {{ ui_elements.sidebar__trainer }}
+                {% else %}
+                    Тренер
+                {% endif %}
+                </button>
+            </div>
+            <div class="col-6 pl-0">
+                <button type="button" class="btn btn-outline-secondary btn-sm btn-block toggle-tag-category-type active" data-id="nfb">
+                    N.F.
+                </button>
+            </div>
+        </div>
+        {% for category in exercises_tags.categories.nfb %}
+        <div class="d-flex1 justify-content-center btn-tab-second d-none">
+            <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content mb-1" data-id="tags_category_{{ category.id }}">[NFB] {{ category.name }}</button>
+        </div>
+        <ul class="list-group list-group-flush" data-id="tags_category_{{ category.id }}" data-t="nfb">
+            {% for tag in exercises_tags.nfb %}
+                {% if tag.category.id == category.id %}
+                <li class="side-filter-elem list-group-item py-0 px-2" data-type="tags" data-id="{{ tag.lowercase_name }}">
+                    <div class="row">
+                        <div class="col-10 text-left px-1">
+                            <span class="tag-dot mx-1" style="--color: {{ category.color }};"></span>
+                            {{ tag.name }}
+                        </div>
+                        <div class="col-2 text-center px-1"></div>
+                    </div>
+                </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        {% endfor %}
+        {% for category in exercises_tags.categories.self %}
+        <div class="d-flex1 justify-content-center btn-tab-second d-none">
+            <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content mb-1" data-id="tags_category_{{ category.id }}">{{ category.name }}</button>
+        </div>
+        <ul class="list-group list-group-flush d-none" data-id="tags_category_{{ category.id }}" data-t="self">
+            {% for tag in exercises_tags.self %}
+                {% if tag.category.id == category.id %}
+                <li class="side-filter-elem list-group-item py-0 px-2" data-type="tags" data-id="{{ tag.lowercase_name }}">
+                    <div class="row">
+                        <div class="col-10 text-left px-1">
+                            <span class="tag-dot mx-1" style="--color: {{ category.color }};"></span>
+                            {{ tag.name }}
+                        </div>
+                        <div class="col-2 text-center px-1"></div>
+                    </div>
+                </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        {% endfor %}
     </div>
 </div>
 

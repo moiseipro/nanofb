@@ -4,7 +4,16 @@ function ToggleUpFilter(id, state) {
     let graphicsWidth = '';
     switch(id) {
         case "toggle_side_filter":
+            $('.up-tabs-elem[data-id="toggle_tags_filter"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="toggle_tags_filter"]').attr('data-state', '0');
             $('div.side-filter-block').toggleClass('d-none', !state);
+            $('div.tags-filter-block').toggleClass('d-none', true);
+            break;
+        case "toggle_tags_filter":
+            $('.up-tabs-elem[data-id="toggle_side_filter"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="toggle_side_filter"]').attr('data-state', '0');
+            $('div.tags-filter-block').toggleClass('d-none', !state);
+            $('div.side-filter-block').toggleClass('d-none', true);
             break;
         case "toggle_up_filter":
             $('div.btns-tabs-second').fadeToggle(300, (e) => {});
@@ -256,7 +265,6 @@ $(function() {
     $('.side-filter-block').on('click', '.side-filter-elem', (e) => {
         let state = $(e.currentTarget).attr('data-state') == '1';
         let isFilter = $(e.currentTarget).parent().attr('data-id') == "filter";
-        let isTags = $(e.currentTarget).parent().attr('data-id') == "tags";
         let isVideoSources = $(e.currentTarget).parent().attr('data-id') == "video_sources";
         if (isFilter) {
             $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').attr('data-state', '0');
@@ -276,29 +284,6 @@ $(function() {
             }
             LoadFolderExercises();
             CountExsInFolder();
-        } else if (isTags) {
-            console.log('xxx')
-            let type = $(e.currentTarget).attr('data-type');
-            let id = $(e.currentTarget).attr('data-id');
-            if (!state) {
-                if (!Array.isArray(window.exercisesFilter[type])) {
-                    window.exercisesFilter[type] = [];
-                }
-                window.exercisesFilter[type].push(id);
-            } else {
-                if (!Array.isArray(window.exercisesFilter[type])) {
-                    window.exercisesFilter[type] = [];
-                }
-                let index = window.exercisesFilter[type].indexOf(id);
-                if (index !== -1) {
-                    window.exercisesFilter[type].splice(index, 1);
-                }
-            }
-            for (ind in window.count_exs_calls) {
-                window.count_exs_calls[ind]['call'].abort();
-            }
-            LoadFolderExercises();
-            CountExsInFolder();
         } else if (isVideoSources) {
             $('.side-filter-block').find('.list-group[data-id="video_sources"]').find('.side-filter-elem').attr('data-state', '0');
             $('.side-filter-block').find('.list-group[data-id="video_sources"]').find('.side-filter-elem').toggleClass('active', false);
@@ -311,6 +296,37 @@ $(function() {
             } else {
                 $(e.currentTarget).find('.row > div:nth-child(2)').html('');
                 delete window.exercisesFilter[type];
+            }
+            for (ind in window.count_exs_calls) {
+                window.count_exs_calls[ind]['call'].abort();
+            }
+            LoadFolderExercises();
+            CountExsInFolder();
+        }
+        $(e.currentTarget).toggleClass('active', !state);
+        $(e.currentTarget).attr('data-state', state ? '0' : '1');
+    });
+    $('.tags-filter-block').on('click', '.side-filter-elem', (e) => {
+        let state = $(e.currentTarget).attr('data-state') == '1';
+        let isTags = true;
+        if (isTags) {
+            let type = $(e.currentTarget).attr('data-type');
+            let id = $(e.currentTarget).attr('data-id');
+            if (!state) {
+                $(e.currentTarget).find('.row > div:nth-child(2)').html(`<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`);
+                if (!Array.isArray(window.exercisesFilter[type])) {
+                    window.exercisesFilter[type] = [];
+                }
+                window.exercisesFilter[type].push(id);
+            } else {
+                $(e.currentTarget).find('.row > div:nth-child(2)').html('');
+                if (!Array.isArray(window.exercisesFilter[type])) {
+                    window.exercisesFilter[type] = [];
+                }
+                let index = window.exercisesFilter[type].indexOf(id);
+                if (index !== -1) {
+                    window.exercisesFilter[type].splice(index, 1);
+                }
             }
             for (ind in window.count_exs_calls) {
                 window.count_exs_calls[ind]['call'].abort();
@@ -341,24 +357,28 @@ $(function() {
         let cId = $(e.currentTarget).attr('data-id');
         $('.side-filter-block').find(`.list-group[data-id="${cId}"]`).toggleClass('d-none');
     });
+    $('.tags-filter-block').on('click', '.toggle-filter-content', (e) => {
+        let cId = $(e.currentTarget).attr('data-id');
+        $('.tags-filter-block').find(`.list-group[data-id="${cId}"]`).toggleClass('d-none');
+    });
 
 
     // Reset side filter
-    $('#filterReset').on('click', (e) => {
+    $('.filter-all-reset').on('click', (e) => {
         if (
         $($('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').hasClass('active')).length > 0 || 
-        $($('.side-filter-block').find('.list-group[data-id="tags"]').find('.side-filter-elem').hasClass('active')).length > 0 || 
         $($('.side-filter-block').find('.list-group[data-id="video_sources"]').find('.side-filter-elem').hasClass('active')).length > 0 || 
+        $($('.tags-filter-block').find('.side-filter-elem[data-type="tags"]').hasClass('active')).length > 0 || 
         $('.exs-search').val() != "") {
             $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').attr('data-state', '0');
             $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').toggleClass('active', false);
             $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').find('.row > div:nth-child(2)').html('');
-            $('.side-filter-block').find('.list-group[data-id="tags"]').find('.side-filter-elem').attr('data-state', '0');
-            $('.side-filter-block').find('.list-group[data-id="tags"]').find('.side-filter-elem').toggleClass('active', false);
-            $('.side-filter-block').find('.list-group[data-id="tags"]').find('.side-filter-elem').find('.row > div:nth-child(2)').html('');
             $('.side-filter-block').find('.list-group[data-id="video_sources"]').find('.side-filter-elem').attr('data-state', '0');
             $('.side-filter-block').find('.list-group[data-id="video_sources"]').find('.side-filter-elem').toggleClass('active', false);
             $('.side-filter-block').find('.list-group[data-id="video_sources"]').find('.side-filter-elem').find('.row > div:nth-child(2)').html('');
+            $('.tags-filter-block').find('.side-filter-elem[data-type="tags"]').attr('data-state', '0');
+            $('.tags-filter-block').find('.side-filter-elem[data-type="tags"]').toggleClass('active', false);
+            $('.tags-filter-block').find('.side-filter-elem[data-type="tags"]').find('.row > div:nth-child(2)').html('');
             $('.exs-search').val('');
             window.exercisesFilter = {};
             LoadFolderExercises();
@@ -1140,5 +1160,14 @@ $(function() {
 
 
     RenderFilterNewExs();
+    $('.tags-filter-block').on('click', '.toggle-tag-category-type', (e) => {
+        let wasActive = $(e.currentTarget).hasClass('active');
+        let cId = $(e.currentTarget).attr('data-id');
+        $('.tags-filter-block').find('.toggle-tag-category-type').removeClass('active');
+        $('.tags-filter-block').find('.list-group').addClass('d-none');
+        $(e.currentTarget).addClass('active');
+        $('.tags-filter-block').find(`.list-group[data-t="${cId}"]`).removeClass('d-none');
+    });
+    
 
 });

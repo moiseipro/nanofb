@@ -951,7 +951,7 @@ function RenderExercisesTagsAll(data) {
                                 value="${elem.name ? elem.name : ''}" placeholder="Название категории" autocomplete="off" disabled="" 
                                 style="width: 85% !important;">
                             <input name="color" class="form-control form-control-sm category-field" type="color" value="${elem.color ? elem.color : ''}" 
-                                style="width: 15% !important;">
+                                style="width: 15% !important;" title="Изменить цвет категории">
                         </div>
                         <div class="col-12">
                             <div class="category-block" ondrop="drop(event)" ondragover="allowDrop(event)">
@@ -1806,6 +1806,11 @@ $(function() {
         let cType = $('#exerciseTagsModal').find(`.content-container:visible`).attr('data-id');
         let cId = $(e.currentTarget).parent().parent().attr('data-id');
         EditExsTagOne(cId, "", cType, null, 1);
+    });
+
+
+    $('#exerciseCard').on('click', '.toggle-additional-characteristics', (e) => {
+        $('#exerciseCard').find('tr[data-id="additional_characteristics_data"]').toggleClass('d-none');
     });
 
 });

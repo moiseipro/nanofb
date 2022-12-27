@@ -1711,6 +1711,10 @@ html.menu-opened body {
 	border: 1px solid #2962ff;
 	font-weight: bolder;
 }
+.mini-sidebar:not(.expand-menu) .sidebar-menu > ul > li > a {
+	padding-left: 2px !important;
+	padding-right: 2px !important;
+}
 .menu-title {
     color: #9e9e9e;
     display: flex;
