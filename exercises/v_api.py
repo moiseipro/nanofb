@@ -656,7 +656,8 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
     if filter_ball != -1:
         f_exercises = f_exercises.filter(ref_ball=filter_ball)
     if len(filter_tags) > 0:
-        f_exercises = f_exercises.filter(tags__lowercase_name__in=filter_tags).distinct()
+        for f_tag in filter_tags:
+            f_exercises = f_exercises.filter(tags__lowercase_name__icontains=f_tag)
     if filter_new_exs != -1:
         enddate = datetime.date.today()
         startdate = enddate - datetime.timedelta(days=15)

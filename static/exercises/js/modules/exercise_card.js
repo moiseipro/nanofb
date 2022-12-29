@@ -1841,6 +1841,12 @@ $(function() {
     $('#exerciseCard').on('click', '.toggle-additional-characteristics', (e) => {
         $('#exerciseCard').find('tr[data-id="additional_characteristics_data"]').toggleClass('d-none');
     });
+    $('#exerciseCard').on('click', '.toggle-main-block', (e) => {
+        $('#exerciseCard').find('tr[data-id="main_block"]').toggleClass('d-none');
+    });
+    $('#exerciseCard').on('click', '.toggle-additional-information', (e) => {
+        $('#exerciseCard').find('tr[data-id="additional_information"]').toggleClass('d-none');
+    });
 
 });
 
