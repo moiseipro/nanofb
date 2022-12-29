@@ -313,13 +313,11 @@ $(function() {
             let type = $(e.currentTarget).attr('data-type');
             let id = $(e.currentTarget).attr('data-id');
             if (!state) {
-                $(e.currentTarget).find('.row > div:nth-child(2)').html(`<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`);
                 if (!Array.isArray(window.exercisesFilter[type])) {
                     window.exercisesFilter[type] = [];
                 }
                 window.exercisesFilter[type].push(id);
             } else {
-                $(e.currentTarget).find('.row > div:nth-child(2)').html('');
                 if (!Array.isArray(window.exercisesFilter[type])) {
                     window.exercisesFilter[type] = [];
                 }

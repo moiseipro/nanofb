@@ -48,7 +48,7 @@ def exercises(request):
     found_club_folders = []
     found_nfb_folders = []
     refs = {}
-    found_folders, found_club_folders, found_nfb_folders, refs = v_api.get_exercises_params(request, cur_user, cur_team)
+    found_folders, found_club_folders, found_nfb_folders, refs = v_api.get_exercises_params(request, cur_user[0], cur_team)
     exs_tags = v_api.get_exercises_tags(request, cur_user[0], cur_team, True)
     video_params = {}
     video_params['sources'] = VideoSource.objects.all().annotate(videos=Count('video')).order_by('-videos')
@@ -124,7 +124,7 @@ def exercise(request):
                 found_exercise = ClubExercise.objects.filter(id=c_id, club=request.user.club_id).values()
     if not found_exercise and not is_new_exs:
         return redirect('/exercises')
-    found_folders, found_club_folders, found_nfb_folders, refs = v_api.get_exercises_params(request, cur_user, cur_team)
+    found_folders, found_club_folders, found_nfb_folders, refs = v_api.get_exercises_params(request, cur_user[0], cur_team)
     exs_tags = v_api.get_exercises_tags(request, cur_user[0], cur_team, True)
     exs_additional_params = v_api.get_exercises_additional_params(request, cur_user[0])
     video_params = {}
@@ -230,6 +230,7 @@ def exercises_api(request):
         delete_exs_status = 0
         edit_exs_user_params_status = 0
         count_exs_status = 0
+        count_exs_in_tags_filter_status = 0
         edit_exs_additional_param_status = 0
         delete_exs_additional_param_status = 0
         change_order_exs_additional_param_status = 0
@@ -268,6 +269,10 @@ def exercises_api(request):
             pass
         try:
             count_exs_status = int(request.POST.get("count_exs", 0))
+        except:
+            pass
+        try:
+            count_exs_in_tags_filter_status = int(request.POST.get("count_exs_in_tags_filter", 0))
         except:
             pass
         try:
@@ -314,6 +319,8 @@ def exercises_api(request):
             return v_api.POST_edit_exs_user_params(request, cur_user[0], cur_team)
         elif count_exs_status == 1:
             return v_api.POST_count_exs(request, cur_user[0], cur_team)
+        elif count_exs_in_tags_filter_status == 1:
+            return v_api.POST_count_exs_in_tags_filter(request, cur_user[0], cur_team)
         elif edit_exs_additional_param_status == 1:
             return v_api.POST_edit_exs_additional_param(request, cur_user[0])
         elif delete_exs_additional_param_status == 1:

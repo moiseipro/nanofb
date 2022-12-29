@@ -3,11 +3,21 @@
     height: 80vh !important;
     overflow-y: auto;
 }
-.side-filter-elem.active {
+.side-filter-block .side-filter-elem.active {
     background-color: #e0e0e0;
     border-color: #e0e0e0;
     color: #5a6268;
     border: 2px solid rgb(100, 100, 100) !important;
+}
+
+.tags-filter-block {
+    height: 80vh !important;
+    overflow-y: auto;
+}
+.tags-filter-block .side-filter-elem.active {
+    background-color: #e0e0e0;
+    color: #5a6268;
+    font-weight: bold;
 }
 
 

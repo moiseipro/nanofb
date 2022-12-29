@@ -949,6 +949,9 @@ function RenderExercisesTagsAll(data) {
             {'color': "#2417bb", 'name': "Синий"},
             {'color': "#921ab9", 'name': "Фиолетовый"},
             {'color': "#ff8040", 'name': "Оранжевый"},
+            {'color': "#88dbf4", 'name': "Голубой"},
+            {'color': "#b2b2b2", 'name': "Серый"},
+            {'color': "#fff0", 'name': "Прозрачный"},
         ];
         if (data && data['categories'] && Array.isArray(data['categories'][type])) {
             for (let i = 0; i < data['categories'][type].length; i++) {
@@ -1246,6 +1249,7 @@ $(function() {
     };
     $('#exerciseCard').find('.exs_edit_field[name="tags"]').select2({
         maximumSelectionLength: 20,
+        closeOnSelect: false,
         templateSelection: templateSelect2,
         templateResult: templateSelect2
     });

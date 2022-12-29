@@ -22,6 +22,29 @@ function CountExsAjaxReq(data, folder) {
     });
 }
 
+function CountExsInTagsFilterAjaxReq(data, tagElem) {
+    $(tagElem).find('.row > div:nth-child(2)').html('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
+    return $.ajax({
+        headers:{"X-CSRFToken": csrftoken},
+        data: data,
+        type: 'POST', // GET или POST
+        dataType: 'json',
+        url: "/exercises/exercises_api",
+        timeout: 60000,
+        success: function (res) {
+            if (res.success && res.data != 0) {
+                $(tagElem).find('.row > div:nth-child(2)').html(res.data);
+            } else {
+                $(tagElem).find('.row > div:nth-child(2)').html('...');
+            }
+        },
+        error: function (res) {
+            $(tagElem).find('.row > div:nth-child(2)').html('...');
+        },
+        complete: function (res) {}
+    });
+}
+
 function RestartCountExsInFolders(data) {
     window.count_exs_calls = [];
     for (let i = 0; i < data.length; i++) {
@@ -73,6 +96,17 @@ function CountExsInFolder(useFilter = true) {
             });
         }
     }
+    let tagsElems = $('.tags-filter-block').find('.side-filter-elem[data-type="tags"]');
+    let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+    for (let i = 0; i < tagsElems.length; i++) {
+        let tagElem = $(tagsElems[i]);
+        let data = {'count_exs_in_tags_filter': 1, 'tag': $(tagElem).attr('data-id'), 'type': folderType, 'filter': window.exercisesFilter};
+        window.count_exs_calls.push({
+            'data': data,
+            'folderElem': tagElem,
+            'call': CountExsInTagsFilterAjaxReq(data, tagElem)
+        });
+    }
     let callsList = window.count_exs_calls.map(obj => obj.call);
     if (useFilter) {
         $.when.apply($, callsList).then(() => {
@@ -98,9 +132,9 @@ function CountFilteredExs() {
     if (window.exercisesFilter.constructor == Object) {
         for (key in window.exercisesFilter) {
             if (window.filterIsLoaded) {
-                $(`.side-filter-elem.active[data-type="${key}"]`).find('.row > div:nth-child(2)').html(`( ${res} )`);
+                $(`.side-filter-elem.active[data-type="${key}"]`).find('.row.count-update > div:nth-child(2)').html(`( ${res} )`);
             } else {
-                $(`.side-filter-elem.active[data-type="${key}"]`).find('.row > div:nth-child(2)').html(`<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`);
+                $(`.side-filter-elem.active[data-type="${key}"]`).find('.row.count-update > div:nth-child(2)').html(`<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`);
             }
         }
     }

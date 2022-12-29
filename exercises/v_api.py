@@ -248,7 +248,7 @@ def set_exs_additional_params(request, exs, folder_type):
     return exs
 
 
-def get_exercises_params(request, user, team):
+def get_exercises_params(request, user, team, only_child_folders=False):
     """
     Return data of User folders, NFB Folders, References.
 
@@ -266,24 +266,43 @@ def get_exercises_params(request, user, team):
     club_folders = []
     nfb_folders = []
     refs = {}
-    if user.exists() and user[0].id != None:
-        if util_check_access(user[0], {
-            'perms_user': ["exercises.view_userfolder"], 
-            'perms_club': ["exercises.view_clubfolder"]
-        }):
-            if request.user.club_id is not None:
-                folders = ClubFolder.objects.filter(club=request.user.club_id, visible=True).values()
-                club_folders = ClubFolder.objects.filter(club=request.user.club_id, visible=True).values()
-            else:
-                folders = UserFolder.objects.filter(user=user[0], team=team, visible=True).values()
+    if util_check_access(user, {
+        'perms_user': ["exercises.view_userfolder"], 
+        'perms_club': ["exercises.view_clubfolder"]
+    }):
+        if request.user.club_id is not None:
+            folders = ClubFolder.objects.filter(club=request.user.club_id, visible=True)
+            club_folders = ClubFolder.objects.filter(club=request.user.club_id, visible=True)
+            # folders = ClubFolder.objects.filter(club=request.user.club_id, visible=True).values()
+            # club_folders = ClubFolder.objects.filter(club=request.user.club_id, visible=True).values()
+        else:
+            folders = UserFolder.objects.filter(user=user, team=team, visible=True)
+            # folders = UserFolder.objects.filter(user=user[0], team=team, visible=True).values()
     nfb_folders = AdminFolder.objects.filter(visible=True)
-    if not user[0].is_superuser:
+    if not user.is_superuser:
         nfb_folders = nfb_folders.filter(active=True)
-    nfb_folders = nfb_folders.values()
+    if only_child_folders:
+        try:
+            folders = folders.filter(parent__isnull=False)
+        except:
+            pass
+        try:
+            club_folders = club_folders.filter(parent__isnull=False)
+        except:
+            pass
+        try:
+            nfb_folders = nfb_folders.filter(parent__isnull=False)
+        except:
+            pass
+    # nfb_folders = nfb_folders.values()
     for elem in folders:
-        elem['root'] = False if elem['parent'] and elem['parent'] != 0 else True
+        is_root = not (elem.parent and elem.parent != 0)
+        setattr(elem, 'root', is_root)
+        # elem['root'] = False if elem['parent'] and elem['parent'] != 0 else True
     for elem in nfb_folders:
-        elem['root'] = False if elem['parent'] and elem['parent'] != 0 else True
+        is_root = not (elem.parent and elem.parent != 0)
+        setattr(elem, 'root', is_root)
+        # elem['root'] = False if elem['parent'] and elem['parent'] != 0 else True
     refs['exs_goal'] = ExsGoal.objects.filter().values()
     refs['exs_ball'] = ExsBall.objects.filter().values()
     refs['exs_team_category'] = ExsTeamCategory.objects.filter().values()
@@ -484,7 +503,7 @@ def get_exs_additional_params(data, exs, folder_type, user, club_id, lang_code):
     return data
 
 
-def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = None, cur_team = None, to_count=False):
+def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = None, cur_team = None, to_count=False, count_for_tag=None):
     """
     Return list of exercise objects. If filter options exist then current list will be filtered.
     Filter options are defined via next parameters of request: filter["filter_name"].
@@ -570,49 +589,67 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
     f_exercises = []
     c_folder = None
     child_folders = None
+    if count_for_tag is not None:
+        all_folders = get_exercises_params(req, cur_user, cur_team, True)
+        team_folders = all_folders[0]
+        club_folders = all_folders[1]
+        nfb_folders = all_folders[2]
     if folder_type == FOLDER_TEAM:
-        if req.user.club_id is not None:
-            c_folder = ClubFolder.objects.filter(id=folder_id, club=req.user.club_id)
-        else:
-            c_folder = UserFolder.objects.filter(id=folder_id)
-        if not c_folder.exists() or c_folder[0].id == None:
-            # return JsonResponse({"err": "Folder not found.", "success": False}, status=200)
-            return []
-        if req.user.club_id is not None:
-            child_folders = ClubFolder.objects.filter(parent=c_folder[0].id, club=req.user.club_id)
-        else:
-            child_folders = UserFolder.objects.filter(parent=c_folder[0].id)
-        if child_folders.count() > 0:
+        if count_for_tag is None:
             if req.user.club_id is not None:
-                f_exercises = ClubExercise.objects.filter(folder__in = child_folders, team=cur_team)
+                c_folder = ClubFolder.objects.filter(id=folder_id, club=req.user.club_id)
             else:
-                f_exercises = UserExercise.objects.filter(folder__in = child_folders)
-        else:
-            if req.user.club_id is not None:
-                f_exercises = ClubExercise.objects.filter(folder = c_folder[0], team=cur_team)
-            else:
-                f_exercises = UserExercise.objects.filter(folder = c_folder[0])
-    elif folder_type == FOLDER_NFB:
-        c_folder = AdminFolder.objects.filter(id=folder_id)
-        if not c_folder.exists() or c_folder[0].id == None:
-            # return JsonResponse({"err": "Folder not found.", "success": False}, status=200)
-            return []
-        child_folders = AdminFolder.objects.filter(parent=c_folder[0].id)
-        if child_folders.count() > 0:
-            f_exercises = AdminExercise.objects.filter(folder__in = child_folders)
-        else:
-            f_exercises = AdminExercise.objects.filter(folder = c_folder[0])
-    elif folder_type == FOLDER_CLUB:
-        if req.user.club_id is not None:
-            c_folder = ClubFolder.objects.filter(id=folder_id, club=req.user.club_id)
+                c_folder = UserFolder.objects.filter(id=folder_id)
             if not c_folder.exists() or c_folder[0].id == None:
                 # return JsonResponse({"err": "Folder not found.", "success": False}, status=200)
                 return []
-            child_folders = ClubFolder.objects.filter(parent=c_folder[0].id, club=req.user.club_id)
-            if child_folders.count() > 0:
-                f_exercises = ClubExercise.objects.filter(folder__in = child_folders)
+            if req.user.club_id is not None:
+                child_folders = ClubFolder.objects.filter(parent=c_folder[0].id, club=req.user.club_id)
             else:
-                f_exercises = ClubExercise.objects.filter(folder = c_folder[0])
+                child_folders = UserFolder.objects.filter(parent=c_folder[0].id)
+            if child_folders.count() > 0:
+                if req.user.club_id is not None:
+                    f_exercises = ClubExercise.objects.filter(folder__in = child_folders, team=cur_team)
+                else:
+                    f_exercises = UserExercise.objects.filter(folder__in = child_folders)
+            else:
+                if req.user.club_id is not None:
+                    f_exercises = ClubExercise.objects.filter(folder = c_folder[0], team=cur_team)
+                else:
+                    f_exercises = UserExercise.objects.filter(folder = c_folder[0])
+        else:
+            if req.user.club_id is not None:
+                f_exercises = ClubExercise.objects.filter(folder__in = team_folders, team=cur_team)
+            else:
+                f_exercises = UserExercise.objects.filter(folder__in = team_folders)
+    elif folder_type == FOLDER_NFB:
+        if count_for_tag is None:
+            c_folder = AdminFolder.objects.filter(id=folder_id)
+            if not c_folder.exists() or c_folder[0].id == None:
+                # return JsonResponse({"err": "Folder not found.", "success": False}, status=200)
+                return []
+            child_folders = AdminFolder.objects.filter(parent=c_folder[0].id)
+            if child_folders.count() > 0:
+                f_exercises = AdminExercise.objects.filter(folder__in = child_folders)
+            else:
+                f_exercises = AdminExercise.objects.filter(folder = c_folder[0])
+        else:
+            f_exercises = AdminExercise.objects.filter(folder__in = nfb_folders)
+    elif folder_type == FOLDER_CLUB:
+        if count_for_tag is None:
+            if req.user.club_id is not None:
+                c_folder = ClubFolder.objects.filter(id=folder_id, club=req.user.club_id)
+                if not c_folder.exists() or c_folder[0].id == None:
+                    # return JsonResponse({"err": "Folder not found.", "success": False}, status=200)
+                    return []
+                child_folders = ClubFolder.objects.filter(parent=c_folder[0].id, club=req.user.club_id)
+                if child_folders.count() > 0:
+                    f_exercises = ClubExercise.objects.filter(folder__in = child_folders)
+                else:
+                    f_exercises = ClubExercise.objects.filter(folder = c_folder[0])
+        else:
+            if req.user.club_id is not None:
+                f_exercises = ClubExercise.objects.filter(folder__in = club_folders)
     
     if filter_goal != -1:
         f_exercises = f_exercises.filter(ref_goal=filter_goal)
@@ -656,6 +693,8 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
             f_exercises = f_exercises.filter(
                 Q(exercisevideo__video__isnull=False) & Q(exercisevideo__video__videosource_id=filter_video_source)
             )
+    if count_for_tag:
+        f_exercises = f_exercises.filter(tags__lowercase_name__in=[count_for_tag]).distinct()
 
     if not to_count:
         f_exercises_list = [entry for entry in f_exercises.values()]
@@ -1473,8 +1512,37 @@ def POST_count_exs(request, cur_user, cur_team):
     }):
         return JsonResponse({"err": "Access denied.", "success": False}, status=400)
     try:
-        found_exercises = get_excerises_data(folder_id, folder_type, request, cur_user, cur_team, True).count()
+        found_exercises = get_excerises_data(folder_id, folder_type, request, cur_user, cur_team, True, None).count()
         # found_exercises = len(get_excerises_data(folder_id, folder_type, request, cur_user, cur_team))
+    except Exception as e:
+        print(e)
+        pass
+    return JsonResponse({"data": found_exercises, "success": True}, status=200)
+
+
+def POST_count_exs_in_tags_filter(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on POST operation "Count exercises in tags filter".
+    Uses exercises.v_api.get_excerises_data(...)
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]]
+
+    """
+    tag = request.POST.get("tag", None)
+    folder_type = request.POST.get("type", "")
+    found_exercises = 0
+    if not util_check_access(cur_user, {
+        'perms_user': ["exercises.view_userexercise"], 
+        'perms_club': ["exercises.view_clubexercise"]
+    }):
+        return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    try:
+        found_exercises = get_excerises_data(-1, folder_type, request, cur_user, cur_team, True, tag).count()
     except Exception as e:
         print(e)
         pass

@@ -217,7 +217,7 @@
         <ul class="list-group list-group-flush" data-id="filter">
             {% for elem in refs.exs_goal %}
                 <li class="side-filter-elem list-group-item py-0" data-id="{{ elem.id }}" data-type="goal">
-                    <div class="row">
+                    <div class="row count-update">
                         <div class="col-8 text-left px-1">
                             <span>{{ elem.title }}</span>
                         </div>
@@ -228,7 +228,7 @@
             {% endfor %}
             {% for elem in refs.exs_ball %}
                 <li class="side-filter-elem list-group-item py-0" data-id="{{ elem.id }}" data-type="ball">
-                    <div class="row">
+                    <div class="row count-update">
                         <div class="col-8 text-left px-1">
                             <span>{{ elem.title }}</span>
                         </div>
@@ -238,7 +238,7 @@
                 </li>
             {% endfor %}
             <li class="side-filter-elem list-group-item py-0" data-type="watch" data-id="1">
-                <div class="row">
+                <div class="row count-update">
                     <div class="col-8 text-left px-1">
                         <span>смотрел</span>
                     </div>
@@ -247,7 +247,7 @@
                 </div>
             </li>
             <li class="side-filter-elem list-group-item py-0" data-type="watch" data-id="0">
-                <div class="row">
+                <div class="row count-update">
                     <div class="col-8 text-left px-1">
                         <span>не смотрел</span>
                     </div>
@@ -256,7 +256,7 @@
                 </div>
             </li>
             <li class="side-filter-elem list-group-item py-0" data-type="favorite" data-id="1">
-                <div class="row">
+                <div class="row count-update">
                     <div class="col-8 text-left px-1">
                         <span>избранное</span>
                     </div>
@@ -265,7 +265,7 @@
                 </div>
             </li>
             <li class="side-filter-elem list-group-item py-0" data-type="new_exs" data-id="1">
-                <div class="row">
+                <div class="row count-update">
                     <div class="col-8 text-left px-1">
                         <span>новые N</span>
                     </div>
@@ -297,8 +297,8 @@
         <div class="d-flex justify-content-center btn-tab-second">
             <button type="button" class="btn btn-outline-danger btn-sm btn-block mb-1 filter-all-reset">Сбросить</button>
         </div>
-        <div class="row mb-1">
-            <div class="col-6 pr-0">
+        <div class="row w-100 mx-0 mb-1">
+            <div class="col-6 px-0">
                 <button type="button" class="btn btn-outline-secondary btn-block toggle-tag-category-type {% if ui_elements.sidebar__trainer %}pb-0{% endif %}" data-id="self">
                 {% if ui_elements.sidebar__trainer %}
                     {{ ui_elements.sidebar__trainer }}
@@ -307,26 +307,26 @@
                 {% endif %}
                 </button>
             </div>
-            <div class="col-6 pl-0">
+            <div class="col-6 px-0">
                 <button type="button" class="btn btn-outline-secondary btn-block toggle-tag-category-type active" data-id="nfb">
                     N.F.
                 </button>
             </div>
         </div>
         {% for category in exercises_tags.categories.nfb %}
-        <div class="d-flex1 justify-content-center btn-tab-second d-none">
+        <!-- <div class="d-flex1 justify-content-center btn-tab-second d-none">
             <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content mb-1" data-id="tags_category_{{ category.id }}">[NFB] {{ category.name }}</button>
-        </div>
-        <ul class="list-group list-group-flush custom-border-top" data-id="tags_category_{{ category.id }}" data-t="nfb" style="--color: {{ category.color }};">
+        </div> -->
+        <ul class="list-group list-group-flush" data-id="tags_category_{{ category.id }}" data-t="nfb">
             {% for tag in exercises_tags.nfb %}
                 {% if tag.category.id == category.id %}
-                <li class="side-filter-elem list-group-item py-0 px-2" data-type="tags" data-id="{{ tag.lowercase_name }}">
-                    <div class="row">
-                        <div class="col-10 text-left px-1">
+                <li class="side-filter-elem list-group-item py-0 px-0" data-type="tags" data-id="{{ tag.lowercase_name }}">
+                    <div class="row w-100 mx-0">
+                        <div class="col-10 text-left pr-1">
                             <span class="tag-dot mx-1" style="--color: {{ category.color }};"></span>
                             {{ tag.name }}
                         </div>
-                        <div class="col-2 text-center px-1"></div>
+                        <div class="col-2 text-center px-0"></div>
                     </div>
                 </li>
                 {% endif %}
@@ -334,19 +334,19 @@
         </ul>
         {% endfor %}
         {% for category in exercises_tags.categories.self %}
-        <div class="d-flex1 justify-content-center btn-tab-second d-none">
+        <!-- <div class="d-flex1 justify-content-center btn-tab-second d-none">
             <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content mb-1" data-id="tags_category_{{ category.id }}">{{ category.name }}</button>
-        </div>
-        <ul class="list-group list-group-flush custom-border-top d-none" data-id="tags_category_{{ category.id }}" data-t="self" style="--color: {{ category.color }};">
+        </div> -->
+        <ul class="list-group list-group-flush d-none" data-id="tags_category_{{ category.id }}" data-t="self">
             {% for tag in exercises_tags.self %}
                 {% if tag.category.id == category.id %}
-                <li class="side-filter-elem list-group-item py-0 px-2" data-type="tags" data-id="{{ tag.lowercase_name }}">
-                    <div class="row">
-                        <div class="col-10 text-left px-1">
+                <li class="side-filter-elem list-group-item py-0 px-0" data-type="tags" data-id="{{ tag.lowercase_name }}">
+                    <div class="row w-100 mx-0">
+                        <div class="col-10 text-left pr-1">
                             <span class="tag-dot mx-1" style="--color: {{ category.color }};"></span>
                             {{ tag.name }}
                         </div>
-                        <div class="col-2 text-center px-1"></div>
+                        <div class="col-2 text-center px-0"></div>
                     </div>
                 </li>
                 {% endif %}
