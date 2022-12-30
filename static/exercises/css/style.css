@@ -611,3 +611,11 @@ span.drag.selected > a {
     border: 2px solid black;
 }
 
+
+.select2-results {
+    height: 52vh;
+}
+.select2-results > ul {
+    max-height: 50vh !important;
+}
+

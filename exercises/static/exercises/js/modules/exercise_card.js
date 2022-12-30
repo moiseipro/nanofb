@@ -470,7 +470,7 @@ function SaveExerciseOne() {
     });
 }
 
-function DeleteExerciseOne() {
+function DeleteExerciseOne(exsId=null, folderType=null) {
     let deleteSwal = swal({
         title: "Вы точно хотите удалить упражнение?",
         text: `После удаления данное упражнение невозможно будет восстановить!`,
@@ -479,14 +479,37 @@ function DeleteExerciseOne() {
         dangerMode: true,
     });
     if ($('#splitCol_exscard_2').find('.delete-exs-radio').length > 0) {
-        let htmlStr = `<br>${$('#splitCol_exscard_2').find('.delete-exs-radio').html()}<br>`;
+        let htmlStr = `
+            <br>
+                <div class="delete-exs-radio">
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="radio" class="form-check-input" name="delete_exs_type" value="0" checked="">
+                            Удалить только упражнение
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="radio" class="form-check-input" name="delete_exs_type" value="1">
+                            Удалить только видео
+                        </label>
+                    </div>
+                    <div class="form-check disabled">
+                        <label class="form-check-label">
+                            <input type="radio" class="form-check-input" name="delete_exs_type" value="2">
+                            Удалить упражнение и видео
+                        </label>
+                    </div> 
+                </div>
+            <br>
+        `;
         $(document).find('.swal-modal > .swal-text').prepend(htmlStr);
     }
     deleteSwal.then((willDelete) => {
         if (willDelete) {
             let searchParams = new URLSearchParams(window.location.search);
-            let folderType = searchParams.get('type');
-            let exsId = $('#exerciseCard').attr('data-exs');
+            if (folderType == null) {folderType = searchParams.get('type');}
+            if (exsId == null) {exsId = $('#exerciseCard').attr('data-exs');}
             let deleteType = $(document).find('.swal-modal').find('input[name="delete_exs_type"]:checked').val();
             let data = {'delete_exs': 1, 'exs': exsId, 'type': folderType, 'delete_type': deleteType};
             $('.page-loader-wrapper').fadeIn();
@@ -995,7 +1018,7 @@ function RenderExercisesTagsAll(data) {
             for (let i = 0; i < data[type].length; i++) {
                 let elem = data[type][i];
                 let tagHtml = `
-                    <span class="drag" draggable="true" ondragstart="drag(event)" id="ex_tag_${type}_${i}" data-id="${elem.id}" data-category-id="${elem.category}">
+                    <span class="drag mx-1" draggable="true" ondragstart="drag(event)" id="ex_tag_${type}_${i}" data-id="${elem.id}" data-category-id="${elem.category}">
                         <a class="btn btn-sm btn-light">
                             <span class="tag-dot" style="--color: ${elem.color && elem.color != "" ? elem.color : ''};"></span>
                             <span class="mr-1">${elem.name}</span>
@@ -1252,7 +1275,11 @@ $(function() {
         closeOnSelect: false,
         templateSelection: templateSelect2,
         templateResult: templateSelect2
-    });
+    })
+    .on('select2:selecting', e => $(e.currentTarget).data('scrolltop', $('.select2-results__options').scrollTop()))
+    .on('select2:select', e => $('.select2-results__options').scrollTop($(e.currentTarget).data('scrolltop')))
+    .on('select2:unselecting', e => $(e.currentTarget).data('scrolltop', $('.select2-results__options').scrollTop()))
+    .on('select2:unselect', e => $('.select2-results__options').scrollTop($(e.currentTarget).data('scrolltop')));
 
     $('#exerciseCard').on('click', '#openDescription', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');

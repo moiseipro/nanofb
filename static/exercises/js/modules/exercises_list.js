@@ -470,5 +470,19 @@ $(function() {
             $('.tags-filter-block').find('.tag-header:not(.t-hidden)').removeClass('d-none');
         }
     });
+
+
+    $('#deleteExsInList').on('click', (e) => {
+        let activeExs = $('.exercises-list').find('.exs-elem.active');
+        if ($(activeExs).length <= 0) {return;}
+        let exsId = $(activeExs).attr('data-id');
+        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
+        let data = {'type': folderType, 'folder': folder, 'exs': exsId};
+        data = JSON.stringify(data);
+        sessionStorage.setItem('last_exs', data);
+        DeleteExerciseOne(exsId, folderType);
+    });
     
+
 });
