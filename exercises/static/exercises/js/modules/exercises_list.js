@@ -97,6 +97,8 @@ function LoadFolderExercises() {
                 if (window.lastExercise && window.lastExercise.exs) {
                     CountExsInFolder();
                     window.lastExercise = null;
+                } else {
+                    CountExsInFolder(true, true);
                 }
             }
         });
@@ -192,7 +194,7 @@ function LoadExerciseOneHandler() {
     let fromNFB = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? 1 : 0;
     let folderType = $('.folders_div:not(.d-none)').attr('data-id');
     LoadExerciseOne(cId, fromNFB, folderType);
-
+    CountExsInFolder(true, true);
 }
 
 function RenderExerciseOne(data) {
@@ -455,5 +457,18 @@ $(function() {
     }
     RenderSplitCols();
 
+
+    $('.tags-filter-block').on('click', '.toggle-tags-view', (e) => {
+        let cId = $(e.currentTarget).attr('data-id');
+        $('.tags-filter-block').find('.toggle-tags-view').removeClass('active');
+        $(e.currentTarget).addClass('active');
+        if (cId == "list") {
+            $('.tags-filter-block').find('.side-filter-elem:not(.t-hidden)').removeClass('d-none');
+            $('.tags-filter-block').find('.tag-header:not(.t-hidden)').addClass('d-none');
+        } else if (cId == "headers") {
+            $('.tags-filter-block').find('.side-filter-elem:not(.t-hidden)').addClass('d-none');
+            $('.tags-filter-block').find('.tag-header:not(.t-hidden)').removeClass('d-none');
+        }
+    });
     
 });

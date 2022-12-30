@@ -503,7 +503,7 @@ def get_exs_additional_params(data, exs, folder_type, user, club_id, lang_code):
     return data
 
 
-def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = None, cur_team = None, to_count=False, count_for_tag=None):
+def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cur_team=None, to_count=False, count_for_tag=None, exercise_id=-1):
     """
     Return list of exercise objects. If filter options exist then current list will be filtered.
     Filter options are defined via next parameters of request: filter["filter_name"].
@@ -595,7 +595,7 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
         club_folders = all_folders[1]
         nfb_folders = all_folders[2]
     if folder_type == FOLDER_TEAM:
-        if count_for_tag is None:
+        if count_for_tag is None or (count_for_tag is not None and folder_id != -1):
             if req.user.club_id is not None:
                 c_folder = ClubFolder.objects.filter(id=folder_id, club=req.user.club_id)
             else:
@@ -617,13 +617,15 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
                     f_exercises = ClubExercise.objects.filter(folder = c_folder[0], team=cur_team)
                 else:
                     f_exercises = UserExercise.objects.filter(folder = c_folder[0])
+            if exercise_id != -1:
+                f_exercises = f_exercises.filter(id=exercise_id)
         else:
             if req.user.club_id is not None:
                 f_exercises = ClubExercise.objects.filter(folder__in = team_folders, team=cur_team)
             else:
                 f_exercises = UserExercise.objects.filter(folder__in = team_folders)
     elif folder_type == FOLDER_NFB:
-        if count_for_tag is None:
+        if count_for_tag is None or (count_for_tag is not None and folder_id != -1):
             c_folder = AdminFolder.objects.filter(id=folder_id)
             if not c_folder.exists() or c_folder[0].id == None:
                 # return JsonResponse({"err": "Folder not found.", "success": False}, status=200)
@@ -633,10 +635,12 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
                 f_exercises = AdminExercise.objects.filter(folder__in = child_folders)
             else:
                 f_exercises = AdminExercise.objects.filter(folder = c_folder[0])
+            if exercise_id != -1:
+                f_exercises = f_exercises.filter(id=exercise_id)
         else:
             f_exercises = AdminExercise.objects.filter(folder__in = nfb_folders)
     elif folder_type == FOLDER_CLUB:
-        if count_for_tag is None:
+        if count_for_tag is None or (count_for_tag is not None and folder_id != -1):
             if req.user.club_id is not None:
                 c_folder = ClubFolder.objects.filter(id=folder_id, club=req.user.club_id)
                 if not c_folder.exists() or c_folder[0].id == None:
@@ -647,6 +651,8 @@ def get_excerises_data(folder_id = -1, folder_type = "", req = None, cur_user = 
                     f_exercises = ClubExercise.objects.filter(folder__in = child_folders)
                 else:
                     f_exercises = ClubExercise.objects.filter(folder = c_folder[0])
+                if exercise_id != -1:
+                    f_exercises = f_exercises.filter(id=exercise_id)
         else:
             if req.user.club_id is not None:
                 f_exercises = ClubExercise.objects.filter(folder__in = club_folders)
@@ -1535,7 +1541,17 @@ def POST_count_exs_in_tags_filter(request, cur_user, cur_team):
 
     """
     tag = request.POST.get("tag", None)
+    folder_id = -1
     folder_type = request.POST.get("type", "")
+    exercise_id = -1
+    try:
+        folder_id = int(request.POST.get("folder", -1))
+    except:
+        pass
+    try:
+        exercise_id = int(request.POST.get("exercise", -1))
+    except:
+        pass
     found_exercises = 0
     if not util_check_access(cur_user, {
         'perms_user': ["exercises.view_userexercise"], 
@@ -1543,7 +1559,7 @@ def POST_count_exs_in_tags_filter(request, cur_user, cur_team):
     }):
         return JsonResponse({"err": "Access denied.", "success": False}, status=400)
     try:
-        found_exercises = get_excerises_data(-1, folder_type, request, cur_user, cur_team, True, tag).count()
+        found_exercises = get_excerises_data(folder_id, folder_type, request, cur_user, cur_team, True, tag, exercise_id).count()
     except Exception as e:
         print(e)
         pass
@@ -1818,7 +1834,11 @@ def POST_edit_exs_tag_one(request, cur_user):
             c_tag = ExerciseTag.objects.filter(id=c_id, is_nfb=True).first()
             c_category = ExerciseTagCategory.objects.filter(id=c_category_id, is_nfb=True).first()
             if delete_status != 1:
-                c_tag = ExerciseTag(is_nfb=True, name=c_name, lowercase_name=lowercase_name, category=c_category)
+                if c_tag:
+                    c_tag.name = c_name
+                    c_tag.lowercase_name = lowercase_name
+                else:
+                    c_tag = ExerciseTag(is_nfb=True, name=c_name, lowercase_name=lowercase_name, category=c_category)
                 try:
                     c_tag.save()
                     status = True
@@ -1840,10 +1860,14 @@ def POST_edit_exs_tag_one(request, cur_user):
             c_tag = ExerciseTag.objects.filter(id=c_id, is_nfb=False, user=cur_user).first()
             c_category = ExerciseTagCategory.objects.filter(id=c_category_id, is_nfb=False, user=cur_user).first()
         if delete_status != 1:
-            if request.user.club_id is not None:
-                c_tag = ExerciseTag(is_nfb=False, club=request.user.club_id, name=c_name, lowercase_name=lowercase_name, category=c_category)
+            if c_tag:
+                c_tag.name = c_name
+                c_tag.lowercase_name = lowercase_name
             else:
-                c_tag = ExerciseTag(is_nfb=False, user=cur_user, name=c_name, lowercase_name=lowercase_name, category=c_category)
+                if request.user.club_id is not None:
+                    c_tag = ExerciseTag(is_nfb=False, club=request.user.club_id, name=c_name, lowercase_name=lowercase_name, category=c_category)
+                else:
+                    c_tag = ExerciseTag(is_nfb=False, user=cur_user, name=c_name, lowercase_name=lowercase_name, category=c_category)
             try:
                 c_tag.save()
                 status = True

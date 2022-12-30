@@ -313,10 +313,22 @@
                 </button>
             </div>
         </div> -->
+        <div class="row w-100 mx-0 mb-1">
+            <div class="col-6 px-0">
+                <button type="button" class="btn btn-sm btn-outline-secondary btn-block toggle-tags-view active" data-id="list">
+                    Список
+                </button>
+            </div>
+            <div class="col-6 px-0">
+                <button type="button" class="btn btn-sm btn-outline-secondary btn-block toggle-tags-view" data-id="headers">
+                    Заголовки
+                </button>
+            </div>
+        </div>
         {% for category in exercises_tags.categories.self %}
-        <!-- <div class="d-flex1 justify-content-center btn-tab-second d-none">
+        <div class="tag-header justify-content-center btn-tab-second d-none" data-t="self">
             <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content mb-1" data-id="tags_category_{{ category.id }}">{{ category.name }}</button>
-        </div> -->
+        </div>
         <ul class="list-group list-group-flush" data-id="tags_category_{{ category.id }}" data-t="self">
             {% for tag in exercises_tags.self %}
                 {% if tag.category.id == category.id %}
@@ -334,9 +346,9 @@
         </ul>
         {% endfor %}
         {% for category in exercises_tags.categories.nfb %}
-        <!-- <div class="d-flex1 justify-content-center btn-tab-second d-none">
-            <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content mb-1" data-id="tags_category_{{ category.id }}">[NFB] {{ category.name }}</button>
-        </div> -->
+        <div class="tag-header justify-content-center btn-tab-second d-none" data-t="nfb">
+            <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content mb-1" data-id="tags_category_{{ category.id }}">{{ category.name }}</button>
+        </div>
         <ul class="list-group list-group-flush" data-id="tags_category_{{ category.id }}" data-t="nfb">
             {% for tag in exercises_tags.nfb %}
                 {% if tag.category.id == category.id %}

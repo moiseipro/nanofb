@@ -53,7 +53,8 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem').removeClass('b-c-green2');
             $('.up-tabs-elem').addClass('b-c-red2');
             CountExsInFoldersByType();
-            $('.tags-filter-block').find('ul.list-group[data-t="self"]').toggleClass('d-none', false);
+            $('.tags-filter-block').find('ul.list-group[data-t="self"]').toggleClass('d-none t-hidden', false);
+            $('.tags-filter-block').find('div.tag-header[data-t="self"]').toggleClass('d-none t-hidden', false);
             break;
         case "club_folders":
             $('.up-tabs-elem[data-id="club_folders"]').removeClass('selected3');
@@ -75,7 +76,8 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem').removeClass('b-c-red2');
             $('.up-tabs-elem').addClass('b-c-blue2');
             CountExsInFoldersByType();
-            $('.tags-filter-block').find('ul.list-group[data-t="self"]').toggleClass('d-none', false);
+            $('.tags-filter-block').find('ul.list-group[data-t="self"]').toggleClass('d-none t-hidden', false);
+            $('.tags-filter-block').find('div.tag-header[data-t="self"]').toggleClass('d-none t-hidden', false);
             break;
         case "team_folders":
             $('.up-tabs-elem[data-id="team_folders"]').removeClass('selected3');
@@ -101,7 +103,8 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem').removeClass('b-c-red2');
             $('.up-tabs-elem').addClass('b-c-green2');
             CountExsInFoldersByType();
-            $('.tags-filter-block').find('ul.list-group[data-t="self"]').toggleClass('d-none', true);
+            $('.tags-filter-block').find('ul.list-group[data-t="self"]').toggleClass('d-none t-hidden', true);
+            $('.tags-filter-block').find('div.tag-header[data-t="self"]').toggleClass('d-none t-hidden', true);
             break;
         case "copy":
             if ($('.exercises-list').find('.exs-elem.active').length <= 0) {
@@ -360,7 +363,7 @@ $(function() {
     });
     $('.tags-filter-block').on('click', '.toggle-filter-content', (e) => {
         let cId = $(e.currentTarget).attr('data-id');
-        $('.tags-filter-block').find(`.list-group[data-id="${cId}"]`).toggleClass('d-none');
+        $('.tags-filter-block').find(`.list-group[data-id="${cId}"]:not(.t-hidden)`).find('.side-filter-elem').toggleClass('d-none');
     });
 
 
@@ -1132,7 +1135,8 @@ $(function() {
             $('.up-tabs-elem').removeClass('b-c-green2');
             $('.up-tabs-elem').removeClass('b-c-red2');
             $('.up-tabs-elem').addClass('b-c-blue2');
-            $('.tags-filter-block').find('ul.list-group[data-t="self"]').toggleClass('d-none', false);
+            $('.tags-filter-block').find('ul.list-group[data-t="self"]').toggleClass('d-none t-hidden', false);
+            $('.tags-filter-block').find('div.tag-header[data-t="self"]').toggleClass('d-none t-hidden', false);
         } else if (cFoldersSettings.type == "nfb_folders") {
             $('.toggle-filter-content').removeClass('btn-custom-outline-blue');
             $('.toggle-filter-content').removeClass('btn-custom-outline-red');
@@ -1140,7 +1144,8 @@ $(function() {
             $('.up-tabs-elem').removeClass('b-c-blue2');
             $('.up-tabs-elem').removeClass('b-c-red2');
             $('.up-tabs-elem').addClass('b-c-green2');
-            $('.tags-filter-block').find('ul.list-group[data-t="self"]').toggleClass('d-none', true);
+            $('.tags-filter-block').find('ul.list-group[data-t="self"]').toggleClass('d-none t-hidden', true);
+            $('.tags-filter-block').find('div.tag-header[data-t="self"]').toggleClass('d-none t-hidden', true);
         } else if (cFoldersSettings.type == "club_folders") {
             $('.toggle-filter-content').removeClass('btn-custom-outline-blue');
             $('.toggle-filter-content').removeClass('btn-custom-outline-green');
@@ -1148,7 +1153,8 @@ $(function() {
             $('.up-tabs-elem').removeClass('b-c-blue2');
             $('.up-tabs-elem').removeClass('b-c-green2');
             $('.up-tabs-elem').addClass('b-c-red2');
-            $('.tags-filter-block').find('ul.list-group[data-t="self"]').toggleClass('d-none', false);
+            $('.tags-filter-block').find('ul.list-group[data-t="self"]').toggleClass('d-none t-hidden', false);
+            $('.tags-filter-block').find('div.tag-header[data-t="self"]').toggleClass('d-none t-hidden', false);
         }
     }
 
@@ -1164,14 +1170,6 @@ $(function() {
 
 
     RenderFilterNewExs();
-    $('.tags-filter-block').on('click', '.toggle-tag-category-type', (e) => {
-        let wasActive = $(e.currentTarget).hasClass('active');
-        let cId = $(e.currentTarget).attr('data-id');
-        $('.tags-filter-block').find('.toggle-tag-category-type').removeClass('active');
-        $('.tags-filter-block').find('.list-group').addClass('d-none');
-        $(e.currentTarget).addClass('active');
-        $('.tags-filter-block').find(`.list-group[data-t="${cId}"]`).removeClass('d-none');
-    });
-    
+
 
 });

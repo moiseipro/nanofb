@@ -57,50 +57,58 @@ function RestartCountExsInFolders(data) {
     } 
 }
 
-function CountExsInFolder(useFilter = true) {
+function CountExsInFolder(useFilter = true, skipFolders = false) {
     window.filterIsLoaded = false;
     window.count_exs_calls = [];
-    let folders = $('.folders_list').find('.list-group-item > div');
-    for (let i = 0; i < folders.length; i++) {
-        let folder = $(folders[i]);
-        if ($(folder).attr('data-root') != '1') {
-            let data = {'count_exs': 1, 'folder': $(folder).attr('data-id'), 'type': "team_folders", 'filter': window.exercisesFilter};
-            window.count_exs_calls.push({
-                'data': data,
-                'folderElem': folder,
-                'call': CountExsAjaxReq(data, folder)
-            });
+    if (!skipFolders) {
+        let folders = $('.folders_list').find('.list-group-item > div');
+        for (let i = 0; i < folders.length; i++) {
+            let folder = $(folders[i]);
+            if ($(folder).attr('data-root') != '1') {
+                let data = {'count_exs': 1, 'folder': $(folder).attr('data-id'), 'type': "team_folders", 'filter': window.exercisesFilter};
+                window.count_exs_calls.push({
+                    'data': data,
+                    'folderElem': folder,
+                    'call': CountExsAjaxReq(data, folder)
+                });
+            }
         }
-    }
-    folders = $('.folders_club_list').find('.list-group-item > div');
-    for (let i = 0; i < folders.length; i++) {
-        let folder = $(folders[i]);
-        if ($(folder).attr('data-root') != '1') {
-            let data = {'count_exs': 1, 'folder': $(folder).attr('data-id'), 'type': "club_folders", 'filter': window.exercisesFilter};
-            window.count_exs_calls.push({
-                'data': data,
-                'folderElem': folder,
-                'call': CountExsAjaxReq(data, folder)
-            });
+        folders = $('.folders_club_list').find('.list-group-item > div');
+        for (let i = 0; i < folders.length; i++) {
+            let folder = $(folders[i]);
+            if ($(folder).attr('data-root') != '1') {
+                let data = {'count_exs': 1, 'folder': $(folder).attr('data-id'), 'type': "club_folders", 'filter': window.exercisesFilter};
+                window.count_exs_calls.push({
+                    'data': data,
+                    'folderElem': folder,
+                    'call': CountExsAjaxReq(data, folder)
+                });
+            }
         }
-    }
-    folders = $('.folders_nfb_list').find('.list-group-item > div');
-    for (let i = 0; i < folders.length; i++) {
-        let folder = $(folders[i]);
-        if ($(folder).attr('data-root') != '1') {
-            let data = {'count_exs': 1, 'folder': $(folder).attr('data-id'), 'type': "nfb_folders", 'filter': window.exercisesFilter};
-            window.count_exs_calls.push({
-                'data': data,
-                'folderElem': folder,
-                'call': CountExsAjaxReq(data, folder)
-            });
+        folders = $('.folders_nfb_list').find('.list-group-item > div');
+        for (let i = 0; i < folders.length; i++) {
+            let folder = $(folders[i]);
+            if ($(folder).attr('data-root') != '1') {
+                let data = {'count_exs': 1, 'folder': $(folder).attr('data-id'), 'type': "nfb_folders", 'filter': window.exercisesFilter};
+                window.count_exs_calls.push({
+                    'data': data,
+                    'folderElem': folder,
+                    'call': CountExsAjaxReq(data, folder)
+                });
+            }
         }
     }
     let tagsElems = $('.tags-filter-block').find('.side-filter-elem[data-type="tags"]');
     let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+    let folderId = $('.folders_div:not(.d-none)').find('.list-group-item.active > div').attr('data-id');
+    let exerciseId = $('.exercises-list').find('.exs-elem.active').attr('data-id');
     for (let i = 0; i < tagsElems.length; i++) {
         let tagElem = $(tagsElems[i]);
-        let data = {'count_exs_in_tags_filter': 1, 'tag': $(tagElem).attr('data-id'), 'type': folderType, 'filter': window.exercisesFilter};
+        let data = {
+            'count_exs_in_tags_filter': 1, 'tag': $(tagElem).attr('data-id'), 
+            'type': folderType, 'folder': folderId, 'exercise': exerciseId,
+            'filter': window.exercisesFilter
+        };
         window.count_exs_calls.push({
             'data': data,
             'folderElem': tagElem,

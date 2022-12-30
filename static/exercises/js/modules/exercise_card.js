@@ -1158,11 +1158,11 @@ function EditExsTagOne(id, name, type, category, toDelete=0) {
             if (res.success) {
                 LoadExercisesTagsAll();
             } else {
-                swal("Ошибка", "Не удалось создать / удалить ключевое слово!", "error");
+                swal("Ошибка", "Не удалось создать / изменить / удалить ключевое слово!", "error");
             }
         },
         error: function (res) {
-            swal("Ошибка", "Не удалось создать / удалить ключевое слово!", "error");
+            swal("Ошибка", "Не удалось создать / изменить / удалить ключевое слово!", "error");
         },
         complete: function (res) {
             $('.page-loader-wrapper').fadeOut();
@@ -1822,12 +1822,13 @@ $(function() {
         SaveExsTagCategoryOrder();
         SaveExsTagsOrder();
     });
-    $('#exerciseTagsModal').on('click', '.tag-new-add', (e) => {
+    $('#exerciseTagsModal').on('click', '.tag-edit', (e) => {
         let cType = $('#exerciseTagsModal').find(`.content-container:visible`).attr('data-id');
         let cCategory = $('#exerciseTagsModal').find('.row.category-container.selected:visible').attr('data-id');
-        let cName = $('#exerciseTagsModal').find('input[name="add_new_tag"]').val();
+        let cName = $('#exerciseTagsModal').find('input[name="edit_tag"]').val();
+        let tagId = $('#exerciseTagsModal').find('span.drag.selected').first().attr('data-id');
         if (cCategory && cName != "") {
-            EditExsTagOne(null, cName, cType, cCategory);
+            EditExsTagOne(tagId, cName, cType, cCategory);
         }
         $('#exerciseTagsModal').find('input[name="add_new_tag"]').val('');
     });
@@ -1835,6 +1836,19 @@ $(function() {
         let cType = $('#exerciseTagsModal').find(`.content-container:visible`).attr('data-id');
         let cId = $(e.currentTarget).parent().parent().attr('data-id');
         EditExsTagOne(cId, "", cType, null, 1);
+    });
+    $('#exerciseTagsModal').on('click', 'span.drag', (e) => {
+        let wasSelected = $(e.currentTarget).hasClass('selected');
+        let cVal = $(e.currentTarget).find('a > span:nth-child(2)').text();
+        $('#exerciseTagsModal').find('span.drag').removeClass('selected');
+        $(e.currentTarget).toggleClass('selected', !wasSelected);
+        if (!wasSelected) {
+            $('#exerciseTagsModal').find('input[name="edit_tag"]').val(cVal);
+            $('#exerciseTagsModal').find('span.tag-edit').text("Изменить");
+        } else {
+            $('#exerciseTagsModal').find('input[name="edit_tag"]').val('');
+            $('#exerciseTagsModal').find('span.tag-edit').text("Добавить");
+        }
     });
 
 
