@@ -588,7 +588,7 @@ class EditTrainingsView(DetailView):
         # Подтягиваем папки и упражнения
         cur_user = User.objects.filter(pk=self.request.user.id).only("club_id")
         #print(cur_user.values())
-        found_folders, found_club_folders, found_nfb_folders, refs = get_exercises_params(self.request, cur_user, self.request.session['team'])
+        found_folders, found_club_folders, found_nfb_folders, refs = get_exercises_params(self.request, cur_user[0], self.request.session['team'])
         context['folders'] = found_folders
         context['folders_only_view'] = True
         # context['nfb_folders'] = found_nfb_folders
