@@ -17,6 +17,17 @@
                             <div class="up-block-content d-flex justify-content-center">
                                 <div class="btns-tabs-first size-w-x" style="--w-x:96%;">
                                     <div class="row">
+                                        <div class="col-12 p-0 btn-group btn-group-custom collapse mb-2" id="collapseAdminSectionSettings">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" id="toggleExsAdminOptions" title="Опции упражнениий" style="--w-max-x:4%;">
+                                                <i class="fa fa-cog" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" id="toggleExsID" title="Скрыть / Показать ID" style="--w-max-x:4%;">
+                                                ID
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" id="toggleExsLangName" title="Мультиязычность" style="--w-max-x:4%;">
+                                                <i class="fa fa-globe" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
                                         <div class="col-12 p-0 btn-group btn-group-custom">
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" id="toggleFoldersNames" title="Свернуть / Развернуть папки" style="--w-max-x:4%;">
                                                 <i class="fa fa-arrow-right" aria-hidden="true"></i>
@@ -745,6 +756,23 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary btn-share" data-link="">Поделиться</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="exerciseLangTitleModal" tabindex="-1" role="dialog" aria-labelledby="exerciseLangTitleModalLbl" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Настройка заголовка и описания</h5>
+                    </div>
+                    <div class="modal-body">
+                        body
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary btn-save">Сохранить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </div>

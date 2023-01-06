@@ -329,7 +329,7 @@
         <div class="tag-header justify-content-center btn-tab-second d-none" data-t="self">
             <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content mb-1" data-id="tags_category_{{ category.id }}">{{ category.name }}</button>
         </div>
-        <ul class="list-group list-group-flush" data-id="tags_category_{{ category.id }}" data-t="self">
+        <ul class="list-group list-group-flush1 mb-1" data-id="tags_category_{{ category.id }}" data-t="self">
             {% for tag in exercises_tags.self %}
                 {% if tag.category.id == category.id %}
                 <li class="side-filter-elem list-group-item py-0 px-0" data-type="tags" data-id="{{ tag.lowercase_name }}">
@@ -349,7 +349,7 @@
         <div class="tag-header justify-content-center btn-tab-second d-none" data-t="nfb">
             <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content mb-1" data-id="tags_category_{{ category.id }}">{{ category.name }}</button>
         </div>
-        <ul class="list-group list-group-flush" data-id="tags_category_{{ category.id }}" data-t="nfb">
+        <ul class="list-group list-group-flush1 mb-1" data-id="tags_category_{{ category.id }}" data-t="nfb">
             {% for tag in exercises_tags.nfb %}
                 {% if tag.category.id == category.id %}
                 <li class="side-filter-elem list-group-item py-0 px-0" data-type="tags" data-id="{{ tag.lowercase_name }}">

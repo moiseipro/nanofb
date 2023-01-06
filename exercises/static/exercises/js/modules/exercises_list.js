@@ -111,15 +111,25 @@ function RenderFolderExercises(id, tExs) {
     let exsHtml = "";
     $('.exs_counter').html(exs.length > 0 ? `(${exs.length})` : "(...)");
     $('.folders-block').find('.list-group-item.active').find('.folder-exs-counter').html(exs.length > 0 ? exs.length : "...");
+    let cTitle = ""; let cSameTitleNum = 0;
     for (let i = 0; i < exs.length; i++) {
         let exElem = exs[i];
+        if (cTitle == exElem.title_for_sort && exElem.title_for_sort != "") {
+            cSameTitleNum += 1;
+        } else {
+            cTitle = exElem.title_for_sort;
+            cSameTitleNum = 0;
+        }
         exsHtml += `
         <li class="exs-elem list-group-item py-1 px-0" data-id="${exElem.id}" data-folder="${exElem.folder}">
             <div class="row w-100">
                 <div class="col-12 d-flex">
                     <span class="ml-3 w-100">
                         <span class="num">${i+1}.</span>
-                        <span class="title">${exElem.title == "" ? "-- None --" : exElem.title}</span>
+                        <span class="title">
+                            ${exElem.title == "" ? "-- None --" : exElem.title}
+                            ${cSameTitleNum > 0 ? (cSameTitleNum+1) : ""}
+                        </span>
                     </span>
                     ${exElem.has_video_1 == true ? `
                         <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.video_1_watched == true ? 'selected' : ''}" data-type="marker" data-id="video_1_watched" style="--w-x:24px; --h-x:24px;" title="Видео 1">
@@ -168,6 +178,27 @@ function RenderFolderExercises(id, tExs) {
                         </button>
                     ` : `
                     `}
+                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x ${exElem.opt_has_video == true ? 'selected' : ''}" data-type="icons" data-info="admin_options" data-id="opt_has_video" style="--w-x:24px; --h-x:24px;" title="Есть видео">
+                        <input type="checkbox" value="" ${exElem.opt_has_video == true ? 'checked' : ''}>
+                    </button>
+                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x ${exElem.opt_has_animation == true ? 'selected' : ''}" data-type="icons" data-info="admin_options" data-id="opt_has_animation" style="--w-x:24px; --h-x:24px;" title="Есть анимация">
+                        <input type="checkbox" value="" ${exElem.opt_has_animation == true ? 'checked' : ''}>
+                    </button>
+                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x ${exElem.opt_has_description == true ? 'selected' : ''}" data-type="icons" data-info="admin_options" data-id="opt_has_description" style="--w-x:24px; --h-x:24px;" title="Есть описание">
+                        <input type="checkbox" value="" ${exElem.opt_has_description == true ? 'checked' : ''}>
+                    </button>
+                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x ${exElem.opt_has_scheme == true ? 'selected' : ''}" data-type="icons" data-info="admin_options" data-id="opt_has_scheme" style="--w-x:24px; --h-x:24px;" title="Есть схема">
+                        <input type="checkbox" value="" ${exElem.opt_has_scheme == true ? 'checked' : ''}>
+                    </button>
+                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x ${exElem.visible == true ? 'selected' : ''}" data-type="icons" data-info="admin_options" data-id="visible" style="--w-x:24px; --h-x:24px;" title="Видно всем">
+                        <input type="checkbox" value="" ${exElem.visible == true ? 'checked' : ''}>
+                    </button>
+                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="id" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="" title="ID упражнения">
+                        ${exElem.id}
+                    </button>
+                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="lang" style="--w-x:24px; min-width: 24px; --h-x:24px;" title="">
+                        <i class="fa fa-globe" aria-hidden="true"></i>
+                    </button>
                 </div>
             </div>
         </li>
@@ -290,9 +321,15 @@ function RenderExerciseOne(data) {
 function ToggleIconsInExs() {
     let isActivePlayers = $('.up-tabs-elem[data-id="players"]').attr('data-state') == "1";
     let isActiveGoal = $('.up-tabs-elem[data-id="goal"]').attr('data-state') == "1";
+    let isActiveExsAdminOpts = $('#toggleExsAdminOptions').attr('data-state') == "1";
+    let isActiveExsID = $('#toggleExsID').attr('data-state') == "1";
+    let isActiveLang = $('#toggleExsLangName').attr('data-state') == "1";
     $('.exercises-block').find(`[data-type="icons"]`).toggleClass('d-none', true);
     $('.exercises-block').find(`[data-type="icons"][data-id="players"]`).toggleClass('d-none', !isActivePlayers);
     $('.exercises-block').find(`[data-type="icons"][data-id="goal"]`).toggleClass('d-none', !isActiveGoal);
+    $('.exercises-block').find(`[data-type="icons"][data-info="admin_options"]`).toggleClass('d-none', !isActiveExsAdminOpts);
+    $('.exercises-block').find(`[data-type="icons"][data-id="id"]`).toggleClass('d-none', !isActiveExsID);
+    $('.exercises-block').find(`[data-type="icons"][data-id="lang"]`).toggleClass('d-none', !isActiveLang);
 }
 function ToggleMarkersInExs() {
     let isActiveMarkers = $('.up-tabs-elem[data-id="toggle_markers"]').attr('data-state') == "1";
@@ -435,7 +472,7 @@ $(function() {
 
     // Choose exercise
     $('.exercises-list').on('click', '.exs-elem', (e) => {
-        if ($(e.target).is('button') || $(e.target).hasClass('icon-custom') || $(e.target).is('input')) {
+        if ($(e.target).is('button') || $(e.target).hasClass('icon-custom') || $(e.target).is('input') || $(e.target).is('i')) {
             return;
         }
         if ($(e.currentTarget).hasClass('active')) {

@@ -421,6 +421,26 @@ $(function() {
     });
 
 
+    $('#toggleExsAdminOptions').on('click', (e) => {
+        let state = $(e.currentTarget).attr('data-state') == '1';
+        $(e.currentTarget).attr('data-state', state ? '0' : '1');
+        $(e.currentTarget).toggleClass('selected2', !state);
+        ToggleIconsInExs();
+    });
+    $('#toggleExsID').on('click', (e) => {
+        let state = $(e.currentTarget).attr('data-state') == '1';
+        $(e.currentTarget).attr('data-state', state ? '0' : '1');
+        $(e.currentTarget).toggleClass('selected2', !state);
+        ToggleIconsInExs();
+    });
+    $('#toggleExsLangName').on('click', (e) => {
+        let state = $(e.currentTarget).attr('data-state') == '1';
+        $(e.currentTarget).attr('data-state', state ? '0' : '1');
+        $(e.currentTarget).toggleClass('selected2', !state);
+        ToggleIconsInExs();
+    });
+    
+
     // Toggle draw, video, animation
     $('.visual-block').on('click', '.graphics-block-toggle', (e) => {
         let cId = $(e.currentTarget).attr('data-id');
@@ -974,6 +994,49 @@ $(function() {
                 $('.page-loader-wrapper').fadeOut();
             }
         });
+    });
+
+
+    // Toggle admin option
+    $('.exercises-block').on('click', 'button[data-type="icons"][data-info="admin_options"]', (e) => {
+        let exsId = $(e.currentTarget).parent().parent().parent().attr('data-id');
+        let fromNFB = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? 1 : 0;
+        let cId = $(e.currentTarget).attr('data-id');
+        let state = $(e.currentTarget).hasClass('selected');
+        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        let dataToSend = {'edit_exs_admin_options': 1, 'exs': exsId, 'nfb': fromNFB, 'type': folderType, 'data': {'key': cId, 'value': state ? 0 : 1}};
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: dataToSend,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "exercises_api",
+            success: function (res) {
+                if (!res.success) {
+                    swal("Ошибка", `При изменении параметра произошла ошибка (${res.err}).`, "error");
+                } else {
+                    $(e.currentTarget).toggleClass('selected', res.data.value == 1);
+                    if ($(e.currentTarget).find('input').length > 0) {
+                        $(e.currentTarget).find('input').prop('checked', res.data.value == 1);
+                    }
+                }
+            },
+            error: function (res) {
+                swal("Ошибка", "При изменении параметра произошла ошибка.", "error");
+                console.log(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
+    });
+
+
+    // Toggle lang modal
+    $('.exercises-block').on('click', 'button[data-type="icons"][data-id="lang"]', (e) => {
+        console.log(e)
+        $('#exerciseLangTitleModal').modal('show');
     });
 
 

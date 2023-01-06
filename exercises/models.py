@@ -185,6 +185,11 @@ class AbstractExercise(models.Model):
     old_id = models.IntegerField(null=True, blank=True) # from old site
     clone_nfb_id = models.IntegerField(null=True, blank=True) # id of admin exs after copy
 
+    opt_has_video = models.BooleanField(default=False)
+    opt_has_animation = models.BooleanField(default=False)
+    opt_has_description = models.BooleanField(default=False)
+    opt_has_scheme = models.BooleanField(default=False)
+
     tags = models.ManyToManyField(ExerciseTag)
 
     objects = models.Manager()

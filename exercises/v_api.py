@@ -1959,6 +1959,63 @@ def POST_change_exs_tag_category(request, cur_user):
     return JsonResponse({"success": status, "type": c_type}, status=200)
 
 
+def POST_edit_exs_admin_options(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on POST operation "Edit exercise's admin options".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
+    exs_id = -1
+    post_key = request.POST.get("data[key]", "")
+    post_value = 0
+    folder_type = request.POST.get("type", "")
+    try:
+        exs_id = int(request.POST.get("exs", -1))
+    except:
+        pass
+    try:
+        post_value = int(request.POST.get("data[value]", 0))
+    except:
+        pass
+    if not cur_user.is_superuser:
+        return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    c_exs = None
+    if folder_type == FOLDER_TEAM:
+        if not util_check_access(cur_user, {
+            'perms_user': ["exercises.change_userexercise"], 
+            'perms_club': ["exercises.change_clubexercise"]
+        }):
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        if request.user.club_id is not None:
+            c_exs = ClubExercise.objects.filter(id=exs_id, club=request.user.club_id, team=cur_team)
+        else:
+            c_exs = UserExercise.objects.filter(id=exs_id, user=cur_user)
+    elif folder_type == FOLDER_NFB:
+        if not util_check_access(cur_user, {
+            'perms_user': ["exercises.change_adminexercise"], 
+            'perms_club': ["exercises.change_adminexercise"]
+        }):
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        c_exs = AdminExercise.objects.filter(id=exs_id)
+    elif folder_type == FOLDER_CLUB:
+        pass
+    if c_exs != None and c_exs.exists() and c_exs[0].id != None:
+        c_exs = c_exs[0]
+        setattr(c_exs, post_key, post_value)
+        try:
+            c_exs.save()
+            return JsonResponse({"data": {"id": exs_id, "value": post_value}, "success": True}, status=200)
+        except:
+            pass
+    return JsonResponse({"errors": "Can't edit exs admin option"}, status=400)
+
+
 
 def GET_link_video_exs(request, cur_user, cur_team):
     """
@@ -2068,7 +2125,12 @@ def GET_get_exs_all(request, cur_user, cur_team):
             'has_video_1': exercise['has_video_1'],
             'has_video_2': exercise['has_video_2'],
             'has_animation_1': exercise['has_animation_1'],
-            'has_animation_2': exercise['has_animation_2']
+            'has_animation_2': exercise['has_animation_2'],
+            'opt_has_video': exercise['opt_has_video'],
+            'opt_has_animation': exercise['opt_has_animation'],
+            'opt_has_description': exercise['opt_has_description'],
+            'opt_has_scheme': exercise['opt_has_scheme'],
+            'visible': exercise['visible']
         }
         videos_arr = get_exs_video_data(exercise['video_data'])
         anims_arr = get_exs_video_data(exercise['animation_data'])

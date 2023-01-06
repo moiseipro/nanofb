@@ -239,6 +239,7 @@ def exercises_api(request):
         edit_exs_tag_one_status = 0
         change_order_exs_tag_one_status = 0
         change_exs_tag_category_status = 0
+        edit_exs_admin_options_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         try:
@@ -307,6 +308,10 @@ def exercises_api(request):
             change_exs_tag_category_status = int(request.POST.get("change_exs_tag_category", 0))
         except:
             pass
+        try:
+            edit_exs_admin_options_status = int(request.POST.get("edit_exs_admin_options", 0))
+        except:
+            pass
         if copy_exs_status == 1:
             return v_api.POST_copy_exs(request, cur_user[0], cur_team)
         elif move_exs_status == 1:
@@ -337,6 +342,8 @@ def exercises_api(request):
             return v_api.POST_change_order_exs_tag_one(request, cur_user[0])
         elif change_exs_tag_category_status == 1:
             return v_api.POST_change_exs_tag_category(request, cur_user[0])
+        elif edit_exs_admin_options_status == 1:
+            return v_api.POST_edit_exs_admin_options(request, cur_user[0], cur_team)
         return JsonResponse({"errors": "access_error"}, status=400)
     elif request.method == "GET" and is_ajax:
         get_exs_all_status = 0
