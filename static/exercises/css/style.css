@@ -619,3 +619,9 @@ span.drag.selected > a {
     max-height: 50vh !important;
 }
 
+
+.btn-link.collapsed {
+    opacity: 0.6;
+    color: #636363;
+}
+

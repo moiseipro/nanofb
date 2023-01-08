@@ -172,6 +172,15 @@ function RenderFolderExercises(id, tExs) {
                             -
                         </button>
                     `}
+                    ${exElem.ref_ball_id == 1 ? `
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="ball" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="">
+                            <span class="icon-custom icon--ball" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
+                        </button>
+                    ` : `
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="ball" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="">
+                            -
+                        </button>
+                    `}
                     ${exElem.has_notes == true ? `
                         <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="" title="Есть примечания!">
                             <i class="fa fa-pencil text-danger" aria-hidden="true"></i>
@@ -321,12 +330,14 @@ function RenderExerciseOne(data) {
 function ToggleIconsInExs() {
     let isActivePlayers = $('.up-tabs-elem[data-id="players"]').attr('data-state') == "1";
     let isActiveGoal = $('.up-tabs-elem[data-id="goal"]').attr('data-state') == "1";
+    let isActiveBall = $('.up-tabs-elem[data-id="ball"]').attr('data-state') == "1";
     let isActiveExsAdminOpts = $('#toggleExsAdminOptions').attr('data-state') == "1";
     let isActiveExsID = $('#toggleExsID').attr('data-state') == "1";
     let isActiveLang = $('#toggleExsLangName').attr('data-state') == "1";
     $('.exercises-block').find(`[data-type="icons"]`).toggleClass('d-none', true);
     $('.exercises-block').find(`[data-type="icons"][data-id="players"]`).toggleClass('d-none', !isActivePlayers);
     $('.exercises-block').find(`[data-type="icons"][data-id="goal"]`).toggleClass('d-none', !isActiveGoal);
+    $('.exercises-block').find(`[data-type="icons"][data-id="ball"]`).toggleClass('d-none', !isActiveBall);
     $('.exercises-block').find(`[data-type="icons"][data-info="admin_options"]`).toggleClass('d-none', !isActiveExsAdminOpts);
     $('.exercises-block').find(`[data-type="icons"][data-id="id"]`).toggleClass('d-none', !isActiveExsID);
     $('.exercises-block').find(`[data-type="icons"][data-id="lang"]`).toggleClass('d-none', !isActiveLang);
@@ -443,7 +454,7 @@ $(function() {
                 isLoadExs = true;
             }
             if (isLoadExs) {LoadFolderExercises();}
-        } else if (window.lastListUsed == "exercises" || true) {
+        } else if (window.lastListUsed == "exercises" && false) {
             let currentList = '.exs-list-group';
             let activeElem = $(currentList).find('.list-group-item.exs-elem.active');
             let isLoadExs = false;

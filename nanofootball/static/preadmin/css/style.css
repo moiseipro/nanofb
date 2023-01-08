@@ -4202,6 +4202,9 @@ table.table-inbox tbody tr.checked {
 .icon--dislike {
 	content: url(../img/icons/dislike.png);
 }
+.icon--download {
+	content: url(../img/icons/download.png);
+}
 .icon--eye {
 	content: url(../img/icons/eye.png);
 }
@@ -4222,6 +4225,9 @@ table.table-inbox tbody tr.checked {
 }
 .icon--like {
 	content: url(../img/icons/like.png);
+}
+.icon--magnifying-glass {
+	content: url(../img/icons/magnifying-glass.png);
 }
 .icon--note {
 	content: url(../img/icons/note.png);

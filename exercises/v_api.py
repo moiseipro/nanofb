@@ -1182,7 +1182,6 @@ def POST_edit_exs(request, cur_user, cur_team):
         f_tag = None
         try:
             if folder_type == FOLDER_TEAM and request.user.club_id is None:
-                
                 f_tag = ExerciseTag.objects.filter(
                     Q(is_nfb=True, lowercase_name=c_tag_lower) | Q(is_nfb=False, user=cur_user, lowercase_name=c_tag_lower)
                 )
@@ -1379,15 +1378,21 @@ def POST_delete_exs(request, cur_user, cur_team):
             else:
                 if delete_type == 0:
                     c_exs.delete()
-                elif delete_type == 1 or delete_type == 2:
+                elif delete_type > 0 and delete_type < 5:
+                    exs_videos = c_exs[0].videos.through.objects.filter(exercise_nfb=c_exs[0], type=delete_type)
+                    for video in exs_videos:
+                        if video.video is not None:
+                            ready_to_delete = delete_video_obj_nf(video.video)
+                            if ready_to_delete:
+                                video.video.delete()
+                elif delete_type == 5:
                     exs_videos = c_exs[0].videos.through.objects.filter(exercise_nfb=c_exs[0])
                     for video in exs_videos:
                         if video.video is not None:
                             ready_to_delete = delete_video_obj_nf(video.video)
                             if ready_to_delete:
                                 video.video.delete()
-                    if delete_type == 2:
-                        c_exs.delete()
+                    c_exs.delete()
             return JsonResponse({"data": {"id": exs_id}, "success": True}, status=200)
         except Exception as e:
             print(e)
@@ -2016,6 +2021,75 @@ def POST_edit_exs_admin_options(request, cur_user, cur_team):
     return JsonResponse({"errors": "Can't edit exs admin option"}, status=400)
 
 
+def POST_edit_exs_full_name(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on POST operation "Edit exercise full name".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
+    exs_id = -1
+    folder_type = request.POST.get("f_type", "")
+    try:
+        exs_id = int(request.POST.get("exs", -1))
+    except:
+        pass
+    key = request.POST.get("key", "")
+    value = request.POST.get("value", "")
+    lang = request.POST.get("lang", "")
+    c_exs = None
+    if not cur_user.is_superuser:
+        return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    if request.user.club_id is not None:
+        found_team = ClubTeam.objects.filter(id=cur_team, club_id=request.user.club_id)
+    else:
+        found_team = UserTeam.objects.filter(id=cur_team, user_id=cur_user)
+    if folder_type == FOLDER_TEAM:
+        if not found_team or not found_team.exists() or found_team[0].id == None:
+            return JsonResponse({"err": "Team not found.", "success": False}, status=400)
+        if not util_check_access(cur_user, {
+            'perms_user': ["exercises.change_userexercise", "exercises.add_userexercise"], 
+            'perms_club': ["exercises.change_clubexercise", "exercises.add_clubexercise"]
+        }):
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        if request.user.club_id is not None:
+            c_exs = ClubExercise.objects.filter(id=exs_id, club=request.user.club_id, team=found_team[0])
+        else:
+            c_exs = UserExercise.objects.filter(id=exs_id, user=cur_user)
+    elif folder_type == FOLDER_NFB:
+        if not util_check_access(cur_user, {
+            'perms_user': ["exercises.change_adminexercise", "exercises.add_adminexercise"], 
+            'perms_club': ["exercises.change_adminexercise", "exercises.add_adminexercise"]
+        }):
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        c_exs = AdminExercise.objects.filter(id=exs_id)
+    elif folder_type == FOLDER_CLUB:
+        if not found_team or not found_team.exists() or found_team[0].id == None:
+            return JsonResponse({"err": "Team not found.", "success": False}, status=400)
+    if c_exs == None:
+            return JsonResponse({"err": "Exercise not found.", "success": False}, status=400)
+    else:
+        if c_exs.exists() and c_exs[0].id != None:
+            c_exs = c_exs[0]
+    if key == "title":
+        c_exs.title = set_by_language_code(c_exs.title, lang, value)
+    elif key == "description":
+        c_exs.description = set_by_language_code(c_exs.description, lang, value)
+    try:
+        c_exs.save()
+        res_data = f'Exs with id: [{c_exs.id}] is added / edited successfully.'
+    except Exception as e:
+        return JsonResponse({"err": "Can't edit the exs.", "success": False}, status=200)
+    return JsonResponse({"data": res_data, "success": True}, status=200)
+
+
 
 def GET_link_video_exs(request, cur_user, cur_team):
     """
@@ -2122,6 +2196,7 @@ def GET_get_exs_all(request, cur_user, cur_team):
             'title': exs_title,
             'field_players': exs_field_players,
             'field_goal': exs_field_goal,
+            'ref_ball_id': exercise['ref_ball_id'],
             'has_video_1': exercise['has_video_1'],
             'has_video_2': exercise['has_video_2'],
             'has_animation_1': exercise['has_animation_1'],
@@ -2440,6 +2515,69 @@ def GET_get_exs_all_tags(request, cur_user, cur_team):
             'color': entry.color
         })
     return JsonResponse({"data": data, "success": True}, status=200)
+
+
+def GET_get_exs_full_name(request, cur_user, cur_team):
+    """
+    Return JSON Response or object as result on GET operation "Get one exercise full name".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :param additional: Uses for custom change folder's type and exercise's id.
+    :type additional: dict[]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code) or as exercise's object.
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]] or Object
+
+    """
+    exs_id = -1
+    folder_type = request.GET.get("f_type", "")
+    try:
+        exs_id = int(request.GET.get("exs", -1))
+    except:
+        pass
+    res_exs = {}
+    c_exs = None
+    if not cur_user.is_superuser:
+        return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    if folder_type == FOLDER_TEAM:
+        if not util_check_access(cur_user, {
+            'perms_user': ["exercises.view_userexercise"], 
+            'perms_club': ["exercises.view_clubexercise"]
+        }):
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        if request.user.club_id is not None:
+            c_exs = ClubExercise.objects.filter(id=exs_id, visible=True, club=request.user.club_id, team=cur_team)
+        else:
+            c_exs = UserExercise.objects.filter(id=exs_id, visible=True, user=cur_user)
+        if c_exs.exists() and c_exs[0].id != None:
+            c_exs = c_exs[0]
+            res_exs['title'] = c_exs.title
+            res_exs['description'] = c_exs.description
+    elif folder_type == FOLDER_NFB:
+        c_exs = AdminExercise.objects.filter(id=exs_id, visible=True)
+        if c_exs.exists() and c_exs[0].id != None:
+            c_exs = c_exs[0]
+            res_exs['title'] = c_exs.title
+            res_exs['description'] = c_exs.description
+    elif folder_type == FOLDER_CLUB:
+        if not util_check_access(cur_user, {
+            'perms_user': ["exercises.view_userexercise"], 
+            'perms_club': ["exercises.view_clubexercise"]
+        }):
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        if request.user.club_id is not None:
+            c_exs = ClubExercise.objects.filter(id=exs_id, visible=True, club=request.user.club_id)
+        if c_exs and c_exs.exists() and c_exs[0].id != None:
+            c_exs = c_exs[0]
+            res_exs['title'] = c_exs.title
+            res_exs['description'] = c_exs.description
+    else:
+        return JsonResponse({"errors": "Exercise not found.", "success": False}, status=400)
+    return JsonResponse({"data": res_exs, "success": True}, status=200)
 
 
 # --------------------------------------------------

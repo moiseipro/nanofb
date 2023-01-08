@@ -1,5 +1,6 @@
 {% extends '../base/app_main.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block title %}Упражнения{% endblock %}
 
@@ -15,7 +16,7 @@
                     <div class="card-body p-1">
                         <div class="card-inside">
                             <div class="up-block-content d-flex justify-content-center">
-                                <div class="btns-tabs-first size-w-x" style="--w-x:96%;">
+                                <div class="btns-tabs-first w-100 px-3">
                                     <div class="row">
                                         <div class="col-12 p-0 btn-group btn-group-custom collapse mb-2" id="collapseAdminSectionSettings">
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" id="toggleExsAdminOptions" title="Опции упражнениий" style="--w-max-x:4%;">
@@ -29,12 +30,13 @@
                                             </button>
                                         </div>
                                         <div class="col-12 p-0 btn-group btn-group-custom">
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" id="toggleFoldersNames" title="Свернуть / Развернуть папки" style="--w-max-x:4%;">
-                                                <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                                            </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" id="createExercise" title="Добавить упражнение" style="--w-max-x:4%;">
                                                 <span class="icon-custom icon--plus mx-1" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
                                             </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" id="toggleFoldersNames" title="Свернуть / Развернуть папки" style="--w-max-x:4%;">
+                                                <span class="icon-custom icon--folder-o" style="--i-w: 1.7em; --i-h: 1.7em;"></span>
+                                            </button>
+                                            
                                             <button type="button" class="btn btn-success btn-sm btn-custom custom-green2 btn-block up-tabs-elem folders-toggle size-max-w-x" data-id="nfb_folders" style="--w-max-x:22%;">
                                                 <div class="">
                                                     <span class="text-center ml-2">ПАПКИ N.F.</span>
@@ -53,8 +55,8 @@
                                                     <span class="exs_counter float-right">(...)</span>
                                                 </div>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 size-max-w-x" id="showOneExs" style="--w-max-x:13%;">
-                                                Просмотреть
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 size-max-w-x" id="showOneExs" title="Просмотреть" style="--w-max-x:4%;">
+                                                <span class="icon-custom icon--magnifying-glass mt-1" style="--i-w: 1.7em; --i-h: 1.7em;"></span>
                                             </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="copy" title="Скопировать" style="--w-max-x:4%;">
                                                 <span class="icon-custom icon--copy mt-1" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
@@ -71,20 +73,14 @@
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_favorite" title="Избранное" style="--w-max-x:4%;">
                                                 <span class="icon-custom icon--favorite mt-1" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block font-larger up-tabs-elem size-max-w-x" data-id="goal" title="Ворота" style="--w-max-x:4%;">
-                                                G.
-                                            </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="players" title="Игроки" style="--w-max-x:4%;">
                                                 <span class="icon-custom icon--players mt-1" style="--i-w: 1.4em; --i-h: 1.4em;"></span>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_markers" title="Маркировать" style="--w-max-x:4%;">
-                                                <span class="icon-custom icon--eye mt-1" style="--i-w: 1.5em; --i-h: 1.5em;"></span>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block font-larger up-tabs-elem size-max-w-x" data-id="goal" title="Ворота" style="--w-max-x:4%;">
+                                                G.
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_side_filter" style="--w-max-x:13%;">
-                                                Фильтрация
-                                            </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem elem-flex-center size-max-w-x" data-id="toggle_tags_filter" title="Показать фильтр по ключевым характеристикам" style="--w-max-x:4%;">
-                                                T
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="ball" title="Мяч" style="--w-max-x:4%;">
+                                                <span class="icon-custom icon--ball mt-1" style="--i-w: 1.4em; --i-h: 1.4em;"></span>
                                             </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem elem-flex-center size-max-w-x" data-id="prev_exs" title="" style="--w-max-x:4%;">
                                                 <i class="fa fa-arrow-left" aria-hidden="true"></i>
@@ -92,8 +88,26 @@
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem elem-flex-center size-max-w-x" data-id="next_exs" title="" style="--w-max-x:4%;">
                                                 <i class="fa fa-arrow-right" aria-hidden="true"></i>
                                             </button>
+                                            <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_markers" title="Маркировать" style="--w-max-x:4%;">
+                                                <span class="icon-custom icon--eye mt-1" style="--i-w: 1.5em; --i-h: 1.5em;"></span>
+                                            </button> -->
+                                            <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_side_filter" style="--w-max-x:13%;">
+                                                Фильтрация
+                                            </button> -->
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem elem-flex-center size-max-w-x" data-id="toggle_tags_filter" title="Показать фильтр по ключевым характеристикам" style="--w-max-x:4%;">
+                                                T
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem elem-flex-center size-max-w-x" data-id="" title="" style="--w-max-x:4%;">
+                                                T. 2
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem elem-flex-center size-max-w-x" data-id="" title="Скачать" style="--w-max-x:4%;">
+                                                <span class="icon-custom icon--download" style="--i-w: 1.4em; --i-h: 1.4em;"></span>
+                                            </button>
                                             <button type="button" id="columnsSizeToggle" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" title="Изменить ширину колонок" style="--w-max-x:4%;">
                                                 <i class="fa fa-cog" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" id="" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" title="" style="--w-max-x:4%;">
+                                                <i class="fa fa-pencil" aria-hidden="true"></i>
                                             </button>
                                             <button type="button" id="deleteExsInList" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" title="Удалить упражнение" style="--w-max-x:4%;">
                                                 <i class="fa fa-trash-o text-danger" aria-hidden="true"></i>
@@ -763,16 +777,77 @@
         </div>
 
         <div class="modal fade" id="exerciseLangTitleModal" tabindex="-1" role="dialog" aria-labelledby="exerciseLangTitleModalLbl" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-lg" role="document" data-exs="">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Настройка заголовка и описания</h5>
                     </div>
                     <div class="modal-body">
-                        body
+                        <div id="accordion__lang_title">
+                            <div class="row">
+                                <div class="col-12">
+                                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapse__exs_title" aria-expanded="true" aria-controls="collapse__exs_title">
+                                        Название упражнения
+                                    </button>
+                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse__exs_description" aria-expanded="false" aria-controls="collapse__exs_description">
+                                        Описание упражнения
+                                    </button>
+                                </div>
+                                <div class="col-12">
+                                    {% get_available_languages as LANGUAGES %}
+                                    {% get_language_info_list for LANGUAGES as languages %}
+                                    <div id="collapse__exs_title" class="collapse show" data-parent="#accordion__lang_title">
+                                        <div class="card-body">
+                                            <table class="table table-sm table-bordered" style="table-layout: fixed;">
+                                                <colgroup>
+                                                    <col span="1" style="width: 25%;">
+                                                    <col span="1" style="width: 75%;">
+                                                </colgroup>
+                                                <tbody>
+                                                    {% for language in languages %}
+                                                        <tr class="">
+                                                            <td class="text-center">
+                                                                {{ language.name_local }} ({{ language.code }})
+                                                            </td>
+                                                            <td>
+                                                                <input name="" class="form-control form-control-sm text-center exs-title" 
+                                                                    type="text" value="" data-lang="{{ language.code }}" autocomplete="off">
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div id="collapse__exs_description" class="collapse" data-parent="#accordion__lang_title">
+                                        <div class="card-body">
+                                            <table class="table table-sm table-bordered" style="table-layout: fixed;">
+                                                <colgroup>
+                                                    <col span="1" style="width: 25%;">
+                                                    <col span="1" style="width: 75%;">
+                                                </colgroup>
+                                                <tbody>
+                                                    {% for language in languages %}
+                                                        <tr class="">
+                                                            <td class="text-center">
+                                                                {{ language.name_local }} ({{ language.code }})
+                                                            </td>
+                                                            <td>
+                                                                <div id="descriptionEditor__admin_{{ language.code }}" class="ckeditor w-100 exs-description" name="" data-lang="{{ language.code }}">
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary btn-save">Сохранить</button>
+                        <button type="button" class="btn btn-primary btn-save" data-dismiss="modal">Сохранить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </div>
