@@ -1341,6 +1341,7 @@ $(function() {
                     try {
                         newId = payload.canvas.id;
                     } catch (e) {}
+                    if (event == "canvas::load") {return;}
                     if (newId && newId != "") {
                         let cSrc = `http://62.113.105.179/canvas/edit/${newId}`;
                         $('.scheme-editor').find('iframe').attr('src', cSrc);
@@ -1384,6 +1385,7 @@ $(function() {
                     try {
                         newId = payload.canvas.id;
                     } catch (e) {}
+                    if (event == "canvas::load") {return;}
                     if (newId && newId != "") {
                         let cSrc = `http://62.113.105.179/canvas/edit/${newId}`;
                         $('.scheme-editor').find('iframe').attr('src', cSrc);
