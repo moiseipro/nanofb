@@ -132,34 +132,38 @@ function RenderFolderExercises(id, tExs) {
                         </span>
                     </span>
                     ${exElem.has_video_1 == true ? `
-                        <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.video_1_watched == true ? 'selected' : ''}" data-type="marker" data-id="video_1_watched" style="--w-x:24px; --h-x:24px;" title="Видео 1">
-                            <input type="checkbox" value="" ${exElem.video_1_watched == true ? 'checked' : ''}>
+                        <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.video_1_watched == true ? 'selected' : ''}" data-type="marker" data-id="video_1_watched" style="--w-x:20px; --h-x:24px;" title="Видео 1">
+                            <input type="checkbox" class="video-check" value="" ${exElem.video_1_watched == true ? 'checked' : ''}>
+                            <span class="label">V1</span>
                         </button>
                     ` : ''}
                     ${exElem.has_video_2 == true ? `
-                        <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.video_2_watched == true ? 'selected' : ''}" data-type="marker" data-id="video_2_watched" style="--w-x:24px; --h-x:24px;" title="Видео 2">
-                            <input type="checkbox" value="" ${exElem.video_2_watched == true ? 'checked' : ''}>
+                        <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.video_2_watched == true ? 'selected' : ''}" data-type="marker" data-id="video_2_watched" style="--w-x:20px; --h-x:24px;" title="Видео 2">
+                            <input type="checkbox" class="video-check" value="" ${exElem.video_2_watched == true ? 'checked' : ''}>
+                            <span class="label">V2</span>
                         </button>
                     ` : ''}
                     ${exElem.has_animation_1 == true ? `
-                        <button type="button" class="btn btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.animation_1_watched == true ? 'selected' : ''}" data-type="marker" data-id="animation_1_watched" style="--w-x:24px; --h-x:24px;" title="Анимация 1">
-                            <input type="checkbox" value="" ${exElem.animation_1_watched == true ? 'checked' : ''}>
+                        <button type="button" class="btn btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.animation_1_watched == true ? 'selected' : ''}" data-type="marker" data-id="animation_1_watched" style="--w-x:20px; --h-x:24px;" title="Анимация 1">
+                            <input type="checkbox" class="video-check" value="" ${exElem.animation_1_watched == true ? 'checked' : ''}>
+                            <span class="label">A1</span>
                         </button>
                     ` : ''}
                     ${exElem.has_animation_2 == true ? `
-                        <button type="button" class="btn btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.animation_2_watched == true ? 'selected' : ''}" data-type="marker" data-id="animation_2_watched" style="--w-x:24px; --h-x:24px;" title="Анимация 2">
-                            <input type="checkbox" value="" ${exElem.animation_2_watched == true ? 'checked' : ''}>
+                        <button type="button" class="btn btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.animation_2_watched == true ? 'selected' : ''}" data-type="marker" data-id="animation_2_watched" style="--w-x:20px; --h-x:24px;" title="Анимация 2">
+                            <input type="checkbox" class="video-check" value="" ${exElem.animation_2_watched == true ? 'checked' : ''}>
+                            <span class="label">A2</span>
                         </button>
                     ` : ''}
                     <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.favorite == true ? 'selected' : ''}" data-type="marker" data-id="favorite" style="--w-x:24px; --h-x:24px;" title="Избранное">
                         <span class="icon-custom ${exElem.favorite == true ? 'icon--favorite-selected' : 'icon--favorite'}" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                     </button>
                     ${exElem.field_players && exElem.field_players != "" ? `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="players" style="--w-x:24px; min-width: 40px; --h-x:24px;" disabled="">
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="players" style="--w-x:24px; min-width: 54px; --h-x:24px;" disabled="">
                             ${exElem.field_players}
                         </button>
                     ` : `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="players" style="--w-x:24px; min-width: 40px; --h-x:24px;" disabled="">
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="players" style="--w-x:24px; min-width: 54px; --h-x:24px;" disabled="">
                             -
                         </button>
                     `}
@@ -483,7 +487,7 @@ $(function() {
 
     // Choose exercise
     $('.exercises-list').on('click', '.exs-elem', (e) => {
-        if ($(e.target).is('button') || $(e.target).hasClass('icon-custom') || $(e.target).is('input') || $(e.target).is('i')) {
+        if ($(e.target).is('button') || $(e.target).hasClass('icon-custom') || $(e.target).is('input') || $(e.target).is('i') || $(e.target).hasClass('label')) {
             return;
         }
         if ($(e.currentTarget).hasClass('active')) {
@@ -507,16 +511,9 @@ $(function() {
 
 
     $('.tags-filter-block').on('click', '.toggle-tags-view', (e) => {
-        let cId = $(e.currentTarget).attr('data-id');
         $('.tags-filter-block').find('.toggle-tags-view').removeClass('active');
         $(e.currentTarget).addClass('active');
-        if (cId == "list") {
-            $('.tags-filter-block').find('.side-filter-elem:not(.t-hidden)').removeClass('d-none');
-            $('.tags-filter-block').find('.tag-header:not(.t-hidden)').addClass('d-none');
-        } else if (cId == "headers") {
-            $('.tags-filter-block').find('.side-filter-elem:not(.t-hidden)').addClass('d-none');
-            $('.tags-filter-block').find('.tag-header:not(.t-hidden)').removeClass('d-none');
-        }
+        ToggleTagsView();
     });
 
 

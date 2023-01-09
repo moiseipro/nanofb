@@ -53,8 +53,7 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem').removeClass('b-c-green2');
             $('.up-tabs-elem').addClass('b-c-red2');
             CountExsInFoldersByType();
-            $('.tags-filter-block').find('ul.list-group[data-t="self"]').toggleClass('d-none t-hidden', false);
-            $('.tags-filter-block').find('div.tag-header[data-t="self"]').toggleClass('d-none t-hidden', false);
+            ToggleTagsView();
             break;
         case "club_folders":
             $('.up-tabs-elem[data-id="club_folders"]').removeClass('selected3');
@@ -76,8 +75,7 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem').removeClass('b-c-red2');
             $('.up-tabs-elem').addClass('b-c-blue2');
             CountExsInFoldersByType();
-            $('.tags-filter-block').find('ul.list-group[data-t="self"]').toggleClass('d-none t-hidden', false);
-            $('.tags-filter-block').find('div.tag-header[data-t="self"]').toggleClass('d-none t-hidden', false);
+            ToggleTagsView();
             break;
         case "team_folders":
             $('.up-tabs-elem[data-id="team_folders"]').removeClass('selected3');
@@ -103,8 +101,7 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem').removeClass('b-c-red2');
             $('.up-tabs-elem').addClass('b-c-green2');
             CountExsInFoldersByType();
-            $('.tags-filter-block').find('ul.list-group[data-t="self"]').toggleClass('d-none t-hidden', true);
-            $('.tags-filter-block').find('div.tag-header[data-t="self"]').toggleClass('d-none t-hidden', true);
+            ToggleTagsView();
             break;
         case "copy":
             if ($('.exercises-list').find('.exs-elem.active').length <= 0) {
@@ -166,6 +163,25 @@ function ToggleUpFilter(id, state) {
             ToggleMarkersInExs();
             break;
         case "toggle_favorite":
+            if (!state && !$('.up-tabs-elem[data-id="toggle_favorite"]').hasClass('filtering')) {
+                $('.up-tabs-elem[data-id="toggle_favorite"]').addClass('filtering');
+                $('.up-tabs-elem[data-id="toggle_favorite"]').addClass('selected3');
+                $('.up-tabs-elem[data-id="toggle_favorite"]').attr('data-state', 1);
+                window.exercisesFilter['favorite'] = '1';
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            } else if (!state && $('.up-tabs-elem[data-id="toggle_favorite"]').hasClass('filtering')) {
+                $('.up-tabs-elem[data-id="toggle_favorite"]').removeClass('filtering');
+                delete window.exercisesFilter['favorite'];
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            }
             ToggleMarkersInExs();
             break;
         case "goal":
@@ -175,6 +191,25 @@ function ToggleUpFilter(id, state) {
             ToggleIconsInExs();
             break;
         case "ball":
+            if (!state && !$('.up-tabs-elem[data-id="ball"]').hasClass('filtering')) {
+                $('.up-tabs-elem[data-id="ball"]').addClass('filtering');
+                $('.up-tabs-elem[data-id="ball"]').addClass('selected3');
+                $('.up-tabs-elem[data-id="ball"]').attr('data-state', 1);
+                window.exercisesFilter['ball'] = '1';
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            } else if (!state && $('.up-tabs-elem[data-id="ball"]').hasClass('filtering')) {
+                $('.up-tabs-elem[data-id="ball"]').removeClass('filtering');
+                delete window.exercisesFilter['ball'];
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            }
             ToggleIconsInExs();
             break;
         default:
@@ -316,6 +351,17 @@ function SaveExerciseFullName(exsId, folderType, key, value, lang) {
             $('.page-loader-wrapper').fadeOut();
         }
     });
+}
+
+function ToggleTagsView() {
+    let cId = $('.tags-filter-block').find('.toggle-tags-view.active').attr('data-id');
+    if (cId == "list") {
+        $('.tags-filter-block').find('.side-filter-elem:not(.t-hidden)').removeClass('d-none');
+        $('.tags-filter-block').find('.tag-header:not(.t-hidden)').addClass('d-none');
+    } else if (cId == "headers") {
+        $('.tags-filter-block').find('.side-filter-elem:not(.t-hidden)').addClass('d-none');
+        $('.tags-filter-block').find('.tag-header:not(.t-hidden)').removeClass('d-none');
+    }
 }
 
 
@@ -1298,8 +1344,6 @@ $(function() {
             $('.up-tabs-elem').removeClass('b-c-green2');
             $('.up-tabs-elem').removeClass('b-c-red2');
             $('.up-tabs-elem').addClass('b-c-blue2');
-            $('.tags-filter-block').find('ul.list-group[data-t="self"]').toggleClass('d-none t-hidden', false);
-            $('.tags-filter-block').find('div.tag-header[data-t="self"]').toggleClass('d-none t-hidden', false);
         } else if (cFoldersSettings.type == "nfb_folders") {
             $('.toggle-filter-content').removeClass('btn-custom-outline-blue');
             $('.toggle-filter-content').removeClass('btn-custom-outline-red');
@@ -1307,8 +1351,6 @@ $(function() {
             $('.up-tabs-elem').removeClass('b-c-blue2');
             $('.up-tabs-elem').removeClass('b-c-red2');
             $('.up-tabs-elem').addClass('b-c-green2');
-            $('.tags-filter-block').find('ul.list-group[data-t="self"]').toggleClass('d-none t-hidden', true);
-            $('.tags-filter-block').find('div.tag-header[data-t="self"]').toggleClass('d-none t-hidden', true);
         } else if (cFoldersSettings.type == "club_folders") {
             $('.toggle-filter-content').removeClass('btn-custom-outline-blue');
             $('.toggle-filter-content').removeClass('btn-custom-outline-green');
@@ -1316,9 +1358,8 @@ $(function() {
             $('.up-tabs-elem').removeClass('b-c-blue2');
             $('.up-tabs-elem').removeClass('b-c-green2');
             $('.up-tabs-elem').addClass('b-c-red2');
-            $('.tags-filter-block').find('ul.list-group[data-t="self"]').toggleClass('d-none t-hidden', false);
-            $('.tags-filter-block').find('div.tag-header[data-t="self"]').toggleClass('d-none t-hidden', false);
         }
+        ToggleTagsView();
     }
 
     // Toggle left menu

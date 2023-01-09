@@ -737,6 +737,7 @@ async function SetCurrentVideo(value) {
                     <td>${data.videosource_name}</td>
                     <td>${exsFoldersStr}</td>
                     <td>${data.duration}</td>
+                    <td>_</td>
                     <td>${data.name}</td>
                     <td>${tags}</td>
                 </tr>
@@ -1038,7 +1039,7 @@ function RenderExercisesTagsAll(data) {
                 let tagHtml = `
                     <span class="drag mx-1" draggable="true" ondragstart="drag(event)" id="ex_tag_${type}_${i}" data-id="${elem.id}" data-category-id="${elem.category}">
                         <a class="btn btn-sm btn-light">
-                            <span class="tag-dot" style="--color: ${elem.color && elem.color != "" ? elem.color : ''};"></span>
+                            <span class="${type == "nfb" ? `tag-dot` : `tag-square`}" style="--color: ${elem.color && elem.color != "" ? elem.color : ''};"></span>
                             <span class="mr-1">${elem.name}</span>
                             <span class="badge badge-danger tag-delete" title="Удалить элемент">
                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
@@ -1282,8 +1283,9 @@ $(function() {
         }
         let text = state.text;
         let color = $(state.element).attr('data-color');
+        let tagClass = $(state.element).attr('data-tag-class');
         let $state = $(`
-            <span class="tag-dot" style="--color: ${color};"></span>
+            <span class="${tagClass}" style="--color: ${color};"></span>
             <span>${text}</span>
         `);
         return $state;
