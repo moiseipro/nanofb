@@ -97,6 +97,13 @@ function generate_ajax_video_table(scroll_y = ''){
     })
 }
 
+$(".dataTables_filter input")
+    .unbind() // Unbind previous default bindings
+    .bind("keyup", function(e) { // Bind our desired behavior
+        video_table.search(this.value).draw();
+        return;
+    });
+
 async function get_video_ids(video_id){
     return await $.ajax({
         headers:{"X-CSRFToken": csrftoken },
