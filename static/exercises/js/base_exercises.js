@@ -355,6 +355,11 @@ function SaveExerciseFullName(exsId, folderType, key, value, lang) {
 
 function ToggleTagsView() {
     let cId = $('.tags-filter-block').find('.toggle-tags-view.active').attr('data-id');
+    let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+    $('.tags-filter-block').find('.list-group[data-t="self"]').find('.side-filter-elem').toggleClass('t-hidden', folderType == "nfb_folders");
+    $('.tags-filter-block').find('.list-group[data-t="self"]').find('.side-filter-elem').toggleClass('d-none', folderType == "nfb_folders");
+    $('.tags-filter-block').find('.tag-header[data-t="self"]').toggleClass('t-hidden', folderType == "nfb_folders");
+    $('.tags-filter-block').find('.tag-header[data-t="self"]').toggleClass('d-none', folderType == "nfb_folders");
     if (cId == "list") {
         $('.tags-filter-block').find('.side-filter-elem:not(.t-hidden)').removeClass('d-none');
         $('.tags-filter-block').find('.tag-header:not(.t-hidden)').addClass('d-none');
