@@ -1341,9 +1341,10 @@ $(function() {
                     try {
                         newId = payload.canvas.id;
                     } catch (e) {}
+                    if (event == "canvas::load") {return;}
                     if (newId && newId != "") {
-                        let cSrc = `http://62.113.105.179/canvas/edit/${newId}`;
-                        $('.scheme-editor').find('iframe').attr('src', cSrc);
+                        // let cSrc = `http://62.113.105.179/canvas/edit/${newId}`;
+                        // $('.scheme-editor').find('iframe').attr('src', cSrc);
                         if ($('#openDrawing1').hasClass('selected2')) {
                             $('#exerciseCard').find('.exs_edit_field[name="scheme_1"]').val(newId);
                         }
@@ -1384,9 +1385,10 @@ $(function() {
                     try {
                         newId = payload.canvas.id;
                     } catch (e) {}
+                    if (event == "canvas::load") {return;}
                     if (newId && newId != "") {
-                        let cSrc = `http://62.113.105.179/canvas/edit/${newId}`;
-                        $('.scheme-editor').find('iframe').attr('src', cSrc);
+                        // let cSrc = `http://62.113.105.179/canvas/edit/${newId}`;
+                        // $('.scheme-editor').find('iframe').attr('src', cSrc);
                         if ($('#openDrawing2').hasClass('selected2')) {
                             $('#exerciseCard').find('.exs_edit_field[name="scheme_2"]').val(newId);
                         }
