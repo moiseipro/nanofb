@@ -256,7 +256,8 @@ $(window).on('load', function (){
         if($('#block-training-info input[name="objectives_1"]').length>0 && $('#block-training-info input[name="objectives_2"]').length>0){
             let text1 = $('#block-training-info input[name="objectives_1"]').val();
             let text2 = $('#block-training-info input[name="objectives_2"]').val();
-            training_data['objectives'] = '[ "'+text1+'", "'+text2+'" ]'
+            let text3 = $('#block-training-info input[name="objectives_3"]').val();
+            training_data['objectives'] = '[ "'+text1+'", "'+text2+'", "'+text3+'" ]'
         }
         training_data['space'] = $('#training-main-data .space-select select').val()
         console.log(training_data)
@@ -393,7 +394,17 @@ $(window).on('load', function (){
     show_training_card(id)
     render_exercises_training(id)
     render_protocol_training(id)
+    resize_trainings_block()
 })
+
+function resize_trainings_block(){
+    let css = "calc(94vh - "+Math.round($('.header').height())+"px - "+Math.round($('.card-header').height())+"px)"
+    //console.log(css)
+    $('#training-content .training-data').css({"max-height": css})
+    $('#training-content .training-data').css({"height": css})
+    $('#block-training-info').css({"max-height": css})
+    $('#block-training-info').css({"height": css})
+}
 
 function toggle_folders_name(){
         let state = false;

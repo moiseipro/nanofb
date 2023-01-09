@@ -688,7 +688,7 @@ function generateNewCalendar(){
                         $('#event_calendar .microcycle_cell[data-id="'+microcycle_id+'"]').addClass('selected')
                     }
                     if(Cookies.get('event_id')){
-                        $('#events .hasEvent[data-value="'+Cookies.get('event_id')+'"] td').click()
+                        $('#events .hasEvent[data-value="'+Cookies.get('event_id')+'"] td:first').click()
                         Cookies.remove('event_id')
                     }
 

@@ -3,7 +3,7 @@
 {% load language_json %}
 
 
-<div id="training-content" data-training="" class="row mt-2 border-top d-none">
+<div id="training-content" data-training="" class="row border-top d-none">
     <div class="col training-data" style="overflow-y: auto; overflow-x: hidden">
         <div class="row text-center">
             <div class="col-12">
@@ -85,24 +85,25 @@
                 </div>
             </div>
         </div>
-        <div class="row exercise-data-row font-weight-bold training-exercise-name">
+        <div class="row exercise-data-row font-weight-bold training-exercise-name" data-toggle="collapse" data-target="#collapse-exercise-description" style="cursor: pointer">
             <div class="col text-center pt-1 px-0">Описание</div>
             <div class="col-1 text-center pt-1 px-0 exercise-time">
 
             </div>
         </div>
-        <div class="row exercise-data-row">
+        <div id="collapse-exercise-description" class="row exercise-data-row collapse show">
             <div id="training-exercise-description" class="col-12 p-0">
-                <textarea class="form-control exercise-description edit-input" rows="3" disabled></textarea>
+                <!--<textarea class="form-control exercise-description edit-input" rows="3" disabled></textarea>-->
+                <div id="descriptionExerciseView" class="ckeditor"></div>
             </div>
         </div>
-        <div class="row exercise-data-row font-weight-bold training-exercise-name">
+        <div class="row exercise-data-row font-weight-bold training-exercise-name" data-toggle="collapse" data-target="#collapse-exercise-additional" style="cursor: pointer">
             <div class="col text-center pt-1 px-0">Доп. Условия</div>
             <div class="col-1 text-center px-0 edit-button d-none">
                 <button type="button" class="btn btn-sm btn-block btn-success rounded-0 p-0 h-100 float-right add-exercise-additional"><i class="fa fa-plus" aria-hidden="true"></i></button>
             </div>
         </div>
-        <div class="row exercise-data-row">
+        <div id="collapse-exercise-additional" class="row exercise-data-row collapse show">
             <div id="training-exercise-additional" class="col-12">
             </div>
         </div>

@@ -109,7 +109,19 @@ $(window).on('load', function (){
 
         })
     })
+
+    $('#training-content .training-data').on('click', '.exercise-data-row', function () {
+
+    })
 })
+
+function resize_trainings_card_blocks(){
+    let css = "calc(86vh - "+Math.round($('#block-training-info .exercise-data-row').height())+"px - "+Math.round($('.header').height())+"px)"
+    //console.log(css)
+    $('#block-training-info .carouselSchema').css({"max-height": css})
+    $('#block-training-info .carouselSchema').css({"height": css})
+
+}
 
 function show_training_card(id = ''){
     if (id == '' || id == null) {
@@ -203,12 +215,15 @@ function load_all_exercises_training(training_id = null, group = null) {
         html_scheme += `
             <div class="row training-data-row">
                 <div class="col-12 px-0">
-                    <input type="text" name="objectives_1" class="form-control form-control-sm btn btn-sm btn-lightblue border border-light font-weight-bold text-center edit-input" value="${data.objectives ? data.objectives[0] : '---'}" placeholder="" ${!edit_mode ? 'disabled' : ''} autocomplete="off">
+                    <input type="text" name="objectives_1" class="form-control form-control-sm btn btn-sm btn-lightblue border border-light font-weight-bold text-center edit-input" value="${data.objectives ? (data.objectives[0] ? data.objectives[0] : '---') : '---'}" placeholder="" ${!edit_mode ? 'disabled' : ''} autocomplete="off">
                 </div>
             </div>
             <div class="row training-data-row">
-                <div class="col-12 px-0">
-                    <input type="text" name="objectives_2" class="form-control form-control-sm btn btn-sm btn-lightblue border border-light font-weight-bold text-center edit-input" value="${data.objectives ? data.objectives[1] : '---'}" placeholder="" ${!edit_mode ? 'disabled' : ''} autocomplete="off">
+                <div class="col-6 px-0">
+                    <input type="text" name="objectives_2" class="form-control form-control-sm btn btn-sm btn-lightblue border border-light font-weight-bold text-center edit-input" value="${data.objectives ? (data.objectives[1] ? data.objectives[1] : '---') : '---'}" placeholder="" ${!edit_mode ? 'disabled' : ''} autocomplete="off">
+                </div>
+                <div class="col-6 px-0">
+                    <input type="text" name="objectives_3" class="form-control form-control-sm btn btn-sm btn-lightblue border border-light font-weight-bold text-center edit-input" value="${data.objectives ? (data.objectives[2] ? data.objectives[2] : '---') : '---'}" placeholder="" ${!edit_mode ? 'disabled' : ''} autocomplete="off">
                 </div>
             </div>`
 
@@ -305,7 +320,7 @@ function load_exercises_training_data(training_exercise_id = null) {
         $('.training-exercise-name .exercise-time').html(`
             <div class="w-100 ${exercise.duration==0 ? 'font-weight-bold text-danger':''}">${exercise.duration}</div>
         `)
-        $('#training-exercise-description .exercise-description').val(exercise.description)
+        //$('#training-exercise-description .exercise-description').val(exercise.description)
         let count_slide = 0
         let select_html = '', carousel_html = ''
         if(exercise.exercise_scheme){
@@ -350,17 +365,13 @@ function load_exercises_training_data(training_exercise_id = null) {
                         </div>
                         
                     </div>`
+                $('#training-exercise-description #descriptionExerciseView').html(descr)
             }
         }
 
         let html_exs_data = ''
         html_exs_data += `
             <div class="row exercise-data-row">
-                <div class="col-12 btn btn-sm btn-lightblue border border-light font-weight-bold">
-                    ${(get_cur_lang() in exercise.exercise_data.title) ? exercise.exercise_data.title[get_cur_lang()] : Object.values(exercise.exercise_data.title)[0]}
-                </div>
-            </div>
-            <div class="row exercise-data-row">
                 <div class="col-6 btn btn-sm btn-lightblue border border-light">
                     ${exercise.exercise_data.field_task ? exercise.exercise_data.field_task : '---'}
                 </div>
@@ -368,22 +379,27 @@ function load_exercises_training_data(training_exercise_id = null) {
                     ${exercise.exercise_data.field_task ? exercise.exercise_data.field_task : '---'}
                 </div>
             </div>
-            <div class="offset-1 col-10 pb-2 px-1 exercise-visual-block" data-id="${exercise.id}" data-exs-id="${exercise.exercise_data}" data-group="${exercise.group}">
-                <div id="carouselTrainingSchema-${exercise.id}" class="carousel slide carouselSchema" data-ride="carousel" data-interval="false">
+            <div class="offset-1 col-10 px-1 exercise-visual-block" data-id="${exercise.id}" data-exs-id="${exercise.exercise_data}" data-group="${exercise.group}">
+                <div id="carouselTrainingSchema-${exercise.id}" class="carousel slide carouselSchema d-flex align-items-center" data-ride="carousel" data-interval="false">
                     <ol class="carousel-indicators">
                         ${select_html}
                     </ol>
-                    <div class="carousel-inner">
+                    <div class="carousel-inner" style="max-height: inherit;">
                         ${carousel_html}
                     </div>
-                    <a class="carousel-control-prev" href="#carouselTrainingSchema-${exercise.id}" role="button" data-slide="prev" style="margin-left: -12.5%; width: 12%; background: lightblue;">
+                    <a class="carousel-control-prev" href="#carouselTrainingSchema-${exercise.id}" role="button" data-slide="prev" style="margin-left: -12%; width: 12%; background: lightblue;">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="sr-only">-</span>
                     </a>
-                    <a class="carousel-control-next" href="#carouselTrainingSchema-${exercise.id}" role="button" data-slide="next" style="margin-right: -12.5%; width: 12%; background: lightblue;">
+                    <a class="carousel-control-next" href="#carouselTrainingSchema-${exercise.id}" role="button" data-slide="next" style="margin-right: -12%; width: 12%; background: lightblue;">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="sr-only">+</span>
                     </a>
+                </div>
+            </div>
+            <div class="row exercise-data-row">
+                <div class="col-12 btn btn-sm btn-lightblue border border-light font-weight-bold">
+                    ${(get_cur_lang() in exercise.exercise_data.title) ? exercise.exercise_data.title[get_cur_lang()] : Object.values(exercise.exercise_data.title)[0]}
                 </div>
             </div>
         `
@@ -418,6 +434,7 @@ function load_exercises_training_data(training_exercise_id = null) {
 
             }
         }
+        resize_trainings_card_blocks()
     })
 }
 
