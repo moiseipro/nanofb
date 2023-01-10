@@ -790,7 +790,7 @@
                                         Описание упражнения
                                     </button>
                                 </div>
-                                <div class="col-12">
+                                <div class="col-12" style="height: 60vh !important; overflow-y: auto;">
                                     {% get_available_languages as LANGUAGES %}
                                     {% get_language_info_list for LANGUAGES as languages %}
                                     <div id="collapse__exs_title" class="collapse show" data-parent="#accordion__lang_title">
@@ -798,7 +798,8 @@
                                             <table class="table table-sm table-bordered" style="table-layout: fixed;">
                                                 <colgroup>
                                                     <col span="1" style="width: 25%;">
-                                                    <col span="1" style="width: 75%;">
+                                                    <col span="1" style="width: 70%;">
+                                                    <col span="1" style="width: 5%;">
                                                 </colgroup>
                                                 <tbody>
                                                     {% for language in languages %}
@@ -809,6 +810,11 @@
                                                             <td>
                                                                 <input name="" class="form-control form-control-sm text-center exs-title" 
                                                                     type="text" value="" data-lang="{{ language.code }}" autocomplete="off">
+                                                            </td>
+                                                            <td>
+                                                                <button type="button" class="btn btn-sm btn-secondary change-title-pos" title="Сменить название со следующим полем">
+                                                                    <i class="fa fa-arrows" aria-hidden="true"></i>
+                                                                </button>
                                                             </td>
                                                         </tr>
                                                     {% endfor %}
