@@ -294,14 +294,20 @@ $(window).on('load', function (){
     })
 
     $('#events').on('click', '.switch-favorites', function () {
+        const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
         let this_obj = $(this)
         let id = this_obj.closest('tr.hasEvent').attr('data-value')
+        let favourites = parseInt(this_obj.attr('data-switch'))+1
+        if(favourites>3) favourites = 0
         let data = {}
-        data.favourites = this_obj.hasClass('fa-star-o')
+        data.favourites = favourites
+        this_obj.attr('data-switch', favourites)
         //console.log(data)
         ajax_training_action('PUT', data, 'favourites', id).then(function (data) {
-            if(data.favourites) this_obj.addClass('fa-star').removeClass('fa-star-o')
-            else this_obj.removeClass('fa-star').addClass('fa-star-o')
+            if (data.favourites == 1) this_obj.addClass('fa-star text-success').removeClass('fa-star-o')
+            else if (data.favourites == 2) this_obj.addClass('fa-star text-warning').removeClass('text-success')
+            else if (data.favourites == 3) this_obj.addClass('fa-star text-danger').removeClass('text-warning')
+            else this_obj.addClass('fa-star-o').removeClass('fa-star text-danger')
         })
     })
 
@@ -610,7 +616,7 @@ function generateNewCalendar(){
                                 <td>${count_day==0 ? '---' : count_day}</td>
                                 <td class="${!isFilled ? 'text-danger' : ''}">${event['only_date']}</td>
                                 <td><a href="/trainings/view/${event.training.event_id}" class="btn btn-sm btn-block btn-info py-0" data-id="${event.training.event_id}">${gettext('Training')+' '+(num_tr == 2 ? '2' : '')}</a></td>
-                                <td><i class="switch-favorites fa ${event.training.favourites ? 'fa-star':'fa-star-o'} aria-hidden="true"></i></td>
+                                <td><i class="switch-favorites fa ${event.training.favourites == 1 ? 'fa-star text-success' : (event.training.favourites == 2 ? 'fa-star text-warning' : (event.training.favourites == 3 ? 'fa-star text-danger' : 'fa-star-o'))}" data-switch="${event.training.favourites}"></i></td>
                                 <td>${count_player}</td>
                                 <td>0</td>
                             `
@@ -694,6 +700,214 @@ function generateNewCalendar(){
 
                     set_month_or_date_button()
 
+                }
+            })
+        },
+        error: function(jqXHR, textStatus){
+            //console.log(jqXHR)
+            swal(gettext('Event save'), gettext('Error when action the event!'), "error");
+        },
+        complete: function () {
+            $('.page-loader-wrapper').fadeOut();
+        }
+    })
+}
+
+function generateOnlyTable() {
+    newMicrocycle = []
+    newEvent = []
+
+    let microcycle_id = null
+    let send_data ={}
+
+    let from_date_str = $('#event_calendar .microcycle_cell.selected').attr('data-start')
+    let to_date_str = $('#event_calendar .microcycle_cell.selected').attr('data-end')
+    microcycle_id = $('#event_calendar .microcycle_cell.selected').attr('data-id')
+    let today = strDate
+
+    //(strDate)
+    //console.log(middleDay)
+
+    let from_date = undefined
+    let to_date = undefined
+
+    if(from_date_str){
+        from_date = moment(from_date_str, 'DD/MM/YYYY').format('YYYY-MM-DD')
+    }
+    if(to_date_str){
+        to_date = moment(to_date_str, 'DD/MM/YYYY').format('YYYY-MM-DD')
+    }
+
+    if(!from_date_str && !to_date_str && today){
+        from_date = moment(today, 'DD/MM/YYYY').startOf('month').format('YYYY-MM-DD')
+        to_date = moment(today, 'DD/MM/YYYY').endOf('month').format('YYYY-MM-DD')
+    }
+
+    send_data['from_date'] = from_date
+    send_data['to_date'] = to_date
+    //console.log(send_data)
+
+    $('#events tbody').html('')
+
+    $('.page-loader-wrapper').fadeIn();
+    $.ajax({
+        headers:{"X-CSRFToken": csrftoken },
+        url: 'api/microcycles/',
+        type: 'GET',
+        dataType: "JSON",
+        success: function(data){
+            microcycle_arr = data['results']
+            for (var microcycle of microcycle_arr) {
+                newMicrocycle.push({
+                    id: microcycle['id'],
+                    name: microcycle['name'],
+                    startDate: microcycle['date_with'],
+                    endDate: microcycle['date_by'],
+                    customClass: 'green_cell',
+                    href: '#empty'
+                })
+            }
+            //console.log(newMicrocycle)
+            $.ajax({
+                headers:{"X-CSRFToken": csrftoken },
+                url: '/events/api/action/',
+                type: 'GET',
+                dataType: "JSON",
+                data: send_data,
+                success: function(data){
+                    //console.log(data['results'])
+                    let num_tr = 1, num_m = 1, count_tr = 0, count_m = 0, max_m = 0, event_date = '', event_class=''
+                    let last_date = moment(to_date, 'YYYY-MM-DD')
+                    let first_date = moment(from_date, 'YYYY-MM-DD')
+                    let generated_events = []
+
+                    let days = last_date.diff(first_date, 'days')+1
+                    //console.log(days)
+                    if(days!=0) {
+                        for (let i = 0; i < days; i++){
+                            let isSame = false
+                            //console.log(last_date.format('DD/MM/YYYY'))
+                            for (let event of data['results']) {
+                                let cur_date = moment(event['only_date'], 'DD/MM/YYYY')
+                                if(cur_date.isSame(last_date)){
+                                    generated_events.push(event)
+                                    isSame = true
+                                    if(isSame && 'match' in event && event.match != null){
+                                        count_m++
+                                        max_m++
+                                    }
+                                }
+                            }
+                            if(!isSame) {
+                                generated_events.push({
+                                    id: null,
+                                    short_name: '---',
+                                    only_date: last_date.format('DD/MM/YYYY'),
+                                    training: null,
+                                    match: null
+                                })
+                            }
+                            last_date.add(-1, 'days')
+                        }
+                    }
+
+                    $.each(generated_events, function( index, event ) {
+                        let event_id = event['id'],
+                            event_name = '',
+                            event_short_name = event['short_name']
+                        let tr_html = ``
+
+                        let only_date = moment(event['only_date'], 'DD/MM/YYYY')
+                        let count_day = 0
+                        let isCurrentDate = false
+                        if(moment().startOf('day').isSame(only_date)) isCurrentDate = true
+                        newMicrocycle.forEach(function(microcycle, i) {
+                            let date_with = moment(microcycle['startDate'], 'DD/MM/YYYY')
+                            let date_by = moment(microcycle['endDate'], 'DD/MM/YYYY')
+                            if(only_date.isBetween( date_with, date_by, undefined, '[]')){
+                                count_day = only_date.diff(date_with, "days")+1
+                                if(count_day < 3) count_day = '+'+count_day
+                                else{
+                                    count_day = only_date.diff(date_by, "days")
+                                    if(count_day==0) count_day = '---'
+                                }
+                            }
+                        });
+
+                        tr_html += `<tr class="${event_id!=null ? 'hasEvent' : ''}" data-value="${event_id}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
+                        if('training' in event && event['training'] != null){
+                            num_tr = 1
+                            let count_player = 0
+                            let isFilled = true
+                            if(event_class === 'trainingClass' && event['only_date'] === event_date) num_tr++
+                            if(event.training.exercises_info.length == 0 ||event.training.protocol_info.length == 0) isFilled = false
+                            if('protocol_info' in event.training){
+                                $.each(event.training.protocol_info, function( index, value ) {
+                                    if(value.status==null) count_player++;
+                                });
+                            }
+                            event_name = 'tr'+num_tr
+                            event_class = 'trainingClass'
+                            count_tr++
+                            console.log(event.training)
+                            tr_html += `
+                                <td>${count_day==0 ? '---' : count_day}</td>
+                                <td class="${!isFilled ? 'text-danger' : ''}">${event['only_date']}</td>
+                                <td><a href="/trainings/view/${event.training.event_id}" class="btn btn-sm btn-block btn-info py-0" data-id="${event.training.event_id}">${gettext('Training')+' '+(num_tr == 2 ? '2' : '')}</a></td>
+                                <td><i class="switch-favorites fa ${event.training.favourites == 1 ? 'fa-star text-success' : (event.training.favourites == 2 ? 'fa-star text-warning' : (event.training.favourites == 3 ? 'fa-star text-danger' : 'fa-star-o'))}" data-switch="${event.training.favourites}"></i></td>
+                                <td>${count_player}</td>
+                                <td>0</td>
+                            `
+                        } else if('match' in event && event['match'] != null){
+                            event_name = 'm'+(event['match']['m_type']+1)
+                            event_class = 'matchClass'+event['match']['m_type']
+                            count_m--
+                            count_tr = 0
+
+                            tr_html += `
+                                <td>${count_day==0 ? '---' : count_day}</td>
+                                <td>${event['only_date']}</td>
+                                <td><a href="/matches/match?id=${event.match.event_id}" data-count="${count_m+1}" class="btn btn-sm btn-block ${event.match.m_type == 0 ?"btn-warning":"btn-success"} py-0" data-id="${event.match.event_id}">${gettext('Match')}</a></td>
+                                <td>---</td>
+                                <td>---</td>
+                                <td>---</td>
+                            `
+                        } else {
+                            event_class = 'none'
+                            tr_html += `
+                                    <td>${count_day==0 ? '---' : count_day}</td>
+                                    <td>${event['only_date']}</td>
+                                    <td>${count_tr == 0 && count_m==max_m ? '---' : '---'}</td>
+                                    <td>---</td>
+                                    <td>---</td>
+                                    <td>---</td>
+                                ` //<a href="#" class="btn btn-sm btn-block btn-secondary py-0 disabled">${/*gettext('Recreation')*/'---'}</a>
+                        }
+                        tr_html += `</tr>`
+                        event_date = event['only_date']
+                        newEvent.push({
+                            id: event_id,
+                            name: event_name,
+                            startDate: event_date,
+                            endDate: event_date,
+                            customClass: event_class,
+                            customValue: event_id,
+                            title: 'TEST',
+                            href: '#',
+                            text: event_short_name
+                        })
+                        $('#events tbody').append(tr_html)
+                    })
+                    //console.log(newEvent)
+                },
+                error: function(jqXHR, textStatus){
+                    //console.log(jqXHR)
+                    swal(gettext('Event save'), gettext('Error when action the event!'), "error");
+                },
+                complete: function () {
+                    $('.page-loader-wrapper').fadeOut();
+
+                    resize_events_table()
                 }
             })
         },
@@ -866,10 +1080,12 @@ function generateEventTable(){
                 let html_view = ''
                 if(type === 'display') {
                     if ('training' in data && data.training != null) {
-                        html_view += '<i class="switch-favorites fa '
-                        if (data.training.favourites == true) html_view += 'fa-star'
-                        else html_view += 'fa-star-o'
-                        html_view += '" aria-hidden="true"></i>'
+                        html_view += `<i class="switch-favorites fa `
+                        if (data.training.favourites == 1) html_view += `fa-star text-success`
+                        else if (data.training.favourites == 2) html_view += `fa-star text-warning`
+                        else if (data.training.favourites == 3) html_view += `fa-star text-danger`
+                        else html_view += `fa-star-o`
+                        html_view += `" data-switch="${data.training.favourites}"></i>`
                     } else {
                         html_view = '---'
                     }

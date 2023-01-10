@@ -20,10 +20,10 @@ class AbstractTraining(models.Model):
         null=True,
         blank=True,
     )
-    favourites = models.BooleanField(
+    favourites = models.SmallIntegerField(
         verbose_name=_('favourites'),
         help_text=_('Favorites training'),
-        default=False
+        default=0
     )
     space = models.ForeignKey(
         TrainingSpace,

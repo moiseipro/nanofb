@@ -1,8 +1,9 @@
 
-async function ajax_event_action(method, data, action = '', id = '') {
+async function ajax_event_action(method, data, action = '', id = '', func = '') {
     //if (!confirm(gettext('Apply action to event?'))) return false
     let url = "/events/api/action/"
-    if(method !== 'POST') url += `${id}/`
+    if(id !== '') url += `${id}/`
+    if(func !== '') url += `${func}/`
 
     $('.page-loader-wrapper').fadeIn();
 
@@ -14,8 +15,14 @@ async function ajax_event_action(method, data, action = '', id = '') {
         data: data,
         success: function(data){
             console.log(data)
-            if(data!= undefined && 'status' in data && data['status'] == 'event_type_full'){
-                swal(gettext('Event '+action), gettext('You have created the maximum number of events of this type for one day!'), "error");
+            if(data!= undefined && 'status' in data){
+                if(data['status'] == 'event_type_full') {
+                    swal(gettext('Event ' + action), gettext('You have created the maximum number of events of this type for one day!'), "error");
+                } else if (data['status'] == 'training_copied'){
+                    swal(gettext('Event ' + action), gettext('The training was successfully copied!'), "success");
+                } else {
+
+                }
             }else if (method == 'POST' || method == 'UPDATE' || method == 'PUT' || method == 'DELETE'){
                 swal(gettext('Event '+action), gettext('Event action "'+action+'" successfully!'), "success");
             } else {

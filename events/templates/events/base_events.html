@@ -66,13 +66,16 @@
                         <div class="col py-0">
                             <div class="row">
                                 <div class="col px-1">
+                                    <button id="#" title="" class="btn btn-block btn-outline-secondary btn-sm font-weight-bold"><i class="fa fa-star-o" aria-hidden="true"></i></button>
+                                </div>
+                                <div class="col px-1">
                                     <button id="#" title="" class="btn btn-block btn-outline-secondary btn-sm font-weight-bold"><span class="icon-custom icon--share" style="--i-w: 1.1em; --i-h: 1.1em;"></span></button>
                                 </div>
                                 <div class="col px-1">
                                     <button id="#" title="" class="btn btn-block btn-outline-secondary btn-sm font-weight-bold"><span class="icon-custom icon--download" style="--i-w: 1.1em; --i-h: 1.1em;"></span></button>
                                 </div>
                                 <div class="col px-1">
-                                    <button id="#" title="" class="btn btn-block btn-outline-secondary btn-sm font-weight-bold"><span class="icon-custom icon--copy" style="--i-w: 1.1em; --i-h: 1.1em;"></span></button>
+                                    <button id="event-copy-modal-button" title="" class="btn btn-block btn-outline-secondary btn-sm font-weight-bold"><span class="icon-custom icon--copy" style="--i-w: 1.1em; --i-h: 1.1em;"></span></button>
                                 </div>
                             </div>
                         </div>
@@ -185,6 +188,7 @@
     </div>
     {% include 'events/forms/create_event.html' %}
     {% include 'events/forms/edit_event.html' %}
+    {% include 'events/forms/event_copy.html' %}
 
     {% include "exercises/modules/exercise_graphic_modal.html" %}
 
@@ -202,5 +206,6 @@
     <script src="{% static 'trainings/js/training_card.js' %}"></script>
     <script src="{% static 'events/ResCalendar/rescalendar.js' %}"></script>
     <script src="{% static 'events/js/event_update.js' %}"></script>
+    <script src="{% static 'events/js/event_copy.js' %}"></script>
     <script src="{% static 'events/js/base_events.js' %}"></script>
 {% endblock %}

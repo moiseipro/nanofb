@@ -19,7 +19,7 @@ from events.serializers import UserMicrocyclesSerializer, UserMicrocyclesUpdateS
     ClubEventEditSerializer
 from matches.models import UserMatch, ClubMatch
 from references.models import UserTeam, UserSeason, ClubSeason, ClubTeam
-from trainings.models import UserTraining, ClubTraining
+from trainings.models import UserTraining, ClubTraining, UserTrainingExercise, ClubTrainingExercise
 from system_icons.views import get_ui_elements
 
 
@@ -166,6 +166,100 @@ class EventViewSet(viewsets.ModelViewSet):
         events = serializer.data
         print(events)
         return Response(serializer.data)
+
+    @action(detail=True, methods=['post'])
+    def copy_event(self, request, pk=None):
+        print(self.request.data)
+        user = self.request.user
+        cur_date = datetime.strptime(self.request.data['date'], "%Y-%m-%d %H:%M").date()
+        if self.request.user.club_id is not None:
+            team = ClubTeam.objects.get(pk=self.request.data['team'])
+            event = ClubEvent.objects.get(pk=pk)
+            try:
+                training = ClubTraining.objects.get(pk=pk)
+                count_tr = ClubEvent.objects.filter(club_id=self.request.user.club_id, date__date=cur_date,
+                                                    clubtraining__team_id=team).count()
+            except ClubTraining.DoesNotExist:
+                training = None
+                count_tr = 0
+            try:
+                exercises = ClubTrainingExercise.objects.filter(training_id=pk)
+                print(exercises)
+            except ClubTrainingExercise.DoesNotExist:
+                exercises = None
+            try:
+                match = ClubMatch.objects.get(pk=pk)
+                match1 = ClubEvent.objects.filter(club_id=self.request.user.club_id, date__date=cur_date,
+                                                  clubmatch__team_id=team, clubmatch__m_type=0).count()
+                match2 = ClubEvent.objects.filter(club_id=self.request.user.club_id, date__date=cur_date,
+                                                  clubmatch__team_id=team, clubmatch__m_type=1).count()
+            except ClubMatch.DoesNotExist:
+                match = None
+                match1 = 0
+                match2 = 0
+        else:
+            team = UserTeam.objects.get(pk=self.request.data['team'])
+            event = UserEvent.objects.get(pk=pk)
+            try:
+                training = UserTraining.objects.get(pk=pk)
+                count_tr = UserEvent.objects.filter(user_id=user, date__date=cur_date,
+                                                    usertraining__team_id=team).count()
+            except UserTraining.DoesNotExist:
+                training = None
+                count_tr = 0
+            try:
+                exercises = UserTrainingExercise.objects.filter(training_id=pk)
+                print(exercises)
+            except UserTrainingExercise.DoesNotExist:
+                exercises = None
+            try:
+                match = UserMatch.objects.get(pk=pk)
+                match1 = UserEvent.objects.filter(user_id=user, date__date=cur_date, usermatch__team_id=team,
+                                                  usermatch__m_type=0).count()
+                match2 = UserEvent.objects.filter(user_id=user, date__date=cur_date, usermatch__team_id=team,
+                                                  usermatch__m_type=1).count()
+
+            except UserMatch.DoesNotExist:
+                match = None
+                match1 = 0
+                match2 = 0
+
+        print(count_tr)
+        if count_tr > 1:
+            return Response({'status': 'event_type_full'})
+        if match1 != 0:
+            return Response({'status': 'event_type_full'})
+        if match2 != 0:
+            return Response({'status': 'event_type_full'})
+        print(event)
+
+        if event:
+            event.pk = None
+            event.date = self.request.data['date']
+            event.save()
+            if training:
+                training.pk = None
+                training.event_id = event
+                training.team_id = team
+                training.protocol.clear()
+                training.save()
+                for exercise in exercises:
+                    exercise.pk = None
+                    exercise.training_id = training
+                    exercise.save()
+                response = Response({'status': 'training_copied'})
+            elif match:
+                match.pk = None
+                match.event_id = event
+                match.team_id = team
+                match.save()
+                response = Response({'status': 'match_copied'})
+            else:
+                response = Response({'status': 'filed_copied'})
+        else:
+            response = Response({'status': 'filed_copied'})
+
+        return response
 
     def get_serializer_class(self):
         if self.action == 'update':

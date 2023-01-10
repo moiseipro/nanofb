@@ -1,0 +1,44 @@
+{% load i18n %}
+
+<div class="modal fade" id="form-event-copy-modal" tabindex="-1" role="dialog" aria-labelledby="form-event-copy-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="form-event-copy-modal-label">{% trans 'Copying the selected event' %}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-4 px-1">
+                        <input class="form-control form-control-md datepicker-event" type="text" data-toggle="datetimepicker" autocomplete="off" required>
+                    </div>
+                    <div class="col-4 px-1">
+                        <input class="form-control form-control-md timepicker" type="text" data-toggle="datetimepicker" autocomplete="off" required>
+                    </div>
+                    <div class="col-4 px-1">
+                        {% if request.teams_list %}
+                            {% if perms.references.view_userteam or perms.references.view_clubteam %}
+                            <select id="copy-event-team" class=" select custom-select teams" name="team" tabindex="-1" aria-hidden="true">
+                                {% for team in request.teams_list %}
+                                    <option value="{{ team.id }}" {% if request.session.team == team.id|stringformat:"i" %}selected{% endif %}>{{ team.name }}</option>
+                                {% empty %}
+                                    <option value="">{% trans 'No teams' %}</option>
+                                {% endfor %}
+                            </select>
+                            {% endif %}
+                        {% else %}
+                            {% if perms.references.add_userteam or perms.references.add_clubteam %}
+                            <a href="{% url 'references:settings' %}" class="btn btn-block btn-warning" role="button">{% trans 'Create a team' %}</a>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="event-copy-button" type="button" class="btn btn-primary">{% trans 'Copy' %}</button>
+            </div>
+        </div>
+    </div>
+</div>
