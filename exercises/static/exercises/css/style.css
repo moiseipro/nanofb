@@ -313,6 +313,10 @@
     font-size: 1rem;
 }
 
+.btn-custom.filtering:after {
+    content: 'F';
+}
+
 .bck-custom {
     background-color: #d5d5d5;
     color: #5a6268 !important;
@@ -601,6 +605,13 @@ input.exs-search {
     border-radius: 50%;
     display: inline-block;
 }
+.tag-square {
+    height: 10px;
+    width: 10px;
+    background-color: var(--color);
+    border-radius: 0%;
+    display: inline-block;
+}
 
 .custom-border-top {
     border-top: 1px solid var(--color);
@@ -623,5 +634,21 @@ span.drag.selected > a {
 .btn-link.collapsed {
     opacity: 0.6;
     color: #636363;
+}
+
+
+input[type=checkbox].video-check {
+    display: none;
+}
+input[type=checkbox].video-check + span.label {
+    display: inline-block;
+    min-width: 20px;
+    min-height: 20px;
+    max-width: 20px;
+    max-height: 20px;
+}
+input[type=checkbox].video-check:checked + span.label {
+    background: rgb(48, 84, 228);
+    color: rgb(230, 230, 230);
 }
 

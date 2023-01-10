@@ -188,7 +188,7 @@
                                             <td colspan="2">
                                                 <select name="tags" class="select w-100 custom-select custom-select-sm tag-select exs_edit_field" multiple data-tags="true" data-theme="bootstrap4" disabled style="width: 100%;">
                                                     {% for tag in exercises_tags.nfb %}
-                                                        <option value="{{ tag.name }}" data-color="{{ tag.category.color }}">
+                                                        <option value="{{ tag.name }}" data-color="{{ tag.category.color }}" data-tag-class="tag-dot">
                                                             {% if tag.category %}
                                                                 {{ tag.category.name }}. 
                                                             {% endif %}
@@ -196,7 +196,7 @@
                                                         </option>
                                                     {% endfor %}
                                                     {% for tag in exercises_tags.self %}
-                                                        <option value="{{ tag.name }}" data-color="{{ tag.category.color }}">
+                                                        <option value="{{ tag.name }}" data-color="{{ tag.category.color }}" data-tag-class="tag-square">
                                                             {% if tag.category %}
                                                                 {{ tag.category.name }}. 
                                                             {% endif %}
