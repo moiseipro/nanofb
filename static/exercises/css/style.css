@@ -316,6 +316,18 @@
 .btn-custom.filtering:after {
     content: 'F';
 }
+.btn-custom.filter-watch {
+    --w-max-x: 5.2% !important;
+}
+.btn-custom.filter-watch:after {
+    content: '👍';
+}
+.btn-custom.filter-no-watch {
+    --w-max-x: 5.2% !important;
+}
+.btn-custom.filter-no-watch:after {
+    content: '👎';
+}
 
 .bck-custom {
     background-color: #d5d5d5;

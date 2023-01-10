@@ -123,7 +123,7 @@ function RenderFolderExercises(id, tExs) {
         exsHtml += `
         <li class="exs-elem list-group-item py-1 px-0" data-id="${exElem.id}" data-folder="${exElem.folder}">
             <div class="row w-100">
-                <div class="col-12 d-flex">
+                <div class="col-12 d-flex px-0">
                     <span class="ml-3 w-100">
                         <span class="num">${i+1}.</span>
                         <span class="title">
@@ -155,7 +155,7 @@ function RenderFolderExercises(id, tExs) {
                             <span class="label">A2</span>
                         </button>
                     ` : ''}
-                    <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.favorite == true ? 'selected' : ''}" data-type="marker" data-id="favorite" style="--w-x:24px; --h-x:24px;" title="Избранное">
+                    <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.favorite == true ? 'selected' : ''}" data-type="marker" data-id="favorite" style="--w-x:24px; min-width: 38px; --h-x:24px;" title="Избранное">
                         <span class="icon-custom ${exElem.favorite == true ? 'icon--favorite-selected' : 'icon--favorite'}" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                     </button>
                     ${exElem.field_players && exElem.field_players != "" ? `
@@ -168,20 +168,20 @@ function RenderFolderExercises(id, tExs) {
                         </button>
                     `}
                     ${exElem.field_goal && exElem.field_goal != "" ? `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="goal" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="">
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="goal" style="--w-x:24px; min-width: 38px; --h-x:24px;" disabled="">
                             ${exElem.field_goal}
                         </button>
                     ` : `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="goal" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="">
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="goal" style="--w-x:24px; min-width: 38px; --h-x:24px;" disabled="">
                             -
                         </button>
                     `}
                     ${exElem.ref_ball_id == 1 ? `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="ball" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="">
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="ball" style="--w-x:24px; min-width: 38px; --h-x:24px;" disabled="">
                             <span class="icon-custom icon--ball" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                         </button>
                     ` : `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="ball" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="">
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="ball" style="--w-x:24px; min-width: 38px; --h-x:24px;" disabled="">
                             -
                         </button>
                     `}
@@ -347,9 +347,9 @@ function ToggleIconsInExs() {
     $('.exercises-block').find(`[data-type="icons"][data-id="lang"]`).toggleClass('d-none', !isActiveLang);
 }
 function ToggleMarkersInExs() {
-    let isActiveMarkers = $('.up-tabs-elem[data-id="toggle_markers"]').attr('data-state') == "1";
+    let isActiveVideo = $('.up-tabs-elem[data-id="toggle_video"]').attr('data-state') == "1";
     let isActiveFavorite = $('.up-tabs-elem[data-id="toggle_favorite"]').attr('data-state') == "1";
-    $('.exercises-block').find(`[data-type="marker"][data-id!="favorite"]`).toggleClass('d-none', !isActiveMarkers);
+    $('.exercises-block').find(`[data-type="marker"][data-id!="favorite"]`).toggleClass('d-none', !isActiveVideo);
     $('.exercises-block').find(`[data-type="marker"][data-id="favorite"]`).toggleClass('d-none', !isActiveFavorite);
     // if (isActiveMarkers || isActiveFavorite) {
     //     $('.list-group[data-id="show_icons"]').find('.side-filter-elem').removeClass('active');

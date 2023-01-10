@@ -159,7 +159,37 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem[data-id="next_exs"]').toggleClass('selected3', false);
             LoadExerciseOneHandler();
             break;
-        case "toggle_markers":
+        case "toggle_video":
+            if (!state && !$('.up-tabs-elem[data-id="toggle_video"]').hasClass('filter-watch') && !$('.up-tabs-elem[data-id="toggle_video"]').hasClass('filter-no-watch')) {
+                $('.up-tabs-elem[data-id="toggle_video"]').addClass('filter-watch');
+                $('.up-tabs-elem[data-id="toggle_video"]').addClass('selected3');
+                $('.up-tabs-elem[data-id="toggle_video"]').attr('data-state', 1);
+                window.exercisesFilter['watch'] = '1';
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            } else if (!state && $('.up-tabs-elem[data-id="toggle_video"]').hasClass('filter-watch')) {
+                $('.up-tabs-elem[data-id="toggle_video"]').removeClass('filter-watch');
+                $('.up-tabs-elem[data-id="toggle_video"]').addClass('filter-no-watch');
+                $('.up-tabs-elem[data-id="toggle_video"]').addClass('selected3');
+                $('.up-tabs-elem[data-id="toggle_video"]').attr('data-state', 1);
+                window.exercisesFilter['watch'] = '0';
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            } else if (!state && $('.up-tabs-elem[data-id="toggle_video"]').hasClass('filter-no-watch')) {
+                $('.up-tabs-elem[data-id="toggle_video"]').removeClass('filter-no-watch');
+                delete window.exercisesFilter['watch'];
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            }
             ToggleMarkersInExs();
             break;
         case "toggle_favorite":
@@ -329,7 +359,7 @@ function RenderExerciseFullName(data) {
     });
 }
 
-function SaveExerciseFullName(exsId, folderType, key, value, lang) {
+function SaveExerciseFullName(exsId, folderType, key, value, lang, additional={}) {
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
         headers:{"X-CSRFToken": csrftoken},
@@ -339,7 +369,11 @@ function SaveExerciseFullName(exsId, folderType, key, value, lang) {
         url: "exercises_api",
         success: function (res) {
             if (res.success) {
-                swal("Готово", "Упражнение успешно изменено.", "success");
+                if ('lang' in additional && 'value' in additional) {
+                    SaveExerciseFullName(exsId, folderType, key, additional['value'], additional['lang']);
+                } else {
+                    swal("Готово", "Упражнение успешно изменено.", "success");
+                }
             } else {
                 swal("Ошибка", `При изменении упражнения произошла ошибка (${res.err}).`, "error");
             }
@@ -348,7 +382,9 @@ function SaveExerciseFullName(exsId, folderType, key, value, lang) {
             swal("Ошибка", "Упражнение не удалось создать / изменить.", "error");
         },
         complete: function (res) {
-            $('.page-loader-wrapper').fadeOut();
+            if (!('lang' in additional && 'value' in additional)) {
+                $('.page-loader-wrapper').fadeOut();
+            }
         }
     });
 }
@@ -1188,6 +1224,21 @@ $(function() {
         let cVal = $(e.currentTarget).val();
         let cLangCode = $(e.currentTarget).attr('data-lang');
         SaveExerciseFullName(exsId, folderType, 'title', cVal, cLangCode);
+    });
+    $('#exerciseLangTitleModal').on('click', '.change-title-pos', (e) => {
+        let exsId = $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs');
+        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        let cVal = $(e.currentTarget).parent().parent().find('input.exs-title').val();
+        let cLangCode = $(e.currentTarget).parent().parent().find('input.exs-title').attr('data-lang');
+        let nextRow = $(e.currentTarget).parent().parent().next();
+        if (nextRow.length == 0) {
+            nextRow = $('#exerciseLangTitleModal').find('div#collapse__exs_title').find('tr').first();
+        }
+        let nextVal = $(nextRow).find('input.exs-title').val();
+        let nextLangCode = $(nextRow).find('input.exs-title').attr('data-lang');
+        $(e.currentTarget).parent().parent().find('input.exs-title').val(nextVal);
+        $(nextRow).find('input.exs-title').val(cVal);
+        SaveExerciseFullName(exsId, folderType, 'title', nextVal, cLangCode, {'lang': nextLangCode, 'value': cVal});
     });
 
 
