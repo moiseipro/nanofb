@@ -16,7 +16,11 @@ function generate_ajax_video_table(scroll_y = ''){
             $('#video-table-counter').text(settings._iRecordsDisplay)
         },
         columnDefs: [
-            { "searchable": false, "targets": 0 }
+            { "searchable": false, "targets": 0 },
+            {
+                "targets": 5,
+                "className": "text-center"
+            },
         ],
         ajax: {
             url:'/video/api/all?format=datatables',
@@ -61,6 +65,16 @@ function generate_ajax_video_table(scroll_y = ''){
                 }
             }},
             {'data': 'duration', "searchable": false},
+            {'data': 'favourites', "searchable": false, render: function (row, type, set, meta) {
+                console.log(row)
+                let view_data = ''
+                if(row){
+                    view_data+=`<i class="fa fa-star" aria-hidden="true"></i>`
+                } else {
+                    view_data+=`<i class="fa fa-star-o" aria-hidden="true"></i>`
+                }
+                return view_data
+            }},
             {'data': 'note', "searchable": false, render: function (row, type, set, meta) {
                 console.log(row)
                 let view_data = '<b class="text-center">'

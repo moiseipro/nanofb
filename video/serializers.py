@@ -48,7 +48,7 @@ class VideoSerializer(TaggitSerializer, serializers.ModelSerializer):
         model = Video
         fields = (
             'id', 'videosource_id', 'name', 'duration', 'language', 'music', 'links', 'upload_date', 'taggit',
-            'videosource_name', 'exercises', 'note'
+            'videosource_name', 'exercises', 'note', 'favourites'
         )
         datatables_always_serialize = ('id', 'taggit', 'exercises')
 
