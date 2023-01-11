@@ -18,6 +18,7 @@ $(window).on('load', function (){
         console.log(send_data)
         ajax_event_action('POST', send_data, 'copy event', event_id, 'copy_event').then(function( data ) {
             console.log(data)
+            location.reload();
         })
     })
 

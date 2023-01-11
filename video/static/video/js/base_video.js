@@ -104,6 +104,7 @@ $('#video-filters-clear').on('click', function (){
     $('.exercise-folder').val(null).trigger('change');
     $('.video-tags-filter').val(null).trigger('change');
     $('input[type="search"]').val('').change()
+    $('#filter-video-favourites[data-favourite="1"]').click()
     video_table.columns([1]).search('').draw()
     Cookies.remove('page')
     Cookies.remove('video_id')
