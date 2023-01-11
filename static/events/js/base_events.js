@@ -358,6 +358,14 @@ $(window).on('load', function (){
         }
 
     })
+    //Удаление упражнения при клике на корзину
+    $('#delete-event-button').on('click', function () {
+        let event_id = $('tr.hasEvent.selected').attr('data-value')
+        if(!event_id) return;
+        ajax_event_action('DELETE', null, 'delete', event_id).then(function( data ) {
+            generateNewCalendar()
+        })
+    })
 })
 
 function resize_events_table(){

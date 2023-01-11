@@ -73,6 +73,11 @@ class Video(models.Model):
         null=True,
         blank=True
     )
+    favourites = models.BooleanField(
+        verbose_name=_('favourites'),
+        help_text=_('Favorite video'),
+        default=False
+    )
     old_id = models.IntegerField(
         verbose_name=_('old id'),
         help_text=_('ID of the exercise that the video was linked to'),
