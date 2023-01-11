@@ -1468,6 +1468,14 @@ def POST_edit_exs_user_params(request, cur_user, cur_team):
             if post_key == "watched_not":
                 c_exs_params.watched = 0
                 post_value = 1
+            if post_key == "favorite":
+                c_exs = c_exs[0]
+                for video in c_exs.videos.all():
+                    video.favourites = post_value
+                    try:
+                        video.save()
+                    except:
+                        pass
             setattr(c_exs_params, post_key, post_value)
             try:
                 c_exs_params.save()
