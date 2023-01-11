@@ -277,20 +277,29 @@ class EventViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         microcycle_before = self.request.query_params.get('to_date')
         microcycle_after = self.request.query_params.get('from_date')
-        # print(microcycle_after)
+        favourites = self.request.query_params.get('favourites')
+        print(favourites)
         team = self.request.session['team']
         if self.request.user.club_id is not None:
             season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
-            events = ClubEvent.objects.filter(Q(clubtraining__team_id=team) | Q(clubmatch__team_id=team),
-                                              club_id=self.request.user.club_id,
-                                              date__gte=season[0].date_with,
-                                              date__lte=season[0].date_by)
+            if favourites != '0' and favourites is not None:
+                events = ClubEvent.objects.filter(Q(clubtraining__team_id=team) & Q(clubtraining__favourites=favourites) | Q(clubmatch__team_id=team))
+            else:
+                events = ClubEvent.objects.filter(Q(clubtraining__team_id=team) | Q(clubmatch__team_id=team))
+
+            events.filter(club_id=self.request.user.club_id,
+                          date__gte=season[0].date_with,
+                          date__lte=season[0].date_by)
         else:
             season = UserSeason.objects.filter(id=self.request.session['season'])
-            events = UserEvent.objects.filter(Q(usertraining__team_id=team) | Q(usermatch__team_id=team),
-                                              user_id=self.request.user,
-                                              date__gte=season[0].date_with,
-                                              date__lte=season[0].date_by)
+            if favourites != '0' and favourites is not None:
+                events = UserEvent.objects.filter(Q(usertraining__team_id=team) & Q(usertraining__favourites=favourites) | Q(usermatch__team_id=team))
+            else:
+                events = UserEvent.objects.filter(Q(usertraining__team_id=team) | Q(usermatch__team_id=team))
+
+            events.filter(user_id=self.request.user,
+                          date__gte=season[0].date_with,
+                          date__lte=season[0].date_by)
 
         if microcycle_before is not None and microcycle_after is not None:
             events = events.filter(date__gte=microcycle_after,

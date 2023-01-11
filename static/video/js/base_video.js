@@ -87,6 +87,17 @@ $('#search-video-table').on('change', function () {
     video_table.search($(this).val()).draw();
 })
 
+$('#filter-video-favourites').on('click', function () {
+    let favourite = $(this).attr('data-favourite')
+    favourite == 1 ? favourite = '' : favourite = 1
+    $(this).attr('data-favourite', favourite)
+    console.log(favourite)
+
+    if(favourite) $(this).children('i').removeClass('fa-star-o').addClass('fa-star')
+    else $(this).children('i').removeClass('fa-star').addClass('fa-star-o')
+    video_table.columns([5]).search(favourite).draw();
+})
+
 //Сбросить фильтры
 $('#video-filters-clear').on('click', function (){
     $('.video-source').val(null).trigger('change');

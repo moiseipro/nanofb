@@ -366,10 +366,22 @@ $(window).on('load', function (){
             generateNewCalendar()
         })
     })
+    //Фильтрация событий по избранному
+    $('#favourites-event-filter').on('click', function () {
+        let cur_fav = parseInt($(this).attr('data-filter'))
+        if (cur_fav>2) cur_fav = 0
+        else cur_fav += 1
+        if (cur_fav == 1) $('#favourites-event-filter i').removeClass(`fa-star-o`).addClass(`fa-star text-success`)
+        else if (cur_fav == 2) $('#favourites-event-filter i').removeClass(`text-success`).addClass(`fa-star text-warning`)
+        else if (cur_fav == 3) $('#favourites-event-filter i').removeClass(`text-warning`).addClass(`fa-star text-danger`)
+        else $('#favourites-event-filter i').removeClass(`fa-star text-danger`).addClass(`fa-star-o`)
+        $(this).attr('data-filter', cur_fav)
+        generateNewCalendar()
+    })
 })
 
 function resize_events_table(){
-    let css = "calc(94vh - "+Math.round($('#event_calendar').height())+"px - "+Math.round($('.header').height())+"px - "+Math.round($('.card-header').height())+"px)"
+    let css = "calc(93vh - "+Math.round($('#calendar-row').height())+"px - "+Math.round($('#filters-row').height())+"px - "+Math.round($('.header').height())+"px - "+Math.round($('.card-header').height())+"px)"
     //console.log(css)
     $('#events-table').css({"max-height": css})
     $('#events-table').css({"height": css})
@@ -494,6 +506,7 @@ function generateNewCalendar(){
     let to_date_str = $('#event_calendar .microcycle_cell.selected').attr('data-end')
     microcycle_id = $('#event_calendar .microcycle_cell.selected').attr('data-id')
     let today = strDate
+    let favourites = parseInt($('#favourites-event-filter').attr('data-filter'))
 
     //(strDate)
     //console.log(middleDay)
@@ -515,6 +528,7 @@ function generateNewCalendar(){
 
     send_data['from_date'] = from_date
     send_data['to_date'] = to_date
+    send_data['favourites'] = favourites
     //console.log(send_data)
 
     $('#events tbody').html('')
