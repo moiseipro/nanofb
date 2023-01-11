@@ -134,25 +134,25 @@ function RenderFolderExercises(id, tExs) {
                     ${exElem.has_video_1 == true ? `
                         <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.video_1_watched == true ? 'selected' : ''}" data-type="marker" data-id="video_1_watched" style="--w-x:20px; --h-x:24px;" title="Видео 1">
                             <input type="checkbox" class="video-check" value="" ${exElem.video_1_watched == true ? 'checked' : ''}>
-                            <span class="label">V1</span>
+                            <span class="label">V</span>
                         </button>
                     ` : ''}
                     ${exElem.has_video_2 == true ? `
                         <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.video_2_watched == true ? 'selected' : ''}" data-type="marker" data-id="video_2_watched" style="--w-x:20px; --h-x:24px;" title="Видео 2">
                             <input type="checkbox" class="video-check" value="" ${exElem.video_2_watched == true ? 'checked' : ''}>
-                            <span class="label">V2</span>
+                            <span class="label">V</span>
                         </button>
                     ` : ''}
                     ${exElem.has_animation_1 == true ? `
                         <button type="button" class="btn btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.animation_1_watched == true ? 'selected' : ''}" data-type="marker" data-id="animation_1_watched" style="--w-x:20px; --h-x:24px;" title="Анимация 1">
                             <input type="checkbox" class="video-check" value="" ${exElem.animation_1_watched == true ? 'checked' : ''}>
-                            <span class="label">A1</span>
+                            <span class="label">A</span>
                         </button>
                     ` : ''}
                     ${exElem.has_animation_2 == true ? `
                         <button type="button" class="btn btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.animation_2_watched == true ? 'selected' : ''}" data-type="marker" data-id="animation_2_watched" style="--w-x:20px; --h-x:24px;" title="Анимация 2">
                             <input type="checkbox" class="video-check" value="" ${exElem.animation_2_watched == true ? 'checked' : ''}>
-                            <span class="label">A2</span>
+                            <span class="label">A</span>
                         </button>
                     ` : ''}
                     <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.favorite == true ? 'selected' : ''}" data-type="marker" data-id="favorite" style="--w-x:24px; min-width: 38px; --h-x:24px;" title="Избранное">

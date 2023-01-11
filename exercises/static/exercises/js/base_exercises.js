@@ -405,6 +405,14 @@ function ToggleTagsView() {
     }
 }
 
+function ToggleLangsRowsInModal() {
+    let langs = $($('#exerciseLangTitleModal').find('select.toggle-langs')).val();
+    $('#exerciseLangTitleModal').find(`tr`).addClass('d-none');
+    langs.forEach(lang => {
+        $('#exerciseLangTitleModal').find(`tr[data-lang="${lang}"]`).removeClass('d-none');
+    });
+}
+
 
 
 $(function() {
@@ -1225,20 +1233,39 @@ $(function() {
         let cLangCode = $(e.currentTarget).attr('data-lang');
         SaveExerciseFullName(exsId, folderType, 'title', cVal, cLangCode);
     });
-    $('#exerciseLangTitleModal').on('click', '.change-title-pos', (e) => {
+    $('#exerciseLangTitleModal').on('click', '.change-title-pos-prev', (e) => {
         let exsId = $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs');
         let folderType = $('.folders_div:not(.d-none)').attr('data-id');
         let cVal = $(e.currentTarget).parent().parent().find('input.exs-title').val();
         let cLangCode = $(e.currentTarget).parent().parent().find('input.exs-title').attr('data-lang');
-        let nextRow = $(e.currentTarget).parent().parent().next();
+        let prevRow = $(e.currentTarget).parent().parent().prevAll().not(".d-none").first();
+        if (prevRow.length == 0) {
+            prevRow = $('#exerciseLangTitleModal').find('div#collapse__exs_title').find('tr:not(.d-none)').last();
+        }
+        let prevVal = $(prevRow).find('input.exs-title').val();
+        let prevLangCode = $(prevRow).find('input.exs-title').attr('data-lang');
+        $(e.currentTarget).parent().parent().find('input.exs-title').val(prevVal);
+        $(prevRow).find('input.exs-title').val(cVal);
+        SaveExerciseFullName(exsId, folderType, 'title', prevVal, cLangCode, {'lang': prevLangCode, 'value': cVal});
+    });
+    $('#exerciseLangTitleModal').on('click', '.change-title-pos-next', (e) => {
+        let exsId = $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs');
+        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        let cVal = $(e.currentTarget).parent().parent().find('input.exs-title').val();
+        let cLangCode = $(e.currentTarget).parent().parent().find('input.exs-title').attr('data-lang');
+        let nextRow = $(e.currentTarget).parent().parent().nextAll().not(".d-none").first();
         if (nextRow.length == 0) {
-            nextRow = $('#exerciseLangTitleModal').find('div#collapse__exs_title').find('tr').first();
+            nextRow = $('#exerciseLangTitleModal').find('div#collapse__exs_title').find('tr:not(.d-none)').first();
         }
         let nextVal = $(nextRow).find('input.exs-title').val();
         let nextLangCode = $(nextRow).find('input.exs-title').attr('data-lang');
         $(e.currentTarget).parent().parent().find('input.exs-title').val(nextVal);
         $(nextRow).find('input.exs-title').val(cVal);
         SaveExerciseFullName(exsId, folderType, 'title', nextVal, cLangCode, {'lang': nextLangCode, 'value': cVal});
+    });
+    ToggleLangsRowsInModal();
+    $('#exerciseLangTitleModal').on('change', 'select.toggle-langs', (e) => {
+        ToggleLangsRowsInModal();
     });
 
 
