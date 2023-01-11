@@ -27,25 +27,20 @@
             <div class="card mb-0">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-md-1 col-lg-1">
+                        <div class="col-md-2 col-lg-2">
                             <div class="row">
-                                <div class="col-6 col-6 px-1">
+                                <div class="col px-1">
                                     <button id="add-video" class="btn btn-sm btn-outline-success btn-block" title="{% trans "Add video" %}">+</button>
                                 </div>
-                                <div class="col-6 col-6 px-1">
-                                    <a href="#" class="btn btn-sm btn-outline-success btn-block disabled" title="{% trans "Parse video" %}">+</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-1 col-lg-1">
-                            <div class="row">
-                                <div class="col-7 px-1">
+                                <div class="col px-1">
                                     <button id="video-table-counter" class="btn btn-sm btn-warning btn-block font-weight-bold px-0">0</button>
                                 </div>
-                                <div class="col-5 px-1">
+                                <div class="col px-1">
                                     <button id="video-filters-clear" class="btn btn-sm btn-secondary btn-block font-weight-bold"><i class="fa fa-reply" aria-hidden="true"></i></button>
                                 </div>
+{#                                <div class="col-6 col-6 px-1">#}
+{#                                    <a href="#" class="btn btn-sm btn-outline-success btn-block disabled" title="{% trans "Parse video" %}">+</a>#}
+{#                                </div>#}
                             </div>
                         </div>
                         <div class="col-md-3 col-lg-3 px-1 form-select-sm">
@@ -91,12 +86,15 @@
                                 <!--<div class="col-4 px-1">
                                     <button id="exercise-video-format" class="btn btn-sm btn-warning btn-block font-weight-bold"><i class="fa fa-list" aria-hidden="true"></i></button>
                                 </div>-->
-                                <div class="col-6 px-1">
-                                    <button id="change-format" class="btn btn-sm btn-secondary btn-block font-weight-bold"><i class="fa fa-list" aria-hidden="true"></i></button>
+                                <div class="col px-1">
+                                    <button id="filter-video-favourites" class="btn btn-sm btn-secondary btn-block font-weight-bold" data-favourite="0"><i class="fa fa-star-o" aria-hidden="true"></i></button>
                                 </div>
-                                <div class="col-6 px-1">
-                                    <button id="video-settings" class="btn btn-sm btn-secondary btn-block font-weight-bold"><i class="fa fa-cog" aria-hidden="true"></i></button>
-                                </div>
+{#                                <div class="col px-1">#}
+{#                                    <button id="change-format" class="btn btn-sm btn-secondary btn-block font-weight-bold"><i class="fa fa-list" aria-hidden="true"></i></button>#}
+{#                                </div>#}
+{#                                <div class="col px-1">#}
+{#                                    <button id="video-settings" class="btn btn-sm btn-secondary btn-block font-weight-bold"><i class="fa fa-cog" aria-hidden="true"></i></button>#}
+{#                                </div>#}
                                 <!--<div class="col-3 px-1">
                                     <button id="video-delete" class="btn btn-sm btn-secondary btn-block font-weight-bold"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
                                 </div>-->

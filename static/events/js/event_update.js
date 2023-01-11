@@ -2,7 +2,7 @@
 async function ajax_event_action(method, data, action = '', id = '', func = '') {
     //if (!confirm(gettext('Apply action to event?'))) return false
     let url = "/events/api/action/"
-    if(id !== '') url += `${id}/`
+    if(id !== '' && id != 0) url += `${id}/`
     if(func !== '') url += `${func}/`
 
     $('.page-loader-wrapper').fadeIn();

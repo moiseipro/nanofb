@@ -66,7 +66,7 @@
                         <div class="col py-0">
                             <div class="row">
                                 <div class="col px-1">
-                                    <button id="#" title="" class="btn btn-block btn-outline-secondary btn-sm font-weight-bold"><i class="fa fa-star-o" aria-hidden="true"></i></button>
+                                    <button id="favourites-event-filter" data-filter="0" title="" class="btn btn-block btn-outline-secondary btn-sm font-weight-bold"><i class="fa fa-star-o" aria-hidden="true"></i></button>
                                 </div>
                                 <div class="col px-1">
                                     <button id="#" title="" class="btn btn-block btn-outline-secondary btn-sm font-weight-bold"><span class="icon-custom icon--share" style="--i-w: 1.1em; --i-h: 1.1em;"></span></button>
@@ -88,6 +88,17 @@
                     <div id="calendar-row" class="row">
                         <div class="col-12 px-0">
                             <div id="event_calendar" class="rescalendar"></div>
+                        </div>
+                    </div>
+                    <div id="filters-row" class="row pt-2">
+                        <div class="col px-0">
+                            <input type="search" class="form-control form-control-sm" placeholder="{% trans 'M.C.' %}">
+                        </div>
+                        <div class="col px-0">
+                            <input type="search" class="form-control form-control-sm" placeholder="{% trans 'Microcycle days' %}">
+                        </div>
+                        <div class="col-8 px-0">
+                            <input type="search" class="form-control form-control-sm" placeholder="{% trans 'Training objectives' %}">
                         </div>
                     </div>
                     {% include 'trainings/training_card.html' %}

@@ -65,13 +65,16 @@ function generate_ajax_video_table(scroll_y = ''){
                 }
             }},
             {'data': 'duration', "searchable": false},
-            {'data': 'favourites', "searchable": false, render: function (row, type, set, meta) {
-                console.log(row)
+            {'data': 'favourites', "searchable": true, 'name': 'favourites', render: function (row, type, set, meta) {
                 let view_data = ''
-                if(row){
-                    view_data+=`<i class="fa fa-star" aria-hidden="true"></i>`
-                } else {
-                    view_data+=`<i class="fa fa-star-o" aria-hidden="true"></i>`
+                if(type==='sort'){
+                    return row
+                }else{
+                    if(row){
+                        view_data+=`<i class="fa fa-star" aria-hidden="true"></i>`
+                    } else {
+                        view_data+=`<i class="fa fa-star-o" aria-hidden="true"></i>`
+                    }
                 }
                 return view_data
             }},
