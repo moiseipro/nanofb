@@ -207,6 +207,10 @@ LANGUAGE_CODE = 'ru'
 LANGUAGES = (
     ('ru', _('Russian')),
     ('en', _('English')),
+    ('pt', _('Portuguese')),
+    ('es', _('Spanish')),
+    ('de', _('German')),
+    ('fr', _('French'))
 )
 
 LOCALE_PATHS = (
