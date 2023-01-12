@@ -737,7 +737,8 @@ async function SetCurrentVideo(value) {
                     <td>${data.videosource_name}</td>
                     <td>${exsFoldersStr}</td>
                     <td>${data.duration}</td>
-                    <td>_</td>
+                    <td></td>
+                    <td></td>
                     <td>${data.name}</td>
                     <td>${tags}</td>
                 </tr>

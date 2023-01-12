@@ -1493,6 +1493,14 @@ def POST_edit_exs_user_params(request, cur_user, cur_team):
                 new_params = UserExerciseParam(exercise_nfb=c_exs[0], user=cur_user)
             elif folder_type == FOLDER_CLUB:
                 new_params = UserExerciseParam(exercise_club=c_exs[0], user=cur_user)
+            if post_key == "favorite":
+                c_exs = c_exs[0]
+                for video in c_exs.videos.all():
+                    video.favourites = post_value
+                    try:
+                        video.save()
+                    except:
+                        pass
             setattr(new_params, post_key, post_value)
             try:
                 new_params.save()
