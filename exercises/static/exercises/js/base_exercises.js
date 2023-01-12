@@ -405,6 +405,14 @@ function ToggleTagsView() {
     }
 }
 
+function ToggleLangsRowsInModal() {
+    let langs = $($('#exerciseLangTitleModal').find('select.toggle-langs')).val();
+    $('#exerciseLangTitleModal').find(`tr`).addClass('d-none');
+    langs.forEach(lang => {
+        $('#exerciseLangTitleModal').find(`tr[data-lang="${lang}"]`).removeClass('d-none');
+    });
+}
+
 
 
 $(function() {
@@ -593,6 +601,44 @@ $(function() {
         $(e.currentTarget).attr('data-state', state ? '0' : '1');
         $(e.currentTarget).toggleClass('selected2', !state);
         ToggleIconsInExs();
+    });
+    $('#changeAllExsLangInFolder').on('click', (e) => {
+        let folder = $('.folders-block').find('.list-group-item.active > div');
+        if (folder.length > 0) {
+            let cLangCode = $('#select-language').val();
+            $('#exercisesChangeLangTitleModal').find('select[name="current_language"]').val(cLangCode);
+            $('#exercisesChangeLangTitleModal').modal('show');
+        } else {
+            swal("Внимание", "Выберите папку с упражнениями.", "info");
+        }
+    });
+    $('#exercisesChangeLangTitleModal').on('click', '.btn-save', (e) => {
+        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
+        let newLangCode =  $('#exercisesChangeLangTitleModal').find('select[name="new_language"]').val();
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: {'edit_all_exs_titles': 1, 'f_type': folderType, folder, 'lang': newLangCode},
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "exercises_api",
+            success: function (res) {
+                if (res.success) {
+                    swal("Готово", "Упражнения изменены.", "success");
+                    $('#exercisesChangeLangTitleModal').modal('hide');
+                } else {
+                    swal("Ошибка", `При изменении упражнений произошла ошибка (${res.err}).`, "error");
+                }
+            },
+            error: function (res) {
+                swal("Ошибка", "Упражнения не удалось изменить!", "error");
+                console.log(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
     });
     
 
@@ -1225,20 +1271,47 @@ $(function() {
         let cLangCode = $(e.currentTarget).attr('data-lang');
         SaveExerciseFullName(exsId, folderType, 'title', cVal, cLangCode);
     });
-    $('#exerciseLangTitleModal').on('click', '.change-title-pos', (e) => {
+    $('#exerciseLangTitleModal').on('click', '.change-title-pos-prev', (e) => {
         let exsId = $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs');
         let folderType = $('.folders_div:not(.d-none)').attr('data-id');
         let cVal = $(e.currentTarget).parent().parent().find('input.exs-title').val();
         let cLangCode = $(e.currentTarget).parent().parent().find('input.exs-title').attr('data-lang');
-        let nextRow = $(e.currentTarget).parent().parent().next();
+        let prevRow = $(e.currentTarget).parent().parent().prevAll().not(".d-none").first();
+        if (prevRow.length == 0) {
+            prevRow = $('#exerciseLangTitleModal').find('div#collapse__exs_title').find('tr:not(.d-none)').last();
+        }
+        let prevVal = $(prevRow).find('input.exs-title').val();
+        let prevLangCode = $(prevRow).find('input.exs-title').attr('data-lang');
+        $(e.currentTarget).parent().parent().find('input.exs-title').val(prevVal);
+        $(prevRow).find('input.exs-title').val(cVal);
+        SaveExerciseFullName(exsId, folderType, 'title', prevVal, cLangCode, {'lang': prevLangCode, 'value': cVal});
+    });
+    $('#exerciseLangTitleModal').on('click', '.change-title-pos-next', (e) => {
+        let exsId = $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs');
+        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        let cVal = $(e.currentTarget).parent().parent().find('input.exs-title').val();
+        let cLangCode = $(e.currentTarget).parent().parent().find('input.exs-title').attr('data-lang');
+        let nextRow = $(e.currentTarget).parent().parent().nextAll().not(".d-none").first();
         if (nextRow.length == 0) {
-            nextRow = $('#exerciseLangTitleModal').find('div#collapse__exs_title').find('tr').first();
+            nextRow = $('#exerciseLangTitleModal').find('div#collapse__exs_title').find('tr:not(.d-none)').first();
         }
         let nextVal = $(nextRow).find('input.exs-title').val();
         let nextLangCode = $(nextRow).find('input.exs-title').attr('data-lang');
         $(e.currentTarget).parent().parent().find('input.exs-title').val(nextVal);
         $(nextRow).find('input.exs-title').val(cVal);
         SaveExerciseFullName(exsId, folderType, 'title', nextVal, cLangCode, {'lang': nextLangCode, 'value': cVal});
+    });
+    ToggleLangsRowsInModal();
+    $('#exerciseLangTitleModal').on('change', 'select.toggle-langs', (e) => {
+        ToggleLangsRowsInModal();
+    });
+    $('#exerciseLangTitleModal').on('click', 'button.toggle-langs-all', (e) => {
+        $('#exerciseLangTitleModal').find('select.toggle-langs > option').prop('selected', true);
+        $('#exerciseLangTitleModal').find('select.toggle-langs').trigger('change');
+    });
+    $('#exerciseLangTitleModal').on('click', 'button.toggle-langs-reset', (e) => {
+        $('#exerciseLangTitleModal').find('select.toggle-langs > option').prop('selected', false);
+        $('#exerciseLangTitleModal').find('select.toggle-langs').trigger('change');
     });
 
 

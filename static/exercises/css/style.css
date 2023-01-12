@@ -654,13 +654,13 @@ input[type=checkbox].video-check {
 }
 input[type=checkbox].video-check + span.label {
     display: inline-block;
+    color: rgb(20, 60, 200);
     min-width: 20px;
     min-height: 20px;
     max-width: 20px;
     max-height: 20px;
 }
 input[type=checkbox].video-check:checked + span.label {
-    background: rgb(48, 84, 228);
-    color: rgb(230, 230, 230);
+    color: rgb(0, 0, 0);
 }
 
