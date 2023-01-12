@@ -153,6 +153,7 @@ $(window).on('load', function (){
 
                 } else {
                     $('.hasEvent').removeClass('selected')
+                    $('#block-event-info .event-info').html('')
                 }
 
             } else {
@@ -509,7 +510,7 @@ function generateNewCalendar(){
     let favourites = parseInt($('#favourites-event-filter').attr('data-filter'))
 
     //(strDate)
-    //console.log(middleDay)
+    console.log(favourites)
 
     let from_date = undefined
     let to_date = undefined

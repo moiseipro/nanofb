@@ -287,6 +287,40 @@ class TrainingExerciseViewSet(viewsets.ModelViewSet):
             serializer = UserTrainingExerciseAdditionalSerializer(queryset, many=True)
         return Response({'status': 'data_got', 'objs': serializer.data})
 
+    @action(detail=True, methods=['delete'])
+    def delete_all_data(self, request, pk=None):
+        data = request.data
+
+        if self.request.user.club_id is not None:
+            training_exercise = ClubTrainingExercise.objects.get(id=pk)
+        else:
+            training_exercise = UserTrainingExercise.objects.get(id=pk)
+
+        print(pk)
+        training_exercise.additional.clear()
+        training_exercise.save()
+        return Response({'status': 'data_all_removed'})
+
+    @action(detail=True, methods=['delete'])
+    def delete_empty_data(self, request, pk=None):
+        data = request.data
+
+        if self.request.user.club_id is not None:
+            training_exercise = ClubTrainingExercise.objects.get(id=pk)
+            additionals = training_exercise.clubtrainingexerciseadditional_set.all()
+        else:
+            training_exercise = UserTrainingExercise.objects.get(id=pk)
+            additionals = training_exercise.usertrainingexerciseadditional_set.all()
+
+
+        print(additionals)
+        print(pk)
+        for additional in additionals:
+            if additional.note is None or additional.note == '':
+                additional.delete()
+
+        return Response({'status': 'data_empty_removed'})
+
     @action(detail=True, methods=['post'])
     def add_all_data(self, request, pk=None):
         data = request.data

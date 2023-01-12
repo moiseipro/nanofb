@@ -71,17 +71,58 @@ $(window).on('load', function (){
         let exercise_additional_id = cur_row.attr('data-id')
 
         let send_data = {}
+        ajax_training_exercise_data_action('DELETE', send_data, 'delete data', exercise_additional_id).done(function (data) {
+            //console.log(data)
+            cur_row.remove();
+        })
+        // swal(gettext("Remove an additional data from an exercise?"), {
+        //     buttons: {
+        //         cancel: true,
+        //         confirm: true,
+        //     },
+        // }).then(function(isConfirm) {
+        //     if (isConfirm) {
+        //         ajax_training_exercise_data_action('DELETE', send_data, 'delete data', exercise_additional_id).done(function (data) {
+        //             //console.log(data)
+        //             cur_row.remove();
+        //         })
+        //     }
+        // });
+    })
+    // Удаление всех/пустыъ дополнительных данных в упражнении
+    $('#training-content').on('click', '.delete-all-exercise-additional', function (){
+        let training_exercise_id = $('#training-content').find('.exs-filter-card.active').attr('data-id')
+
+        let send_data = {}
         swal(gettext("Remove an additional data from an exercise?"), {
             buttons: {
+                delete_all: {
+                    text: gettext("Delete all"),
+                    value: "all",
+                    className:'btn-danger'
+                },
+                delete_empty: {
+                    text: gettext("Delete empty"),
+                    value: "empty",
+                    className:'btn-warning'
+                },
                 cancel: true,
-                confirm: true,
             },
-        }).then(function(isConfirm) {
-            if (isConfirm) {
-                ajax_training_exercise_data_action('DELETE', send_data, 'delete data', exercise_additional_id).done(function (data) {
-                    //console.log(data)
-                    cur_row.remove();
-                })
+        }).then(function(value) {
+            switch (value) {
+                case "all":
+                    ajax_training_exercise_action('DELETE', send_data, 'delete all data', training_exercise_id, 'delete_all_data').then(function (data) {
+                        //console.log(data)
+                        load_exercises_additional_data(training_exercise_id)
+                    })
+                    break;
+                case "empty":
+                    ajax_training_exercise_action('DELETE', send_data, 'delete empty data', training_exercise_id, 'delete_empty_data').then(function (data) {
+                        //console.log(data)
+                        load_exercises_additional_data(training_exercise_id)
+                    })
+                    break;
+                default:
             }
         });
     })
@@ -365,8 +406,8 @@ function load_exercises_training_data(training_exercise_id = null) {
                         </div>
                         
                     </div>`
-                $('#training-exercise-description #descriptionExerciseView').html(descr)
             }
+            $('#training-exercise-description #descriptionExerciseView').html(descr)
         }
 
         let html_exs_data = ''

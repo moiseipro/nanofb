@@ -97,10 +97,13 @@
                 <div id="descriptionExerciseView" class="ckeditor"></div>
             </div>
         </div>
-        <div class="row exercise-data-row font-weight-bold training-exercise-name" data-toggle="collapse" data-target="#collapse-exercise-additional" style="cursor: pointer">
-            <div class="col text-center pt-1 px-0">Доп. Условия</div>
+        <div class="row exercise-data-row font-weight-bold training-exercise-name" style="cursor: pointer">
+            <div class="col text-center pt-1 px-0" data-toggle="collapse" data-target="#collapse-exercise-additional">Доп. Условия</div>
             <div class="col-1 text-center px-0 edit-button d-none">
                 <button type="button" class="btn btn-sm btn-block btn-success rounded-0 p-0 h-100 float-right add-exercise-additional"><i class="fa fa-plus" aria-hidden="true"></i></button>
+            </div>
+            <div class="col-1 text-center px-0 edit-button d-none">
+                <button type="button" class="btn btn-sm btn-block btn-danger rounded-0 p-0 h-100 float-right delete-all-exercise-additional" title="{% trans 'Delete all/empty data' %}"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
             </div>
         </div>
         <div id="collapse-exercise-additional" class="row exercise-data-row collapse show">
