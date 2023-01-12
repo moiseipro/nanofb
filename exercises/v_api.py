@@ -2098,6 +2098,49 @@ def POST_edit_exs_full_name(request, cur_user, cur_team):
     return JsonResponse({"data": res_data, "success": True}, status=200)
 
 
+def POST_edit_all_exs_titles(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on POST operation "Edit all exercises' titles from folder".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
+    folder_id = -1
+    folder_type = request.POST.get("f_type", "")
+    try:
+        folder_id = int(request.POST.get("folder", -1))
+    except:
+        pass
+    lang = request.POST.get("lang", "")
+    is_success = True
+    res_data = ""
+    if not cur_user.is_superuser:
+        return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    if folder_type == FOLDER_NFB:
+        c_folder = AdminFolder.objects.filter(id=folder_id, parent__isnull=False)
+        if not c_folder.exists() or c_folder[0].id == None:
+            return JsonResponse({"err": "Folder not found.", "success": False}, status=400)
+        c_exercises = AdminExercise.objects.filter(folder=c_folder[0])
+        for exercise in c_exercises:
+            exs_title = get_by_language_code(exercise.title, request.LANGUAGE_CODE)
+            exercise.title = set_by_language_code(exercise.title, request.LANGUAGE_CODE, "")
+            exercise.title = set_by_language_code(exercise.title, lang, exs_title)
+            try:
+                exercise.save()
+                res_data += f'Exs with id: [{exercise.id}] is edited successfully.'
+            except Exception as e:
+                res_data += f'Exs with id: [{exercise.id}] cant be edited. Err.'
+                is_success = False
+    return JsonResponse({"data": res_data, "success": is_success}, status=200)
+
+
 
 def GET_link_video_exs(request, cur_user, cur_team):
     """

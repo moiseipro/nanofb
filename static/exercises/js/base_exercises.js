@@ -602,6 +602,44 @@ $(function() {
         $(e.currentTarget).toggleClass('selected2', !state);
         ToggleIconsInExs();
     });
+    $('#changeAllExsLangInFolder').on('click', (e) => {
+        let folder = $('.folders-block').find('.list-group-item.active > div');
+        if (folder.length > 0) {
+            let cLangCode = $('#select-language').val();
+            $('#exercisesChangeLangTitleModal').find('select[name="current_language"]').val(cLangCode);
+            $('#exercisesChangeLangTitleModal').modal('show');
+        } else {
+            swal("Внимание", "Выберите папку с упражнениями.", "info");
+        }
+    });
+    $('#exercisesChangeLangTitleModal').on('click', '.btn-save', (e) => {
+        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
+        let newLangCode =  $('#exercisesChangeLangTitleModal').find('select[name="new_language"]').val();
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: {'edit_all_exs_titles': 1, 'f_type': folderType, folder, 'lang': newLangCode},
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "exercises_api",
+            success: function (res) {
+                if (res.success) {
+                    swal("Готово", "Упражнения изменены.", "success");
+                    $('#exercisesChangeLangTitleModal').modal('hide');
+                } else {
+                    swal("Ошибка", `При изменении упражнений произошла ошибка (${res.err}).`, "error");
+                }
+            },
+            error: function (res) {
+                swal("Ошибка", "Упражнения не удалось изменить!", "error");
+                console.log(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
+    });
     
 
     // Toggle draw, video, animation
@@ -1266,6 +1304,14 @@ $(function() {
     ToggleLangsRowsInModal();
     $('#exerciseLangTitleModal').on('change', 'select.toggle-langs', (e) => {
         ToggleLangsRowsInModal();
+    });
+    $('#exerciseLangTitleModal').on('click', 'button.toggle-langs-all', (e) => {
+        $('#exerciseLangTitleModal').find('select.toggle-langs > option').prop('selected', true);
+        $('#exerciseLangTitleModal').find('select.toggle-langs').trigger('change');
+    });
+    $('#exerciseLangTitleModal').on('click', 'button.toggle-langs-reset', (e) => {
+        $('#exerciseLangTitleModal').find('select.toggle-langs > option').prop('selected', false);
+        $('#exerciseLangTitleModal').find('select.toggle-langs').trigger('change');
     });
 
 

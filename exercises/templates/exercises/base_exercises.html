@@ -25,7 +25,10 @@
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" id="toggleExsID" title="Скрыть / Показать ID" style="--w-max-x:4%;">
                                                 ID
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" id="toggleExsLangName" title="Мультиязычность" style="--w-max-x:4%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" id="toggleExsLangName" title="Изменить название и описание упражнения на всех языках" style="--w-max-x:4%;">
+                                                <i class="fa fa-globe" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" id="changeAllExsLangInFolder" title="Сменить язык всем упражнениям из папки" style="--w-max-x:4%;">
                                                 <i class="fa fa-globe" aria-hidden="true"></i>
                                             </button>
                                         </div>
@@ -786,10 +789,7 @@
                                 {% get_language_info_list for LANGUAGES as languages %}
                                 <div class="col-12">
                                     <div class="row">
-                                        <div class="col-2">
-                                            Языки:
-                                        </div>
-                                        <div class="col-10">
+                                        <div class="col-9">
                                             <select name="" class="select w-100 custom-select custom-select-sm toggle-langs" multiple data-tags="true" data-theme="bootstrap4">
                                                 {% for language in languages %}
                                                 <option value="{{ language.code }}"
@@ -801,6 +801,14 @@
                                                 </option>
                                                 {% endfor %}
                                             </select>
+                                        </div>
+                                        <div class="col-3 px-0">
+                                            <button type="button" class="btn btn-secondary toggle-langs-all">
+                                                Выбрать всё
+                                            </button>
+                                            <button type="button" class="btn btn-secondary toggle-langs-reset">
+                                                Убрать всё
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -874,6 +882,56 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary btn-save" data-dismiss="modal">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="exercisesChangeLangTitleModal" tabindex="-1" role="dialog" aria-labelledby="exercisesChangeLangTitleModalLbl" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Перенести название с текущего языка на новый</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-8">
+                                        Текущий язык:
+                                    </div>
+                                    <div class="col-4">
+                                        <select name="current_language" class="form-control form-control-sm" disabled="">
+                                            {% for language in languages %}
+                                            <option value="{{ language.code }}">
+                                                {{ language.name_local }} ({{ language.code }})
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-8">
+                                        Новый язык:
+                                    </div>
+                                    <div class="col-4">
+                                        <select name="new_language" class="form-control form-control-sm">
+                                            {% for language in languages %}
+                                            <option value="{{ language.code }}">
+                                                {{ language.name_local }} ({{ language.code }})
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary btn-save">Сохранить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </div>
