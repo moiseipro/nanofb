@@ -1495,16 +1495,36 @@ $(function() {
     $('#downloadExs').on('click', (e) => {
         let activeExs = $('.exs-list-group').find('.list-group-item.active');
         if ($(activeExs).length > 0) {
-            let activeExsId = $(activeExs).attr('data-id');
-            let folderType = $('.folders_div:not(.d-none)').attr('data-id');
-            let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
-            window.open(
-                `/exercises/exercise_download?id=${activeExsId}&type=${folderType}`,
-                '_blank'
-            ).focus();
+            $('#exerciseDownloadModal').modal('show');
         } else {
             swal("Внимание", "Выберите упражнение для скачивания.", "info");
         }
+    });
+    $('#exerciseDownloadModal').on('show.bs.modal', (e) => {
+        $('#exerciseDownloadModal').find('input[type="checkbox"]').prop('checked', true);
+        $('#exerciseDownloadModal').find('.form-check.form-check-inline').removeClass('d-none');
+        let isScheme1Hide = $('#splitCol_2').find('#carouselSchema').find('.carousel-item').first().hasClass('d-none');
+        let isScheme2Hide = $('#splitCol_2').find('#carouselSchema').find('.carousel-item').last().hasClass('d-none');
+        let isVideo1Hide = $('#splitCol_2').find('#carouselVideo').find('.carousel-item').first().hasClass('d-none');
+        let isVideo2Hide = $('#splitCol_2').find('#carouselVideo').find('.carousel-item').last().hasClass('d-none');
+        let isAnimation1Hide = $('#splitCol_2').find('#carouselAnim').find('.carousel-item').first().hasClass('d-none');
+        let isAnimation2Hide = $('#splitCol_2').find('#carouselAnim').find('.carousel-item').last().hasClass('d-none');
+        $('#exerciseDownloadModal').find('input[type="checkbox"][name="scheme_1"]').parent().toggleClass('d-none', isScheme1Hide);
+        $('#exerciseDownloadModal').find('input[type="checkbox"][name="scheme_2"]').parent().toggleClass('d-none', isScheme2Hide);
+        $('#exerciseDownloadModal').find('input[type="checkbox"][name="video_1"]').parent().toggleClass('d-none', isVideo1Hide);
+        $('#exerciseDownloadModal').find('input[type="checkbox"][name="video_2"]').parent().toggleClass('d-none', isVideo2Hide);
+        $('#exerciseDownloadModal').find('input[type="checkbox"][name="animation_1"]').parent().toggleClass('d-none', isAnimation1Hide);
+        $('#exerciseDownloadModal').find('input[type="checkbox"][name="animation_2"]').parent().toggleClass('d-none', isAnimation2Hide);
+    });
+    $('#exerciseDownloadModal').on('click', 'button.btn-download', (e) => {
+        let activeExs = $('.exs-list-group').find('.list-group-item.active');
+        let activeExsId = $(activeExs).attr('data-id');
+        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
+        window.open(
+            `/exercises/exercise_download?id=${activeExsId}&type=${folderType}`,
+            '_blank'
+        ).focus();
     });
 
 
