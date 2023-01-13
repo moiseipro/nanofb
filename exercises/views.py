@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.db.models import Q, Count, F
 from users.models import User
 from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, ClubExercise, AdminExercise
@@ -9,6 +9,8 @@ from taggit.models import Tag
 from nanofootball.views import util_check_access
 import exercises.v_api as v_api
 from system_icons.views import get_ui_elements
+import io
+from _external_libs.nanofootball_presentation_maker.src import nf_presentation
 
 
 
@@ -146,6 +148,46 @@ def exercise(request):
         'teams_list': request.teams_list,
         'ui_elements': get_ui_elements(request)
     })
+
+
+def exercise_download(request):
+    """
+    Return render page with given template. 
+        If the user is not authorized, then there will be a redirect to the page with authorization.
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :return: Return an HttpResponse whose content is filled with the result of calling django.template.loader.render_to_string() with the passed arguments.
+    Next arguments:\n
+    * 'exs' -> Found exercise.
+    :rtype: [HttpResponse]
+
+    """
+    if not request.user.is_authenticated:
+        return redirect("authorization:login")
+    cur_user = User.objects.filter(email=request.user).only("club_id")
+    if not util_check_access(cur_user[0], 
+        {'perms_user': ["exercises.view_userexercise"], 'perms_club': ["exercises.view_clubexercise"]}
+    ):
+        return redirect("users:profile")
+    cur_team = -1
+    try:
+        cur_team = int(request.session['team'])
+    except:
+        pass
+    c_id = -1
+    try:
+        c_id = int(request.GET.get("id", -1))
+    except:
+        pass
+    folder_type = request.GET.get("type", "")
+    exs_json = v_api.GET_get_exs_one(request, cur_user[0], cur_team, additional={'f_type': folder_type, 'exs': c_id})
+    if exs_json is None:
+        return JsonResponse({"errors": "Can't find exercise"}, status=400)
+    
+    pptx_bytes = nf_presentation.from_single_exercise(input_data=exs_json)
+    response = HttpResponse(pptx_bytes, content_type='application/vnd.ms-powerpoint')
+    response['Content-Disposition'] = 'attachement; filename="out.pptx"'
+    return response
 
 
 def folders(request):

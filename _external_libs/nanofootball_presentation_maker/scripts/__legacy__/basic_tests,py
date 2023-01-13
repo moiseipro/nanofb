@@ -1,0 +1,72 @@
+import re
+
+from cairosvg import svg2png,svg2svg
+
+from nanofoot import ExercisesService,ExerciseInfo, Api
+
+def get_links(string) -> list[str]:
+    pattern=r'/static/[^\s]*\.svg'
+    matches=re.findall(pattern,string)
+    return [str(match) for match in matches]
+
+def replic(match:re.Match):
+    found_string=str(match.group(0))
+    #print(found_string)
+    res=("http://nanofootball.com"+str(found_string)) #.replace("/","\\")
+    #print(pathlib.Path(res).exists())
+    #print(res)
+    return res
+
+def replace_links(string) -> str:
+    pattern=r'/static/[^\s]*\.svg'
+    return re.sub(pattern,string=string,repl=replic )
+
+def fix_svg(svg_text:str):
+    svg_text=svg_text.replace('refx','refX')
+    svg_text=svg_text.replace('refy','refY')
+    svg_text=svg_text.replace('markerheight','markerHeight')
+    svg_text=svg_text.replace('markerwidth','markerWidth')
+    svg_text=svg_text.replace('viewbox','viewBox')
+    return svg_text
+
+exs_id=9649
+
+e=ExercisesService()[exs_id]
+#print(e.scheme_data)
+
+svg1:str=e.scheme_data[0]
+# links=get_links(svg1)
+
+
+# api=Api()
+
+# for link in links:
+#     resp=api.request(method='get',url='http://nanofootball.com'+link)
+#     path=pathlib.Path(link[1:])
+#     if not path.parent.exists():
+#         path.parent.mkdir(parents=True)
+
+#     with path.open('w',encoding='utf8') as f:
+#         f.write(resp.text)
+
+svg_text=replace_links(svg1) #.replace('height="100%"','height="400"').replace('width="100%"','width="600"')
+svg_text=fix_svg(svg_text)
+#replacing markers
+#svg_text=svg_text.replace('markerunits="userSpaceOnUse"','markerUnits="strokeWidth"')
+
+#f=StringIO(svg_text)
+
+# with open('temp.svg','w') as f:
+#     f.write(svg_text)
+
+# with open('svg.svg','w') as f_:
+#     f_.write(svg1.replace('/static','file:///f:/pycode/nf-presentation/static')) #.replace('height="100%"','height="400"').replace('width="100%"','width="600"'))
+
+#svg=svg2rlg('temp.svg')
+#renderPM.drawToFile(svg,'sc1.png',fmt='PNG')
+
+svg2png(bytestring=svg_text,write_to='output.png')
+svg2svg(bytestring=svg_text,write_to='output.svg')
+
+
+
