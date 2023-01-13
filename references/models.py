@@ -311,3 +311,9 @@ class CustomTag(AbstractReference):
 # Trainings
 class TrainingSpace(AbstractReference, MixTranslateReference):
     pass
+
+
+class TrainingAdditionalData(AbstractReference, MixTranslateReference):
+    class Meta(AbstractReference.Meta):
+        verbose_name = _('Training additional data')
+        verbose_name_plural = _('Training additional data')

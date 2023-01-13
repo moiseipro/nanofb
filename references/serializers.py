@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from references.models import VideoSource, UserTeam, UserSeason, ClubTeam, ClubSeason, TeamStatus, ExsAdditionalData, \
-    PlayerProtocolStatus, PlayerPosition, TrainingSpace
+    PlayerProtocolStatus, PlayerPosition, TrainingSpace, TrainingAdditionalData
 
 
 class PlayerPositionSerializer(serializers.ModelSerializer):
@@ -48,6 +48,16 @@ class TrainingSpaceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TrainingSpace
+        fields = (
+            'id', 'translation_names', 'name', 'short_name'
+        )
+
+
+class TrainingAdditionalDataSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = TrainingAdditionalData
         fields = (
             'id', 'translation_names', 'name', 'short_name'
         )

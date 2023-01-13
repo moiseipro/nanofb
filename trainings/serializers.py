@@ -3,7 +3,7 @@ from rest_framework import serializers
 from exercises.serializers import UserExerciseSerializer
 from players.serializers import UserPlayerSerializer
 from references.serializers import PlayerProtocolStatusSerializer, TrainingSpaceSerializer, \
-    UserTeamsSerializer, ClubTeamsSerializer
+    UserTeamsSerializer, ClubTeamsSerializer, TrainingAdditionalDataSerializer
 from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExerciseAdditional, UserTrainingProtocol, \
     ClubTrainingProtocol, ClubTrainingExercise
 
@@ -154,8 +154,7 @@ class TrainingSerializer(serializers.ModelSerializer):
         source='event_id.date',
         read_only=True
     )
-    space_info = TrainingSpaceSerializer(
-        source='space',
+    additional = TrainingAdditionalDataSerializer(
         read_only=True
     )
     trainer = UserSerializer(
@@ -165,7 +164,7 @@ class TrainingSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = (
-            'event_id', 'event_date', 'event_time', 'favourites', 'trainer', 'space', 'space_info', 'objectives'
+            'event_id', 'event_date', 'event_time', 'favourites', 'trainer', 'additional', 'objectives'
         )
         datatables_always_serialize = ('event_id',)
 
