@@ -278,7 +278,7 @@ class EventViewSet(viewsets.ModelViewSet):
         microcycle_before = self.request.query_params.get('to_date')
         microcycle_after = self.request.query_params.get('from_date')
         favourites = self.request.query_params.get('favourites')
-        print(favourites)
+        print(microcycle_before)
         team = self.request.session['team']
         if self.request.user.club_id is not None:
             season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
@@ -287,7 +287,7 @@ class EventViewSet(viewsets.ModelViewSet):
             else:
                 events = ClubEvent.objects.filter(Q(clubtraining__team_id=team) | Q(clubmatch__team_id=team))
 
-            events.filter(club_id=self.request.user.club_id,
+            events = events.filter(club_id=self.request.user.club_id,
                           date__gte=season[0].date_with,
                           date__lte=season[0].date_by)
         else:
@@ -297,9 +297,9 @@ class EventViewSet(viewsets.ModelViewSet):
             else:
                 events = UserEvent.objects.filter(Q(usertraining__team_id=team) | Q(usermatch__team_id=team))
 
-            events.filter(user_id=self.request.user,
-                          date__gte=season[0].date_with,
-                          date__lte=season[0].date_by)
+            events = events.filter(user_id=self.request.user,
+                                  date__gte=season[0].date_with,
+                                  date__lte=season[0].date_by)
 
         if microcycle_before is not None and microcycle_after is not None:
             events = events.filter(date__gte=microcycle_after,
