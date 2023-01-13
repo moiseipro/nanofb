@@ -1,0 +1,9 @@
+src/nf_presentation/__pycache__
+.vscode
+_local
+src/nf_presentation.*
+src/nf_presentation/__pycache__/*
+build
+dist
+upload_to_pypi.ps1
+

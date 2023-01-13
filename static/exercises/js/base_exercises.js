@@ -1491,6 +1491,23 @@ $(function() {
         ToggleTagsView();
     }
 
+    // Download exercise
+    $('#downloadExs').on('click', (e) => {
+        let activeExs = $('.exs-list-group').find('.list-group-item.active');
+        if ($(activeExs).length > 0) {
+            let activeExsId = $(activeExs).attr('data-id');
+            let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+            let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
+            window.open(
+                `/exercises/exercise_download?id=${activeExsId}&type=${folderType}`,
+                '_blank'
+            ).focus();
+        } else {
+            swal("Внимание", "Выберите упражнение для скачивания.", "info");
+        }
+    });
+
+
     // Toggle left menu
     setTimeout(() => {
         $('#toggle_btn').click();
