@@ -8,6 +8,8 @@ router.register(r'seasons', views.SeasonViewSet, basename="seasons")
 router.register(r'exercise_additional', views.ExsAdditionalViewSet, basename="exercise_additional")
 router.register(r'protocol_status', views.PlayerProtocolStatusViewSet, basename="protocol_status")
 router.register(r'training_space', views.TrainingSpaceViewSet, basename="training_space")
+router.register(r'training_additional', views.TrainingAdditionalDataViewSet, basename="training_additional")
+
 
 
 urlpatterns = [

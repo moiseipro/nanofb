@@ -33,6 +33,12 @@ class AbstractTraining(models.Model):
         null=True,
         blank=True,
     )
+    additional = models.JSONField(
+        verbose_name=_('additional'),
+        help_text=_('Additional training data'),
+        blank=True,
+        null=True
+    )
     objectives = models.JSONField(
         verbose_name=_('purposes'),
         help_text=_('Objectives for training groups'),
@@ -200,7 +206,6 @@ class ClubTrainingExerciseAdditional(AbstractTrainingExerciseAdditional):
         ExsAdditionalData,
         on_delete=models.CASCADE,
     )
-
 
 # PROTOCOL
 class AbstractTrainingProtocol(models.Model):

@@ -56,10 +56,19 @@ $(window).on('load', function (){
                     })
                     break;
                 case "all":
-                    ajax_training_exercise_action('POST', send_data, 'load data', training_exercise_id, 'add_all_data').then(function (data) {
-                        //console.log(data)
-                        load_exercises_additional_data(training_exercise_id)
-                    })
+                    swal(gettext("When uploading data, the existing ones will be reset."), {
+                        buttons: {
+                            cancel: true,
+                            confirm: true,
+                        },
+                    }).then(function(isConfirm) {
+                        if (isConfirm) {
+                            ajax_training_exercise_action('POST', send_data, 'load data', training_exercise_id, 'add_all_data').then(function (data) {
+                                //console.log(data)
+                                load_exercises_additional_data(training_exercise_id)
+                            })
+                        }
+                    });
                     break;
                 default:
             }
@@ -89,42 +98,55 @@ $(window).on('load', function (){
         //     }
         // });
     })
-    // Удаление всех/пустыъ дополнительных данных в упражнении
+    // Удаление всех/пустых дополнительных данных в упражнении
     $('#training-content').on('click', '.delete-all-exercise-additional', function (){
         let training_exercise_id = $('#training-content').find('.exs-filter-card.active').attr('data-id')
 
         let send_data = {}
-        swal(gettext("Remove an additional data from an exercise?"), {
+        swal(gettext("Delete all additional data from the exercise?"), {
             buttons: {
-                delete_all: {
-                    text: gettext("Delete all"),
-                    value: "all",
-                    className:'btn-danger'
-                },
-                delete_empty: {
-                    text: gettext("Delete empty"),
-                    value: "empty",
-                    className:'btn-warning'
-                },
                 cancel: true,
+                confirm: true,
             },
-        }).then(function(value) {
-            switch (value) {
-                case "all":
-                    ajax_training_exercise_action('DELETE', send_data, 'delete all data', training_exercise_id, 'delete_all_data').then(function (data) {
-                        //console.log(data)
-                        load_exercises_additional_data(training_exercise_id)
-                    })
-                    break;
-                case "empty":
-                    ajax_training_exercise_action('DELETE', send_data, 'delete empty data', training_exercise_id, 'delete_empty_data').then(function (data) {
-                        //console.log(data)
-                        load_exercises_additional_data(training_exercise_id)
-                    })
-                    break;
-                default:
+        }).then(function(isConfirm) {
+            if (isConfirm) {
+                ajax_training_exercise_action('DELETE', send_data, 'delete all data', training_exercise_id, 'delete_all_data').then(function (data) {
+                    //console.log(data)
+                    load_exercises_additional_data(training_exercise_id)
+                })
             }
         });
+        // swal(gettext("Remove an additional data from an exercise?"), {
+        //     buttons: {
+        //         delete_all: {
+        //             text: gettext("Delete all"),
+        //             value: "all",
+        //             className:'btn-danger'
+        //         },
+        //         delete_empty: {
+        //             text: gettext("Delete empty"),
+        //             value: "empty",
+        //             className:'btn-warning'
+        //         },
+        //         cancel: true,
+        //     },
+        // }).then(function(value) {
+        //     switch (value) {
+        //         case "all":
+        //             ajax_training_exercise_action('DELETE', send_data, 'delete all data', training_exercise_id, 'delete_all_data').then(function (data) {
+        //                 //console.log(data)
+        //                 load_exercises_additional_data(training_exercise_id)
+        //             })
+        //             break;
+        //         case "empty":
+        //             ajax_training_exercise_action('DELETE', send_data, 'delete empty data', training_exercise_id, 'delete_empty_data').then(function (data) {
+        //                 //console.log(data)
+        //                 load_exercises_additional_data(training_exercise_id)
+        //             })
+        //             break;
+        //         default:
+        //     }
+        // });
     })
     // Редактирование дополнительных данных в упражнении
     $('#training-exercise-additional').on('change', '.edit-input', function (){
@@ -134,6 +156,11 @@ $(window).on('load', function (){
         let send_data = {}
         send_data.additional_id = cur_row.find('[name="additional_id"]').val()
         send_data.note = cur_row.find('[name="note"]').val()
+        if(send_data.note){
+            cur_row.removeClass('edit-button')
+        } else {
+            cur_row.addClass('edit-button')
+        }
 
         ajax_training_exercise_data_action('PUT', send_data, 'update data', exercise_additional_id).done(function (data) {
             console.log(data)
@@ -227,24 +254,28 @@ function load_all_exercises_training(training_id = null, group = null) {
     ajax_training_action('GET', send_data, 'view card training', training_id).then(function (data) {
         console.log(data)
 
-        var select = ''
-        ajax_training_space('GET').then(function (training_space) {
-            let options = training_space.results;
-            let option_html = ''
-            $.each( options, function( key, option ) {
-                option_html+=`
-                    <option value="${ option.id }">${ (get_cur_lang() in option.translation_names) ? option.translation_names[get_cur_lang()] : Object.values(exercise.exercise_name)[0] }</option>
+
+        ajax_training_additional('GET').then(function (training_additional) {
+            var additional_data = ''
+            let additionals = training_additional.results;
+            console.log(additionals)
+            $.each( additionals, function( key, additional ) {
+                additional_data+=`
+                    <div class="row training-additional">
+                        <div class="col-6 border border-white bg-secondary text-white">${ (get_cur_lang() in additional.translation_names) ? additional.translation_names[get_cur_lang()] : Object.values(additional.translation_names)[0] }</div>
+                        <div class="col-6 px-0 border-bottom border-dark bg-light">
+                            <input type="text" name="note" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded edit-input training-additional-data" data-id="${additional.id}" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
+                        </div>
+                    </div>
                 `
             })
-            select = `
-                <select class="select custom-select p-0 edit-input text-center" tabindex="-1" aria-hidden="true" ${!edit_mode ? 'disabled' : ''} style="height: 25px; color: black !important;">
-                    ${ option_html }
-                </select>
-            `
-            $('#training-main-data .space-select').html(select)
-
-            $('#training-main-data .space-select select').val(data.space)
+            $('#training-additional-data div').html(additional_data)
         })
+        if(data.additional && data.additional != '' && data.additional.length>0){
+            for(let additional in data.additional){
+                $('#training-additional-data .training-additional-data[data-id="'+additional.id+'"]').val(additional.note)
+            }
+        }
 
         $('#training-main-data [name="date"]').val(data.event_date);
         $('#training-main-data [name="time"]').val(data.event_time);
@@ -502,12 +533,12 @@ function load_exercises_additional_data(training_exercise_id = null) {
             let additional_html = ''
             $.each( data.objs, function( key, additional ) {
                 additional_html = `
-                <div class="row exercise-additional-row" data-id="${additional.id}">
+                <div class="row exercise-additional-row ${additional.note ? '' : 'edit-button'} ${!additional.note && !edit_mode ? 'd-none' : ''}" data-id="${additional.id}">
                     <div class="col-5 px-0">
                         ${select}
                     </div>
                     <div class="col px-0">
-                        <input type="text" name="note" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded edit-input" value="${additional.note ? additional.note:''}" ${!edit_mode ? 'disabled' : ''}>
+                        <input type="text" name="note" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded edit-input" value="${additional.note ? additional.note : ''}" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
                     </div>
                     <div class="col-sm-12 col-md-1 px-0 edit-button ${!edit_mode ? 'd-none' : ''}">
                         <button type="button" class="btn btn-sm btn-block btn-danger rounded-0 p-0 h-100 float-right edit-input delete-exercise-additional" ${!edit_mode ? 'disabled' : ''}><i class="fa fa-trash" aria-hidden="true"></i></button>
