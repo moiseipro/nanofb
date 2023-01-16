@@ -25,60 +25,81 @@
                         <div class="col py-0">
                             <div class="row">
                                 <div class="col px-1">
-                                    <button id="event-add" title="{% trans 'Event' %}" data-toggle="modal" data-target="#form-event-modal" class="btn btn-block btn-outline-dark btn-sm font-weight-bold"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                    <button id="event-add" title="{% trans 'Event' %}" data-toggle="modal" data-target="#form-event-modal" class="btn btn-block btn-lightgray btn-sm font-weight-bold"><i class="fa fa-plus" aria-hidden="true"></i></button>
                                 </div>
                                 {% if perms.events.add_clubmicrocycles or perms.events.add_usermicrocycles %}
                                 <div class="col px-1">
-                                    <button id="microcycle" title="{% trans 'Microcycle' %}" data-toggle="modal" data-target="#microcycle-modal" class="btn btn-block btn-outline-success btn-sm font-weight-bold"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                    <button id="microcycle" title="{% trans 'Microcycle' %}" data-toggle="modal" data-target="#microcycle-modal" class="btn btn-block btn-lightgray btn-sm font-weight-bold text-success"><i class="fa fa-plus" aria-hidden="true"></i></button>
                                 </div>
                                 {% endif %}
                                 <div class="col px-1">
-                                    <button id="toggle-calendar" title="{% trans 'Show/Hide calendar' %}" class="btn btn-block btn-outline-dark btn-sm font-weight-bold"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+                                    <button id="open-select-exercise" title="{% trans 'Open the selected exercise' %}" class="btn btn-block btn-lightgray btn-sm font-weight-bold"><i class="fa fa-pencil" aria-hidden="true"></i></button>
                                 </div>
                                 <div class="col px-1">
-                                    <button id="open-select-exercise" title="{% trans 'Open the selected exercise' %}" class="btn btn-block btn-outline-warning btn-sm font-weight-bold"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                    <button id="toggle-calendar" title="{% trans 'Show/Hide calendar' %}" class="btn btn-block btn-lightgray btn-sm font-weight-bold"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
                                 </div>
                                 <div class="col px-1">
-                                    <button id="microcycle-match-day" title="{% trans 'M.C.' %}" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">M.C.</button>
+                                    <button title="{% trans 'Show/Hide events table' %}" class="btn btn-block btn-lightgray btn-sm font-weight-bold"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+                                </div>
+                                <div class="col px-1">
+                                    <button class="btn btn-block btn-lightgray btn-sm font-weight-bold"><i class="fa fa-file-text-o" aria-hidden="true"></i></button>
+                                </div>
+                                <div class="col px-1">
+                                    <button class="btn btn-block btn-lightgray btn-sm font-weight-bold"><i class="fa fa-user" aria-hidden="true"></i></button>
+                                </div>
+                                <div class="col px-1">
+                                    <button id="microcycle-match-day" title="{% trans 'M.C.' %}" class="btn btn-block btn-lightgray btn-sm font-weight-bold">M.C.</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 p-0" style="">
+                        <div class="col-2 p-0" style="">
                             <div class="row rescalendar_controls text-truncate text-center">
-                                <div class="col-3 pl-0 pr-1">
-                                    <button class="btn btn-block btn-secondary btn-sm move_to_last_month"> &lt;&lt; </button>
+                                <div class="col-6 pl-0 pr-1">
+                                    <button class="btn btn-block btn-lightgray btn-sm move_to_last_month"> &lt;&lt; </button>
                                 </div>
 {#                                <div class="col-2 px-0">#}
-{#                                    <button class="btn btn-block btn-secondary btn-sm move_to_yesterday"> &lt; </button>#}
+{#                                    <button class="btn btn-block btn-lightgray btn-sm move_to_yesterday"> &lt; </button>#}
 {#                                </div>#}
-                                <div class="col-6 px-0">
-                                    <button class="btn btn-block btn-secondary btn-sm font-weight-bold move_to_today"> --- </button>
+                                <div class="col px-0 d-none">
+                                    <button class="btn btn-block btn-lightgray btn-sm font-weight-bold move_to_today"> --- </button>
                                     <input class="refDate" type="text" value="" style="display:none;">
                                 </div>
 {#                                <div class="col-2 px-0">#}
-{#                                    <button class="btn btn-block btn-secondary btn-sm move_to_tomorrow"> &gt; </button>#}
+{#                                    <button class="btn btn-block btn-lightgray btn-sm move_to_tomorrow"> &gt; </button>#}
 {#                                </div>#}
-                                <div class="col-3 pl-1 pr-0">
-                                    <button class="btn btn-block btn-secondary btn-sm move_to_next_month"> &gt;&gt; </button>
+                                <div class="col-6 pl-1 pr-0">
+                                    <button class="btn btn-block btn-lightgray btn-sm move_to_next_month"> &gt;&gt; </button>
                                 </div>
                             </div>
                         </div>
                         <div class="col py-0">
                             <div class="row">
                                 <div class="col px-1">
-                                    <button id="favourites-event-filter" data-filter="0" title="" class="btn btn-block btn-outline-secondary btn-sm font-weight-bold"><i class="fa fa-star-o" aria-hidden="true"></i></button>
+                                    <button id="favourites-event-filter" data-filter="0" title="" class="btn btn-block btn-lightgray btn-sm font-weight-bold"><i class="fa fa-star-o" aria-hidden="true"></i></button>
                                 </div>
                                 <div class="col px-1">
-                                    <button id="#" title="" class="btn btn-block btn-outline-secondary btn-sm font-weight-bold"><span class="icon-custom icon--share" style="--i-w: 1.1em; --i-h: 1.1em;"></span></button>
+                                    <button id="#" title="" class="btn btn-block btn-lightgray btn-sm font-weight-bold"><i class="fa fa-comment-o" aria-hidden="true"></i></button>
                                 </div>
                                 <div class="col px-1">
-                                    <button id="#" title="" class="btn btn-block btn-outline-secondary btn-sm font-weight-bold"><span class="icon-custom icon--download" style="--i-w: 1.1em; --i-h: 1.1em;"></span></button>
+                                    <button id="#" title="" class="btn btn-block btn-lightgray btn-sm font-weight-bold"><b class="text-info">V</b></button>
                                 </div>
                                 <div class="col px-1">
-                                    <button id="event-copy-modal-button" title="" class="btn btn-block btn-outline-secondary btn-sm font-weight-bold"><span class="icon-custom icon--copy" style="--i-w: 1.1em; --i-h: 1.1em;"></span></button>
+                                    <button id="#" title="" class="btn btn-block btn-lightgray btn-sm font-weight-bold"><b class="text-danger">!</b></button>
                                 </div>
                                 <div class="col px-1">
-                                    <button id="delete-event-button" title="" class="btn btn-block btn-outline-danger btn-sm font-weight-bold"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                    <button id="#" title="" class="btn btn-block btn-lightgray btn-sm font-weight-bold"><span class="icon-custom icon--share" style="--i-w: 1.1em; --i-h: 1.1em;"></span></button>
+                                </div>
+                                <div class="col px-1">
+                                    <button id="event-copy-modal-button" title="" class="btn btn-block btn-lightgray btn-sm font-weight-bold"><span class="icon-custom icon--copy" style="--i-w: 1.1em; --i-h: 1.1em;"></span></button>
+                                </div>
+                                <div class="col px-1">
+                                    <button id="#" title="" class="btn btn-block btn-lightgray btn-sm font-weight-bold"><span class="icon-custom icon--download" style="--i-w: 1.1em; --i-h: 1.1em;"></span></button>
+                                </div>
+                                <div class="col px-1">
+                                    <button id="#" title="" class="btn btn-block btn-lightgray btn-sm font-weight-bold"><i class="fa fa-print" aria-hidden="true"></i></button>
+                                </div>
+                                <div class="col px-1">
+                                    <button id="delete-event-button" title="" class="btn btn-block btn-lightgray btn-sm font-weight-bold text-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -123,23 +144,6 @@
                             </div>
                         </div>
                         <div class="col-8" id="block-event-info">
-                            <!--<div class="row pt-2 mb-2">
-                                <div class="col px-1">
-                                    <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Упражнения</button>
-                                </div>
-                                <div class="col px-1">
-                                    <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Статистика</button>
-                                </div>
-                                <div class="col px-1">
-                                    <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Протокол</button>
-                                </div>
-                                <div class="col px-1">
-                                    <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Аналитика</button>
-                                </div>
-                                <div class="col px-1">
-                                    <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">Видео</button>
-                                </div>
-                            </div>-->
                             <div class="row event-info" style="overflow-y: auto; overflow-x: hidden">
                             </div>
                         </div>

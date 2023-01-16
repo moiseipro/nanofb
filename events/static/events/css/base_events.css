@@ -26,3 +26,14 @@ a.matchButton1 {
     color: #000 !important;
     font-size: 2.5em;
 }
+
+.btn-lightgray{
+    color: #fff;
+    background-color: #d5d5d5;
+    border: 2px solid rgb(100, 100, 100) !important;
+    color: #5a6268;
+}
+
+.btn-lightgray:hover{
+    background-color: #a6a6a6;
+}
