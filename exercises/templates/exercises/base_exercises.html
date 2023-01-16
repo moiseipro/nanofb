@@ -938,6 +938,62 @@
             </div>
         </div>
 
+        <div class="modal fade" id="exerciseDownloadModal" tabindex="-1" role="dialog" aria-labelledby="exerciseDownloadModalLbl" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Скачать упражнение</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12 create-block">
+                                <div class="row mt-1">
+                                    <div class="col-12">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="checkboxScheme1" name="scheme_1" value="">
+                                            <label class="form-check-label" for="checkboxScheme1">Схема 1</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="checkboxScheme2" name="scheme_2" value="">
+                                            <label class="form-check-label" for="checkboxScheme2">Схема 2</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="checkboxVideo1" name="video_1" value="">
+                                            <label class="form-check-label" for="checkboxVideo1">Видео 1</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="checkboxVideo2" name="video_2" value="">
+                                            <label class="form-check-label" for="checkboxVideo2">Видео 2</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="checkboxAnimation1" name="animation_1" value="">
+                                            <label class="form-check-label" for="checkboxAnimation1">Анимация 1</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="checkboxAnimation2" name="animation_2" value="">
+                                            <label class="form-check-label" for="checkboxAnimation2">Анимация 2</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="checkboxDescription" name="description" value="">
+                                            <label class="form-check-label" for="checkboxDescription">Описание</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="checkboxDescriptionSecondList" name="description_second_list" value="">
+                                            <label class="form-check-label" for="checkboxDescriptionSecondList">Описание (на отдельный лист)</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary btn-download">Скачать</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         {% include "exercises/modules/exercise_graphic_modal.html" %}
 
     </main>

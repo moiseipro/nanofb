@@ -117,6 +117,17 @@ function LoadGraphicsModal(id = -1, f_type="team_folders", activeNum = 1) {
     });
 }
 function RenderGraphicsModal(data = null, activeNum = 1) {
+    let activeExs = $('.exercises-list').find('.exs-elem.active');
+    let videoWatched_1 = undefined;
+    let videoWatched_2 = undefined;
+    let animationWatched_1 = undefined;
+    let animationWatched_2 = undefined;
+    if ($(activeExs).length > 0) {
+        videoWatched_1 = $(activeExs).find('button.btn-marker[data-id="video_1_watched"] > input').prop('checked');
+        videoWatched_2 = $(activeExs).find('button.btn-marker[data-id="video_2_watched"] > input').prop('checked');
+        animationWatched_1 = $(activeExs).find('button.btn-marker[data-id="animation_1_watched"] > input').prop('checked');
+        animationWatched_2 = $(activeExs).find('button.btn-marker[data-id="animation_2_watched"] > input').prop('checked');
+    }
     window.videoPlayerClones = [];
     let htmlStr = `
         ${data && data.scheme_1 && data.scheme_1 != "" ? `
@@ -154,6 +165,16 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
                     <source src="https://www.youtube.com/watch?v=${data.video_1['links']['youtube']}" type="video/youtube" />
                 </video>
             ` : ''}
+            ${videoWatched_1 !== undefined ? `
+                <div class="row mb-2">
+                    <div class="col-1 pr-0">
+                        <input type="checkbox" class="video-watched" ${videoWatched_1 === true ? 'checked=""' : ''} data-id="video_1_watched">
+                    </div>
+                    <div class="col-11 pl-0">
+                        Смотрел
+                    </div>
+                </div>
+            ` : ''}
         </div>
         ` : ''}
         ${data && data.video_2 && data.video_2.id != -1 ? `
@@ -166,6 +187,16 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
                 <video id="video-player-modal-1" class="video-js resize-block video-modal" poster="">
                     <source src="https://www.youtube.com/watch?v=${data.video_2['links']['youtube']}" type="video/youtube" />
                 </video>
+            ` : ''}
+            ${videoWatched_2 !== undefined ? `
+                <div class="row mb-2">
+                    <div class="col-1 pr-0">
+                        <input type="checkbox" class="video-watched" ${videoWatched_2 === true ? 'checked=""' : ''} data-id="video_2_watched">
+                    </div>
+                    <div class="col-11 pl-0">
+                        Смотрел
+                    </div>
+                </div>
             ` : ''}
         </div>
         ` : ''}
@@ -180,6 +211,16 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
                     <source src="https://www.youtube.com/watch?v=${data.animation_1['links']['youtube']}" type="video/youtube" />
                 </video>
             ` : ''}
+            ${animationWatched_1 !== undefined ? `
+                <div class="row mb-2">
+                    <div class="col-1 pr-0">
+                        <input type="checkbox" class="video-watched" ${animationWatched_1 === true ? 'checked=""' : ''} data-id="animation_1_watched">
+                    </div>
+                    <div class="col-11 pl-0">
+                        Смотрел
+                    </div>
+                </div>
+            ` : ''}
         </div>
         ` : ''}
         ${data && data.animation_2 && data.animation_2.id != -1 ? `
@@ -192,6 +233,16 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
                 <video id="video-player-modal-3" class="video-js resize-block video-modal" poster="">
                     <source src="https://www.youtube.com/watch?v=${data.animation_2['links']['youtube']}" type="video/youtube" />
                 </video>
+            ` : ''}
+            ${animationWatched_2 !== undefined ? `
+                <div class="row mb-2">
+                    <div class="col-1 pr-0">
+                        <input type="checkbox" class="video-watched" ${animationWatched_2 === true ? 'checked=""' : ''} data-id="animation_2_watched">
+                    </div>
+                    <div class="col-11 pl-0">
+                        Смотрел
+                    </div>
+                </div>
             ` : ''}
         </div>
         ` : ''}

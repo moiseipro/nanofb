@@ -1145,10 +1145,11 @@ $(function() {
 
     // Toggle marker for exercise
     $('.exercises-block').on('click', 'button[data-type="marker"]', (e) => {
-        let exsId = $(e.currentTarget).parent().parent().parent().attr('data-id');
+        let currentTarget = e.currentTarget;
+        let exsId = $(currentTarget).parent().parent().parent().attr('data-id');
         let fromNFB = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? 1 : 0;
-        let cId = $(e.currentTarget).attr('data-id');
-        let state = $(e.currentTarget).hasClass('selected');
+        let cId = $(currentTarget).attr('data-id');
+        let state = $(currentTarget).hasClass('selected');
         let folderType = $('.folders_div:not(.d-none)').attr('data-id');
         let dataToSend = {'edit_exs_user_params': 1, 'exs': exsId, 'nfb': fromNFB, 'type': folderType, 'data': {'key': cId, 'value': state ? 0 : 1}};
         $('.page-loader-wrapper').fadeIn();
@@ -1163,24 +1164,24 @@ $(function() {
                     swal("Ошибка", `При изменении параметра произошла ошибка (${res.err}).`, "error");
                 } else {
                     if (cId == "watched") {
-                        $(e.currentTarget).parent().find('button[data-type="marker"][data-id="watched_not"]').toggleClass('selected', false);
+                        $(currentTarget).parent().find('button[data-type="marker"][data-id="watched_not"]').toggleClass('selected', false);
                     }
                     if (cId == "watched_not") {
-                        $(e.currentTarget).parent().find('button[data-type="marker"][data-id="watched"]').toggleClass('selected', false);
+                        $(currentTarget).parent().find('button[data-type="marker"][data-id="watched"]').toggleClass('selected', false);
                     }
                     if (cId == "like") {
-                        $(e.currentTarget).parent().find('button[data-type="marker"][data-id="dislike"]').toggleClass('selected', false);
+                        $(currentTarget).parent().find('button[data-type="marker"][data-id="dislike"]').toggleClass('selected', false);
                     }
                     if (cId == "dislike") {
-                        $(e.currentTarget).parent().find('button[data-type="marker"][data-id="like"]').toggleClass('selected', false);
+                        $(currentTarget).parent().find('button[data-type="marker"][data-id="like"]').toggleClass('selected', false);
                     }
-                    $(e.currentTarget).toggleClass('selected', res.data.value == 1);
-                    if ($(e.currentTarget).find('input').length > 0) {
-                        $(e.currentTarget).find('input').prop('checked', res.data.value == 1);
+                    $(currentTarget).toggleClass('selected', res.data.value == 1);
+                    if ($(currentTarget).find('input').length > 0) {
+                        $(currentTarget).find('input').prop('checked', res.data.value == 1);
                     }
-                    if ($(e.currentTarget).find('span.icon-custom').length > 0) {
-                        $(e.currentTarget).find('span.icon-custom').toggleClass('icon--favorite', res.data.value != 1);
-                        $(e.currentTarget).find('span.icon-custom').toggleClass('icon--favorite-selected', res.data.value == 1);
+                    if ($(currentTarget).find('span.icon-custom').length > 0) {
+                        $(currentTarget).find('span.icon-custom').toggleClass('icon--favorite', res.data.value != 1);
+                        $(currentTarget).find('span.icon-custom').toggleClass('icon--favorite-selected', res.data.value == 1);
                     }
                 }
             },
@@ -1442,6 +1443,12 @@ $(function() {
     $('#exerciseGraphicsModal').on('click', '.carousel-control-next', (e) => {
         StopAllVideos();
     });
+    $('#exerciseGraphicsModal').on('click', '.video-watched', (e) => {
+        let activeExs = $('.exercises-list').find('.exs-elem.active');
+        if ($(activeExs).length <= 0) {return;}
+        let cId = $(e.currentTarget).attr('data-id');
+        $(activeExs).find(`button.btn-marker[data-type="marker"][data-id="${cId}"]`).first().click();
+    });
 
     // Save & Load current folders mode
     window.addEventListener("beforeunload", (e) => {
@@ -1495,16 +1502,50 @@ $(function() {
     $('#downloadExs').on('click', (e) => {
         let activeExs = $('.exs-list-group').find('.list-group-item.active');
         if ($(activeExs).length > 0) {
-            let activeExsId = $(activeExs).attr('data-id');
-            let folderType = $('.folders_div:not(.d-none)').attr('data-id');
-            let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
-            window.open(
-                `/exercises/exercise_download?id=${activeExsId}&type=${folderType}`,
-                '_blank'
-            ).focus();
+            $('#exerciseDownloadModal').modal('show');
         } else {
             swal("Внимание", "Выберите упражнение для скачивания.", "info");
         }
+    });
+    $('#exerciseDownloadModal').on('show.bs.modal', (e) => {
+        $('#exerciseDownloadModal').find('input[type="checkbox"]').prop('checked', true);
+        $('#exerciseDownloadModal').find('.form-check.form-check-inline').removeClass('d-none');
+        let isScheme1Hide = $('#splitCol_2').find('#carouselSchema').find('.carousel-item').first().hasClass('d-none');
+        let isScheme2Hide = $('#splitCol_2').find('#carouselSchema').find('.carousel-item').last().hasClass('d-none');
+        let isVideo1Hide = $('#splitCol_2').find('#carouselVideo').find('.carousel-item').first().hasClass('d-none');
+        let isVideo2Hide = $('#splitCol_2').find('#carouselVideo').find('.carousel-item').last().hasClass('d-none');
+        let isAnimation1Hide = $('#splitCol_2').find('#carouselAnim').find('.carousel-item').first().hasClass('d-none');
+        let isAnimation2Hide = $('#splitCol_2').find('#carouselAnim').find('.carousel-item').last().hasClass('d-none');
+        $('#exerciseDownloadModal').find('input[type="checkbox"][name="scheme_1"]').parent().toggleClass('d-none', isScheme1Hide);
+        $('#exerciseDownloadModal').find('input[type="checkbox"][name="scheme_2"]').parent().toggleClass('d-none', isScheme2Hide);
+        $('#exerciseDownloadModal').find('input[type="checkbox"][name="video_1"]').parent().toggleClass('d-none', isVideo1Hide);
+        $('#exerciseDownloadModal').find('input[type="checkbox"][name="video_2"]').parent().toggleClass('d-none', isVideo2Hide);
+        $('#exerciseDownloadModal').find('input[type="checkbox"][name="animation_1"]').parent().toggleClass('d-none', isAnimation1Hide);
+        $('#exerciseDownloadModal').find('input[type="checkbox"][name="animation_2"]').parent().toggleClass('d-none', isAnimation2Hide);
+    });
+    $('#exerciseDownloadModal').on('click', 'button.btn-download', (e) => {
+        let activeExs = $('.exs-list-group').find('.list-group-item.active');
+        let activeExsId = $(activeExs).attr('data-id');
+        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
+        let schemeRender_1 = $('#exerciseDownloadModal').find('input[name="scheme_1"]:visible').prop('checked') ? 1 : 0;
+        let schemeRender_2 = $('#exerciseDownloadModal').find('input[name="scheme_2"]:visible').prop('checked') ? 1 : 0;
+        let videoRender_1 = $('#exerciseDownloadModal').find('input[name="video_1"]:visible').prop('checked') ? 1 : 0;
+        let videoRender_2 = $('#exerciseDownloadModal').find('input[name="video_2"]:visible').prop('checked') ? 1 : 0;
+        let animationRender_1 = $('#exerciseDownloadModal').find('input[name="animation_1"]:visible').prop('checked') ? 1 : 0;
+        let animationRender_2 = $('#exerciseDownloadModal').find('input[name="animation_2"]:visible').prop('checked') ? 1 : 0;
+        let descriptionRender = $('#exerciseDownloadModal').find('input[name="description"]:visible').prop('checked') ? 1 : 0;
+        let descriptionSecondRender = $('#exerciseDownloadModal').find('input[name="description_second_list"]:visible').prop('checked') ? 1 : 0;
+        let renderOptions = {
+            'scheme_1': schemeRender_1, 'scheme_2': schemeRender_2, 'video_1': videoRender_1, 'video_2': videoRender_2,
+            'animation_1': animationRender_1, 'animation_2': animationRender_2, 'description': descriptionRender,
+            'description_second': descriptionSecondRender
+        };
+        renderOptions = JSON.stringify(renderOptions);
+        window.open(
+            `/exercises/exercise_download?id=${activeExsId}&type=${folderType}&render=${renderOptions}`,
+            '_blank'
+        ).focus();
     });
 
 

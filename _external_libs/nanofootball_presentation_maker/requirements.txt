@@ -1,5 +1,0 @@
-#cairocffi @ http://www.lfd.uci.edu/~gohlke/pythonlibs/#cairocffi
-#maybe we need cairo cffi dependency for linux too
-python-pptx
-CairoSVG # and pip install pipwin && pipwin install cairocffi
-html2text

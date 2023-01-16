@@ -9,8 +9,8 @@ from taggit.models import Tag
 from nanofootball.views import util_check_access
 import exercises.v_api as v_api
 from system_icons.views import get_ui_elements
-import io
-from _external_libs.nanofootball_presentation_maker.src import nf_presentation
+from nf_presentation import from_single_exercise as nf_presentation__from_single_exercise
+import json
 
 
 
@@ -180,11 +180,15 @@ def exercise_download(request):
     except:
         pass
     folder_type = request.GET.get("type", "")
+    render_options = {}
+    try:
+        render_options = json.loads(request.GET.get("render", "{}"))
+    except:
+        pass
     exs_json = v_api.GET_get_exs_one(request, cur_user[0], cur_team, additional={'f_type': folder_type, 'exs': c_id})
     if exs_json is None:
         return JsonResponse({"errors": "Can't find exercise"}, status=400)
-    
-    pptx_bytes = nf_presentation.from_single_exercise(input_data=exs_json)
+    pptx_bytes = nf_presentation__from_single_exercise(input_data=exs_json, render_options=render_options)
     response = HttpResponse(pptx_bytes, content_type='application/vnd.ms-powerpoint')
     response['Content-Disposition'] = 'attachement; filename="out.pptx"'
     return response
