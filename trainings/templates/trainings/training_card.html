@@ -30,54 +30,78 @@
         <div class="row training-data-row font-weight-bold training-exercise-name">
             <div class="col text-center pt-1 px-0">Тренировка</div>
         </div>
-        <div id="training-main-data" class="row text-center training-data-row">
+        <div id="training-main-data" class="row training-data-row">
             <div class="col-12">
                 <div class="row">
-                    <div class="col-6 border border-white bg-secondary text-white">Дата</div>
+                    <div class="col-6 border border-white bg-lightgray text-dark text-uppercase font-weight-bold text-left">Дата</div>
                     <div class="col-6 px-0 border-bottom border-dark bg-light">
                         <input type="text" name="date" class="form-control form-control-sm rounded-0 py-0 h-auto text-center datetimepicker edit-input" data-toggle="datetimepicker" value="" placeholder="{% trans "Date" %}" disabled>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-6 border border-white bg-secondary text-white">Время</div>
+                    <div class="col-6 border border-white bg-lightgray text-dark text-uppercase font-weight-bold text-left">Время</div>
                     <div class="col-6 px-0 border-bottom border-dark bg-light">
                         <input type="text" name="time" class="form-control form-control-sm rounded-0 py-0 h-auto text-center timepicker edit-input" data-toggle="datetimepicker" value="" disabled>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-6 border border-white bg-secondary text-white">Команда</div>
-                    <div class="col-6 px-0 border-bottom border-dark bg-light team-name">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6 border border-white bg-secondary text-white">Тренер</div>
-                    <div class="col-6 px-0 border-bottom border-dark bg-light trainer-select">
+                    <div class="col-6 border border-white bg-lightgray text-dark text-uppercase font-weight-bold text-left">Тренер</div>
+                    <div class="col-6 px-0 border-bottom border-dark bg-light text-center trainer-select">
 
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-6 border border-white bg-secondary text-white">Время t`</div>
-                    <div class="col-6 px-0 border-bottom border-dark bg-light all-exercise-time">
+                    <div class="col-6 border border-white bg-lightgray text-dark text-uppercase font-weight-bold text-left">Команда</div>
+                    <div class="col-6 px-0 border-bottom border-dark bg-light text-center team-name">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 border border-white bg-lightgray text-dark text-uppercase font-weight-bold text-left">Количество игроков</div>
+                    <div class="col-6 px-0 border-bottom border-dark bg-light text-center training-players">
 
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-6 border border-white bg-secondary text-white">Полевые игроки</div>
-                    <div class="col-6 px-0 border-bottom border-dark bg-light training-players">
+                    <div class="col-6 border border-white bg-lightgray text-dark text-uppercase font-weight-bold text-left">Вратари</div>
+                    <div class="col-6 px-0 border-bottom border-dark bg-light text-center training-goalkeepers">
 
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-6 border border-white bg-secondary text-white">Вратари</div>
-                    <div class="col-6 px-0 border-bottom border-dark bg-light training-goalkeepers">
+                    <div class="col-6 border border-white bg-lightgray text-dark text-uppercase font-weight-bold text-left">Продолжительность</div>
+                    <div class="col-6 px-0 border-bottom border-dark bg-light text-center all-exercise-time">
 
                     </div>
                 </div>
-            </div>
-        </div>
-        <div id="training-additional-data" class="row text-center training-data-row">
-            <div class="col-12">
+                <div id="training-additional-data" class="row text-center training-data-row">
+                    <div class="col-12">
 
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 border border-white bg-lightgray text-dark text-uppercase font-weight-bold text-left">Размер поля</div>
+                    <div class="col-6 px-0 border-bottom border-dark bg-light text-center training-field-size">
+                        <input type="text" name="filed_size" class="form-control form-control-sm rounded-0 py-0 h-auto text-center edit-input" value="" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 border border-white bg-lightgray text-dark text-uppercase font-weight-bold text-left">Тип нагрузки</div>
+                    <div class="col-6 px-0 border-bottom border-dark bg-light text-center training-load-type">
+                        <input type="text" name="load_type" class="form-control form-control-sm rounded-0 py-0 h-auto text-center edit-input" value="" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 border border-white bg-lightgray text-dark text-uppercase font-weight-bold text-left">Ключевые слова</div>
+                    <div class="col-6 px-0 border-bottom border-dark bg-light text-center training-keywords-1">
+                        <input type="text" name="keywords_1" class="form-control form-control-sm rounded-0 py-0 h-auto text-center edit-input" value="" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 border border-white bg-lightgray text-dark text-uppercase font-weight-bold text-left">Ключевые слова</div>
+                    <div class="col-6 px-0 border-bottom border-dark bg-light text-center training-keywords-2">
+                        <input type="text" name="keywords_2" class="form-control form-control-sm rounded-0 py-0 h-auto text-center edit-input" value="" disabled>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row exercise-data-row font-weight-bold training-exercise-name" data-toggle="collapse" data-target="#collapse-exercise-description" style="cursor: pointer">
@@ -123,12 +147,12 @@
         </div>
     </div>
     <div class="col-8" id="block-training-info" style="overflow-y: auto; overflow-x: hidden">
-        <div class="row training-data-row">
-            <div class="col-12 btn btn-sm btn-info border border-light">1. Совершенствование атаки по центру с завершающим ударом по воротам</div>
-        </div>
-        <div class="row training-data-row">
-            <div class="col-12 btn btn-sm btn-info border border-light">2. Скоростные качества</div>
-        </div>
+{#        <div class="row training-data-row">#}
+{#            <div class="col-12 btn btn-sm btn-info border border-light">1. Совершенствование атаки по центру с завершающим ударом по воротам</div>#}
+{#        </div>#}
+{#        <div class="row training-data-row">#}
+{#            <div class="col-12 btn btn-sm btn-info border border-light">2. Скоростные качества</div>#}
+{#        </div>#}
         <div class="row training-info">
         </div>
     </div>

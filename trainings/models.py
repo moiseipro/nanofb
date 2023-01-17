@@ -25,11 +25,31 @@ class AbstractTraining(models.Model):
         help_text=_('Favorites training'),
         default=0
     )
-    space = models.ForeignKey(
-        TrainingSpace,
-        verbose_name=_('space'),
-        help_text=_('Training space'),
-        on_delete=models.SET_NULL,
+    field_size = models.CharField(
+        max_length=255,
+        verbose_name=_('field size'),
+        help_text=_('The size of the field in training'),
+        null=True,
+        blank=True,
+    )
+    load_type = models.CharField(
+        max_length=255,
+        verbose_name=_('load type'),
+        help_text=_('Type of training load'),
+        null=True,
+        blank=True,
+    )
+    keywords_1 = models.CharField(
+        max_length=255,
+        verbose_name=_('Keywords'),
+        help_text=_('Keywords in training'),
+        null=True,
+        blank=True,
+    )
+    keywords_2 = models.CharField(
+        max_length=255,
+        verbose_name=_('Keywords'),
+        help_text=_('Keywords in training'),
         null=True,
         blank=True,
     )

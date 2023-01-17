@@ -37,3 +37,8 @@ a.matchButton1 {
 .btn-lightgray:hover{
     background-color: #a6a6a6;
 }
+
+.btn-lightgray.active {
+    background-color: #cdffcf !important;
+    border-color: #4CAF50 !important;
+}

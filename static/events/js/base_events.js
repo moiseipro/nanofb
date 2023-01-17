@@ -281,6 +281,9 @@ $(window).on('load', function (){
         data['date'] = data['date']+' '+data['time']
         ajax_event_action($(this).attr('method'), data, 'update', cur_edit_data ? cur_edit_data.id : 0).then(function( data ) {
             //if(events_table) events_table.ajax.reload()
+            console.log(data)
+            let link = 'training' in data && data.training != null ? '/trainings/view/'+data.id : 'match' in data && data.match != null ? '/matches/match?id='+data.id : ''
+            $('#event-edit-link').html(`<a href="${link}" class="btn btn-warning btn-block">${gettext('Go to the created event')}</a>`)
             generateNewCalendar()
         })
     })
@@ -370,8 +373,13 @@ $(window).on('load', function (){
     //Фильтрация событий по избранному
     $('#favourites-event-filter').on('click', function () {
         let cur_fav = parseInt($(this).attr('data-filter'))
-        if (cur_fav>2) cur_fav = 0
-        else cur_fav += 1
+        if (cur_fav>2) {
+            cur_fav = 0
+            $(this).removeClass('active')
+        } else {
+            cur_fav += 1
+            $(this).addClass('active')
+        }
         if (cur_fav == 1) $('#favourites-event-filter i').removeClass(`fa-star-o`).addClass(`fa-star text-success`)
         else if (cur_fav == 2) $('#favourites-event-filter i').removeClass(`text-success`).addClass(`fa-star text-warning`)
         else if (cur_fav == 3) $('#favourites-event-filter i').removeClass(`text-warning`).addClass(`fa-star text-danger`)

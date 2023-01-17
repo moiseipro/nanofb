@@ -60,13 +60,37 @@ class EventEditSerializer(serializers.ModelSerializer):
 
 
 class UserEventEditSerializer(EventEditSerializer):
+    training = UserTrainingSerializer(
+        source='usertraining',
+        read_only=True
+    )
+
+    match = UserMatchSerializer(
+        source='usermatch',
+        read_only=True
+    )
+
     class Meta(EventEditSerializer.Meta):
         model = UserEvent
 
+    Meta.fields += ('training', 'match')
+
 
 class ClubEventEditSerializer(EventEditSerializer):
+    training = ClubTrainingSerializer(
+        source='clubtraining',
+        read_only=True
+    )
+
+    match = ClubMatchSerializer(
+        source='clubmatch',
+        read_only=True
+    )
+
     class Meta(EventEditSerializer.Meta):
         model = ClubEvent
+
+    Meta.fields += ('training', 'match')
 
 
 class EventSerializer(serializers.ModelSerializer):

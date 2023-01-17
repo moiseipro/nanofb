@@ -161,6 +161,8 @@ class EventEditUserForm(forms.ModelForm):
                     Submit('submit', _('Save'), css_class='btn-block save'),
                     css_class='form-group col-md-12 mb-0'
                 ),
+                Column(css_id='event-edit-link',
+                       css_class='form-group col-md-12 mb-0'),
                 css_class='form-row'
             ),
 

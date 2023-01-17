@@ -55,3 +55,7 @@
     color: #1f1f24 !important;
     border: 1px solid white !important;
 }
+
+.bg-lightgray{
+    background-color: #d1d1d1 !important;
+}
