@@ -664,3 +664,11 @@ input[type=checkbox].video-check:checked + span.label {
     color: rgb(0, 0, 0);
 }
 
+
+li.tag-elem:hover {
+    background-color: rgb(200, 200, 200);
+}
+li.tag-elem.active:hover {
+    background-color: rgb(110, 110, 240) !important;
+}
+
