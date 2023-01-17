@@ -11,11 +11,21 @@
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openVideo2">Видео 2</button>
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openAnimation1">Анимация 1</button>
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openAnimation2">Анимация 2</button>
-                <button type="button" class="btn btn-secondary btn-sm btn-custom exs-change btn-view size-max-w-x" data-dir="prev" style="--w-max-x:5%;" title="Предыдущее">
+                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openTags" title="Ключевые характеристики">Кл. х-ки</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom exs-change size-max-w-x" data-dir="prev" style="--w-max-x:5%;" title="Предыдущее">
                     <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
                 </button>
-                <button type="button" class="btn btn-secondary btn-sm btn-custom exs-change btn-view size-max-w-x" data-dir="next" style="--w-max-x:5%;" title="Следующее">
+                <button type="button" class="btn btn-secondary btn-sm btn-custom exs-change size-max-w-x" data-dir="next" style="--w-max-x:5%;" title="Следующее">
                     <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="saveExs" style="--w-max-x:5%;" title="Сохранить">
+                    <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="deleteExercise" style="--w-max-x:5%;" title="Удалить">
+                    <i class="fa fa-trash-o text-danger" aria-hidden="true"></i>
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" data-dismiss="modal" style="--w-max-x:5%;" title="Выйти">
+                    <i class="fa fa-times text-danger" aria-hidden="true"></i>
                 </button>
                 <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x selected" data-type="add" data-id="list" title="Режим добавления: список" style="--w-max-x:3%;">
                     <i class="fa fa-list-alt" aria-hidden="true"></i>
@@ -435,7 +445,7 @@
                         <div class="right-col-card ml-4" id="splitCol_exscard_2">
                             <div class="row w-100">
                                 <div class="col-12 btn-group">
-                                    <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="editExs" data-active="0" style="--w-max-x:20%;" title="Редактировать">
+                                    <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="editExs" data-active="0" style="--w-max-x:25%;" title="Редактировать">
                                         <i class="fa fa-pencil" aria-hidden="true"></i>
                                     </button>
                                     <button type="button" class="btn btn-secondary btn-sm btn-custom exs-change btn-view size-max-w-x" data-dir="prev" style="--w-max-x:20%;" title="Предыдущее">
@@ -453,23 +463,20 @@
                                     <button type="button" class="btn btn-secondary btn-sm btn-custom btn-edit size-max-w-x" data-type="add" data-id="tags" title="Режим добавления: тэги" style="--w-max-x:13%;">
                                         TAG
                                     </button> -->
-                                    <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="columnsSizeToggle" data-active="0" style="--w-max-x:20%;" title="Изменить ширину колонок">
+                                    <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="columnsSizeToggle" data-active="0" style="--w-max-x:25%;" title="Изменить ширину колонок">
                                         <i class="fa fa-cog" aria-hidden="true"></i>
                                     </button>
                                     <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="exsAdditionalParamsRef" data-active="0" style="--w-max-x:20%;" title="Настроить условия упражнения">
                                         Усл-ия
                                     </button> -->
-                                    <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="exsTagsRef" data-active="0" style="--w-max-x:20%;" title="Настроить ключевые характеристики">
-                                        Кл.х.
-                                    </button>
                                     <button type="button" class="btn btn-secondary btn-sm btn-custom btn-view size-max-w-x" data-dismiss="modal" style="--w-max-x:20%;" title="Выйти">
                                         <i class="fa fa-times text-danger" aria-hidden="true"></i>
                                     </button>
-                                    <button type="button" class="btn btn-secondary btn-sm btn-custom btn-edit size-max-w-x" id="deleteExercise" style="--w-max-x:20%;" title="Удалить">
+                                    <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom btn-edit size-max-w-x" id="deleteExercise" style="--w-max-x:20%;" title="Удалить">
                                         <i class="fa fa-trash-o text-danger" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-secondary btn-sm btn-custom btn-edit size-max-w-x" id="saveExs" disabled="" style="--w-max-x:20%;" title="Сохранить">
-                                        <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                                    </button> -->
+                                    <button type="button" class="btn btn-secondary btn-sm btn-custom btn-edit size-max-w-x" style="--w-max-x:50%;" title="">
+                                        &nbsp;
                                     </button>
                                 </div>
                                 {% if user.is_superuser %}
@@ -715,18 +722,29 @@
                         </div>
                     </div>
                 </div>
+                <div class="tab-pane fade d-none" id="card_tags" role="tabpanel" aria-labelledby="card_tags-tab">
+                    <div class="row px-3">
+                        <div class="col-12 my-1">
+                            <button type="button" class="btn btn-primary btn-sm" id="exsTagsRef" data-active="0">
+                                Настроить ключевые характеристики
+                            </button>
+                        </div>
+                        <div class="col-12 my-1">
+                            Ключевые характеристики:
+                        </div>
+                    </div>
+                </div>
                 <div class="scheme-editor d-none">
                     <div class="row">
                         <div class="col-12">
                             <div class="alert alert-warning py-1 mb-1" role="alert">
                                 Внимание! Редактирование старых рисунков невозможно, так как используется новая система рисования схем.
-                                При сохранении новой схемы, она будет добавлена в графический блок.
                             </div>
                         </div>
                         <div class="col-12 d-flex justify-content-center">
                             <!-- <button type="button" class="btn btn-sm btn-success d-none" id="saveScheme"></button>
                             <button type="button" class="btn btn-sm btn-success d-none" id="copyScheme"></button> -->
-                            <iframe src="http://62.113.105.179/canvas/new" style="width:90vw; height: 73vh;"></iframe> 
+                            <iframe src="http://62.113.105.179/canvas/new" style="width:90vw; height: 78vh;"></iframe> 
                             <!-- <iframe src="/schemeDrawer" style="width:80vw; height: 75vh;"></iframe>  -->
                         </div>
                     </div>
