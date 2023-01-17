@@ -1471,6 +1471,18 @@ $(function() {
             video_table.columns.adjust().draw();
         } catch(e) {}
     });
+    $('#exerciseCard').on('click', '#openTags', (e) => {
+        $('#exerciseCard').find('.tab-btn').removeClass('selected2');
+        $(e.currentTarget).addClass('selected2');
+        $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
+        $('#exerciseCard').find('#cardBlock > #card_tags').addClass('show active');
+        $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock > #card_tags').removeClass('d-none');
+
+        $('.scheme-editor').addClass('d-none');
+        StopVideoForEdit();
+        $('.video-editor').addClass('d-none');
+    });
 
     $('#exerciseCard').on('click', 'button[data-type="add"]', (e) => {
         $('#exerciseCard').find('button[data-type="add"]').removeClass('selected');
