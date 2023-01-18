@@ -399,7 +399,7 @@ function resize_events_table(){
 }
 
 function resize_trainings_block(){
-    let css = "calc(94vh - "+Math.round($('#event_calendar').height())+"px - "+Math.round($('.header').height())+"px - "+Math.round($('.card-header').height())+"px)"
+    let css = "calc(93vh - "+Math.round($('#event_calendar').height())+"px - "+Math.round($('.header').height())+ "px - "+Math.round($('#filters-row').height())+ "px - "+Math.round($('.card-header').height())+"px)"
     //console.log(css)
     $('#training-content .training-data').css({"max-height": css})
     $('#training-content .training-data').css({"height": css})
