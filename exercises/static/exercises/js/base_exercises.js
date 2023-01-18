@@ -612,14 +612,42 @@ $(function() {
             swal("Внимание", "Выберите папку с упражнениями.", "info");
         }
     });
-    $('#exercisesChangeLangTitleModal').on('click', '.btn-save', (e) => {
+    $('#exercisesChangeLangTitleModal').on('click', '.btn-move', (e) => {
         let folderType = $('.folders_div:not(.d-none)').attr('data-id');
         let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
         let newLangCode =  $('#exercisesChangeLangTitleModal').find('select[name="new_language"]').val();
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
             headers:{"X-CSRFToken": csrftoken},
-            data: {'edit_all_exs_titles': 1, 'f_type': folderType, folder, 'lang': newLangCode},
+            data: {'edit_all_exs_titles': 1, 'f_type': folderType, folder, 'lang': newLangCode, 'to_copy': 0},
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "exercises_api",
+            success: function (res) {
+                if (res.success) {
+                    swal("Готово", "Упражнения изменены.", "success");
+                    $('#exercisesChangeLangTitleModal').modal('hide');
+                } else {
+                    swal("Ошибка", `При изменении упражнений произошла ошибка (${res.err}).`, "error");
+                }
+            },
+            error: function (res) {
+                swal("Ошибка", "Упражнения не удалось изменить!", "error");
+                console.log(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
+    });
+    $('#exercisesChangeLangTitleModal').on('click', '.btn-copy', (e) => {
+        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
+        let newLangCode =  $('#exercisesChangeLangTitleModal').find('select[name="new_language"]').val();
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: {'edit_all_exs_titles': 1, 'f_type': folderType, folder, 'lang': newLangCode, 'to_copy': 1},
             type: 'POST', // GET или POST
             dataType: 'json',
             url: "exercises_api",
@@ -1437,7 +1465,6 @@ $(function() {
         StopAllVideos();
     });
     $('#exerciseGraphicsModal').on('click', '.carousel-control-prev', (e) => {
-        console.log('xxx')
         StopAllVideos();
     });
     $('#exerciseGraphicsModal').on('click', '.carousel-control-next', (e) => {

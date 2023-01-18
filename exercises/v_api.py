@@ -2127,6 +2127,11 @@ def POST_edit_all_exs_titles(request, cur_user, cur_team):
     except:
         pass
     lang = request.POST.get("lang", "")
+    to_copy = 0
+    try:
+        to_copy = int(request.POST.get("to_copy", 0))
+    except:
+        pass
     is_success = True
     res_data = ""
     if not cur_user.is_superuser:
@@ -2138,7 +2143,8 @@ def POST_edit_all_exs_titles(request, cur_user, cur_team):
         c_exercises = AdminExercise.objects.filter(folder=c_folder[0])
         for exercise in c_exercises:
             exs_title = get_by_language_code(exercise.title, request.LANGUAGE_CODE)
-            exercise.title = set_by_language_code(exercise.title, request.LANGUAGE_CODE, "")
+            if to_copy == 0:
+                exercise.title = set_by_language_code(exercise.title, request.LANGUAGE_CODE, "")
             exercise.title = set_by_language_code(exercise.title, lang, exs_title)
             try:
                 exercise.save()

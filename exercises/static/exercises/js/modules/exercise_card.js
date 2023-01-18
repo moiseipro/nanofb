@@ -61,6 +61,50 @@ function ToggleEditFields(flag) {
     window.onlyViewMode = !flag;
 }
 
+function ToggleUpperButtonsPanel(isActive) {
+    $('#editExs').attr('data-active', isActive == '1' ? 0 : 1);
+    $('#exerciseCard').find('.btn-view').toggleClass('d-none', isActive != '1');
+    $('#exerciseCard').find('.btn-edit').toggleClass('d-none', isActive == '1');
+    window.changedData = false;
+    if (isActive == '1') {
+        LoadExerciseOne();
+    }
+    if (isActive != '1') {
+        $('#exerciseCard').find('tr.folder-container').removeClass('d-none');
+        if ($('#card_drawing1').hasClass('active')) {
+            $('#card_drawing1').addClass('d-none');
+            $('.scheme-editor').find('iframe').contents().find('#svgparent').html($('#card_drawing1').find('.card').html());
+            $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
+            setTimeout((e) => {
+                $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
+            }, 100);
+            $('.scheme-editor').removeClass('d-none');
+        }
+        if ($('#card_drawing2').hasClass('active')) {
+            $('#card_drawing2').addClass('d-none');
+            $('.scheme-editor').find('iframe').contents().find('#svgparent').html($('#card_drawing2').find('.card').html());
+            $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
+            setTimeout((e) => {
+                $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
+            }, 100);
+            $('.scheme-editor').removeClass('d-none');
+        }
+    } else {
+        if ($('#card_drawing1').hasClass('active')) {
+            $('#card_drawing1').removeClass('d-none');
+            $('.scheme-editor').addClass('d-none');
+        }
+        if ($('#card_drawing2').hasClass('active')) {
+            $('#card_drawing2').removeClass('d-none');
+            $('.scheme-editor').addClass('d-none');
+        }
+    }
+    let setColumnsShort = $('.exercise-card-header').is(":visible");
+    $('.left-col-card').toggleClass('short', setColumnsShort);
+    $('.center-col-card').toggleClass('short', setColumnsShort);
+    $('.right-col-card').toggleClass('short', setColumnsShort);
+}
+
 function LoadExerciseOne(exsID = null, fromNFB = 0, folderType = "") {
     let searchParams = new URLSearchParams(window.location.search);
     if (!exsID) {
@@ -155,7 +199,7 @@ function RenderExerciseOne(data) {
     if (data && data.id) {
         $(exsCard).attr('data-exs', data.id);
 
-        $('.exercise-card-header').toggleClass('disabled', data.copied_from_nfb == true);
+        // $('.exercise-card-header').toggleClass('disabled', data.copied_from_nfb == true);
 
         ToggleFoldersType(data);
 
@@ -175,6 +219,8 @@ function RenderExerciseOne(data) {
         $(exsCard).find('.exs_edit_field[name="scheme_2"]').val(data.scheme_2);
 
         $(exsCard).find('.exs_edit_field[name="tags"]').val(data.tags).trigger('change');
+        window.selectedTagsInCard = data.tags;
+        ToggleSelectedTagsInCard();
         window.changedData = false;
 
         // // CheckMultiRows(exsCard, data.additional_data, '.exs_edit_field[name="additional_data[]"]', 'additional_data');
@@ -319,7 +365,7 @@ function RenderExerciseOne(data) {
     } else {
         $(exsCard).attr('data-exs', '-1');
 
-        $('.exercise-card-header').toggleClass('disabled', false);
+        // $('.exercise-card-header').toggleClass('disabled', false);
 
         $(exsCard).find('.btn-only-edit').prop('disabled', true);
         $(exsCard).find('.btn-not-view').toggleClass('d-none', false);
@@ -438,6 +484,13 @@ function SaveExerciseOne() {
     dataToSend.data['video_2'] = $('#card_video2').find('.video-value').val();
     dataToSend.data['animation_1'] = $('#card_animation1').find('.video-value').val();
     dataToSend.data['animation_2'] = $('#card_animation2').find('.video-value').val();
+
+    let selectedTags = [];
+    $('#card_tags').find('li.tag-elem.active').each((ind, elem) => {
+        let cId = $(elem).attr('data-name');
+        selectedTags.push(cId);
+    });
+    dataToSend.data['tags'] = selectedTags;
 
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
@@ -984,6 +1037,7 @@ function LoadExercisesTagsAll() {
 function RenderExercisesTagsAll(data) {
     function _rendering(data, type="nfb") {
         let categoriesHtml = "";
+        let categoriesInCardHtml = "";
         let colorsPack = [
             {'color': "#000000", 'name': "Чёрный"},
             {'color': "#24ae39", 'name': "Зелёный"},
@@ -1029,11 +1083,29 @@ function RenderExercisesTagsAll(data) {
                         </div>
                     </div>
                 `;
+
+                categoriesInCardHtml += `
+                    <div class="col">
+                        <div class="card category-card" data-id="${elem.id}">
+                            <div class="card-body">
+                                <h5 class="card-title text-center" style="color: ${elem.color} !important;">
+                                    ${elem.name ? elem.name : ''}
+                                </h5>
+                                <p class="card-text">
+                                    <ul class="list-group">
+                                    </ul>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `;
             }
         }
         $('#exerciseTagsModal').find(`.content-container[data-id="${type}"]`).find('.category-container:not(.category-no)').remove();
         $('#exerciseTagsModal').find(`.content-container[data-id="${type}"]`).prepend(categoriesHtml);
         $('#exerciseTagsModal').find(`.content-container[data-id="${type}"]`).find('.category-container').find('.category-block > span.drag').remove();
+        
+        $('#card_tags').find(`.tags-container[data-id="${type}"] > div.row`).html(categoriesInCardHtml);
         if (data && Array.isArray(data[type])) {
             for (let i = 0; i < data[type].length; i++) {
                 let elem = data[type][i];
@@ -1048,17 +1120,28 @@ function RenderExercisesTagsAll(data) {
                         </a>
                     </span>
                 `;
+                let tagInCardHtml = `
+                    <li class="list-group-item tag-elem py-1 mb-1" data-id="${elem.id}" data-name="${elem.name}">
+                        ${elem.name}
+                    </li>
+                `;
                 let fContainer = $('#exerciseTagsModal').find(`.content-container[data-id="${type}"]`).find(`.category-container[data-id="${elem.category}"]`);
                 if (fContainer.length == 0) {
                     fContainer = $('#exerciseTagsModal').find(`.content-container[data-id="${type}"]`).find(`.category-container.category-no`);
                 }
                 $(fContainer).find('.category-block').append(tagHtml);
+
+                let fContainerInCard = $('#card_tags').find(`.tags-container[data-id="${type}"]`).find(`.category-card[data-id="${elem.category}"]`);
+                if (fContainerInCard.length > 0) {
+                    $(fContainerInCard).find('ul.list-group').append(tagInCardHtml);
+                }
             }
         }
     }
     _rendering(data, "nfb");
     _rendering(data, "self");
     $('#exerciseTagsModal').find(`.category-container[data-id="${window.selectedCategoryId}"]`).addClass('selected');
+    ToggleSelectedTagsInCard();
 }
 
 function EditExsTagCategory(id, name, color, type, toDelete=0) {
@@ -1241,6 +1324,16 @@ function ChangeExsTagCategory(categoryElem, tagElem) {
         complete: function (res) {
             $('.page-loader-wrapper').fadeOut();
         }
+    });
+}
+
+function ToggleSelectedTagsInCard() {
+    if (!window.selectedTagsInCard) {
+        window.selectedTagsInCard = [];
+    }
+    $('#card_tags').find('li.tag-elem').each((ind, elem) => {
+        let cId = $(elem).attr('data-name');
+        $(elem).toggleClass('active', window.selectedTagsInCard.includes(cId));
     });
 }
 
@@ -1556,60 +1649,13 @@ $(function() {
     });
 
 
-    $('#splitCol_exscard_2').find('.btn-view').toggleClass('d-none', false);
-    $('#splitCol_exscard_2').find('.btn-edit').toggleClass('d-none', true);
+    $('#exerciseCard').find('.btn-view').toggleClass('d-none', false);
+    $('#exerciseCard').find('.btn-edit').toggleClass('d-none', true);
 
     $('#editExs').on('click', (e) => {
         let isActive = $(e.currentTarget).attr('data-active');
-        $(e.currentTarget).attr('data-active', isActive == '1' ? 0 : 1);
-        $(e.currentTarget).toggleClass('btn-secondary', isActive == '1');
-        $(e.currentTarget).toggleClass('btn-warning', isActive != '1');
-        $(e.currentTarget).attr('title', isActive == '1' ? "Редактировать" : "Отменить");
-        $('#saveExs').toggleClass('btn-secondary', isActive == '1');
-        $('#saveExs').prop('disabled', isActive == '1');
-        $('#saveExs').toggleClass('btn-success', isActive != '1');
-        $('.exercise-card-header').toggleClass('d-none', isActive == '1');
-        $('#splitCol_exscard_2').find('.btn-view').toggleClass('d-none', isActive != '1');
-        $('#splitCol_exscard_2').find('.btn-edit').toggleClass('d-none', isActive == '1');
+        ToggleUpperButtonsPanel(isActive);
         ToggleEditFields(isActive != '1');
-        window.changedData = false;
-        if (isActive == '1') {
-            LoadExerciseOne();
-        }
-        if (isActive != '1') {
-            $('#exerciseCard').find('tr.folder-container').removeClass('d-none');
-            if ($('#card_drawing1').hasClass('active')) {
-                $('#card_drawing1').addClass('d-none');
-                $('.scheme-editor').find('iframe').contents().find('#svgparent').html($('#card_drawing1').find('.card').html());
-                $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
-                setTimeout((e) => {
-                    $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
-                }, 100);
-                $('.scheme-editor').removeClass('d-none');
-            }
-            if ($('#card_drawing2').hasClass('active')) {
-                $('#card_drawing2').addClass('d-none');
-                $('.scheme-editor').find('iframe').contents().find('#svgparent').html($('#card_drawing2').find('.card').html());
-                $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
-                setTimeout((e) => {
-                    $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
-                }, 100);
-                $('.scheme-editor').removeClass('d-none');
-            }
-        } else {
-            if ($('#card_drawing1').hasClass('active')) {
-                $('#card_drawing1').removeClass('d-none');
-                $('.scheme-editor').addClass('d-none');
-            }
-            if ($('#card_drawing2').hasClass('active')) {
-                $('#card_drawing2').removeClass('d-none');
-                $('.scheme-editor').addClass('d-none');
-            }
-        }
-        let setColumnsShort = $('.exercise-card-header').is(":visible");
-        $('.left-col-card').toggleClass('short', setColumnsShort);
-        $('.center-col-card').toggleClass('short', setColumnsShort);
-        $('.right-col-card').toggleClass('short', setColumnsShort);
     });
 
     // scheme autosave
@@ -1843,7 +1889,6 @@ $(function() {
         $('#exerciseTagsModal').find(`.content-container[data-id="${cId}"]`).removeClass('d-none');
         $('#exerciseTagsModal').find('.row.category-container').removeClass('selected');
         $('#exerciseTagsModal').find('.tag-add-control').addClass('d-none');
-
     });
     $('#exerciseTagsModal').on('click', '.row.category-container', (e) => {
         if ($(e.target).is('span') || $(e.target).is('a') || $(e.target).is('i')) {
@@ -1923,6 +1968,20 @@ $(function() {
     $('#exerciseCard').on('click', '.toggle-additional-information', (e) => {
         $('#exerciseCard').find('tr[data-id="additional_information"]').toggleClass('d-none');
     });
+
+    LoadExercisesTagsAll();
+    $('#card_tags').on('click', '.nav-link', (e) => {
+        let cId = $(e.currentTarget).attr('data-id');
+        $('#card_tags').find('a.nav-link').removeClass('active');
+        $('#card_tags').find('.tags-container').addClass('d-none');
+        $(e.currentTarget).addClass('active');
+        $('#card_tags').find(`.tags-container[data-id="${cId}"]`).removeClass('d-none');
+    });
+    $('#card_tags').on('click', 'li.tag-elem', (e) => {
+        $(e.currentTarget).toggleClass('active');
+        window.changedData = true;
+    });
+
 
 });
 

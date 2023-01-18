@@ -1,43 +1,40 @@
 {% load i18n %}
 
 <div class="modal-content1" id="exerciseCard">
-    <div class="modal-header py-1 d-none exercise-card-header">
+    <div class="modal-header py-1 exercise-card-header">
         <div class="row w-100">
             <div class="col-12 px-1 btn-group btn-group-custom">
-                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn selected2" id="openDescription">Описание</button>
-                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openDrawing1">Рисунок 1</button>
-                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openDrawing2">Рисунок 2</button>
-                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openVideo1">Видео 1</button>
-                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openVideo2">Видео 2</button>
-                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openAnimation1">Анимация 1</button>
-                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openAnimation2">Анимация 2</button>
-                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openTags" title="Ключевые характеристики">Кл. х-ки</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit selected2" id="openDescription">Описание</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit" id="openDrawing1">Рисунок 1</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit" id="openDrawing2">Рисунок 2</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit" id="openVideo1">Видео 1</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit" id="openVideo2">Видео 2</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit" id="openAnimation1">Анимация 1</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit" id="openAnimation2">Анимация 2</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit" id="openTags" title="Ключевые характеристики">Кл. х-ки</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-view" disabled="">&nbsp;</button>
                 <button type="button" class="btn btn-secondary btn-sm btn-custom exs-change size-max-w-x" data-dir="prev" style="--w-max-x:5%;" title="Предыдущее">
                     <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
                 </button>
                 <button type="button" class="btn btn-secondary btn-sm btn-custom exs-change size-max-w-x" data-dir="next" style="--w-max-x:5%;" title="Следующее">
                     <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
                 </button>
-                <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="saveExs" style="--w-max-x:5%;" title="Сохранить">
+                <button type="button" class="btn btn-warning btn-sm btn-custom btn-view size-max-w-x" id="editExs" data-active="0" style="--w-max-x:5%;" title="Редактировать">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                </button>
+                <button type="button" class="btn btn-success btn-sm btn-custom btn-edit size-max-w-x" id="saveExs" style="--w-max-x:5%;" title="Сохранить">
                     <i class="fa fa-floppy-o" aria-hidden="true"></i>
                 </button>
-                <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="deleteExercise" style="--w-max-x:5%;" title="Удалить">
+                <button type="button" class="btn btn-secondary btn-sm btn-custom btn-edit size-max-w-x" id="deleteExercise" style="--w-max-x:5%;" title="Удалить">
                     <i class="fa fa-trash-o text-danger" aria-hidden="true"></i>
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="columnsSizeToggle" data-active="0" style="--w-max-x:5%;" title="Изменить ширину колонок">
+                    <i class="fa fa-cog" aria-hidden="true"></i>
                 </button>
                 <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" data-dismiss="modal" style="--w-max-x:5%;" title="Выйти">
                     <i class="fa fa-times text-danger" aria-hidden="true"></i>
                 </button>
-                <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x selected" data-type="add" data-id="list" title="Режим добавления: список" style="--w-max-x:3%;">
-                    <i class="fa fa-list-alt" aria-hidden="true"></i>
-                </button>
-                <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" data-type="add" data-id="text" title="Режим добавления: текст" style="--w-max-x:3%;">
-                    <i class="fa fa-text-width" aria-hidden="true"></i>
-                </button> -->
-                <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom" id="saveExs" disabled="">Сохранить</button> -->
-                <!-- <button type="button" class="btn btn-danger btn-sm btn-custom" data-dismiss="modal" title="">Выйти</button> -->
-                <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="deleteExercise" style="--w-max-x:3%;" title="Удалить">
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                </button> -->
+             
                 <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="columnsSizeInCard2" style="--w-max-x:3%;" title="Изменить размер колонок">
                     <i class="fa fa-cog" aria-hidden="true"></i>
                 </button>
@@ -191,10 +188,10 @@
                                                 <input name="field_players" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="" autocomplete="off">
                                             </td>
                                         </tr>
-                                        <tr class="bck-custom-color text-center font-weight-bold toggle-additional-characteristics" style="--bck-color:#eecd38; --bck-color-h:#eecd38;">
+                                        <tr class="bck-custom-color text-center font-weight-bold toggle-additional-characteristics d-none" style="--bck-color:#eecd38; --bck-color-h:#eecd38;">
                                             <td class="align-middle folder-text" colspan="2">Ключевые характеристики</td>
                                         </tr>
-                                        <tr class="wider_row bck-custom" data-id="additional_characteristics_data">
+                                        <tr class="wider_row bck-custom d-none" data-id="additional_characteristics_data">
                                             <td colspan="2">
                                                 <select name="tags" class="select w-100 custom-select custom-select-sm tag-select exs_edit_field" multiple data-tags="true" data-theme="bootstrap4" disabled style="width: 100%;">
                                                     {% for tag in exercises_tags.nfb %}
@@ -444,41 +441,6 @@
                         </div>
                         <div class="right-col-card ml-4" id="splitCol_exscard_2">
                             <div class="row w-100">
-                                <div class="col-12 btn-group">
-                                    <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="editExs" data-active="0" style="--w-max-x:25%;" title="Редактировать">
-                                        <i class="fa fa-pencil" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-secondary btn-sm btn-custom exs-change btn-view size-max-w-x" data-dir="prev" style="--w-max-x:20%;" title="Предыдущее">
-                                        <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-secondary btn-sm btn-custom exs-change btn-view size-max-w-x" data-dir="next" style="--w-max-x:20%;" title="Следующее">
-                                        <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-                                    </button>
-                                    <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom btn-edit size-max-w-x selected" data-type="add" data-id="list" title="Режим добавления: список" style="--w-max-x:14%;">
-                                        <i class="fa fa-list-alt" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-secondary btn-sm btn-custom btn-edit size-max-w-x" data-type="add" data-id="text" title="Режим добавления: текст" style="--w-max-x:13%;">
-                                        <i class="fa fa-text-width" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-secondary btn-sm btn-custom btn-edit size-max-w-x" data-type="add" data-id="tags" title="Режим добавления: тэги" style="--w-max-x:13%;">
-                                        TAG
-                                    </button> -->
-                                    <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="columnsSizeToggle" data-active="0" style="--w-max-x:25%;" title="Изменить ширину колонок">
-                                        <i class="fa fa-cog" aria-hidden="true"></i>
-                                    </button>
-                                    <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="exsAdditionalParamsRef" data-active="0" style="--w-max-x:20%;" title="Настроить условия упражнения">
-                                        Усл-ия
-                                    </button> -->
-                                    <button type="button" class="btn btn-secondary btn-sm btn-custom btn-view size-max-w-x" data-dismiss="modal" style="--w-max-x:20%;" title="Выйти">
-                                        <i class="fa fa-times text-danger" aria-hidden="true"></i>
-                                    </button>
-                                    <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom btn-edit size-max-w-x" id="deleteExercise" style="--w-max-x:20%;" title="Удалить">
-                                        <i class="fa fa-trash-o text-danger" aria-hidden="true"></i>
-                                    </button> -->
-                                    <button type="button" class="btn btn-secondary btn-sm btn-custom btn-edit size-max-w-x" style="--w-max-x:50%;" title="">
-                                        &nbsp;
-                                    </button>
-                                </div>
                                 {% if user.is_superuser %}
                                 <div class="col-12 d-none">
                                     <div class="delete-exs-radio">
@@ -730,7 +692,33 @@
                             </button>
                         </div>
                         <div class="col-12 my-1">
-                            Ключевые характеристики:
+                            <div>Ключевые характеристики:</div>
+                            <div class="tabs-container mb-2">
+                                <ul class="nav nav-tabs">
+                                    <li class="nav-item">
+                                        <a class="btn btn-light nav-link active {% if ui_elements.sidebar__trainer %}pb-0{% endif %}" data-id="self">
+                                        {% if ui_elements.sidebar__trainer %}
+                                            {{ ui_elements.sidebar__trainer }}
+                                        {% else %}
+                                            Тренер
+                                        {% endif %}
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="btn btn-light nav-link" data-id="nfb">N.F.</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tags-container" data-id="self">
+                                <div class="row">
+                                    
+                                </div>
+                            </div>
+                            <div class="tags-container d-none" data-id="nfb">
+                                <div class="row">
+                                    
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

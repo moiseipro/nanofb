@@ -186,8 +186,11 @@ function RenderAnalyticsTable(data) {
                     <td class="text-center">
                         ${player.res_matches.matches_dislike > 0 ? player.res_matches.matches_dislike : '-'}
                     </td>
-                    <td class="text-center border-custom-right">
+                    <td class="text-center">
                         ${player.res_matches.matches_like > 0 ? player.res_matches.matches_like : '-'}
+                    </td>
+                    <td class="text-center border-custom-right">
+                        ${player.res_matches.matches_captains > 0 ? player.res_matches.matches_captains : '-'}
                     </td>
                     <td class="text-center border-custom-left">
                         ${player.res_matches.matches_goals > 0 ? player.res_matches.matches_goals : '-'}
