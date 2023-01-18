@@ -1213,6 +1213,16 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
                     player_notes_recent = "color: #be0000;"
             except:
                 pass
+            goalkeeper_val = ""
+            captain_val = ""
+            try:
+                goalkeeper_val = '<span title="Вратарь">(G.)</span>' if player.card.is_goalkeeper == True else ''
+            except:
+                pass
+            try:
+                captain_val = '<span title="Капитан">(K.)</span>' if player.card.is_captain == True else ''
+            except:
+                pass
             player_data = {
                 'id': player.id,
                 'surname': player.surname,
@@ -1222,6 +1232,7 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
                 'team': player.team.name if player.team else "",
                 'club_from': player.card.club_from if player.card else "",
                 'position': player_position,
+                'additional_options': f"{goalkeeper_val} {captain_val}",
                 'foot': player_foot,
                 'growth': player.card.growth if player.card else "",
                 'weight': player.card.weight if player.card else "",
