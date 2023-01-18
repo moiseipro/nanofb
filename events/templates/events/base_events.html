@@ -49,7 +49,7 @@
                                         {% if ui_elements.players__player_list %}
                                             {{ ui_elements.players__player_list }}
                                         {% else %}
-                                            <i class="fa fa-user" aria-hidden="true"></i></button>
+                                            <i class="fa fa-user" aria-hidden="true" style="width: 30px; height: 30px;"></i>
                                         {% endif %}
                                     </button>
                                 </div>
@@ -87,13 +87,13 @@
                                     <button id="#" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><b class="text-danger">!</b></button>
                                 </div>
                                 <div class="col px-1">
-                                    <button id="#" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><span class="icon-custom icon--share" style="--i-w: 1.1em; --i-h: 1.1em;"></span></button>
+                                    <button id="#" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><span class="icon-custom icon--share" style="--i-w: 1.0em; --i-h: 1.0em;"></span></button>
                                 </div>
                                 <div class="col px-1">
-                                    <button id="event-copy-modal-button" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><span class="icon-custom icon--copy" style="--i-w: 1.1em; --i-h: 1.1em;"></span></button>
+                                    <button id="event-copy-modal-button" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><span class="icon-custom icon--copy" style="--i-w: 1.0em; --i-h: 1.0em;"></span></button>
                                 </div>
                                 <div class="col px-1">
-                                    <button id="#" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><span class="icon-custom icon--download" style="--i-w: 1.1em; --i-h: 1.1em;"></span></button>
+                                    <button id="#" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><span class="icon-custom icon--download" style="--i-w: 1.0em; --i-h: 1.0em;"></span></button>
                                 </div>
                                 <div class="col px-1">
                                     <button id="#" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-print" aria-hidden="true"></i></button>
@@ -111,46 +111,47 @@
                             <div id="event_calendar" class="rescalendar"></div>
                         </div>
                     </div>
-                    <div id="filters-row" class="row pt-1">
+                    <div id="filters-row" class="row py-2">
                         <div class="col">
                             <div class="row">
                                 <div class="col-4 pl-0 pr-1">
-                                    <input type="search" class="form-control form-control-sm text-center" placeholder="{% trans 'M.C.' %}">
+                                    <input type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="{% trans 'M.C.' %}">
                                 </div>
                                 <div class="col-4 px-1">
-                                    <input type="search" class="form-control form-control-sm text-center" placeholder="{% trans 'Microcycle days' %}">
+                                    <input type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="{% trans 'Microcycle days' %}">
                                 </div>
                                 <div class="col-4 px-1">
-                                    <input type="search" class="form-control form-control-sm text-center" placeholder="{% trans 'Field size' %}">
+                                    <input type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="{% trans 'Field size' %}">
                                 </div>
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-8">
                             <div class="row">
-                                <div class="col-4 px-1">
-                                    <button id="favourites-event-filter" data-filter="0" title="" class="btn btn-block btn-lightgray btn-sm font-weight-bold"><i class="fa fa-star-o" aria-hidden="true"></i></button>
+                                <div class="col-4">
+                                    <div class="row">
+                                        <div class="col-4 px-1">
+                                            <button id="favourites-event-filter" data-filter="0" title="" class="btn btn-block btn-filter-events btn-sm font-weight-bold"><i class="fa fa-star-o" aria-hidden="true"></i></button>
+                                        </div>
+                                        <div class="col-4 px-1">
+                                            <button class="btn btn-block btn-filter-events btn-sm font-weight-bold"><i class="fa fa-repeat" aria-hidden="true"></i></button>
+                                        </div>
+                                        <div class="col-4 px-1">
+                                            <button class="btn btn-block btn-filter-events btn-sm font-weight-bold"><b class="text-info">V</b></button>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-4 px-1">
-                                    <button class="btn btn-block btn-lightgray btn-sm font-weight-bold"><i class="fa fa-repeat" aria-hidden="true"></i></button>
+                                    <input type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="{% trans 'Keywords' %}">
                                 </div>
-                                <div class="col-4 px-1">
-                                    <button class="btn btn-block btn-lightgray btn-sm font-weight-bold"><b class="text-info">V</b></button>
+                                <div class="col-4 pl-1 pr-0">
+                                    <input type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="{% trans 'Training load' %}">
                                 </div>
                             </div>
                         </div>
-                        <div class="col-5">
-                            <div class="row">
-                                <div class="col-6 px-1">
-                                    <input type="search" class="form-control form-control-sm text-center" placeholder="{% trans 'Keywords' %}">
-                                </div>
-                                <div class="col-6 pl-1 pr-0">
-                                    <input type="search" class="form-control form-control-sm text-center" placeholder="{% trans 'Training load' %}">
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                     {% include 'trainings/training_card.html' %}
-                    <div id="events-content" class="row mt-1 border-top">
+                    <div id="events-content" class="row border-top">
                         <div class="col px-0">
                             <div id="events-table" class="table-responsive" style="overflow-y: auto;">
                                 <table id="events" class="table table-sm padding-none table-bordered table-hover dataTable" style="width:100%;">

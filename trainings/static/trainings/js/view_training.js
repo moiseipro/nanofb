@@ -253,13 +253,24 @@ $(window).on('load', function (){
         })
 
         let training_data = {}
-        if($('#block-training-info input[name="objectives_1"]').length>0 && $('#block-training-info input[name="objectives_2"]').length>0){
+        if($('#block-training-info input[name="objectives_1"]').length>0 && $('#block-training-info input[name="objectives_2"]').length>0 && $('#block-training-info input[name="objectives_3"]').length>0){
             let text1 = $('#block-training-info input[name="objectives_1"]').val();
             let text2 = $('#block-training-info input[name="objectives_2"]').val();
             let text3 = $('#block-training-info input[name="objectives_3"]').val();
             training_data['objectives'] = '[ "'+text1+'", "'+text2+'", "'+text3+'" ]'
         }
-        training_data['space'] = $('#training-main-data .space-select select').val()
+        let additional = '['
+        $( $('#training-additional-data input[name="note"]') ).each(function( index ) {
+            if(index != 0) additional += ', '
+            additional += `{"id" : "${$(this).attr('data-id')}", "note" : "${$(this).val()}"}`
+
+        });
+        additional += ']'
+        training_data['additional'] = additional
+        training_data['field_size'] = $('#training-main-data input[name="field_size"]').val()
+        training_data['load_type'] = $('#training-main-data input[name="load_type"]').val()
+        training_data['keywords_1'] = $('#training-main-data input[name="keywords_1"]').val()
+        training_data['keywords_2'] = $('#training-main-data input[name="keywords_2"]').val()
         console.log(training_data)
 
         ajax_training_action('PUT', training_data, 'save', id).then(function (data) {

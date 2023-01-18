@@ -28,7 +28,6 @@ a.matchButton1 {
 }
 
 .btn-lightgray{
-    color: #fff;
     background-color: #d5d5d5;
     border: 2px solid rgb(100, 100, 100) !important;
     color: #5a6268;
@@ -41,4 +40,25 @@ a.matchButton1 {
 .btn-lightgray.active {
     background-color: #cdffcf !important;
     border-color: #4CAF50 !important;
+}
+
+.btn-filter-events{
+    color: black;
+    background-color: white;
+    border: 2px solid black !important;
+}
+.btn-filter-events:hover{
+    background-color: #a6a6a6;
+}
+.btn-filter-events.active {
+    background-color: #cdffcf !important;
+    border-color: #4CAF50 !important;
+}
+
+.text-filter-events{
+    border: 2px solid dodgerblue !important;
+}
+
+.text-filter-events:focus{
+    border: 2px solid indianred !important;
 }

@@ -154,9 +154,9 @@ class TrainingSerializer(serializers.ModelSerializer):
         source='event_id.date',
         read_only=True
     )
-    additional = TrainingAdditionalDataSerializer(
-        read_only=True
-    )
+    # additional = TrainingAdditionalDataSerializer(
+    #     read_only=True
+    # )
     trainer = UserSerializer(
         source='trainer_user_id',
         read_only=True

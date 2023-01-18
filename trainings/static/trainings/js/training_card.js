@@ -262,7 +262,7 @@ function load_all_exercises_training(training_id = null, group = null) {
             $.each( additionals, function( key, additional ) {
                 additional_data+=`
                     <div class="row training-additional">
-                        <div class="col-6 border border-white bg-lightgray text-dark text-uppercase font-weight-bold text-left">${ (get_cur_lang() in additional.translation_names) ? additional.translation_names[get_cur_lang()] : Object.values(additional.translation_names)[0] }</div>
+                        <div class="col-6 border border-white bg-lightgray text-black text-uppercase text-left">${ (get_cur_lang() in additional.translation_names) ? additional.translation_names[get_cur_lang()] : Object.values(additional.translation_names)[0] }</div>
                         <div class="col-6 px-0 border-bottom border-dark bg-light">
                             <input type="text" name="note" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded edit-input training-additional-data" data-id="${additional.id}" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
                         </div>
@@ -270,17 +270,23 @@ function load_all_exercises_training(training_id = null, group = null) {
                 `
             })
             $('#training-additional-data div').html(additional_data)
-        })
-        if(data.additional && data.additional != '' && data.additional.length>0){
-            for(let additional in data.additional){
-                $('#training-additional-data .training-additional-data[data-id="'+additional.id+'"]').val(additional.note)
+            if(data.additional && data.additional != '' && data.additional.length>0){
+                for(let additional of data.additional){
+                    console.log(additional)
+                    $('#training-additional-data .training-additional-data[data-id="'+additional.id+'"]').val(additional.note)
+                }
             }
-        }
+        })
+
 
         $('#training-main-data [name="date"]').val(data.event_date);
         $('#training-main-data [name="time"]').val(data.event_time);
         $('#training-main-data .team-name').text(data.team_info.name);
         $('#training-main-data .trainer-select').text(data.trainer);
+        $('#training-main-data input[name="field_size"]').val(data.field_size)
+        $('#training-main-data input[name="load_type"]').val(data.load_type)
+        $('#training-main-data input[name="keywords_1"]').val(data.keywords_1)
+        $('#training-main-data input[name="keywords_2"]').val(data.keywords_2)
 
         let exs_time = 0
         let html_scheme = ''
