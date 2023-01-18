@@ -61,6 +61,50 @@ function ToggleEditFields(flag) {
     window.onlyViewMode = !flag;
 }
 
+function ToggleUpperButtonsPanel(isActive) {
+    $('#editExs').attr('data-active', isActive == '1' ? 0 : 1);
+    $('#exerciseCard').find('.btn-view').toggleClass('d-none', isActive != '1');
+    $('#exerciseCard').find('.btn-edit').toggleClass('d-none', isActive == '1');
+    window.changedData = false;
+    if (isActive == '1') {
+        LoadExerciseOne();
+    }
+    if (isActive != '1') {
+        $('#exerciseCard').find('tr.folder-container').removeClass('d-none');
+        if ($('#card_drawing1').hasClass('active')) {
+            $('#card_drawing1').addClass('d-none');
+            $('.scheme-editor').find('iframe').contents().find('#svgparent').html($('#card_drawing1').find('.card').html());
+            $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
+            setTimeout((e) => {
+                $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
+            }, 100);
+            $('.scheme-editor').removeClass('d-none');
+        }
+        if ($('#card_drawing2').hasClass('active')) {
+            $('#card_drawing2').addClass('d-none');
+            $('.scheme-editor').find('iframe').contents().find('#svgparent').html($('#card_drawing2').find('.card').html());
+            $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
+            setTimeout((e) => {
+                $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
+            }, 100);
+            $('.scheme-editor').removeClass('d-none');
+        }
+    } else {
+        if ($('#card_drawing1').hasClass('active')) {
+            $('#card_drawing1').removeClass('d-none');
+            $('.scheme-editor').addClass('d-none');
+        }
+        if ($('#card_drawing2').hasClass('active')) {
+            $('#card_drawing2').removeClass('d-none');
+            $('.scheme-editor').addClass('d-none');
+        }
+    }
+    let setColumnsShort = $('.exercise-card-header').is(":visible");
+    $('.left-col-card').toggleClass('short', setColumnsShort);
+    $('.center-col-card').toggleClass('short', setColumnsShort);
+    $('.right-col-card').toggleClass('short', setColumnsShort);
+}
+
 function LoadExerciseOne(exsID = null, fromNFB = 0, folderType = "") {
     let searchParams = new URLSearchParams(window.location.search);
     if (!exsID) {
@@ -155,7 +199,7 @@ function RenderExerciseOne(data) {
     if (data && data.id) {
         $(exsCard).attr('data-exs', data.id);
 
-        $('.exercise-card-header').toggleClass('disabled', data.copied_from_nfb == true);
+        // $('.exercise-card-header').toggleClass('disabled', data.copied_from_nfb == true);
 
         ToggleFoldersType(data);
 
@@ -321,7 +365,7 @@ function RenderExerciseOne(data) {
     } else {
         $(exsCard).attr('data-exs', '-1');
 
-        $('.exercise-card-header').toggleClass('disabled', false);
+        // $('.exercise-card-header').toggleClass('disabled', false);
 
         $(exsCard).find('.btn-only-edit').prop('disabled', true);
         $(exsCard).find('.btn-not-view').toggleClass('d-none', false);
@@ -1605,60 +1649,13 @@ $(function() {
     });
 
 
-    $('#splitCol_exscard_2').find('.btn-view').toggleClass('d-none', false);
-    $('#splitCol_exscard_2').find('.btn-edit').toggleClass('d-none', true);
+    $('#exerciseCard').find('.btn-view').toggleClass('d-none', false);
+    $('#exerciseCard').find('.btn-edit').toggleClass('d-none', true);
 
     $('#editExs').on('click', (e) => {
         let isActive = $(e.currentTarget).attr('data-active');
-        $(e.currentTarget).attr('data-active', isActive == '1' ? 0 : 1);
-        $(e.currentTarget).toggleClass('btn-secondary', isActive == '1');
-        $(e.currentTarget).toggleClass('btn-warning', isActive != '1');
-        $(e.currentTarget).attr('title', isActive == '1' ? "Редактировать" : "Отменить");
-        $('#saveExs').toggleClass('btn-secondary', isActive == '1');
-        $('#saveExs').prop('disabled', isActive == '1');
-        $('#saveExs').toggleClass('btn-success', isActive != '1');
-        $('.exercise-card-header').toggleClass('d-none', isActive == '1');
-        $('#splitCol_exscard_2').find('.btn-view').toggleClass('d-none', isActive != '1');
-        $('#splitCol_exscard_2').find('.btn-edit').toggleClass('d-none', isActive == '1');
+        ToggleUpperButtonsPanel(isActive);
         ToggleEditFields(isActive != '1');
-        window.changedData = false;
-        if (isActive == '1') {
-            LoadExerciseOne();
-        }
-        if (isActive != '1') {
-            $('#exerciseCard').find('tr.folder-container').removeClass('d-none');
-            if ($('#card_drawing1').hasClass('active')) {
-                $('#card_drawing1').addClass('d-none');
-                $('.scheme-editor').find('iframe').contents().find('#svgparent').html($('#card_drawing1').find('.card').html());
-                $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
-                setTimeout((e) => {
-                    $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
-                }, 100);
-                $('.scheme-editor').removeClass('d-none');
-            }
-            if ($('#card_drawing2').hasClass('active')) {
-                $('#card_drawing2').addClass('d-none');
-                $('.scheme-editor').find('iframe').contents().find('#svgparent').html($('#card_drawing2').find('.card').html());
-                $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
-                setTimeout((e) => {
-                    $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
-                }, 100);
-                $('.scheme-editor').removeClass('d-none');
-            }
-        } else {
-            if ($('#card_drawing1').hasClass('active')) {
-                $('#card_drawing1').removeClass('d-none');
-                $('.scheme-editor').addClass('d-none');
-            }
-            if ($('#card_drawing2').hasClass('active')) {
-                $('#card_drawing2').removeClass('d-none');
-                $('.scheme-editor').addClass('d-none');
-            }
-        }
-        let setColumnsShort = $('.exercise-card-header').is(":visible");
-        $('.left-col-card').toggleClass('short', setColumnsShort);
-        $('.center-col-card').toggleClass('short', setColumnsShort);
-        $('.right-col-card').toggleClass('short', setColumnsShort);
     });
 
     // scheme autosave

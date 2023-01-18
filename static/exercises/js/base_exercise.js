@@ -74,22 +74,27 @@ $(function() {
     });
 
     $('#exerciseCard').on('click', 'button[data-dismiss="modal"]', (e) => {
-        if (window.changedData == true) {
-            swal({
-                title: "Вы точно хотите выйти, не сохранив изменений?",
-                text: "При выходе данные не сохраняются!",
-                icon: "warning",
-                buttons: ["Отмена", "Подтвердить"],
-                dangerMode: true,
-            })
-            .then((willExit) => {
-                if (willExit) {
-                    window.changedData = false;
-                    window.location.href = `/exercises`;
-                }
-            });
+        let isActiveEditExs = $('#editExs').attr('data-active');
+        if (isActiveEditExs == '1') {
+            ToggleUpperButtonsPanel(isActiveEditExs);
         } else {
-            window.location.href = `/exercises`;
+            if (window.changedData == true) {
+                swal({
+                    title: "Вы точно хотите выйти, не сохранив изменений?",
+                    text: "При выходе данные не сохраняются!",
+                    icon: "warning",
+                    buttons: ["Отмена", "Подтвердить"],
+                    dangerMode: true,
+                })
+                .then((willExit) => {
+                    if (willExit) {
+                        window.changedData = false;
+                        window.location.href = `/exercises`;
+                    }
+                });
+            } else {
+                window.location.href = `/exercises`;
+            }
         }
     });
     $(window).on('beforeunload', (e) => {

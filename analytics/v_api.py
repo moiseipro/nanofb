@@ -225,7 +225,7 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
     res_matches = {
         'matches_count': 0, 'matches_time': 0, 'matches_goals': 0, 'matches_penalty': 0, 'matches_pass': 0,
         'matches_red_card': 0, 'matches_yellow_card': 0, 'matches_estimation': 0, 'matches_estimation_count': 0, 
-        'matches_dislike': 0, 'matches_like': 0
+        'matches_dislike': 0, 'matches_like': 0, 'matches_captains': 0
     }
     res_trainings = {
         'trainings_count': 0, 'trainings_time': 0, 'trainings_dislike': 0, 'trainings_like': 0,
@@ -319,6 +319,7 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
                             player_data['res_matches']['matches_pass'] += m_protocol.p_pass if m_protocol.p_pass else 0
                             player_data['res_matches']['matches_red_card'] += m_protocol.red_card if m_protocol.red_card else 0
                             player_data['res_matches']['matches_yellow_card'] += m_protocol.yellow_card if m_protocol.yellow_card else 0
+                            player_data['res_matches']['matches_captains'] += 1 if m_protocol.is_captain == True else 0
                             if m_protocol.estimation:
                                 player_data['res_matches']['matches_estimation'] += m_protocol.estimation
                                 player_data['res_matches']['matches_estimation_count'] += 1

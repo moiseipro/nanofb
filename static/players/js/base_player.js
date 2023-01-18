@@ -29,6 +29,7 @@ function LoadPlayerOne(id = null) {
 function RenderPlayerOne(data = {}) {
     $('.cnt-center-block').find('.form-control').prop('disabled', true);
     $('.cnt-center-block').find('.form-control').removeClass('req-empty');
+    $('.cnt-center-block').find('.edit-field-btn').prop('disabled', true);
 
     $('.cnt-center-block').find('[name="surname"]').val(data.surname);
     $('.cnt-center-block').find('[name="name"]').val(data.name);
@@ -39,6 +40,10 @@ function RenderPlayerOne(data = {}) {
         let key = $(elem).attr('name');
         if ($(elem).attr('type') != "hidden") {
             $(elem).val(data[key] ? data[key] : "");
+        }
+        if (key == "is_goalkeeper" || key == "is_captain" || key == "is_vice_captain") {
+            $(elem).val(data[key] == true ? 1 : 0);
+            $(elem).parent().toggleClass('selected', data[key] == true);
         }
     });
 
@@ -740,6 +745,8 @@ $(function() {
         RenderPlayerOne();
         $('.cnt-center-block').find('.edit-field').prop('disabled', false);
         $('.cnt-center-block').find('.edit-field').removeClass('disabled');
+        $('.cnt-center-block').find('.edit-field-btn').prop('disabled', false);
+        $('.cnt-center-block').find('.edit-field-btn').removeClass('disabled');
         window.editingMode = true;
         $('#showImgPhoto').find('#fileImgPhoto').val('');
     });
@@ -751,6 +758,8 @@ $(function() {
         $('.b-edit-on').removeClass('d-none');
         $('.cnt-center-block').find('.edit-field').prop('disabled', false);
         $('.cnt-center-block').find('.edit-field').removeClass('disabled');
+        $('.cnt-center-block').find('.edit-field-btn').prop('disabled', false);
+        $('.cnt-center-block').find('.edit-field-btn').removeClass('disabled');
         window.editingMode = true;
         $('#showImgPhoto').find('#fileImgPhoto').val('');
     });
@@ -834,6 +843,11 @@ $(function() {
         if ($(e.currentTarget).attr('required')) {
             $(e.currentTarget).toggleClass('req-empty', !(cVal && cVal != ""));
         }
+    });
+    $('.cnt-center-block').on('click', '.edit-field-btn', (e) => {
+        let isActive = $(e.currentTarget).hasClass('selected');
+        $(e.currentTarget).toggleClass('selected', !isActive);
+        $(e.currentTarget).find('input').val(!isActive ? 1 : 0);
     });
 
     // Delete Player

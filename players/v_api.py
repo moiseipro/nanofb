@@ -342,6 +342,9 @@ def POST_edit_player(request, cur_user, cur_team):
     c_player_playercard.email = request.POST.get("data[email]", None)
     c_player_playercard.phone = request.POST.get("data[phone]", None)
     c_player_playercard.phone_2 = request.POST.get("data[phone_2]", None)
+    c_player_playercard.is_goalkeeper = set_value_as_int(request, "data[is_goalkeeper]", 0)
+    c_player_playercard.is_captain = set_value_as_int(request, "data[is_captain]", 0)
+    c_player_playercard.is_vice_captain = set_value_as_int(request, "data[is_vice_captain]", 0)
     try:
         c_player_playercard.save()
         c_player.card = c_player_playercard
@@ -1008,7 +1011,6 @@ def POST_add_delete_questionnaires_rows(request, cur_user, to_add = True):
         else:
             return JsonResponse({"errors": "Can't find row for delete.", "success": False}, status=400)
     return JsonResponse({"data": res_data, "success": True}, status=200)
-
 
 
 

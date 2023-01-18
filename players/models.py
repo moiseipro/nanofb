@@ -37,6 +37,9 @@ class PlayerCard(models.Model):
     phone = models.CharField(max_length=30, null=True, blank=True)
     phone_2 = models.CharField(max_length=30, null=True, blank=True)
     records = models.ManyToManyField(PlayerRecord)
+    is_goalkeeper = models.BooleanField(default=False)
+    is_captain = models.BooleanField(default=False)
+    is_vice_captain = models.BooleanField(default=False)
 
     objects = models.Manager()
 

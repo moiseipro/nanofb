@@ -169,3 +169,7 @@ th.dt-vertical-center, td.dt-vertical-center {
     border: 2px solid rgb(100, 100, 100) !important;
 }
 
+.edit-field-btn.selected {
+    background-color: #5a626857;
+}
+
