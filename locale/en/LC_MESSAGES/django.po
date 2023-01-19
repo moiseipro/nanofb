@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-25 11:08+0300\n"
+"POT-Creation-Date: 2023-01-19 13:51+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,51 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\Lib\site-packages\IPython\core\tests\test_completer.py:409
+msgid "open('foo"
+msgstr ""
+
+#: .\Lib\site-packages\IPython\core\tests\test_completer.py:413
+msgid "open(\"foo"
+msgstr ""
+
+#: .\Lib\site-packages\IPython\core\tests\test_completer.py:417
+#, python-format
+msgid "%ls foo"
+msgstr ""
+
+#: .\Lib\site-packages\IPython\core\tests\test_completer.py:551
+msgid "a[0]."
+msgstr ""
+
+#: .\Lib\site-packages\IPython\core\tests\test_completer.py:558
+msgid "a[0].r"
+msgstr ""
+
+#: .\Lib\site-packages\IPython\core\tests\test_completer.py:566
+msgid "a[0].from_"
+msgstr ""
+
+#: .\Lib\site-packages\IPython\core\tests\test_completer.py:1375
+#: .\Lib\site-packages\IPython\core\tests\test_completer.py:1397
+msgid "do not suppress"
+msgstr ""
+
+#: .\Lib\site-packages\IPython\core\tests\test_completer.py:1376
+#: .\Lib\site-packages\IPython\core\tests\test_completer.py:1388
+#: .\Lib\site-packages\IPython\core\tests\test_completer.py:1391
+#: .\Lib\site-packages\IPython\core\tests\test_completer.py:1394
+msgid "suppress all"
+msgstr ""
+
+#: .\Lib\site-packages\IPython\core\tests\test_completer.py:1377
+msgid "suppress all but a"
+msgstr ""
+
+#: .\Lib\site-packages\IPython\core\tests\test_completer.py:1378
+msgid "suppress all but c"
+msgstr ""
 
 #: .\Lib\site-packages\alabaster\layout.html:98
 msgid "Page source"
@@ -1087,7 +1132,7 @@ msgstr ""
 
 #: .\Lib\site-packages\django\forms\formsets.py:483
 #: .\env\Lib\site-packages\django\forms\formsets.py:483
-#: .\trainings\templates\trainings\view_training.html:63
+#: .\trainings\templates\trainings\view_training.html:68
 #: .\video\templates\video\video_card.html:23
 msgid "Delete"
 msgstr ""
@@ -1249,36 +1294,43 @@ msgid "noon"
 msgstr ""
 
 #: .\Lib\site-packages\django\utils\dates.py:7
+#: .\Lib\site-packages\tornado\locale.py:295
 #: .\env\Lib\site-packages\django\utils\dates.py:7
 msgid "Monday"
 msgstr ""
 
 #: .\Lib\site-packages\django\utils\dates.py:8
+#: .\Lib\site-packages\tornado\locale.py:296
 #: .\env\Lib\site-packages\django\utils\dates.py:8
 msgid "Tuesday"
 msgstr ""
 
 #: .\Lib\site-packages\django\utils\dates.py:9
+#: .\Lib\site-packages\tornado\locale.py:297
 #: .\env\Lib\site-packages\django\utils\dates.py:9
 msgid "Wednesday"
 msgstr ""
 
 #: .\Lib\site-packages\django\utils\dates.py:10
+#: .\Lib\site-packages\tornado\locale.py:298
 #: .\env\Lib\site-packages\django\utils\dates.py:10
 msgid "Thursday"
 msgstr ""
 
 #: .\Lib\site-packages\django\utils\dates.py:11
+#: .\Lib\site-packages\tornado\locale.py:299
 #: .\env\Lib\site-packages\django\utils\dates.py:11
 msgid "Friday"
 msgstr ""
 
 #: .\Lib\site-packages\django\utils\dates.py:12
+#: .\Lib\site-packages\tornado\locale.py:300
 #: .\env\Lib\site-packages\django\utils\dates.py:12
 msgid "Saturday"
 msgstr ""
 
 #: .\Lib\site-packages\django\utils\dates.py:13
+#: .\Lib\site-packages\tornado\locale.py:301
 #: .\env\Lib\site-packages\django\utils\dates.py:13
 msgid "Sunday"
 msgstr ""
@@ -1319,61 +1371,73 @@ msgid "Sun"
 msgstr ""
 
 #: .\Lib\site-packages\django\utils\dates.py:25
+#: .\Lib\site-packages\tornado\locale.py:281
 #: .\env\Lib\site-packages\django\utils\dates.py:25
 msgid "January"
 msgstr ""
 
 #: .\Lib\site-packages\django\utils\dates.py:26
+#: .\Lib\site-packages\tornado\locale.py:282
 #: .\env\Lib\site-packages\django\utils\dates.py:26
 msgid "February"
 msgstr ""
 
 #: .\Lib\site-packages\django\utils\dates.py:27
+#: .\Lib\site-packages\tornado\locale.py:283
 #: .\env\Lib\site-packages\django\utils\dates.py:27
 msgid "March"
 msgstr ""
 
 #: .\Lib\site-packages\django\utils\dates.py:28
+#: .\Lib\site-packages\tornado\locale.py:284
 #: .\env\Lib\site-packages\django\utils\dates.py:28
 msgid "April"
 msgstr ""
 
 #: .\Lib\site-packages\django\utils\dates.py:29
+#: .\Lib\site-packages\tornado\locale.py:285
 #: .\env\Lib\site-packages\django\utils\dates.py:29
 msgid "May"
 msgstr ""
 
 #: .\Lib\site-packages\django\utils\dates.py:30
+#: .\Lib\site-packages\tornado\locale.py:286
 #: .\env\Lib\site-packages\django\utils\dates.py:30
 msgid "June"
 msgstr ""
 
 #: .\Lib\site-packages\django\utils\dates.py:31
+#: .\Lib\site-packages\tornado\locale.py:287
 #: .\env\Lib\site-packages\django\utils\dates.py:31
 msgid "July"
 msgstr ""
 
 #: .\Lib\site-packages\django\utils\dates.py:32
+#: .\Lib\site-packages\tornado\locale.py:288
 #: .\env\Lib\site-packages\django\utils\dates.py:32
 msgid "August"
 msgstr ""
 
 #: .\Lib\site-packages\django\utils\dates.py:33
+#: .\Lib\site-packages\tornado\locale.py:289
 #: .\env\Lib\site-packages\django\utils\dates.py:33
 msgid "September"
 msgstr ""
 
 #: .\Lib\site-packages\django\utils\dates.py:34
+#: .\Lib\site-packages\tornado\locale.py:290
 #: .\env\Lib\site-packages\django\utils\dates.py:34
 msgid "October"
 msgstr ""
 
 #: .\Lib\site-packages\django\utils\dates.py:35
+#: .\Lib\site-packages\tornado\locale.py:291
 #: .\env\Lib\site-packages\django\utils\dates.py:35
 msgid "November"
 msgstr ""
 
 #: .\Lib\site-packages\django\utils\dates.py:36
+#: .\Lib\site-packages\tornado\locale.py:292
 #: .\env\Lib\site-packages\django\utils\dates.py:36
 msgid "December"
 msgstr ""
@@ -1858,6 +1922,77 @@ msgstr ""
 msgid "Connect, get help, or contribute"
 msgstr ""
 
+#: .\Lib\site-packages\furo\theme\furo\base.html:13
+msgid "About these documents"
+msgstr ""
+
+#: .\Lib\site-packages\furo\theme\furo\base.html:16
+#: .\Lib\site-packages\furo\theme\furo\genindex.html:4
+#: .\Lib\site-packages\furo\theme\furo\genindex.html:28
+msgid "Index"
+msgstr ""
+
+#: .\Lib\site-packages\furo\theme\furo\base.html:19
+#: .\Lib\site-packages\furo\theme\furo\search.html:10
+#: .\Lib\site-packages\furo\theme\furo\sidebar\search.html:2
+#: .\video\templates\video\base_video.html:76
+msgid "Search"
+msgstr ""
+
+#: .\Lib\site-packages\furo\theme\furo\base.html:22
+msgid "Copyright"
+msgstr ""
+
+#: .\Lib\site-packages\furo\theme\furo\components\edit-this-page.html:6
+#: .\Lib\site-packages\furo\theme\furo\components\edit-this-page.html:12
+msgid "Edit this page"
+msgstr ""
+
+#: .\Lib\site-packages\furo\theme\furo\page.html:101
+#: .\video\templates\video\modules\video_blocks_list.html:31
+msgid "Next"
+msgstr ""
+
+#: .\Lib\site-packages\furo\theme\furo\page.html:113
+#: .\video\templates\video\modules\video_blocks_list.html:21
+msgid "Previous"
+msgstr ""
+
+#: .\Lib\site-packages\furo\theme\furo\page.html:116
+msgid "Home"
+msgstr ""
+
+#: .\Lib\site-packages\furo\theme\furo\page.html:193
+msgid "On this page"
+msgstr ""
+
+#: .\Lib\site-packages\furo\theme\furo\sidebar\rtd-versions.html:11
+#: .\Lib\site-packages\furo\theme\furo\sidebar\variant-selector.html:3
+#: .\Lib\site-packages\furo\theme\furo\sidebar\variant-selector.html:10
+msgid "Versions"
+msgstr ""
+
+#: .\Lib\site-packages\furo\theme\furo\sidebar\rtd-versions.html:17
+#: .\Lib\site-packages\furo\theme\furo\sidebar\variant-selector.html:16
+msgid "Downloads"
+msgstr ""
+
+#. Translators: The phrase "Read the Docs" is not translated
+#: .\Lib\site-packages\furo\theme\furo\sidebar\rtd-versions.html:24
+#: .\Lib\site-packages\furo\theme\furo\sidebar\variant-selector.html:23
+msgid "On Read the Docs"
+msgstr ""
+
+#: .\Lib\site-packages\furo\theme\furo\sidebar\rtd-versions.html:26
+#: .\Lib\site-packages\furo\theme\furo\sidebar\variant-selector.html:25
+msgid "Project Home"
+msgstr ""
+
+#: .\Lib\site-packages\furo\theme\furo\sidebar\rtd-versions.html:29
+#: .\Lib\site-packages\furo\theme\furo\sidebar\variant-selector.html:28
+msgid "Builds"
+msgstr ""
+
 #: .\Lib\site-packages\isort\main.py:158
 #: .\env\Lib\site-packages\isort\main.py:158
 msgid "show this help message and exit"
@@ -1881,12 +2016,101 @@ msgstr ""
 msgid "Unable to connect to qpid with SASL mechanism %s"
 msgstr ""
 
+#: .\Lib\site-packages\tornado\locale.py:371
+msgid "1 second ago"
+msgstr ""
+
+#: .\Lib\site-packages\tornado\locale.py:377
+msgid "1 minute ago"
+msgstr ""
+
+#: .\Lib\site-packages\tornado\locale.py:382
+msgid "1 hour ago"
+msgstr ""
+
+#: .\Lib\site-packages\tornado\locale.py:385
+#, python-format
+msgid "%(time)s"
+msgstr ""
+
+#: .\Lib\site-packages\tornado\locale.py:387
+msgid "yesterday"
+msgstr ""
+
+#: .\Lib\site-packages\tornado\locale.py:387
+#, python-format
+msgid "yesterday at %(time)s"
+msgstr ""
+
+#: .\Lib\site-packages\tornado\locale.py:389
+#, python-format
+msgid "%(weekday)s"
+msgstr ""
+
+#: .\Lib\site-packages\tornado\locale.py:389
+#, python-format
+msgid "%(weekday)s at %(time)s"
+msgstr ""
+
+#: .\Lib\site-packages\tornado\locale.py:392
+#: .\Lib\site-packages\tornado\locale.py:445
+#, python-format
+msgid "%(month_name)s %(day)s"
+msgstr ""
+
+#: .\Lib\site-packages\tornado\locale.py:394
+#, python-format
+msgid "%(month_name)s %(day)s at %(time)s"
+msgstr ""
+
+#: .\Lib\site-packages\tornado\locale.py:399
+#, python-format
+msgid "%(month_name)s %(day)s, %(year)s"
+msgstr ""
+
+#: .\Lib\site-packages\tornado\locale.py:401
+#, python-format
+msgid "%(month_name)s %(day)s, %(year)s at %(time)s"
+msgstr ""
+
+#: .\Lib\site-packages\tornado\locale.py:439
+#, python-format
+msgid "%(weekday)s, %(month_name)s %(day)s"
+msgstr ""
+
+#: .\Lib\site-packages\tornado\locale.py:462
+#, python-format
+msgid "%(commas)s and %(last)s"
+msgstr ""
+
+#: .\Lib\site-packages\tornado\test\locale_test.py:68
+msgctxt "law"
+msgid "right"
+msgstr ""
+
+#: .\Lib\site-packages\tornado\test\locale_test.py:69
+msgctxt "good"
+msgid "right"
+msgstr ""
+
+#: .\Lib\site-packages\tornado\test\locale_test.py:71
+#: .\Lib\site-packages\tornado\test\locale_test.py:74
+msgctxt "organization"
+msgid "club"
+msgstr ""
+
+#: .\Lib\site-packages\tornado\test\locale_test.py:76
+#: .\Lib\site-packages\tornado\test\locale_test.py:77
+msgctxt "stick"
+msgid "club"
+msgstr ""
+
 #: .\clubs\apps.py:8 .\nanofootball\templates\menu\sidebar.html:40
 msgid "Clubs"
 msgstr ""
 
 #: .\clubs\forms.py:33 .\events\forms.py:94
-#: .\trainings\templates\trainings\training_card.html:35
+#: .\trainings\templates\trainings\training_card.html:38
 #: .\video\templates\video\modules\video_list_exercises.html:12
 #: .\video\templates\video\video_card.html:88
 msgid "Date"
@@ -1897,7 +2121,7 @@ msgid "Birthday"
 msgstr ""
 
 #: .\clubs\models.py:15 .\events\models.py:87
-#: .\events\templates\events\base_events.html:177 .\references\models.py:16
+#: .\events\templates\events\base_events.html:220 .\references\models.py:16
 #: .\references\templates\references\base_settings.html:45
 #: .\references\templates\references\base_settings.html:62
 #: .\version\models.py:63 .\version\models.py:90 .\video\models.py:17
@@ -1972,7 +2196,7 @@ msgid "Access to the club admin panel"
 msgstr ""
 
 #: .\clubs\templates\clubs\admin_panel.html:6
-#: .\nanofootball\templates\menu\header.html:210
+#: .\nanofootball\templates\menu\header.html:220
 msgid "Admin panel"
 msgstr ""
 
@@ -2150,7 +2374,7 @@ msgstr ""
 msgid "Microcycle"
 msgstr ""
 
-#: .\events\models.py:93 .\events\templates\events\base_events.html:178
+#: .\events\models.py:93 .\events\templates\events\base_events.html:221
 #: .\references\models.py:123 .\references\models.py:161
 #: .\references\templates\references\base_settings.html:64
 msgid "start date"
@@ -2160,7 +2384,7 @@ msgstr ""
 msgid "Start date of the microcycle."
 msgstr ""
 
-#: .\events\models.py:97 .\events\templates\events\base_events.html:179
+#: .\events\models.py:97 .\events\templates\events\base_events.html:222
 #: .\references\models.py:128 .\references\models.py:166
 #: .\references\templates\references\base_settings.html:65
 msgid "end date"
@@ -2171,22 +2395,47 @@ msgid "End date of the microcycle."
 msgstr ""
 
 #: .\events\templates\events\base_events.html:36
-msgid "Show/Hide calendar"
+msgid "Open the selected exercise"
 msgstr ""
 
 #: .\events\templates\events\base_events.html:39
-msgid "M.C."
+msgid "Show/Hide calendar"
+msgstr ""
+
+#: .\events\templates\events\base_events.html:42
+msgid "Show/Hide events table"
+msgstr ""
+
+#: .\events\templates\events\base_events.html:118
+msgid "M.D."
+msgstr ""
+
+#: .\events\templates\events\base_events.html:121
+msgid "Microcycle days"
+msgstr ""
+
+#: .\events\templates\events\base_events.html:124
+msgid "Field size"
+msgstr ""
+
+#: .\events\templates\events\base_events.html:144 .\trainings\models.py:44
+#: .\trainings\models.py:51
+msgid "Keywords"
 msgstr ""
 
 #: .\events\templates\events\base_events.html:147
+msgid "Training load"
+msgstr ""
+
+#: .\events\templates\events\base_events.html:190
 msgid "Working with microcycles"
 msgstr ""
 
-#: .\events\templates\events\base_events.html:151
+#: .\events\templates\events\base_events.html:194
 msgid "Create"
 msgstr ""
 
-#: .\events\templates\events\base_events.html:180
+#: .\events\templates\events\base_events.html:223
 #: .\references\templates\references\base_settings.html:48
 #: .\references\templates\references\base_settings.html:66
 msgid "options"
@@ -2198,6 +2447,25 @@ msgstr ""
 
 #: .\events\templates\events\forms\edit_event.html:7
 msgid "Event Update"
+msgstr ""
+
+#: .\events\templates\events\forms\event_copy.html:7
+msgid "Copying the selected event"
+msgstr ""
+
+#: .\events\templates\events\forms\event_copy.html:27
+#: .\matches\templates\matches\base_match.html:182
+#: .\nanofootball\templates\menu\header.html:73
+msgid "No teams"
+msgstr ""
+
+#: .\events\templates\events\forms\event_copy.html:33
+#: .\nanofootball\templates\menu\header.html:80
+msgid "Create a team"
+msgstr ""
+
+#: .\events\templates\events\forms\event_copy.html:40
+msgid "Copy"
 msgstr ""
 
 #: .\exercises\apps.py:8 .\nanofootball\templates\menu\sidebar.html:126
@@ -2233,7 +2501,7 @@ msgstr ""
 
 #: .\exercises\templates\exercises\base_folders.html:79
 #: .\exercises\templates\exercises\base_folders.html:80
-#: .\video\templates\video\modules\video_list.html:14
+#: .\video\templates\video\modules\video_list.html:15
 #: .\video\templates\video\modules\video_list_exercises.html:14
 #: .\video\templates\video\video_card.html:41
 msgid "Title"
@@ -2260,22 +2528,22 @@ msgstr ""
 msgid "Choose this structure"
 msgstr ""
 
-#: .\exercises\templates\exercises\modules\exercise_card.html:753
-#: .\exercises\templates\exercises\modules\exercise_card.html:763
-#: .\video\templates\video\base_video.html:53
-#: .\video\templates\video\base_video.html:63
+#: .\exercises\templates\exercises\modules\exercise_card.html:755
+#: .\exercises\templates\exercises\modules\exercise_card.html:765
+#: .\video\templates\video\base_video.html:48
+#: .\video\templates\video\base_video.html:58
 msgid "All"
 msgstr ""
 
-#: .\exercises\templates\exercises\modules\exercise_card.html:757
-#: .\exercises\templates\exercises\modules\exercise_card.html:767
-#: .\video\templates\video\base_video.html:57
+#: .\exercises\templates\exercises\modules\exercise_card.html:759
+#: .\exercises\templates\exercises\modules\exercise_card.html:769
+#: .\video\templates\video\base_video.html:52
 #: .\video\templates\video\video_card.html:82
 msgid "No sources"
 msgstr ""
 
-#: .\exercises\templates\exercises\modules\exercise_card.html:776
-#: .\video\templates\video\base_video.html:76
+#: .\exercises\templates\exercises\modules\exercise_card.html:778
+#: .\video\templates\video\base_video.html:71
 msgid "No tags"
 msgstr ""
 
@@ -2332,7 +2600,7 @@ msgstr ""
 msgid "Number of opponent team penalties per match."
 msgstr ""
 
-#: .\matches\models.py:54 .\trainings\models.py:199
+#: .\matches\models.py:54 .\trainings\models.py:238
 msgid "estimation"
 msgstr ""
 
@@ -2381,17 +2649,28 @@ msgstr ""
 msgid "No team selected"
 msgstr ""
 
-#: .\matches\templates\matches\base_match.html:182
-#: .\nanofootball\templates\menu\header.html:73
-msgid "No teams"
-msgstr ""
-
 #: .\nanofb\settings.py:208
 msgid "Russian"
 msgstr ""
 
 #: .\nanofb\settings.py:209
 msgid "English"
+msgstr ""
+
+#: .\nanofb\settings.py:210
+msgid "Portuguese"
+msgstr ""
+
+#: .\nanofb\settings.py:211
+msgid "Spanish"
+msgstr ""
+
+#: .\nanofb\settings.py:212
+msgid "German"
+msgstr ""
+
+#: .\nanofb\settings.py:213
+msgid "French"
 msgstr ""
 
 #: .\nanofootball\admin.py:5
@@ -2414,22 +2693,18 @@ msgstr ""
 msgid "Create a season"
 msgstr ""
 
-#: .\nanofootball\templates\menu\header.html:80
-msgid "Create a team"
-msgstr ""
-
 #: .\nanofootball\templates\menu\header.html:84
 #: .\references\templates\references\base_settings.html:5
 #: .\references\templates\references\base_settings.html:32
 msgid "Settings"
 msgstr ""
 
-#: .\nanofootball\templates\menu\header.html:212
+#: .\nanofootball\templates\menu\header.html:222
 #: .\nanofootball\templates\menu\sidebar.html:79
 msgid "My Profile"
 msgstr ""
 
-#: .\nanofootball\templates\menu\header.html:213
+#: .\nanofootball\templates\menu\header.html:223
 msgid "Logout"
 msgstr ""
 
@@ -2465,7 +2740,7 @@ msgid "Exercise lists"
 msgstr ""
 
 #: .\nanofootball\templates\menu\sidebar.html:143 .\players\apps.py:8
-#: .\trainings\templates\trainings\view_training.html:165
+#: .\trainings\templates\trainings\view_training.html:172
 msgid "Players"
 msgstr ""
 
@@ -2486,6 +2761,7 @@ msgid "Chat"
 msgstr ""
 
 #: .\nanofootball\templates\menu\sidebar.html:207
+#: .\trainings\templates\trainings\view_training.html:65
 #: .\video\templates\video\base_video.html:10
 #: .\video\templates\video\video_card.html:135
 msgid "Video"
@@ -2555,11 +2831,11 @@ msgstr ""
 msgid "Empty"
 msgstr ""
 
-#: .\references\models.py:28 .\trainings\models.py:114
+#: .\references\models.py:28 .\trainings\models.py:154
 msgid "order"
 msgstr ""
 
-#: .\references\models.py:29 .\trainings\models.py:115
+#: .\references\models.py:29 .\trainings\models.py:155
 msgid "Sorting index"
 msgstr ""
 
@@ -2804,6 +3080,10 @@ msgstr ""
 msgid "Custom tags"
 msgstr ""
 
+#: .\references\models.py:318 .\references\models.py:319
+msgid "Training additional data"
+msgstr ""
+
 #: .\references\templates\references\base_settings.html:30
 msgid "Seasons"
 msgstr ""
@@ -2833,7 +3113,7 @@ msgstr ""
 msgid "Coach tied to the training"
 msgstr ""
 
-#: .\trainings\models.py:24
+#: .\trainings\models.py:24 .\video\models.py:77
 msgid "favourites"
 msgstr ""
 
@@ -2841,48 +3121,88 @@ msgstr ""
 msgid "Favorites training"
 msgstr ""
 
-#: .\trainings\models.py:29
+#: .\trainings\models.py:30
+msgid "field size"
+msgstr ""
+
+#: .\trainings\models.py:31
+msgid "The size of the field in training"
+msgstr ""
+
+#: .\trainings\models.py:37
+msgid "load type"
+msgstr ""
+
+#: .\trainings\models.py:38
+msgid "Type of training load"
+msgstr ""
+
+#: .\trainings\models.py:45 .\trainings\models.py:52
+msgid "Keywords in training"
+msgstr ""
+
+#: .\trainings\models.py:57
+msgid "additional"
+msgstr ""
+
+#: .\trainings\models.py:58
+msgid "Additional training data"
+msgstr ""
+
+#: .\trainings\models.py:63
 msgid "purposes"
 msgstr ""
 
-#: .\trainings\models.py:30
+#: .\trainings\models.py:64
 msgid "Objectives for training groups"
 msgstr ""
 
-#: .\trainings\models.py:64
+#: .\trainings\models.py:98
 msgid "Access to the section \"Analytics\" for UserTraining"
 msgstr ""
 
-#: .\trainings\models.py:89
+#: .\trainings\models.py:123
 msgid "Access to the section \"Analytics\" for ClubTraining"
 msgstr ""
 
-#: .\trainings\models.py:103
+#: .\trainings\models.py:137
 msgid "group"
 msgstr ""
 
-#: .\trainings\models.py:104
+#: .\trainings\models.py:138
 msgid "The group to which the exercise belongs"
 msgstr ""
 
-#: .\trainings\models.py:108
+#: .\trainings\models.py:142
 msgid "duration"
 msgstr ""
 
-#: .\trainings\models.py:109
+#: .\trainings\models.py:143
 msgid "Duration of the exercise"
 msgstr ""
 
-#: .\trainings\models.py:159
+#: .\trainings\models.py:148
+msgid "description"
+msgstr ""
+
+#: .\trainings\models.py:149
+msgid "Description of the exercise inside the training"
+msgstr ""
+
+#: .\trainings\models.py:199
 msgid "note"
 msgstr ""
 
-#: .\trainings\models.py:160
+#: .\trainings\models.py:200
 msgid "Note to the reference book"
 msgstr ""
 
-#: .\trainings\models.py:200
+#: .\trainings\models.py:239
 msgid "Player rating like/dislike"
+msgstr ""
+
+#: .\trainings\templates\trainings\training_card.html:125
+msgid "Delete all/empty data"
 msgstr ""
 
 #: .\trainings\templates\trainings\view_training.html:35
@@ -2903,11 +3223,11 @@ msgstr ""
 msgid "Protocol"
 msgstr ""
 
-#: .\trainings\templates\trainings\view_training.html:179
+#: .\trainings\templates\trainings\view_training.html:186
 msgid "Add all players"
 msgstr ""
 
-#: .\trainings\templates\trainings\view_training.html:180
+#: .\trainings\templates\trainings\view_training.html:187
 msgid "Add selected"
 msgstr ""
 
@@ -3273,19 +3593,23 @@ msgstr ""
 msgid "Splash screen on the start screen of the video"
 msgstr ""
 
-#: .\video\models.py:77
+#: .\video\models.py:78
+msgid "Favorite video"
+msgstr ""
+
+#: .\video\models.py:82
 msgid "old id"
 msgstr ""
 
-#: .\video\models.py:78
+#: .\video\models.py:83
 msgid "ID of the exercise that the video was linked to"
 msgstr ""
 
-#: .\video\models.py:83
+#: .\video\models.py:88
 msgid "Notes"
 msgstr ""
 
-#: .\video\models.py:84
+#: .\video\models.py:89
 msgid "Notes in json format"
 msgstr ""
 
@@ -3293,24 +3617,8 @@ msgstr ""
 msgid "Add video"
 msgstr ""
 
-#: .\video\templates\video\base_video.html:36
-msgid "Parse video"
-msgstr ""
-
-#: .\video\templates\video\base_video.html:67
+#: .\video\templates\video\base_video.html:62
 msgid "No folders"
-msgstr ""
-
-#: .\video\templates\video\base_video.html:81
-msgid "Search"
-msgstr ""
-
-#: .\video\templates\video\modules\video_blocks_list.html:21
-msgid "Previous"
-msgstr ""
-
-#: .\video\templates\video\modules\video_blocks_list.html:31
-msgid "Next"
 msgstr ""
 
 #: .\video\templates\video\modules\video_list.html:9
@@ -3329,11 +3637,11 @@ msgstr ""
 msgid "Minutes"
 msgstr ""
 
-#: .\video\templates\video\modules\video_list.html:13
+#: .\video\templates\video\modules\video_list.html:14
 msgid "V/A"
 msgstr ""
 
-#: .\video\templates\video\modules\video_list.html:15
+#: .\video\templates\video\modules\video_list.html:16
 #: .\video\templates\video\modules\video_list_exercises.html:15
 #: .\video\templates\video\video_card.html:148
 msgid "Tags"

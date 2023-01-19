@@ -16,6 +16,8 @@ var strDate = d.format('DD/MM/YYYY')
 var microcycles_table, events_table
 var cur_edit_data
 
+var calendar_active = true;
+
 var newEvent = [
     {
         id: 1,
@@ -71,7 +73,7 @@ $(window).on('load', function (){
     $('input.refDate').val(strDate);
 
     if($('#select-season').val()!='' && $('#select-team').val()!=''){
-        generateNewCalendar()
+        generateData()
         generateMicrocyclesTable()
     } else {
         swal(gettext('Warning!'), gettext('Choose a team and a season!'), "warning");
@@ -88,7 +90,7 @@ $(window).on('load', function (){
         Cookies.set('date', strDate, { expires: 1 })
 
         $('.refDate').val(strDate);
-        generateNewCalendar()
+        generateData()
     })
     $('.move_to_next_month').on('click', function () {
         today = moment(strDate, 'DD/MM/YYYY')
@@ -99,7 +101,7 @@ $(window).on('load', function (){
         Cookies.set('date', strDate, { expires: 1 })
 
         $('.refDate').val(strDate);
-        generateNewCalendar()
+        generateData()
     })
     $('.move_to_today').on('click', function () {
         today = moment()
@@ -110,7 +112,7 @@ $(window).on('load', function (){
         Cookies.set('date', strDate, { expires: 1 })
 
         $('.refDate').val(strDate);
-        generateNewCalendar()
+        generateData()
     })
 
     // Выделение ячеек календаря при наведении на строку
@@ -133,7 +135,7 @@ $(window).on('load', function (){
     $('#event_calendar').on('click', '.microcycle_cell', function () {
         $('#event_calendar .microcycle_cell.selected').not($(this)).removeClass('selected')
         $(this).toggleClass('selected')
-        generateNewCalendar()
+        generateData()
     })
     $(document).on('click', '.hasEvent', function (event) {
         let data_id = $(this).attr('data-value')
@@ -269,7 +271,7 @@ $(window).on('load', function (){
             let link = 'training' in data && data.training != null ? '/trainings/view/'+data.id : 'match' in data && data.match != null ? '/matches/match?id='+data.id : ''
             $('#event-link').html(`<a href="${link}" class="btn btn-warning btn-block">${gettext('Go to the created event')}</a>`)
             clear_event_form()
-            generateNewCalendar()
+            generateData()
         })
     })
 
@@ -284,17 +286,20 @@ $(window).on('load', function (){
             console.log(data)
             let link = 'training' in data && data.training != null ? '/trainings/view/'+data.id : 'match' in data && data.match != null ? '/matches/match?id='+data.id : ''
             $('#event-edit-link').html(`<a href="${link}" class="btn btn-warning btn-block">${gettext('Go to the created event')}</a>`)
-            generateNewCalendar()
+            generateData()
         })
     })
 
     $('#toggle-calendar').on('click', function () {
-        $('#event_calendar').toggleClass('d-none')
-        $(this).children('i').toggleClass('fa-arrow-up').toggleClass('fa-arrow-down')
-        $('.move_to_today').toggleClass('isMonth')
+        calendar_active = !calendar_active
+
+        $('#event_calendar').toggleClass('d-none', !calendar_active)
+        $(this).children('i').toggleClass('fa-arrow-up', calendar_active).toggleClass('fa-arrow-down', !calendar_active)
+        $('.move_to_today').toggleClass('isMonth', !calendar_active)
         set_month_or_date_button()
         resize_events_table()
         resize_trainings_block()
+        generateData()
     })
 
     $('#events').on('click', '.switch-favorites', function () {
@@ -367,7 +372,7 @@ $(window).on('load', function (){
         let event_id = $('tr.hasEvent.selected').attr('data-value')
         if(!event_id) return;
         ajax_event_action('DELETE', null, 'delete', event_id).then(function( data ) {
-            generateNewCalendar()
+            generateData()
         })
     })
     //Фильтрация событий по избранному
@@ -385,7 +390,25 @@ $(window).on('load', function (){
         else if (cur_fav == 3) $('#favourites-event-filter i').removeClass(`text-warning`).addClass(`fa-star text-danger`)
         else $('#favourites-event-filter i').removeClass(`fa-star text-danger`).addClass(`fa-star-o`)
         $(this).attr('data-filter', cur_fav)
-        generateNewCalendar()
+        generateData()
+    })
+    //Фильтрация событий по количеству дней микроцикла
+    $('.text-filter-events').on('keyup search', function () {
+        let days_val = $('#microcycle-days-filter').val()
+        let day_val = $('#microcycle-day-filter').val()
+
+        $('#events tbody tr').show()
+
+        $('#events tbody tr').filter(function( index ) {
+            let this_obj = $(this)
+            let data_days = this_obj.attr('data-microcycle-days')
+            return days_val!='' && data_days != days_val;
+        }).hide()
+        $('#events tbody tr').filter(function( index ) {
+            let this_obj = $(this)
+            let data_day = this_obj.attr('data-microcycle-day')
+            return day_val!='' && data_day != day_val;
+        }).hide()
     })
 })
 
@@ -490,7 +513,7 @@ async function ajax_microcycle_update(method, data, id) {
                     type: 'success',
                     message: gettext('The action with the microcycle was successfully completed!')
                 })
-                generateNewCalendar()
+                generateData()
                 microcycles_table.ajax.reload()
             }
         },
@@ -501,6 +524,14 @@ async function ajax_microcycle_update(method, data, id) {
             $('.page-loader-wrapper').fadeOut();
         }
     })
+}
+
+function generateData() {
+    if (calendar_active){
+        generateNewCalendar()
+    } else {
+        generateOnlyTable()
+    }
 }
 
 var microcycle_arr = null
@@ -748,12 +779,11 @@ function generateOnlyTable() {
     newMicrocycle = []
     newEvent = []
 
-    let microcycle_id = null
+
     let send_data ={}
 
-    let from_date_str = $('#event_calendar .microcycle_cell.selected').attr('data-start')
-    let to_date_str = $('#event_calendar .microcycle_cell.selected').attr('data-end')
-    microcycle_id = $('#event_calendar .microcycle_cell.selected').attr('data-id')
+    let from_date_str = $('#select-season option:selected').attr('data-with')
+    let to_date_str = $('#select-season option:selected').attr('data-by')
     let today = strDate
 
     //(strDate)
@@ -767,11 +797,6 @@ function generateOnlyTable() {
     }
     if(to_date_str){
         to_date = moment(to_date_str, 'DD/MM/YYYY').format('YYYY-MM-DD')
-    }
-
-    if(!from_date_str && !to_date_str && today){
-        from_date = moment(today, 'DD/MM/YYYY').startOf('month').format('YYYY-MM-DD')
-        to_date = moment(today, 'DD/MM/YYYY').endOf('month').format('YYYY-MM-DD')
     }
 
     send_data['from_date'] = from_date
@@ -789,11 +814,15 @@ function generateOnlyTable() {
         success: function(data){
             microcycle_arr = data['results']
             for (var microcycle of microcycle_arr) {
+                let date_with = moment(microcycle['date_with'], 'DD/MM/YYYY')
+                let date_by = moment(microcycle['date_by'], 'DD/MM/YYYY')
+                let days = date_by.diff(date_with, 'days')+1
                 newMicrocycle.push({
                     id: microcycle['id'],
                     name: microcycle['name'],
                     startDate: microcycle['date_with'],
                     endDate: microcycle['date_by'],
+                    days: days,
                     customClass: 'green_cell',
                     href: '#empty'
                 })
@@ -806,7 +835,7 @@ function generateOnlyTable() {
                 dataType: "JSON",
                 data: send_data,
                 success: function(data){
-                    //console.log(data['results'])
+                    console.log(data['results'])
                     let num_tr = 1, num_m = 1, count_tr = 0, count_m = 0, max_m = 0, event_date = '', event_class=''
                     let last_date = moment(to_date, 'YYYY-MM-DD')
                     let first_date = moment(from_date, 'YYYY-MM-DD')
@@ -850,12 +879,14 @@ function generateOnlyTable() {
 
                         let only_date = moment(event['only_date'], 'DD/MM/YYYY')
                         let count_day = 0
+                        let microcycle_days = 0
                         let isCurrentDate = false
                         if(moment().startOf('day').isSame(only_date)) isCurrentDate = true
                         newMicrocycle.forEach(function(microcycle, i) {
                             let date_with = moment(microcycle['startDate'], 'DD/MM/YYYY')
                             let date_by = moment(microcycle['endDate'], 'DD/MM/YYYY')
                             if(only_date.isBetween( date_with, date_by, undefined, '[]')){
+                                microcycle_days = microcycle.days
                                 count_day = only_date.diff(date_with, "days")+1
                                 if(count_day < 3) count_day = '+'+count_day
                                 else{
@@ -865,7 +896,7 @@ function generateOnlyTable() {
                             }
                         });
 
-                        tr_html += `<tr class="${event_id!=null ? 'hasEvent' : ''}" data-value="${event_id}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
+                        tr_html += `<tr class="${event_id!=null ? 'hasEvent' : ''}" data-value="${event_id}" data-microcycle-days="${microcycle_days}" data-microcycle-day="${count_day}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
                         if('training' in event && event['training'] != null){
                             num_tr = 1
                             let count_player = 0
@@ -1179,7 +1210,7 @@ $(function() {
                         window.console && console.log(event_id);
                         ajax_event_action('DELETE', null, 'delete', event_id).then(function( data ) {
                             //if(events_table) events_table.ajax.reload()
-                            generateNewCalendar()
+                            generateData()
                         })
                     } else if(key === 'edit'){
                         window.console && console.log(event_id);

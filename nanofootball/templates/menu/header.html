@@ -50,7 +50,7 @@
                     <select id="select-season" class="select custom-select seasons" name="season_value" tabindex="-1" aria-hidden="true">
                         <option value="">{% trans 'No season selected' %}</option>
                         {% for season in request.seasons_list %}
-                            <option value="{{ season.id }}" {% if request.session.season == season.id|stringformat:"i" %}selected{% endif %}>{{ season.name }}</option>
+                            <option value="{{ season.id }}" data-with="{{ season.date_with|date:"d/m/Y" }}" data-by="{{ season.date_by|date:"d/m/Y" }}" {% if request.session.season == season.id|stringformat:"i" %}selected{% endif %}>{{ season.name }}</option>
                         {% empty %}
                             <option value="">{% trans 'No seasons' %}</option>
                         {% endfor %}
