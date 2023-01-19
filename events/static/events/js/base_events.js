@@ -785,6 +785,7 @@ function generateOnlyTable() {
     let from_date_str = $('#select-season option:selected').attr('data-with')
     let to_date_str = $('#select-season option:selected').attr('data-by')
     let today = strDate
+    let favourites = parseInt($('#favourites-event-filter').attr('data-filter'))
 
     //(strDate)
     //console.log(middleDay)
@@ -801,6 +802,7 @@ function generateOnlyTable() {
 
     send_data['from_date'] = from_date
     send_data['to_date'] = to_date
+    send_data['favourites'] = favourites
     //console.log(send_data)
 
     $('#events tbody').html('')
