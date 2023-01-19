@@ -124,7 +124,7 @@ class CardSectionClub(models.Model):
 
 class PlayersTableColumns(models.Model):
     title = models.JSONField(null=True, blank=True)
-    text_id = models.CharField(max_length=20, null=True, blank=True)
+    text_id = models.CharField(max_length=50, null=True, blank=True)
     parent = models.IntegerField(
         help_text='Ид раздела родителя',
         null=True,

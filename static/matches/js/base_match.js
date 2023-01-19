@@ -74,8 +74,8 @@ function RenderProtocolInMatch(data, selectedRow = -1) {
                                 ${elem.player_name}
                             </div>
                             <div class="col-2 px-0 text-right">
-                                ${elem.is_goalkeeper ? `<span title="Вратарь"> [G.] </span>` : ''}
-                                ${elem.is_captain ? `<span title="Капитан"> [К] </span>` : ''}
+                                ${elem.is_goalkeeper ? `<span title="Вратарь"> (G.) </span>` : ''}
+                                ${elem.is_captain ? `<span title="Капитан"> (К.) </span>` : ''}
                             </div>
                         </div>
                     </td>
