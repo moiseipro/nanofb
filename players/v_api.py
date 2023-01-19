@@ -1220,7 +1220,13 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
             except:
                 pass
             try:
-                captain_val = '<span title="Капитан">(K.)</span>' if player.card.is_captain == True else ''
+                if player.card.is_captain == True:
+                    captain_val = '<span title="Капитан" style="color: red;">(K.)</span>'
+            except:
+                pass
+            try:
+                if player.card.is_vice_captain == True:
+                    captain_val = '<span title="Вице-Капитан">(K.)</span>'
             except:
                 pass
             player_data = {

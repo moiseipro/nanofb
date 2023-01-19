@@ -63,7 +63,7 @@
                             </div>
                             <div class="analytics-table-container mt-2">
                                 <div class="row">
-                                    <div class="col col-custom" style="--col-width:95%;">
+                                    <div class="col col-custom" style="--col-width:94%;">
                                         <div class="row">
                                             <div class="col-12" style="">
                                                 <div class="row table-block h-100" data-id="defaultTable">
@@ -220,21 +220,21 @@
                                         </div>
                                     
                                     </div>
-                                    <div class="col-1 px-0 seasons-block" style="max-width:4%!important;">
-                                        <div class="row mx-0 mb-1"><div class="col-12 d-flex justify-content-center">
+                                    <div class="col-1 px-0 seasons-block" style="max-width:6%!important;">
+                                        <div class="row mx-0 my-2"><div class="col-12 d-flex justify-content-center">
                                             <button class="btn btn-outline-primary season-toggle active" type="" title="Сезон">
-                                                C.
+                                                Сезон
                                             </button>
                                         </div></div>
-                                        <div class="row mx-0 mb-1"><div class="col-12 d-flex justify-content-center">
+                                        <div class="row mx-0 my-2"><div class="col-12 d-flex justify-content-center">
                                             <button class="btn btn-outline-primary season-toggle" type="-1" title="Последние 30 дней">
-                                                30
+                                                30 дней
                                             </button>
                                         </div></div>
                                         {% for month in months %}
-                                            <div class="row mx-0 mb-1"><div class="col-12 d-flex justify-content-center">
+                                            <div class="row mx-0 my-2"><div class="col-12 d-flex justify-content-center">
                                                 <button class="btn btn-outline-primary season-toggle" type="{{ forloop.counter }}" title="{{ month.name }}">
-                                                    {{ month.short }}
+                                                    {{ month.name }}
                                                 </button>
                                             </div></div>
                                         {% endfor %}

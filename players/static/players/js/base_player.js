@@ -845,9 +845,19 @@ $(function() {
         }
     });
     $('.cnt-center-block').on('click', '.edit-field-btn', (e) => {
+        let cName = $(e.currentTarget).find('input').attr('name');
         let isActive = $(e.currentTarget).hasClass('selected');
         $(e.currentTarget).toggleClass('selected', !isActive);
         $(e.currentTarget).find('input').val(!isActive ? 1 : 0);
+        if (!isActive) {
+            if (cName == "is_captain") {
+                $('.cnt-center-block').find('input.edit-field[name="is_vice_captain"]').val(0);
+                $('.cnt-center-block').find('input.edit-field[name="is_vice_captain"]').parent().removeClass('selected');
+            } else if (cName == "is_vice_captain") {
+                $('.cnt-center-block').find('input.edit-field[name="is_captain"]').val(0);
+                $('.cnt-center-block').find('input.edit-field[name="is_captain"]').parent().removeClass('selected');
+            }
+        }
     });
 
     // Delete Player
