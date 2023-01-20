@@ -1,3 +1,6 @@
+let match_players_table = null;
+let match_opponents_table = null;
+
 function LoadMatchOne(id = null) {
     if (id == null || id == undefined) {
         swal("Ошибка", "Матч не найден.", "error");
@@ -110,9 +113,12 @@ function RenderProtocolInMatch(data, selectedRow = -1) {
                         <input class="form-control form-control-sm" type="checkbox" name="like" ${elem.like ? "checked": ""}>
                     </td>
                     <td class="text-center">
-                    <button type="button" class="btn btn-sm btn-secondary video-player-protocol ${elem.videos_count > 0 ? '' : 'btn-empty'}">
-                        Видео
-                    </button>
+                        <button type="button" class="btn btn-sm btn-secondary video-player-protocol ${elem.videos_count > 0 ? '' : 'btn-empty'}">
+                            Видео
+                        </button>
+                    </td>
+                    <td class="text-center">
+                        <input class="form-control form-control-sm" name="note" type="text" value="${elem.note ? elem.note : ''}" placeholder="" autocomplete="off">
                     </td>
                 </tr>
             `;
@@ -147,11 +153,13 @@ function RenderProtocolInMatch(data, selectedRow = -1) {
                 {"width": "28%", "targets": 2},
                 {"width": "5%", "targets": [1, 3, 4, 5, 6, 7, 8, 9, 10]},
                 {"width": "2%", "targets": [11, 12]},
-                {"className": "dt-vertical-center", "targets": "_all"}
+                {"className": "dt-vertical-center", "targets": "_all"},
+                {"width": "50%", "targets": [14]},
+                {"visible": false, "targets": [14]}
             ]
         };
-        $('#team_players').DataTable(tableOptions);
-        $('#opponent_players').DataTable(tableOptions);
+        match_players_table = $('#team_players').DataTable(tableOptions);
+        match_opponents_table = $('#opponent_players').DataTable(tableOptions);
         $('.players-content').find(`tr.protocol-row[data-id="${selectedRow}"]`).addClass('selected');
         setTimeout(() => {
             $('.card-body').find('.collapse-block').removeClass('d-block');
@@ -568,6 +576,22 @@ $(function() {
     $('.players-content').on('click', '.video-player-protocol', (e) => {
         let protocolId = $(e.currentTarget).parent().parent().attr('data-id');
         OpenMatchVideoModal("protocol", protocolId);
+    });
+
+    // Toggle notes' column
+    $('#toggleMatchNotes').on('click', (e) => {
+        let isSelected = $(e.currentTarget).hasClass('selected');
+        let isEdit = $('#editMatchAll').hasClass('d-none');
+        try {
+            match_players_table.columns([3,4,5,6,7,8,9,10,11,12,13]).visible(isSelected);
+            match_players_table.columns([14]).visible(!isSelected);
+        } catch (e) {}
+        try {
+            match_opponents_table.columns([3,4,5,6,7,8,9,10,11,12,13]).visible(isSelected);
+            match_opponents_table.columns([14]).visible(!isSelected);
+        } catch (e) {}
+        $('.row.players-content').find('.form-control').prop('disabled', !isEdit);
+        $(e.currentTarget).toggleClass('selected', !isSelected);
     });
 
 

@@ -31,9 +31,9 @@
                                 <button class="btn btn-sm btn-outline-success" type="button" id="addMatchBtn">
                                     Добавить
                                 </button>
-                                <button class="btn btn-sm btn-outline-primary" type="button" id="">
+                                <!-- <button class="btn btn-sm btn-outline-primary" type="button" id="">
                                     Календарь
-                                </button>
+                                </button> -->
                                 <button class="btn btn-sm btn-outline-primary clear-collapses active" type="button" id="">
                                     Матчи
                                 </button>
@@ -43,12 +43,12 @@
                                 <button class="btn btn-sm btn-outline-primary toggle-collapse" type="button" id="" data-toggle="collapse" data-target="#collapse-scheme" aria-expanded="false" aria-controls="collapseExample">
                                     Схемы
                                 </button>
-                                <button class="btn btn-sm btn-outline-primary toggle-collapse" type="button" id="" data-toggle="collapse" data-target="#collapse-statistics" aria-expanded="false" aria-controls="collapseExample">
+                                <!-- <button class="btn btn-sm btn-outline-primary toggle-collapse" type="button" id="" data-toggle="collapse" data-target="#collapse-statistics" aria-expanded="false" aria-controls="collapseExample">
                                     Статистика
                                 </button>
                                 <button class="btn btn-sm btn-outline-primary toggle-collapse" type="button" id="" data-toggle="collapse" data-target="#collapse-analytics" aria-expanded="false" aria-controls="collapseExample">
                                     Аналитика
-                                </button>
+                                </button> -->
                                 <button class="btn btn-sm btn-outline-primary toggle-collapse" type="button" id="" data-toggle="collapse" data-target="#collapse-notes" aria-expanded="false" aria-controls="collapseExample">
                                     Записи
                                 </button>
@@ -197,7 +197,19 @@
                                     Аналитика
                                 </div>
                                 <div class="col-7 px-1 collapse collapse-block" id="collapse-notes">
-                                    Записи
+                                    <div class="table-responsive">
+                                        <table id="protocol_notes" class="table table-sm table-bordered dataTable" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th class="team-type-order"></th>
+                                                    <th class="text-center">№</th>
+                                                    <th>ФИ</th>
+                                                    <th class="text-center">Записи</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
                                 </div>
                                 <div class="col-7 px-1 collapse collapse-block" id="collapse-video">
                                     Видео
@@ -226,11 +238,11 @@
                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                 </button>
                             </div></div>
-                            <div class="row mx-0"><div class="col-12 d-flex justify-content-center">
+                            <!-- <div class="row mx-0"><div class="col-12 d-flex justify-content-center">
                                 <button class="btn btn-outline-warning" action="" title="Записи">
                                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                 </button>
-                            </div></div>
+                            </div></div> -->
                             <div class="row mx-0"><div class="col-12 d-flex justify-content-center">
                                 <button class="btn btn-outline-warning" action="" title="Видео-команда">
                                     V1

@@ -508,8 +508,9 @@ def POST_edit_players_protocol(request, cur_user):
         c_value = int(request.POST.get("value", None))
     except:
         pass
+    print(c_value)
     c_key = request.POST.get("key", "")
-    keys_with_values = ['minute_from', 'minute_to', 'goal', 'penalty', 'p_pass', 'yellow_card', 'red_card', 'estimation', 'like', 'dislike']
+    keys_with_values = ['minute_from', 'minute_to', 'goal', 'penalty', 'p_pass', 'yellow_card', 'red_card', 'estimation', 'like', 'dislike', 'note']
     AnyProtocol = None
     if request.user.club_id is not None:
         AnyProtocol = ClubProtocol
@@ -528,7 +529,10 @@ def POST_edit_players_protocol(request, cur_user):
                         c_value = False
             if c_value and c_value < 0:
                 c_value = None
+            if c_key == "note":
+                c_value = request.POST.get("value", "")
             update_dict[c_key] = c_value
+            print(update_dict)
             if c_key == "dislike" and c_value == 1:
                 update_dict['like'] = 0
             elif c_key == "like" and c_value == 1:
