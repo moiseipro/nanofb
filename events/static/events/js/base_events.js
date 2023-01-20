@@ -145,6 +145,7 @@ $(window).on('load', function (){
             let this_obj = $(this)
             if (this_obj.hasClass('selected')) {
                 if (this_obj.hasClass('data_cell')){
+                    Cookies.set('event_id', data_id, { expires: 1 })
                     if($('#events-content').hasClass('d-none')){
                         hide_training_card()
                         $('#events-content').removeClass('d-none')
@@ -154,11 +155,13 @@ $(window).on('load', function (){
                     }
 
                 } else {
+                    Cookies.remove('event_id')
                     $('.hasEvent').removeClass('selected')
                     $('#block-event-info .event-info').html('')
                 }
 
             } else {
+                Cookies.set('event_id', data_id, { expires: 1 })
                 $('.hasEvent').removeClass('selected')
                 $('.hasEvent[data-value="' + data_id + '"]').addClass('selected')
                 ajax_event_action('GET', null, 'view event', data_id).then(function (data) {
@@ -296,10 +299,11 @@ $(window).on('load', function (){
         $('#event_calendar').toggleClass('d-none', !calendar_active)
         $(this).children('i').toggleClass('fa-arrow-up', calendar_active).toggleClass('fa-arrow-down', !calendar_active)
         $('.move_to_today').toggleClass('isMonth', !calendar_active)
+        $('#filters-row').toggleClass('d-none', calendar_active || $('#events-content').hasClass('d-none'))
         set_month_or_date_button()
         resize_events_table()
         resize_trainings_block()
-        generateData()
+        if(!$('#events-content').hasClass('d-none')) generateData()
     })
 
     $('#events').on('click', '.switch-favorites', function () {
@@ -392,25 +396,68 @@ $(window).on('load', function (){
         $(this).attr('data-filter', cur_fav)
         generateData()
     })
-    //Фильтрация событий по количеству дней микроцикла
+    //Фильтрация не заполненных событий
+    $('#filled-event-filter').on('click', function () {
+        let cur_state = parseInt($(this).attr('data-filter'))
+        if (cur_state>0) {
+            cur_state = 0
+            $(this).removeClass('active')
+        } else {
+            cur_state += 1
+            $(this).addClass('active')
+        }
+        $(this).attr('data-filter', cur_state)
+        local_filters_events()
+    })
+    //Локальная Фильтрация событий
     $('.text-filter-events').on('keyup search', function () {
-        let days_val = $('#microcycle-days-filter').val()
-        let day_val = $('#microcycle-day-filter').val()
-
-        $('#events tbody tr').show()
-
-        $('#events tbody tr').filter(function( index ) {
-            let this_obj = $(this)
-            let data_days = this_obj.attr('data-microcycle-days')
-            return days_val!='' && data_days != days_val;
-        }).hide()
-        $('#events tbody tr').filter(function( index ) {
-            let this_obj = $(this)
-            let data_day = this_obj.attr('data-microcycle-day')
-            return day_val!='' && data_day != day_val;
-        }).hide()
+        local_filters_events()
+    })
+    //Сброс всей фильтрации
+    $('#clear-events-filters').on('click', function () {
+        clear_filters_events()
     })
 })
+
+function local_filters_events() {
+    let days_val = $('#microcycle-days-filter').val()
+    let day_val = $('#microcycle-day-filter').val()
+    let filled_val = $('#filled-event-filter').attr('data-filter')
+
+    $('#events tbody tr').show()
+
+    $('#events tbody tr').filter(function( index ) {
+        let this_obj = $(this)
+        let data_days = this_obj.attr('data-microcycle-days')
+        return days_val!='' && data_days != days_val;
+    }).hide()
+    $('#events tbody tr').filter(function( index ) {
+        let this_obj = $(this)
+        let data_day = this_obj.attr('data-microcycle-day')
+        return day_val!='' && data_day != day_val;
+    }).hide()
+    $('#events tbody tr').filter(function( index ) {
+        let this_obj = $(this)
+        let data_filled = this_obj.attr('data-unfilled')
+        return filled_val!='0' && data_filled != filled_val;
+    }).hide()
+}
+
+function clear_filters_events() {
+    Cookies.remove('event_id')
+
+    $('#favourites-event-filter').attr('data-filter', '0').removeClass(`active`)
+    $('#favourites-event-filter i').removeClass(`fa-star text-danger text-warning text-success`).addClass(`fa-star-o`)
+
+    $('#filled-event-filter').attr('data-filter', '0').removeClass(`active`)
+    $('#microcycle-days-filter').val('')
+    $('#microcycle-day-filter').val('')
+    $('#field_size-event-filter').val('')
+    $('#keywords-event-filter').val('')
+    $('#load-event-filter').val('')
+
+    generateData()
+}
 
 function resize_events_table(){
     let css = "calc(93vh - "+Math.round($('#calendar-row').height())+"px - "+Math.round($('#filters-row').height())+"px - "+Math.round($('.header').height())+"px - "+Math.round($('.card-header').height())+"px)"
@@ -756,8 +803,11 @@ function generateNewCalendar(){
                         $('#event_calendar .microcycle_cell[data-id="'+microcycle_id+'"]').addClass('selected')
                     }
                     if(Cookies.get('event_id')){
-                        $('#events .hasEvent[data-value="'+Cookies.get('event_id')+'"] td:first').click()
-                        Cookies.remove('event_id')
+                        if($('#events .hasEvent[data-value="'+Cookies.get('event_id')+'"]').length){
+                            $('#events .hasEvent[data-value="'+Cookies.get('event_id')+'"] td:first').click()
+                        } else {
+                            Cookies.remove('event_id')
+                        }
                     }
 
                     set_month_or_date_button()
@@ -770,7 +820,7 @@ function generateNewCalendar(){
             swal(gettext('Event save'), gettext('Error when action the event!'), "error");
         },
         complete: function () {
-            $('.page-loader-wrapper').fadeOut();
+            //$('.page-loader-wrapper').fadeOut();
         }
     })
 }
@@ -878,11 +928,14 @@ function generateOnlyTable() {
                             event_name = '',
                             event_short_name = event['short_name']
                         let tr_html = ``
+                        let td_html = ``
 
                         let only_date = moment(event['only_date'], 'DD/MM/YYYY')
                         let count_day = 0
                         let microcycle_days = 0
                         let isCurrentDate = false
+                        let isFilled = true
+
                         if(moment().startOf('day').isSame(only_date)) isCurrentDate = true
                         newMicrocycle.forEach(function(microcycle, i) {
                             let date_with = moment(microcycle['startDate'], 'DD/MM/YYYY')
@@ -898,11 +951,10 @@ function generateOnlyTable() {
                             }
                         });
 
-                        tr_html += `<tr class="${event_id!=null ? 'hasEvent' : ''}" data-value="${event_id}" data-microcycle-days="${microcycle_days}" data-microcycle-day="${count_day}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
                         if('training' in event && event['training'] != null){
                             num_tr = 1
                             let count_player = 0
-                            let isFilled = true
+
                             if(event_class === 'trainingClass' && event['only_date'] === event_date) num_tr++
                             if(event.training.exercises_info.length == 0 ||event.training.protocol_info.length == 0) isFilled = false
                             if('protocol_info' in event.training){
@@ -914,7 +966,7 @@ function generateOnlyTable() {
                             event_class = 'trainingClass'
                             count_tr++
                             console.log(event.training)
-                            tr_html += `
+                            td_html += `
                                 <td>${count_day==0 ? '---' : count_day}</td>
                                 <td class="${!isFilled ? 'text-danger' : ''}">${event['only_date']}</td>
                                 <td><a href="/trainings/view/${event.training.event_id}" class="btn btn-sm btn-block btn-info py-0" data-id="${event.training.event_id}">${gettext('Training')+' '+(num_tr == 2 ? '2' : '')}</a></td>
@@ -928,7 +980,7 @@ function generateOnlyTable() {
                             count_m--
                             count_tr = 0
 
-                            tr_html += `
+                            td_html += `
                                 <td>${count_day==0 ? '---' : count_day}</td>
                                 <td>${event['only_date']}</td>
                                 <td><a href="/matches/match?id=${event.match.event_id}" data-count="${count_m+1}" class="btn btn-sm btn-block ${event.match.m_type == 0 ?"btn-warning":"btn-success"} py-0" data-id="${event.match.event_id}">${gettext('Match')}</a></td>
@@ -938,7 +990,7 @@ function generateOnlyTable() {
                             `
                         } else {
                             event_class = 'none'
-                            tr_html += `
+                            td_html += `
                                     <td>${count_day==0 ? '---' : count_day}</td>
                                     <td>${event['only_date']}</td>
                                     <td>${count_tr == 0 && count_m==max_m ? '---' : '---'}</td>
@@ -947,6 +999,8 @@ function generateOnlyTable() {
                                     <td>---</td>
                                 ` //<a href="#" class="btn btn-sm btn-block btn-secondary py-0 disabled">${/*gettext('Recreation')*/'---'}</a>
                         }
+                        tr_html += `<tr class="${event_id!=null ? 'hasEvent' : ''}" data-value="${event_id}" data-microcycle-days="${microcycle_days}" data-microcycle-day="${count_day}" data-unfilled="${!isFilled ? '1' : '0'}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
+                        tr_html += td_html
                         tr_html += `</tr>`
                         event_date = event['only_date']
                         newEvent.push({
@@ -971,6 +1025,16 @@ function generateOnlyTable() {
                 complete: function () {
                     $('.page-loader-wrapper').fadeOut();
 
+                    local_filters_events()
+
+                    if(Cookies.get('event_id')){
+                        if($('#events .hasEvent[data-value="'+Cookies.get('event_id')+'"]').length){
+                            $('#events .hasEvent[data-value="'+Cookies.get('event_id')+'"] td:first').click()
+                        } else {
+                            Cookies.remove('event_id')
+                        }
+                    }
+
                     resize_events_table()
                 }
             })
@@ -980,7 +1044,7 @@ function generateOnlyTable() {
             swal(gettext('Event save'), gettext('Error when action the event!'), "error");
         },
         complete: function () {
-            $('.page-loader-wrapper').fadeOut();
+            //$('.page-loader-wrapper').fadeOut();
         }
     })
 }
