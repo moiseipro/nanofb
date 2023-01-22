@@ -521,6 +521,28 @@ $(function() {
         LoadFolderExercises();
         CountExsInFolder();
     });
+    $('.exs-age-filter').on('change', (e) => {
+        let valueTypeA = $('.exs-age-filter[data-type="a"]').val();
+        let valueTypeB = $('.exs-age-filter[data-type="b"]').val();
+        window.exercisesFilter['filter_age_a'] = valueTypeA;
+        window.exercisesFilter['filter_age_b'] = valueTypeB;
+        for (ind in window.count_exs_calls) {
+            window.count_exs_calls[ind]['call'].abort();
+        }
+        LoadFolderExercises();
+        CountExsInFolder();
+    });
+    $('.exs-players-filter').on('change', (e) => {
+        let valueTypeA = $('.exs-players-filter[data-type="a"]').val();
+        let valueTypeB = $('.exs-players-filter[data-type="b"]').val();
+        window.exercisesFilter['filter_players_a'] = valueTypeA;
+        window.exercisesFilter['filter_players_b'] = valueTypeB;
+        for (ind in window.count_exs_calls) {
+            window.count_exs_calls[ind]['call'].abort();
+        }
+        LoadFolderExercises();
+        CountExsInFolder();
+    });
 
 
     // Toggle side filter content

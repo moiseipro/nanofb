@@ -530,6 +530,10 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
     filter_search = ""
     filter_tags = []
     filter_video_source = -1
+    filter_age_a = -1
+    filter_age_b = -1
+    filter_players_a = -1
+    filter_players_b = -1
     try:
         if req.method == "GET":
             filter_goal = int(req.GET.get("filter[goal]", -1))
@@ -584,6 +588,34 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             filter_video_source = int(req.GET.get("filter[video_sources]", -1))
         elif req.method == "POST":
             filter_video_source = int(req.POST.get("filter[video_sources]", -1))
+    except:
+        pass
+    try:
+        if req.method == "GET":
+            filter_age_a = int(req.GET.get("filter[filter_age_a]", -1))
+        elif req.method == "POST":
+            filter_age_a = int(req.POST.get("filter[filter_age_a]", -1))
+    except:
+        pass
+    try:
+        if req.method == "GET":
+            filter_age_b = int(req.GET.get("filter[filter_age_b]", -1))
+        elif req.method == "POST":
+            filter_age_b = int(req.POST.get("filter[filter_age_b]", -1))
+    except:
+        pass
+    try:
+        if req.method == "GET":
+            filter_players_a = int(req.GET.get("filter[filter_players_a]", -1))
+        elif req.method == "POST":
+            filter_players_a = int(req.POST.get("filter[filter_players_a]", -1))
+    except:
+        pass
+    try:
+        if req.method == "GET":
+            filter_players_b = int(req.GET.get("filter[filter_players_b]", -1))
+        elif req.method == "POST":
+            filter_players_b = int(req.POST.get("filter[filter_players_b]", -1))
     except:
         pass
     f_exercises = []
@@ -689,8 +721,13 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             Q(userexerciseparam__favorite=filter_favorite)
         )
     if filter_search != "":
-        searh_regex = r'(.*)[\"]' + re.escape(req.LANGUAGE_CODE) + r'[\"][:](.*)[\"](.*)(' + re.escape(filter_search.lower()) + r')(.*)[\"]'
-        f_exercises = f_exercises.filter(title__iregex=searh_regex)
+        filter_search_low = filter_search.lower()
+        searh_regex = r'(.*)[\"]' + re.escape(req.LANGUAGE_CODE) + r'[\"][:](.*)[\"](.*)(' + re.escape(filter_search_low) + r')(.*)[\"]'
+        f_exercises = f_exercises.filter(
+            Q(title__iregex=searh_regex) |
+            Q(field_keyword_a__iexact=filter_search_low) |
+            Q(field_keyword_b__iexact=filter_search_low)
+        )
     if filter_video_source != -1:
         if filter_video_source == -2:
             f_exercises = f_exercises.filter(
@@ -700,6 +737,42 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             f_exercises = f_exercises.filter(
                 Q(exercisevideo__video__isnull=False) & Q(exercisevideo__video__videosource_id=filter_video_source)
             )
+    if filter_age_a != -1 or filter_age_b != -1:
+        if filter_age_a != -1 and filter_age_b == -1:
+            f_exercises = f_exercises.filter(
+                Q(Q(field_age_a__isnull=False) & Q(field_age_a__gte=filter_age_a)) |
+                Q(Q(field_age_a__isnull=True) & Q(field_age_b__lte=filter_age_a))
+            )
+        elif filter_age_a == -1 and filter_age_b != -1:
+            f_exercises = f_exercises.filter(
+                Q(Q(field_age_b__isnull=False) & Q(field_age_b__lte=filter_age_b)) |
+                Q(Q(field_age_b__isnull=True) & Q(field_age_a__lte=filter_age_b))
+            )
+        else:
+            if filter_age_a == filter_age_b:
+                f_exercises = f_exercises.filter(field_age_a=filter_age_a)
+            else:
+                f_exercises = f_exercises.filter(
+                    Q(Q(field_age_a__isnull=False) & Q(field_age_b__isnull=False) & Q(field_age_a__gte=filter_age_a) & Q(field_age_b__lte=filter_age_b))
+                )
+    if filter_players_a != -1 or filter_players_b != -1:
+        if filter_players_a != -1 and filter_players_b == -1:
+            f_exercises = f_exercises.filter(
+                Q(Q(field_players_a__isnull=False) & Q(field_players_a__gte=filter_players_a)) |
+                Q(Q(field_players_a__isnull=True) & Q(field_players_b__lte=filter_players_a))
+            )
+        elif filter_players_a == -1 and filter_players_b != -1:
+            f_exercises = f_exercises.filter(
+                Q(Q(field_players_b__isnull=False) & Q(field_players_b__lte=filter_players_b)) |
+                Q(Q(field_players_b__isnull=True) & Q(field_players_a__lte=filter_players_b))
+            )
+        else:
+            if filter_players_a == filter_players_b:
+                f_exercises = f_exercises.filter(field_players_a=filter_players_a)
+            else:
+                f_exercises = f_exercises.filter(
+                    Q(Q(field_players_a__isnull=False) & Q(field_players_b__isnull=False) & Q(field_players_a__gte=filter_players_a) & Q(field_players_b__lte=filter_players_b))
+                )
     if count_for_tag:
         f_exercises = f_exercises.filter(tags__lowercase_name__in=[count_for_tag]).distinct()
 
@@ -1174,6 +1247,13 @@ def POST_edit_exs(request, cur_user, cur_team):
 
     c_exs.scheme_1 = request.POST.get("data[scheme_1]", None)
     c_exs.scheme_2 = request.POST.get("data[scheme_2]", None)
+
+    c_exs.field_age_a = set_value_as_int(request, "data[field_age_a]", None)
+    c_exs.field_age_b = set_value_as_int(request, "data[field_age_b]", None)
+    c_exs.field_players_a = set_value_as_int(request, "data[field_players_a]", None)
+    c_exs.field_players_b = set_value_as_int(request, "data[field_players_b]", None)
+    c_exs.field_keyword_a = request.POST.get("data[field_keyword_a]", None)
+    c_exs.field_keyword_b = request.POST.get("data[field_keyword_b]", None)
 
     c_exs.tags.clear()
     tags_arr = set_value_as_list(request, "data[tags]", "data[tags][]", [])

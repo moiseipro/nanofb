@@ -190,6 +190,13 @@ class AbstractExercise(models.Model):
     opt_has_description = models.BooleanField(default=False)
     opt_has_scheme = models.BooleanField(default=False)
 
+    field_age_a = models.IntegerField(null=True, blank=True)
+    field_age_b = models.IntegerField(null=True, blank=True)
+    field_players_a = models.IntegerField(null=True, blank=True)
+    field_players_b = models.IntegerField(null=True, blank=True)
+    field_keyword_a = models.CharField(max_length=30, null=True, blank=True)
+    field_keyword_b = models.CharField(max_length=30, null=True, blank=True)
+
     tags = models.ManyToManyField(ExerciseTag)
 
     objects = models.Manager()
