@@ -242,6 +242,9 @@ function ToggleUpFilter(id, state) {
             }
             ToggleIconsInExs();
             break;
+        case "keywords":
+            ToggleIconsInExs();
+            break;
         default:
             break;
     }

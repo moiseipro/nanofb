@@ -2341,6 +2341,8 @@ def GET_get_exs_all(request, cur_user, cur_team):
             'title': exs_title,
             'field_players': exs_field_players,
             'field_goal': exs_field_goal,
+            'field_keyword_a': exercise['field_keyword_a'],
+            'field_keyword_b': exercise['field_keyword_b'],
             'ref_ball_id': exercise['ref_ball_id'],
             'has_video_1': exercise['has_video_1'],
             'has_video_2': exercise['has_video_2'],
