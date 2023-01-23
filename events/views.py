@@ -278,24 +278,43 @@ class EventViewSet(viewsets.ModelViewSet):
         microcycle_before = self.request.query_params.get('to_date')
         microcycle_after = self.request.query_params.get('from_date')
         favourites = self.request.query_params.get('favourites')
-        print(microcycle_before)
+        load_type = self.request.query_params.get('load_type')
+        keywords = self.request.query_params.get('keywords')
+        field_size = self.request.query_params.get('field_size')
+        print(load_type)
         team = self.request.session['team']
         if self.request.user.club_id is not None:
             season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
+
+            q_filter = Q(clubtraining__team_id=team)
             if favourites != '0' and favourites is not None:
-                events = ClubEvent.objects.filter(Q(clubtraining__team_id=team) & Q(clubtraining__favourites=favourites) | Q(clubmatch__team_id=team))
-            else:
-                events = ClubEvent.objects.filter(Q(clubtraining__team_id=team) | Q(clubmatch__team_id=team))
+                q_filter &= Q(clubtraining__favourites=favourites)
+            if load_type != '' and load_type is not None:
+                q_filter &= Q(clubtraining__load_type__icontains=load_type)
+            if keywords != '' and keywords is not None:
+                q_filter &= Q(clubtraining__keywords_1__icontains=keywords) | Q(clubtraining__keywords_2__icontains=keywords)
+            if field_size != '' and field_size is not None:
+                q_filter &= Q(clubtraining__field_size__icontains=field_size)
+            q_filter |= Q(clubmatch__team_id=team)
+            events = ClubEvent.objects.filter(q_filter)
 
             events = events.filter(club_id=self.request.user.club_id,
                           date__gte=season[0].date_with,
                           date__lte=season[0].date_by)
         else:
             season = UserSeason.objects.filter(id=self.request.session['season'])
+
+            q_filter = Q(usertraining__team_id=team)
             if favourites != '0' and favourites is not None:
-                events = UserEvent.objects.filter(Q(usertraining__team_id=team) & Q(usertraining__favourites=favourites) | Q(usermatch__team_id=team))
-            else:
-                events = UserEvent.objects.filter(Q(usertraining__team_id=team) | Q(usermatch__team_id=team))
+                q_filter &= Q(usertraining__favourites=favourites)
+            if load_type != '' and load_type is not None:
+                q_filter &= Q(usertraining__load_type__icontains=load_type)
+            if keywords != '' and keywords is not None:
+                q_filter &= Q(usertraining__keywords_1__icontains=keywords) | Q(usertraining__keywords_2__icontains=keywords)
+            if field_size != '' and field_size is not None:
+                q_filter &= Q(usertraining__field_size__icontains=field_size)
+            q_filter |= Q(usermatch__team_id=team)
+            events = UserEvent.objects.filter(q_filter)
 
             events = events.filter(user_id=self.request.user,
                                   date__gte=season[0].date_with,
