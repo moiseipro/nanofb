@@ -159,7 +159,8 @@ class AbstractProtocol(models.Model):
     is_goalkeeper = models.BooleanField(default=False)
     border_red = models.SmallIntegerField(default=0)
     border_black = models.SmallIntegerField(default=0)
-    
+    note = models.CharField(max_length=255, null=True, blank=True)
+
     video_link = models.ForeignKey(EventVideoLink, on_delete=models.SET_NULL, null=True, blank=True)
 
     objects = models.Manager()

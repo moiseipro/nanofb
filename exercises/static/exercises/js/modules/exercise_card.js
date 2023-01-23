@@ -218,6 +218,13 @@ function RenderExerciseOne(data) {
         $(exsCard).find('.exs_edit_field[name="scheme_1"]').val(data.scheme_1);
         $(exsCard).find('.exs_edit_field[name="scheme_2"]').val(data.scheme_2);
 
+        $(exsCard).find('.exs_edit_field[name="field_age_a"]').val(data.field_age_a);
+        $(exsCard).find('.exs_edit_field[name="field_age_b"]').val(data.field_age_b);
+        $(exsCard).find('.exs_edit_field[name="field_players_a"]').val(data.field_players_a);
+        $(exsCard).find('.exs_edit_field[name="field_players_b"]').val(data.field_players_b);
+        $(exsCard).find('.exs_edit_field[name="field_keyword_a"]').val(data.field_keyword_a);
+        $(exsCard).find('.exs_edit_field[name="field_keyword_b"]').val(data.field_keyword_b);
+
         $(exsCard).find('.exs_edit_field[name="tags"]').val(data.tags).trigger('change');
         window.selectedTagsInCard = data.tags;
         ToggleSelectedTagsInCard();

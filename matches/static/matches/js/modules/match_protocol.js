@@ -22,6 +22,7 @@ function LoadProtocolMatch(id, isForMatch = true, selectedRowId = null) {
                     RenderProtocolInMatch(resultData, selectedRowId);
                 } else {
                     RenderProtocolInMatches(resultData);
+                    RenderProtocolNotesInMatches(resultData);
                 }
                 $('.page-loader-wrapper').fadeOut();
             }

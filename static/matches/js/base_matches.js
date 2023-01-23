@@ -1,5 +1,6 @@
-let matches_table
-let protocol_table
+let matches_table = null;
+let protocol_table = null;
+let protocol_notes_table = null;
 
 let protocol_table_options = {
     language: {
@@ -20,6 +21,29 @@ let protocol_table_options = {
         {"searchable": false, "orderable": false, "targets": [3, 12]},
         {"width": "30%", "targets": 2},
         {"visible": false, "targets": 0},
+        {"className": "dt-vertical-center", "targets": "_all"}
+    ]
+};
+let protocol_notes_table_options = {
+    language: {
+        url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
+    },
+    dom: "<'row'<'col-sm-12 col-md '><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
+         "<'row'<'col-sm-12'tr>>" +
+         "<'row'<'col-sm-12 col-md-5'l><'col-sm-12 col-md-7'p>>",
+    serverSide: false,
+    processing: false,
+    paging: false,
+    searching: false,
+    select: false,
+    drawCallback: function( settings ) {
+    },
+    "orderFixed": [0, 'asc'],
+    "columnDefs": [
+        {"searchable": false, "orderable": false, "targets": [3]},
+        {"width": "30%", "targets": 2},
+        {"visible": false, "targets": 0},
+        {"width": "50%", "targets": 3},
         {"className": "dt-vertical-center", "targets": "_all"}
     ]
 };
@@ -102,6 +126,55 @@ function RenderProtocolInMatches(data) {
     protocol_table.draw();
 }
 
+function RenderProtocolNotesInMatches(data) {
+    protocol_notes_table.destroy();
+    $('#protocol_notes').find('tbody').html('');
+    if (Array.isArray(data)) {
+        let teamPlayersHtml = "";
+        let opponentPlayersHtml = "";
+        for (ind in data) {
+            let elem = data[ind];
+            let rowClasses = "";
+            if (elem.border_red == 1) {rowClasses += "border-red-bottom ";}
+            if (elem.border_black == 1) {rowClasses += "border-black-bottom ";}
+            let tmpHtml = `
+                <tr class="protocol-note-row ${!elem.is_opponent ? 'row-blue' : 'row-red'} ${rowClasses}" data-id="${elem.id}">
+                    <td data-order="${!elem.is_opponent ? "a" : "b"}"></td>
+                    <td class="text-center">
+                        ${elem.p_num ? elem.p_num : '-'}
+                    </td>
+                    <td>
+                        <div class="row mx-0 justify-content-between">
+                            <div class="col-9 px-0 text-left">
+                                ${elem.player_name ? elem.player_name : '-'}
+                            </div>
+                            <div class="col-3 px-0 text-right">
+                                ${elem.is_goalkeeper ? `<span title="Вратарь"> (G.) </span>` : ''}
+                                ${elem.is_captain ? `<span title="Капитан"> (К.) </span>` : ''}
+                                ${elem.player_position ? `<span title="Позиция"> (${elem.player_position}) </span>` : ''}
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        ${elem.note ? elem.note : ''}
+                    </td>
+                </tr>
+            `;
+            if (!elem.is_opponent) {
+                teamPlayersHtml += tmpHtml;
+            } else {
+                opponentPlayersHtml += tmpHtml;
+            }
+        }
+        $('#protocol_notes').find('tbody').html(`
+            ${teamPlayersHtml}
+            ${opponentPlayersHtml}
+        `);
+    }
+    protocol_notes_table = $('#protocol_notes').DataTable(protocol_notes_table_options);
+    protocol_notes_table.draw();
+}
+
 
 
 $(function() {
@@ -134,6 +207,8 @@ $(function() {
     });
     protocol_table = $('#protocol').DataTable(protocol_table_options);
     protocol_table.draw();
+    protocol_notes_table = $('#protocol_notes').DataTable(protocol_notes_table_options);
+    protocol_notes_table.draw();
 
     $('.card-header').on('click', '.clear-collapses', (e) => {
         $('.card-header').find('.toggle-collapse').removeClass('active');
