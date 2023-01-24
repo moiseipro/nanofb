@@ -455,6 +455,17 @@ $(window).on('load', function (){
     $('#clear-events-filters').on('click', function () {
         clear_filters_events()
     })
+    //Скачивание преззентации
+    $('#event-render-presentation').on('click', function () {
+        let id = $('#events .hasEvent.selected').attr('data-value')
+        let event_type = $('#events .hasEvent.selected').hasClass('trainingClass') ? 'training' : '';
+        if(id!=''){
+            ajax_presentation_action('GET', {}, event_type, id).then(function (data) {
+
+            })
+        }
+
+    })
 })
 
 function local_filters_events() {

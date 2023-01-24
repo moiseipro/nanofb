@@ -42,6 +42,7 @@ urlpatterns = [
     path('analytics/', include(('analytics.urls', 'analytics'), namespace='analytics')),
     path('clubs/', include(('clubs.urls', 'clubs'), namespace='clubs')),
     path('shared/', include(('shared.urls', 'shared'), namespace='shared')),
+    path('presentation/', include(('presentation.urls', 'presentation'), namespace='presentation')),
 
     path('i18n/', include('django.conf.urls.i18n')),
     path('schemeDrawer/', include(('schemeDrawer.urls', 'schemeDrawer'), namespace='schemeDrawer')),
