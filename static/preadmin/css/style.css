@@ -1673,10 +1673,10 @@ html.menu-opened body {
 	height: 100%;
 	min-height: 100%;
 	transition: all 0.2s ease-in-out 0s;
+	background-color: #2962ff1c;
 }
 .sidebar-menu {
     padding: 15px;
-	background-color: #2962ff1c;
 }
 .sidebar-menu ul {
 	font-size: 15px;

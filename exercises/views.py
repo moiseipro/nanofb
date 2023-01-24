@@ -111,6 +111,9 @@ def exercise(request):
         pass
     folder_type = request.GET.get("type", "")
     found_exercise = None
+    is_can_edit_exs = True
+    is_can_edit_exs_full = True
+    is_can_edit_exs_video_admin = cur_user[0].is_superuser
     if folder_type == v_api.FOLDER_TEAM:
         if cur_user.exists():
             if request.user.club_id is not None:
@@ -118,14 +121,25 @@ def exercise(request):
             else:
                 found_exercise = UserExercise.objects.filter(id=c_id, user=cur_user[0]).values()
     elif folder_type == v_api.FOLDER_NFB:
-        if cur_user.exists() and cur_user[0].is_superuser:
+        if cur_user.exists():
             found_exercise = AdminExercise.objects.filter(id=c_id).values()
+            if not cur_user[0].is_superuser:
+                is_can_edit_exs = False
+                is_can_edit_exs_full = False
     elif folder_type == v_api.FOLDER_CLUB:
         if cur_user.exists():
             if request.user.club_id is not None:
                 found_exercise = ClubExercise.objects.filter(id=c_id, club=request.user.club_id).values()
     if not found_exercise and not is_new_exs:
         return redirect('/exercises')
+    if is_can_edit_exs_full and not cur_user[0].is_superuser:
+        nfb_id = -1
+        try:
+            nfb_id = int(found_exercise[0]['clone_nfb_id'])
+        except:
+            pass
+        found_admin_exercise = AdminExercise.objects.filter(id=nfb_id).first()
+        is_can_edit_exs_full = found_admin_exercise == None
     found_folders, found_club_folders, found_nfb_folders, refs = v_api.get_exercises_params(request, cur_user[0], cur_team)
     exs_tags = v_api.get_exercises_tags(request, cur_user[0], cur_team, True)
     exs_additional_params = v_api.get_exercises_additional_params(request, cur_user[0])
@@ -143,6 +157,9 @@ def exercise(request):
         'menu_exercises': 'active',
         'exercises_tags': exs_tags,
         'exercises_additional_params': exs_additional_params,
+        'can_edit_exs': is_can_edit_exs,
+        'can_edit_exs_full': is_can_edit_exs_full,
+        'can_edit_exs_video_admin': is_can_edit_exs_video_admin,
         'video_params': video_params,
         'seasons_list': request.seasons_list,
         'teams_list': request.teams_list,

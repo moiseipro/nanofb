@@ -1000,7 +1000,7 @@ def POST_copy_exs(request, cur_user, cur_team):
                     if key != "id" and key != "date_creation":
                         setattr(new_exs, key, c_exs.values()[0][key])
                 new_exs.folder = found_folder[0]
-                new_exs.old_id = exs_id
+                new_exs.clone_nfb_id = exs_id
                 try:
                     new_exs.save()
                     res_data = {'id': new_exs.id}
@@ -1202,7 +1202,7 @@ def POST_edit_exs(request, cur_user, cur_team):
         else:
             c_exs = c_exs[0]
             c_exs.folder = c_folder[0]
-            copied_from_nfb = c_exs.old_id != None
+            copied_from_nfb = c_exs.clone_nfb_id != None
     elif folder_type == FOLDER_NFB:
         if not util_check_access(cur_user, {
             'perms_user': ["exercises.change_adminexercise", "exercises.add_adminexercise"], 
@@ -1255,6 +1255,10 @@ def POST_edit_exs(request, cur_user, cur_team):
     c_exs.field_keyword_a = request.POST.get("data[field_keyword_a]", None)
     c_exs.field_keyword_b = request.POST.get("data[field_keyword_b]", None)
 
+    video_links = set_value_as_list(request, "data[video_links[]]", "data[video_links[]][]", [])
+    if len(video_links) == 4:
+        c_exs.video_links = video_links
+    
     c_exs.tags.clear()
     tags_arr = set_value_as_list(request, "data[tags]", "data[tags][]", [])
     for c_tag in tags_arr:
@@ -2436,9 +2440,10 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
             c_exs = UserExercise.objects.filter(id=exs_id, visible=True, user=cur_user)
         if c_exs.exists() and c_exs[0].id != None:
             res_exs = c_exs.values()[0]
+            print(res_exs)
             res_exs['nfb'] = False
             res_exs['folder_parent_id'] = c_exs[0].folder.parent
-            res_exs['copied_from_nfb'] = c_exs[0].old_id != None
+            res_exs['copied_from_nfb'] = c_exs[0].clone_nfb_id != None
         user_params = None
         if request.user.club_id is not None:
             user_params = UserExerciseParam.objects.filter(exercise_club=c_exs[0].id, user=cur_user)
@@ -2502,7 +2507,7 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
             res_exs = c_exs.values()[0]
             res_exs['nfb'] = False
             res_exs['folder_parent_id'] = c_exs[0].folder.parent
-            res_exs['copied_from_nfb'] = c_exs[0].old_id != None
+            res_exs['copied_from_nfb'] = c_exs[0].clone_nfb_id != None
         user_params = None
         if request.user.club_id is not None:
             user_params = UserExerciseParam.objects.filter(exercise_club=c_exs[0].id, user=cur_user)
