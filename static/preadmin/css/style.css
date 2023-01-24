@@ -4223,6 +4223,9 @@ table.table-inbox tbody tr.checked {
 .icon--folder-o {
 	content: url(../img/icons/folder-o.png);
 }
+.icon--key {
+	content: url(../img/icons/key.png);
+}
 .icon--like {
 	content: url(../img/icons/like.png);
 }
@@ -4234,6 +4237,9 @@ table.table-inbox tbody tr.checked {
 }
 .icon--players {
 	content: url(../img/icons/players_ico.png);
+}
+.icon--parents {
+	content: url(../img/icons/parents.png);
 }
 .icon--plus {
 	content: url(../img/icons/plus.png);
