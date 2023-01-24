@@ -225,6 +225,13 @@ function RenderExerciseOne(data) {
         $(exsCard).find('.exs_edit_field[name="field_keyword_a"]').val(data.field_keyword_a);
         $(exsCard).find('.exs_edit_field[name="field_keyword_b"]').val(data.field_keyword_b);
 
+        try {
+            $(exsCard).find('.exs_edit_field[name="video_links[]"]:nth-child(1)').val(data.video_links[0]);
+            $(exsCard).find('.exs_edit_field[name="video_links[]"]:nth-child(2)').val(data.video_links[1]);
+            $(exsCard).find('.exs_edit_field[name="video_links[]"]:nth-child(3)').val(data.video_links[2]);
+            $(exsCard).find('.exs_edit_field[name="video_links[]"]:nth-child(4)').val(data.video_links[3]);
+        } catch(e) {}
+
         $(exsCard).find('.exs_edit_field[name="tags"]').val(data.tags).trigger('change');
         window.selectedTagsInCard = data.tags;
         ToggleSelectedTagsInCard();
@@ -444,7 +451,7 @@ function SaveExerciseOne() {
     let exsId = $('#exerciseCard').attr('data-exs');
     let dataToSend = {'edit_exs': 1, 'exs': exsId, type: folderType, 'data': {}};
     $('#exerciseCard').find('.exs_edit_field').each((ind, elem) => {
-        if (!$(elem).hasClass('d-none')) {
+        if (!$(elem).hasClass('d-none') || $(elem).hasClass('exs_video_link')) {
             let name = $(elem).attr('name');
             if (name in dataToSend.data) {
                 if (!Array.isArray(dataToSend.data[name])) {
@@ -1519,6 +1526,9 @@ $(function() {
         try {
             video_table.columns.adjust().draw();
         } catch(e) {}
+
+        $('#exerciseCard').find('.exs_video_link').addClass('d-none');
+        $('#exerciseCard').find('.exs_video_link[data-type="video_1"]').removeClass('d-none');
     });
     $('#exerciseCard').on('click', '#openVideo2', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
@@ -1536,6 +1546,9 @@ $(function() {
         try {
             video_table.columns.adjust().draw();
         } catch(e) {}
+
+        $('#exerciseCard').find('.exs_video_link').addClass('d-none');
+        $('#exerciseCard').find('.exs_video_link[data-type="video_2"]').removeClass('d-none');
     });
     $('#exerciseCard').on('click', '#openAnimation1', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
@@ -1553,6 +1566,9 @@ $(function() {
         try {
             video_table.columns.adjust().draw();
         } catch(e) {}
+
+        $('#exerciseCard').find('.exs_video_link').addClass('d-none');
+        $('#exerciseCard').find('.exs_video_link[data-type="animation_1"]').removeClass('d-none');
     });
     $('#exerciseCard').on('click', '#openAnimation2', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
@@ -1570,6 +1586,9 @@ $(function() {
         try {
             video_table.columns.adjust().draw();
         } catch(e) {}
+
+        $('#exerciseCard').find('.exs_video_link').addClass('d-none');
+        $('#exerciseCard').find('.exs_video_link[data-type="animation_2"]').removeClass('d-none');
     });
     $('#exerciseCard').on('click', '#openTags', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');

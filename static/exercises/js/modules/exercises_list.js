@@ -188,9 +188,14 @@ function RenderFolderExercises(id, tExs) {
                     `}
                     ${((exElem.field_keyword_a && exElem.field_keyword_a != "") || (exElem.field_keyword_b && exElem.field_keyword_b != "")) ? `
                         <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="keywords" style="--w-x:24px; min-width: 250px; --h-x:24px;" disabled="">
-                            <span>${exElem.field_keyword_a && exElem.field_keyword_a != "" ? exElem.field_keyword_a : ''}</span>
-                            <span class="mx-3">&nbsp;</span>
-                            <span>${exElem.field_keyword_b && exElem.field_keyword_b != "" ? exElem.field_keyword_b : ''}</span>
+                            <div class="row w-100">
+                                <div class="col-6 px-0 text-center">
+                                    ${exElem.field_keyword_a && exElem.field_keyword_a != "" ? exElem.field_keyword_a : ''}
+                                </div>
+                                <div class="col-6 px-0 text-center">
+                                    ${exElem.field_keyword_b && exElem.field_keyword_b != "" ? exElem.field_keyword_b : ''}
+                                </div>
+                            </div>
                         </button>
                     ` : `
                         <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="keywords" style="--w-x:24px; min-width: 38px; --h-x:24px;" disabled="">
@@ -536,14 +541,17 @@ $(function() {
 
     $('#deleteExsInList').on('click', (e) => {
         let activeExs = $('.exercises-list').find('.exs-elem.active');
-        if ($(activeExs).length <= 0) {return;}
-        let exsId = $(activeExs).attr('data-id');
-        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
-        let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
-        let data = {'type': folderType, 'folder': folder, 'exs': exsId};
-        data = JSON.stringify(data);
-        sessionStorage.setItem('last_exs', data);
-        DeleteExerciseOne(exsId, folderType);
+        if ($(activeExs).length <= 0) {
+            swal("Внимание", "Выберите упражнение из списка.", "info");
+        } else {
+            let exsId = $(activeExs).attr('data-id');
+            let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+            let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
+            let data = {'type': folderType, 'folder': folder, 'exs': exsId};
+            data = JSON.stringify(data);
+            sessionStorage.setItem('last_exs', data);
+            DeleteExerciseOne(exsId, folderType);
+        }
     });
     
 
