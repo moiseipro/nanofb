@@ -61,7 +61,7 @@
                         <div class="col-2 p-0" style="">
                             <div class="row rescalendar_controls text-truncate text-center">
                                 <div class="col-6 px-1">
-                                    <button class="btn btn-block btn-lightgray btn-md move_to_last_month"> &lt;&lt; </button>
+                                    <button class="btn btn-block btn-lightgray btn-md move-left move_to_last_month"> &lt;&lt; </button>
                                 </div>
 {#                                <div class="col-2 px-0">#}
 {#                                    <button class="btn btn-block btn-lightgray btn-sm move_to_yesterday"> &lt; </button>#}
@@ -74,7 +74,7 @@
 {#                                    <button class="btn btn-block btn-lightgray btn-sm move_to_tomorrow"> &gt; </button>#}
 {#                                </div>#}
                                 <div class="col-6 px-1">
-                                    <button class="btn btn-block btn-lightgray btn-md move_to_next_month"> &gt;&gt; </button>
+                                    <button class="btn btn-block btn-lightgray btn-md move-right move_to_next_month"> &gt;&gt; </button>
                                 </div>
                             </div>
                         </div>
@@ -105,13 +105,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body py-2">
+                <div class="card-body pt-0 pb-2">
                     <div id="calendar-row" class="row">
                         <div class="col-12 px-0">
                             <div id="event_calendar" class="rescalendar"></div>
                         </div>
                     </div>
-                    <div id="filters-row" class="row py-2 d-none">
+                    <div id="filters-row" class="row pt-2 d-none">
                         <div class="col">
                             <div class="row">
                                 <div class="col-4 pl-0 pr-1">
@@ -121,7 +121,7 @@
                                     <input id="microcycle-days-filter" type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="{% trans 'Microcycle days' %}">
                                 </div>
                                 <div class="col-4 px-1">
-                                    <input id="field_size-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="{% trans 'Field size' %}">
+                                    <input id="field_size-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Field size' %}">
                                 </div>
                             </div>
                         </div>
@@ -141,17 +141,17 @@
                                     </div>
                                 </div>
                                 <div class="col-4 px-1">
-                                    <input id="keywords-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="{% trans 'Keywords' %}">
+                                    <input id="keywords-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Keywords' %}">
                                 </div>
                                 <div class="col-4 pl-1 pr-0">
-                                    <input id="load-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="{% trans 'Training load' %}">
+                                    <input id="load-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Training load' %}">
                                 </div>
                             </div>
                         </div>
 
                     </div>
                     {% include 'trainings/training_card.html' %}
-                    <div id="events-content" class="row border-top">
+                    <div id="events-content" class="row border-top mt-2">
                         <div class="col px-0">
                             <div id="events-table" class="table-responsive" style="overflow-y: auto;">
                                 <table id="events" class="table table-sm padding-none table-bordered table-hover dataTable" style="width:100%;">

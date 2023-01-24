@@ -300,10 +300,44 @@ $(window).on('load', function (){
         $(this).children('i').toggleClass('fa-arrow-up', calendar_active).toggleClass('fa-arrow-down', !calendar_active)
         $('.move_to_today').toggleClass('isMonth', !calendar_active)
         $('#filters-row').toggleClass('d-none', calendar_active || $('#events-content').hasClass('d-none'))
+        $('.rescalendar_controls .move-left').toggleClass('move_to_last_month', calendar_active).toggleClass('move-down-event', !calendar_active)
+        $('.rescalendar_controls .move-right').toggleClass('move_to_next_month', calendar_active).toggleClass('move-up-event', !calendar_active)
         set_month_or_date_button()
         resize_events_table()
         resize_trainings_block()
         if(!$('#events-content').hasClass('d-none')) generateData()
+    })
+
+
+    //Переключение по событиям
+    $(document).keydown(function(e) {
+        let isNext = false;
+        console.log('test')
+        if(e.keyCode == 38){
+            $($('#events-table .hasEvent.trainingClass').get().reverse()).each(function( index ) {
+                if(isNext){
+                    console.log('down')
+                    $(this).find('td:first').click()
+                    return false
+                }
+                if($(this).hasClass('selected')){
+                    isNext = true;
+                }
+            });
+        }
+        if(e.keyCode == 40){
+            $('#events-table .hasEvent.trainingClass').each(function( index ) {
+                if(isNext){
+                    console.log('down')
+                    $(this).find('td:first').click()
+                    return false
+                }
+                if($(this).hasClass('selected')){
+                    isNext = true;
+                }
+            });
+        }
+
     })
 
     $('#events').on('click', '.switch-favorites', function () {
@@ -394,6 +428,10 @@ $(window).on('load', function (){
         else if (cur_fav == 3) $('#favourites-event-filter i').removeClass(`text-warning`).addClass(`fa-star text-danger`)
         else $('#favourites-event-filter i').removeClass(`fa-star text-danger`).addClass(`fa-star-o`)
         $(this).attr('data-filter', cur_fav)
+        generateData()
+    })
+    //Фильтрация событий по текстовым полям
+    $('.ajax-text-filters').on('search', function () {
         generateData()
     })
     //Фильтрация не заполненных событий
@@ -594,6 +632,10 @@ function generateNewCalendar(){
     microcycle_id = $('#event_calendar .microcycle_cell.selected').attr('data-id')
     let today = strDate
     let favourites = parseInt($('#favourites-event-filter').attr('data-filter'))
+    let load_type = $('#load-event-filter').val()
+    let keywords = $('#keywords-event-filter').val()
+    let field_size = $('#field_size-event-filter').val()
+
 
     //(strDate)
     console.log(favourites)
@@ -616,9 +658,11 @@ function generateNewCalendar(){
     send_data['from_date'] = from_date
     send_data['to_date'] = to_date
     send_data['favourites'] = favourites
-    //console.log(send_data)
+    send_data['load_type'] = load_type
+    send_data['keywords'] = keywords
+    send_data['field_size'] = field_size
 
-    $('#events tbody').html('')
+    //console.log(send_data)
 
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
@@ -681,21 +725,26 @@ function generateNewCalendar(){
                             last_date.add(-1, 'days')
                         }
                     }
-
+                    $('#events tbody').html('')
                     $.each(generated_events, function( index, event ) {
                         let event_id = event['id'],
                             event_name = '',
                             event_short_name = event['short_name']
                         let tr_html = ``
+                        let td_html = ``
 
                         let only_date = moment(event['only_date'], 'DD/MM/YYYY')
                         let count_day = 0
+                        let microcycle_days = 0
                         let isCurrentDate = false
+                        let isFilled = true
+
                         if(moment().startOf('day').isSame(only_date)) isCurrentDate = true
                         newMicrocycle.forEach(function(microcycle, i) {
                             let date_with = moment(microcycle['startDate'], 'DD/MM/YYYY')
                             let date_by = moment(microcycle['endDate'], 'DD/MM/YYYY')
                             if(only_date.isBetween( date_with, date_by, undefined, '[]')){
+                                microcycle_days = microcycle.days
                                 count_day = only_date.diff(date_with, "days")+1
                                 if(count_day < 3) count_day = '+'+count_day
                                 else{
@@ -705,11 +754,10 @@ function generateNewCalendar(){
                             }
                         });
 
-                        tr_html += `<tr class="${event_id!=null ? 'hasEvent' : ''}" data-value="${event_id}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
                         if('training' in event && event['training'] != null){
                             num_tr = 1
                             let count_player = 0
-                            let isFilled = true
+
                             if(event_class === 'trainingClass' && event['only_date'] === event_date) num_tr++
                             if(event.training.exercises_info.length == 0 ||event.training.protocol_info.length == 0) isFilled = false
                             if('protocol_info' in event.training){
@@ -721,7 +769,7 @@ function generateNewCalendar(){
                             event_class = 'trainingClass'
                             count_tr++
                             console.log(event.training)
-                            tr_html += `
+                            td_html += `
                                 <td>${count_day==0 ? '---' : count_day}</td>
                                 <td class="${!isFilled ? 'text-danger' : ''}">${event['only_date']}</td>
                                 <td><a href="/trainings/view/${event.training.event_id}" class="btn btn-sm btn-block btn-info py-0" data-id="${event.training.event_id}">${gettext('Training')+' '+(num_tr == 2 ? '2' : '')}</a></td>
@@ -735,7 +783,7 @@ function generateNewCalendar(){
                             count_m--
                             count_tr = 0
 
-                            tr_html += `
+                            td_html += `
                                 <td>${count_day==0 ? '---' : count_day}</td>
                                 <td>${event['only_date']}</td>
                                 <td><a href="/matches/match?id=${event.match.event_id}" data-count="${count_m+1}" class="btn btn-sm btn-block ${event.match.m_type == 0 ?"btn-warning":"btn-success"} py-0" data-id="${event.match.event_id}">${gettext('Match')}</a></td>
@@ -745,7 +793,7 @@ function generateNewCalendar(){
                             `
                         } else {
                             event_class = 'none'
-                            tr_html += `
+                            td_html += `
                                     <td>${count_day==0 ? '---' : count_day}</td>
                                     <td>${event['only_date']}</td>
                                     <td>${count_tr == 0 && count_m==max_m ? '---' : '---'}</td>
@@ -754,6 +802,8 @@ function generateNewCalendar(){
                                     <td>---</td>
                                 ` //<a href="#" class="btn btn-sm btn-block btn-secondary py-0 disabled">${/*gettext('Recreation')*/'---'}</a>
                         }
+                        tr_html += `<tr class="${event_id!=null ? 'hasEvent' : ''} ${event_class}" data-value="${event_id}" data-microcycle-days="${microcycle_days}" data-microcycle-day="${count_day}" data-unfilled="${!isFilled ? '1' : '0'}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
+                        tr_html += td_html
                         tr_html += `</tr>`
                         event_date = event['only_date']
                         newEvent.push({
@@ -836,6 +886,10 @@ function generateOnlyTable() {
     let to_date_str = $('#select-season option:selected').attr('data-by')
     let today = strDate
     let favourites = parseInt($('#favourites-event-filter').attr('data-filter'))
+    let load_type = $('#load-event-filter').val()
+    let keywords = $('#keywords-event-filter').val()
+    let field_size = $('#field_size-event-filter').val()
+
 
     //(strDate)
     //console.log(middleDay)
@@ -853,9 +907,10 @@ function generateOnlyTable() {
     send_data['from_date'] = from_date
     send_data['to_date'] = to_date
     send_data['favourites'] = favourites
+    send_data['load_type'] = load_type
+    send_data['keywords'] = keywords
+    send_data['field_size'] = field_size
     //console.log(send_data)
-
-    $('#events tbody').html('')
 
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
@@ -923,6 +978,7 @@ function generateOnlyTable() {
                         }
                     }
 
+                    $('#events tbody').html('')
                     $.each(generated_events, function( index, event ) {
                         let event_id = event['id'],
                             event_name = '',
@@ -999,7 +1055,7 @@ function generateOnlyTable() {
                                     <td>---</td>
                                 ` //<a href="#" class="btn btn-sm btn-block btn-secondary py-0 disabled">${/*gettext('Recreation')*/'---'}</a>
                         }
-                        tr_html += `<tr class="${event_id!=null ? 'hasEvent' : ''}" data-value="${event_id}" data-microcycle-days="${microcycle_days}" data-microcycle-day="${count_day}" data-unfilled="${!isFilled ? '1' : '0'}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
+                        tr_html += `<tr class="${event_id!=null ? 'hasEvent' : ''} ${event_class}" data-value="${event_id}" data-microcycle-days="${microcycle_days}" data-microcycle-day="${count_day}" data-unfilled="${!isFilled ? '1' : '0'}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
                         tr_html += td_html
                         tr_html += `</tr>`
                         event_date = event['only_date']
