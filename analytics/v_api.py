@@ -61,7 +61,7 @@ def get_exs_folders(request, cur_user, cur_team):
     res = []
     folders = None
     if request.user.club_id is not None:
-        folders = ClubFolder.objects.filter(Q(parent=0) | Q(parent=None))
+        folders = ClubFolder.objects.filter(Q(parent=0) | Q(parent=None), club=request.user.club_id)
     else:
         folders = UserFolder.objects.filter(Q(parent=0) | Q(parent=None), user=cur_user, team=cur_team)
     if folders is not None and folders.exists() and folders[0].id != None:
