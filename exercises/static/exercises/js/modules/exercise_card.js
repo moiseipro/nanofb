@@ -1529,6 +1529,24 @@ $(function() {
 
         $('#exerciseCard').find('.exs_video_link').addClass('d-none');
         $('#exerciseCard').find('.exs_video_link[data-type="video_1"]').removeClass('d-none');
+        if ($('#exerciseCard').find('.exs_video_link[data-type="video_1"]').length > 0) {
+            let videoLink = $('#exerciseCard').find('.exs_video_link[data-type="video_1"]').val();
+            $('.video-editor').find('#video-player-card-edit').removeClass('d-none');
+            $('.video-editor').find('#video-player-card-edit').removeClass('not-active');
+            if (videoLink.includes("youtube")) {
+                window.videoPlayerCardEdit.src({
+                    techOrder: ["youtube"], type: 'video/youtube', 
+                    src: `${videoLink}`
+                });
+                window.videoPlayerCardEdit.poster('');
+            } else {
+                window.videoPlayerCardEdit.src({
+                    type: 'video/mp4', 
+                    src: `${videoLink}`
+                });
+                window.videoPlayerCardEdit.poster('');
+            }
+        }
     });
     $('#exerciseCard').on('click', '#openVideo2', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
@@ -1549,6 +1567,24 @@ $(function() {
 
         $('#exerciseCard').find('.exs_video_link').addClass('d-none');
         $('#exerciseCard').find('.exs_video_link[data-type="video_2"]').removeClass('d-none');
+        if ($('#exerciseCard').find('.exs_video_link[data-type="video_2"]').length > 0) {
+            let videoLink = $('#exerciseCard').find('.exs_video_link[data-type="video_2"]').val();
+            $('.video-editor').find('#video-player-card-edit').removeClass('d-none');
+            $('.video-editor').find('#video-player-card-edit').removeClass('not-active');
+            if (videoLink.includes("youtube")) {
+                window.videoPlayerCardEdit.src({
+                    techOrder: ["youtube"], type: 'video/youtube', 
+                    src: `${videoLink}`
+                });
+                window.videoPlayerCardEdit.poster('');
+            } else {
+                window.videoPlayerCardEdit.src({
+                    type: 'video/mp4', 
+                    src: `${videoLink}`
+                });
+                window.videoPlayerCardEdit.poster('');
+            }
+        }
     });
     $('#exerciseCard').on('click', '#openAnimation1', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
@@ -1569,6 +1605,22 @@ $(function() {
 
         $('#exerciseCard').find('.exs_video_link').addClass('d-none');
         $('#exerciseCard').find('.exs_video_link[data-type="animation_1"]').removeClass('d-none');
+        if ($('#exerciseCard').find('.exs_video_link[data-type="animation_1"]').length > 0) {
+            let videoLink = $('#exerciseCard').find('.exs_video_link[data-type="animation_1"]').val();
+            $('.video-editor').find('#video-player-card-edit').removeClass('d-none');
+            $('.video-editor').find('#video-player-card-edit').removeClass('not-active');
+            if (videoLink.includes("youtube")) {
+                window.videoPlayerCardEdit.src({
+                    techOrder: ["youtube"], type: 'video/youtube', 
+                    src: `${videoLink}`
+                });
+            } else {
+                window.videoPlayerCardEdit.src({
+                    type: 'video/mp4', 
+                    src: `${videoLink}`
+                });
+            }
+        }
     });
     $('#exerciseCard').on('click', '#openAnimation2', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
@@ -1589,6 +1641,22 @@ $(function() {
 
         $('#exerciseCard').find('.exs_video_link').addClass('d-none');
         $('#exerciseCard').find('.exs_video_link[data-type="animation_2"]').removeClass('d-none');
+        if ($('#exerciseCard').find('.exs_video_link[data-type="animation_2"]').length > 0) {
+            let videoLink = $('#exerciseCard').find('.exs_video_link[data-type="animation_2"]').val();
+            $('.video-editor').find('#video-player-card-edit').removeClass('d-none');
+            $('.video-editor').find('#video-player-card-edit').removeClass('not-active');
+            if (videoLink.includes("youtube")) {
+                window.videoPlayerCardEdit.src({
+                    techOrder: ["youtube"], type: 'video/youtube', 
+                    src: `${videoLink}`
+                });
+            } else {
+                window.videoPlayerCardEdit.src({
+                    type: 'video/mp4', 
+                    src: `${videoLink}`
+                });
+            }
+        }
     });
     $('#exerciseCard').on('click', '#openTags', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
@@ -1696,6 +1764,24 @@ $(function() {
                     $(secondValElem).val($(e.currentTarget).val());
                 }
             }
+        }
+    });
+    $('#exerciseCard').on('change', '.exs_video_link', (e) => {
+        let cVal = $(e.currentTarget).val();
+        $('.video-editor').find('#video-player-card-edit').removeClass('d-none');
+        $('.video-editor').find('#video-player-card-edit').removeClass('not-active');
+        if (cVal.includes("youtube")) {
+            window.videoPlayerCardEdit.src({
+                techOrder: ["youtube"], type: 'video/youtube', 
+                src: `${cVal}`
+            });
+            window.videoPlayerCardEdit.poster('');
+        } else {
+            window.videoPlayerCardEdit.src({
+                type: 'video/mp4', 
+                src: `${cVal}`
+            });
+            window.videoPlayerCardEdit.poster('');
         }
     });
 
