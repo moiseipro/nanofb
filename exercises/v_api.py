@@ -532,8 +532,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
     filter_video_source = -1
     filter_age_a = -1
     filter_age_b = -1
-    filter_players_a = -1
-    filter_players_b = -1
+    filter_players = -1
     try:
         if req.method == "GET":
             filter_goal = int(req.GET.get("filter[goal]", -1))
@@ -606,16 +605,9 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
         pass
     try:
         if req.method == "GET":
-            filter_players_a = int(req.GET.get("filter[filter_players_a]", -1))
+            filter_players = int(req.GET.get("filter[filter_players]", -1))
         elif req.method == "POST":
-            filter_players_a = int(req.POST.get("filter[filter_players_a]", -1))
-    except:
-        pass
-    try:
-        if req.method == "GET":
-            filter_players_b = int(req.GET.get("filter[filter_players_b]", -1))
-        elif req.method == "POST":
-            filter_players_b = int(req.POST.get("filter[filter_players_b]", -1))
+            filter_players = int(req.POST.get("filter[filter_players]", -1))
     except:
         pass
     f_exercises = []
@@ -698,7 +690,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             f_exercises = f_exercises.filter(tags__lowercase_name__icontains=f_tag)
     if filter_new_exs != -1:
         enddate = datetime.date.today()
-        startdate = enddate - datetime.timedelta(days=15)
+        startdate = enddate - datetime.timedelta(days=30)
         f_exercises = f_exercises.filter(date_creation__range=[startdate, enddate])
     if filter_watched != -1:
         filter_watched = True if filter_watched == 1 else False
@@ -755,24 +747,12 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
                 f_exercises = f_exercises.filter(
                     Q(Q(field_age_a__isnull=False) & Q(field_age_b__isnull=False) & Q(field_age_a__gte=filter_age_a) & Q(field_age_b__lte=filter_age_b))
                 )
-    if filter_players_a != -1 or filter_players_b != -1:
-        if filter_players_a != -1 and filter_players_b == -1:
-            f_exercises = f_exercises.filter(
-                Q(Q(field_players_a__isnull=False) & Q(field_players_a__gte=filter_players_a)) |
-                Q(Q(field_players_a__isnull=True) & Q(field_players_b__lte=filter_players_a))
-            )
-        elif filter_players_a == -1 and filter_players_b != -1:
-            f_exercises = f_exercises.filter(
-                Q(Q(field_players_b__isnull=False) & Q(field_players_b__lte=filter_players_b)) |
-                Q(Q(field_players_b__isnull=True) & Q(field_players_a__lte=filter_players_b))
-            )
-        else:
-            if filter_players_a == filter_players_b:
-                f_exercises = f_exercises.filter(field_players_a=filter_players_a)
-            else:
-                f_exercises = f_exercises.filter(
-                    Q(Q(field_players_a__isnull=False) & Q(field_players_b__isnull=False) & Q(field_players_a__gte=filter_players_a) & Q(field_players_b__lte=filter_players_b))
-                )
+    if filter_players != -1:
+        f_exercises = f_exercises.filter(
+            Q(Q(field_players_a__isnull=False) & Q(field_players_b__isnull=True) & Q(field_players_a__lte=filter_players)) |
+            Q(Q(field_players_a__isnull=True) & Q(field_players_b__isnull=False) & Q(field_players_b__gte=filter_players)) |
+            Q(Q(field_players_a__isnull=False) & Q(field_players_b__isnull=False) & Q(field_players_a__lte=filter_players) & Q(field_players_b__gte=filter_players))
+        )
     if count_for_tag:
         f_exercises = f_exercises.filter(tags__lowercase_name__in=[count_for_tag]).distinct()
 
@@ -2345,6 +2325,8 @@ def GET_get_exs_all(request, cur_user, cur_team):
             'title': exs_title,
             'field_players': exs_field_players,
             'field_goal': exs_field_goal,
+            'field_players_a': exercise['field_players_a'],
+            'field_players_b': exercise['field_players_b'],
             'field_keyword_a': exercise['field_keyword_a'],
             'field_keyword_b': exercise['field_keyword_b'],
             'ref_ball_id': exercise['ref_ball_id'],

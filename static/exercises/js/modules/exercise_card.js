@@ -139,7 +139,7 @@ function LoadExerciseOne(exsID = null, fromNFB = 0, folderType = "") {
         },
         complete: function (res) {
             $('.page-loader-wrapper').fadeOut();
-            window.lastListUsed = "exercises";
+            window.canChangeExs = true;
         }
     });
     try {
@@ -283,7 +283,7 @@ function RenderExerciseOne(data) {
             let link = `http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_2}`;
             $('#carouselSchema').find('.carousel-item').first().before(`
                 <div class="carousel-item new-scheme">
-                    <img src="${link}" alt="scheme" width="100%" height="100%"> 
+                    <img src="${link}" alt="scheme" width="100%" height="100%">
                 </div>
             `);
             $('#carouselSchema').find('.carousel-indicators > li').last().after(`
@@ -295,7 +295,7 @@ function RenderExerciseOne(data) {
             let link = `http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_1}`;
             $('#carouselSchema').find('.carousel-item').first().before(`
                 <div class="carousel-item new-scheme">
-                    <img src="${link}" alt="scheme" width="100%" height="100%"> 
+                    <img src="${link}" alt="scheme" width="100%" height="100%">
                 </div>
             `);
             $('#carouselSchema').find('.carousel-indicators > li').last().after(`
@@ -1669,9 +1669,34 @@ $(function() {
 
     $('#exerciseCard').on('change', '.exs_edit_field', (e) => {
         window.changedData = true;
-        if (!$(e.currentTarget).prop('required')) {return;}
-        let isEmpty = $(e.currentTarget).val() == '';
-        $(e.currentTarget).toggleClass('empty-field', isEmpty);
+        if (!$(e.currentTarget).prop('required') && !$(e.currentTarget).hasClass('field_pair')) {return;}
+        if ($(e.currentTarget).prop('required')) {
+            let isEmpty = $(e.currentTarget).val() == '';
+            $(e.currentTarget).toggleClass('empty-field', isEmpty);
+        } else if ($(e.currentTarget).hasClass('field_pair')) {
+            let cName = $(e.currentTarget).attr('name');
+            if (cName == "field_age_a") {
+                let secondValElem = $('#exerciseCard').find('.exs_edit_field[name="field_age_b"]');
+                if (secondValElem.val() == "") {
+                    $(secondValElem).val($(e.currentTarget).val());
+                }
+            } else if (cName == "field_age_b") {
+                let secondValElem = $('#exerciseCard').find('.exs_edit_field[name="field_age_a"]');
+                if (secondValElem.val() == "") {
+                    $(secondValElem).val($(e.currentTarget).val());
+                }
+            } else if (cName == "field_players_a") {
+                let secondValElem = $('#exerciseCard').find('.exs_edit_field[name="field_players_b"]');
+                if (secondValElem.val() == "") {
+                    $(secondValElem).val($(e.currentTarget).val());
+                }
+            } else if (cName == "field_players_b") {
+                let secondValElem = $('#exerciseCard').find('.exs_edit_field[name="field_players_a"]');
+                if (secondValElem.val() == "") {
+                    $(secondValElem).val($(e.currentTarget).val());
+                }
+            }
+        }
     });
 
 

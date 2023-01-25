@@ -114,7 +114,6 @@ function RenderFolderExercises(id, tExs) {
     let cTitle = ""; let cSameTitleNum = 0;
     for (let i = 0; i < exs.length; i++) {
         let exElem = exs[i];
-        console.log(exElem)
         if (cTitle == exElem.title_for_sort && exElem.title_for_sort != "") {
             cSameTitleNum += 1;
         } else {
@@ -159,15 +158,17 @@ function RenderFolderExercises(id, tExs) {
                     <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.favorite == true ? 'selected' : ''}" data-type="marker" data-id="favorite" style="--w-x:24px; min-width: 38px; --h-x:24px;" title="Избранное">
                         <span class="icon-custom ${exElem.favorite == true ? 'icon--favorite-selected' : 'icon--favorite'}" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                     </button>
-                    ${exElem.field_players && exElem.field_players != "" ? `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="players" style="--w-x:24px; min-width: 54px; --h-x:24px;" disabled="">
-                            ${exElem.field_players}
-                        </button>
-                    ` : `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="players" style="--w-x:24px; min-width: 54px; --h-x:24px;" disabled="">
-                            -
-                        </button>
-                    `}
+                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="players" style="--w-x:24px; min-width: 54px; --h-x:24px;" disabled="">
+                        <div class="row w-100">
+                            <div class="col-5 px-0 text-center">
+                                ${exElem.field_players_a ? exElem.field_players_a : ''}
+                            </div>
+                            <div class="col-2 px-0 text-center">-</div>
+                            <div class="col-5 px-0 text-center">
+                                ${exElem.field_players_b ? exElem.field_players_b : ''}
+                            </div>
+                        </div>
+                    </button>
                     ${exElem.field_goal && exElem.field_goal != "" ? `
                         <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="goal" style="--w-x:24px; min-width: 38px; --h-x:24px;" disabled="">
                             ${exElem.field_goal}
@@ -198,8 +199,15 @@ function RenderFolderExercises(id, tExs) {
                             </div>
                         </button>
                     ` : `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="keywords" style="--w-x:24px; min-width: 38px; --h-x:24px;" disabled="">
-                            ...
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="keywords" style="--w-x:24px; min-width: 250px; --h-x:24px;" disabled="">
+                            <div class="row w-100">
+                                <div class="col-6 px-0 text-center">
+                                    ...
+                                </div>
+                                <div class="col-6 px-0 text-center">
+                                    ...
+                                </div>
+                            </div>
                         </button>
                     `}
                     ${exElem.has_notes == true ? `
@@ -369,15 +377,10 @@ function ToggleIconsInExs() {
     $('.exercises-block').find(`[data-type="icons"][data-id="lang"]`).toggleClass('d-none', !isActiveLang);
 }
 function ToggleMarkersInExs() {
-    let isActiveVideo = $('.up-tabs-elem[data-id="toggle_video"]').attr('data-state') == "1";
+    let isActiveVideo = $('.up-tabs-elem[data-id="toggle_watched"]').attr('data-state') == "1" || $('.up-tabs-elem[data-id="toggle_watched_not"]').attr('data-state') == "1";
     let isActiveFavorite = $('.up-tabs-elem[data-id="toggle_favorite"]').attr('data-state') == "1";
     $('.exercises-block').find(`[data-type="marker"][data-id!="favorite"]`).toggleClass('d-none', !isActiveVideo);
     $('.exercises-block').find(`[data-type="marker"][data-id="favorite"]`).toggleClass('d-none', !isActiveFavorite);
-    // if (isActiveMarkers || isActiveFavorite) {
-    //     $('.list-group[data-id="show_icons"]').find('.side-filter-elem').removeClass('active');
-    //     $('.list-group[data-id="show_icons"]').find('.side-filter-elem').attr('data-state', '0');
-    //     $('.exs-list-group').find('button[data-type="icons"]').addClass('d-none');
-    // }
 }
 
 function PauseCountExsCalls(currentCall) {
@@ -419,7 +422,6 @@ $(function() {
             CountExsInFoldersByType();
             $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
         }
-        window.lastListUsed = "folders";
     });
     $('.folders_nfb_list').on('click', '.list-group-item', (e) => {
         let isActive = $(e.currentTarget).hasClass('active');
@@ -431,7 +433,6 @@ $(function() {
             CountExsInFoldersByType();
             $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
         }
-        window.lastListUsed = "folders";
     });
     $('.folders_club_list').on('click', '.list-group-item', (e) => {
         let isActive = $(e.currentTarget).hasClass('active');
@@ -443,66 +444,50 @@ $(function() {
             CountExsInFoldersByType();
             $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
         }
-        window.lastListUsed = "folders";
     });
 
 
-    // Change folder or exercise using keys
-    window.lastListUsed = "folders";
-    $(document).keypress((e) => {
-        if ($('#exerciseCardModal').hasClass('show')) {return;}
-        if (e.which == 13) {
-            if ($('.exs-list-group').find('.list-group-item.exs-elem.active').length > 0) {
-                $('#showOneExs').click();
-            }
-            return;
-        }
-        if (window.lastListUsed == "folders" && false) {
-            let currentList = $('.up-tabs-elem[data-id="nfb_folders"]').attr('data-state') == '1' ? ".folders_nfb_list" : ".folders_list";
-            let activeElem = $(currentList).find('.list-group-item.active');
-            let isLoadExs = false;
-            if (e.which == 119) { // "W"
-                if (activeElem.length > 0) {
-                    $(activeElem).removeClass('active');
-                    $(activeElem).prev().addClass('active');
-                } else {
-                    $(currentList).find('.list-group-item').last().addClass('active');
-                }
-                isLoadExs = true;
-            }
-            if (e.which == 115) { // "S"
-                if (activeElem.length > 0) {
-                    $(activeElem).removeClass('active');
-                    $(activeElem).next().addClass('active');
-                } else {
-                    $(currentList).find('.list-group-item').first().addClass('active');
-                }
-                isLoadExs = true;
-            }
-            if (isLoadExs) {LoadFolderExercises();}
-        } else if (window.lastListUsed == "exercises" && false) {
-            let currentList = '.exs-list-group';
-            let activeElem = $(currentList).find('.list-group-item.exs-elem.active');
-            let isLoadExs = false;
-            if (e.which == 119) { // w
-                if (activeElem.length > 0) {
-                    $(activeElem).removeClass('active');
+    // Change exercise using keys
+    window.canChangeExs = true;
+    $(document).keydown((e) => {
+        let currentList = '.exs-list-group';
+        let activeElem = $(currentList).find('.list-group-item.exs-elem.active');
+        let loadExs = false;
+        if (e.which == 38 && window.canChangeExs) { // up
+            if (activeElem.length > 0) {
+                $(activeElem).removeClass('active');
+                if ($(activeElem).prev().length > 0) {
                     $(activeElem).prev().addClass('active');
                 } else {
                     $(currentList).find('.list-group-item.exs-elem').last().addClass('active');
                 }
-                isLoadExs = true;
+            } else {
+                $(currentList).find('.list-group-item.exs-elem').last().addClass('active');
             }
-            if (e.which == 115) { // s
-                if (activeElem.length > 0) {
-                    $(activeElem).removeClass('active');
+            loadExs = true;
+        }
+        if (e.which == 40 && window.canChangeExs) { // down
+            if (activeElem.length > 0) {
+                $(activeElem).removeClass('active');
+                if ($(activeElem).next().length > 0) {
                     $(activeElem).next().addClass('active');
                 } else {
                     $(currentList).find('.list-group-item.exs-elem').first().addClass('active');
                 }
-                isLoadExs = true;
+            } else {
+                $(currentList).find('.list-group-item.exs-elem').first().addClass('active');
             }
-            if (isLoadExs) {LoadExerciseOneHandler();}
+            loadExs = true;
+        }
+        if (loadExs && $(currentList).find('.list-group-item.exs-elem.active').length > 0) {
+            window.canChangeExs = false;
+            LoadExerciseOneHandler();
+        }
+    });
+    // Open exercise using keys
+    $(document).keypress((e) => {
+        if (e.which == 13 && window.canChangeExs) { // enter
+            $('#showOneExs').trigger('click');
         }
     });
 
