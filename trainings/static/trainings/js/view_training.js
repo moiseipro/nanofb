@@ -255,8 +255,8 @@ $(window).on('load', function (){
         let training_data = {}
         if($('#block-training-info input[name="objectives_1"]').length>0 && $('#block-training-info input[name="objectives_2"]').length>0 && $('#block-training-info input[name="objectives_3"]').length>0){
             let text1 = $('#block-training-info input[name="objectives_1"]').val();
-            let text2 = $('#block-training-info input[name="objectives_2"]').val();
-            let text3 = $('#block-training-info input[name="objectives_3"]').val();
+            let text2 = $('.training-data-row .training-objectives input[name="objectives_2"]').val();
+            let text3 = $('.training-data-row .training-objectives input[name="objectives_3"]').val();
             training_data['objectives'] = '[ "'+text1+'", "'+text2+'", "'+text3+'" ]'
         }
         let additional = '['
@@ -271,6 +271,7 @@ $(window).on('load', function (){
         training_data['load_type'] = $('#training-main-data input[name="load_type"]').val()
         training_data['keywords_1'] = $('#training-main-data input[name="keywords_1"]').val()
         training_data['keywords_2'] = $('#training-main-data input[name="keywords_2"]').val()
+        training_data['video_href'] = $('#training-video-modal input[name="video_href"]').val()
         console.log(training_data)
 
         ajax_training_action('PUT', training_data, 'save', id).then(function (data) {

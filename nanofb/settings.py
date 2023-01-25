@@ -152,7 +152,7 @@ CACHES = {
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 465
 EMAIL_HOST_USER = 'admin@nanofootball.ru'
-EMAIL_HOST_PASSWORD = 'nanofootball2020'
+EMAIL_HOST_PASSWORD = '9Kp-8vg-A28-aJC'
 EMAIL_USE_SSL = True
 
 

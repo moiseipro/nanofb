@@ -62,7 +62,7 @@
                         <div class="col-3">
                             <div class="row">
                                 <div class="col-6 px-1">
-                                    <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold">{% trans "Video" %}</button>
+                                    <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold" data-toggle="modal" data-target="#training-video-modal">{% trans "Video" %}</button>
                                 </div>
                                 <div class="col-6 px-1">
                                     <button id="delete-training" title="" class="btn btn-block btn-outline-danger btn-sm font-weight-bold">{% trans "Delete" %}</button>
@@ -71,7 +71,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body py-2">
+                <div class="card-body pt-0 pb-2">
                     <div class="tab-content p-0" id="training-tabContent">
                         <div class="tab-pane fade show active" id="training-card" role="tabpanel" aria-labelledby="training-card-tab">
                             {% include 'trainings/training_card.html' %}

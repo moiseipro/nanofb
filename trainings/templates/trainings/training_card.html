@@ -3,7 +3,7 @@
 {% load language_json %}
 
 
-<div id="training-content" data-training="" class="row border-top d-none">
+<div id="training-content" data-training="" class="row border-top mt-2 d-none">
     <div class="col training-data" style="overflow-y: auto; overflow-x: hidden">
         <div class="row text-center">
             <div class="col-12">
@@ -27,8 +27,10 @@
                 </div>
             </div>
         </div>
-        <div class="row training-data-row font-weight-bold training-exercise-name">
-            <div class="col text-center pt-1 px-0">Тренировка</div>
+        <div class="row training-data-row border border-white">
+            <div class="col px-0 training-objectives">
+
+            </div>
         </div>
         <div id="training-main-data" class="row training-data-row">
             <div class="col-12">
@@ -148,13 +150,8 @@
         </div>
     </div>
     <div class="col-8" id="block-training-info" style="overflow-y: auto; overflow-x: hidden">
-{#        <div class="row training-data-row">#}
-{#            <div class="col-12 btn btn-sm btn-info border border-light">1. Совершенствование атаки по центру с завершающим ударом по воротам</div>#}
-{#        </div>#}
-{#        <div class="row training-data-row">#}
-{#            <div class="col-12 btn btn-sm btn-info border border-light">2. Скоростные качества</div>#}
-{#        </div>#}
         <div class="row training-info">
         </div>
     </div>
 </div>
+{% include "trainings/training_video.html" %}

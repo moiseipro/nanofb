@@ -175,6 +175,7 @@ $(window).on('load', function (){
                             hide_training_card()
                             $('#events-content').removeClass('d-none')
                         }
+                        $('#training-video-modal input[name="video_href"]').val(data.training.video_href)
                         if (data.training.exercises_info.length > 0) {
                             let exercises = data.training.exercises_info
                             for (let exercise of exercises) {
@@ -300,8 +301,7 @@ $(window).on('load', function (){
         $(this).children('i').toggleClass('fa-arrow-up', calendar_active).toggleClass('fa-arrow-down', !calendar_active)
         $('.move_to_today').toggleClass('isMonth', !calendar_active)
         $('#filters-row').toggleClass('d-none', calendar_active || $('#events-content').hasClass('d-none'))
-        $('.rescalendar_controls .move-left').toggleClass('move_to_last_month', calendar_active).toggleClass('move-down-event', !calendar_active)
-        $('.rescalendar_controls .move-right').toggleClass('move_to_next_month', calendar_active).toggleClass('move-up-event', !calendar_active)
+        $('#rescalenda-control-buttons').toggleClass('d-none', !calendar_active)
         set_month_or_date_button()
         resize_events_table()
         resize_trainings_block()
@@ -386,16 +386,16 @@ $(window).on('load', function (){
         LoadGraphicsModal(id, "team_folders", activeNum);
     });
 
-    $('#training-content').on('click', '.group-filter-card', function () {
-        $('#calendar-row').removeClass('d-none')
-        $('.card-header').removeClass('d-none')
-        resize_trainings_block()
-    })
-    $('#training-content').on('click', '.exs-filter-card', function () {
-        $('#calendar-row').addClass('d-none')
-        $('.card-header').addClass('d-none')
-        resize_trainings_block()
-    })
+    // $('#training-content').on('click', '.group-filter-card', function () {
+    //     $('#calendar-row').removeClass('d-none')
+    //     $('.card-header').removeClass('d-none')
+    //     resize_trainings_block()
+    // })
+    // $('#training-content').on('click', '.exs-filter-card', function () {
+    //     $('#calendar-row').addClass('d-none')
+    //     $('.card-header').addClass('d-none')
+    //     resize_trainings_block()
+    // })
     //Открыть карточку тренировки при клике на карандаш
     $('#open-select-exercise').on('click', function () {
         let id = $('td.hasEvent.trainingClass.selected').attr('data-value')
@@ -447,6 +447,19 @@ $(window).on('load', function (){
         $(this).attr('data-filter', cur_state)
         local_filters_events()
     })
+    //Фильтрация событий с видео
+    $('#video-event-filter').on('click', function () {
+        let cur_state = parseInt($(this).attr('data-filter'))
+        if (cur_state>0) {
+            cur_state = 0
+            $(this).removeClass('active')
+        } else {
+            cur_state += 1
+            $(this).addClass('active')
+        }
+        $(this).attr('data-filter', cur_state)
+        local_filters_events()
+    })
     //Локальная Фильтрация событий
     $('.text-filter-events').on('keyup search', function () {
         local_filters_events()
@@ -472,6 +485,7 @@ function local_filters_events() {
     let days_val = $('#microcycle-days-filter').val()
     let day_val = $('#microcycle-day-filter').val()
     let filled_val = $('#filled-event-filter').attr('data-filter')
+    let video_val = $('#video-event-filter').attr('data-filter')
 
     $('#events tbody tr').show()
 
@@ -490,6 +504,11 @@ function local_filters_events() {
         let data_filled = this_obj.attr('data-unfilled')
         return filled_val!='0' && data_filled != filled_val;
     }).hide()
+    $('#events tbody tr').filter(function( index ) {
+        let this_obj = $(this)
+        let data_video = this_obj.attr('data-video')
+        return video_val!='0' && data_video != video_val;
+    }).hide()
 }
 
 function clear_filters_events() {
@@ -504,6 +523,11 @@ function clear_filters_events() {
     $('#field_size-event-filter').val('')
     $('#keywords-event-filter').val('')
     $('#load-event-filter').val('')
+    $('#block-event-info .event-info').html('')
+    if($('#events-content').hasClass('d-none')){
+        hide_training_card()
+        $('#events-content').removeClass('d-none')
+    }
 
     generateData()
 }
@@ -747,6 +771,7 @@ function generateNewCalendar(){
                         let only_date = moment(event['only_date'], 'DD/MM/YYYY')
                         let count_day = 0
                         let microcycle_days = 0
+                        let hasVideo = false
                         let isCurrentDate = false
                         let isFilled = true
 
@@ -776,6 +801,7 @@ function generateNewCalendar(){
                                     if(value.status==null) count_player++;
                                 });
                             }
+                            hasVideo = event.training.video_href != ''
                             event_name = 'tr'+num_tr
                             event_class = 'trainingClass'
                             count_tr++
@@ -813,7 +839,7 @@ function generateNewCalendar(){
                                     <td>---</td>
                                 ` //<a href="#" class="btn btn-sm btn-block btn-secondary py-0 disabled">${/*gettext('Recreation')*/'---'}</a>
                         }
-                        tr_html += `<tr class="${event_id!=null ? 'hasEvent' : ''} ${event_class}" data-value="${event_id}" data-microcycle-days="${microcycle_days}" data-microcycle-day="${count_day}" data-unfilled="${!isFilled ? '1' : '0'}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
+                        tr_html += `<tr class="${event_id!=null ? 'hasEvent' : ''} ${event_class}" data-value="${event_id}" data-microcycle-days="${microcycle_days}" data-microcycle-day="${count_day}" data-unfilled="${!isFilled ? '1' : '0'}" data-video="${hasVideo ? '1' : '0'}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
                         tr_html += td_html
                         tr_html += `</tr>`
                         event_date = event['only_date']
@@ -1000,6 +1026,7 @@ function generateOnlyTable() {
                         let only_date = moment(event['only_date'], 'DD/MM/YYYY')
                         let count_day = 0
                         let microcycle_days = 0
+                        let hasVideo = false
                         let isCurrentDate = false
                         let isFilled = true
 
@@ -1029,6 +1056,7 @@ function generateOnlyTable() {
                                     if(value.status==null) count_player++;
                                 });
                             }
+                            hasVideo = event.training.video_href != '' && event.training.video_href != null
                             event_name = 'tr'+num_tr
                             event_class = 'trainingClass'
                             count_tr++
@@ -1066,7 +1094,7 @@ function generateOnlyTable() {
                                     <td>---</td>
                                 ` //<a href="#" class="btn btn-sm btn-block btn-secondary py-0 disabled">${/*gettext('Recreation')*/'---'}</a>
                         }
-                        tr_html += `<tr class="${event_id!=null ? 'hasEvent' : ''} ${event_class}" data-value="${event_id}" data-microcycle-days="${microcycle_days}" data-microcycle-day="${count_day}" data-unfilled="${!isFilled ? '1' : '0'}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
+                        tr_html += `<tr class="${event_id!=null ? 'hasEvent' : ''} ${event_class}" data-value="${event_id}" data-microcycle-days="${microcycle_days}" data-microcycle-day="${count_day}" data-unfilled="${!isFilled ? '1' : '0'}" data-video="${hasVideo ? '1' : '0'}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
                         tr_html += td_html
                         tr_html += `</tr>`
                         event_date = event['only_date']

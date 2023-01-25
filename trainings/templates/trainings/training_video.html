@@ -1,0 +1,31 @@
+{% load i18n %}
+{% load static %}
+{% load language_json %}
+
+
+<div class="modal fade" id="training-video-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header block">
+                <h5 class="modal-title" id="training-video-modal-title">{% trans 'Video from the training' %}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="text" name="video_href" class="form-control form-control-sm edit-input" placeholder="{% trans "Training video" %}" autocomplete="off" disabled>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-md btn-warning open-link">
+                    <span aria-hidden="true">{% trans 'Open link' %}</span>
+                </button>
+                <button type="button" class="btn btn-md btn-warning copy-link">
+                    <span aria-hidden="true">{% trans 'Copy link' %}</span>
+                </button>
+                <button type="button" class="btn btn-md btn-primary" data-dismiss="modal">
+                    <span aria-hidden="true">{% trans 'Close' %}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

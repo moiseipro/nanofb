@@ -41,15 +41,22 @@ class AbstractTraining(models.Model):
     )
     keywords_1 = models.CharField(
         max_length=255,
-        verbose_name=_('Keywords'),
+        verbose_name=_('keywords'),
         help_text=_('Keywords in training'),
         null=True,
         blank=True,
     )
     keywords_2 = models.CharField(
         max_length=255,
-        verbose_name=_('Keywords'),
+        verbose_name=_('keywords'),
         help_text=_('Keywords in training'),
+        null=True,
+        blank=True,
+    )
+    video_href = models.CharField(
+        max_length=255,
+        verbose_name=_('link to the video'),
+        help_text=_('Link to the training video'),
         null=True,
         blank=True,
     )
@@ -60,7 +67,7 @@ class AbstractTraining(models.Model):
         null=True
     )
     objectives = models.JSONField(
-        verbose_name=_('purposes'),
+        verbose_name=_('objectives'),
         help_text=_('Objectives for training groups'),
         blank=True,
         null=True
