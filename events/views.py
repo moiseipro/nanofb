@@ -292,7 +292,7 @@ class EventViewSet(viewsets.ModelViewSet):
             if load_type != '' and load_type is not None:
                 q_filter &= Q(clubtraining__load_type__icontains=load_type)
             if keywords != '' and keywords is not None:
-                q_filter &= Q(clubtraining__keywords_1__icontains=keywords) | Q(clubtraining__keywords_2__icontains=keywords)
+                q_filter &= Q(clubtraining__objective_1__icontains=keywords) | Q(clubtraining__objective_2__icontains=keywords) | Q(clubtraining__goal__icontains=keywords)
             if field_size != '' and field_size is not None:
                 q_filter &= Q(clubtraining__field_size__icontains=field_size)
             q_filter |= Q(clubmatch__team_id=team)
@@ -310,7 +310,7 @@ class EventViewSet(viewsets.ModelViewSet):
             if load_type != '' and load_type is not None:
                 q_filter &= Q(usertraining__load_type__icontains=load_type)
             if keywords != '' and keywords is not None:
-                q_filter &= Q(usertraining__keywords_1__icontains=keywords) | Q(usertraining__keywords_2__icontains=keywords)
+                q_filter &= Q(usertraining__objective_1__icontains=keywords) | Q(usertraining__objective_2__icontains=keywords) | Q(usertraining__goal__icontains=keywords)
             if field_size != '' and field_size is not None:
                 q_filter &= Q(usertraining__field_size__icontains=field_size)
             q_filter |= Q(usermatch__team_id=team)
