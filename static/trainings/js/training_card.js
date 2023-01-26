@@ -261,29 +261,35 @@ function load_all_exercises_training(training_id = null, group = null) {
     ajax_training_action('GET', send_data, 'view card training', training_id).then(function (data) {
         console.log(data)
 
-
-        ajax_training_additional('GET').then(function (training_additional) {
-            var additional_data = ''
-            let additionals = training_additional.results;
+        let additionals = data.additional;
+        var additional_data = ''
+        for (let i = 0; i < 6; i++) {
             console.log(additionals)
-            $.each( additionals, function( key, additional ) {
+            if(additionals[i]){
                 additional_data+=`
                     <div class="row training-additional">
-                        <div class="col-6 border border-white bg-lightgray text-black text-uppercase text-left">${ (get_cur_lang() in additional.translation_names) ? additional.translation_names[get_cur_lang()] : Object.values(additional.translation_names)[0] }</div>
+                        <div class="col-6 px-0 border border-white bg-lightgray text-black">
+                            <input type="text" name="name_${ i }" placeholder="${ gettext('Title') }" value="${ additionals[i].name ? additionals[i].name : '' }" class="form-control form-control-sm w-100 p-0 px-3 h-auto text-uppercase text-left rounded edit-input training-additional-data" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
+                        </div>
                         <div class="col-6 px-0 border-bottom border-dark bg-light">
-                            <input type="text" name="note" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded edit-input training-additional-data" data-id="${additional.id}" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
+                            <input type="text" name="note_${ i }" placeholder="${ gettext('Note') }" value="${ additionals[i].note ? additionals[i].note : '' }" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded edit-input training-additional-data" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
                         </div>
                     </div>
                 `
-            })
-            $('#training-additional-data div').html(additional_data)
-            if(data.additional && data.additional != '' && data.additional.length>0){
-                for(let additional of data.additional){
-                    console.log(additional)
-                    $('#training-additional-data .training-additional-data[data-id="'+additional.id+'"]').val(additional.note)
-                }
+            } else {
+                additional_data+=`
+                    <div class="row training-additional">
+                        <div class="col-6 px-0 border border-white bg-lightgray text-black text-uppercase text-left">
+                            <input type="text" name="name_${ i }" placeholder="${ gettext('Title') }" value="" class="form-control form-control-sm w-100 p-0 px-3 h-auto text-uppercase text-left rounded edit-input training-additional-data" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
+                        </div>
+                        <div class="col-6 px-0 border-bottom border-dark bg-light">
+                            <input type="text" name="note_${ i }" placeholder="${ gettext('Note') }" value="" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded edit-input training-additional-data" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
+                        </div>
+                    </div>
+                `
             }
-        })
+        }
+        $('#training-additional-data div').html(additional_data)
 
 
         $('#training-main-data [name="date"]').val(data.event_date);
@@ -292,30 +298,20 @@ function load_all_exercises_training(training_id = null, group = null) {
         $('#training-main-data .trainer-select').text(data.trainer);
         $('#training-main-data input[name="field_size"]').val(data.field_size)
         $('#training-main-data input[name="load_type"]').val(data.load_type)
-        $('#training-main-data input[name="keywords_1"]').val(data.keywords_1)
-        $('#training-main-data input[name="keywords_2"]').val(data.keywords_2)
+        $('#block-training-info input[name="goal"]').val(data.goal)
+        $('#training-objectives-data input[name="objective_1"]').val(data.objective_1)
+        $('#training-objectives-data input[name="objective_2"]').val(data.objective_2)
         $('#training-video-modal input[name="video_href"]').val(data.video_href)
 
         let exs_time = 0
-        let html_scheme = '', html_objectives = ''
+        let html_scheme = ''
         html_scheme += `
             <div class="row training-data-row mb-1">
                 <div class="col-12 px-0">
-                    <input type="text" name="objectives_1" class="form-control form-control-sm btn btn-sm btn-lightblue border border-light font-weight-bold text-center edit-input" value="${data.objectives ? (data.objectives[0] ? data.objectives[0] : '---') : '---'}" placeholder="" ${!edit_mode ? 'disabled' : ''} autocomplete="off">
+                    <input type="text" name="goal" class="form-control form-control-sm btn btn-sm btn-lightblue border border-light font-weight-bold text-center edit-input" value="${data.goal ? data.goal : ''}" placeholder="${gettext('Goal')}" ${!edit_mode ? 'disabled' : ''} autocomplete="off">
                 </div>
             </div>
             `
-        html_objectives = `
-            <div class="row">
-                <div class="col-6 px-0">
-                    <input type="text" name="objectives_2" class="form-control form-control-sm btn btn-sm btn-lightblue border border-light font-weight-bold text-center edit-input" value="${data.objectives ? (data.objectives[1] ? data.objectives[1] : '---') : '---'}" placeholder="" ${!edit_mode ? 'disabled' : ''} autocomplete="off">
-                </div>
-                <div class="col-6 px-0">
-                    <input type="text" name="objectives_3" class="form-control form-control-sm btn btn-sm btn-lightblue border border-light font-weight-bold text-center edit-input" value="${data.objectives ? (data.objectives[2] ? data.objectives[2] : '---') : '---'}" placeholder="" ${!edit_mode ? 'disabled' : ''} autocomplete="off">
-                </div>
-            </div>
-            `
-        $('.training-data-row .training-objectives').html(html_objectives)
         html_scheme += `<div class="row training-info">`
         if (data.exercises_info.length > 0) {
             let exercises = data.exercises_info

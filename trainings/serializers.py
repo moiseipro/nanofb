@@ -164,8 +164,8 @@ class TrainingSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = (
-            'event_id', 'event_date', 'event_time', 'favourites', 'trainer', 'additional', 'objectives', 'field_size',
-            'load_type', 'keywords_1', 'keywords_2', 'video_href'
+            'event_id', 'event_date', 'event_time', 'favourites', 'trainer', 'additional', 'notes', 'field_size',
+            'load_type', 'goal', 'objective_1', 'objective_2', 'video_href'
         )
         datatables_always_serialize = ('event_id',)
 

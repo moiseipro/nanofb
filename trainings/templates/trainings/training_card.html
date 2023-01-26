@@ -27,9 +27,18 @@
                 </div>
             </div>
         </div>
-        <div class="row training-data-row border border-white">
+        <div id="training-objectives-data" class="row training-data-row border border-white">
             <div class="col px-0 training-objectives">
-
+                <div class="row">
+                    <div class="col px-0">
+                        <input type="text" name="objective_1" placeholder="{% trans 'Objective 1' %}" class="form-control form-control-sm btn btn-sm btn-lightblue border border-light font-weight-bold text-center edit-input" value="" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col px-0">
+                        <input type="text" name="objective_2" placeholder="{% trans 'Objective 2' %}" class="form-control form-control-sm btn btn-sm btn-lightblue border border-light font-weight-bold text-center edit-input" value="" disabled>
+                    </div>
+                </div>
             </div>
         </div>
         <div id="training-main-data" class="row training-data-row">
@@ -92,18 +101,6 @@
                         <input type="text" name="load_type" class="form-control form-control-sm rounded-0 py-0 h-auto text-center edit-input" value="" disabled>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-6 border border-white bg-lightgray text-black text-uppercase text-left">Ключевые слова</div>
-                    <div class="col-6 px-0 border-bottom border-dark bg-light text-center training-keywords-1">
-                        <input type="text" name="keywords_1" class="form-control form-control-sm rounded-0 py-0 h-auto text-center edit-input" value="" disabled>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6 border border-white bg-lightgray text-black text-uppercase text-left">Ключевые слова</div>
-                    <div class="col-6 px-0 border-bottom border-dark bg-light text-center training-keywords-2">
-                        <input type="text" name="keywords_2" class="form-control form-control-sm rounded-0 py-0 h-auto text-center edit-input" value="" disabled>
-                    </div>
-                </div>
             </div>
         </div>
         <div class="row exercise-data-row font-weight-bold training-exercise-name" data-toggle="collapse" data-target="#collapse-exercise-description" style="cursor: pointer">
@@ -114,7 +111,6 @@
         </div>
         <div id="collapse-exercise-description" class="row exercise-data-row collapse show">
             <div id="training-exercise-description" class="col-12 p-0">
-                <!--<textarea class="form-control exercise-description edit-input" rows="3" disabled></textarea>-->
                 <div id="descriptionExerciseView" class="ckeditor"></div>
             </div>
         </div>
@@ -131,23 +127,11 @@
             <div id="training-exercise-additional" class="col-12">
             </div>
         </div>
-        <div class="row training-data-row">
-            <div class="col-12 px-0">
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-{#                <nav class="nav nav-pills nav-warning nav-fill">#}
-{#                    <a class="rounded-0 border-white nav-item nav-link active" href="#pills-note-1" role="tab" data-toggle="pill">Записи 1</a>#}
-{#                    <a class="rounded-0 border-white nav-item nav-link" href="#pills-note-2" role="tab" data-toggle="pill">Записи 2</a>#}
-{#                </nav>#}
-{#                <div class="tab-content p-0" id="pills-tabContent">#}
-{#                    <div class="tab-pane fade show active" id="pills-note-1" role="tabpanel">#}
-{#                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>#}
-{#                    </div>#}
-{#                    <div class="tab-pane fade" id="pills-note-2" role="tabpanel">#}
-{#                        <textarea class="form-control" id="exampleFormControlTextarea2" rows="3"></textarea>#}
-{#                    </div>#}
-{#                </div>#}
-            </div>
-        </div>
+{#        <div class="row training-data-row">#}
+{#            <div class="col-12 px-0">#}
+{#                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>#}
+{#            </div>#}
+{#        </div>#}
     </div>
     <div class="col-8" id="block-training-info" style="overflow-y: auto; overflow-x: hidden">
         <div class="row training-info">

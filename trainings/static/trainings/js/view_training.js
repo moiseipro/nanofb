@@ -255,22 +255,22 @@ $(window).on('load', function (){
         let training_data = {}
         if($('#block-training-info input[name="objectives_1"]').length>0 && $('#block-training-info input[name="objectives_2"]').length>0 && $('#block-training-info input[name="objectives_3"]').length>0){
             let text1 = $('#block-training-info input[name="objectives_1"]').val();
-            let text2 = $('.training-data-row .training-objectives input[name="objectives_2"]').val();
-            let text3 = $('.training-data-row .training-objectives input[name="objectives_3"]').val();
-            training_data['objectives'] = '[ "'+text1+'", "'+text2+'", "'+text3+'" ]'
+            training_data['notes'] = '[ "'+text1+'" ]'
         }
-        let additional = '['
-        $( $('#training-additional-data input[name="note"]') ).each(function( index ) {
-            if(index != 0) additional += ', '
-            additional += `{"id" : "${$(this).attr('data-id')}", "note" : "${$(this).val()}"}`
+        let additionals = {}
+        for (let i = 0; i < 6; i++) {
 
-        });
-        additional += ']'
-        training_data['additional'] = additional
+            additionals[i] = {
+                'name': $('#training-additional-data input[name="name_'+i+'"]').val(),
+                'note' : $('#training-additional-data input[name="note_'+i+'"]').val()
+            }
+        }
+        training_data['additional'] = JSON.stringify(additionals)
         training_data['field_size'] = $('#training-main-data input[name="field_size"]').val()
         training_data['load_type'] = $('#training-main-data input[name="load_type"]').val()
-        training_data['keywords_1'] = $('#training-main-data input[name="keywords_1"]').val()
-        training_data['keywords_2'] = $('#training-main-data input[name="keywords_2"]').val()
+        training_data['goal'] = $('#block-training-info input[name="goal"]').val()
+        training_data['objective_1'] = $('#training-objectives-data input[name="objective_1"]').val()
+        training_data['objective_2'] = $('#training-objectives-data input[name="objective_2"]').val()
         training_data['video_href'] = $('#training-video-modal input[name="video_href"]').val()
         console.log(training_data)
 

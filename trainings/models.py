@@ -39,17 +39,24 @@ class AbstractTraining(models.Model):
         null=True,
         blank=True,
     )
-    keywords_1 = models.CharField(
+    goal = models.CharField(
         max_length=255,
-        verbose_name=_('keywords'),
-        help_text=_('Keywords in training'),
+        verbose_name=_('goal'),
+        help_text=_('Goal in training'),
         null=True,
         blank=True,
     )
-    keywords_2 = models.CharField(
+    objective_1 = models.CharField(
         max_length=255,
-        verbose_name=_('keywords'),
-        help_text=_('Keywords in training'),
+        verbose_name=_('objective'),
+        help_text=_('Objective in training'),
+        null=True,
+        blank=True,
+    )
+    objective_2 = models.CharField(
+        max_length=255,
+        verbose_name=_('objective'),
+        help_text=_('Objective in training'),
         null=True,
         blank=True,
     )
@@ -66,9 +73,9 @@ class AbstractTraining(models.Model):
         blank=True,
         null=True
     )
-    objectives = models.JSONField(
-        verbose_name=_('objectives'),
-        help_text=_('Objectives for training groups'),
+    notes = models.JSONField(
+        verbose_name=_('notes'),
+        help_text=_('Notes for training groups'),
         blank=True,
         null=True
     )
