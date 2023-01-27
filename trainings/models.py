@@ -279,7 +279,7 @@ class UserTrainingProtocol(AbstractTrainingProtocol):
     )
 
     class Meta:
-        ordering = ['status__order', 'player_id__card__ref_position__order']
+        ordering = ['status__order', '-player_id__card__is_goalkeeper', 'player_id__card__ref_position__order']
 
 
 class ClubTrainingProtocol(AbstractTrainingProtocol):
@@ -297,4 +297,4 @@ class ClubTrainingProtocol(AbstractTrainingProtocol):
     )
 
     class Meta:
-        ordering = ['status__order', 'player_id__card__ref_position__order']
+        ordering = ['status__order', '-player_id__card__is_goalkeeper', 'player_id__card__ref_position__order']

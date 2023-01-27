@@ -259,10 +259,14 @@ $(window).on('load', function (){
         }
         let additionals = {}
         for (let i = 0; i < 6; i++) {
+            let name = $('#training-additional-data input[name="name_'+i+'"]')
+            let note = $('#training-additional-data input[name="note_'+i+'"]')
+
+            name.closest('.training-additional').toggleClass('edit-button d-none', !name.val() && !note.val())
 
             additionals[i] = {
-                'name': $('#training-additional-data input[name="name_'+i+'"]').val(),
-                'note' : $('#training-additional-data input[name="note_'+i+'"]').val()
+                'name': name.val(),
+                'note' : note.val()
             }
         }
         training_data['additional'] = JSON.stringify(additionals)
@@ -461,7 +465,7 @@ function render_protocol_training(training_id = null, highlight_not_filled = fal
                 <button title="" class="btn btn-block btn-outline-success btn-sm edit-input" data-toggle="modal" data-target="#add-player-protocol-modal" ${!edit_mode ? 'disabled' : ''}><i class="fa fa-plus" aria-hidden="true"></i></button>
             </th>
             <th class="p-0 text-center align-middle border">
-                <button title="${gettext('Delete all players')}" id="delete-all-protocol-players" class="btn btn-block btn-outline-danger btn-sm edit-input" ${!edit_mode ? 'disabled' : ''}>${gettext('Remove all players')}</button>
+                <button title="${gettext('Remove all players')}" id="delete-all-protocol-players" class="btn btn-block btn-outline-danger btn-sm edit-input" ${!edit_mode ? 'disabled' : ''}>${gettext('Remove all players')}</button>
             </th>
             <th colspan="4" class="p-0 text-center align-middle border">
             </th>
@@ -539,7 +543,7 @@ function render_protocol_training(training_id = null, highlight_not_filled = fal
                         <td width="30" class="p-0 text-center align-middle"><input type="checkbox" class="estimation-change edit-input" name="estimation" value="2" style="width: 25px; height: 25px;" ${!edit_mode ? 'disabled' : ''} ${player.estimation == 2 ? 'checked' : ''}></td>
                         <td width="40" class="p-0 text-center align-middle">${player.position != null && player.position != undefined ? player.position : '---'}</td>
                         <td width="200" class="align-middle">
-                            <span class="float-left player-name" title="${player.full_name}">${player.full_name}</span>
+                            <span class="float-left player-name" title="${player.full_name}">${player.full_name}</span><span class="float-right">${player.is_goalkeeper ? '(G.)' : ''}</span>
                         </td>
                     `
                     for (let i = 0; i < exs_group.length; i++) {

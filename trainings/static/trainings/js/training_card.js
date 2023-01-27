@@ -267,23 +267,23 @@ function load_all_exercises_training(training_id = null, group = null) {
             console.log(additionals)
             if(additionals[i]){
                 additional_data+=`
-                    <div class="row training-additional">
-                        <div class="col-6 px-0 border border-white bg-lightgray text-black">
-                            <input type="text" name="name_${ i }" placeholder="${ gettext('Title') }" value="${ additionals[i].name ? additionals[i].name : '' }" class="form-control form-control-sm w-100 p-0 px-3 h-auto text-uppercase text-left rounded edit-input training-additional-data" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
+                    <div class="row training-additional ${!additionals[i].name && !additionals[i].note ? 'edit-button' : ''} ${!additionals[i].name && !additionals[i].note && !edit_mode ? 'd-none' : ''}">
+                        <div class="col-6 px-0 border border-white">
+                            <input type="text" name="name_${ i }" placeholder="${ gettext('Title') }" value="${ additionals[i].name ? additionals[i].name : '' }" class="form-control form-control-sm bg-lightgray text-black w-100 p-0 px-3 h-auto text-uppercase text-left rounded-0 edit-input training-additional-data" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
                         </div>
                         <div class="col-6 px-0 border-bottom border-dark bg-light">
-                            <input type="text" name="note_${ i }" placeholder="${ gettext('Note') }" value="${ additionals[i].note ? additionals[i].note : '' }" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded edit-input training-additional-data" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
+                            <input type="text" name="note_${ i }" placeholder="${ gettext('Note') }" value="${ additionals[i].note ? additionals[i].note : '' }" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded-0 edit-input training-additional-data" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
                         </div>
                     </div>
                 `
             } else {
                 additional_data+=`
-                    <div class="row training-additional">
+                    <div class="row training-additional edit-button ${!edit_mode ? 'd-none' : ''}">
                         <div class="col-6 px-0 border border-white bg-lightgray text-black text-uppercase text-left">
-                            <input type="text" name="name_${ i }" placeholder="${ gettext('Title') }" value="" class="form-control form-control-sm w-100 p-0 px-3 h-auto text-uppercase text-left rounded edit-input training-additional-data" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
+                            <input type="text" name="name_${ i }" placeholder="${ gettext('Title') }" value="" class="form-control form-control-sm bg-lightgray text-black w-100 p-0 px-3 h-auto text-uppercase text-left rounded-0 edit-input training-additional-data" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
                         </div>
                         <div class="col-6 px-0 border-bottom border-dark bg-light">
-                            <input type="text" name="note_${ i }" placeholder="${ gettext('Note') }" value="" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded edit-input training-additional-data" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
+                            <input type="text" name="note_${ i }" placeholder="${ gettext('Note') }" value="" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded-0 edit-input training-additional-data" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
                         </div>
                     </div>
                 `
@@ -308,7 +308,7 @@ function load_all_exercises_training(training_id = null, group = null) {
         html_scheme += `
             <div class="row training-data-row mb-1">
                 <div class="col-12 px-0">
-                    <input type="text" name="goal" class="form-control form-control-sm btn btn-sm btn-lightblue border border-light font-weight-bold text-center edit-input" value="${data.goal ? data.goal : ''}" placeholder="${gettext('Goal')}" ${!edit_mode ? 'disabled' : ''} autocomplete="off">
+                    <input type="text" name="goal" class="btn btn-sm btn-primary btn-block border border-light rounded-0 font-weight-bold text-center edit-input" value="${data.goal ? data.goal : ''}" placeholder="${gettext('Goal')}" ${!edit_mode ? 'disabled' : ''} autocomplete="off">
                 </div>
             </div>
             `
@@ -402,7 +402,9 @@ function load_exercises_training_data(training_exercise_id = null) {
         let video_data = null
         $('#block-training-info').html('')
 
-        $('.training-exercise-name .exercise-time').html(`
+        $('.training-exercise-name div').html((get_cur_lang() in exercise.exercise_data.title) ? exercise.exercise_data.title[get_cur_lang()] : Object.values(exercise.exercise_data.title)[0])
+
+        $('.training-exercise-description .exercise-time').html(`
             <div class="w-100 ${exercise.duration==0 ? 'font-weight-bold text-danger':''}">${exercise.duration}</div>
         `)
         //$('#training-exercise-description .exercise-description').val(exercise.description)
@@ -454,18 +456,13 @@ function load_exercises_training_data(training_exercise_id = null) {
             $('#training-exercise-description #descriptionExerciseView').html(descr)
         }
 
+        $('#exercise-objectives-data .objective_1').html(exercise.exercise_data.field_task ? exercise.exercise_data.field_task : '---')
+        $('#exercise-objectives-data .objective_2').html(exercise.exercise_data.field_task ? exercise.exercise_data.field_task : '---')
+
         let html_exs_data = ''
         html_exs_data += `
-            <div class="row exercise-data-row">
-                <div class="col-6 btn btn-sm btn-lightblue border border-light">
-                    ${exercise.exercise_data.field_task ? exercise.exercise_data.field_task : '---'}
-                </div>
-                <div class="col-6 btn btn-sm btn-lightblue border border-light">
-                    ${exercise.exercise_data.field_task ? exercise.exercise_data.field_task : '---'}
-                </div>
-            </div>
-            <div class="offset-1 col-10 px-1 exercise-visual-block" data-id="${exercise.id}" data-exs-id="${exercise.exercise_data}" data-group="${exercise.group}">
-                <div id="carouselTrainingSchema-${exercise.id}" class="carousel slide carouselSchema d-flex align-items-center" data-ride="carousel" data-interval="false">
+            <div class="offset-1 col-10 px-1 exercise-visual-block" data-id="${exercise.id}" data-exs-id="${exercise.exercise_data}" data-group="${exercise.group}" style="height: 100%">
+                <div id="carouselTrainingSchema-${exercise.id}" class="carousel slide carouselSchema d-flex align-items-center" data-ride="carousel" data-interval="false" style="height: 100%">
                     <ol class="carousel-indicators">
                         ${select_html}
                     </ol>
@@ -482,11 +479,7 @@ function load_exercises_training_data(training_exercise_id = null) {
                     </a>
                 </div>
             </div>
-            <div class="row exercise-data-row">
-                <div class="col-12 btn btn-sm btn-lightblue border border-light font-weight-bold">
-                    ${(get_cur_lang() in exercise.exercise_data.title) ? exercise.exercise_data.title[get_cur_lang()] : Object.values(exercise.exercise_data.title)[0]}
-                </div>
-            </div>
+            
         `
         $('#block-training-info').html(html_exs_data)
         if(video_data != null){

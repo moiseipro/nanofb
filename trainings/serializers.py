@@ -24,6 +24,11 @@ class TrainingProtocolSerializer(serializers.ModelSerializer):
         read_only=True
     )
 
+    is_goalkeeper = serializers.BooleanField(
+        source='player_id.card.is_goalkeeper',
+        read_only=True
+    )
+
     status_info = PlayerProtocolStatusSerializer(
         source='status',
         read_only=True
@@ -31,7 +36,7 @@ class TrainingProtocolSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = (
-            'id', 'training_id', 'player_id', 'full_name', 'estimation', 'status', 'status_info', 'training_exercise_check', 'position'
+            'id', 'training_id', 'player_id', 'full_name', 'estimation', 'is_goalkeeper', 'status', 'status_info', 'training_exercise_check', 'position'
         )
 
 

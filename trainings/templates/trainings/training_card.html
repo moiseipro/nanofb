@@ -31,12 +31,12 @@
             <div class="col px-0 training-objectives">
                 <div class="row">
                     <div class="col px-0">
-                        <input type="text" name="objective_1" placeholder="{% trans 'Objective 1' %}" class="form-control form-control-sm btn btn-sm btn-lightblue border border-light font-weight-bold text-center edit-input" value="" disabled>
+                        <input type="text" name="objective_1" placeholder="{% trans 'Objective 1' %}" class="btn btn-sm btn-primary btn-block border border-light font-weight-bold text-center text-white edit-input" value="" disabled>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col px-0">
-                        <input type="text" name="objective_2" placeholder="{% trans 'Objective 2' %}" class="form-control form-control-sm btn btn-sm btn-lightblue border border-light font-weight-bold text-center edit-input" value="" disabled>
+                        <input type="text" name="objective_2" placeholder="{% trans 'Objective 2' %}" class="btn btn-sm btn-primary btn-block border border-light font-weight-bold text-center text-white edit-input" value="" disabled>
                     </div>
                 </div>
             </div>
@@ -84,26 +84,43 @@
 
                     </div>
                 </div>
-                <div id="training-additional-data" class="row text-center training-data-row">
-                    <div class="col-12">
-
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col-6 border border-white bg-lightgray text-black text-uppercase text-left">Размер поля</div>
                     <div class="col-6 px-0 border-bottom border-dark bg-light text-center training-field-size">
                         <input type="text" name="field_size" class="form-control form-control-sm rounded-0 py-0 h-auto text-center edit-input" value="" disabled>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-6 border border-white bg-lightgray text-black text-uppercase text-left">Тип нагрузки</div>
-                    <div class="col-6 px-0 border-bottom border-dark bg-light text-center training-load-type">
+                <div id="training-additional-data" class="row text-center training-data-row">
+                    <div class="col-12">
+
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-6 border border-white bg-primary text-white text-uppercase text-left">Нагрузка</div>
+                    <div class="col-6 px-0 bg-light text-center training-load-type">
                         <input type="text" name="load_type" class="form-control form-control-sm rounded-0 py-0 h-auto text-center edit-input" value="" disabled>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row exercise-data-row font-weight-bold training-exercise-name" data-toggle="collapse" data-target="#collapse-exercise-description" style="cursor: pointer">
+        <div id="exercise-objectives-data" class="row exercise-data-row border border-white">
+            <div class="col px-0 exercise-objectives">
+                <div class="row">
+                    <div class="col px-0 btn btn-sm btn-primary btn-block border border-light font-weight-bold text-center text-white objective_1">
+                        ---
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col px-0 btn btn-sm btn-primary btn-block border border-light font-weight-bold text-center text-white objective_2">
+                        ---
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row exercise-data-row font-weight-bold training-exercise-title training-exercise-name" style="cursor: default">
+            <div class="col pt-1 px-0 text-center">Название</div>
+        </div>
+        <div class="row exercise-data-row font-weight-bold training-exercise-title training-exercise-description" data-toggle="collapse" data-target="#collapse-exercise-description" style="cursor: pointer">
             <div class="col text-center pt-1 px-0">Описание</div>
             <div class="col-1 text-center pt-1 px-0 exercise-time">
 
@@ -114,7 +131,7 @@
                 <div id="descriptionExerciseView" class="ckeditor"></div>
             </div>
         </div>
-        <div class="row exercise-data-row font-weight-bold training-exercise-name" style="cursor: pointer">
+        <div class="row exercise-data-row font-weight-bold training-exercise-title" style="cursor: pointer">
             <div class="col text-center pt-1 px-0" data-toggle="collapse" data-target="#collapse-exercise-additional">Доп. Условия</div>
             <div class="col-1 text-center px-0 edit-button d-none">
                 <button type="button" class="btn btn-sm btn-block btn-success rounded-0 p-0 h-100 float-right add-exercise-additional"><i class="fa fa-plus" aria-hidden="true"></i></button>
