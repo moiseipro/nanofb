@@ -222,7 +222,7 @@ function ToggleUpFilter(id, state) {
             ToggleIconsInExs();
             break;
         case "ball":
-            if (!state && !$('.up-tabs-elem[data-id="ball"]').hasClass('filtering')) {
+            /*if (!state && !$('.up-tabs-elem[data-id="ball"]').hasClass('filtering')) {
                 $('.up-tabs-elem[data-id="ball"]').addClass('filtering');
                 $('.up-tabs-elem[data-id="ball"]').addClass('selected3');
                 $('.up-tabs-elem[data-id="ball"]').attr('data-state', 1);
@@ -240,7 +240,7 @@ function ToggleUpFilter(id, state) {
                 }
                 LoadFolderExercises();
                 CountExsInFolder();
-            }
+            }*/
             ToggleIconsInExs();
             break;
         case "keywords":

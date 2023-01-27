@@ -516,6 +516,7 @@ def POST_edit_players_protocol(request, cur_user):
         AnyProtocol = ClubProtocol
     else:
         AnyProtocol = UserProtocol
+    update_protocol_flag = True
     try:
         update_dict = {
             f'{c_key}': c_value
@@ -559,6 +560,10 @@ def POST_edit_players_protocol(request, cur_user):
         elif c_key == "is_captain" or c_key == "is_goalkeeper":
             f_protocol = AnyProtocol.objects.filter(id=protocol_id)
             if f_protocol.exists() and f_protocol[0].id != None:
+                if c_key == "is_captain":
+                    another_protocols_in_match = AnyProtocol.objects.filter(match=f_protocol[0].match, is_captain=True)
+                    if another_protocols_in_match.exists() and another_protocols_in_match[0].id != None and f_protocol[0].is_captain == False:
+                        update_protocol_flag = False
                 t_val = getattr(f_protocol[0], c_key)
                 update_dict[c_key] = not t_val
         elif c_key == "border_black" or c_key == "border_red":
@@ -567,7 +572,8 @@ def POST_edit_players_protocol(request, cur_user):
                 t_val = getattr(f_protocol[0], c_key)
                 t_val = 1 if t_val == 0 else 0
                 update_dict[c_key] = t_val
-        AnyProtocol.objects.filter(id=protocol_id).update(**update_dict)
+        if update_protocol_flag:
+            AnyProtocol.objects.filter(id=protocol_id).update(**update_dict)
     except Exception as e:
         print(e)
         return JsonResponse({"err": "Can't edit match protocol.", "success": False}, status=400)

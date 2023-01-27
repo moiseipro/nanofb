@@ -132,6 +132,8 @@ def exercise(request):
                 found_exercise = ClubExercise.objects.filter(id=c_id, club=request.user.club_id).values()
     if not found_exercise and not is_new_exs:
         return redirect('/exercises')
+    if is_new_exs and folder_type == v_api.FOLDER_NFB and not cur_user[0].is_superuser:
+        return redirect(f'/exercises/exercise?id=new&type={v_api.FOLDER_TEAM}')
     if is_can_edit_exs_full and not cur_user[0].is_superuser:
         nfb_id = -1
         try:

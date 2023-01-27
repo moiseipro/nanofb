@@ -77,8 +77,8 @@ function RenderProtocolInMatch(data, selectedRow = -1) {
                                 ${elem.player_name}
                             </div>
                             <div class="col-2 px-0 text-right">
-                                ${elem.is_goalkeeper ? `<span title="Вратарь"> (G.) </span>` : ''}
-                                ${elem.is_captain ? `<span title="Капитан"> (К.) </span>` : ''}
+                                ${elem.is_goalkeeper ? `<span class="is_goalkeeper" title="Вратарь"> (G.) </span>` : ''}
+                                ${elem.is_captain ? `<span class="is_captain" title="Капитан" style="color: red;"> (К.) </span>` : ''}
                             </div>
                         </div>
                     </td>
@@ -394,6 +394,12 @@ $(function() {
     $('#setCaptainToPlayer').on('click', (e) => {
         let fRow = $('.players-content').find('.protocol-row.selected:visible').first();
         if (fRow.length > 0) {
+            let isAnyCaptain = $('.players-content').find('.protocol-row').find('span.is_captain').length > 0;
+            let isSelfCaptain = $(fRow).find('span.is_captain').length > 0;
+            if (isAnyCaptain && !isSelfCaptain) {
+                swal("Внимание!", "Кто-то из игроков уже является капитаном. Сначала уберите текущего капитана.", "warning");
+                return;
+            }
             let protocolId = $(fRow).attr('data-id');
             let data = {
                 'edit_players_protocol': 1,

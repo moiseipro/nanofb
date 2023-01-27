@@ -72,7 +72,7 @@ function RenderProtocolInMatches(data) {
                             </div>
                             <div class="col-3 px-0 text-right">
                                 ${elem.is_goalkeeper ? `<span title="Вратарь"> (G.) </span>` : ''}
-                                ${elem.is_captain ? `<span title="Капитан"> (К.) </span>` : ''}
+                                ${elem.is_captain ? `<span title="Капитан" style="color: red;"> (К.) </span>` : ''}
                                 ${elem.player_position ? `<span title="Позиция"> (${elem.player_position}) </span>` : ''}
                             </div>
                         </div>
@@ -150,7 +150,7 @@ function RenderProtocolNotesInMatches(data) {
                             </div>
                             <div class="col-3 px-0 text-right">
                                 ${elem.is_goalkeeper ? `<span title="Вратарь"> (G.) </span>` : ''}
-                                ${elem.is_captain ? `<span title="Капитан"> (К.) </span>` : ''}
+                                ${elem.is_captain ? `<span title="Капитан" style="color: red;"> (К.) </span>` : ''}
                                 ${elem.player_position ? `<span title="Позиция"> (${elem.player_position}) </span>` : ''}
                             </div>
                         </div>
@@ -310,6 +310,23 @@ $(function() {
             });
         } else {
             swal("Внимание", "Выберите сначала матч.", "warning");
+        }
+    });
+
+    $('button.toggle-collapse').on('click', (e) => {
+        let cTarget = $(e.currentTarget).attr('data-target');
+        if (cTarget == "#collapse-protocol") {
+            try {
+                setTimeout(() => {
+                    protocol_table.columns.adjust().draw();
+                }, 500);
+            } catch(e) {}
+        } else if (cTarget == "#collapse-notes") {
+            try {
+                setTimeout(() => {
+                    protocol_notes_table.columns.adjust().draw();
+                }, 500);
+            } catch(e) {}
         }
     });
 
