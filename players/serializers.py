@@ -14,7 +14,7 @@ class PlayerCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = PlayerCard
         fields = [
-            'id', 'ref_position'
+            'id', 'ref_position', 'is_goalkeeper', 'is_captain'
         ]
 
 

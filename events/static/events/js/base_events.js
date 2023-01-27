@@ -431,9 +431,9 @@ $(window).on('load', function (){
         generateData()
     })
     //Фильтрация событий по текстовым полям
-    $('.ajax-text-filters').on('search', function () {
+    $('.ajax-text-filters').on('keyup', debounce(function(){
         generateData()
-    })
+    }, 500))
     //Фильтрация не заполненных событий
     $('#filled-event-filter').on('click', function () {
         let cur_state = parseInt($(this).attr('data-filter'))
@@ -518,6 +518,7 @@ function clear_filters_events() {
     $('#favourites-event-filter i').removeClass(`fa-star text-danger text-warning text-success`).addClass(`fa-star-o`)
 
     $('#filled-event-filter').attr('data-filter', '0').removeClass(`active`)
+    $('#video-event-filter').attr('data-filter', '0').removeClass(`active`)
     $('#microcycle-days-filter').val('')
     $('#microcycle-day-filter').val('')
     $('#field_size-event-filter').val('')
@@ -793,12 +794,16 @@ function generateNewCalendar(){
                         if('training' in event && event['training'] != null){
                             num_tr = 1
                             let count_player = 0
+                            let count_goalkeeper = 0
 
                             if(event_class === 'trainingClass' && event['only_date'] === event_date) num_tr++
                             if(event.training.exercises_info.length == 0 ||event.training.protocol_info.length == 0) isFilled = false
-                            if('protocol_info' in event.training){
+                            if('protocol_info' in event.training && event.training.protocol_info.length > 0){
                                 $.each(event.training.protocol_info, function( index, value ) {
                                     if(value.status==null) count_player++;
+                                    if(value.player_info.card != null && value.player_info.card.is_goalkeeper){
+                                        count_goalkeeper++;
+                                    }
                                 });
                             }
                             hasVideo = event.training.video_href != ''
@@ -812,7 +817,7 @@ function generateNewCalendar(){
                                 <td><a href="/trainings/view/${event.training.event_id}" class="btn btn-sm btn-block btn-info py-0" data-id="${event.training.event_id}">${gettext('Training')+' '+(num_tr == 2 ? '2' : '')}</a></td>
                                 <td><i class="switch-favorites fa ${event.training.favourites == 1 ? 'fa-star text-success' : (event.training.favourites == 2 ? 'fa-star text-warning' : (event.training.favourites == 3 ? 'fa-star text-danger' : 'fa-star-o'))}" data-switch="${event.training.favourites}"></i></td>
                                 <td>${count_player}</td>
-                                <td>0</td>
+                                <td>${count_goalkeeper}</td>
                             `
                         } else if('match' in event && event['match'] != null){
                             event_name = 'm'+(event['match']['m_type']+1)
@@ -1048,12 +1053,18 @@ function generateOnlyTable() {
                         if('training' in event && event['training'] != null){
                             num_tr = 1
                             let count_player = 0
+                            let count_goalkeeper = 0
 
                             if(event_class === 'trainingClass' && event['only_date'] === event_date) num_tr++
                             if(event.training.exercises_info.length == 0 ||event.training.protocol_info.length == 0) isFilled = false
-                            if('protocol_info' in event.training){
+                            if('protocol_info' in event.training && event.training.protocol_info.length > 0){
                                 $.each(event.training.protocol_info, function( index, value ) {
-                                    if(value.status==null) count_player++;
+                                    if(value.status==null) {
+                                        count_player++;
+                                        if(value.player_info.card != null && value.player_info.card.is_goalkeeper){
+                                            count_goalkeeper++;
+                                        }
+                                    }
                                 });
                             }
                             hasVideo = event.training.video_href != '' && event.training.video_href != null
