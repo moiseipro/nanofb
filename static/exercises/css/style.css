@@ -82,25 +82,25 @@
 
 
 .left-col-card {
-    height: 87vh !important;
+    height: 80vh !important;
     overflow-y: auto;
 }
 .left-col-card.short {
-    height: 78vh !important;
+    height: 80vh !important;
 }
 .center-col-card {
-    height: 87vh !important;
+    height: 80vh !important;
     overflow-y: auto;
 }
 .center-col-card.short {
-    height: 78vh !important;
+    height: 80vh !important;
 }
 .right-col-card {
-    height: 87vh !important;
+    height: 80vh !important;
     overflow-y: auto;
 }
 .right-col-card.short {
-    height: 78vh !important;
+    height: 80vh !important;
 }
 /* .video-list-container {
     height: 65vh !important;
@@ -426,7 +426,7 @@ tr.bck-custom > td {
 .form-control-sm.exs_edit_field {
     height: calc(1.5em + .5rem - 2px) !important;
 }
-textarea.form-control.exs_edit_field {
+textarea.form-control.exs_edit_field:not(.ignore-style) {
     min-height: calc(1.5em + .5rem - 2px) !important;
     resize: none;
     overflow: hidden;

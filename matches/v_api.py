@@ -727,6 +727,7 @@ def POST_edit_match_video_event(request, cur_user, cur_team):
     """
     links_data = request.POST.getlist("links[]", [])
     notes_data = request.POST.getlist("notes[]", [])
+    names_data = request.POST.getlist("names[]", [])
     event_id = -1
     try:
         event_id = int(request.POST.get("id", -1))
@@ -746,6 +747,7 @@ def POST_edit_match_video_event(request, cur_user, cur_team):
             f_event_video = EventVideoLink()
         f_event_video.json_link = links_data
         f_event_video.description = notes_data
+        f_event_video.name = names_data
         try:
             f_event_video.save()
             f_event = f_event[0]
@@ -778,6 +780,7 @@ def POST_edit_match_video_protocol(request, cur_user, cur_team):
     """
     links_data = request.POST.getlist("links[]", [])
     notes_data = request.POST.getlist("notes[]", [])
+    names_data = request.POST.getlist("names[]", [])
     protocol_id = -1
     try:
         protocol_id = int(request.POST.get("id", -1))
@@ -797,6 +800,7 @@ def POST_edit_match_video_protocol(request, cur_user, cur_team):
             f_protocol_video = EventVideoLink()
         f_protocol_video.json_link = links_data
         f_protocol_video.description = notes_data
+        f_protocol_video.name = names_data
         try:
             f_protocol_video.save()
             f_protocol = f_protocol[0]
@@ -952,10 +956,11 @@ def GET_get_match_video_event(request, cur_user, cur_team, returnJSONResponse=Tr
     else:
         event = UserEvent.objects.filter(id=event_id)
     if event.exists() and event[0].id != None:
-        res_data = {'links': [], 'notes': []}
+        res_data = {'links': [], 'notes': [], 'names': []}
         try:
             res_data["links"] = event[0].video_link.json_link
             res_data["notes"] = event[0].video_link.description
+            res_data["names"] = event[0].video_link.name
         except:
             pass
         if returnJSONResponse:
@@ -1001,10 +1006,11 @@ def GET_get_match_video_protocol(request, cur_user, cur_team, returnJSONResponse
     else:
         protocol = UserProtocol.objects.filter(id=protocol_id)
     if protocol.exists() and protocol[0].id != None:
-        res_data = {'links': [], 'notes': []}
+        res_data = {'links': [], 'notes': [], 'names': []}
         try:
             res_data["links"] = protocol[0].video_link.json_link
             res_data["notes"] = protocol[0].video_link.description
+            res_data["names"] = protocol[0].video_link.name
         except:
             pass
         if returnJSONResponse:

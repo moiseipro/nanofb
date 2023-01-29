@@ -32,15 +32,27 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem[data-id="nfb_folders"]').removeClass('selected3');
             $('.exs_counter').html("(...)");
 
-            $('.folders_nfb_list').toggleClass('d-none', true);
-            $('.folders_club_list').toggleClass('d-none', false);
-            $('.folders_list').toggleClass('d-none', true);
-            $('.exercises-list').find('.list-group-item:not(.side-filter-elem)').removeClass('active');
-            $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
-
-            $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('d-none', true);
-            $('.up-tabs-elem[data-id="club_folders"]').toggleClass('d-none', false);
-            $('.up-tabs-elem[data-id="team_folders"]').toggleClass('d-none', true);
+            if ($('.up-tabs-elem[data-id="club_folders"]').length > 0) {
+                $('.folders_nfb_list').toggleClass('d-none', true);
+                $('.folders_club_list').toggleClass('d-none', false);
+                $('.folders_list').toggleClass('d-none', true);
+                $('.exercises-list').find('.list-group-item:not(.side-filter-elem)').removeClass('active');
+                $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
+    
+                $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('d-none', true);
+                $('.up-tabs-elem[data-id="club_folders"]').toggleClass('d-none', false);
+                $('.up-tabs-elem[data-id="team_folders"]').toggleClass('d-none', true);
+            } else {
+                $('.folders_nfb_list').toggleClass('d-none', true);
+                $('.folders_club_list').toggleClass('d-none', true);
+                $('.folders_list').toggleClass('d-none', false);
+                $('.exercises-list').find('.list-group-item:not(.side-filter-elem)').removeClass('active');
+                $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
+    
+                $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('d-none', true);
+                $('.up-tabs-elem[data-id="club_folders"]').toggleClass('d-none', true);
+                $('.up-tabs-elem[data-id="team_folders"]').toggleClass('d-none', false);
+            }
 
             $('#exerciseCopyModal').find('select[name="copy_mode"]').val('1');
             $('#exerciseCopyModal').find('select[name="copy_mode"]').prop('disabled', true);

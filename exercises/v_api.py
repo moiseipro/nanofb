@@ -1235,8 +1235,18 @@ def POST_edit_exs(request, cur_user, cur_team):
     c_exs.field_keyword_a = request.POST.get("data[field_keyword_a]", None)
     c_exs.field_keyword_b = request.POST.get("data[field_keyword_b]", None)
 
-    video_links = set_value_as_list(request, "data[video_links[]]", "data[video_links[]][]", [])
-    if len(video_links) == 4:
+    video_links_links = set_value_as_list(request, "data[video_links_link[]]", "data[video_links_link[]][]", [])
+    video_links_names = set_value_as_list(request, "data[video_links_name[]]", "data[video_links_name[]][]", [])
+    video_links_notes = set_value_as_list(request, "data[video_links_note[]]", "data[video_links_note[]][]", [])
+    if len(video_links_links) == 4:
+        video_links = []
+        for _i in range(len(video_links_links)):
+            video_links.append({
+                'link': video_links_links[_i],
+                'name': video_links_names[_i],
+                'note': video_links_notes[_i]
+            })
+            pass
         c_exs.video_links = video_links
     
     c_exs.tags.clear()

@@ -67,6 +67,7 @@ function ToggleUpperButtonsPanel(isActive) {
     $('#exerciseCard').find('.btn-edit').toggleClass('d-none', isActive == '1');
     window.changedData = false;
     if (isActive == '1') {
+        ToggleEditFields(isActive != '1');
         LoadExerciseOne();
     }
     if (isActive != '1') {
@@ -226,10 +227,16 @@ function RenderExerciseOne(data) {
         $(exsCard).find('.exs_edit_field[name="field_keyword_b"]').val(data.field_keyword_b);
 
         try {
-            $(exsCard).find('.exs_edit_field[name="video_links[]"]:nth-child(1)').val(data.video_links[0]);
-            $(exsCard).find('.exs_edit_field[name="video_links[]"]:nth-child(2)').val(data.video_links[1]);
-            $(exsCard).find('.exs_edit_field[name="video_links[]"]:nth-child(3)').val(data.video_links[2]);
-            $(exsCard).find('.exs_edit_field[name="video_links[]"]:nth-child(4)').val(data.video_links[3]);
+            if (Array.isArray(data.video_links) && data.video_links.length == 4) {
+                for (let i = 0; i < data.video_links.length; i++) {
+                    let cLink = data.video_links[i]['link'];
+                    let cName = data.video_links[i]['name'];
+                    let cNote = data.video_links[i]['note'];
+                    $(exsCard).find(`.exs_video_link:nth-child(${i+1})`).find(`.exs_edit_field[name="video_links_name[]"]`).val(cName);
+                    $(exsCard).find(`.exs_video_link:nth-child(${i+1})`).find(`.exs_edit_field[name="video_links_link[]"]`).val(cLink);
+                    $(exsCard).find(`.exs_video_link:nth-child(${i+1})`).find(`.exs_edit_field[name="video_links_note[]"]`).val(cNote);
+                }
+            }
         } catch(e) {}
 
         $(exsCard).find('.exs_edit_field[name="tags"]').val(data.tags).trigger('change');
@@ -315,11 +322,16 @@ function RenderExerciseOne(data) {
         $('#carouselAnim').find('.carousel-control-prev').removeClass('d-none');
         $('#carouselAnim').find('.carousel-control-next').removeClass('d-none');
 
-        
+        let video_1_link = $(exsCard).find(`.exs_video_link[data-type="video_1"]`).find(`.exs_edit_field[name="video_links_link[]"]`).val();
+        let video_2_link = $(exsCard).find(`.exs_video_link[data-type="video_2"]`).find(`.exs_edit_field[name="video_links_link[]"]`).val();
+        let anim_1_link = $(exsCard).find(`.exs_video_link[data-type="animation_1"]`).find(`.exs_edit_field[name="video_links_link[]"]`).val();
+        let anim_2_link = $(exsCard).find(`.exs_video_link[data-type="animation_2"]`).find(`.exs_edit_field[name="video_links_link[]"]`).val();
         if (data.video_1 && data.video_1.id && data.video_1.id != -1) {
             $('#carouselVideo').find('.carousel-item').first().removeClass('d-none');
             $(exsCard).find('.video-value[name="video1"]').val(data.video_1.id);
             RenderVideo(data.video_1.id, $(exsCard).find('.video-value[name="video1"]'), window.videoPlayerCard1);
+        } else if (video_1_link && video_1_link != "") {
+            $('#carouselVideo').find('.carousel-item').first().removeClass('d-none');
         } else {
             $('#carouselVideo').find('.carousel-item').first().addClass('d-none');
             $('#carouselVideo').find('.carousel-indicators > li').first().addClass('d-none');
@@ -331,6 +343,8 @@ function RenderExerciseOne(data) {
             $('#carouselVideo').find('.carousel-item').last().removeClass('d-none');
             $(exsCard).find('.video-value[name="video2"]').val(data.video_2.id);
             RenderVideo(data.video_2.id, $(exsCard).find('.video-value[name="video2"]'), window.videoPlayerCard2);
+        } else if (video_2_link && video_2_link != "") {
+            $('#carouselVideo').find('.carousel-item').last().removeClass('d-none');
         } else {
             $('#carouselVideo').find('.carousel-item').last().addClass('d-none');
             $('#carouselVideo').find('.carousel-indicators > li').last().addClass('d-none');
@@ -342,6 +356,8 @@ function RenderExerciseOne(data) {
             $('#carouselAnim').find('.carousel-item').first().removeClass('d-none');
             $(exsCard).find('.video-value[name="animation1"]').val(data.animation_1.id);
             RenderVideo(data.animation_1.id, $(exsCard).find('.video-value[name="animation1"]'), window.videoPlayerCard3);
+        } else if (anim_1_link && anim_1_link != "") {
+            $('#carouselAnim').find('.carousel-item').first().removeClass('d-none');
         } else {
             $('#carouselAnim').find('.carousel-item').first().addClass('d-none');
             $('#carouselAnim').find('.carousel-indicators > li').first().addClass('d-none');
@@ -353,6 +369,8 @@ function RenderExerciseOne(data) {
             $('#carouselAnim').find('.carousel-item').last().removeClass('d-none');
             $(exsCard).find('.video-value[name="animation2"]').val(data.animation_2.id);
             RenderVideo(data.animation_2.id, $(exsCard).find('.video-value[name="animation2"]'), window.videoPlayerCard4);
+        } else if (anim_2_link && anim_2_link != "") {
+            $('#carouselAnim').find('.carousel-item').last().removeClass('d-none');
         } else {
             $('#carouselAnim').find('.carousel-item').last().addClass('d-none');
             $('#carouselAnim').find('.carousel-indicators > li').last().addClass('d-none');
@@ -451,7 +469,7 @@ function SaveExerciseOne() {
     let exsId = $('#exerciseCard').attr('data-exs');
     let dataToSend = {'edit_exs': 1, 'exs': exsId, type: folderType, 'data': {}};
     $('#exerciseCard').find('.exs_edit_field').each((ind, elem) => {
-        if (!$(elem).hasClass('d-none') || $(elem).hasClass('exs_video_link')) {
+        if (!$(elem).hasClass('d-none') || $(elem).parent().hasClass('exs_video_link')) {
             let name = $(elem).attr('name');
             if (name in dataToSend.data) {
                 if (!Array.isArray(dataToSend.data[name])) {
@@ -1529,24 +1547,6 @@ $(function() {
 
         $('#exerciseCard').find('.exs_video_link').addClass('d-none');
         $('#exerciseCard').find('.exs_video_link[data-type="video_1"]').removeClass('d-none');
-        if ($('#exerciseCard').find('.exs_video_link[data-type="video_1"]').length > 0) {
-            let videoLink = $('#exerciseCard').find('.exs_video_link[data-type="video_1"]').val();
-            $('.video-editor').find('#video-player-card-edit').removeClass('d-none');
-            $('.video-editor').find('#video-player-card-edit').removeClass('not-active');
-            if (videoLink.includes("youtube")) {
-                window.videoPlayerCardEdit.src({
-                    techOrder: ["youtube"], type: 'video/youtube', 
-                    src: `${videoLink}`
-                });
-                window.videoPlayerCardEdit.poster('');
-            } else {
-                window.videoPlayerCardEdit.src({
-                    type: 'video/mp4', 
-                    src: `${videoLink}`
-                });
-                window.videoPlayerCardEdit.poster('');
-            }
-        }
     });
     $('#exerciseCard').on('click', '#openVideo2', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
@@ -1567,24 +1567,6 @@ $(function() {
 
         $('#exerciseCard').find('.exs_video_link').addClass('d-none');
         $('#exerciseCard').find('.exs_video_link[data-type="video_2"]').removeClass('d-none');
-        if ($('#exerciseCard').find('.exs_video_link[data-type="video_2"]').length > 0) {
-            let videoLink = $('#exerciseCard').find('.exs_video_link[data-type="video_2"]').val();
-            $('.video-editor').find('#video-player-card-edit').removeClass('d-none');
-            $('.video-editor').find('#video-player-card-edit').removeClass('not-active');
-            if (videoLink.includes("youtube")) {
-                window.videoPlayerCardEdit.src({
-                    techOrder: ["youtube"], type: 'video/youtube', 
-                    src: `${videoLink}`
-                });
-                window.videoPlayerCardEdit.poster('');
-            } else {
-                window.videoPlayerCardEdit.src({
-                    type: 'video/mp4', 
-                    src: `${videoLink}`
-                });
-                window.videoPlayerCardEdit.poster('');
-            }
-        }
     });
     $('#exerciseCard').on('click', '#openAnimation1', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
@@ -1605,22 +1587,6 @@ $(function() {
 
         $('#exerciseCard').find('.exs_video_link').addClass('d-none');
         $('#exerciseCard').find('.exs_video_link[data-type="animation_1"]').removeClass('d-none');
-        if ($('#exerciseCard').find('.exs_video_link[data-type="animation_1"]').length > 0) {
-            let videoLink = $('#exerciseCard').find('.exs_video_link[data-type="animation_1"]').val();
-            $('.video-editor').find('#video-player-card-edit').removeClass('d-none');
-            $('.video-editor').find('#video-player-card-edit').removeClass('not-active');
-            if (videoLink.includes("youtube")) {
-                window.videoPlayerCardEdit.src({
-                    techOrder: ["youtube"], type: 'video/youtube', 
-                    src: `${videoLink}`
-                });
-            } else {
-                window.videoPlayerCardEdit.src({
-                    type: 'video/mp4', 
-                    src: `${videoLink}`
-                });
-            }
-        }
     });
     $('#exerciseCard').on('click', '#openAnimation2', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
@@ -1641,22 +1607,6 @@ $(function() {
 
         $('#exerciseCard').find('.exs_video_link').addClass('d-none');
         $('#exerciseCard').find('.exs_video_link[data-type="animation_2"]').removeClass('d-none');
-        if ($('#exerciseCard').find('.exs_video_link[data-type="animation_2"]').length > 0) {
-            let videoLink = $('#exerciseCard').find('.exs_video_link[data-type="animation_2"]').val();
-            $('.video-editor').find('#video-player-card-edit').removeClass('d-none');
-            $('.video-editor').find('#video-player-card-edit').removeClass('not-active');
-            if (videoLink.includes("youtube")) {
-                window.videoPlayerCardEdit.src({
-                    techOrder: ["youtube"], type: 'video/youtube', 
-                    src: `${videoLink}`
-                });
-            } else {
-                window.videoPlayerCardEdit.src({
-                    type: 'video/mp4', 
-                    src: `${videoLink}`
-                });
-            }
-        }
     });
     $('#exerciseCard').on('click', '#openTags', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
@@ -1766,23 +1716,14 @@ $(function() {
             }
         }
     });
-    $('#exerciseCard').on('change', '.exs_video_link', (e) => {
-        let cVal = $(e.currentTarget).val();
-        $('.video-editor').find('#video-player-card-edit').removeClass('d-none');
-        $('.video-editor').find('#video-player-card-edit').removeClass('not-active');
-        if (cVal.includes("youtube")) {
-            window.videoPlayerCardEdit.src({
-                techOrder: ["youtube"], type: 'video/youtube', 
-                src: `${cVal}`
-            });
-            window.videoPlayerCardEdit.poster('');
-        } else {
-            window.videoPlayerCardEdit.src({
-                type: 'video/mp4', 
-                src: `${cVal}`
-            });
-            window.videoPlayerCardEdit.poster('');
-        }
+
+    $('#exerciseCard').on('click', '.video-link-open', (e) => {
+        let cLink = $('#exerciseCard').find('input[name="video_links_link[]"]:visible').val();
+        window.open(cLink, '_blank').focus();
+    });
+    $('#exerciseCard').on('click', '.video-link-copy', (e) => {
+        let cLink = $('#exerciseCard').find('input[name="video_links_link[]"]:visible').val();
+        navigator.clipboard.writeText(cLink);
     });
 
 
