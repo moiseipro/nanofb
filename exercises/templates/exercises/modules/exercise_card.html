@@ -4,10 +4,8 @@
     <div class="modal-header py-1 exercise-card-header">
         <div class="row w-100">
             <div class="col-12 px-1 btn-group btn-group-custom">
-                <button type="button" class="btn btn-secondary btn-sm {% if can_edit_exs_full %}btn-view{% endif %}" disabled="">&nbsp;</button>
-                {% if can_edit_exs and can_edit_exs_full %}
+                <button type="button" class="btn btn-secondary btn-sm btn-view" disabled="">&nbsp;</button>
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit selected2" id="openDescription">Описание</button>
-                {% endif %}
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit" id="openDrawing1">Рисунок 1</button>
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit" id="openDrawing2">Рисунок 2</button>
                 {% if can_edit_exs and can_edit_exs_full %}
