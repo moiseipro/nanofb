@@ -176,7 +176,7 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
                 </div>
             ` : ''}
         </div>
-        ` : data && data.video_links[0] && data.video_links[0]['link'] && data.video_links[0]['link'] != "" ? `
+        ` : data && data.video_links && data.video_links[0] && data.video_links[0]['link'] && data.video_links[0]['link'] != "" ? `
         <div class="carousel-item">
             <div class="mt-5 px-5">
                 <div class="row">
@@ -223,7 +223,7 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
                 </div>
             ` : ''}
         </div>
-        ` : data && data.video_links[1] && data.video_links[1]['link'] && data.video_links[1]['link'] != "" ? `
+        ` : data && data.video_links && data.video_links[1] && data.video_links[1]['link'] && data.video_links[1]['link'] != "" ? `
         <div class="carousel-item">
             <div class="mt-5 px-5">
                 <div class="row">
@@ -270,7 +270,7 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
                 </div>
             ` : ''}
         </div>
-        ` : data && data.video_links[2] && data.video_links[2]['link'] && data.video_links[2]['link'] != "" ? `
+        ` : data && data.video_links && data.video_links[2] && data.video_links[2]['link'] && data.video_links[2]['link'] != "" ? `
         <div class="carousel-item">
             <div class="mt-5 px-5">
                 <div class="row">
@@ -317,7 +317,7 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
                 </div>
             ` : ''}
         </div>
-        ` : data && data.video_links[3] && data.video_links[3]['link'] && data.video_links[3]['link'] != "" ? `
+        ` : data && data.video_links && data.video_links[3] && data.video_links[3]['link'] && data.video_links[3]['link'] != "" ? `
         <div class="carousel-item">
             <div class="mt-5 px-5">
                 <div class="row">
