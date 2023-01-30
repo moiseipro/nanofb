@@ -248,14 +248,18 @@ def folders(request):
         pass
     is_show_club_folders = cur_user[0].is_superuser or request.user.club_id is not None
     found_folders = []
+    found_nfb_folders = []
     if cur_user.exists() and cur_user[0].id != None:
         if request.user.club_id is not None:
             found_folders = ClubFolder.objects.filter(club=request.user.club_id)
         else:
             found_folders = UserFolder.objects.filter(user=cur_user[0], team=cur_team)
+    if cur_user[0].is_superuser:
+        _, _, found_nfb_folders, _ = v_api.get_exercises_params(request, cur_user[0], cur_team)
     return render(request, 'exercises/base_folders.html', {
         'folders': found_folders, 
         'folders_only_view': False, 
+        'nfb_folders': found_nfb_folders, 
         'is_folders': True,
         'menu_exercises_folders': 'active',
         'show_club_folders': is_show_club_folders,

@@ -38,6 +38,11 @@
                                 <button type="button" class="btn btn-sm btn-warning folders-nanofb ml-2">
                                     Просмотреть папки NFB
                                 </button>
+                                {% if nfb_folders %}
+                                <button type="button" class="btn btn-sm btn-warning folders-edit-toggle ml-2" data-folder-type="team_folders">
+                                    <span>Редактирование папок:</span><span class="folder-type-text ml-1">КОМАНДА</span>
+                                </button>
+                                {% endif %}
                                 <button type="button" class="btn btn-sm btn-info folder-up ml-2" title="{% trans 'Move up' %}">
                                     <i class="fa fa-arrow-up" aria-hidden="true"></i>
                                 </button>

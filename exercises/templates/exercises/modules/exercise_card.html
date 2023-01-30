@@ -4,17 +4,19 @@
     <div class="modal-header py-1 exercise-card-header">
         <div class="row w-100">
             <div class="col-12 px-1 btn-group btn-group-custom">
+                <button type="button" class="btn btn-secondary btn-sm {% if can_edit_exs_full %}btn-view{% endif %}" disabled="">&nbsp;</button>
                 {% if can_edit_exs and can_edit_exs_full %}
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit selected2" id="openDescription">Описание</button>
+                {% endif %}
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit" id="openDrawing1">Рисунок 1</button>
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit" id="openDrawing2">Рисунок 2</button>
+                {% if can_edit_exs and can_edit_exs_full %}
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit" id="openVideo1">Видео 1</button>
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit" id="openVideo2">Видео 2</button>
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit" id="openAnimation1">Анимация 1</button>
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit" id="openAnimation2">Анимация 2</button>
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit" id="openTags" title="Ключевые характеристики">Кл. х-ки</button>
                 {% endif %}
-                <button type="button" class="btn btn-secondary btn-sm {% if can_edit_exs_full %}btn-view{% endif %}" disabled="">&nbsp;</button>
                 <button type="button" class="btn btn-secondary btn-sm btn-custom exs-change size-max-w-x" data-dir="prev" style="--w-max-x:5%;" title="Предыдущее">
                     <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
                 </button>
@@ -375,11 +377,29 @@
                                                     required="" title="Задача">
                                             </td>
                                         </tr>
-                                        <tr class="bck-custom">
+                                        <tr class="bck-custom description-buttons d-none">
+                                            <td>
+                                                <button type="button" class="btn btn-outline-secondary btn-sm description-button active" data-id="original">
+                                                    Оригинал описания
+                                                </button>
+                                                <button type="button" class="btn btn-outline-secondary btn-sm description-button" data-id="template">
+                                                    Шаблон описания
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr class="bck-custom description-panel" data-id="original">
                                             <td title="Описание" style="background-color: white;">
                                                 <!-- <div class="resizeable-block" style="resize: vertical; overflow: auto;"> -->
                                                 <div class="resizeable-block">
                                                     <div id="descriptionEditor2" class="ckeditor w-100" name="description_text"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="bck-custom description-panel d-none" data-id="template">
+                                            <td title="Описание - Шаблон" style="background-color: white;">
+                                                <!-- <div class="resizeable-block" style="resize: vertical; overflow: auto;"> -->
+                                                <div class="resizeable-block">
+                                                    <div id="descriptionEditor2Template" class="ckeditor w-100" name=""></div>
                                                 </div>
                                             </td>
                                         </tr>
