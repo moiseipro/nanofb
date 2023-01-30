@@ -1238,7 +1238,7 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
                 'team': player.team.name if player.team else "",
                 'club_from': player.card.club_from if player.card else "",
                 'position': player_position,
-                'additional_options': f"{goalkeeper_val} {captain_val}",
+                'additional_options': f"{captain_val}",
                 'foot': player_foot,
                 'growth': player.card.growth if player.card else "",
                 'weight': player.card.weight if player.card else "",

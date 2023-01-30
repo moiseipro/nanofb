@@ -5,7 +5,7 @@ function GeneratePlayersTable(scroll_y = '') {
         language: {
             url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
         },
-        dom: "<'row'<'col-sm-12 col-md '><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
+        dom: "<'row d-none'<'col-sm-12 col-md '><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'>>" +
              "<'row'<'col-sm-12'tr>>" +
              "<'row'<'col-sm-12 col-md-5'l><'col-sm-12 col-md-7'p>>",
         serverSide: true,
@@ -422,6 +422,18 @@ $(function() {
     })
     .on( 'deselect', (e, dt, type, indexes) => {
         LoadPlayerData();
+    });
+
+    // Seach in players table
+    let playersSearchVal = "";
+    $('input.players-search').on('keyup', (e) => {
+        let cVal = $(e.currentTarget).val();
+        if (cVal != playersSearchVal) {
+            playersSearchVal = cVal;
+            try {
+                players_table.search(playersSearchVal).draw();
+            } catch(e) {}
+        }
     });
 
     // Toggle left menu

@@ -40,17 +40,33 @@ function LoadMatchVideoModal(id) {
 }
 
 function RenderMatchVideoModal(data) {
+    let isEdit = $('#saveMatchAll:visible').length > 0;
     let htmlStr = "";
     let currentIndex = 0;
     for (; currentIndex < data.links.length; currentIndex++) {
         let isActive = currentIndex == 0;
         let isEmpty = data.links[currentIndex] == "";
+        let cName = "";
+        let cNote = "";
+        try {
+            cName = data.names[currentIndex];
+        } catch(e) {}
+        try {
+            cNote = data.notes[currentIndex];
+        } catch(e) {}
         htmlStr += `
             <div class="carousel-item ${isActive ? 'active' : ''}">
-                <video id="" class="video-js resize-block video-size ${isEmpty ? 'video-empty' : ''}">
-                </video>
-                <input class="form-control form-control-sm" name="video_link" value="${data.links[currentIndex]}" placeholder="Ссылка на видео" type="text" autocomplete="off">
-                <textarea class="form-control form-control-sm" name="video_note" placeholder="Примечание к видео" type="text" autocomplete="off">${data.notes[currentIndex]}</textarea>
+                <div class="row">
+                    <div class="col-12">
+                        <input class="form-control form-control-sm" name="video_name" value="${cName}" placeholder="Название видео" type="text" autocomplete="off" ${isEdit ? '' : 'disabled=""'}>
+                    </div>
+                    <div class="col-12">
+                        <input class="form-control form-control-sm" name="video_link" value="${data.links[currentIndex]}" placeholder="Ссылка на видео" type="text" autocomplete="off" ${isEdit ? '' : 'disabled=""'}>
+                    </div>
+                    <div class="col-12">
+                        <textarea class="form-control form-control-sm" name="video_note" placeholder="Описание видео" type="text" autocomplete="off" style="min-height: 300px;" ${isEdit ? '' : 'disabled=""'}>${cNote}</textarea>
+                    </div>
+                </div>
             </div>
         `;
     }
@@ -58,28 +74,21 @@ function RenderMatchVideoModal(data) {
         let isActive = currentIndex == 0;
         htmlStr += `
             <div class="carousel-item ${isActive ? 'active' : ''}">
-                <video id="" class="video-js resize-block video-size video-empty">
-                </video>
-                <input class="form-control form-control-sm" name="video_link" value="" placeholder="Ссылка на видео" type="text" autocomplete="off">
-                <textarea class="form-control form-control-sm" name="video_note" placeholder="Примечание к видео" type="text" autocomplete="off"></textarea>
+                <div class="row">
+                    <div class="col-12">
+                        <input class="form-control form-control-sm" name="video_name" value="" placeholder="Название видео" type="text" autocomplete="off" ${isEdit ? '' : 'disabled=""'}>
+                    </div>
+                    <div class="col-12">
+                        <input class="form-control form-control-sm" name="video_link" value="" placeholder="Ссылка на видео" type="text" autocomplete="off" ${isEdit ? '' : 'disabled=""'}>
+                    </div>
+                    <div class="col-12">
+                        <textarea class="form-control form-control-sm" name="video_note" placeholder="Описание видео" type="text" autocomplete="off" style="min-height: 300px;" ${isEdit ? '' : 'disabled=""'}></textarea>
+                    </div>
+                </div>
             </div>
         `;
     }
     $('#matchVideoModal').find('.carousel-inner').html(htmlStr);
-    $('#matchVideoModal').find('.video-js:not(.video-empty)').each((ind, elem) => {
-        let cVideoElem = videojs($(elem)[0], {
-            controls: true,
-            autoplay: false,
-            preload: 'auto'
-        });
-        let cLink = $(elem).parent().parent().find('[name="video_link"]').val();
-        let cYoutubeLink = YoutubeParser(cLink);
-        if (cYoutubeLink) {
-            cVideoElem.src({techOrder: ["youtube"], type: 'video/youtube', src: `https://www.youtube.com/watch?v=${cYoutubeLink}`});
-        } else {
-            cVideoElem.src({type: 'video/mp4', src: cLink});
-        }
-    });
 }
 
 function SaveMatchVideoModal() {
@@ -94,17 +103,20 @@ function SaveMatchVideoModal() {
         }, 1000);
         return;
     }
-    let videoLinks = []; let videoNotes = [];
+    let videoLinks = []; let videoNotes = []; let videoNames = [];
     $('#matchVideoModal').find('[name="video_link"]:not(.form-error)').each((index, elem) => {
         videoLinks.push($(elem).val());
-        videoNotes.push($(elem).parent().find('[name="video_note"]').val());
+        videoNotes.push($(elem).parent().parent().find('[name="video_note"]').val());
+        videoNames.push($(elem).parent().parent().find('[name="video_name"]').val());
     });
+    console.log(videoLinks, videoNotes, videoNames)
     let dataKey = `edit_match_video_${modelType}`;
     let data = {
         [dataKey]: 1,
         'id': modelId,
         'links': videoLinks,
-        'notes': videoNotes
+        'notes': videoNotes,
+        'names': videoNames
     };
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
@@ -166,11 +178,16 @@ $(function() {
     window.matchVideoCanSave = true;
     ToggleMatchVideoFields(false);
 
-    $('#matchVideoModal').on('change', '[name="video_link"]', (e) => {
-        CheckVideoLink($(e.currentTarget));
-    });
     $('#matchVideoModal').on('click', '[name="save"]', (e) => {
         SaveMatchVideoModal();
+    });
+    $('#matchVideoModal').on('click', '[name="open"]', (e) => {
+        let cLink = $('#matchVideoModal').find('input[name="video_link"]:visible').val();
+        window.open(cLink, '_blank').focus();
+    });
+    $('#matchVideoModal').on('click', '[name="copy"]', (e) => {
+        let cLink = $('#matchVideoModal').find('input[name="video_link"]:visible').val();
+        navigator.clipboard.writeText(cLink);
     });
 
     $('#matchVideoModal').on('hide.bs.modal', (e) => {

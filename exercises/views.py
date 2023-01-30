@@ -46,6 +46,7 @@ def exercises(request):
         cur_team = int(request.session['team'])
     except:
         pass
+    is_show_club_folders = cur_user[0].is_superuser or request.user.club_id is not None
     found_folders = []
     found_club_folders = []
     found_nfb_folders = []
@@ -64,6 +65,7 @@ def exercises(request):
         'menu_exercises': 'active',
         'exercises_tags': exs_tags,
         'video_params': video_params,
+        'show_club_folders': is_show_club_folders,
         'seasons_list': request.seasons_list,
         'teams_list': request.teams_list,
         'ui_elements': get_ui_elements(request)
@@ -132,6 +134,8 @@ def exercise(request):
                 found_exercise = ClubExercise.objects.filter(id=c_id, club=request.user.club_id).values()
     if not found_exercise and not is_new_exs:
         return redirect('/exercises')
+    if is_new_exs and folder_type == v_api.FOLDER_NFB and not cur_user[0].is_superuser:
+        return redirect(f'/exercises/exercise?id=new&type={v_api.FOLDER_TEAM}')
     if is_can_edit_exs_full and not cur_user[0].is_superuser:
         nfb_id = -1
         try:
@@ -242,6 +246,7 @@ def folders(request):
         cur_team = int(request.session['team'])
     except:
         pass
+    is_show_club_folders = cur_user[0].is_superuser or request.user.club_id is not None
     found_folders = []
     if cur_user.exists() and cur_user[0].id != None:
         if request.user.club_id is not None:
@@ -253,6 +258,7 @@ def folders(request):
         'folders_only_view': False, 
         'is_folders': True,
         'menu_exercises_folders': 'active',
+        'show_club_folders': is_show_club_folders,
         'seasons_list': request.seasons_list,
         'teams_list': request.teams_list,
         'ui_elements': get_ui_elements(request)

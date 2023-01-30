@@ -111,15 +111,8 @@ function RenderFolderExercises(id, tExs) {
     let exsHtml = "";
     $('.exs_counter').html(exs.length > 0 ? `(${exs.length})` : "(...)");
     $('.folders-block').find('.list-group-item.active').find('.folder-exs-counter').html(exs.length > 0 ? exs.length : "...");
-    let cTitle = ""; let cSameTitleNum = 0;
     for (let i = 0; i < exs.length; i++) {
         let exElem = exs[i];
-        if (cTitle == exElem.title_for_sort && exElem.title_for_sort != "") {
-            cSameTitleNum += 1;
-        } else {
-            cTitle = exElem.title_for_sort;
-            cSameTitleNum = 0;
-        }
         exsHtml += `
         <li class="exs-elem list-group-item py-1 px-0" data-id="${exElem.id}" data-folder="${exElem.folder}">
             <div class="row w-100">
@@ -128,7 +121,6 @@ function RenderFolderExercises(id, tExs) {
                         <span class="num">${i+1}.</span>
                         <span class="title">
                             ${exElem.title == "" ? "-- None --" : exElem.title}
-                            ${cSameTitleNum > 0 ? (cSameTitleNum+1) : ""}
                         </span>
                     </span>
                     ${exElem.has_video_1 == true ? `

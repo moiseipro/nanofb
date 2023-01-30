@@ -283,6 +283,25 @@ $(window).on('load', function (){
         })
     })
 
+    // Save last chosen exercise's id
+    let lastChosenExsId = -1;
+    $('.exercises-block').on('click', '.exs-elem', (e) => {
+        let isActive = !$(e.currentTarget).hasClass('active');
+        if (isActive) {
+            try {
+                lastChosenExsId = parseInt($(e.currentTarget).attr('data-id'));
+            } catch(e) {}
+        }
+    });
+    $('.visual-block').on('click', '.exercise-row', (e) => {
+        let isActive = $(e.currentTarget).hasClass('selected');
+        if (isActive) {
+            try {
+                lastChosenExsId = parseInt($(e.currentTarget).attr('data-exercise'));
+            } catch(e) {}
+        }
+    });
+
     // Open graphics in modal
     $('#carouselAll').on('click', '.carousel-item', (e) => {
         let id = -1;
@@ -291,12 +310,7 @@ $(window).on('load', function (){
         } catch (e) {}
         let activeNum = 1;
         activeNum += $('#carouselAll').find('.carousel-item').index($(e.currentTarget));
-        LoadGraphicsModal(id, "team_folders", activeNum);
-        return;
-
-        e.preventDefault();
-        let parentId = $(e.currentTarget).parent().parent().attr('id');
-        open_graphics_modal('carouselSchema')
+        LoadGraphicsModal(lastChosenExsId, "team_folders", activeNum);
     });
     $('#card-scheme-block').on('click', '.carousel-item', (e) => {
         let id = -1;

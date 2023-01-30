@@ -516,6 +516,7 @@ def POST_edit_players_protocol(request, cur_user):
         AnyProtocol = ClubProtocol
     else:
         AnyProtocol = UserProtocol
+    update_protocol_flag = True
     try:
         update_dict = {
             f'{c_key}': c_value
@@ -559,6 +560,10 @@ def POST_edit_players_protocol(request, cur_user):
         elif c_key == "is_captain" or c_key == "is_goalkeeper":
             f_protocol = AnyProtocol.objects.filter(id=protocol_id)
             if f_protocol.exists() and f_protocol[0].id != None:
+                if c_key == "is_captain":
+                    another_protocols_in_match = AnyProtocol.objects.filter(match=f_protocol[0].match, is_captain=True)
+                    if another_protocols_in_match.exists() and another_protocols_in_match[0].id != None and f_protocol[0].is_captain == False:
+                        update_protocol_flag = False
                 t_val = getattr(f_protocol[0], c_key)
                 update_dict[c_key] = not t_val
         elif c_key == "border_black" or c_key == "border_red":
@@ -567,7 +572,8 @@ def POST_edit_players_protocol(request, cur_user):
                 t_val = getattr(f_protocol[0], c_key)
                 t_val = 1 if t_val == 0 else 0
                 update_dict[c_key] = t_val
-        AnyProtocol.objects.filter(id=protocol_id).update(**update_dict)
+        if update_protocol_flag:
+            AnyProtocol.objects.filter(id=protocol_id).update(**update_dict)
     except Exception as e:
         print(e)
         return JsonResponse({"err": "Can't edit match protocol.", "success": False}, status=400)
@@ -721,6 +727,7 @@ def POST_edit_match_video_event(request, cur_user, cur_team):
     """
     links_data = request.POST.getlist("links[]", [])
     notes_data = request.POST.getlist("notes[]", [])
+    names_data = request.POST.getlist("names[]", [])
     event_id = -1
     try:
         event_id = int(request.POST.get("id", -1))
@@ -740,6 +747,7 @@ def POST_edit_match_video_event(request, cur_user, cur_team):
             f_event_video = EventVideoLink()
         f_event_video.json_link = links_data
         f_event_video.description = notes_data
+        f_event_video.name = names_data
         try:
             f_event_video.save()
             f_event = f_event[0]
@@ -772,6 +780,7 @@ def POST_edit_match_video_protocol(request, cur_user, cur_team):
     """
     links_data = request.POST.getlist("links[]", [])
     notes_data = request.POST.getlist("notes[]", [])
+    names_data = request.POST.getlist("names[]", [])
     protocol_id = -1
     try:
         protocol_id = int(request.POST.get("id", -1))
@@ -791,6 +800,7 @@ def POST_edit_match_video_protocol(request, cur_user, cur_team):
             f_protocol_video = EventVideoLink()
         f_protocol_video.json_link = links_data
         f_protocol_video.description = notes_data
+        f_protocol_video.name = names_data
         try:
             f_protocol_video.save()
             f_protocol = f_protocol[0]
@@ -946,10 +956,11 @@ def GET_get_match_video_event(request, cur_user, cur_team, returnJSONResponse=Tr
     else:
         event = UserEvent.objects.filter(id=event_id)
     if event.exists() and event[0].id != None:
-        res_data = {'links': [], 'notes': []}
+        res_data = {'links': [], 'notes': [], 'names': []}
         try:
             res_data["links"] = event[0].video_link.json_link
             res_data["notes"] = event[0].video_link.description
+            res_data["names"] = event[0].video_link.name
         except:
             pass
         if returnJSONResponse:
@@ -995,10 +1006,11 @@ def GET_get_match_video_protocol(request, cur_user, cur_team, returnJSONResponse
     else:
         protocol = UserProtocol.objects.filter(id=protocol_id)
     if protocol.exists() and protocol[0].id != None:
-        res_data = {'links': [], 'notes': []}
+        res_data = {'links': [], 'notes': [], 'names': []}
         try:
             res_data["links"] = protocol[0].video_link.json_link
             res_data["notes"] = protocol[0].video_link.description
+            res_data["names"] = protocol[0].video_link.name
         except:
             pass
         if returnJSONResponse:

@@ -176,7 +176,31 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
                 </div>
             ` : ''}
         </div>
-        ` : ''}
+        ` : data && data.video_links[0] && data.video_links[0]['link'] && data.video_links[0]['link'] != "" ? `
+        <div class="carousel-item">
+            <div class="mt-5 px-5">
+                <div class="row">
+                    <div class="col-3">Название видео:</div>
+                    <div class="col-9">${data.video_links[0]['name']}</div>
+                </div>
+                <div class="row">
+                    <div class="col-3">Описание:</div>
+                    <div class="col-9">${data.video_links[0]['note']}</div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <a class="btn btn-sm btn-primary" href="${data.video_links[0]['link']}" target="_blank" role="button">
+                            Просмотреть видео
+                        </a>
+                        <button class="btn btn-sm btn-info" value="${data.video_links[0]['link']}" onclick="navigator.clipboard.writeText(this.value);">
+                            Скопировать видео
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        ` 
+        : ''}
         ${data && data.video_2 && data.video_2.id != -1 ? `
         <div class="carousel-item">
             ${'nftv' in data.video_2['links'] && data.video_2['links']['nftv'] != '' ? `
@@ -199,7 +223,31 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
                 </div>
             ` : ''}
         </div>
-        ` : ''}
+        ` : data && data.video_links[1] && data.video_links[1]['link'] && data.video_links[1]['link'] != "" ? `
+        <div class="carousel-item">
+            <div class="mt-5 px-5">
+                <div class="row">
+                    <div class="col-3">Название видео:</div>
+                    <div class="col-9">${data.video_links[1]['name']}</div>
+                </div>
+                <div class="row">
+                    <div class="col-3">Описание:</div>
+                    <div class="col-9">${data.video_links[1]['note']}</div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <a class="btn btn-sm btn-primary" href="${data.video_links[1]['link']}" target="_blank" role="button">
+                            Просмотреть видео
+                        </a>
+                        <button class="btn btn-sm btn-info" value="${data.video_links[1]['link']}" onclick="navigator.clipboard.writeText(this.value);">
+                            Скопировать видео
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        ` 
+        : ''}
         ${data && data.animation_1 && data.animation_1.id != -1 ? `
         <div class="carousel-item">
             ${'nftv' in data.animation_1['links'] && data.animation_1['links']['nftv'] != '' ? `
@@ -222,7 +270,31 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
                 </div>
             ` : ''}
         </div>
-        ` : ''}
+        ` : data && data.video_links[2] && data.video_links[2]['link'] && data.video_links[2]['link'] != "" ? `
+        <div class="carousel-item">
+            <div class="mt-5 px-5">
+                <div class="row">
+                    <div class="col-3">Название анимации:</div>
+                    <div class="col-9">${data.video_links[2]['name']}</div>
+                </div>
+                <div class="row">
+                    <div class="col-3">Описание:</div>
+                    <div class="col-9">${data.video_links[2]['note']}</div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <a class="btn btn-sm btn-primary" href="${data.video_links[2]['link']}" target="_blank" role="button">
+                            Просмотреть анимацию
+                        </a>
+                        <button class="btn btn-sm btn-info" value="${data.video_links[2]['link']}" onclick="navigator.clipboard.writeText(this.value);">
+                            Скопировать анимацию
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        ` 
+        : ''}
         ${data && data.animation_2 && data.animation_2.id != -1 ? `
         <div class="carousel-item">
             ${'nftv' in data.animation_2['links'] && data.animation_2['links']['nftv'] != '' ? `
@@ -245,7 +317,31 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
                 </div>
             ` : ''}
         </div>
-        ` : ''}
+        ` : data && data.video_links[3] && data.video_links[3]['link'] && data.video_links[3]['link'] != "" ? `
+        <div class="carousel-item">
+            <div class="mt-5 px-5">
+                <div class="row">
+                    <div class="col-3">Название анимации:</div>
+                    <div class="col-9">${data.video_links[3]['name']}</div>
+                </div>
+                <div class="row">
+                    <div class="col-3">Описание:</div>
+                    <div class="col-9">${data.video_links[3]['note']}</div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <a class="btn btn-sm btn-primary" href="${data.video_links[3]['link']}" target="_blank" role="button">
+                            Просмотреть анимацию
+                        </a>
+                        <button class="btn btn-sm btn-info" value="${data.video_links[3]['link']}" onclick="navigator.clipboard.writeText(this.value);">
+                            Скопировать анимацию
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        ` 
+        : ''}
         <div class="carousel-item description-item">
             <div class="card size-h-x" style="--h-x:75vh;">
                 <div class="card-body py-0">
