@@ -38,21 +38,21 @@
                                 <div class="col px-1">
                                     <button id="toggle-calendar" title="{% trans 'Show/Hide calendar' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
                                 </div>
+{#                                <div class="col px-1">#}
+{#                                    <button title="{% trans 'Show/Hide events table' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>#}
+{#                                </div>#}
                                 <div class="col px-1">
-                                    <button title="{% trans 'Show/Hide events table' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+                                    <button id="toggle-event-card" title="{% trans 'Show/Hide event card' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-file-text-o" aria-hidden="true"></i></button>
                                 </div>
-                                <div class="col px-1">
-                                    <button class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-file-text-o" aria-hidden="true"></i></button>
-                                </div>
-                                <div class="col px-1">
-                                    <button class="btn btn-block btn-lightgray py-0 pt-1 btn-md">
-                                        {% if ui_elements.players__player_list %}
-                                            {{ ui_elements.players__player_list }}
-                                        {% else %}
-                                            <i class="fa fa-user" aria-hidden="true" style="width: 30px; height: 30px;"></i>
-                                        {% endif %}
-                                    </button>
-                                </div>
+{#                                <div class="col px-1">#}
+{#                                    <button class="btn btn-block btn-lightgray py-0 pt-1 btn-md">#}
+{#                                        {% if ui_elements.players__player_list %}#}
+{#                                            {{ ui_elements.players__player_list }}#}
+{#                                        {% else %}#}
+{#                                            <i class="fa fa-user" aria-hidden="true" style="width: 30px; height: 30px;"></i>#}
+{#                                        {% endif %}#}
+{#                                    </button>#}
+{#                                </div>#}
                                 <div class="col px-1">
                                     <button id="clear-events-filters" class="btn btn-block btn-reset-filter btn-md font-weight-bold" title="{% trans "Resetting all filtering and calendar" %}"><i class="fa fa-repeat" aria-hidden="true"></i></button>
                                 </div>
@@ -80,9 +80,9 @@
                         </div>
                         <div class="col py-0">
                             <div class="row">
-                                <div class="col px-1">
-                                    <button id="#" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-comment-o" aria-hidden="true"></i></button>
-                                </div>
+{#                                <div class="col px-1">#}
+{#                                    <button id="#" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-comment-o" aria-hidden="true"></i></button>#}
+{#                                </div>#}
                                 <div class="col px-1">
                                     <button id="event-video-modal-button" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold" data-toggle="modal" data-target="#training-video-modal"><b class="text-info">V</b></button>
                                 </div>

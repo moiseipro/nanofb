@@ -147,10 +147,8 @@ $(window).on('load', function (){
                 if (this_obj.hasClass('data_cell')){
                     Cookies.set('event_id', data_id, { expires: 1 })
                     if($('#events-content').hasClass('d-none')){
-                        hide_training_card()
                         $('#events-content').removeClass('d-none')
                     } else {
-                        show_training_card(data_id)
                         $('#events-content').addClass('d-none')
                     }
 
@@ -168,13 +166,6 @@ $(window).on('load', function (){
                     let html_scheme = ``
                     if ('training' in data && data.training != null) {
                         console.log(data.training)
-                        if (this_obj.hasClass('data_cell')){
-                            show_training_card(data.training.event_id)
-                            $('#events-content').addClass('d-none')
-                        } else {
-                            hide_training_card()
-                            $('#events-content').removeClass('d-none')
-                        }
                         $('#training-video-modal input[name="video_href"]').val(data.training.video_href)
                         if (data.training.exercises_info.length > 0) {
                             let exercises = data.training.exercises_info
@@ -295,17 +286,54 @@ $(window).on('load', function (){
     })
 
     $('#toggle-calendar').on('click', function () {
-        calendar_active = !calendar_active
+        if ($(this).hasClass('active')) calendar_active = true;
+        else calendar_active = false;
+        $(this).toggleClass('active', !calendar_active)
+
+        $('#toggle-event-card').toggleClass('active', false)
 
         $('#event_calendar').toggleClass('d-none', !calendar_active)
         $(this).children('i').toggleClass('fa-arrow-up', calendar_active).toggleClass('fa-arrow-down', !calendar_active)
         $('.move_to_today').toggleClass('isMonth', !calendar_active)
-        $('#filters-row').toggleClass('d-none', calendar_active || $('#events-content').hasClass('d-none'))
+        $('#filters-row').toggleClass('d-none', calendar_active)
         $('#rescalenda-control-buttons').toggleClass('d-none', !calendar_active)
+
+        hide_training_card()
+        $('#events-content').removeClass('d-none')
+
         set_month_or_date_button()
         resize_events_table()
         resize_trainings_block()
-        if(!$('#events-content').hasClass('d-none')) generateData()
+        generateData()
+    })
+    $('#toggle-event-card').on('click', function () {
+        if ($(this).hasClass('active')) calendar_active = true;
+        else calendar_active = false;
+        $(this).toggleClass('active', !calendar_active)
+
+        $(this).children('i').toggleClass('fa-arrow-up', true).toggleClass('fa-arrow-down', false)
+        $('#toggle-calendar').toggleClass('active', false)
+
+        $('#event_calendar').toggleClass('d-none', !calendar_active)
+        $('.move_to_today').toggleClass('isMonth', !calendar_active)
+        $('#filters-row').toggleClass('d-none', !calendar_active)
+        $('#rescalenda-control-buttons').toggleClass('d-none', !calendar_active)
+        let event_id = $('.hasEvent.trainingClass.selected').attr('data-value')
+        if (event_id){
+            Cookies.set('event_id', event_id, { expires: 1 })
+            if($('#events-content').hasClass('d-none')){
+                hide_training_card()
+                $('#events-content').removeClass('d-none')
+            } else {
+                show_training_card(event_id)
+                $('#events-content').addClass('d-none')
+            }
+        }
+
+        // set_month_or_date_button()
+        // resize_events_table()
+        // resize_trainings_block()
+        //if(!$('#events-content').hasClass('d-none')) generateData()
     })
 
 
