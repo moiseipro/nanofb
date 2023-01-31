@@ -2,7 +2,7 @@
 $(window).on('load', function (){
     //Скрыть правый блок
     $('#toggle_btn').click()
-    //
+
     toggle_folders_name()
 
     var urlsplit = $(location).attr('pathname').split("/");
@@ -36,19 +36,20 @@ $(window).on('load', function (){
     // Добавление упражнения в тренировку
     $('.visual-block').on('click', '.add-exercise', function (){
         let data = {}
-        data.group = $(this).attr('data-group')
+        data.group = $(this).closest('.group-row').attr('data-group')
         data.duration = 0
         data.exercise_id = $('.exs-elem.active').attr('data-id')
+        console.log(data)
         ajax_training_action('POST', data, 'add exercise', id, 'add_exercise').then(function (data) {
             console.log(data)
             let exercise = data.obj
             if(data.status=="exercise_added"){
-                $('.group-block[data-group="'+exercise.group+'"]').append(`
+                $('.group-exercises-row[data-group="'+exercise.group+'"] .group-block').append(`
                 <div class="row border-bottom exercise-row" data-id="${exercise.id}" data-exercise="${exercise.exercise_id}">
                     <div class="col px-0">${exercise.exercise_name[get_cur_lang()]}</div>
                     <div class="col-sm-12 col-md-3 px-0">
                         <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 px-1 h-100 float-right delete-exercise edit-button ${!edit_mode ? 'd-none' : ''}"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                        <input type="number" name="duration" min="0" max="999" class="form-control form-control-sm rounded-0 py-0 h-auto text-center float-right edit-input" value="${exercise.duration}" style="width: 30px" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
+                        <input type="number" name="duration" min="0" max="999" class="form-control form-control-sm rounded-0 py-0 h-auto text-center float-right edit-input" value="${exercise.duration}" style="width: 40px" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
                     </div>
                 </div>
                 `)
@@ -71,6 +72,7 @@ $(window).on('load', function (){
         data.duration = $(this).val()
         ajax_training_exercise_action('PUT', data, 'update', exercises_training_id, '').then(function () {
             cur_obj.attr('value', data.duration)
+            set_sum_duration_group()
         })
 
 
@@ -96,12 +98,7 @@ $(window).on('load', function (){
     })
 
     $('#training-exercises-button').on('click', function () {
-        $('#training-exercises .visual-block .group-button[data-group="1"]').click()
-    })
-
-    //Выгрузка упражнений в группу при клике по кнопке
-    $('.card-body').on('click', '.group-button', function () {
-        render_exercises_training(id, $(this).attr('data-group'))
+        render_exercises_training(id)
     })
 
     // Добавление игроков в протокол
@@ -626,44 +623,40 @@ function render_exercises_training(training_id = null, group = null) {
     ajax_training_action('GET', send_data, 'load', training_id, 'get_exercises').then(function (data) {
         let exercises = data.objs
 
-        let exs_html = ''
-        let select_html = ''
-        let counts_group = [0,0,0,0];
-        //console.log(select_html)
-        $.each( exercises, function( key, exercise ) {
-            counts_group[exercise.group-1]++;
-            if(group == null) return
+        let exs_html = ['', '']
+        console.log(exercises)
 
-            exs_html += `
+        $.each( exercises, function( key, exercise ) {
+            exs_html[exercise.group-1] += `
             <div id="order-${exercise.id}" class="row border-bottom exercise-row bg-white" data-id="${exercise.id}" data-exercise="${exercise.exercise_id}">
                 <div class="col px-0 text-truncate" title="${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}">${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}</div>
                 <div class="col-sm-12 col-md-3 px-0">
                     <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 px-1 h-100 float-right delete-exercise edit-button ${!edit_mode ? 'd-none' : ''}"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                    <input type="number" name="duration" min="0" max="999" class="form-control form-control-sm rounded-0 p-0 h-auto text-center float-right edit-input" value="${exercise.duration}" style="width: 30px" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
+                    <input type="number" name="duration" min="0" max="999" class="form-control form-control-sm rounded-0 p-0 h-auto text-center float-right edit-input" value="${exercise.duration}" style="width: 40px" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
                 </div>
             </div>`
         });
-        $('.visual-block .add-exercise').attr('data-group', send_data.group)
+        //$('.visual-block .add-exercise').attr('data-group', send_data.group)
+        for (let key in exs_html) {
+            $('.visual-block .group-exercises-row[data-group="'+(parseInt(key)+1)+'"] .group-block').html(exs_html[key]).sortable({
+                disabled: !edit_mode,
+                placeholder: "ui-state-highlight",
+                scroll: false,
+                stop: function( event, ui ) {
+                    let ids = $(this).sortable( "serialize", { key: 'order[]' } );
+                    ids = $(this).sortable( "toArray", {attribute:'data-id'});
 
-        $('.visual-block .group-block[data-group="'+send_data.group+'"]').html(exs_html).sortable({
-            disabled: !edit_mode,
-            placeholder: "ui-state-highlight",
-            scroll: false,
-            stop: function( event, ui ) {
-                let ids = $(this).sortable( "serialize", { key: 'order[]' } );
-                ids = $(this).sortable( "toArray", {attribute:'data-id'});
+                    let send_orders = {}
+                    send_orders.exercise_ids = ids;
+                    //console.log(send_orders)
+                    ajax_training_exercise_action('PUT', send_orders, 'sort exercises', '', 'sort_exercise').then(function (data) {
 
-                let send_orders = {}
-                send_orders.exercise_ids = ids;
-                //console.log(send_orders)
-                ajax_training_exercise_action('PUT', send_orders, 'sort exercises', '', 'sort_exercise').then(function (data) {
+                    })
+                }
+            });
+        }
 
-                })
-            }
-        });
-
-        $('#training-exercises .visual-block .group-block[data-group="'+group+'"] .exercise-row:first').click()
-        set_count_exercises(counts_group)
+        set_count_exercises()
     })
 }
 
@@ -671,7 +664,6 @@ function render_exercises_training(training_id = null, group = null) {
 function render_exercises_additional_data(training_exercise_id = null) {
     let send_data = {}
     ajax_training_exercise_action('GET', send_data, 'load data', training_exercise_id, 'get_data').then(function (data) {
-        //console.log(data)
         var select = ''
         ajax_exercise_additional('GET').then(function (data_additional) {
             let options = data_additional.results;
@@ -713,102 +705,79 @@ function render_exercises_additional_data(training_exercise_id = null) {
 
 // Подсчет кол-ва добавленных упражнений по группам
 function set_count_exercises(arr_count_group = null) {
-    let group = $('.add-exercise').attr('data-group')
-    $('.add-exercise').children('span').text($('.group-block[data-group="'+group+'"] .exercise-row').length)
-    if(arr_count_group != null){
-        for (let i = 0; i < arr_count_group.length; i++) {
-            let value = arr_count_group[i]
-            if(value != 0) $('.group-button[data-group="'+(i+1)+'"] span').text(value)
-        }
-    } else {
-        let group = $('.add-exercise').attr('data-group')
-        $('.group-button[data-group="'+group+'"] span').text($('.group-block[data-group="'+group+'"] .exercise-row').length)
-    }
+    let group = $('.add-exercise').closest('.group-row').attr('data-group')
+    $('.group-row').each(function( index ) {
+        let group = $(this).attr('data-group')
+        $('.group-row[data-group="' + group + '"] .group-count').text($('.group-exercises-row[data-group="' + group + '"] .exercise-row').length)
+    })
     set_sum_duration_group()
 }
 
 // Подсчет суммы минут добавленных упражнений по группам
 function set_sum_duration_group() {
-    let group = $('.add-exercise').attr('data-group')
-    $('.group-block[data-group="'+group+'"]').each(function( index ) {
-        let sum = 0
-        $(this).find('.exercise-row').each(function( index ) {
-            sum += parseInt($(this).find('input[name="duration"]').val())
+    $('.group-row').each(function( index ) {
+        let group = $(this).attr('data-group')
+        $('.group-exercises-row[data-group="' + group + '"] .group-block').each(function (index) {
+            let sum = 0
+            $(this).find('.exercise-row').each(function (index) {
+                sum += parseInt($(this).find('input[name="duration"]').val())
+            })
+            //console.log(sum)
+            $('.group-row[data-group="' + group + '"] .sum-duration-group').text(sum)
         })
-        //console.log(sum)
-        $('.sum-duration-group').text(sum)
     })
 
 }
 
 // Добавление дополнительных данных в модуль списка упражнений
 function generate_exercises_module_data() {
-    let html_data = `
-    <div class="row mx-0 font-weight-bold">
-        <div class="col px-0">
-            <button type="button" class="btn btn-sm btn-block btn-warning add-exercise edit-button d-none" data-group=""><i class="fa fa-plus" aria-hidden="true"></i> <span class="badge badge-light font-weight-bold">0</span></button>
-        </div>
-    </div>`
+    let html_data = ``
 
     html_data += `
-    <div class="row mx-0 border border-dark bg-default-light font-weight-bold">
+    <div class="row group-row mx-0 border border-dark bg-default-light font-weight-bold" data-group="1">
+        <div class="col-1 px-0 edit-button d-none">
+            <button class="btn btn-sm btn-block btn-warning font-weight-bold py-0 h-100 add-exercise"><i class="fa fa-plus" aria-hidden="true"></i></button>
+        </div>
+        <div class="col-1">
+            <span class="font-weight-bold group-count"></span>
+        </div>
+        <div class="col">
+            <span class="font-weight-bold group-button">${ gettext("Group A") }</span>
+        </div>
         <div class="col px-0">
             <span class="sum-duration-group btn btn-sm float-right rounded-0 py-0 h-100 font-weight-bold" style="width: 50px">00</span>
         </div>
-    </div>`
-
-    html_data += `
-    <div class="row mx-0" style="min-height: 230px">
+    </div>
+    <div class="row group-exercises-row mx-0" data-group="1">
         <div class="col">
-            <div class="tab-content w-100 pt-0" id="groups-tabContent">
-                <div class="tab-pane fade group-block sortable-edit" id="group_A" data-group="1" role="tabpanel" aria-labelledby="group_A-tab">...1</div>
-                <div class="tab-pane fade group-block sortable-edit" id="group_B" data-group="2" role="tabpanel" aria-labelledby="group_B-tab">...2</div>
-            </div>
+            <div class="group-block sortable-edit" id="group_A" aria-labelledby="group_A-tab">...2</div>
         </div>
-    </div>`
+    </div>
+    
+    `
 
     html_data += `
-    <div class="row mx-0">
-        <div class="col px-0">
-            <ul class="nav nav-pills nav-fill">
-                <li class="nav-item px-1 pt-1">
-                    <a class="btn btn-sm btn-block btn-outline-warning font-weight-bold group-button" data-group="1" data-toggle="pill" href="#group_A" role="tab">${ gettext("Group A") } <span class="badge badge-dark font-weight-bold">0</span></a>
-                </li>
-                <li class="nav-item px-1 pt-1">
-                    <a class="btn btn-sm btn-block btn-outline-warning font-weight-bold group-button" data-group="2" data-toggle="pill" href="#group_B" role="tab">${ gettext("Group B") } <span class="badge badge-dark font-weight-bold">0</span></a>
-                </li>
-            </ul>
+    <div class="row group-row mx-0 border border-dark bg-default-light font-weight-bold" data-group="2">
+        <div class="col-1 px-0 edit-button d-none">
+            <button class="btn btn-sm btn-block btn-warning font-weight-bold py-0 h-100 add-exercise"><i class="fa fa-plus" aria-hidden="true"></i></button>
         </div>
-    </div>`
+        <div class="col-1">
+            <span class="font-weight-bold group-count"></span>
+        </div>
+        <div class="col">
+            <span class="font-weight-bold group-button">${ gettext("Group B") }</span>
+        </div>
+        <div class="col px-0">
+            <span class="sum-duration-group btn btn-sm float-right rounded-0 py-0 h-100 font-weight-bold" style="width: 50px">00</span>
+        </div>
+    </div>
+    <div class="row group-exercises-row mx-0" data-group="2">
+        <div class="col">
+            <div class="group-block sortable-edit" id="group_B" aria-labelledby="group_B-tab">...2</div>
+        </div>
+    </div>
+    
+    `
 
     $('.visual-block').append(html_data)
-}
-// На доработке
-function ajax_training_exercise_data_action(method, data, action = '', id = '', func = '') {
-
-    let url = "/trainings/api/exercise_data/"
-    if(id !== '') url += `${id}/`
-    if(func !== '') url += `${func}/`
-
-    $('.page-loader-wrapper').fadeIn();
-
-    return $.ajax({
-            headers:{"X-CSRFToken": csrftoken },
-            url: url,
-            type: method,
-            dataType: "JSON",
-            data: data,
-            success: function(data){
-                //console.log(data)
-                //swal(gettext('Training '+action), gettext('Exercise action "'+action+'" successfully!'), "success");
-            },
-            error: function(jqXHR, textStatus){
-                //console.log(jqXHR)
-                swal(gettext('Training '+action), gettext('Error when action "'+action+'" the exercise!'), "error");
-            },
-            complete: function () {
-                $('.page-loader-wrapper').fadeOut();
-                set_sum_duration_group()
-            }
-        })
 }
