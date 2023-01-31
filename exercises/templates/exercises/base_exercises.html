@@ -641,6 +641,71 @@
                         <h5 class="modal-title">Выберите папку, в которую необходимо поместить упражнение</h5>
                     </div>
                     <div class="modal-body size-h-x" style="--h-x: 70vh; overflow-y: auto;">
+                        <div class="row">
+                            <div class="col-12 toggle-modes">
+                                <button type="button" class="btn btn-sm btn-outline-secondary toggle-mode copy-show move-show active" data-id="copy-move-exercise">
+                                    Упражнение
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary toggle-mode copy-show" data-id="copy-scheme">
+                                    Схема
+                                </button>
+                                {% if user.is_superuser %}
+                                <button type="button" class="btn btn-sm btn-outline-secondary toggle-mode move-show" data-id="move-video">
+                                    Видео
+                                </button>
+                                {% endif %}
+                            </div>
+                            <div class="col-12 content-block copy-move-exercise copy-show move-show">
+                            </div>
+                            <div class="col-12 content-block copy-scheme copy-show d-none">
+                                <div class="text-center text-uppercase font-weight-bold mt-2">
+                                    Скопировать схему в другое упражнение:
+                                </div>
+                                <div class="">
+                                    <p class="mt-1">Выберите, что скопировать:</p>
+                                    <div class="">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input select-scheme" type="checkbox" id="copyScheme1" value="scheme_1">
+                                            <label class="form-check-label" for="copyScheme1">Схема 1</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input select-scheme" type="checkbox" id="copyScheme2" value="scheme_2">
+                                            <label class="form-check-label" for="copyScheme2">Схема 2</label>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-primary btn-scheme-copy-apply">Скопировать</button>
+                                </div>
+                            </div>
+                            {% if user.is_superuser %}
+                            <div class="col-12 content-block move-video move-show d-none">
+                                <div class="text-center text-uppercase font-weight-bold mt-2">
+                                    Переместить видео и/или анимацию в другое упражнение:
+                                </div>
+                                <div class="">
+                                    <p class="mt-1">Выберите, что переместить:</p>
+                                    <div class="">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input select-video" type="checkbox" id="moveVideo1" value="video_1">
+                                            <label class="form-check-label" for="moveVideo1">Видео 1</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input select-video" type="checkbox" id="moveVideo2" value="video_2">
+                                            <label class="form-check-label" for="moveVideo2">Видео 2</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input select-video" type="checkbox" id="moveAnimation1" value="animation_1">
+                                            <label class="form-check-label" for="moveAnimation1">Анимация 1</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input select-video" type="checkbox" id="moveAnimation2" value="animation_2">
+                                            <label class="form-check-label" for="moveAnimation2">Анимация 2</label>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-primary btn-video-move-apply">Переместить</button>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <select name="copy_mode" class="form-control form-control-sm d-none" autocomplete="off">

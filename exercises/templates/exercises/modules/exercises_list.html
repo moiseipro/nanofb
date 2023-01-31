@@ -3,40 +3,6 @@
         {% include 'exercises/folders_list.html' %}
     </div>
     <div class="px-1 exercises-block" id="splitCol_1">
-        <div class="row w-100">
-            <div class="col-12 d-flex">
-                <!-- <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="num" style="--w-x:32px;" disabled="">
-                    №
-                </button>
-                <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="players" style="--w-x:32px; min-width: 32px;" disabled="">
-                    #
-                </button>
-                <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="goal" style="--w-x:32px; min-width: 32px;" disabled="">
-                    G.
-                </button>
-                <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="ball" style="--w-x:32px;" disabled="">
-                    <span class="icon-custom icon--ball" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
-                </button>
-                <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="watches" style="--w-x:32px;" disabled="">
-                    <span class="icon-custom icon--check" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
-                </button>
-                <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="favor" style="--w-x:32px;" disabled="">
-                    <span class="icon-custom icon--favorite" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
-                </button>
-                <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="like" style="--w-x:32px;" disabled="">
-                    <span class="icon-custom icon--like" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
-                </button>
-                <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="video" style="--w-x:32px; min-width: 32px;" disabled="">
-                    V.
-                </button>
-                <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="anim" style="--w-x:32px; min-width: 32px;" disabled="">
-                    A.
-                </button>
-                <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="stress" style="--w-x:32px;" disabled="">
-                    IQ.
-                </button> -->
-            </div>
-        </div>
         <div class="row mt-2">
             <div class="col-12 d-flex">
                 <div class="row w-100">
@@ -46,6 +12,14 @@
                     <div class="col-4 px-0">
                         <input type="number" class="form-control form-control-sm exs-players-filter text-center" placeholder="Количество игроков" aria-controls="false">
                     </div>
+                </div>
+            </div>
+            <div class="col-12 copy-modal-status justify-content-center d-none">
+                <div class="alert alert-warning">
+                    <span class="description">
+                        Выберите упражнение, куда хотите переместить упражнение.
+                    </span>
+                    <button type="button" class="btn btn-sm btn-danger">Отменить</button>
                 </div>
             </div>
         </div>
