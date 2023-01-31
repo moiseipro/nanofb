@@ -4,14 +4,25 @@
 // var middleDay = (("0" + Math.floor(days/2)).slice(-2))
 // var strDate = middleDay + "/" + ("0" + (d.getMonth()+1)).slice(-2) + "/" + d.getFullYear()
 
+var minDate = moment($('#select-season option:selected').attr('data-with'), 'DD/MM/YYYY')
+var maxDate = moment($('#select-season option:selected').attr('data-by'), 'DD/MM/YYYY')
 var d = moment()
 if(Cookies.get('date')){
     d = moment(Cookies.get('date'), 'DD/MM/YYYY')
 }
+
+if(!maxDate.isAfter(d)){
+    d = maxDate;
+}
+if(!d.isAfter(minDate)){
+    d = minDate;
+}
+
 var days = d.daysInMonth()-1
 d.set('date', days/2)
 var middleDay = Math.floor(days%2==0 ? days/2 : days/2)
 var strDate = d.format('DD/MM/YYYY')
+
 
 var microcycles_table, events_table
 var cur_edit_data
@@ -82,27 +93,47 @@ $(window).on('load', function (){
     //generateEventTable()
 
     $('.move_to_last_month').on('click', function () {
-        today = moment(strDate, 'DD/MM/YYYY')
-        days = today.subtract(1, 'month').daysInMonth()-1
+        today = moment(strDate, 'DD/MM/YYYY').subtract(1, 'month')
+
+        if(!maxDate.isAfter(today)){
+            today = maxDate;
+        }
+        if(!today.isAfter(minDate)){
+            today = minDate;
+        }
+        days = today.daysInMonth()-1
         today.set('date', days/2)
         middleDay = Math.floor(days%2==0 ? days/2 : days/2)
         strDate = today.format('DD/MM/YYYY')
+        console.log(minDate.isAfter(today))
+        console.log(maxDate.isAfter(today))
         Cookies.set('date', strDate, { expires: 1 })
 
         $('.refDate').val(strDate);
         generateData()
     })
     $('.move_to_next_month').on('click', function () {
-        today = moment(strDate, 'DD/MM/YYYY')
-        days = today.add(1, 'month').daysInMonth()-1
+        today = moment(strDate, 'DD/MM/YYYY').add(1, 'month')
+
+        if(!maxDate.isAfter(today)){
+            today = maxDate;
+        }
+        if(!today.isAfter(minDate)){
+            today = minDate;
+        }
+
+        days = today.daysInMonth()-1
         today.set('date', days/2)
         middleDay = Math.floor(days%2==0 ? days/2 : days/2)
         strDate = today.format('DD/MM/YYYY')
+        console.log(minDate.isAfter(today))
+        console.log(maxDate.isAfter(today))
         Cookies.set('date', strDate, { expires: 1 })
 
         $('.refDate').val(strDate);
         generateData()
     })
+
     $('.move_to_today').on('click', function () {
         today = moment()
         days = today.daysInMonth()-1
