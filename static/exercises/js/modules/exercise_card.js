@@ -58,6 +58,15 @@ function ToggleEditFields(flag) {
             $(document).find('.ck-editor__main').removeClass('edit-mode');
         }
     } catch (e) {}
+
+    $('#exerciseCard').find('tr.description-buttons').toggleClass('d-none', !flag);
+    if (!flag) {
+        $('#exerciseCard').find('tr.description-panel[data-id="original"]').removeClass('d-none');
+        $('#exerciseCard').find('tr.description-panel[data-id="template"]').addClass('d-none');
+        $('#exerciseCard').find('button.description-button').removeClass('active');
+        $('#exerciseCard').find('button.description-button[data-id="original"]').addClass('active');
+    }
+
     window.onlyViewMode = !flag;
 }
 
@@ -1392,6 +1401,22 @@ $(function() {
                 console.error(err);
             });
     } catch(e) {}
+    try {
+        ClassicEditor
+            .create(document.querySelector('#descriptionEditor2Template'), {
+                language: cLang
+            })
+            .then(editor => {
+                editor.setData(
+                    "<p><strong>ОРГАНИЗАЦИЯ</strong>:</p><p><strong>ЗАДАЧИ</strong>:</p><p><strong>КОЛИЧЕСТВО ИГРОКОВ</strong>:</p><p><strong>ПРОСТРАНСТВО</strong>:</p><p><strong>УСЛОВИЯ</strong>:</p><p><strong>ВАРИАНТЫ</strong>:</p><p><strong>ДОЗИРОВКА</strong>:</p><p><strong>ВЫЯВЛЕНИЕ ПОБЕДИТЕЛЯ:</strong></p><p><strong>ВВОД МЯЧА</strong>:</p><p><strong>РАСПОЛОЖЕНИЕ ТРЕНЕРА</strong>:</p><p><strong>ТРЕНЕРСКИЕ АКЦЕНТЫ</strong>:</p>"
+                );
+                document.descriptionEditor2Template = editor;
+                $('.resizeable-block').css('height', `75vh`);
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    } catch(e) {}
 
     window.dataForSplitExsCardCols = JSON.parse(localStorage.getItem('split_exs_card_cols'));
     if (!window.dataForSplitExsCardCols) {
@@ -2058,6 +2083,14 @@ $(function() {
     $('#card_tags').on('click', 'li.tag-elem', (e) => {
         $(e.currentTarget).toggleClass('active');
         window.changedData = true;
+    });
+
+    $('#exerciseCard').on('click', 'button.description-button', (e) => {
+        let cId = $(e.currentTarget).attr('data-id');
+        $('#exerciseCard').find('button.description-button').removeClass('active');
+        $(e.currentTarget).addClass('active');
+        $('#exerciseCard').find('tr.description-panel').addClass('d-none');
+        $('#exerciseCard').find(`tr.description-panel[data-id="${cId}"]`).removeClass('d-none');
     });
 
 

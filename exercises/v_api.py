@@ -1211,149 +1211,186 @@ def POST_edit_exs(request, cur_user, cur_team):
     if c_exs == None:
             return JsonResponse({"err": "Exercise not found.", "success": False}, status=400)
     print(request.POST)
-    c_exs.title = set_by_language_code(c_exs.title, request.LANGUAGE_CODE, request.POST.get("data[title]", ""))
+
+    is_can_edit_full = True
+    nfb_id = -1
+    try:
+        nfb_id = int(c_exs.clone_nfb_id)
+    except:
+        pass
+    found_admin_exercise = AdminExercise.objects.filter(id=nfb_id).first()
+    is_can_edit_full = found_admin_exercise == None
+    
+    if is_can_edit_full:
+        c_exs.title = set_by_language_code(c_exs.title, request.LANGUAGE_CODE, request.POST.get("data[title]", ""))
+        c_exs.ref_goal = set_value_as_ref(request, "data[ref_goal]", None)
+        c_exs.ref_ball = set_value_as_ref(request, "data[ref_ball]", None)
+        c_exs.ref_team_category = set_value_as_ref(request, "data[ref_team_category]", None)
+        c_exs.ref_age_category = set_value_as_ref(request, "data[ref_age_category]", None)
+        c_exs.ref_train_part = set_value_as_ref(request, "data[ref_train_part]", None)
+        c_exs.ref_cognitive_load = set_value_as_ref(request, "data[ref_cognitive_load]", None)
+        c_exs.ref_stress_type = set_value_as_ref(request, "data[ref_stress_type]", None)
+        c_exs.field_players = set_by_language_code(c_exs.field_players, request.LANGUAGE_CODE, request.POST.get("data[field_players]", ""))
+        c_exs.field_goal = set_by_language_code(c_exs.field_goal, request.LANGUAGE_CODE, request.POST.get("data[field_goal]", ""))
+        c_exs.field_age = set_by_language_code(c_exs.field_age, request.LANGUAGE_CODE, request.POST.get("data[field_age]", ""))
+        c_exs.field_task = set_by_language_code(c_exs.field_task, request.LANGUAGE_CODE, request.POST.get("data[field_task]", ""))
+    
     c_exs.description = set_by_language_code(c_exs.description, request.LANGUAGE_CODE, request.POST.get("data[description]", ""))
-    c_exs.ref_goal = set_value_as_ref(request, "data[ref_goal]", None)
-    c_exs.ref_ball = set_value_as_ref(request, "data[ref_ball]", None)
-    c_exs.ref_team_category = set_value_as_ref(request, "data[ref_team_category]", None)
-    c_exs.ref_age_category = set_value_as_ref(request, "data[ref_age_category]", None)
-    c_exs.ref_train_part = set_value_as_ref(request, "data[ref_train_part]", None)
-    c_exs.ref_cognitive_load = set_value_as_ref(request, "data[ref_cognitive_load]", None)
-    c_exs.ref_stress_type = set_value_as_ref(request, "data[ref_stress_type]", None)
-    c_exs.field_players = set_by_language_code(c_exs.field_players, request.LANGUAGE_CODE, request.POST.get("data[field_players]", ""))
-    c_exs.field_goal = set_by_language_code(c_exs.field_goal, request.LANGUAGE_CODE, request.POST.get("data[field_goal]", ""))
-    c_exs.field_age = set_by_language_code(c_exs.field_age, request.LANGUAGE_CODE, request.POST.get("data[field_age]", ""))
-    c_exs.field_task = set_by_language_code(c_exs.field_task, request.LANGUAGE_CODE, request.POST.get("data[field_task]", ""))
 
     c_exs.scheme_1 = request.POST.get("data[scheme_1]", None)
     c_exs.scheme_2 = request.POST.get("data[scheme_2]", None)
 
-    c_exs.field_age_a = set_value_as_int(request, "data[field_age_a]", None)
-    c_exs.field_age_b = set_value_as_int(request, "data[field_age_b]", None)
-    c_exs.field_players_a = set_value_as_int(request, "data[field_players_a]", None)
-    c_exs.field_players_b = set_value_as_int(request, "data[field_players_b]", None)
-    c_exs.field_keyword_a = request.POST.get("data[field_keyword_a]", None)
-    c_exs.field_keyword_b = request.POST.get("data[field_keyword_b]", None)
+    if is_can_edit_full:
+        c_exs.field_age_a = set_value_as_int(request, "data[field_age_a]", None)
+        c_exs.field_age_b = set_value_as_int(request, "data[field_age_b]", None)
+        c_exs.field_players_a = set_value_as_int(request, "data[field_players_a]", None)
+        c_exs.field_players_b = set_value_as_int(request, "data[field_players_b]", None)
+        c_exs.field_keyword_a = request.POST.get("data[field_keyword_a]", None)
+        c_exs.field_keyword_b = request.POST.get("data[field_keyword_b]", None)
 
-    video_links_links = set_value_as_list(request, "data[video_links_link[]]", "data[video_links_link[]][]", [])
-    video_links_names = set_value_as_list(request, "data[video_links_name[]]", "data[video_links_name[]][]", [])
-    video_links_notes = set_value_as_list(request, "data[video_links_note[]]", "data[video_links_note[]][]", [])
-    if len(video_links_links) == 4:
-        video_links = []
-        for _i in range(len(video_links_links)):
-            video_links.append({
-                'link': video_links_links[_i],
-                'name': video_links_names[_i],
-                'note': video_links_notes[_i]
-            })
-            pass
-        c_exs.video_links = video_links
+    if is_can_edit_full:
+        video_links_links = set_value_as_list(request, "data[video_links_link[]]", "data[video_links_link[]][]", [])
+        video_links_names = set_value_as_list(request, "data[video_links_name[]]", "data[video_links_name[]][]", [])
+        video_links_notes = set_value_as_list(request, "data[video_links_note[]]", "data[video_links_note[]][]", [])
+        if len(video_links_links) == 4:
+            video_links = []
+            for _i in range(len(video_links_links)):
+                video_links.append({
+                    'link': video_links_links[_i],
+                    'name': video_links_names[_i],
+                    'note': video_links_notes[_i]
+                })
+                pass
+            c_exs.video_links = video_links
     
-    c_exs.tags.clear()
-    tags_arr = set_value_as_list(request, "data[tags]", "data[tags][]", [])
-    for c_tag in tags_arr:
-        c_tag_lower = c_tag.lower()
-        f_tag = None
-        try:
-            if folder_type == FOLDER_TEAM and request.user.club_id is None:
-                f_tag = ExerciseTag.objects.filter(
-                    Q(is_nfb=True, lowercase_name=c_tag_lower) | Q(is_nfb=False, user=cur_user, lowercase_name=c_tag_lower)
-                )
-                if f_tag.exists() and f_tag[0].id != None:
-                    f_tag = f_tag[0]
-                else:
-                    f_tag = ExerciseTag(is_nfb=False, user=cur_user, name=c_tag, lowercase_name=c_tag_lower)
-                    f_tag.save()
-            elif folder_type == FOLDER_NFB:
-                f_tag = ExerciseTag.objects.filter(is_nfb=True, lowercase_name=c_tag_lower)
-                if f_tag.exists() and f_tag[0].id != None:
-                    f_tag = f_tag[0]
-                else:
-                    f_tag = ExerciseTag(is_nfb=True, name=c_tag, lowercase_name=c_tag_lower)
-                    f_tag.save()
-            elif folder_type == FOLDER_CLUB or folder_type == FOLDER_TEAM and request.user.club_id is not None:
-                f_tag = ExerciseTag.objects.filter(
-                    Q(is_nfb=True, lowercase_name=c_tag_lower) | Q(is_nfb=False, club=request.user.club_id, lowercase_name=c_tag_lower)
-                )
-                if f_tag.exists() and f_tag[0].id != None:
-                    f_tag = f_tag[0]
-                else:
-                    f_tag = ExerciseTag(is_nfb=False, club=request.user.club_id, name=c_tag, lowercase_name=c_tag_lower)
-                    f_tag.save()
-        except:
-            pass
-        if f_tag is not None:
-            c_exs.tags.add(f_tag)
+    if is_can_edit_full:
+        c_exs.tags.clear()
+        tags_arr = set_value_as_list(request, "data[tags]", "data[tags][]", [])
+        for c_tag in tags_arr:
+            c_tag_lower = c_tag.lower()
+            f_tag = None
+            try:
+                if folder_type == FOLDER_TEAM and request.user.club_id is None:
+                    f_tag = ExerciseTag.objects.filter(
+                        Q(is_nfb=True, lowercase_name=c_tag_lower) | Q(is_nfb=False, user=cur_user, lowercase_name=c_tag_lower)
+                    )
+                    if f_tag.exists() and f_tag[0].id != None:
+                        f_tag = f_tag[0]
+                    else:
+                        f_tag = ExerciseTag(is_nfb=False, user=cur_user, name=c_tag, lowercase_name=c_tag_lower)
+                        f_tag.save()
+                elif folder_type == FOLDER_NFB:
+                    f_tag = ExerciseTag.objects.filter(is_nfb=True, lowercase_name=c_tag_lower)
+                    if f_tag.exists() and f_tag[0].id != None:
+                        f_tag = f_tag[0]
+                    else:
+                        f_tag = ExerciseTag(is_nfb=True, name=c_tag, lowercase_name=c_tag_lower)
+                        f_tag.save()
+                elif folder_type == FOLDER_CLUB or folder_type == FOLDER_TEAM and request.user.club_id is not None:
+                    f_tag = ExerciseTag.objects.filter(
+                        Q(is_nfb=True, lowercase_name=c_tag_lower) | Q(is_nfb=False, club=request.user.club_id, lowercase_name=c_tag_lower)
+                    )
+                    if f_tag.exists() and f_tag[0].id != None:
+                        f_tag = f_tag[0]
+                    else:
+                        f_tag = ExerciseTag(is_nfb=False, club=request.user.club_id, name=c_tag, lowercase_name=c_tag_lower)
+                        f_tag.save()
+            except:
+                pass
+            if f_tag is not None:
+                c_exs.tags.add(f_tag)
     
-    c_exs = set_exs_additional_params(request, c_exs, folder_type)
+    if is_can_edit_full:
+        c_exs = set_exs_additional_params(request, c_exs, folder_type)
     
-    video1_id = -1
-    video2_id = -1
-    animation1_id = -1
-    animation2_id = -1
-    if not copied_from_nfb:
-        if type(c_exs.scheme_data) is dict:
-            c_exs.scheme_data['scheme_1'] = request.POST.get("data[scheme_1_old]")
-            c_exs.scheme_data['scheme_2'] = request.POST.get("data[scheme_2_old]")
-        else:
-            c_exs.scheme_data = {
-                'scheme_1': request.POST.get("data[scheme_1_old]"),
-                'scheme_2': request.POST.get("data[scheme_2_old]")
-            }   
-        video1_id = int(request.POST.get("data[video_1]")) if request.POST.get("data[video_1]").isdigit() else -1
-        video2_id = int(request.POST.get("data[video_2]")) if request.POST.get("data[video_2]").isdigit() else -1
-        if type(c_exs.video_data) is dict:
-            c_exs.video_data['data'] = [video1_id, video2_id]
-        else:
-            c_exs.video_data = {'data': [video1_id, video2_id]}
-        animation1_id = int(request.POST.get("data[animation_1]")) if request.POST.get("data[animation_1]").isdigit() else -1
-        animation2_id = int(request.POST.get("data[animation_2]")) if request.POST.get("data[animation_2]").isdigit() else -1
-        if type(c_exs.animation_data) is dict:
-            c_exs.animation_data['data']['default'] = [animation1_id, animation2_id]
-        else:
-            c_exs.animation_data = {'data': {'custom': "", 'default': [animation1_id, animation2_id]}}
+    if is_can_edit_full:
+        video1_id = -1
+        video2_id = -1
+        animation1_id = -1
+        animation2_id = -1
+        if not copied_from_nfb:
+            if type(c_exs.scheme_data) is dict:
+                c_exs.scheme_data['scheme_1'] = request.POST.get("data[scheme_1_old]")
+                c_exs.scheme_data['scheme_2'] = request.POST.get("data[scheme_2_old]")
+            else:
+                c_exs.scheme_data = {
+                    'scheme_1': request.POST.get("data[scheme_1_old]"),
+                    'scheme_2': request.POST.get("data[scheme_2_old]")
+                }   
+            video1_id = int(request.POST.get("data[video_1]")) if request.POST.get("data[video_1]").isdigit() else -1
+            video2_id = int(request.POST.get("data[video_2]")) if request.POST.get("data[video_2]").isdigit() else -1
+            if type(c_exs.video_data) is dict:
+                c_exs.video_data['data'] = [video1_id, video2_id]
+            else:
+                c_exs.video_data = {'data': [video1_id, video2_id]}
+            animation1_id = int(request.POST.get("data[animation_1]")) if request.POST.get("data[animation_1]").isdigit() else -1
+            animation2_id = int(request.POST.get("data[animation_2]")) if request.POST.get("data[animation_2]").isdigit() else -1
+            if type(c_exs.animation_data) is dict:
+                c_exs.animation_data['data']['default'] = [animation1_id, animation2_id]
+            else:
+                c_exs.animation_data = {'data': {'custom': "", 'default': [animation1_id, animation2_id]}}
+    
     try:
         c_exs.save()
         res_data = f'Exs with id: [{c_exs.id}] is added / edited successfully.'
     except Exception as e:
         return JsonResponse({"err": "Can't edit the exs.", "success": False}, status=200)
     
-    video1_obj = check_video(video1_id)
-    video2_obj = check_video(video2_id)
-    animation1_obj = check_video(animation1_id)
-    animation2_obj = check_video(animation2_id)
-    try:
-        if folder_type == FOLDER_TEAM and request.user.club_id is None:
-            c_exs.videos.through.objects.update_or_create(type=1, exercise_user=c_exs, defaults={"video": video1_obj})
-            c_exs.videos.through.objects.update_or_create(type=2, exercise_user=c_exs, defaults={"video": video2_obj})
-            c_exs.videos.through.objects.update_or_create(type=3, exercise_user=c_exs, defaults={"video": animation1_obj})
-            c_exs.videos.through.objects.update_or_create(type=4, exercise_user=c_exs, defaults={"video": animation2_obj})
-        elif folder_type == FOLDER_NFB:
-            c_exs.videos.through.objects.update_or_create(type=1, exercise_nfb=c_exs, defaults={"video": video1_obj})
-            c_exs.videos.through.objects.update_or_create(type=2, exercise_nfb=c_exs, defaults={"video": video2_obj})
-            c_exs.videos.through.objects.update_or_create(type=3, exercise_nfb=c_exs, defaults={"video": animation1_obj})
-            c_exs.videos.through.objects.update_or_create(type=4, exercise_nfb=c_exs, defaults={"video": animation2_obj})
-        elif folder_type == FOLDER_CLUB or folder_type == FOLDER_TEAM and request.user.club_id is not None:
-            c_exs.videos.through.objects.update_or_create(type=1, exercise_club=c_exs, defaults={"video": video1_obj})
-            c_exs.videos.through.objects.update_or_create(type=2, exercise_club=c_exs, defaults={"video": video2_obj})
-            c_exs.videos.through.objects.update_or_create(type=3, exercise_club=c_exs, defaults={"video": animation1_obj})
-            c_exs.videos.through.objects.update_or_create(type=4, exercise_club=c_exs, defaults={"video": animation2_obj})
-    except Exception as e:
-        print(e)
-        res_data += f'Cant add link to <ExerciseVideo>.'
+    if is_can_edit_full:
+        video1_obj = check_video(video1_id)
+        video2_obj = check_video(video2_id)
+        animation1_obj = check_video(animation1_id)
+        animation2_obj = check_video(animation2_id)
+        try:
+            if folder_type == FOLDER_TEAM and request.user.club_id is None:
+                c_exs.videos.through.objects.update_or_create(type=1, exercise_user=c_exs, defaults={"video": video1_obj})
+                c_exs.videos.through.objects.update_or_create(type=2, exercise_user=c_exs, defaults={"video": video2_obj})
+                c_exs.videos.through.objects.update_or_create(type=3, exercise_user=c_exs, defaults={"video": animation1_obj})
+                c_exs.videos.through.objects.update_or_create(type=4, exercise_user=c_exs, defaults={"video": animation2_obj})
+            elif folder_type == FOLDER_NFB:
+                c_exs.videos.through.objects.update_or_create(type=1, exercise_nfb=c_exs, defaults={"video": video1_obj})
+                c_exs.videos.through.objects.update_or_create(type=2, exercise_nfb=c_exs, defaults={"video": video2_obj})
+                c_exs.videos.through.objects.update_or_create(type=3, exercise_nfb=c_exs, defaults={"video": animation1_obj})
+                c_exs.videos.through.objects.update_or_create(type=4, exercise_nfb=c_exs, defaults={"video": animation2_obj})
+            elif folder_type == FOLDER_CLUB or folder_type == FOLDER_TEAM and request.user.club_id is not None:
+                c_exs.videos.through.objects.update_or_create(type=1, exercise_club=c_exs, defaults={"video": video1_obj})
+                c_exs.videos.through.objects.update_or_create(type=2, exercise_club=c_exs, defaults={"video": video2_obj})
+                c_exs.videos.through.objects.update_or_create(type=3, exercise_club=c_exs, defaults={"video": animation1_obj})
+                c_exs.videos.through.objects.update_or_create(type=4, exercise_club=c_exs, defaults={"video": animation2_obj})
+        except Exception as e:
+            print(e)
+            res_data += f'Cant add link to <ExerciseVideo>.'
 
-    if folder_type == FOLDER_TEAM:
-        if found_team.exists() and found_team[0].id != None:
-            c_exs_team_params = None
-            if request.user.club_id is not None:
-                c_exs_team_params = UserExerciseParamTeam.objects.filter(team_club=found_team[0], exercise_club=c_exs)
-            else:
-                c_exs_team_params = UserExerciseParamTeam.objects.filter(team=found_team[0], exercise_user=c_exs)
-            if not c_exs_team_params.exists() or c_exs_team_params[0].id == None:
+    if is_can_edit_full:
+        if folder_type == FOLDER_TEAM:
+            if found_team.exists() and found_team[0].id != None:
+                c_exs_team_params = None
                 if request.user.club_id is not None:
-                    c_exs_team_params = UserExerciseParamTeam(team_club=found_team[0], exercise_club=c_exs)
+                    c_exs_team_params = UserExerciseParamTeam.objects.filter(team_club=found_team[0], exercise_club=c_exs)
                 else:
-                    c_exs_team_params = UserExerciseParamTeam(team=found_team[0], exercise_user=c_exs)
+                    c_exs_team_params = UserExerciseParamTeam.objects.filter(team=found_team[0], exercise_user=c_exs)
+                if not c_exs_team_params.exists() or c_exs_team_params[0].id == None:
+                    if request.user.club_id is not None:
+                        c_exs_team_params = UserExerciseParamTeam(team_club=found_team[0], exercise_club=c_exs)
+                    else:
+                        c_exs_team_params = UserExerciseParamTeam(team=found_team[0], exercise_user=c_exs)
+                else:
+                    c_exs_team_params = c_exs_team_params[0]
+                c_exs_team_params.additional_data = set_as_object(request, c_exs_team_params.additional_data, "additional_data", request.LANGUAGE_CODE)
+                c_exs_team_params.keyword = set_as_object(request, c_exs_team_params.keyword, "keyword", request.LANGUAGE_CODE)
+                c_exs_team_params.stress_type = set_as_object(request, c_exs_team_params.stress_type, "stress_type", request.LANGUAGE_CODE)
+                c_exs_team_params.purpose = set_as_object(request, c_exs_team_params.purpose, "purposes", request.LANGUAGE_CODE)
+                c_exs_team_params.coaching = set_as_object(request, c_exs_team_params.coaching, "coaching", request.LANGUAGE_CODE)
+                c_exs_team_params.note = set_as_object(request, c_exs_team_params.note, "notes", request.LANGUAGE_CODE)
+                try:
+                    c_exs_team_params.save()
+                    res_data += '\nAdded team params for exs.'
+                except:
+                    res_data += '\nCant add team params for exs.'
+        elif folder_type == FOLDER_NFB:
+            c_exs_team_params = UserExerciseParamTeam.objects.filter(exercise_nfb=c_exs)
+            if not c_exs_team_params.exists() or c_exs_team_params[0].id == None:
+                c_exs_team_params = UserExerciseParamTeam(exercise_nfb=c_exs)
             else:
                 c_exs_team_params = c_exs_team_params[0]
             c_exs_team_params.additional_data = set_as_object(request, c_exs_team_params.additional_data, "additional_data", request.LANGUAGE_CODE)
@@ -1367,25 +1404,9 @@ def POST_edit_exs(request, cur_user, cur_team):
                 res_data += '\nAdded team params for exs.'
             except:
                 res_data += '\nCant add team params for exs.'
-    elif folder_type == FOLDER_NFB:
-        c_exs_team_params = UserExerciseParamTeam.objects.filter(exercise_nfb=c_exs)
-        if not c_exs_team_params.exists() or c_exs_team_params[0].id == None:
-            c_exs_team_params = UserExerciseParamTeam(exercise_nfb=c_exs)
-        else:
-            c_exs_team_params = c_exs_team_params[0]
-        c_exs_team_params.additional_data = set_as_object(request, c_exs_team_params.additional_data, "additional_data", request.LANGUAGE_CODE)
-        c_exs_team_params.keyword = set_as_object(request, c_exs_team_params.keyword, "keyword", request.LANGUAGE_CODE)
-        c_exs_team_params.stress_type = set_as_object(request, c_exs_team_params.stress_type, "stress_type", request.LANGUAGE_CODE)
-        c_exs_team_params.purpose = set_as_object(request, c_exs_team_params.purpose, "purposes", request.LANGUAGE_CODE)
-        c_exs_team_params.coaching = set_as_object(request, c_exs_team_params.coaching, "coaching", request.LANGUAGE_CODE)
-        c_exs_team_params.note = set_as_object(request, c_exs_team_params.note, "notes", request.LANGUAGE_CODE)
-        try:
-            c_exs_team_params.save()
-            res_data += '\nAdded team params for exs.'
-        except:
-            res_data += '\nCant add team params for exs.'
-    elif folder_type == FOLDER_CLUB:
-        pass
+        elif folder_type == FOLDER_CLUB:
+            pass
+
     return JsonResponse({"data": res_data, "success": True}, status=200)
 
 
@@ -2746,6 +2767,7 @@ def POST_edit_folder(request, cur_user, cur_team, c_id, parent_id):
     """
     name = request.POST.get("name", "")
     short_name = request.POST.get("short_name", "")
+    folder_type = request.POST.get("f_type", "")
     found_folder = None
     if not util_check_access(cur_user, {
         'perms_user': ["exercises.change_userfolder", "exercises.add_userfolder"], 
@@ -2754,11 +2776,13 @@ def POST_edit_folder(request, cur_user, cur_team, c_id, parent_id):
         return JsonResponse({"err": "Access denied.", "success": False}, status=400)
     try:
         if request.user.club_id is not None:
-            found_folder = ClubFolder.objects.get(id=c_id, club=request.user.club_id)
+            found_folder = ClubFolder.objects.filter(id=c_id, club=request.user.club_id).first()
         else:
-            found_folder = UserFolder.objects.get(id=c_id, user=cur_user, team=cur_team)
+            found_folder = UserFolder.objects.filter(id=c_id, user=cur_user, team=cur_team).first()
     except:
         pass
+    if folder_type == FOLDER_NFB and cur_user.is_superuser:
+        found_folder = AdminFolder.objects.filter(id=c_id).first()
     res_data = {'type': "error", 'err': "Cant create or edit record."}
     if found_folder and found_folder.id != None:
         found_folder.short_name = short_name
@@ -2771,17 +2795,20 @@ def POST_edit_folder(request, cur_user, cur_team, c_id, parent_id):
     else:
         try:
             if request.user.club_id is not None:
-                found_team = ClubTeam.objects.get(id=cur_team, club_id=request.user.club_id)
+                found_team = ClubTeam.objects.filter(id=cur_team, club_id=request.user.club_id).first()
                 new_folder = ClubFolder(name=name, short_name=short_name, parent=parent_id, club=request.user.club_id)
             else:
-                found_team = UserTeam.objects.get(id=cur_team, user_id=cur_user)
+                found_team = UserTeam.objects.filter(id=cur_team, user_id=cur_user).first()
                 new_folder = UserFolder(name=name, short_name=short_name, parent=parent_id, user=cur_user, team=found_team)
+            if folder_type == FOLDER_NFB and cur_user.is_superuser:
+                new_folder = AdminFolder(name=name, short_name=short_name, parent=parent_id)
             new_folder.save()
             new_folder.order = new_folder.id
             new_folder.save()
             res_data = {'id': new_folder.id, 'parent_id': parent_id, 'name': name, 'short_name': short_name, 'type': "add"}
         except Exception as e:
             res_data = {'type': "error", 'err': str(e)}
+    res_data['is_nfb'] = folder_type == FOLDER_NFB and cur_user.is_superuser
     return JsonResponse({"data": res_data}, status=200)
 
 
@@ -2800,6 +2827,7 @@ def POST_delete_folder(request, cur_user, c_id):
 
     """
     res_data = {'type': "error", 'err': "Cant delete record."}
+    folder_type = request.POST.get("f_type", "")
     found_folder = None
     if not util_check_access(cur_user, {
         'perms_user': ["exercises.delete_userfolder"], 
@@ -2807,9 +2835,11 @@ def POST_delete_folder(request, cur_user, c_id):
     }):
         return JsonResponse({"err": "Access denied.", "success": False}, status=400)
     if request.user.club_id is not None:
-        found_folder = ClubFolder.objects.get(id=c_id, club=request.user.club_id)
+        found_folder = ClubFolder.objects.filter(id=c_id, club=request.user.club_id).first()
     else:
-        found_folder = UserFolder.objects.get(id=c_id, user=cur_user)
+        found_folder = UserFolder.objects.filter(id=c_id, user=cur_user).first()
+    if folder_type == FOLDER_NFB and cur_user.is_superuser:
+        found_folder = AdminFolder.objects.filter(id=c_id).first()
     if found_folder and found_folder.id != None:
         fId = found_folder.id
         try:
@@ -2819,6 +2849,8 @@ def POST_delete_folder(request, cur_user, c_id):
                 found_child_folders = ClubFolder.objects.filter(parent=c_id, club=request.user.club_id)
             else:
                 found_child_folders = UserFolder.objects.filter(parent=c_id, user=cur_user)
+            if folder_type == FOLDER_NFB and cur_user.is_superuser:
+                found_child_folders = AdminFolder.objects.filter(parent=c_id)
             for folder in found_child_folders:
                 folder.delete()
             res_data = {'id': fId, 'type': "delete"}
@@ -2841,6 +2873,7 @@ def POST_change_order_folder(request, cur_user):
     """
     ids_data = request.POST.getlist("ids_arr[]", [])
     ordering_data = request.POST.getlist("order_arr[]", [])
+    folder_type = request.POST.get("f_type", "")
     temp_res_arr = []
     if not util_check_access(cur_user, {
         'perms_user': ["exercises.change_userfolder"], 
@@ -2857,9 +2890,11 @@ def POST_change_order_folder(request, cur_user):
             pass
         found_folder = None
         if request.user.club_id is not None:
-            found_folder = ClubFolder.objects.get(id=t_id, club=request.user.club_id)
+            found_folder = ClubFolder.objects.filter(id=t_id, club=request.user.club_id).first()
         else:
-            found_folder = UserFolder.objects.get(id=t_id, user=cur_user)
+            found_folder = UserFolder.objects.filter(id=t_id, user=cur_user).first()
+        if folder_type == FOLDER_NFB and cur_user.is_superuser:
+            found_folder = AdminFolder.objects.filter(id=t_id).first()
         if found_folder and found_folder.id != None:
             found_folder.order = t_order
             try:

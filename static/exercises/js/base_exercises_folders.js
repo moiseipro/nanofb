@@ -1,16 +1,17 @@
 function ToggleFolderOrder(dir) {
-    let activeElem = $('.folders_list').find(`.list-group-item.active`);
+    let activeElem = $('.folders_div').find(`.list-group-item.active:visible`);
     if (activeElem.length > 0) {
-        let cID = $(activeElem).find('.folder-elem').attr('data-id');
-        let cParentID = $(activeElem).find('.folder-elem').attr('data-parent');
-        let isRoot = $(activeElem).find('.folder-elem').attr('data-root');
+        let elementClass = $(activeElem).find('div').hasClass('folder-elem') ? "folder-elem" : "folder-nfb-elem";
+        let cID = $(activeElem).find(`.${elementClass}`).attr('data-id');
+        let cParentID = $(activeElem).find(`.${elementClass}`).attr('data-parent');
+        let isRoot = $(activeElem).find(`.${elementClass}`).attr('data-root');
         if (isRoot == '1') {
-            let elems = $('.folders_list').find(`.folder-elem[data-root="1"]`).parent();
+            let elems = $('.folders_div').find(`.${elementClass}[data-root="1"]:visible`).parent();
             let tFirst = null; let tLast = null; let newInd = 0;
-            let children = $('.folders_list').find(`.folder-elem[data-root="0"]`).parent();
-            $('.folders_list').find(`.folder-elem[data-root="0"]`).parent().remove();
+            let children = $('.folders_div').find(`.${elementClass}[data-root="0"]:visible`).parent();
+            $('.folders_div').find(`.${elementClass}[data-root="0"]:visible`).parent().remove();
             for (let i = 0; i < elems.length; i++) {
-                if ($(elems[i]).find('.folder-elem').attr('data-id') == cID) {
+                if ($(elems[i]).find(`.${elementClass}`).attr('data-id') == cID) {
                     if (dir == "up") {
                         tLast = $(elems[i]);
                         if (i - 1 < 0) {
@@ -39,14 +40,14 @@ function ToggleFolderOrder(dir) {
             }
             for (let i = children.length - 1; i >= 0; i--) {
                 let elem = children[i];
-                let parentId = $(elem).find('.folder-elem').attr('data-parent');
-                $('.folders_list').find(`.folder-elem[data-id="${parentId}"]`).parent().after(elem);
+                let parentId = $(elem).find(`.${elementClass}`).attr('data-parent');
+                $('.folders_div').find(`.${elementClass}[data-id="${parentId}"]:visible`).parent().after(elem);
             }
         } else {
-            let elems = $('.folders_list').find(`.folder-elem[data-parent="${cParentID}"]`).parent();
+            let elems = $('.folders_div').find(`.${elementClass}[data-parent="${cParentID}"]:visible`).parent();
             let tFirst = null; let tLast = null; let newInd = 0;
             for (let i = 0; i < elems.length; i++) {
-                if ($(elems[i]).find('.folder-elem').attr('data-id') == cID) {
+                if ($(elems[i]).find(`.${elementClass}`).attr('data-id') == cID) {
                     if (dir == "up") {
                         tLast = $(elems[i]);
                         if (i - 1 < 0) {
@@ -116,7 +117,6 @@ function RenderNFBFolders(data = []) {
                 folderList['order'].push(cNum);
             }
         });
-        console.log( folderList )
         $('#folderNanoFbModal').find('.nfb_folders_list > .list-group').empty();
         for (let ind in folderList['order']) {
             let key = folderList['order'][ind];
@@ -139,8 +139,8 @@ function RenderNFBFolders(data = []) {
 
 
 $(function() {
-    $('.folders_list').on('click', '.list-group-item', (e) => {
-        $('.folders_list').find('.list-group-item').removeClass('active');
+    $('.folders_div').on('click', '.list-group-item', (e) => {
+        $('.folders_div').find('.list-group-item:visible').removeClass('active');
         $(e.currentTarget).toggleClass('active');
     });
 
@@ -151,14 +151,14 @@ $(function() {
         $('#folderChangeModal').find('input[name="name"]').val('');
         $('#folderChangeModal').modal('show');
     });
-    $('.folders_list').on('click', '.folder-sub-add', (e) => {
+    $('.folders_div').on('click', '.folder-sub-add', (e) => {
         let cId = $(e.currentTarget).parent().parent().attr('data-id');
         cFolderIdToChange = null; cParentIdToChange = cId;
         $('#folderChangeModal').find('input[name="short_name"]').val('');
         $('#folderChangeModal').find('input[name="name"]').val('');
         $('#folderChangeModal').modal('show');
     });
-    $('.folders_list').on('click', '.folder-edit', (e) => {
+    $('.folders_div').on('click', '.folder-edit', (e) => {
         let cId = $(e.currentTarget).parent().parent().attr('data-id');
         let short = $(e.currentTarget).parent().parent().attr('data-short');
         let name = $(e.currentTarget).parent().parent().attr('data-name');
@@ -169,7 +169,7 @@ $(function() {
     });
 
     let cFolderIdToDelete = null;
-    $('.folders_list').on('click', '.folder-delete', (e) => {
+    $('.folders_div').on('click', '.folder-delete', (e) => {
         let cId = $(e.currentTarget).parent().parent().attr('data-id');
         cFolderIdToDelete = cId;
         $('#folderDeleteModal').modal('show');
@@ -187,7 +187,11 @@ $(function() {
         $('#folderChangeModal').find('button.btn-submit').prop('disabled', true);
         let shortName = $('#folderChangeModal').find('input[name="short_name"]').val();
         let name = $('#folderChangeModal').find('input[name="name"]').val();
-        let data = {'edit': 1, 'id': cFolderIdToChange, 'parent_id': cParentIdToChange, 'name': name, 'short_name': shortName};
+        let foldersType = $('.folders-edit-toggle').attr('data-folder-type');
+        let data = {
+            'edit': 1, 'id': cFolderIdToChange, 'parent_id': cParentIdToChange, 
+            'name': name, 'short_name': shortName, 'f_type': foldersType
+        };
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
             headers:{"X-CSRFToken": csrftoken},
@@ -198,47 +202,14 @@ $(function() {
             success: function (res) {
                 if (res.data.type && res.data.type == "add") {
                     window.location.reload();
-                    return;
-                    let hasParent = $('.folders_list').find(`.folder-elem[data-id="${res.data.parent_id}"]`).length > 0;
-                    let elemToAdd = `
-                        <li class="list-group-item p-1">
-                            <div class="folder-elem d-flex justify-content-between" data-id="${res.data.id}" data-parent="${res.data.parent_id}" data-short="${res.data.short_name}" data-name="${res.data.name}" data-root="${hasParent ? '0' : '1'}">
-                                <div class="pull-left">
-                                    <span class="folder-point mr-2">${hasParent ? `
-                                        <span class="icon-custom icon--folder ml-4" style="--i-w: 1em; --i-h: 1em;"></span>
-                                    ` : `
-                                        <span class="icon-custom icon--folder ml-1" style="--i-w: 1em; --i-h: 1em;"></span>
-                                    `}</span>
-                                    <span class="folder-title">${res.data.short_name}. ${res.data.name}</span>
-                                </div>
-                                <div class="pull-right text-uppercase font-weight-bold">
-                                    ${hasParent ? '' : `
-                                        <span class="badge badge-success folder-sub-add mr-2" title="${gettext("Add subfolder")}">
-                                            <i class="fa fa-plus" aria-hidden="true"></i>
-                                        </span>
-                                    `}
-                                    <span class="badge badge-secondary folder-edit mr-2" title="${gettext("Edit")}">
-                                        <i class="fa fa-pencil" aria-hidden="true"></i>
-                                    </span>
-                                    <span class="badge badge-danger folder-delete mr-2" title="${gettext("Delete")}">
-                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </li>
-                    `;
-                    if (hasParent) {
-                        if ($('.folders_list').find(`.folder-elem[data-parent="${res.data.parent_id}"]`).length > 0) {
-                            $('.folders_list').find(`.folder-elem[data-parent="${res.data.parent_id}"]`).last().parent().after(elemToAdd);
-                        } else {
-                            $('.folders_list').find(`.folder-elem[data-id="${res.data.parent_id}"]`).last().parent().after(elemToAdd);
-                        }
-                    } else {
-                        $('.folders_list > .list-group').append(elemToAdd);
-                    }
                 } else if (res.data.type && res.data.type == "edit") {
-                    let fElem = $('.folders_list').find(`.folder-elem[data-id="${res.data.id}"]`);
-                    if (fElem.length > 0) {
+                    let fElem = null;
+                    if (res.data.is_nfb) {
+                        fElem = $('.folders_div').find(`.folder-nfb-elem[data-id="${res.data.id}"]`);
+                    } else {
+                        fElem = $('.folders_div ').find(`.folder-elem[data-id="${res.data.id}"]`);
+                    }
+                    if (fElem && fElem.length > 0) {
                         $(fElem).attr('data-short', res.data.short_name);
                         $(fElem).attr('data-name', res.data.name);
                         $(fElem).find('.folder-title').text(`${res.data.short_name}. ${res.data.name}`);
@@ -257,7 +228,8 @@ $(function() {
 
     $('#folderDeleteModal').on('click', 'button[type="submit"]', (e) => {
         $('#folderDeleteModal').find('button.btn-submit').prop('disabled', true);
-        let data = {'id': cFolderIdToDelete, 'delete': 1};
+        let foldersType = $('.folders-edit-toggle').attr('data-folder-type');
+        let data = {'id': cFolderIdToDelete, 'delete': 1, 'f_type': foldersType};
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
             headers:{"X-CSRFToken": csrftoken},
@@ -268,12 +240,6 @@ $(function() {
             success: function (res) {
                 if (res.data.type && res.data.type == "delete") {
                     window.location.reload();
-                    return;
-                    $('.folders_list').find(`.folder-elem[data-id="${res.data.id}"]`).parent().remove();
-                    $('.folders_list').find(`.folder-elem[data-parent="${res.data.id}"]`).find('.folder-point').html(`
-                        <span class="icon-custom icon--folder ml-1" style="--i-w: 1em; --i-h: 1em;"></span>
-                    `);
-                    $('.folders_list').find(`.folder-elem[data-parent="${res.data.id}"]`).attr('data-root', '1');
                 }
                 $('#folderDeleteModal').modal('hide');
             },
@@ -296,12 +262,13 @@ $(function() {
 
     $('.folders-save').on('click', (e) => {
         let arrForIds = []; let arrForOrder = [];
-        $('.folders_list').find('.folder-elem').each((ind, elem) => {
+        $('.folders_div').find('div:visible').each((ind, elem) => {
             let tId = $(elem).attr('data-id');
             arrForIds.push(tId);
             arrForOrder.push(ind+1);
         });
-        let data = {'change_order': 1, 'ids_arr[]': arrForIds, 'order_arr[]': arrForOrder};
+        let foldersType = $('.folders-edit-toggle').attr('data-folder-type');
+        let data = {'change_order': 1, 'ids_arr[]': arrForIds, 'order_arr[]': arrForOrder, 'f_type': foldersType};
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
             headers:{"X-CSRFToken": csrftoken},
@@ -380,6 +347,23 @@ $(function() {
                 }
             });
         }
+    });
+
+    let currentFType = sessionStorage.getItem('folders_manager__f_type');
+    if (currentFType == "nfb_folders") {
+        setTimeout(() => {
+            $('.folders-edit-toggle').trigger('click');
+        }, 500);
+    }
+    $('.folders-edit-toggle').on('click', (e) => {
+        let cType = $(e.currentTarget).attr('data-folder-type');
+        cType = cType == "team_folders" ? "nfb_folders" : "team_folders";
+        let cText = cType == "team_folders" ? "КОМАНДА" : "N.F.";
+        $(e.currentTarget).attr('data-folder-type', cType);
+        $(e.currentTarget).find('.folder-type-text').text(cText);
+        $('.folders_div').addClass('d-none');
+        $(`.folders_div[data-id="${cType}"]`).removeClass('d-none');
+        sessionStorage.setItem('folders_manager__f_type', cType);
     });
 
 });
