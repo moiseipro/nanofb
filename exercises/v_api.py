@@ -14,12 +14,15 @@ from nanofootball.views import util_check_access
 from video.views import delete_video_obj_nf
 from trainings.models import UserTraining, ClubTraining
 import re
+import requests
+
 
 
 LANG_CODE_DEFAULT = "en"
 FOLDER_TEAM = "team_folders"
 FOLDER_NFB = "nfb_folders"
 FOLDER_CLUB = "club_folders"
+NEW_SCHEME_DRAWER_URL = "http://62.113.105.179"
 
 
 
@@ -978,7 +981,16 @@ def POST_copy_exs(request, cur_user, cur_team):
                     new_exs = UserExercise(user=cur_user)
                 for key in c_exs.values()[0]:
                     if key != "id" and key != "date_creation":
-                        setattr(new_exs, key, c_exs.values()[0][key])
+                        if key == "scheme_1" or key == "scheme_2":
+                            new_scheme_id = ""
+                            scheme_id = c_exs.values()[0][key]
+                            response = requests.post(f'{NEW_SCHEME_DRAWER_URL}/api/canvas-draw/v1/canvas/duplicate', json={'id': scheme_id})
+                            r_json = response.json()
+                            if 'id' in r_json:
+                                new_scheme_id = r_json['id']
+                            setattr(new_exs, key, new_scheme_id)
+                        else:
+                            setattr(new_exs, key, c_exs.values()[0][key])
                 new_exs.folder = found_folder[0]
                 new_exs.clone_nfb_id = exs_id
                 try:
@@ -2247,6 +2259,224 @@ def POST_edit_all_exs_titles(request, cur_user, cur_team):
             except Exception as e:
                 res_data += f'Exs with id: [{exercise.id}] cant be edited. Err.'
                 is_success = False
+    return JsonResponse({"data": res_data, "success": is_success}, status=200)
+
+
+def POST_move_video_from_exs_to_exs(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on POST operation "Move video or animation from one exercise to another".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
+    from_exs = -1
+    to_exs = -1
+    try:
+        from_exs = int(request.POST.get("from_exs", -1))
+    except:
+        pass
+    try:
+        to_exs = int(request.POST.get("to_exs", -1))
+    except:
+        pass
+    c_content = request.POST.getlist("content[]", [])
+    is_success = True
+    res_data = ""
+    if not cur_user.is_superuser:
+        return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    found_exercise_from = AdminExercise.objects.filter(id=from_exs).first()
+    found_exercise_to = AdminExercise.objects.filter(id=to_exs).first()
+    if not found_exercise_from or not found_exercise_to:
+        return JsonResponse({"err": "Can't find one of the exercises.", "success": False}, status=400)
+    is_success = False
+    if "video_1" in c_content:
+        exs_from_video = None
+        video = None
+        try:
+            exs_from_video = found_exercise_from.videos.through.objects.filter(type=1, exercise_nfb=found_exercise_from).first()
+            video = exs_from_video.video
+        except:
+            pass
+        if exs_from_video and video:
+            try:
+                exs_from_video.delete()
+                found_exercise_to.videos.through.objects.update_or_create(type=1, exercise_nfb=found_exercise_to, defaults={"video": video})
+                is_success = True
+            except:
+                pass
+    if "video_2" in c_content:
+        exs_from_video = None
+        video = None
+        try:
+            exs_from_video = found_exercise_from.videos.through.objects.filter(type=2, exercise_nfb=found_exercise_from).first()
+            video = exs_from_video.video
+        except:
+            pass
+        if exs_from_video and video:
+            try:
+                exs_from_video.delete()
+                found_exercise_to.videos.through.objects.update_or_create(type=2, exercise_nfb=found_exercise_to, defaults={"video": video})
+                is_success = True
+            except:
+                pass
+    if "animation_1" in c_content:
+        exs_from_video = None
+        video = None
+        try:
+            exs_from_video = found_exercise_from.videos.through.objects.filter(type=3, exercise_nfb=found_exercise_from).first()
+            video = exs_from_video.video
+        except:
+            pass
+        if exs_from_video and video:
+            try:
+                exs_from_video.delete()
+                found_exercise_to.videos.through.objects.update_or_create(type=3, exercise_nfb=found_exercise_to, defaults={"video": video})
+                is_success = True
+            except:
+                pass
+    if "animation_2" in c_content:
+        exs_from_video = None
+        video = None
+        try:
+            exs_from_video = found_exercise_from.videos.through.objects.filter(type=4, exercise_nfb=found_exercise_from).first()
+            video = exs_from_video.video
+        except:
+            pass
+        if exs_from_video and video:
+            try:
+                exs_from_video.delete()
+                found_exercise_to.videos.through.objects.update_or_create(type=4, exercise_nfb=found_exercise_to, defaults={"video": video})
+                is_success = True
+            except:
+                pass
+    return JsonResponse({"data": res_data, "success": is_success}, status=200)
+
+
+def POST_copy_scheme_from_exs_to_exs(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on POST operation "Copy scheme from one exercise to another".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
+    from_exs = -1
+    to_exs = -1
+    try:
+        from_exs = int(request.POST.get("from_exs", -1))
+    except:
+        pass
+    try:
+        to_exs = int(request.POST.get("to_exs", -1))
+    except:
+        pass
+    from_folder_type = request.POST.get("from_f_type", "")
+    to_folder_type = request.POST.get("to_f_type", "")
+    c_content = request.POST.getlist("content[]", [])
+    is_success = True
+    res_data = ""
+    if not util_check_access(cur_user, {
+        'perms_user': ["exercises.change_userexercise"], 
+        'perms_club': ["exercises.change_clubexercise"]
+    }):
+        return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    # get exs using id, team, club
+    found_exercise_from = None
+    found_exercise_to = None
+    if from_folder_type == FOLDER_NFB:
+        found_exercise_from = AdminExercise.objects.filter(id=from_exs).first()
+    elif from_folder_type == FOLDER_TEAM:
+        if request.user.club_id is not None:
+            found_exercise_from = ClubExercise.objects.filter(id=from_exs, team=cur_team, club=request.user.club_id).first()
+        else:
+            found_exercise_from = UserExercise.objects.filter(id=from_exs, user=cur_user).first()
+    elif from_folder_type == FOLDER_CLUB:
+        if request.user.club_id is not None:
+            found_exercise_from = ClubExercise.objects.filter(id=from_exs, club=request.user.club_id).first()
+    
+    if to_folder_type == FOLDER_NFB:
+        found_exercise_to = AdminExercise.objects.filter(id=to_exs).first()
+    elif to_folder_type == FOLDER_TEAM:
+        if request.user.club_id is not None:
+            found_exercise_to = ClubExercise.objects.filter(id=to_exs, team=cur_team, club=request.user.club_id).first()
+        else:
+            found_exercise_to = UserExercise.objects.filter(id=to_exs, user=cur_user).first()
+    elif to_folder_type == FOLDER_CLUB:
+        if request.user.club_id is not None:
+            found_exercise_to = ClubExercise.objects.filter(id=to_exs, club=request.user.club_id).first()
+    if not found_exercise_from or not found_exercise_to:
+        return JsonResponse({"err": "Can't find one of the exercises.", "success": False}, status=400)
+    is_success = False
+    if "scheme_1" in c_content:
+        old_scheme = None
+        new_scheme = None
+        try:
+            old_scheme = found_exercise_from.scheme_data['scheme_1']
+        except Exception as e:
+            print(e)
+            pass
+        try:
+            scheme_id = found_exercise_from.scheme_1
+            response = requests.post(f'{NEW_SCHEME_DRAWER_URL}/api/canvas-draw/v1/canvas/duplicate', json={'id': scheme_id})
+            r_json = response.json()
+            if 'id' in r_json:
+                new_scheme = r_json['id']
+        except Exception as e:
+            print(e)
+            pass
+        try:
+            if old_scheme:
+                found_exercise_to.scheme_data['scheme_1'] = old_scheme
+            if new_scheme:
+                found_exercise_to.scheme_1 = new_scheme
+            is_success = True
+        except Exception as e:
+            print(e)
+            pass
+    if "scheme_2" in c_content:
+        old_scheme = None
+        new_scheme = None
+        try:
+            old_scheme = found_exercise_from.scheme_data['scheme_2']
+        except Exception as e:
+            print(e)
+            pass
+        try:
+            scheme_id = found_exercise_from.scheme_2
+            response = requests.post(f'{NEW_SCHEME_DRAWER_URL}/api/canvas-draw/v1/canvas/duplicate', json={'id': scheme_id})
+            r_json = response.json()
+            if 'id' in r_json:
+                new_scheme = r_json['id']
+        except Exception as e:
+            print(e)
+            pass
+        try:
+            if old_scheme:
+                found_exercise_to.scheme_data['scheme_2'] = old_scheme
+            if new_scheme:
+                found_exercise_to.scheme_2 = new_scheme
+            is_success = True
+        except Exception as e:
+            print(e)
+            pass
+    try:
+        found_exercise_to.save()
+    except Exception as e:
+        print(e)
+        is_success = False
     return JsonResponse({"data": res_data, "success": is_success}, status=200)
 
 

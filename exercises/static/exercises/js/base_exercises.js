@@ -121,7 +121,14 @@ function ToggleUpFilter(id, state) {
                 $('.up-tabs-elem[data-id="copy"]').attr('data-state', '0');
                 swal("Внимание", "Выберите упражнение из списка.", "info");
             } else {
+                $('#exerciseCopyModal').find('.modal-title').text("Режим копирования");
                 $('#exerciseCopyModal').find('[name="copy_mode"]').val('1');
+                $('#exerciseCopyModal').find('.move-show').addClass('d-none');
+                $('#exerciseCopyModal').find('.copy-show').removeClass('d-none');
+                $('#exerciseCopyModal').find('.toggle-mode').removeClass('active');
+                $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-move-exercise"]').addClass('active');
+                $('#exerciseCopyModal').find('.content-block').addClass('d-none');
+                $('#exerciseCopyModal').find('.content-block.copy-move-exercise').removeClass('d-none');
                 if (state) {$('#exerciseCopyModal').modal('show');} 
                 else {$('#exerciseCopyModal').modal('hide');}
             }
@@ -132,7 +139,14 @@ function ToggleUpFilter(id, state) {
                 $('.up-tabs-elem[data-id="move"]').attr('data-state', '0');
                 swal("Внимание", "Выберите упражнение из списка.", "info");
             } else {
+                $('#exerciseCopyModal').find('.modal-title').text("Режим перемещения");
                 $('#exerciseCopyModal').find('[name="copy_mode"]').val('2');
+                $('#exerciseCopyModal').find('.copy-show').addClass('d-none');
+                $('#exerciseCopyModal').find('.move-show').removeClass('d-none');
+                $('#exerciseCopyModal').find('.toggle-mode').removeClass('active');
+                $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-move-exercise"]').addClass('active');
+                $('#exerciseCopyModal').find('.content-block').addClass('d-none');
+                $('#exerciseCopyModal').find('.content-block.copy-move-exercise').removeClass('d-none');
                 if (state) {$('#exerciseCopyModal').modal('show');} 
                 else {$('#exerciseCopyModal').modal('hide');}
             }
@@ -1035,7 +1049,6 @@ $(function() {
     // Copy Exs
     let foldersLoadedForCopy = false;
     $('#exerciseCopyModal').on('show.bs.modal', (e) => {
-        
         let isNfb = $('#exerciseCopyModal').find('input[name="nfb"]').val() == '1' && 
             $('.folders_div:not(.d-none)').attr('data-id') == "nfb_folders" && 
             $('#exerciseCopyModal').find('[name="copy_mode"]').val() != '1';
@@ -1053,9 +1066,11 @@ $(function() {
                 let tText = `${$(elem).attr('data-short')}. ${$(elem).attr('data-name')}`;
                 $(elem).find('.folder-title').html(tText);
             });
-            $('#exerciseCopyModal').find('.modal-body').html(tList);
+            $('#exerciseCopyModal').find('.modal-body').find('.copy-move-exercise').html(tList);
             // foldersLoadedForCopy = true;
         }
+        window.moveVideoFromExsToExs = null;
+        window.copySchemeFromExsToExs = null;
     });
     $('#exerciseCopyModal').on('hidden.bs.modal', (e) => {
         $('.up-tabs-elem[data-id="copy"]').removeClass('selected3');
@@ -1114,6 +1129,54 @@ $(function() {
                 }
             });
         }
+    });
+    $('#exerciseCopyModal').on('click', '.toggle-mode', (e) => {
+        let cId = $(e.currentTarget).attr('data-id');
+        $('#exerciseCopyModal').find('.select-video').prop('checked', false);
+        $('#exerciseCopyModal').find('.select-scheme').prop('checked', false);
+        $('#exerciseCopyModal').find('.toggle-mode').removeClass('active');
+        $(e.currentTarget).addClass('active');
+        $('#exerciseCopyModal').find('.content-block').addClass('d-none');
+        $('#exerciseCopyModal').find(`.content-block.${cId}`).removeClass('d-none');
+        $('#exerciseCopyModal').find('.modal-footer').toggleClass('d-none', cId != "copy-move-exercise");
+    });
+    $('#exerciseCopyModal').on('click', '.btn-video-move-apply', (e) => {
+        let exsId = $('.exs-list-group').find('.exs-elem.active').attr('data-id');
+        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        let selectedVideos = [];
+        $('#exerciseCopyModal').find('.select-video').each((ind, elem) => {
+            if ($(elem).prop('checked')) {selectedVideos.push($(elem).val());}
+        });
+        if (selectedVideos.length > 0) {
+            window.moveVideoFromExsToExs = {'f_type': folderType, 'exs_from': exsId, 'content': selectedVideos};
+            $('.exercises-block').find('.copy-modal-status').find('.description').text("Выберите упражнение, в которое хотите поместить видео/анимацию.");
+            $('.exercises-block').find('.copy-modal-status').removeClass('d-none');
+            $('.exercises-block').find('.copy-modal-status').addClass('d-flex');
+            $('.exercises-list').find('.exs-elem').removeClass('active');
+        }
+        $('#exerciseCopyModal').modal('hide');
+    });
+    $('#exerciseCopyModal').on('click', '.btn-scheme-copy-apply', (e) => {
+        let exsId = $('.exs-list-group').find('.exs-elem.active').attr('data-id');
+        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        let selectedSchemes = [];
+        $('#exerciseCopyModal').find('.select-scheme').each((ind, elem) => {
+            if ($(elem).prop('checked')) {selectedSchemes.push($(elem).val());}
+        });
+        if (selectedSchemes.length > 0) {
+            window.copySchemeFromExsToExs = {'f_type': folderType, 'exs_from': exsId, 'content': selectedSchemes};
+            $('.exercises-block').find('.copy-modal-status').find('.description').text("Выберите упражнение, в которое хотите поместить схему.");
+            $('.exercises-block').find('.copy-modal-status').removeClass('d-none');
+            $('.exercises-block').find('.copy-modal-status').addClass('d-flex');
+            $('.exercises-list').find('.exs-elem').removeClass('active');
+        }
+        $('#exerciseCopyModal').modal('hide');
+    });
+    $('.copy-modal-status').on('click', 'button', (e) => {
+        window.moveVideoFromExsToExs = null;
+        window.copySchemeFromExsToExs = null;
+        $('.exercises-block').find('.copy-modal-status').removeClass('d-flex');
+        $('.exercises-block').find('.copy-modal-status').addClass('d-none');
     });
 
     let startDate = getFormattedDateFromTodayWithDelta(1);

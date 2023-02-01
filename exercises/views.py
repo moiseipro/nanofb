@@ -316,6 +316,8 @@ def exercises_api(request):
         edit_exs_admin_options_status = 0
         edit_exs_full_name_status = 0
         edit_all_exs_titles_status = 0
+        move_video_from_exs_to_exs_status = 0
+        copy_scheme_from_exs_to_exs_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         try:
@@ -396,6 +398,14 @@ def exercises_api(request):
             edit_all_exs_titles_status = int(request.POST.get("edit_all_exs_titles", 0))
         except:
             pass
+        try:
+            move_video_from_exs_to_exs_status = int(request.POST.get("move_video_from_exs_to_exs", 0))
+        except:
+            pass
+        try:
+            copy_scheme_from_exs_to_exs_status = int(request.POST.get("copy_scheme_from_exs_to_exs", 0))
+        except:
+            pass
         if copy_exs_status == 1:
             return v_api.POST_copy_exs(request, cur_user[0], cur_team)
         elif move_exs_status == 1:
@@ -432,6 +442,10 @@ def exercises_api(request):
             return v_api.POST_edit_exs_full_name(request, cur_user[0], cur_team)
         elif edit_all_exs_titles_status == 1:
             return v_api.POST_edit_all_exs_titles(request, cur_user[0], cur_team)
+        elif move_video_from_exs_to_exs_status == 1:
+            return v_api.POST_move_video_from_exs_to_exs(request, cur_user[0], cur_team)
+        elif copy_scheme_from_exs_to_exs_status == 1:
+            return v_api.POST_copy_scheme_from_exs_to_exs(request, cur_user[0], cur_team)
         return JsonResponse({"errors": "access_error"}, status=400)
     elif request.method == "GET" and is_ajax:
         get_exs_all_status = 0
