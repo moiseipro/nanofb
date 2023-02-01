@@ -9,6 +9,7 @@ from references.models import ExsGoal, ExsBall, ExsTeamCategory, ExsAgeCategory,
 from references.models import ExsKeyword, ExsStressType, ExsPurpose, ExsCoaching
 from references.models import ExsCategory, ExsAdditionalData, ExsTitleName
 from references.models import UserSeason, ClubSeason, UserTeam, ClubTeam
+from references.models import ExsDescriptionTemplate
 from video.models import Video
 from nanofootball.views import util_check_access
 from video.views import delete_video_obj_nf
@@ -1248,6 +1249,12 @@ def POST_edit_exs(request, cur_user, cur_team):
         c_exs.field_task = set_by_language_code(c_exs.field_task, request.LANGUAGE_CODE, request.POST.get("data[field_task]", ""))
     
     c_exs.description = set_by_language_code(c_exs.description, request.LANGUAGE_CODE, request.POST.get("data[description]", ""))
+    if cur_user.is_superuser:
+        description_template = ExsDescriptionTemplate.objects.filter().first()
+        if not description_template:
+            description_template = ExsDescriptionTemplate()
+        description_template.description = set_by_language_code(description_template.description, request.LANGUAGE_CODE, request.POST.get("data[description_template]", ""))
+        description_template.save()
 
     c_exs.scheme_1 = request.POST.get("data[scheme_1]", None)
     c_exs.scheme_2 = request.POST.get("data[scheme_2]", None)
@@ -2393,7 +2400,6 @@ def POST_copy_scheme_from_exs_to_exs(request, cur_user, cur_team):
         'perms_club': ["exercises.change_clubexercise"]
     }):
         return JsonResponse({"err": "Access denied.", "success": False}, status=400)
-    # get exs using id, team, club
     found_exercise_from = None
     found_exercise_to = None
     if from_folder_type == FOLDER_NFB:
@@ -2408,7 +2414,8 @@ def POST_copy_scheme_from_exs_to_exs(request, cur_user, cur_team):
             found_exercise_from = ClubExercise.objects.filter(id=from_exs, club=request.user.club_id).first()
     
     if to_folder_type == FOLDER_NFB:
-        found_exercise_to = AdminExercise.objects.filter(id=to_exs).first()
+        if cur_user.is_superuser:
+            found_exercise_to = AdminExercise.objects.filter(id=to_exs).first()
     elif to_folder_type == FOLDER_TEAM:
         if request.user.club_id is not None:
             found_exercise_to = ClubExercise.objects.filter(id=to_exs, team=cur_team, club=request.user.club_id).first()
@@ -2422,7 +2429,7 @@ def POST_copy_scheme_from_exs_to_exs(request, cur_user, cur_team):
     is_success = False
     if "scheme_1" in c_content:
         old_scheme = None
-        new_scheme = None
+        new_scheme = ""
         try:
             old_scheme = found_exercise_from.scheme_data['scheme_1']
         except Exception as e:
@@ -2438,9 +2445,9 @@ def POST_copy_scheme_from_exs_to_exs(request, cur_user, cur_team):
             print(e)
             pass
         try:
-            if old_scheme:
+            if old_scheme is not None:
                 found_exercise_to.scheme_data['scheme_1'] = old_scheme
-            if new_scheme:
+            if new_scheme is not None:
                 found_exercise_to.scheme_1 = new_scheme
             is_success = True
         except Exception as e:
@@ -2448,7 +2455,7 @@ def POST_copy_scheme_from_exs_to_exs(request, cur_user, cur_team):
             pass
     if "scheme_2" in c_content:
         old_scheme = None
-        new_scheme = None
+        new_scheme = ""
         try:
             old_scheme = found_exercise_from.scheme_data['scheme_2']
         except Exception as e:
@@ -2464,9 +2471,9 @@ def POST_copy_scheme_from_exs_to_exs(request, cur_user, cur_team):
             print(e)
             pass
         try:
-            if old_scheme:
+            if old_scheme is not None:
                 found_exercise_to.scheme_data['scheme_2'] = old_scheme
-            if new_scheme:
+            if new_scheme is not None:
                 found_exercise_to.scheme_2 = new_scheme
             is_success = True
         except Exception as e:

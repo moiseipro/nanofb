@@ -562,23 +562,48 @@ $(function() {
             let folderType = $('.folders_div:not(.d-none)').attr('data-id');
             let exsId = $(e.currentTarget).attr('data-id');
             if (window.moveVideoFromExsToExs['f_type'] && window.moveVideoFromExsToExs['f_type'] == "nfb_folders" && folderType == "nfb_folders") {
-                MoveVideoFromExsToExs(exsId);
+                swal({
+                    title: "Вы точно хотите переместить контент в это упражнение?",
+                    text: ``,
+                    icon: "warning",
+                    buttons: ["Отмена", "Подтвердить"],
+                    dangerMode: true,
+                })
+                .then((willMoving) => {
+                    if (willMoving) {
+                        MoveVideoFromExsToExs(exsId);
+                        window.moveVideoFromExsToExs = null;
+                        $('.exercises-block').find('.copy-modal-status').removeClass('d-flex');
+                        $('.exercises-block').find('.copy-modal-status').addClass('d-none');
+                    }
+                });
             } else {
                 swal("Внимание", "Оба упражнения должны быть из папок N.F.", "info");
+                window.moveVideoFromExsToExs = null;
+                $('.exercises-block').find('.copy-modal-status').removeClass('d-flex');
+                $('.exercises-block').find('.copy-modal-status').addClass('d-none');
             }
-            window.moveVideoFromExsToExs = null;
-            $('.exercises-block').find('.copy-modal-status').removeClass('d-flex');
-            $('.exercises-block').find('.copy-modal-status').addClass('d-none');
             setTimeout(() => {
                 $(e.currentTarget).removeClass('active');
             }, 1000);
         } else if (window.copySchemeFromExsToExs) {
             let folderType = $('.folders_div:not(.d-none)').attr('data-id');
             let exsId = $(e.currentTarget).attr('data-id');
-            CopySchemeFromExsToExs(exsId, folderType);
-            window.copySchemeFromExsToExs = null;
-            $('.exercises-block').find('.copy-modal-status').removeClass('d-flex');
-            $('.exercises-block').find('.copy-modal-status').addClass('d-none');
+            swal({
+                title: "Вы точно хотите скопировать контент в это упражнение?",
+                text: ``,
+                icon: "warning",
+                buttons: ["Отмена", "Подтвердить"],
+                dangerMode: true,
+            })
+            .then((willCopying) => {
+                if (willCopying) {
+                    CopySchemeFromExsToExs(exsId, folderType);
+                    window.copySchemeFromExsToExs = null;
+                    $('.exercises-block').find('.copy-modal-status').removeClass('d-flex');
+                    $('.exercises-block').find('.copy-modal-status').addClass('d-none');
+                }
+            });
             setTimeout(() => {
                 $(e.currentTarget).removeClass('active');
             }, 1000);

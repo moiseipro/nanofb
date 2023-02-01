@@ -289,7 +289,7 @@ function RenderExerciseOne(data) {
         if (document.descriptionEditorView) {
             document.descriptionEditorView.setData(data.description);
         }
-        
+
         $('#carouselSchema').find('.carousel-item.new-scheme').remove();
         $('#carouselSchema').find('.carousel-indicators > li.new-scheme').remove();
         $('#carouselSchema').find('.carousel-item').first().html(data.scheme_data[0]);
@@ -298,7 +298,7 @@ function RenderExerciseOne(data) {
         if (data.scheme_2 && data.scheme_2 != "") {
             let link = `http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_2}`;
             $('#carouselSchema').find('.carousel-item').first().before(`
-                <div class="carousel-item new-scheme">
+                <div class="carousel-item new-scheme" title="Схема 2 (новая)">
                     <img src="${link}" alt="scheme" width="100%" height="100%">
                 </div>
             `);
@@ -310,7 +310,7 @@ function RenderExerciseOne(data) {
         if (data.scheme_1 && data.scheme_1 != "") {
             let link = `http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_1}`;
             $('#carouselSchema').find('.carousel-item').first().before(`
-                <div class="carousel-item new-scheme">
+                <div class="carousel-item new-scheme" title="Схема 1 (новая)">
                     <img src="${link}" alt="scheme" width="100%" height="100%">
                 </div>
             `);
@@ -428,7 +428,7 @@ function RenderExerciseOne(data) {
             document.descriptionEditorView.disableReadOnlyMode('');
             document.descriptionEditorView.setData('');
         }
-        
+
         // CheckMultiRows(exsCard, '', '.exs_edit_field[name="additional_data[]"]', 'additional_data');
         CheckMultiRows(exsCard, '', '.exs_edit_field[name="keyword[]"]', 'keyword');
         CheckMultiRows(exsCard, '', '.exs_edit_field[name="stress_type[]"]', 'stress_type');
@@ -511,6 +511,7 @@ function SaveExerciseOne() {
         } catch(e) {}
     });
     dataToSend.data['description'] = document.descriptionEditor2.getData();
+    dataToSend.data['description_template'] = document.descriptionEditor2Template.getData();
     if (dataToSend.data.title == "") {
         swal("Внимание", "Добавьте название для упражнения.", "info");
         return;
@@ -1407,9 +1408,7 @@ $(function() {
                 language: cLang
             })
             .then(editor => {
-                editor.setData(
-                    "<p><strong>ОРГАНИЗАЦИЯ</strong>:</p><p><strong>ЗАДАЧИ</strong>:</p><p><strong>КОЛИЧЕСТВО ИГРОКОВ</strong>:</p><p><strong>ПРОСТРАНСТВО</strong>:</p><p><strong>УСЛОВИЯ</strong>:</p><p><strong>ВАРИАНТЫ</strong>:</p><p><strong>ДОЗИРОВКА</strong>:</p><p><strong>ВЫЯВЛЕНИЕ ПОБЕДИТЕЛЯ:</strong></p><p><strong>ВВОД МЯЧА</strong>:</p><p><strong>РАСПОЛОЖЕНИЕ ТРЕНЕРА</strong>:</p><p><strong>ТРЕНЕРСКИЕ АКЦЕНТЫ</strong>:</p>"
-                );
+                editor.setData($('#descriptionEditor2Template').attr('data-content'));
                 document.descriptionEditor2Template = editor;
                 $('.resizeable-block').css('height', `75vh`);
             })

@@ -421,6 +421,9 @@ tr.bck-custom > td {
     width: 100% !important;
     height: 100% !important;
 }
+.ck.ck-content > p {
+    margin-bottom: 0.5rem !important;
+}
 
 
 .form-control-sm.exs_edit_field {

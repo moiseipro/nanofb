@@ -397,7 +397,8 @@
                                             <td title="Описание - Шаблон" style="background-color: white;">
                                                 <!-- <div class="resizeable-block" style="resize: vertical; overflow: auto;"> -->
                                                 <div class="resizeable-block">
-                                                    <div id="descriptionEditor2Template" class="ckeditor w-100" name=""></div>
+                                                    <div id="descriptionEditor2Template" class="ckeditor w-100" name="" data-content="{{ description_template }}">
+                                                    </div>
                                                 </div>
                                             </td>
                                         </tr>
@@ -587,11 +588,11 @@
                                             <li data-target="#carouselVideo" data-slide-to="1"></li>
                                         </ol>
                                         <div class="carousel-inner">
-                                            <div class="carousel-item active">
+                                            <div class="carousel-item active" title="Видео 1">
                                                 <video id="video-player-card-1" class="video-js resize-block not-active">
                                                 </video>
                                             </div>
-                                            <div class="carousel-item">
+                                            <div class="carousel-item" title="Видео 2">
                                                 <video id="video-player-card-2" class="video-js resize-block not-active">
                                                 </video>
                                             </div>
@@ -613,11 +614,11 @@
                                             <li data-target="#carouselAnim" data-slide-to="1"></li>
                                         </ol>
                                         <div class="carousel-inner">
-                                            <div class="carousel-item active">
+                                            <div class="carousel-item active" title="Анимация 1">
                                                 <video id="video-player-card-3" class="video-js resize-block not-active">
                                                 </video>
                                             </div>
-                                            <div class="carousel-item">
+                                            <div class="carousel-item" title="Анимация 2">
                                                 <video id="video-player-card-4" class="video-js resize-block not-active">
                                                 </video>
                                             </div>
