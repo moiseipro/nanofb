@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
 from django.db.models import Q, Count, F
+from django.views.decorators.clickjacking import xframe_options_exempt
 from users.models import User
 from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, ClubExercise, AdminExercise
 from references.models import UserSeason, UserTeam
@@ -12,7 +13,6 @@ import exercises.v_api as v_api
 from system_icons.views import get_ui_elements
 from nf_presentation import from_single_exercise as nf_presentation__from_single_exercise
 import json
-
 
 
 def exercises(request):
@@ -73,6 +73,7 @@ def exercises(request):
     })
 
 
+@xframe_options_exempt
 def exercise(request):
     """
     Return render page with given template. 

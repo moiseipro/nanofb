@@ -117,6 +117,7 @@ function ToggleUpperButtonsPanel(isActive) {
 
 function LoadExerciseOne(exsID = null, fromNFB = 0, folderType = "") {
     let searchParams = new URLSearchParams(window.location.search);
+    let chosenSection = searchParams.get('section');
     if (!exsID) {
         try {
             exsID = parseInt(searchParams.get('id'));
@@ -130,6 +131,7 @@ function LoadExerciseOne(exsID = null, fromNFB = 0, folderType = "") {
     if (!folderType || folderType == "") {
         folderType = searchParams.get('type');
     }
+    AdaptPageToSection(chosenSection);
     if (!exsID) {return;}
     let data = {'get_exs_one': 1, 'exs': exsID, 'get_nfb': fromNFB, 'f_type': folderType};
     $('.page-loader-wrapper').fadeIn();
@@ -142,6 +144,7 @@ function LoadExerciseOne(exsID = null, fromNFB = 0, folderType = "") {
         success: function (res) {
             if (res.success) {
                 RenderExerciseOne(res.data);
+                AdaptPageToSection(chosenSection, true);
             }
         },
         error: function (res) {
@@ -469,6 +472,84 @@ function RenderExerciseOne(data) {
 
         $('.exs-list-group').find('.list-group-item').removeClass('active');
         // clear video, animation and scheme
+    }
+}
+
+function AdaptPageToSection(section, exerciseLoaded=false) {
+    let availableSections = ["card", "description", "scheme_1", "scheme_2", "video_1", "video_2", "animation_1", "animation_2"];
+    if (availableSections.includes(section)) {
+        $(document).find('div.header').remove();
+        $(document).find('div.sidebar').remove();
+        $(document).find('div.page-wrapper').addClass('m-0 p-0');
+        $(document).find('div.card-inside').attr('style', 'height: 95vh !important;');
+        $(document).find('div.left-col-card').attr('style', 'height: 90vh !important;');
+        $(document).find('div.center-col-card').attr('style', 'height: 90vh !important;');
+        $(document).find('div.right-col-card').attr('style', 'height: 90vh !important;');
+        $(document).find('div.exercise-card-header').find('div.btn-group-custom').addClass('justify-content-end');
+        $(document).find('div.exercise-card-header').find('button').each((ind, elem) => {
+            let elemId = $(elem).attr('id');
+            if (elemId == "editExs" || elemId == "saveExs") {return;}
+            if (section == "scheme_1" && elemId == "openDrawing1") {return;}
+            if (section == "scheme_2" && elemId == "openDrawing2") {return;}
+            if (section == "video_1" && elemId == "openVideo1") {return;}
+            if (section == "video_2" && elemId == "openVideo2") {return;}
+            if (section == "animation_1" && elemId == "openAnimation1") {return;}
+            if (section == "animation_2" && elemId == "openAnimation2") {return;}
+            $(elem).remove();
+        });
+        $(document).find('div.page-wrapper').toggleClass('d-none', !exerciseLoaded);
+        if (exerciseLoaded) {
+            if (section == "card") {
+                $(document).find('div.left-col-card').addClass('w-100');
+                $(document).find('div.center-col-card').addClass('d-none');
+                $(document).find('div.right-col-card').addClass('d-none');
+                $(document).find('#editExs').trigger('click');
+                $(document).find('#saveExs').removeClass('d-none');
+            }
+            if (section == "description") {
+                $(document).find('div.left-col-card').addClass('d-none');
+                $(document).find('div.center-col-card').addClass('w-100');
+                $(document).find('div.right-col-card').addClass('d-none');
+                $(document).find('#editExs').trigger('click');
+                $(document).find('#saveExs').removeClass('d-none');
+            }
+            if (section == "scheme_1") {
+                $(document).find('#editExs').trigger('click');
+                $(document).find('#openDrawing1').trigger('click');
+                $(document).find('#openDrawing1').addClass('d-none');
+                $(document).find('#saveExs').removeClass('d-none');
+            }
+            if (section == "scheme_2") {
+                $(document).find('#editExs').trigger('click');
+                $(document).find('#openDrawing2').trigger('click');
+                $(document).find('#openDrawing2').addClass('d-none');
+                $(document).find('#saveExs').removeClass('d-none');
+            }
+            if (section == "video_1") {
+                $(document).find('#editExs').trigger('click');
+                $(document).find('#openVideo1').trigger('click');
+                $(document).find('#openVideo1').addClass('d-none');
+                $(document).find('#saveExs').removeClass('d-none');
+            }
+            if (section == "video_2") {
+                $(document).find('#editExs').trigger('click');
+                $(document).find('#openVideo2').trigger('click');
+                $(document).find('#openVideo2').addClass('d-none');
+                $(document).find('#saveExs').removeClass('d-none');
+            }
+            if (section == "animation_1") {
+                $(document).find('#editExs').trigger('click');
+                $(document).find('#openAnimation1').trigger('click');
+                $(document).find('#openAnimation1').addClass('d-none');
+                $(document).find('#saveExs').removeClass('d-none');
+            }
+            if (section == "animation_2") {
+                $(document).find('#editExs').trigger('click');
+                $(document).find('#openAnimation2').trigger('click');
+                $(document).find('#openAnimation2').addClass('d-none');
+                $(document).find('#saveExs').removeClass('d-none');
+            }
+        }
     }
 }
 
@@ -1385,11 +1466,11 @@ $(function() {
 
     let cLang = $('#select-language').val();
     try {
-        ClassicEditor
-            .create(document.querySelector('#descriptionEditor2'), {
-                language: cLang
-            })
-            .then(editor => {
+        let watchdog_descriptionEditor2 = new CKSource.EditorWatchdog();
+		watchdog_descriptionEditor2.setCreator((element, config) => {
+			return CKSource.Editor
+            .create(element, config)
+            .then( editor => {
                 document.descriptionEditor2 = editor;
                 if (window.onlyViewMode) {
                     document.descriptionEditor2.enableReadOnlyMode('');
@@ -1397,24 +1478,94 @@ $(function() {
                     $('#descriptionEditor2').next().find('.ck-content.ck-editor__editable').addClass('borders-off');
                 }
                 $('.resizeable-block').css('height', `75vh`);
-            })
-            .catch(err => {
-                console.error(err);
-            });
+				return editor;
+			})
+		});
+        watchdog_descriptionEditor2.setDestructor(editor => {
+            return editor.destroy();
+        });
+		watchdog_descriptionEditor2.on('error', (error) => {
+            console.error("Error with CKEditor5: ", error);
+        });
+        watchdog_descriptionEditor2
+		.create(document.querySelector('#descriptionEditor2'), {
+			licenseKey: '',
+            language: cLang,
+            removePlugins: ['Title'],
+		})
+		.catch((error) => {
+            console.error("Error with CKEditor5: ", error);
+        });
+        
+        // ClassicEditor
+        //     .create(document.querySelector('#descriptionEditor2'), {
+        //         language: cLang,
+        //         fontSize: {
+        //             options: [
+        //                 'tiny',
+        //                 'small',
+        //                 'default',
+        //                 'big',
+        //                 'huge'
+        //             ]
+        //         },
+        //         toolbar: [
+        //             'heading', 'bulletedList', 'numberedList', 'fontSize', 'undo', 'redo'
+        //         ]
+        //     })
+        //     .then(editor => {
+        //         document.descriptionEditor2 = editor;
+        //         if (window.onlyViewMode) {
+        //             document.descriptionEditor2.enableReadOnlyMode('');
+        //             $('#descriptionEditor2').next().find('.ck-editor__top').addClass('d-none');
+        //             $('#descriptionEditor2').next().find('.ck-content.ck-editor__editable').addClass('borders-off');
+        //         }
+        //         $('.resizeable-block').css('height', `75vh`);
+        //     })
+        //     .catch(err => {
+        //         console.error(err);
+        //     });
     } catch(e) {}
     try {
-        ClassicEditor
-            .create(document.querySelector('#descriptionEditor2Template'), {
-                language: cLang
-            })
-            .then(editor => {
+        let watchdog_descriptionEditor2Template = new CKSource.EditorWatchdog();
+		watchdog_descriptionEditor2Template.setCreator((element, config) => {
+			return CKSource.Editor
+            .create(element, config)
+            .then( editor => {
                 editor.setData($('#descriptionEditor2Template').attr('data-content'));
                 document.descriptionEditor2Template = editor;
                 $('.resizeable-block').css('height', `75vh`);
-            })
-            .catch(err => {
-                console.error(err);
-            });
+				return editor;
+			})
+		});
+        watchdog_descriptionEditor2Template.setDestructor(editor => {
+            return editor.destroy();
+        });
+		watchdog_descriptionEditor2Template.on('error', (error) => {
+            console.error("Error with CKEditor5: ", error);
+        });
+        watchdog_descriptionEditor2Template
+		.create(document.querySelector('#descriptionEditor2Template'), {
+			licenseKey: '',
+            language: cLang,
+            removePlugins: ['Title'],
+		})
+		.catch((error) => {
+            console.error("Error with CKEditor5: ", error);
+        });
+
+        // ClassicEditor
+        //     .create(document.querySelector('#descriptionEditor2Template'), {
+        //         language: cLang
+        //     })
+        //     .then(editor => {
+        //         editor.setData($('#descriptionEditor2Template').attr('data-content'));
+        //         document.descriptionEditor2Template = editor;
+        //         $('.resizeable-block').css('height', `75vh`);
+        //     })
+        //     .catch(err => {
+        //         console.error(err);
+        //     });
     } catch(e) {}
 
     window.dataForSplitExsCardCols = JSON.parse(localStorage.getItem('split_exs_card_cols'));

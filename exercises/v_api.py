@@ -534,8 +534,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
     filter_search = ""
     filter_tags = []
     filter_video_source = -1
-    filter_age_a = -1
-    filter_age_b = -1
+    filter_age = -1
     filter_players = -1
     try:
         if req.method == "GET":
@@ -595,16 +594,9 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
         pass
     try:
         if req.method == "GET":
-            filter_age_a = int(req.GET.get("filter[filter_age_a]", -1))
+            filter_age = int(req.GET.get("filter[filter_age]", -1))
         elif req.method == "POST":
-            filter_age_a = int(req.POST.get("filter[filter_age_a]", -1))
-    except:
-        pass
-    try:
-        if req.method == "GET":
-            filter_age_b = int(req.GET.get("filter[filter_age_b]", -1))
-        elif req.method == "POST":
-            filter_age_b = int(req.POST.get("filter[filter_age_b]", -1))
+            filter_age = int(req.POST.get("filter[filter_age]", -1))
     except:
         pass
     try:
@@ -733,24 +725,12 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             f_exercises = f_exercises.filter(
                 Q(exercisevideo__video__isnull=False) & Q(exercisevideo__video__videosource_id=filter_video_source)
             )
-    if filter_age_a != -1 or filter_age_b != -1:
-        if filter_age_a != -1 and filter_age_b == -1:
-            f_exercises = f_exercises.filter(
-                Q(Q(field_age_a__isnull=False) & Q(field_age_a__gte=filter_age_a)) |
-                Q(Q(field_age_a__isnull=True) & Q(field_age_b__lte=filter_age_a))
-            )
-        elif filter_age_a == -1 and filter_age_b != -1:
-            f_exercises = f_exercises.filter(
-                Q(Q(field_age_b__isnull=False) & Q(field_age_b__lte=filter_age_b)) |
-                Q(Q(field_age_b__isnull=True) & Q(field_age_a__lte=filter_age_b))
-            )
-        else:
-            if filter_age_a == filter_age_b:
-                f_exercises = f_exercises.filter(field_age_a=filter_age_a)
-            else:
-                f_exercises = f_exercises.filter(
-                    Q(Q(field_age_a__isnull=False) & Q(field_age_b__isnull=False) & Q(field_age_a__gte=filter_age_a) & Q(field_age_b__lte=filter_age_b))
-                )
+    if filter_age != -1:
+        f_exercises = f_exercises.filter(
+            Q(Q(field_age_a__isnull=False) & Q(field_age_b__isnull=True) & Q(field_age_a__lte=filter_age)) |
+            Q(Q(field_age_a__isnull=True) & Q(field_age_b__isnull=False) & Q(field_age_b__gte=filter_age)) |
+            Q(Q(field_age_a__isnull=False) & Q(field_age_b__isnull=False) & Q(field_age_a__lte=filter_age) & Q(field_age_b__gte=filter_age))
+        )
     if filter_players != -1:
         f_exercises = f_exercises.filter(
             Q(Q(field_players_a__isnull=False) & Q(field_players_b__isnull=True) & Q(field_players_a__lte=filter_players)) |

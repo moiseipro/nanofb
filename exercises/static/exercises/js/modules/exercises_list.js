@@ -3,7 +3,7 @@ function RenderSplitCols() {
     let sizesArr = window.dataForSplit;
     window.split = Split(['#splitCol_0', '#splitCol_1', '#splitCol_2'], {
         sizes: sizesArr,
-        gutterSize: 16,
+        gutterSize: 12,
         onDrag: () => {
             let lastColWidth = 0;
             try {
@@ -541,7 +541,7 @@ $(function() {
     // Open exercise using keys
     $(document).keypress((e) => {
         if (e.which == 13 && window.canChangeExs) { // enter
-            $('#showOneExs').trigger('click');
+            $('.visual-block').find('.carousel-item:visible').first().trigger('click');
         }
     });
 

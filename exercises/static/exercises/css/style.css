@@ -26,7 +26,8 @@
     flex-direction: row;
 }
 .gutter {
-    background-color: #ff5640;
+    opacity: 0.5;
+    background-color: #1e4fd4;
     background-repeat: no-repeat;
     background-position: 50%;
 }
@@ -691,3 +692,30 @@ input[type="number"]:focus {
 .loading-scheme {
     background:transparent url(/static/exercises/img/field.svg) center center no-repeat;
 }
+
+.exs-edit-panel {
+    height: 100%;
+    overflow:auto;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    background:white;
+    width: 20%;
+    box-shadow: 2px 0 4px rgba(0,0,0,0.5);
+    transition: width .35s;
+}
+.exs-edit-panel.collapsed {
+    width: 0;
+}
+.exs-edit-panel button[data-dismiss="panel"] {
+    float: right;
+}
+.exs-edit-panel.collapsed button[data-dismiss="panel"] {
+    display: none;
+}
+
+ul.group-colored > li {
+    background-color: var(--gr-color);
+}
+
