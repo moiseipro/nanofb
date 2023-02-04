@@ -715,7 +715,15 @@ input[type="number"]:focus {
     display: none;
 }
 
-ul.group-colored > li {
-    background-color: var(--gr-color);
+
+.delete-exs-radio > .form-check:hover {
+    background-color: #cdcdcd;
+}
+
+
+.graphics-content {
+    height: 60vh;
+    padding-left: 4rem !important;
+    padding-right: 4rem !important;
 }
 

@@ -1846,6 +1846,10 @@ html.menu-opened body {
     color: #fff;
 }
 
+.sidebar.z-index-reduce {
+	z-index: 1000 !important;
+}
+
 /*-----------------
 	10. Content
 -----------------------*/

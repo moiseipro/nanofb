@@ -409,6 +409,7 @@ function MoveVideoFromExsToExs(toExsId) {
         success: function (res) {
             if (res.success) {
                 swal("Готово", "Видео / анимация успешно перенесены.", "success");
+                LoadExerciseOneHandler();
             } else {
                 swal("Ошибка", "Не удалось переместить видео / анимацию.", "error");
                 console.log(res);
@@ -441,6 +442,7 @@ function CopySchemeFromExsToExs(toExsId, toFolderType) {
         success: function (res) {
             if (res.success) {
                 swal("Готово", "Схема успешно скопирована.", "success");
+                LoadExerciseOneHandler();
             } else {
                 swal("Ошибка", "Не удалось скопировать схему.", "error");
                 console.log(res);
@@ -583,9 +585,6 @@ $(function() {
                 $('.exercises-block').find('.copy-modal-status').removeClass('d-flex');
                 $('.exercises-block').find('.copy-modal-status').addClass('d-none');
             }
-            setTimeout(() => {
-                $(e.currentTarget).removeClass('active');
-            }, 1000);
         } else if (window.copySchemeFromExsToExs) {
             let folderType = $('.folders_div:not(.d-none)').attr('data-id');
             let exsId = $(e.currentTarget).attr('data-id');
@@ -604,9 +603,6 @@ $(function() {
                     $('.exercises-block').find('.copy-modal-status').addClass('d-none');
                 }
             });
-            setTimeout(() => {
-                $(e.currentTarget).removeClass('active');
-            }, 1000);
         } else {
             LoadExerciseOneHandler();
         }

@@ -301,7 +301,7 @@ function RenderExerciseOne(data) {
         if (data.scheme_2 && data.scheme_2 != "") {
             let link = `http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_2}`;
             $('#carouselSchema').find('.carousel-item').first().before(`
-                <div class="carousel-item new-scheme" title="Схема 2 (новая)">
+                <div class="carousel-item new-scheme" title="Рисунок 2 (новый)" data-type="scheme_2">
                     <img src="${link}" alt="scheme" width="100%" height="100%">
                 </div>
             `);
@@ -313,7 +313,7 @@ function RenderExerciseOne(data) {
         if (data.scheme_1 && data.scheme_1 != "") {
             let link = `http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_1}`;
             $('#carouselSchema').find('.carousel-item').first().before(`
-                <div class="carousel-item new-scheme" title="Схема 1 (новая)">
+                <div class="carousel-item new-scheme" title="Рисунок 1 (новый)" data-type="scheme_1">
                     <img src="${link}" alt="scheme" width="100%" height="100%">
                 </div>
             `);
@@ -473,10 +473,13 @@ function RenderExerciseOne(data) {
         $('.exs-list-group').find('.list-group-item').removeClass('active');
         // clear video, animation and scheme
     }
+    try {
+        ToggleContentInCardModalForEdit();
+    } catch(e) {}
 }
 
 function AdaptPageToSection(section, exerciseLoaded=false) {
-    let availableSections = ["card", "description", "scheme_1", "scheme_2", "video_1", "video_2", "animation_1", "animation_2"];
+    let availableSections = ["card", "description", "scheme_1", "scheme_2", "video_1", "video_2", "animation_1", "animation_2", "tags"];
     if (availableSections.includes(section)) {
         $(document).find('div.header').remove();
         $(document).find('div.sidebar').remove();
@@ -495,6 +498,7 @@ function AdaptPageToSection(section, exerciseLoaded=false) {
             if (section == "video_2" && elemId == "openVideo2") {return;}
             if (section == "animation_1" && elemId == "openAnimation1") {return;}
             if (section == "animation_2" && elemId == "openAnimation2") {return;}
+            if (section == "tags" && elemId == "openTags") {return;}
             $(elem).remove();
         });
         $(document).find('div.page-wrapper').toggleClass('d-none', !exerciseLoaded);
@@ -547,6 +551,12 @@ function AdaptPageToSection(section, exerciseLoaded=false) {
                 $(document).find('#editExs').trigger('click');
                 $(document).find('#openAnimation2').trigger('click');
                 $(document).find('#openAnimation2').addClass('d-none');
+                $(document).find('#saveExs').removeClass('d-none');
+            }
+            if (section == "tags") {
+                $(document).find('#editExs').trigger('click');
+                $(document).find('#openTags').trigger('click');
+                $(document).find('#openTags').addClass('d-none');
                 $(document).find('#saveExs').removeClass('d-none');
             }
         }
@@ -735,6 +745,8 @@ function DeleteExerciseOne(exsId=null, folderType=null) {
                     $('#exerciseCopyModal').modal('hide');
                 }
             });
+        } else {
+            $('.exs-edit-panel').find('.btn-edit-e').removeClass('active');
         }
     });
 }
