@@ -152,6 +152,11 @@ function RenderFolderExercises(id, tExs) {
                     </button>
                     <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="players" style="--w-x:24px; min-width: 54px; --h-x:24px;" disabled="">
                         <div class="row w-100">
+                            ${exElem.field_players_a == exElem.field_players_b ? `
+                            <div class="col-12 px-0 text-center">
+                                ${exElem.field_players_a ? exElem.field_players_a : ''}
+                            </div>
+                            ` : `
                             <div class="col-5 px-0 text-center">
                                 ${exElem.field_players_a ? exElem.field_players_a : ''}
                             </div>
@@ -159,6 +164,7 @@ function RenderFolderExercises(id, tExs) {
                             <div class="col-5 px-0 text-center">
                                 ${exElem.field_players_b ? exElem.field_players_b : ''}
                             </div>
+                            `}
                         </div>
                     </button>
                     ${exElem.field_goal && exElem.field_goal != "" ? `
@@ -256,6 +262,9 @@ function LoadExerciseOneHandler() {
     let folderType = $('.folders_div:not(.d-none)').attr('data-id');
     LoadExerciseOne(cId, fromNFB, folderType);
     CountExsInFolder(true, true);
+    try {
+        LoadContentInCardModalForEdit(cId, folderType);
+    } catch(e) {}
 }
 
 function RenderExerciseOne(data) {

@@ -116,6 +116,7 @@ function LoadGraphicsModal(id = -1, f_type="team_folders", activeNum = 1) {
         }
     });
 }
+
 function RenderGraphicsModal(data = null, activeNum = 1) {
     let activeExs = $('.exercises-list').find('.exs-elem.active');
     let videoWatched_1 = undefined;
@@ -374,7 +375,11 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
     }
     $('#exerciseGraphicsModal').find('#carouselGraphics > .carousel-inner').find(`.carousel-item:nth-child(${activeNum})`).addClass('active');
     $('#exerciseGraphicsModal').modal('show');
-}
+
+    try {
+        RenderContentInCardModalForEdit(data);
+    } catch(e) {}
+ }
 
 function open_graphics_modal(parentId) {
     $('#exerciseGraphicsModal').find('.modal-body').find('.carousel-item').each((ind, elem) => {

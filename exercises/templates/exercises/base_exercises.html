@@ -64,7 +64,7 @@
                                             </button>
                                         </li>
                                         <li class="list-group-item py-1">
-                                            <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="tags">
+                                            <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="tags" {% if not user.is_superuser %}disabled=""{% endif %}>
                                                 Ключевые характеристики
                                             </button>
                                         </li>
@@ -154,7 +154,7 @@
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="clear_filter" title="Очистить фильтры" style="--w-max-x:4%;">
                                                 <i class="fa fa-repeat" aria-hidden="true" style="color: red;"></i>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="keywords" title="Ключевые слова" style="--w-max-x:4%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="keywords" title="Ключевые слова" style="--w-max-x:4%;" {% if not user.is_superuser %}disabled=""{% endif %}>
                                                 <span class="icon-custom icon--key mt-1" style="--i-w: 1.6em; --i-h: 1.6em;"></span>
                                             </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block font-larger up-tabs-elem size-max-w-x" data-id="toggle_watched" title="Просмотренные видео" style="--w-max-x:4%;">
@@ -1103,14 +1103,27 @@
         <div class="modal fade" id="exerciseCardModalForEdit" tabindex="-1" role="dialog" aria-labelledby="exerciseCardModalForEditLbl" aria-hidden="true" data-exs="">
             <div class="modal-dialog modal-xl" role="document" style="max-width: 94vw;">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
                     <div class="modal-body">
-                        <iframe src="" style="width: 100% !important; height: 80vh !important;">
-                        </iframe>
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-end">
+                                <button class="btn btn-sm btn-secondary mx-1 btn-prev only-edit" type="button" title="Предыдущее">
+                                    <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+                                </button>
+                                <button class="btn btn-sm btn-secondary mx-1 btn-next only-edit" type="button" title="Следующее">
+                                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                                </button>
+                                <button class="btn btn-sm btn-success mx-1 btn-save" type="button">
+                                    Сохранить
+                                </button>
+                                <button class="btn btn-sm btn-danger mx-1" type="button" data-dismiss="modal" aria-label="Close">
+                                    Выйти
+                                </button>
+                            </div>
+                            <div class="col-12 mt-2">
+                                <iframe src="" style="width: 100% !important; height: 80vh !important;">
+                                </iframe>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

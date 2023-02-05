@@ -64,7 +64,7 @@
                                                 {% endfor %}
                                             </td>
                                         </tr>
-                                        <tr class="bck-custom-color text-center font-weight-bold text-uppercase toggle-main-block" data-id="folder_name" style="--bck-color:#eecd38; --bck-color-h:#eecd38;">
+                                        <tr class="bck-custom-color text-center font-weight-bold text-uppercase toggle-main-block" data-id="folder_name" style="--bck-color:#eee; --bck-color-h:#eee;">
                                             <td class="align-middle folder-text" colspan="2"></td>
                                         </tr>
                                         <tr class="bck-custom border-y-custom folder-container">
@@ -129,6 +129,26 @@
                                         </tr>
                                         <tr class="bck-custom border-y-custom" data-id="main_block">
                                             <td colspan="2">
+                                                <select name="field_exs_category_a" class="form-control form-control-sm exs_edit_field" autocomplete="off" title="Категория упражнения">
+                                                    <option value="">Категория упражнения</option>
+                                                    {% for elem in refs.exs_category %}
+                                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr class="bck-custom border-y-custom" data-id="main_block">
+                                            <td colspan="2">
+                                                <select name="field_exs_category_b" class="form-control form-control-sm exs_edit_field" autocomplete="off" title="Категория упражнения">
+                                                    <option value="">Категория упражнения</option>
+                                                    {% for elem in refs.exs_category %}
+                                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <!-- <tr class="bck-custom border-y-custom" data-id="main_block">
+                                            <td colspan="2">
                                                 <select name="ref_train_part" class="form-control form-control-sm exs_edit_field" autocomplete="off" title="Части тренировки">
                                                     <option value="">Части тренировки</option>
                                                     {% for elem in refs.exs_train_part %}
@@ -136,8 +156,8 @@
                                                     {% endfor %}
                                                 </select>
                                             </td>
-                                        </tr>
-                                        <tr class="bck-custom border-y-custom" data-id="main_block">
+                                        </tr> -->
+                                        <!-- <tr class="bck-custom border-y-custom" data-id="main_block">
                                             <td colspan="2">
                                                 <select name="ref_stress_type" class="form-control form-control-sm exs_edit_field" autocomplete="off" title="Тип нагрузки">
                                                     <option value="">Тип нагрузки</option>
@@ -156,8 +176,8 @@
                                                     {% endfor %}
                                                 </select>
                                             </td>
-                                        </tr>
-                                        <tr class="bck-custom-color text-center font-weight-bold toggle-additional-information" style="--bck-color:#eecd38; --bck-color-h:#eecd38;">
+                                        </tr> -->
+                                        <tr class="bck-custom-color text-center font-weight-bold toggle-additional-information" style="--bck-color:#eee; --bck-color-h:#eee;">
                                             <td class="align-middle folder-text" colspan="2">Доп. информация</td>
                                         </tr>
 
@@ -211,7 +231,7 @@
                                                 <input name="field_goal" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="" autocomplete="off">
                                             </td>
                                         </tr>
-                                        <tr class="bck-custom border-y-custom" data-id="additional_information">
+                                        <tr class="bck-custom border-y-custom {% if not user.is_superuser %}d-none{% endif %}" data-id="additional_information">
                                             <td class="text-center align-middle">Ключевые слова</td>
                                             <td class="text-center">
                                                 <div class="row mx-0">
@@ -233,10 +253,26 @@
                                                         </select>
                                                         <!-- <input name="field_keyword_b" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="" autocomplete="off"> -->
                                                     </div>
+                                                    <div class="col-12 px-0">
+                                                        <select name="field_keyword_c" class="form-control form-control-sm exs_edit_field" autocomplete="off">
+                                                            <option value=""></option>
+                                                            {% for elem in refs.exs_keyword %}
+                                                                <option value="{{ elem.title }}">{{ elem.title }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-12 px-0">
+                                                        <select name="field_keyword_d" class="form-control form-control-sm exs_edit_field" autocomplete="off">
+                                                            <option value=""></option>
+                                                            {% for elem in refs.exs_keyword %}
+                                                                <option value="{{ elem.title }}">{{ elem.title }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr class="bck-custom-color text-center font-weight-bold toggle-additional-characteristics d-none" style="--bck-color:#eecd38; --bck-color-h:#eecd38;">
+                                        <tr class="bck-custom-color text-center font-weight-bold toggle-additional-characteristics d-none" style="--bck-color:#eee; --bck-color-h:#eee;">
                                             <td class="align-middle folder-text" colspan="2">Ключевые характеристики</td>
                                         </tr>
                                         <tr class="wider_row bck-custom d-none" data-id="additional_characteristics_data">
@@ -359,11 +395,11 @@
                                         <col span="1" style="width: 100%;">
                                     </colgroup>
                                     <tbody>
-                                        <tr class="bck-custom-color" style="--bck-color:#4274fd; --bck-color-h:#4274fd;">
+                                        <tr class="bck-custom-color" style="--bck-color:#eee; --bck-color-h:#eee;">
                                             <td>
                                                 <input name="title" class="form-control form-control-sm exs_edit_field text-center placeholder-font-weight" 
                                                     type="text" value="" placeholder="Название упражнения" autocomplete="off" 
-                                                    style="--fw:700; background-color: #fff0; border-color: #fff0; color: #fff;" required="">
+                                                    style="--fw:700; background-color: #fff0; border-color: #fff0;" required="">
                                             </td>
                                         </tr>
                                         <tr class="bck-custom">

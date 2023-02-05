@@ -714,7 +714,9 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
         f_exercises = f_exercises.filter(
             Q(title__iregex=searh_regex) |
             Q(field_keyword_a__iexact=filter_search_low) |
-            Q(field_keyword_b__iexact=filter_search_low)
+            Q(field_keyword_b__iexact=filter_search_low) |
+            Q(field_keyword_c__iexact=filter_search_low) |
+            Q(field_keyword_d__iexact=filter_search_low)
         )
     if filter_video_source != -1:
         if filter_video_source == -2:
@@ -1246,6 +1248,10 @@ def POST_edit_exs(request, cur_user, cur_team):
         c_exs.field_players_b = set_value_as_int(request, "data[field_players_b]", None)
         c_exs.field_keyword_a = request.POST.get("data[field_keyword_a]", None)
         c_exs.field_keyword_b = request.POST.get("data[field_keyword_b]", None)
+        c_exs.field_keyword_c = request.POST.get("data[field_keyword_c]", None)
+        c_exs.field_keyword_d = request.POST.get("data[field_keyword_d]", None)
+        c_exs.field_exs_category_a = request.POST.get("data[field_exs_category_a]", None)
+        c_exs.field_exs_category_b = request.POST.get("data[field_exs_category_b]", None)
 
     if is_can_edit_full:
         video_links_links = set_value_as_list(request, "data[video_links_link[]]", "data[video_links_link[]][]", [])
@@ -2577,6 +2583,10 @@ def GET_get_exs_all(request, cur_user, cur_team):
             'field_players_b': exercise['field_players_b'],
             'field_keyword_a': exercise['field_keyword_a'],
             'field_keyword_b': exercise['field_keyword_b'],
+            'field_keyword_c': exercise['field_keyword_c'],
+            'field_keyword_d': exercise['field_keyword_d'],
+            'field_exs_category_a': exercise['field_exs_category_a'],
+            'field_exs_category_b': exercise['field_exs_category_b'],
             'ref_ball_id': exercise['ref_ball_id'],
             'has_video_1': exercise['has_video_1'],
             'has_video_2': exercise['has_video_2'],

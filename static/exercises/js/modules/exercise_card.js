@@ -131,7 +131,7 @@ function LoadExerciseOne(exsID = null, fromNFB = 0, folderType = "") {
     if (!folderType || folderType == "") {
         folderType = searchParams.get('type');
     }
-    AdaptPageToSection(chosenSection);
+    AdaptPageToSection(chosenSection, searchParams.get('id') == "new");
     if (!exsID) {return;}
     let data = {'get_exs_one': 1, 'exs': exsID, 'get_nfb': fromNFB, 'f_type': folderType};
     $('.page-loader-wrapper').fadeIn();
@@ -237,6 +237,10 @@ function RenderExerciseOne(data) {
         $(exsCard).find('.exs_edit_field[name="field_players_b"]').val(data.field_players_b);
         $(exsCard).find('.exs_edit_field[name="field_keyword_a"]').val(data.field_keyword_a);
         $(exsCard).find('.exs_edit_field[name="field_keyword_b"]').val(data.field_keyword_b);
+        $(exsCard).find('.exs_edit_field[name="field_keyword_c"]').val(data.field_keyword_c);
+        $(exsCard).find('.exs_edit_field[name="field_keyword_d"]').val(data.field_keyword_d);
+        $(exsCard).find('.exs_edit_field[name="field_exs_category_a"]').val(data.field_exs_category_a);
+        $(exsCard).find('.exs_edit_field[name="field_exs_category_b"]').val(data.field_exs_category_b);
 
         try {
             if (Array.isArray(data.video_links) && data.video_links.length == 4) {
@@ -473,9 +477,6 @@ function RenderExerciseOne(data) {
         $('.exs-list-group').find('.list-group-item').removeClass('active');
         // clear video, animation and scheme
     }
-    try {
-        ToggleContentInCardModalForEdit();
-    } catch(e) {}
 }
 
 function AdaptPageToSection(section, exerciseLoaded=false) {
@@ -508,56 +509,67 @@ function AdaptPageToSection(section, exerciseLoaded=false) {
                 $(document).find('div.center-col-card').addClass('d-none');
                 $(document).find('div.right-col-card').addClass('d-none');
                 $(document).find('#editExs').trigger('click');
-                $(document).find('#saveExs').removeClass('d-none');
+                $(document).find('#saveExs').addClass('d-none');
+                let titleBlock = $(document).find('.exs_edit_field[name="title"]').parent().parent().clone();
+                let taskBlock = $(document).find('.exs_edit_field[name="field_task"]').parent().parent().clone();
+                $(titleBlock).find('td').attr('colspan', 2);
+                $(taskBlock).find('td').attr('colspan', 2);
+                $(document).find('.exs_edit_field[name="title"]').parent().parent().remove();
+                $(document).find('.exs_edit_field[name="field_task"]').parent().parent().remove();
+                $(document).find('div.left-col-card').find('tr[data-id="folder_name"]').find('.folder-text').text('');
+                $(document).find('div.left-col-card').find('table > tbody').prepend(taskBlock);
+                $(document).find('div.left-col-card').find('table > tbody').prepend(titleBlock);
             }
             if (section == "description") {
                 $(document).find('div.left-col-card').addClass('d-none');
                 $(document).find('div.center-col-card').addClass('w-100');
                 $(document).find('div.right-col-card').addClass('d-none');
+                $(document).find('.exs_edit_field[name="title"]').parent().parent().addClass('d-none');
+                $(document).find('.exs_edit_field[name="field_task"]').parent().parent().addClass('d-none');
                 $(document).find('#editExs').trigger('click');
-                $(document).find('#saveExs').removeClass('d-none');
+                $(document).find('#saveExs').addClass('d-none');
             }
             if (section == "scheme_1") {
                 $(document).find('#editExs').trigger('click');
+                $(document).find('#saveExs').addClass('d-none');
                 $(document).find('#openDrawing1').trigger('click');
                 $(document).find('#openDrawing1').addClass('d-none');
-                $(document).find('#saveExs').removeClass('d-none');
             }
             if (section == "scheme_2") {
                 $(document).find('#editExs').trigger('click');
+                $(document).find('#saveExs').addClass('d-none');
                 $(document).find('#openDrawing2').trigger('click');
                 $(document).find('#openDrawing2').addClass('d-none');
-                $(document).find('#saveExs').removeClass('d-none');
             }
             if (section == "video_1") {
                 $(document).find('#editExs').trigger('click');
+                $(document).find('#saveExs').addClass('d-none');
                 $(document).find('#openVideo1').trigger('click');
                 $(document).find('#openVideo1').addClass('d-none');
-                $(document).find('#saveExs').removeClass('d-none');
             }
             if (section == "video_2") {
                 $(document).find('#editExs').trigger('click');
+                $(document).find('#saveExs').addClass('d-none');
                 $(document).find('#openVideo2').trigger('click');
                 $(document).find('#openVideo2').addClass('d-none');
-                $(document).find('#saveExs').removeClass('d-none');
             }
             if (section == "animation_1") {
                 $(document).find('#editExs').trigger('click');
+                $(document).find('#saveExs').addClass('d-none');
                 $(document).find('#openAnimation1').trigger('click');
                 $(document).find('#openAnimation1').addClass('d-none');
-                $(document).find('#saveExs').removeClass('d-none');
             }
             if (section == "animation_2") {
                 $(document).find('#editExs').trigger('click');
+                $(document).find('#saveExs').addClass('d-none');
                 $(document).find('#openAnimation2').trigger('click');
                 $(document).find('#openAnimation2').addClass('d-none');
-                $(document).find('#saveExs').removeClass('d-none');
             }
             if (section == "tags") {
                 $(document).find('#editExs').trigger('click');
+                $(document).find('#saveExs').addClass('d-none');
                 $(document).find('#openTags').trigger('click');
                 $(document).find('#openTags').addClass('d-none');
-                $(document).find('#saveExs').removeClass('d-none');
             }
         }
     }
@@ -639,8 +651,14 @@ function SaveExerciseOne() {
                     $('.page-loader-wrapper').fadeIn();
                     let searchParams = new URLSearchParams(window.location.search);
                     let exsID = searchParams.get('id');
-                    if (exsID == "new") {window.location.href = "/exercises";}
-                    else {window.location.reload();}
+                    if (exsID == "new") {
+                        window.parent.postMessage("exercise_created", '*');
+                        window.location.href = "/exercises";
+                    }
+                    else {
+                        window.parent.postMessage("exercise_edited", '*');
+                        window.location.reload();
+                    }
                 });
             } else {
                 swal("Ошибка", `При создании / изменении упражнения произошла ошибка (${res.err}).`, "error");
@@ -651,6 +669,7 @@ function SaveExerciseOne() {
             console.log(res);
         },
         complete: function (res) {
+            window.parent.postMessage("exercise_end_edited", '*');
             $('.page-loader-wrapper').fadeOut();
         }
     });
