@@ -131,7 +131,10 @@ function LoadExerciseOne(exsID = null, fromNFB = 0, folderType = "") {
     if (!folderType || folderType == "") {
         folderType = searchParams.get('type');
     }
-    AdaptPageToSection(chosenSection, searchParams.get('id') == "new");
+    AdaptPageToSection(chosenSection, searchParams.get('id') == "new", false);
+    if (searchParams.get('id') == "new") {
+        window.parent.postMessage("exercise_loaded", '*');
+    }
     if (!exsID) {return;}
     let data = {'get_exs_one': 1, 'exs': exsID, 'get_nfb': fromNFB, 'f_type': folderType};
     $('.page-loader-wrapper').fadeIn();
@@ -144,7 +147,7 @@ function LoadExerciseOne(exsID = null, fromNFB = 0, folderType = "") {
         success: function (res) {
             if (res.success) {
                 RenderExerciseOne(res.data);
-                AdaptPageToSection(chosenSection, true);
+                AdaptPageToSection(chosenSection, true, false);
             }
         },
         error: function (res) {
@@ -153,6 +156,7 @@ function LoadExerciseOne(exsID = null, fromNFB = 0, folderType = "") {
         complete: function (res) {
             $('.page-loader-wrapper').fadeOut();
             window.canChangeExs = true;
+            window.parent.postMessage("exercise_loaded", '*');
         }
     });
     try {
@@ -479,95 +483,101 @@ function RenderExerciseOne(data) {
     }
 }
 
-function AdaptPageToSection(section, exerciseLoaded=false) {
-    let availableSections = ["card", "description", "scheme_1", "scheme_2", "video_1", "video_2", "animation_1", "animation_2", "tags"];
+function AdaptPageToSection(section, exerciseLoaded=false, onlyChangeSection=false) {
+    let availableSections = ["card", "scheme_1", "scheme_2", "video_1", "video_2", "animation_1", "animation_2", "tags"];
     if (availableSections.includes(section)) {
-        $(document).find('div.header').remove();
-        $(document).find('div.sidebar').remove();
-        $(document).find('div.page-wrapper').addClass('m-0 p-0');
-        $(document).find('div.card-inside').attr('style', 'height: 95vh !important;');
-        $(document).find('div.left-col-card').attr('style', 'height: 90vh !important;');
-        $(document).find('div.center-col-card').attr('style', 'height: 90vh !important;');
-        $(document).find('div.right-col-card').attr('style', 'height: 90vh !important;');
-        $(document).find('div.exercise-card-header').find('div.btn-group-custom').addClass('justify-content-end');
-        $(document).find('div.exercise-card-header').find('button').each((ind, elem) => {
-            let elemId = $(elem).attr('id');
-            if (elemId == "editExs" || elemId == "saveExs") {return;}
-            if (section == "scheme_1" && elemId == "openDrawing1") {return;}
-            if (section == "scheme_2" && elemId == "openDrawing2") {return;}
-            if (section == "video_1" && elemId == "openVideo1") {return;}
-            if (section == "video_2" && elemId == "openVideo2") {return;}
-            if (section == "animation_1" && elemId == "openAnimation1") {return;}
-            if (section == "animation_2" && elemId == "openAnimation2") {return;}
-            if (section == "tags" && elemId == "openTags") {return;}
-            $(elem).remove();
-        });
-        $(document).find('div.page-wrapper').toggleClass('d-none', !exerciseLoaded);
+        if (!onlyChangeSection) {
+            $(document).find('div.header').remove();
+            $(document).find('div.sidebar').remove();
+            $(document).find('div.page-wrapper').addClass('m-0 p-0');
+            $(document).find('div.card-inside').attr('style', 'height: 95vh !important;');
+            $(document).find('div.left-col-card').attr('style', 'height: 90vh !important;');
+            $(document).find('div.center-col-card').attr('style', 'height: 90vh !important;');
+            $(document).find('div.right-col-card').attr('style', 'height: 90vh !important;');
+            $(document).find('div.exercise-card-header').find('div.btn-group-custom').addClass('justify-content-end');
+            $(document).find('div.exercise-card-header').find('button').each((ind, elem) => {
+                let elemId = $(elem).attr('id');
+                if (elemId == "editExs" || elemId == "saveExs") {return;}
+                if (section == "scheme_1" && elemId == "openDrawing1") {return;}
+                if (section == "scheme_2" && elemId == "openDrawing2") {return;}
+                if (section == "video_1" && elemId == "openVideo1") {return;}
+                if (section == "video_2" && elemId == "openVideo2") {return;}
+                if (section == "animation_1" && elemId == "openAnimation1") {return;}
+                if (section == "animation_2" && elemId == "openAnimation2") {return;}
+                if (section == "tags" && elemId == "openTags") {return;}
+                $(elem).css('display', 'none');
+            });
+            $('.exs-edit-block-in-card').parent().removeClass('d-none');
+            $('.exs-edit-block-in-card').removeClass('d-none');
+            $('.exs-edit-block-in-card').find('.btn-o-modal').removeClass('active');
+            $('.exs-edit-block-in-card').find(`.btn-o-modal[data-id="${section}"]`).addClass('active');
+            $(document).find('div.page-wrapper').toggleClass('d-none', !exerciseLoaded);
+        }
         if (exerciseLoaded) {
             if (section == "card") {
-                $(document).find('div.left-col-card').addClass('w-100');
-                $(document).find('div.center-col-card').addClass('d-none');
+                if (!onlyChangeSection) {
+                    $(document).find('#editExs').trigger('click');
+                    $(document).find('#saveExs').addClass('d-none');
+                }
+                $(document).find('#openDescription').trigger('click');
+                $(document).find('#openDescription').addClass('d-none');
+                $(document).find('div.left-col-card').addClass('w-50');
+                $(document).find('div.center-col-card').addClass('w-50');
                 $(document).find('div.right-col-card').addClass('d-none');
-                $(document).find('#editExs').trigger('click');
-                $(document).find('#saveExs').addClass('d-none');
-                let titleBlock = $(document).find('.exs_edit_field[name="title"]').parent().parent().clone();
-                let taskBlock = $(document).find('.exs_edit_field[name="field_task"]').parent().parent().clone();
-                $(titleBlock).find('td').attr('colspan', 2);
-                $(taskBlock).find('td').attr('colspan', 2);
-                $(document).find('.exs_edit_field[name="title"]').parent().parent().remove();
-                $(document).find('.exs_edit_field[name="field_task"]').parent().parent().remove();
-                $(document).find('div.left-col-card').find('tr[data-id="folder_name"]').find('.folder-text').text('');
-                $(document).find('div.left-col-card').find('table > tbody').prepend(taskBlock);
-                $(document).find('div.left-col-card').find('table > tbody').prepend(titleBlock);
-            }
-            if (section == "description") {
-                $(document).find('div.left-col-card').addClass('d-none');
-                $(document).find('div.center-col-card').addClass('w-100');
-                $(document).find('div.right-col-card').addClass('d-none');
-                $(document).find('.exs_edit_field[name="title"]').parent().parent().addClass('d-none');
-                $(document).find('.exs_edit_field[name="field_task"]').parent().parent().addClass('d-none');
-                $(document).find('#editExs').trigger('click');
-                $(document).find('#saveExs').addClass('d-none');
             }
             if (section == "scheme_1") {
-                $(document).find('#editExs').trigger('click');
-                $(document).find('#saveExs').addClass('d-none');
+                if (!onlyChangeSection) {
+                    $(document).find('#editExs').trigger('click');
+                    $(document).find('#saveExs').addClass('d-none');
+                }
                 $(document).find('#openDrawing1').trigger('click');
                 $(document).find('#openDrawing1').addClass('d-none');
             }
             if (section == "scheme_2") {
-                $(document).find('#editExs').trigger('click');
-                $(document).find('#saveExs').addClass('d-none');
+                if (!onlyChangeSection) {
+                    $(document).find('#editExs').trigger('click');
+                    $(document).find('#saveExs').addClass('d-none');
+                }
                 $(document).find('#openDrawing2').trigger('click');
                 $(document).find('#openDrawing2').addClass('d-none');
             }
             if (section == "video_1") {
-                $(document).find('#editExs').trigger('click');
-                $(document).find('#saveExs').addClass('d-none');
+                if (!onlyChangeSection) {
+                    $(document).find('#editExs').trigger('click');
+                    $(document).find('#saveExs').addClass('d-none');
+                }
                 $(document).find('#openVideo1').trigger('click');
                 $(document).find('#openVideo1').addClass('d-none');
             }
             if (section == "video_2") {
-                $(document).find('#editExs').trigger('click');
-                $(document).find('#saveExs').addClass('d-none');
+                if (!onlyChangeSection) {
+                    $(document).find('#editExs').trigger('click');
+                    $(document).find('#saveExs').addClass('d-none');
+                }
                 $(document).find('#openVideo2').trigger('click');
                 $(document).find('#openVideo2').addClass('d-none');
             }
             if (section == "animation_1") {
-                $(document).find('#editExs').trigger('click');
-                $(document).find('#saveExs').addClass('d-none');
+                if (!onlyChangeSection) {
+                    $(document).find('#editExs').trigger('click');
+                    $(document).find('#saveExs').addClass('d-none');
+                }
                 $(document).find('#openAnimation1').trigger('click');
                 $(document).find('#openAnimation1').addClass('d-none');
             }
             if (section == "animation_2") {
-                $(document).find('#editExs').trigger('click');
-                $(document).find('#saveExs').addClass('d-none');
+                if (!onlyChangeSection) {
+                    $(document).find('#editExs').trigger('click');
+                    $(document).find('#saveExs').addClass('d-none');
+                }
                 $(document).find('#openAnimation2').trigger('click');
                 $(document).find('#openAnimation2').addClass('d-none');
             }
             if (section == "tags") {
-                $(document).find('#editExs').trigger('click');
-                $(document).find('#saveExs').addClass('d-none');
+                if (!onlyChangeSection) {
+                    $(document).find('#editExs').trigger('click');
+                    $(document).find('#saveExs').addClass('d-none');
+                }
                 $(document).find('#openTags').trigger('click');
                 $(document).find('#openTags').addClass('d-none');
             }
@@ -1636,23 +1646,29 @@ $(function() {
     $('#exerciseCard').on('click', '#openDescription', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
         $(e.currentTarget).addClass('selected2');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
-        $('#exerciseCard').find('#cardBlock > #card_description').addClass('show active');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
-        $('#exerciseCard').find('#cardBlock > #card_description').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.c-block').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').removeClass('show active');
+        $('#exerciseCard').find('#cardBlock').find('#card_description').parent().removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_description').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_description').addClass('show active');
         $('#exerciseCard').find('button[data-type="add"]').removeClass('d-none');
 
+        $('.scheme-editor').parent().addClass('d-none');
         $('.scheme-editor').addClass('d-none');
         StopVideoForEdit();
+        $('.video-editor').parent().addClass('d-none');
         $('.video-editor').addClass('d-none');
     });
     $('#exerciseCard').on('click', '#openDrawing1', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
         $(e.currentTarget).addClass('selected2');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
-        $('#exerciseCard').find('#cardBlock > #card_drawing1').addClass('show active');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
-        $('#exerciseCard').find('#cardBlock > #card_drawing1').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.c-block').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').removeClass('show active');
+        $('#exerciseCard').find('#cardBlock').find('#card_drawing1').parent().removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_drawing1').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_drawing1').addClass('show active');
         $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
         if ($('#editExs').attr('data-active') == '1') {
@@ -1685,18 +1701,22 @@ $(function() {
                     }
                 }
             });
+            $('.scheme-editor').parent().removeClass('d-none');
             $('.scheme-editor').removeClass('d-none');
         }
         StopVideoForEdit();
+        $('.video-editor').parent().addClass('d-none');
         $('.video-editor').addClass('d-none');
     });
     $('#exerciseCard').on('click', '#openDrawing2', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
-        $(e.currentTarget).addClass('selected2');;
-        $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
-        $('#exerciseCard').find('#cardBlock > #card_drawing2').addClass('show active');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
-        $('#exerciseCard').find('#cardBlock > #card_drawing2').removeClass('d-none');
+        $(e.currentTarget).addClass('selected2');
+        $('#exerciseCard').find('#cardBlock').find('.c-block').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').removeClass('show active');
+        $('#exerciseCard').find('#cardBlock').find('#card_drawing2').parent().removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_drawing2').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_drawing2').addClass('show active');
         $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
         if ($('#editExs').attr('data-active') == '1') {
@@ -1729,23 +1749,29 @@ $(function() {
                     }
                 }
             });
+            $('.scheme-editor').parent().removeClass('d-none');
             $('.scheme-editor').removeClass('d-none');
         }
         StopVideoForEdit();
+        $('.video-editor').parent().addClass('d-none');
         $('.video-editor').addClass('d-none');
     });
     $('#exerciseCard').on('click', '#openVideo1', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
         $(e.currentTarget).addClass('selected2');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
-        $('#exerciseCard').find('#cardBlock > #card_video1').addClass('show active');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
-        $('#exerciseCard').find('#cardBlock > #card_video1').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.c-block').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').removeClass('show active');
+        $('#exerciseCard').find('#cardBlock').find('#card_video1').parent().removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_video1').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_video1').addClass('show active');
         $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
+        $('.scheme-editor').parent().addClass('d-none');
         $('.scheme-editor').addClass('d-none');
         StopVideoForEdit();
         CheckSelectedRowInVideoTable();
+        $('.video-editor').parent().removeClass('d-none');
         $('.video-editor').removeClass('d-none');
         try {
             video_table.columns.adjust().draw();
@@ -1757,15 +1783,19 @@ $(function() {
     $('#exerciseCard').on('click', '#openVideo2', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
         $(e.currentTarget).addClass('selected2');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
-        $('#exerciseCard').find('#cardBlock > #card_video2').addClass('show active');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
-        $('#exerciseCard').find('#cardBlock > #card_video2').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.c-block').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').removeClass('show active');
+        $('#exerciseCard').find('#cardBlock').find('#card_video2').parent().removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_video2').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_video2').addClass('show active');
         $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
+        $('.scheme-editor').parent().addClass('d-none');
         $('.scheme-editor').addClass('d-none');
         StopVideoForEdit();
         CheckSelectedRowInVideoTable();
+        $('.video-editor').parent().removeClass('d-none');
         $('.video-editor').removeClass('d-none');
         try {
             video_table.columns.adjust().draw();
@@ -1777,15 +1807,19 @@ $(function() {
     $('#exerciseCard').on('click', '#openAnimation1', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
         $(e.currentTarget).addClass('selected2');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
-        $('#exerciseCard').find('#cardBlock > #card_animation1').addClass('show active');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
-        $('#exerciseCard').find('#cardBlock > #card_animation1').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.c-block').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').removeClass('show active');
+        $('#exerciseCard').find('#cardBlock').find('#card_animation1').parent().removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_animation1').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_animation1').addClass('show active');
         $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
+        $('.scheme-editor').parent().addClass('d-none');
         $('.scheme-editor').addClass('d-none');
         StopVideoForEdit();
         CheckSelectedRowInVideoTable();
+        $('.video-editor').parent().removeClass('d-none');
         $('.video-editor').removeClass('d-none');
         try {
             video_table.columns.adjust().draw();
@@ -1797,15 +1831,19 @@ $(function() {
     $('#exerciseCard').on('click', '#openAnimation2', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
         $(e.currentTarget).addClass('selected2');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
-        $('#exerciseCard').find('#cardBlock > #card_animation2').addClass('show active');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
-        $('#exerciseCard').find('#cardBlock > #card_animation2').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.c-block').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').removeClass('show active');
+        $('#exerciseCard').find('#cardBlock').find('#card_animation2').parent().removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_animation2').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_animation2').addClass('show active');
         $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
+        $('.scheme-editor').parent().addClass('d-none');
         $('.scheme-editor').addClass('d-none');
         StopVideoForEdit();
         CheckSelectedRowInVideoTable();
+        $('.video-editor').parent().removeClass('d-none');
         $('.video-editor').removeClass('d-none');
         try {
             video_table.columns.adjust().draw();
@@ -1817,13 +1855,17 @@ $(function() {
     $('#exerciseCard').on('click', '#openTags', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
         $(e.currentTarget).addClass('selected2');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
-        $('#exerciseCard').find('#cardBlock > #card_tags').addClass('show active');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
-        $('#exerciseCard').find('#cardBlock > #card_tags').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.c-block').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').removeClass('show active');
+        $('#exerciseCard').find('#cardBlock').find('#card_tags').parent().removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_tags').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_tags').addClass('show active');
 
+        $('.scheme-editor').parent().addClass('d-none');
         $('.scheme-editor').addClass('d-none');
         StopVideoForEdit();
+        $('.video-editor').parent().addClass('d-none');
         $('.video-editor').addClass('d-none');
     });
 
@@ -2274,6 +2316,12 @@ $(function() {
         $('#exerciseCard').find(`tr.description-panel[data-id="${cId}"]`).removeClass('d-none');
     });
 
+    $('.exs-edit-block-in-card').on('click', '.btn-o-modal', (e) => {
+        let cId = $(e.currentTarget).attr('data-id');
+        $('.exs-edit-block-in-card').find('.btn-o-modal').removeClass('active');
+        $(e.currentTarget).addClass('active');
+        AdaptPageToSection(cId, true, true);
+    });
+
 
 });
-

@@ -162,20 +162,16 @@ function ToggleUpFilter(id, state) {
             }
             break;
         case "clear_filter":
-            if (
-                ('_search' in window.exercisesFilter && window.exercisesFilter['_search'] != "") || 
-                'filter_players' in window.exercisesFilter
-            ) {
-                $('.exs-search').val('');
-                $('.exs-players-filter').val('');
-                delete window.exercisesFilter['_search'];
-                delete window.exercisesFilter['filter_players'];
-                for (ind in window.count_exs_calls) {
-                    window.count_exs_calls[ind]['call'].abort();
-                }
-                LoadFolderExercises();
-                CountExsInFolder();
-            }
+            $('.up-block-content').find('.up-tabs-elem').attr('data-state', 0);
+            $('.up-block-content').find('.up-tabs-elem').removeClass('selected3');
+            ToggleIconsInExs();
+            ToggleMarkersInExs();
+            $('.exs-search').val('');
+            $('.exs-age-filter').val('');
+            $('.exs-players-filter').val('');
+            window.exercisesFilter = {};
+            LoadFolderExercises();
+            CountExsInFolder();
             $('.up-tabs-elem[data-id="clear_filter"]').removeClass('selected3');
             $('.up-tabs-elem[data-id="clear_filter"]').attr('data-state', 0);
             break;
@@ -720,9 +716,12 @@ $(function() {
         LoadFolderExercises();
         CountExsInFolder();
     });
-    $('.exs-age-filter').on('change', (e) => {
-        let value = $(e.currentTarget).val();
-        window.exercisesFilter['filter_age'] = value;
+    $('.exs-age-filter').on('keyup', (e) => {
+        let val = $(e.currentTarget).val();
+        if ((window.exercisesFilter['filter_age'] && window.exercisesFilter['filter_age'] == val) || (!window.exercisesFilter['filter_age'] && val == "")) {
+            return;
+        }
+        window.exercisesFilter['filter_age'] = val;
         for (ind in window.count_exs_calls) {
             window.count_exs_calls[ind]['call'].abort();
         }
@@ -750,29 +749,6 @@ $(function() {
         $('.tags-filter-block').find(`.list-group[data-id="${cId}"]:not(.t-hidden)`).find('.side-filter-elem').toggleClass('d-none');
     });
 
-
-    // Reset side filter
-    $('.filter-all-reset').on('click', (e) => {
-        if (
-        $($('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').hasClass('active')).length > 0 || 
-        $($('.side-filter-block').find('.list-group[data-id="video_sources"]').find('.side-filter-elem').hasClass('active')).length > 0 || 
-        $($('.tags-filter-block').find('.side-filter-elem[data-type="tags"]').hasClass('active')).length > 0 || 
-        $('.exs-search').val() != "") {
-            $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').attr('data-state', '0');
-            $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').toggleClass('active', false);
-            $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').find('.row > div:nth-child(2)').html('');
-            $('.side-filter-block').find('.list-group[data-id="video_sources"]').find('.side-filter-elem').attr('data-state', '0');
-            $('.side-filter-block').find('.list-group[data-id="video_sources"]').find('.side-filter-elem').toggleClass('active', false);
-            $('.side-filter-block').find('.list-group[data-id="video_sources"]').find('.side-filter-elem').find('.row > div:nth-child(2)').html('');
-            $('.tags-filter-block').find('.side-filter-elem[data-type="tags"]').attr('data-state', '0');
-            $('.tags-filter-block').find('.side-filter-elem[data-type="tags"]').toggleClass('active', false);
-            $('.tags-filter-block').find('.side-filter-elem[data-type="tags"]').find('.row > div:nth-child(2)').html('');
-            $('.exs-search').val('');
-            window.exercisesFilter = {};
-            LoadFolderExercises();
-            CountExsInFolder();
-        }
-    });
 
     // Toggle columns size
     $('#columnsSizeInCard').on('click', (e) => {
@@ -978,11 +954,7 @@ $(function() {
         let cLink = `/exercises/exercise?id=new&type=${folderType}&section=card`;
         // window.location.href = cLink;
         $('#exerciseCardModalForEdit').find('iframe').addClass('d-none');
-        setTimeout(() => {
-            $('#exerciseCardModalForEdit').find('iframe').removeClass('d-none');
-        }, 1000);
         $('#exerciseCardModalForEdit').find('iframe').attr('src', cLink);
-        $('#exerciseCardModalForEdit').find('.only-edit').addClass('d-none');
         $('#exerciseCardModalForEdit').modal('show');
     });
 
@@ -1956,12 +1928,12 @@ $(function() {
 
     // Open editable panel for exercise
     $('#toggleExsEditPanel').on('click', (e) => {
-        $('.exs-edit-panel').toggleClass('collapsed');
+        $('.exs-edit-block').toggleClass('d-none');
     });
-    $('.exs-edit-panel').on('click', 'button[data-dismiss="panel"]', (e) => {
-        $('.exs-edit-panel').addClass('collapsed');
+    $('.exs-edit-block').on('click', 'button[data-dismiss="panel"]', (e) => {
+        $('.exs-edit-block').addClass('d-none');
     });
-    $('.exs-edit-panel').on('click', '.btn-o-modal', (e) => {
+    $('.exs-edit-block').on('click', '.btn-o-modal', (e) => {
         let cId = $(e.currentTarget).attr('data-id');
         let activeExs = $('.exs-list-group').find('.list-group-item.active');
         let activeExsId = $(activeExs).attr('data-id');
@@ -1971,11 +1943,7 @@ $(function() {
             let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
             let linkForModal = `/exercises/exercise?id=${activeExsId}&nfb=${fromNfbFolder ? 1 : 0}&type=${folderType}&section=${cId}`;
             $('#exerciseCardModalForEdit').find('iframe').addClass('d-none');
-            setTimeout(() => {
-                $('#exerciseCardModalForEdit').find('iframe').removeClass('d-none');
-            }, 1000);
             $('#exerciseCardModalForEdit').find('iframe').attr('src', linkForModal);
-            $('#exerciseCardModalForEdit').find('.only-edit').removeClass('d-none');
             $('#exerciseCardModalForEdit').modal('show');
             $(e.currentTarget).addClass('active');
         } else {
@@ -1983,10 +1951,18 @@ $(function() {
         }
     });
     $('#exerciseCardModalForEdit').on('show.bs.modal', (e) => {
+        window.addEventListener('message', (e) => {
+            switch(e.data) {
+                case "exercise_loaded":
+                    $('#exerciseCardModalForEdit').find('iframe').removeClass('d-none');
+                    break;
+            }
+            return;
+        });
         $('#sidebar').addClass('z-index-reduce');
     });
     $('#exerciseCardModalForEdit').on('hidden.bs.modal', (e) => {
-        $('.exs-edit-panel').find('.btn-o-modal').removeClass('active');
+        $('.exs-edit-block').find('.btn-o-modal').removeClass('active');
         $('#sidebar').removeClass('z-index-reduce');
     });
     $('#exerciseCardModalForEdit').on('click', '.btn-save', (e) => {
@@ -2002,52 +1978,13 @@ $(function() {
                     $('#exerciseCardModalForEdit').modal('hide');
                     break;
                 case "exercise_edited":
+                    $('#exerciseCardModalForEdit').find('iframe').addClass('d-none');
                     break;
             }
             return;
         });
     });
-    $('#exerciseCardModalForEdit').on('click', '.btn-prev, .btn-next', (e) => {
-        let currentList = '.exs-list-group';
-        let activeElem = $(currentList).find('.list-group-item.exs-elem.active');
-        let loadExs = false;
-        if ($(e.currentTarget).hasClass('btn-prev')) {
-            if (activeElem.length > 0) {
-                $(activeElem).removeClass('active');
-                if ($(activeElem).prev().length > 0) {
-                    $(activeElem).prev().addClass('active');
-                } else {
-                    $(currentList).find('.list-group-item.exs-elem').last().addClass('active');
-                }
-            } else {
-                $(currentList).find('.list-group-item.exs-elem').last().addClass('active');
-            }
-            loadExs = true;
-        }
-        if ($(e.currentTarget).hasClass('btn-next')) {
-            if (activeElem.length > 0) {
-                $(activeElem).removeClass('active');
-                if ($(activeElem).next().length > 0) {
-                    $(activeElem).next().addClass('active');
-                } else {
-                    $(currentList).find('.list-group-item.exs-elem').first().addClass('active');
-                }
-            } else {
-                $(currentList).find('.list-group-item.exs-elem').first().addClass('active');
-            }
-            loadExs = true;
-        }
-        if (loadExs && $(currentList).find('.list-group-item.exs-elem.active').length > 0) {
-            LoadExerciseOneHandler();
-            let sectionId = $('.exs-edit-panel').find('.btn-o-modal.active').attr('data-id');
-            let activeExsId = $('.exs-list-group').find('.list-group-item.active').attr('data-id');
-            let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
-            let folderType = $('.folders_div:not(.d-none)').attr('data-id');
-            let linkForModal = `/exercises/exercise?id=${activeExsId}&nfb=${fromNfbFolder ? 1 : 0}&type=${folderType}&section=${sectionId}`;
-            $('#exerciseCardModalForEdit').find('iframe').attr('src', linkForModal);
-        }
-    });
-    $('.exs-edit-panel').on('click', '.btn-edit-e', (e) => {
+    $('.exs-edit-block').on('click', '.btn-edit-e', (e) => {
         let cId = $(e.currentTarget).attr('data-id');
         let activeExs = $('.exs-list-group').find('.list-group-item.active');
         if ($(activeExs).length > 0) {
@@ -2088,7 +2025,7 @@ $(function() {
         }
     });
     $('#exerciseCopyModal').on('hidden.bs.modal', (e) => {
-        $('.exs-edit-panel').find('.btn-edit-e').removeClass('active');
+        $('.exs-edit-block').find('.btn-edit-e').removeClass('active');
     });
 
     // Toggle left menu

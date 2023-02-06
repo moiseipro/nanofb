@@ -693,28 +693,6 @@ input[type="number"]:focus {
     background:transparent url(/static/exercises/img/field.svg) center center no-repeat;
 }
 
-.exs-edit-panel {
-    height: 90%;
-    overflow:auto;
-    position: absolute;
-    left: 0;
-    top: 10%;
-    z-index: 10;
-    background:white;
-    width: 20%;
-    box-shadow: 2px 0 4px rgba(0,0,0,0.5);
-    transition: width .35s;
-}
-.exs-edit-panel.collapsed {
-    width: 0;
-}
-.exs-edit-panel button[data-dismiss="panel"] {
-    float: right;
-}
-.exs-edit-panel.collapsed button[data-dismiss="panel"] {
-    display: none;
-}
-
 
 .delete-exs-radio > .form-check:hover {
     background-color: #cdcdcd;
@@ -722,7 +700,7 @@ input[type="number"]:focus {
 
 
 .graphics-content {
-    height: 60vh;
+    width: 100%;
     padding-left: 4rem !important;
     padding-right: 4rem !important;
 }

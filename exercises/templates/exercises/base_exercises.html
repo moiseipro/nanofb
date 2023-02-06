@@ -14,83 +14,6 @@
             <div class="col-12">
                 <div class="card mb-1">
                     <div class="card-body p-1">
-                        <div class="exs-edit-panel collapsed">
-                            <div class="row mx-0">
-                                <div class="col-12 px-4 mt-2">
-                                    <button type="button" class="btn btn-sm btn-outline-danger btn-block" data-dismiss="panel" title="Свернуть">
-                                        Выйти
-                                    </button>
-                                </div>
-                                <div class="col-12 px-0 mt-4">
-                                    <ul class="list-group">
-                                        <li class="list-group-item py-1">
-                                            <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="card">
-                                                Карточка
-                                            </button>
-                                        </li>
-                                        <li class="list-group-item py-1">
-                                            <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="description">
-                                                Описание
-                                            </button>
-                                        </li>
-                                        <li class="list-group-item py-1">
-                                            <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="video_1">
-                                                Видео 1
-                                            </button>
-                                        </li>
-                                        <li class="list-group-item py-1">
-                                            <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="video_2">
-                                                Видео 2
-                                            </button>
-                                        </li>
-                                        <li class="list-group-item py-1">
-                                            <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="animation_1">
-                                                Анимация 1
-                                            </button>
-                                        </li>
-                                        <li class="list-group-item py-1">
-                                            <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="animation_2">
-                                                Анимация 2
-                                            </button>
-                                        </li>
-                                        <li class="list-group-item py-1">
-                                            <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="scheme_1">
-                                                Рисунок 1
-                                            </button>
-                                        </li>
-                                        <li class="list-group-item py-1">
-                                            <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="scheme_2">
-                                                Рисунок 2
-                                            </button>
-                                        </li>
-                                        <li class="list-group-item py-1">
-                                            <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="tags" {% if not user.is_superuser %}disabled=""{% endif %}>
-                                                Ключевые характеристики
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="col-12 px-0 mt-4">
-                                    <ul class="list-group">
-                                        <li class="list-group-item py-1">
-                                            <button type="button" class="btn btn-sm btn-outline-warning btn-block btn-edit-e" data-id="copy">
-                                                Копировать
-                                            </button>
-                                        </li>
-                                        <li class="list-group-item py-1">
-                                            <button type="button" class="btn btn-sm btn-outline-warning btn-block btn-edit-e" data-id="move">
-                                                Переместить
-                                            </button>
-                                        </li>
-                                        <li class="list-group-item py-1">
-                                            <button type="button" class="btn btn-sm btn-outline-danger btn-block btn-edit-e" data-id="delete">
-                                                Удалить
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
                         <div class="card-inside">
                             <div class="up-block-content d-flex justify-content-center">
                                 <div class="btns-tabs-first w-100 px-3">
@@ -714,7 +637,7 @@
             {% if user.is_superuser %}
             <input type="hidden" name="nfb" value="1" />
             {% endif %}
-            <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-dialog modal-lg" role="document" style="max-width: 60vw;">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Выберите папку, в которую необходимо поместить упражнение</h5>
@@ -1106,16 +1029,10 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-12 d-flex justify-content-end">
-                                <button class="btn btn-sm btn-secondary mx-1 btn-prev only-edit" type="button" title="Предыдущее">
-                                    <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
-                                </button>
-                                <button class="btn btn-sm btn-secondary mx-1 btn-next only-edit" type="button" title="Следующее">
-                                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-                                </button>
-                                <button class="btn btn-sm btn-success mx-1 btn-save" type="button">
+                                <button class="btn btn-success mx-1 btn-save" type="button">
                                     Сохранить
                                 </button>
-                                <button class="btn btn-sm btn-danger mx-1" type="button" data-dismiss="modal" aria-label="Close">
+                                <button class="btn btn-danger mx-1" type="button" data-dismiss="modal" aria-label="Close">
                                     Выйти
                                 </button>
                             </div>

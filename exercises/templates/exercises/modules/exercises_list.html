@@ -1,4 +1,76 @@
 <div class="exercises-list split">
+    <div class="px-1 mt-2 exs-edit-block d-none" id="" style="width: 15%;">
+        <div class="row mx-0">
+            <div class="col-12 px-4 mt-2">
+                <button type="button" class="btn btn-sm btn-outline-danger btn-block" data-dismiss="panel" title="Свернуть">
+                    Выйти
+                </button>
+            </div>
+            <div class="col-12 px-0 mt-4">
+                <ul class="list-group">
+                    <li class="list-group-item py-1">
+                        <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="card">
+                            Карточка
+                        </button>
+                    </li>
+                    <li class="list-group-item py-1">
+                        <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="video_1">
+                            Видео 1
+                        </button>
+                    </li>
+                    <li class="list-group-item py-1">
+                        <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="video_2">
+                            Видео 2
+                        </button>
+                    </li>
+                    <li class="list-group-item py-1">
+                        <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="animation_1">
+                            Анимация 1
+                        </button>
+                    </li>
+                    <li class="list-group-item py-1">
+                        <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="animation_2">
+                            Анимация 2
+                        </button>
+                    </li>
+                    <li class="list-group-item py-1">
+                        <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="scheme_1">
+                            Рисунок 1
+                        </button>
+                    </li>
+                    <li class="list-group-item py-1">
+                        <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="scheme_2">
+                            Рисунок 2
+                        </button>
+                    </li>
+                    <li class="list-group-item py-1">
+                        <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="tags" {% if not user.is_superuser %}disabled=""{% endif %}>
+                            Характеристики
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-12 px-0 mt-4">
+                <ul class="list-group">
+                    <li class="list-group-item py-1">
+                        <button type="button" class="btn btn-sm btn-outline-warning btn-block btn-edit-e" data-id="copy">
+                            Копировать
+                        </button>
+                    </li>
+                    <li class="list-group-item py-1">
+                        <button type="button" class="btn btn-sm btn-outline-warning btn-block btn-edit-e" data-id="move">
+                            Переместить
+                        </button>
+                    </li>
+                    <li class="list-group-item py-1">
+                        <button type="button" class="btn btn-sm btn-outline-danger btn-block btn-edit-e" data-id="delete">
+                            Удалить
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
     <div class="px-0 folders-block" id="splitCol_0">
         {% include 'exercises/folders_list.html' %}
     </div>
