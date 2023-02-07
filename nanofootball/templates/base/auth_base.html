@@ -2,6 +2,9 @@
 {% load static %}
 
 {% block main %}
+    <div class="page-loader-wrapper" style="display: none;">
+        <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+    </div>
     <div class="main-wrapper login-body">
         <div class="login-wrapper">
             <div class="container">
@@ -9,7 +12,7 @@
                     <div class="login-left">
                         <img class="img-fluid" src="{% static 'preadmin/img/logo.png' %}" alt="Logo">
                     </div>
-                    <div class="login-right">
+                    <div class="login-right px-2">
                         <div class="login-right-wrap">
                             {% block content %}
                             {% endblock %}

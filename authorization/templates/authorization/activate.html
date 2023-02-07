@@ -1,0 +1,26 @@
+{% extends '../base/auth_base.html' %}
+{% load static %}
+{% load i18n %}
+
+
+{% block title %}{% trans 'Activate' %}{% endblock %}
+
+{% block custom_style %}
+    <link href="{% static 'authorization/style.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <main class="form-signin">
+        <form id="activation-form" method="POST" action="{% url 'authorization:api-activation' %}">
+            {% csrf_token %}
+            <input type="hidden" name="uid" value="{{ uid }}">
+            <input type="hidden" name="token" value="{{ token }}">
+            <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">{% trans 'Activate' %}</button>
+        </form>
+    </main>
+{% endblock %}
+
+{% block custom_scripts %}
+    <script src="{% static 'authorization/ajax_authorization.js' %}"></script>
+    <script src="{% static 'authorization/activation.js' %}"></script>
+{% endblock %}

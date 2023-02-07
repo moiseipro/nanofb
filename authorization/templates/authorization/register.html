@@ -1,5 +1,7 @@
 {% extends '../base/auth_base.html' %}
 {% load static %}
+{% load i18n %}
+
 {% block title %}Register{% endblock %}
 
 {% block custom_style %}
@@ -18,17 +20,17 @@
 
     {% load crispy_forms_tags %}
     <main class="form-signin">
-        <form method="POST">
-            {% csrf_token %}
-            {{ register_form2|crispy }}
-            {{ register_form|crispy }}
-            <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Sign up</button>
-        </form>
-        <p class="text-center">If you already have an account, <a href="{% url 'authorization:login' %}">login</a> instead.</p>
+{#        <form method="POST" action="{% url 'authorization:register_api' %}">#}
+            {% crispy register_form2 %}
+            {% crispy register_form %}
+            <button id="registration-button" class="w-100 btn btn-lg btn-primary mt-3" type="button">{% trans "Sign up"%}</button>
+{#        </form>#}
+        <p class="text-center">{% trans "If you already have an account, "%}<a href="{% url 'authorization:login' %}">{% trans "login"%}</a> {% trans "instead"%}.</p>
     </main>
 {% endblock %}
 
 {% block custom_scripts %}
+    <script src="{% static 'authorization/ajax_authorization.js' %}"></script>
     <script src="{% static 'authorization/source.js' %}"></script>
 {% endblock %}
 

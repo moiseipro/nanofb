@@ -26,6 +26,9 @@ handler404 = 'nanofootball.views.view_404'
 
 urlpatterns = [
     path('api-auth/', include(('rest_framework.urls', 'rest_framework'), namespace='rest_framework')),
+    #path('auth/', include('djoser.urls')),
+    #path('auth/', include('djoser.urls.jwt')),
+    #path('auth/', include('djoser.urls.authtoken')),
 
     path('', include(('nanofootball.urls', 'nanofootball'), namespace='nanofootball')),
     path('admin/', admin.site.urls),

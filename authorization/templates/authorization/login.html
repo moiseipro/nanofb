@@ -1,6 +1,8 @@
 {% extends '../base/auth_base.html' %}
 {% load static %}
-{% block title %}Login{% endblock %}
+{% load i18n %}
+
+{% block title %}{% trans 'Login' %}{% endblock %}
 
 {% block custom_style %}
     <link href="{% static 'authorization/style.css' %}" rel="stylesheet">
@@ -21,9 +23,9 @@
         <form method="POST">
             {% csrf_token %}
             {{ login_form|crispy }}
-            <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Login</button>
+            <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">{% trans 'Login' %}</button>
         </form>
-        <p class="text-center">Don't have an account? <a href="{% url 'authorization:register' %}">Create an account</a>.</p>
+        <p class="text-center">{% trans 'Don`t have an account?' %} <a href="{% url 'authorization:register' %}">{% trans 'Create an account' %}</a>.</p>
     </main>
 {% endblock %}
 
