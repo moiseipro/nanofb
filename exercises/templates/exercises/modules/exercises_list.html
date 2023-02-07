@@ -1,4 +1,76 @@
 <div class="exercises-list split">
+    <div class="px-1 mt-2 exs-edit-block d-none" id="" style="width: 15%;">
+        <div class="row mx-0">
+            <div class="col-12 px-4 mt-2">
+                <button type="button" class="btn btn-sm btn-outline-danger btn-block" data-dismiss="panel" title="Свернуть">
+                    Выйти
+                </button>
+            </div>
+            <div class="col-12 px-0 mt-4">
+                <ul class="list-group">
+                    <li class="list-group-item py-1">
+                        <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="card">
+                            Карточка
+                        </button>
+                    </li>
+                    <li class="list-group-item py-1">
+                        <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="video_1">
+                            Видео 1
+                        </button>
+                    </li>
+                    <li class="list-group-item py-1">
+                        <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="video_2">
+                            Видео 2
+                        </button>
+                    </li>
+                    <li class="list-group-item py-1">
+                        <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="animation_1">
+                            Анимация 1
+                        </button>
+                    </li>
+                    <li class="list-group-item py-1">
+                        <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="animation_2">
+                            Анимация 2
+                        </button>
+                    </li>
+                    <li class="list-group-item py-1">
+                        <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="scheme_1">
+                            Рисунок 1
+                        </button>
+                    </li>
+                    <li class="list-group-item py-1">
+                        <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="scheme_2">
+                            Рисунок 2
+                        </button>
+                    </li>
+                    <li class="list-group-item py-1">
+                        <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="tags" {% if not user.is_superuser %}disabled=""{% endif %}>
+                            Характеристики
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-12 px-0 mt-4">
+                <ul class="list-group">
+                    <li class="list-group-item py-1">
+                        <button type="button" class="btn btn-sm btn-outline-warning btn-block btn-edit-e" data-id="copy">
+                            Копировать
+                        </button>
+                    </li>
+                    <li class="list-group-item py-1">
+                        <button type="button" class="btn btn-sm btn-outline-warning btn-block btn-edit-e" data-id="move">
+                            Переместить
+                        </button>
+                    </li>
+                    <li class="list-group-item py-1">
+                        <button type="button" class="btn btn-sm btn-outline-danger btn-block btn-edit-e" data-id="delete">
+                            Удалить
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
     <div class="px-0 folders-block" id="splitCol_0">
         {% include 'exercises/folders_list.html' %}
     </div>
@@ -10,7 +82,8 @@
                         <input type="search" class="form-control form-control-sm exs-search text-center" placeholder="Поиск" aria-controls="false">
                     </div>
                     <div class="col-4 px-0">
-                        <input type="number" class="form-control form-control-sm exs-players-filter text-center" placeholder="Количество игроков" aria-controls="false">
+                        <!-- <input type="number" class="form-control form-control-sm exs-players-filter text-center" placeholder="Количество игроков" aria-controls="false"> -->
+                        <input type="number" class="form-control form-control-sm exs-age-filter text-center" placeholder="Возраст" aria-controls="false">
                     </div>
                 </div>
             </div>
@@ -36,12 +109,12 @@
                         <li data-target="#carouselSchema" data-slide-to="1"></li>
                     </ol>
                     <div class="carousel-inner">
-                        <div class="carousel-item active">
+                        <div class="carousel-item active" title="Рисунок 1" data-type="scheme_1">
                             <svg id="" class="d-block bg-success mx-auto" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" "="">
                                 <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="/static/exercises/img/field.svg"></image>
                             </svg>
                         </div>
-                        <div class="carousel-item">
+                        <div class="carousel-item" title="Рисунок 2" data-type="scheme_2">
                             <svg id="" class="d-block bg-success mx-auto" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" "="">
                                 <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="/static/exercises/img/field.svg"></image>
                             </svg>
@@ -64,11 +137,11 @@
                         <li data-target="#carouselVideo" data-slide-to="1"></li>
                     </ol>
                     <div class="carousel-inner">
-                        <div class="carousel-item active">
+                        <div class="carousel-item active" title="Видео 1" data-type="video_1">
                             <video id="video-player-card-1" class="video-js resize-block not-active">
                             </video>
                         </div>
-                        <div class="carousel-item">
+                        <div class="carousel-item" title="Видео 2" data-type="video_2">
                             <video id="video-player-card-2" class="video-js resize-block not-active">
                             </video>
                         </div>
@@ -90,11 +163,11 @@
                         <li data-target="#carouselAnim" data-slide-to="1"></li>
                     </ol>
                     <div class="carousel-inner">
-                        <div class="carousel-item active">
+                        <div class="carousel-item active" title="Анимация 1" data-type="animation_1">
                             <video id="video-player-card-3" class="video-js resize-block not-active">
                             </video>
                         </div>
-                        <div class="carousel-item">
+                        <div class="carousel-item" title="Анимация 2" data-type="animation_2">
                             <video id="video-player-card-4" class="video-js resize-block not-active">
                             </video>
                         </div>

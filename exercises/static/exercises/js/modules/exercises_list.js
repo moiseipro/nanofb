@@ -3,7 +3,7 @@ function RenderSplitCols() {
     let sizesArr = window.dataForSplit;
     window.split = Split(['#splitCol_0', '#splitCol_1', '#splitCol_2'], {
         sizes: sizesArr,
-        gutterSize: 16,
+        gutterSize: 12,
         onDrag: () => {
             let lastColWidth = 0;
             try {
@@ -152,6 +152,11 @@ function RenderFolderExercises(id, tExs) {
                     </button>
                     <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="players" style="--w-x:24px; min-width: 54px; --h-x:24px;" disabled="">
                         <div class="row w-100">
+                            ${exElem.field_players_a == exElem.field_players_b ? `
+                            <div class="col-12 px-0 text-center">
+                                ${exElem.field_players_a ? exElem.field_players_a : ''}
+                            </div>
+                            ` : `
                             <div class="col-5 px-0 text-center">
                                 ${exElem.field_players_a ? exElem.field_players_a : ''}
                             </div>
@@ -159,6 +164,7 @@ function RenderFolderExercises(id, tExs) {
                             <div class="col-5 px-0 text-center">
                                 ${exElem.field_players_b ? exElem.field_players_b : ''}
                             </div>
+                            `}
                         </div>
                     </button>
                     ${exElem.field_goal && exElem.field_goal != "" ? `
@@ -256,6 +262,9 @@ function LoadExerciseOneHandler() {
     let folderType = $('.folders_div:not(.d-none)').attr('data-id');
     LoadExerciseOne(cId, fromNFB, folderType);
     CountExsInFolder(true, true);
+    try {
+        LoadContentInCardModalForEdit(cId, folderType);
+    } catch(e) {}
 }
 
 function RenderExerciseOne(data) {
@@ -409,6 +418,7 @@ function MoveVideoFromExsToExs(toExsId) {
         success: function (res) {
             if (res.success) {
                 swal("Готово", "Видео / анимация успешно перенесены.", "success");
+                LoadExerciseOneHandler();
             } else {
                 swal("Ошибка", "Не удалось переместить видео / анимацию.", "error");
                 console.log(res);
@@ -441,6 +451,7 @@ function CopySchemeFromExsToExs(toExsId, toFolderType) {
         success: function (res) {
             if (res.success) {
                 swal("Готово", "Схема успешно скопирована.", "success");
+                LoadExerciseOneHandler();
             } else {
                 swal("Ошибка", "Не удалось скопировать схему.", "error");
                 console.log(res);
@@ -541,7 +552,7 @@ $(function() {
     // Open exercise using keys
     $(document).keypress((e) => {
         if (e.which == 13 && window.canChangeExs) { // enter
-            $('#showOneExs').trigger('click');
+            $('.visual-block').find('.carousel-item:visible').first().trigger('click');
         }
     });
 
@@ -562,26 +573,45 @@ $(function() {
             let folderType = $('.folders_div:not(.d-none)').attr('data-id');
             let exsId = $(e.currentTarget).attr('data-id');
             if (window.moveVideoFromExsToExs['f_type'] && window.moveVideoFromExsToExs['f_type'] == "nfb_folders" && folderType == "nfb_folders") {
-                MoveVideoFromExsToExs(exsId);
+                swal({
+                    title: "Вы точно хотите переместить контент в это упражнение?",
+                    text: ``,
+                    icon: "warning",
+                    buttons: ["Отмена", "Подтвердить"],
+                    dangerMode: true,
+                })
+                .then((willMoving) => {
+                    if (willMoving) {
+                        MoveVideoFromExsToExs(exsId);
+                        window.moveVideoFromExsToExs = null;
+                        $('.exercises-block').find('.copy-modal-status').removeClass('d-flex');
+                        $('.exercises-block').find('.copy-modal-status').addClass('d-none');
+                    }
+                });
             } else {
                 swal("Внимание", "Оба упражнения должны быть из папок N.F.", "info");
+                window.moveVideoFromExsToExs = null;
+                $('.exercises-block').find('.copy-modal-status').removeClass('d-flex');
+                $('.exercises-block').find('.copy-modal-status').addClass('d-none');
             }
-            window.moveVideoFromExsToExs = null;
-            $('.exercises-block').find('.copy-modal-status').removeClass('d-flex');
-            $('.exercises-block').find('.copy-modal-status').addClass('d-none');
-            setTimeout(() => {
-                $(e.currentTarget).removeClass('active');
-            }, 1000);
         } else if (window.copySchemeFromExsToExs) {
             let folderType = $('.folders_div:not(.d-none)').attr('data-id');
             let exsId = $(e.currentTarget).attr('data-id');
-            CopySchemeFromExsToExs(exsId, folderType);
-            window.copySchemeFromExsToExs = null;
-            $('.exercises-block').find('.copy-modal-status').removeClass('d-flex');
-            $('.exercises-block').find('.copy-modal-status').addClass('d-none');
-            setTimeout(() => {
-                $(e.currentTarget).removeClass('active');
-            }, 1000);
+            swal({
+                title: "Вы точно хотите скопировать контент в это упражнение?",
+                text: ``,
+                icon: "warning",
+                buttons: ["Отмена", "Подтвердить"],
+                dangerMode: true,
+            })
+            .then((willCopying) => {
+                if (willCopying) {
+                    CopySchemeFromExsToExs(exsId, folderType);
+                    window.copySchemeFromExsToExs = null;
+                    $('.exercises-block').find('.copy-modal-status').removeClass('d-flex');
+                    $('.exercises-block').find('.copy-modal-status').addClass('d-none');
+                }
+            });
         } else {
             LoadExerciseOneHandler();
         }

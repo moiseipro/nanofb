@@ -117,6 +117,7 @@ function ToggleUpperButtonsPanel(isActive) {
 
 function LoadExerciseOne(exsID = null, fromNFB = 0, folderType = "") {
     let searchParams = new URLSearchParams(window.location.search);
+    let chosenSection = searchParams.get('section');
     if (!exsID) {
         try {
             exsID = parseInt(searchParams.get('id'));
@@ -130,6 +131,10 @@ function LoadExerciseOne(exsID = null, fromNFB = 0, folderType = "") {
     if (!folderType || folderType == "") {
         folderType = searchParams.get('type');
     }
+    AdaptPageToSection(chosenSection, searchParams.get('id') == "new", false);
+    if (searchParams.get('id') == "new") {
+        window.parent.postMessage("exercise_loaded", '*');
+    }
     if (!exsID) {return;}
     let data = {'get_exs_one': 1, 'exs': exsID, 'get_nfb': fromNFB, 'f_type': folderType};
     $('.page-loader-wrapper').fadeIn();
@@ -142,6 +147,7 @@ function LoadExerciseOne(exsID = null, fromNFB = 0, folderType = "") {
         success: function (res) {
             if (res.success) {
                 RenderExerciseOne(res.data);
+                AdaptPageToSection(chosenSection, true, false);
             }
         },
         error: function (res) {
@@ -150,6 +156,7 @@ function LoadExerciseOne(exsID = null, fromNFB = 0, folderType = "") {
         complete: function (res) {
             $('.page-loader-wrapper').fadeOut();
             window.canChangeExs = true;
+            window.parent.postMessage("exercise_loaded", '*');
         }
     });
     try {
@@ -234,6 +241,10 @@ function RenderExerciseOne(data) {
         $(exsCard).find('.exs_edit_field[name="field_players_b"]').val(data.field_players_b);
         $(exsCard).find('.exs_edit_field[name="field_keyword_a"]').val(data.field_keyword_a);
         $(exsCard).find('.exs_edit_field[name="field_keyword_b"]').val(data.field_keyword_b);
+        $(exsCard).find('.exs_edit_field[name="field_keyword_c"]').val(data.field_keyword_c);
+        $(exsCard).find('.exs_edit_field[name="field_keyword_d"]').val(data.field_keyword_d);
+        $(exsCard).find('.exs_edit_field[name="field_exs_category_a"]').val(data.field_exs_category_a);
+        $(exsCard).find('.exs_edit_field[name="field_exs_category_b"]').val(data.field_exs_category_b);
 
         try {
             if (Array.isArray(data.video_links) && data.video_links.length == 4) {
@@ -289,7 +300,7 @@ function RenderExerciseOne(data) {
         if (document.descriptionEditorView) {
             document.descriptionEditorView.setData(data.description);
         }
-        
+
         $('#carouselSchema').find('.carousel-item.new-scheme').remove();
         $('#carouselSchema').find('.carousel-indicators > li.new-scheme').remove();
         $('#carouselSchema').find('.carousel-item').first().html(data.scheme_data[0]);
@@ -298,7 +309,7 @@ function RenderExerciseOne(data) {
         if (data.scheme_2 && data.scheme_2 != "") {
             let link = `http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_2}`;
             $('#carouselSchema').find('.carousel-item').first().before(`
-                <div class="carousel-item new-scheme">
+                <div class="carousel-item new-scheme" title="Рисунок 2 (новый)" data-type="scheme_2">
                     <img src="${link}" alt="scheme" width="100%" height="100%">
                 </div>
             `);
@@ -310,7 +321,7 @@ function RenderExerciseOne(data) {
         if (data.scheme_1 && data.scheme_1 != "") {
             let link = `http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_1}`;
             $('#carouselSchema').find('.carousel-item').first().before(`
-                <div class="carousel-item new-scheme">
+                <div class="carousel-item new-scheme" title="Рисунок 1 (новый)" data-type="scheme_1">
                     <img src="${link}" alt="scheme" width="100%" height="100%">
                 </div>
             `);
@@ -428,7 +439,7 @@ function RenderExerciseOne(data) {
             document.descriptionEditorView.disableReadOnlyMode('');
             document.descriptionEditorView.setData('');
         }
-        
+
         // CheckMultiRows(exsCard, '', '.exs_edit_field[name="additional_data[]"]', 'additional_data');
         CheckMultiRows(exsCard, '', '.exs_edit_field[name="keyword[]"]', 'keyword');
         CheckMultiRows(exsCard, '', '.exs_edit_field[name="stress_type[]"]', 'stress_type');
@@ -472,6 +483,108 @@ function RenderExerciseOne(data) {
     }
 }
 
+function AdaptPageToSection(section, exerciseLoaded=false, onlyChangeSection=false) {
+    let availableSections = ["card", "scheme_1", "scheme_2", "video_1", "video_2", "animation_1", "animation_2", "tags"];
+    if (availableSections.includes(section)) {
+        if (!onlyChangeSection) {
+            $(document).find('div.header').remove();
+            $(document).find('div.sidebar').remove();
+            $(document).find('div.page-wrapper').addClass('m-0 p-0');
+            $(document).find('div.card-inside').attr('style', 'height: 95vh !important;');
+            $(document).find('div.left-col-card').attr('style', 'height: 90vh !important;');
+            $(document).find('div.center-col-card').attr('style', 'height: 90vh !important;');
+            $(document).find('div.right-col-card').attr('style', 'height: 90vh !important;');
+            $(document).find('div.exercise-card-header').find('div.btn-group-custom').addClass('justify-content-end');
+            $(document).find('div.exercise-card-header').find('button').each((ind, elem) => {
+                let elemId = $(elem).attr('id');
+                if (elemId == "editExs" || elemId == "saveExs") {return;}
+                if (section == "scheme_1" && elemId == "openDrawing1") {return;}
+                if (section == "scheme_2" && elemId == "openDrawing2") {return;}
+                if (section == "video_1" && elemId == "openVideo1") {return;}
+                if (section == "video_2" && elemId == "openVideo2") {return;}
+                if (section == "animation_1" && elemId == "openAnimation1") {return;}
+                if (section == "animation_2" && elemId == "openAnimation2") {return;}
+                if (section == "tags" && elemId == "openTags") {return;}
+                $(elem).css('display', 'none');
+            });
+            $('.exs-edit-block-in-card').parent().removeClass('d-none');
+            $('.exs-edit-block-in-card').removeClass('d-none');
+            $('.exs-edit-block-in-card').find('.btn-o-modal').removeClass('active');
+            $('.exs-edit-block-in-card').find(`.btn-o-modal[data-id="${section}"]`).addClass('active');
+            $(document).find('div.page-wrapper').toggleClass('d-none', !exerciseLoaded);
+        }
+        if (exerciseLoaded) {
+            if (section == "card") {
+                if (!onlyChangeSection) {
+                    $(document).find('#editExs').trigger('click');
+                    $(document).find('#saveExs').addClass('d-none');
+                }
+                $(document).find('#openDescription').trigger('click');
+                $(document).find('#openDescription').addClass('d-none');
+                $(document).find('div.left-col-card').addClass('w-50');
+                $(document).find('div.center-col-card').addClass('w-50');
+                $(document).find('div.right-col-card').addClass('d-none');
+            }
+            if (section == "scheme_1") {
+                if (!onlyChangeSection) {
+                    $(document).find('#editExs').trigger('click');
+                    $(document).find('#saveExs').addClass('d-none');
+                }
+                $(document).find('#openDrawing1').trigger('click');
+                $(document).find('#openDrawing1').addClass('d-none');
+            }
+            if (section == "scheme_2") {
+                if (!onlyChangeSection) {
+                    $(document).find('#editExs').trigger('click');
+                    $(document).find('#saveExs').addClass('d-none');
+                }
+                $(document).find('#openDrawing2').trigger('click');
+                $(document).find('#openDrawing2').addClass('d-none');
+            }
+            if (section == "video_1") {
+                if (!onlyChangeSection) {
+                    $(document).find('#editExs').trigger('click');
+                    $(document).find('#saveExs').addClass('d-none');
+                }
+                $(document).find('#openVideo1').trigger('click');
+                $(document).find('#openVideo1').addClass('d-none');
+            }
+            if (section == "video_2") {
+                if (!onlyChangeSection) {
+                    $(document).find('#editExs').trigger('click');
+                    $(document).find('#saveExs').addClass('d-none');
+                }
+                $(document).find('#openVideo2').trigger('click');
+                $(document).find('#openVideo2').addClass('d-none');
+            }
+            if (section == "animation_1") {
+                if (!onlyChangeSection) {
+                    $(document).find('#editExs').trigger('click');
+                    $(document).find('#saveExs').addClass('d-none');
+                }
+                $(document).find('#openAnimation1').trigger('click');
+                $(document).find('#openAnimation1').addClass('d-none');
+            }
+            if (section == "animation_2") {
+                if (!onlyChangeSection) {
+                    $(document).find('#editExs').trigger('click');
+                    $(document).find('#saveExs').addClass('d-none');
+                }
+                $(document).find('#openAnimation2').trigger('click');
+                $(document).find('#openAnimation2').addClass('d-none');
+            }
+            if (section == "tags") {
+                if (!onlyChangeSection) {
+                    $(document).find('#editExs').trigger('click');
+                    $(document).find('#saveExs').addClass('d-none');
+                }
+                $(document).find('#openTags').trigger('click');
+                $(document).find('#openTags').addClass('d-none');
+            }
+        }
+    }
+}
+
 function SaveExerciseOne() {
     let searchParams = new URLSearchParams(window.location.search);
     let folderType = searchParams.get('type');
@@ -511,6 +624,7 @@ function SaveExerciseOne() {
         } catch(e) {}
     });
     dataToSend.data['description'] = document.descriptionEditor2.getData();
+    dataToSend.data['description_template'] = document.descriptionEditor2Template.getData();
     if (dataToSend.data.title == "") {
         swal("Внимание", "Добавьте название для упражнения.", "info");
         return;
@@ -547,8 +661,14 @@ function SaveExerciseOne() {
                     $('.page-loader-wrapper').fadeIn();
                     let searchParams = new URLSearchParams(window.location.search);
                     let exsID = searchParams.get('id');
-                    if (exsID == "new") {window.location.href = "/exercises";}
-                    else {window.location.reload();}
+                    if (exsID == "new") {
+                        window.parent.postMessage("exercise_created", '*');
+                        window.location.href = "/exercises";
+                    }
+                    else {
+                        window.parent.postMessage("exercise_edited", '*');
+                        window.location.reload();
+                    }
                 });
             } else {
                 swal("Ошибка", `При создании / изменении упражнения произошла ошибка (${res.err}).`, "error");
@@ -559,6 +679,7 @@ function SaveExerciseOne() {
             console.log(res);
         },
         complete: function (res) {
+            window.parent.postMessage("exercise_end_edited", '*');
             $('.page-loader-wrapper').fadeOut();
         }
     });
@@ -653,6 +774,8 @@ function DeleteExerciseOne(exsId=null, folderType=null) {
                     $('#exerciseCopyModal').modal('hide');
                 }
             });
+        } else {
+            $('.exs-edit-panel').find('.btn-edit-e').removeClass('active');
         }
     });
 }
@@ -1384,11 +1507,11 @@ $(function() {
 
     let cLang = $('#select-language').val();
     try {
-        ClassicEditor
-            .create(document.querySelector('#descriptionEditor2'), {
-                language: cLang
-            })
-            .then(editor => {
+        let watchdog_descriptionEditor2 = new CKSource.EditorWatchdog();
+		watchdog_descriptionEditor2.setCreator((element, config) => {
+			return CKSource.Editor
+            .create(element, config)
+            .then( editor => {
                 document.descriptionEditor2 = editor;
                 if (window.onlyViewMode) {
                     document.descriptionEditor2.enableReadOnlyMode('');
@@ -1396,26 +1519,94 @@ $(function() {
                     $('#descriptionEditor2').next().find('.ck-content.ck-editor__editable').addClass('borders-off');
                 }
                 $('.resizeable-block').css('height', `75vh`);
-            })
-            .catch(err => {
-                console.error(err);
-            });
+				return editor;
+			})
+		});
+        watchdog_descriptionEditor2.setDestructor(editor => {
+            return editor.destroy();
+        });
+		watchdog_descriptionEditor2.on('error', (error) => {
+            console.error("Error with CKEditor5: ", error);
+        });
+        watchdog_descriptionEditor2
+		.create(document.querySelector('#descriptionEditor2'), {
+			licenseKey: '',
+            language: cLang,
+            removePlugins: ['Title'],
+		})
+		.catch((error) => {
+            console.error("Error with CKEditor5: ", error);
+        });
+        
+        // ClassicEditor
+        //     .create(document.querySelector('#descriptionEditor2'), {
+        //         language: cLang,
+        //         fontSize: {
+        //             options: [
+        //                 'tiny',
+        //                 'small',
+        //                 'default',
+        //                 'big',
+        //                 'huge'
+        //             ]
+        //         },
+        //         toolbar: [
+        //             'heading', 'bulletedList', 'numberedList', 'fontSize', 'undo', 'redo'
+        //         ]
+        //     })
+        //     .then(editor => {
+        //         document.descriptionEditor2 = editor;
+        //         if (window.onlyViewMode) {
+        //             document.descriptionEditor2.enableReadOnlyMode('');
+        //             $('#descriptionEditor2').next().find('.ck-editor__top').addClass('d-none');
+        //             $('#descriptionEditor2').next().find('.ck-content.ck-editor__editable').addClass('borders-off');
+        //         }
+        //         $('.resizeable-block').css('height', `75vh`);
+        //     })
+        //     .catch(err => {
+        //         console.error(err);
+        //     });
     } catch(e) {}
     try {
-        ClassicEditor
-            .create(document.querySelector('#descriptionEditor2Template'), {
-                language: cLang
-            })
-            .then(editor => {
-                editor.setData(
-                    "<p><strong>ОРГАНИЗАЦИЯ</strong>:</p><p><strong>ЗАДАЧИ</strong>:</p><p><strong>КОЛИЧЕСТВО ИГРОКОВ</strong>:</p><p><strong>ПРОСТРАНСТВО</strong>:</p><p><strong>УСЛОВИЯ</strong>:</p><p><strong>ВАРИАНТЫ</strong>:</p><p><strong>ДОЗИРОВКА</strong>:</p><p><strong>ВЫЯВЛЕНИЕ ПОБЕДИТЕЛЯ:</strong></p><p><strong>ВВОД МЯЧА</strong>:</p><p><strong>РАСПОЛОЖЕНИЕ ТРЕНЕРА</strong>:</p><p><strong>ТРЕНЕРСКИЕ АКЦЕНТЫ</strong>:</p>"
-                );
+        let watchdog_descriptionEditor2Template = new CKSource.EditorWatchdog();
+		watchdog_descriptionEditor2Template.setCreator((element, config) => {
+			return CKSource.Editor
+            .create(element, config)
+            .then( editor => {
+                editor.setData($('#descriptionEditor2Template').attr('data-content'));
                 document.descriptionEditor2Template = editor;
                 $('.resizeable-block').css('height', `75vh`);
-            })
-            .catch(err => {
-                console.error(err);
-            });
+				return editor;
+			})
+		});
+        watchdog_descriptionEditor2Template.setDestructor(editor => {
+            return editor.destroy();
+        });
+		watchdog_descriptionEditor2Template.on('error', (error) => {
+            console.error("Error with CKEditor5: ", error);
+        });
+        watchdog_descriptionEditor2Template
+		.create(document.querySelector('#descriptionEditor2Template'), {
+			licenseKey: '',
+            language: cLang,
+            removePlugins: ['Title'],
+		})
+		.catch((error) => {
+            console.error("Error with CKEditor5: ", error);
+        });
+
+        // ClassicEditor
+        //     .create(document.querySelector('#descriptionEditor2Template'), {
+        //         language: cLang
+        //     })
+        //     .then(editor => {
+        //         editor.setData($('#descriptionEditor2Template').attr('data-content'));
+        //         document.descriptionEditor2Template = editor;
+        //         $('.resizeable-block').css('height', `75vh`);
+        //     })
+        //     .catch(err => {
+        //         console.error(err);
+        //     });
     } catch(e) {}
 
     window.dataForSplitExsCardCols = JSON.parse(localStorage.getItem('split_exs_card_cols'));
@@ -1455,23 +1646,29 @@ $(function() {
     $('#exerciseCard').on('click', '#openDescription', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
         $(e.currentTarget).addClass('selected2');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
-        $('#exerciseCard').find('#cardBlock > #card_description').addClass('show active');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
-        $('#exerciseCard').find('#cardBlock > #card_description').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.c-block').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').removeClass('show active');
+        $('#exerciseCard').find('#cardBlock').find('#card_description').parent().removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_description').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_description').addClass('show active');
         $('#exerciseCard').find('button[data-type="add"]').removeClass('d-none');
 
+        $('.scheme-editor').parent().addClass('d-none');
         $('.scheme-editor').addClass('d-none');
         StopVideoForEdit();
+        $('.video-editor').parent().addClass('d-none');
         $('.video-editor').addClass('d-none');
     });
     $('#exerciseCard').on('click', '#openDrawing1', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
         $(e.currentTarget).addClass('selected2');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
-        $('#exerciseCard').find('#cardBlock > #card_drawing1').addClass('show active');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
-        $('#exerciseCard').find('#cardBlock > #card_drawing1').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.c-block').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').removeClass('show active');
+        $('#exerciseCard').find('#cardBlock').find('#card_drawing1').parent().removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_drawing1').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_drawing1').addClass('show active');
         $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
         if ($('#editExs').attr('data-active') == '1') {
@@ -1504,18 +1701,22 @@ $(function() {
                     }
                 }
             });
+            $('.scheme-editor').parent().removeClass('d-none');
             $('.scheme-editor').removeClass('d-none');
         }
         StopVideoForEdit();
+        $('.video-editor').parent().addClass('d-none');
         $('.video-editor').addClass('d-none');
     });
     $('#exerciseCard').on('click', '#openDrawing2', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
-        $(e.currentTarget).addClass('selected2');;
-        $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
-        $('#exerciseCard').find('#cardBlock > #card_drawing2').addClass('show active');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
-        $('#exerciseCard').find('#cardBlock > #card_drawing2').removeClass('d-none');
+        $(e.currentTarget).addClass('selected2');
+        $('#exerciseCard').find('#cardBlock').find('.c-block').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').removeClass('show active');
+        $('#exerciseCard').find('#cardBlock').find('#card_drawing2').parent().removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_drawing2').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_drawing2').addClass('show active');
         $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
         if ($('#editExs').attr('data-active') == '1') {
@@ -1548,23 +1749,29 @@ $(function() {
                     }
                 }
             });
+            $('.scheme-editor').parent().removeClass('d-none');
             $('.scheme-editor').removeClass('d-none');
         }
         StopVideoForEdit();
+        $('.video-editor').parent().addClass('d-none');
         $('.video-editor').addClass('d-none');
     });
     $('#exerciseCard').on('click', '#openVideo1', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
         $(e.currentTarget).addClass('selected2');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
-        $('#exerciseCard').find('#cardBlock > #card_video1').addClass('show active');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
-        $('#exerciseCard').find('#cardBlock > #card_video1').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.c-block').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').removeClass('show active');
+        $('#exerciseCard').find('#cardBlock').find('#card_video1').parent().removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_video1').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_video1').addClass('show active');
         $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
+        $('.scheme-editor').parent().addClass('d-none');
         $('.scheme-editor').addClass('d-none');
         StopVideoForEdit();
         CheckSelectedRowInVideoTable();
+        $('.video-editor').parent().removeClass('d-none');
         $('.video-editor').removeClass('d-none');
         try {
             video_table.columns.adjust().draw();
@@ -1576,15 +1783,19 @@ $(function() {
     $('#exerciseCard').on('click', '#openVideo2', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
         $(e.currentTarget).addClass('selected2');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
-        $('#exerciseCard').find('#cardBlock > #card_video2').addClass('show active');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
-        $('#exerciseCard').find('#cardBlock > #card_video2').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.c-block').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').removeClass('show active');
+        $('#exerciseCard').find('#cardBlock').find('#card_video2').parent().removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_video2').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_video2').addClass('show active');
         $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
+        $('.scheme-editor').parent().addClass('d-none');
         $('.scheme-editor').addClass('d-none');
         StopVideoForEdit();
         CheckSelectedRowInVideoTable();
+        $('.video-editor').parent().removeClass('d-none');
         $('.video-editor').removeClass('d-none');
         try {
             video_table.columns.adjust().draw();
@@ -1596,15 +1807,19 @@ $(function() {
     $('#exerciseCard').on('click', '#openAnimation1', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
         $(e.currentTarget).addClass('selected2');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
-        $('#exerciseCard').find('#cardBlock > #card_animation1').addClass('show active');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
-        $('#exerciseCard').find('#cardBlock > #card_animation1').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.c-block').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').removeClass('show active');
+        $('#exerciseCard').find('#cardBlock').find('#card_animation1').parent().removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_animation1').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_animation1').addClass('show active');
         $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
+        $('.scheme-editor').parent().addClass('d-none');
         $('.scheme-editor').addClass('d-none');
         StopVideoForEdit();
         CheckSelectedRowInVideoTable();
+        $('.video-editor').parent().removeClass('d-none');
         $('.video-editor').removeClass('d-none');
         try {
             video_table.columns.adjust().draw();
@@ -1616,15 +1831,19 @@ $(function() {
     $('#exerciseCard').on('click', '#openAnimation2', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
         $(e.currentTarget).addClass('selected2');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
-        $('#exerciseCard').find('#cardBlock > #card_animation2').addClass('show active');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
-        $('#exerciseCard').find('#cardBlock > #card_animation2').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.c-block').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').removeClass('show active');
+        $('#exerciseCard').find('#cardBlock').find('#card_animation2').parent().removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_animation2').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_animation2').addClass('show active');
         $('#exerciseCard').find('button[data-type="add"]').addClass('d-none');
 
+        $('.scheme-editor').parent().addClass('d-none');
         $('.scheme-editor').addClass('d-none');
         StopVideoForEdit();
         CheckSelectedRowInVideoTable();
+        $('.video-editor').parent().removeClass('d-none');
         $('.video-editor').removeClass('d-none');
         try {
             video_table.columns.adjust().draw();
@@ -1636,13 +1855,17 @@ $(function() {
     $('#exerciseCard').on('click', '#openTags', (e) => {
         $('#exerciseCard').find('.tab-btn').removeClass('selected2');
         $(e.currentTarget).addClass('selected2');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').removeClass('show active');
-        $('#exerciseCard').find('#cardBlock > #card_tags').addClass('show active');
-        $('#exerciseCard').find('#cardBlock > .tab-pane').addClass('d-none');
-        $('#exerciseCard').find('#cardBlock > #card_tags').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.c-block').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').addClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('.tab-pane').removeClass('show active');
+        $('#exerciseCard').find('#cardBlock').find('#card_tags').parent().removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_tags').removeClass('d-none');
+        $('#exerciseCard').find('#cardBlock').find('#card_tags').addClass('show active');
 
+        $('.scheme-editor').parent().addClass('d-none');
         $('.scheme-editor').addClass('d-none');
         StopVideoForEdit();
+        $('.video-editor').parent().addClass('d-none');
         $('.video-editor').addClass('d-none');
     });
 
@@ -2093,6 +2316,12 @@ $(function() {
         $('#exerciseCard').find(`tr.description-panel[data-id="${cId}"]`).removeClass('d-none');
     });
 
+    $('.exs-edit-block-in-card').on('click', '.btn-o-modal', (e) => {
+        let cId = $(e.currentTarget).attr('data-id');
+        $('.exs-edit-block-in-card').find('.btn-o-modal').removeClass('active');
+        $(e.currentTarget).addClass('active');
+        AdaptPageToSection(cId, true, true);
+    });
+
 
 });
-

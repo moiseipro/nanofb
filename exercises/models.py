@@ -198,6 +198,10 @@ class AbstractExercise(models.Model):
     field_players_b = models.IntegerField(null=True, blank=True)
     field_keyword_a = models.CharField(max_length=30, null=True, blank=True)
     field_keyword_b = models.CharField(max_length=30, null=True, blank=True)
+    field_keyword_c = models.CharField(max_length=30, null=True, blank=True)
+    field_keyword_d = models.CharField(max_length=30, null=True, blank=True)
+    field_exs_category_a = models.CharField(max_length=30, null=True, blank=True)
+    field_exs_category_b = models.CharField(max_length=30, null=True, blank=True)
 
     tags = models.ManyToManyField(ExerciseTag)
 

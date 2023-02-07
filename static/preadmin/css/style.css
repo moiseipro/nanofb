@@ -1846,6 +1846,10 @@ html.menu-opened body {
     color: #fff;
 }
 
+.sidebar.z-index-reduce {
+	z-index: 1000 !important;
+}
+
 /*-----------------
 	10. Content
 -----------------------*/
@@ -4256,5 +4260,3 @@ table.table-inbox tbody tr.checked {
 .icon--trainer {
 	content: url(../img/icons/trainer.png);
 }
-
-

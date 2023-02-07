@@ -162,20 +162,16 @@ function ToggleUpFilter(id, state) {
             }
             break;
         case "clear_filter":
-            if (
-                ('_search' in window.exercisesFilter && window.exercisesFilter['_search'] != "") || 
-                'filter_players' in window.exercisesFilter
-            ) {
-                $('.exs-search').val('');
-                $('.exs-players-filter').val('');
-                delete window.exercisesFilter['_search'];
-                delete window.exercisesFilter['filter_players'];
-                for (ind in window.count_exs_calls) {
-                    window.count_exs_calls[ind]['call'].abort();
-                }
-                LoadFolderExercises();
-                CountExsInFolder();
-            }
+            $('.up-block-content').find('.up-tabs-elem').attr('data-state', 0);
+            $('.up-block-content').find('.up-tabs-elem').removeClass('selected3');
+            ToggleIconsInExs();
+            ToggleMarkersInExs();
+            $('.exs-search').val('');
+            $('.exs-age-filter').val('');
+            $('.exs-players-filter').val('');
+            window.exercisesFilter = {};
+            LoadFolderExercises();
+            CountExsInFolder();
             $('.up-tabs-elem[data-id="clear_filter"]').removeClass('selected3');
             $('.up-tabs-elem[data-id="clear_filter"]').attr('data-state', 0);
             break;
@@ -460,6 +456,150 @@ function ToggleLangsRowsInModal() {
     });
 }
 
+function LoadContentInCardModalForEdit(id = -1, f_type="team_folders") {
+    let data = {'get_exs_graphic_content': 1, 'exs': id, 'f_type': f_type};
+    let resData = null;
+    $('.page-loader-wrapper').fadeIn();
+    $.ajax({
+        headers:{"X-CSRFToken": csrftoken},
+        data: data,
+        type: 'GET', // GET или POST
+        dataType: 'json',
+        url: "/exercises/exercises_api",
+        success: function (res) {
+            if (res.success) {
+                resData = res.data;
+            }
+        },
+        error: function (res) {
+            console.log(res);
+        },
+        complete: function (res) {
+            RenderContentInCardModalForEdit(resData);
+            $('.page-loader-wrapper').fadeOut();
+        }
+    });
+}
+
+function RenderContentInCardModalForEdit(data) {
+    $('#exerciseCopyModal').find('.toggle-mode').css('display', 'inline-block');
+    $('#exerciseCopyModal').find('.graphics-content').html('');
+    if (data && data.scheme_1 && data.scheme_1 != "") {
+        $('#exerciseCopyModal').find('.graphics-content[data-id="scheme_1"]').html(`
+            <div class="">
+                <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_1}" alt="scheme" width="100%" height="100%"> 
+            </div>
+        `);
+    } else if (data && data.scheme_data && data.scheme_data[0]) {
+        $('#exerciseCopyModal').find('.graphics-content[data-id="scheme_1"]').html(`
+            ${data.scheme_data[0]}
+        `);
+    } else {
+        $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-scheme-1"]').css('display', 'none');
+    }
+    if (data && data.scheme_2 && data.scheme_2 != "") {
+        $('#exerciseCopyModal').find('.graphics-content[data-id="scheme_2"]').html(`
+            <div class="">
+                <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_2}" alt="scheme" width="100%" height="100%"> 
+            </div>
+        `);
+    } else if (data && data.scheme_data && data.scheme_data[1]) {
+        $('#exerciseCopyModal').find('.graphics-content[data-id="scheme_2"]').html(`
+            ${data.scheme_data[1]}
+        `);
+    } else {
+        $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-scheme-2"]').css('display', 'none');
+    }
+    if (data && data.video_1 && data.video_1.id != -1) {
+        $('#exerciseCopyModal').find('.graphics-content[data-id="video_1"]').html(`
+            <div class="">
+            ${'nftv' in data.video_1['links'] && data.video_1['links']['nftv'] != '' ? `
+                <video id="video-player-modal-copy-0" class="video-js resize-block video-copy-modal" poster="https://213.108.4.28/video/poster/${data.video_1['links']['nftv']}">
+                    <source src="https://213.108.4.28/video/player/${data.video_1['links']['nftv']}" type="video/mp4" />
+                </video>
+            ` : 'youtube' in data.video_1['links'] && data.video_1['links']['youtube'] != '' ? `
+                <video id="video-player-modal-copy-0" class="video-js resize-block video-copy-modal" poster="">
+                    <source src="https://www.youtube.com/watch?v=${data.video_1['links']['youtube']}" type="video/youtube" />
+                </video>
+            ` : ''}
+            </div>
+        `);
+    } else {
+        $('#exerciseCopyModal').find('.toggle-mode[data-id="move-video-1"]').css('display', 'none');
+    }
+    if (data && data.video_2 && data.video_2.id != -1) {
+        $('#exerciseCopyModal').find('.graphics-content[data-id="video_2"]').html(`
+            <div class="">
+            ${'nftv' in data.video_2['links'] && data.video_2['links']['nftv'] != '' ? `
+                <video id="video-player-modal-copy-1" class="video-js resize-block video-copy-modal" poster="https://213.108.4.28/video/poster/${data.video_2['links']['nftv']}">
+                    <source src="https://213.108.4.28/video/player/${data.video_2['links']['nftv']}" type="video/mp4" />
+                </video>
+            ` : 'youtube' in data.video_2['links'] && data.video_2['links']['youtube'] != '' ? `
+                <video id="video-player-modal-copy-1" class="video-js resize-block video-copy-modal" poster="">
+                    <source src="https://www.youtube.com/watch?v=${data.video_2['links']['youtube']}" type="video/youtube" />
+                </video>
+            ` : ''}м
+            </div>
+        `);
+    } else {
+        $('#exerciseCopyModal').find('.toggle-mode[data-id="move-video-2"]').css('display', 'none');
+    }
+    if (data && data.animation_1 && data.animation_1.id != -1) {
+        $('#exerciseCopyModal').find('.graphics-content[data-id="animation_1"]').html(`
+            <div class="">
+            ${'nftv' in data.animation_1['links'] && data.animation_1['links']['nftv'] != '' ? `
+                <video id="video-player-modal-copy-2" class="video-js resize-block video-copy-modal" poster="https://213.108.4.28/video/poster/${data.animation_1['links']['nftv']}">
+                    <source src="https://213.108.4.28/video/player/${data.animation_1['links']['nftv']}" type="video/mp4" />
+                </video>
+            ` : 'youtube' in data.animation_1['links'] && data.animation_1['links']['youtube'] != '' ? `
+                <video id="video-player-modal-copy-2" class="video-js resize-block video-copy-modal" poster="">
+                    <source src="https://www.youtube.com/watch?v=${data.animation_1['links']['youtube']}" type="video/youtube" />
+                </video>
+            ` : ''}
+            </div>
+        `);
+    } else {
+        $('#exerciseCopyModal').find('.toggle-mode[data-id="move-animation-1"]').css('display', 'none');
+    }
+    if (data && data.animation_2 && data.animation_2.id != -1) {
+        $('#exerciseCopyModal').find('.graphics-content[data-id="animation_2"]').html(`
+            <div class="">
+            ${'nftv' in data.animation_2['links'] && data.animation_2['links']['nftv'] != '' ? `
+                <video id="video-player-modal-copy-3" class="video-js resize-block video-copy-modal" poster="https://213.108.4.28/video/poster/${data.animation_2['links']['nftv']}">
+                    <source src="https://213.108.4.28/video/player/${data.animation_2['links']['nftv']}" type="video/mp4" />
+                </video>
+            ` : 'youtube' in data.animation_2['links'] && data.animation_2['links']['youtube'] != '' ? `
+                <video id="video-player-modal-copy-3" class="video-js resize-block video-copy-modal" poster="">
+                    <source src="https://www.youtube.com/watch?v=${data.animation_2['links']['youtube']}" type="video/youtube" />
+                </video>
+            ` : ''}
+            </div>
+        `);
+    } else {
+        $('#exerciseCopyModal').find('.toggle-mode[data-id="move-animation-2"]').css('display', 'none');
+    }
+    if (!window.videoPlayerCopyClones) {
+        window.videoPlayerCopyClones = [];
+    }
+    for (let i = 0; i < window.videoPlayerCopyClones.length; i++) {
+        window.videoPlayerCopyClones[i].dispose();
+    }
+    let items = $('#exerciseCopyModal').find('.video-copy-modal');
+    for (let i = 0; i < items.length; i++) {
+        let tId = $(items[i]).attr('id');
+        window.videoPlayerCopyClones[i] = videojs($('#exerciseCopyModal').find(`#${tId}`)[0], {
+            preload: 'auto',
+            autoplay: false,
+            controls: true,
+            aspectRatio: '16:9',
+            youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
+        });
+    }
+    for (let i = 0; i < items.length; i++) {
+        window.videoPlayerCopyClones[i].load();
+    }
+}
+
 
 
 $(function() {
@@ -576,11 +716,12 @@ $(function() {
         LoadFolderExercises();
         CountExsInFolder();
     });
-    $('.exs-age-filter').on('change', (e) => {
-        let valueTypeA = $('.exs-age-filter[data-type="a"]').val();
-        let valueTypeB = $('.exs-age-filter[data-type="b"]').val();
-        window.exercisesFilter['filter_age_a'] = valueTypeA;
-        window.exercisesFilter['filter_age_b'] = valueTypeB;
+    $('.exs-age-filter').on('keyup', (e) => {
+        let val = $(e.currentTarget).val();
+        if ((window.exercisesFilter['filter_age'] && window.exercisesFilter['filter_age'] == val) || (!window.exercisesFilter['filter_age'] && val == "")) {
+            return;
+        }
+        window.exercisesFilter['filter_age'] = val;
         for (ind in window.count_exs_calls) {
             window.count_exs_calls[ind]['call'].abort();
         }
@@ -608,29 +749,6 @@ $(function() {
         $('.tags-filter-block').find(`.list-group[data-id="${cId}"]:not(.t-hidden)`).find('.side-filter-elem').toggleClass('d-none');
     });
 
-
-    // Reset side filter
-    $('.filter-all-reset').on('click', (e) => {
-        if (
-        $($('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').hasClass('active')).length > 0 || 
-        $($('.side-filter-block').find('.list-group[data-id="video_sources"]').find('.side-filter-elem').hasClass('active')).length > 0 || 
-        $($('.tags-filter-block').find('.side-filter-elem[data-type="tags"]').hasClass('active')).length > 0 || 
-        $('.exs-search').val() != "") {
-            $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').attr('data-state', '0');
-            $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').toggleClass('active', false);
-            $('.side-filter-block').find('.list-group[data-id="filter"]').find('.side-filter-elem').find('.row > div:nth-child(2)').html('');
-            $('.side-filter-block').find('.list-group[data-id="video_sources"]').find('.side-filter-elem').attr('data-state', '0');
-            $('.side-filter-block').find('.list-group[data-id="video_sources"]').find('.side-filter-elem').toggleClass('active', false);
-            $('.side-filter-block').find('.list-group[data-id="video_sources"]').find('.side-filter-elem').find('.row > div:nth-child(2)').html('');
-            $('.tags-filter-block').find('.side-filter-elem[data-type="tags"]').attr('data-state', '0');
-            $('.tags-filter-block').find('.side-filter-elem[data-type="tags"]').toggleClass('active', false);
-            $('.tags-filter-block').find('.side-filter-elem[data-type="tags"]').find('.row > div:nth-child(2)').html('');
-            $('.exs-search').val('');
-            window.exercisesFilter = {};
-            LoadFolderExercises();
-            CountExsInFolder();
-        }
-    });
 
     // Toggle columns size
     $('#columnsSizeInCard').on('click', (e) => {
@@ -833,7 +951,11 @@ $(function() {
 
     $('#createExercise').on('click', (e) => {
         let folderType = $('.folders_div:not(.d-none)').attr('data-id');
-        window.location.href = `/exercises/exercise?id=new&type=${folderType}`;
+        let cLink = `/exercises/exercise?id=new&type=${folderType}&section=card`;
+        // window.location.href = cLink;
+        $('#exerciseCardModalForEdit').find('iframe').addClass('d-none');
+        $('#exerciseCardModalForEdit').find('iframe').attr('src', cLink);
+        $('#exerciseCardModalForEdit').modal('show');
     });
 
 
@@ -889,29 +1011,85 @@ $(function() {
 
     // Load CkEditor fields
     let cLang = $('#select-language').val();
-    ClassicEditor
-        .create(document.querySelector('#descriptionEditor'), {
-            language: cLang
-        })
-        .then(editor => {
-            document.descriptionEditor = editor;
-        })
-        .catch(err => {
-            console.error(err);
+    try {
+        let watchdog_descriptionEditor = new CKSource.EditorWatchdog();
+		watchdog_descriptionEditor.setCreator((element, config) => {
+			return CKSource.Editor
+            .create(element, config)
+            .then( editor => {
+                document.descriptionEditor = editor;
+				return editor;
+			})
+		});
+        watchdog_descriptionEditor.setDestructor(editor => {
+            return editor.destroy();
         });
-    ClassicEditor
-        .create(document.querySelector('#descriptionEditorView'), {
-            language: cLang
-        })
-        .then(editor => {
-            document.descriptionEditorView = editor;
-            document.descriptionEditorView.enableReadOnlyMode('');
-            $('#descriptionEditorView').next().find('.ck-editor__top').addClass('d-none');
-            $('#descriptionEditorView').next().find('.ck-content.ck-editor__editable').addClass('borders-off');
-        })
-        .catch(err => {
-            console.error(err);
+		watchdog_descriptionEditor.on('error', (error) => {
+            console.error("Error with CKEditor5: ", error);
         });
+        watchdog_descriptionEditor
+		.create(document.querySelector('#descriptionEditor'), {
+			licenseKey: '',
+            language: cLang,
+            removePlugins: ['Title'],
+		})
+		.catch((error) => {
+            console.error("Error with CKEditor5: ", error);
+        });
+    } catch (e) {}
+    try {
+        let watchdog_descriptionEditorView = new CKSource.EditorWatchdog();
+		watchdog_descriptionEditorView.setCreator((element, config) => {
+			return CKSource.Editor
+            .create(element, config)
+            .then( editor => {
+                document.descriptionEditorView = editor;
+                document.descriptionEditorView.enableReadOnlyMode('');
+                $('#descriptionEditorView').next().find('.ck-editor__top').addClass('d-none');
+                $('#descriptionEditorView').next().find('.ck-content.ck-editor__editable').addClass('borders-off');
+				return editor;
+			})
+		});
+        watchdog_descriptionEditorView.setDestructor(editor => {
+            return editor.destroy();
+        });
+		watchdog_descriptionEditorView.on('error', (error) => {
+            console.error("Error with CKEditor5: ", error);
+        });
+        watchdog_descriptionEditorView
+		.create(document.querySelector('#descriptionEditorView'), {
+			licenseKey: '',
+            language: cLang,
+            removePlugins: ['Title'],
+		})
+		.catch((error) => {
+            console.error("Error with CKEditor5: ", error);
+        });
+    } catch (e) {}
+
+    // ClassicEditor
+    //     .create(document.querySelector('#descriptionEditor'), {
+    //         language: cLang
+    //     })
+    //     .then(editor => {
+    //         document.descriptionEditor = editor;
+    //     })
+    //     .catch(err => {
+    //         console.error(err);
+    //     });
+    // ClassicEditor
+    //     .create(document.querySelector('#descriptionEditorView'), {
+    //         language: cLang
+    //     })
+    //     .then(editor => {
+    //         document.descriptionEditorView = editor;
+    //         document.descriptionEditorView.enableReadOnlyMode('');
+    //         $('#descriptionEditorView').next().find('.ck-editor__top').addClass('d-none');
+    //         $('#descriptionEditorView').next().find('.ck-content.ck-editor__editable').addClass('borders-off');
+    //     })
+    //     .catch(err => {
+    //         console.error(err);
+    //     });
  
     
     $('#exerciseCardModal').on('click', '#saveExs', (e) => {
@@ -1139,14 +1317,27 @@ $(function() {
         $('#exerciseCopyModal').find('.content-block').addClass('d-none');
         $('#exerciseCopyModal').find(`.content-block.${cId}`).removeClass('d-none');
         $('#exerciseCopyModal').find('.modal-footer').toggleClass('d-none', cId != "copy-move-exercise");
+        let cTitle = "";
+        if ($('#exerciseCopyModal').find('[name="copy_mode"]').val() == '1') {
+            cTitle = "Скопировать упражнение в выбранную папку";
+        } else {
+            cTitle = "Переместить упражнение в выбранную папку";
+        }
+        if (cId.includes("scheme")) {
+            cTitle = "Скопировать рисунок";
+        }
+        if (cId.includes("video")) {
+            cTitle = "Переместить видео";
+        }
+        if (cId.includes("animation")) {
+            cTitle = "Переместить анимацию";
+        }
+        $('#exerciseCopyModal').find('.modal-title').text(cTitle);
     });
     $('#exerciseCopyModal').on('click', '.btn-video-move-apply', (e) => {
         let exsId = $('.exs-list-group').find('.exs-elem.active').attr('data-id');
         let folderType = $('.folders_div:not(.d-none)').attr('data-id');
-        let selectedVideos = [];
-        $('#exerciseCopyModal').find('.select-video').each((ind, elem) => {
-            if ($(elem).prop('checked')) {selectedVideos.push($(elem).val());}
-        });
+        let selectedVideos = [$(e.currentTarget).attr('data-value')];
         if (selectedVideos.length > 0) {
             window.moveVideoFromExsToExs = {'f_type': folderType, 'exs_from': exsId, 'content': selectedVideos};
             $('.exercises-block').find('.copy-modal-status').find('.description').text("Выберите упражнение, в которое хотите поместить видео/анимацию.");
@@ -1159,13 +1350,10 @@ $(function() {
     $('#exerciseCopyModal').on('click', '.btn-scheme-copy-apply', (e) => {
         let exsId = $('.exs-list-group').find('.exs-elem.active').attr('data-id');
         let folderType = $('.folders_div:not(.d-none)').attr('data-id');
-        let selectedSchemes = [];
-        $('#exerciseCopyModal').find('.select-scheme').each((ind, elem) => {
-            if ($(elem).prop('checked')) {selectedSchemes.push($(elem).val());}
-        });
+        let selectedSchemes = [$(e.currentTarget).attr('data-value')];
         if (selectedSchemes.length > 0) {
             window.copySchemeFromExsToExs = {'f_type': folderType, 'exs_from': exsId, 'content': selectedSchemes};
-            $('.exercises-block').find('.copy-modal-status').find('.description').text("Выберите упражнение, в которое хотите поместить схему.");
+            $('.exercises-block').find('.copy-modal-status').find('.description').text("Выберите упражнение, в которое хотите поместить рисунок.");
             $('.exercises-block').find('.copy-modal-status').removeClass('d-none');
             $('.exercises-block').find('.copy-modal-status').addClass('d-flex');
             $('.exercises-list').find('.exs-elem').removeClass('active');
@@ -1394,28 +1582,67 @@ $(function() {
     document.descriptionEditorAdmin = {};
     $('#select-language').find('option').each((ind, elem) => {
         let tId = `#descriptionEditor__admin_${$(elem).val()}`;
-        ClassicEditor
-        .create(document.querySelector(tId), {
-            language: cLang
-        })
-        .then(editor => {
-            document.descriptionEditorAdmin[$(elem).val()] = editor;
-            $(tId).next().find('.ck-editor__top').removeClass('d-none');
-            $(tId).next().find('.ck-content.ck-editor__editable').removeClass('borders-off');
 
-            document.descriptionEditorAdmin[$(elem).val()].editing.view.document.on('change:isFocused', (evt, data, isFocused) => {
-                if (isFocused == false) {
-                    let exsId = $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs');
-                    let folderType = $('.folders_div:not(.d-none)').attr('data-id');
-                    let cVal = document.descriptionEditorAdmin[$(elem).val()].getData();
-                    let cLangCode = $(elem).val();
-                    SaveExerciseFullName(exsId, folderType, 'description', cVal, cLangCode);
-                }
+        try {
+            let watchdog_descriptionEditorAdmin = new CKSource.EditorWatchdog();
+            watchdog_descriptionEditorAdmin.setCreator((element, config) => {
+                return CKSource.Editor
+                .create(element, config)
+                .then( editor => {
+                    document.descriptionEditorAdmin[$(elem).val()] = editor;
+                    $(tId).next().find('.ck-editor__top').removeClass('d-none');
+                    $(tId).next().find('.ck-content.ck-editor__editable').removeClass('borders-off');
+                    document.descriptionEditorAdmin[$(elem).val()].editing.view.document.on('change:isFocused', (evt, data, isFocused) => {
+                        if (isFocused == false) {
+                            let exsId = $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs');
+                            let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+                            let cVal = document.descriptionEditorAdmin[$(elem).val()].getData();
+                            let cLangCode = $(elem).val();
+                            SaveExerciseFullName(exsId, folderType, 'description', cVal, cLangCode);
+                        }
+                    });
+                    return editor;
+                })
             });
-        })
-        .catch(err => {
-            console.error(err);
-        });
+            watchdog_descriptionEditorAdmin.setDestructor(editor => {
+                return editor.destroy();
+            });
+            watchdog_descriptionEditorAdmin.on('error', (error) => {
+                console.error("Error with CKEditor5: ", error);
+            });
+            watchdog_descriptionEditorAdmin
+            .create(document.querySelector(tId), {
+                licenseKey: '',
+                language: cLang,
+                removePlugins: ['Title'],
+            })
+            .catch((error) => {
+                console.error("Error with CKEditor5: ", error);
+            });
+        } catch(e) {}
+
+        // ClassicEditor
+        // .create(document.querySelector(tId), {
+        //     language: cLang
+        // })
+        // .then(editor => {
+        //     document.descriptionEditorAdmin[$(elem).val()] = editor;
+        //     $(tId).next().find('.ck-editor__top').removeClass('d-none');
+        //     $(tId).next().find('.ck-content.ck-editor__editable').removeClass('borders-off');
+
+        //     document.descriptionEditorAdmin[$(elem).val()].editing.view.document.on('change:isFocused', (evt, data, isFocused) => {
+        //         if (isFocused == false) {
+        //             let exsId = $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs');
+        //             let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        //             let cVal = document.descriptionEditorAdmin[$(elem).val()].getData();
+        //             let cLangCode = $(elem).val();
+        //             SaveExerciseFullName(exsId, folderType, 'description', cVal, cLangCode);
+        //         }
+        //     });
+        // })
+        // .catch(err => {
+        //     console.error(err);
+        // });
     });
     $('#exerciseLangTitleModal').on('change', 'input.exs-title', (e) => {
         let exsId = $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs');
@@ -1699,6 +1926,107 @@ $(function() {
         ).focus();
     });
 
+    // Open editable panel for exercise
+    $('#toggleExsEditPanel').on('click', (e) => {
+        $('.exs-edit-block').toggleClass('d-none');
+    });
+    $('.exs-edit-block').on('click', 'button[data-dismiss="panel"]', (e) => {
+        $('.exs-edit-block').addClass('d-none');
+    });
+    $('.exs-edit-block').on('click', '.btn-o-modal', (e) => {
+        let cId = $(e.currentTarget).attr('data-id');
+        let activeExs = $('.exs-list-group').find('.list-group-item.active');
+        let activeExsId = $(activeExs).attr('data-id');
+        if ($(activeExs).length > 0) {
+            let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
+            let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+            let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
+            let linkForModal = `/exercises/exercise?id=${activeExsId}&nfb=${fromNfbFolder ? 1 : 0}&type=${folderType}&section=${cId}`;
+            $('#exerciseCardModalForEdit').find('iframe').addClass('d-none');
+            $('#exerciseCardModalForEdit').find('iframe').attr('src', linkForModal);
+            $('#exerciseCardModalForEdit').modal('show');
+            $(e.currentTarget).addClass('active');
+        } else {
+            swal("Внимание", "Выберите упражнение из списка.", "info");
+        }
+    });
+    $('#exerciseCardModalForEdit').on('show.bs.modal', (e) => {
+        window.addEventListener('message', (e) => {
+            switch(e.data) {
+                case "exercise_loaded":
+                    $('#exerciseCardModalForEdit').find('iframe').removeClass('d-none');
+                    break;
+            }
+            return;
+        });
+        $('#sidebar').addClass('z-index-reduce');
+    });
+    $('#exerciseCardModalForEdit').on('hidden.bs.modal', (e) => {
+        $('.exs-edit-block').find('.btn-o-modal').removeClass('active');
+        $('#sidebar').removeClass('z-index-reduce');
+    });
+    $('#exerciseCardModalForEdit').on('click', '.btn-save', (e) => {
+        $('.page-loader-wrapper').fadeIn();
+        let cFrame = $('#exerciseCardModalForEdit').find('iframe');
+        cFrame.contents().find('#saveExs').trigger('click');
+        window.addEventListener('message', (e) => {
+            switch(e.data) {
+                case "exercise_end_edited":
+                    $('.page-loader-wrapper').fadeOut();
+                    break;
+                case "exercise_created":
+                    $('#exerciseCardModalForEdit').modal('hide');
+                    break;
+                case "exercise_edited":
+                    $('#exerciseCardModalForEdit').find('iframe').addClass('d-none');
+                    break;
+            }
+            return;
+        });
+    });
+    $('.exs-edit-block').on('click', '.btn-edit-e', (e) => {
+        let cId = $(e.currentTarget).attr('data-id');
+        let activeExs = $('.exs-list-group').find('.list-group-item.active');
+        if ($(activeExs).length > 0) {
+            if (cId == "copy") {
+                $('#exerciseCopyModal').find('.modal-title').text("Скопировать упражнение в выбранную папку");
+                $('#exerciseCopyModal').find('[name="copy_mode"]').val('1');
+                $('#exerciseCopyModal').find('.move-show').addClass('d-none');
+                $('#exerciseCopyModal').find('.copy-show').removeClass('d-none');
+                $('#exerciseCopyModal').find('.toggle-mode').removeClass('active');
+                $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-move-exercise"]').addClass('active');
+                $('#exerciseCopyModal').find('.content-block').addClass('d-none');
+                $('#exerciseCopyModal').find('.content-block.copy-move-exercise').removeClass('d-none');
+                $('#exerciseCopyModal').find('.modal-footer').removeClass('d-none');
+                $('#exerciseCopyModal').modal('show'); 
+            } else if (cId == "move") {
+                $('#exerciseCopyModal').find('.modal-title').text("Переместить упражнение в выбранную папку");
+                $('#exerciseCopyModal').find('[name="copy_mode"]').val('2');
+                $('#exerciseCopyModal').find('.copy-show').addClass('d-none');
+                $('#exerciseCopyModal').find('.move-show').removeClass('d-none');
+                $('#exerciseCopyModal').find('.toggle-mode').removeClass('active');
+                $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-move-exercise"]').addClass('active');
+                $('#exerciseCopyModal').find('.content-block').addClass('d-none');
+                $('#exerciseCopyModal').find('.content-block.copy-move-exercise').removeClass('d-none');
+                $('#exerciseCopyModal').find('.modal-footer').removeClass('d-none');
+                $('#exerciseCopyModal').modal('show');
+            } else if (cId == "delete") {
+                let exsId = $(activeExs).attr('data-id');
+                let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+                let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
+                let data = {'type': folderType, 'folder': folder, 'exs': exsId};
+                data = JSON.stringify(data);
+                sessionStorage.setItem('last_exs', data);
+                DeleteExerciseOne(exsId, folderType);
+            }
+            $(e.currentTarget).addClass('active');
+        } else {
+            swal("Внимание", "Выберите упражнение из списка.", "info");
+        }
+    });
+    $('#exerciseCopyModal').on('hidden.bs.modal', (e) => {
+        $('.exs-edit-block').find('.btn-edit-e').removeClass('active');
+    });
 
     // Toggle left menu
     setTimeout(() => {

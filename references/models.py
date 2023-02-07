@@ -252,6 +252,14 @@ class ExsTitleName(AbstractReference, MixTranslateReference):
         verbose_name_plural = _('Exercise title names')
 
 
+class ExsDescriptionTemplate(AbstractReference, MixTranslateReference):
+    description = models.JSONField(null=True, blank=True)
+    
+    class Meta(AbstractReference.Meta):
+        verbose_name = _('Exercise description template')
+        verbose_name_plural = _('Exercise description template')
+
+
 # --Players--
 class PlayerTeamStatus(AbstractReference, MixTranslateReference):
     class Meta(AbstractReference.Meta):

@@ -97,11 +97,11 @@ $(function() {
             }
         }
     });
-    $(window).on('beforeunload', (e) => {
-        if (window.changedData == true) {
-            return "Вы не сохранили новые изменения. При выходе новые данные не сохранятся. Вы точно хотите покинуть страницу?";
-        }
-    });
+    // $(window).on('beforeunload', (e) => {
+    //     if (window.changedData == true) {
+    //         return "Вы не сохранили новые изменения. При выходе новые данные не сохранятся. Вы точно хотите покинуть страницу?";
+    //     }
+    // });
 
     // Open graphics in modal
     $('#splitCol_exscard_2').on('click', '.carousel-item', (e) => {

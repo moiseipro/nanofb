@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
 from django.db.models import Q, Count, F
+from django.views.decorators.clickjacking import xframe_options_exempt
 from users.models import User
 from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, ClubExercise, AdminExercise
 from references.models import UserSeason, UserTeam
+from references.models import ExsDescriptionTemplate
 from video.models import VideoSource
 from taggit.models import Tag
 from nanofootball.views import util_check_access
@@ -11,7 +13,6 @@ import exercises.v_api as v_api
 from system_icons.views import get_ui_elements
 from nf_presentation import from_single_exercise as nf_presentation__from_single_exercise
 import json
-
 
 
 def exercises(request):
@@ -72,6 +73,7 @@ def exercises(request):
     })
 
 
+@xframe_options_exempt
 def exercise(request):
     """
     Return render page with given template. 
@@ -151,6 +153,13 @@ def exercise(request):
     video_params['sources'] = VideoSource.objects.all().annotate(videos=Count('video')).order_by('-videos')
     video_params['folders'] = AdminFolder.objects.exclude(parent=None).order_by('parent', 'order')
     video_params['tags'] = Tag.objects.all()
+    description_template_str = ""
+    try:
+        description_template = ExsDescriptionTemplate.objects.filter().first()
+        if description_template:
+            description_template_str = v_api.get_by_language_code(description_template.description, request.LANGUAGE_CODE)
+    except:
+        pass
     return render(request, 'exercises/base_exercise.html', {
         'exs': found_exercise,
         'folders': found_folders, 
@@ -165,6 +174,7 @@ def exercise(request):
         'can_edit_exs_full': is_can_edit_exs_full,
         'can_edit_exs_video_admin': is_can_edit_exs_video_admin,
         'video_params': video_params,
+        'description_template': description_template_str,
         'seasons_list': request.seasons_list,
         'teams_list': request.teams_list,
         'ui_elements': get_ui_elements(request)

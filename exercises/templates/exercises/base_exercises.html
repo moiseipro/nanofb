@@ -39,7 +39,6 @@
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" id="toggleFoldersNames" title="Свернуть / Развернуть папки" style="--w-max-x:4%;">
                                                 <span class="icon-custom icon--folder-o" style="--i-w: 1.7em; --i-h: 1.7em;"></span>
                                             </button>
-                                            
                                             <button type="button" class="btn btn-success btn-sm btn-custom custom-green2 btn-block up-tabs-elem folders-toggle size-max-w-x" data-id="nfb_folders" style="--w-max-x:25%;">
                                                 <div class="">
                                                     <span class="text-center text-uppercase ml-2">папки n.f.</span>
@@ -60,66 +59,69 @@
                                                     <span class="exs_counter float-right">(...)</span>
                                                 </div>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 size-max-w-x" id="showOneExs" title="Просмотреть" style="--w-max-x:3.5%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 size-max-w-x" id="showOneExs" title="Просмотреть" style="--w-max-x:4%;">
                                                 <span class="icon-custom icon--magnifying-glass mt-1" style="--i-w: 1.7em; --i-h: 1.7em;"></span>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="copy" title="Скопировать" style="--w-max-x:3.5%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 size-max-w-x" id="toggleExsEditPanel" title="Редактировать упражнение" style="--w-max-x:4%;">
+                                                <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 20px;"></i>
+                                            </button>
+                                            <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="copy" title="Скопировать" style="--w-max-x:4%;">
                                                 <span class="icon-custom icon--copy mt-1" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="move" title="Перенести" style="--w-max-x:3.5%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="move" title="Перенести" style="--w-max-x:4%;">
                                                 <span class="icon-custom icon--folder-o mt-1" style="--i-w: 1.7em; --i-h: 1.7em;"></span>
-                                            </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="share" title="Поделиться" style="--w-max-x:3.5%;">
+                                            </button> -->
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="share" title="Поделиться" style="--w-max-x:4%;">
                                                 <span class="icon-custom icon--share mt-1" style="--i-w: 1.7em; --i-h: 1.7em;"></span>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="clear_filter" title="Очистить фильтры" style="--w-max-x:3.5%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="clear_filter" title="Очистить фильтры" style="--w-max-x:4%;">
                                                 <i class="fa fa-repeat" aria-hidden="true" style="color: red;"></i>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="keywords" title="Ключевые слова" style="--w-max-x:3.5%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="keywords" title="Ключевые слова" style="--w-max-x:4%;" {% if not user.is_superuser %}disabled=""{% endif %}>
                                                 <span class="icon-custom icon--key mt-1" style="--i-w: 1.6em; --i-h: 1.6em;"></span>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block font-larger up-tabs-elem size-max-w-x" data-id="toggle_watched" title="Просмотренные видео" style="--w-max-x:3.5%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block font-larger up-tabs-elem size-max-w-x" data-id="toggle_watched" title="Просмотренные видео" style="--w-max-x:4%;">
                                                 <span class="icon-custom icon--eye mt-1" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block font-larger up-tabs-elem size-max-w-x" data-id="toggle_watched_not" title="Не просмотренные видео" style="--w-max-x:3.5%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block font-larger up-tabs-elem size-max-w-x" data-id="toggle_watched_not" title="Не просмотренные видео" style="--w-max-x:4%;">
                                                 <span class="icon-custom icon--eye-not mt-1" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_favorite" title="Избранное" style="--w-max-x:3.5%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_favorite" title="Избранное" style="--w-max-x:4%;">
                                                 <span class="icon-custom icon--favorite mt-1" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="players" title="Игроки" style="--w-max-x:3.5%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="players" title="Игроки" style="--w-max-x:4%;">
                                                 <span class="icon-custom icon--players mt-1" style="--i-w: 1.4em; --i-h: 1.4em;"></span>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block font-larger up-tabs-elem size-max-w-x" data-id="goal" title="Ворота" style="--w-max-x:3.5%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block font-larger up-tabs-elem size-max-w-x" data-id="goal" title="Ворота" style="--w-max-x:4%;">
                                                 G.
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="ball" title="Мяч" style="--w-max-x:3.5%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="ball" title="Мяч" style="--w-max-x:4%;">
                                                 <span class="icon-custom icon--ball mt-1" style="--i-w: 1.4em; --i-h: 1.4em;"></span>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_pro" title="PRO" style="--w-max-x:3.5%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_pro" title="PRO" style="--w-max-x:4%;">
                                                 PRO
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_new" title="Новые упражнения" style="--w-max-x:3.5%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_new" title="Новые упражнения" style="--w-max-x:4%;">
                                                 <i class="fa fa-bell-o" aria-hidden="true"></i>
                                             </button>
                                             <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_side_filter" style="--w-max-x:13%;">
                                                 Фильтрация
                                             </button> -->
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem elem-flex-center size-max-w-x" data-id="toggle_tags_filter" title="Показать фильтр по ключевым характеристикам" style="--w-max-x:3.5%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem elem-flex-center size-max-w-x" data-id="toggle_tags_filter" title="Показать фильтр по ключевым характеристикам" style="--w-max-x:4%;">
                                                 T
                                             </button>
                                             <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem elem-flex-center size-max-w-x" data-id="" title="" style="--w-max-x:4%;">
                                                 T. 2
                                             </button> -->
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" id="downloadExs" title="Скачать" style="--w-max-x:3.5%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" id="downloadExs" title="Скачать" style="--w-max-x:4%;">
                                                 <span class="icon-custom icon--download" style="--i-w: 1.4em; --i-h: 1.4em;"></span>
                                             </button>
-                                            <button type="button" id="columnsSizeToggle" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" title="Изменить ширину колонок" style="--w-max-x:3.5%;">
+                                            <button type="button" id="columnsSizeToggle" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" title="Изменить ширину колонок" style="--w-max-x:4%;">
                                                 <i class="fa fa-cog" aria-hidden="true"></i>
                                             </button>
-                                            <button type="button" id="deleteExsInList" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" title="Удалить упражнение" style="--w-max-x:3.5%;">
+                                            <!-- <button type="button" id="deleteExsInList" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" title="Удалить упражнение" style="--w-max-x:4%;">
                                                 <i class="fa fa-trash-o text-danger" aria-hidden="true"></i>
-                                            </button>
+                                            </button> -->
                                         </div>
                                     </div>
                                 </div>
@@ -635,73 +637,83 @@
             {% if user.is_superuser %}
             <input type="hidden" name="nfb" value="1" />
             {% endif %}
-            <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-dialog modal-lg" role="document" style="max-width: 60vw;">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Выберите папку, в которую необходимо поместить упражнение</h5>
                     </div>
-                    <div class="modal-body size-h-x" style="--h-x: 70vh; overflow-y: auto;">
+                    <div class="modal-body size-h-x" style="--h-x: 80vh; overflow-y: auto;">
                         <div class="row">
                             <div class="col-12 toggle-modes">
-                                <button type="button" class="btn btn-sm btn-outline-secondary toggle-mode copy-show move-show active" data-id="copy-move-exercise">
-                                    Упражнение
-                                </button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary toggle-mode copy-show" data-id="copy-scheme">
-                                    Схема
-                                </button>
-                                {% if user.is_superuser %}
-                                <button type="button" class="btn btn-sm btn-outline-secondary toggle-mode move-show" data-id="move-video">
-                                    Видео
-                                </button>
-                                {% endif %}
+                                <div class="btn-group w-100" role="group" aria-label="">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary toggle-mode copy-show move-show size-max-w-x active" data-id="copy-move-exercise" style="--w-max-x:50%;">
+                                        Упражнение
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary toggle-mode copy-show size-max-w-x" data-id="copy-scheme-1" style="--w-max-x:50%;">
+                                        Рисунок 1
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary toggle-mode copy-show size-max-w-x" data-id="copy-scheme-2" style="--w-max-x:50%;">
+                                        Рисунок 2
+                                    </button>
+                                    {% if user.is_superuser %}
+                                    <button type="button" class="btn btn-sm btn-outline-secondary toggle-mode move-show size-max-w-x" data-id="move-video-1" style="--w-max-x:50%;">
+                                        Видео 1
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary toggle-mode move-show size-max-w-x" data-id="move-video-2" style="--w-max-x:50%;">
+                                        Видео 2
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary toggle-mode move-show size-max-w-x" data-id="move-animation-1" style="--w-max-x:50%;">
+                                        Анимация 1
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary toggle-mode move-show size-max-w-x" data-id="move-animation-2" style="--w-max-x:50%;">
+                                        Анимация 2
+                                    </button>
+                                    {% endif %}
+                                </div>
                             </div>
                             <div class="col-12 content-block copy-move-exercise copy-show move-show">
                             </div>
-                            <div class="col-12 content-block copy-scheme copy-show d-none">
-                                <div class="text-center text-uppercase font-weight-bold mt-2">
-                                    Скопировать схему в другое упражнение:
-                                </div>
+                            <div class="col-12 content-block copy-scheme-1 copy-show d-none">
                                 <div class="">
-                                    <p class="mt-1">Выберите, что скопировать:</p>
-                                    <div class="">
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input select-scheme" type="checkbox" id="copyScheme1" value="scheme_1">
-                                            <label class="form-check-label" for="copyScheme1">Схема 1</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input select-scheme" type="checkbox" id="copyScheme2" value="scheme_2">
-                                            <label class="form-check-label" for="copyScheme2">Схема 2</label>
-                                        </div>
+                                    <div class="graphics-content my-2" data-id="scheme_1">
                                     </div>
-                                    <button type="button" class="btn btn-sm btn-primary btn-scheme-copy-apply">Скопировать</button>
+                                    <button type="button" class="btn btn-sm btn-primary btn-scheme-copy-apply" data-value="scheme_1">Скопировать</button>
+                                </div>
+                            </div>
+                            <div class="col-12 content-block copy-scheme-2 copy-show d-none">
+                                <div class="">
+                                    <div class="graphics-content my-2" data-id="scheme_2">
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-primary btn-scheme-copy-apply" data-value="scheme_2">Скопировать</button>
                                 </div>
                             </div>
                             {% if user.is_superuser %}
-                            <div class="col-12 content-block move-video move-show d-none">
-                                <div class="text-center text-uppercase font-weight-bold mt-2">
-                                    Переместить видео и/или анимацию в другое упражнение:
-                                </div>
+                            <div class="col-12 content-block move-video-1 move-show d-none">
                                 <div class="">
-                                    <p class="mt-1">Выберите, что переместить:</p>
-                                    <div class="">
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input select-video" type="checkbox" id="moveVideo1" value="video_1">
-                                            <label class="form-check-label" for="moveVideo1">Видео 1</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input select-video" type="checkbox" id="moveVideo2" value="video_2">
-                                            <label class="form-check-label" for="moveVideo2">Видео 2</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input select-video" type="checkbox" id="moveAnimation1" value="animation_1">
-                                            <label class="form-check-label" for="moveAnimation1">Анимация 1</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input select-video" type="checkbox" id="moveAnimation2" value="animation_2">
-                                            <label class="form-check-label" for="moveAnimation2">Анимация 2</label>
-                                        </div>
+                                    <div class="graphics-content my-2" data-id="video_1">
                                     </div>
-                                    <button type="button" class="btn btn-sm btn-primary btn-video-move-apply">Переместить</button>
+                                    <button type="button" class="btn btn-sm btn-primary btn-video-move-apply" data-value="video_1">Переместить</button>
+                                </div>
+                            </div>
+                            <div class="col-12 content-block move-video-2 move-show d-none">
+                                <div class="">
+                                    <div class="graphics-content my-2" data-id="video_2">
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-primary btn-video-move-apply" data-value="video_2">Переместить</button>
+                                </div>
+                            </div>
+                            <div class="col-12 content-block move-animation-1 move-show d-none">
+                                <div class="">
+                                    <div class="graphics-content my-2" data-id="animation_1">
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-primary btn-video-move-apply" data-value="animation_1">Переместить</button>
+                                </div>
+                            </div>
+                            <div class="col-12 content-block move-animation-2 move-show d-none">
+                                <div class="">
+                                    <div class="graphics-content my-2" data-id="animation_2">
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-primary btn-video-move-apply" data-value="animation_2">Переместить</button>
                                 </div>
                             </div>
                             {% endif %}
@@ -743,11 +755,11 @@
                                     <div class="col-12">
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="checkbox" id="checkboxScheme1" name="scheme_1" value="">
-                                            <label class="form-check-label" for="checkboxScheme1">Схема 1</label>
+                                            <label class="form-check-label" for="checkboxScheme1">Рисунок 1</label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="checkbox" id="checkboxScheme2" name="scheme_2" value="">
-                                            <label class="form-check-label" for="checkboxScheme2">Схема 2</label>
+                                            <label class="form-check-label" for="checkboxScheme2">Рисунок 2</label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="checkbox" id="checkboxVideo1" name="video_1" value="">
@@ -968,11 +980,11 @@
                                     <div class="col-12">
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="checkbox" id="checkboxScheme1" name="scheme_1" value="">
-                                            <label class="form-check-label" for="checkboxScheme1">Схема 1</label>
+                                            <label class="form-check-label" for="checkboxScheme1">Рисунок 1</label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="checkbox" id="checkboxScheme2" name="scheme_2" value="">
-                                            <label class="form-check-label" for="checkboxScheme2">Схема 2</label>
+                                            <label class="form-check-label" for="checkboxScheme2">Рисунок 2</label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="checkbox" id="checkboxVideo1" name="video_1" value="">
@@ -1011,15 +1023,38 @@
             </div>
         </div>
 
+        <div class="modal fade" id="exerciseCardModalForEdit" tabindex="-1" role="dialog" aria-labelledby="exerciseCardModalForEditLbl" aria-hidden="true" data-exs="">
+            <div class="modal-dialog modal-xl" role="document" style="max-width: 94vw;">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-end">
+                                <button class="btn btn-success mx-1 btn-save" type="button">
+                                    Сохранить
+                                </button>
+                                <button class="btn btn-danger mx-1" type="button" data-dismiss="modal" aria-label="Close">
+                                    Выйти
+                                </button>
+                            </div>
+                            <div class="col-12 mt-2">
+                                <iframe src="" style="width: 100% !important; height: 80vh !important;">
+                                </iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         {% include "exercises/modules/exercise_graphic_modal.html" %}
 
     </main>
 {% endblock %}
 
 {% block custom_scripts %}
-    <script src="{% static 'ckeditor5-build-classic/ckeditor.js' %}"></script>
+    <script src="{% static 'ckeditor5-36.0.0-i0g4ar8o2g2v/build/ckeditor.js' %}"></script>
     <!-- ckeditor5 languages: -->
-    <script src="{% static 'ckeditor5-build-classic/translations/ru.js' %}"></script>
+    <script src="{% static 'ckeditor5-36.0.0-i0g4ar8o2g2v/build/translations/ru.js' %}"></script>
 
     <script src="{% static 'video/js/video_list.js' %}"></script>
     <script src="{% static 'exercises/js/modules/exercise_counter.js' %}"></script>

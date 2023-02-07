@@ -26,7 +26,8 @@
     flex-direction: row;
 }
 .gutter {
-    background-color: #ff5640;
+    opacity: 0.5;
+    background-color: #1e4fd4;
     background-repeat: no-repeat;
     background-position: 50%;
 }
@@ -421,6 +422,9 @@ tr.bck-custom > td {
     width: 100% !important;
     height: 100% !important;
 }
+.ck.ck-content > p {
+    margin-bottom: 0.5rem !important;
+}
 
 
 .form-control-sm.exs_edit_field {
@@ -688,3 +692,16 @@ input[type="number"]:focus {
 .loading-scheme {
     background:transparent url(/static/exercises/img/field.svg) center center no-repeat;
 }
+
+
+.delete-exs-radio > .form-check:hover {
+    background-color: #cdcdcd;
+}
+
+
+.graphics-content {
+    width: 100%;
+    padding-left: 4rem !important;
+    padding-right: 4rem !important;
+}
+
