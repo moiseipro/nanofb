@@ -19,7 +19,12 @@ async function ajax_authorization(method, data, action = '', id = '', func = '')
             }
         },
         error: function(jqXHR, textStatus, errorThrown){
-            swal(gettext('Authorization'), gettext('Error when action authorization action!'), "error");
+            console.log(jqXHR)
+            let error_text = ''
+            for (let text of jqXHR.responseJSON){
+                error_text+=text+'\n'
+            }
+            swal(gettext('Authorization'), error_text, "error");
         },
         complete: function () {
             $('.page-loader-wrapper').fadeOut();

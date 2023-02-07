@@ -1,4 +1,6 @@
 import requests
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, QueryDict
 from django.views.generic import TemplateView
@@ -99,6 +101,11 @@ class AuthorizationUserViewSet(UserViewSet):
 
     def create(self, request, *args, **kwargs):
         print(request.data)
+        try:
+            validate_email(request.data['email'])
+        except ValidationError as e:
+            res_data = {'registration': _("A user with this Email already exists!")}
+            return Response(res_data, status=status.HTTP_403_FORBIDDEN, headers=e)
         serializer_personal = UserPersonalSerializer(data=request.data)
         serializer_personal.is_valid(raise_exception=True)
         serializer_personal.save()
@@ -107,7 +114,6 @@ class AuthorizationUserViewSet(UserViewSet):
             personal=serializer_personal.data['id'],
             email=request.data['email'],
             password=request.data['password'],
-            password2=request.data['password2'],
             p_version=request.data['p_version'],
         )
         query_dict = QueryDict('', mutable=True)
