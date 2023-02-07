@@ -1,0 +1,13 @@
+input.error{
+    border-color: red;
+}
+select.error{
+    border-color: red;
+}
+
+p.error{
+    font-size: small;
+    line-height: normal;
+    margin-bottom: unset;
+    margin-top: 5px;
+}

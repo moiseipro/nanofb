@@ -19,14 +19,17 @@ body {
 }
 .form-signin {
     width: 100%;
-    max-width: 330px;
     padding: 15px;
     margin: auto;
 }
 
-.form-signin input {
-    width: 100%;
-}
-.form-signin ul {
-    display: none;
+/*.form-signin input {*/
+/*    width: 100%;*/
+/*}*/
+/*.form-signin ul {*/
+/*    display: none;*/
+/*}*/
+
+.form-group{
+    margin-bottom: 10px;
 }

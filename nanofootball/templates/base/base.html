@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 
 <!doctype html>
 <html lang="en">
@@ -33,6 +34,8 @@
         <link rel="stylesheet" href="{% static 'jQuery-contextMenu-2.9.2/jquery.contextMenu.min.css' %}">
         <!-- Tel Input -->
         <link rel="stylesheet" href="{% static 'tel-input/css/intlTelInput.min.css' %}">
+        <!-- JQuery validate -->
+        <link rel="stylesheet" href="{% static 'jquery-validate/jquery-validate.css' %}">
 
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
@@ -87,6 +90,13 @@
         <script src="{% static 'jQuery-contextMenu-2.9.2/jquery.ui.position.min.js' %}"></script>
         <!-- JQuery Validate -->
         <script src="{% static 'jquery-validate/jquery.validate.min.js' %}"></script>
+        {% get_current_language as LANGUAGE_CODE %}
+        {% if LANGUAGE_CODE == 'ru'%}
+            <script src="{% static 'jquery-validate/localization/messages_ru.min.js' %}"></script>
+        {% endif %}
+
+
+
         <!-- Split JS -->
         <script src="{% static 'split-js/split.min.js' %}"></script>
         <!-- Tel Input -->
