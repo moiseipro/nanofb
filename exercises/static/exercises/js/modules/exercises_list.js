@@ -512,12 +512,14 @@ $(function() {
     });
 
 
-    // Change exercise using keys
+    // Change exercise using keys and change content in graphic modal
     window.canChangeExs = true;
+    window.canChangeGraphicsModalContent = true;
     $(document).keydown((e) => {
         let currentList = '.exs-list-group';
         let activeElem = $(currentList).find('.list-group-item.exs-elem.active');
         let loadExs = false;
+        let isGraphicsModalOpen = $('#exerciseGraphicsModal').hasClass('show');
         if (e.which == 38 && window.canChangeExs) { // up
             if (activeElem.length > 0) {
                 $(activeElem).removeClass('active');
@@ -543,6 +545,20 @@ $(function() {
                 $(currentList).find('.list-group-item.exs-elem').first().addClass('active');
             }
             loadExs = true;
+        }
+        if (e.which == 37 && isGraphicsModalOpen && canChangeGraphicsModalContent) { // left
+            canChangeGraphicsModalContent = false;
+            $('#exerciseGraphicsModal').find('.carousel-control-prev').trigger('click');
+            setTimeout(() => {
+                canChangeGraphicsModalContent = true;
+            }, 500);
+        }
+        if (e.which == 39 && isGraphicsModalOpen && canChangeGraphicsModalContent) { // right
+            canChangeGraphicsModalContent = false;
+            $('#exerciseGraphicsModal').find('.carousel-control-next').trigger('click');
+            setTimeout(() => {
+                canChangeGraphicsModalContent = true;
+            }, 500);
         }
         if (loadExs && $(currentList).find('.list-group-item.exs-elem.active').length > 0) {
             window.canChangeExs = false;

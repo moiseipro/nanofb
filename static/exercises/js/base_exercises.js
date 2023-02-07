@@ -1271,12 +1271,20 @@ $(function() {
         if ($('#exerciseCopyModal').find('.list-group-item.active').length > 0) {
             let modeVal = $('#exerciseCopyModal').find('select[name="copy_mode"]').val();
             let exsId = $('.exs-list-group').find('.exs-elem.active').attr('data-id');
+            let moveMode = $('#exerciseCopyModal').find('.toggle-mode.active').attr('data-mode');
+            if (modeVal == '2' && moveMode == "all") {
+                exsId = [];
+                $('.exs-list-group').find('.exs-elem:visible').each((ind, elem) => {
+                    exsId.push($(elem).attr('data-id'));
+                });
+            }
             let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
             let selectedFolder = $('#exerciseCopyModal').find('.list-group-item.active').find('.folder-copy-elem').attr('data-id');
             let folderType = $('.folders_div:not(.d-none)').attr('data-id');
             let data = {
                 'move_exs': modeVal == '2' ? 1 : 0,
-                'copy_exs': modeVal == '1' ? 1 : 0, 
+                'copy_exs': modeVal == '1' ? 1 : 0,
+                'move_mode': moveMode,
                 'exs': exsId, 
                 'nfb_folder': fromNfbFolder ? 1 : 0, 
                 'folder': selectedFolder,
@@ -1316,6 +1324,10 @@ $(function() {
         $(e.currentTarget).addClass('active');
         $('#exerciseCopyModal').find('.content-block').addClass('d-none');
         $('#exerciseCopyModal').find(`.content-block.${cId}`).removeClass('d-none');
+        if (cId == "copy-move-exercise-2") {
+            cId = "copy-move-exercise";
+            $('#exerciseCopyModal').find(`.content-block.${cId}`).removeClass('d-none');
+        }
         $('#exerciseCopyModal').find('.modal-footer').toggleClass('d-none', cId != "copy-move-exercise");
         let cTitle = "";
         if ($('#exerciseCopyModal').find('[name="copy_mode"]').val() == '1') {
