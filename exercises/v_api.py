@@ -1070,10 +1070,16 @@ def POST_move_exs(request, cur_user, cur_team):
 
     """
     exs_id = -1
+    exs_ids = []
     folder_id = -1
     folder_type = request.POST.get("type", "")
+    move_move = request.POST.get("move_mode", "")
     try:
         exs_id = int(request.POST.get("exs", -1))
+    except:
+        pass
+    try:
+        exs_ids = request.POST.getlist("exs[]", [])
     except:
         pass
     try:
@@ -1093,21 +1099,48 @@ def POST_move_exs(request, cur_user, cur_team):
     if folder_type == FOLDER_NFB and cur_user.is_superuser:
         found_folder = AdminFolder.objects.filter(id=folder_id)
     if found_folder.exists() and found_folder[0].id != None:
-        found_exs = None
-        if request.user.club_id is not None:
-            found_exs = ClubExercise.objects.filter(id=exs_id, club=request.user.club_id, team=cur_team)
+        if move_move == "all":
+            saved_ids = []
+            is_success = False
+            for elem in exs_ids:
+                exs_id = -1
+                try:
+                    exs_id = int(elem)
+                except:
+                    pass
+                found_exs = None
+                if request.user.club_id is not None:
+                    found_exs = ClubExercise.objects.filter(id=exs_id, club=request.user.club_id, team=cur_team)
+                else:
+                    found_exs = UserExercise.objects.filter(id=exs_id, user=cur_user)
+                if folder_type == FOLDER_NFB and cur_user.is_superuser:
+                    found_exs = AdminExercise.objects.filter(id=exs_id)
+                if found_exs and found_exs.exists() and found_exs[0].id != None:
+                    found_exs = found_exs[0]
+                    found_exs.folder = found_folder[0]
+                    try:
+                        found_exs.save()
+                        saved_ids.append(found_exs.id)
+                        is_success = True
+                    except:
+                        pass
+            return JsonResponse({"data": {"id": saved_ids}, "success": is_success}, status=200)
         else:
-            found_exs = UserExercise.objects.filter(id=exs_id, user=cur_user)
-        if folder_type == FOLDER_NFB and cur_user.is_superuser:
-            found_exs = AdminExercise.objects.filter(id=exs_id)
-        if found_exs and found_exs.exists() and found_exs[0].id != None:
-            found_exs = found_exs[0]
-            found_exs.folder = found_folder[0]
-            try:
-                found_exs.save()
-                return JsonResponse({"data": {"id": found_exs.id}, "success": True}, status=200)
-            except:
-                pass
+            found_exs = None
+            if request.user.club_id is not None:
+                found_exs = ClubExercise.objects.filter(id=exs_id, club=request.user.club_id, team=cur_team)
+            else:
+                found_exs = UserExercise.objects.filter(id=exs_id, user=cur_user)
+            if folder_type == FOLDER_NFB and cur_user.is_superuser:
+                found_exs = AdminExercise.objects.filter(id=exs_id)
+            if found_exs and found_exs.exists() and found_exs[0].id != None:
+                found_exs = found_exs[0]
+                found_exs.folder = found_folder[0]
+                try:
+                    found_exs.save()
+                    return JsonResponse({"data": {"id": found_exs.id}, "success": True}, status=200)
+                except:
+                    pass
     return JsonResponse({"errors": "Can't move exercise"}, status=400)
 
 
