@@ -80,7 +80,7 @@ class UserTeamsSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserTeam
         fields = [
-            'id', 'name', 'short_name', 'ref_team_status', 'team_status_info'
+            'id', 'name', 'short_name', 'age_key', 'u_key', 'ref_team_status', 'team_status_info'
         ]
         datatables_always_serialize = ('id',)
 
@@ -92,7 +92,7 @@ class ClubTeamsSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClubTeam
         fields = [
-            'id', 'name', 'short_name', 'ref_team_status', 'team_status_info', 'users'
+            'id', 'name', 'short_name', 'age_key', 'u_key', 'ref_team_status', 'team_status_info', 'users'
         ]
         datatables_always_serialize = ('id',)
 

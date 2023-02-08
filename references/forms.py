@@ -29,10 +29,12 @@ class CreateTeamForm(forms.ModelForm):
 
     class Meta:
         model = UserTeam
-        fields = ['name', 'short_name', 'ref_team_status']
+        fields = ['name', 'short_name', 'age_key', 'u_key', 'ref_team_status']
         labels = {
             'name': _('Team title'),
             'short_name': _('Team short name'),
+            'age_key': _('Team age key'),
+            'u_key': _('Team U key'),
             'ref_team_status': _('Team status'),
         }
         help_texts = {

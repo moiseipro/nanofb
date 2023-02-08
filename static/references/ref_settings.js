@@ -29,6 +29,8 @@ $(window).on('load', function (){
             {'data': 'id'},
             {'data': 'name'},
             {'data': 'short_name'},
+            {'data': 'age_key'},
+            {'data': 'u_key'},
             {'data': 'team_status_info.name', 'name': 'team_status_info.short_name'},
             {'data': 'id' , render : function ( data, type, row, meta ) {
               return type === 'display'  ?
@@ -87,6 +89,8 @@ $(window).on('load', function (){
         $('#form-team').attr('method', 'PATCH')
         $('#form-team #id_name').val(cur_edit_data['name'])
         $('#form-team #id_short_name').val(cur_edit_data['short_name'])
+        $('#form-team #id_age_key').val(cur_edit_data['age_key'])
+        $('#form-team #id_u_key').val(cur_edit_data['u_key'])
         $('#form-team #id_ref_team_status').val(cur_edit_data['team_status_info']['id']).trigger('change');
         $('#form-team-modal').modal('show')
     })

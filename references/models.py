@@ -103,8 +103,19 @@ class TeamStatus(AbstractReference):
         verbose_name_plural = _('Team statuses')
 
 
-# User Reference
-class UserTeam(AbstractReference, MixUserReference):
+class AbstractTeam(AbstractReference):
+    age_key = models.CharField(
+        max_length=10,
+        verbose_name=_('age key'),
+        help_text=_('Age key no more than 10 characters'),
+        default=_('Empty')
+    )
+    u_key = models.CharField(
+        max_length=10,
+        verbose_name=_('U key'),
+        help_text=_('U key no more than 10 characters'),
+        default=_('Empty')
+    )
     ref_team_status = models.ForeignKey(
         TeamStatus,
         on_delete=models.SET_DEFAULT,
@@ -112,6 +123,13 @@ class UserTeam(AbstractReference, MixUserReference):
         help_text=_('Team status.'),
         default=TeamStatus.get_default_pk
     )
+
+    class Meta:
+        abstract = True
+
+
+# User Reference
+class UserTeam(AbstractTeam, MixUserReference):
 
     class Meta:
         verbose_name = _('User Team')
@@ -136,14 +154,7 @@ class UserSeason(AbstractReference, MixUserReference):
 
 
 # Club Reference
-class ClubTeam(AbstractReference, MixClubReference):
-    ref_team_status = models.ForeignKey(
-        TeamStatus,
-        on_delete=models.SET_DEFAULT,
-        verbose_name=_('team status'),
-        help_text=_('Team status.'),
-        default=TeamStatus.get_default_pk
-    )
+class ClubTeam(AbstractTeam, MixClubReference):
     users = models.ManyToManyField(
         User,
         blank=True,
