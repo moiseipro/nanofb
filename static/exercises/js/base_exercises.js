@@ -2,6 +2,7 @@ function ToggleUpFilter(id, state) {
     let currentList = null;
     let activeElem = null;
     let graphicsWidth = '';
+    let folderType = "";
     switch(id) {
         case "toggle_side_filter":
             $('.up-tabs-elem[data-id="toggle_tags_filter"]').removeClass('selected3');
@@ -66,6 +67,9 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem').addClass('b-c-red2');
             CountExsInFoldersByType();
             ToggleTagsView();
+
+            folderType = $('.folders_div:not(.d-none)').attr('data-id');
+            $('.exs-edit-block').find('.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
             break;
         case "club_folders":
             $('.up-tabs-elem[data-id="club_folders"]').removeClass('selected3');
@@ -88,6 +92,9 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem').addClass('b-c-blue2');
             CountExsInFoldersByType();
             ToggleTagsView();
+
+            folderType = $('.folders_div:not(.d-none)').attr('data-id');
+            $('.exs-edit-block').find('.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
             break;
         case "team_folders":
             $('.up-tabs-elem[data-id="team_folders"]').removeClass('selected3');
@@ -114,6 +121,9 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem').addClass('b-c-green2');
             CountExsInFoldersByType();
             ToggleTagsView();
+
+            folderType = $('.folders_div:not(.d-none)').attr('data-id');
+            $('.exs-edit-block').find('.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
             break;
         case "copy":
             if ($('.exercises-list').find('.exs-elem.active').length <= 0) {
@@ -1941,6 +1951,8 @@ $(function() {
     // Open editable panel for exercise
     $('#toggleExsEditPanel').on('click', (e) => {
         $('.exs-edit-block').toggleClass('d-none');
+        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        $('.exs-edit-block').find('.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
     });
     $('.exs-edit-block').on('click', 'button[data-dismiss="panel"]', (e) => {
         $('.exs-edit-block').addClass('d-none');

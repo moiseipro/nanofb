@@ -7,7 +7,7 @@
                 </button>
             </div>
             <div class="col-12 px-0 mt-4">
-                <ul class="list-group">
+                <ul class="list-group {% if not user.is_superuser %}d-e-nf{% endif %}">
                     <li class="list-group-item py-1">
                         <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="card">
                             Карточка
@@ -57,12 +57,12 @@
                             Копировать
                         </button>
                     </li>
-                    <li class="list-group-item py-1">
+                    <li class="list-group-item py-1 {% if not user.is_superuser %}d-e-nf{% endif %}">
                         <button type="button" class="btn btn-sm btn-outline-warning btn-block btn-edit-e" data-id="move">
                             Переместить
                         </button>
                     </li>
-                    <li class="list-group-item py-1">
+                    <li class="list-group-item py-1 {% if not user.is_superuser %}d-e-nf{% endif %}">
                         <button type="button" class="btn btn-sm btn-outline-danger btn-block btn-edit-e" data-id="delete">
                             Удалить
                         </button>
