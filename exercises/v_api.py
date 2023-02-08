@@ -190,8 +190,9 @@ def set_refs_translations(data, lang_code):
     for key in data:
         elems = data[key]
         for elem in elems:
-            title = get_by_language_code(elem['translation_names'], lang_code)
-            elem['title'] = title if title != "" else elem['name']
+            if 'translation_names' in elem:
+                title = get_by_language_code(elem['translation_names'], lang_code)
+                elem['title'] = title if title != "" else elem['name']
     return data
 
 
@@ -315,6 +316,7 @@ def get_exercises_params(request, user, team, only_child_folders=False):
     refs['exs_cognitive_load'] = ExsCognitiveLoad.objects.filter().values()
     refs['exs_additional_data'] = ExsAdditionalData.objects.filter().values()
     refs['exs_keyword'] = ExsKeyword.objects.filter().values()
+    refs['exs_keyword_keycodes'] = ExsKeyword.objects.filter().values('keycode').order_by('keycode').distinct()
     refs['exs_stress_type'] = ExsStressType.objects.filter().values()
     refs['exs_purpose'] = ExsPurpose.objects.filter().values()
     refs['exs_coaching'] = ExsCoaching.objects.filter().values()
@@ -1283,6 +1285,8 @@ def POST_edit_exs(request, cur_user, cur_team):
         c_exs.field_keyword_b = request.POST.get("data[field_keyword_b]", None)
         c_exs.field_keyword_c = request.POST.get("data[field_keyword_c]", None)
         c_exs.field_keyword_d = request.POST.get("data[field_keyword_d]", None)
+        field_keywords = set_value_as_list(request, "data[field_keywords]", "data[field_keywords][]", [])
+        c_exs.field_keywords = field_keywords
         c_exs.field_exs_category_a = request.POST.get("data[field_exs_category_a]", None)
         c_exs.field_exs_category_b = request.POST.get("data[field_exs_category_b]", None)
 

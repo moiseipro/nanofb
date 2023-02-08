@@ -245,6 +245,12 @@ function RenderExerciseOne(data) {
         $(exsCard).find('.exs_edit_field[name="field_keyword_d"]').val(data.field_keyword_d);
         $(exsCard).find('.exs_edit_field[name="field_exs_category_a"]').val(data.field_exs_category_a);
         $(exsCard).find('.exs_edit_field[name="field_exs_category_b"]').val(data.field_exs_category_b);
+        try {
+            for (let i = 0; i < data.field_keywords.length; i++) {
+                let cId = data.field_keywords[i];
+                $(exsCard).find(`.keywords-list > li[data-id="${cId}"]`).addClass('active');
+            }
+        } catch(e) {}
 
         try {
             if (Array.isArray(data.video_links) && data.video_links.length == 4) {
@@ -524,6 +530,12 @@ function AdaptPageToSection(section, exerciseLoaded=false, onlyChangeSection=fal
                 $(document).find('div.left-col-card').addClass('w-50');
                 $(document).find('div.center-col-card').addClass('w-50');
                 $(document).find('div.right-col-card').addClass('d-none');
+                let schemasElement = $(document).find('div.right-col-card').find('#carouselSchema');
+                let videosElement = $(document).find('div.right-col-card').find('#carouselVideo');
+                let animationsElement = $(document).find('div.right-col-card').find('#carouselAnim');
+                $(document).find('div.center-col-card').prepend(animationsElement);
+                $(document).find('div.center-col-card').prepend(videosElement);
+                $(document).find('div.center-col-card').prepend(schemasElement);
             }
             if (section == "scheme_1") {
                 if (!onlyChangeSection) {
@@ -646,6 +658,12 @@ function SaveExerciseOne() {
         selectedTags.push(cId);
     });
     dataToSend.data['tags'] = selectedTags;
+
+    let selectedKeywords = [];
+    $('#exerciseCard').find('.keywords-list > li.active').each((ind, elem) => {
+        selectedKeywords.push($(elem).attr('data-id')); 
+    });
+    dataToSend.data['field_keywords'] = selectedKeywords;
 
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
@@ -2294,6 +2312,9 @@ $(function() {
     $('#exerciseCard').on('click', '.toggle-additional-information', (e) => {
         $('#exerciseCard').find('tr[data-id="additional_information"]').toggleClass('d-none');
     });
+    $('#exerciseCard').on('click', '.toggle-keywords', (e) => {
+        $('#exerciseCard').find('tr[data-id="a_keywords"]').toggleClass('d-none');
+    });
 
     LoadExercisesTagsAll();
     $('#card_tags').on('click', '.nav-link', (e) => {
@@ -2321,6 +2342,22 @@ $(function() {
         $('.exs-edit-block-in-card').find('.btn-o-modal').removeClass('active');
         $(e.currentTarget).addClass('active');
         AdaptPageToSection(cId, true, true);
+    });
+
+    $('#exerciseCard').find('.keywords-blocks-toggle > button').first().addClass('active');
+    let tmpKeywordKey = $('#exerciseCard').find('.keywords-blocks-toggle > button').first().attr('data-id');
+    $('#exerciseCard').find(`.keywords-list > li[data-key="${tmpKeywordKey}"]`).removeClass('d-none');
+    $('#exerciseCard').on('click', '.keywords-blocks-toggle > button', (e) => {
+        let cId = $(e.currentTarget).attr('data-id');
+        $('#exerciseCard').find('.keywords-list > li').addClass('d-none');
+        $('#exerciseCard').find(`.keywords-list > li[data-key="${cId}"]`).removeClass('d-none');
+        $('#exerciseCard').find('.keywords-blocks-toggle > button').removeClass('active');
+        $(e.currentTarget).addClass('active');
+    });
+    $('#exerciseCard').on('click', '.keywords-list > li', (e) => {
+        if ($('#editExs').attr('data-active') == '1') {
+            $(e.currentTarget).toggleClass('active');
+        }
     });
 
 
