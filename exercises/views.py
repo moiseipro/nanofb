@@ -248,7 +248,7 @@ def folders(request):
         return redirect("authorization:login")
     cur_user = User.objects.filter(email=request.user).only("club_id")
     if not util_check_access(cur_user[0], 
-        {'perms_user': ["exercises.view_userfolder"], 'perms_club': ["exercises.view_clubfolder"]}
+        {'perms_user': ["exercises.change_userfolder"], 'perms_club': ["exercises.change_clubfolder"]}
     ):
         return redirect("users:profile")
     cur_team = -1
