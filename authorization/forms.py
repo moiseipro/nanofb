@@ -56,7 +56,7 @@ class NewUserPersonalForm(forms.Form):
         widget=forms.DateInput(attrs={
             'class': 'form-control form-control-sm datetimepicker',
             'type': 'text',
-            'id': 'datetimepicker-event',
+            'id': 'datetimepicker-birth',
             'data-toggle': 'datetimepicker',
             'autocomplete': 'off',
             'placeholder': _('Date of birth'),
