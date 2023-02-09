@@ -8,6 +8,7 @@ from system_icons.views import get_ui_elements
 
 
 # Create your views here.
+from users.forms import EditUserPersonalForm
 from users.models import User
 
 
@@ -18,6 +19,7 @@ class BaseProfileView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['edit_profile'] = EditUserPersonalForm()
         context['menu_profile'] = "active"
         context['ui_elements'] = get_ui_elements(self.request)
         return context

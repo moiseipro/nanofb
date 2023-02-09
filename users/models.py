@@ -10,6 +10,10 @@ from .managers import CustomUserManager
 from version.models import Version
 
 
+def user_directory_path(instance, filename):
+    return 'user_{0}/{1}'.format(instance.user.id, filename)
+
+
 class UserPersonal(models.Model):
     first_name = models.CharField(
         max_length=50,
@@ -55,7 +59,7 @@ class UserPersonal(models.Model):
         blank=True,
         default=None,
         verbose_name=_('Birthday'),
-        help_text=_('Date of birth')
+        help_text=_('Date of birth'),
     )
     phone = models.CharField(
         max_length=25,
@@ -88,10 +92,35 @@ class UserPersonal(models.Model):
         default=None,
         verbose_name=_('Skype'),
     )
+    avatar = models.ImageField(
+        null=True,
+        blank=True,
+        upload_to=user_directory_path
+    )
 
     @property
     def full_name(self):
-        return '%s %s %s' % (self.last_name, self.first_name, self.father_name)
+        return '{} {} {}'.format(self.last_name, self.first_name, "" if self.father_name is None else self.father_name)
+
+    @property
+    def get_job_title(self):
+        return _('Not specified') if self.job_title is None else self.job_title
+
+    @property
+    def get_phone(self):
+        return _('Not specified') if self.phone is None else self.phone
+
+    @property
+    def get_phone_2(self):
+        return _('Not specified') if self.phone_2 is None else self.phone_2
+
+    @property
+    def get_email_2(self):
+        return _('Not specified') if self.email_2 is None else self.email_2
+
+    @property
+    def get_license(self):
+        return _('Not specified') if self.license is None else self.license
 
     @classmethod
     def get_default_pk(cls):
@@ -100,7 +129,7 @@ class UserPersonal(models.Model):
         return personal.pk
 
     def __str__(self):
-        return '%s %s %s' % (self.last_name, self.first_name, self.father_name)
+        return '{} {} {}'.format(self.last_name, self.first_name, "" if self.father_name is None else self.father_name)
 
     class Meta:
         verbose_name = _('Personal information')
