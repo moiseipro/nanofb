@@ -1289,6 +1289,8 @@ def POST_edit_exs(request, cur_user, cur_team):
         c_exs.field_keywords = field_keywords
         c_exs.field_exs_category_a = request.POST.get("data[field_exs_category_a]", None)
         c_exs.field_exs_category_b = request.POST.get("data[field_exs_category_b]", None)
+        field_categories = set_value_as_list(request, "data[field_categories]", "data[field_categories][]", [])
+        c_exs.field_categories = field_categories
 
     if is_can_edit_full:
         video_links_links = set_value_as_list(request, "data[video_links_link[]]", "data[video_links_link[]][]", [])

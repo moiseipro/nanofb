@@ -705,3 +705,8 @@ input[type="number"]:focus {
     padding-right: 4rem !important;
 }
 
+
+button.custom-disabled {
+    opacity: 0.7;
+    pointer-events: none !important;
+}

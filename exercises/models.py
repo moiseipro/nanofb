@@ -203,6 +203,7 @@ class AbstractExercise(models.Model):
     field_keywords = models.JSONField(null=True, blank=True)
     field_exs_category_a = models.CharField(max_length=30, null=True, blank=True)
     field_exs_category_b = models.CharField(max_length=30, null=True, blank=True)
+    field_categories = models.JSONField(null=True, blank=True)
 
     tags = models.ManyToManyField(ExerciseTag)
 

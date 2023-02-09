@@ -980,6 +980,7 @@ $(function() {
         $('#exerciseCardModalForEdit').find('iframe').addClass('d-none');
         $('#exerciseCardModalForEdit').find('iframe').attr('src', cLink);
         $('#exerciseCardModalForEdit').modal('show');
+        $('#exerciseCardModalForEdit').find('.btn-change-exs').addClass('d-none');
     });
 
 
@@ -1983,6 +1984,7 @@ $(function() {
             $('#exerciseCardModalForEdit').find('iframe').addClass('d-none');
             $('#exerciseCardModalForEdit').find('iframe').attr('src', linkForModal);
             $('#exerciseCardModalForEdit').modal('show');
+            $('#exerciseCardModalForEdit').find('.btn-change-exs').removeClass('d-none');
             $(e.currentTarget).addClass('active');
         } else {
             swal("Внимание", "Выберите упражнение из списка.", "info");
@@ -2002,6 +2004,65 @@ $(function() {
     $('#exerciseCardModalForEdit').on('hidden.bs.modal', (e) => {
         $('.exs-edit-block').find('.btn-o-modal').removeClass('active');
         $('#sidebar').removeClass('z-index-reduce');
+    });
+    $('#exerciseCardModalForEdit').on('click', '.btn-prev, .btn-next', (e) => {
+        let currentList = '.exs-list-group';
+        let activeElem = $(currentList).find('.list-group-item.exs-elem.active');
+        let loadExs = false;
+        if ($(e.currentTarget).hasClass('btn-prev')) {
+            if (activeElem.length > 0) {
+                $(activeElem).removeClass('active');
+                if ($(activeElem).prev().length > 0) {
+                    $(activeElem).prev().addClass('active');
+                } else {
+                    $(currentList).find('.list-group-item.exs-elem').last().addClass('active');
+                }
+            } else {
+                $(currentList).find('.list-group-item.exs-elem').last().addClass('active');
+            }
+            loadExs = true;
+        }
+        if ($(e.currentTarget).hasClass('btn-next')) {
+            if (activeElem.length > 0) {
+                $(activeElem).removeClass('active');
+                if ($(activeElem).next().length > 0) {
+                    $(activeElem).next().addClass('active');
+                } else {
+                    $(currentList).find('.list-group-item.exs-elem').first().addClass('active');
+                }
+            } else {
+                $(currentList).find('.list-group-item.exs-elem').first().addClass('active');
+            }
+            loadExs = true;
+        }
+        if (loadExs && $(currentList).find('.list-group-item.exs-elem.active').length > 0) {
+            $('#exerciseCardModalForEdit').find('iframe').addClass('d-none');
+            $('#exerciseCardModalForEdit').find('.btn-change-exs').prop('disabled', true);
+            LoadExerciseOneHandler();
+            window.addEventListener('message', (e) => {
+                switch(e.data) {
+                    case "exercise_loaded":
+                        let sectionId = $('.exs-edit-block').find('.btn-o-modal.active').attr('data-id');
+                        let activeExsId = $('.exs-list-group').find('.list-group-item.active').attr('data-id');
+                        let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
+                        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+                        let linkForModal = `/exercises/exercise?id=${activeExsId}&nfb=${fromNfbFolder ? 1 : 0}&type=${folderType}&section=${sectionId}`;
+                        $('#exerciseCardModalForEdit').find('iframe').addClass('d-none');
+                        $('#exerciseCardModalForEdit').find('iframe').attr('src', linkForModal);
+                        window.addEventListener('message', (e) => {
+                            switch(e.data) {
+                                case "exercise_loaded":
+                                    $('#exerciseCardModalForEdit').find('iframe').removeClass('d-none');
+                                    $('#exerciseCardModalForEdit').find('.btn-change-exs').prop('disabled', false);
+                                    break;
+                            }
+                            return;
+                        }, {once: true});
+                        break;
+                }
+                return;
+            }, {once: true});
+        }
     });
     $('#exerciseCardModalForEdit').on('click', '.btn-save', (e) => {
         $('.page-loader-wrapper').fadeIn();

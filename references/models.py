@@ -253,9 +253,16 @@ class ExsCoaching(AbstractReference, MixTranslateReference):
 
 
 class ExsCategory(AbstractReference, MixTranslateReference):
+    keycode = models.CharField(max_length=10, null=True, blank=True)
+
     class Meta(AbstractReference.Meta):
         verbose_name = _('Exercise category')
         verbose_name_plural = _('Exercise categories')
+    
+    def save(self, *args, **kwargs):
+        if self.keycode is not None:
+            self.keycode = self.keycode.lower().replace(' ', '')
+        return super(ExsCategory, self).save(*args, **kwargs)
 
 
 class ExsAdditionalData(AbstractReference, MixTranslateReference):

@@ -67,6 +67,9 @@ function ToggleEditFields(flag) {
         $('#exerciseCard').find('button.description-button[data-id="original"]').addClass('active');
     }
 
+    $('#exerciseCard').find('.categories-list > button').toggleClass('custom-disabled', !flag);
+    $('#exerciseCard').find('.ball-gates-list > button').toggleClass('custom-disabled', !flag);
+
     window.onlyViewMode = !flag;
 }
 
@@ -250,6 +253,20 @@ function RenderExerciseOne(data) {
                 let cId = data.field_keywords[i];
                 $(exsCard).find(`.keywords-list > li[data-id="${cId}"]`).addClass('active');
             }
+        } catch(e) {}
+        try {
+            for (let i = 0; i < data.field_categories.length; i++) {
+                let cId = data.field_categories[i];
+                $(exsCard).find(`.categories-list > button[data-id="${cId}"]`).addClass('active');
+            }
+        } catch(e) {}
+        try {
+            let ballShort = $(exsCard).find('.exs_edit_field[name="ref_ball"]').find(`option[value="${data.ref_ball}"]`).attr('data-short');
+            $(exsCard).find('.ball-gates-list > button[data-id="ball"]').toggleClass('active', ballShort == "true");
+        } catch(e) {}
+        try {
+            $(exsCard).find('.ball-gates-list > button[data-id="gate"]').removeClass('active');
+            $(exsCard).find(`.ball-gates-list > button[data-id="gate"][data-val="${data.field_goal}"]`).addClass('active');
         } catch(e) {}
 
         try {
@@ -665,6 +682,12 @@ function SaveExerciseOne() {
     });
     dataToSend.data['field_keywords'] = selectedKeywords;
 
+    let selectedCategories = [];
+    $('#exerciseCard').find('.categories-list > button.active').each((ind, elem) => {
+        selectedCategories.push($(elem).attr('data-id')); 
+    });
+    dataToSend.data['field_categories'] = selectedCategories;
+
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
         headers:{"X-CSRFToken": csrftoken},
@@ -919,7 +942,6 @@ function ToggleFoldersType(data = null) {
         $(exsCard).find(`.${folderType}[name="folder_main"]`).val(data.folder_id);
         folderName = $(exsCard).find(`.${folderType}[name="folder_main"]`).find(`option[value="${data.folder_id}"]`).text();
     }
-    $(exsCard).find('tr[data-id="folder_name"] > td.folder-text').text(folderName);
 }
 
 function CheckSelectedRowInVideoTable(onlySetVideo = false) {
@@ -2303,17 +2325,23 @@ $(function() {
     });
 
 
-    $('#exerciseCard').on('click', '.toggle-additional-characteristics', (e) => {
-        $('#exerciseCard').find('tr[data-id="additional_characteristics_data"]').toggleClass('d-none');
+    $('#exerciseCard').on('click', '.toggle-additional-characteristics-block', (e) => {
+        $('#exerciseCard').find('tr[data-id="additional_characteristics_data_block"]').toggleClass('d-none');
     });
-    $('#exerciseCard').on('click', '.toggle-main-block', (e) => {
-        $('#exerciseCard').find('tr[data-id="main_block"]').toggleClass('d-none');
+    $('#exerciseCard').on('click', '.toggle-card-block', (e) => {
+        $('#exerciseCard').find('tr[data-id="card_block"]').toggleClass('d-none');
     });
-    $('#exerciseCard').on('click', '.toggle-additional-information', (e) => {
-        $('#exerciseCard').find('tr[data-id="additional_information"]').toggleClass('d-none');
+    $('#exerciseCard').on('click', '.toggle-categories-block', (e) => {
+        $('#exerciseCard').find('tr[data-id="categories_block"]').toggleClass('d-none');
     });
-    $('#exerciseCard').on('click', '.toggle-keywords', (e) => {
-        $('#exerciseCard').find('tr[data-id="a_keywords"]').toggleClass('d-none');
+    $('#exerciseCard').on('click', '.toggle-ball-gates-block', (e) => {
+        $('#exerciseCard').find('tr[data-id="ball_gates_block"]').toggleClass('d-none');
+    });
+    $('#exerciseCard').on('click', '.toggle-additional-information-block', (e) => {
+        $('#exerciseCard').find('tr[data-id="additional_information_block"]').toggleClass('d-none');
+    });
+    $('#exerciseCard').on('click', '.toggle-keywords-block', (e) => {
+        $('#exerciseCard').find('tr[data-id="keywords_block"]').toggleClass('d-none');
     });
 
     LoadExercisesTagsAll();
@@ -2357,6 +2385,30 @@ $(function() {
     $('#exerciseCard').on('click', '.keywords-list > li', (e) => {
         if ($('#editExs').attr('data-active') == '1') {
             $(e.currentTarget).toggleClass('active');
+        }
+    });
+
+    $('#exerciseCard').on('click', '.categories-list > button', (e) => {
+        if ($('#editExs').attr('data-active') == '1') {
+            $(e.currentTarget).toggleClass('active');
+        }
+    });
+
+    $('#exerciseCard').on('click', '.ball-gates-list > button', (e) => {
+        if ($('#editExs').attr('data-active') == '1') {
+            let cId = $(e.currentTarget).attr('data-id');
+            let isActive = $(e.currentTarget).hasClass('active');
+            if (cId == "ball") {
+                let short = `${!isActive}`;
+                let val = $('#exerciseCard').find('.exs_edit_field[name="ref_ball"]').find(`option[data-short="${short}"]`).attr('value');
+                $('#exerciseCard').find('.exs_edit_field[name="ref_ball"]').val(val);
+                $(e.currentTarget).toggleClass('active');
+            } else if (cId == "gate") {
+                let val = !isActive ? $(e.currentTarget).attr('data-val') : "";
+                $('#exerciseCard').find('.exs_edit_field[name="field_goal"]').val(val);
+                $('#exerciseCard').find('.ball-gates-list > button[data-id="gate"]').removeClass('active');
+                $(e.currentTarget).toggleClass('active', !isActive);
+            }
         }
     });
 
