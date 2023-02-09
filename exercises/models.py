@@ -200,6 +200,7 @@ class AbstractExercise(models.Model):
     field_keyword_b = models.CharField(max_length=30, null=True, blank=True)
     field_keyword_c = models.CharField(max_length=30, null=True, blank=True)
     field_keyword_d = models.CharField(max_length=30, null=True, blank=True)
+    field_keywords = models.JSONField(null=True, blank=True)
     field_exs_category_a = models.CharField(max_length=30, null=True, blank=True)
     field_exs_category_b = models.CharField(max_length=30, null=True, blank=True)
 

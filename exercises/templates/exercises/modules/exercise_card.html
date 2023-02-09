@@ -281,7 +281,34 @@
                                                         <input name="field_goal" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="" autocomplete="off">
                                                     </td>
                                                 </tr>
-                                                <tr class="bck-custom border-y-custom {% if not user.is_superuser %}d-none{% endif %}" data-id="additional_information">
+                                                <tr class="bck-custom-color text-center font-weight-bold toggle-keywords" style="--bck-color:#eee; --bck-color-h:#eee;">
+                                                    <td class="align-middle folder-text" colspan="2">Ключевые слова</td>
+                                                </tr>
+                                                <tr class="bck-custom border-y-custom {% if not user.is_superuser %}d-none{% endif %}" data-id="a_keywords">
+                                                    <td colspan="2">
+                                                        <div class="row mx-0">
+                                                            <div class="col-12 px-0 my-1">
+                                                                <div class="btn-group keywords-blocks-toggle w-100" role="group" aria-label="">
+                                                                    {% for elem in refs.exs_keyword_keycodes %}
+                                                                    <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase mx-1" data-id="{{ elem.keycode }}">
+                                                                        {{ elem.keycode }}
+                                                                    </button>
+                                                                    {% endfor %}
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 px-0">
+                                                                <ul class="list-group keywords-list">
+                                                                    {% for elem in refs.exs_keyword %}
+                                                                    <li class="list-group-item py-1 mb-1 d-none" data-id="{{ elem.id }}" data-key="{{ elem.keycode }}">
+                                                                        {{ elem.title }}
+                                                                    </li>
+                                                                    {% endfor %}
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="bck-custom border-y-custom d-none" data-id="">
                                                     <td class="text-center align-middle">Ключевые слова</td>
                                                     <td class="text-center">
                                                         <div class="row mx-0">

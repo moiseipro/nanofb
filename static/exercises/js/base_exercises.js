@@ -714,29 +714,43 @@ $(function() {
         $(e.currentTarget).attr('data-state', state ? '0' : '1');
     });
 
+    let searchTmpVal = "";
     $('.exs-search').on('keyup', (e) => {
         let val = $(e.currentTarget).val();
         if ((window.exercisesFilter['_search'] && window.exercisesFilter['_search'] == val) || (!window.exercisesFilter['_search'] && val == "")) {
             return;
         }
-        window.exercisesFilter['_search'] = val;
-        for (ind in window.count_exs_calls) {
-            window.count_exs_calls[ind]['call'].abort();
-        }
-        LoadFolderExercises();
-        CountExsInFolder();
+        setTimeout(() => {
+            let waitedVal = $('.exs-search').val();
+            if ((val == waitedVal || waitedVal == "") && waitedVal != searchTmpVal) {
+                searchTmpVal = waitedVal;
+                window.exercisesFilter['_search'] = searchTmpVal;
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            }
+        }, 500);
     });
+    let ageTmpVal = "";
     $('.exs-age-filter').on('keyup', (e) => {
         let val = $(e.currentTarget).val();
         if ((window.exercisesFilter['filter_age'] && window.exercisesFilter['filter_age'] == val) || (!window.exercisesFilter['filter_age'] && val == "")) {
             return;
         }
-        window.exercisesFilter['filter_age'] = val;
-        for (ind in window.count_exs_calls) {
-            window.count_exs_calls[ind]['call'].abort();
-        }
-        LoadFolderExercises();
-        CountExsInFolder();
+        setTimeout(() => {
+            let waitedVal = $('.exs-age-filter').val();
+            if ((val == waitedVal || waitedVal == "") && waitedVal != ageTmpVal) {
+                ageTmpVal = waitedVal;
+                window.exercisesFilter['filter_age'] = ageTmpVal;
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            }
+        }, 500);
     });
     $('.exs-players-filter').on('change', (e) => {
         let value = $(e.currentTarget).val();
@@ -2033,6 +2047,8 @@ $(function() {
                 $('#exerciseCopyModal').find('.content-block').addClass('d-none');
                 $('#exerciseCopyModal').find('.content-block.copy-move-exercise').removeClass('d-none');
                 $('#exerciseCopyModal').find('.modal-footer').removeClass('d-none');
+                let visibledExsCount = $('.exs-list-group').find('.list-group-item:visible').length;
+                $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-move-exercise-2"]').find('.counter').text(` (${visibledExsCount}) `);
                 $('#exerciseCopyModal').modal('show');
             } else if (cId == "delete") {
                 let exsId = $(activeExs).attr('data-id');

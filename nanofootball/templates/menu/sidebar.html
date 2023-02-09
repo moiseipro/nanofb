@@ -128,7 +128,9 @@
     </a>
     <ul style="display: none;">
         <li><a class="nav-link {{ menu_exercises }}" href="{% url 'exercises:exercises' %}">{% trans 'Exercise lists' %}</a></li>
+        {% if perms.exercises.change_adminfolder or perms.exercises.change_userfolder or perms.exercises.change_clubfolder %}
         <li><a class="nav-link {{ menu_exercises_folders }}" href="{% url 'exercises:folders' %}">{% trans 'Folders management' %}</a></li>
+        {% endif %}
     </ul>
 </li>
 {% endif %}
