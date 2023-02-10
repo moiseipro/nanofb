@@ -66,7 +66,7 @@ class UserPersonalSerializer(serializers.ModelSerializer):
         model = UserPersonal
         fields = [
             'id', 'first_name', 'last_name', 'father_name', 'email_2', 'job_title', 'date_birthsday', 'country_id',
-            'region', 'city', 'phone'
+            'region', 'city', 'phone', 'phone_2', 'license', 'skype'
         ]
 
 

@@ -18,12 +18,11 @@ $(window).on('load', function () {
         let personal = $('#edit-personal-form').serializeArray()
         let send_data = personal
         console.log(send_data);
-        send_data = $.merge(send_data, $('#user-form').serializeArray())
-        console.log(send_data);
 
-        // ajax_users('POST', send_data, 'registration').then(function (data) {
-        //     console.log(data)
-        // })
+        ajax_profile('PUT', send_data, 'edit', '', 'edit').then(function (data) {
+            console.log(data)
+            location.reload()
+        })
     })
 })
 

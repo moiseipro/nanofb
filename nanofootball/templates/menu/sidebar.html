@@ -105,7 +105,7 @@
 {% endif %}
 {% if perms.trainings.view_usertraining or perms.trainings.view_clubtraining %}
 <li class="{{ menu_trainings }}">
-    <a href="{% url 'trainings:base_trainings' %}" class="btn">
+    <a href="{% url 'trainings:base_trainings' %}" class="btn disabled">
         {% if ui_elements.sidebar__trainings %}
             {{ ui_elements.sidebar__trainings }}
         {% else %}
