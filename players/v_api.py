@@ -254,7 +254,7 @@ def POST_edit_player(request, cur_user, cur_team):
             players_add_limit_flag = False
             players_add_limit_amount = 0
             try:
-                players_add_limit_amount = cur_user.p_version.player_limit
+                players_add_limit_amount = request.user.club_id.player_limit
                 players_add_limit_flag = ClubPlayer.objects.filter(team=cur_team).count() < players_add_limit_amount
             except:
                 pass

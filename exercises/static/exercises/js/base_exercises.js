@@ -1297,7 +1297,7 @@ $(function() {
             let modeVal = $('#exerciseCopyModal').find('select[name="copy_mode"]').val();
             let exsId = $('.exs-list-group').find('.exs-elem.active').attr('data-id');
             let moveMode = $('#exerciseCopyModal').find('.toggle-mode.active').attr('data-mode');
-            if (modeVal == '2' && moveMode == "all") {
+            if (moveMode == "all") {
                 exsId = [];
                 $('.exs-list-group').find('.exs-elem:visible').each((ind, elem) => {
                     exsId.push($(elem).attr('data-id'));
@@ -1964,13 +1964,20 @@ $(function() {
     });
 
     // Open editable panel for exercise
+    if (sessionStorage.getItem("exercises__exs_edit_panel") !== null) {
+        $('.exs-edit-block').toggleClass('d-none', sessionStorage.getItem("exercises__exs_edit_panel") != '1');
+        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        $('.exs-edit-block').find('.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
+    }
     $('#toggleExsEditPanel').on('click', (e) => {
         $('.exs-edit-block').toggleClass('d-none');
         let folderType = $('.folders_div:not(.d-none)').attr('data-id');
         $('.exs-edit-block').find('.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
+        sessionStorage.setItem("exercises__exs_edit_panel", $('.exs-edit-block').hasClass('d-none') ? 0 : 1);
     });
     $('.exs-edit-block').on('click', 'button[data-dismiss="panel"]', (e) => {
         $('.exs-edit-block').addClass('d-none');
+        sessionStorage.setItem("exercises__exs_edit_panel", 0);
     });
     $('.exs-edit-block').on('click', '.btn-o-modal', (e) => {
         let cId = $(e.currentTarget).attr('data-id');

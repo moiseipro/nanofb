@@ -925,10 +925,16 @@ def POST_copy_exs(request, cur_user, cur_team):
 
     """
     exs_id = -1
+    exs_ids = []
     folder_id = -1
     folder_type = request.POST.get("type", "")
+    move_move = request.POST.get("move_mode", "")
     try:
         exs_id = int(request.POST.get("exs", -1))
+    except:
+        pass
+    try:
+        exs_ids = request.POST.getlist("exs[]", [])
     except:
         pass
     try:
@@ -945,9 +951,6 @@ def POST_copy_exs(request, cur_user, cur_team):
         found_folder = ClubFolder.objects.filter(id=folder_id, club=request.user.club_id)
     else:
         found_folder = UserFolder.objects.filter(id=folder_id)
-    success_status = False
-    c_exs = None
-    new_exs = None
     found_team = None
     if request.user.club_id is not None:
         found_team = ClubTeam.objects.filter(id=cur_team, club_id=request.user.club_id)
@@ -955,108 +958,116 @@ def POST_copy_exs(request, cur_user, cur_team):
         found_team = UserTeam.objects.filter(id=cur_team, user_id=cur_user)
     if not found_team or not found_team.exists() or found_team[0].id == None:
         return JsonResponse({"err": "Cant find team.", "success": False}, status=400)
-    if found_folder and found_folder.exists() and found_folder[0].id != None:
-        res_data = {'err': "NULL"}
-        if folder_type == FOLDER_NFB:
-            c_exs = AdminExercise.objects.filter(id=exs_id, visible=True)
-            if c_exs.exists() and c_exs[0].id != None:
+    if not (found_folder and found_folder.exists() and found_folder[0].id != None):
+        return JsonResponse({"errors": "Can't copy exercise / exercises"}, status=400)
+    success_status = False
+    if move_move != "all":
+        exs_ids = [exs_id]
+    res_data = {'ids': [], 'exs_params': [], 'videos': [], 'err': []}
+    for exs_id in exs_ids:
+        c_exs = None
+        new_exs = None
+        if found_folder and found_folder.exists() and found_folder[0].id != None:
+            if folder_type == FOLDER_NFB:
+                c_exs = AdminExercise.objects.filter(id=exs_id, visible=True)
+                if c_exs.exists() and c_exs[0].id != None:
+                    if request.user.club_id is not None:
+                        new_exs = ClubExercise(user=cur_user, club=request.user.club_id, team=found_team[0])
+                    else:
+                        new_exs = UserExercise(user=cur_user)
+                    for key in c_exs.values()[0]:
+                        if key != "id" and key != "date_creation":
+                            if key == "scheme_1" or key == "scheme_2":
+                                new_scheme_id = ""
+                                scheme_id = c_exs.values()[0][key]
+                                response = requests.post(f'{NEW_SCHEME_DRAWER_URL}/api/canvas-draw/v1/canvas/duplicate', json={'id': scheme_id})
+                                r_json = response.json()
+                                if 'id' in r_json:
+                                    new_scheme_id = r_json['id']
+                                setattr(new_exs, key, new_scheme_id)
+                            else:
+                                setattr(new_exs, key, c_exs.values()[0][key])
+                    new_exs.folder = found_folder[0]
+                    new_exs.clone_nfb_id = exs_id
+                    try:
+                        new_exs.save()
+                        res_data['ids'].append(new_exs.id)
+                        success_status = True
+                    except Exception as e:
+                        res_data['ids'].append(new_exs.id)
+                        res_data['err'].append(str(e))
+                    exs_params = UserExerciseParamTeam.objects.filter(exercise_nfb=exs_id)
+                    if exs_params.exists() and exs_params[0].id != None and success_status:
+                        if found_team and found_team.exists() and found_team[0].id != None:
+                            new_exs_params = None
+                            if request.user.club_id is not None:
+                                new_exs_params = UserExerciseParamTeam(exercise_club=new_exs, team_club=found_team[0])
+                            else:
+                                new_exs_params = UserExerciseParamTeam(exercise_user=new_exs, team=found_team[0])
+                            for key in exs_params.values()[0]:
+                                if key != "id" and key != "exercise_user_id" and key != "exercise_club_id" and key != "exercise_nfb_id" and key != "team_id":
+                                    setattr(new_exs_params, key, exs_params.values()[0][key])
+                            try:
+                                new_exs_params.save()
+                                res_data['exs_params'].append(new_exs_params.id)
+                                success_status = True
+                            except Exception as e:
+                                success_status = False
+                                res_data['ids'].append(new_exs.id)
+                                res_data['err'].append(str(e))
+            elif folder_type == FOLDER_TEAM:
+                c_exs = None
                 if request.user.club_id is not None:
-                    new_exs = ClubExercise(user=cur_user, club=request.user.club_id, team=found_team[0])
+                    c_exs = ClubExercise.objects.filter(id=exs_id, team=found_team[0], club=request.user.club_id)
                 else:
-                    new_exs = UserExercise(user=cur_user)
-                for key in c_exs.values()[0]:
-                    if key != "id" and key != "date_creation":
-                        if key == "scheme_1" or key == "scheme_2":
-                            new_scheme_id = ""
-                            scheme_id = c_exs.values()[0][key]
-                            response = requests.post(f'{NEW_SCHEME_DRAWER_URL}/api/canvas-draw/v1/canvas/duplicate', json={'id': scheme_id})
-                            r_json = response.json()
-                            if 'id' in r_json:
-                                new_scheme_id = r_json['id']
-                            setattr(new_exs, key, new_scheme_id)
-                        else:
+                    c_exs = UserExercise.objects.filter(id=exs_id, user=cur_user)
+                if c_exs.exists() and c_exs[0].id != None:
+                    new_exs = None
+                    if request.user.club_id is not None:
+                        new_exs = ClubExercise(user=cur_user, club=request.user.club_id, team=found_team[0])
+                    else:
+                        new_exs = UserExercise(user=cur_user)
+                    for key in c_exs.values()[0]:
+                        if key != "id" and key != "date_creation":
                             setattr(new_exs, key, c_exs.values()[0][key])
-                new_exs.folder = found_folder[0]
-                new_exs.clone_nfb_id = exs_id
+                    new_exs.folder = found_folder[0]
+                    try:
+                        new_exs.save()
+                        res_data['ids'].append(new_exs.id)
+                        success_status = True
+                    except Exception as e:
+                        res_data['ids'].append(new_exs.id)
+                        res_data['err'].append(str(e))
+            elif folder_type == FOLDER_CLUB:
+                pass
+            if c_exs and new_exs:
                 try:
-                    new_exs.save()
-                    res_data = {'id': new_exs.id}
-                    success_status = True
-                except Exception as e:
-                    print(e)
-                    res_data = {'id': new_exs.id, 'err': str(e)}
-                exs_params = UserExerciseParamTeam.objects.filter(exercise_nfb=exs_id)
-                if exs_params.exists() and exs_params[0].id != None and success_status:
-                    if found_team and found_team.exists() and found_team[0].id != None:
-                        new_exs_params = None
+                    videos = []
+                    if folder_type == FOLDER_NFB:
+                        videos = c_exs[0].videos.through.objects.filter(exercise_nfb=c_exs[0])
+                    elif folder_type == FOLDER_TEAM:
                         if request.user.club_id is not None:
-                            new_exs_params = UserExerciseParamTeam(exercise_club=new_exs, team_club=found_team[0])
+                            videos = c_exs[0].videos.through.objects.filter(exercise_club=c_exs[0])
                         else:
-                            new_exs_params = UserExerciseParamTeam(exercise_user=new_exs, team=found_team[0])
-                        for key in exs_params.values()[0]:
-                            if key != "id" and key != "exercise_user_id" and key != "exercise_club_id" and key != "exercise_nfb_id" and key != "team_id":
-                                setattr(new_exs_params, key, exs_params.values()[0][key])
-                        try:
-                            new_exs_params.save()
-                            res_data['exs_params'] = new_exs_params.id
-                            success_status = True
-                        except Exception as e:
-                            success_status = False
-                            res_data = {'id': new_exs.id, 'err': str(e)}
-        elif folder_type == FOLDER_TEAM:
-            c_exs = None
-            if request.user.club_id is not None:
-                c_exs = ClubExercise.objects.filter(id=exs_id, team=found_team[0], club=request.user.club_id)
-            else:
-                c_exs = UserExercise.objects.filter(id=exs_id, user=cur_user)
-            if c_exs.exists() and c_exs[0].id != None:
-                new_exs = None
-                if request.user.club_id is not None:
-                    new_exs = ClubExercise(user=cur_user, club=request.user.club_id, team=found_team[0])
-                else:
-                    new_exs = UserExercise(user=cur_user)
-                for key in c_exs.values()[0]:
-                    if key != "id" and key != "date_creation":
-                        setattr(new_exs, key, c_exs.values()[0][key])
-                new_exs.folder = found_folder[0]
-                try:
-                    new_exs.save()
-                    res_data = {'id': new_exs.id}
-                    success_status = True
-                except Exception as e:
-                    res_data = {'id': new_exs.id, 'err': str(e)}
-        elif folder_type == FOLDER_CLUB:
-            pass
-        if c_exs and new_exs:
-            try:
-                videos = []
-                if folder_type == FOLDER_NFB:
-                    videos = c_exs[0].videos.through.objects.filter(exercise_nfb=c_exs[0])
-                elif folder_type == FOLDER_TEAM:
-                    if request.user.club_id is not None:
+                            videos = c_exs[0].videos.through.objects.filter(exercise_user=c_exs[0])
+                    elif folder_type == FOLDER_CLUB:
                         videos = c_exs[0].videos.through.objects.filter(exercise_club=c_exs[0])
-                    else:
-                        videos = c_exs[0].videos.through.objects.filter(exercise_user=c_exs[0])
-                elif folder_type == FOLDER_CLUB:
-                    videos = c_exs[0].videos.through.objects.filter(exercise_club=c_exs[0])
-                for video in videos:
-                    video.pk = None
-                    video.exercise_nfb = None
-                    video.exercise_user = None
-                    video.exercise_club = None
-                    if request.user.club_id is not None:
-                        video.exercise_club = new_exs
-                    else:
-                        video.exercise_user = new_exs
-                    video.save()
-                    new_exs.videos.through.objects.add(video)
-                res_data = {'videos': "OK"}
-            except Exception as e:
-                print(e)
-                res_data = {'err': str(e)}
-        return JsonResponse({"data": res_data, "success": success_status}, status=200)
-    return JsonResponse({"errors": "Can't copy exercise"}, status=400)
-
+                    for video in videos:
+                        video.pk = None
+                        video.exercise_nfb = None
+                        video.exercise_user = None
+                        video.exercise_club = None
+                        if request.user.club_id is not None:
+                            video.exercise_club = new_exs
+                        else:
+                            video.exercise_user = new_exs
+                        video.save()
+                        new_exs.videos.through.objects.add(video)
+                    res_data['videos'].append("OK")
+                except Exception as e:
+                    res_data['err'].append(str(e))
+    return JsonResponse({"data": res_data, "success": success_status}, status=200)
+    
 
 def POST_move_exs(request, cur_user, cur_team):
     """
