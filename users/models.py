@@ -28,7 +28,7 @@ class UserPersonal(models.Model):
     father_name = models.CharField(
         max_length=50,
         null=True,
-        blank=True,
+        #blank=True,
         default=None,
         verbose_name=_('Patronymic'),
         help_text=_('Father name')
@@ -36,14 +36,14 @@ class UserPersonal(models.Model):
     job_title = models.CharField(
         max_length=60,
         null=True,
-        blank=True,
+        #blank=True,
         verbose_name=_('Job title'),
         help_text=_('User job title')
     )
     license = models.CharField(
         max_length=60,
         null=True,
-        blank=True,
+        #blank=True,
         verbose_name=_('License'),
         help_text=_('Trainer\'s License')
     )
@@ -52,11 +52,15 @@ class UserPersonal(models.Model):
         help_text=_('Country of residence')
     )
     region_id = models.IntegerField(null=True, blank=True, default=None)
-    region = models.CharField(max_length=60, null=True, blank=True, default=None)
+    region = models.CharField(
+        max_length=60,
+        null=True,
+        #blank=True,
+        default=None)
     city = models.CharField(max_length=60, null=True, blank=True, default=None)
     date_birthsday = models.DateField(
         null=True,
-        blank=True,
+        #blank=True,
         default=None,
         verbose_name=_('Birthday'),
         help_text=_('Date of birth'),
@@ -64,7 +68,7 @@ class UserPersonal(models.Model):
     phone = models.CharField(
         max_length=25,
         null=True,
-        blank=True,
+        #blank=True,
         default=None,
         verbose_name=_('Phone'),
         help_text=_('Phone number')
@@ -72,7 +76,7 @@ class UserPersonal(models.Model):
     phone_2 = models.CharField(
         max_length=25,
         null=True,
-        blank=True,
+        #blank=True,
         default=None,
         verbose_name=_('Spare phone'),
         help_text=_('Spare phone number')
@@ -80,7 +84,7 @@ class UserPersonal(models.Model):
     email_2 = models.CharField(
         max_length=60,
         null=True,
-        blank=True,
+        #blank=True,
         default=None,
         verbose_name=_('Spare email'),
         help_text=_('Spare email')
@@ -88,7 +92,7 @@ class UserPersonal(models.Model):
     skype = models.CharField(
         max_length=20,
         null=True,
-        blank=True,
+        #blank=True,
         default=None,
         verbose_name=_('Skype'),
     )
