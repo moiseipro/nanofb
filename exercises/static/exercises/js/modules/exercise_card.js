@@ -726,7 +726,7 @@ function SaveExerciseOne() {
     });
 }
 
-function DeleteExerciseOne(exsId=null, folderType=null) {
+function DeleteExerciseOne(exsId=null, folderType=null, isMultiExs=false) {
     let deleteSwal = swal({
         title: "Вы точно хотите удалить упражнение?",
         text: `После удаления данное упражнение невозможно будет восстановить!`,
@@ -785,7 +785,7 @@ function DeleteExerciseOne(exsId=null, folderType=null) {
             if (folderType == null) {folderType = searchParams.get('type');}
             if (exsId == null) {exsId = $('#exerciseCard').attr('data-exs');}
             let deleteType = $(document).find('.swal-modal').find('input[name="delete_exs_type"]:checked').val();
-            let data = {'delete_exs': 1, 'exs': exsId, 'type': folderType, 'delete_type': deleteType};
+            let data = {'delete_exs': 1, 'exs': exsId, 'type': folderType, 'delete_type': deleteType, 'multi_exs': isMultiExs};
             $('.page-loader-wrapper').fadeIn();
             $.ajax({
                 headers:{"X-CSRFToken": csrftoken},
@@ -2383,8 +2383,14 @@ $(function() {
         $(e.currentTarget).addClass('active');
     });
     $('#exerciseCard').on('click', '.keywords-list > li', (e) => {
+        let isActive = $(e.currentTarget).hasClass('active');
+        let activeKeywordsAmount = $('#exerciseCard').find('.keywords-list > li.active').length;
         if ($('#editExs').attr('data-active') == '1') {
-            $(e.currentTarget).toggleClass('active');
+            if (!isActive && activeKeywordsAmount < 2) {
+                $(e.currentTarget).addClass('active');
+            } else if (isActive) {
+                $(e.currentTarget).removeClass('active');
+            }
         }
     });
 

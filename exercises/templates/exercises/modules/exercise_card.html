@@ -116,6 +116,13 @@
                                                         {% endfor %}
                                                     </td>
                                                 </tr>
+                                                <tr class="bck-custom-color" style="--bck-color:#eee; --bck-color-h:#eee;">
+                                                    <td colspan="2" title="Название упражнения">
+                                                        <input name="title" class="form-control form-control-sm exs_edit_field text-center placeholder-font-weight" 
+                                                            type="text" value="" placeholder="Название упражнения" autocomplete="off" 
+                                                            style="--fw:700; background-color: #fff0; border-color: #fff0;" required="">
+                                                    </td>
+                                                </tr>
                                                 <tr class="bck-custom-color text-center font-weight-bold toggle-card-block" style="--bck-color:#eee; --bck-color-h:#eee;">
                                                     <td class="align-middle folder-text" colspan="2">Карточка</td>
                                                 </tr>
@@ -354,7 +361,7 @@
                                                             <div class="col-12 px-0">
                                                                 <ul class="list-group keywords-list">
                                                                     {% for elem in refs.exs_keyword %}
-                                                                    <li class="list-group-item py-1 mb-1 d-none" data-id="{{ elem.id }}" data-key="{{ elem.keycode }}">
+                                                                    <li class="list-group-item py-1 mb-1 d-none" data-id="{{ elem.title }}" data-key="{{ elem.keycode }}">
                                                                         {{ elem.title }}
                                                                     </li>
                                                                     {% endfor %}
@@ -527,13 +534,6 @@
                                                 <col span="1" style="width: 100%;">
                                             </colgroup>
                                             <tbody>
-                                                <tr class="bck-custom-color" style="--bck-color:#eee; --bck-color-h:#eee;">
-                                                    <td>
-                                                        <input name="title" class="form-control form-control-sm exs_edit_field text-center placeholder-font-weight" 
-                                                            type="text" value="" placeholder="Название упражнения" autocomplete="off" 
-                                                            style="--fw:700; background-color: #fff0; border-color: #fff0;" required="">
-                                                    </td>
-                                                </tr>
                                                 <tr class="bck-custom">
                                                     <td>
                                                         <input name="field_task" class="form-control form-control-sm exs_edit_field text-center" 

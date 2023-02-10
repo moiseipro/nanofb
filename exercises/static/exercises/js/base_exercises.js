@@ -30,6 +30,23 @@ function ToggleUpFilter(id, state) {
             }
             break;
         case "nfb_folders":
+            if (IsSelectedExercisesForDelete()) {
+                $('.up-tabs-elem[data-id="nfb_folders"]').removeClass('selected3');
+                swal({
+                    title: "Очистить список выбранных для удаления упражнений?",
+                    text: "Чтобы сменить папки, необходимо очистить список выбранных для удаления упражнений",
+                    icon: "warning",
+                    buttons: ["Отмена", "Подтвердить"],
+                    dangerMode: true,
+                })
+                .then((willClear) => {
+                    if (willClear) {
+                        IsSelectedExercisesForDelete(true);
+                    }
+                });
+                return;
+            }
+
             $('.up-tabs-elem[data-id="nfb_folders"]').removeClass('selected3');
             $('.exs_counter').html("(...)");
 
@@ -72,6 +89,23 @@ function ToggleUpFilter(id, state) {
             $('.exs-edit-block').find('.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
             break;
         case "club_folders":
+            if (IsSelectedExercisesForDelete()) {
+                $('.up-tabs-elem[data-id="club_folders"]').removeClass('selected3');
+                swal({
+                    title: "Очистить список выбранных для удаления упражнений?",
+                    text: "Чтобы сменить папки, необходимо очистить список выбранных для удаления упражнений",
+                    icon: "warning",
+                    buttons: ["Отмена", "Подтвердить"],
+                    dangerMode: true,
+                })
+                .then((willClear) => {
+                    if (willClear) {
+                        IsSelectedExercisesForDelete(true);
+                    }
+                });
+                return;
+            }
+
             $('.up-tabs-elem[data-id="club_folders"]').removeClass('selected3');
             $('.exs_counter').html("(...)");
 
@@ -97,6 +131,23 @@ function ToggleUpFilter(id, state) {
             $('.exs-edit-block').find('.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
             break;
         case "team_folders":
+            if (IsSelectedExercisesForDelete()) {
+                $('.up-tabs-elem[data-id="team_folders"]').removeClass('selected3');
+                swal({
+                    title: "Очистить список выбранных для удаления упражнений?",
+                    text: "Чтобы сменить папки, необходимо очистить список выбранных для удаления упражнений",
+                    icon: "warning",
+                    buttons: ["Отмена", "Подтвердить"],
+                    dangerMode: true,
+                })
+                .then((willClear) => {
+                    if (willClear) {
+                        IsSelectedExercisesForDelete(true);
+                    }
+                });
+                return;
+            }
+
             $('.up-tabs-elem[data-id="team_folders"]').removeClass('selected3');
             $('.exs_counter').html("(...)");
 
@@ -608,6 +659,37 @@ function RenderContentInCardModalForEdit(data) {
     for (let i = 0; i < items.length; i++) {
         window.videoPlayerCopyClones[i].load();
     }
+}
+
+function IsSelectedExercisesForDelete(clearList = false) {
+    let isSelected = false;
+    try {
+        isSelected = window.selectedExercisesForDelete.length > 0;
+    } catch(e) {}
+    if (isSelected && clearList) {
+        window.selectedExercisesForDelete = [];
+        RenderSelectedExercisesForDelete();
+    }
+    return isSelected;
+}
+
+function RenderSelectedExercisesForDelete() {
+    $('.exs-list-group').find('.exs-elem').find('.title > .delete-icon').remove();
+    try {
+        for (let i = 0; i < window.selectedExercisesForDelete.length; i++) {
+            let tID = window.selectedExercisesForDelete[i];
+            $('.exs-list-group').find(`.exs-elem[data-id="${tID}"]`).find('.title').prepend(`
+                <span class="delete-icon mr-2">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </span>
+            `);
+        }
+    } catch(e) {}
+    let amount = 0;
+    try {
+        amount = window.selectedExercisesForDelete.length;
+    } catch(e) {}
+    $('.exs-edit-block').find('.btn-edit-e[data-id="delete_select"]').find('.amount').text(`(${amount})`);
 }
 
 
@@ -2119,15 +2201,41 @@ $(function() {
                 $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-move-exercise-2"]').find('.counter').text(` (${visibledExsCount}) `);
                 $('#exerciseCopyModal').modal('show');
             } else if (cId == "delete") {
-                let exsId = $(activeExs).attr('data-id');
+                let isMultiExs = false;
+                try {
+                    isMultiExs = window.selectedExercisesForDelete.length > 0;
+                } catch(e) {}
+                let exsId = null;
+                if (isMultiExs) {
+                    exsId = window.selectedExercisesForDelete;
+                } else {
+                    exsId = $(activeExs).attr('data-id');
+                }
                 let folderType = $('.folders_div:not(.d-none)').attr('data-id');
                 let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
                 let data = {'type': folderType, 'folder': folder, 'exs': exsId};
                 data = JSON.stringify(data);
                 sessionStorage.setItem('last_exs', data);
-                DeleteExerciseOne(exsId, folderType);
+                DeleteExerciseOne(exsId, folderType, isMultiExs);
+            } else if (cId == "delete_select") {
+                let exsId = $(activeExs).attr('data-id');
+                if (!Array.isArray(window.selectedExercisesForDelete)) {
+                    window.selectedExercisesForDelete = [];
+                }
+                if (window.selectedExercisesForDelete.includes(exsId)) {
+                    let index = window.selectedExercisesForDelete.indexOf(exsId);
+                    if (index !== -1) {
+                        window.selectedExercisesForDelete.splice(index, 1);
+                    }
+                } else {
+                    window.selectedExercisesForDelete.push(exsId);
+                }
+                RenderSelectedExercisesForDelete();
             }
             $(e.currentTarget).addClass('active');
+            if (cId == "delete" || cId == "delete_select") {
+                $(e.currentTarget).removeClass('active');
+            }
         } else {
             swal("Внимание", "Выберите упражнение из списка.", "info");
         }
