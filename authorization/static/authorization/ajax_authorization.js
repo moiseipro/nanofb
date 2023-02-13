@@ -14,6 +14,7 @@ async function ajax_authorization(method, data, action = '', id = '', func = '')
         data: data,
         success: function(data){
             console.log(data)
+            if (data == undefined || data == '') return;
             if ('registration' in data){
                 swal(data['registration'], '', "success");
             }
@@ -21,9 +22,9 @@ async function ajax_authorization(method, data, action = '', id = '', func = '')
         error: function(jqXHR, textStatus, errorThrown){
             console.log(jqXHR)
             let error_text = ''
-            for (let text of jqXHR.responseJSON){
-                error_text+=text+'\n'
-            }
+            $.each(jqXHR.responseJSON, function(index, value) {
+                error_text+=value+'\n'
+            });
             swal(gettext('Authorization'), error_text, "error");
         },
         complete: function () {

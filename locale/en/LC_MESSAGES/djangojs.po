@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-09 14:59+0300\n"
+"POT-Creation-Date: 2023-02-13 15:05+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,8 +24,21 @@ msgstr ""
 msgid "Activation"
 msgstr ""
 
-#: .\authorization\static\authorization\ajax_authorization.js:27
+#: .\authorization\static\authorization\ajax_authorization.js:28
 msgid "Authorization"
+msgstr ""
+
+#: .\authorization\static\authorization\forgot_password.js:16
+#: .\authorization\static\authorization\reset_password.js:26
+msgid "Reset password"
+msgstr ""
+
+#: .\authorization\static\authorization\forgot_password.js:16
+msgid "A link to password recovery was sent to the email"
+msgstr ""
+
+#: .\authorization\static\authorization\reset_password.js:26
+msgid "The new password has been successfully set!"
 msgstr ""
 
 #: .\clubs\static\clubs\js\club_ajax.js:18
@@ -465,6 +478,10 @@ msgstr ""
 
 #: .\trainings\static\trainings\js\view_training.js:768
 msgid "Group B"
+msgstr ""
+
+#: .\users\static\users\profile_ajax.js:27
+msgid "Profile"
 msgstr ""
 
 #: .\video\static\video\js\video_card.js:98

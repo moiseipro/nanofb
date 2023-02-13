@@ -14,17 +14,17 @@ async function ajax_profile(method, data, action = '', id = '', func = '') {
         data: data,
         success: function(data){
             console.log(data)
-            if ('registration' in data){
-                swal(data['registration'], '', "success");
+            if ('message' in data){
+                swal(data['message'], '', "success");
             }
         },
         error: function(jqXHR, textStatus, errorThrown){
             console.log(jqXHR)
             let error_text = ''
-            for (let text of jqXHR.responseJSON){
-                error_text+=text+'\n'
-            }
-            swal(gettext('Authorization'), error_text, "error");
+            $.each(jqXHR.responseJSON, function(index, value) {
+                error_text+=value+'\n'
+            });
+            swal(gettext('Profile'), error_text, "error");
         },
         complete: function () {
             $('.page-loader-wrapper').fadeOut();

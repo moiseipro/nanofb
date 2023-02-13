@@ -3,6 +3,12 @@ from rest_framework import serializers
 from users.models import User, UserPersonal
 
 
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    password = serializers.CharField(required=True)
+    password2 = serializers.CharField(required=True)
+
+
 class PermissionSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
 
