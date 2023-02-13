@@ -1611,6 +1611,29 @@ $(function() {
 			licenseKey: '',
             language: cLang,
             removePlugins: ['Title'],
+            fontSize: {
+                options: [
+                    10,
+                    11,
+                    12,
+                    13,
+                    'default',
+                    15,
+                    16,
+                    17,
+                    18,
+                ]
+            },
+            toolbar: [
+                'heading', '|',
+                'fontSize', 'fontColor', 'fontBackgroundColor', '|',
+                'specialCharacters', '|',
+                'undo', 'redo', '|',
+                'bold', 'italic', 'underline', '|',
+                'bulletedList', 'numberedList', 'toDoList', '|',
+                'outdent', 'indent', 'alignment', '|',
+                'link', 'insertImage', 'blockQuote', 'insertTable', '|'
+            ]
 		})
 		.catch((error) => {
             console.error("Error with CKEditor5: ", error);
@@ -1668,6 +1691,29 @@ $(function() {
 			licenseKey: '',
             language: cLang,
             removePlugins: ['Title'],
+            fontSize: {
+                options: [
+                    10,
+                    11,
+                    12,
+                    13,
+                    'default',
+                    15,
+                    16,
+                    17,
+                    18,
+                ]
+            },
+            toolbar: [
+                'heading', '|',
+                'fontSize', 'fontColor', 'fontBackgroundColor', '|',
+                'specialCharacters', '|',
+                'undo', 'redo', '|',
+                'bold', 'italic', 'underline', '|',
+                'bulletedList', 'numberedList', 'toDoList', '|',
+                'outdent', 'indent', 'alignment', '|',
+                'link', 'insertImage', 'blockQuote', 'insertTable', '|'
+            ]
 		})
 		.catch((error) => {
             console.error("Error with CKEditor5: ", error);
