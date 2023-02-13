@@ -7,7 +7,7 @@ from exercises.models import UserExerciseParam, UserExerciseParamTeam
 from exercises.models import AdminExerciseAdditionalParams, UserExerciseAdditionalParams, ClubExerciseAdditionalParams, ExerciseAdditionalParamValue
 from references.models import ExsGoal, ExsBall, ExsTeamCategory, ExsAgeCategory, ExsTrainPart, ExsCognitiveLoad
 from references.models import ExsKeyword, ExsStressType, ExsPurpose, ExsCoaching
-from references.models import ExsCategory, ExsAdditionalData, ExsTitleName
+from references.models import ExsCategory, ExsAdditionalData, ExsTitleName, ExsType, ExsPhysicalQualities
 from references.models import UserSeason, ClubSeason, UserTeam, ClubTeam
 from references.models import ExsDescriptionTemplate
 from video.models import Video
@@ -321,6 +321,8 @@ def get_exercises_params(request, user, team, only_child_folders=False):
     refs['exs_purpose'] = ExsPurpose.objects.filter().values()
     refs['exs_coaching'] = ExsCoaching.objects.filter().values()
     refs['exs_category'] = ExsCategory.objects.filter().values()
+    refs['exs_types'] = ExsType.objects.filter().values()
+    refs['exs_physical_qualities'] = ExsPhysicalQualities.objects.filter().values()
     refs['exs_title_names'] = ExsTitleName.objects.filter().values()
     refs = set_refs_translations(refs, request.LANGUAGE_CODE)
     return [folders, club_folders, nfb_folders, refs]
@@ -716,9 +718,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
         f_exercises = f_exercises.filter(
             Q(title__iregex=searh_regex) |
             Q(field_keyword_a__iexact=filter_search_low) |
-            Q(field_keyword_b__iexact=filter_search_low) |
-            Q(field_keyword_c__iexact=filter_search_low) |
-            Q(field_keyword_d__iexact=filter_search_low)
+            Q(field_keyword_b__iexact=filter_search_low)
         )
     if filter_video_source != -1:
         if filter_video_source == -2:
@@ -1294,14 +1294,18 @@ def POST_edit_exs(request, cur_user, cur_team):
         c_exs.field_players_b = set_value_as_int(request, "data[field_players_b]", None)
         c_exs.field_keyword_a = request.POST.get("data[field_keyword_a]", None)
         c_exs.field_keyword_b = request.POST.get("data[field_keyword_b]", None)
-        c_exs.field_keyword_c = request.POST.get("data[field_keyword_c]", None)
-        c_exs.field_keyword_d = request.POST.get("data[field_keyword_d]", None)
         field_keywords = set_value_as_list(request, "data[field_keywords]", "data[field_keywords][]", [])
         c_exs.field_keywords = field_keywords
         c_exs.field_exs_category_a = request.POST.get("data[field_exs_category_a]", None)
         c_exs.field_exs_category_b = request.POST.get("data[field_exs_category_b]", None)
         field_categories = set_value_as_list(request, "data[field_categories]", "data[field_categories][]", [])
         c_exs.field_categories = field_categories
+        field_types = set_value_as_list(request, "data[field_types]", "data[field_types][]", [])
+        c_exs.field_types = field_types
+        field_physical_qualities = set_value_as_list(request, "data[field_physical_qualities]", "data[field_physical_qualities][]", [])
+        c_exs.field_physical_qualities = field_physical_qualities
+        field_cognitive_loads = set_value_as_list(request, "data[field_cognitive_loads]", "data[field_cognitive_loads][]", [])
+        c_exs.field_cognitive_loads = field_cognitive_loads
 
     if is_can_edit_full:
         video_links_links = set_value_as_list(request, "data[video_links_link[]]", "data[video_links_link[]][]", [])
@@ -2647,8 +2651,6 @@ def GET_get_exs_all(request, cur_user, cur_team):
             'field_players_b': exercise['field_players_b'],
             'field_keyword_a': exercise['field_keyword_a'],
             'field_keyword_b': exercise['field_keyword_b'],
-            'field_keyword_c': exercise['field_keyword_c'],
-            'field_keyword_d': exercise['field_keyword_d'],
             'field_keywords': exercise['field_keywords'],
             'field_exs_category_a': exercise['field_exs_category_a'],
             'field_exs_category_b': exercise['field_exs_category_b'],

@@ -4203,6 +4203,9 @@ table.table-inbox tbody tr.checked {
 .icon--copy {
 	content: url(../img/icons/copy.png);
 }
+.icon--dexterity {
+	content: url(../img/icons/dexterity.png);
+}
 .icon--dislike {
 	content: url(../img/icons/dislike.png);
 }
@@ -4220,6 +4223,9 @@ table.table-inbox tbody tr.checked {
 }
 .icon--favorite-selected {
 	content: url(../img/icons/favorite_selected.png);
+}
+.icon--flexibility {
+	content: url(../img/icons/flexibility.png);
 }
 .icon--folder {
 	content: url(../img/icons/folder.png);
@@ -4256,6 +4262,15 @@ table.table-inbox tbody tr.checked {
 }
 .icon--share {
 	content: url(../img/icons/share.png);
+}
+.icon--speed {
+	content: url(../img/icons/speed.png);
+}
+.icon--stamina {
+	content: url(../img/icons/stamina.png);
+}
+.icon--strength {
+	content: url(../img/icons/strength.png);
 }
 .icon--trainer {
 	content: url(../img/icons/trainer.png);

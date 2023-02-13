@@ -69,6 +69,9 @@ function ToggleEditFields(flag) {
 
     $('#exerciseCard').find('.categories-list > button').toggleClass('custom-disabled', !flag);
     $('#exerciseCard').find('.ball-gates-list > button').toggleClass('custom-disabled', !flag);
+    $('#exerciseCard').find('.exs-types-list > button').toggleClass('custom-disabled', !flag);
+    $('#exerciseCard').find('.physical-qualities-list > button').toggleClass('custom-disabled', !flag);
+    $('#exerciseCard').find('.cognitive-load-list > button').toggleClass('custom-disabled', !flag);
 
     window.onlyViewMode = !flag;
 }
@@ -244,16 +247,14 @@ function RenderExerciseOne(data) {
         $(exsCard).find('.exs_edit_field[name="field_players_b"]').val(data.field_players_b);
         $(exsCard).find('.exs_edit_field[name="field_keyword_a"]').val(data.field_keyword_a);
         $(exsCard).find('.exs_edit_field[name="field_keyword_b"]').val(data.field_keyword_b);
-        $(exsCard).find('.exs_edit_field[name="field_keyword_c"]').val(data.field_keyword_c);
-        $(exsCard).find('.exs_edit_field[name="field_keyword_d"]').val(data.field_keyword_d);
         $(exsCard).find('.exs_edit_field[name="field_exs_category_a"]').val(data.field_exs_category_a);
         $(exsCard).find('.exs_edit_field[name="field_exs_category_b"]').val(data.field_exs_category_b);
-        try {
-            for (let i = 0; i < data.field_keywords.length; i++) {
-                let cId = data.field_keywords[i];
-                $(exsCard).find(`.keywords-list > li[data-id="${cId}"]`).addClass('active');
-            }
-        } catch(e) {}
+        // try {
+        //     for (let i = 0; i < data.field_keywords.length; i++) {
+        //         let cId = data.field_keywords[i];
+        //         $(exsCard).find(`.keywords-list > li[data-id="${cId}"]`).addClass('active');
+        //     }
+        // } catch(e) {}
         try {
             for (let i = 0; i < data.field_categories.length; i++) {
                 let cId = data.field_categories[i];
@@ -267,6 +268,25 @@ function RenderExerciseOne(data) {
         try {
             $(exsCard).find('.ball-gates-list > button[data-id="gate"]').removeClass('active');
             $(exsCard).find(`.ball-gates-list > button[data-id="gate"][data-val="${data.field_goal}"]`).addClass('active');
+        } catch(e) {}
+
+        try {
+            for (let i = 0; i < data.field_types.length; i++) {
+                let cId = data.field_types[i];
+                $(exsCard).find(`.exs-types-list > button[data-id="${cId}"]`).addClass('active');
+            }
+        } catch(e) {}
+        try {
+            for (let i = 0; i < data.field_physical_qualities.length; i++) {
+                let cId = data.field_physical_qualities[i];
+                $(exsCard).find(`.physical-qualities-list > button[data-id="${cId}"]`).addClass('active');
+            }
+        } catch(e) {}
+        try {
+            for (let i = 0; i < data.field_cognitive_loads.length; i++) {
+                let cId = data.field_cognitive_loads[i];
+                $(exsCard).find(`.cognitive-load-list > button[data-id="${cId}"]`).addClass('active');
+            }
         } catch(e) {}
 
         try {
@@ -676,17 +696,35 @@ function SaveExerciseOne() {
     });
     dataToSend.data['tags'] = selectedTags;
 
-    let selectedKeywords = [];
-    $('#exerciseCard').find('.keywords-list > li.active').each((ind, elem) => {
-        selectedKeywords.push($(elem).attr('data-id')); 
-    });
-    dataToSend.data['field_keywords'] = selectedKeywords;
+    // let selectedKeywords = [];
+    // $('#exerciseCard').find('.keywords-list > li.active').each((ind, elem) => {
+    //     selectedKeywords.push($(elem).attr('data-id')); 
+    // });
+    // dataToSend.data['field_keywords'] = selectedKeywords;
 
     let selectedCategories = [];
     $('#exerciseCard').find('.categories-list > button.active').each((ind, elem) => {
         selectedCategories.push($(elem).attr('data-id')); 
     });
     dataToSend.data['field_categories'] = selectedCategories;
+
+    let selectedTypes = [];
+    $('#exerciseCard').find('.exs-types-list > button.active').each((ind, elem) => {
+        selectedTypes.push($(elem).attr('data-id')); 
+    });
+    dataToSend.data['field_types'] = selectedTypes;
+
+    let selectedPhysicalQualities = [];
+    $('#exerciseCard').find('.physical-qualities-list > button.active').each((ind, elem) => {
+        selectedPhysicalQualities.push($(elem).attr('data-id')); 
+    });
+    dataToSend.data['field_physical_qualities'] = selectedPhysicalQualities;
+
+    let selectedCognitiveLoads = [];
+    $('#exerciseCard').find('.cognitive-load-list > button.active').each((ind, elem) => {
+        selectedCognitiveLoads.push($(elem).attr('data-id')); 
+    });
+    dataToSend.data['field_cognitive_loads'] = selectedCognitiveLoads;
 
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
@@ -2418,5 +2456,26 @@ $(function() {
         }
     });
 
+    $('#exerciseCard').on('click', '.exs-types-list > button', (e) => {
+        let isActive = $(e.currentTarget).hasClass('active');
+        if ($('#editExs').attr('data-active') == '1') {
+            $('#exerciseCard').find('.exs-types-list > button').removeClass('active');
+            $(e.currentTarget).toggleClass('active', !isActive);
+        }
+    });
+
+    $('#exerciseCard').on('click', '.physical-qualities-list > button', (e) => {
+        let isActive = $(e.currentTarget).hasClass('active');
+        if ($('#editExs').attr('data-active') == '1') {
+            $(e.currentTarget).toggleClass('active', !isActive);
+        }
+    });
+
+    $('#exerciseCard').on('click', '.cognitive-load-list > button', (e) => {
+        let isActive = $(e.currentTarget).hasClass('active');
+        if ($('#editExs').attr('data-active') == '1') {
+            $(e.currentTarget).toggleClass('active', !isActive);
+        }
+    });
 
 });
