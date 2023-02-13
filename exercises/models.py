@@ -198,12 +198,13 @@ class AbstractExercise(models.Model):
     field_players_b = models.IntegerField(null=True, blank=True)
     field_keyword_a = models.CharField(max_length=30, null=True, blank=True)
     field_keyword_b = models.CharField(max_length=30, null=True, blank=True)
-    field_keyword_c = models.CharField(max_length=30, null=True, blank=True)
-    field_keyword_d = models.CharField(max_length=30, null=True, blank=True)
     field_keywords = models.JSONField(null=True, blank=True)
     field_exs_category_a = models.CharField(max_length=30, null=True, blank=True)
     field_exs_category_b = models.CharField(max_length=30, null=True, blank=True)
     field_categories = models.JSONField(null=True, blank=True)
+    field_types = models.JSONField(null=True, blank=True)
+    field_physical_qualities = models.JSONField(null=True, blank=True)
+    field_cognitive_loads = models.JSONField(null=True, blank=True)
 
     tags = models.ManyToManyField(ExerciseTag)
 

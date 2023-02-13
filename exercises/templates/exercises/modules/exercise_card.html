@@ -116,12 +116,18 @@
                                                         {% endfor %}
                                                     </td>
                                                 </tr>
-                                                <tr class="bck-custom-color text-center font-weight-bold toggle-card-block" style="--bck-color:#eee; --bck-color-h:#eee;">
-                                                    <td class="align-middle folder-text" colspan="2">Карточка</td>
+                                                <tr class="bck-custom-color" style="--bck-color:#eee; --bck-color-h:#eee;">
+                                                    <td colspan="2" title="Название упражнения">
+                                                        <input name="title" class="form-control form-control-sm exs_edit_field text-center placeholder-font-weight" 
+                                                            type="text" value="" placeholder="Название упражнения" autocomplete="off" 
+                                                            style="--fw:700; background-color: #fff0; border-color: #fff0;" required="">
+                                                    </td>
+                                                </tr>
+                                                <tr class="bck-custom-color text-center font-weight-bold toggle-card-block-0" style="--bck-color:#eee; --bck-color-h:#eee;">
+                                                    <td class="align-middle folder-text" colspan="2"></td>
                                                 </tr>
                                                 <tr class="bck-custom border-y-custom folder-container">
-                                                    <td class="text-center align-middle">Главные папки</td>
-                                                    <td>
+                                                    <td colspan="2" title="Главные папки">
                                                         <select name="folder_parent" class="form-control form-control-sm exs_edit_field nfb_folders d-none" required="" autocomplete="off">
                                                             {% for folder in nfb_folders %}
                                                                 {% if folder.root %}
@@ -139,8 +145,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr class="bck-custom border-y-custom folder-container">
-                                                    <td class="text-center align-middle">Папки с упражнением</td>
-                                                    <td>
+                                                    <td colspan="2" title="Папки с упражнением">
                                                         <select name="folder_main" class="form-control form-control-sm exs_edit_field nfb_folders d-none" required="" autocomplete="off">
                                                             {% for folder in nfb_folders %}
                                                                 {% if not folder.root %}
@@ -167,49 +172,43 @@
                                                         </select>
                                                     </td>
                                                 </tr> -->
+                                                <tr class="bck-custom-color text-center font-weight-bold" style="--bck-color:#eee; --bck-color-h:#eee;">
+                                                    <td class="align-middle folder-text" colspan="2"></td>
+                                                </tr>
                                                 <tr class="bck-custom border-y-custom" data-id="card_block">
-                                                    <td class="text-center align-middle">Игроки</td>
-                                                    <td class="text-center">
-                                                        <div class="row mx-0">
-                                                            <div class="col-5 px-0">
-                                                                <input name="field_players_a" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="" autocomplete="off" min="0" max="50">
-                                                            </div>
-                                                            <div class="col-2 px-0">
-                                                                -
-                                                            </div>
-                                                            <div class="col-5 px-0">
-                                                                <input name="field_players_b" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="" autocomplete="off" min="0" max="50">
-                                                            </div>
-                                                        </div>
+                                                    <td class="text-center" title="Игроки с">
+                                                        <input name="field_players_a" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="Игроки с" autocomplete="off" min="0" max="50">
+                                                    </td>
+                                                    <td class="text-center" title="Игроки по">
+                                                        <input name="field_players_b" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="Игроки по" autocomplete="off" min="0" max="50">
                                                     </td>
                                                 </tr>
                                                 <tr class="bck-custom border-y-custom" data-id="card_block">
-                                                    <td class="text-center align-middle">Возраст</td>
-                                                    <td class="text-center">
-                                                        <!-- <input name="field_age" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="" autocomplete="off"> -->
-                                                        <div class="row mx-0">
-                                                            <div class="col-5 px-0">
-                                                                <input name="field_age_a" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="" autocomplete="off" min="0" max="150">
-                                                            </div>
-                                                            <div class="col-2 px-0">
-                                                                -
-                                                            </div>
-                                                            <div class="col-5 px-0">
-                                                                <input name="field_age_b" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="" autocomplete="off" min="0" max="150">
-                                                            </div>
-                                                        </div>
+                                                    <td class="text-center" title="Возраст с">
+                                                        <input name="field_age_a" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="Возраст с" autocomplete="off" min="0" max="150">
+                                                    </td>
+                                                    <td class="text-center" title="Возраст по">
+                                                        <input name="field_age_b" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="Возраст по" autocomplete="off" min="0" max="150">
                                                     </td>
                                                 </tr>
-                                                <tr class="bck-custom-color text-center font-weight-bold toggle-categories-block" style="--bck-color:#eee; --bck-color-h:#eee;">
-                                                    <td class="align-middle folder-text" colspan="2">Категории упражнения</td>
+                                                <tr class="bck-custom border-y-custom" data-id="card_block">
+                                                    <td class="text-center" title="Ключевое слово 1">
+                                                        <input name="field_keyword_a" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="Ключевое слово 1" autocomplete="off">
+                                                    </td>
+                                                    <td class="text-center" title="Ключевое слово 2">
+                                                        <input name="field_keyword_b" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="Ключевое слово 2" autocomplete="off">
+                                                    </td>
+                                                </tr>
+                                                <tr class="bck-custom-color text-center font-weight-bold toggle-categories-block-0" style="--bck-color:#eee; --bck-color-h:#eee;">
+                                                    <td class="align-middle folder-text" colspan="2"></td>
                                                 </tr>
                                                 <tr class="bck-custom border-y-custom" data-id="categories_block">
                                                     <td colspan="2">
                                                         <div class="row mx-0">
                                                             <div class="col-12 px-0 my-1">
-                                                                <div class="btn-group categories-list w-100" role="group" aria-label="">
+                                                                <div class="btn-group btn-group-custom-active categories-list w-100" role="group" aria-label="">
                                                                     {% for elem in refs.exs_category %}
-                                                                    <button type="button" class="btn btn-sm btn-outline-secondary mx-1" data-id="{{ elem.keycode }}">
+                                                                    <button type="button" class="btn btn-outline-secondary mx-1" data-id="{{ elem.keycode }}">
                                                                         {{ elem.title }}
                                                                     </button>
                                                                     {% endfor %}
@@ -218,14 +217,32 @@
                                                         </div>
                                                     </td>
                                                 </tr>
-                                                <tr class="bck-custom-color text-center font-weight-bold toggle-ball-gates-block" style="--bck-color:#eee; --bck-color-h:#eee;">
-                                                    <td class="align-middle folder-text" colspan="2">Мяч / ворота</td>
+                                                <tr class="bck-custom-color text-center font-weight-bold" style="--bck-color:#eee; --bck-color-h:#eee;">
+                                                    <td class="align-middle folder-text" colspan="2"></td>
+                                                </tr>
+                                                <tr class="bck-custom border-y-custom" data-id="">
+                                                    <td colspan="2">
+                                                        <div class="row mx-0">
+                                                            <div class="col-12 px-0 my-1">
+                                                                <div class="btn-group btn-group-custom-active exs-types-list w-100" role="group" aria-label="">
+                                                                    {% for elem in refs.exs_types %}
+                                                                    <button type="button" class="btn btn-outline-secondary mx-1" data-id="{{ elem.keycode }}">
+                                                                        {{ elem.title }}
+                                                                    </button>
+                                                                    {% endfor %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="bck-custom-color text-center font-weight-bold toggle-ball-gates-block-0" style="--bck-color:#eee; --bck-color-h:#eee;">
+                                                    <td class="align-middle folder-text" colspan="2"></td>
                                                 </tr>
                                                 <tr class="bck-custom border-y-custom" data-id="ball_gates_block">
                                                     <td colspan="2">
                                                         <div class="row mx-0">
                                                             <div class="col-12 px-0 my-1">
-                                                                <div class="btn-group ball-gates-list w-100" role="group" aria-label="">
+                                                                <div class="btn-group btn-group-custom-active ball-gates-list w-100" role="group" aria-label="">
                                                                     <button type="button" class="btn btn-sm btn-outline-secondary mx-1" data-id="ball">
                                                                         <span class="icon-custom icon--ball mt-1" style="--i-w: 1.4em; --i-h: 1.4em;"></span>
                                                                     </button>
@@ -250,6 +267,42 @@
                                                                     {% endfor %}
                                                                 </select>
                                                                 <input name="field_goal" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="" autocomplete="off">
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="bck-custom-color text-center font-weight-bold" style="--bck-color:#eee; --bck-color-h:#eee;">
+                                                    <td class="align-middle folder-text" colspan="2"></td>
+                                                </tr>
+                                                <tr class="bck-custom border-y-custom" data-id="">
+                                                    <td colspan="2">
+                                                        <div class="row mx-0">
+                                                            <div class="col-12 px-0 my-1">
+                                                                <div class="btn-group btn-group-custom-active physical-qualities-list w-100" role="group" aria-label="">
+                                                                    {% for elem in refs.exs_physical_qualities %}
+                                                                    <button type="button" class="btn btn-sm btn-outline-secondary mx-1" data-id="{{ elem.keycode }}" title="{{ elem.title }}">
+                                                                        <span class="icon-custom icon--{{ elem.icon_id }} mt-1" style="--i-w: 1.5em; --i-h: 1.5em;"></span>
+                                                                    </button>
+                                                                    {% endfor %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="bck-custom-color text-center font-weight-bold" style="--bck-color:#eee; --bck-color-h:#eee;">
+                                                    <td class="align-middle folder-text" colspan="2"></td>
+                                                </tr>
+                                                <tr class="bck-custom border-y-custom" data-id="">
+                                                    <td colspan="2">
+                                                        <div class="row mx-0">
+                                                            <div class="col-12 px-0 my-1">
+                                                                <div class="btn-group btn-group-custom-active cognitive-load-list w-100" role="group" aria-label="">
+                                                                    {% for elem in refs.exs_cognitive_load %}
+                                                                    <button type="button" class="btn btn-outline-secondary mx-1" data-id="{{ elem.keycode }}" title="{{ elem.title }}">
+                                                                        {{ elem.short_name }}
+                                                                    </button>
+                                                                    {% endfor %}
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -336,7 +389,7 @@
                                                     </td>
                                                 </tr> -->
 
-                                                <tr class="bck-custom-color text-center font-weight-bold toggle-keywords-block" style="--bck-color:#eee; --bck-color-h:#eee;">
+                                                <!-- <tr class="bck-custom-color text-center font-weight-bold toggle-keywords-block" style="--bck-color:#eee; --bck-color-h:#eee;">
                                                     <td class="align-middle folder-text" colspan="2">Ключевые слова</td>
                                                 </tr>
                                                 <tr class="bck-custom border-y-custom {% if not user.is_superuser %}d-none{% endif %}" data-id="keywords_block">
@@ -354,7 +407,7 @@
                                                             <div class="col-12 px-0">
                                                                 <ul class="list-group keywords-list">
                                                                     {% for elem in refs.exs_keyword %}
-                                                                    <li class="list-group-item py-1 mb-1 d-none" data-id="{{ elem.id }}" data-key="{{ elem.keycode }}">
+                                                                    <li class="list-group-item py-1 mb-1 d-none" data-id="{{ elem.title }}" data-key="{{ elem.keycode }}">
                                                                         {{ elem.title }}
                                                                     </li>
                                                                     {% endfor %}
@@ -362,8 +415,9 @@
                                                             </div>
                                                         </div>
                                                     </td>
-                                                </tr>
-                                                <tr class="bck-custom border-y-custom d-none" data-id="">
+                                                </tr> -->
+
+                                                <!-- <tr class="bck-custom border-y-custom d-none" data-id="">
                                                     <td class="text-center align-middle">Ключевые слова</td>
                                                     <td class="text-center">
                                                         <div class="row mx-0">
@@ -374,7 +428,7 @@
                                                                         <option value="{{ elem.title }}">{{ elem.title }}</option>
                                                                     {% endfor %}
                                                                 </select>
-                                                                <!-- <input name="field_keyword_a" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="" autocomplete="off"> -->
+                                                                
                                                             </div>
                                                             <div class="col-12 px-0">
                                                                 <select name="field_keyword_b" class="form-control form-control-sm exs_edit_field" autocomplete="off">
@@ -383,7 +437,6 @@
                                                                         <option value="{{ elem.title }}">{{ elem.title }}</option>
                                                                     {% endfor %}
                                                                 </select>
-                                                                <!-- <input name="field_keyword_b" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="" autocomplete="off"> -->
                                                             </div>
                                                             <div class="col-12 px-0">
                                                                 <select name="field_keyword_c" class="form-control form-control-sm exs_edit_field" autocomplete="off">
@@ -403,7 +456,7 @@
                                                             </div>
                                                         </div>
                                                     </td>
-                                                </tr>
+                                                </tr> -->
                                                 <tr class="bck-custom-color text-center font-weight-bold toggle-additional-characteristics-block d-none" style="--bck-color:#eee; --bck-color-h:#eee;">
                                                     <td class="align-middle folder-text" colspan="2">Ключевые характеристики</td>
                                                 </tr>
@@ -527,13 +580,6 @@
                                                 <col span="1" style="width: 100%;">
                                             </colgroup>
                                             <tbody>
-                                                <tr class="bck-custom-color" style="--bck-color:#eee; --bck-color-h:#eee;">
-                                                    <td>
-                                                        <input name="title" class="form-control form-control-sm exs_edit_field text-center placeholder-font-weight" 
-                                                            type="text" value="" placeholder="Название упражнения" autocomplete="off" 
-                                                            style="--fw:700; background-color: #fff0; border-color: #fff0;" required="">
-                                                    </td>
-                                                </tr>
                                                 <tr class="bck-custom">
                                                     <td>
                                                         <input name="field_task" class="form-control form-control-sm exs_edit_field text-center" 

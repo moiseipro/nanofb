@@ -67,6 +67,12 @@
                             Удалить
                         </button>
                     </li>
+                    <li class="list-group-item py-1 {% if not user.is_superuser %}d-e-nf{% endif %}">
+                        <button type="button" class="btn btn-sm btn-outline-danger btn-block btn-edit-e" data-id="delete_select">
+                            Корзина
+                            <span class="amount">(0)</span>
+                        </button>
+                    </li>
                 </ul>
             </div>
         </div>

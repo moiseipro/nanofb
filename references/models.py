@@ -216,9 +216,16 @@ class ExsTrainPart(AbstractReference, MixTranslateReference):
 
 
 class ExsCognitiveLoad(AbstractReference, MixTranslateReference):
+    keycode = models.CharField(max_length=10, null=True, blank=True)
+
     class Meta(AbstractReference.Meta):
         verbose_name = _('Exercise cognitive load')
         verbose_name_plural = _('Exercise cognitive loads')
+    
+    def save(self, *args, **kwargs):
+        if self.keycode is not None:
+            self.keycode = self.keycode.lower().replace(' ', '')
+        return super(ExsCognitiveLoad, self).save(*args, **kwargs)
 
 
 class ExsKeyword(AbstractReference, MixTranslateReference):
@@ -263,6 +270,33 @@ class ExsCategory(AbstractReference, MixTranslateReference):
         if self.keycode is not None:
             self.keycode = self.keycode.lower().replace(' ', '')
         return super(ExsCategory, self).save(*args, **kwargs)
+
+
+class ExsType(AbstractReference, MixTranslateReference):
+    keycode = models.CharField(max_length=10, null=True, blank=True)
+
+    class Meta(AbstractReference.Meta):
+        verbose_name = _('Exercise types')
+        verbose_name_plural = _('Exercise types')
+    
+    def save(self, *args, **kwargs):
+        if self.keycode is not None:
+            self.keycode = self.keycode.lower().replace(' ', '')
+        return super(ExsType, self).save(*args, **kwargs)
+
+
+class ExsPhysicalQualities(AbstractReference, MixTranslateReference):
+    icon_id = models.CharField(max_length=255, null=True, blank=True)
+    keycode = models.CharField(max_length=20, null=True, blank=True)
+
+    class Meta(AbstractReference.Meta):
+        verbose_name = _('Exercise physical qualities')
+        verbose_name_plural = _('Exercise physical qualities')
+    
+    def save(self, *args, **kwargs):
+        if self.keycode is not None:
+            self.keycode = self.keycode.lower().replace(' ', '')
+        return super(ExsPhysicalQualities, self).save(*args, **kwargs)
 
 
 class ExsAdditionalData(AbstractReference, MixTranslateReference):

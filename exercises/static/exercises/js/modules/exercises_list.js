@@ -113,6 +113,13 @@ function RenderFolderExercises(id, tExs) {
     $('.folders-block').find('.list-group-item.active').find('.folder-exs-counter').html(exs.length > 0 ? exs.length : "...");
     for (let i = 0; i < exs.length; i++) {
         let exElem = exs[i];
+        let fieldKeywordFirst = null; let fieldKeywordSecond = null;
+        try {
+            fieldKeywordFirst = exElem.field_keywords[0];
+        } catch(e) {}
+        try {
+            fieldKeywordSecond = exElem.field_keywords[1];
+        } catch(e) {}
         exsHtml += `
         <li class="exs-elem list-group-item py-1 px-0" data-id="${exElem.id}" data-folder="${exElem.folder}">
             <div class="row w-100">
@@ -167,15 +174,6 @@ function RenderFolderExercises(id, tExs) {
                             `}
                         </div>
                     </button>
-                    ${exElem.field_goal && exElem.field_goal != "" ? `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="goal" style="--w-x:24px; min-width: 38px; --h-x:24px;" disabled="">
-                            ${exElem.field_goal}
-                        </button>
-                    ` : `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="goal" style="--w-x:24px; min-width: 38px; --h-x:24px;" disabled="">
-                            -
-                        </button>
-                    `}
                     ${exElem.ref_ball_id == 1 ? `
                         <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="ball" style="--w-x:24px; min-width: 38px; --h-x:24px;" disabled="">
                             <span class="icon-custom icon--ball" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
@@ -185,14 +183,23 @@ function RenderFolderExercises(id, tExs) {
                             -
                         </button>
                     `}
-                    ${((exElem.field_keyword_a && exElem.field_keyword_a != "") || (exElem.field_keyword_b && exElem.field_keyword_b != "")) ? `
+                    ${exElem.field_goal && exElem.field_goal != "" ? `
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="goal" style="--w-x:24px; min-width: 54px; --h-x:24px;" disabled="">
+                            ${exElem.field_goal}
+                        </button>
+                    ` : `
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="goal" style="--w-x:24px; min-width: 54px; --h-x:24px;" disabled="">
+                            -
+                        </button>
+                    `}
+                    ${((fieldKeywordFirst && fieldKeywordFirst != "") || (fieldKeywordSecond && fieldKeywordSecond != "")) ? `
                         <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="keywords" style="--w-x:24px; min-width: 250px; --h-x:24px;" disabled="">
                             <div class="row w-100">
                                 <div class="col-6 px-0 text-center">
-                                    ${exElem.field_keyword_a && exElem.field_keyword_a != "" ? exElem.field_keyword_a : ''}
+                                    ${fieldKeywordFirst && fieldKeywordFirst != "" ? fieldKeywordFirst : ''}
                                 </div>
                                 <div class="col-6 px-0 text-center">
-                                    ${exElem.field_keyword_b && exElem.field_keyword_b != "" ? exElem.field_keyword_b : ''}
+                                    ${fieldKeywordSecond && fieldKeywordSecond != "" ? fieldKeywordSecond : ''}
                                 </div>
                             </div>
                         </button>
@@ -247,6 +254,10 @@ function RenderFolderExercises(id, tExs) {
 
     ToggleIconsInExs();
     ToggleMarkersInExs();
+
+    try {
+        RenderSelectedExercisesForDelete();
+    } catch(e) {}
 
     if (window.lastExercise && window.lastExercise.exs) {
         $('.exs-list-group').find(`.exs-elem[data-id="${window.lastExercise.exs}"]`).click();

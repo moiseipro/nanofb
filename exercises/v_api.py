@@ -7,7 +7,7 @@ from exercises.models import UserExerciseParam, UserExerciseParamTeam
 from exercises.models import AdminExerciseAdditionalParams, UserExerciseAdditionalParams, ClubExerciseAdditionalParams, ExerciseAdditionalParamValue
 from references.models import ExsGoal, ExsBall, ExsTeamCategory, ExsAgeCategory, ExsTrainPart, ExsCognitiveLoad
 from references.models import ExsKeyword, ExsStressType, ExsPurpose, ExsCoaching
-from references.models import ExsCategory, ExsAdditionalData, ExsTitleName
+from references.models import ExsCategory, ExsAdditionalData, ExsTitleName, ExsType, ExsPhysicalQualities
 from references.models import UserSeason, ClubSeason, UserTeam, ClubTeam
 from references.models import ExsDescriptionTemplate
 from video.models import Video
@@ -321,6 +321,8 @@ def get_exercises_params(request, user, team, only_child_folders=False):
     refs['exs_purpose'] = ExsPurpose.objects.filter().values()
     refs['exs_coaching'] = ExsCoaching.objects.filter().values()
     refs['exs_category'] = ExsCategory.objects.filter().values()
+    refs['exs_types'] = ExsType.objects.filter().values()
+    refs['exs_physical_qualities'] = ExsPhysicalQualities.objects.filter().values()
     refs['exs_title_names'] = ExsTitleName.objects.filter().values()
     refs = set_refs_translations(refs, request.LANGUAGE_CODE)
     return [folders, club_folders, nfb_folders, refs]
@@ -716,9 +718,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
         f_exercises = f_exercises.filter(
             Q(title__iregex=searh_regex) |
             Q(field_keyword_a__iexact=filter_search_low) |
-            Q(field_keyword_b__iexact=filter_search_low) |
-            Q(field_keyword_c__iexact=filter_search_low) |
-            Q(field_keyword_d__iexact=filter_search_low)
+            Q(field_keyword_b__iexact=filter_search_low)
         )
     if filter_video_source != -1:
         if filter_video_source == -2:
@@ -1294,14 +1294,18 @@ def POST_edit_exs(request, cur_user, cur_team):
         c_exs.field_players_b = set_value_as_int(request, "data[field_players_b]", None)
         c_exs.field_keyword_a = request.POST.get("data[field_keyword_a]", None)
         c_exs.field_keyword_b = request.POST.get("data[field_keyword_b]", None)
-        c_exs.field_keyword_c = request.POST.get("data[field_keyword_c]", None)
-        c_exs.field_keyword_d = request.POST.get("data[field_keyword_d]", None)
         field_keywords = set_value_as_list(request, "data[field_keywords]", "data[field_keywords][]", [])
         c_exs.field_keywords = field_keywords
         c_exs.field_exs_category_a = request.POST.get("data[field_exs_category_a]", None)
         c_exs.field_exs_category_b = request.POST.get("data[field_exs_category_b]", None)
         field_categories = set_value_as_list(request, "data[field_categories]", "data[field_categories][]", [])
         c_exs.field_categories = field_categories
+        field_types = set_value_as_list(request, "data[field_types]", "data[field_types][]", [])
+        c_exs.field_types = field_types
+        field_physical_qualities = set_value_as_list(request, "data[field_physical_qualities]", "data[field_physical_qualities][]", [])
+        c_exs.field_physical_qualities = field_physical_qualities
+        field_cognitive_loads = set_value_as_list(request, "data[field_cognitive_loads]", "data[field_cognitive_loads][]", [])
+        c_exs.field_cognitive_loads = field_cognitive_loads
 
     if is_can_edit_full:
         video_links_links = set_value_as_list(request, "data[video_links_link[]]", "data[video_links_link[]][]", [])
@@ -1479,74 +1483,88 @@ def POST_delete_exs(request, cur_user, cur_team):
 
     """
     exs_id = -1
+    exs_ids = []
     delete_type = 0
     delete_type_access = False
     folder_type = request.POST.get("type", "")
+    is_multi_exs = request.POST.get("multi_exs", "false")
     try:
         exs_id = int(request.POST.get("exs", -1))
+    except:
+        pass
+    try:
+        exs_ids = request.POST.getlist("exs[]", [])
     except:
         pass
     try:
         delete_type = int(request.POST.get("delete_type", -1)) # delete only exercise, only video in it, or both
     except:
         pass
-    c_exs = None
-    f_exs_in_training = None
-    if folder_type == FOLDER_TEAM:
-        if not util_check_access(cur_user, {
-            'perms_user': ["exercises.delete_userexercise"], 
-            'perms_club': ["exercises.delete_clubexercise"]
-        }):
-            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
-        if request.user.club_id is not None:
-            c_exs = ClubExercise.objects.filter(id=exs_id, club=request.user.club_id, team=cur_team)
-            if c_exs.exists() and c_exs[0].id != None:
-                f_exs_in_training = ClubTraining.objects.filter(event_id__club_id=request.user.club_id, exercises__in=c_exs)
-        else:
-            c_exs = UserExercise.objects.filter(id=exs_id, user=cur_user)
-            print(c_exs[0])
-            if c_exs.exists() and c_exs[0].id != None:
-                f_exs_in_training = UserTraining.objects.filter(event_id__user_id=cur_user, exercises__in=c_exs)
-    elif folder_type == FOLDER_NFB:
-        if not util_check_access(cur_user, {
-            'perms_user': ["exercises.delete_adminexercise"], 
-            'perms_club': ["exercises.delete_adminexercise"]
-        }):
-            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
-        delete_type_access = True
-        c_exs = AdminExercise.objects.filter(id=exs_id)
-    elif folder_type == FOLDER_CLUB:
-        pass
-    if c_exs == None or not c_exs.exists() or c_exs[0].id == None:
-        return JsonResponse({"errors": "access_error"}, status=400)
-    else:
-        if f_exs_in_training != None and f_exs_in_training.exists() and f_exs_in_training[0].event_id != None:
-            return JsonResponse({"errors": "access_error", "in_training": True}, status=400)
+    if not is_multi_exs == "true":
+        exs_ids = [exs_id]
+    deleted_exs = []
+    for exs_id in exs_ids:
         try:
-            if not delete_type_access:
-                c_exs.delete()
+            exs_id = int(exs_id)
+        except:
+            exs_id = -1
+        c_exs = None
+        f_exs_in_training = None
+        if folder_type == FOLDER_TEAM:
+            if not util_check_access(cur_user, {
+                'perms_user': ["exercises.delete_userexercise"], 
+                'perms_club': ["exercises.delete_clubexercise"]
+            }):
+                return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+            if request.user.club_id is not None:
+                c_exs = ClubExercise.objects.filter(id=exs_id, club=request.user.club_id, team=cur_team)
+                if c_exs.exists() and c_exs[0].id != None:
+                    f_exs_in_training = ClubTraining.objects.filter(event_id__club_id=request.user.club_id, exercises__in=c_exs)
             else:
-                if delete_type == 0:
+                c_exs = UserExercise.objects.filter(id=exs_id, user=cur_user)
+                if c_exs.exists() and c_exs[0].id != None:
+                    f_exs_in_training = UserTraining.objects.filter(event_id__user_id=cur_user, exercises__in=c_exs)
+        elif folder_type == FOLDER_NFB:
+            if not util_check_access(cur_user, {
+                'perms_user': ["exercises.delete_adminexercise"], 
+                'perms_club': ["exercises.delete_adminexercise"]
+            }):
+                return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+            delete_type_access = True
+            c_exs = AdminExercise.objects.filter(id=exs_id)
+        elif folder_type == FOLDER_CLUB:
+            pass
+        if c_exs == None or not c_exs.exists() or c_exs[0].id == None:
+            return JsonResponse({"errors": "access_error"}, status=400)
+        else:
+            if f_exs_in_training != None and f_exs_in_training.exists() and f_exs_in_training[0].event_id != None:
+                return JsonResponse({"errors": "access_error", "in_training": True}, status=400)
+            try:
+                if not delete_type_access:
                     c_exs.delete()
-                elif delete_type > 0 and delete_type < 5:
-                    exs_videos = c_exs[0].videos.through.objects.filter(exercise_nfb=c_exs[0], type=delete_type)
-                    for video in exs_videos:
-                        if video.video is not None:
-                            ready_to_delete = delete_video_obj_nf(video.video)
-                            if ready_to_delete:
-                                video.video.delete()
-                elif delete_type == 5:
-                    exs_videos = c_exs[0].videos.through.objects.filter(exercise_nfb=c_exs[0])
-                    for video in exs_videos:
-                        if video.video is not None:
-                            ready_to_delete = delete_video_obj_nf(video.video)
-                            if ready_to_delete:
-                                video.video.delete()
-                    c_exs.delete()
-            return JsonResponse({"data": {"id": exs_id}, "success": True}, status=200)
-        except Exception as e:
-            print(e)
-            return JsonResponse({"errors": "Can't delete exercise"}, status=400)
+                else:
+                    if delete_type == 0:
+                        c_exs.delete()
+                    elif delete_type > 0 and delete_type < 5:
+                        exs_videos = c_exs[0].videos.through.objects.filter(exercise_nfb=c_exs[0], type=delete_type)
+                        for video in exs_videos:
+                            if video.video is not None:
+                                ready_to_delete = delete_video_obj_nf(video.video)
+                                if ready_to_delete:
+                                    video.video.delete()
+                    elif delete_type == 5:
+                        exs_videos = c_exs[0].videos.through.objects.filter(exercise_nfb=c_exs[0])
+                        for video in exs_videos:
+                            if video.video is not None:
+                                ready_to_delete = delete_video_obj_nf(video.video)
+                                if ready_to_delete:
+                                    video.video.delete()
+                        c_exs.delete()
+                deleted_exs.append(exs_id)
+            except Exception as e:
+                print(e)
+                return JsonResponse({"errors": "Can't delete exercise"}, status=400)
+    return JsonResponse({"data": {"ids": deleted_exs}, "success": True}, status=200)
 
 
 def POST_edit_exs_user_params(request, cur_user, cur_team):
@@ -2633,8 +2651,7 @@ def GET_get_exs_all(request, cur_user, cur_team):
             'field_players_b': exercise['field_players_b'],
             'field_keyword_a': exercise['field_keyword_a'],
             'field_keyword_b': exercise['field_keyword_b'],
-            'field_keyword_c': exercise['field_keyword_c'],
-            'field_keyword_d': exercise['field_keyword_d'],
+            'field_keywords': exercise['field_keywords'],
             'field_exs_category_a': exercise['field_exs_category_a'],
             'field_exs_category_b': exercise['field_exs_category_b'],
             'ref_ball_id': exercise['ref_ball_id'],
