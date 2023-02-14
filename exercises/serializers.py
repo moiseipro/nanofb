@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from exercises.models import UserExercise, ExerciseVideo, AdminExercise, AdminFolder, ClubExercise
+from exercises.models import UserExercise, ExerciseVideo, AdminExercise, AdminFolder, ClubExercise, UserFolder, \
+    ClubFolder
 from taggit.serializers import (TagListSerializerField,
                                 TaggitSerializer)
 
@@ -13,6 +14,18 @@ class AdminFolderSerializer(serializers.ModelSerializer):
     class Meta:
         model = AdminFolder
         fields = '__all__'
+
+
+class UserFolderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserFolder
+        fields = ['short_name', 'name']
+
+
+class ClubFolderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClubFolder
+        fields = ['short_name', 'name']
 
 
 class AdminExerciseSerializer(serializers.ModelSerializer):
@@ -63,6 +76,7 @@ class ExerciseSerializer(serializers.ModelSerializer):
 
     videos = BaseVideoSerializer(read_only=True, many=True)
 
+
     class Meta:
         fields = [
             'id', 'user', 'field_task', 'title', 'videos', 'description'
@@ -70,10 +84,18 @@ class ExerciseSerializer(serializers.ModelSerializer):
 
 
 class UserExerciseSerializer(ExerciseSerializer):
+    folder = UserFolderSerializer(read_only=True)
+
     class Meta(ExerciseSerializer.Meta):
         model = UserExercise
 
+    Meta.fields += ('folder',)
+
 
 class ClubExerciseSerializer(ExerciseSerializer):
+    folder = ClubFolderSerializer(read_only=True)
+
     class Meta(ExerciseSerializer.Meta):
         model = ClubExercise
+
+    Meta.fields += ('folder',)

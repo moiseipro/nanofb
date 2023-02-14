@@ -175,20 +175,9 @@ $(window).on('load', function (){
         if($(event.target).is('td')) {
             let this_obj = $(this)
             if (this_obj.hasClass('selected')) {
-                if (this_obj.hasClass('data_cell')){
-                    Cookies.set('event_id', data_id, { expires: 1 })
-                    if($('#events-content').hasClass('d-none')){
-                        $('#events-content').removeClass('d-none')
-                    } else {
-                        $('#events-content').addClass('d-none')
-                    }
-
-                } else {
-                    Cookies.remove('event_id')
-                    $('.hasEvent').removeClass('selected')
-                    $('#block-event-info .event-info').html('')
-                }
-
+                Cookies.remove('event_id')
+                $('.hasEvent').removeClass('selected')
+                $('#block-event-info .event-info').html('')
             } else {
                 Cookies.set('event_id', data_id, { expires: 1 })
                 $('.hasEvent').removeClass('selected')
@@ -1164,7 +1153,8 @@ function generateOnlyTable() {
                                     <td>---</td>
                                 ` //<a href="#" class="btn btn-sm btn-block btn-secondary py-0 disabled">${/*gettext('Recreation')*/'---'}</a>
                         }
-                        tr_html += `<tr class="${event_id!=null ? 'hasEvent' : ''} ${event_class}" data-value="${event_id}" data-microcycle-days="${microcycle_days}" data-microcycle-day="${count_day}" data-unfilled="${!isFilled ? '1' : '0'}" data-video="${hasVideo ? '1' : '0'}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
+                        console.log(event['only_date']+"   "+moment(event['only_date'], 'DD/MM/YYYY').endOf('month').format('DD/MM/YYYY'))
+                        tr_html += `<tr id="${event['only_date']==moment().format('DD/MM/YYYY') ? 'current_day' : ''}" class="${event_id!=null ? 'hasEvent' : ''} ${event_class} ${event['only_date']==moment(event['only_date'], 'DD/MM/YYYY').endOf('month').format('DD/MM/YYYY') ? "month_top_border" : ''}" data-value="${event_id}" data-microcycle-days="${microcycle_days}" data-microcycle-day="${count_day}" data-unfilled="${!isFilled ? '1' : '0'}" data-video="${hasVideo ? '1' : '0'}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
                         tr_html += td_html
                         tr_html += `</tr>`
                         event_date = event['only_date']
@@ -1201,6 +1191,12 @@ function generateOnlyTable() {
                     }
 
                     resize_events_table()
+
+                    let current_date = `#current_day`
+                    console.log($(current_date).offset())
+                    let offset = $(current_date).offset().top-500
+
+                    $('#events-table').animate({scrollTop: offset},'slow');
                 }
             })
         },
@@ -1453,10 +1449,14 @@ $(function() {
                             $('#form-event-edit #datetimepicker-event').val(cur_edit_data['only_date'])
                             $('#form-event-edit #timepicker-event').val(cur_edit_data['time'])
                         })
+                    } else if(key === 'copy'){
+                        $('.hasEvent[data-value="'+event_id+'"] td:first').click()
+                        $('#event-copy-modal-button').click()
                     }
                 },
                 items: {
                     // "add": {name: gettext('Delete'), icon: "fa-trash"},
+                    "copy": {name: gettext('Copy'), icon: "fa-files-o"},
                     "edit": {name: gettext('Edit'), icon: "fa-pencil"},
                     "delete": {name: gettext('Delete'), icon: "fa-trash"},
                     "sep1": "---------",

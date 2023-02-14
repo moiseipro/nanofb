@@ -9,6 +9,10 @@ table.dataTable>tbody>tr.selected>* {
     color: black;
 }
 
+tr.month_top_border{
+    border-top: 1.05px solid black !important;
+}
+
 table.dataTable.table-hover>tbody>tr.selected:hover>*{
     box-shadow:inset 0 0 0 9999px rgba(215, 215, 215, 0.975)
 }
