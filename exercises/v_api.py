@@ -2654,6 +2654,7 @@ def GET_get_exs_all(request, cur_user, cur_team):
             'field_keywords': exercise['field_keywords'],
             'field_exs_category_a': exercise['field_exs_category_a'],
             'field_exs_category_b': exercise['field_exs_category_b'],
+            'field_categories': exercise['field_categories'],
             'ref_ball_id': exercise['ref_ball_id'],
             'has_video_1': exercise['has_video_1'],
             'has_video_2': exercise['has_video_2'],

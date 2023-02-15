@@ -120,6 +120,13 @@ function RenderFolderExercises(id, tExs) {
         try {
             fieldKeywordSecond = exElem.field_keywords[1];
         } catch(e) {}
+        let isAcademy = false; let isPRO = false;
+        try {
+            isAcademy = exElem.field_categories.includes("academy");
+        } catch(e) {}
+        try {
+            isPRO = exElem.field_categories.includes("pro");
+        } catch(e) {}
         exsHtml += `
         <li class="exs-elem list-group-item py-1 px-0" data-id="${exElem.id}" data-folder="${exElem.folder}">
             <div class="row w-100">
@@ -205,6 +212,29 @@ function RenderFolderExercises(id, tExs) {
                         </button>
                     ` : `
                         <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="keywords" style="--w-x:24px; min-width: 250px; --h-x:24px;" disabled="">
+                            <div class="row w-100">
+                                <div class="col-6 px-0 text-center">
+                                    ...
+                                </div>
+                                <div class="col-6 px-0 text-center">
+                                    ...
+                                </div>
+                            </div>
+                        </button>
+                    `}
+                    ${(isAcademy || isPRO) ? `
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="pro" style="--w-x:24px; min-width: 100px; --h-x:24px;" disabled="">
+                            <div class="row w-100">
+                                <div class="col-6 px-0 text-center">
+                                    ${isAcademy ? 'A' : '...'}
+                                </div>
+                                <div class="col-6 px-0 text-center">
+                                    ${isPRO ? 'PRO' : '...'}
+                                </div>
+                            </div>
+                        </button>
+                    ` : `
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="pro" style="--w-x:24px; min-width: 100px; --h-x:24px;" disabled="">
                             <div class="row w-100">
                                 <div class="col-6 px-0 text-center">
                                     ...
@@ -373,6 +403,7 @@ function ToggleIconsInExs() {
     let isActiveGoal = $('.up-tabs-elem[data-id="goal"]').attr('data-state') == "1";
     let isActiveBall = $('.up-tabs-elem[data-id="ball"]').attr('data-state') == "1";
     let isActiveKeywords = $('.up-tabs-elem[data-id="keywords"]').attr('data-state') == "1";
+    let isActivePro = $('.up-tabs-elem[data-id="toggle_pro"]').attr('data-state') == "1";
 
     let isActiveExsAdminOpts = $('#toggleExsAdminOptions').attr('data-state') == "1";
     let isActiveExsID = $('#toggleExsID').attr('data-state') == "1";
@@ -383,6 +414,7 @@ function ToggleIconsInExs() {
     $('.exercises-block').find(`[data-type="icons"][data-id="goal"]`).toggleClass('d-none', !isActiveGoal);
     $('.exercises-block').find(`[data-type="icons"][data-id="ball"]`).toggleClass('d-none', !isActiveBall);
     $('.exercises-block').find(`[data-type="icons"][data-id="keywords"]`).toggleClass('d-none', !isActiveKeywords);
+    $('.exercises-block').find(`[data-type="icons"][data-id="pro"]`).toggleClass('d-none', !isActivePro);
 
     $('.exercises-block').find(`[data-type="icons"][data-info="admin_options"]`).toggleClass('d-none', !isActiveExsAdminOpts);
     $('.exercises-block').find(`[data-type="icons"][data-id="id"]`).toggleClass('d-none', !isActiveExsID);

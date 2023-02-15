@@ -346,6 +346,9 @@ function ToggleUpFilter(id, state) {
                 CountExsInFolder();
             }
             break;
+        case "toggle_pro":
+            ToggleIconsInExs();
+            break;
         default:
             break;
     }
