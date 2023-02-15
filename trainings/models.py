@@ -129,6 +129,11 @@ class ClubTraining(AbstractTraining):
         through="ClubTrainingExercise",
         through_fields=('training_id', 'exercise_id')
     )
+    protocol = models.ManyToManyField(
+        ClubPlayer,
+        through="ClubTrainingProtocol",
+        through_fields=('training_id', 'player_id'),
+    )
     class Meta:
         abstract = False
         permissions = [

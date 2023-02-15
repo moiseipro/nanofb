@@ -265,7 +265,7 @@ function load_all_exercises_training(training_id = null, group = null) {
         var additional_data = ''
         for (let i = 0; i < 6; i++) {
             console.log(additionals)
-            if(additionals[i]){
+            if(additionals!=null && additionals[i]){
                 additional_data+=`
                     <div class="row training-additional ${!additionals[i].name && !additionals[i].note ? 'edit-button' : ''} ${!additionals[i].name && !additionals[i].note && !edit_mode ? 'd-none' : ''}">
                         <div class="col-6 px-0 border border-white">

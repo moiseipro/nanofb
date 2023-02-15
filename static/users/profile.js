@@ -11,6 +11,20 @@ $(window).on('load', function () {
             }
         }
     })
+    $('#change-password-form').validate({
+        errorElement: 'p',
+        rules: {
+            password: {
+                required: true,
+                minlength: 6
+            },
+            password2: {
+                required: true,
+                minlength: 6,
+                equalTo: '[name="password"]'
+            }
+        }
+    })
     //$('#personal-form').valid()
 
     $('#edit-profile-button').on('click', function () {
@@ -22,6 +36,18 @@ $(window).on('load', function () {
         ajax_profile('PUT', send_data, 'edit', '', 'edit').then(function (data) {
             console.log(data)
             location.reload()
+        })
+    })
+
+    $('#edit-password-button').on('click', function () {
+        if(!$('#change-password-form').valid()) return
+        let password = $('#change-password-form').serializeArray()
+        let send_data = password
+        console.log(send_data);
+
+        ajax_profile('PUT', send_data, 'password', '', 'password').then(function (data) {
+            console.log(data)
+            //location.reload()
         })
     })
 })

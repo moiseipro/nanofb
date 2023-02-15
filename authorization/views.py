@@ -38,36 +38,6 @@ def login_req(request):
     return render(request=request, template_name="authorization/login.html", context={"login_form": form})
 
 
-def register_req(request):
-    if request.user.is_authenticated:
-        return redirect("users:profile")
-    if request.method == "POST":
-        form = NewUserForm(request.POST)
-        form2 = NewUserPersonalForm(request.POST)
-        tmp_msg = ""
-        if not form.is_valid():
-            for field in form:
-                for error in field.errors:
-                    tmp_msg += f"* {field.label} : {error}"
-        if not form2.is_valid():
-            for field in form2:
-                for error in field.errors:
-                    tmp_msg += f"* {field.label} : {error}"
-        if form.is_valid() and form2.is_valid():
-            email = form.cleaned_data.get("email")
-            if not User.objects.filter(email=email).exists():
-                user = form.save()
-                form2.save(user)
-                login(request, user)
-                messages.success(request, "Registration successful.")
-                return redirect("users:profile")
-        messages.error(request, f"Unsuccessful registration. Invalid information. {tmp_msg}")
-    form = NewUserForm()
-    form2 = NewUserPersonalForm()
-    return render(request=request, template_name="authorization/register.html",
-                  context={"register_form": form, "register_form2": form2})
-
-
 def logout_req(request):
     logout(request)
     messages.info(request, "You have successfully logged out.")
@@ -87,6 +57,24 @@ class RegistrationUserView(TemplateView):
 
 class ActivationUserView(TemplateView):
     template_name = "authorization/activate.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['uid'] = self.kwargs['uid']
+        context['token'] = self.kwargs['token']
+        return context
+
+
+class ForgotPasswordUserView(TemplateView):
+    template_name = "authorization/forgot_password.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
+class ConfirmPasswordUserView(TemplateView):
+    template_name = "authorization/reset_password.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

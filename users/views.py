@@ -1,11 +1,12 @@
-import imp
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import QuerySet
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, DetailView
+from rest_framework import status
 from rest_framework.generics import UpdateAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from django.utils.translation import gettext_lazy as _
 
 from system_icons.views import get_ui_elements
 
@@ -13,7 +14,7 @@ from system_icons.views import get_ui_elements
 # Create your views here.
 from users.forms import EditUserPersonalForm
 from users.models import User, UserPersonal
-from users.serializers import UserPersonalSerializer
+from users.serializers import UserPersonalSerializer, ChangePasswordSerializer
 
 
 class BaseProfileView(LoginRequiredMixin, TemplateView):
@@ -31,6 +32,7 @@ class BaseProfileView(LoginRequiredMixin, TemplateView):
 
 class EditUserApiView(UpdateAPIView):
     serializer_class = UserPersonalSerializer
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         queryset = UserPersonal.objects.filter(pk=self.request.user.personal.id)
@@ -50,6 +52,37 @@ class EditUserApiView(UpdateAPIView):
 
     def perform_update(self, serializer):
         serializer.save()
+
+
+class EditPasswordApiView(UpdateAPIView):
+    serializer_class = ChangePasswordSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self, queryset=None):
+        obj = self.request.user
+        return obj
+
+    def update(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid():
+            # Check old password
+            if not self.object.check_password(serializer.data.get("old_password")):
+                return Response({"old_password": _("Wrong password.")}, status=status.HTTP_400_BAD_REQUEST)
+            # set_password also hashes the password that the user will get
+            self.object.set_password(serializer.data.get("password"))
+            self.object.save()
+            response = {
+                'status': 'success',
+                'code': status.HTTP_200_OK,
+                'message': _('Password updated successfully!'),
+                'data': []
+            }
+
+            return Response(response)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 def profile_req(request):
