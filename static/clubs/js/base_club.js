@@ -6,6 +6,19 @@ $(document).ready(function () {
 $(window).on('load', function (){
     initialize_phone_input();
     generate_ajax_club_users_table("calc(100vh - 310px)");
+
+    $('#personal-form').validate({
+        errorElement: 'p',
+        rules: {
+            phone: {
+                required: false
+            }
+        }
+    })
+    $('#user-form').validate({
+        errorElement: 'p',
+    })
+
     let send_data = {}
     ajax_club_action('GET', send_data, 'Club').then(function (data) {
         let club = data.results[0]
@@ -97,18 +110,15 @@ $(window).on('load', function (){
         })
     })
 
-    $('#form-add-user').validate()
-    $('#form-add-personal').validate()
+    $('#personal-form').validate()
+    $('#user-form').validate()
 
     $('#create-club-user').on('click', function () {
-        if(!$('#form-add-user').valid() || !$('#form-add-personal').valid()) return
-        let personal = $('#form-add-personal').serializeArray()
+        if(!$('#personal-form').valid() || !$('#user-form').valid()) return
+        let personal = $('#personal-form').serializeArray()
         let send_data = personal
         console.log(send_data);
-        // personal.forEach(function(value){
-        //     send_data.push({'personal': JSON.stringify(serializeArray())})
-        // })
-        send_data = $.merge(send_data, $('#form-add-user').serializeArray())
+        send_data = $.merge(send_data, $('#user-form').serializeArray())
         console.log(send_data);
 
         ajax_club_users_action('POST', send_data, 'add user').then(function (data) {

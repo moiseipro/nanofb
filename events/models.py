@@ -10,16 +10,15 @@ from users.models import User
 from video.models import Video
 
 
-
 class EventVideoLink(models.Model):
     json_link = models.JSONField(null=True, blank=True) # ['link_1', 'link_2', 'link_3']
     video = models.ForeignKey(Video, on_delete=models.SET_NULL, null=True, blank=True) # many to many
     name = models.JSONField(null=True, blank=True)
     description = models.JSONField(null=True, blank=True)
     objects = models.Manager()
+    
     class Meta:
         abstract = False
-
 
 
 # Create your models here.

@@ -2,11 +2,7 @@
 
 {% load crispy_forms_tags %}
 <main class="form-add-user">
-    <form id="form-add-user" method="">
     {% crispy add_user_form %}
-    </form>
-    <form id="form-add-personal" method="">
     {% crispy add_personal_form %}
-    </form>
     <button type="button" id="create-club-user" class="btn btn-primary">{% trans 'Create user' %}</button>
 </main>

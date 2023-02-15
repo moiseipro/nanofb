@@ -78,8 +78,8 @@ async function ajax_club_users_action(method, data, action = '', id = '', func =
             //console.log(data)
             if(data.status == 'exercise_limit'){
                 swal(gettext('Users '+action), gettext('The limit of users for the club'), "error");
-            } else {
-
+            } else if('registration' in data && data.registration != '') {
+                swal(gettext('Club user registration'), data.registration, "success");
             }
         },
         error: function(jqXHR, textStatus, errorThrown){
