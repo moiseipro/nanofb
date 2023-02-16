@@ -347,6 +347,13 @@ function ToggleUpFilter(id, state) {
             }
             break;
         case "toggle_pro":
+            if (!state && !$('.up-tabs-elem[data-id="toggle_pro"]').hasClass('toggle-academy')) {
+                $('.up-tabs-elem[data-id="toggle_pro"]').addClass('toggle-academy');
+                $('.up-tabs-elem[data-id="toggle_pro"]').addClass('selected3');
+                $('.up-tabs-elem[data-id="toggle_pro"]').attr('data-state', 1);
+            } else if (!state && $('.up-tabs-elem[data-id="toggle_pro"]').hasClass('toggle-academy')) {
+                $('.up-tabs-elem[data-id="toggle_pro"]').removeClass('toggle-academy');
+            }
             ToggleIconsInExs();
             break;
         default:

@@ -222,27 +222,22 @@ function RenderFolderExercises(id, tExs) {
                             </div>
                         </button>
                     `}
-                    ${(isAcademy || isPRO) ? `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="pro" style="--w-x:24px; min-width: 100px; --h-x:24px;" disabled="">
-                            <div class="row w-100">
-                                <div class="col-6 px-0 text-center">
-                                    ${isAcademy ? 'A' : '...'}
-                                </div>
-                                <div class="col-6 px-0 text-center">
-                                    ${isPRO ? 'PRO' : '...'}
-                                </div>
-                            </div>
+                    ${isAcademy ? `
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="academy" style="--w-x:24px; min-width: 40px; --h-x:24px;" disabled="">
+                            "U"
                         </button>
                     ` : `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="pro" style="--w-x:24px; min-width: 100px; --h-x:24px;" disabled="">
-                            <div class="row w-100">
-                                <div class="col-6 px-0 text-center">
-                                    ...
-                                </div>
-                                <div class="col-6 px-0 text-center">
-                                    ...
-                                </div>
-                            </div>
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="academy" style="--w-x:24px; min-width: 40px; --h-x:24px;" disabled="">
+                            ...
+                        </button>
+                    `}
+                    ${isPRO ? `
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="pro" style="--w-x:24px; min-width: 40px; --h-x:24px;" disabled="">
+                            PRO
+                        </button>
+                    ` : `
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="pro" style="--w-x:24px; min-width: 40px; --h-x:24px;" disabled="">
+                            ...
                         </button>
                     `}
                     ${exElem.has_notes == true ? `
@@ -403,7 +398,8 @@ function ToggleIconsInExs() {
     let isActiveGoal = $('.up-tabs-elem[data-id="goal"]').attr('data-state') == "1";
     let isActiveBall = $('.up-tabs-elem[data-id="ball"]').attr('data-state') == "1";
     let isActiveKeywords = $('.up-tabs-elem[data-id="keywords"]').attr('data-state') == "1";
-    let isActivePro = $('.up-tabs-elem[data-id="toggle_pro"]').attr('data-state') == "1";
+    let isActivePro = $('.up-tabs-elem[data-id="toggle_pro"]').attr('data-state') == "1" && !$('.up-tabs-elem[data-id="toggle_pro"]').hasClass("toggle-academy");
+    let isActiveAcademy = $('.up-tabs-elem[data-id="toggle_pro"]').attr('data-state') == "1" && $('.up-tabs-elem[data-id="toggle_pro"]').hasClass("toggle-academy");
 
     let isActiveExsAdminOpts = $('#toggleExsAdminOptions').attr('data-state') == "1";
     let isActiveExsID = $('#toggleExsID').attr('data-state') == "1";
@@ -415,6 +411,7 @@ function ToggleIconsInExs() {
     $('.exercises-block').find(`[data-type="icons"][data-id="ball"]`).toggleClass('d-none', !isActiveBall);
     $('.exercises-block').find(`[data-type="icons"][data-id="keywords"]`).toggleClass('d-none', !isActiveKeywords);
     $('.exercises-block').find(`[data-type="icons"][data-id="pro"]`).toggleClass('d-none', !isActivePro);
+    $('.exercises-block').find(`[data-type="icons"][data-id="academy"]`).toggleClass('d-none', !isActiveAcademy);
 
     $('.exercises-block').find(`[data-type="icons"][data-info="admin_options"]`).toggleClass('d-none', !isActiveExsAdminOpts);
     $('.exercises-block').find(`[data-type="icons"][data-id="id"]`).toggleClass('d-none', !isActiveExsID);
