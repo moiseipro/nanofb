@@ -120,10 +120,7 @@ function RenderFolderExercises(id, tExs) {
         try {
             fieldKeywordSecond = exElem.field_keywords[1];
         } catch(e) {}
-        let isAcademy = false; let isPRO = false;
-        try {
-            isAcademy = exElem.field_categories.includes("academy");
-        } catch(e) {}
+        let isPRO = false;
         try {
             isPRO = exElem.field_categories.includes("pro");
         } catch(e) {}
@@ -220,15 +217,6 @@ function RenderFolderExercises(id, tExs) {
                                     ...
                                 </div>
                             </div>
-                        </button>
-                    `}
-                    ${isAcademy ? `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="academy" style="--w-x:24px; min-width: 40px; --h-x:24px;" disabled="">
-                            "U"
-                        </button>
-                    ` : `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="academy" style="--w-x:24px; min-width: 40px; --h-x:24px;" disabled="">
-                            ...
                         </button>
                     `}
                     ${isPRO ? `
@@ -398,8 +386,7 @@ function ToggleIconsInExs() {
     let isActiveGoal = $('.up-tabs-elem[data-id="goal"]').attr('data-state') == "1";
     let isActiveBall = $('.up-tabs-elem[data-id="ball"]').attr('data-state') == "1";
     let isActiveKeywords = $('.up-tabs-elem[data-id="keywords"]').attr('data-state') == "1";
-    let isActivePro = $('.up-tabs-elem[data-id="toggle_pro"]').attr('data-state') == "1" && !$('.up-tabs-elem[data-id="toggle_pro"]').hasClass("toggle-academy");
-    let isActiveAcademy = $('.up-tabs-elem[data-id="toggle_pro"]').attr('data-state') == "1" && $('.up-tabs-elem[data-id="toggle_pro"]').hasClass("toggle-academy");
+    let isActivePro = $('.up-tabs-elem[data-id="toggle_pro"]').attr('data-state') == "1";
 
     let isActiveExsAdminOpts = $('#toggleExsAdminOptions').attr('data-state') == "1";
     let isActiveExsID = $('#toggleExsID').attr('data-state') == "1";
@@ -411,7 +398,6 @@ function ToggleIconsInExs() {
     $('.exercises-block').find(`[data-type="icons"][data-id="ball"]`).toggleClass('d-none', !isActiveBall);
     $('.exercises-block').find(`[data-type="icons"][data-id="keywords"]`).toggleClass('d-none', !isActiveKeywords);
     $('.exercises-block').find(`[data-type="icons"][data-id="pro"]`).toggleClass('d-none', !isActivePro);
-    $('.exercises-block').find(`[data-type="icons"][data-id="academy"]`).toggleClass('d-none', !isActiveAcademy);
 
     $('.exercises-block').find(`[data-type="icons"][data-info="admin_options"]`).toggleClass('d-none', !isActiveExsAdminOpts);
     $('.exercises-block').find(`[data-type="icons"][data-id="id"]`).toggleClass('d-none', !isActiveExsID);

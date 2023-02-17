@@ -347,12 +347,24 @@ function ToggleUpFilter(id, state) {
             }
             break;
         case "toggle_pro":
-            if (!state && !$('.up-tabs-elem[data-id="toggle_pro"]').hasClass('toggle-academy')) {
-                $('.up-tabs-elem[data-id="toggle_pro"]').addClass('toggle-academy');
+            if (!state && !$('.up-tabs-elem[data-id="toggle_pro"]').hasClass('filtering')) {
+                $('.up-tabs-elem[data-id="toggle_pro"]').addClass('filtering');
                 $('.up-tabs-elem[data-id="toggle_pro"]').addClass('selected3');
                 $('.up-tabs-elem[data-id="toggle_pro"]').attr('data-state', 1);
-            } else if (!state && $('.up-tabs-elem[data-id="toggle_pro"]').hasClass('toggle-academy')) {
-                $('.up-tabs-elem[data-id="toggle_pro"]').removeClass('toggle-academy');
+                window.exercisesFilter['pro'] = '1';
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            } else if (!state && $('.up-tabs-elem[data-id="toggle_pro"]').hasClass('filtering')) {
+                $('.up-tabs-elem[data-id="toggle_pro"]').removeClass('filtering');
+                delete window.exercisesFilter['pro'];
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
             }
             ToggleIconsInExs();
             break;

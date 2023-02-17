@@ -215,8 +215,8 @@
 <li class="menu-title">
     <span>{% trans 'Education' %}</span>
 </li>
-<li>
-    <a href="#" class="btn disabled">
+<li class="{{ menu_methodology }}">
+    <a href="{% url 'methodology:methodology' %}" class="btn {% if not user.is_superuser %}disabled{% endif %}">
         {% if ui_elements.sidebar__methodology %}
             {{ ui_elements.sidebar__methodology }}
         {% else %}

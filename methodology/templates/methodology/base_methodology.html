@@ -1,0 +1,31 @@
+{% extends '../base/app_main.html' %}
+{% load static %}
+
+{% block title %}Методология{% endblock %}
+
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'methodology/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-1">
+                <div class="card-body p-1">
+                    <div class="card-inside">
+                        test
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block custom_scripts %}
+    <script src="{% static 'ckeditor5-36.0.0-i0g4ar8o2g2v/build/ckeditor.js' %}"></script>
+    <script src="{% static 'ckeditor5-36.0.0-i0g4ar8o2g2v/build/translations/ru.js' %}"></script>
+
+    <script src="{% static 'methodology/js/base_methodology.js' %}"></script>
+{% endblock %}
