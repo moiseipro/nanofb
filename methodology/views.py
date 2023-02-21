@@ -25,7 +25,7 @@ def methodology(request):
         return redirect("authorization:login")
     cur_user = User.objects.filter(email=request.user).only("club_id")
     if not util_check_access(cur_user[0], 
-        {'perms_user': ["exercises.view_userexercise"], 'perms_club': ["exercises.view_clubexercise"]}
+        {'perms_user': ["methodology.view_userarticle"], 'perms_club': ["methodology.view_clubarticle"]}
     ):
         return redirect("users:profile")
     return render(request, 'methodology/base_methodology.html', {
@@ -56,8 +56,12 @@ def methodology_api(request):
         return JsonResponse({"errors": "authenticate_err"}, status=400)
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
     if request.method == "POST" and is_ajax:
-        copy_exs_status = 0
-
+        edit_folder_status = 0
+        delete_folder_status = 0
+        change_order_folder_status = 0
+        edit_article_status = 0
+        delete_article_status = 0
+        change_order_article_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         try:
@@ -67,15 +71,46 @@ def methodology_api(request):
         if not cur_user.exists() or cur_user[0].id == None:
             return JsonResponse({"errors": "trouble_with_user"}, status=400)
         try:
-            copy_exs_status = int(request.POST.get("copy_exs", 0))
+            edit_folder_status = int(request.POST.get("edit_folder", 0))
         except:
             pass
-        if copy_exs_status == 1:
-            return v_api.POST_copy_exs(request, cur_user[0], cur_team)
+        try:
+            delete_folder_status = int(request.POST.get("delete_folder", 0))
+        except:
+            pass
+        try:
+            change_order_folder_status = int(request.POST.get("change_order_folder", 0))
+        except:
+            pass
+        try:
+            edit_article_status = int(request.POST.get("edit_article", 0))
+        except:
+            pass
+        try:
+            delete_article_status = int(request.POST.get("delete_article", 0))
+        except:
+            pass
+        try:
+            change_order_article_status = int(request.POST.get("change_order_article", 0))
+        except:
+            pass
+        if edit_folder_status == 1:
+            return v_api.POST_edit_folder(request, cur_user[0])
+        if delete_folder_status == 1:
+            return v_api.POST_delete_folder(request, cur_user[0])
+        if change_order_folder_status == 1:
+            return v_api.POST_change_order_folder(request, cur_user[0])
+        if edit_article_status == 1:
+            return v_api.POST_edit_article(request, cur_user[0])
+        if delete_article_status == 1:
+            return v_api.POST_delete_article(request, cur_user[0])
+        if change_order_article_status == 1:
+            return v_api.POST_change_order_article(request, cur_user[0])
         return JsonResponse({"errors": "access_error"}, status=400)
     elif request.method == "GET" and is_ajax:
-        get_exs_all_status = 0
-
+        get_folders_all_status = 0
+        get_articles_all_status = 0
+        get_article_one_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         try:
@@ -85,11 +120,23 @@ def methodology_api(request):
         if not cur_user.exists() or cur_user[0].id == None:
             return JsonResponse({"errors": "trouble_with_user"}, status=400)
         try:
-            get_exs_all_status = int(request.GET.get("get_exs_all", 0))
+            get_folders_all_status = int(request.GET.get("get_folders_all", 0))
         except:
             pass
-        if get_exs_all_status == 1:
-            return v_api.GET_get_exs_all(request, cur_user[0], cur_team)
+        try:
+            get_articles_all_status = int(request.GET.get("get_articles_all", 0))
+        except:
+            pass
+        try:
+            get_article_one_status = int(request.GET.get("get_article_one", 0))
+        except:
+            pass
+        if get_folders_all_status == 1:
+            return v_api.GET_get_folders_all(request, cur_user[0])
+        if get_articles_all_status == 1:
+            return v_api.GET_get_articles_all(request, cur_user[0])
+        if get_article_one_status == 1:
+            return v_api.GET_get_article_one(request, cur_user[0])
         return JsonResponse({"errors": "access_error"}, status=400)
     else:
         return JsonResponse({"errors": "access_error"}, status=400)
