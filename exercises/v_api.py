@@ -718,7 +718,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             )
     if filter_favorite != -1:
         f_exercises = f_exercises.filter(
-            Q(userexerciseparam__favorite=filter_favorite)
+            Q(userexerciseparam__favorite=filter_favorite, userexerciseparam__user=cur_user)
         )
     if filter_search != "":
         filter_search_low = filter_search.lower()
