@@ -1607,8 +1607,8 @@ def POST_edit_exs_user_params(request, cur_user, cur_team):
     c_exs = None
     if folder_type == FOLDER_TEAM:
         if not util_check_access(cur_user, {
-            'perms_user': ["exercises.change_userexercise"], 
-            'perms_club': ["exercises.change_clubexercise"]
+            'perms_user': ["exercises.view_userexercise"], 
+            'perms_club': ["exercises.view_clubexercise"]
         }):
             return JsonResponse({"err": "Access denied.", "success": False}, status=400)
         if request.user.club_id is not None:
@@ -1617,13 +1617,21 @@ def POST_edit_exs_user_params(request, cur_user, cur_team):
             c_exs = UserExercise.objects.filter(id=exs_id, user=cur_user)
     elif folder_type == FOLDER_NFB:
         if not util_check_access(cur_user, {
-            'perms_user': ["exercises.change_adminexercise"], 
-            'perms_club': ["exercises.change_adminexercise"]
+            'perms_user': ["exercises.view_adminexercise"], 
+            'perms_club': ["exercises.view_adminexercise"]
         }):
             return JsonResponse({"err": "Access denied.", "success": False}, status=400)
         c_exs = AdminExercise.objects.filter(id=exs_id)
     elif folder_type == FOLDER_CLUB:
-        pass
+        if not util_check_access(cur_user, {
+            'perms_user': ["exercises.view_userexercise"], 
+            'perms_club': ["exercises.view_clubexercise"]
+        }):
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        if request.user.club_id is not None:
+            c_exs = ClubExercise.objects.filter(id=exs_id, club=request.user.club_id)
+        else:
+            pass
     if c_exs != None and c_exs.exists() and c_exs[0].id != None:
         c_exs_params = None
         if folder_type == FOLDER_TEAM:
