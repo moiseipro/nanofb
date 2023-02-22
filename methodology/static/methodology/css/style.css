@@ -18,6 +18,19 @@
     max-height: var(--h-max-x) !important;
 }
 
+.col-overlay {
+    position: fixed;
+    width: 35%;
+    height: 85%;
+    top: 16%;
+    left: 7%;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.1);
+    z-index: 2; 
+
+}
+
 .folders-group {
     height: 82vh !important;
     overflow-y: auto;
@@ -29,9 +42,10 @@
     color: black;
 }
 .folders-group > li.active[data-type="article"] {
-    background-color: #2273c9;
-    border-color: #2273c9;
-    color: rgb(224, 224, 224);
+    background-color: #dfdfdf;
+    border-color: #dfdfdf;
+    color: black;
+    font-weight: bold;
 }
 
 

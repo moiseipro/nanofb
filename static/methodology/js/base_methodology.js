@@ -120,7 +120,7 @@ function RenderArticles(articles) {
                         <span class="article-point mr-2">
                             <span class="icon-custom icon--folder1 ml-4" style="--i-w: 1em; --i-h: 1em;"></span>
                         </span>
-                        <span class="article-title ml-5"> 
+                        <span class="article-title"> 
                             <span class="elem-num">${folderNum}.${(articleNum+1)}. </span>
                             ${article.title}
                         </span>
@@ -155,6 +155,7 @@ function RenderArticles(articles) {
         }
     }
     ToggleEditOptions();
+    UpdateSelectedFolders(true);
 }
 
 function LoadArticleOne(id, toModal=false) {
@@ -178,6 +179,7 @@ function LoadArticleOne(id, toModal=false) {
         complete: function (res) {
             $('.page-loader-wrapper').fadeOut();
             RenderArticle(dataRes, toModal);
+            window.canSwitchArticle = true;
         }
     });
 }
@@ -335,14 +337,14 @@ function DeleteArticle() {
 }
 
 function ToggleEditOptions() {
-    let isEditOn = $('.btn-group-header').find('button[data-id="toggle_edit_options"]').hasClass('active');
+    let isEditOn = $('.row-header').find('button[data-id="toggle_edit_options"]').hasClass('active');
     $('.folders-group').find('.edit-option').toggleClass('d-none', !isEditOn);
 }
 
 function ChangeElemOrder(orderType, elemType, elem) {
     let cList = $('ul.folders-group');
     if (orderType == "down") {
-        let nextElem = $(elem).next(`[data-type="${elemType}"]`);
+        let nextElem = $(elem).nextAll(`[data-type="${elemType}"]`).first();
         if (elemType == "folder") {
             if (nextElem.length > 0) {
                 $(nextElem).after(elem);
@@ -358,7 +360,7 @@ function ChangeElemOrder(orderType, elemType, elem) {
             }
         }
     } else if (orderType == "up") {
-        let prevElem = $(elem).prev(`[data-type="${elemType}"]`);
+        let prevElem = $(elem).prevAll(`[data-type="${elemType}"]`).first();
         if (elemType == "folder") {
             if (prevElem.length > 0) {
                 $(prevElem).before(elem);
@@ -438,6 +440,22 @@ function ChangeSelectedArticle(dir) {
     }
 }
 
+function UpdateSelectedFolders(update=false) {
+    if (update) {
+        for (let i = 0; i < document.selectedFolders.length; i++) {
+            let cId = document.selectedFolders[i];
+            $('.folders-group').find(`.folder-elem[data-id="${cId}"]`).parent().addClass('active');
+            $('.folders-group').find('li[data-type="article"]').find(`.article-elem[data-folder="${cId}"]`).parent().removeClass('d-none');
+        }
+    } else {
+        document.selectedFolders = [];
+        $('.folders-group').find('li.active[data-type="folder"]').each((ind, elem) => {
+            let cId = $(elem).find('.folder-elem').attr('data-id');
+            document.selectedFolders.push(cId);
+        });
+    }
+}
+
 
 
 $(function() {
@@ -456,7 +474,7 @@ $(function() {
                 {name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']},
                 {name: 'colors', items: ['TextColor', 'BGColor']},
             ],
-            height: '56vh',
+            height: '57vh',
             removePlugins: ['elementspath', 'resize'],
             extraPlugins: ['openlink'],
             filebrowserBrowseUrl: '/methodology/ckeditorbrowse/',
@@ -478,7 +496,7 @@ $(function() {
                 {name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']},
                 {name: 'colors', items: ['TextColor', 'BGColor']},
             ],
-            height: '80vh',
+            height: '83vh',
             removePlugins: ['elementspath', 'resize'],
             extraPlugins: ['openlink'],
             readOnly: true,
@@ -498,15 +516,15 @@ $(function() {
             }
         });
     } catch(e) {}
-
+    document.selectedFolders = [];
     
-    $('.btn-group-header').on('click', 'button', (e) => {
+    $('.row-header').on('click', 'button', (e) => {
         let cId = $(e.currentTarget).attr('data-id');
         let cState = $(e.currentTarget).attr('data-state');
         switch(cId) {
             case "toggle_article_block":
                 $(e.currentTarget).toggleClass('active');
-                $('.row-content').find('div:first').toggleClass('d-none', $(e.currentTarget).hasClass('active'));
+                $('.row-content').find('div:first').toggleClass('d-none', !$(e.currentTarget).hasClass('active'));
                 break;
             case "toggle_article_block_2":
                 $(e.currentTarget).toggleClass('active');
@@ -523,6 +541,7 @@ $(function() {
                     $('.folders-group').find('li[data-type="folder"]').addClass('active');
                     $('.folders-group').find('li[data-type="article"]').removeClass('d-none');
                 }
+                UpdateSelectedFolders();
                 break;
             case "prev_article":
                 ChangeSelectedArticle("up");
@@ -576,6 +595,7 @@ $(function() {
         if (cType == "folder") {
             $('.folders-group').find('li[data-type="article"]').find(`.article-elem[data-folder="${folderId}"]`).parent().toggleClass('d-none', isActive);
             $(e.currentTarget).toggleClass('active', !isActive);
+            UpdateSelectedFolders();
         } else if (cType == "article") {
             $('.folders-group').find('li[data-type="article"]').removeClass('active');
             if (!isActive) {
@@ -639,6 +659,17 @@ $(function() {
         DeleteArticle();
     });
 
+    window.canSwitchArticle = true;
+    $(document).keydown((e) => {
+        if (e.which == 38 && window.canSwitchArticle) { // up
+            window.canSwitchArticle = false;
+            ChangeSelectedArticle("up");
+        }
+        if (e.which == 40 && window.canSwitchArticle) { // down
+            window.canSwitchArticle = false;
+            ChangeSelectedArticle("down");
+        }
+    });
 
     // Toggle left menu
     setTimeout(() => {

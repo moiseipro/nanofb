@@ -10,23 +10,22 @@
 {% block content %}
 <main class="">
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 px-0">
             <div class="card mb-1">
                 <div class="card-body p-1">
                     <div class="card-inside">
                         <div class="row row-header">
-                            <div class="col-4">
-                                <input name="" class="form-control form-control-sm article-name" 
-                                    type="text" value="" placeholder="Название статьи" autocomplete="off" readonly="" style="cursor:default;">
+                            <div class="col-6">
+                                <div class="btn-group w-100" role="group" aria-label="">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x active" data-id="toggle_article_block" title="Скрыть / показать папки" style="--w-max-x:8%;">
+                                        <i class="fa fa-bars" aria-hidden="true"></i>
+                                    </button>
+                                    <input name="" class="form-control form-control-sm btn-block my-0 article-name" 
+                                        type="text" value="" placeholder="Название статьи" autocomplete="off" readonly="" style="cursor:default;">
+                                </div>
                             </div>
-                            <div class="col-8">
-                                <div class="btn-group btn-group-header w-100" role="group" aria-label="">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="toggle_article_block" title="Скрыть / показать папки" style="--w-max-x:8%;">
-                                        <i class="fa fa-arrows-h text-primary" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="toggle_article_block_2" title="Скрыть / показать папки" style="--w-max-x:8%;">
-                                        <i class="fa fa-arrows-h" aria-hidden="true"></i>
-                                    </button>
+                            <div class="col-6">
+                                <div class="btn-group w-100 d-flex justify-content-end" role="group" aria-label="">
                                     <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="toggle_folders" data-state="0" title="Свернуть / развернуть все папки" style="--w-max-x:8%;">
                                         <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
                                     </button>
@@ -51,11 +50,11 @@
                             </div>
                         </div>
                         <div class="row row-content mt-2">
-                            <div class="col-4">
-                                <ul class="list-group folders-group">
+                            <div class="col-overlay">
+                                <ul class="list-group folders-group mx-3 my-3">
                                 </ul>
                             </div>
-                            <div class="col">
+                            <div class="col-12">
                                 <div class="article-viewer-block">
                                     <textarea id="articleViewer" name=""></textarea>
                                 </div>
