@@ -527,7 +527,7 @@ function RenderExerciseOne(data) {
 }
 
 function AdaptPageToSection(section, exerciseLoaded=false, onlyChangeSection=false) {
-    let availableSections = ["card", "scheme_1", "scheme_2", "video_1", "video_2", "animation_1", "animation_2", "tags"];
+    let availableSections = ["card", "description", "scheme_1", "scheme_2", "video_1", "video_2", "animation_1", "animation_2", "tags"];
     if (availableSections.includes(section)) {
         if (!onlyChangeSection) {
             $(document).find('div.header').remove();
@@ -567,12 +567,44 @@ function AdaptPageToSection(section, exerciseLoaded=false, onlyChangeSection=fal
                 $(document).find('div.left-col-card').addClass('w-50');
                 $(document).find('div.center-col-card').addClass('w-50');
                 $(document).find('div.right-col-card').addClass('d-none');
+                $(document).find('div.center-col-card').addClass('mx-3');
                 let schemasElement = $(document).find('div.right-col-card').find('#carouselSchema');
                 let videosElement = $(document).find('div.right-col-card').find('#carouselVideo');
                 let animationsElement = $(document).find('div.right-col-card').find('#carouselAnim');
                 $(document).find('div.center-col-card').prepend(animationsElement);
                 $(document).find('div.center-col-card').prepend(videosElement);
                 $(document).find('div.center-col-card').prepend(schemasElement);
+                let descriptionBlock = $(document).find('div.center-col-card').find('div.description-table-container');
+                if (descriptionBlock.length == 0) {
+                    descriptionBlock = $(document).find('div.left-col-card').find('div.description-table-container');
+                }
+                $(document).find('div.center-col-card').append(descriptionBlock);
+                $(document).find('div.left-col-card').find('div.card-table-container').removeClass('d-none');
+            }
+            if (section == "description") {
+                if (!onlyChangeSection) {
+                    $(document).find('#editExs').trigger('click');
+                    $(document).find('#saveExs').addClass('d-none');
+                }
+                $(document).find('#openDescription').trigger('click');
+                $(document).find('#openDescription').addClass('d-none');
+                $(document).find('div.left-col-card').addClass('w-50');
+                $(document).find('div.center-col-card').addClass('w-50');
+                $(document).find('div.right-col-card').addClass('d-none');
+                $(document).find('div.center-col-card').addClass('mx-3');
+                let schemasElement = $(document).find('div.right-col-card').find('#carouselSchema');
+                let videosElement = $(document).find('div.right-col-card').find('#carouselVideo');
+                let animationsElement = $(document).find('div.right-col-card').find('#carouselAnim');
+                $(document).find('div.center-col-card').prepend(animationsElement);
+                $(document).find('div.center-col-card').prepend(videosElement);
+                $(document).find('div.center-col-card').prepend(schemasElement);
+                $(document).find('div.right-col-card').find('#carouselSchema');
+                let descriptionBlock = $(document).find('div.center-col-card').find('div.description-table-container');
+                if (descriptionBlock.length == 0) {
+                    descriptionBlock = $(document).find('div.left-col-card').find('div.description-table-container');
+                }
+                $(document).find('div.left-col-card').append(descriptionBlock);
+                $(document).find('div.left-col-card').find('div.card-table-container').addClass('d-none');
             }
             if (section == "scheme_1") {
                 if (!onlyChangeSection) {
@@ -1624,16 +1656,19 @@ $(function() {
                     18,
                 ]
             },
-            toolbar: [
-                'heading', '|',
-                'fontSize', 'fontColor', 'fontBackgroundColor', '|',
-                'specialCharacters', '|',
-                'undo', 'redo', '|',
-                'bold', 'italic', 'underline', '|',
-                'bulletedList', 'numberedList', 'toDoList', '|',
-                'outdent', 'indent', 'alignment', '|',
-                'link', 'insertImage', 'blockQuote', 'insertTable', '|'
-            ]
+            toolbar: {
+                items: [
+                    'heading', '|',
+                    'fontSize', 'fontColor', 'fontBackgroundColor', '|',
+                    'specialCharacters', '|',
+                    'undo', 'redo', '|',
+                    'bold', 'italic', 'underline', '|',
+                    'bulletedList', 'numberedList', 'toDoList', '|',
+                    'outdent', 'indent', 'alignment', '|',
+                    'link', 'insertImage', 'blockQuote', 'insertTable', '|'
+                ],
+                shouldNotGroupWhenFull: true,
+            },
 		})
 		.catch((error) => {
             console.error("Error with CKEditor5: ", error);
@@ -1704,16 +1739,19 @@ $(function() {
                     18,
                 ]
             },
-            toolbar: [
-                'heading', '|',
-                'fontSize', 'fontColor', 'fontBackgroundColor', '|',
-                'specialCharacters', '|',
-                'undo', 'redo', '|',
-                'bold', 'italic', 'underline', '|',
-                'bulletedList', 'numberedList', 'toDoList', '|',
-                'outdent', 'indent', 'alignment', '|',
-                'link', 'insertImage', 'blockQuote', 'insertTable', '|'
-            ]
+            toolbar: {
+                items: [
+                    'heading', '|',
+                    'fontSize', 'fontColor', 'fontBackgroundColor', '|',
+                    'specialCharacters', '|',
+                    'undo', 'redo', '|',
+                    'bold', 'italic', 'underline', '|',
+                    'bulletedList', 'numberedList', 'toDoList', '|',
+                    'outdent', 'indent', 'alignment', '|',
+                    'link', 'insertImage', 'blockQuote', 'insertTable', '|'
+                ],
+                shouldNotGroupWhenFull: true,
+            },
 		})
 		.catch((error) => {
             console.error("Error with CKEditor5: ", error);

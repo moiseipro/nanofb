@@ -347,7 +347,7 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
             <div class="card size-h-x" style="--h-x:75vh;">
                 <div class="card-body py-0">
                     <h5 class="card-title">Описание</h5>
-                    <div id="descriptionEditorView" class="ckeditor" name="">${data && data.description ? data.description : ''}</div>
+                    <div id="descriptionEditorView" class="ckeditor" name=""></div>
                 </div>
             </div>
         </div>
@@ -356,6 +356,41 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
         window.videoPlayerClones[i].dispose();
     }
     $('#exerciseGraphicsModal').find('#carouselGraphics > .carousel-inner').html(htmlStr);
+    try {
+        let cLang = $('#select-language').val();
+        let watchdog_descriptionEditorView = new CKSource.EditorWatchdog();
+		watchdog_descriptionEditorView.setCreator((element, config) => {
+			return CKSource.Editor
+            .create(element, config)
+            .then( editor => {
+                console.log( data.description )
+                if (data !== null && data.description !== null) {
+                    editor.setData(data.description);
+                }
+                editor.enableReadOnlyMode('');
+                $('#descriptionEditorView').next().find('.ck-editor__top').addClass('d-none');
+                $('#descriptionEditorView').next().find('.ck-content.ck-editor__editable').addClass('borders-off');
+				return editor;
+			})
+		});
+        watchdog_descriptionEditorView.setDestructor(editor => {
+            return editor.destroy();
+        });
+		watchdog_descriptionEditorView.on('error', (error) => {
+            console.error("Error with CKEditor5: ", error);
+        });
+        watchdog_descriptionEditorView
+		.create(document.querySelector('#descriptionEditorView'), {
+			licenseKey: '',
+            language: cLang,
+            removePlugins: ['Title'],
+		})
+		.catch((error) => {
+            console.error("Error with CKEditor5: ", error);
+        });
+    } catch (e) {
+        console.log(e)
+    }
     let items = $('#exerciseGraphicsModal').find('.video-modal');
     for (let i = 0; i < items.length; i++) {
         let tId = $(items[i]).attr('id');

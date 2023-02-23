@@ -53,8 +53,8 @@ class AdminFolder(AbstractFolder):
 
 
 class UserFolder(AbstractFolder):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    team = models.ForeignKey(UserTeam, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='exercises_userfolder_user')
+    team = models.ForeignKey(UserTeam, on_delete=models.CASCADE, null=True, blank=True, related_name='exercises_userfolder_team')
     objects = models.Manager()
 
     class Meta(AbstractFolder.Meta):
@@ -65,8 +65,8 @@ class UserFolder(AbstractFolder):
 
 
 class ClubFolder(AbstractFolder):
-    club = models.ForeignKey(Club, on_delete=models.CASCADE, null=True, blank=True)
-    team = models.ForeignKey(ClubTeam, on_delete=models.CASCADE, null=True, blank=True)
+    club = models.ForeignKey(Club, on_delete=models.CASCADE, null=True, blank=True, related_name='exercises_clubfolder_user')
+    team = models.ForeignKey(ClubTeam, on_delete=models.CASCADE, null=True, blank=True, related_name='exercises_clubfolder_team')
     objects = models.Manager()
     
     class Meta(AbstractFolder.Meta):

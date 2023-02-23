@@ -1,0 +1,172 @@
+{% extends '../base/app_main.html' %}
+{% load static %}
+
+{% block title %}Методология{% endblock %}
+
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'methodology/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="">
+    <div class="row">
+        <div class="col-12 px-0">
+            <div class="card mb-1">
+                <div class="card-body p-1">
+                    <div class="card-inside">
+                        <div class="row row-header">
+                            <div class="col-6">
+                                <div class="btn-group w-100" role="group" aria-label="">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x active" data-id="toggle_article_block" title="Скрыть / показать папки" style="--w-max-x:8%;">
+                                        <i class="fa fa-bars" aria-hidden="true"></i>
+                                    </button>
+                                    <input name="" class="form-control form-control-sm btn-block my-0 article-name" 
+                                        type="text" value="" placeholder="Название статьи" autocomplete="off" readonly="" style="cursor:default;">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="btn-group w-100 d-flex justify-content-end" role="group" aria-label="">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="toggle_folders" data-state="0" title="Свернуть / развернуть все папки" style="--w-max-x:8%;">
+                                        <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary btn-block my-0 mx-1 size-max-w-x" data-id="prev_article" title="" style="--w-max-x:26%;">
+                                        <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
+                                        Предыдущая
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary btn-block my-0 mx-1 size-max-w-x" data-id="next_article" title="" style="--w-max-x:26%;">
+                                        Следующая
+                                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="add_folder" title="Добавить новую папку" style="--w-max-x:8%;">
+                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="add_article" title="Добавить новую статью" style="--w-max-x:8%;">
+                                        <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="toggle_edit_options" title="Дополнительные опции" style="--w-max-x:8%;">
+                                        <i class="fa fa-cog" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-content mt-2">
+                            <div class="col-overlay">
+                                <ul class="list-group folders-group mx-3 my-3">
+                                </ul>
+                            </div>
+                            <div class="col-12">
+                                <div class="article-viewer-block">
+                                    <textarea id="articleViewer" name=""></textarea>
+                                </div>
+                            </div>
+                            <div class="col-12 px-5 article-editor-col">
+                                <div class="row aec-header mb-2">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-6 d-flex justify-content-start">
+                                                <h5 class="modal-title">Добавление / изменение статьи</h5>
+                                            </div>
+                                            <div class="col-6 d-flex justify-content-end">
+                                                <button type="submit" class="btn btn-sm btn-success btn-save">Сохранить</button>
+                                                <button type="button" class="btn btn-sm btn-secondary ml-2" data-dismiss="modal">Отмена</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row aec-body">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="form-group">
+                                                    <input name="a_title" type="text" class="form-control form-control-sm" aria-describedby="" placeholder="Название статьи" autocomplete="off" required="">
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="form-group">
+                                                    <select name="a_folder" class="form-control form-control-sm" autocomplete="off" required="">
+                                                        <option value="">- Выберите папку -</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="article-editor-block">
+                                                <textarea id="articleEditor" name="a_content"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editFolderModal" tabindex="-1" role="dialog" aria-labelledby="editFolderModalLbl" aria-hidden="true" data-id="">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Добавление / изменение папки</h5>
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="f_title">Название папки:</label>
+                        <input name="f_title" type="text" class="form-control form-control-sm" id="f_title" aria-describedby="" autocomplete="off" required="">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-save">Сохранить</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteFolderModal" tabindex="-1" role="dialog" aria-labelledby="deleteFolderModalLbl" aria-hidden="true" data-id="">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Удаление папки</h5>
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                </div>
+                <div class="modal-body">
+                    Внимание! Удаление папки приведёт к удалению всех статей, которые привязаны к этой папке.
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger btn-delete">Удалить</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteArticleModal" tabindex="-1" role="dialog" aria-labelledby="deleteArticleModalLbl" aria-hidden="true" data-id="">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Удаление статьи</h5>
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                </div>
+                <div class="modal-body">
+                    Вы точно хотите удалить данную статью?
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger btn-delete">Удалить</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+{% endblock %}
+
+{% block custom_scripts %}
+    <script src="{% static 'ckeditor_4.20.2/ckeditor.js' %}"></script>
+    <script src="{% static 'ckeditor_4.20.2/lang/ru.js' %}"></script>
+
+    <script src="{% static 'methodology/js/base_methodology.js' %}"></script>
+{% endblock %}

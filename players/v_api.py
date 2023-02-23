@@ -739,6 +739,11 @@ def POST_edit_characteristics_rows(request, cur_user):
         else:
             pass
     else:
+        if not util_check_access(cur_user, {
+            'perms_user': ["players.change_playercharacteristicsrows", "players.add_playercharacteristicsrows"], 
+            'perms_club': ["players.change_playercharacteristicsrows", "players.add_playercharacteristicsrows"]
+        }):
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
         for elem in post_data:
             f_row = None
             if request.user.club_id is not None:
@@ -818,6 +823,11 @@ def POST_add_delete_characteristics_rows(request, cur_user, to_add = True):
         else:
             pass
     else:
+        if not util_check_access(cur_user, {
+            'perms_user': ["players.delete_playercharacteristicsrows", "players.add_playercharacteristicsrows"], 
+            'perms_club': ["players.delete_playercharacteristicsrows", "players.add_playercharacteristicsrows"]
+        }):
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
         if to_add:
             new_row = None
             if request.user.club_id is not None:

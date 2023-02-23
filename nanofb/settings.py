@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'taggit',
     'colorfield',
     'django_countries',
+    'ckeditor',
+    'ckeditor_uploader',
     'nanofootball.apps.NanofootballConfig',
     'users.apps.UsersConfig',
     'authorization.apps.AuthorizationConfig',
@@ -70,6 +72,7 @@ INSTALLED_APPS = [
     'system_icons.apps.SystemIconsConfig',
     'shared.apps.SharedConfig',
     'presentation.apps.PresentationConfig',
+    'methodology.apps.MethodologyConfig',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -258,3 +261,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CKEDITOR_UPLOAD_PATH = 'uploads/'
