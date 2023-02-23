@@ -80,23 +80,10 @@ $(window).on('load', function (){
         let exercise_additional_id = cur_row.attr('data-id')
 
         let send_data = {}
-        ajax_training_exercise_data_action('DELETE', send_data, 'delete data', exercise_additional_id).done(function (data) {
+        ajax_training_exercise_data_action('DELETE', send_data, 'delete data', exercise_additional_id).then(function (data) {
             //console.log(data)
             cur_row.remove();
         })
-        // swal(gettext("Remove an additional data from an exercise?"), {
-        //     buttons: {
-        //         cancel: true,
-        //         confirm: true,
-        //     },
-        // }).then(function(isConfirm) {
-        //     if (isConfirm) {
-        //         ajax_training_exercise_data_action('DELETE', send_data, 'delete data', exercise_additional_id).done(function (data) {
-        //             //console.log(data)
-        //             cur_row.remove();
-        //         })
-        //     }
-        // });
     })
     // Удаление всех/пустых дополнительных данных в упражнении
     $('#training-content').on('click', '.delete-all-exercise-additional', function (){
@@ -116,37 +103,6 @@ $(window).on('load', function (){
                 })
             }
         });
-        // swal(gettext("Remove an additional data from an exercise?"), {
-        //     buttons: {
-        //         delete_all: {
-        //             text: gettext("Delete all"),
-        //             value: "all",
-        //             className:'btn-danger'
-        //         },
-        //         delete_empty: {
-        //             text: gettext("Delete empty"),
-        //             value: "empty",
-        //             className:'btn-warning'
-        //         },
-        //         cancel: true,
-        //     },
-        // }).then(function(value) {
-        //     switch (value) {
-        //         case "all":
-        //             ajax_training_exercise_action('DELETE', send_data, 'delete all data', training_exercise_id, 'delete_all_data').then(function (data) {
-        //                 //console.log(data)
-        //                 load_exercises_additional_data(training_exercise_id)
-        //             })
-        //             break;
-        //         case "empty":
-        //             ajax_training_exercise_action('DELETE', send_data, 'delete empty data', training_exercise_id, 'delete_empty_data').then(function (data) {
-        //                 //console.log(data)
-        //                 load_exercises_additional_data(training_exercise_id)
-        //             })
-        //             break;
-        //         default:
-        //     }
-        // });
     })
     // Редактирование дополнительных данных в упражнении
     $('#training-exercise-additional').on('change', '.edit-input', function (){
@@ -162,7 +118,7 @@ $(window).on('load', function (){
             cur_row.addClass('edit-button')
         }
 
-        ajax_training_exercise_data_action('PUT', send_data, 'update data', exercise_additional_id).done(function (data) {
+        ajax_training_exercise_data_action('PUT', send_data, 'update data', exercise_additional_id).then(function (data) {
             console.log(data)
             //render_exercises_additional_data(training_exercise_id)
         })
@@ -294,13 +250,14 @@ function load_all_exercises_training(training_id = null, group = null) {
 
         $('#training-main-data [name="date"]').val(data.event_date);
         $('#training-main-data [name="time"]').val(data.event_time);
-        $('#training-main-data .team-name').text(data.team_info.name);
+        if('team_info' in data) $('#training-main-data .team-name').text(data.team_info.name);
+        else $('#training-main-data .team-name').text('Test');
         $('#training-main-data .trainer-select').text(data.trainer);
         $('#training-main-data input[name="field_size"]').val(data.field_size)
         $('#training-main-data input[name="load_type"]').val(data.load_type)
         $('#block-training-info input[name="goal"]').val(data.goal)
-        $('#training-objectives-data input[name="objective_1"]').val(data.objective_1)
-        $('#training-objectives-data input[name="objective_2"]').val(data.objective_2)
+        $('#training-main-data input[name="objective_1"]').val(data.objective_1)
+        $('#training-main-data input[name="objective_2"]').val(data.objective_2)
         $('#training-video-modal input[name="video_href"]').val(data.video_href)
 
         let exs_time = 0
@@ -373,7 +330,7 @@ function load_all_exercises_training(training_id = null, group = null) {
         html_scheme += `</div>`
 
         let player_count = 0
-        if (data.protocol_info.length > 0) {
+        if ('protocol_info' in data && data.protocol_info.length > 0) {
             let players = data.protocol_info
             for (let player of players) {
                 player_count++

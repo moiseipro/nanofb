@@ -3,7 +3,7 @@ from datetime import timedelta
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from events.models import UserEvent, ClubEvent
+from events.models import UserEvent, ClubEvent, LiteEvent
 from exercises.models import UserExercise, ClubExercise
 from players.models import UserPlayer, ClubPlayer
 from references.models import UserTeam, ClubTeam, ExsAdditionalData, PlayerProtocolStatus, TrainingSpace
@@ -144,6 +144,26 @@ class ClubTraining(AbstractTraining):
         ]
 
 
+class LiteTraining(AbstractTraining):
+    event_id = models.OneToOneField(
+        LiteEvent,
+        on_delete=models.CASCADE,
+        primary_key=True
+    )
+    team_id = models.ForeignKey(
+        UserTeam,
+        on_delete=models.CASCADE
+    )
+    exercises = models.ManyToManyField(
+        UserExercise,
+        through="LiteTrainingExercise",
+        through_fields=('training_id', 'exercise_id'),
+    )
+
+    class Meta(AbstractTraining.Meta):
+        pass
+
+
 class AbstractTrainingExercise(models.Model):
 
     class GroupType(models.IntegerChoices):
@@ -212,6 +232,22 @@ class ClubTrainingExercise(AbstractTrainingExercise):
     )
 
 
+class LiteTrainingExercise(AbstractTrainingExercise):
+    training_id = models.ForeignKey(
+        LiteTraining,
+        on_delete=models.CASCADE
+    )
+    exercise_id = models.ForeignKey(
+        UserExercise,
+        on_delete=models.CASCADE
+    )
+    additional = models.ManyToManyField(
+        ExsAdditionalData,
+        through="LiteTrainingExerciseAdditional",
+        through_fields=('training_exercise_id', 'additional_id')
+    )
+
+
 class AbstractTrainingExerciseAdditional(models.Model):
     note = models.CharField(
         max_length=255,
@@ -245,6 +281,18 @@ class ClubTrainingExerciseAdditional(AbstractTrainingExerciseAdditional):
         ExsAdditionalData,
         on_delete=models.CASCADE,
     )
+
+
+class LiteTrainingExerciseAdditional(AbstractTrainingExerciseAdditional):
+    training_exercise_id = models.ForeignKey(
+        LiteTrainingExercise,
+        on_delete=models.CASCADE
+    )
+    additional_id = models.ForeignKey(
+        ExsAdditionalData,
+        on_delete=models.CASCADE,
+    )
+
 
 # PROTOCOL
 class AbstractTrainingProtocol(models.Model):

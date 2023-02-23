@@ -1,0 +1,104 @@
+{% extends '../base/app_main.html' %}
+{% load i18n %}
+{% load static %}
+{% load language_json %}
+
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'exercises/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'trainings/css/view_training.css' %}">
+    <link rel="stylesheet" href="{% static 'trainings/css/training_card.css' %}">
+{% endblock %}
+
+{% block title %}{% trans 'Trainings' %}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card m-0">
+                <div class="card-header py-2">
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="row">
+                                <div class="col-6 px-1">
+                                    <a id="back-button" href="{% if request.META.HTTP_REFERER %}{{ request.META.HTTP_REFERER }}{% else %}{% url 'events:base_events' %}{% endif %}" title="" class="btn btn-block btn-outline-danger btn-sm font-weight-bold view-button">{% trans "Back" %}</a>
+                                    <button id="#" title="" class="btn btn-block btn-outline-warning btn-sm mt-0 font-weight-bold edit-button toggle-edit-mode d-none">{% trans "Cancel" %}</button>
+                                </div>
+                                <div class="col-6 px-1">
+                                    <button id="#" title="" class="btn btn-block btn-outline-dark btn-sm font-weight-bold view-button toggle-edit-mode">{% trans "Edit" %}</button>
+                                    <button id="save-training" title="" class="btn btn-block btn-outline-success btn-sm mt-0 font-weight-bold edit-button toggle-edit-mode d-none">{% trans "Save" %}</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col px-0">
+                            <ul class="nav nav-pills nav-fill">
+                                <li class="nav-item px-1">
+                                    <a class="btn btn-sm btn-block btn-outline-primary font-weight-bold active" data-toggle="pill" href="#training-card" role="tab">{% trans "Card" %}</a>
+                                </li>
+                                <li class="nav-item px-1">
+                                    <a id="training-exercises-button" class="btn btn-sm btn-block btn-outline-primary font-weight-bold" data-toggle="pill" href="#training-exercises" role="tab">
+                                        {% trans "Exercises" %}
+                                        <span class="float-right" id="columnsSizeToggle" title="Поменять размер колонок">
+                                            <i class="fa fa-cog" aria-hidden="true"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-3">
+                            <div class="row">
+                                <div class="col-6 px-1">
+                                    <button id="#" title="" class="btn btn-block btn-outline-primary btn-sm font-weight-bold" data-toggle="modal" data-target="#training-video-modal">{% trans "Video" %}</button>
+                                </div>
+                                <div class="col-6 px-1">
+                                    <button id="delete-training" title="" class="btn btn-block btn-outline-danger btn-sm font-weight-bold">{% trans "Delete" %}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pt-0 pb-2">
+                    <div class="tab-content p-0" id="training-tabContent">
+                        <div class="tab-pane fade show active" id="training-card" role="tabpanel" aria-labelledby="training-card-tab">
+                            {% include 'trainings/training_card.html' %}
+                        </div>
+                        <div class="tab-pane fade" id="training-exercises" role="tabpanel" aria-labelledby="training-exercises-tab">
+                            <div class="row">
+                                <div class="col-12 d-none">
+                                    <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" id="toggleFoldersNames" title="Свернуть / Развернуть папки" style="--w-max-x:5%;" data-state="0">
+                                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <div class="col px-0">
+                                    {% include "exercises/modules/exercises_list.html" %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% include "exercises/modules/exercise_graphic_modal.html" %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block custom_scripts %}
+    <script src="{% static 'references/team_ajax.js' %}"></script>
+    <script src="{% static 'events/js/event_update.js' %}"></script>
+    <script src="{% static 'references/exercise_additional_data.js' %}"></script>
+    <script src="{% static 'references/training_additional.js' %}"></script>
+    <script src="{% static 'trainings/js/training_card.js' %}"></script>
+
+    <script src="{% static 'exercises/js/modules/graphic_modal.js' %}"></script>
+    <script src="{% static 'exercises/js/modules/exercise_counter.js' %}"></script>
+    <script src="{% static 'exercises/js/modules/visual_block_control.js' %}"></script>
+    <script src="{% static 'exercises/js/modules/exercises_list.js' %}"></script>
+    <script src="{% static 'exercises/js/modules/exercise_card.js' %}"></script>
+    <script src="{% static 'exercises/js/folder_list.js' %}"></script>
+
+    <script src="{% static 'trainings/js/action_lite_training.js' %}"></script>
+    <script src="{% static 'events/js/event_lite_update.js' %}"></script>
+    <script src="{% static 'trainings/js/training.js' %}"></script>
+    <script src="{% static 'trainings/js/view_lite_training.js' %}"></script>
+    <script src="{% static 'video/js/video_list.js' %}"></script>
+{% endblock %}

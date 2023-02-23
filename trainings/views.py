@@ -18,12 +18,14 @@ from players.models import UserPlayer, ClubPlayer
 from references.models import UserTeam, UserSeason, ClubTeam, ClubSeason, ExsAdditionalData
 from references.serializers import ExsAdditionalDataSerializer
 from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExerciseAdditional, UserTrainingProtocol, \
-    ClubTrainingExercise, ClubTrainingProtocol, ClubTraining, ClubTrainingExerciseAdditional
+    ClubTrainingExercise, ClubTrainingProtocol, ClubTraining, ClubTrainingExerciseAdditional, LiteTraining, \
+    LiteTrainingExercise, LiteTrainingExerciseAdditional
 
 # REST FRAMEWORK
 from trainings.serializers import UserTrainingSerializer, UserTrainingExerciseSerializer, \
     UserTrainingExerciseAdditionalSerializer, UserTrainingProtocolSerializer, ClubTrainingExerciseSerializer, \
-    ClubTrainingProtocolSerializer, ClubTrainingSerializer, ClubTrainingExerciseAdditionalSerializer
+    ClubTrainingProtocolSerializer, ClubTrainingSerializer, ClubTrainingExerciseAdditionalSerializer, \
+    LiteTrainingExerciseSerializer, LiteTrainingSerializer, LiteTrainingExerciseAdditionalSerializer
 from users.models import User
 from system_icons.views import get_ui_elements
 
@@ -274,6 +276,82 @@ class TrainingViewSet(viewsets.ModelViewSet):
         return trainings
 
 
+class LiteTrainingViewSet(viewsets.ModelViewSet):
+    permission_classes = [BaseTrainingsPermissions]
+
+    def perform_create(self, serializer):
+        serializer.save(user_id=self.request.user)
+
+    @action(detail=True, methods=['get'])
+    def get_exercises(self, request, pk=None):
+        group = request.query_params.get('group')
+        print(group)
+        if group:
+            queryset = LiteTrainingExercise.objects.filter(training_id=pk, group=group)
+        else:
+            queryset = LiteTrainingExercise.objects.filter(training_id=pk)
+
+        serializer = LiteTrainingExerciseSerializer(queryset, many=True)
+        return Response({'status': 'exercise_got', 'objs': serializer.data})
+
+    @action(detail=True, methods=['post'])
+    def add_exercise(self, request, pk=None):
+        data = request.data
+
+        exercise_count = LiteTrainingExercise.objects.filter(training_id=pk, group=data['group']).count()
+        current_exercise = LiteTrainingExercise.objects.filter(training_id=pk, group=data['group'],
+                                                               exercise_id=data['exercise_id']).count()
+        print(exercise_count)
+        if exercise_count > 6:
+            return Response({'status': 'exercise_limit'})
+        if current_exercise > 0:
+            return Response({'status': 'exercise_repeated'})
+        data_dict = dict(
+            training_id=pk,
+            exercise_id=data['exercise_id'],
+            group=data['group'],
+            duration=data['duration'],
+            order=exercise_count
+        )
+        print(data_dict)
+        query_dict = QueryDict('', mutable=True)
+        query_dict.update(data_dict)
+
+
+        serializer = LiteTrainingExerciseSerializer(
+            data=query_dict
+        )
+
+        #print(serializer)
+        if serializer.is_valid(raise_exception=True):
+            new_obj = serializer.save()
+            object_serialize = LiteTrainingExerciseSerializer(new_obj).data
+
+            return Response({'status': 'exercise_added', 'obj': object_serialize})
+        else:
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
+
+    def get_serializer_class(self):
+        serial = LiteTrainingSerializer
+
+        return serial
+
+    def get_queryset(self):
+        print(self.request.session['team'])
+        if self.request.user.club_id is not None:
+            season = ClubSeason.objects.filter(id=self.request.session['season'])
+        else:
+            season = UserSeason.objects.filter(id=self.request.session['season'])
+
+        trainings = LiteTraining.objects.filter(team_id=self.request.session['team'],
+                                                event_id__user_id=self.request.user,
+                                                event_id__date__gte=season[0].date_with,
+                                                event_id__date__lte=season[0].date_by)
+
+        return trainings
+
+
 class TrainingExerciseViewSet(viewsets.ModelViewSet):
     permission_classes = [BaseTrainingsPermissions]
 
@@ -497,6 +575,185 @@ class TrainingExerciseViewSet(viewsets.ModelViewSet):
         return queryset
 
 
+class LiteTrainingExerciseViewSet(viewsets.ModelViewSet):
+    permission_classes = [BaseTrainingsPermissions]
+
+    @action(detail=True, methods=['get'])
+    def get_data(self, request, pk=None):
+        queryset = LiteTrainingExerciseAdditional.objects.filter(training_exercise_id=pk)
+        serializer = LiteTrainingExerciseAdditionalSerializer(queryset, many=True)
+
+        return Response({'status': 'data_got', 'objs': serializer.data})
+
+    @action(detail=True, methods=['delete'])
+    def delete_all_data(self, request, pk=None):
+        data = request.data
+
+        training_exercise = LiteTrainingExercise.objects.get(id=pk)
+
+        print(pk)
+        training_exercise.additional.clear()
+        training_exercise.save()
+        return Response({'status': 'data_all_removed'})
+
+    @action(detail=True, methods=['delete'])
+    def delete_empty_data(self, request, pk=None):
+        data = request.data
+
+        training_exercise = LiteTrainingExercise.objects.get(id=pk)
+        additionals = training_exercise.litetrainingexerciseadditional_set.all()
+
+        print(additionals)
+        print(pk)
+        for additional in additionals:
+            if additional.note is None or additional.note == '':
+                additional.delete()
+
+        return Response({'status': 'data_empty_removed'})
+
+    @action(detail=True, methods=['post'])
+    def add_all_data(self, request, pk=None):
+        data = request.data
+
+        training_exercise = LiteTrainingExercise.objects.get(id=pk)
+
+        data_count = training_exercise.additional.all().count()
+        additionals = ExsAdditionalData.objects.all()
+
+        print(data_count)
+        print(pk)
+        if data_count > 0:
+            training_exercise.additional.clear()
+
+        if training_exercise.additional.add(*additionals):
+            return Response({'status': 'data_added', 'obj': training_exercise.additional.values()})
+        else:
+            return Response({'status': 'data_error'})
+
+    @action(detail=True, methods=['post'])
+    def add_data(self, request, pk=None):
+        data = request.data
+
+        training_exercise = LiteTrainingExercise.objects.get(id=pk)
+
+        data_count = training_exercise.additional.all().count()
+        additional = ExsAdditionalData.objects.all().first().pk
+
+        print(data_count)
+        print(pk)
+        if data_count > 14:
+            return Response({'status': 'data_limit'})
+        data_dict = dict(
+            training_exercise_id=pk,
+            additional_id=additional,
+            note=None
+        )
+        query_dict = QueryDict('', mutable=True)
+        query_dict.update(data_dict)
+
+        serializer = LiteTrainingExerciseAdditionalSerializer(
+            data=query_dict
+        )
+        print(serializer)
+        if serializer.is_valid(raise_exception=True):
+            print(serializer.validated_data)
+            new_obj = serializer.save()
+
+            object_serialize = LiteTrainingExerciseAdditionalSerializer(new_obj).data
+
+            return Response({'status': 'data_added', 'obj': object_serialize})
+        else:
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=['put'])
+    def edit_data(self, request, pk=None):
+        data = request.data
+        instance = self.get_object()
+        print(data)
+
+        edit_object = LiteTrainingExercise.objects.filter(
+            pk=pk
+        )
+
+        print(edit_object)
+
+        data_dict = {}
+        if(data['duration']):
+            data_dict['duration'] = data['duration']
+            data_dict['order'] = 1
+
+        query_dict = QueryDict('', mutable=True)
+        query_dict.update(data_dict)
+
+        serializer = LiteTrainingExerciseSerializer(
+            edit_object,
+            data=query_dict
+        )
+
+        # print(serializer)
+        if serializer.is_valid(raise_exception=True):
+            update_obj = serializer.save()
+
+            object_serialize = LiteTrainingExerciseSerializer(update_obj).data
+
+            return Response({'status': 'exercise_updated', 'obj': object_serialize})
+        else:
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
+
+    def get_object_by_id(self, obj_id):
+        model = LiteTrainingExercise
+        try:
+            return model.objects.get(id=obj_id)
+        except (model.DoesNotExist, ValidationError):
+            raise status.HTTP_400_BAD_REQUEST
+
+    def validate_ids(self, id_list):
+        model = LiteTrainingExercise
+        for id in id_list:
+            try:
+                model.objects.get(id=int(id))
+            except (model.DoesNotExist, ValidationError):
+                raise status.HTTP_400_BAD_REQUEST
+        return True
+
+    @action(detail=False, methods=['put'])
+    def sort_exercise(self, request, *args, **kwargs):
+        print(request.data)
+        id_list = request.data.getlist('exercise_ids[]')
+        print(id_list)
+        self.validate_ids(id_list=id_list)
+        instances = []
+        for i, id in enumerate(id_list):
+            print(id)
+            obj = self.get_object_by_id(obj_id=id)
+            obj.order = i
+            obj.save()
+            instances.append(obj)
+
+        serializer = LiteTrainingExerciseSerializer(instances, many=True)
+        return Response({'status': 'sort_exercise', 'objs': serializer.data})
+
+    def update(self, request, *args, **kwargs):
+        partial = True
+        instance = self.get_object()
+        print(request.data)
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        return Response(serializer.data)
+
+    def get_serializer_class(self):
+        serializer_class = LiteTrainingExerciseSerializer
+        return serializer_class
+
+    def get_queryset(self):
+        queryset = LiteTrainingExercise.objects.all()
+        return queryset
+
+
 class TrainingExerciseAdditionalViewSet(viewsets.ModelViewSet):
     permission_classes = [BaseTrainingsPermissions]
 
@@ -522,6 +779,28 @@ class TrainingExerciseAdditionalViewSet(viewsets.ModelViewSet):
             queryset = ClubTrainingExerciseAdditional.objects.all()
         else:
             queryset = UserTrainingExerciseAdditional.objects.all()
+        return queryset
+
+
+class LiteTrainingExerciseAdditionalViewSet(viewsets.ModelViewSet):
+    permission_classes = [BaseTrainingsPermissions]
+
+    def update(self, request, *args, **kwargs):
+        partial = True
+        instance = self.get_object()
+        print(request.data)
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        return Response(serializer.data)
+
+    def get_serializer_class(self):
+        serializer_class = LiteTrainingExerciseAdditionalSerializer
+        return serializer_class
+
+    def get_queryset(self):
+        queryset = LiteTrainingExerciseAdditional.objects.all()
         return queryset
 
 
@@ -649,3 +928,36 @@ class EditTrainingsView(DetailView):
                 )
         return self.queryset.all()
 
+
+class EditLiteTrainingsView(DetailView):
+    template_name = 'trainings/view_lite_training.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Подтягиваем папки и упражнения
+        cur_user = User.objects.filter(pk=self.request.user.id).only("club_id")
+        #print(cur_user.values())
+        found_folders, found_club_folders, found_nfb_folders, refs = get_exercises_params(self.request, cur_user[0], self.request.session['team'])
+        context['folders'] = found_folders
+        context['folders_only_view'] = True
+        # context['nfb_folders'] = found_nfb_folders
+        context['nfb_folders'] = False
+        context['refs'] = refs
+        context['is_exercises'] = True
+        context['ui_elements'] = get_ui_elements(self.request)
+        return context
+
+    def get_queryset(self):
+        self.model = LiteTraining
+
+        if self.queryset is None:
+            if self.model:
+                return self.model._default_manager.all()
+            else:
+                raise ImproperlyConfigured(
+                    "%(cls)s is missing a QuerySet. Define "
+                    "%(cls)s.model, %(cls)s.queryset, or override "
+                    "%(cls)s.get_queryset()." % {"cls": self.__class__.__name__}
+                )
+        return self.queryset.all()

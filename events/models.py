@@ -81,6 +81,16 @@ class ClubEvent(AbstractEvent):
         pass
 
 
+class LiteEvent(AbstractEvent):
+    user_id = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+
+    class Meta(AbstractEvent.Meta):
+        pass
+
+
 class AbstractMicrocycles(models.Model):
     name = models.CharField(
         verbose_name=_('title'),
@@ -126,5 +136,14 @@ class ClubMicrocycles(AbstractMicrocycles):
         pass
 
 
+class LiteMicrocycles(AbstractMicrocycles):
+    team_id = models.ForeignKey(
+        UserTeam,
+        on_delete=models.CASCADE,
+        null=False,
+        blank=False,
+    )
 
+    class Meta(AbstractMicrocycles.Meta):
+        pass
 

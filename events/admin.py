@@ -1,5 +1,5 @@
 from django.contrib import admin
-from events.models import UserMicrocycles, UserEvent, ClubMicrocycles, ClubEvent
+from events.models import UserMicrocycles, UserEvent, ClubMicrocycles, ClubEvent, LiteMicrocycles, LiteEvent
 
 # Register your models here.
 
@@ -7,3 +7,4 @@ from events.models import UserMicrocycles, UserEvent, ClubMicrocycles, ClubEvent
 # Test
 admin.site.register([UserMicrocycles, UserEvent])
 admin.site.register([ClubMicrocycles, ClubEvent])
+admin.site.register([LiteMicrocycles, LiteEvent])

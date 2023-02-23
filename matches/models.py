@@ -3,7 +3,7 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy as _p
-from events.models import UserEvent, ClubEvent, EventVideoLink
+from events.models import UserEvent, ClubEvent, EventVideoLink, LiteEvent
 from references.models import UserTeam, ClubTeam, PlayerProtocolStatus
 from users.models import User
 from video.models import Video
@@ -138,6 +138,23 @@ class ClubMatch(AbstractMatch):
                 _('Access to the section "Analytics" for ClubMatch')
             )
         ]
+
+
+class LiteMatch(AbstractMatch):
+    event_id = models.OneToOneField(
+        LiteEvent,
+        on_delete=models.CASCADE,
+        primary_key=True
+    )
+    sync_event = models.ForeignKey(LiteEvent, on_delete=models.SET_NULL, null=True, blank=True, related_name="sync_event")
+    team_id = models.ForeignKey(
+        UserTeam,
+        on_delete=models.CASCADE
+    )
+
+    class Meta:
+        abstract = False
+        ordering = ['-event_id__date']
 
 
 class AbstractProtocol(models.Model):

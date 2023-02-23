@@ -1,48 +1,57 @@
 from rest_framework import serializers
 
-from events.models import UserMicrocycles, UserEvent, ClubMicrocycles, ClubEvent
+from events.models import UserMicrocycles, UserEvent, ClubMicrocycles, ClubEvent, LiteMicrocycles, LiteEvent
 
 # Microcycles
-from matches.serializers import UserMatchSerializer, ClubMatchSerializer
-from trainings.serializers import UserTrainingSerializer, ClubTrainingSerializer
+from matches.serializers import UserMatchSerializer, ClubMatchSerializer, LiteMatchSerializer
+from trainings.serializers import UserTrainingSerializer, ClubTrainingSerializer, LiteTrainingSerializer
 
 
-class UserMicrocyclesSerializer(serializers.ModelSerializer):
+class AbstractMicrocyclesSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
 
     class Meta:
-        model = UserMicrocycles
         fields = (
             'id', 'name', 'date_with', 'date_by'
         )
         datatables_always_serialize = ('id',)
 
 
-class ClubMicrocyclesSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(read_only=True)
-
-    class Meta:
-        model = ClubMicrocycles
-        fields = (
-            'id', 'name', 'date_with', 'date_by'
-        )
-        datatables_always_serialize = ('id',)
-
-
-class UserMicrocyclesUpdateSerializer(serializers.ModelSerializer):
-    class Meta:
+class UserMicrocyclesSerializer(AbstractMicrocyclesSerializer):
+    class Meta(AbstractMicrocyclesSerializer.Meta):
         model = UserMicrocycles
-        fields = (
-            'name', 'date_with', 'date_by'
-        )
 
 
-class ClubMicrocyclesUpdateSerializer(serializers.ModelSerializer):
-    class Meta:
+class ClubMicrocyclesSerializer(AbstractMicrocyclesSerializer):
+    class Meta(AbstractMicrocyclesSerializer.Meta):
         model = ClubMicrocycles
+
+
+class LiteMicrocyclesSerializer(AbstractMicrocyclesSerializer):
+    class Meta(AbstractMicrocyclesSerializer.Meta):
+        model = LiteMicrocycles
+
+
+class AbstractMicrocyclesUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
         fields = (
             'name', 'date_with', 'date_by'
         )
+
+
+class UserMicrocyclesUpdateSerializer(AbstractMicrocyclesUpdateSerializer):
+    class Meta(AbstractMicrocyclesUpdateSerializer.Meta):
+        model = UserMicrocycles
+
+
+class ClubMicrocyclesUpdateSerializer(AbstractMicrocyclesUpdateSerializer):
+    class Meta(AbstractMicrocyclesUpdateSerializer.Meta):
+        model = ClubMicrocycles
+
+
+class LiteMicrocyclesUpdateSerializer(AbstractMicrocyclesUpdateSerializer):
+    class Meta(AbstractMicrocyclesUpdateSerializer.Meta):
+        model = LiteMicrocycles
 
 
 class UserMicrocycleDaySerializer(serializers.Serializer):
@@ -89,6 +98,23 @@ class ClubEventEditSerializer(EventEditSerializer):
 
     class Meta(EventEditSerializer.Meta):
         model = ClubEvent
+
+    Meta.fields += ('training', 'match')
+
+
+class LiteEventEditSerializer(EventEditSerializer):
+    training = LiteTrainingSerializer(
+        source='litetraining',
+        read_only=True
+    )
+
+    match = LiteMatchSerializer(
+        source='litematch',
+        read_only=True
+    )
+
+    class Meta(EventEditSerializer.Meta):
+        model = LiteEvent
 
     Meta.fields += ('training', 'match')
 
@@ -145,6 +171,24 @@ class ClubEventSerializer(EventSerializer):
 
     class Meta(EventSerializer.Meta):
         model = ClubEvent
+
+    Meta.fields += ('training', 'match')
+    Meta.datatables_always_serialize += ('training', 'match')
+
+
+class LiteEventSerializer(EventSerializer):
+    training = LiteTrainingSerializer(
+        source='litetraining',
+        read_only=True
+    )
+
+    match = LiteMatchSerializer(
+        source='litematch',
+        read_only=True
+    )
+
+    class Meta(EventSerializer.Meta):
+        model = LiteEvent
 
     Meta.fields += ('training', 'match')
     Meta.datatables_always_serialize += ('training', 'match')

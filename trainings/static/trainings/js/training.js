@@ -1,0 +1,391 @@
+
+function get_page_id(){
+    let urlsplit = $(location).attr('pathname').split("/");
+    let id = urlsplit[urlsplit.length-1];
+    if(id==='')
+    {
+        id = urlsplit[urlsplit.length-2];
+    }
+    return id
+}
+
+$(window).on('load', function (){
+    //Скрыть правый блок
+    $('#toggle_btn').click()
+
+    toggle_folders_name()
+
+    var id = get_page_id()
+
+    $('#back-button').on('click', function () {
+        Cookies.set('date', $('input[name="date"]').val(), { expires: 1 })
+        Cookies.set('event_id', id, { expires: 1 })
+    })
+
+    $('#delete-training').on('click', function () {
+        let send_data = {}
+        swal(gettext("Delete this training?"), {
+            buttons: {
+                cancel: true,
+                confirm: true,
+            },
+        }).then(function(isConfirm) {
+            if (isConfirm) {
+                ajax_event_action('DELETE', send_data, 'delete', id).then(function (data) {
+                    window.location.replace("/events/");
+                })
+            }
+        });
+    })
+
+    // Добавление упражнения в тренировку
+    $('.visual-block').on('click', '.add-exercise', function (){
+        let data = {}
+        data.group = $(this).closest('.group-row').attr('data-group')
+        data.duration = 0
+        data.exercise_id = $('.exs-elem.active').attr('data-id')
+        console.log(data)
+        ajax_training_action('POST', data, 'add exercise', id, 'add_exercise').then(function (data) {
+            console.log(data)
+            let exercise = data.obj
+            if(data.status=="exercise_added"){
+                $('.group-exercises-row[data-group="'+exercise.group+'"] .group-block').append(`
+                <div class="row border-bottom exercise-row bg-white" data-id="${exercise.id}" data-exercise="${exercise.exercise_id}">
+                    <div class="col px-0 text-truncate" title="${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}">${ exercise.exercise_data.folder.short_name }. ${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}</div>
+                    <div class="col-sm-12 col-md-3 px-0">
+                        <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 px-1 h-100 float-right delete-exercise edit-button ${!edit_mode ? 'd-none' : ''}"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                        <input type="number" name="duration" min="0" max="999" class="form-control form-control-sm rounded-0 py-0 h-auto text-center float-right edit-input" value="${exercise.duration}" style="width: 40px" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
+                    </div>
+                </div>
+                `)
+                set_count_exercises()
+            }
+        })
+    })
+    $('.visual-block').on('click', '.exercise-row', function (){
+        let cId = $(this).attr('data-exercise')
+        let fromNFB = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? 1 : 0;
+        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        $('.visual-block .exercise-row').removeClass('selected')
+        $(this).addClass('selected')
+        LoadExerciseOne(cId, fromNFB, folderType);
+    })
+    $('.visual-block').on('change', '.exercise-row [name="duration"]', function (){
+        let cur_obj = $(this);
+        let exercises_training_id = $(this).closest('.exercise-row').attr('data-id')
+        let data = {}
+        data.duration = $(this).val()
+        ajax_training_exercise_action('PUT', data, 'update', exercises_training_id, '').then(function () {
+            cur_obj.attr('value', data.duration)
+            set_sum_duration_group()
+        })
+
+
+    })
+    // Удаление упражнения из тренировки
+    $('.visual-block').on('click', '.exercise-row .delete-exercise', function (){
+        let exercises_training_id = $(this).closest('.exercise-row').attr('data-id')
+        let data = {}
+        swal(gettext("Remove an exercise from a training?"), {
+            buttons: {
+                cancel: true,
+                confirm: true,
+            },
+        }).then(function(isConfirm) {
+            if (isConfirm) {
+                ajax_training_exercise_action('DELETE', data, 'delete', exercises_training_id, '').then(function (data) {
+                    $('.visual-block .exercise-row[data-id="'+exercises_training_id+'"]').remove()
+                    $('.exercise-visual-block[data-id="'+exercises_training_id+'"]').remove()
+                    set_count_exercises()
+                })
+            }
+        });
+    })
+
+    $('#training-exercises-button').on('click', function () {
+        render_exercises_training(id)
+    })
+
+    // Save last chosen exercise's id
+    let lastChosenExsId = -1;
+    $('.exercises-block').on('click', '.exs-elem', (e) => {
+        let isActive = !$(e.currentTarget).hasClass('active');
+        if (isActive) {
+            try {
+                lastChosenExsId = parseInt($(e.currentTarget).attr('data-id'));
+            } catch(e) {}
+        }
+    });
+    $('.visual-block').on('click', '.exercise-row', (e) => {
+        let isActive = $(e.currentTarget).hasClass('selected');
+        if (isActive) {
+            try {
+                lastChosenExsId = parseInt($(e.currentTarget).attr('data-exercise'));
+            } catch(e) {}
+        }
+    });
+
+    //Сохранение тренировки
+    $('#save-training').on('click', function () {
+        let date = $('#training-main-data input[name="date"]').val()
+        let time = $('#training-main-data input[name="time"]').val()
+        let data = {
+            'date': date+' '+time
+        }
+        ajax_event_action('PUT', data, 'save', id).then(function (data) {
+
+        })
+
+        let training_data = {}
+        // if($('#block-training-info input[name="objective_1"]').length>0 && $('#block-training-info input[name="objective_2"]').length>0 && $('#block-training-info input[name="objectives_3"]').length>0){
+        //     let text1 = $('#block-training-info input[name="objective_1"]').val();
+        //     training_data['notes'] = '[ "'+text1+'" ]'
+        // }
+        let additionals = {}
+        for (let i = 0; i < 6; i++) {
+            let name = $('#training-additional-data input[name="name_'+i+'"]')
+            let note = $('#training-additional-data input[name="note_'+i+'"]')
+
+            name.closest('.training-additional').toggleClass('edit-button d-none', !name.val() && !note.val())
+
+            additionals[i] = {
+                'name': name.val(),
+                'note' : note.val()
+            }
+        }
+        training_data['additional'] = JSON.stringify(additionals)
+        training_data['field_size'] = $('#training-main-data input[name="field_size"]').val()
+        training_data['load_type'] = $('#training-main-data input[name="load_type"]').val()
+        training_data['goal'] = $('#block-training-info input[name="goal"]').val()
+        training_data['objective_1'] = $('#training-main-data input[name="objective_1"]').val()
+        training_data['objective_2'] = $('#training-main-data input[name="objective_2"]').val()
+        training_data['video_href'] = $('#training-video-modal input[name="video_href"]').val()
+        console.log(training_data)
+
+        ajax_training_action('PUT', training_data, 'save', id).then(function (data) {
+
+        })
+    })
+
+    // Open graphics in modal
+    $('#carouselAll').on('click', '.carousel-item', (e) => {
+        let id = -1;
+        try {
+            id = parseInt($('.exercises-block').find('.exs-elem.active').attr('data-id'));
+        } catch (e) {}
+        let activeNum = 1;
+        activeNum += $('#carouselAll').find('.carousel-item').index($(e.currentTarget));
+        LoadGraphicsModal(lastChosenExsId, "team_folders", activeNum);
+    });
+    $('#card-scheme-block').on('click', '.carousel-item', (e) => {
+        let id = -1;
+        try {
+            id = parseInt($(e.currentTarget).parent().parent().parent().attr('data-exs-id'));
+        } catch (e) {}
+        let activeNum = 1;
+        LoadGraphicsModal(id, "team_folders", activeNum);
+    });
+
+    $('a[href="#training-exercises"]').on('show.bs.tab', function () {
+        CountExsInFolder(false);
+    })
+
+    // sizes of columns in exercises list:
+    setTimeout(() => {
+        $('#toggleFoldersNames').attr('data-state', '1');
+        ResizeSplitCols();
+    }, 500);
+
+    generate_exercises_module_data()
+    show_training_card(id)
+    render_exercises_training(id)
+    resize_trainings_block()
+})
+
+function resize_trainings_block(){
+    let css = "calc(94vh - "+Math.round($('.header').height())+"px - "+Math.round($('.card-header').height())+"px)"
+    //console.log(css)
+    $('#training-content .training-data').css({"max-height": css})
+    $('#training-content .training-data').css({"height": css})
+    $('#block-training-info').css({"max-height": css})
+    $('#block-training-info').css({"height": css})
+}
+
+function toggle_folders_name(){
+    let state = false;
+    $('.folders-block').find('.folder-elem').each((ind, elem) => {
+        let tmpText = !state ? `${$(elem).attr('data-short')}. ${$(elem).attr('data-name')}` : `${$(elem).attr('data-short')}`;
+        $(elem).find('.folder-title').text(tmpText);
+    });
+    $('.folders-block').find('.folder-nfb-elem').each((ind, elem) => {
+        let tmpText = !state ? `${$(elem).attr('data-short')}. ${$(elem).attr('data-name')}` : `${$(elem).attr('data-short')}`;
+        $(elem).find('.folder-title').text(tmpText);
+    });
+}
+
+// Выгрузить упражнения из тренировки
+function render_exercises_training(training_id = null, group = null) {
+    let send_data = {}
+    if(group != null) send_data.group = group
+
+    ajax_training_action('GET', send_data, 'load', training_id, 'get_exercises').then(function (data) {
+        let exercises = data.objs
+
+        let exs_html = ['', '']
+        console.log(exercises)
+
+        $.each( exercises, function( key, exercise ) {
+            exs_html[exercise.group-1] += `
+            <div id="order-${exercise.id}" class="row border-bottom exercise-row bg-white" data-id="${exercise.id}" data-exercise="${exercise.exercise_id}">
+                <div class="col px-0 text-truncate" title="${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}">${ exercise.exercise_data.folder.short_name }. ${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}</div>
+                <div class="col-sm-12 col-md-3 px-0">
+                    <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 px-1 h-100 float-right delete-exercise edit-button ${!edit_mode ? 'd-none' : ''}"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                    <input type="number" name="duration" min="0" max="999" class="form-control form-control-sm rounded-0 p-0 h-auto text-center float-right edit-input" value="${exercise.duration}" style="width: 40px" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
+                </div>
+            </div>`
+        });
+        //$('.visual-block .add-exercise').attr('data-group', send_data.group)
+        for (let key in exs_html) {
+            $('.visual-block .group-exercises-row[data-group="'+(parseInt(key)+1)+'"] .group-block').html(exs_html[key]).sortable({
+                disabled: !edit_mode,
+                placeholder: "ui-state-highlight",
+                scroll: false,
+                stop: function( event, ui ) {
+                    let ids = $(this).sortable( "serialize", { key: 'order[]' } );
+                    ids = $(this).sortable( "toArray", {attribute:'data-id'});
+
+                    let send_orders = {}
+                    send_orders.exercise_ids = ids;
+                    //console.log(send_orders)
+                    ajax_training_exercise_action('PUT', send_orders, 'sort exercises', '', 'sort_exercise').then(function (data) {
+
+                    })
+                }
+            });
+        }
+
+        set_count_exercises()
+    })
+}
+
+// Выгрузить дополнительных данных из упрежнения в тренировке
+function render_exercises_additional_data(training_exercise_id = null) {
+    let send_data = {}
+    ajax_training_exercise_action('GET', send_data, 'load data', training_exercise_id, 'get_data').then(function (data) {
+        var select = ''
+        ajax_exercise_additional('GET').then(function (data_additional) {
+            let options = data_additional.results;
+            let option_html = ''
+            $.each( options, function( key, option ) {
+                option_html+=`
+                    <option value="${ option.id }">${ (get_cur_lang() in option.translation_names) ? option.translation_names[get_cur_lang()] : Object.values(exercise.exercise_name)[0] }</option>
+                `
+            })
+            select = `
+                <select class="select custom-select p-0 edit-input text-center" name="additional_id" tabindex="-1" aria-hidden="true" ${!edit_mode ? 'disabled' : ''} style="height: 25px; color: black !important;">
+                    ${ option_html }
+                </select>
+            `
+            let block = $('#card-scheme-block .exercise-visual-block[data-id="'+training_exercise_id+'"]')
+            block.find('.additional-data-block').html('')
+            let additional_html = ''
+            $.each( data.objs, function( key, additional ) {
+                additional_html = `
+                <div class="row exercise-additional-row" data-id="${additional.id}">
+                    <div class="col pr-0">
+                        ${select}
+                    </div>
+                    <div class="col pl-0">
+                        <input type="text" name="note" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded edit-input" value="${additional.note ? additional.note:''}" ${!edit_mode ? 'disabled' : ''}>
+                    </div>
+                    <div class="col-sm-12 col-md-1 pl-0 edit-button ${!edit_mode ? 'd-none' : ''}">
+                        <button type="button" class="btn btn-sm btn-block btn-danger rounded-0 p-0 h-100 float-right edit-input delete-exercise-additional" ${!edit_mode ? 'disabled' : ''}><i class="fa fa-trash" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+                `
+                block.find('.additional-data-block').append(additional_html)
+                block.find('.exercise-additional-row[data-id="'+additional.id+'"] select').val(additional.additional_id)
+
+            })
+        })
+    })
+}
+
+// Подсчет кол-ва добавленных упражнений по группам
+function set_count_exercises(arr_count_group = null) {
+    let group = $('.add-exercise').closest('.group-row').attr('data-group')
+    $('.group-row').each(function( index ) {
+        let group = $(this).attr('data-group')
+        $('.group-row[data-group="' + group + '"] .group-count').text($('.group-exercises-row[data-group="' + group + '"] .exercise-row').length)
+    })
+    set_sum_duration_group()
+}
+
+// Подсчет суммы минут добавленных упражнений по группам
+function set_sum_duration_group() {
+    $('.group-row').each(function( index ) {
+        let group = $(this).attr('data-group')
+        $('.group-exercises-row[data-group="' + group + '"] .group-block').each(function (index) {
+            let sum = 0
+            $(this).find('.exercise-row').each(function (index) {
+                sum += parseInt($(this).find('input[name="duration"]').val())
+            })
+            //console.log(sum)
+            $('.group-row[data-group="' + group + '"] .sum-duration-group').text(sum)
+        })
+    })
+
+}
+
+// Добавление дополнительных данных в модуль списка упражнений
+function generate_exercises_module_data() {
+    let html_data = ``
+
+    html_data += `
+    <div class="row group-row mx-0 border border-dark bg-default-light font-weight-bold" data-group="1">
+        <div class="col-1 px-0 edit-button d-none">
+            <button class="btn btn-sm btn-block btn-warning font-weight-bold py-0 h-100 add-exercise"><i class="fa fa-plus" aria-hidden="true"></i></button>
+        </div>
+        <div class="col-1">
+            <span class="font-weight-bold group-count"></span>
+        </div>
+        <div class="col">
+            <span class="font-weight-bold group-button">${ gettext("Group A") }</span>
+        </div>
+        <div class="col px-0">
+            <span class="sum-duration-group btn btn-sm float-right rounded-0 py-0 h-100 font-weight-bold" style="width: 50px">00</span>
+        </div>
+    </div>
+    <div class="row group-exercises-row mx-0" data-group="1">
+        <div class="col">
+            <div class="group-block sortable-edit" id="group_A" aria-labelledby="group_A-tab">...2</div>
+        </div>
+    </div>
+    
+    `
+
+    html_data += `
+    <div class="row group-row mx-0 border border-dark bg-default-light font-weight-bold" data-group="2">
+        <div class="col-1 px-0 edit-button d-none">
+            <button class="btn btn-sm btn-block btn-warning font-weight-bold py-0 h-100 add-exercise"><i class="fa fa-plus" aria-hidden="true"></i></button>
+        </div>
+        <div class="col-1">
+            <span class="font-weight-bold group-count"></span>
+        </div>
+        <div class="col">
+            <span class="font-weight-bold group-button">${ gettext("Group B") }</span>
+        </div>
+        <div class="col px-0">
+            <span class="sum-duration-group btn btn-sm float-right rounded-0 py-0 h-100 font-weight-bold" style="width: 50px">00</span>
+        </div>
+    </div>
+    <div class="row group-exercises-row mx-0" data-group="2">
+        <div class="col">
+            <div class="group-block sortable-edit" id="group_B" aria-labelledby="group_B-tab">...2</div>
+        </div>
+    </div>
+    
+    `
+
+    $('.visual-block').append(html_data)
+}

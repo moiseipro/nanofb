@@ -1,0 +1,177 @@
+{% extends '../base/app_main.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% trans 'Events' %}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card m-0">
+                <div class="card-header py-2">
+                    <div class="row">
+                        <div class="col py-0">
+                            <div class="row">
+                                <div class="col px-1">
+                                    <button id="event-add" title="{% trans 'Event' %}" data-toggle="modal" data-target="#form-event-modal" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                </div>
+                                {% if perms.events.add_clubmicrocycles or perms.events.add_usermicrocycles %}
+                                <div class="col px-1">
+                                    <button id="microcycle" title="{% trans 'Microcycle' %}" data-toggle="modal" data-target="#microcycle-modal" class="btn btn-block btn-lightgray btn-md font-weight-bold text-success"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                </div>
+                                {% endif %}
+                                <div class="col px-1">
+                                    <button id="open-select-exercise" title="{% trans 'Open the selected exercise' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                </div>
+                                <div class="col px-1">
+                                    <button id="toggle-calendar" title="{% trans 'Show/Hide calendar' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+                                </div>
+                                <div class="col px-1">
+                                    <button id="toggle-event-card" title="{% trans 'Show/Hide event card' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-file-text-o" aria-hidden="true"></i></button>
+                                </div>
+                                <!--<div class="col px-1">
+                                    <button id="clear-events-filters" class="btn btn-block btn-reset-filter btn-md font-weight-bold" title="{% trans "Resetting all filtering and calendar" %}"><i class="fa fa-repeat" aria-hidden="true"></i></button>
+                                </div>-->
+                            </div>
+                        </div>
+                        <div id="rescalenda-control-buttons" class="col-2 p-0" style="">
+                            <div class="row rescalendar_controls text-truncate text-center">
+                                <div class="col-6 px-1">
+                                    <button class="btn btn-block btn-lightgray btn-md move-left move_to_last_month"> &lt;&lt; </button>
+                                </div>
+                                <div class="col px-0 d-none">
+                                    <button class="btn btn-block btn-lightgray btn-md font-weight-bold move_to_today"> --- </button>
+                                    <input class="refDate" type="text" value="" style="display:none;">
+                                </div>
+                                <div class="col-6 px-1">
+                                    <button class="btn btn-block btn-lightgray btn-md move-right move_to_next_month"> &gt;&gt; </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col py-0">
+                            <div class="row">
+                                <div class="col px-1">
+                                    <button id="event-video-modal-button" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold" data-toggle="modal" data-target="#training-video-modal"><b class="text-info">V</b></button>
+                                </div>
+                                <div class="col px-1">
+                                    <button id="#" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><span class="icon-custom icon--share" style="--i-w: 1.0em; --i-h: 1.0em;"></span></button>
+                                </div>
+                                <div class="col px-1">
+                                    <button id="event-copy-modal-button" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><span class="icon-custom icon--copy" style="--i-w: 1.0em; --i-h: 1.0em;"></span></button>
+                                </div>
+                                <div class="col px-1">
+                                    <button id="event-render-presentation" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><span class="icon-custom icon--download" style="--i-w: 1.0em; --i-h: 1.0em;"></span></button>
+                                </div>
+                                <div class="col px-1">
+                                    <button id="#" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-print" aria-hidden="true"></i></button>
+                                </div>
+                                <div class="col px-1">
+                                    <button id="delete-event-button" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold text-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pt-0 pb-2">
+                    <div id="calendar-row" class="row">
+                        <div class="col-12 px-0">
+                            <div id="event_calendar" class="rescalendar"></div>
+                        </div>
+                    </div>
+                    <div id="filters-row" class="row pt-2 d-none">
+{#                        <div class="col">#}
+{#                            <div class="row">#}
+{#                                <div class="col-4 pl-0 pr-1">#}
+{#                                    <input id="microcycle-day-filter" type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="{% trans 'M.D.' %}">#}
+{#                                </div>#}
+{#                                <div class="col-4 px-1">#}
+{#                                    <input id="microcycle-days-filter" type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="{% trans 'Microcycle days' %}">#}
+{#                                </div>#}
+{#                                <div class="col-4 px-1">#}
+{#                                    <input id="field_size-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Field size' %}">#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="col-8">#}
+{#                            <div class="row">#}
+{#                                <div class="col-4">#}
+{#                                    <div class="row">#}
+{#                                        <div class="col px-1">#}
+{#                                            <button id="favourites-event-filter" data-filter="0" title="" class="btn btn-block btn-filter-events btn-sm font-weight-bold"><i class="fa fa-star-o" aria-hidden="true"></i></button>#}
+{#                                        </div>#}
+{#                                        <div class="col px-1">#}
+{#                                            <button id="filled-event-filter" data-filter="0" title="{% trans "Filtering of unfilled events" %}" class="btn btn-block btn-filter-events btn-sm font-weight-bold"><b class="text-danger">?</b></button>#}
+{#                                        </div>#}
+{#                                        <div class="col px-1">#}
+{#                                            <button id="video-event-filter" data-filter="0" title="" class="btn btn-block btn-filter-events btn-sm font-weight-bold"><b class="text-info">V</b></button>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="col-4 px-1">#}
+{#                                    <input id="keywords-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Objectives' %}">#}
+{#                                </div>#}
+{#                                <div class="col-4 pl-1 pr-0">#}
+{#                                    <input id="load-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Training load' %}">#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+                    </div>
+                    {% include 'trainings/training_card.html' %}
+                    <div id="events-content" class="row border-top mt-2">
+                        <div class="col px-0">
+                            <div id="events-table" class="table-responsive" style="overflow-y: auto;">
+                                <table id="events" class="table table-sm padding-none table-bordered table-hover dataTable" style="width:100%;">
+{#                                    <thead>#}
+{#                                        <tr>#}
+{#                                            <th class="text-center">№</th>#}
+{#                                            <th class="text-center">{% trans 'Date' %}</th>#}
+{#                                            <th class="text-center">{% trans 'Event' %}</th>#}
+{#                                            <th class="text-center">{% trans 'M.D.' %}</th>#}
+{#                                            <th class="text-center"><i class="fa fa-star-o" aria-hidden="true"></i></th>#}
+{#                                            <th class="text-center">{% trans 'Players' %}</th>#}
+{#                                        </tr>#}
+{#                                    </thead>#}
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-8" id="block-event-info">
+                            <div class="row event-info" style="overflow-y: auto; overflow-x: hidden">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'events/forms/microcycle_modal.html' %}
+    {% include 'events/forms/create_event.html' %}
+    {% include 'events/forms/edit_event.html' %}
+    {% include 'events/forms/event_copy.html' %}
+
+    {% include "exercises/modules/exercise_graphic_modal.html" %}
+
+{% endblock %}
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'trainings/css/training_card.css' %}">
+    <link rel="stylesheet" href="{% static 'events/ResCalendar/rescalendar.css' %}">
+    <link rel="stylesheet" href="{% static 'events/css/base_events.css' %}">
+{% endblock %}
+{% block custom_scripts %}
+    <script src="{% static 'exercises/js/modules/graphic_modal.js' %}"></script>
+    <script src="{% static 'references/exercise_additional_data.js' %}"></script>
+    <script src="{% static 'references/training_additional.js' %}"></script>
+    <script src="{% static 'trainings/js/action_lite_training.js' %}"></script>
+    <script src="{% static 'trainings/js/training_card.js' %}"></script>
+    <script src="{% static 'events/ResCalendar/rescalendar.js' %}"></script>
+    <script src="{% static 'events/js/microcycle_lite_update.js' %}"></script>
+    <script src="{% static 'events/js/generate_table.js' %}"></script>
+    <script src="{% static 'events/js/event_lite_update.js' %}"></script>
+    <script src="{% static 'events/js/event_copy.js' %}"></script>
+    <script src="{% static 'presentation/js/presentation_ajax.js' %}"></script>
+    <script src="{% static 'events/js/events.js' %}"></script>
+    <script src="{% static 'events/js/lite_events.js' %}"></script>
+{% endblock %}

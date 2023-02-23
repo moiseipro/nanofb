@@ -5,8 +5,7 @@ from players.serializers import UserPlayerSerializer
 from references.serializers import PlayerProtocolStatusSerializer, TrainingSpaceSerializer, \
     UserTeamsSerializer, ClubTeamsSerializer, TrainingAdditionalDataSerializer
 from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExerciseAdditional, UserTrainingProtocol, \
-    ClubTrainingProtocol, ClubTrainingExercise
-
+    ClubTrainingProtocol, ClubTrainingExercise, LiteTrainingExerciseAdditional, LiteTraining, LiteTrainingExercise
 
 # Training
 from users.serializers import UserSerializer
@@ -95,6 +94,11 @@ class ClubTrainingExerciseAdditionalSerializer(TrainingExerciseAdditionalSeriali
         model = UserTrainingExerciseAdditional
 
 
+class LiteTrainingExerciseAdditionalSerializer(TrainingExerciseAdditionalSerializer):
+    class Meta(TrainingExerciseAdditionalSerializer.Meta):
+        model = LiteTrainingExerciseAdditional
+
+
 class TrainingExerciseSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     exercise_name = serializers.JSONField(
@@ -143,6 +147,23 @@ class ClubTrainingExerciseSerializer(TrainingExerciseSerializer):
 
     class Meta(TrainingExerciseSerializer.Meta):
         model = ClubTrainingExercise
+
+    Meta.fields += ('additional', 'exercise_data')
+
+
+class LiteTrainingExerciseSerializer(TrainingExerciseSerializer):
+    exercise_data = UserExerciseSerializer(
+        source='exercise_id',
+        read_only=True
+    )
+    additional = LiteTrainingExerciseAdditionalSerializer(
+        read_only=True,
+        source="litetrainingexerciseadditional_set",
+        many=True
+    )
+
+    class Meta(TrainingExerciseSerializer.Meta):
+        model = LiteTrainingExercise
 
     Meta.fields += ('additional', 'exercise_data')
 
@@ -217,3 +238,20 @@ class ClubTrainingSerializer(TrainingSerializer):
         model = UserTraining
 
     Meta.fields += ('exercises_info', 'protocol_info', 'team_info')
+
+
+class LiteTrainingSerializer(TrainingSerializer):
+    team_info = UserTeamsSerializer(
+        read_only=True,
+        source="team_id",
+    )
+    exercises_info = LiteTrainingExerciseSerializer(
+        read_only=True,
+        source="litetrainingexercise_set",
+        many=True
+    )
+
+    class Meta(TrainingSerializer.Meta):
+        model = LiteTraining
+
+    Meta.fields += ('exercises_info', 'team_info')

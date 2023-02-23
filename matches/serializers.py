@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from matches.models import UserMatch, ClubMatch
+from matches.models import UserMatch, ClubMatch, LiteMatch
 
 
 class MatchSerializer(serializers.ModelSerializer):
@@ -21,3 +21,8 @@ class UserMatchSerializer(MatchSerializer):
 class ClubMatchSerializer(MatchSerializer):
     class Meta(MatchSerializer.Meta):
         model = ClubMatch
+
+
+class LiteMatchSerializer(MatchSerializer):
+    class Meta(MatchSerializer.Meta):
+        model = LiteMatch

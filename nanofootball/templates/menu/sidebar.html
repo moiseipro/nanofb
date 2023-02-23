@@ -91,6 +91,18 @@
     </a>
 </li>
 {% endif %}
+{% if perms.events.view_liteevent %}
+<li class="{{ menu_levents }}">
+    <a href="{% url 'events:lite_events' %}" class="btn">
+        {% if ui_elements.sidebar__events %}
+            {{ ui_elements.sidebar__events }}
+        {% else %}
+            <i class="fa fa-calendar"></i>
+        {% endif %}
+        <span>{% trans 'Events Lite' %}</span>
+    </a>
+</li>
+{% endif %}
 {% if perms.matches.view_usermatch or perms.matches.view_clubmatch %}
 <li class="{{ menu_matches }}">
     <a href="{% url 'matches:base_matches' %}" class="btn">
