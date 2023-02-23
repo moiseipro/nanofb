@@ -82,7 +82,8 @@ class LiteMicrocycleViewSet(viewsets.ModelViewSet):
     permission_classes = [BaseEventsPermissions]
 
     def perform_create(self, serializer):
-        serializer.save(user_id=self.request.user)
+        team = UserTeam.objects.get(pk=self.request.session['team'])
+        serializer.save(team_id=team)
 
     def get_serializer_class(self):
         if self.action == 'partial_update':
