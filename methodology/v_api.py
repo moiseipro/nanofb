@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.db.models import Sum, Q
 from users.models import User
 from methodology.models import AdminFolder, UserFolder, ClubFolder
-from methodology.models import AdminArticle, UserArticle, ClubArticle
+from methodology.models import AdminArticle, UserArticle, ClubArticle, UserArticleParam
 from references.models import UserSeason, ClubSeason, UserTeam, ClubTeam
 from references.models import ExsDescriptionTemplate
 from nanofootball.views import util_check_access
@@ -221,12 +221,17 @@ def POST_edit_article(request, cur_user):
     article_folder = -1
     article_title = request.POST.get("title", "")
     article_content = request.POST.get("content", "")
+    article_completed = 0
     try:
         article_id = int(request.POST.get("article", -1))
     except:
         pass
     try:
         article_folder = int(request.POST.get("folder", -1))
+    except:
+        pass
+    try:
+        article_completed = int(request.POST.get("completed", 0))
     except:
         pass
     if not util_check_access(cur_user, {
@@ -253,6 +258,7 @@ def POST_edit_article(request, cur_user):
         c_article.title = set_by_language_code(c_article.title, request.LANGUAGE_CODE, article_title)
         c_article.content = set_by_language_code(c_article.content, request.LANGUAGE_CODE, article_content)
         c_article.folder = c_folder
+        c_article.completed = article_completed
         try:
             c_article.save()
             res_data += f'Article with id: [{c_article.id}] is edited successfully.'
@@ -346,6 +352,53 @@ def POST_change_order_article(request, cur_user):
     return JsonResponse({"data": res_data, "success": is_success}, status=200)
 
 
+def POST_change_user_param(request, cur_user):
+    """
+    Return JSON Response as result on POST operation "Change user's param".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :return: JsonResponse with "data", "status" (response code).
+    :rtype: JsonResponse[{"data": [obj]}, status=[int]]
+
+    """
+    article_id = -1
+    c_value = 0
+    c_key = request.POST.get("key", "")
+    try:
+        article_id = int(request.POST.get("article", -1))
+    except:
+        pass
+    try:
+        c_value = int(request.POST.get("value", 0))
+    except:
+        pass
+    res_data = []
+    is_success = False
+    c_article = AdminArticle.objects.filter(id=article_id).first()
+    if c_article is None:
+        return JsonResponse({"err": "Can't find the article.", "success": False}, status=400)
+    c_param = UserArticleParam.objects.filter(article_nfb=c_article, user=cur_user).first()
+    if c_param is None:
+        c_param = UserArticleParam(article_nfb=c_article, user=cur_user)
+        try:
+            c_param.save()
+            res_data.append(f"Created new UserArticleParam successfully.")
+        except:
+            res_data.append(f"Can't create new UserArticleParam.")
+    if c_param is not None:
+        setattr(c_param, c_key, c_value)
+        try:
+            c_param.save()
+            res_data.append(f"Updated UserArticleParam successfully.")
+            is_success = True
+        except:
+            res_data.append(f"Can't update UserArticleParam.")
+    return JsonResponse({"data": res_data, "success": is_success}, status=200)
+
+
 
 def GET_get_folders_all(request, cur_user):
     """
@@ -400,10 +453,20 @@ def GET_get_articles_all(request, cur_user):
     found_articles = AdminArticle.objects.filter(visible=True)
     for article in found_articles:
         a_title = get_by_language_code(article.title, request.LANGUAGE_CODE)
+        a_favorite = False
+        try:
+            user_param = UserArticleParam.objects.filter(article_nfb=article, user=cur_user).first()
+            if user_param is not None:
+                a_favorite = user_param.favorite
+        except Exception as e:
+            print(e)
+            pass
         article_data = {
             'id': article.id,
             'folder': article.folder.id,
             'title': a_title,
+            'completed': article.completed,
+            'favorite': a_favorite,
         }
         res_exs.append(article_data)
     return JsonResponse({"data": res_exs, "success": True}, status=200)
@@ -442,6 +505,7 @@ def GET_get_article_one(request, cur_user):
             'folder': found_article.folder.id,
             'title': a_title,
             'content': a_content,
+            'completed': found_article.completed,
         }
     return JsonResponse({"data": data_res, "success": True}, status=200)
 

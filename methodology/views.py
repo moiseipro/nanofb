@@ -62,6 +62,7 @@ def methodology_api(request):
         edit_article_status = 0
         delete_article_status = 0
         change_order_article_status = 0
+        change_user_param_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         try:
@@ -94,6 +95,10 @@ def methodology_api(request):
             change_order_article_status = int(request.POST.get("change_order_article", 0))
         except:
             pass
+        try:
+            change_user_param_status = int(request.POST.get("change_user_param", 0))
+        except:
+            pass
         if edit_folder_status == 1:
             return v_api.POST_edit_folder(request, cur_user[0])
         if delete_folder_status == 1:
@@ -106,6 +111,8 @@ def methodology_api(request):
             return v_api.POST_delete_article(request, cur_user[0])
         if change_order_article_status == 1:
             return v_api.POST_change_order_article(request, cur_user[0])
+        if change_user_param_status == 1:
+            return v_api.POST_change_user_param(request, cur_user[0])
         return JsonResponse({"errors": "access_error"}, status=400)
     elif request.method == "GET" and is_ajax:
         get_folders_all_status = 0

@@ -29,6 +29,9 @@
                                     <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="toggle_folders" data-state="0" title="Свернуть / развернуть все папки" style="--w-max-x:8%;">
                                         <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
                                     </button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="toggle_columns_size" data-state="0" title="Изменить размер колонок" style="--w-max-x:8%;">
+                                        <i class="fa fa-columns" aria-hidden="true"></i>
+                                    </button>
                                     <button type="button" class="btn btn-sm btn-outline-primary btn-block my-0 mx-1 size-max-w-x" data-id="prev_article" title="" style="--w-max-x:26%;">
                                         <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
                                         Предыдущая
@@ -49,17 +52,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row row-content mt-2">
-                            <div class="col-overlay">
-                                <ul class="list-group folders-group mx-3 my-3">
+                        <div class="row-content split mt-2">
+                            <div class="folders-wrapper px-0" id="splitCol_0">
+                                <ul class="list-group folders-group mx-3">
                                 </ul>
                             </div>
-                            <div class="col-12">
+                            <div class="viewer-wrapper px-1" id="splitCol_1">
                                 <div class="article-viewer-block">
                                     <textarea id="articleViewer" name=""></textarea>
                                 </div>
                             </div>
-                            <div class="col-12 px-5 article-editor-col">
+                            <div class="px-5 article-editor-col">
                                 <div class="row aec-header mb-2">
                                     <div class="col-12">
                                         <div class="row">
@@ -67,7 +70,11 @@
                                                 <h5 class="modal-title">Добавление / изменение статьи</h5>
                                             </div>
                                             <div class="col-6 d-flex justify-content-end">
-                                                <button type="submit" class="btn btn-sm btn-success btn-save">Сохранить</button>
+                                                <button type="button" class="btn btn-sm btn-warning btn-completed" name="a_completed">
+                                                    <i class="fa fa-square" aria-hidden="true"></i>
+                                                    Завершена
+                                                </button>
+                                                <button type="submit" class="btn btn-sm btn-success btn-save ml-2">Сохранить</button>
                                                 <button type="button" class="btn btn-sm btn-secondary ml-2" data-dismiss="modal">Отмена</button>
                                             </div>
                                         </div>
@@ -76,12 +83,12 @@
                                 <div class="row aec-body">
                                     <div class="col-12">
                                         <div class="row">
-                                            <div class="col-8">
+                                            <div class="col-7">
                                                 <div class="form-group">
                                                     <input name="a_title" type="text" class="form-control form-control-sm" aria-describedby="" placeholder="Название статьи" autocomplete="off" required="">
                                                 </div>
                                             </div>
-                                            <div class="col-4">
+                                            <div class="col-5">
                                                 <div class="form-group">
                                                     <select name="a_folder" class="form-control form-control-sm" autocomplete="off" required="">
                                                         <option value="">- Выберите папку -</option>

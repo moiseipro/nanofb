@@ -122,3 +122,13 @@ class ClubArticle(AbstractArticle):
     class Meta(AbstractArticle.Meta):
         abstract = False
 
+
+class UserArticleParam(models.Model):
+    article_user = models.ForeignKey(UserArticle, on_delete=models.CASCADE, null=True, blank=True)
+    article_club = models.ForeignKey(ClubArticle, on_delete=models.CASCADE, null=True, blank=True)
+    article_nfb = models.ForeignKey(AdminArticle, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    favorite = models.BooleanField(default=False)
+
+    objects = models.Manager()
+
