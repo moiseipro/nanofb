@@ -119,14 +119,14 @@ $(window).on('load', function (){
         }
 
         ajax_training_exercise_data_action('PUT', send_data, 'update data', exercise_additional_id).then(function (data) {
-            console.log(data)
+            //console.log(data)
             //render_exercises_additional_data(training_exercise_id)
         })
     })
 
     $('#training-exercise-description .exercise-description').on('change', function () {
         let exs_id = $('.exs-filter-card.active').attr('data-id')
-        console.log(exs_id)
+        //console.log(exs_id)
         let data = {}
         data.description = $(this).val()
         ajax_training_exercise_action('PUT', data, 'update', exs_id, '').then(function () {
@@ -136,7 +136,7 @@ $(window).on('load', function (){
 
     //Действия со ссылкой на видео тренировки
     $('#training-video-modal .open-link').on('click', function () {
-        console.log("open link")
+        //console.log("open link")
         let url = $('#training-video-modal input[name="video_href"]').val()
         window.open(url, '_blank');
     })
@@ -157,13 +157,13 @@ function resize_trainings_card_blocks(){
 function show_training_card(id = ''){
     if (id == '' || id == null) {
         $('#training-content').removeClass('d-none')
-        console.log('id is empty')
+        //console.log('id is empty')
         return false;
     }
     $('#training-content').attr('data-training', id)
     let data_send = {}
     ajax_training_action('GET', data_send, 'view card', id).then(function (data) {
-        console.log(data)
+        //console.log(data)
         let count_1 = 0, count_2 = 0;
         let html_group_1 = `
                 <div class="col px-0">
@@ -215,20 +215,22 @@ function load_all_exercises_training(training_id = null, group = null) {
     if(group != null) send_data.group = group
 
     ajax_training_action('GET', send_data, 'view card training', training_id).then(function (data) {
-        console.log(data)
+        //console.log(data)
 
         let additionals = data.additional;
         var additional_data = ''
-        for (let i = 0; i < 6; i++) {
-            console.log(additionals)
+        for (let i = 0; i < 5; i++) {
+            //console.log(additionals)
             if(additionals!=null && additionals[i]){
+                //${ gettext('Title') }
+                //${ gettext('Note') }
                 additional_data+=`
                     <div class="row training-additional ${!additionals[i].name && !additionals[i].note ? 'edit-button' : ''} ${!additionals[i].name && !additionals[i].note && !edit_mode ? 'd-none' : ''}">
                         <div class="col-6 px-0 border border-white">
-                            <input type="text" name="name_${ i }" placeholder="${ gettext('Title') }" value="${ additionals[i].name ? additionals[i].name : '' }" class="form-control form-control-sm bg-lightgray text-black w-100 p-0 px-3 h-auto text-uppercase text-left rounded-0 edit-input training-additional-data" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
+                            <input type="text" name="name_${ i }" placeholder="" value="${ additionals[i].name ? additionals[i].name : '' }" class="form-control form-control-sm bg-lightgray text-black w-100 p-0 px-3 h-auto text-uppercase text-left rounded-0 edit-input training-additional-data" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
                         </div>
                         <div class="col-6 px-0 border-bottom border-dark bg-light">
-                            <input type="text" name="note_${ i }" placeholder="${ gettext('Note') }" value="${ additionals[i].note ? additionals[i].note : '' }" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded-0 edit-input training-additional-data" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
+                            <input type="text" name="note_${ i }" placeholder="" value="${ additionals[i].note ? additionals[i].note : '' }" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded-0 edit-input training-additional-data" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
                         </div>
                     </div>
                 `
@@ -260,7 +262,7 @@ function load_all_exercises_training(training_id = null, group = null) {
         $('#training-main-data input[name="objective_2"]').val(data.objective_2)
         $('#training-video-modal input[name="video_href"]').val(data.video_href)
 
-        let exs_time = 0
+        let exs_time = [0, 0]
         let html_scheme = ''
         html_scheme += `
             <div class="row training-data-row mb-1">
@@ -275,7 +277,7 @@ function load_all_exercises_training(training_id = null, group = null) {
             let count_slide = 0
             for (let exercise of exercises) {
                 let select_html = '', carousel_html = ''
-                exs_time += exercise.duration
+                exs_time[exercise.group-1] += exercise.duration
                 if(exercise.exercise_scheme){
                     if(exercise.exercise_scheme['scheme_1']){
                         select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="active"></li>`
@@ -330,17 +332,20 @@ function load_all_exercises_training(training_id = null, group = null) {
         html_scheme += `</div>`
 
         let player_count = 0
+        let player_goalkeeper = 0
         if ('protocol_info' in data && data.protocol_info.length > 0) {
             let players = data.protocol_info
+            console.log(players)
             for (let player of players) {
                 player_count++
+                if(player.is_goalkeeper) player_goalkeeper++;
             }
         }
 
 
-        $('#training-main-data .all-exercise-time').text(exs_time+'`')
+        $('#training-main-data .all-exercise-time').text(' (A) '+exs_time[0]+'`' + ' (B) ' + exs_time[1]+'`')
         $('#training-main-data .training-players').text(player_count)
-        $('#training-main-data .training-goalkeepers').text('---')
+        $('#training-main-data .training-goalkeepers').text(player_goalkeeper)
 
 
         $('#training-content #block-training-info').html(html_scheme)
@@ -354,7 +359,7 @@ function load_all_exercises_training(training_id = null, group = null) {
 function load_exercises_training_data(training_exercise_id = null) {
     let send_data = {}
     ajax_training_exercise_action('GET', send_data, 'load exercise', training_exercise_id).then(function (exercise) {
-        console.log(exercise)
+        //console.log(exercise)
 
         let video_data = null
         $('#block-training-info').html('')
@@ -441,7 +446,7 @@ function load_exercises_training_data(training_exercise_id = null) {
         $('#block-training-info').html(html_exs_data)
         if(video_data != null){
             for (let key in video_data) {
-                console.log(video_data[key])
+                //console.log(video_data[key])
                 if(video_data[key].links != null){
                     if('nftv' in video_data[key].links && video_data[key].links['nftv']){
                         let videoPlayerExercise = videojs($('#block-training-info').find(`#video-exercise-${key}`)[0], {
