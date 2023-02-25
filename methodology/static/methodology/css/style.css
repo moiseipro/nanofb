@@ -36,7 +36,7 @@
 
 
 .folders-group {
-    height: 82vh !important;
+    height: 83vh !important;
     overflow-y: auto;
 }
 
@@ -51,7 +51,9 @@
     color: black;
     font-weight: bold;
 }
-
+.folders-group > li.hide-elem {
+    display: none !important;
+}
 
 .row-content:not(.article-editor-col) > div.article-editor-col {
     display: none !important;

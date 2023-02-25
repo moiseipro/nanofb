@@ -15,38 +15,29 @@
                 <div class="card-body p-1">
                     <div class="card-inside">
                         <div class="row row-header">
-                            <div class="col-6">
-                                <div class="btn-group w-100" role="group" aria-label="">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x active" data-id="toggle_article_block" title="Скрыть / показать папки" style="--w-max-x:8%;">
+                            <div class="col-12">
+                                <div class="btn-group w-100 d-flex justify-content-end" role="group" aria-label="">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x active" data-id="toggle_article_block" title="Скрыть / показать папки" style="--w-max-x:5%;">
                                         <i class="fa fa-bars" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="toggle_folders" data-state="0" title="Свернуть / развернуть все папки" style="--w-max-x:5%;">
+                                        <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="toggle_columns_size" data-state="0" title="Изменить размер колонок" style="--w-max-x:5%;">
+                                        <i class="fa fa-columns" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="toggle_favorite" data-state="0" title="Показать избранное" style="--w-max-x:5%;">
+                                        <span class="icon-custom i-favor icon--favorite-selected" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                                     </button>
                                     <input name="" class="form-control form-control-sm btn-block my-0 article-name" 
                                         type="text" value="" placeholder="Название статьи" autocomplete="off" readonly="" style="cursor:default;">
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="btn-group w-100 d-flex justify-content-end" role="group" aria-label="">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="toggle_folders" data-state="0" title="Свернуть / развернуть все папки" style="--w-max-x:8%;">
-                                        <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="toggle_columns_size" data-state="0" title="Изменить размер колонок" style="--w-max-x:8%;">
-                                        <i class="fa fa-columns" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-outline-primary btn-block my-0 mx-1 size-max-w-x" data-id="prev_article" title="" style="--w-max-x:26%;">
-                                        <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
-                                        Предыдущая
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-outline-primary btn-block my-0 mx-1 size-max-w-x" data-id="next_article" title="" style="--w-max-x:26%;">
-                                        Следующая
-                                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="add_folder" title="Добавить новую папку" style="--w-max-x:8%;">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="add_folder" title="Добавить новую папку" style="--w-max-x:5%;">
                                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                     </button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="add_article" title="Добавить новую статью" style="--w-max-x:8%;">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="add_article" title="Добавить новую статью" style="--w-max-x:5%;">
                                         <i class="fa fa-newspaper-o" aria-hidden="true"></i>
                                     </button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="toggle_edit_options" title="Дополнительные опции" style="--w-max-x:8%;">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="toggle_edit_options" title="Дополнительные опции" style="--w-max-x:5%;">
                                         <i class="fa fa-cog" aria-hidden="true"></i>
                                     </button>
                                 </div>
@@ -84,19 +75,19 @@
                                     <div class="col-12">
                                         <div class="row">
                                             <div class="col-7">
-                                                <div class="form-group">
+                                                <div class="form-group mb-1">
                                                     <input name="a_title" type="text" class="form-control form-control-sm" aria-describedby="" placeholder="Название статьи" autocomplete="off" required="">
                                                 </div>
                                             </div>
                                             <div class="col-5">
-                                                <div class="form-group">
+                                                <div class="form-group mb-1">
                                                     <select name="a_folder" class="form-control form-control-sm" autocomplete="off" required="">
                                                         <option value="">- Выберите папку -</option>
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group mb-0">
                                             <div class="article-editor-block">
                                                 <textarea id="articleEditor" name="a_content"></textarea>
                                             </div>

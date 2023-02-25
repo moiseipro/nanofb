@@ -113,10 +113,9 @@ function RenderArticles(articles) {
         }
         let folderNum = $('.folders-group').find(`.folder-elem[data-id="${article.folder}"]`).attr('data-num');
         let articleNum = $('.folders-group').find(`.article-elem[data-folder="${article.folder}"]`).length;
-        console.log(article)
         let htmlStr = `
             <li class="list-group-item p-1 ${$(cFolder).hasClass('active') ? '' : 'd-none'}" data-type="article">
-                <div class="article-elem d-flex justify-content-between" data-id="${article.id}" data-folder="${article.folder}" data-parent="" data-title="${article.title}">
+                <div class="article-elem d-flex justify-content-between" data-id="${article.id}" data-folder="${article.folder}" data-parent="" data-title="${article.title}" data-favor="${article.favorite ? 1 : 0}">
                     <div class="col-12 d-flex px-0">
                         <span class="w-100">
                             <span class="article-point mr-2">
@@ -127,7 +126,7 @@ function RenderArticles(articles) {
                                 ${article.title}
                             </span>
                         </span>
-                        <a href="#" class="status-option mr-1" data-id="favorite">
+                        <a href="#" class="param-option mr-1" data-id="favorite">
                             <span class="badge badge-pill bg-default-light">
                                 <span class="icon-custom i-favor ${article.favorite ? 'icon--favorite-selected' : 'icon--favorite'}" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                             </span>
@@ -352,6 +351,7 @@ function DeleteArticle() {
 function ToggleEditOptions() {
     let isEditOn = $('.row-header').find('button[data-id="toggle_edit_options"]').hasClass('active');
     $('.folders-group').find('.edit-option').toggleClass('d-none', !isEditOn);
+    $('.folders-group').find('.status-option').toggleClass('d-none', !isEditOn);
 }
 
 function ChangeElemOrder(orderType, elemType, elem) {
@@ -476,6 +476,13 @@ function RenderSplitCols() {
         sizes: sizesArr,
         gutterSize: 12,
         onDrag: () => {
+            let sum = 0;
+            let sizes = window.split.getSizes();
+            sizes.forEach(val => {sum += val;});
+            if (sum < 100) {
+                sizes[1] = 100 - sizes[0];
+            }
+            window.split.setSizes(sizes);
         },
         onDragEnd: (arr) => {
             window.dataForSplit = arr;
@@ -525,6 +532,8 @@ $(function() {
     try {
         document.articleEditor = CKEDITOR.replace('articleEditor', {
             language: cLang,
+            removePlugins: ['elementspath', 'resize'],
+            extraPlugins: ['openlink', 'chart'],
             toolbar: [
                 {name: 'clipboard', groups: ['clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
                 {name: 'editing', groups: ['find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt', 'Iframe']},
@@ -534,10 +543,9 @@ $(function() {
                 {name: 'insert', items: ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar']},
                 {name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']},
                 {name: 'colors', items: ['TextColor', 'BGColor']},
+                {name: 'new', items: ['Chart']},
             ],
-            height: '55vh',
-            removePlugins: ['elementspath', 'resize'],
-            extraPlugins: ['openlink'],
+            height: '61vh',
             filebrowserBrowseUrl: '/methodology/ckeditorbrowse/',
             filebrowserImageBrowseUrl: '/methodology/ckeditorbrowse/',
             filebrowserUploadUrl: '/methodology/ckeditorupload/',
@@ -547,6 +555,8 @@ $(function() {
     try {
         document.articleViewer = CKEDITOR.replace('articleViewer', {
             language: cLang,
+            removePlugins: ['elementspath', 'resize'],
+            extraPlugins: ['openlink', 'chart'],
             toolbar: [
                 {name: 'clipboard', groups: ['clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
                 {name: 'editing', groups: ['find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt', 'Iframe']},
@@ -556,10 +566,9 @@ $(function() {
                 {name: 'insert', items: ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar']},
                 {name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']},
                 {name: 'colors', items: ['TextColor', 'BGColor']},
+                {name: 'new', items: ['Chart']},
             ],
-            height: '80vh',
-            removePlugins: ['elementspath', 'resize'],
-            extraPlugins: ['openlink'],
+            height: '83vh',
             readOnly: true,
             on: {
                 instanceReady: (evt) => {
@@ -613,11 +622,16 @@ $(function() {
                     $('.row-content').find('div.gutter').removeClass('d-none');
                 }
                 break;
-            case "prev_article":
-                ChangeSelectedArticle("up");
-                break;
-            case "next_article":
-                ChangeSelectedArticle("down");
+            case "toggle_favorite":
+                if (cState == '1') {
+                    $(e.currentTarget).attr('data-state', '0');
+                    $(e.currentTarget).removeClass('active');
+                    $('.row-content').find('.article-elem[data-favor!="1"]').parent().removeClass('hide-elem');
+                } else {
+                    $(e.currentTarget).attr('data-state', '1');
+                    $(e.currentTarget).addClass('active');
+                    $('.row-content').find('.article-elem[data-favor!="1"]').parent().addClass('hide-elem');
+                }
                 break;
             case "add_folder":
                 $('#editFolderModal').attr('data-id', "");
@@ -709,7 +723,7 @@ $(function() {
                 break;
         }
     });
-    $('.folders-group').on('click', '.status-option', (e) => {
+    $('.folders-group').on('click', '.param-option', (e) => {
         let liElem = $(e.currentTarget).parent().parent().parent();
         let cId = $(e.currentTarget).attr('data-id');
         let cType = $(liElem).attr('data-type');
@@ -763,7 +777,7 @@ $(function() {
      // Split columns
      window.dataForSplit = JSON.parse(localStorage.getItem('split_cols__methodology'));
      if (!window.dataForSplit) {
-         window.dataForSplit = [30, 65];
+         window.dataForSplit = [30, 70];
          localStorage.setItem('split_cols__methodology', JSON.stringify(window.dataForSplit));
      }
      RenderSplitCols();
