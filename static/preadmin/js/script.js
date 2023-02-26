@@ -63,7 +63,7 @@ Version      : 1.0
 	
 	if($('.page-wrapper').length > 0 ){
 		var height = $(window).height();	
-		$(".page-wrapper").css("min-height", height);
+		// $(".page-wrapper").css("min-height", height);
 	}
 	
 	// Page Content Height Resize
@@ -71,7 +71,7 @@ Version      : 1.0
 	$(window).resize(function(){
 		if($('.page-wrapper').length > 0 ){
 			var height = $(window).height();
-			$(".page-wrapper").css("min-height", height);
+			// $(".page-wrapper").css("min-height", height);
 		}
 	});
 	

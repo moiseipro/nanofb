@@ -57,7 +57,7 @@
 				PolarArea: editor.config.chart_configPolarArea || { animateRotate: false }
 			};
 			// The number of rows in Edit Chart dialog window.
-			var inputRows = editor.config.chart_maxItems || 8;
+			var inputRows = editor.config.chart_maxItems || 20;
 
 			// Inject required CSS stylesheet to classic editors because the <iframe> needs it.
 			// Inline editors will ignore this, the developer is supposed to load chart.css directly on a page.
@@ -189,7 +189,7 @@
 									id: 'value' + i,
 									type: 'text',
 									labelLayout: 'horizontal',
-									label: editor.lang.chart.value,
+									label: `${editor.lang.chart.value} (${i+1})`,
 									// Align vertically, otherwise labels are a bit misplaced.
 									labelStyle: 'display:block;padding: 4px 6px;',
 									width: '50px',
