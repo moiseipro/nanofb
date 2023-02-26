@@ -537,7 +537,7 @@ $(function() {
         document.articleEditor = CKEDITOR.replace('articleEditor', {
             language: cLang,
             removePlugins: ['elementspath', 'resize'],
-            extraPlugins: ['openlink', 'chart'],
+            extraPlugins: ['openlink', ''],
             toolbar: [
                 {name: 'clipboard', groups: ['clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
                 {name: 'editing', groups: ['find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt', 'Iframe']},
@@ -567,7 +567,7 @@ $(function() {
         document.articleViewer = CKEDITOR.replace('articleViewer', {
             language: cLang,
             removePlugins: ['elementspath', 'resize'],
-            extraPlugins: ['openlink', 'chart'],
+            extraPlugins: ['openlink', ''],
             toolbar: [
                 {name: 'clipboard', groups: ['clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
                 {name: 'editing', groups: ['find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt', 'Iframe']},
