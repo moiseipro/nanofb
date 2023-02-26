@@ -166,6 +166,7 @@ function RenderArticles(articles) {
     }
     ToggleEditOptions();
     UpdateSelectedFolders(true);
+    $('.folders-group').find(`.article-elem[data-id="${window.articleForEdit}"]`).parent().trigger('click');
 }
 
 function LoadArticleOne(id, toModal=false) {
@@ -285,6 +286,7 @@ function SaveArticle() {
     try {
         articleId = parseInt($('.article-editor-col').attr('data-id'));
     } catch(e) {}
+    window.articleForEdit = -1;
     let title = $('.article-editor-col').find('input[name="a_title"]').val();
     let folder = $('.article-editor-col').find('select[name="a_folder"]').val();
     let completed = $('.article-editor-col').find('[name="a_completed"]').hasClass('completed') ? 1 : 0;
@@ -299,7 +301,8 @@ function SaveArticle() {
         url: "methodology_api",
         success: function (res) {
             if (res.success) {
-                swal("Готово", "статья успешно создана / изменена.", "success");
+                window.articleForEdit = articleId;
+                swal("Готово", "Статья успешно создана / изменена.", "success");
                 $('.row-content').removeClass('show-article-editor');
             } else {
                 swal("Ошибка", `При создании / изменении статьи произошла ошибка (${res.err}).`, "error");
@@ -506,6 +509,7 @@ function ChangeUserParam(elem, key, value) {
             if (res.success) {
                 switch (key) {
                     case "favorite":
+                        $(elem).find('.article-elem').attr('data-favor', value);
                         $(elem).find('span.i-favor').toggleClass('icon--favorite', value != 1);
                         $(elem).find('span.i-favor').toggleClass('icon--favorite-selected', value == 1);
                         break;
@@ -551,6 +555,13 @@ $(function() {
             filebrowserUploadUrl: '/methodology/ckeditorupload/',
             filebrowserImageUploadUrl: '/methodology/ckeditorupload/',
         });
+        document.articleEditor.on('change', (evt) => {
+            $('iframe.cke_wysiwyg_frame').ready((e) => {
+                $(document).find('iframe.cke_wysiwyg_frame').contents().find('body').find('div.chartjs-legend').find('.pie-legend-text').css('width', 'auto');
+                $(document).find('iframe.cke_wysiwyg_frame').contents().find('body').find('div.chartjs-legend').find('.polararea-legend-text').css('width', 'auto');
+                $(document).find('iframe.cke_wysiwyg_frame').contents().find('body').find('div.chartjs-legend').find('.doughnut-legend-text').css('width', 'auto');
+            });
+        });
     } catch(e) {}
     try {
         document.articleViewer = CKEDITOR.replace('articleViewer', {
@@ -584,6 +595,13 @@ $(function() {
                     }, null, null, 15);
                 }
             }
+        });
+        document.articleViewer.on('change', (evt) => {
+            $('iframe.cke_wysiwyg_frame').ready((e) => {
+                $(document).find('iframe.cke_wysiwyg_frame').contents().find('body').find('div.chartjs-legend').find('.pie-legend-text').css('width', 'auto');
+                $(document).find('iframe.cke_wysiwyg_frame').contents().find('body').find('div.chartjs-legend').find('.polararea-legend-text').css('width', 'auto');
+                $(document).find('iframe.cke_wysiwyg_frame').contents().find('body').find('div.chartjs-legend').find('.doughnut-legend-text').css('width', 'auto');
+            });
         });
     } catch(e) {}
     document.selectedFolders = [];

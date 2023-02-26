@@ -29,6 +29,9 @@
                                     <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="toggle_favorite" data-state="0" title="Показать избранное" style="--w-max-x:5%;">
                                         <span class="icon-custom i-favor icon--favorite-selected" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                                     </button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="toggle_edit_options" title="Дополнительные опции" style="--w-max-x:5%;">
+                                        <i class="fa fa-cog" aria-hidden="true"></i>
+                                    </button>
                                     <input name="" class="form-control form-control-sm btn-block my-0 article-name" 
                                         type="text" value="" placeholder="Название статьи" autocomplete="off" readonly="" style="cursor:default;">
                                     <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="add_folder" title="Добавить новую папку" style="--w-max-x:5%;">
@@ -37,23 +40,20 @@
                                     <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="add_article" title="Добавить новую статью" style="--w-max-x:5%;">
                                         <i class="fa fa-newspaper-o" aria-hidden="true"></i>
                                     </button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="toggle_edit_options" title="Дополнительные опции" style="--w-max-x:5%;">
-                                        <i class="fa fa-cog" aria-hidden="true"></i>
-                                    </button>
                                 </div>
                             </div>
                         </div>
                         <div class="row-content split mt-2">
                             <div class="folders-wrapper px-0" id="splitCol_0">
-                                <ul class="list-group folders-group mx-3">
+                                <ul class="list-group folders-group">
                                 </ul>
                             </div>
-                            <div class="viewer-wrapper px-1" id="splitCol_1">
+                            <div class="viewer-wrapper" id="splitCol_1">
                                 <div class="article-viewer-block">
                                     <textarea id="articleViewer" name=""></textarea>
                                 </div>
                             </div>
-                            <div class="px-5 article-editor-col">
+                            <div class="article-editor-col">
                                 <div class="row aec-header mb-2">
                                     <div class="col-12">
                                         <div class="row">
