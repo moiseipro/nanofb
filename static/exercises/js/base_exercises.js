@@ -856,14 +856,24 @@ $(function() {
             }
         }, 500);
     });
-    $('.exs-players-filter').on('change', (e) => {
-        let value = $(e.currentTarget).val();
-        window.exercisesFilter['filter_players'] = value;
-        for (ind in window.count_exs_calls) {
-            window.count_exs_calls[ind]['call'].abort();
+    let playersTmpVal = "";
+    $('.exs-players-filter').on('keyup', (e) => {
+        let val = $(e.currentTarget).val();
+        if ((window.exercisesFilter['filter_players'] && window.exercisesFilter['filter_players'] == val) || (!window.exercisesFilter['filter_players'] && val == "")) {
+            return;
         }
-        LoadFolderExercises();
-        CountExsInFolder();
+        setTimeout(() => {
+            let waitedVal = $('.exs-players-filter').val();
+            if ((val == waitedVal || waitedVal == "") && waitedVal != playersTmpVal) {
+                playersTmpVal = waitedVal;
+                window.exercisesFilter['filter_players'] = playersTmpVal;
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            }
+        }, 500);
     });
 
 
