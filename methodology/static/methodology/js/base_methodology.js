@@ -32,34 +32,34 @@ function RenderFolders(folders) {
     for (let i = 0; i < folders.length; i++) {
         let folder = folders[i];
         htmlStr += `
-            <li class="list-group-item p-1" data-type="folder">
+            <li class="list-group-item p-1 mb-1" data-type="folder">
                 <div class="folder-elem d-flex justify-content-between" data-id="${folder.id}" data-parent="" data-title="${folder.title}" data-num="${i+1}">
-                    <div class="pull-left">
-                        <span class="folder-point mr-2">
-                            <span class="icon-custom icon--folder ml-4" style="--i-w: 1em; --i-h: 1em;"></span>
+                    <div class="col-12 d-flex px-0">
+                        <span class="w-100">
+                            <span class="folder-point mr-2">
+                                <span class="icon-custom icon--folder ml-4" style="--i-w: 1em; --i-h: 1em;"></span>
+                            </span>
+                            <span class="folder-title"> 
+                                <span class="elem-num">${(i+1)}. </span>
+                                ${folder.title}
+                            </span>
                         </span>
-                        <span class="folder-title"> 
-                            <span class="elem-num">${(i+1)}. </span>
-                            ${folder.title}
-                        </span>
-                    </div>
-                    <div class="pull-right">
-                        <a href="#" class="edit-option" data-id="edit">
+                        <a href="#" class="edit-option mr-1" data-id="edit">
                             <span class="badge badge-pill bg-default-light">
                                 <i class="fa fa-pencil" aria-hidden="true"></i>
                             </span>
                         </a>
-                        <a href="#" class="edit-option" data-id="delete">
+                        <a href="#" class="edit-option mr-1" data-id="delete">
                             <span class="badge badge-pill bg-default-light">
                                 <i class="fa fa-trash text-danger" aria-hidden="true"></i>
                             </span>
                         </a>
-                        <a href="#" class="edit-option" data-id="order_down">
+                        <a href="#" class="edit-option mr-1" data-id="order_down">
                             <span class="badge badge-pill bg-default-light">
                                 <i class="fa fa-arrow-down" aria-hidden="true"></i>
                             </span>
                         </a>
-                        <a href="#" class="edit-option" data-id="order_up">
+                        <a href="#" class="edit-option mr-1" data-id="order_up">
                             <span class="badge badge-pill bg-default-light">
                                 <i class="fa fa-arrow-up" aria-hidden="true"></i>
                             </span>
@@ -115,33 +115,43 @@ function RenderArticles(articles) {
         let articleNum = $('.folders-group').find(`.article-elem[data-folder="${article.folder}"]`).length;
         let htmlStr = `
             <li class="list-group-item p-1 ${$(cFolder).hasClass('active') ? '' : 'd-none'}" data-type="article">
-                <div class="article-elem d-flex justify-content-between" data-id="${article.id}" data-folder="${article.folder}" data-parent="" data-title="${article.title}">
-                    <div class="pull-left">
-                        <span class="article-point mr-2">
-                            <span class="icon-custom icon--folder1 ml-4" style="--i-w: 1em; --i-h: 1em;"></span>
+                <div class="article-elem d-flex justify-content-between" data-id="${article.id}" data-folder="${article.folder}" data-parent="" data-title="${article.title}" data-favor="${article.favorite ? 1 : 0}">
+                    <div class="col-12 d-flex px-0">
+                        <span class="w-100">
+                            <span class="article-point mr-2">
+                                <span class="icon-custom icon--folder1 ml-4" style="--i-w: 1em; --i-h: 1em;"></span>
+                            </span>
+                            <span class="article-title"> 
+                                <span class="elem-num">${folderNum}.${(articleNum+1)}. </span>
+                                ${article.title}
+                            </span>
                         </span>
-                        <span class="article-title"> 
-                            <span class="elem-num">${folderNum}.${(articleNum+1)}. </span>
-                            ${article.title}
-                        </span>
-                    </div>
-                    <div class="pull-right">
-                        <a href="#" class="edit-option" data-id="edit">
+                        <a href="#" class="param-option mr-1" data-id="favorite">
+                            <span class="badge badge-pill bg-default-light">
+                                <span class="icon-custom i-favor ${article.favorite ? 'icon--favorite-selected' : 'icon--favorite'}" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
+                            </span>
+                        </a>
+                        <a href="#" class="status-option mr-1" data-id="completed">
+                            <span class="badge badge-pill bg-default-light btn-completed ${article.completed ? 'completed' : ''}">
+                                <i class="fa fa-square" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                        <a href="#" class="edit-option mr-1" data-id="edit">
                             <span class="badge badge-pill bg-default-light">
                                 <i class="fa fa-pencil" aria-hidden="true"></i>
                             </span>
                         </a>
-                        <a href="#" class="edit-option" data-id="delete">
+                        <a href="#" class="edit-option mr-1" data-id="delete">
                             <span class="badge badge-pill bg-default-light">
                                 <i class="fa fa-trash text-danger" aria-hidden="true"></i>
                             </span>
                         </a>
-                        <a href="#" class="edit-option" data-id="order_down">
+                        <a href="#" class="edit-option mr-1" data-id="order_down">
                             <span class="badge badge-pill bg-default-light">
                                 <i class="fa fa-arrow-down" aria-hidden="true"></i>
                             </span>
                         </a>
-                        <a href="#" class="edit-option" data-id="order_up">
+                        <a href="#" class="edit-option mr-1" data-id="order_up">
                             <span class="badge badge-pill bg-default-light">
                                 <i class="fa fa-arrow-up" aria-hidden="true"></i>
                             </span>
@@ -156,6 +166,7 @@ function RenderArticles(articles) {
     }
     ToggleEditOptions();
     UpdateSelectedFolders(true);
+    $('.folders-group').find(`.article-elem[data-id="${window.articleForEdit}"]`).parent().trigger('click');
 }
 
 function LoadArticleOne(id, toModal=false) {
@@ -193,6 +204,7 @@ function RenderArticle(article, toModal=false) {
             $('.article-editor-col').attr('data-id', article.id);
             $('.article-editor-col').find('input[name="a_title"]').val(article.title);
             $('.article-editor-col').find('select[name="a_folder"]').val(article.folder);
+            $('.article-editor-col').find('[name="a_completed"]').toggleClass('completed', article.completed);
             document.articleEditor.setData(article.content);
         } catch(e) {}
     } else {
@@ -274,10 +286,12 @@ function SaveArticle() {
     try {
         articleId = parseInt($('.article-editor-col').attr('data-id'));
     } catch(e) {}
+    window.articleForEdit = -1;
     let title = $('.article-editor-col').find('input[name="a_title"]').val();
     let folder = $('.article-editor-col').find('select[name="a_folder"]').val();
+    let completed = $('.article-editor-col').find('[name="a_completed"]').hasClass('completed') ? 1 : 0;
     let articleContent = document.articleEditor.getData();
-    let dataToSend = {'edit_article': 1, 'article': articleId, 'title': title, 'folder': folder, 'content': articleContent};
+    let dataToSend = {'edit_article': 1, 'article': articleId, 'title': title, 'folder': folder, 'content': articleContent, 'completed': completed};
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
         headers:{"X-CSRFToken": csrftoken},
@@ -287,7 +301,8 @@ function SaveArticle() {
         url: "methodology_api",
         success: function (res) {
             if (res.success) {
-                swal("Готово", "статья успешно создана / изменена.", "success");
+                window.articleForEdit = articleId;
+                swal("Готово", "Статья успешно создана / изменена.", "success");
                 $('.row-content').removeClass('show-article-editor');
             } else {
                 swal("Ошибка", `При создании / изменении статьи произошла ошибка (${res.err}).`, "error");
@@ -339,6 +354,7 @@ function DeleteArticle() {
 function ToggleEditOptions() {
     let isEditOn = $('.row-header').find('button[data-id="toggle_edit_options"]').hasClass('active');
     $('.folders-group').find('.edit-option').toggleClass('d-none', !isEditOn);
+    $('.folders-group').find('.status-option').toggleClass('d-none', !isEditOn);
 }
 
 function ChangeElemOrder(orderType, elemType, elem) {
@@ -402,7 +418,7 @@ function ChangeElemOrder(orderType, elemType, elem) {
             }
         },
         error: function (res) {
-            swal("Ошибка", "не удалось изменить порядок элементов.", "error");
+            swal("Ошибка", "Не удалось изменить порядок элементов.", "error");
             console.log(res);
         },
         complete: function (res) {
@@ -456,6 +472,62 @@ function UpdateSelectedFolders(update=false) {
     }
 }
 
+function RenderSplitCols() {
+    $('.row-content').find('div.gutter').remove();
+    let sizesArr = window.dataForSplit;
+    window.split = Split(['#splitCol_0', '#splitCol_1'], {
+        sizes: sizesArr,
+        gutterSize: 12,
+        onDrag: () => {
+            let sum = 0;
+            let sizes = window.split.getSizes();
+            sizes.forEach(val => {sum += val;});
+            if (sum < 100) {
+                sizes[1] = 100 - sizes[0];
+            }
+            window.split.setSizes(sizes);
+        },
+        onDragEnd: (arr) => {
+            window.dataForSplit = arr;
+            localStorage.setItem('split_cols__methodology', JSON.stringify(window.dataForSplit));
+        }
+    });
+    let stateColSize = $('.row-header').find('button[data-id="toggle_columns_size"]').attr('data-state') == '1';
+    $('.row-content').find('div.gutter').toggleClass('d-none', !stateColSize);
+}
+
+function ChangeUserParam(elem, key, value) {
+    let articleId = $(elem).find('.article-elem').attr('data-id');
+    let dataToSend = {'change_user_param': 1, 'article': articleId, 'key': key, 'value': value};
+    $.ajax({
+        headers:{"X-CSRFToken": csrftoken},
+        data: dataToSend,
+        type: 'POST', // GET или POST
+        dataType: 'json',
+        url: "methodology_api",
+        success: function (res) {
+            if (res.success) {
+                switch (key) {
+                    case "favorite":
+                        $(elem).find('.article-elem').attr('data-favor', value);
+                        $(elem).find('span.i-favor').toggleClass('icon--favorite', value != 1);
+                        $(elem).find('span.i-favor').toggleClass('icon--favorite-selected', value == 1);
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                swal("Ошибка", `При изменении параметра произошла ошибка (${res.err}).`, "error");
+            }
+        },
+        error: function (res) {
+            swal("Ошибка", "Не удалось изменить параметр.", "error");
+            console.log(res);
+        },
+        complete: function (res) {}
+    });
+}
+
 
 
 $(function() {
@@ -464,41 +536,50 @@ $(function() {
     try {
         document.articleEditor = CKEDITOR.replace('articleEditor', {
             language: cLang,
+            removePlugins: ['elementspath', 'resize'],
+            extraPlugins: ['openlink', 'chart'],
             toolbar: [
                 {name: 'clipboard', groups: ['clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
-                {name: 'editing', groups: ['find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt' ]},
+                {name: 'editing', groups: ['find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt', 'Iframe']},
                 {name: 'basicstyles', groups: ['basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
                 {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']},
                 {name: 'links', items: ['Link', 'Unlink', 'Anchor']},
                 {name: 'insert', items: ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar']},
                 {name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']},
                 {name: 'colors', items: ['TextColor', 'BGColor']},
+                {name: 'new', items: ['Chart']},
             ],
-            height: '57vh',
-            removePlugins: ['elementspath', 'resize'],
-            extraPlugins: ['openlink'],
+            height: '61vh',
             filebrowserBrowseUrl: '/methodology/ckeditorbrowse/',
             filebrowserImageBrowseUrl: '/methodology/ckeditorbrowse/',
             filebrowserUploadUrl: '/methodology/ckeditorupload/',
             filebrowserImageUploadUrl: '/methodology/ckeditorupload/',
         });
+        document.articleEditor.on('change', (evt) => {
+            $('iframe.cke_wysiwyg_frame').ready((e) => {
+                $(document).find('iframe.cke_wysiwyg_frame').contents().find('body').find('div.chartjs-legend').find('.pie-legend-text').css('width', 'auto');
+                $(document).find('iframe.cke_wysiwyg_frame').contents().find('body').find('div.chartjs-legend').find('.polararea-legend-text').css('width', 'auto');
+                $(document).find('iframe.cke_wysiwyg_frame').contents().find('body').find('div.chartjs-legend').find('.doughnut-legend-text').css('width', 'auto');
+            });
+        });
     } catch(e) {}
     try {
         document.articleViewer = CKEDITOR.replace('articleViewer', {
             language: cLang,
+            removePlugins: ['elementspath', 'resize'],
+            extraPlugins: ['openlink', 'chart'],
             toolbar: [
                 {name: 'clipboard', groups: ['clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
-                {name: 'editing', groups: ['find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt' ]},
+                {name: 'editing', groups: ['find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt', 'Iframe']},
                 {name: 'basicstyles', groups: ['basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
                 {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']},
                 {name: 'links', items: ['Link', 'Unlink', 'Anchor']},
                 {name: 'insert', items: ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar']},
                 {name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']},
                 {name: 'colors', items: ['TextColor', 'BGColor']},
+                {name: 'new', items: ['Chart']},
             ],
             height: '83vh',
-            removePlugins: ['elementspath', 'resize'],
-            extraPlugins: ['openlink'],
             readOnly: true,
             on: {
                 instanceReady: (evt) => {
@@ -515,6 +596,13 @@ $(function() {
                 }
             }
         });
+        document.articleViewer.on('change', (evt) => {
+            $('iframe.cke_wysiwyg_frame').ready((e) => {
+                $(document).find('iframe.cke_wysiwyg_frame').contents().find('body').find('div.chartjs-legend').find('.pie-legend-text').css('width', 'auto');
+                $(document).find('iframe.cke_wysiwyg_frame').contents().find('body').find('div.chartjs-legend').find('.polararea-legend-text').css('width', 'auto');
+                $(document).find('iframe.cke_wysiwyg_frame').contents().find('body').find('div.chartjs-legend').find('.doughnut-legend-text').css('width', 'auto');
+            });
+        });
     } catch(e) {}
     document.selectedFolders = [];
     
@@ -524,10 +612,8 @@ $(function() {
         switch(cId) {
             case "toggle_article_block":
                 $(e.currentTarget).toggleClass('active');
-                $('.row-content').find('div:first').toggleClass('d-none', !$(e.currentTarget).hasClass('active'));
-                break;
-            case "toggle_article_block_2":
-                $(e.currentTarget).toggleClass('active');
+                $('.row-content').find('.folders-wrapper').toggleClass('d-none', !$(e.currentTarget).hasClass('active'));
+                $('.row-content').find('.viewer-wrapper').toggleClass('w-100', !$(e.currentTarget).hasClass('active'));
                 break;
             case "toggle_folders":
                 if (cState == '1') {
@@ -543,11 +629,27 @@ $(function() {
                 }
                 UpdateSelectedFolders();
                 break;
-            case "prev_article":
-                ChangeSelectedArticle("up");
+            case "toggle_columns_size":
+                if (cState == '1') {
+                    $(e.currentTarget).attr('data-state', '0');
+                    $(e.currentTarget).removeClass('active');
+                    $('.row-content').find('div.gutter').addClass('d-none');
+                } else {
+                    $(e.currentTarget).attr('data-state', '1');
+                    $(e.currentTarget).addClass('active');
+                    $('.row-content').find('div.gutter').removeClass('d-none');
+                }
                 break;
-            case "next_article":
-                ChangeSelectedArticle("down");
+            case "toggle_favorite":
+                if (cState == '1') {
+                    $(e.currentTarget).attr('data-state', '0');
+                    $(e.currentTarget).removeClass('active');
+                    $('.row-content').find('.article-elem[data-favor!="1"]').parent().removeClass('hide-elem');
+                } else {
+                    $(e.currentTarget).attr('data-state', '1');
+                    $(e.currentTarget).addClass('active');
+                    $('.row-content').find('.article-elem[data-favor!="1"]').parent().addClass('hide-elem');
+                }
                 break;
             case "add_folder":
                 $('#editFolderModal').attr('data-id', "");
@@ -558,6 +660,7 @@ $(function() {
                 $('.article-editor-col').attr('data-id', "");
                 $('.article-editor-col').find('input[name="a_title"]').val('');
                 $('.article-editor-col').find('select[name="a_folder"]').val('');
+                $('.article-editor-col').find('[name="a_completed"]').removeClass('completed');
                 document.articleEditor.setData('');
                 $('.row-content').addClass('show-article-editor');
                 break;
@@ -585,7 +688,7 @@ $(function() {
     });
 
     $('.folders-group').on('click', 'li', (e) => {
-        if ($(e.target).is('a') || $(e.target).is('i') || $(e.target).hasClass('badge')) {
+        if ($(e.target).is('a') || $(e.target).is('i') || $(e.target).hasClass('badge') || $(e.target).hasClass('icon-custom')) {
             return;
         }
         let folderId = $(e.currentTarget).find('.folder-elem').attr('data-id');
@@ -638,6 +741,21 @@ $(function() {
                 break;
         }
     });
+    $('.folders-group').on('click', '.param-option', (e) => {
+        let liElem = $(e.currentTarget).parent().parent().parent();
+        let cId = $(e.currentTarget).attr('data-id');
+        let cType = $(liElem).attr('data-type');
+        switch(cId) {
+            case "favorite":
+                if (cType == "article") {
+                    let isSet = $(liElem).find('span.icon-custom').hasClass('icon--favorite-selected') ? 0 : 1;
+                    ChangeUserParam(liElem, cId, isSet);
+                }
+                break;
+            default:
+                break;
+        }
+    });
 
     $('.article-editor-col').on('click', '.btn-save', (e) => {
         let cTitle = $('.article-editor-col').find('input[name="a_title"]').val();
@@ -655,6 +773,9 @@ $(function() {
     $('.article-editor-col').on('click', '[data-dismiss="modal"]', (e) => {
         $('.row-content').removeClass('show-article-editor');
     });
+    $('.article-editor-col').on('click', '.btn-completed', (e) => {
+        $(e.currentTarget).toggleClass('completed');
+    });
     $('#deleteArticleModal').on('click', '.btn-delete', (e) => {
         DeleteArticle();
     });
@@ -670,6 +791,14 @@ $(function() {
             ChangeSelectedArticle("down");
         }
     });
+
+     // Split columns
+     window.dataForSplit = JSON.parse(localStorage.getItem('split_cols__methodology'));
+     if (!window.dataForSplit) {
+         window.dataForSplit = [30, 70];
+         localStorage.setItem('split_cols__methodology', JSON.stringify(window.dataForSplit));
+     }
+     RenderSplitCols();
 
     // Toggle left menu
     setTimeout(() => {

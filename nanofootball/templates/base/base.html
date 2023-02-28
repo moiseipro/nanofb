@@ -37,9 +37,11 @@
         <!-- JQuery validate -->
         <link rel="stylesheet" href="{% static 'jquery-validate/jquery-validate.css' %}">
 
+        <!-- Chart for CKEditor -->
+        <link rel="stylesheet" href="{% static 'ckeditor_4.20.2/plugins/chart/chart.css' %}">
+
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-
 
         <!-- Custom Style -->
         {% block custom_style %}{% endblock %}
@@ -95,7 +97,11 @@
             <script src="{% static 'jquery-validate/localization/messages_ru.min.js' %}"></script>
         {% endif %}
 
-
+        <!-- Chart JS -->
+        <script src="{% static 'preadmin/js/chart.umd.js' %}"></script>
+        <!-- Chart for CKEditor -->
+        <script src="{% static 'ckeditor_4.20.2/plugins/chart/lib/chart.min.js' %}"></script>
+        <script src="{% static 'ckeditor_4.20.2/plugins/chart/widget2chart.js' %}"></script>
 
         <!-- Split JS -->
         <script src="{% static 'split-js/split.min.js' %}"></script>
