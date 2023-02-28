@@ -111,11 +111,20 @@ class ClubAddPersonalForm(forms.ModelForm):
             'class': 'form-control',
             'autocomplete': 'off',
         }))
+    license_date = forms.DateField(
+        required=True,
+        widget=forms.DateInput(attrs={
+            'class': 'form-control datetimepicker',
+            'type': 'text',
+            'id': 'datetimepicker-license',
+            'data-toggle': 'datetimepicker',
+            'autocomplete': 'off',
+        }))
 
     class Meta:
         model = UserPersonal
         fields = ['first_name', 'last_name', 'father_name', 'job_title', 'country_id', 'region', 'city',
-                  'date_birthsday', 'email_2', 'phone', 'license']
+                  'date_birthsday', 'email_2', 'phone', 'license', 'license_date']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -124,8 +133,9 @@ class ClubAddPersonalForm(forms.ModelForm):
                 Column('first_name', css_class='form-group col-md-4 mb-0'),
                 Column('last_name', css_class='form-group col-md-4 mb-0'),
                 Column('father_name', css_class='form-group col-md-4 mb-0'),
-                Column('job_title', css_class='form-group col-md-6 mb-0'),
+                Column('job_title', css_class='form-group col-md-12 mb-0'),
                 Column('license', css_class='form-group col-md-6 mb-0'),
+                Column('license_date', css_class='form-group col-md-6 mb-0'),
                 Column('country_id', css_class='form-group col-md-4 mb-0'),
                 Column('region', css_class='form-group col-md-4 mb-0'),
                 Column('city', css_class='form-group col-md-4 mb-0'),

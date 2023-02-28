@@ -15,7 +15,7 @@ class UserPersonalSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserPersonal
         fields = ["id", "last_name", "first_name", "father_name", "date_birthsday", "country_id",
-                  "region", "city", "phone", "license"]
+                  "region", "city", "phone", "license", "license_date"]
 
 
 class UserCreateSerializer(serializers.ModelSerializer):

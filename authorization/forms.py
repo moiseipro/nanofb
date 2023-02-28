@@ -99,10 +99,22 @@ class NewUserPersonalForm(forms.Form):
             'placeholder': _('License'),
             'autocomplete': 'off',
         }))
+    license_date = forms.DateField(
+        required=True,
+        label=False,
+        widget=forms.DateInput(attrs={
+            'class': 'form-control form-control-sm datetimepicker',
+            'type': 'text',
+            'id': 'datetimepicker-license',
+            'data-toggle': 'datetimepicker',
+            'autocomplete': 'off',
+            'placeholder': _('License period'),
+        }))
 
     class Meta:
         model = UserPersonal
-        fields = ["last_name", "first_name", "father_name", "date_birthsday", "country_id", "region", "city", "phone", "license"]
+        fields = ["last_name", "first_name", "father_name", "date_birthsday", "country_id", "region", "city", "phone",
+                  "license", "license_date"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -116,7 +128,8 @@ class NewUserPersonalForm(forms.Form):
                 Column('city', css_class='form-group col-md-12 mb-0'),
                 Column('date_birthsday', css_class='form-group col-md-6 mb-0'),
                 Column('phone', css_class='form-group col-md-6 mb-0'),
-                Column('license', css_class='form-group col-md-12 mb-0'),
+                Column('license', css_class='form-group col-md-6 mb-0'),
+                Column('license_date', css_class='form-group col-md-6 mb-0'),
                 css_class='form-row'
             ),
 

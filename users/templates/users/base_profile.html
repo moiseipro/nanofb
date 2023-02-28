@@ -10,39 +10,27 @@
             <div class="col">
                 <h3 class="page-title">{% trans 'Profile'%}</h3>
             </div>
-{#            <div class="col">#}
-{#                {% if messages %}#}
-{#                    {% for message in messages %}#}
-{#                        <div class="alert {% if message.tags %} {{ message.tags }} {% endif %} alert-success alert-dismissible fade show" role="alert">#}
-{#                            {{ message }}#}
-{#                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">#}
-{#                                <span aria-hidden="true">×</span>#}
-{#                            </button>#}
-{#                        </div>#}
-{#                    {% endfor %}#}
-{#                {% endif %}#}
-{#            </div>#}
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
-            <div class="profile-header">
-                <div class="row align-items-center">
-                    <div class="col-auto profile-image">
-                        <a href="#">
-                            {% if user.personal.avatar %}
-                                <img class="rounded-circle" height="100%" alt="User Image" src="{{ user.personal.avatar.url }}">
-                            {% else %}
-                                <img src="{% static 'preadmin/img/user.jpg' %}" height=100 width=100><br><br>
-                            {% endif %}
-
-                        </a>
-                    </div>
-                    <div class="col ml-md-n2 profile-user-info">
-                        <h4 class="user-name mb-0">{{ user.personal.full_name }}</h4>
-                        <h6 class="text-muted">{% trans 'Job title: ' %} {{ user.personal.get_job_title }}<br> {% trans 'License: ' %} {{ user.personal.get_license }}</h6>
-                        <div class="user-Location"><i class="fa fa-map-marker"></i>{{ user.personal.country_id.name }}, {{ user.personal.city }}</div>
-                    </div>
+{#            <div class="profile-header">#}
+{#                <div class="row align-items-center">#}
+{#                    <div class="col-auto profile-image">#}
+{#                        <a href="#">#}
+{#                            {% if user.personal.avatar %}#}
+{#                                <img class="rounded-circle" height="100%" alt="User Image" src="{{ user.personal.avatar.url }}">#}
+{#                            {% else %}#}
+{#                                <img src="{% static 'preadmin/img/user.jpg' %}" height=100 width=100><br><br>#}
+{#                            {% endif %}#}
+{##}
+{#                        </a>#}
+{#                    </div>#}
+{#                    <div class="col ml-md-n2 profile-user-info">#}
+{#                        <h4 class="user-name mb-0">{{ user.personal.full_name }}</h4>#}
+{#                        <h6 class="text-muted">{% trans 'Job title: ' %} {{ user.personal.get_job_title }}<br> {% trans 'License: ' %} {{ user.personal.get_license }}</h6>#}
+{#                        <div class="user-Location"><i class="fa fa-map-marker"></i>{{ user.personal.country_id.name }}, {{ user.personal.city }}</div>#}
+{#                    </div>#}
 {#                    <div class="col-auto profile-btn">#}
 {#                        <a href="" class="btn btn-primary">#}
 {#                            Message#}
@@ -51,8 +39,8 @@
 {#                            Edit#}
 {#                        </a>#}
 {#                    </div>#}
-                </div>
-            </div>
+{#                </div>#}
+{#            </div>#}
             <div class="profile-menu">
                 <ul class="nav nav-tabs nav-tabs-solid">
                     <li class="nav-item">
@@ -78,35 +66,61 @@
                                         <a class="edit-link" data-toggle="modal" href="#edit_personal_details"><i class="fa fa-edit mr-1"></i>{% trans 'Edit'%}</a>
                                     </h5>
                                     <div class="row">
-                                        <p class="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">{% trans 'Name'%}</p>
-                                        <p class="col-sm-9">{{ user.personal.full_name }}</p>
-                                    </div>
-                                    <div class="row">
-                                        <p class="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">{% trans 'Date of Birth'%}</p>
-                                        <p class="col-sm-9">{{ user.personal.date_birthsday|date:"d/m/Y" }}</p>
-                                    </div>
-                                    <div class="row">
-                                        <p class="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">{% trans 'Email'%}</p>
-                                        <p class="col-sm-9">{{ user.email }}</p>
-                                    </div>
-                                    <div class="row">
-                                        <p class="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">{% trans 'Spare Email'%}</p>
-                                        <p class="col-sm-9">{{ user.personal.get_email_2 }}</p>
-                                    </div>
-                                    <div class="row">
-                                        <p class="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">{% trans 'Mobile'%}</p>
-                                        <p class="col-sm-9">{{ user.personal.get_phone }}</p>
-                                    </div>
-                                    <div class="row">
-                                        <p class="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">{% trans 'Spare Mobile'%}</p>
-                                        <p class="col-sm-9">{{ user.personal.get_phone_2 }}</p>
-                                    </div>
-                                    <div class="row">
-                                        <p class="col-sm-3 text-muted text-sm-right mb-0">{% trans 'Address'%}</p>
-                                        <p class="col-sm-9 mb-0">
-                                        {{ user.personal.city }},<br>
-                                        {{ user.personal.region }},<br>
-                                        {{ user.personal.country_id.name }}</p>
+                                        <div class="col-2">
+                                            <a href="#">
+                                                {% if user.personal.avatar %}
+                                                    <img class="rounded-circle" width="100%" alt="User Image" src="{{ user.personal.avatar.url }}">
+                                                {% else %}
+                                                    <img src="{% static 'preadmin/img/user.jpg' %}" width=100%><br><br>
+                                                {% endif %}
+
+                                            </a>
+                                        </div>
+                                        <div class="col-10">
+                                            <div class="row">
+                                                <p class="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">{% trans 'Name'%}</p>
+                                                <p class="col-sm-9">{{ user.personal.full_name }}</p>
+                                            </div>
+                                            <div class="row">
+                                                <p class="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">{% trans 'Date of Birth'%}</p>
+                                                <p class="col-sm-9">{{ user.personal.date_birthsday|date:"d/m/Y" }}</p>
+                                            </div>
+                                            <div class="row">
+                                                <p class="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">{% trans 'Job title'%}</p>
+                                                <p class="col-sm-9">{{ user.personal.get_job_title }}</p>
+                                            </div>
+                                            <div class="row">
+                                                <p class="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">{% trans 'License'%}</p>
+                                                <p class="col-sm-9">{{ user.personal.get_license }}</p>
+                                            </div>
+                                            <div class="row">
+                                                <p class="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">{% trans 'License period'%}</p>
+                                                <p class="col-sm-9">{{ user.personal.license_date|date:"d/m/Y" }}</p>
+                                            </div>
+                                            <div class="row">
+                                                <p class="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">{% trans 'Email'%}</p>
+                                                <p class="col-sm-9">{{ user.email }}</p>
+                                            </div>
+                                            <div class="row">
+                                                <p class="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">{% trans 'Spare Email'%}</p>
+                                                <p class="col-sm-9">{{ user.personal.get_email_2 }}</p>
+                                            </div>
+                                            <div class="row">
+                                                <p class="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">{% trans 'Mobile'%}</p>
+                                                <p class="col-sm-9">{{ user.personal.get_phone }}</p>
+                                            </div>
+                                            <div class="row">
+                                                <p class="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">{% trans 'Spare Mobile'%}</p>
+                                                <p class="col-sm-9">{{ user.personal.get_phone_2 }}</p>
+                                            </div>
+                                            <div class="row">
+                                                <p class="col-sm-3 text-muted text-sm-right mb-0">{% trans 'Address'%}</p>
+                                                <p class="col-sm-9 mb-0">
+                                                {{ user.personal.city }},<br>
+                                                {{ user.personal.region }},<br>
+                                                {{ user.personal.country_id.name }}</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -160,22 +174,28 @@
                                                             <input id="phone_2" name="phone_2" type="tel" value="{% if user.personal.phone_2 %}{{ user.personal.phone_2}}{% endif %}" class="form-control form-control-sm" autocomplete="off">
                                                         </div>
                                                     </div>
-                                                    <div class="col-12 col-sm-4">
+                                                    <div class="col-12 col-sm-6">
                                                         <div class="form-group mb-2">
                                                             <label>{% trans 'Date of Birth'%}</label>
                                                             <input type="text" name="date_birthsday" class="form-control form-control-sm datetimepicker" data-toggle="datetimepicker" value="{{ user.personal.date_birthsday|date:"d/m/Y" }}" autocomplete="off" required>
                                                         </div>
                                                     </div>
-                                                    <div class="col-12 col-sm-4">
+                                                    <div class="col-12 col-sm-6">
+                                                        <div class="form-group mb-2">
+                                                            <label>{% trans 'Job title'%}</label>
+                                                            <input type="text" name="job_title" class="form-control form-control-sm" value="{% if user.personal.job_title %}{{ user.personal.job_title}}{% endif %}" autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-sm-6">
                                                         <div class="form-group mb-2">
                                                             <label>{% trans 'License'%}</label>
                                                             <input type="text" name="license" class="form-control form-control-sm" value="{% if user.personal.license %}{{ user.personal.license}}{% endif %}" autocomplete="off" required>
                                                         </div>
                                                     </div>
-                                                    <div class="col-12 col-sm-4">
+                                                    <div class="col-12 col-sm-6">
                                                         <div class="form-group mb-2">
-                                                            <label>{% trans 'Job title'%}</label>
-                                                            <input type="text" name="job_title" class="form-control form-control-sm" value="{% if user.personal.job_title %}{{ user.personal.job_title}}{% endif %}" autocomplete="off">
+                                                            <label>{% trans 'License period'%}</label>
+                                                            <input type="text" name="license_date" class="form-control form-control-sm datetimepicker" data-toggle="datetimepicker" value="{{ user.personal.license_date|date:"d/m/Y" }}" autocomplete="off" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
