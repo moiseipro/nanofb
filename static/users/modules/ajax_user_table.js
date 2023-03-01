@@ -25,10 +25,10 @@ function generate_ajax_users_table(scroll_y = ''){
             {'data': 'id', "orderable": false, render: function (data, type, row, meta) {
                 return meta.row + meta.settings._iDisplayStart + 1;
             }},
-            {'data': 'last_name', 'name': 'last_name'},
-            {'data': 'first_name', 'name': 'first_name'},
+            {'data': 'last_name', 'name': 'last_name', 'defaultContent': "---"},
+            {'data': 'first_name', 'name': 'first_name', 'defaultContent': "---"},
             {'data': 'job_title', 'name': 'job_title', 'defaultContent': "---"},
-            {'data': 'date_birthsday', 'name': 'date_birthsday'},
+            {'data': 'date_birthsday', 'name': 'date_birthsday', 'defaultContent': "---"},
             {'data': 'age', 'name': 'age', sortable: false, searchable: false,},
             {'data': 'license', 'name': 'license', 'defaultContent': "---"},
             {'data': 'admin_type', 'name': 'admin_type', sortable: false, searchable: false,},
@@ -36,10 +36,10 @@ function generate_ajax_users_table(scroll_y = ''){
                 if(data && 'name' in data)
                     return data.name;
             }},
-            {'data': 'days_entered', 'name': 'days_entered', sortable: false, searchable: false, render: function (data, type, row, meta) {
+            {'data': 'days_entered', 'name': 'days_entered', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
                 return data;
             }},
-            {'data': 'registration_to', 'name': 'registration_to'},
+            {'data': 'registration_to', 'name': 'registration_to', 'defaultContent': "---"},
             // {'data': 'is_active', 'name': 'is_active', sortable: false, searchable: false, render: function (data, type, row, meta) {
             //     let view_data = ''
             //     if(data==true) view_data = `<span class="badge badge-success" style="font-size: 14px;">${gettext('Activation')}</span>`

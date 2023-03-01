@@ -29,7 +29,7 @@ class UserPersonal(models.Model):
     father_name = models.CharField(
         max_length=50,
         null=True,
-        #blank=True,
+        blank=True,
         default=None,
         verbose_name=_('Patronymic'),
         help_text=_('Father name')
@@ -84,7 +84,7 @@ class UserPersonal(models.Model):
     phone_2 = models.CharField(
         max_length=25,
         null=True,
-        #blank=True,
+        blank=True,
         default=None,
         verbose_name=_('Spare phone'),
         help_text=_('Spare phone number')
@@ -92,7 +92,7 @@ class UserPersonal(models.Model):
     email_2 = models.CharField(
         max_length=60,
         null=True,
-        #blank=True,
+        blank=True,
         default=None,
         verbose_name=_('Spare email'),
         help_text=_('Spare email')
@@ -100,7 +100,7 @@ class UserPersonal(models.Model):
     skype = models.CharField(
         max_length=30,
         null=True,
-        #blank=True,
+        blank=True,
         default=None,
         verbose_name=_('Skype'),
     )
