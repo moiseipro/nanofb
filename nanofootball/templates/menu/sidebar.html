@@ -13,7 +13,7 @@
     </a>
     <ul style="display: none;">
         {% if user.is_superuser %}
-        <li><a class="nav-link disabled" href="#">{% trans '«Client» system' %}</a></li>
+        <li><a class="nav-link {{ menu_clients }}" href="{% url 'users:clients' %}">{% trans '«Client» system' %}</a></li>
         {% endif %}
         {% if perms.clubs.club_admin %}
         <li><a class="nav-link {{ menu_clubs }}" href="{% url 'clubs:base_club' %}">{% trans '«Club» panel' %}</a></li>

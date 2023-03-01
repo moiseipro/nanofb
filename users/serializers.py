@@ -1,6 +1,12 @@
+import datetime
+
 from django.contrib.auth.models import Group, Permission
 from rest_framework import serializers
 from users.models import User, UserPersonal
+from django_countries.serializer_fields import CountryField
+from django.utils.translation import gettext_lazy as _
+
+from version.serializers import VersionSerializer
 
 
 class ChangePasswordSerializer(serializers.Serializer):
@@ -68,6 +74,8 @@ class UserSerializer(serializers.ModelSerializer):
 class UserPersonalSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
 
+    country_id = CountryField()
+
     class Meta:
         model = UserPersonal
         fields = [
@@ -85,3 +93,53 @@ class CreateUserSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'club_id', 'email', 'password', 'personal'
         ]
+
+
+class UserManagementSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    last_name = serializers.CharField(
+        source="personal.last_name"
+    )
+    first_name = serializers.CharField(
+        source="personal.first_name"
+    )
+    job_title = serializers.CharField(
+        source="personal.job_title"
+    )
+    date_birthsday = serializers.DateField(
+        source="personal.date_birthsday"
+    )
+    age = serializers.SerializerMethodField()
+    license = serializers.CharField(
+        source="personal.license"
+    )
+    p_version = VersionSerializer()
+
+    groups = GroupSerializer(read_only=True, many=True)
+
+    admin_type = serializers.SerializerMethodField()
+
+    def get_admin_type(self, user):
+        admin_types = ''
+        if user.is_superuser:
+            admin_types += _("Admin")+"( "+_("Main")+" )"
+        if user.club_id is not None and user.has_perm('clubs.club_admin'):
+            admin_types += _("Admin")+" ( "+user.club_id.name+" )"
+        return admin_types
+
+    def get_age(self, user):
+        today = datetime.date.today()
+        birthday = user.personal.date_birthsday
+        age = today.year-birthday.year
+        if birthday.month >= today.month and birthday.day > today.day:
+            age -= 1
+        return age
+
+    class Meta:
+        model = User
+        fields = [
+            'id', 'email', 'days_entered', 'is_active', 'admin_type', 'p_version', 'registration_to', 'groups',
+            'last_name', 'first_name', 'job_title', 'date_birthsday', 'age', 'license'
+        ]
+        datatables_always_serialize = ('id', 'groups')
