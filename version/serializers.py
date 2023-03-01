@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from version.models import Section
+from version.models import Section, Version
 
 
 class SectionSerializer(serializers.ModelSerializer):
@@ -10,4 +10,14 @@ class SectionSerializer(serializers.ModelSerializer):
         model = Section
         fields = (
             'id', 'name', 'tag'
+        )
+
+
+class VersionSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = Version
+        fields = (
+            'id', 'name', 'tag', 'price'
         )
