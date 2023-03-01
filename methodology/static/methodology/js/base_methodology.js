@@ -590,7 +590,16 @@ $(function() {
                     editable.attachListener(editable, 'click', (evt2) => {
                         let link = new CKEDITOR.dom.elementPath(evt2.data.getTarget(), this).contains('a');
                         if (link && evt2.data.$.button != 2 && link.isReadOnly()) {
-                            window.open(link.getAttribute('href'));
+                            if ($(link['$']).hasClass('content-view')) {
+                                let cHref = $(link['$']).attr('href');
+                                let href = cHref;
+                                let type = $(link['$']).attr('data-type');
+                                $('#showContent').find('.content-view').attr('type', `application/${type}`);
+                                $('#showContent').find('.content-view').attr('data', href);
+                                $('#showContent').modal('show');
+                            } else {
+                                window.open(link.getAttribute('href'));
+                            }
                         }
                     }, null, null, 15);
                 }
@@ -601,6 +610,25 @@ $(function() {
                 $(document).find('iframe.cke_wysiwyg_frame').contents().find('body').find('div.chartjs-legend').find('.pie-legend-text').css('width', 'auto');
                 $(document).find('iframe.cke_wysiwyg_frame').contents().find('body').find('div.chartjs-legend').find('.polararea-legend-text').css('width', 'auto');
                 $(document).find('iframe.cke_wysiwyg_frame').contents().find('body').find('div.chartjs-legend').find('.doughnut-legend-text').css('width', 'auto');
+
+                let formatsForEmbed = [".pdf", ".pptx", ".ppt"];
+                $(document).find('iframe.cke_wysiwyg_frame').contents().find('body').find('a').each((ind, elem) => {
+                    let href = $(elem).attr('href');
+                    let embedFormat = null;
+                    for (let i = 0; i < formatsForEmbed.length; i++) {
+                        let format = formatsForEmbed[i];
+                        if (href.includes(format)) {
+                            embedFormat = format.replace('.', '');
+                            if (embedFormat == "pptx") {embedFormat = "ppt";}
+                            break;
+                        }
+                    }
+                    if (embedFormat) {
+                        $(elem).addClass('content-view');
+                        $(elem).attr('data-type', embedFormat);
+                    }
+                });
+
             });
         });
     } catch(e) {}

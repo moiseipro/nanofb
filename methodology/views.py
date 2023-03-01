@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
+from django.views.decorators.clickjacking import xframe_options_sameorigin
 from users.models import User
 from nanofootball.views import util_check_access
 import methodology.v_api as v_api
 from system_icons.views import get_ui_elements
 
 
+@xframe_options_sameorigin
 def methodology(request):
     """
     Return render page with given template. 

@@ -72,3 +72,9 @@
 .btn-completed.completed > i {
     color: #699834 !important;
 }
+
+
+.cke_combopanel {
+    height: 300px !important;
+}
+
