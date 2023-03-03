@@ -528,6 +528,50 @@ function ChangeUserParam(elem, key, value) {
     });
 }
 
+function RenderVideo(value, windowElem) {
+    try {
+        windowElem.pause();
+    } catch(e) {}
+    if (!value || value == -1) {
+        $('#videoSelectorModal').find('input.video-link').val('');
+        return;
+    }
+    get_video_ids(value)
+    .then(data => {
+        if (data) {
+            if ('nftv' in data['links'] && data['links']['nftv'] != '') {
+                $('#videoSelectorModal').find('input.video-link').val(`https://213.108.4.28/video/player/${data['links']['nftv']}`);
+                windowElem.src({type: 'video/mp4', src: `https://213.108.4.28/video/player/${data['links']['nftv']}`});
+                windowElem.poster(`https://213.108.4.28/video/poster/${data['links']['nftv']}`);
+            } else if ('youtube' in data['links'] && data['links']['youtube'] != '') {
+                $('#videoSelectorModal').find('input.video-link').val(`https://www.youtube.com/watch?v=${data['links']['youtube']}`);
+                windowElem.src({techOrder: ["youtube"], type: 'video/youtube', src: `https://www.youtube.com/watch?v=${data['links']['youtube']}`});
+                windowElem.poster('');
+            }
+        }
+    })
+    .catch(err => {});
+}
+
+function formatState(state) {
+    if (!state.id) {
+        return state.text;
+    }
+    var $state = $(
+        '<span>' + state.text + '</span>' + '<span class="float-right">(' + state.element.getAttribute('data-count') + ')</span>'
+    );
+    return $state;
+}
+function formatFolders(state) {
+    if (!state.id) {
+        return state.text;
+    }
+    var $state = $(
+        '<span>' + state.text + '</span>' + '<span class="float-right">(' + state.element.getAttribute('value') + ')</span>'
+    );
+    return $state;
+};
+
 
 
 $(function() {
@@ -590,16 +634,7 @@ $(function() {
                     editable.attachListener(editable, 'click', (evt2) => {
                         let link = new CKEDITOR.dom.elementPath(evt2.data.getTarget(), this).contains('a');
                         if (link && evt2.data.$.button != 2 && link.isReadOnly()) {
-                            if ($(link['$']).hasClass('content-view')) {
-                                let cHref = $(link['$']).attr('href');
-                                let href = cHref;
-                                let type = $(link['$']).attr('data-type');
-                                $('#showContent').find('.content-view').attr('type', `application/${type}`);
-                                $('#showContent').find('.content-view').attr('data', href);
-                                $('#showContent').modal('show');
-                            } else {
-                                window.open(link.getAttribute('href'));
-                            }
+                            window.open(link.getAttribute('href'));
                         }
                     }, null, null, 15);
                 }
@@ -611,21 +646,53 @@ $(function() {
                 $(document).find('iframe.cke_wysiwyg_frame').contents().find('body').find('div.chartjs-legend').find('.polararea-legend-text').css('width', 'auto');
                 $(document).find('iframe.cke_wysiwyg_frame').contents().find('body').find('div.chartjs-legend').find('.doughnut-legend-text').css('width', 'auto');
 
-                let formatsForEmbed = [".pdf", ".pptx", ".ppt"];
-                $(document).find('iframe.cke_wysiwyg_frame').contents().find('body').find('a').each((ind, elem) => {
+                $(document).find('iframe.cke_wysiwyg_frame:first').contents().find('body').find('a').each((ind, elem) => {
                     let href = $(elem).attr('href');
-                    let embedFormat = null;
-                    for (let i = 0; i < formatsForEmbed.length; i++) {
-                        let format = formatsForEmbed[i];
-                        if (href.includes(format)) {
-                            embedFormat = format.replace('.', '');
-                            if (embedFormat == "pptx") {embedFormat = "ppt";}
-                            break;
+                    if ($(elem).hasClass('_doc_')) {
+                        $(elem).parent().after(`
+                            <p style="height: 93vh;">
+                                <object class="content-view" width="100%" height="100%" type="application/pdf" data="${href}">
+                                </object>
+                            </p>
+                        `);
+                        $(elem).parent().remove();
+                    } else if ($(elem).hasClass('_video_')) {
+                        let nfbVideoId = null;
+                        if (href.includes("213.108.4.28/video/player/")) {
+                            nfbVideoId = href;
+                            nfbVideoId = nfbVideoId.split("/player/")[1];
                         }
-                    }
-                    if (embedFormat) {
-                        $(elem).addClass('content-view');
-                        $(elem).attr('data-type', embedFormat);
+                        
+                        $(document).find('iframe.cke_wysiwyg_frame:first').contents().find('head').append(`
+                            <link type="text/css" rel="stylesheet" href="/static/video-js-7.20.0/video-js.min.css">
+                        `);
+                        $(elem).parent().after(`
+                            <p>
+                            ${nfbVideoId != null ? `
+                                <video id="video-player-methodology" class="video-js resize-block video-modal" poster="https://213.108.4.28/video/poster/${nfbVideoId}">
+                                    <source src="${href}" type="video/mp4" />
+                                </video>
+                            ` : `
+                                <video id="video-player-methodology" class="video-js resize-block video-modal" poster="">
+                                    <source src="${href}" type="video/youtube" />
+                                </video>
+                            `}
+                            </p>
+                        `);
+                        window.videoPlayerMethodology = videojs(
+                            $(document).find('iframe.cke_wysiwyg_frame:first').contents().find('body').find(`#video-player-methodology`)[0], {
+                            preload: 'auto',
+                            autoplay: false,
+                            controls: true,
+                            aspectRatio: '16:9',
+                            youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
+                        });
+                        window.videoPlayerMethodology.load();
+                        window.videoPlayerMethodology.ready((e) => {
+                            $(document).find('iframe.cke_wysiwyg_frame:first').contents().find('body').find(`#video-player-methodology`)
+                                .css('height', '88vh');
+                        });
+                        $(elem).parent().remove();
                     }
                 });
 
@@ -804,6 +871,9 @@ $(function() {
     $('.article-editor-col').on('click', '.btn-completed', (e) => {
         $(e.currentTarget).toggleClass('completed');
     });
+    $('.article-editor-col').on('click', '.btn-video', (e) => {
+        $('#videoSelectorModal').modal('show');
+    });
     $('#deleteArticleModal').on('click', '.btn-delete', (e) => {
         DeleteArticle();
     });
@@ -820,13 +890,85 @@ $(function() {
         }
     });
 
-     // Split columns
-     window.dataForSplit = JSON.parse(localStorage.getItem('split_cols__methodology'));
-     if (!window.dataForSplit) {
-         window.dataForSplit = [30, 70];
-         localStorage.setItem('split_cols__methodology', JSON.stringify(window.dataForSplit));
-     }
-     RenderSplitCols();
+    // Split columns
+    window.dataForSplit = JSON.parse(localStorage.getItem('split_cols__methodology'));
+    if (!window.dataForSplit) {
+        window.dataForSplit = [30, 70];
+        localStorage.setItem('split_cols__methodology', JSON.stringify(window.dataForSplit));
+    }
+    RenderSplitCols();
+
+    // Video controlling
+    window.currentVideoId = -1;
+    try {
+        window.videoPlayerInModal = videojs('video-player-modal', {
+            preload: 'auto',
+            autoplay: false,
+            controls: true,
+            aspectRatio: '16:9',
+            youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
+        });
+    } catch (e) {}
+    try {
+        generate_ajax_video_table('60vh');
+
+        video_table
+            .on( 'select', (e, dt, type, indexes) => {
+                let rowData = video_table.rows( indexes ).data().toArray();
+                if (type=='row') {
+                    let currentData = rowData[0];
+                    window.currentVideoId = currentData.id;
+                    RenderVideo(currentData.id, window.videoPlayerInModal);
+                }
+            })
+            .on( 'deselect', (e, dt, type, indexes) => {});
+        $('#video').on('click', 'tr', (e) => {
+            let isSelected = $(e.currentTarget).hasClass('selected');
+            if (!isSelected) {
+                RenderVideo(-1, window.videoPlayerInModal);
+            }
+        });
+    } catch(e) {}
+    $('#videoSelectorModal').on('click', '.btn-copy', (e) => {
+        let link = $('#videoSelectorModal').find('input.video-link').val();
+        navigator.clipboard.writeText(link);
+        swal("Скопировано", "Ссылка видео скопирована в буфер обмена.", "success");
+    });
+    // For videos' filter
+    $('.video-source').select2({
+        templateResult: formatState,
+    });
+    $('.exercise-folder').select2({
+        templateResult: formatFolders,
+    });
+    $('.video-source').on('change', function (){
+        let data_source = $( this ).val();
+        video_table.columns([2]).search(data_source).draw();
+    });
+    $('.exercise-folder').on('change', function (){
+        let data_folder = $( this ).val();
+        video_table.columns([3]).search(data_folder).draw();
+    });
+    $('.video-tags-filter').on('change', function (){
+        let data_tag = $( this ).val();
+        video_table.columns([7]).search(data_tag).draw();
+    });
+    $('.video-search').on('keyup', function (){
+        let data_search = $( this ).val();
+        video_table.search(data_search).draw();
+    });
+    $('#video-filters-clear').on('click', function (){
+        $('.video-source').val(null).trigger('change');
+        $('.exercise-folder').val(null).trigger('change');
+        $('.video-tags-filter').val(null).trigger('change');
+        $('.video-search').val('').trigger('change');
+        video_table.search('').draw();
+        // $('.video-list-container').find('input[type="search"]').val('').change();
+        // video_table.columns([1]).search('').draw();
+    });
+    // END For videos' filter
+    // end of video controlling
+
 
     // Toggle left menu
     setTimeout(() => {

@@ -503,7 +503,6 @@ function open_graphics_modal(parentId) {
             }
         });
     }
-
     $('#exerciseGraphicsModal').modal('show');
 }
 

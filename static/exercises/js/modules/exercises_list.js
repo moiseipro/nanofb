@@ -492,6 +492,46 @@ function CopySchemeFromExsToExs(toExsId, toFolderType) {
     });
 }
 
+function ToggleFoldersView(saveView) {
+    if (saveView) {
+        let data = {'folder-elem': [], 'folder-nfb-elem': [], 'folder-club-elem': []};
+        $('.folders_div').find('.folder-elem').each((ind, elem) => {
+            let isRoot = $(elem).parent().hasClass('root-elem');
+            let isVisible = !$(elem).parent().hasClass('d-none');
+            if (!isRoot) {
+                data['folder-elem'].push({'id': $(elem).attr('data-id'), 'visible': isVisible});
+            }
+        });
+        $('.folders_div').find('.folder-nfb-elem').each((ind, elem) => {
+            let isRoot = $(elem).parent().hasClass('root-elem');
+            let isVisible = !$(elem).parent().hasClass('d-none');
+            if (!isRoot) {
+                data['folder-nfb-elem'].push({'id': $(elem).attr('data-id'), 'visible': isVisible});
+            }
+        });
+        $('.folders_div').find('.folder-club-elem').each((ind, elem) => {
+            let isRoot = $(elem).parent().hasClass('root-elem');
+            let isVisible = !$(elem).parent().hasClass('d-none');
+            if (!isRoot) {
+                data['folder-club-elem'].push({'id': $(elem).attr('data-id'), 'visible': isVisible});
+            }
+        });
+        sessionStorage.setItem("folders_views", JSON.stringify(data));
+    } else {
+        if (window.foldersViewStatus) {return;}
+        let data = {};
+        try {
+            data = JSON.parse(sessionStorage.getItem("folders_views"));
+        } catch(e) {}
+        for (let key in data) {
+            data[key].forEach(elem => {
+                $('.folders_div').find(`.${key}[data-id="${elem['id']}"]`).parent().toggleClass('d-none', !elem['visible']);
+            });
+        }
+        window.foldersViewStatus = true;
+    }
+}
+
 
 
 $(function() {
@@ -505,37 +545,63 @@ $(function() {
     // Choose exs folder
     $('.folders_list').on('click', '.list-group-item', (e) => {
         let isActive = $(e.currentTarget).hasClass('active');
-        $('.folders_list').find('.list-group-item').removeClass('active');
-        $(e.currentTarget).toggleClass('active', !isActive);
-        if (!isActive) {LoadFolderExercises();}
-        else {
-            $('.exs_counter').html("(...)");
-            CountExsInFoldersByType();
-            $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
+        let isRoot = $(e.currentTarget).hasClass('root-elem');
+        if (isRoot) {
+            let cId = $(e.currentTarget).find('.folder-elem').attr('data-id');
+            let isVisible = !$('.folders_div').find(`.folder-elem[data-parent="${cId}"]`).parent().hasClass('d-none');
+            $('.folders_div').find(`.folder-elem[data-parent="${cId}"]`).parent().toggleClass('d-none', isVisible);
+            ToggleFoldersView(true);
+        } else {
+            $('.folders_list').find('.list-group-item').removeClass('active');
+            $(e.currentTarget).toggleClass('active', !isActive);
+            if (!isActive) {LoadFolderExercises();}
+            else {
+                $('.exs_counter').html("(...)");
+                CountExsInFoldersByType();
+                $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
+            }
         }
+       
     });
     $('.folders_nfb_list').on('click', '.list-group-item', (e) => {
         let isActive = $(e.currentTarget).hasClass('active');
-        $('.folders_nfb_list').find('.list-group-item').removeClass('active');
-        $(e.currentTarget).toggleClass('active', !isActive);
-        if (!isActive) {LoadFolderExercises();}
-        else {
-            $('.exs_counter').html("(...)");
-            CountExsInFoldersByType();
-            $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
+        let isRoot = $(e.currentTarget).hasClass('root-elem');
+        if (isRoot) {
+            let cId = $(e.currentTarget).find('.folder-nfb-elem').attr('data-id');
+            let isVisible = !$('.folders_div').find(`.folder-nfb-elem[data-parent="${cId}"]`).parent().hasClass('d-none');
+            $('.folders_div').find(`.folder-nfb-elem[data-parent="${cId}"]`).parent().toggleClass('d-none', isVisible);
+            ToggleFoldersView(true);
+        } else {
+            $('.folders_nfb_list').find('.list-group-item').removeClass('active');
+            $(e.currentTarget).toggleClass('active', !isActive);
+            if (!isActive) {LoadFolderExercises();}
+            else {
+                $('.exs_counter').html("(...)");
+                CountExsInFoldersByType();
+                $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
+            }
         }
     });
     $('.folders_club_list').on('click', '.list-group-item', (e) => {
         let isActive = $(e.currentTarget).hasClass('active');
-        $('.folders_club_list').find('.list-group-item').removeClass('active');
-        $(e.currentTarget).toggleClass('active', !isActive);
-        if (!isActive) {LoadFolderExercises();}
-        else {
-            $('.exs_counter').html("(...)");
-            CountExsInFoldersByType();
-            $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
+        let isRoot = $(e.currentTarget).hasClass('root-elem');
+        if (isRoot) {
+            let cId = $(e.currentTarget).find('.folder-club-elem').attr('data-id');
+            let isVisible = !$('.folders_div').find(`.folder-club-elem[data-parent="${cId}"]`).parent().hasClass('d-none');
+            $('.folders_div').find(`.folder-club-elem[data-parent="${cId}"]`).parent().toggleClass('d-none', isVisible);
+            ToggleFoldersView(true);
+        } else {
+            $('.folders_club_list').find('.list-group-item').removeClass('active');
+            $(e.currentTarget).toggleClass('active', !isActive);
+            if (!isActive) {LoadFolderExercises();}
+            else {
+                $('.exs_counter').html("(...)");
+                CountExsInFoldersByType();
+                $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
+            }
         }
     });
+    ToggleFoldersView(false);
 
 
     // Change exercise using keys and change content in graphic modal
@@ -657,6 +723,19 @@ $(function() {
         } else {
             LoadExerciseOneHandler();
         }
+    });
+
+
+    // Toggle folders:
+    $('#toggleFoldersViews').on('click', (e) => {
+        $('.folders_div').find('li.list-group-item').each((ind, elem) => {
+            let isRoot = $(elem).hasClass('root-elem');
+            let isVisible = !$(elem).hasClass('d-none');
+            if (!isRoot) {
+                $(elem).toggleClass('d-none', isVisible);
+            }
+        });
+        ToggleFoldersView(true);
     });
 
 
