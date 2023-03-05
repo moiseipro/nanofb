@@ -686,15 +686,17 @@ $(function() {
                             aspectRatio: '16:9',
                             youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
                         }));
-                        window.videoPlayerMethodology[window.videoPlayerMethodology.length-1].load();
-                        window.videoPlayerMethodology[window.videoPlayerMethodology-1].ready((e) => {
-                            $(document).find('iframe.cke_wysiwyg_frame:first').contents().find('body').find(`#video-player-methodology-${ind}`)
-                                .css('height', '88vh');
-                        });
-                        $(elem).parent().remove();
+                      
+                        $(elem).remove();
                     }
                 });
-
+                for (let i = 0; i < window.videoPlayerMethodology.length; i++) {
+                    window.videoPlayerMethodology[i].load();
+                    window.videoPlayerMethodology[i].ready((e) => {
+                        $(document).find('iframe.cke_wysiwyg_frame:first').contents().find('body').find(`#video-player-methodology-${i}`)
+                            .css('height', '88vh');
+                    });
+                }
             });
         });
     } catch(e) {}
