@@ -646,6 +646,7 @@ $(function() {
                 $(document).find('iframe.cke_wysiwyg_frame').contents().find('body').find('div.chartjs-legend').find('.polararea-legend-text').css('width', 'auto');
                 $(document).find('iframe.cke_wysiwyg_frame').contents().find('body').find('div.chartjs-legend').find('.doughnut-legend-text').css('width', 'auto');
 
+                window.videoPlayerMethodology = [];
                 $(document).find('iframe.cke_wysiwyg_frame:first').contents().find('body').find('a').each((ind, elem) => {
                     let href = $(elem).attr('href');
                     if ($(elem).hasClass('_doc_')) {
@@ -666,30 +667,28 @@ $(function() {
                         $(document).find('iframe.cke_wysiwyg_frame:first').contents().find('head').append(`
                             <link type="text/css" rel="stylesheet" href="/static/video-js-7.20.0/video-js.min.css">
                         `);
-                        $(elem).parent().after(`
-                            <p>
+                        $(elem).after(`
                             ${nfbVideoId != null ? `
-                                <video id="video-player-methodology" class="video-js resize-block video-modal" poster="https://213.108.4.28/video/poster/${nfbVideoId}">
+                                <video id="video-player-methodology-${ind}" class="video-js resize-block video-modal" poster="https://213.108.4.28/video/poster/${nfbVideoId}">
                                     <source src="${href}" type="video/mp4" />
                                 </video>
                             ` : `
-                                <video id="video-player-methodology" class="video-js resize-block video-modal" poster="">
+                                <video id="video-player-methodology-${ind}" class="video-js resize-block video-modal" poster="">
                                     <source src="${href}" type="video/youtube" />
                                 </video>
                             `}
-                            </p>
                         `);
-                        window.videoPlayerMethodology = videojs(
-                            $(document).find('iframe.cke_wysiwyg_frame:first').contents().find('body').find(`#video-player-methodology`)[0], {
+                        window.videoPlayerMethodology.push(videojs(
+                            $(document).find('iframe.cke_wysiwyg_frame:first').contents().find('body').find(`#video-player-methodology-${ind}`)[0], {
                             preload: 'auto',
                             autoplay: false,
                             controls: true,
                             aspectRatio: '16:9',
                             youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
-                        });
-                        window.videoPlayerMethodology.load();
-                        window.videoPlayerMethodology.ready((e) => {
-                            $(document).find('iframe.cke_wysiwyg_frame:first').contents().find('body').find(`#video-player-methodology`)
+                        }));
+                        window.videoPlayerMethodology[window.videoPlayerMethodology.length-1].load();
+                        window.videoPlayerMethodology[window.videoPlayerMethodology-1].ready((e) => {
+                            $(document).find('iframe.cke_wysiwyg_frame:first').contents().find('body').find(`#video-player-methodology-${ind}`)
                                 .css('height', '88vh');
                         });
                         $(elem).parent().remove();
