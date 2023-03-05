@@ -650,12 +650,12 @@ $(function() {
                     let href = $(elem).attr('href');
                     if ($(elem).hasClass('_doc_')) {
                         $(elem).parent().after(`
-                            <p style="height: 93vh;">
+                            <p style="height: 86vh;">
                                 <object class="content-view" width="100%" height="100%" type="application/pdf" data="${href}">
                                 </object>
                             </p>
                         `);
-                        $(elem).parent().remove();
+                        // $(elem).parent().remove();
                     } else if ($(elem).hasClass('_video_')) {
                         let nfbVideoId = null;
                         if (href.includes("213.108.4.28/video/player/")) {
