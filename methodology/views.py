@@ -1,11 +1,17 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
+from django.db.models import Q, Count, F
+from django.views.decorators.clickjacking import xframe_options_sameorigin
 from users.models import User
 from nanofootball.views import util_check_access
 import methodology.v_api as v_api
+from exercises.models import AdminFolder
+from video.models import VideoSource
+from taggit.models import Tag
 from system_icons.views import get_ui_elements
 
 
+@xframe_options_sameorigin
 def methodology(request):
     """
     Return render page with given template. 
@@ -28,8 +34,13 @@ def methodology(request):
         {'perms_user': ["methodology.view_userarticle"], 'perms_club': ["methodology.view_clubarticle"]}
     ):
         return redirect("users:profile")
+    video_params = {}
+    video_params['sources'] = VideoSource.objects.all().annotate(videos=Count('video')).order_by('-videos')
+    video_params['folders'] = AdminFolder.objects.exclude(parent=None).order_by('parent', 'order')
+    video_params['tags'] = Tag.objects.all()
     return render(request, 'methodology/base_methodology.html', {
         'menu_methodology': 'active',
+        'video_params': video_params,
         'seasons_list': request.seasons_list,
         'teams_list': request.teams_list,
         'ui_elements': get_ui_elements(request)
