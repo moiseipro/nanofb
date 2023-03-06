@@ -39,6 +39,14 @@ $(window).on('load', function () {
         })
     })
 
+    $('#edit_personal_details').on('shown.bs.modal', function (){
+        toggle_edit_mode(true)
+    })
+
+    $('#edit_personal_details').on('hidden.bs.modal', function (){
+        toggle_edit_mode(false)
+    })
+
     $('#edit-password-button').on('click', function () {
         if(!$('#change-password-form').valid()) return
         let password = $('#change-password-form').serializeArray()
