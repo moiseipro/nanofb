@@ -52,8 +52,8 @@ class UserPersonal(models.Model):
         null=True,
         # blank=True,
         default=date.today,
-        verbose_name=_('Birthday'),
-        help_text=_('Date of birth'),
+        verbose_name=_('License date'),
+        help_text=_('License expiration date'),
     )
     country_id = CountryField(
         verbose_name=_('Country'),

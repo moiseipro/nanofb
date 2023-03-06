@@ -71,6 +71,16 @@ class UserSerializer(serializers.ModelSerializer):
         datatables_always_serialize = ('id', 'groups')
 
 
+class UserEditSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = User
+        fields = [
+            'id', 'email', 'club_id', 'registration_to'
+        ]
+
+
 class UserPersonalSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
 
@@ -81,6 +91,18 @@ class UserPersonalSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'first_name', 'last_name', 'father_name', 'email_2', 'job_title', 'date_birthsday', 'country_id',
             'region', 'city', 'phone', 'phone_2', 'license', 'license_date', 'skype'
+        ]
+
+
+class UserAllDataSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    personal = UserPersonalSerializer()
+
+    class Meta:
+        model = User
+        fields = [
+            'id', 'email', 'club_id', 'date_last_login', 'date_joined', 'days_entered', 'is_active', 'registration_to', 'personal'
         ]
 
 

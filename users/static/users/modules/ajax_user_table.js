@@ -1,5 +1,7 @@
+var users_table;
+
 function generate_ajax_users_table(scroll_y = ''){
-    club_users_table = $('#users-table').DataTable({
+    users_table = $('#users-table').DataTable({
         language: {
             url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
         },
@@ -48,30 +50,30 @@ function generate_ajax_users_table(scroll_y = ''){
             // }},
             {'data': 'id', sortable: false, searchable: false, render: function (data, type, row, meta) {
                 let button_html = ``
-                button_html += `<button type="button" class="btn btn-sm btn-outline-secondary mr-1 close-access-user" data-id="${data}">X</button>`
+                button_html += `<button type="button" class="btn btn-sm btn-outline-secondary mr-1 open-profile-modal" data-id="${data}"><i class="fa fa-user-o" aria-hidden="true"></i></button>`
+                button_html += `<button type="button" class="btn btn-sm btn-outline-danger mr-1 close-access-user" data-id="${data}">X</button>`
                 return button_html;
             }},
         ],
 
     })
-    $('#video').on('click', 'td', function () {
-        console.log('TEST')
-        if($(this).has('.other-exercises').length == 0){
-            console.log('SELECT')
-            if($(this).parent().is('.selected')){
-                video_table.row($(this).parent()).deselect()
-            } else {
-                video_table.rows().deselect()
-                video_table.row($(this).parent()).select()
-            }
-
-        }
-    })
+    // $('#users-table').on('click', 'td', function () {
+    //     //if($(this).has('.other-exercises').length == 0){
+    //     console.log('SELECT')
+    //     if($(this).parent().is('.selected')){
+    //         users_table.row($(this).parent()).deselect()
+    //     } else {
+    //         users_table.rows().deselect()
+    //         users_table.row($(this).parent()).select()
+    //     }
+    //
+    //     //}
+    // })
 }
 
 async function ajax_users_action(method, data, action = '', id = '', func = '') {
 
-    let url = "/clubs/api/users/"
+    let url = "/user/clients/api/"
     if(id !== '') url += `${id}/`
     if(func !== '') url += `${func}/`
 
@@ -85,8 +87,8 @@ async function ajax_users_action(method, data, action = '', id = '', func = '') 
         data: data,
         success: function(data){
             //console.log(data)
-            if(data.status == 'exercise_limit'){
-                swal(gettext('Users '+action), gettext('The limit of users for the club'), "error");
+            if(data.status == 'success'){
+                swal(gettext('User'), data.message, 'success');
             } else if('registration' in data && data.registration != '') {
                 swal(gettext('Club user registration'), data.registration, "success");
             }

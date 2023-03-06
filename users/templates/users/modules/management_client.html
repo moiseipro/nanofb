@@ -1,0 +1,59 @@
+{% load i18n %}
+{% load static %}
+{% load language_json %}
+
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card mb-0">
+            <div class="card-header py-2">
+                <div class="row">
+                    <div class="col-2">
+                        <button id="back-users-table" class="btn btn-danger btn-block font-weight-bold">{% trans "Back" %}</button>
+                    </div>
+                    <div class="col-2">
+                        <button type="button" class="btn btn-warning btn-block toggle-edit-mode view-button">{% trans 'Edit'%}</button>
+                        <button type="button" class="btn btn-warning btn-block toggle-edit-mode edit-button d-none mt-0">{% trans 'Cancel'%}</button>
+                    </div>
+                    <div class="col">
+                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="pill" href="#profile-user" role="tab" aria-controls="club-users" aria-selected="true">{% trans "Profile" %}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#permissions-user" role="tab" aria-controls="club-user-add" aria-selected="false">{% trans "Permissions" %}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-body py-2">
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="profile-user" role="tabpanel" aria-labelledby="pills-profile-user-tab">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="col-12">{% include "users/forms/edit-user-form.html" %}</div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-12">
+                                        <button id="generate-password-user-button" type="button" class="btn btn-primary btn-block edit-input" disabled>{% trans 'Generate a new password'%}</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                {% include "users/forms/edit-personal-form.html" %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="permissions-user" role="tabpanel" aria-labelledby="pills-permissions-user-tab">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include "users/modules/personal_modal.html" %}
+</div>
