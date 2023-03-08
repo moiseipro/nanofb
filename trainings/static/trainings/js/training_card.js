@@ -284,15 +284,15 @@ function load_all_exercises_training(training_id = null, group = null) {
                     count_slide++
                     carousel_html+= `
                         <div class="carousel-item active">
-                            <img src="${exercise.scheme_1}" alt="scheme" width="100%" height="100%">
+                            <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${exercise.scheme_1}" alt="scheme" width="100%" height="100%">
                         </div>`
                 }
                 if(exercise.scheme_2){
                     select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class=""></li>`
                     count_slide++
                     carousel_html+= `
-                        <div class="carousel-item">
-                            <img src="${exercise.scheme_2}" alt="scheme" width="100%" height="100%">
+                        <div class="carousel-item ${!exercise.scheme_1 ? 'active': ''}">
+                            <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${exercise.scheme_2}" alt="scheme" width="100%" height="100%">
                         </div>`
                 }
                 if(exercise.exercise_scheme){
@@ -300,7 +300,7 @@ function load_all_exercises_training(training_id = null, group = null) {
                         select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="active"></li>`
                         count_slide++
                         carousel_html+= `
-                            <div class="carousel-item active">
+                            <div class="carousel-item ${!exercise.scheme_1 && !exercise.scheme_2  ? 'active': ''}">
                                 ${exercise.exercise_scheme['scheme_1']}
                             </div>`
                     }
@@ -394,15 +394,15 @@ function load_exercises_training_data(training_exercise_id = null) {
             count_slide++
             carousel_html+= `
                 <div class="carousel-item active">
-                    <img src="${exercise.scheme_1}" alt="scheme" width="100%" height="100%">
+                    <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${exercise.scheme_1}" alt="scheme" width="100%" height="100%">
                 </div>`
         }
         if(exercise.scheme_2){
             select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class=""></li>`
             count_slide++
             carousel_html+= `
-                <div class="carousel-item">
-                    <img src="${exercise.scheme_2}" alt="scheme" width="100%" height="100%">
+                <div class="carousel-item ${!exercise.scheme_1 ? 'active': ''}">
+                    <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${exercise.scheme_2}" alt="scheme" width="100%" height="100%">
                 </div>`
         }
         if(exercise.exercise_scheme){
@@ -410,7 +410,7 @@ function load_exercises_training_data(training_exercise_id = null) {
                 select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="active"></li>`
                 count_slide++
                 carousel_html+= `
-                    <div class="carousel-item active">
+                    <div class="carousel-item ${!exercise.scheme_1 && !exercise.scheme_2  ? 'active': ''}">
                         ${exercise.exercise_scheme['scheme_1']}
                     </div>`
             }
