@@ -182,38 +182,68 @@ $(window).on('load', function (){
                         if (data.training.exercises_info.length > 0) {
                             let exercises = data.training.exercises_info
                             for (let exercise of exercises) {
-                                html_scheme += `
-                            <div class="col-4 pb-2 px-1 exercise-visual-block" data-id="${exercise.id}" data-exs-id="${exercise.exercise_id}" data-group="${exercise.group}">
-                                <div id="carouselSchema-${exercise.id}" class="carousel slide carouselSchema" data-ride="carousel" data-interval="false">
-                                    <ol class="carousel-indicators">
-                                        <li data-target="#carouselSchema-${exercise.id}" data-slide-to="0" class="active"></li>
-                                        <li data-target="#carouselSchema-${exercise.id}" data-slide-to="1"></li>
-                                    </ol>
-                                    <div class="carousel-inner">
+                                let count_slide = 0
+                                let select_html = '', carousel_html = ''
+                                if(exercise.scheme_1){
+                                    select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="active"></li>`
+                                    count_slide++
+                                    carousel_html+= `
                                         <div class="carousel-item active">
-                                            ${exercise.exercise_scheme ? exercise.exercise_scheme['scheme_1'] : ''}
+                                            <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${exercise.scheme_1}" alt="scheme" width="100%" height="100%">
+                                        </div>`
+                                }
+                                if(exercise.scheme_2){
+                                    select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="${!exercise.scheme_1 ? 'active': ''}"></li>`
+                                    count_slide++
+                                    carousel_html+= `
+                                        <div class="carousel-item ${!exercise.scheme_1 ? 'active': ''}">
+                                            <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${exercise.scheme_2}" alt="scheme" width="100%" height="100%">
+                                        </div>`
+                                }
+                                if(exercise.exercise_scheme){
+                                    if(exercise.exercise_scheme['scheme_1']){
+                                        select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="${!exercise.scheme_1 && !exercise.scheme_2  ? 'active': ''}"></li>`
+                                        count_slide++
+                                        carousel_html+= `
+                                            <div class="carousel-item ${!exercise.scheme_1 && !exercise.scheme_2  ? 'active': ''}">
+                                                ${exercise.exercise_scheme['scheme_1']}
+                                            </div>`
+                                    }
+                                    if(exercise.exercise_scheme['scheme_2']){
+                                        select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class=""></li>`
+                                        count_slide++
+                                        carousel_html+= `
+                                            <div class="carousel-item">
+                                                ${exercise.exercise_scheme['scheme_2']}
+                                            </div>`
+                                    }
+                                }
+                                html_scheme += `
+                                <div class="col-4 pb-2 px-1 exercise-visual-block" data-id="${exercise.id}" data-exs-id="${exercise.exercise_id}" data-group="${exercise.group}">
+                                    <div id="carouselSchema-${exercise.id}" class="carousel slide carouselSchema" data-ride="carousel" data-interval="false">
+                                        <ol class="carousel-indicators">
+                                            ${select_html}
+                                        </ol>
+                                        <div class="carousel-inner">
+                                            ${carousel_html}
                                         </div>
-                                        <div class="carousel-item">
-                                            ${exercise.exercise_scheme ? exercise.exercise_scheme['scheme_2'] : ''}
-                                        </div>
+                                        <a class="carousel-control-prev ml-2" href="#carouselSchema-${exercise.id}" role="button" data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#carouselSchema-${exercise.id}" role="button" data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
                                     </div>
-                                    <a class="carousel-control-prev ml-2" href="#carouselSchema-${exercise.id}" role="button" data-slide="prev">
-                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span class="sr-only">Previous</span>
-                                    </a>
-                                    <a class="carousel-control-next" href="#carouselSchema-${exercise.id}" role="button" data-slide="next">
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span class="sr-only">Next</span>
-                                    </a>
+                                    <div class="row text-center">
+                                        <div class="col-12"><div class="w-100 border text-truncate">${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}</div></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 additional-data-block"></div>
+                                    </div>
                                 </div>
-                                <div class="row text-center">
-                                    <div class="col-12"><div class="w-100 border text-truncate">${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}</div></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-12 additional-data-block"></div>
-                                </div>
-                            </div>
-                            `
+                                `
                             }
                         }
                         $('#block-event-info .event-info').html(html_scheme)

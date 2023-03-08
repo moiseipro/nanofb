@@ -274,9 +274,9 @@ function load_all_exercises_training(training_id = null, group = null) {
         html_scheme += `<div class="row training-info">`
         if (data.exercises_info.length > 0) {
             let exercises = data.exercises_info
-            let count_slide = 0
             for (let exercise of exercises) {
                 console.log(exercise)
+                let count_slide = 0
                 let select_html = '', carousel_html = ''
                 exs_time[exercise.group-1] += exercise.duration
                 if(exercise.scheme_1){
@@ -288,7 +288,7 @@ function load_all_exercises_training(training_id = null, group = null) {
                         </div>`
                 }
                 if(exercise.scheme_2){
-                    select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class=""></li>`
+                    select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="${!exercise.scheme_1 ? 'active': ''}"></li>`
                     count_slide++
                     carousel_html+= `
                         <div class="carousel-item ${!exercise.scheme_1 ? 'active': ''}">
@@ -297,7 +297,7 @@ function load_all_exercises_training(training_id = null, group = null) {
                 }
                 if(exercise.exercise_scheme){
                     if(exercise.exercise_scheme['scheme_1']){
-                        select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="active"></li>`
+                        select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="${!exercise.scheme_1 && !exercise.scheme_2  ? 'active': ''}"></li>`
                         count_slide++
                         carousel_html+= `
                             <div class="carousel-item ${!exercise.scheme_1 && !exercise.scheme_2  ? 'active': ''}">
@@ -398,7 +398,7 @@ function load_exercises_training_data(training_exercise_id = null) {
                 </div>`
         }
         if(exercise.scheme_2){
-            select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class=""></li>`
+            select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="${!exercise.scheme_1 ? 'active': ''}"></li>`
             count_slide++
             carousel_html+= `
                 <div class="carousel-item ${!exercise.scheme_1 ? 'active': ''}">
@@ -407,7 +407,7 @@ function load_exercises_training_data(training_exercise_id = null) {
         }
         if(exercise.exercise_scheme){
             if(exercise.exercise_scheme['scheme_1']){
-                select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="active"></li>`
+                select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="${!exercise.scheme_1 && !exercise.scheme_2  ? 'active': ''}"></li>`
                 count_slide++
                 carousel_html+= `
                     <div class="carousel-item ${!exercise.scheme_1 && !exercise.scheme_2  ? 'active': ''}">
