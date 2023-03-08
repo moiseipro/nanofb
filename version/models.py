@@ -7,7 +7,41 @@ from django.utils.translation import pgettext_lazy as _p
 from decimal import Decimal
 
 
+def get_default_name_json():
+    return {"ru": "", "en": ""}
+
+
 # Create your models here.
+class Section(models.Model):
+    name = models.CharField(help_text='Section name', max_length=255, verbose_name='title')
+    translation_name = models.JSONField(
+        verbose_name=_('Section name'),
+        help_text=_("Section translated name"),
+        default=get_default_name_json,
+        null=True,
+        blank=True
+    )
+    tag = models.CharField(
+        max_length=100,
+        verbose_name=_('tag'),
+        help_text=_("Section tag")
+    )
+    objects = models.Manager()
+
+    @classmethod
+    def get_default_pk(cls):
+        section, created = cls.objects.get_or_create(
+            name='NF', tag=_('Default'))
+        return section.pk
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _('section')
+        verbose_name_plural = _('sections')
+
+
 class CustomGroup(models.Model):
     group = models.OneToOneField(
         Group,
@@ -21,7 +55,30 @@ class CustomGroup(models.Model):
         decimal_places=2,
         default=0.00
     )
-    text_id = models.CharField(max_length=25, null=True, blank=True)
+    translation_name = models.JSONField(
+        verbose_name=_('Group name'),
+        help_text=_("Group translated name"),
+        default=get_default_name_json,
+        null=True,
+        blank=True
+    )
+    order_column = models.IntegerField(
+        default=0,
+        null=False,
+        blank=False
+    )
+    section = models.ForeignKey(
+        Section,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL
+    )
+    tree_depth = models.IntegerField(
+        default=0,
+        blank=False,
+        null=False
+    )
+    text_id = models.CharField(blank=True, max_length=25, null=True)
 
     def __str__(self):
         return self.group.name
@@ -55,33 +112,6 @@ class ClubLimitations(Limitations):
 
     class Meta(Limitations.Meta):
         abstract = True
-
-
-class Section(models.Model):
-    name = models.CharField(
-        max_length=255,
-        verbose_name=_('title'),
-        help_text=_("Section name")
-    )
-    tag = models.CharField(
-        max_length=100,
-        verbose_name=_('tag'),
-        help_text=_("Section tag")
-    )
-    objects = models.Manager()
-
-    @classmethod
-    def get_default_pk(cls):
-        section, created = cls.objects.get_or_create(
-            name='NF', tag=_('Default'))
-        return section.pk
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = _('section')
-        verbose_name_plural = _('sections')
 
 
 class Version(Limitations):

@@ -276,8 +276,25 @@ function load_all_exercises_training(training_id = null, group = null) {
             let exercises = data.exercises_info
             let count_slide = 0
             for (let exercise of exercises) {
+                console.log(exercise)
                 let select_html = '', carousel_html = ''
                 exs_time[exercise.group-1] += exercise.duration
+                if(exercise.scheme_1){
+                    select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="active"></li>`
+                    count_slide++
+                    carousel_html+= `
+                        <div class="carousel-item active">
+                            <img src="${exercise.scheme_1}" alt="scheme" width="100%" height="100%">
+                        </div>`
+                }
+                if(exercise.scheme_2){
+                    select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class=""></li>`
+                    count_slide++
+                    carousel_html+= `
+                        <div class="carousel-item">
+                            <img src="${exercise.scheme_2}" alt="scheme" width="100%" height="100%">
+                        </div>`
+                }
                 if(exercise.exercise_scheme){
                     if(exercise.exercise_scheme['scheme_1']){
                         select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="active"></li>`
@@ -372,6 +389,22 @@ function load_exercises_training_data(training_exercise_id = null) {
         //$('#training-exercise-description .exercise-description').val(exercise.description)
         let count_slide = 0
         let select_html = '', carousel_html = ''
+        if(exercise.scheme_1){
+            select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="active"></li>`
+            count_slide++
+            carousel_html+= `
+                <div class="carousel-item active">
+                    <img src="${exercise.scheme_1}" alt="scheme" width="100%" height="100%">
+                </div>`
+        }
+        if(exercise.scheme_2){
+            select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class=""></li>`
+            count_slide++
+            carousel_html+= `
+                <div class="carousel-item">
+                    <img src="${exercise.scheme_2}" alt="scheme" width="100%" height="100%">
+                </div>`
+        }
         if(exercise.exercise_scheme){
             if(exercise.exercise_scheme['scheme_1']){
                 select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="active"></li>`

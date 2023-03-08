@@ -33,7 +33,7 @@
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="profile-user" role="tabpanel" aria-labelledby="pills-profile-user-tab">
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-4">
                                 <div class="row">
                                     <div class="col-12">{% include "users/forms/edit-user-form.html" %}</div>
                                 </div>
@@ -43,8 +43,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 {% include "users/forms/edit-personal-form.html" %}
+                            </div>
+                            <div class="col-4">
+                                {% include "users/forms/edit-permission.html" %}
                             </div>
                         </div>
                     </div>
