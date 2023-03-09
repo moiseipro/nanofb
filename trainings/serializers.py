@@ -110,10 +110,12 @@ class TrainingExerciseSerializer(serializers.ModelSerializer):
         read_only=True
     )
     scheme_1 = serializers.CharField(
-        source="exercise_id.scheme_1"
+        source="exercise_id.scheme_1",
+        read_only=True
     )
     scheme_2 = serializers.CharField(
-        source="exercise_id.scheme_2"
+        source="exercise_id.scheme_2",
+        read_only=True
     )
 
     class Meta:
