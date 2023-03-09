@@ -1379,6 +1379,7 @@ $(function() {
             $(tList).find(`.${htmlElemInList}`).addClass('folder-copy-elem');
             $(tList).find(`.${htmlElemInList}`).removeClass(htmlElemInList);
             $(tList).find('.pull-right').remove();
+            $(tList).find('.list-group-item').removeClass('d-none');
             $(tList).find('.list-group-item > div').each((ind, elem) => {
                 let tText = `${$(elem).attr('data-short')}. ${$(elem).attr('data-name')}`;
                 $(elem).find('.folder-title').html(tText);
