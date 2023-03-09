@@ -12,21 +12,25 @@
 {% block content %}
 
     <div class="row">
-        <div id="users-table-block" class="col-sm-12">
+        <div id="users-table-block" class="col-sm-12 px-1">
             <div class="card mb-0">
                 <div class="card-header py-2">
                     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="pill" href="#club-users" role="tab" aria-controls="club-users" aria-selected="true">{% trans "Users" %}</a>
+                            <a class="nav-link active" data-toggle="pill" href="#users-table-tab" role="tab" aria-controls="club-users" aria-selected="true">{% trans "Users" %}</a>
                         </li>
 {#                        <li class="nav-item">#}
 {#                            <a class="nav-link" data-toggle="pill" href="#user-add" role="tab" aria-controls="club-user-add" aria-selected="false">{% trans "Add user" %}</a>#}
 {#                        </li>#}
+                        <li class="nav-item px-2">
+                            <button type="button" class="btn btn-warning mr-1 open-profile-modal"><i class="fa fa-user-o" aria-hidden="true"></i></button>
+                        </li>
                     </ul>
+
                 </div>
-                <div class="card-body py-2">
+                <div class="card-body py-2 px-1">
                     <div class="tab-content" id="pills-tabContent">
-                        <div class="tab-pane fade show active" id="club-users" role="tabpanel" aria-labelledby="pills-home-tab">
+                        <div class="tab-pane fade show active" id="users-table-tab" role="tabpanel" aria-labelledby="pills-home-tab">
                             {% include "users/modules/user_table.html" %}
                         </div>
                         <div class="tab-pane fade" id="user-add" role="tabpanel" aria-labelledby="pills-profile-tab">
@@ -36,7 +40,7 @@
                 </div>
             </div>
         </div>
-        <div id="user-management-block" class="col-sm-12 d-none">
+        <div id="user-management-block" class="d-none px-1">
             {% include "users/modules/management_client.html" %}
         </div>
     </div>

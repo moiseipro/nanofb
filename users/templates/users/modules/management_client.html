@@ -9,10 +9,10 @@
         <div class="card mb-0">
             <div class="card-header py-2">
                 <div class="row">
-                    <div class="col-2">
-                        <button id="back-users-table" class="btn btn-danger btn-block font-weight-bold">{% trans "Back" %}</button>
+                    <div class="col-3">
+                        <button id="back-users-table" class="btn btn-danger btn-block font-weight-bold">{% trans "Close" %}</button>
                     </div>
-                    <div class="col-2">
+                    <div class="col-3">
                         <button type="button" class="btn btn-warning btn-block toggle-edit-mode view-button">{% trans 'Edit'%}</button>
                         <button type="button" class="btn btn-warning btn-block toggle-edit-mode edit-button d-none mt-0">{% trans 'Cancel'%}</button>
                     </div>
@@ -33,7 +33,7 @@
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="profile-user" role="tabpanel" aria-labelledby="pills-profile-user-tab">
                         <div class="row">
-                            <div class="col-4">
+                            <div class="col-6">
                                 <div class="row">
                                     <div class="col-12">{% include "users/forms/edit-user-form.html" %}</div>
                                 </div>
@@ -43,16 +43,17 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-6">
                                 {% include "users/forms/edit-personal-form.html" %}
-                            </div>
-                            <div class="col-4">
-                                {% include "users/forms/edit-permission.html" %}
                             </div>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="permissions-user" role="tabpanel" aria-labelledby="pills-permissions-user-tab">
-
+                        <div class="row">
+                            <div class="col-12">
+                                {% include "users/forms/edit-permission.html" %}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

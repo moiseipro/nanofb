@@ -5,12 +5,20 @@ function generate_ajax_users_table(scroll_y = ''){
         language: {
             url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
         },
-        dom: "<'row'<'col-sm-12 col-md '><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
+        dom: "<'row'<'col-sm-12 col-md-12'f>>" +
              "<'row'<'col-sm-12'tr>>" +
              "<'row'<'col-sm-12 col-md-5'l><'col-sm-12 col-md-7'p>>",
         serverSide: true,
         processing: true,
         scrollY: scroll_y,
+        rowCallback: function( row, data ) {
+            console.log(data)
+            if(Cookies.get('user_selected_id')){
+                if ( data.id == Cookies.get('user_selected_id')) {
+                    $(row).addClass('selected');
+                }
+            }
+        },
         drawCallback: function( settings ) {
             $('#club-users-table-counter').text(settings._iRecordsDisplay)
         },
@@ -50,25 +58,25 @@ function generate_ajax_users_table(scroll_y = ''){
             // }},
             {'data': 'id', sortable: false, searchable: false, render: function (data, type, row, meta) {
                 let button_html = ``
-                button_html += `<button type="button" class="btn btn-sm btn-outline-secondary mr-1 open-profile-modal" data-id="${data}"><i class="fa fa-user-o" aria-hidden="true"></i></button>`
                 button_html += `<button type="button" class="btn btn-sm btn-outline-danger mr-1 close-access-user" data-id="${data}">X</button>`
                 return button_html;
             }},
         ],
 
     })
-    // $('#users-table').on('click', 'td', function () {
-    //     //if($(this).has('.other-exercises').length == 0){
-    //     console.log('SELECT')
-    //     if($(this).parent().is('.selected')){
-    //         users_table.row($(this).parent()).deselect()
-    //     } else {
-    //         users_table.rows().deselect()
-    //         users_table.row($(this).parent()).select()
-    //     }
-    //
-    //     //}
-    // })
+    users_table.on('click', 'td', function () {
+        console.log('TEST')
+        if($(this).has('.other-exercises').length == 0){
+            console.log('SELECT')
+            if($(this).parent().is('.selected')){
+                //users_table.row($(this).parent()).deselect()
+            } else {
+                users_table.rows('.selected').deselect()
+                users_table.row($(this).parent()).select()
+            }
+
+        }
+    })
 }
 
 async function ajax_users_action(method, data, action = '', id = '', func = '') {
