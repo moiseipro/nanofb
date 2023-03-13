@@ -31,7 +31,7 @@ async function ajax_training_action(method, data, action = '', id = '', func = '
             },
             error: function(jqXHR, textStatus, errorThrown){
                 //console.log(errorThrown)
-                swal(gettext('Training '+action), gettext('Error when action "'+action+'" the training!'), "error");
+                swal(gettext('Training'), gettext('Error when action the training!'), "error");
             },
             complete: function () {
                 $('.page-loader-wrapper').fadeOut();
