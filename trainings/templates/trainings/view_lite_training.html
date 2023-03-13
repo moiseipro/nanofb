@@ -83,6 +83,10 @@
 {% endblock %}
 
 {% block custom_scripts %}
+    <script src="{% static 'ckeditor5-36.0.0-i0g4ar8o2g2v/build/ckeditor.js' %}"></script>
+    <!-- ckeditor5 languages: -->
+    <script src="{% static 'ckeditor5-36.0.0-i0g4ar8o2g2v/build/translations/ru.js' %}"></script>
+    
     <script src="{% static 'references/team_ajax.js' %}"></script>
     <script src="{% static 'events/js/event_update.js' %}"></script>
     <script src="{% static 'references/exercise_additional_data.js' %}"></script>

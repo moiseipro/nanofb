@@ -717,3 +717,9 @@ button.custom-disabled:hover {
     background-color: #a5e1ff90 !important;
     color: #000 !important;
 }
+
+
+.carousel-item.description-item {
+    overflow-y: auto;
+}
+

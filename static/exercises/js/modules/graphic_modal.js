@@ -363,7 +363,6 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
 			return CKSource.Editor
             .create(element, config)
             .then( editor => {
-                console.log( data.description )
                 if (data !== null && data.description !== null) {
                     editor.setData(data.description);
                 }

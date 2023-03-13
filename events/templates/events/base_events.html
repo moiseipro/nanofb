@@ -184,6 +184,10 @@
     <link rel="stylesheet" href="{% static 'events/css/base_events.css' %}">
 {% endblock %}
 {% block custom_scripts %}
+    <script src="{% static 'ckeditor5-36.0.0-i0g4ar8o2g2v/build/ckeditor.js' %}"></script>
+    <!-- ckeditor5 languages: -->
+    <script src="{% static 'ckeditor5-36.0.0-i0g4ar8o2g2v/build/translations/ru.js' %}"></script>
+    
     <script src="{% static 'exercises/js/modules/graphic_modal.js' %}"></script>
     <script src="{% static 'references/exercise_additional_data.js' %}"></script>
     <script src="{% static 'references/training_additional.js' %}"></script>
