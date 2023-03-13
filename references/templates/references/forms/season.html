@@ -12,7 +12,7 @@
             <div class="modal-body">
                 {% load crispy_forms_tags %}
                 <main class="form-season">
-                    <form id="form-season" method="">
+                    <form id="form-season" method="" autocomplete="off">
                     {% csrf_token %}
                     {% crispy season_form %}
                     </form>

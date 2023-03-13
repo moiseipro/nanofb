@@ -464,9 +464,14 @@ $(window).on('load', function (){
     });
     //Открыть карточку тренировки при клике на карандаш
     $('#open-select-exercise').on('click', function () {
-        let href = $('tr.hasEvent.trainingClass.selected').find('.btn').attr('href')
+        let href = $('tr.hasEvent.selected').find('.btn').attr('href')
         console.log(href)
-        window.location.href = href;
+        if (href != null && href != undefined){
+            window.location.href = href;
+        } else {
+            swal(gettext('No event selected!'), '', "warning");
+        }
+
 
     })
     //Удаление упражнения при клике на корзину

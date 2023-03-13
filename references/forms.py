@@ -27,15 +27,20 @@ class CreateTeamForm(forms.ModelForm):
     helper.add_input(Submit('submit', _('Save'), css_class='w-100 btn btn-lg btn-primary save mt-3'))
     helper.form_method = 'POST'
 
+    name = forms.CharField(
+        required=True,
+        label=_('Team title')
+    )
+
     class Meta:
         model = UserTeam
-        fields = ['name', 'short_name', 'age_key', 'u_key', 'ref_team_status']
+        fields = ['name', 'age_key', 'u_key']
         labels = {
             'name': _('Team title'),
-            'short_name': _('Team short name'),
-            'age_key': _('Team age key'),
-            'u_key': _('Team U key'),
-            'ref_team_status': _('Team status'),
+            #'short_name': _('Team short name'),
+            'age_key': _('Team age'),
+            'u_key': _('Age U'),
+            #'ref_team_status': _('Team status'),
         }
         help_texts = {
             'name': None,
@@ -46,6 +51,11 @@ class CreateSeasonForm(forms.ModelForm):
     helper = FormHelper()
     helper.add_input(Submit('submit', _('Save'), css_class='w-100 btn btn-lg btn-primary save mt-3'))
     helper.form_method = 'POST'
+
+    short_name = forms.CharField(
+        required=False,
+        label=_('Season short name')
+    )
 
     class Meta:
         model = UserSeason

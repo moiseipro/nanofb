@@ -79,6 +79,14 @@
         <span>{% translate "My Profile" %}</span>
     </a>
 </li>
+{% if perms.exercises.change_adminfolder or perms.exercises.change_userfolder or perms.exercises.change_clubfolder %}
+<li class="{{ menu_exercises_folders }}">
+    <a class="" href="{% url 'exercises:folders' %}" class="btn">
+        <i class="fa fa-folder-open"></i>
+        <span>{% trans 'Folders' %}</span>
+    </a>
+</li>
+{% endif %}
 {% if perms.events.view_userevent or perms.events.view_clubevent %}
 <li class="{{ menu_events }}">
     <a href="{% url 'events:base_events' %}" class="btn">
@@ -99,7 +107,7 @@
         {% else %}
             <i class="fa fa-calendar"></i>
         {% endif %}
-        <span>{% trans 'Events Lite' %}</span>
+        <span>{% trans 'Events' %} +</span>
     </a>
 </li>
 {% endif %}
@@ -128,22 +136,15 @@
 </li>
 {% endif %}
 {% if perms.exercises.view_adminexercise or perms.exercises.view_userexercise or perms.exercises.view_clubexercise %}
-<li class="submenu">
-    <a href="#">
+<li class="{{ menu_exercises }}">
+    <a href="{% url 'exercises:exercises' %}">
         {% if ui_elements.sidebar__exercises %}
             {{ ui_elements.sidebar__exercises }}
         {% else %}
             <i class="fa fa-futbol-o"></i>
         {% endif %}
         <span>{% trans 'Exercises' %}</span>
-        <span class="menu-arrow"></span>
     </a>
-    <ul style="display: none;">
-        <li><a class="nav-link {{ menu_exercises }}" href="{% url 'exercises:exercises' %}">{% trans 'Exercise lists' %}</a></li>
-        {% if perms.exercises.change_adminfolder or perms.exercises.change_userfolder or perms.exercises.change_clubfolder %}
-        <li><a class="nav-link {{ menu_exercises_folders }}" href="{% url 'exercises:folders' %}">{% trans 'Folders management' %}</a></li>
-        {% endif %}
-    </ul>
 </li>
 {% endif %}
 {% if perms.players.view_userplayer or perms.players.view_clubplayer %}

@@ -6,7 +6,7 @@ $(window).on('load', function (){
         language: {
             url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
         },
-        dom: "<'row'<'col-sm-12 col-md 'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
+        dom: "<'row'<'col-sm-12 col-md 'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'>>" +
              "<'row'<'col-sm-12'tr>>" +
              "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         serverSide: true,
@@ -28,10 +28,10 @@ $(window).on('load', function (){
         columns: [
             {'data': 'id'},
             {'data': 'name'},
-            {'data': 'short_name'},
+            //{'data': 'short_name'},
             {'data': 'age_key'},
             {'data': 'u_key'},
-            {'data': 'team_status_info.name', 'name': 'team_status_info.short_name'},
+            //{'data': 'team_status_info.name', 'name': 'team_status_info.short_name'},
             {'data': 'id' , render : function ( data, type, row, meta ) {
               return type === 'display'  ?
                 '<button class="btn btn-sm btn-warning mx-1 py-0 edit" data-id="'+data+'"><i class="fa fa-pencil"></i></button>'+
@@ -46,7 +46,7 @@ $(window).on('load', function (){
         language: {
             url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
         },
-        dom: "<'row'<'col-sm-12 col-md 'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
+        dom: "<'row'<'col-sm-12 col-md 'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'>>" +
              "<'row'<'col-sm-12'tr>>" +
              "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         serverSide: true,
@@ -88,10 +88,10 @@ $(window).on('load', function (){
         $('#form-team-modal-label').text(gettext('Changing the team'))
         $('#form-team').attr('method', 'PATCH')
         $('#form-team #id_name').val(cur_edit_data['name'])
-        $('#form-team #id_short_name').val(cur_edit_data['short_name'])
+        //$('#form-team #id_short_name').val(cur_edit_data['short_name'])
         $('#form-team #id_age_key').val(cur_edit_data['age_key'])
         $('#form-team #id_u_key').val(cur_edit_data['u_key'])
-        $('#form-team #id_ref_team_status').val(cur_edit_data['team_status_info']['id']).trigger('change');
+        //$('#form-team #id_ref_team_status').val(cur_edit_data['team_status_info']['id']).trigger('change');
         $('#form-team-modal').modal('show')
     })
     // Удаление команды

@@ -114,7 +114,7 @@ class AbstractTeam(AbstractReference):
         max_length=10,
         verbose_name=_('U key'),
         help_text=_('U key no more than 10 characters'),
-        default=_('Empty')
+        default=_('U')
     )
     ref_team_status = models.ForeignKey(
         TeamStatus,

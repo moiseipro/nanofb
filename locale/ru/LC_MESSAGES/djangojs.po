@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-13 15:06+0300\n"
+"POT-Creation-Date: 2023-03-13 14:22+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,29 +45,25 @@ msgstr "Новый пароль был успешно установлен!"
 
 #: .\clubs\static\clubs\js\club_ajax.js:18
 #: .\clubs\static\clubs\js\club_ajax.js:24
-#: .\trainings\static\trainings\js\action_training.js:19
-#: .\trainings\static\trainings\js\action_training.js:21
-#: .\trainings\static\trainings\js\action_training.js:23
-#: .\trainings\static\trainings\js\action_training.js:25
-#: .\trainings\static\trainings\js\action_training.js:29
 #: .\trainings\static\trainings\js\action_training.js:34
-#: .\trainings\static\trainings\js\action_training.js:63
 #: .\trainings\static\trainings\js\view_protocol.js:25
 msgid "Training "
 msgstr "Тренировка "
 
 #: .\clubs\static\clubs\js\club_ajax.js:18
+#: .\trainings\static\trainings\js\action_lite_training.js:19
 #: .\trainings\static\trainings\js\action_training.js:19
 msgid "The limit of exercises for the selected group has been reached"
 msgstr "Лимит упражнений для выбранной группы достигнут"
 
 #: .\clubs\static\clubs\js\club_ajax.js:24
 #: .\clubs\static\clubs\js\users_list.js:90
+#: .\events\static\events\js\event_lite_update.js:35
 #: .\events\static\events\js\event_update.js:35
 #: .\references\static\references\team_ajax.js:22
 #: .\trainings\static\trainings\js\action_training.js:34
-#: .\trainings\static\trainings\js\action_training.js:63
 #: .\trainings\static\trainings\js\view_protocol.js:25
+#: .\users\static\users\modules\ajax_user_table.js:109
 #: .\video\static\video\js\video_card.js:104
 msgid "Error when action \""
 msgstr "Ошибка при выполнении \""
@@ -79,6 +75,8 @@ msgstr "Архив"
 #: .\clubs\static\clubs\js\users_list.js:80
 #: .\clubs\static\clubs\js\users_list.js:88
 #: .\clubs\static\clubs\js\users_list.js:90
+#: .\users\static\users\modules\ajax_user_table.js:107
+#: .\users\static\users\modules\ajax_user_table.js:109
 msgid "Users "
 msgstr "Пользователи "
 
@@ -86,7 +84,13 @@ msgstr "Пользователи "
 msgid "The limit of users for the club"
 msgstr "Лимит пользователей для клуба"
 
+#: .\clubs\static\clubs\js\users_list.js:82
+#: .\users\static\users\modules\ajax_user_table.js:101
+msgid "Club user registration"
+msgstr "Регистрация пользователя клуба"
+
 #: .\clubs\static\clubs\js\users_list.js:88
+#: .\users\static\users\modules\ajax_user_table.js:107
 msgid "The limit of users for the club has been reached!"
 msgstr "Лимит пользователей для клуба достигнут!"
 
@@ -118,89 +122,10 @@ msgstr ", в "
 msgid "Hide Search Matches"
 msgstr "Скрыть поисковые совпадения"
 
-#: .\events\static\events\js\base_events.js:90
-msgid "Warning!"
-msgstr "Предупреждение!"
-
-#: .\events\static\events\js\base_events.js:90
-msgid "Choose a team and a season!"
-msgstr "Выберите команду и сезон!"
-
-#: .\events\static\events\js\base_events.js:298
-#: .\events\static\events\js\base_events.js:314
-msgid "Go to the created event"
-msgstr "Перейти к созданному событию"
-
-#: .\events\static\events\js\base_events.js:676
-msgid "Save changes to the microcycle?"
-msgstr "Сохранить изменения микроцикла?"
-
-#: .\events\static\events\js\base_events.js:694
-msgid "The action with the microcycle was successfully completed!"
-msgstr "было успешно завершено!"
-
-#: .\events\static\events\js\base_events.js:701
-msgid "Error when updating the microcycle. "
-msgstr "Ошибка обновления микроцикла. "
-
-#: .\events\static\events\js\base_events.js:876
-#: .\events\static\events\js\base_events.js:1137
-#: .\events\static\events\js\base_events.js:1338
-#: .\trainings\static\trainings\js\view_training.js:518
-msgid "Training"
-msgstr "Тренировка"
-
-#: .\events\static\events\js\base_events.js:890
-#: .\events\static\events\js\base_events.js:1151
-#: .\events\static\events\js\base_events.js:1340
-msgid "Match"
-msgstr "Матч"
-
-#: .\events\static\events\js\base_events.js:927
-#: .\events\static\events\js\base_events.js:971
-#: .\events\static\events\js\base_events.js:1188
-#: .\events\static\events\js\base_events.js:1209
-msgid "Event save"
-msgstr "Сохранить событие"
-
-#: .\events\static\events\js\base_events.js:927
-#: .\events\static\events\js\base_events.js:971
-#: .\events\static\events\js\base_events.js:1188
-#: .\events\static\events\js\base_events.js:1209
-msgid "Error when action the event!"
-msgstr "Ошибка при выполнении события!"
-
-#: .\events\static\events\js\base_events.js:940
-msgid "Today"
-msgstr "Сегодня"
-
-#: .\events\static\events\js\base_events.js:941
-msgid "Failed to initialize"
-msgstr "Не удалось инициализировать"
-
-#: .\events\static\events\js\base_events.js:942
-msgid "No data was found to show"
-msgstr "Не было найдено данных для отображения"
-
-#: .\events\static\events\js\base_events.js:1342
-msgid "---"
-msgstr "---"
-
-#: .\events\static\events\js\base_events.js:1460
-#: .\events\static\events\js\base_events.js:1497
-msgid "Edit"
-msgstr "Редактировать"
-
-#: .\events\static\events\js\base_events.js:1461
-#: .\events\static\events\js\base_events.js:1498
-msgid "Delete"
-msgstr "Удалить"
-
-#: .\events\static\events\js\base_events.js:1463
-#: .\events\static\events\js\base_events.js:1500
-msgid "Close"
-msgstr "Закрыть"
-
+#: .\events\static\events\js\event_lite_update.js:20
+#: .\events\static\events\js\event_lite_update.js:22
+#: .\events\static\events\js\event_lite_update.js:27
+#: .\events\static\events\js\event_lite_update.js:35
 #: .\events\static\events\js\event_update.js:20
 #: .\events\static\events\js\event_update.js:22
 #: .\events\static\events\js\event_update.js:27
@@ -208,17 +133,117 @@ msgstr "Закрыть"
 msgid "Event "
 msgstr "Событие "
 
+#: .\events\static\events\js\event_lite_update.js:20
 #: .\events\static\events\js\event_update.js:20
 msgid "You have created the maximum number of events of this type for one day!"
 msgstr "Вы создали максимальное количество событий этого типа на один день!"
 
+#: .\events\static\events\js\event_lite_update.js:22
 #: .\events\static\events\js\event_update.js:22
 msgid "The training was successfully copied!"
 msgstr "Тренировка была успешно скопирована!"
 
+#: .\events\static\events\js\event_lite_update.js:27
 #: .\events\static\events\js\event_update.js:27
 msgid "Event action \""
 msgstr "Действие с событием \""
+
+#: .\events\static\events\js\events.js:84
+msgid "Warning!"
+msgstr "Предупреждение!"
+
+#: .\events\static\events\js\events.js:84
+msgid "Choose a team and a season!"
+msgstr "Выберите команду и сезон!"
+
+#: .\events\static\events\js\events.js:312
+#: .\events\static\events\js\events.js:331
+msgid "Go to the created event"
+msgstr "Перейти к созданному событию"
+
+#: .\events\static\events\js\events.js:472
+msgid "No event selected!"
+msgstr "Событие не выбрано!"
+
+#: .\events\static\events\js\events.js:757
+msgid "Copy"
+msgstr "Копировать"
+
+#: .\events\static\events\js\events.js:758
+#: .\events\static\events\js\events.js:795
+msgid "Edit"
+msgstr "Редактировать"
+
+#: .\events\static\events\js\events.js:759
+#: .\events\static\events\js\events.js:796
+msgid "Delete"
+msgstr "Удалить"
+
+#: .\events\static\events\js\events.js:761
+#: .\events\static\events\js\events.js:798
+msgid "Close"
+msgstr "Закрыть"
+
+#: .\events\static\events\js\generate_table.js:128
+#: .\trainings\static\trainings\js\action_lite_training.js:19
+#: .\trainings\static\trainings\js\action_lite_training.js:21
+#: .\trainings\static\trainings\js\action_lite_training.js:23
+#: .\trainings\static\trainings\js\action_lite_training.js:25
+#: .\trainings\static\trainings\js\action_lite_training.js:29
+#: .\trainings\static\trainings\js\action_lite_training.js:34
+#: .\trainings\static\trainings\js\action_lite_training.js:63
+#: .\trainings\static\trainings\js\action_lite_training.js:92
+#: .\trainings\static\trainings\js\action_training.js:19
+#: .\trainings\static\trainings\js\action_training.js:21
+#: .\trainings\static\trainings\js\action_training.js:23
+#: .\trainings\static\trainings\js\action_training.js:25
+#: .\trainings\static\trainings\js\action_training.js:29
+#: .\trainings\static\trainings\js\action_training.js:63
+#: .\trainings\static\trainings\js\action_training.js:92
+#: .\trainings\static\trainings\js\view_training.js:308
+msgid "Training"
+msgstr "Тренировка"
+
+#: .\events\static\events\js\generate_table.js:142
+msgid "Match"
+msgstr "Матч"
+
+#: .\events\static\events\js\generate_table.js:179
+#: .\events\static\events\js\generate_table.js:235
+msgid "Event save"
+msgstr "Сохранить событие"
+
+#: .\events\static\events\js\generate_table.js:179
+#: .\events\static\events\js\generate_table.js:235
+msgid "Error when action the event!"
+msgstr "Ошибка при выполнении события!"
+
+#: .\events\static\events\js\generate_table.js:193
+msgid "Today"
+msgstr "Сегодня"
+
+#: .\events\static\events\js\generate_table.js:194
+msgid "Failed to initialize"
+msgstr "Не удалось инициализировать"
+
+#: .\events\static\events\js\generate_table.js:195
+msgid "No data was found to show"
+msgstr "Не было найдено данных для отображения"
+
+#: .\events\static\events\js\microcycle_lite_update.js:3
+#: .\events\static\events\js\microcycle_update.js:3
+msgid "Save changes to the microcycle?"
+msgstr "Сохранить изменения микроцикла?"
+
+#: .\events\static\events\js\microcycle_lite_update.js:21
+#: .\events\static\events\js\microcycle_update.js:21
+msgid "The action with the microcycle was successfully completed!"
+msgstr "было успешно завершено!"
+
+#: .\events\static\events\js\microcycle_lite_update.js:28
+#: .\events\static\events\js\microcycle_update.js:28
+msgid "Error when updating the microcycle. "
+msgstr "Ошибка обновления микроцикла. "
 
 #: .\exercises\static\exercises\js\base_exercises_folders.js:324
 msgid ""
@@ -368,23 +393,57 @@ msgstr "Ошибка при действии с сезоном!"
 msgid "Team "
 msgstr "Команда "
 
+#: .\trainings\static\trainings\js\action_lite_training.js:21
 #: .\trainings\static\trainings\js\action_training.js:21
 msgid "There cannot be two identical exercises in the same group."
 msgstr "В одной группе не может быть двух одинаковых упражнений."
 
+#: .\trainings\static\trainings\js\action_lite_training.js:23
 #: .\trainings\static\trainings\js\action_training.js:23
 msgid ""
 "There are players in the protocol. Remove the players before unloading the "
 "entire team."
 msgstr "В протоколе есть игроки. Удалите игроков перед выгрузкой всей команды."
 
+#: .\trainings\static\trainings\js\action_lite_training.js:25
 #: .\trainings\static\trainings\js\action_training.js:25
 msgid "The limit of players for one protocol has been reached."
 msgstr "Лимит игроков для данного протокола достигнут."
 
+#: .\trainings\static\trainings\js\action_lite_training.js:29
 #: .\trainings\static\trainings\js\action_training.js:29
-msgid "Training action \""
-msgstr "Действие с тренировкой \""
+msgid "Training action successfully!"
+msgstr "Действие с тренировкой успешно!"
+
+#: .\trainings\static\trainings\js\action_lite_training.js:34
+msgid "Error when action the training!"
+msgstr "Ошибка при выполнении действия с тренировкой!"
+
+#: .\trainings\static\trainings\js\action_lite_training.js:63
+#: .\trainings\static\trainings\js\action_training.js:63
+msgid "Error when action the exercise!"
+msgstr "Ошибка при выполнении действия с упражнением!"
+
+#: .\trainings\static\trainings\js\action_lite_training.js:92
+#: .\trainings\static\trainings\js\action_training.js:92
+msgid "Exercise data action error in training!"
+msgstr "Ошибка действия с данными упражнения в тренировке!"
+
+#: .\trainings\static\trainings\js\training.js:27
+msgid "Delete this training?"
+msgstr "Удалить данную тренировку?"
+
+#: .\trainings\static\trainings\js\training.js:89
+msgid "Remove an exercise from a training?"
+msgstr "Удалить упражнение из тренировки?"
+
+#: .\trainings\static\trainings\js\training.js:353
+msgid "Group A"
+msgstr "Группа A"
+
+#: .\trainings\static\trainings\js\training.js:376
+msgid "Group B"
+msgstr "Группа B"
 
 #: .\trainings\static\trainings\js\training_card.js:36
 msgid "Adding additional conditions to the exercise."
@@ -402,87 +461,73 @@ msgstr "Выгрузить один"
 msgid "When uploading data, the existing ones will be reset."
 msgstr "При загрузке данных существующие будут сброшены."
 
-#: .\trainings\static\trainings\js\training_card.js:106
+#: .\trainings\static\trainings\js\training_card.js:93
 msgid "Delete all additional data from the exercise?"
 msgstr "Удалите все дополнительные данные из упражнения?"
 
-#: .\trainings\static\trainings\js\training_card.js:272
-#: .\trainings\static\trainings\js\training_card.js:283
+#: .\trainings\static\trainings\js\training_card.js:241
 msgid "Title"
 msgstr "Название"
 
-#: .\trainings\static\trainings\js\training_card.js:275
-#: .\trainings\static\trainings\js\training_card.js:286
+#: .\trainings\static\trainings\js\training_card.js:244
 msgid "Note"
 msgstr "Заметка"
 
-#: .\trainings\static\trainings\js\training_card.js:311
+#: .\trainings\static\trainings\js\training_card.js:270
 msgid "Goal"
 msgstr "Цель"
 
-#: .\trainings\static\trainings\js\view_training.js:22
-msgid "Delete this training?"
-msgstr "Удалить данную тренировку?"
-
-#: .\trainings\static\trainings\js\view_training.js:84
-msgid "Remove an exercise from a training?"
-msgstr "Удалить упражнение из тренировки?"
-
-#: .\trainings\static\trainings\js\view_training.js:107
+#: .\trainings\static\trainings\js\view_training.js:9
 msgid "Add all players from the team of this training session?"
 msgstr "Добавьте всех игроков из команды этой тренировки?"
 
-#: .\trainings\static\trainings\js\view_training.js:139
+#: .\trainings\static\trainings\js\view_training.js:41
 msgid "Add selected players?"
 msgstr "Добавить выбранных игроков?"
 
-#: .\trainings\static\trainings\js\view_training.js:203
+#: .\trainings\static\trainings\js\view_training.js:105
 msgid "Remove all players from the training protocol?"
 msgstr "Удалить всех игроков из тренировочного протокола?"
 
-#: .\trainings\static\trainings\js\view_training.js:224
+#: .\trainings\static\trainings\js\view_training.js:126
 msgid "Remove a player \""
 msgstr "Удалить игрока \""
 
-#: .\trainings\static\trainings\js\view_training.js:376
+#: .\trainings\static\trainings\js\view_training.js:195
 msgid "Not selected"
 msgstr "Не выбрано"
 
-#: .\trainings\static\trainings\js\view_training.js:466
+#: .\trainings\static\trainings\js\view_training.js:256
 msgid "Full name"
 msgstr "Полное имя"
 
-#: .\trainings\static\trainings\js\view_training.js:479
+#: .\trainings\static\trainings\js\view_training.js:269
 msgid "Remove all players"
 msgstr "Удалить всех игроков"
 
-#: .\trainings\static\trainings\js\view_training.js:488
+#: .\trainings\static\trainings\js\view_training.js:278
 msgid "Group"
 msgstr "Группа"
 
-#: .\trainings\static\trainings\js\view_training.js:488
+#: .\trainings\static\trainings\js\view_training.js:278
 msgid "(Exercises)"
 msgstr "(Упражнения)"
 
-#: .\trainings\static\trainings\js\view_training.js:548
+#: .\trainings\static\trainings\js\view_training.js:338
 msgid "Delete player"
 msgstr "Удалить игрока"
 
-#: .\trainings\static\trainings\js\view_training.js:610
+#: .\trainings\static\trainings\js\view_training.js:400
 msgid "Save training"
 msgstr "Сохранить тренировку"
 
-#: .\trainings\static\trainings\js\view_training.js:610
+#: .\trainings\static\trainings\js\view_training.js:400
 msgid "There are unfilled players! Fill in the players highlighted in red."
 msgstr "Есть незаполненные игроки! Заполните игроков, выделенных красным."
 
-#: .\trainings\static\trainings\js\view_training.js:745
-msgid "Group A"
-msgstr "Группа A"
-
-#: .\trainings\static\trainings\js\view_training.js:768
-msgid "Group B"
-msgstr "Группа B"
+#: .\users\static\users\modules\ajax_user_table.js:99
+msgid "User"
+msgstr "Пользователь"
 
 #: .\users\static\users\profile_ajax.js:27
 msgid "Profile"
@@ -505,6 +550,12 @@ msgstr "Удалить выбранное(ые) видео?"
 #: .\video\static\video\js\video_card.js:127
 msgid "An error occurred when deleting the video. "
 msgstr "Произошла ошибка при удалении видео. "
+
+#~ msgid "---"
+#~ msgstr "---"
+
+#~ msgid "Training action \""
+#~ msgstr "Действие с тренировкой \""
 
 #, javascript-format
 #~ msgid ""

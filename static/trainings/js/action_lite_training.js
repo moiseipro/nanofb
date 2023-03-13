@@ -16,22 +16,22 @@ async function ajax_training_action(method, data, action = '', id = '', func = '
             success: function(data){
                 console.log(data)
                 if(data.status == 'exercise_limit'){
-                    swal(gettext('Training '+action), gettext('The limit of exercises for the selected group has been reached'), "error");
+                    swal(gettext('Training'), gettext('The limit of exercises for the selected group has been reached'), "error");
                 } else if(data.status == 'exercise_repeated'){
-                    swal(gettext('Training '+action), gettext('There cannot be two identical exercises in the same group.'), "error");
+                    swal(gettext('Training'), gettext('There cannot be two identical exercises in the same group.'), "error");
                 } else if(data.status == 'protocol_not_empty'){
-                    swal(gettext('Training '+action), gettext('There are players in the protocol. Remove the players before unloading the entire team.'), "error");
+                    swal(gettext('Training'), gettext('There are players in the protocol. Remove the players before unloading the entire team.'), "error");
                 } else if(data.status == 'protocol_limit'){
-                    swal(gettext('Training '+action), gettext('The limit of players for one protocol has been reached.'), "error");
+                    swal(gettext('Training'), gettext('The limit of players for one protocol has been reached.'), "error");
                 } else if(data.status == 'exercise_got' || data.status == 'sort_exercise' || data.status == 'protocol_got' || action == 'favourites'){
 
                 } else {
-                    if(method != 'GET') swal(gettext('Training '+action), gettext('Training action "'+action+'" successfully!'), "success");
+                    if(method != 'GET') swal(gettext('Training'), gettext('Training action successfully!'), "success");
                 }
             },
             error: function(jqXHR, textStatus, errorThrown){
                 //console.log(errorThrown)
-                swal(gettext('Training '+action), gettext('Error when action "'+action+'" the training!'), "error");
+                swal(gettext('Training'), gettext('Error when action the training!'), "error");
             },
             complete: function () {
                 $('.page-loader-wrapper').fadeOut();
@@ -60,7 +60,7 @@ async function ajax_training_exercise_action(method, data, action = '', id = '',
             },
             error: function(jqXHR, textStatus){
                 //console.log(jqXHR)
-                swal(gettext('Training '+action), gettext('Error when action "'+action+'" the exercise!'), "error");
+                swal(gettext('Training'), gettext('Error when action the exercise!'), "error");
             },
             complete: function () {
                 $('.page-loader-wrapper').fadeOut();
@@ -89,7 +89,7 @@ async function ajax_training_exercise_data_action(method, data, action = '', id 
             },
             error: function(jqXHR, textStatus){
                 //console.log(jqXHR)
-                swal(gettext('Training '+action), gettext('Error when action "'+action+'" the exercise!'), "error");
+                swal(gettext('Training'), gettext('Exercise data action error in training!'), "error");
             },
             complete: function () {
                 $('.page-loader-wrapper').fadeOut();

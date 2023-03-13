@@ -100,6 +100,7 @@
                         </div>
                     </div>
                     <div id="filters-row" class="row pt-2 d-none">
+                        {% if perms.events.add_clubmicrocycles or perms.events.add_usermicrocycles %}
                         <div class="col">
                             <div class="row">
                                 <div class="col-4 pl-0 pr-1">
@@ -136,7 +137,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        {% endif %}
                     </div>
                     {% include 'trainings/training_card.html' %}
                     <div id="events-content" class="row border-top mt-2">
