@@ -229,6 +229,7 @@
     </ul>
 </li>
 {% endif %}
+{% if user.is_superuser %}
 <li class="menu-title">
     <span>{% trans 'Education' %}</span>
 </li>
@@ -252,3 +253,4 @@
         <span>{% trans 'Courses' %}</span>
     </a>
 </li>
+{% endif %}
