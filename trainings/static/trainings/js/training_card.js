@@ -272,6 +272,9 @@ function load_all_exercises_training(training_id = null, group = null) {
             </div>
             `
         html_scheme += `<div class="row training-info">`
+
+        let player_count = 0
+        let player_goalkeeper = 0
         if (data.exercises_info.length > 0) {
             let exercises = data.exercises_info
             for (let exercise of exercises) {
@@ -344,23 +347,22 @@ function load_all_exercises_training(training_id = null, group = null) {
                     </div>
                 </div>
                 `
+
+                if ('protocol_info' in data && data.protocol_info.length > 0) {
+                    let players = data.protocol_info
+                    console.log(players)
+                    for (let player of players) {
+                        if (exercise.group == group && player.training_exercise_check.indexOf(exercise.id) != -1 ){
+                            player_count++
+                            if(player.is_goalkeeper) player_goalkeeper++;
+                        }
+                    }
+                }
             }
         }
         html_scheme += `</div>`
 
-        let player_count = 0
-        let player_goalkeeper = 0
-        if ('protocol_info' in data && data.protocol_info.length > 0) {
-            let players = data.protocol_info
-            console.log(players)
-            for (let player of players) {
-                player_count++
-                if(player.is_goalkeeper) player_goalkeeper++;
-            }
-        }
-
-
-        $('#training-main-data .all-exercise-time').text(' (A) '+exs_time[0]+'`' + ' (B) ' + exs_time[1]+'`')
+        $('#training-main-data .all-exercise-time').text(exs_time[group-1]+'`')
         $('#training-main-data .training-players').text(player_count)
         $('#training-main-data .training-goalkeepers').text(player_goalkeeper)
 
@@ -381,9 +383,9 @@ function load_exercises_training_data(training_exercise_id = null) {
         let video_data = null
         $('#block-training-info').html('')
 
-        $('.training-exercise-name div').html((get_cur_lang() in exercise.exercise_data.title) ? exercise.exercise_data.title[get_cur_lang()] : Object.values(exercise.exercise_data.title)[0])
+        $('.training-exercise-name .exercise-name').html((get_cur_lang() in exercise.exercise_data.title) ? exercise.exercise_data.title[get_cur_lang()] : Object.values(exercise.exercise_data.title)[0])
 
-        $('.training-exercise-description .exercise-time').html(`
+        $('.training-exercise-name .exercise-time').html(`
             <div class="w-100 ${exercise.duration==0 ? 'font-weight-bold text-danger':''}">${exercise.duration}</div>
         `)
         //$('#training-exercise-description .exercise-description').val(exercise.description)

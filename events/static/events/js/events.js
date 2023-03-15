@@ -22,6 +22,7 @@ var microcycles_table, events_table
 var cur_edit_data
 
 var calendar_active = true;
+var card_active = false
 
 var newEvent = [
     {
@@ -263,13 +264,14 @@ $(window).on('load', function (){
     })
     //Активация редактирования микроцикла
     $('#microcycles').on('click', '.edit', function() {
+        clear_microcycle_form()
         cur_edit_data = microcycles_table.row($(this).closest('tr')).data()
-        //console.log('EDIT : ', cur_edit_data);
+        console.log('EDIT : ', cur_edit_data);
         $('#microcycles-form').attr('method', 'PATCH')
         $('#microcycles-form').removeClass('d-none')
         $('#microcycles-form #id_name').val(cur_edit_data['name'])
-        $('#microcycles-form #datetimepicker-with-microcycle').val(cur_edit_data['date_with'])
-        $('#microcycles-form #datetimepicker-by-microcycle').val(cur_edit_data['date_by'])
+        $('#microcycles-form #datetimepicker-with-microcycle').datetimepicker('date', moment(cur_edit_data['date_with'], 'DD/MM/YYYY'))
+        $('#microcycles-form #datetimepicker-by-microcycle').datetimepicker('date', moment(cur_edit_data['date_by'], 'DD/MM/YYYY'))
     })
     //Удаление микроцикла
     $('#microcycles').on('click', '.delete', function() {
@@ -355,17 +357,14 @@ $(window).on('load', function (){
         generateData()
     })
     $('#toggle-event-card').on('click', function () {
-        if ($(this).hasClass('active')) calendar_active = true;
-        else calendar_active = false;
-        $(this).toggleClass('active', !calendar_active)
+        if ($(this).hasClass('active')) card_active = true;
+        else card_active = false;
+        $(this).toggleClass('active', !card_active)
 
-        $(this).children('i').toggleClass('fa-arrow-up', true).toggleClass('fa-arrow-down', false)
-        $('#toggle-calendar').toggleClass('active', false)
-
-        $('#event_calendar').toggleClass('d-none', !calendar_active)
-        $('.move_to_today').toggleClass('isMonth', !calendar_active)
-        $('#filters-row').toggleClass('d-none', !calendar_active)
-        $('#rescalenda-control-buttons').toggleClass('d-none', !calendar_active)
+        $('#event_calendar').toggleClass('d-none', !calendar_active || !card_active)
+        $('.move_to_today').toggleClass('isMonth', !calendar_active || !card_active)
+        $('#filters-row').toggleClass('d-none', calendar_active || !card_active)
+        $('#rescalenda-control-buttons').toggleClass('d-none', !calendar_active || !card_active)
         let event_id = $('.hasEvent.trainingClass.selected').attr('data-value')
         if (event_id){
             Cookies.set('event_id', event_id, { expires: 1 })
@@ -380,7 +379,7 @@ $(window).on('load', function (){
 
         // set_month_or_date_button()
         // resize_events_table()
-        // resize_trainings_block()
+        resize_trainings_block()
         //if(!$('#events-content').hasClass('d-none')) generateData()
     })
 
@@ -566,8 +565,8 @@ function clear_event_form(){
 function clear_microcycle_form(){
     let nowdate = moment().format('DD/MM/YYYY')
     $('#microcycles-form #id_name').val('')
-    $('#microcycles-form #datetimepicker-with-microcycle').datetimepicker('clear')
-    $('#microcycles-form #datetimepicker-by-microcycle').datetimepicker('clear')
+    $('#microcycles-form #datetimepicker-with-microcycle').datetimepicker('date', null)
+    $('#microcycles-form #datetimepicker-by-microcycle').datetimepicker('date', null)
     $('#datetimepicker-with-microcycle').datetimepicker('maxDate', false);
     $('#datetimepicker-by-microcycle').datetimepicker('minDate', false);
 }
@@ -748,7 +747,10 @@ $(function() {
                             $('#form-event-edit #timepicker-event').val(cur_edit_data['time'])
                         })
                     } else if(key === 'copy'){
-                        $('.hasEvent[data-value="'+event_id+'"] td:first').click()
+
+                        if (!$('.hasEvent[data-value="'+event_id+'"]').hasClass('selected')){
+                            $('.hasEvent[data-value="'+event_id+'"] td:first').click()
+                        }
                         $('#event-copy-modal-button').click()
                     }
                 },
@@ -785,8 +787,8 @@ $(function() {
                             $('#microcycles-form').attr('method', 'PATCH')
                             $('#microcycles-form').removeClass('d-none')
                             $('#microcycles-form #id_name').val(cur_edit_data['name'])
-                            $('#microcycles-form #datetimepicker-with-microcycle').val(cur_edit_data['date_with'])
-                            $('#microcycles-form #datetimepicker-by-microcycle').val(cur_edit_data['date_by'])
+                            $('#microcycles-form #datetimepicker-with-microcycle').val(cur_edit_data['date_with']).change()
+                            $('#microcycles-form #datetimepicker-by-microcycle').val(cur_edit_data['date_by']).change()
                         })
                     }
                 },

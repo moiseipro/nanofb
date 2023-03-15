@@ -116,19 +116,20 @@
             </div>
         </div>
         <div class="row exercise-data-row font-weight-bold training-exercise-title training-exercise-name" style="cursor: default">
-            <div class="col pt-1 px-0 text-center">{% trans "Title" %}</div>
-        </div>
-        <div class="row exercise-data-row font-weight-bold training-exercise-title training-exercise-description" data-toggle="collapse" data-target="#collapse-exercise-description" style="cursor: pointer">
-            <div class="col text-center pt-1 px-0">{% trans "Description" %}</div>
+            <div class="col pt-1 px-0 text-center exercise-name">{% trans "Title" %}</div>
             <div class="col-1 text-center pt-1 px-0 exercise-time">
 
             </div>
         </div>
-        <div id="collapse-exercise-description" class="row exercise-data-row collapse show">
-            <div id="training-exercise-description" class="col-12 p-0">
-                <div id="descriptionExerciseView" class="ckeditor"></div>
-            </div>
-        </div>
+{#        <div class="row exercise-data-row font-weight-bold training-exercise-title training-exercise-description" data-toggle="collapse" data-target="#collapse-exercise-description" style="cursor: pointer">#}
+{#            <div class="col text-center pt-1 px-0">{% trans "Description" %}</div>#}
+
+{#        </div>#}
+{#        <div id="collapse-exercise-description" class="row exercise-data-row collapse show">#}
+{#            <div id="training-exercise-description" class="col-12 p-0">#}
+{#                <div id="descriptionExerciseView" class="ckeditor"></div>#}
+{#            </div>#}
+{#        </div>#}
         <div class="row exercise-data-row font-weight-bold training-exercise-title" style="cursor: pointer">
             <div class="col text-center pt-1 px-0" data-toggle="collapse" data-target="#collapse-exercise-additional">{% trans "Additional Conditions" %}</div>
             <div class="col-1 text-center px-0 edit-button d-none">
