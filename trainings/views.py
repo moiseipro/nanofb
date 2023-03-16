@@ -338,7 +338,7 @@ class LiteTrainingViewSet(viewsets.ModelViewSet):
         return serial
 
     def get_queryset(self):
-        print(self.request.session['team'])
+        print(self.request.data)
         if self.request.user.club_id is not None:
             season = ClubSeason.objects.filter(id=self.request.session['season'])
         else:

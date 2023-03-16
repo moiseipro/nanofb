@@ -1,3 +1,5 @@
+var players_count, goalkeepers_count;
+
 $(window).on('load', function (){
     //Переключатель по группам
     $('#training-content').on('click', '.group-filter-card', function () {
@@ -143,6 +145,16 @@ $(window).on('load', function (){
     $('#training-video-modal .copy-link').on('click', function () {
         let url = $('#training-video-modal input[name="video_href"]').val()
         navigator.clipboard.writeText(url);
+    })
+
+    //Изменение количества игроков для тренировок lite
+    $('#training-main-data .training-players input').on('change', function () {
+        let group = $(this).attr('group')
+        players_count[group-1] = $(this).val()
+    })
+    $('#training-main-data .training-goalkeepers input').on('change', function () {
+        let group = $(this).attr('group')
+        goalkeepers_count[group-1] = $(this).val()
     })
 })
 
@@ -357,14 +369,25 @@ function load_all_exercises_training(training_id = null, group = null) {
                             if(player.is_goalkeeper) player_goalkeeper++;
                         }
                     }
+                } else {
+                    if('players_count' in data){
+                        let players = data.players_count
+                        players_count = players ? players : {0: '0', 1: '0'};
+                        player_count = players_count[group-1]
+                    }
+                    if('goalkeepers_count' in data){
+                        let players = data.goalkeepers_count
+                        goalkeepers_count = players ? players : {0: '0', 1: '0'};
+                        player_goalkeeper = goalkeepers_count[group-1]
+                    }
                 }
             }
         }
         html_scheme += `</div>`
 
         $('#training-main-data .all-exercise-time').text(exs_time[group-1]+'`')
-        $('#training-main-data .training-players').text(player_count)
-        $('#training-main-data .training-goalkeepers').text(player_goalkeeper)
+        $('#training-main-data .training-players input').attr('group', group).val(player_count)
+        $('#training-main-data .training-goalkeepers input').attr('group', group).val(player_goalkeeper)
 
 
         $('#training-content #block-training-info').html(html_scheme)

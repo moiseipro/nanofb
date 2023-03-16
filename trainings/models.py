@@ -159,6 +159,18 @@ class LiteTraining(AbstractTraining):
         through="LiteTrainingExercise",
         through_fields=('training_id', 'exercise_id'),
     )
+    players_count = models.JSONField(
+        verbose_name=_('players count'),
+        help_text=_('Number of players manual entry'),
+        blank=True,
+        null=True
+    )
+    goalkeepers_count = models.JSONField(
+        verbose_name=_('goalkeepers count'),
+        help_text=_('Number of goalkeepers manual entry'),
+        blank=True,
+        null=True
+    )
 
     class Meta(AbstractTraining.Meta):
         pass

@@ -262,4 +262,4 @@ class LiteTrainingSerializer(TrainingSerializer):
     class Meta(TrainingSerializer.Meta):
         model = LiteTraining
 
-    Meta.fields += ('exercises_info', 'team_info')
+    Meta.fields += ('exercises_info', 'team_info', 'players_count', 'goalkeepers_count')
