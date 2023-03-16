@@ -1041,7 +1041,16 @@ def POST_copy_exs(request, cur_user, cur_team):
                         new_exs = UserExercise(user=cur_user)
                     for key in c_exs.values()[0]:
                         if key != "id" and key != "date_creation":
-                            setattr(new_exs, key, c_exs.values()[0][key])
+                            if key == "scheme_1" or key == "scheme_2":
+                                new_scheme_id = ""
+                                scheme_id = c_exs.values()[0][key]
+                                response = requests.post(f'{NEW_SCHEME_DRAWER_URL}/api/canvas-draw/v1/canvas/duplicate', json={'id': scheme_id})
+                                r_json = response.json()
+                                if 'id' in r_json:
+                                    new_scheme_id = r_json['id']
+                                setattr(new_exs, key, new_scheme_id)
+                            else:
+                                setattr(new_exs, key, c_exs.values()[0][key])
                     new_exs.folder = found_folder[0]
                     try:
                         new_exs.save()
