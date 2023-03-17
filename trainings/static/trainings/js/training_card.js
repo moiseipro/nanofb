@@ -287,6 +287,8 @@ function load_all_exercises_training(training_id = null, group = null) {
 
         let player_count = 0
         let player_goalkeeper = 0
+        let player_recount = []
+        let goalkeeper_recount = []
         if (data.exercises_info.length > 0) {
             let exercises = data.exercises_info
             for (let exercise of exercises) {
@@ -365,10 +367,21 @@ function load_all_exercises_training(training_id = null, group = null) {
                     console.log(players)
                     for (let player of players) {
                         if (exercise.group == group && player.training_exercise_check.indexOf(exercise.id) != -1 ){
-                            player_count++
-                            if(player.is_goalkeeper) player_goalkeeper++;
+
+                            if (player_recount.indexOf(player.id) == -1){
+                                player_recount.push(player.id)
+                                player_count++
+                            }
+
+                            if(player.is_goalkeeper){
+                                if (goalkeeper_recount.indexOf(player.id) == -1){
+                                    goalkeeper_recount.push(player.id)
+                                    player_goalkeeper++;
+                                }
+                            }
                         }
                     }
+                    console.log(player_recount)
                 } else {
                     if('players_count' in data){
                         let players = data.players_count

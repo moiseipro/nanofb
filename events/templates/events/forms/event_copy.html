@@ -1,7 +1,7 @@
 {% load i18n %}
 
 <div class="modal fade" id="form-event-copy-modal" tabindex="-1" role="dialog" aria-labelledby="form-event-copy-modal-label" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 550px;">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="form-event-copy-modal-label">{% trans 'Copying the selected event' %}</h5>
@@ -11,13 +11,13 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-4 px-1">
+                    <div class="col-3 px-1">
                         <input class="form-control form-control-md datepicker-event" type="text" data-toggle="datetimepicker" autocomplete="off" required>
                     </div>
-                    <div class="col-4 px-1">
+                    <div class="col-3 px-1">
                         <input class="form-control form-control-md timepicker" type="text" data-toggle="datetimepicker" autocomplete="off" required>
                     </div>
-                    <div class="col-4 px-1">
+                    <div class="col-6 px-1">
                         {% if request.teams_list %}
                             {% if perms.references.view_userteam or perms.references.view_clubteam %}
                             <select id="copy-event-team" class=" select custom-select teams" name="team" tabindex="-1" aria-hidden="true">
