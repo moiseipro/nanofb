@@ -247,7 +247,7 @@ function RenderExerciseOne(data) {
         $(exsCard).find('.exs_edit_field[name="field_players_a"]').val(data.field_players_a);
         $(exsCard).find('.exs_edit_field[name="field_players_b"]').val(data.field_players_b);
         $(exsCard).find('.exs_edit_field[name="field_keyword_a"]').val(data.field_keyword_a);
-        $(exsCard).find('.exs_edit_field[name="field_keyword_b"]').val(data.field_keyword_b);
+        // $(exsCard).find('.exs_edit_field[name="field_keyword_b"]').val(data.field_keyword_b);
         $(exsCard).find('.exs_edit_field[name="field_exs_category_a"]').val(data.field_exs_category_a);
         $(exsCard).find('.exs_edit_field[name="field_exs_category_b"]').val(data.field_exs_category_b);
         // try {
