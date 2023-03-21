@@ -205,6 +205,7 @@ class AbstractExercise(models.Model):
     field_types = models.JSONField(null=True, blank=True)
     field_physical_qualities = models.JSONField(null=True, blank=True)
     field_cognitive_loads = models.JSONField(null=True, blank=True)
+    field_fields = models.JSONField(null=True, blank=True)
 
     tags = models.ManyToManyField(ExerciseTag)
 

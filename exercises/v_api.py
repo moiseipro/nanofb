@@ -1327,6 +1327,8 @@ def POST_edit_exs(request, cur_user, cur_team):
         c_exs.field_physical_qualities = field_physical_qualities
         field_cognitive_loads = set_value_as_list(request, "data[field_cognitive_loads]", "data[field_cognitive_loads][]", [])
         c_exs.field_cognitive_loads = field_cognitive_loads
+        field_fields = set_value_as_list(request, "data[field_fields]", "data[field_fields][]", [])
+        c_exs.field_fields = field_fields
 
     if is_can_edit_full:
         video_links_links = set_value_as_list(request, "data[video_links_link[]]", "data[video_links_link[]][]", [])

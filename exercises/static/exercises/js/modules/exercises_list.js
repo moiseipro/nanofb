@@ -115,10 +115,10 @@ function RenderFolderExercises(id, tExs) {
         let exElem = exs[i];
         let fieldKeywordFirst = null; let fieldKeywordSecond = null;
         try {
-            fieldKeywordFirst = exElem.field_keywords[0];
+            fieldKeywordFirst = exElem.field_keyword_a;
         } catch(e) {}
         try {
-            fieldKeywordSecond = exElem.field_keywords[1];
+            fieldKeywordSecond = exElem.field_keyword_b;
         } catch(e) {}
         let isPRO = false;
         try {
@@ -728,13 +728,15 @@ $(function() {
 
     // Toggle folders:
     $('#toggleFoldersViews').on('click', (e) => {
+        let isToggled = $(e.currentTarget).attr('data-state') == "1";
         $('.folders_div').find('li.list-group-item').each((ind, elem) => {
             let isRoot = $(elem).hasClass('root-elem');
             let isVisible = !$(elem).hasClass('d-none');
             if (!isRoot) {
-                $(elem).toggleClass('d-none', isVisible);
+                $(elem).toggleClass('d-none', !isToggled);
             }
         });
+        $(e.currentTarget).attr('data-state', isToggled ? '0' : '1');
         ToggleFoldersView(true);
     });
 

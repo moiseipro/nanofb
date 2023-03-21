@@ -68,6 +68,7 @@ function ToggleEditFields(flag) {
     }
 
     $('#exerciseCard').find('.categories-list > button').toggleClass('custom-disabled', !flag);
+    $('#exerciseCard').find('.fields-list > button').toggleClass('custom-disabled', !flag);
     $('#exerciseCard').find('.ball-gates-list > button').toggleClass('custom-disabled', !flag);
     $('#exerciseCard').find('.exs-types-list > button').toggleClass('custom-disabled', !flag);
     $('#exerciseCard').find('.physical-qualities-list > button').toggleClass('custom-disabled', !flag);
@@ -286,6 +287,12 @@ function RenderExerciseOne(data) {
             for (let i = 0; i < data.field_cognitive_loads.length; i++) {
                 let cId = data.field_cognitive_loads[i];
                 $(exsCard).find(`.cognitive-load-list > button[data-id="${cId}"]`).addClass('active');
+            }
+        } catch(e) {}
+        try {
+            for (let i = 0; i < data.field_fields.length; i++) {
+                let cId = data.field_fields[i];
+                $(exsCard).find(`.fields-list > button[data-id="${cId}"]`).addClass('active');
             }
         } catch(e) {}
 
@@ -757,6 +764,12 @@ function SaveExerciseOne() {
         selectedCognitiveLoads.push($(elem).attr('data-id')); 
     });
     dataToSend.data['field_cognitive_loads'] = selectedCognitiveLoads;
+
+    let selectedFields = [];
+    $('#exerciseCard').find('.fields-list > button.active').each((ind, elem) => {
+        selectedFields.push($(elem).attr('data-id')); 
+    });
+    dataToSend.data['field_fields'] = selectedFields;
 
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
@@ -2522,6 +2535,14 @@ $(function() {
         }
     });
 
+    $('#exerciseCard').on('click', '.fields-list > button', (e) => {
+        let isActive = $(e.currentTarget).hasClass('active');
+        if ($('#editExs').attr('data-active') == '1') {
+            $('#exerciseCard').find('.fields-list > button').removeClass('active');
+            $(e.currentTarget).toggleClass('active', !isActive);
+        }
+    });
+
     $('#exerciseCard').on('click', '.ball-gates-list > button', (e) => {
         if ($('#editExs').attr('data-active') == '1') {
             let cId = $(e.currentTarget).attr('data-id');
@@ -2558,6 +2579,7 @@ $(function() {
     $('#exerciseCard').on('click', '.cognitive-load-list > button', (e) => {
         let isActive = $(e.currentTarget).hasClass('active');
         if ($('#editExs').attr('data-active') == '1') {
+            $('#exerciseCard').find('.cognitive-load-list > button').removeClass('active');
             $(e.currentTarget).toggleClass('active', !isActive);
         }
     });

@@ -327,6 +327,21 @@ function ToggleUpFilter(id, state) {
             ToggleIconsInExs();
             break;
         case "keywords":
+            if (state) {
+                $('.up-block-content').find('.up-tabs-elem').attr('data-state', 0);
+                $('.up-block-content').find('.up-tabs-elem').removeClass('selected3');
+                ToggleIconsInExs();
+                ToggleMarkersInExs();
+                $('.exs-search').val('');
+                $('.exs-age-filter').val('');
+                $('.exs-players-filter').val('');
+                window.exercisesFilter = {};
+                LoadFolderExercises();
+                CountExsInFolder();
+
+                $('.up-tabs-elem[data-id="keywords"]').attr('data-state', 1);
+                $('.up-tabs-elem[data-id="keywords"]').addClass('selected3');
+            }
             ToggleIconsInExs();
             break;
         case "toggle_new":
