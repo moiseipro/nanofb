@@ -292,7 +292,7 @@ function load_all_exercises_training(training_id = null, group = null) {
         if (data.exercises_info.length > 0) {
             let exercises = data.exercises_info
             for (let exercise of exercises) {
-                console.log(exercise)
+                //console.log(exercise)
                 let count_slide = 0
                 let select_html = '', carousel_html = ''
                 exs_time[exercise.group-1] += exercise.duration
@@ -364,7 +364,7 @@ function load_all_exercises_training(training_id = null, group = null) {
 
                 if ('protocol_info' in data && data.protocol_info.length > 0) {
                     let players = data.protocol_info
-                    console.log(players)
+                    //console.log(players)
                     for (let player of players) {
                         if (exercise.group == group && player.training_exercise_check.indexOf(exercise.id) != -1 ){
 
@@ -381,7 +381,7 @@ function load_all_exercises_training(training_id = null, group = null) {
                             }
                         }
                     }
-                    console.log(player_recount)
+                    //console.log(player_recount)
                 } else {
                     if('players_count' in data){
                         let players = data.players_count
@@ -556,11 +556,12 @@ function load_exercises_additional_data(training_exercise_id = null) {
         //console.log(data)
         var select = ''
         ajax_exercise_additional('GET').then(function (data_additional) {
-            let options = data_additional.results;
+            let options = data_additional;
+            console.log(options)
             let option_html = ''
             $.each( options, function( key, option ) {
                 option_html+=`
-                    <option value="${ option.id }">${ (get_cur_lang() in option.translation_names) ? option.translation_names[get_cur_lang()] : Object.values(exercise.exercise_name)[0] }</option>
+                    <option value="${ option.id }">${ get_translation_name(option.translation_names) }</option>
                 `
             })
             select = `

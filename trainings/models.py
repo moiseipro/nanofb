@@ -6,7 +6,8 @@ from django.utils.translation import gettext_lazy as _
 from events.models import UserEvent, ClubEvent, LiteEvent
 from exercises.models import UserExercise, ClubExercise
 from players.models import UserPlayer, ClubPlayer
-from references.models import UserTeam, ClubTeam, ExsAdditionalData, PlayerProtocolStatus, TrainingSpace
+from references.models import UserTeam, ClubTeam, ExsAdditionalData, PlayerProtocolStatus, TrainingSpace, \
+    UserExsAdditionalData, ClubExsAdditionalData
 from users.models import User
 
 
@@ -222,7 +223,7 @@ class UserTrainingExercise(AbstractTrainingExercise):
         on_delete=models.CASCADE
     )
     additional = models.ManyToManyField(
-        ExsAdditionalData,
+        UserExsAdditionalData,
         through="UserTrainingExerciseAdditional",
         through_fields=('training_exercise_id', 'additional_id')
     )
@@ -238,7 +239,7 @@ class ClubTrainingExercise(AbstractTrainingExercise):
         on_delete=models.CASCADE
     )
     additional = models.ManyToManyField(
-        ExsAdditionalData,
+        ClubExsAdditionalData,
         through="ClubTrainingExerciseAdditional",
         through_fields=('training_exercise_id', 'additional_id')
     )
@@ -254,7 +255,7 @@ class LiteTrainingExercise(AbstractTrainingExercise):
         on_delete=models.CASCADE
     )
     additional = models.ManyToManyField(
-        ExsAdditionalData,
+        UserExsAdditionalData,
         through="LiteTrainingExerciseAdditional",
         through_fields=('training_exercise_id', 'additional_id')
     )
@@ -279,7 +280,7 @@ class UserTrainingExerciseAdditional(AbstractTrainingExerciseAdditional):
         on_delete=models.CASCADE
     )
     additional_id = models.ForeignKey(
-        ExsAdditionalData,
+        UserExsAdditionalData,
         on_delete=models.CASCADE,
     )
 
@@ -290,7 +291,7 @@ class ClubTrainingExerciseAdditional(AbstractTrainingExerciseAdditional):
         on_delete=models.CASCADE
     )
     additional_id = models.ForeignKey(
-        ExsAdditionalData,
+        ClubExsAdditionalData,
         on_delete=models.CASCADE,
     )
 
@@ -301,7 +302,7 @@ class LiteTrainingExerciseAdditional(AbstractTrainingExerciseAdditional):
         on_delete=models.CASCADE
     )
     additional_id = models.ForeignKey(
-        ExsAdditionalData,
+        UserExsAdditionalData,
         on_delete=models.CASCADE,
     )
 

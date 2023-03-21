@@ -11,10 +11,10 @@ from players.models import UserPlayer, ClubPlayer
 from players.serializers import UserPlayerSerializer, ClubPlayerSerializer
 from references.forms import CreateTeamForm, CreateSeasonForm
 from references.models import UserSeason, UserTeam, ClubSeason, ClubTeam, ExsAdditionalData, PlayerProtocolStatus, \
-    TrainingSpace, TrainingAdditionalData
+    TrainingSpace, TrainingAdditionalData, ClubExsAdditionalData, UserExsAdditionalData
 from references.serializers import UserTeamsSerializer, UserSeasonsSerializer, ExsAdditionalDataSerializer, \
     PlayerProtocolStatusSerializer, ClubTeamsSerializer, ClubSeasonsSerializer, TrainingSpaceSerializer, \
-    TrainingAdditionalDataSerializer
+    TrainingAdditionalDataSerializer, ClubExsAdditionalDataSerializer, UserExsAdditionalDataSerializer
 
 # REST PERMISSIONS
 from users.models import User
@@ -142,17 +142,27 @@ class SeasonViewSet(viewsets.ModelViewSet):
 
 class ExsAdditionalViewSet(viewsets.ModelViewSet):
     permission_classes = [DjangoModelPermissions]
+    pagination_class = None
 
     def perform_create(self, serializer):
-        serializer.save(user_id=self.request.user)
+        if self.request.user.club_id is not None:
+            serializer.save(club_id=self.request.user.club_id)
+        else:
+            serializer.save(user_id=self.request.user)
 
     def get_serializer_class(self):
-        if self.action == 'partial_update':
-            return ExsAdditionalDataSerializer
-        return ExsAdditionalDataSerializer
+        if self.request.user.club_id is not None:
+            return ClubExsAdditionalDataSerializer
+        else:
+            return UserExsAdditionalDataSerializer
 
     def get_queryset(self):
-        return ExsAdditionalData.objects.all()
+        print(self.request.data)
+        if self.request.user.club_id is not None:
+            additionals = ClubExsAdditionalData.objects.filter(club_id=self.request.user.club_id)
+        else:
+            additionals = UserExsAdditionalData.objects.filter(user_id=self.request.user.id)
+        return additionals
 
 
 class PlayerProtocolStatusViewSet(viewsets.ModelViewSet):

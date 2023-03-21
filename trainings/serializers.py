@@ -5,7 +5,8 @@ from players.serializers import UserPlayerSerializer
 from references.serializers import PlayerProtocolStatusSerializer, TrainingSpaceSerializer, \
     UserTeamsSerializer, ClubTeamsSerializer, TrainingAdditionalDataSerializer
 from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExerciseAdditional, UserTrainingProtocol, \
-    ClubTrainingProtocol, ClubTrainingExercise, LiteTrainingExerciseAdditional, LiteTraining, LiteTrainingExercise
+    ClubTrainingProtocol, ClubTrainingExercise, LiteTrainingExerciseAdditional, LiteTraining, LiteTrainingExercise, \
+    ClubTrainingExerciseAdditional
 
 # Training
 from users.serializers import UserSerializer
@@ -91,7 +92,7 @@ class UserTrainingExerciseAdditionalSerializer(TrainingExerciseAdditionalSeriali
 
 class ClubTrainingExerciseAdditionalSerializer(TrainingExerciseAdditionalSerializer):
     class Meta(TrainingExerciseAdditionalSerializer.Meta):
-        model = UserTrainingExerciseAdditional
+        model = ClubTrainingExerciseAdditional
 
 
 class LiteTrainingExerciseAdditionalSerializer(TrainingExerciseAdditionalSerializer):

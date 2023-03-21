@@ -1,0 +1,47 @@
+{% load i18n %}
+
+<div class="modal fade" id="form-reference-edit-modal" tabindex="-1" role="dialog" aria-labelledby="form-reference-edit-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="form-reference-edit-modal-label">{% trans 'Reference edit' %}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row my-2">
+                    <div class="col-12">
+                        <div id="create-reference-data" class="row">
+                            <div class="col-4 px-1">
+                                <input type="text" name="short_name" class="form-control form-control-sm" placeholder="{% trans "Short name" %}">
+                            </div>
+                            <div class="col-4 px-1">
+                                <input type="text" name="name" class="form-control form-control-sm" placeholder="{% trans "Title" %}">
+                            </div>
+                            <div class="col-4 px-1">
+                                <button type="button" class="btn btn-sm btn-block btn-primary add-reference-row">{% trans "Create" %}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4 text-center">
+                        {% trans "Short name" %}
+                    </div>
+                    <div class="col-4 text-center">
+                        {% trans "Title" %}
+                    </div>
+                    <div class="col-4 text-center">
+                        {% trans "Action" %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="reference_list" class="col-12">
+                        ...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

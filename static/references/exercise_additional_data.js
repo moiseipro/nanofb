@@ -6,7 +6,7 @@ async function ajax_exercise_additional(method, data, action = '', id = '', func
     if(id !== '') url += `${id}/`
     if(func !== '') url += `${func}/`
 
-    //$('.page-loader-wrapper').fadeIn();
+    $('.page-loader-wrapper').fadeIn();
 
     return await $.ajax({
             headers:{"X-CSRFToken": csrftoken },
@@ -21,7 +21,7 @@ async function ajax_exercise_additional(method, data, action = '', id = '', func
 
             },
             complete: function () {
-                //$('.page-loader-wrapper').fadeOut();
+                $('.page-loader-wrapper').fadeOut();
             }
         })
 }

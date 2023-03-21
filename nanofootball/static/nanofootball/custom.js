@@ -51,6 +51,14 @@ function get_cur_lang() {
     return $('#select-language').val();
 }
 
+function get_translation_name(translation_names) {
+    let translation_name = ''
+    if(translation_names != null){
+        translation_name = (get_cur_lang() in translation_names) ? translation_names[get_cur_lang()] : Object.values(translation_names)[0]
+    }
+    return translation_name
+}
+
 // Получить данные формы как объект
 function getFormData($form){
     var unindexed_array = $form.serializeArray();

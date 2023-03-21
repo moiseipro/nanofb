@@ -305,6 +305,18 @@ class ExsAdditionalData(AbstractReference, MixTranslateReference):
         verbose_name_plural = _('Exercise additional data')
 
 
+class UserExsAdditionalData(ExsAdditionalData, MixUserReference):
+    class Meta(ExsAdditionalData.Meta):
+        verbose_name = _('User exercise additional data')
+        verbose_name_plural = _('User exercise additional data')
+
+
+class ClubExsAdditionalData(ExsAdditionalData, MixClubReference):
+    class Meta(ExsAdditionalData.Meta):
+        verbose_name = _('Club exercise additional data')
+        verbose_name_plural = _('Club exercise additional data')
+
+
 class ExsTitleName(AbstractReference, MixTranslateReference):
     class Meta(AbstractReference.Meta):
         verbose_name = _('Exercise title name')

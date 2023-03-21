@@ -15,7 +15,8 @@ from events.models import UserEvent
 from exercises.models import UserExercise
 from exercises.v_api import get_exercises_params
 from players.models import UserPlayer, ClubPlayer
-from references.models import UserTeam, UserSeason, ClubTeam, ClubSeason, ExsAdditionalData
+from references.models import UserTeam, UserSeason, ClubTeam, ClubSeason, ExsAdditionalData, UserExsAdditionalData, \
+    ClubExsAdditionalData
 from references.serializers import ExsAdditionalDataSerializer
 from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExerciseAdditional, UserTrainingProtocol, \
     ClubTrainingExercise, ClubTrainingProtocol, ClubTraining, ClubTrainingExerciseAdditional, LiteTraining, \
@@ -404,11 +405,13 @@ class TrainingExerciseViewSet(viewsets.ModelViewSet):
         data = request.data
 
         if self.request.user.club_id is not None:
+            additionals = ClubExsAdditionalData.objects.filter(club_id=self.request.user.club_id)
             training_exercise = ClubTrainingExercise.objects.get(id=pk)
         else:
+            additionals = UserExsAdditionalData.objects.filter(user_id=self.request.user.id)
             training_exercise = UserTrainingExercise.objects.get(id=pk)
         data_count = training_exercise.additional.all().count()
-        additionals = ExsAdditionalData.objects.all()
+        #additionals = ExsAdditionalData.objects.all()
 
         print(data_count)
         print(pk)
@@ -425,11 +428,13 @@ class TrainingExerciseViewSet(viewsets.ModelViewSet):
         data = request.data
 
         if self.request.user.club_id is not None:
+            additional = ClubExsAdditionalData.objects.filter(club_id=self.request.user.club_id).first().pk
             training_exercise = ClubTrainingExercise.objects.get(id=pk)
         else:
+            additional = UserExsAdditionalData.objects.filter(user_id=self.request.user.id).first().pk
             training_exercise = UserTrainingExercise.objects.get(id=pk)
         data_count = training_exercise.additional.all().count()
-        additional = ExsAdditionalData.objects.all().first().pk
+        #additional = ExsAdditionalData.objects.all().first().pk
 
         print(data_count)
         print(pk)
@@ -618,7 +623,7 @@ class LiteTrainingExerciseViewSet(viewsets.ModelViewSet):
         training_exercise = LiteTrainingExercise.objects.get(id=pk)
 
         data_count = training_exercise.additional.all().count()
-        additionals = ExsAdditionalData.objects.all()
+        additionals = UserExsAdditionalData.objects.filter(user_id=self.request.user.id)
 
         print(data_count)
         print(pk)
@@ -637,7 +642,7 @@ class LiteTrainingExerciseViewSet(viewsets.ModelViewSet):
         training_exercise = LiteTrainingExercise.objects.get(id=pk)
 
         data_count = training_exercise.additional.all().count()
-        additional = ExsAdditionalData.objects.all().first().pk
+        additional = UserExsAdditionalData.objects.filter(user_id=self.request.user.id).first().pk
 
         print(data_count)
         print(pk)
