@@ -197,23 +197,17 @@ function RenderFolderExercises(id, tExs) {
                         </button>
                     `}
                     ${((fieldKeywordFirst && fieldKeywordFirst != "") || (fieldKeywordSecond && fieldKeywordSecond != "")) ? `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="keywords" style="--w-x:24px; min-width: 250px; --h-x:24px;" disabled="">
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="keywords" style="--w-x:24px; min-width: 150px; --h-x:24px;" disabled="">
                             <div class="row w-100">
-                                <div class="col-6 px-0 text-center">
+                                <div class="col-12 px-0 text-center">
                                     ${fieldKeywordFirst && fieldKeywordFirst != "" ? fieldKeywordFirst : ''}
-                                </div>
-                                <div class="col-6 px-0 text-center">
-                                    ${fieldKeywordSecond && fieldKeywordSecond != "" ? fieldKeywordSecond : ''}
                                 </div>
                             </div>
                         </button>
                     ` : `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="keywords" style="--w-x:24px; min-width: 250px; --h-x:24px;" disabled="">
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="keywords" style="--w-x:24px; min-width: 150px; --h-x:24px;" disabled="">
                             <div class="row w-100">
-                                <div class="col-6 px-0 text-center">
-                                    ...
-                                </div>
-                                <div class="col-6 px-0 text-center">
+                                <div class="col-12 px-0 text-center">
                                     ...
                                 </div>
                             </div>
