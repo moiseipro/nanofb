@@ -428,10 +428,10 @@ class TrainingExerciseViewSet(viewsets.ModelViewSet):
         data = request.data
 
         if self.request.user.club_id is not None:
-            additional = ClubExsAdditionalData.objects.filter(club_id=self.request.user.club_id).first().pk
+            #additional = ClubExsAdditionalData.objects.filter(club_id=self.request.user.club_id).first().pk
             training_exercise = ClubTrainingExercise.objects.get(id=pk)
         else:
-            additional = UserExsAdditionalData.objects.filter(user_id=self.request.user.id).first().pk
+            #additional = UserExsAdditionalData.objects.filter(user_id=self.request.user.id).first().pk
             training_exercise = UserTrainingExercise.objects.get(id=pk)
         data_count = training_exercise.additional.all().count()
         #additional = ExsAdditionalData.objects.all().first().pk
@@ -442,8 +442,8 @@ class TrainingExerciseViewSet(viewsets.ModelViewSet):
             return Response({'status': 'data_limit'})
         data_dict = dict(
             training_exercise_id=pk,
-            additional_id=additional,
-            note=None
+            additional_id=data['additional_id'],
+            note=data['note']
         )
         query_dict = QueryDict('', mutable=True)
         query_dict.update(data_dict)
@@ -458,7 +458,7 @@ class TrainingExerciseViewSet(viewsets.ModelViewSet):
             )
         print(serializer)
         if serializer.is_valid(raise_exception=True):
-            print(serializer.validated_data)
+            #print(serializer.validated_data)
             new_obj = serializer.save()
             if self.request.user.club_id is not None:
                 object_serialize = ClubTrainingExerciseAdditionalSerializer(new_obj).data
@@ -638,20 +638,18 @@ class LiteTrainingExerciseViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['post'])
     def add_data(self, request, pk=None):
         data = request.data
-
+        print(data)
         training_exercise = LiteTrainingExercise.objects.get(id=pk)
 
         data_count = training_exercise.additional.all().count()
-        additional = UserExsAdditionalData.objects.filter(user_id=self.request.user.id).first().pk
 
         print(data_count)
-        print(pk)
         if data_count > 14:
             return Response({'status': 'data_limit'})
         data_dict = dict(
             training_exercise_id=pk,
-            additional_id=additional,
-            note=None
+            additional_id=data['additional_id'],
+            note=data['note']
         )
         query_dict = QueryDict('', mutable=True)
         query_dict.update(data_dict)
@@ -661,7 +659,7 @@ class LiteTrainingExerciseViewSet(viewsets.ModelViewSet):
         )
         print(serializer)
         if serializer.is_valid(raise_exception=True):
-            print(serializer.validated_data)
+            #print(serializer.validated_data)
             new_obj = serializer.save()
 
             object_serialize = LiteTrainingExerciseAdditionalSerializer(new_obj).data
@@ -772,6 +770,20 @@ class TrainingExerciseAdditionalViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
+    def create(self, request, *args, **kwargs):
+        data = self.request.data.get('items')
+        data_additionals = json.loads(data)
+        print(data)
+        print(data_additionals)
+        if isinstance(data_additionals, list):  # <- is the main logic
+            serializer = self.get_serializer(data=data_additionals, many=True)
+        else:
+            serializer = self.get_serializer(data=data_additionals)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     def get_serializer_class(self):
         if self.request.user.club_id is not None:
             serializer_class = ClubTrainingExerciseAdditionalSerializer
@@ -799,6 +811,20 @@ class LiteTrainingExerciseAdditionalViewSet(viewsets.ModelViewSet):
         self.perform_update(serializer)
 
         return Response(serializer.data)
+
+    def create(self, request, *args, **kwargs):
+        data = self.request.data.get('items')
+        data_additionals = json.loads(data)
+        print(data)
+        print(data_additionals)
+        if isinstance(data_additionals, list):  # <- is the main logic
+            serializer = self.get_serializer(data=data_additionals, many=True)
+        else:
+            serializer = self.get_serializer(data=data_additionals)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get_serializer_class(self):
         serializer_class = LiteTrainingExerciseAdditionalSerializer

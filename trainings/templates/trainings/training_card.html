@@ -133,14 +133,14 @@
         <div class="row exercise-data-row font-weight-bold training-exercise-title" style="cursor: pointer">
             <div class="col text-center pt-1 px-0" data-toggle="collapse" data-target="#collapse-exercise-additional">{% trans "Additional Conditions" %}</div>
             <div class="col-1 text-center px-0 edit-button d-none">
-                <button type="button" class="btn btn-sm btn-block btn-success rounded-0 p-0 h-100 float-right add-exercise-additional"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                <button type="button" class="btn btn-sm btn-block btn-success rounded-0 p-0 h-100 float-right" data-toggle="modal" data-target="#training-exercise-additional-modal"><i class="fa fa-plus" aria-hidden="true"></i></button>
             </div>
             <div class="col-1 text-center px-0 edit-button d-none">
                 <button type="button" class="btn btn-sm btn-block btn-danger rounded-0 p-0 h-100 float-right delete-all-exercise-additional" title="{% trans 'Delete all/empty data' %}"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
             </div>
         </div>
         <div id="collapse-exercise-additional" class="row exercise-data-row collapse show">
-            <div id="training-exercise-additional" class="col-12">
+            <div id="training-exercise-additional" class="col-12 border border-white">
             </div>
         </div>
 {#        <div class="row training-data-row">#}
@@ -155,3 +155,4 @@
     </div>
 </div>
 {% include "trainings/training_video.html" %}
+{% include "trainings/exercise_additional_modal.html" %}
