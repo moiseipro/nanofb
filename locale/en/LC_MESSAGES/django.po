@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-21 14:34+0300\n"
+"POT-Creation-Date: 2023-03-23 12:37+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2415,8 +2415,8 @@ msgstr ""
 msgid "Choose this structure"
 msgstr ""
 
-#: .\exercises\templates\exercises\modules\exercise_card.html:1055
-#: .\exercises\templates\exercises\modules\exercise_card.html:1065
+#: .\exercises\templates\exercises\modules\exercise_card.html:1074
+#: .\exercises\templates\exercises\modules\exercise_card.html:1084
 #: .\methodology\templates\methodology\base_methodology.html:182
 #: .\methodology\templates\methodology\base_methodology.html:192
 #: .\video\templates\video\base_video.html:48
@@ -2424,8 +2424,8 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: .\exercises\templates\exercises\modules\exercise_card.html:1059
-#: .\exercises\templates\exercises\modules\exercise_card.html:1069
+#: .\exercises\templates\exercises\modules\exercise_card.html:1078
+#: .\exercises\templates\exercises\modules\exercise_card.html:1088
 #: .\methodology\templates\methodology\base_methodology.html:186
 #: .\methodology\templates\methodology\base_methodology.html:196
 #: .\video\templates\video\base_video.html:52
@@ -2433,7 +2433,7 @@ msgstr ""
 msgid "No sources"
 msgstr ""
 
-#: .\exercises\templates\exercises\modules\exercise_card.html:1078
+#: .\exercises\templates\exercises\modules\exercise_card.html:1097
 #: .\methodology\templates\methodology\base_methodology.html:205
 #: .\video\templates\video\base_video.html:71
 msgid "No tags"
@@ -2492,7 +2492,7 @@ msgstr ""
 msgid "Number of opponent team penalties per match."
 msgstr ""
 
-#: .\matches\models.py:54 .\trainings\models.py:318
+#: .\matches\models.py:54 .\trainings\models.py:327
 msgid "estimation"
 msgstr ""
 
@@ -2932,6 +2932,7 @@ msgid "Exercise physical qualities"
 msgstr ""
 
 #: .\references\models.py:304 .\references\models.py:305
+#: .\references\templates\references\modules\references_list.html:7
 msgid "Exercise additional data"
 msgstr ""
 
@@ -3049,10 +3050,6 @@ msgstr ""
 
 #: .\references\templates\references\forms\team.html:7
 msgid "Team Create"
-msgstr ""
-
-#: .\references\templates\references\modules\references_list.html:7
-msgid "Additional exercise data"
 msgstr ""
 
 #: .\templates\admin\base_site.html:3
@@ -3189,8 +3186,21 @@ msgstr ""
 msgid "Note to the reference book"
 msgstr ""
 
-#: .\trainings\models.py:319
+#: .\trainings\models.py:328
 msgid "Player rating like/dislike"
+msgstr ""
+
+#: .\trainings\templates\trainings\exercise_additional_modal.html:10
+msgid "Exercise additional"
+msgstr ""
+
+#: .\trainings\templates\trainings\exercise_additional_modal.html:21
+msgid "Add all"
+msgstr ""
+
+#: .\trainings\templates\trainings\exercise_additional_modal.html:22
+#: .\trainings\templates\trainings\view_training.html:175
+msgid "Add selected"
 msgstr ""
 
 #: .\trainings\templates\trainings\training_card.html:45
@@ -3270,10 +3280,6 @@ msgstr ""
 
 #: .\trainings\templates\trainings\view_training.html:174
 msgid "Add all players"
-msgstr ""
-
-#: .\trainings\templates\trainings\view_training.html:175
-msgid "Add selected"
 msgstr ""
 
 #: .\users\admin.py:23 .\users\models.py:183

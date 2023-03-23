@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-21 14:36+0300\n"
+"POT-Creation-Date: 2023-03-23 12:39+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2431,8 +2431,8 @@ msgstr "Папки NFB"
 msgid "Choose this structure"
 msgstr "Выберите эту структуру"
 
-#: .\exercises\templates\exercises\modules\exercise_card.html:1055
-#: .\exercises\templates\exercises\modules\exercise_card.html:1065
+#: .\exercises\templates\exercises\modules\exercise_card.html:1074
+#: .\exercises\templates\exercises\modules\exercise_card.html:1084
 #: .\methodology\templates\methodology\base_methodology.html:182
 #: .\methodology\templates\methodology\base_methodology.html:192
 #: .\video\templates\video\base_video.html:48
@@ -2440,8 +2440,8 @@ msgstr "Выберите эту структуру"
 msgid "All"
 msgstr "Все"
 
-#: .\exercises\templates\exercises\modules\exercise_card.html:1059
-#: .\exercises\templates\exercises\modules\exercise_card.html:1069
+#: .\exercises\templates\exercises\modules\exercise_card.html:1078
+#: .\exercises\templates\exercises\modules\exercise_card.html:1088
 #: .\methodology\templates\methodology\base_methodology.html:186
 #: .\methodology\templates\methodology\base_methodology.html:196
 #: .\video\templates\video\base_video.html:52
@@ -2449,7 +2449,7 @@ msgstr "Все"
 msgid "No sources"
 msgstr "Нет источников"
 
-#: .\exercises\templates\exercises\modules\exercise_card.html:1078
+#: .\exercises\templates\exercises\modules\exercise_card.html:1097
 #: .\methodology\templates\methodology\base_methodology.html:205
 #: .\video\templates\video\base_video.html:71
 msgid "No tags"
@@ -2508,7 +2508,7 @@ msgstr "пенальти соперника"
 msgid "Number of opponent team penalties per match."
 msgstr "Количество пенальти команды соперника за матч."
 
-#: .\matches\models.py:54 .\trainings\models.py:318
+#: .\matches\models.py:54 .\trainings\models.py:327
 msgid "estimation"
 msgstr "оценка"
 
@@ -2948,20 +2948,17 @@ msgid "Exercise physical qualities"
 msgstr "Физические качества упражнения"
 
 #: .\references\models.py:304 .\references\models.py:305
+#: .\references\templates\references\modules\references_list.html:7
 msgid "Exercise additional data"
 msgstr "Дополнительные данные упражнения"
 
 #: .\references\models.py:310 .\references\models.py:311
-#, fuzzy
-#| msgid "Exercise additional data"
 msgid "User exercise additional data"
-msgstr "Дополнительные данные упражнения"
+msgstr "Дополнительные данные пользовательских упражнений"
 
 #: .\references\models.py:316 .\references\models.py:317
-#, fuzzy
-#| msgid "Exercise additional data"
 msgid "Club exercise additional data"
-msgstr "Дополнительные данные упражнения"
+msgstr "Дополнительные данные клубных упражнениий"
 
 #: .\references\models.py:322
 msgid "Exercise title name"
@@ -3051,10 +3048,8 @@ msgid "Age"
 msgstr "Возраст"
 
 #: .\references\templates\references\forms\reference_edit.html:7
-#, fuzzy
-#| msgid "References"
 msgid "Reference edit"
-msgstr "Справочники"
+msgstr "Редактирование справочника"
 
 #: .\references\templates\references\forms\reference_edit.html:17
 #: .\references\templates\references\forms\reference_edit.html:30
@@ -3062,10 +3057,8 @@ msgid "Short name"
 msgstr "Короткий код"
 
 #: .\references\templates\references\forms\reference_edit.html:36
-#, fuzzy
-#| msgid "section"
 msgid "Action"
-msgstr "раздел"
+msgstr "Действие"
 
 #: .\references\templates\references\forms\season.html:7
 msgid "Season Create"
@@ -3074,12 +3067,6 @@ msgstr "Создать Сезон"
 #: .\references\templates\references\forms\team.html:7
 msgid "Team Create"
 msgstr "Создать Команду"
-
-#: .\references\templates\references\modules\references_list.html:7
-#, fuzzy
-#| msgid "Additional training data"
-msgid "Additional exercise data"
-msgstr "Дополнительные данные тренировки"
 
 #: .\templates\admin\base_site.html:3
 msgid "Nanofb site admin"
@@ -3161,33 +3148,27 @@ msgstr "Примечания для групп тренировки"
 
 #: .\trainings\models.py:113
 msgid "Access to the section \"Analytics\" for UserTraining"
-msgstr ""
+msgstr "Доступ к разделу «Аналитика» для UserTraining"
 
 #: .\trainings\models.py:143
 msgid "Access to the section \"Analytics\" for ClubTraining"
-msgstr ""
+msgstr "Доступ к разделу «Аналитика» для ClubTraining"
 
 #: .\trainings\models.py:164
-#, fuzzy
-#| msgid "Players"
 msgid "players count"
-msgstr "Игроки"
-
-#: .\trainings\models.py:165
-#, fuzzy
-#| msgid "Number of players"
-msgid "Number of players manual entry"
 msgstr "Количество игроков"
 
+#: .\trainings\models.py:165
+msgid "Number of players manual entry"
+msgstr "Ручной ввод количества игроков"
+
 #: .\trainings\models.py:170
-#, fuzzy
-#| msgid "Goalkeepers"
 msgid "goalkeepers count"
-msgstr "Вратари"
+msgstr "Количество вратарей"
 
 #: .\trainings\models.py:171
 msgid "Number of goalkeepers manual entry"
-msgstr ""
+msgstr "Ручной ввод количества вратарей"
 
 #: .\trainings\models.py:189
 msgid "group"
@@ -3221,9 +3202,22 @@ msgstr "примечание"
 msgid "Note to the reference book"
 msgstr "Примечание к справочнику"
 
-#: .\trainings\models.py:319
+#: .\trainings\models.py:328
 msgid "Player rating like/dislike"
 msgstr "Рейтинг игрока нравится/не нравится"
+
+#: .\trainings\templates\trainings\exercise_additional_modal.html:10
+msgid "Exercise additional"
+msgstr "Дополнительные данные упражнения"
+
+#: .\trainings\templates\trainings\exercise_additional_modal.html:21
+msgid "Add all"
+msgstr "Добавить все"
+
+#: .\trainings\templates\trainings\exercise_additional_modal.html:22
+#: .\trainings\templates\trainings\view_training.html:175
+msgid "Add selected"
+msgstr "Добавить выбранных"
 
 #: .\trainings\templates\trainings\training_card.html:45
 msgid "Trainer"
@@ -3303,10 +3297,6 @@ msgstr "Протокол"
 #: .\trainings\templates\trainings\view_training.html:174
 msgid "Add all players"
 msgstr "Добавить всех игроков"
-
-#: .\trainings\templates\trainings\view_training.html:175
-msgid "Add selected"
-msgstr "Добавить выбранных"
 
 #: .\users\admin.py:23 .\users\models.py:183
 #: .\users\templates\users\base_profile.html:163
@@ -3559,8 +3549,6 @@ msgid "Generate a new password"
 msgstr "Создать новый пароль"
 
 #: .\users\templates\users\modules\user_table.html:11
-#, fuzzy
-#| msgid "Birthday"
 msgid "Birth"
 msgstr "День рождения"
 
@@ -3903,6 +3891,11 @@ msgstr "Видео / Анимация"
 #: .\video\templates\video\video_card.html:141
 msgid "Animation"
 msgstr "Анимация"
+
+#, fuzzy
+#~| msgid "Additional training data"
+#~ msgid "Additional exercise data"
+#~ msgstr "Дополнительные данные тренировки"
 
 #~ msgid "Description"
 #~ msgstr "Описание"

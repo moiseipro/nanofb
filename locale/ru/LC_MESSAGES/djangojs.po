@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-21 14:36+0300\n"
+"POT-Creation-Date: 2023-03-23 12:45+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -516,8 +516,8 @@ msgstr "Короткий код"
 
 #: .\references\static\references\references_edit.js:112
 #: .\static\references\references_edit.js:112
-#: .\static\trainings\js\training_card.js:253
-#: .\trainings\static\trainings\js\training_card.js:253
+#: .\static\trainings\js\training_card.js:265
+#: .\trainings\static\trainings\js\training_card.js:265
 msgid "Title"
 msgstr "Название"
 
@@ -943,38 +943,23 @@ msgstr "Группа A"
 msgid "Group B"
 msgstr "Группа B"
 
-#: .\static\trainings\js\training_card.js:38
-#: .\trainings\static\trainings\js\training_card.js:38
-msgid "Adding additional conditions to the exercise."
-msgstr "Добавление дополнительных условий к упражнению."
-
-#: .\static\trainings\js\training_card.js:41
-#: .\trainings\static\trainings\js\training_card.js:41
-msgid "Load all"
-msgstr "Выгрузить все"
-
-#: .\static\trainings\js\training_card.js:46
-#: .\trainings\static\trainings\js\training_card.js:46
-msgid "Load one"
-msgstr "Выгрузить один"
-
-#: .\static\trainings\js\training_card.js:61
-#: .\trainings\static\trainings\js\training_card.js:61
+#: .\static\trainings\js\training_card.js:39
+#: .\trainings\static\trainings\js\training_card.js:39
 msgid "When uploading data, the existing ones will be reset."
 msgstr "При загрузке данных существующие будут сброшены."
 
-#: .\static\trainings\js\training_card.js:95
-#: .\trainings\static\trainings\js\training_card.js:95
+#: .\static\trainings\js\training_card.js:107
+#: .\trainings\static\trainings\js\training_card.js:107
 msgid "Delete all additional data from the exercise?"
 msgstr "Удалите все дополнительные данные из упражнения?"
 
-#: .\static\trainings\js\training_card.js:256
-#: .\trainings\static\trainings\js\training_card.js:256
+#: .\static\trainings\js\training_card.js:268
+#: .\trainings\static\trainings\js\training_card.js:268
 msgid "Note"
 msgstr "Заметка"
 
-#: .\static\trainings\js\training_card.js:282
-#: .\trainings\static\trainings\js\training_card.js:282
+#: .\static\trainings\js\training_card.js:294
+#: .\trainings\static\trainings\js\training_card.js:294
 msgid "Goal"
 msgstr "Цель"
 
@@ -1091,6 +1076,15 @@ msgstr "Видео "
 #: .\static\video\js\video_card.js:98 .\video\static\video\js\video_card.js:98
 msgid "Video action \""
 msgstr "Действие с видео \""
+
+#~ msgid "Adding additional conditions to the exercise."
+#~ msgstr "Добавление дополнительных условий к упражнению."
+
+#~ msgid "Load all"
+#~ msgstr "Выгрузить все"
+
+#~ msgid "Load one"
+#~ msgstr "Выгрузить один"
 
 #~ msgid "Add subfolder"
 #~ msgstr "Добавить вложенную папку"

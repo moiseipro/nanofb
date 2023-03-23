@@ -28,53 +28,65 @@ $(window).on('load', function (){
         load_exercises_training_data(exs_id)
         load_exercises_additional_data(exs_id)
     })
-    // Добавление дополнительных данных в тренировку
-    $('#training-content').on('click', '.add-exercise-additional', function (){
+    // Добавление всех дополнительных данных в тренировку
+    $('#training-exercise-additional-modal').on('click', '#add-exercise-additional', function (){
         let training_exercise_id = $('#training-content').find('.exs-filter-card.active').attr('data-id')
 
         let send_data = {}
         send_data.additional_id = 0
         send_data.note = ''
-        swal(gettext("Adding additional conditions to the exercise."), {
+
+        swal(gettext("When uploading data, the existing ones will be reset."), {
             buttons: {
-                load_all: {
-                    text: gettext("Load all"),
-                    value: "all",
-                    className:'btn-warning'
-                },
-                load_one: {
-                    text: gettext("Load one"),
-                    value: "one",
-                    className:'btn-warning'
-                },
                 cancel: true,
+                confirm: true,
             },
-        }).then((value) => {
-            switch (value) {
-                case "one":
-                    ajax_training_exercise_action('POST', send_data, 'load data', training_exercise_id, 'add_data').then(function (data) {
-                        //console.log(data)
-                        load_exercises_additional_data(training_exercise_id)
-                    })
-                    break;
-                case "all":
-                    swal(gettext("When uploading data, the existing ones will be reset."), {
-                        buttons: {
-                            cancel: true,
-                            confirm: true,
-                        },
-                    }).then(function(isConfirm) {
-                        if (isConfirm) {
-                            ajax_training_exercise_action('POST', send_data, 'load data', training_exercise_id, 'add_all_data').then(function (data) {
-                                //console.log(data)
-                                load_exercises_additional_data(training_exercise_id)
-                            })
-                        }
-                    });
-                    break;
-                default:
+        }).then(function(isConfirm) {
+            if (isConfirm) {
+                ajax_training_exercise_action('POST', send_data, 'load data', training_exercise_id, 'add_all_data').then(function (data) {
+                    //console.log(data)
+                    load_exercises_additional_data(training_exercise_id)
+                })
             }
         });
+    })
+    // Копирование дополнительных данных в тренировку
+    $('#collapse-exercise-additional').on('click', '.copy-exercise-additional', function (){
+        let training_exercise_id = $('#training-content').find('.exs-filter-card.active').attr('data-id')
+        let this_row = $(this).closest('.exercise-additional-row')
+        let send_data = {}
+
+        send_data = {
+            additional_id: this_row.attr('data-additional'),
+            note: '',
+        }
+
+        ajax_training_exercise_action('POST', send_data, 'add data', training_exercise_id, 'add_data').then(function (data) {
+            //console.log(data)
+            load_exercises_additional_data(training_exercise_id)
+        })
+    })
+    // Добавление выбранных дополнительных данных в тренировку
+    $('#training-exercise-additional-modal').on('click', '#add-selected-exercise-additional', function (){
+        let training_exercise_id = $('#training-content').find('.exs-filter-card.active').attr('data-id')
+
+        let send_data = []
+
+        $('.exercise-additional-list .additional-row').each(function () {
+            if($(this).find('.edit-input').is(':checked')){
+                send_data.push({
+                    additional_id: $(this).find('.edit-input').val(),
+                    training_exercise_id: training_exercise_id,
+                    note: '',
+                })
+            }
+        })
+        let items = {'items': JSON.stringify(send_data)}
+
+        ajax_training_exercise_data_action('POST', items, 'load data').then(function (data) {
+            //console.log(data)
+            load_exercises_additional_data(training_exercise_id)
+        })
     })
     // Удаление дополнительных данных в упражнении
     $('#training-content').on('click', '.delete-exercise-additional', function (){
@@ -554,42 +566,47 @@ function load_exercises_additional_data(training_exercise_id = null) {
     let send_data = {}
     ajax_training_exercise_action('GET', send_data, 'load data', training_exercise_id, 'get_data').then(function (data) {
         //console.log(data)
-        var select = ''
-        ajax_exercise_additional('GET').then(function (data_additional) {
-            let options = data_additional;
-            console.log(options)
-            let option_html = ''
-            $.each( options, function( key, option ) {
-                option_html+=`
-                    <option value="${ option.id }">${ get_translation_name(option.translation_names) }</option>
-                `
-            })
-            select = `
-                <select class="select custom-select p-0 edit-input text-left" name="additional_id" tabindex="-1" aria-hidden="true" ${!edit_mode ? 'disabled' : ''} style="height: 25px; color: black !important;">
-                    ${ option_html }
-                </select>
-            `
-            $('#training-exercise-additional').html('')
-            let additional_html = ''
-            $.each( data.objs, function( key, additional ) {
-                additional_html = `
-                <div class="row exercise-additional-row ${additional.note ? '' : 'edit-button'} ${!additional.note && !edit_mode ? 'd-none' : ''}" data-id="${additional.id}">
-                    <div class="col-5 px-0">
-                        ${select}
-                    </div>
-                    <div class="col px-0">
-                        <input type="text" name="note" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded edit-input" value="${additional.note ? additional.note : ''}" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
-                    </div>
-                    <div class="col-sm-12 col-md-1 px-0 edit-button ${!edit_mode ? 'd-none' : ''}">
-                        <button type="button" class="btn btn-sm btn-block btn-danger rounded-0 p-0 h-100 float-right edit-input delete-exercise-additional" ${!edit_mode ? 'disabled' : ''}><i class="fa fa-trash" aria-hidden="true"></i></button>
-                    </div>
+        // var select = ''
+        // ajax_exercise_additional('GET').then(function (data_additional) {
+        //     let options = data_additional;
+        //     console.log(options)
+        //     let option_html = ''
+        //     $.each( options, function( key, option ) {
+        //         option_html+=`
+        //             <option value="${ option.id }">${ get_translation_name(option.translation_names) }</option>
+        //         `
+        //     })
+        //     select = `
+        //         <select class="select custom-select p-0 edit-input text-left" name="additional_id" tabindex="-1" aria-hidden="true" ${!edit_mode ? 'disabled' : ''} style="height: 25px; color: black !important;">
+        //             ${ option_html }
+        //         </select>
+        //     `
+        //     $('#training-exercise-additional').html('')
+        //
+        // })
+        let additional_html = ''
+        console.log(data.objs)
+        $.each( data.objs, function( key, additional ) {
+            additional_html += `
+            <div class="row exercise-additional-row ${additional.note ? '' : 'edit-button'} ${!additional.note && !edit_mode ? 'd-none' : ''}" data-id="${additional.id}" data-additional="${additional.additional_id}">
+                <div class="col-5 px-0 border">
+                    ${ get_translation_name(additional.additional_name) }
                 </div>
-                `
-                $('#training-exercise-additional').append(additional_html)
-                $('.exercise-additional-row[data-id="'+additional.id+'"] select').val(additional.additional_id)
+                <div class="col px-0">
+                    <input type="text" name="note" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded edit-input" value="${additional.note ? additional.note : ''}" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
+                </div>
+                <div class="col-sm-12 col-md-1 px-0 edit-button ${!edit_mode ? 'd-none' : ''}">
+                    <button type="button" class="btn btn-sm btn-block btn-success rounded-0 p-0 h-100 float-right edit-input copy-exercise-additional" ${!edit_mode ? 'disabled' : ''}><i class="fa fa-clone" aria-hidden="true"></i></button>
+                </div>
+                <div class="col-sm-12 col-md-1 px-0 edit-button ${!edit_mode ? 'd-none' : ''}">
+                    <button type="button" class="btn btn-sm btn-block btn-danger rounded-0 p-0 h-100 float-right edit-input delete-exercise-additional" ${!edit_mode ? 'disabled' : ''}><i class="fa fa-trash" aria-hidden="true"></i></button>
+                </div>
+            </div>
+            `
+            // $('.exercise-additional-row[data-id="'+additional.id+'"] select').val(additional.additional_id)
 
-            })
         })
+        $('#training-exercise-additional').html(additional_html)
     })
 }
 

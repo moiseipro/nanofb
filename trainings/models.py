@@ -284,6 +284,9 @@ class UserTrainingExerciseAdditional(AbstractTrainingExerciseAdditional):
         on_delete=models.CASCADE,
     )
 
+    class Meta:
+        ordering = ['additional_id__order']
+
 
 class ClubTrainingExerciseAdditional(AbstractTrainingExerciseAdditional):
     training_exercise_id = models.ForeignKey(
@@ -295,6 +298,9 @@ class ClubTrainingExerciseAdditional(AbstractTrainingExerciseAdditional):
         on_delete=models.CASCADE,
     )
 
+    class Meta:
+        ordering = ['additional_id__order']
+
 
 class LiteTrainingExerciseAdditional(AbstractTrainingExerciseAdditional):
     training_exercise_id = models.ForeignKey(
@@ -305,6 +311,9 @@ class LiteTrainingExerciseAdditional(AbstractTrainingExerciseAdditional):
         UserExsAdditionalData,
         on_delete=models.CASCADE,
     )
+
+    class Meta:
+        ordering = ['additional_id__order']
 
 
 # PROTOCOL
