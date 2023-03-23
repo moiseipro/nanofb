@@ -4224,6 +4224,9 @@ table.table-inbox tbody tr.checked {
 .icon--favorite-selected {
 	content: url(../img/icons/favorite_selected.png);
 }
+.icon--field {
+	content: url(../img/icons/field.png);
+}
 .icon--flexibility {
 	content: url(../img/icons/flexibility.png);
 }

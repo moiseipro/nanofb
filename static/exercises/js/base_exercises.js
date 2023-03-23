@@ -368,6 +368,9 @@ function ToggleUpFilter(id, state) {
             }
             ToggleIconsInExs();
             break;
+        case "toggle_field":
+            ToggleIconsInExs();
+            break;
         default:
             break;
     }
@@ -664,9 +667,11 @@ function RenderContentInCardModalForEdit(data) {
     if (!window.videoPlayerCopyClones) {
         window.videoPlayerCopyClones = [];
     }
-    for (let i = 0; i < window.videoPlayerCopyClones.length; i++) {
-        window.videoPlayerCopyClones[i].dispose();
-    }
+    try {
+        for (let i = 0; i < window.videoPlayerCopyClones.length; i++) {
+            window.videoPlayerCopyClones[i].dispose();
+        }
+    } catch(e) {}
     let items = $('#exerciseCopyModal').find('.video-copy-modal');
     for (let i = 0; i < items.length; i++) {
         let tId = $(items[i]).attr('id');
@@ -712,6 +717,72 @@ function RenderSelectedExercisesForDelete() {
         amount = window.selectedExercisesForDelete.length;
     } catch(e) {}
     $('.exs-edit-block').find('.btn-edit-e[data-id="delete_select"]').find('.amount').text(`(${amount})`);
+}
+
+function MoveVideoFromExsToExs(toExsId) {
+    let data = {
+        'move_video_from_exs_to_exs': 1, 
+        'from_exs': window.moveVideoFromExsToExs['exs_from'], 
+        'to_exs': toExsId, 
+        'content': window.moveVideoFromExsToExs['content']
+    };
+    console.log(data)
+    $.ajax({
+        headers:{"X-CSRFToken": csrftoken},
+        data: data,
+        type: 'POST', // GET или POST
+        dataType: 'json',
+        url: "exercises_api",
+        success: function (res) {
+            if (res.success) {
+                swal("Готово", "Видео / анимация успешно перенесены.", "success");
+                LoadExerciseOneHandler();
+            } else {
+                swal("Ошибка", "Не удалось переместить видео / анимацию.", "error");
+                console.log(res);
+            }
+        },
+        error: function (res) {
+            swal("Ошибка", "Не удалось переместить видео / анимацию.", "error");
+            console.log(res);
+        },
+        complete: function (res) {
+        }
+    });
+}
+
+function CopySchemeFromExsToExs(toExsId, toFolderType) {
+    let data = {
+        'copy_scheme_from_exs_to_exs': 1, 
+        'from_exs': window.copySchemeFromExsToExs['exs_from'], 
+        'to_exs': toExsId, 
+        'from_f_type': window.copySchemeFromExsToExs['f_type'],
+        'to_f_type': toFolderType,
+        'content': window.copySchemeFromExsToExs['content']
+    };
+    console.log(data)
+    $.ajax({
+        headers:{"X-CSRFToken": csrftoken},
+        data: data,
+        type: 'POST', // GET или POST
+        dataType: 'json',
+        url: "exercises_api",
+        success: function (res) {
+            if (res.success) {
+                swal("Готово", "Схема успешно скопирована.", "success");
+                LoadExerciseOneHandler();
+            } else {
+                swal("Ошибка", "Не удалось скопировать схему.", "error");
+                console.log(res);
+            }
+        },
+        error: function (res) {
+            swal("Ошибка", "Не удалось скопировать схему.", "error");
+            console.log(res);
+        },
+        complete: function (res) {
+        }
+    });
 }
 
 
@@ -1512,7 +1583,53 @@ $(function() {
         }
         $('#exerciseCopyModal').modal('hide');
     });
-    $('.copy-modal-status').on('click', 'button', (e) => {
+    $('.copy-modal-status').on('click', '.btn-apply', (e) => {
+        if (window.moveVideoFromExsToExs) {
+            let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+            let exsId = $('.exs-list-group').find('.exs-elem.active').attr('data-id');
+            if (window.moveVideoFromExsToExs['f_type'] && window.moveVideoFromExsToExs['f_type'] == "nfb_folders" && folderType == "nfb_folders") {
+                swal({
+                    title: "Вы точно хотите переместить контент в это упражнение?",
+                    text: ``,
+                    icon: "warning",
+                    buttons: ["Отмена", "Подтвердить"],
+                    dangerMode: true,
+                })
+                .then((willMoving) => {
+                    if (willMoving) {
+                        MoveVideoFromExsToExs(exsId);
+                        window.moveVideoFromExsToExs = null;
+                        $('.exercises-block').find('.copy-modal-status').removeClass('d-flex');
+                        $('.exercises-block').find('.copy-modal-status').addClass('d-none');
+                    }
+                });
+            } else {
+                swal("Внимание", "Оба упражнения должны быть из папок N.F.", "info");
+                window.moveVideoFromExsToExs = null;
+                $('.exercises-block').find('.copy-modal-status').removeClass('d-flex');
+                $('.exercises-block').find('.copy-modal-status').addClass('d-none');
+            }
+        } else if (window.copySchemeFromExsToExs) {
+            let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+            let exsId = $('.exs-list-group').find('.exs-elem.active').attr('data-id');
+            swal({
+                title: "Вы точно хотите скопировать контент в это упражнение?",
+                text: ``,
+                icon: "warning",
+                buttons: ["Отмена", "Подтвердить"],
+                dangerMode: true,
+            })
+            .then((willCopying) => {
+                if (willCopying) {
+                    CopySchemeFromExsToExs(exsId, folderType);
+                    window.copySchemeFromExsToExs = null;
+                    $('.exercises-block').find('.copy-modal-status').removeClass('d-flex');
+                    $('.exercises-block').find('.copy-modal-status').addClass('d-none');
+                }
+            });
+        }
+    });
+    $('.copy-modal-status').on('click', '.btn-cancel', (e) => {
         window.moveVideoFromExsToExs = null;
         window.copySchemeFromExsToExs = null;
         $('.exercises-block').find('.copy-modal-status').removeClass('d-flex');

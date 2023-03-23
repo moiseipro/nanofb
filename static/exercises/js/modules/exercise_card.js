@@ -1641,7 +1641,7 @@ $(function() {
                     $('#descriptionEditor2').next().find('.ck-editor__top').addClass('d-none');
                     $('#descriptionEditor2').next().find('.ck-content.ck-editor__editable').addClass('borders-off');
                 }
-                $('.resizeable-block').css('height', `75vh`);
+                $('.resizeable-block').css('height', `79vh`);
 				return editor;
 			})
 		});
@@ -1724,7 +1724,7 @@ $(function() {
             .then( editor => {
                 editor.setData($('#descriptionEditor2Template').attr('data-content'));
                 document.descriptionEditor2Template = editor;
-                $('.resizeable-block').css('height', `75vh`);
+                $('.resizeable-block').css('height', `79vh`);
 				return editor;
 			})
 		});
