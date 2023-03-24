@@ -240,11 +240,11 @@ function RenderFolderExercises(id, tExs) {
                         </button>
                     `}
                     ${isIQ ? `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="iq" style="--w-x:24px; min-width: 40px; --h-x:24px;" disabled="">
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="iq" style="--w-x:24px; min-width: 50px; --h-x:24px;" disabled="">
                             ${isIQ}
                         </button>
                     ` : `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="iq" style="--w-x:24px; min-width: 40px; --h-x:24px;" disabled="">
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="iq" style="--w-x:24px; min-width: 50px; --h-x:24px;" disabled="">
                             ...
                         </button>
                     `}
