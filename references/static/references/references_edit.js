@@ -103,12 +103,14 @@ function load_reference_data(data) {
     let html = ''
     let count = reference_data.length
     $.each(reference_data, function(index, ref) {
+        /*
+        <div class="col-4 px-1">
+            <input type="text" name="short_name" class="form-control form-control-sm" value="${ref.short_name}" placeholder="${gettext("Short name")}" disabled>
+        </div>
+         */
         html+= `
         <div class="row reference-row" data-id="${ref.id}" data-order="${ref.order}">
-            <div class="col-4 px-1">
-                <input type="text" name="short_name" class="form-control form-control-sm" value="${ref.short_name}" placeholder="${gettext("Short name")}" disabled>
-            </div>
-            <div class="col-4 px-1">
+            <div class="col-8 px-1">
                 <input type="text" name="name" class="form-control form-control-sm" value="${ get_translation_name(ref.translation_names) }" placeholder="${gettext("Title")}" disabled>
             </div>
             <div class="col-2 px-1">

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-23 12:39+0300\n"
+"POT-Creation-Date: 2023-03-24 14:48+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1837,7 +1837,7 @@ msgid "club"
 msgstr ""
 
 #: .\authorization\forms.py:31 .\users\models.py:27
-#: .\users\templates\users\forms\edit-personal-form.html:15
+#: .\users\templates\users\forms\edit-personal-form.html:17
 #: .\users\templates\users\modules\user_table.html:8
 msgid "Last name"
 msgstr "Фамилия"
@@ -1849,7 +1849,7 @@ msgid "First name"
 msgstr "Имя"
 
 #: .\authorization\forms.py:49 .\users\models.py:35
-#: .\users\templates\users\forms\edit-personal-form.html:21
+#: .\users\templates\users\forms\edit-personal-form.html:25
 msgid "Father name"
 msgstr "Отчество"
 
@@ -1863,24 +1863,24 @@ msgid "Select country"
 msgstr "Выберите страну"
 
 #: .\authorization\forms.py:76
-#: .\users\templates\users\forms\edit-personal-form.html:90
+#: .\users\templates\users\forms\edit-personal-form.html:114
 msgid "City"
 msgstr "Город"
 
 #: .\authorization\forms.py:83
-#: .\users\templates\users\forms\edit-personal-form.html:84
+#: .\users\templates\users\forms\edit-personal-form.html:106
 msgid "Region"
 msgstr "Регион"
 
 #: .\authorization\forms.py:99 .\users\models.py:48
 #: .\users\templates\users\base_profile.html:98
-#: .\users\templates\users\forms\edit-personal-form.html:57
+#: .\users\templates\users\forms\edit-personal-form.html:73
 #: .\users\templates\users\modules\user_table.html:13
 msgid "License"
 msgstr "Лицензия"
 
 #: .\authorization\forms.py:111 .\users\templates\users\base_profile.html:102
-#: .\users\templates\users\forms\edit-personal-form.html:63
+#: .\users\templates\users\forms\edit-personal-form.html:81
 msgid "License period"
 msgstr "Срок лицензии"
 
@@ -1993,7 +1993,7 @@ msgid "Clubs"
 msgstr "Клубы"
 
 #: .\clubs\forms.py:85 .\users\admin.py:24 .\users\models.py:59
-#: .\users\templates\users\forms\edit-personal-form.html:72
+#: .\users\templates\users\forms\edit-personal-form.html:92
 msgid "Country"
 msgstr "Страна"
 
@@ -2294,36 +2294,30 @@ msgstr "Показать/скрыть карточку события"
 msgid "Resetting all filtering and calendar"
 msgstr "Сброс всей фильтрации и календаря"
 
-#: .\events\templates\events\base_events.html:107
-#: .\events\templates\events\lite_events.html:86
-msgid "M.D."
-msgstr "М.Д."
-
 #: .\events\templates\events\base_events.html:110
-#: .\events\templates\events\lite_events.html:89
 msgid "Microcycle days"
 msgstr "Дни микроцикла"
 
-#: .\events\templates\events\base_events.html:113
-#: .\events\templates\events\lite_events.html:92
-#: .\trainings\templates\trainings\training_card.html:74
-msgid "Field size"
-msgstr "Размер поля"
-
-#: .\events\templates\events\base_events.html:125
-#: .\events\templates\events\lite_events.html:104
+#: .\events\templates\events\base_events.html:119
+#: .\events\templates\events\lite_events.html:98
 msgid "Filtering of unfilled events"
 msgstr "Фильтрация незаполненных событий"
 
-#: .\events\templates\events\base_events.html:133
-#: .\events\templates\events\lite_events.html:112
+#: .\events\templates\events\base_events.html:142
+#: .\events\templates\events\lite_events.html:121
+msgid "Goal"
+msgstr "Цель"
+
+#: .\events\templates\events\base_events.html:145
+#: .\events\templates\events\lite_events.html:124
 msgid "Objectives"
 msgstr "Задачи"
 
-#: .\events\templates\events\base_events.html:136
-#: .\events\templates\events\lite_events.html:115
-msgid "Training load"
-msgstr "Нагрузка тренировки"
+#: .\events\templates\events\base_events.html:148
+#: .\events\templates\events\lite_events.html:127
+#: .\trainings\templates\trainings\training_card.html:85
+msgid "Load"
+msgstr "Нагрузка"
 
 #: .\events\templates\events\forms\create_event.html:7
 msgid "Event Create"
@@ -2366,6 +2360,10 @@ msgstr "Создать"
 #: .\references\templates\references\base_settings.html:68
 msgid "options"
 msgstr "опции"
+
+#: .\events\templates\events\lite_events.html:89
+msgid "MC days"
+msgstr "Дни МЦ"
 
 #: .\exercises\apps.py:8 .\nanofootball\templates\menu\sidebar.html:150
 #: .\trainings\templates\trainings\view_lite_training.html:39
@@ -3051,11 +3049,6 @@ msgstr "Возраст"
 msgid "Reference edit"
 msgstr "Редактирование справочника"
 
-#: .\references\templates\references\forms\reference_edit.html:17
-#: .\references\templates\references\forms\reference_edit.html:30
-msgid "Short name"
-msgstr "Короткий код"
-
 #: .\references\templates\references\forms\reference_edit.html:36
 msgid "Action"
 msgstr "Действие"
@@ -3231,9 +3224,9 @@ msgstr "Количество игроков"
 msgid "Goalkeepers"
 msgstr "Вратари"
 
-#: .\trainings\templates\trainings\training_card.html:85
-msgid "Load"
-msgstr "Нагрузка"
+#: .\trainings\templates\trainings\training_card.html:74
+msgid "Field size"
+msgstr "Размер поля"
 
 #: .\trainings\templates\trainings\training_card.html:91
 msgid "Objective 1"
@@ -3306,7 +3299,7 @@ msgstr "Клуб"
 
 #: .\users\forms.py:22 .\users\models.py:41
 #: .\users\templates\users\base_profile.html:94
-#: .\users\templates\users\forms\edit-personal-form.html:51
+#: .\users\templates\users\forms\edit-personal-form.html:65
 #: .\users\templates\users\modules\user_table.html:10
 msgid "Job title"
 msgstr "Должность"
@@ -3360,7 +3353,7 @@ msgid "Birthday"
 msgstr "День рождения"
 
 #: .\users\models.py:81
-#: .\users\templates\users\forms\edit-personal-form.html:33
+#: .\users\templates\users\forms\edit-personal-form.html:41
 msgid "Phone"
 msgstr "Телефон"
 
@@ -3369,7 +3362,7 @@ msgid "Phone number"
 msgstr "Номер телефона"
 
 #: .\users\models.py:89
-#: .\users\templates\users\forms\edit-personal-form.html:39
+#: .\users\templates\users\forms\edit-personal-form.html:49
 msgid "Spare phone"
 msgstr "Запасной телефон"
 
@@ -3378,7 +3371,7 @@ msgid "Spare phone number"
 msgstr "Запасной номер телефона"
 
 #: .\users\models.py:97 .\users\models.py:98
-#: .\users\templates\users\forms\edit-personal-form.html:27
+#: .\users\templates\users\forms\edit-personal-form.html:33
 msgid "Spare email"
 msgstr "Запасной email"
 
@@ -3486,7 +3479,7 @@ msgid "Personal Details"
 msgstr "Личные данные"
 
 #: .\users\templates\users\base_profile.html:90
-#: .\users\templates\users\forms\edit-personal-form.html:45
+#: .\users\templates\users\forms\edit-personal-form.html:57
 msgid "Date of Birth"
 msgstr "День рождения"
 
@@ -3539,7 +3532,7 @@ msgid "Confirm Password"
 msgstr "Подтвердите пароль"
 
 #: .\users\templates\users\base_profile.html:212
-#: .\users\templates\users\forms\edit-personal-form.html:95
+#: .\users\templates\users\forms\edit-personal-form.html:121
 #: .\users\templates\users\forms\edit-user-form.html:43
 msgid "Save Changes"
 msgstr "Сохранить изменения"
@@ -3891,6 +3884,15 @@ msgstr "Видео / Анимация"
 #: .\video\templates\video\video_card.html:141
 msgid "Animation"
 msgstr "Анимация"
+
+#~ msgid "Training load"
+#~ msgstr "Нагрузка тренировки"
+
+#~ msgid "M.D."
+#~ msgstr "М.Д."
+
+#~ msgid "Short name"
+#~ msgstr "Короткий код"
 
 #, fuzzy
 #~| msgid "Additional training data"
