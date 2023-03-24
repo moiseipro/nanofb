@@ -104,36 +104,48 @@
                         <div class="col">
                             <div class="row">
                                 <div class="col-4 pl-0 pr-1">
-                                    <input id="microcycle-day-filter" type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="{% trans 'M.D.' %}">
+                                    <input id="microcycle-day-filter" type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="M.D.">
                                 </div>
                                 <div class="col-4 px-1">
-                                    <input id="microcycle-days-filter" type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="{% trans 'Microcycle days' %}">
+                                    <input id="microcycle-days-filter" type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="{% trans 'MC days' %}">
                                 </div>
-                                <div class="col-4 px-1">
-                                    <input id="field_size-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Field size' %}">
+{#                                <div class="col-4 px-1">#}
+{#                                    <input id="field_size-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Field size' %}">#}
+{#                                </div>#}
+                                <div class="col px-1">
+                                    <button id="favourites-event-filter" data-filter="0" title="" class="btn btn-block btn-filter-events btn-sm font-weight-bold"><i class="fa fa-star-o" aria-hidden="true"></i></button>
+                                </div>
+                                <div class="col px-1">
+                                    <button id="filled-event-filter" data-filter="0" title="{% trans "Filtering of unfilled events" %}" class="btn btn-block btn-filter-events btn-sm font-weight-bold"><b class="text-danger">?</b></button>
+                                </div>
+                                <div class="col px-1">
+                                    <button id="video-event-filter" data-filter="0" title="" class="btn btn-block btn-filter-events btn-sm font-weight-bold"><b class="text-info">V</b></button>
                                 </div>
                             </div>
                         </div>
                         <div class="col-8">
                             <div class="row">
-                                <div class="col-4">
-                                    <div class="row">
-                                        <div class="col px-1">
-                                            <button id="favourites-event-filter" data-filter="0" title="" class="btn btn-block btn-filter-events btn-sm font-weight-bold"><i class="fa fa-star-o" aria-hidden="true"></i></button>
-                                        </div>
-                                        <div class="col px-1">
-                                            <button id="filled-event-filter" data-filter="0" title="{% trans "Filtering of unfilled events" %}" class="btn btn-block btn-filter-events btn-sm font-weight-bold"><b class="text-danger">?</b></button>
-                                        </div>
-                                        <div class="col px-1">
-                                            <button id="video-event-filter" data-filter="0" title="" class="btn btn-block btn-filter-events btn-sm font-weight-bold"><b class="text-info">V</b></button>
-                                        </div>
-                                    </div>
+{#                                <div class="col-4">#}
+{#                                    <div class="row">#}
+{#                                        <div class="col px-1">#}
+{#                                            <button id="favourites-event-filter" data-filter="0" title="" class="btn btn-block btn-filter-events btn-sm font-weight-bold"><i class="fa fa-star-o" aria-hidden="true"></i></button>#}
+{#                                        </div>#}
+{#                                        <div class="col px-1">#}
+{#                                            <button id="filled-event-filter" data-filter="0" title="{% trans "Filtering of unfilled events" %}" class="btn btn-block btn-filter-events btn-sm font-weight-bold"><b class="text-danger">?</b></button>#}
+{#                                        </div>#}
+{#                                        <div class="col px-1">#}
+{#                                            <button id="video-event-filter" data-filter="0" title="" class="btn btn-block btn-filter-events btn-sm font-weight-bold"><b class="text-info">V</b></button>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+                                <div class="col-4 px-1">
+                                    <input id="goal-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Goal' %}">
                                 </div>
                                 <div class="col-4 px-1">
                                     <input id="keywords-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Objectives' %}">
                                 </div>
                                 <div class="col-4 pl-1 pr-0">
-                                    <input id="load-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Training load' %}">
+                                    <input id="load-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Load' %}">
                                 </div>
                             </div>
                         </div>

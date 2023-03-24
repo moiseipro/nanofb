@@ -503,7 +503,7 @@ $(window).on('load', function (){
     //Фильтрация событий по текстовым полям
     $('.ajax-text-filters').on('keyup', debounce(function(){
         generateData()
-    }, 500))
+    }, 1000))
     //Фильтрация не заполненных событий
     $('#filled-event-filter').on('click', function () {
         let cur_state = parseInt($(this).attr('data-filter'))
@@ -614,6 +614,7 @@ function clear_filters_events() {
     $('#field_size-event-filter').val('')
     $('#keywords-event-filter').val('')
     $('#load-event-filter').val('')
+    $('#goal-event-filter').val('')
     $('#block-event-info .event-info').html('')
     if($('#events-content').hasClass('d-none')){
         hide_training_card()

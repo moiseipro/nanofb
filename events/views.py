@@ -307,6 +307,7 @@ class EventViewSet(viewsets.ModelViewSet):
         microcycle_after = self.request.query_params.get('from_date')
         favourites = self.request.query_params.get('favourites')
         load_type = self.request.query_params.get('load_type')
+        goal = self.request.query_params.get('goal')
         keywords = self.request.query_params.get('keywords')
         field_size = self.request.query_params.get('field_size')
         print(load_type)
@@ -319,6 +320,8 @@ class EventViewSet(viewsets.ModelViewSet):
                 q_filter &= Q(clubtraining__favourites=favourites)
             if load_type != '' and load_type is not None:
                 q_filter &= Q(clubtraining__load_type__icontains=load_type)
+            if goal != '' and goal is not None:
+                q_filter &= Q(clubtraining__goal__icontains=goal)
             if keywords != '' and keywords is not None:
                 q_filter &= Q(clubtraining__objective_1__icontains=keywords) | Q(clubtraining__objective_2__icontains=keywords) | Q(clubtraining__goal__icontains=keywords)
             if field_size != '' and field_size is not None:
@@ -337,6 +340,8 @@ class EventViewSet(viewsets.ModelViewSet):
                 q_filter &= Q(usertraining__favourites=favourites)
             if load_type != '' and load_type is not None:
                 q_filter &= Q(usertraining__load_type__icontains=load_type)
+            if goal != '' and goal is not None:
+                q_filter &= Q(usertraining__goal__icontains=goal)
             if keywords != '' and keywords is not None:
                 q_filter &= Q(usertraining__objective_1__icontains=keywords) | Q(usertraining__objective_2__icontains=keywords) | Q(usertraining__goal__icontains=keywords)
             if field_size != '' and field_size is not None:
@@ -497,6 +502,7 @@ class LiteEventViewSet(viewsets.ModelViewSet):
         microcycle_after = self.request.query_params.get('from_date')
         favourites = self.request.query_params.get('favourites')
         load_type = self.request.query_params.get('load_type')
+        goal = self.request.query_params.get('goal')
         keywords = self.request.query_params.get('keywords')
         field_size = self.request.query_params.get('field_size')
         print(load_type)
@@ -511,6 +517,8 @@ class LiteEventViewSet(viewsets.ModelViewSet):
             q_filter &= Q(litetraining__favourites=favourites)
         if load_type != '' and load_type is not None:
             q_filter &= Q(litetraining__load_type__icontains=load_type)
+        if goal != '' and goal is not None:
+            q_filter &= Q(litetraining__goal__icontains=goal)
         if keywords != '' and keywords is not None:
             q_filter &= Q(litetraining__objective_1__icontains=keywords) | Q(litetraining__objective_2__icontains=keywords) | Q(litetraining__goal__icontains=keywords)
         if field_size != '' and field_size is not None:

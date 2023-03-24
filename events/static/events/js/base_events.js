@@ -11,7 +11,8 @@ function generateNewCalendar(){
     let today = strDate
     let favourites = parseInt($('#favourites-event-filter').attr('data-filter') ? $('#favourites-event-filter').attr('data-filter') : '0')
     let load_type = $('#load-event-filter').val() ? $('#load-event-filter').val() : ''
-    let keywords = $('#keywords-event-filter').val() ? $('#keywords-event-filter').val().val() : ''
+    let goal = $('#goal-event-filter').val() ? $('#goal-event-filter').val() : ''
+    let keywords = $('#keywords-event-filter').val() ? $('#keywords-event-filter').val() : ''
     let field_size = $('#field_size-event-filter').val() ? $('#field_size-event-filter').val() : ''
 
 
@@ -39,6 +40,7 @@ function generateNewCalendar(){
     send_data['to_date'] = to_date
     send_data['favourites'] = favourites
     send_data['load_type'] = load_type
+    send_data['goal'] = goal
     send_data['keywords'] = keywords
     send_data['field_size'] = field_size
 
@@ -58,7 +60,8 @@ function generateOnlyTable() {
     let today = strDate
     let favourites = parseInt($('#favourites-event-filter').attr('data-filter') ? $('#favourites-event-filter').attr('data-filter') : '0')
     let load_type = $('#load-event-filter').val() ? $('#load-event-filter').val() : ''
-    let keywords = $('#keywords-event-filter').val() ? $('#keywords-event-filter').val().val() : ''
+    let goal = $('#goal-event-filter').val() ? $('#goal-event-filter').val() : ''
+    let keywords = $('#keywords-event-filter').val() ? $('#keywords-event-filter').val() : ''
     let field_size = $('#field_size-event-filter').val() ? $('#field_size-event-filter').val() : ''
 
     let from_date = undefined
@@ -75,6 +78,7 @@ function generateOnlyTable() {
     send_data['to_date'] = to_date
     send_data['favourites'] = favourites
     send_data['load_type'] = load_type
+    send_data['goal'] = goal
     send_data['keywords'] = keywords
     send_data['field_size'] = field_size
     //console.log(send_data)
