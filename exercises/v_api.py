@@ -2686,6 +2686,7 @@ def GET_get_exs_all(request, cur_user, cur_team):
             'field_exs_category_a': exercise['field_exs_category_a'],
             'field_exs_category_b': exercise['field_exs_category_b'],
             'field_categories': exercise['field_categories'],
+            'field_fields': exercise['field_fields'],
             'ref_ball_id': exercise['ref_ball_id'],
             'has_video_1': exercise['has_video_1'],
             'has_video_2': exercise['has_video_2'],

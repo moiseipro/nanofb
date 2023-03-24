@@ -83,25 +83,25 @@
 
 
 .left-col-card {
-    height: 80vh !important;
+    height: 82vh !important;
     overflow-y: auto;
 }
 .left-col-card.short {
-    height: 80vh !important;
+    height: 82vh !important;
 }
 .center-col-card {
-    height: 80vh !important;
+    height: 82vh !important;
     overflow-y: auto;
 }
 .center-col-card.short {
-    height: 80vh !important;
+    height: 82vh !important;
 }
 .right-col-card {
-    height: 80vh !important;
+    height: 82vh !important;
     overflow-y: auto;
 }
 .right-col-card.short {
-    height: 80vh !important;
+    height: 82vh !important;
 }
 /* .video-list-container {
     height: 65vh !important;

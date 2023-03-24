@@ -124,6 +124,10 @@ function RenderFolderExercises(id, tExs) {
         try {
             isPRO = exElem.field_categories.includes("pro");
         } catch(e) {}
+        let isField = false;
+        try {
+            isField = exElem.field_fields[0];
+        } catch(e) {}
         exsHtml += `
         <li class="exs-elem list-group-item py-1 px-0" data-id="${exElem.id}" data-folder="${exElem.folder}">
             <div class="row w-100">
@@ -219,6 +223,15 @@ function RenderFolderExercises(id, tExs) {
                         </button>
                     ` : `
                         <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="pro" style="--w-x:24px; min-width: 40px; --h-x:24px;" disabled="">
+                            ...
+                        </button>
+                    `}
+                    ${isField ? `
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="field" style="--w-x:24px; min-width: 40px; --h-x:24px;" disabled="">
+                            ${isField == "field_0" ? "1" : isField == "field_1" ? "1/2" : "..."}
+                        </button>
+                    ` : `
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="field" style="--w-x:24px; min-width: 40px; --h-x:24px;" disabled="">
                             ...
                         </button>
                     `}
@@ -381,6 +394,7 @@ function ToggleIconsInExs() {
     let isActiveBall = $('.up-tabs-elem[data-id="ball"]').attr('data-state') == "1";
     let isActiveKeywords = $('.up-tabs-elem[data-id="keywords"]').attr('data-state') == "1";
     let isActivePro = $('.up-tabs-elem[data-id="toggle_pro"]').attr('data-state') == "1";
+    let isActiveField = $('.up-tabs-elem[data-id="toggle_field"]').attr('data-state') == "1";
 
     let isActiveExsAdminOpts = $('#toggleExsAdminOptions').attr('data-state') == "1";
     let isActiveExsID = $('#toggleExsID').attr('data-state') == "1";
@@ -392,6 +406,7 @@ function ToggleIconsInExs() {
     $('.exercises-block').find(`[data-type="icons"][data-id="ball"]`).toggleClass('d-none', !isActiveBall);
     $('.exercises-block').find(`[data-type="icons"][data-id="keywords"]`).toggleClass('d-none', !isActiveKeywords);
     $('.exercises-block').find(`[data-type="icons"][data-id="pro"]`).toggleClass('d-none', !isActivePro);
+    $('.exercises-block').find(`[data-type="icons"][data-id="field"]`).toggleClass('d-none', !isActiveField);
 
     $('.exercises-block').find(`[data-type="icons"][data-info="admin_options"]`).toggleClass('d-none', !isActiveExsAdminOpts);
     $('.exercises-block').find(`[data-type="icons"][data-id="id"]`).toggleClass('d-none', !isActiveExsID);
@@ -420,70 +435,6 @@ function PauseCountExsCalls(currentCall) {
             }
         });
     }
-}
-
-function MoveVideoFromExsToExs(toExsId) {
-    let data = {
-        'move_video_from_exs_to_exs': 1, 
-        'from_exs': window.moveVideoFromExsToExs['exs_from'], 
-        'to_exs': toExsId, 
-        'content': window.moveVideoFromExsToExs['content']
-    };
-    $.ajax({
-        headers:{"X-CSRFToken": csrftoken},
-        data: data,
-        type: 'POST', // GET или POST
-        dataType: 'json',
-        url: "exercises_api",
-        success: function (res) {
-            if (res.success) {
-                swal("Готово", "Видео / анимация успешно перенесены.", "success");
-                LoadExerciseOneHandler();
-            } else {
-                swal("Ошибка", "Не удалось переместить видео / анимацию.", "error");
-                console.log(res);
-            }
-        },
-        error: function (res) {
-            swal("Ошибка", "Не удалось переместить видео / анимацию.", "error");
-            console.log(res);
-        },
-        complete: function (res) {
-        }
-    });
-}
-
-function CopySchemeFromExsToExs(toExsId, toFolderType) {
-    let data = {
-        'copy_scheme_from_exs_to_exs': 1, 
-        'from_exs': window.copySchemeFromExsToExs['exs_from'], 
-        'to_exs': toExsId, 
-        'from_f_type': window.copySchemeFromExsToExs['f_type'],
-        'to_f_type': toFolderType,
-        'content': window.copySchemeFromExsToExs['content']
-    };
-    $.ajax({
-        headers:{"X-CSRFToken": csrftoken},
-        data: data,
-        type: 'POST', // GET или POST
-        dataType: 'json',
-        url: "exercises_api",
-        success: function (res) {
-            if (res.success) {
-                swal("Готово", "Схема успешно скопирована.", "success");
-                LoadExerciseOneHandler();
-            } else {
-                swal("Ошибка", "Не удалось скопировать схему.", "error");
-                console.log(res);
-            }
-        },
-        error: function (res) {
-            swal("Ошибка", "Не удалось скопировать схему.", "error");
-            console.log(res);
-        },
-        complete: function (res) {
-        }
-    });
 }
 
 function ToggleFoldersView(saveView) {
@@ -671,52 +622,7 @@ $(function() {
         }
         $('.exercises-list').find('.exs-elem').removeClass('active');
         $(e.currentTarget).addClass('active');
-        if (window.moveVideoFromExsToExs) {
-            let folderType = $('.folders_div:not(.d-none)').attr('data-id');
-            let exsId = $(e.currentTarget).attr('data-id');
-            if (window.moveVideoFromExsToExs['f_type'] && window.moveVideoFromExsToExs['f_type'] == "nfb_folders" && folderType == "nfb_folders") {
-                swal({
-                    title: "Вы точно хотите переместить контент в это упражнение?",
-                    text: ``,
-                    icon: "warning",
-                    buttons: ["Отмена", "Подтвердить"],
-                    dangerMode: true,
-                })
-                .then((willMoving) => {
-                    if (willMoving) {
-                        MoveVideoFromExsToExs(exsId);
-                        window.moveVideoFromExsToExs = null;
-                        $('.exercises-block').find('.copy-modal-status').removeClass('d-flex');
-                        $('.exercises-block').find('.copy-modal-status').addClass('d-none');
-                    }
-                });
-            } else {
-                swal("Внимание", "Оба упражнения должны быть из папок N.F.", "info");
-                window.moveVideoFromExsToExs = null;
-                $('.exercises-block').find('.copy-modal-status').removeClass('d-flex');
-                $('.exercises-block').find('.copy-modal-status').addClass('d-none');
-            }
-        } else if (window.copySchemeFromExsToExs) {
-            let folderType = $('.folders_div:not(.d-none)').attr('data-id');
-            let exsId = $(e.currentTarget).attr('data-id');
-            swal({
-                title: "Вы точно хотите скопировать контент в это упражнение?",
-                text: ``,
-                icon: "warning",
-                buttons: ["Отмена", "Подтвердить"],
-                dangerMode: true,
-            })
-            .then((willCopying) => {
-                if (willCopying) {
-                    CopySchemeFromExsToExs(exsId, folderType);
-                    window.copySchemeFromExsToExs = null;
-                    $('.exercises-block').find('.copy-modal-status').removeClass('d-flex');
-                    $('.exercises-block').find('.copy-modal-status').addClass('d-none');
-                }
-            });
-        } else {
-            LoadExerciseOneHandler();
-        }
+        LoadExerciseOneHandler();
     });
 
 
