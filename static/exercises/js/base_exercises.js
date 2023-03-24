@@ -237,43 +237,6 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem[data-id="clear_filter"]').attr('data-state', 0);
             break;
         case "toggle_watched":
-            if (state) {
-                $('.up-tabs-elem[data-id="toggle_watched_not"]').removeClass('selected3');
-                $('.up-tabs-elem[data-id="toggle_watched_not"]').attr('data-state', 0);
-                window.exercisesFilter['watch'] = '1';
-                for (ind in window.count_exs_calls) {
-                    window.count_exs_calls[ind]['call'].abort();
-                }
-                LoadFolderExercises();
-                CountExsInFolder();
-            } else {
-                delete window.exercisesFilter['watch'];
-                for (ind in window.count_exs_calls) {
-                    window.count_exs_calls[ind]['call'].abort();
-                }
-                LoadFolderExercises();
-                CountExsInFolder();
-            }
-            ToggleMarkersInExs();
-            break;
-        case "toggle_watched_not":
-            if (state) {
-                $('.up-tabs-elem[data-id="toggle_watched"]').removeClass('selected3');
-                $('.up-tabs-elem[data-id="toggle_watched"]').attr('data-state', 0);
-                window.exercisesFilter['watch'] = '0';
-                for (ind in window.count_exs_calls) {
-                    window.count_exs_calls[ind]['call'].abort();
-                }
-                LoadFolderExercises();
-                CountExsInFolder();
-            } else {
-                delete window.exercisesFilter['watch'];
-                for (ind in window.count_exs_calls) {
-                    window.count_exs_calls[ind]['call'].abort();
-                }
-                LoadFolderExercises();
-                CountExsInFolder();
-            }
             ToggleMarkersInExs();
             break;
         case "toggle_favorite":
@@ -369,6 +332,9 @@ function ToggleUpFilter(id, state) {
             ToggleIconsInExs();
             break;
         case "toggle_field":
+            ToggleIconsInExs();
+            break;
+        case "toggle_iq":
             ToggleIconsInExs();
             break;
         default:

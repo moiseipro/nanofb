@@ -128,6 +128,10 @@ function RenderFolderExercises(id, tExs) {
         try {
             isField = exElem.field_fields[0];
         } catch(e) {}
+        let isIQ = false;
+        try {
+            isIQ = exElem.field_cognitive_loads[0].toUpperCase().replace('_', '-');
+        } catch(e) {}
         exsHtml += `
         <li class="exs-elem list-group-item py-1 px-0" data-id="${exElem.id}" data-folder="${exElem.folder}">
             <div class="row w-100">
@@ -232,6 +236,15 @@ function RenderFolderExercises(id, tExs) {
                         </button>
                     ` : `
                         <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="field" style="--w-x:24px; min-width: 40px; --h-x:24px;" disabled="">
+                            ...
+                        </button>
+                    `}
+                    ${isIQ ? `
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="iq" style="--w-x:24px; min-width: 40px; --h-x:24px;" disabled="">
+                            ${isIQ}
+                        </button>
+                    ` : `
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="iq" style="--w-x:24px; min-width: 40px; --h-x:24px;" disabled="">
                             ...
                         </button>
                     `}
@@ -395,6 +408,7 @@ function ToggleIconsInExs() {
     let isActiveKeywords = $('.up-tabs-elem[data-id="keywords"]').attr('data-state') == "1";
     let isActivePro = $('.up-tabs-elem[data-id="toggle_pro"]').attr('data-state') == "1";
     let isActiveField = $('.up-tabs-elem[data-id="toggle_field"]').attr('data-state') == "1";
+    let isActiveIQ = $('.up-tabs-elem[data-id="toggle_iq"]').attr('data-state') == "1";
 
     let isActiveExsAdminOpts = $('#toggleExsAdminOptions').attr('data-state') == "1";
     let isActiveExsID = $('#toggleExsID').attr('data-state') == "1";
@@ -407,13 +421,14 @@ function ToggleIconsInExs() {
     $('.exercises-block').find(`[data-type="icons"][data-id="keywords"]`).toggleClass('d-none', !isActiveKeywords);
     $('.exercises-block').find(`[data-type="icons"][data-id="pro"]`).toggleClass('d-none', !isActivePro);
     $('.exercises-block').find(`[data-type="icons"][data-id="field"]`).toggleClass('d-none', !isActiveField);
+    $('.exercises-block').find(`[data-type="icons"][data-id="iq"]`).toggleClass('d-none', !isActiveIQ);
 
     $('.exercises-block').find(`[data-type="icons"][data-info="admin_options"]`).toggleClass('d-none', !isActiveExsAdminOpts);
     $('.exercises-block').find(`[data-type="icons"][data-id="id"]`).toggleClass('d-none', !isActiveExsID);
     $('.exercises-block').find(`[data-type="icons"][data-id="lang"]`).toggleClass('d-none', !isActiveLang);
 }
 function ToggleMarkersInExs() {
-    let isActiveVideo = $('.up-tabs-elem[data-id="toggle_watched"]').attr('data-state') == "1" || $('.up-tabs-elem[data-id="toggle_watched_not"]').attr('data-state') == "1";
+    let isActiveVideo = $('.up-tabs-elem[data-id="toggle_watched"]').attr('data-state') == "1";
     let isActiveFavorite = $('.up-tabs-elem[data-id="toggle_favorite"]').attr('data-state') == "1";
     $('.exercises-block').find(`[data-type="marker"][data-id!="favorite"]`).toggleClass('d-none', !isActiveVideo);
     $('.exercises-block').find(`[data-type="marker"][data-id="favorite"]`).toggleClass('d-none', !isActiveFavorite);
