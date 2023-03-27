@@ -532,7 +532,6 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
     """
     filter_goal = -1
     filter_ball = -1
-    filter_watched = -1
     filter_favorite = -1
     filter_new_exs = -1
     filter_search = ""
@@ -553,13 +552,6 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             filter_ball = int(req.GET.get("filter[ball]", -1))
         elif req.method == "POST":
             filter_ball = int(req.POST.get("filter[ball]", -1))
-    except:
-        pass
-    try:
-        if req.method == "GET":
-            filter_watched = int(req.GET.get("filter[watch]", -1))
-        elif req.method == "POST":
-            filter_watched = int(req.POST.get("filter[watch]", -1))
     except:
         pass
     try:
@@ -700,22 +692,6 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
         enddate = datetime.date.today()
         startdate = enddate - datetime.timedelta(days=30)
         f_exercises = f_exercises.filter(date_creation__range=[startdate, enddate])
-    if filter_watched != -1:
-        filter_watched = True if filter_watched == 1 else False
-        if filter_watched:
-            f_exercises = f_exercises.filter(
-                Q(Q(exercisevideo__type=1) & Q(exercisevideo__video__isnull=False) & Q(userexerciseparam__video_1_watched=filter_watched)) |
-                Q(Q(exercisevideo__type=2) & Q(exercisevideo__video__isnull=False) & Q(userexerciseparam__video_2_watched=filter_watched)) |
-                Q(Q(exercisevideo__type=3) & Q(exercisevideo__video__isnull=False) & Q(userexerciseparam__animation_1_watched=filter_watched)) |
-                Q(Q(exercisevideo__type=4) & Q(exercisevideo__video__isnull=False) & Q(userexerciseparam__animation_2_watched=filter_watched))
-            )
-        else:
-            f_exercises = f_exercises.filter(
-                Q(Q(exercisevideo__type=1) & Q(exercisevideo__video__isnull=False) & (Q(userexerciseparam__video_1_watched=filter_watched) | Q(userexerciseparam__id__isnull=True))) |
-                Q(Q(exercisevideo__type=2) & Q(exercisevideo__video__isnull=False) &(Q(userexerciseparam__video_2_watched=filter_watched) | Q(userexerciseparam__id__isnull=True))) |
-                Q(Q(exercisevideo__type=3) & Q(exercisevideo__video__isnull=False) & (Q(userexerciseparam__animation_1_watched=filter_watched) | Q(userexerciseparam__id__isnull=True))) |
-                Q(Q(exercisevideo__type=4) & Q(exercisevideo__video__isnull=False) & (Q(userexerciseparam__animation_2_watched=filter_watched) | Q(userexerciseparam__id__isnull=True)))
-            )
     if filter_favorite != -1:
         f_exercises = f_exercises.filter(
             Q(userexerciseparam__favorite=filter_favorite, userexerciseparam__user=cur_user)
@@ -2686,6 +2662,7 @@ def GET_get_exs_all(request, cur_user, cur_team):
             'field_exs_category_a': exercise['field_exs_category_a'],
             'field_exs_category_b': exercise['field_exs_category_b'],
             'field_categories': exercise['field_categories'],
+            'field_cognitive_loads': exercise['field_cognitive_loads'],
             'field_fields': exercise['field_fields'],
             'ref_ball_id': exercise['ref_ball_id'],
             'has_video_1': exercise['has_video_1'],
