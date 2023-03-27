@@ -591,7 +591,8 @@ function local_filters_events() {
     }).hide()
     $('#events tbody tr').filter(function( index ) {
         let this_obj = $(this)
-        let data_filled = this_obj.attr('data-unfilled')
+        //let data_filled = this_obj.attr('data-unfilled')
+        let data_filled = this_obj.hasClass('trainingClass')
         return filled_val!='0' && data_filled != filled_val;
     }).hide()
     $('#events tbody tr').filter(function( index ) {
