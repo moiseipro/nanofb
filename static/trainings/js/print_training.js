@@ -22,10 +22,14 @@ function load_training_print(training_id) {
         let exercises = training.exercises_info;
         $('#print-training-block .training-date input').val(training.event_date)
         $('#print-training-block .training-time input').val(training.event_time)
-        $('#print-training-block .training-players-0 input').val(training.players_count[0] + " (A)")
-        $('#print-training-block .training-players-1 input').val(training.players_count[1] + " (B)")
-        $('#print-training-block .training-goalkeepers-0 input').val(training.goalkeepers_count[0] + " (A)")
-        $('#print-training-block .training-goalkeepers-1 input').val(training.goalkeepers_count[1] + " (B)")
+        if(training.players_count != null){
+            $('#print-training-block .training-players-0 input').val(training.players_count[0] + " (A)")
+            $('#print-training-block .training-players-1 input').val(training.players_count[1] + " (B)")
+        }
+        if(training.goalkeepers_count != null){
+            $('#print-training-block .training-goalkeepers-0 input').val(training.goalkeepers_count[0] + " (A)")
+            $('#print-training-block .training-goalkeepers-1 input').val(training.goalkeepers_count[1] + " (B)")
+        }
         $('#print-training-block .training-goal input').val(training.goal)
         $('#print-training-block .training-objective_1 input').val(training.objective_1)
         $('#print-training-block .training-objective_2 input').val(training.objective_2)
