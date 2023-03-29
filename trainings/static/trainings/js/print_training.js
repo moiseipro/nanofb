@@ -99,7 +99,7 @@ function load_training_print(training_id) {
                 let additional_data = ''
                 if (exercise.additional.length > 0) {
                     for (let additional of exercise.additional) {
-                        if (additional.note != null || additional.note != ''){
+                        if (additional.note != null && additional.note != ''){
                             additional_data += '<div class="col-6">'
 
                             additional_data += `
