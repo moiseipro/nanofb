@@ -99,36 +99,39 @@ function load_training_print(training_id) {
                 let additional_data = ''
                 if (exercise.additional.length > 0) {
                     for (let additional of exercise.additional) {
-                        additional_data += '<div class="col-6">'
+                        if (additional.note != null || additional.note != ''){
+                            additional_data += '<div class="col-6">'
 
-                        additional_data += `
-                            <div class="row">
-                                <div class="col-6 px-1 border">
-                                    <b>${get_translation_name(additional.additional_name)}</b>
+                            additional_data += `
+                                <div class="row">
+                                    <div class="col-6 px-1 border text-center">
+                                        <b>${get_translation_name(additional.additional_name)}</b>
+                                    </div>
+                                    <div class="col-6 px-1 border">
+                                        ${additional.note}
+                                    </div>
                                 </div>
-                                <div class="col-6 px-1 border">
-                                    ${additional.note}
-                                </div>
-                            </div>
-                        `
+                            `
 
-                        additional_data += '</div>'
+                            additional_data += '</div>'
+                        }
+
                     }
                 }
 
                 html_scheme += `
                 <div class="col-8 exercise-info-block">
                     <div class="row">
-                        <div class="col-10 px-1 border text-center">
-                            <input type="text" class="form-control form-control-sm border-0 font-weight-bold" placeholder="${gettext("Title")}" value="${get_translation_name(exercise.exercise_name)}">
+                        <div class="col-10 px-1 border">
+                            <input type="text" class="form-control form-control-sm border-0 font-weight-bold text-center" placeholder="${gettext("Title")}" value="${get_translation_name(exercise.exercise_name)}">
                         </div>
                         <div class="col-2 px-1 border">
-                            <input type="text" class="form-control form-control-sm border-0" placeholder="${gettext("Duration")}" value="(${exercise.duration} мин.)">
+                            <input type="text" class="form-control form-control-sm border-0 font-weight-bold text-center" placeholder="${gettext("Duration")}" value="(${exercise.duration}\`)">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12 px-0">
-                            <textarea class="form-control form-control-sm rounded-0" rows="5" cols="5" style="max-height: 120px; min-height: 50px; height: 120px">
+                            <textarea class="form-control form-control-sm rounded-0" rows="5" cols="5" style="max-height: 500px; min-height: 60px; height: 150px">
                                 ${get_translation_name(exercise.exercise_data.description)}
                             </textarea>
                         </div>
@@ -137,6 +140,13 @@ function load_training_print(training_id) {
                         ${additional_data}
                     </div>
                 </div>
+                `
+                html_scheme += '</div>'
+                html_scheme += '<div class="row">'
+                html_scheme += `
+                    <div class="col-2 text-center">---</div>
+                    <div class="col-2 text-center">---</div>
+                    <div class="col-8"></div>
                 `
                 html_scheme += '</div>'
             }
