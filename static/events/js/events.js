@@ -549,7 +549,12 @@ $(window).on('load', function (){
         }
 
     })
-
+    //Открыть окно печати тренировки
+    $('#event-print-card').on('click', function () {
+        let id = $('#events .hasEvent.selected').attr('data-value')
+        $('#print-training-modal').attr('data-id', id)
+        $('#print-training-modal').modal('show')
+    })
 })
 
 function clear_event_form(){

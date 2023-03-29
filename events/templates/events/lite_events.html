@@ -63,7 +63,7 @@
                                     <button id="event-render-presentation" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><span class="icon-custom icon--download" style="--i-w: 1.0em; --i-h: 1.0em;"></span></button>
                                 </div>
                                 <div class="col px-1">
-                                    <button id="#" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-print" aria-hidden="true"></i></button>
+                                    <button id="event-print-card" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-print" aria-hidden="true"></i></button>
                                 </div>
                                 <div class="col px-1">
                                     <button id="delete-event-button" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold text-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
@@ -161,6 +161,7 @@
         </div>
     </div>
 
+    {% include 'trainings/print_training.html' %}
     {% include 'events/forms/microcycle_modal.html' %}
     {% include 'events/forms/create_event.html' %}
     {% include 'events/forms/edit_event.html' %}
@@ -171,10 +172,12 @@
 {% endblock %}
 {% block custom_style %}
     <link rel="stylesheet" href="{% static 'trainings/css/training_card.css' %}">
+    <link rel="stylesheet" href="{% static 'trainings/css/print_training.css' %}">
     <link rel="stylesheet" href="{% static 'events/ResCalendar/rescalendar.css' %}">
     <link rel="stylesheet" href="{% static 'events/css/base_events.css' %}">
 {% endblock %}
 {% block custom_scripts %}
+    <script src="{% static 'jquery-print/jQuery.print.min.js' %}"></script>
     <script src="{% static 'ckeditor5-36.0.0-i0g4ar8o2g2v/build/ckeditor.js' %}"></script>
     <!-- ckeditor5 languages: -->
     <script src="{% static 'ckeditor5-36.0.0-i0g4ar8o2g2v/build/translations/ru.js' %}"></script>
@@ -184,6 +187,7 @@
     <script src="{% static 'references/training_additional.js' %}"></script>
     <script src="{% static 'trainings/js/action_lite_training.js' %}"></script>
     <script src="{% static 'trainings/js/training_card.js' %}"></script>
+    <script src="{% static 'trainings/js/print_training.js' %}"></script>
     <script src="{% static 'events/ResCalendar/rescalendar.js' %}"></script>
     <script src="{% static 'events/js/microcycle_lite_update.js' %}"></script>
     <script src="{% static 'events/js/generate_table.js' %}"></script>

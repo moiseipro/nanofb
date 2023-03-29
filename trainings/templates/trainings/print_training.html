@@ -1,0 +1,77 @@
+{% load i18n %}
+{% load static %}
+
+
+<div class="modal fade" id="print-training-modal" data-id="" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document" style="max-width: 1100px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="print-training-button" type="button" class="btn btn-primary">{% trans "Print training" %}</button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="print-training-block" class="modal-body">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="row">
+                            <div class="col-6 px-0 border training-date">
+                                <input type="text" class="form-control form-control-sm border-0" placeholder="{% trans "Date" %}">
+                            </div>
+                            <div class="col-6 px-0 border training-time">
+                                <input type="text" class="form-control form-control-sm border-0" placeholder="{% trans "Time" %}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 px-0 border">
+                                {% trans "Players" %}
+                            </div>
+                            <div class="col-3 px-0 border training-players-0">
+                                <input type="text" class="form-control form-control-sm border-0" placeholder="{% trans "Players A" %}">
+                            </div>
+                            <div class="col-3 px-0 border training-players-1">
+                                <input type="text" class="form-control form-control-sm border-0" placeholder="{% trans "Players B" %}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 px-0 border">
+                                {% trans "Goalkeepers" %}
+                            </div>
+                            <div class="col-3 px-0 border training-goalkeepers-0">
+                                <input type="text" class="form-control form-control-sm border-0" placeholder="{% trans "Goalkeepers A" %}">
+                            </div>
+                            <div class="col-3 px-0 border training-goalkeepers-1">
+                                <input type="text" class="form-control form-control-sm border-0" placeholder="{% trans "Goalkeepers B" %}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-12 px-0 border training-goal">
+                                <input type="text" class="form-control form-control-sm border-0" placeholder="{% trans "Goal" %}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 px-0 border training-objective_1">
+                                <input type="text" class="form-control form-control-sm border-0" placeholder="{% trans "Objective 1" %}">
+                            </div>
+                            <div class="col-6 px-0 border training-load">
+                                <input type="text" class="form-control form-control-sm border-0" placeholder="{% trans "Load" %}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 px-0 border training-objective_2">
+                                <input type="text" class="form-control form-control-sm border-0" placeholder="{% trans "Objective 2" %}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 exercise-list">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
