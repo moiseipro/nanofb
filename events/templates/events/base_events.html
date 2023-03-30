@@ -84,7 +84,7 @@
                                     <button id="event-render-presentation" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><span class="icon-custom icon--download" style="--i-w: 1.0em; --i-h: 1.0em;"></span></button>
                                 </div>
                                 <div class="col px-1">
-                                    <button id="#" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-print" aria-hidden="true"></i></button>
+                                    <button id="event-print-card" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-print" aria-hidden="true"></i></button>
                                 </div>
                                 <div class="col px-1">
                                     <button id="delete-event-button" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold text-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
@@ -104,10 +104,10 @@
                         <div class="col">
                             <div class="row">
                                 <div class="col-4 pl-0 pr-1">
-                                    <input id="microcycle-day-filter" type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="M.D.">
+                                    <input id="microcycle-day-filter" type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="M.D." autocomplete="off">
                                 </div>
                                 <div class="col-4 px-1">
-                                    <input id="microcycle-days-filter" type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="{% trans 'MC days' %}">
+                                    <input id="microcycle-days-filter" type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="{% trans 'MC days' %}" autocomplete="off">
                                 </div>
 {#                                <div class="col-4 px-1">#}
 {#                                    <input id="field_size-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Field size' %}">#}
@@ -139,13 +139,13 @@
 {#                                    </div>#}
 {#                                </div>#}
                                 <div class="col-4 px-1">
-                                    <input id="goal-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Goal' %}">
+                                    <input id="goal-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Goal' %}" autocomplete="off">
                                 </div>
                                 <div class="col-4 px-1">
-                                    <input id="keywords-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Objectives' %}">
+                                    <input id="keywords-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Objectives' %}" autocomplete="off">
                                 </div>
                                 <div class="col-4 pl-1 pr-0">
-                                    <input id="load-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Load' %}">
+                                    <input id="load-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Load' %}" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -182,6 +182,7 @@
         </div>
     </div>
 
+    {% include 'trainings/print_training.html' %}
     {% include 'events/forms/microcycle_modal.html' %}
     {% include 'events/forms/create_event.html' %}
     {% include 'events/forms/edit_event.html' %}
@@ -192,10 +193,12 @@
 {% endblock %}
 {% block custom_style %}
     <link rel="stylesheet" href="{% static 'trainings/css/training_card.css' %}">
+    <link rel="stylesheet" href="{% static 'trainings/css/print_training.css' %}">
     <link rel="stylesheet" href="{% static 'events/ResCalendar/rescalendar.css' %}">
     <link rel="stylesheet" href="{% static 'events/css/base_events.css' %}">
 {% endblock %}
 {% block custom_scripts %}
+    <script src="{% static 'jquery-print/jQuery.print.min.js' %}"></script>
     <script src="{% static 'ckeditor5-36.0.0-i0g4ar8o2g2v/build/ckeditor.js' %}"></script>
     <!-- ckeditor5 languages: -->
     <script src="{% static 'ckeditor5-36.0.0-i0g4ar8o2g2v/build/translations/ru.js' %}"></script>
@@ -205,6 +208,7 @@
     <script src="{% static 'references/training_additional.js' %}"></script>
     <script src="{% static 'trainings/js/action_training.js' %}"></script>
     <script src="{% static 'trainings/js/training_card.js' %}"></script>
+    <script src="{% static 'trainings/js/print_training.js' %}"></script>
     <script src="{% static 'events/ResCalendar/rescalendar.js' %}"></script>
     <script src="{% static 'events/js/microcycle_update.js' %}"></script>
     <script src="{% static 'events/js/generate_table.js' %}"></script>
