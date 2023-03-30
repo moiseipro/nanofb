@@ -40,6 +40,8 @@ function RenderMatchOne(data) {
     try {
         window.fieldLabelsTeam = JSON.parse(data.field_labels_team);
         window.fieldLabelsOpponent = JSON.parse(data.field_labels_opponent);
+        if (window.fieldLabelsTeam === null) {window.fieldLabelsTeam = [];}
+        if (window.fieldLabelsOpponent === null) {window.fieldLabelsOpponent = [];}
     } catch (e) {}
     SetLabelsToField("playersFieldTeam", window.fieldLabelsTeam, "32px");
     SetLabelsToField("playersFieldOpponent", window.fieldLabelsOpponent, "32px");
