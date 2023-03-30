@@ -1,0 +1,44 @@
+.circle-label {
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    border-radius: 50%;
+    display: inline-block;
+    color: rgb(61, 61, 61);
+    background-color: rgb(180, 180, 180);
+    font-size: 1.15em;
+    text-align: center;
+    cursor: pointer;
+    margin: 2px 0;
+}
+.circle-label:hover {
+    background-color: rgb(140, 140, 140);
+}
+.circle-label.draggable {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    position: absolute;
+    margin: 0 0;
+}
+.circle-label.draggable.init {
+    background-color: rgba(179, 179, 179, 0) !important;
+    color: rgba(61, 61, 61, 0) !important;
+    border-color: rgba(100, 100, 100, 0) !important;
+}
+.circle-label.custom {
+    width: var(--lbl-size);
+    height: var(--lbl-size);
+    line-height: var(--lbl-size);
+    position: absolute;
+    margin: 0 0;
+}
+.circle-label.custom:hover {
+    background-color: rgb(180, 180, 180);
+}
+
+.draggable-zone {
+    background-image: url("/static/players/img/player_plane.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+}

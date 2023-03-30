@@ -112,3 +112,7 @@ th.dt-vertical-center, td.dt-vertical-center {
     vertical-align: middle !important;
 }
 
+.card-i:hover {
+    border: 2px solid black;
+    opacity: 0.9;
+}

@@ -5,6 +5,7 @@
 
 {% block custom_style %}
     <link rel="stylesheet" href="{% static 'players/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'players/css/modules/field.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -124,7 +125,7 @@
                                                 <div class="card card-i justify-content-center" style="height: 32vh;">
                                                     <img class="card-img img-photo" src="#" alt="" onerror=this.src="/static/players/img/player-avatar.png" style="max-height: 100%;">
                                                 </div>
-                                                <div class="card card-i justify-content-center" style="height: 48vh;">
+                                                <div class="card card-i justify-content-center" id="playersField" style="height: 38vh;">
                                                     <img class="card-img img-field h-100" src="#" alt="" onerror=this.src="/static/players/img/player_plane.svg">
                                                 </div>
                                             </div>
@@ -643,9 +644,12 @@
             </div>
         </div>
 
+        {% include 'players/modules/field_modal.html' %}
+
     </main>
 {% endblock %}
 
 {% block custom_scripts %}
+    <script src="{% static 'players/js/modules/field_modal.js' %}"></script>
     <script src="{% static 'players/js/base_player.js' %}"></script>
 {% endblock %}

@@ -36,6 +36,13 @@ function RenderMatchOne(data) {
     $('.card-body').find('.toggle-collapse[data-target="#collapse-team"]').text(data.team_name);
     $('.card-body').find('.toggle-collapse[data-target="#collapse-opponent"]').text(data.opponent_name);
     $('#openVideoMatch').toggleClass('btn-empty', !data.videos_count > 0);
+    window.fieldLabelsTeam = []; window.fieldLabelsOpponent = [];
+    try {
+        window.fieldLabelsTeam = JSON.parse(data.field_labels_team);
+        window.fieldLabelsOpponent = JSON.parse(data.field_labels_opponent);
+    } catch (e) {}
+    SetLabelsToField("playersFieldTeam", window.fieldLabelsTeam, "32px");
+    SetLabelsToField("playersFieldOpponent", window.fieldLabelsOpponent, "32px");
 }
 
 function RenderProtocolInMatch(data, selectedRow = -1) {
@@ -600,6 +607,41 @@ $(function() {
         $(e.currentTarget).toggleClass('selected', !isSelected);
     });
 
+    window.fieldLabelsTeam = []; window.fieldLabelsOpponent = [];
+    let choosenFieldType = null;
+    $('.players-content').on('click', '.img-field', (e) => {
+        if ($('#editMatchAll').hasClass('d-none')) {
+            let type = $(e.currentTarget).attr('data-type');
+            if (type == "team") {window.fieldLabels = window.fieldLabelsTeam;}
+            else if (type == "opponent") {window.fieldLabels = window.fieldLabelsOpponent;}
+            choosenFieldType = type;
+            $('#fieldEditorModal').modal('show');
+        }
+    });
+    $('#fieldEditorModal').on('hide.bs.modal', (e) => {
+        if (choosenFieldType == "team") {window.fieldLabelsTeam = window.fieldLabels;}
+        else if (choosenFieldType == "opponent") {window.fieldLabelsOpponent = window.fieldLabels;}
+        SetLabelsToField("playersFieldTeam", window.fieldLabelsTeam, "32px");
+        SetLabelsToField("playersFieldOpponent", window.fieldLabelsOpponent, "32px");
+        let matchId = $('#matchEditModal').find('.modal-body').attr('data-id');
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: {'edit_match_labels': 1, 'id': matchId, 'team': JSON.stringify(window.fieldLabelsTeam), 'opponent': JSON.stringify(window.fieldLabelsOpponent)},
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "matches_api",
+            success: function (res) {
+                if (!res.success) {
+                    swal("Ошибка", "Возникла проблема при выполнении данной операции.", "error");
+                }
+            },
+            error: function (res) {
+                swal("Ошибка", "Возникла проблема при выполнении данной операции.", "error");
+                console.log(res);
+            },
+            complete: function (res) {}
+        });
+    });
 
     // Toggle left menu
     setTimeout(() => {

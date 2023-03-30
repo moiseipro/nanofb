@@ -6,6 +6,7 @@
 
 {% block custom_style %}
     <link rel="stylesheet" href="{% static 'matches/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'players/css/modules/field.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -188,7 +189,18 @@
                                     </div>
                                 </div>
                                 <div class="col-7 px-1 collapse collapse-block" id="collapse-scheme">
-                                    Схемы
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="card card-i justify-content-center" id="playersFieldTeam" style="height: 75vh;">
+                                                <img class="card-img img-field h-100" src="#" alt="" onerror=this.src="/static/players/img/player_plane.svg" data-type="team">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="card card-i justify-content-center" id="playersFieldOpponent" style="height: 75vh;">
+                                                <img class="card-img img-field h-100" src="#" alt="" onerror=this.src="/static/players/img/player_plane.svg" data-type="team">
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-7 px-1 collapse collapse-block" id="collapse-statistics">
                                     Статистика
@@ -286,6 +298,8 @@
 
 {% endblock %}
 {% block custom_scripts %}
+    <script src="{% static 'players/js/modules/field_modal.js' %}"></script>
+    
     <script src="{% static 'matches/js/modules/match_edit_modal.js' %}"></script>
     <script src="{% static 'matches/js/modules/match_video_modal.js' %}"></script>
     <script src="{% static 'matches/js/modules/match_protocol.js' %}"></script>
