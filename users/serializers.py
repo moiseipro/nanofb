@@ -136,16 +136,24 @@ class UserManagementSerializer(serializers.ModelSerializer):
     license = serializers.CharField(
         source="personal.license"
     )
+    license_date = serializers.DateField(
+        source="personal.license_date"
+    )
     p_version = VersionSerializer()
+    flag = serializers.CharField(
+        source="personal.country_id.flag"
+    )
 
     groups = GroupSerializer(read_only=True, many=True)
 
     admin_type = serializers.SerializerMethodField()
 
+    activation = serializers.SerializerMethodField()
+
     def get_admin_type(self, user):
         admin_types = ''
         if user.is_superuser:
-            admin_types += _("Admin")+"( "+_("Main")+" )"
+            admin_types += _("Admin")+" ( "+_("Chief")+" )"
         if user.club_id is not None and user.has_perm('clubs.club_admin'):
             admin_types += _("Admin")+" ( "+user.club_id.name+" )"
         return admin_types
@@ -158,10 +166,21 @@ class UserManagementSerializer(serializers.ModelSerializer):
             age -= 1
         return age
 
+    def get_activation(self, user):
+        active_status = {'type': '', 'status': ''}
+        if user.is_active:
+            active_status['type'] = 'success'
+            active_status['status'] = _("Active")
+        else:
+            active_status['type'] = 'danger'
+            active_status['status'] = _("Not active")
+        return active_status
+
     class Meta:
         model = User
         fields = [
             'id', 'email', 'days_entered', 'is_active', 'admin_type', 'p_version', 'registration_to', 'groups',
-            'last_name', 'first_name', 'job_title', 'date_birthsday', 'age', 'license'
+            'last_name', 'first_name', 'job_title', 'date_birthsday', 'age', 'license', 'license_date', 'flag',
+            'activation'
         ]
         datatables_always_serialize = ('id', 'groups')

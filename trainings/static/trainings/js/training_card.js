@@ -514,12 +514,12 @@ function load_exercises_training_data(training_exercise_id = null) {
                     <div class="carousel-inner" style="max-height: inherit;">
                         ${carousel_html}
                     </div>
-                    <a class="carousel-control-prev" href="#carouselTrainingSchema-${exercise.id}" role="button" data-slide="prev" style="margin-left: -12%; width: 12%; background: lightgrey;">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <a class="carousel-control-prev" href="#carouselTrainingSchema-${exercise.id}" role="button" data-slide="prev" style="margin-left: -12%; width: 12%; background: lightgrey; color: black;">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
                         <span class="sr-only">-</span>
                     </a>
-                    <a class="carousel-control-next" href="#carouselTrainingSchema-${exercise.id}" role="button" data-slide="next" style="margin-right: -12%; width: 12%; background: lightgrey;">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <a class="carousel-control-next" href="#carouselTrainingSchema-${exercise.id}" role="button" data-slide="next" style="margin-right: -12%; width: 12%; background: lightgrey; color: black;">
+                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
                         <span class="sr-only">+</span>
                     </a>
                 </div>

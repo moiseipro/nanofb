@@ -13,7 +13,7 @@ $(window).on("load", function () {
         $('#user-management-block').removeClass('d-none').addClass('col-sm-8');
         $('#users-table-block').removeClass('col-sm-12').addClass('col-sm-4');
 
-        users_table.columns( [3,4,5,6,7,8,9,10,11] ).visible( false );
+        users_table.columns( [1,2,5,6,7,8,9,10,11,12,13] ).visible( false );
 
     })
 
@@ -22,7 +22,7 @@ $(window).on("load", function () {
         $('#user-management-block').removeClass('col-sm-8').addClass('d-none');
         $('#users-table-block').removeClass('col-sm-4').addClass('col-sm-12');
 
-        users_table.columns( [3,4,5,6,7,8,9,10,11] ).visible( true );
+        users_table.columns( [1,2,5,6,7,8,9,10,11,12,13] ).visible( true );
 
     })
 

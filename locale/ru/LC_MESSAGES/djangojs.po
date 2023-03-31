@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-23 12:45+0300\n"
+"POT-Creation-Date: 2023-03-31 14:16+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -78,10 +78,10 @@ msgstr "Лимит упражнений для выбранной группы �
 #: .\static\events\js\event_update.js:35 .\static\references\team_ajax.js:22
 #: .\static\trainings\js\view_protocol.js:25
 #: .\static\trainings\view_training.js:36
-#: .\static\users\modules\ajax_user_table.js:109
+#: .\static\users\modules\ajax_user_table.js:122
 #: .\static\video\js\video_card.js:104
 #: .\trainings\static\trainings\js\view_protocol.js:25
-#: .\users\static\users\modules\ajax_user_table.js:109
+#: .\users\static\users\modules\ajax_user_table.js:122
 #: .\video\static\video\js\video_card.js:104
 msgid "Error when action \""
 msgstr "Ошибка при выполнении \""
@@ -94,10 +94,10 @@ msgstr "Архив"
 #: .\clubs\static\clubs\js\users_list.js:88
 #: .\clubs\static\clubs\js\users_list.js:90 .\static\clubs\js\users_list.js:80
 #: .\static\clubs\js\users_list.js:88 .\static\clubs\js\users_list.js:90
-#: .\static\users\modules\ajax_user_table.js:107
-#: .\static\users\modules\ajax_user_table.js:109
-#: .\users\static\users\modules\ajax_user_table.js:107
-#: .\users\static\users\modules\ajax_user_table.js:109
+#: .\static\users\modules\ajax_user_table.js:120
+#: .\static\users\modules\ajax_user_table.js:122
+#: .\users\static\users\modules\ajax_user_table.js:120
+#: .\users\static\users\modules\ajax_user_table.js:122
 msgid "Users "
 msgstr "Пользователи "
 
@@ -106,14 +106,14 @@ msgid "The limit of users for the club"
 msgstr "Лимит пользователей для клуба"
 
 #: .\clubs\static\clubs\js\users_list.js:82 .\static\clubs\js\users_list.js:82
-#: .\static\users\modules\ajax_user_table.js:101
-#: .\users\static\users\modules\ajax_user_table.js:101
+#: .\static\users\modules\ajax_user_table.js:114
+#: .\users\static\users\modules\ajax_user_table.js:114
 msgid "Club user registration"
 msgstr "Регистрация пользователя клуба"
 
 #: .\clubs\static\clubs\js\users_list.js:88 .\static\clubs\js\users_list.js:88
-#: .\static\users\modules\ajax_user_table.js:107
-#: .\users\static\users\modules\ajax_user_table.js:107
+#: .\static\users\modules\ajax_user_table.js:120
+#: .\users\static\users\modules\ajax_user_table.js:120
 msgid "The limit of users for the club has been reached!"
 msgstr "Лимит пользователей для клуба достигнут!"
 
@@ -203,27 +203,27 @@ msgstr "Перейти к созданному событию"
 msgid "No event selected!"
 msgstr "Событие не выбрано!"
 
-#: .\events\static\events\js\events.js:759 .\static\events\js\events.js:759
+#: .\events\static\events\js\events.js:770 .\static\events\js\events.js:770
 msgid "Copy"
 msgstr "Копировать"
 
-#: .\events\static\events\js\events.js:760
-#: .\events\static\events\js\events.js:797 .\static\events\base_events.js:439
-#: .\static\events\js\events.js:760 .\static\events\js\events.js:797
+#: .\events\static\events\js\events.js:771
+#: .\events\static\events\js\events.js:808 .\static\events\base_events.js:439
+#: .\static\events\js\events.js:771 .\static\events\js\events.js:808
 #: .\static\video\base_video.js:47
 msgid "Edit"
 msgstr "Редактировать"
 
-#: .\events\static\events\js\events.js:761
-#: .\events\static\events\js\events.js:798 .\static\events\base_events.js:440
-#: .\static\events\js\events.js:761 .\static\events\js\events.js:798
+#: .\events\static\events\js\events.js:772
+#: .\events\static\events\js\events.js:809 .\static\events\base_events.js:440
+#: .\static\events\js\events.js:772 .\static\events\js\events.js:809
 #: .\static\video\base_video.js:57
 msgid "Delete"
 msgstr "Удалить"
 
-#: .\events\static\events\js\events.js:763
-#: .\events\static\events\js\events.js:800 .\static\events\base_events.js:442
-#: .\static\events\js\events.js:763 .\static\events\js\events.js:800
+#: .\events\static\events\js\events.js:774
+#: .\events\static\events\js\events.js:811 .\static\events\base_events.js:442
+#: .\static\events\js\events.js:774 .\static\events\js\events.js:811
 msgid "Close"
 msgstr "Закрыть"
 
@@ -509,14 +509,11 @@ msgstr "Сезон успешно сохранен!"
 msgid "Error when action the season!"
 msgstr "Ошибка при действии с сезоном!"
 
-#: .\references\static\references\references_edit.js:109
-#: .\static\references\references_edit.js:109
-msgid "Short name"
-msgstr "Короткий код"
-
-#: .\references\static\references\references_edit.js:112
-#: .\static\references\references_edit.js:112
+#: .\references\static\references\references_edit.js:114
+#: .\static\references\references_edit.js:114
+#: .\static\trainings\js\print_training.js:126
 #: .\static\trainings\js\training_card.js:265
+#: .\trainings\static\trainings\js\print_training.js:126
 #: .\trainings\static\trainings\js\training_card.js:265
 msgid "Title"
 msgstr "Название"
@@ -923,6 +920,11 @@ msgstr "Ошибка при выполнении действия с упраж�
 msgid "Exercise data action error in training!"
 msgstr "Ошибка действия с данными упражнения в тренировке!"
 
+#: .\static\trainings\js\print_training.js:129
+#: .\trainings\static\trainings\js\print_training.js:129
+msgid "Duration"
+msgstr "Длительность"
+
 #: .\static\trainings\js\training.js:27
 #: .\trainings\static\trainings\js\training.js:27
 msgid "Delete this training?"
@@ -1027,8 +1029,8 @@ msgstr "Есть незаполненные игроки! Заполните и�
 msgid "Training action \""
 msgstr "Действие с тренировкой \""
 
-#: .\static\users\modules\ajax_user_table.js:99
-#: .\users\static\users\modules\ajax_user_table.js:99
+#: .\static\users\modules\ajax_user_table.js:112
+#: .\users\static\users\modules\ajax_user_table.js:112
 msgid "User"
 msgstr "Пользователь"
 
@@ -1076,6 +1078,9 @@ msgstr "Видео "
 #: .\static\video\js\video_card.js:98 .\video\static\video\js\video_card.js:98
 msgid "Video action \""
 msgstr "Действие с видео \""
+
+#~ msgid "Short name"
+#~ msgstr "Короткий код"
 
 #~ msgid "Adding additional conditions to the exercise."
 #~ msgstr "Добавление дополнительных условий к упражнению."
