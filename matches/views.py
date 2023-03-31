@@ -178,6 +178,7 @@ def matches_api(request):
         edit_players_protocol_order_status = 0
         edit_match_video_event_status = 0
         edit_match_video_protocol_status = 0
+        edit_match_labels_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         if not cur_user.exists() or cur_user[0].id == None:
@@ -218,6 +219,10 @@ def matches_api(request):
             edit_match_video_protocol_status = int(request.POST.get("edit_match_video_protocol", 0))
         except:
             pass
+        try:
+            edit_match_labels_status = int(request.POST.get("edit_match_labels", 0))
+        except:
+            pass
         if edit_match_status == 1:
             return v_api.POST_edit_match(request, cur_user[0], cur_team)
         elif delete_match_status == 1:
@@ -234,6 +239,8 @@ def matches_api(request):
             return v_api.POST_edit_match_video_event(request, cur_user[0], cur_team)
         elif edit_match_video_protocol_status == 1:
             return v_api.POST_edit_match_video_protocol(request, cur_user[0], cur_team)
+        elif edit_match_labels_status == 1:
+            return v_api.POST_edit_match_labels(request, cur_user[0], cur_team)
         return JsonResponse({"errors": "access_error"}, status=400)
     elif request.method == "GET" and is_ajax:
         get_match_status = 0

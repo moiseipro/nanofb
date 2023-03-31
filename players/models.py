@@ -40,6 +40,7 @@ class PlayerCard(models.Model):
     is_goalkeeper = models.BooleanField(default=False)
     is_captain = models.BooleanField(default=False)
     is_vice_captain = models.BooleanField(default=False)
+    field_labels = models.JSONField(null=True, blank=True)
 
     objects = models.Manager()
 

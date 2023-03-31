@@ -345,6 +345,7 @@ def POST_edit_player(request, cur_user, cur_team):
     c_player_playercard.is_goalkeeper = set_value_as_int(request, "data[is_goalkeeper]", 0)
     c_player_playercard.is_captain = set_value_as_int(request, "data[is_captain]", 0)
     c_player_playercard.is_vice_captain = set_value_as_int(request, "data[is_vice_captain]", 0)
+    c_player_playercard.field_labels = request.POST.get("data[field_labels]", None)
     try:
         c_player_playercard.save()
         c_player.card = c_player_playercard

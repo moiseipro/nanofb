@@ -175,6 +175,47 @@ function RenderProtocolNotesInMatches(data) {
     protocol_notes_table.draw();
 }
 
+function LoadMatchOneInMatches(id = null) {
+    if (id == null || id == undefined) {
+        swal("Ошибка", "Матч не найден.", "error");
+        return;
+    }
+    let data = {'get_match': 1, 'id': id};
+    let resData = null;
+    $('.page-loader-wrapper').fadeIn();
+    $.ajax({
+        headers:{"X-CSRFToken": csrftoken},
+        data: data,
+        type: 'GET', // GET или POST
+        dataType: 'json',
+        url: "matches_api",
+        success: function (res) {
+            if (res.success) {
+                resData = res.data;
+            }
+        },
+        error: function (res) {
+            console.log(res);
+        },
+        complete: function (res) {
+            RenderMatchOneInMatches(resData);
+            $('.page-loader-wrapper').fadeOut();
+        }
+    });
+}
+
+function RenderMatchOneInMatches(data) {
+    let fieldLabelsTeam = []; let fieldLabelsOpponent = [];
+    try {
+        fieldLabelsTeam = JSON.parse(data.field_labels_team);
+    } catch (e) {}
+    try {
+        fieldLabelsOpponent = JSON.parse(data.field_labels_opponent);
+    } catch (e) {}
+    SetLabelsToField("playersFieldTeam", fieldLabelsTeam, "35px");
+    SetLabelsToField("playersFieldOpponent", fieldLabelsOpponent, "35px");
+}
+
 
 
 $(function() {
@@ -234,8 +275,10 @@ $(function() {
         let cId = $(e.currentTarget).attr('data-id');
         if (!isSelected) {
             LoadProtocolMatch(cId, false);
+            LoadMatchOneInMatches(cId);
         } else {
             LoadProtocolMatch(-1, false);
+            LoadMatchOneInMatches(-1);
         }
     });
     $('#matches').on('click', '.video-player-match', (e) => {

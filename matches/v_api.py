@@ -816,6 +816,55 @@ def POST_edit_match_video_protocol(request, cur_user, cur_team):
     return JsonResponse({"data": res_data, "success": success_state}, status=status_state)
 
 
+def POST_edit_match_labels(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on POST operation "Edit match labels".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
+    match_id = -1
+    try:
+        match_id = int(request.POST.get("id", -1))
+    except:
+        pass
+    c_match = None
+    c_team = None
+    if not util_check_access(cur_user, {
+        'perms_user': ["matches.change_usermatch", "matches.add_usermatch"], 
+        'perms_club': ["matches.change_clubmatch", "matches.add_clubmatch"]
+    }):
+        return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    labels_team = request.POST.get("team", None)
+    labels_opponent = request.POST.get("opponent", None)
+    adding_mode = False
+    c_match = None
+    if request.user.club_id is not None:
+        c_match = ClubMatch.objects.filter(event_id=match_id, team_id=cur_team)
+        if c_match.exists() and c_match[0].event_id != None:
+            c_match = c_match[0]
+    else:
+        c_match = UserMatch.objects.filter(event_id=match_id, team_id=cur_team)
+        if c_match.exists() and c_match[0].event_id != None:
+            c_match = c_match[0]
+    if c_match == None:
+        return JsonResponse({"err": "Match not found.", "success": False}, status=400)
+    c_match.field_labels_team = labels_team
+    c_match.field_labels_opponent = labels_opponent
+    try:
+        c_match.save()
+        res_data = f'Match with id: [{c_match.event_id}] is edited successfully.'
+    except Exception as e:
+        return JsonResponse({"err": "Can't edit the match.", "success": False}, status=200)
+    return JsonResponse({"data": res_data, "success": True}, status=200)
+
 
 
 def GET_get_match(request, cur_user, cur_team, return_JsonResponse=True):

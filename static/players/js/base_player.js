@@ -80,6 +80,12 @@ function RenderPlayerOne(data = {}) {
             </tr>
         `);
     }
+    let fieldLabels = [];
+    try {
+        fieldLabels = JSON.parse(data.field_labels);
+        window.fieldLabels = fieldLabels;
+    } catch (e) {}
+    SetLabelsToField("playersField", null, "20px");
 }
 
 function LoadCardSections() {
@@ -663,7 +669,6 @@ function ToggleQuestionnairesRowsOrder(dir) {
 
 $(function() {
 
-
     $('table#players').on('click', '.player-row', (e) => {
         let cId = $(e.currentTarget).attr('data-id');
         $('table#players').find('.player-row').removeClass('selected');
@@ -728,6 +733,14 @@ $(function() {
         }
     });
 
+    $('.cnt-center-block').on('click', '.img-field', (e) => {
+        if (window.editingMode == true) {
+            $('#fieldEditorModal').modal('show');
+        }
+    });
+    $('#fieldEditorModal').on('hide.bs.modal', (e) => {
+        SetLabelsToField("playersField", null, "20px");
+    });
 
     window.editingMode = false;
     RenderPlayerOne();
@@ -799,6 +812,9 @@ $(function() {
         });
         if ($('#showImgPhoto').find('#fileImgPhoto')[0].files[0]) {
             dataToSend.append('filePhoto', $('#showImgPhoto').find('#fileImgPhoto')[0].files[0]);
+        }
+        if (Array.isArray(window.fieldLabels)) {
+            dataToSend.append(`data[field_labels]`, JSON.stringify(window.fieldLabels));
         }
         if (requiredErr) {
             swal("Внимание", "Не все обязательные поля заполнены.", "info");

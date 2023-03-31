@@ -90,6 +90,8 @@ class AbstractMatch(models.Model):
         null=True,
         blank=True,
     )
+    field_labels_team = models.JSONField(null=True, blank=True)
+    field_labels_opponent = models.JSONField(null=True, blank=True)
 
     objects = models.Manager()
     class Meta:

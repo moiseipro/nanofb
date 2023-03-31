@@ -266,12 +266,19 @@ function LoadPlayerData(id = null) {
 }
 
 function RenderPlayerData(data = null) {
+    let fieldLabels = [];
     if (data) {
         $('.right-content-container').find('.img-photo').attr('src', data.photo ? data.photo : '#');
+        try {
+            fieldLabels = JSON.parse(data.field_labels);
+        } catch (e) {}
+    
     } else {
         $('.right-content-container').find('.img-photo').attr('src', '/static/players/img/player-avatar.png');
         $('.right-content-container').find('.img-field').attr('src', '/static/players/img/player_plane.svg');
     }
+    window.fieldLabels = fieldLabels;
+    SetLabelsToField("playersField", null, "20px");
 }
 
 
