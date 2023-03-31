@@ -38,7 +38,7 @@ function load_training_print(training_id) {
         let html_scheme = ''
         if (exercises.length > 0) {
             for (let exercise of exercises) {
-                html_scheme += '<div class="row">'
+                html_scheme += '<div class="row" style="border-top: 2px solid black">'
                 let count_slide = 0
                 let select_html = '', carousel_html = ''
                 if(exercise.scheme_1){
@@ -104,10 +104,10 @@ function load_training_print(training_id) {
 
                             additional_data += `
                                 <div class="row">
-                                    <div class="col-6 px-1 border text-center">
+                                    <div class="col-6 px-1 border">
                                         <b>${get_translation_name(additional.additional_name)}</b>
                                     </div>
-                                    <div class="col-6 px-1 border">
+                                    <div class="col-6 px-1 border text-center">
                                         ${additional.note}
                                     </div>
                                 </div>
@@ -122,7 +122,7 @@ function load_training_print(training_id) {
                 html_scheme += `
                 <div class="col-8 exercise-info-block">
                     <div class="row">
-                        <div class="col-10 px-1 border">
+                        <div class="col-10 px-1 border" style="background: #efefef">
                             <input type="text" class="form-control form-control-sm border-0 font-weight-bold text-center" placeholder="${gettext("Title")}" value="${get_translation_name(exercise.exercise_name)}">
                         </div>
                         <div class="col-2 px-1 border">

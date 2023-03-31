@@ -32,15 +32,28 @@ function generate_ajax_users_table(scroll_y = ''){
             // }
         },
         columns: [
-            {'data': 'id', "orderable": false, render: function (data, type, row, meta) {
-                return meta.row + meta.settings._iDisplayStart + 1;
+            {'data': 'activation', 'name': 'activation', render: function (data, type, row, meta) {
+                console.log(data);
+                let html = `
+                    <span class="w-100 badge badge-${data.type}">${data.status}</span>
+                `
+                return html;
             }},
+            {'data': 'license', 'name': 'license', 'defaultContent': "---"},
+            {'data': 'license_date', 'name': 'license_date', 'defaultContent': "---"},
             {'data': 'last_name', 'name': 'last_name', 'defaultContent': "---"},
             {'data': 'first_name', 'name': 'first_name', 'defaultContent': "---"},
-            {'data': 'job_title', 'name': 'job_title', 'defaultContent': "---"},
-            {'data': 'date_birthsday', 'name': 'date_birthsday', 'defaultContent': "---"},
             {'data': 'age', 'name': 'age', sortable: false, searchable: false,},
-            {'data': 'license', 'name': 'license', 'defaultContent': "---"},
+            {'data': 'date_birthsday', 'name': 'date_birthsday', 'defaultContent': "---"},
+            {'data': 'job_title', 'name': 'job_title', 'defaultContent': "---"},
+            {'data': 'flag', 'name': 'flag', 'defaultContent': "---", render: function (data, type, row, meta) {
+                let html = `
+                    <div class="w-100 text-center">
+                        <img src="${data}" style="height: 15px">
+                    </div>
+                `
+                return html;
+            }},
             {'data': 'admin_type', 'name': 'admin_type', sortable: false, searchable: false,},
             {'data': 'p_version', 'name': 'p_version', 'defaultContent': "---", render: function (data, type, row, meta) {
                 if(data && 'name' in data)
@@ -58,7 +71,7 @@ function generate_ajax_users_table(scroll_y = ''){
             // }},
             {'data': 'id', sortable: false, searchable: false, render: function (data, type, row, meta) {
                 let button_html = ``
-                button_html += `<button type="button" class="btn btn-sm btn-outline-danger mr-1 close-access-user" data-id="${data}">X</button>`
+                button_html += `<button type="button" class="btn btn-sm btn-outline-danger mr-1 close-access-user py-0" data-id="${data}">X</button>`
                 return button_html;
             }},
         ],

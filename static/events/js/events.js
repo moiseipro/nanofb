@@ -504,6 +504,10 @@ $(window).on('load', function (){
     $('.ajax-text-filters').on('keyup', debounce(function(){
         generateData()
     }, 1000))
+    //Сброс одного фильтра
+    $('.ajax-text-filters').on('search', function(){
+        generateData()
+    })
     //Фильтрация не заполненных событий
     $('#filled-event-filter').on('click', function () {
         let cur_state = parseInt($(this).attr('data-filter'))
