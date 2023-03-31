@@ -284,7 +284,7 @@ function RenderPlayerData(data = null) {
 
 
 $(function() {
-    GeneratePlayersTable("calc(100vh - 250px)");
+    GeneratePlayersTable("calc(100vh - 200px)");
 
     $('#playerCard').on('click', (e) => {
         let selectedRow = players_table.rows({selected: true}).data().toArray()[0];

@@ -1152,8 +1152,9 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
         pass
     columns = [
         'id', 'surname', 'name', 'patronymic', 'card__birthsday', 
-        'card__citizenship', 'team__name', 'card__position', 'card__foot', 'card__growth', 
-        'card__weight', 'card__game_num', 'card__come', 'card__club_from', 'card__contract_with',
+        'card__citizenship', 'team__name', 'card__ref_position__short_name', ['card__is_captain', 'card__is_vice_captain'], 
+        'card__foot', 'card__growth', 'card__weight', 'card__game_num', 
+        'card__come', 'card__club_from', 'card__contract_with', 
         'card__contract_by', 'card__video', 'card__notes'
     ]
     column_order_id = 0
@@ -1200,7 +1201,13 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
             if search_val and search_val != "":
                 players = players.filter(Q(surname__istartswith=search_val) | Q(name__istartswith=search_val) | Q(patronymic__istartswith=search_val) | Q(card__citizenship__istartswith=search_val) | Q(team__name__istartswith=search_val) | Q(card__club_from__istartswith=search_val))
             # players = players.order_by(f'{column_order_dir}{column_order}')[c_start:(c_start+c_length)] with pagination
-            players = players.order_by(f'{column_order_dir}{column_order}')
+            if isinstance(column_order, list):
+                for _i in range(len(column_order)):
+                    column_order[_i] = f'{column_order_dir}{column_order[_i]}'
+                print(column_order)
+                players = players.order_by(*column_order)
+            else:
+                players = players.order_by(f'{column_order_dir}{column_order}')
         for _i, player in enumerate(players):
             player_position = ""
             player_foot = ""
@@ -1224,12 +1231,7 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
                     player_notes_recent = "color: #be0000;"
             except:
                 pass
-            goalkeeper_val = ""
-            captain_val = ""
-            try:
-                goalkeeper_val = '<span title="Вратарь">(G.)</span>' if player.card.is_goalkeeper == True else ''
-            except:
-                pass
+            captain_val = '<span title="">-</span>'
             try:
                 if player.card.is_captain == True:
                     captain_val = '<span title="Капитан" style="color: red;">(K.)</span>'

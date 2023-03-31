@@ -2673,7 +2673,8 @@ def GET_get_exs_all(request, cur_user, cur_team):
             'opt_has_animation': exercise['opt_has_animation'],
             'opt_has_description': exercise['opt_has_description'],
             'opt_has_scheme': exercise['opt_has_scheme'],
-            'visible': exercise['visible']
+            'visible': exercise['visible'],
+            'visible_demo': exercise['visible_demo'],
         }
         videos_arr = get_exs_video_data(exercise['video_data'])
         anims_arr = get_exs_video_data(exercise['animation_data'])
