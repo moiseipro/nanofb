@@ -538,7 +538,7 @@ function RenderContentInCardModalForEdit(data) {
     $('#exerciseCopyModal').find('.graphics-content').html('');
     if (data && data.scheme_1 && data.scheme_1 != "") {
         $('#exerciseCopyModal').find('.graphics-content[data-id="scheme_1"]').html(`
-            <div class="">
+            <div class="col-12">
                 <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_1}" alt="scheme" width="100%" height="100%"> 
             </div>
         `);
@@ -551,7 +551,7 @@ function RenderContentInCardModalForEdit(data) {
     }
     if (data && data.scheme_2 && data.scheme_2 != "") {
         $('#exerciseCopyModal').find('.graphics-content[data-id="scheme_2"]').html(`
-            <div class="">
+            <div class="col-12">
                 <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_2}" alt="scheme" width="100%" height="100%"> 
             </div>
         `);
@@ -564,7 +564,7 @@ function RenderContentInCardModalForEdit(data) {
     }
     if (data && data.video_1 && data.video_1.id != -1) {
         $('#exerciseCopyModal').find('.graphics-content[data-id="video_1"]').html(`
-            <div class="">
+            <div class="col-12">
             ${'nftv' in data.video_1['links'] && data.video_1['links']['nftv'] != '' ? `
                 <video id="video-player-modal-copy-0" class="video-js resize-block video-copy-modal" poster="https://213.108.4.28/video/poster/${data.video_1['links']['nftv']}">
                     <source src="https://213.108.4.28/video/player/${data.video_1['links']['nftv']}" type="video/mp4" />
@@ -579,26 +579,26 @@ function RenderContentInCardModalForEdit(data) {
     } else {
         $('#exerciseCopyModal').find('.toggle-mode[data-id="move-video-1"]').css('display', 'none');
     }
-    if (data && data.video_2 && data.video_2.id != -1) {
-        $('#exerciseCopyModal').find('.graphics-content[data-id="video_2"]').html(`
-            <div class="">
-            ${'nftv' in data.video_2['links'] && data.video_2['links']['nftv'] != '' ? `
-                <video id="video-player-modal-copy-1" class="video-js resize-block video-copy-modal" poster="https://213.108.4.28/video/poster/${data.video_2['links']['nftv']}">
-                    <source src="https://213.108.4.28/video/player/${data.video_2['links']['nftv']}" type="video/mp4" />
-                </video>
-            ` : 'youtube' in data.video_2['links'] && data.video_2['links']['youtube'] != '' ? `
-                <video id="video-player-modal-copy-1" class="video-js resize-block video-copy-modal" poster="">
-                    <source src="https://www.youtube.com/watch?v=${data.video_2['links']['youtube']}" type="video/youtube" />
-                </video>
-            ` : ''}м
-            </div>
-        `);
-    } else {
-        $('#exerciseCopyModal').find('.toggle-mode[data-id="move-video-2"]').css('display', 'none');
-    }
+    // if (data && data.video_2 && data.video_2.id != -1) {
+    //     $('#exerciseCopyModal').find('.graphics-content[data-id="video_2"]').html(`
+    //         <div class="col-12">
+    //         ${'nftv' in data.video_2['links'] && data.video_2['links']['nftv'] != '' ? `
+    //             <video id="video-player-modal-copy-1" class="video-js resize-block video-copy-modal" poster="https://213.108.4.28/video/poster/${data.video_2['links']['nftv']}">
+    //                 <source src="https://213.108.4.28/video/player/${data.video_2['links']['nftv']}" type="video/mp4" />
+    //             </video>
+    //         ` : 'youtube' in data.video_2['links'] && data.video_2['links']['youtube'] != '' ? `
+    //             <video id="video-player-modal-copy-1" class="video-js resize-block video-copy-modal" poster="">
+    //                 <source src="https://www.youtube.com/watch?v=${data.video_2['links']['youtube']}" type="video/youtube" />
+    //             </video>
+    //         ` : ''}м
+    //         </div>
+    //     `);
+    // } else {
+    //     $('#exerciseCopyModal').find('.toggle-mode[data-id="move-video-2"]').css('display', 'none');
+    // }
     if (data && data.animation_1 && data.animation_1.id != -1) {
         $('#exerciseCopyModal').find('.graphics-content[data-id="animation_1"]').html(`
-            <div class="">
+            <div class="col-12">
             ${'nftv' in data.animation_1['links'] && data.animation_1['links']['nftv'] != '' ? `
                 <video id="video-player-modal-copy-2" class="video-js resize-block video-copy-modal" poster="https://213.108.4.28/video/poster/${data.animation_1['links']['nftv']}">
                     <source src="https://213.108.4.28/video/player/${data.animation_1['links']['nftv']}" type="video/mp4" />
@@ -613,23 +613,23 @@ function RenderContentInCardModalForEdit(data) {
     } else {
         $('#exerciseCopyModal').find('.toggle-mode[data-id="move-animation-1"]').css('display', 'none');
     }
-    if (data && data.animation_2 && data.animation_2.id != -1) {
-        $('#exerciseCopyModal').find('.graphics-content[data-id="animation_2"]').html(`
-            <div class="">
-            ${'nftv' in data.animation_2['links'] && data.animation_2['links']['nftv'] != '' ? `
-                <video id="video-player-modal-copy-3" class="video-js resize-block video-copy-modal" poster="https://213.108.4.28/video/poster/${data.animation_2['links']['nftv']}">
-                    <source src="https://213.108.4.28/video/player/${data.animation_2['links']['nftv']}" type="video/mp4" />
-                </video>
-            ` : 'youtube' in data.animation_2['links'] && data.animation_2['links']['youtube'] != '' ? `
-                <video id="video-player-modal-copy-3" class="video-js resize-block video-copy-modal" poster="">
-                    <source src="https://www.youtube.com/watch?v=${data.animation_2['links']['youtube']}" type="video/youtube" />
-                </video>
-            ` : ''}
-            </div>
-        `);
-    } else {
-        $('#exerciseCopyModal').find('.toggle-mode[data-id="move-animation-2"]').css('display', 'none');
-    }
+    // if (data && data.animation_2 && data.animation_2.id != -1) {
+    //     $('#exerciseCopyModal').find('.graphics-content[data-id="animation_2"]').html(`
+    //         <div class="col-12">
+    //         ${'nftv' in data.animation_2['links'] && data.animation_2['links']['nftv'] != '' ? `
+    //             <video id="video-player-modal-copy-3" class="video-js resize-block video-copy-modal" poster="https://213.108.4.28/video/poster/${data.animation_2['links']['nftv']}">
+    //                 <source src="https://213.108.4.28/video/player/${data.animation_2['links']['nftv']}" type="video/mp4" />
+    //             </video>
+    //         ` : 'youtube' in data.animation_2['links'] && data.animation_2['links']['youtube'] != '' ? `
+    //             <video id="video-player-modal-copy-3" class="video-js resize-block video-copy-modal" poster="">
+    //                 <source src="https://www.youtube.com/watch?v=${data.animation_2['links']['youtube']}" type="video/youtube" />
+    //             </video>
+    //         ` : ''}
+    //         </div>
+    //     `);
+    // } else {
+    //     $('#exerciseCopyModal').find('.toggle-mode[data-id="move-animation-2"]').css('display', 'none');
+    // }
     if (!window.videoPlayerCopyClones) {
         window.videoPlayerCopyClones = [];
     }
@@ -2301,7 +2301,9 @@ $(function() {
                 $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-move-exercise"]').addClass('active');
                 $('#exerciseCopyModal').find('.content-block').addClass('d-none');
                 $('#exerciseCopyModal').find('.content-block.copy-move-exercise').removeClass('d-none');
-                $('#exerciseCopyModal').find('.modal-footer').removeClass('d-none');
+                $('#exerciseCopyModal').find('.modal-footer').removeClass('d-none')
+                let visibledExsCount = $('.exs-list-group').find('.list-group-item:visible').length;
+                $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-move-exercise-2"]').find('.counter').text(` (${visibledExsCount}) `);;
                 $('#exerciseCopyModal').modal('show'); 
             } else if (cId == "move") {
                 $('#exerciseCopyModal').find('.modal-title').text("Переместить упражнение в выбранную папку");
