@@ -2234,13 +2234,13 @@ $(function() {
             aspectRatio: '16:9',
             youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
         });
-        window.videoPlayerCard2 = videojs('video-player-card-2', {
-            preload: 'auto',
-            autoplay: false,
-            controls: true,
-            aspectRatio: '16:9',
-            youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
-        });
+        // window.videoPlayerCard2 = videojs('video-player-card-2', {
+        //     preload: 'auto',
+        //     autoplay: false,
+        //     controls: true,
+        //     aspectRatio: '16:9',
+        //     youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
+        // });
         window.videoPlayerCard3 = videojs('video-player-card-3', {
             preload: 'auto',
             autoplay: false,
@@ -2248,13 +2248,13 @@ $(function() {
             aspectRatio: '16:9',
             youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
         });
-        window.videoPlayerCard4 = videojs('video-player-card-4', {
-            preload: 'auto',
-            autoplay: false,
-            controls: true,
-            aspectRatio: '16:9',
-            youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
-        });
+        // window.videoPlayerCard4 = videojs('video-player-card-4', {
+        //     preload: 'auto',
+        //     autoplay: false,
+        //     controls: true,
+        //     aspectRatio: '16:9',
+        //     youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
+        // });
     } catch (e) {}
  
 
