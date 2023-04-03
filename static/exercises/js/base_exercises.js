@@ -1424,6 +1424,8 @@ $(function() {
             $('#exerciseCopyModal').find('.modal-body').find('.copy-move-exercise').html(tList);
             // foldersLoadedForCopy = true;
         }
+        $('#exerciseCopyModal').find('.btn-scheme-copy-apply').addClass('d-none');
+        $('#exerciseCopyModal').find('.btn-video-move-apply').addClass('d-none');
         window.moveVideoFromExsToExs = null;
         window.copySchemeFromExsToExs = null;
     });
@@ -1520,6 +1522,17 @@ $(function() {
         }
         if (cId.includes("animation")) {
             cTitle = "Переместить анимацию";
+        }
+        $('#exerciseCopyModal').find('.btn-scheme-copy-apply').addClass('d-none');
+        $('#exerciseCopyModal').find('.btn-video-move-apply').addClass('d-none');
+        if (cId == "copy-scheme-1") {
+            $('#exerciseCopyModal').find('.btn-scheme-copy-apply[data-value="scheme_1"]').removeClass('d-none');
+        } else if (cId == "copy-scheme-2") {
+            $('#exerciseCopyModal').find('.btn-scheme-copy-apply[data-value="scheme_2"]').removeClass('d-none');
+        } else if (cId == "move-video-1") {
+            $('#exerciseCopyModal').find('.btn-video-move-apply[data-value="video_1"]').removeClass('d-none');
+        } else if (cId == "move-animation-1") {
+            $('#exerciseCopyModal').find('.btn-video-move-apply[data-value="animation_1"]').removeClass('d-none');
         }
         $('#exerciseCopyModal').find('.modal-title').text(cTitle);
     });

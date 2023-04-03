@@ -647,15 +647,27 @@
             {% endif %}
             <div class="modal-dialog modal-lg" role="document" style="max-width: 58vw;">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Выберите папку, в которую необходимо поместить упражнение</h5>
+                    <div class="modal-header row">
+                        <div class="col-10 float-left">
+                            <h5 class="modal-title">Выберите папку, в которую необходимо поместить упражнение</h5>
+                        </div>
+                        <div class="col-2 float-right">
+                            <button type="button" class="btn btn-sm btn-primary btn-scheme-copy-apply float-right my-1" data-value="scheme_1">Скопировать</button>
+                            <button type="button" class="btn btn-sm btn-primary btn-scheme-copy-apply float-right my-1" data-value="scheme_2">Скопировать</button>
+                            {% if user.is_superuser %}
+                            <button type="button" class="btn btn-sm btn-primary btn-video-move-apply float-right my-1" data-value="video_1">Переместить</button>
+                            <button type="button" class="btn btn-sm btn-primary btn-video-move-apply float-right my-1" data-value="video_2">Переместить</button>
+                            <button type="button" class="btn btn-sm btn-primary btn-video-move-apply float-right my-1" data-value="animation_1">Переместить</button>
+                            <button type="button" class="btn btn-sm btn-primary btn-video-move-apply float-right my-1" data-value="animation_2">Переместить</button>
+                            {% endif %}
+                        </div>
                     </div>
                     <div class="modal-body size-h-x">
                         <div class="row">
                             <div class="col-12 toggle-modes">
                                 <div class="btn-group w-100" role="group" aria-label="">
                                     <button type="button" class="btn btn-sm btn-outline-secondary toggle-mode copy-show move-show size-max-w-x active" data-id="copy-move-exercise" data-mode="one" style="--w-max-x:50%;">
-                                        Упражнение
+                                        Упражнение (1)
                                     </button>
                                     <button type="button" class="btn btn-sm btn-outline-secondary toggle-mode copy-show move-show size-max-w-x" data-id="copy-move-exercise-2" data-mode="all" style="--w-max-x:50%;">
                                         Упражнения
@@ -688,44 +700,38 @@
                                 </div>
                                 <div class="content-block copy-scheme-1 copy-show d-none">
                                     <div class="">
-                                        <button type="button" class="btn btn-sm btn-primary btn-scheme-copy-apply float-right my-1" data-value="scheme_1">Скопировать</button>
-                                        <div class="graphics-content row" data-id="scheme_1">
+                                        <div class="graphics-content row mt-2" data-id="scheme_1">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="content-block copy-scheme-2 copy-show d-none">
                                     <div class="">
-                                        <button type="button" class="btn btn-sm btn-primary btn-scheme-copy-apply float-right my-1" data-value="scheme_2">Скопировать</button>
-                                        <div class="graphics-content row" data-id="scheme_2">
+                                        <div class="graphics-content row mt-2" data-id="scheme_2">
                                         </div>
                                     </div>
                                 </div>
                                 {% if user.is_superuser %}
                                 <div class="content-block move-video-1 move-show d-none">
                                     <div class="">
-                                        <button type="button" class="btn btn-sm btn-primary btn-video-move-apply float-right my-1" data-value="video_1">Переместить</button>
-                                        <div class="graphics-content row" data-id="video_1">
+                                        <div class="graphics-content row mt-2" data-id="video_1">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="content-block move-video-2 move-show d-none">
                                     <div class="">
-                                        <button type="button" class="btn btn-sm btn-primary btn-video-move-apply float-right my-1" data-value="video_2">Переместить</button>
-                                        <div class="graphics-content row" data-id="video_2">
+                                        <div class="graphics-content row mt-2" data-id="video_2">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="content-block move-animation-1 move-show d-none">
                                     <div class="">
-                                        <button type="button" class="btn btn-sm btn-primary btn-video-move-apply float-right my-1" data-value="animation_1">Переместить</button>
-                                        <div class="graphics-content row" data-id="animation_1">
+                                        <div class="graphics-content row mt-2" data-id="animation_1">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="content-block move-animation-2 move-show d-none">
                                     <div class="">
-                                        <button type="button" class="btn btn-sm btn-primary btn-video-move-apply float-right my-1" data-value="animation_2">Переместить</button>
-                                        <div class="graphics-content row" data-id="animation_2">
+                                        <div class="graphics-content row mt-2" data-id="animation_2">
                                         </div>
                                     </div>
                                 </div>
