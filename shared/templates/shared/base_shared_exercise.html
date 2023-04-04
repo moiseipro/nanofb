@@ -16,35 +16,36 @@
                         <div class="card-inside">
                             <div class="row">
                                 <div class="col-sm-12 col-md-6">
-                                    <div class="row">
+                                    <div class="row" style="overflow-y: auto;">
                                         <div class="col-12 title-block text-center">
                                             {{ exercise.title }}
                                         </div>
-                                        {% if options.description == 1 %}
-                                        <div class="col-12 description-block mt-2">
-                                            <div class="resizeable-block">
-                                                <div id="descriptionEditor" class="ckeditor w-100" name="description_text" data-value="{{ exercise.description }}">
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 col-md-6">
-                                    <div class="row" style="overflow-y: auto;">
                                         <div class="col-12 scheme-block">
                                             <div id="carouselSchema" class="carousel slide" data-ride="carousel" data-interval="false">
                                                 <div class="carousel-inner">
                                                     {% if options.scheme_1 == 1 %}
-                                                    <div class="carousel-item active px-custom-0">
+                                                    {% if exercise.scheme_1 %}
+                                                    <div class="carousel-item px-custom-0">
+                                                        <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id={{ exercise.scheme_1 }}" alt="scheme" width="100%" height="100%">
+                                                    </div>
+                                                    {% endif %}
+                                                    {% endif %}
+                                                    {% if options.scheme_2 == 1 %}
+                                                    {% if exercise.scheme_2 %}
+                                                    <div class="carousel-item px-custom-0">
+                                                        <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id={{ exercise.scheme_2 }}" alt="scheme" width="100%" height="100%">
+                                                    </div>
+                                                    {% endif %}
+                                                    {% endif %}
+                                                    {% if options.scheme_1 == 1 %}
+                                                    <div class="carousel-item px-custom-0">
                                                         {% autoescape off %}
                                                         {{ exercise.scheme_data.0 }}
                                                         {% endautoescape %}
                                                     </div>
                                                     {% endif %}
                                                     {% if options.scheme_2 == 1 %}
-                                                    <div class="carousel-item {% if options.scheme_1 != 1 %}active{% endif %} px-custom-0">
+                                                    <div class="carousel-item px-custom-0">
                                                         {% autoescape off %}
                                                         {{ exercise.scheme_data.1 }}
                                                         {% endautoescape %}
@@ -149,6 +150,19 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="row">
+                                        {% if options.description == 1 %}
+                                        <div class="col-12 description-block mt-2">
+                                            <div class="resizeable-block">
+                                                <div id="descriptionEditor" class="ckeditor w-100" name="description_text" data-value="{{ exercise.description }}">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -159,9 +173,9 @@
 {% endblock %}
 
 {% block custom_scripts %}
-    <script src="{% static 'ckeditor5-build-classic/ckeditor.js' %}"></script>
+    <script src="{% static 'ckeditor5-36.0.0-i0g4ar8o2g2v/build/ckeditor.js' %}"></script>
     <!-- ckeditor5 languages: -->
-    <script src="{% static 'ckeditor5-build-classic/translations/ru.js' %}"></script>
+    <script src="{% static 'ckeditor5-36.0.0-i0g4ar8o2g2v/build/translations/ru.js' %}"></script>
 
     <script src="{% static 'shared/js/base_shared_exercise.js' %}"></script>
 {% endblock %}
