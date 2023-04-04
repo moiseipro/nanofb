@@ -46,6 +46,11 @@
     border: 1px solid white !important;
 }
 
+.training-exercise-title-white{
+    background: white;
+    border: 1px solid black !important;
+}
+
 .training-exercise-additional{
     background-color: #d5d5d5;
     color: #5a6268 !important;

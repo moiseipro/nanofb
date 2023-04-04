@@ -78,11 +78,33 @@ class TrainingViewSet(viewsets.ModelViewSet):
             exercise_count = ClubTrainingExercise.objects.filter(training_id=pk, group=data['group']).count()
             current_exercise = ClubTrainingExercise.objects.filter(training_id=pk, group=data['group'],
                                                                    exercise_id=data['exercise_id']).count()
+            previous_training = ClubTrainingExercise.objects.filter(
+                exercise_id=data['exercise_id'],
+                training_id__team_id=self.request.session['team'],
+                training_id__event_id__date__lte=ClubTraining.objects.get(pk=pk).event_id.date
+            ).last()
+            if previous_training:
+                last_additional = previous_training.clubtrainingexerciseadditional_set.all()
+            else:
+                last_additional = None
         else:
             exercise_count = UserTrainingExercise.objects.filter(training_id=pk, group=data['group']).count()
             current_exercise = UserTrainingExercise.objects.filter(training_id=pk, group=data['group'],
                                                                    exercise_id=data['exercise_id']).count()
-        print(exercise_count)
+            previous_training = UserTrainingExercise.objects.filter(
+                exercise_id=data['exercise_id'],
+                training_id__team_id=self.request.session['team'],
+                training_id__event_id__date__lte=UserTraining.objects.get(pk=pk).event_id.date
+            ).last()
+            if previous_training:
+                last_additional = previous_training.usertrainingexerciseadditional_set.all()
+            else:
+                last_additional = None
+        if previous_training:
+            last_description = previous_training.description
+        else:
+            last_description = ''
+        print(last_additional)
         if exercise_count > 6:
             return Response({'status': 'exercise_limit'})
         if current_exercise > 0:
@@ -92,6 +114,7 @@ class TrainingViewSet(viewsets.ModelViewSet):
             exercise_id=data['exercise_id'],
             group=data['group'],
             duration=data['duration'],
+            description=last_description,
             order=exercise_count
         )
         query_dict = QueryDict('', mutable=True)
@@ -109,8 +132,22 @@ class TrainingViewSet(viewsets.ModelViewSet):
         if serializer.is_valid(raise_exception=True):
             new_obj = serializer.save()
             if self.request.user.club_id is not None:
+                if last_additional:
+                    for additional in last_additional:
+                        ClubTrainingExerciseAdditional.objects.create(
+                            training_exercise_id=new_obj,
+                            additional_id=additional.additional_id,
+                            note=additional.note
+                        )
                 object_serialize = ClubTrainingExerciseSerializer(new_obj).data
             else:
+                if last_additional:
+                    for additional in last_additional:
+                        UserTrainingExerciseAdditional.objects.create(
+                            training_exercise_id=new_obj,
+                            additional_id=additional.additional_id,
+                            note=additional.note
+                        )
                 object_serialize = UserTrainingExerciseSerializer(new_obj).data
             return Response({'status': 'exercise_added', 'obj': object_serialize})
         else:

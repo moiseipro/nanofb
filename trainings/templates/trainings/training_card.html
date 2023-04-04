@@ -101,36 +101,36 @@
                 </div>
             </div>
         </div>
-        <div id="exercise-objectives-data" class="row exercise-data-row border border-white">
-            <div class="col px-0 exercise-objectives">
-                <div class="row">
-                    <div class="col px-0 btn btn-sm btn-primary btn-block border border-light font-weight-bold text-center text-white objective_1">
-                        ---
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col px-0 btn btn-sm btn-primary btn-block border border-light font-weight-bold text-center text-white objective_2">
-                        ---
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row exercise-data-row font-weight-bold training-exercise-title training-exercise-name" style="cursor: default">
+{#        <div id="exercise-objectives-data" class="row exercise-data-row border border-white">#}
+{#            <div class="col px-0 exercise-objectives">#}
+{#                <div class="row">#}
+{#                    <div class="col px-0 btn btn-sm btn-primary btn-block border border-light font-weight-bold text-center text-white objective_1">#}
+{#                        ---#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="row">#}
+{#                    <div class="col px-0 btn btn-sm btn-primary btn-block border border-light font-weight-bold text-center text-white objective_2">#}
+{#                        ---#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+        <div class="row exercise-data-row font-weight-bold training-exercise-title-white training-exercise-name" style="cursor: default">
             <div class="col pt-1 px-0 text-center exercise-name">{% trans "Title" %}</div>
             <div class="col-1 text-center pt-1 px-0 exercise-time">
 
             </div>
         </div>
-{#        <div class="row exercise-data-row font-weight-bold training-exercise-title training-exercise-description" data-toggle="collapse" data-target="#collapse-exercise-description" style="cursor: pointer">#}
-{#            <div class="col text-center pt-1 px-0">{% trans "Description" %}</div>#}
+        <div class="row exercise-data-row font-weight-bold training-exercise-title training-exercise-description" data-toggle="collapse" data-target="#collapse-exercise-description" style="cursor: pointer">
+            <div class="col text-center pt-1 px-0">{% trans "Description" %} ({% trans "for print" %})</div>
 
-{#        </div>#}
-{#        <div id="collapse-exercise-description" class="row exercise-data-row collapse show">#}
-{#            <div id="training-exercise-description" class="col-12 p-0">#}
-{#                <div id="descriptionExerciseView" class="ckeditor"></div>#}
-{#            </div>#}
-{#        </div>#}
-        <div class="row exercise-data-row font-weight-bold training-exercise-title" style="cursor: pointer">
+        </div>
+        <div id="collapse-exercise-description" class="row exercise-data-row collapse show">
+            <div id="training-exercise-description" class="col-12 p-0">
+                <textarea id="descriptionExerciseView" class="form-control form-control-sm rounded-0 edit-input" rows="5" cols="5" style="max-height: 500px; min-height: 60px; height: 150px" disabled></textarea>
+            </div>
+        </div>
+        <div class="row exercise-data-row font-weight-bold training-exercise-title" style="cursor: pointer;">
             <div class="col text-center pt-1 px-0" data-toggle="collapse" data-target="#collapse-exercise-additional">{% trans "Additional Conditions" %}</div>
             <div class="col-1 text-center px-0 edit-button d-none">
                 <button type="button" class="btn btn-sm btn-block btn-success rounded-0 p-0 h-100 float-right" data-toggle="modal" data-target="#training-exercise-additional-modal"><i class="fa fa-plus" aria-hidden="true"></i></button>
