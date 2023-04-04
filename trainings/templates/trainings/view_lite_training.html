@@ -17,7 +17,7 @@
             <div class="card m-0">
                 <div class="card-header py-2">
                     <div class="row">
-                        <div class="col-3">
+                        <div class="col-4">
                             <div class="row">
                                 <div class="col-6 px-1">
                                     <a id="back-button" href="{% if request.META.HTTP_REFERER %}{{ request.META.HTTP_REFERER }}{% else %}{% url 'events:base_events' %}{% endif %}" title="" class="btn btn-block btn-outline-danger btn-sm font-weight-bold view-button">{% trans "Back" %}</a>
@@ -44,7 +44,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="col-3">
+                        <div class="col-4">
                             <div class="row">
                                 <div class="col-6 px-1">
                                     <button id="#" title="" class="btn btn-block btn-outline-primary btn-sm font-weight-bold" data-toggle="modal" data-target="#training-video-modal">{% trans "Video" %}</button>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-31 14:15+0300\n"
+"POT-Creation-Date: 2023-04-04 16:10+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -811,7 +811,7 @@ msgstr ""
 
 #: .\Lib\site-packages\django\db\models\fields\__init__.py:2382
 #: .\events\forms.py:100 .\events\forms.py:142
-#: .\trainings\templates\trainings\print_training.html:22
+#: .\trainings\templates\trainings\print_training.html:23
 #: .\trainings\templates\trainings\training_card.html:39
 msgid "Time"
 msgstr "Время"
@@ -2209,7 +2209,7 @@ msgstr "Отменить"
 msgid "Event type"
 msgstr "Тип события"
 
-#: .\events\forms.py:94 .\trainings\templates\trainings\print_training.html:19
+#: .\events\forms.py:94 .\trainings\templates\trainings\print_training.html:20
 #: .\trainings\templates\trainings\training_card.html:33
 #: .\trainings\templates\trainings\training_card.html:35
 #: .\video\templates\video\modules\video_list_exercises.html:12
@@ -2310,7 +2310,7 @@ msgstr "Фильтрация событий тренировки"
 
 #: .\events\templates\events\base_events.html:142
 #: .\events\templates\events\lite_events.html:121
-#: .\trainings\templates\trainings\print_training.html:51
+#: .\trainings\templates\trainings\print_training.html:52
 msgid "Goal"
 msgstr "Цель"
 
@@ -2321,7 +2321,7 @@ msgstr "Задачи"
 
 #: .\events\templates\events\base_events.html:148
 #: .\events\templates\events\lite_events.html:127
-#: .\trainings\templates\trainings\print_training.html:59
+#: .\trainings\templates\trainings\print_training.html:60
 #: .\trainings\templates\trainings\training_card.html:85
 msgid "Load"
 msgstr "Нагрузка"
@@ -2339,7 +2339,7 @@ msgid "Copying the selected event"
 msgstr "Копирование выбранного события"
 
 #: .\events\templates\events\forms\event_copy.html:27
-#: .\matches\templates\matches\base_match.html:187
+#: .\matches\templates\matches\base_match.html:208
 #: .\nanofootball\templates\menu\header.html:71
 msgid "No teams"
 msgstr "Нет команд"
@@ -2541,11 +2541,11 @@ msgstr "Тип матча, 0 - неофициальный, 1 - официаль�
 msgid "Match format."
 msgstr "Формат матча."
 
-#: .\matches\models.py:116
+#: .\matches\models.py:118
 msgid "Access to the section \"Analytics\" for UserMatch"
 msgstr "Доступ к разделу \"Аналитика\" для пользователей"
 
-#: .\matches\models.py:138
+#: .\matches\models.py:140
 msgid "Access to the section \"Analytics\" for ClubMatch"
 msgstr "Доступ к разделу \"Аналитика\" для клубных пользователей"
 
@@ -2553,7 +2553,7 @@ msgstr "Доступ к разделу \"Аналитика\" для клубн�
 msgid "Match"
 msgstr "Матч"
 
-#: .\matches\templates\matches\base_match.html:183
+#: .\matches\templates\matches\base_match.html:204
 #: .\nanofootball\templates\menu\header.html:67
 msgid "No team selected"
 msgstr "Команда не выбрана"
@@ -2639,9 +2639,9 @@ msgid "Main sections"
 msgstr "Основные разделы"
 
 #: .\nanofootball\templates\menu\sidebar.html:162 .\players\apps.py:8
-#: .\trainings\templates\trainings\print_training.html:27
-#: .\trainings\templates\trainings\print_training.html:30
-#: .\trainings\templates\trainings\print_training.html:33
+#: .\trainings\templates\trainings\print_training.html:28
+#: .\trainings\templates\trainings\print_training.html:31
+#: .\trainings\templates\trainings\print_training.html:34
 #: .\trainings\templates\trainings\view_training.html:160
 msgid "Players"
 msgstr "Игроки"
@@ -3222,19 +3222,19 @@ msgstr "Добавить выбранных"
 msgid "Print training"
 msgstr "Распечатать тренировку"
 
-#: .\trainings\templates\trainings\print_training.html:38
-#: .\trainings\templates\trainings\print_training.html:41
-#: .\trainings\templates\trainings\print_training.html:44
+#: .\trainings\templates\trainings\print_training.html:39
+#: .\trainings\templates\trainings\print_training.html:42
+#: .\trainings\templates\trainings\print_training.html:45
 #: .\trainings\templates\trainings\training_card.html:62
 msgid "Goalkeepers"
 msgstr "Вратари"
 
-#: .\trainings\templates\trainings\print_training.html:56
+#: .\trainings\templates\trainings\print_training.html:57
 #: .\trainings\templates\trainings\training_card.html:91
 msgid "Objective 1"
 msgstr "Задача 1"
 
-#: .\trainings\templates\trainings\print_training.html:64
+#: .\trainings\templates\trainings\print_training.html:65
 #: .\trainings\templates\trainings\training_card.html:97
 msgid "Objective 2"
 msgstr "Задача 2"
@@ -3250,6 +3250,14 @@ msgstr "Количество игроков"
 #: .\trainings\templates\trainings\training_card.html:74
 msgid "Field size"
 msgstr "Размер поля"
+
+#: .\trainings\templates\trainings\training_card.html:125
+msgid "Description"
+msgstr "Описание"
+
+#: .\trainings\templates\trainings\training_card.html:125
+msgid "for print"
+msgstr "для печати"
 
 #: .\trainings\templates\trainings\training_card.html:134
 msgid "Additional Conditions"
@@ -3570,7 +3578,7 @@ msgstr "День рождения"
 
 #: .\users\templates\users\modules\user_table.html:19
 msgid "Access to"
-msgstr ""
+msgstr "Доступ до"
 
 #: .\users\views.py:77
 msgid "New personal profile data is saved!"
@@ -3924,9 +3932,6 @@ msgstr "Анимация"
 #~| msgid "Additional training data"
 #~ msgid "Additional exercise data"
 #~ msgstr "Дополнительные данные тренировки"
-
-#~ msgid "Description"
-#~ msgstr "Описание"
 
 #~ msgid "Events Lite"
 #~ msgstr "События Лайт"

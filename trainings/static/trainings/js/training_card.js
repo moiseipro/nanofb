@@ -138,7 +138,7 @@ $(window).on('load', function (){
         })
     })
 
-    $('#training-exercise-description .exercise-description').on('change', function () {
+    $('#training-exercise-description #descriptionExerciseView').on('change', function () {
         let exs_id = $('.exs-filter-card.active').attr('data-id')
         //console.log(exs_id)
         let data = {}
@@ -431,11 +431,22 @@ function load_exercises_training_data(training_exercise_id = null) {
         let video_data = null
         $('#block-training-info').html('')
 
-        $('.training-exercise-name .exercise-name').html((get_cur_lang() in exercise.exercise_data.title) ? exercise.exercise_data.title[get_cur_lang()] : Object.values(exercise.exercise_data.title)[0])
+        $('.training-exercise-name .exercise-name').html(get_translation_name(exercise.exercise_data.title))
 
         $('.training-exercise-name .exercise-time').html(`
             <div class="w-100 ${exercise.duration==0 ? 'font-weight-bold text-danger':''}">${exercise.duration}</div>
         `)
+        if(exercise.description){
+            $('#training-exercise-description #descriptionExerciseView').val(exercise.description)
+        } else {
+            if(exercise.exercise_data.description){
+                $('#training-exercise-description #descriptionExerciseView').val(get_translation_name(exercise.exercise_data.description))
+            } else{
+                $('#training-exercise-description #descriptionExerciseView').val('')
+            }
+        }
+
+
         //$('#training-exercise-description .exercise-description').val(exercise.description)
         let count_slide = 0
         let select_html = '', carousel_html = ''
@@ -486,7 +497,7 @@ function load_exercises_training_data(training_exercise_id = null) {
             }
         }
         if(exercise.exercise_data.description){
-            let descr = (get_cur_lang() in exercise.exercise_data.description) ? exercise.exercise_data.description[get_cur_lang()] : Object.values(exercise.exercise_data.description)[0]
+            let descr = get_translation_name(exercise.exercise_data.description)
             if(descr!=''){
                 select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}"></li>`
                 count_slide++
@@ -498,7 +509,6 @@ function load_exercises_training_data(training_exercise_id = null) {
                         
                     </div>`
             }
-            $('#training-exercise-description #descriptionExerciseView').html(descr)
         }
 
         $('#exercise-objectives-data .objective_1').html(exercise.exercise_data.field_task ? exercise.exercise_data.field_task : '---')
