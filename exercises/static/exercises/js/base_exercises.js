@@ -715,24 +715,35 @@ function CopySchemeFromExsToExs(toExsId, toFolderType) {
     });
 }
 
-async function copyToClipboard(textToCopy) {
-    if (navigator.clipboard && window.isSecureContext) {
-        await navigator.clipboard.writeText(textToCopy);
-    } else {
-        const textArea = document.createElement("textarea");
-        textArea.value = textToCopy;
-        textArea.style.position = "absolute";
-        textArea.style.left = "-999999px";
-        document.body.prepend(textArea);
-        textArea.select();
-        try {
-            document.execCommand('copy');
-        } catch (error) {
-            console.error(error);
-        } finally {
-            textArea.remove();
-        }
+function fallbackCopyTextToClipboard(text) {
+    let textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.position = "fixed";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+        var successful = document.execCommand('copy');
+        var msg = successful ? 'successful' : 'unsuccessful';
+        console.log('Fallback: Copying text command was ' + msg);
+    } catch (err) {
+        console.error('Fallback: Oops, unable to copy', err);
     }
+    document.body.removeChild(textArea);
+}
+
+function copyTextToClipboard(text) {
+    if (!navigator.clipboard) {
+        fallbackCopyTextToClipboard(text);
+        return;
+    }
+    navigator.clipboard.writeText(text).then(function() {
+        console.log('Async: Copying to clipboard was successful!');
+    }, function(err) {
+        console.error('Async: Could not copy text: ', err);
+    });
 }
 
 
@@ -1659,7 +1670,7 @@ $(function() {
         let cLink = $(e.currentTarget).attr('data-link');
         if (cLink && cLink != "") {
             try {
-                copyToClipboard(cLink);
+                copyTextToClipboard(cLink);
             } catch(e) {}
             swal("Готово", `Ссылка скопирована (${cLink})!`, "success");
             return;
@@ -1691,7 +1702,7 @@ $(function() {
                     $('#exerciseShareModal').find('.link-text > a').attr('href', res.data.link);
                     $('#exerciseShareModal').find('button.btn-share').attr('data-link', res.data.link);
                     try {
-                        copyToClipboard(res.data.link);
+                        copyTextToClipboard(res.data.link);
                     } catch(e) {}
                     swal("Готово", `Ссылка скопирована (${res.data.link})!`, "success");
                 }
