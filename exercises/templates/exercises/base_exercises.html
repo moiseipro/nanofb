@@ -645,17 +645,29 @@
             {% if user.is_superuser %}
             <input type="hidden" name="nfb" value="1" />
             {% endif %}
-            <div class="modal-dialog modal-lg" role="document" style="max-width: 60vw;">
+            <div class="modal-dialog modal-lg" role="document" style="max-width: 58vw;">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Выберите папку, в которую необходимо поместить упражнение</h5>
+                    <div class="modal-header row">
+                        <div class="col-10 float-left">
+                            <h5 class="modal-title">Выберите папку, в которую необходимо поместить упражнение</h5>
+                        </div>
+                        <div class="col-2 float-right">
+                            <button type="button" class="btn btn-sm btn-primary btn-scheme-copy-apply float-right my-1" data-value="scheme_1">Скопировать</button>
+                            <button type="button" class="btn btn-sm btn-primary btn-scheme-copy-apply float-right my-1" data-value="scheme_2">Скопировать</button>
+                            {% if user.is_superuser %}
+                            <button type="button" class="btn btn-sm btn-primary btn-video-move-apply float-right my-1" data-value="video_1">Переместить</button>
+                            <button type="button" class="btn btn-sm btn-primary btn-video-move-apply float-right my-1" data-value="video_2">Переместить</button>
+                            <button type="button" class="btn btn-sm btn-primary btn-video-move-apply float-right my-1" data-value="animation_1">Переместить</button>
+                            <button type="button" class="btn btn-sm btn-primary btn-video-move-apply float-right my-1" data-value="animation_2">Переместить</button>
+                            {% endif %}
+                        </div>
                     </div>
                     <div class="modal-body size-h-x">
                         <div class="row">
                             <div class="col-12 toggle-modes">
                                 <div class="btn-group w-100" role="group" aria-label="">
                                     <button type="button" class="btn btn-sm btn-outline-secondary toggle-mode copy-show move-show size-max-w-x active" data-id="copy-move-exercise" data-mode="one" style="--w-max-x:50%;">
-                                        Упражнение
+                                        Упражнение (1)
                                     </button>
                                     <button type="button" class="btn btn-sm btn-outline-secondary toggle-mode copy-show move-show size-max-w-x" data-id="copy-move-exercise-2" data-mode="all" style="--w-max-x:50%;">
                                         Упражнения
@@ -669,64 +681,58 @@
                                     </button>
                                     {% if user.is_superuser %}
                                     <button type="button" class="btn btn-sm btn-outline-secondary toggle-mode move-show size-max-w-x" data-id="move-video-1" style="--w-max-x:50%;">
-                                        Видео 1
+                                        Видео
                                     </button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary toggle-mode move-show size-max-w-x" data-id="move-video-2" style="--w-max-x:50%;">
+                                    <!-- <button type="button" class="btn btn-sm btn-outline-secondary toggle-mode move-show size-max-w-x" data-id="move-video-2" style="--w-max-x:50%;">
                                         Видео 2
-                                    </button>
+                                    </button> -->
                                     <button type="button" class="btn btn-sm btn-outline-secondary toggle-mode move-show size-max-w-x" data-id="move-animation-1" style="--w-max-x:50%;">
-                                        Анимация 1
+                                        Анимация
                                     </button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary toggle-mode move-show size-max-w-x" data-id="move-animation-2" style="--w-max-x:50%;">
+                                    <!-- <button type="button" class="btn btn-sm btn-outline-secondary toggle-mode move-show size-max-w-x" data-id="move-animation-2" style="--w-max-x:50%;">
                                         Анимация 2
-                                    </button>
+                                    </button> -->
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="col-12 contents" style="max-height: 70vh; overflow-y: auto;">
+                            <div class="col-12 contents" style="max-height: 65vh; overflow-y: auto;">
                                 <div class="content-block copy-move-exercise copy-show move-show">
                                 </div>
                                 <div class="content-block copy-scheme-1 copy-show d-none">
                                     <div class="">
-                                        <div class="graphics-content my-2" data-id="scheme_1">
+                                        <div class="graphics-content row mt-2" data-id="scheme_1">
                                         </div>
-                                        <button type="button" class="btn btn-sm btn-primary btn-scheme-copy-apply" data-value="scheme_1">Скопировать</button>
                                     </div>
                                 </div>
                                 <div class="content-block copy-scheme-2 copy-show d-none">
                                     <div class="">
-                                        <div class="graphics-content my-2" data-id="scheme_2">
+                                        <div class="graphics-content row mt-2" data-id="scheme_2">
                                         </div>
-                                        <button type="button" class="btn btn-sm btn-primary btn-scheme-copy-apply" data-value="scheme_2">Скопировать</button>
                                     </div>
                                 </div>
                                 {% if user.is_superuser %}
                                 <div class="content-block move-video-1 move-show d-none">
                                     <div class="">
-                                        <div class="graphics-content my-2" data-id="video_1">
+                                        <div class="graphics-content row mt-2" data-id="video_1">
                                         </div>
-                                        <button type="button" class="btn btn-sm btn-primary btn-video-move-apply" data-value="video_1">Переместить</button>
                                     </div>
                                 </div>
                                 <div class="content-block move-video-2 move-show d-none">
                                     <div class="">
-                                        <div class="graphics-content my-2" data-id="video_2">
+                                        <div class="graphics-content row mt-2" data-id="video_2">
                                         </div>
-                                        <button type="button" class="btn btn-sm btn-primary btn-video-move-apply" data-value="video_2">Переместить</button>
                                     </div>
                                 </div>
                                 <div class="content-block move-animation-1 move-show d-none">
                                     <div class="">
-                                        <div class="graphics-content my-2" data-id="animation_1">
+                                        <div class="graphics-content row mt-2" data-id="animation_1">
                                         </div>
-                                        <button type="button" class="btn btn-sm btn-primary btn-video-move-apply" data-value="animation_1">Переместить</button>
                                     </div>
                                 </div>
                                 <div class="content-block move-animation-2 move-show d-none">
                                     <div class="">
-                                        <div class="graphics-content my-2" data-id="animation_2">
+                                        <div class="graphics-content row mt-2" data-id="animation_2">
                                         </div>
-                                        <button type="button" class="btn btn-sm btn-primary btn-video-move-apply" data-value="animation_2">Переместить</button>
                                     </div>
                                 </div>
                                 {% endif %}
@@ -777,20 +783,20 @@
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="checkbox" id="checkboxVideo1" name="video_1" value="">
-                                            <label class="form-check-label" for="checkboxVideo1">Видео 1</label>
+                                            <label class="form-check-label" for="checkboxVideo1">Видео</label>
                                         </div>
-                                        <div class="form-check form-check-inline">
+                                        <!-- <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="checkbox" id="checkboxVideo2" name="video_2" value="">
                                             <label class="form-check-label" for="checkboxVideo2">Видео 2</label>
-                                        </div>
+                                        </div> -->
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="checkbox" id="checkboxAnimation1" name="animation_1" value="">
-                                            <label class="form-check-label" for="checkboxAnimation1">Анимация 1</label>
+                                            <label class="form-check-label" for="checkboxAnimation1">Анимация</label>
                                         </div>
-                                        <div class="form-check form-check-inline">
+                                        <!-- <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="checkbox" id="checkboxAnimation2" name="animation_2" value="">
                                             <label class="form-check-label" for="checkboxAnimation2">Анимация 2</label>
-                                        </div>
+                                        </div> -->
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="checkbox" id="checkboxDescription" name="description" value="">
                                             <label class="form-check-label" for="checkboxDescription">Описание</label>
@@ -1002,20 +1008,20 @@
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="checkbox" id="checkboxVideo1" name="video_1" value="">
-                                            <label class="form-check-label" for="checkboxVideo1">Видео 1</label>
+                                            <label class="form-check-label" for="checkboxVideo1">Видео</label>
                                         </div>
-                                        <div class="form-check form-check-inline">
+                                        <!-- <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="checkbox" id="checkboxVideo2" name="video_2" value="">
                                             <label class="form-check-label" for="checkboxVideo2">Видео 2</label>
-                                        </div>
+                                        </div> -->
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="checkbox" id="checkboxAnimation1" name="animation_1" value="">
-                                            <label class="form-check-label" for="checkboxAnimation1">Анимация 1</label>
+                                            <label class="form-check-label" for="checkboxAnimation1">Анимация</label>
                                         </div>
-                                        <div class="form-check form-check-inline">
+                                        <!-- <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="checkbox" id="checkboxAnimation2" name="animation_2" value="">
                                             <label class="form-check-label" for="checkboxAnimation2">Анимация 2</label>
-                                        </div>
+                                        </div> -->
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="checkbox" id="checkboxDescription" name="description" value="">
                                             <label class="form-check-label" for="checkboxDescription">Описание</label>

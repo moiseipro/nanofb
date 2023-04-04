@@ -594,19 +594,29 @@ $(function() {
     });
 
     // Toggle notes' column
-    $('#toggleMatchNotes').on('click', (e) => {
-        let isSelected = $(e.currentTarget).hasClass('selected');
+    $('#toggleMatchProtocol').on('click', (e) => {
         let isEdit = $('#editMatchAll').hasClass('d-none');
         try {
-            match_players_table.columns([3,4,5,6,7,8,9,10,11,12,13]).visible(isSelected);
-            match_players_table.columns([14]).visible(!isSelected);
+            match_players_table.columns([3,4,5,6,7,8,9,10,11,12,13]).visible(true);
+            match_players_table.columns([14]).visible(false);
         } catch (e) {}
         try {
-            match_opponents_table.columns([3,4,5,6,7,8,9,10,11,12,13]).visible(isSelected);
-            match_opponents_table.columns([14]).visible(!isSelected);
+            match_opponents_table.columns([3,4,5,6,7,8,9,10,11,12,13]).visible(true);
+            match_opponents_table.columns([14]).visible(false);
         } catch (e) {}
         $('.row.players-content').find('.form-control').prop('disabled', !isEdit);
-        $(e.currentTarget).toggleClass('selected', !isSelected);
+    });
+    $('#toggleMatchNotes').on('click', (e) => {
+        let isEdit = $('#editMatchAll').hasClass('d-none');
+        try {
+            match_players_table.columns([3,4,5,6,7,8,9,10,11,12,13]).visible(false);
+            match_players_table.columns([14]).visible(true);
+        } catch (e) {}
+        try {
+            match_opponents_table.columns([3,4,5,6,7,8,9,10,11,12,13]).visible(false);
+            match_opponents_table.columns([14]).visible(true);
+        } catch (e) {}
+        $('.row.players-content').find('.form-control').prop('disabled', !isEdit);
     });
 
     window.fieldLabelsTeam = []; window.fieldLabelsOpponent = [];

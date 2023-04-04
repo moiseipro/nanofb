@@ -9,10 +9,10 @@
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit" id="openDrawing1">Рисунок 1</button>
                 <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit" id="openDrawing2">Рисунок 2</button>
                 {% if can_edit_exs and can_edit_exs_full %}
-                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit" id="openVideo1">Видео 1</button>
-                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit" id="openVideo2">Видео 2</button>
-                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit" id="openAnimation1">Анимация 1</button>
-                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit" id="openAnimation2">Анимация 2</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit" id="openVideo1">Видео</button>
+                <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit" id="openVideo2">Видео 2</button> -->
+                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit" id="openAnimation1">Анимация</button>
+                <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit" id="openAnimation2">Анимация 2</button> -->
                 <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn btn-edit" id="openTags" title="Ключевые характеристики">Кл. х-ки</button> -->
                 {% endif %}
                 <button type="button" class="btn btn-secondary btn-sm btn-custom exs-change size-max-w-x" data-dir="prev" style="--w-max-x:5%;" title="Предыдущее">
@@ -63,24 +63,24 @@
                                         </li>
                                         <li class="list-group-item py-1">
                                             <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="video_1">
-                                                Видео 1
+                                                Видео
                                             </button>
                                         </li>
-                                        <li class="list-group-item py-1">
+                                        <!-- <li class="list-group-item py-1">
                                             <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="video_2">
                                                 Видео 2
                                             </button>
-                                        </li>
+                                        </li> -->
                                         <li class="list-group-item py-1">
                                             <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="animation_1">
-                                                Анимация 1
+                                                Анимация
                                             </button>
                                         </li>
-                                        <li class="list-group-item py-1">
+                                        <!-- <li class="list-group-item py-1">
                                             <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="animation_2">
                                                 Анимация 2
                                             </button>
-                                        </li>
+                                        </li> -->
                                         <li class="list-group-item py-1">
                                             <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="scheme_1">
                                                 Рисунок 1
@@ -819,19 +819,19 @@
                                         </div>
                                         <div class="col-12">
                                             <div id="carouselVideo" class="carousel slide mt-2" data-ride="carousel" data-interval="false">
-                                                <ol class="carousel-indicators">
+                                                <!-- <ol class="carousel-indicators">
                                                     <li data-target="#carouselVideo" data-slide-to="0" class="active"></li>
                                                     <li data-target="#carouselVideo" data-slide-to="1"></li>
-                                                </ol>
+                                                </ol> -->
                                                 <div class="carousel-inner">
-                                                    <div class="carousel-item active" title="Видео 1">
+                                                    <div class="carousel-item active" title="Видео">
                                                         <video id="video-player-card-1" class="video-js resize-block not-active">
                                                         </video>
                                                     </div>
-                                                    <div class="carousel-item" title="Видео 2">
+                                                    <!-- <div class="carousel-item" title="Видео 2">
                                                         <video id="video-player-card-2" class="video-js resize-block not-active">
                                                         </video>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                                 <a class="carousel-control-prev ml-2" href="#carouselVideo" role="button" data-slide="prev">
                                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -845,19 +845,19 @@
                                         </div>
                                         <div class="col-12">
                                             <div id="carouselAnim" class="carousel slide mt-2" data-ride="carousel" data-interval="false">
-                                                <ol class="carousel-indicators">
+                                                <!-- <ol class="carousel-indicators">
                                                     <li data-target="#carouselAnim" data-slide-to="0" class="active"></li>
                                                     <li data-target="#carouselAnim" data-slide-to="1"></li>
-                                                </ol>
+                                                </ol> -->
                                                 <div class="carousel-inner">
-                                                    <div class="carousel-item active" title="Анимация 1">
+                                                    <div class="carousel-item active" title="Анимация">
                                                         <video id="video-player-card-3" class="video-js resize-block not-active">
                                                         </video>
                                                     </div>
-                                                    <div class="carousel-item" title="Анимация 2">
+                                                    <!-- <div class="carousel-item" title="Анимация 2">
                                                         <video id="video-player-card-4" class="video-js resize-block not-active">
                                                         </video>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                                 <a class="carousel-control-prev ml-2" href="#carouselAnim" role="button" data-slide="prev">
                                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -1141,25 +1141,25 @@
                             <div class="row">
                                 <div class="col-7">
                                     <div class="exs_video_link" data-type="video_1">
-                                        <input name="video_links_name[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="Название видео 1" autocomplete="off">
-                                        <input name="video_links_link[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="Ссылка на видео 1" autocomplete="off">
-                                        <textarea name="video_links_note[]" class="form-control form-control-sm exs_edit_field ignore-style" placeholder="Описание видео 1" type="text" autocomplete="off" style="min-height: 300px;"></textarea>
+                                        <input name="video_links_name[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="Название видео" autocomplete="off">
+                                        <input name="video_links_link[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="Ссылка на видео" autocomplete="off">
+                                        <textarea name="video_links_note[]" class="form-control form-control-sm exs_edit_field ignore-style" placeholder="Описание видео" type="text" autocomplete="off" style="min-height: 300px;"></textarea>
                                     </div>
-                                    <div class="exs_video_link" data-type="video_2">
+                                    <!-- <div class="exs_video_link" data-type="video_2">
                                         <input name="video_links_name[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="Название видео 2" autocomplete="off">
                                         <input name="video_links_link[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="Ссылка на видео 2" autocomplete="off">
                                         <textarea name="video_links_note[]" class="form-control form-control-sm exs_edit_field ignore-style" placeholder="Описание видео 2" type="text" autocomplete="off" style="min-height: 300px;"></textarea>
-                                    </div>
+                                    </div> -->
                                     <div class="exs_video_link" data-type="animation_1">
-                                        <input name="video_links_name[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="Название анимации 1" autocomplete="off">
-                                        <input name="video_links_link[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="Ссылка на анимацию 1" autocomplete="off">
-                                        <textarea name="video_links_note[]" class="form-control form-control-sm exs_edit_field ignore-style" placeholder="Описание анимации 1" type="text" autocomplete="off" style="min-height: 300px;"></textarea>
+                                        <input name="video_links_name[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="Название анимации" autocomplete="off">
+                                        <input name="video_links_link[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="Ссылка на анимацию" autocomplete="off">
+                                        <textarea name="video_links_note[]" class="form-control form-control-sm exs_edit_field ignore-style" placeholder="Описание анимации" type="text" autocomplete="off" style="min-height: 300px;"></textarea>
                                     </div>
-                                    <div class="exs_video_link" data-type="animation_2">
+                                    <!-- <div class="exs_video_link" data-type="animation_2">
                                         <input name="video_links_name[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="Название анимации 2" autocomplete="off">
                                         <input name="video_links_link[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="Ссылка на анимацию 2" autocomplete="off">
                                         <textarea name="video_links_note[]" class="form-control form-control-sm exs_edit_field ignore-style" placeholder="Описание анимации 2" type="text" autocomplete="off" style="min-height: 300px;"></textarea>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <div class="col-5 px-5">
                                     <div class="row">

@@ -156,6 +156,10 @@ class AbstractExercise(models.Model):
         help_text='Показывать упр-ие пользователю или нет',
         default=True
     )
+    visible_demo = models.BooleanField(
+        help_text='Показывать упр-ие пользователю или нет в демо-режиме версии',
+        default=True
+    )
     completed = models.BooleanField(
         help_text='Упражнение завершено',
         default=False
