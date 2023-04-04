@@ -715,6 +715,26 @@ function CopySchemeFromExsToExs(toExsId, toFolderType) {
     });
 }
 
+async function copyToClipboard(textToCopy) {
+    if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(textToCopy);
+    } else {
+        const textArea = document.createElement("textarea");
+        textArea.value = textToCopy;
+        textArea.style.position = "absolute";
+        textArea.style.left = "-999999px";
+        document.body.prepend(textArea);
+        textArea.select();
+        try {
+            document.execCommand('copy');
+        } catch (error) {
+            console.error(error);
+        } finally {
+            textArea.remove();
+        }
+    }
+}
+
 
 
 $(function() {
@@ -1639,7 +1659,7 @@ $(function() {
         let cLink = $(e.currentTarget).attr('data-link');
         if (cLink && cLink != "") {
             try {
-                navigator.clipboard.writeText(cLink);
+                copyToClipboard(cLink);
             } catch(e) {}
             swal("Готово", `Ссылка скопирована (${cLink})!`, "success");
             return;
@@ -1671,7 +1691,7 @@ $(function() {
                     $('#exerciseShareModal').find('.link-text > a').attr('href', res.data.link);
                     $('#exerciseShareModal').find('button.btn-share').attr('data-link', res.data.link);
                     try {
-                        navigator.clipboard.writeText(res.data.link);
+                        copyToClipboard(res.data.link);
                     } catch(e) {}
                     swal("Готово", `Ссылка скопирована (${res.data.link})!`, "success");
                 }
