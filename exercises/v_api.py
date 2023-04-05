@@ -2743,8 +2743,12 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
         is_as_object = True
     res_exs = {}
     c_exs = None
+    if request.user.is_anonymous:
+        request.user.club_id = None
+        cur_user = request.user.id
+    print(cur_user)
     if folder_type == FOLDER_TEAM:
-        if not util_check_access(cur_user, {
+        if not request.user.is_anonymous and not util_check_access(cur_user, {
             'perms_user': ["exercises.view_userexercise"], 
             'perms_club': ["exercises.view_clubexercise"]
         }):
@@ -2755,7 +2759,10 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
         if request.user.club_id is not None:
             c_exs = ClubExercise.objects.filter(id=exs_id, visible=True, club=request.user.club_id, team=cur_team)
         else:
-            c_exs = UserExercise.objects.filter(id=exs_id, visible=True, user=cur_user)
+            if request.user.is_anonymous:
+                c_exs = UserExercise.objects.filter(id=exs_id, visible=True)
+            else:
+                c_exs = UserExercise.objects.filter(id=exs_id, visible=True, user=cur_user)
         if c_exs.exists() and c_exs[0].id != None:
             res_exs = c_exs.values()[0]
             print(res_exs)
@@ -2766,7 +2773,10 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
         if request.user.club_id is not None:
             user_params = UserExerciseParam.objects.filter(exercise_club=c_exs[0].id, user=cur_user)
         else:
-            user_params = UserExerciseParam.objects.filter(exercise_user=c_exs[0].id, user=cur_user)
+            if request.user.is_anonymous:
+                user_params = UserExerciseParam.objects.filter(exercise_user=c_exs[0].id)
+            else:
+                user_params = UserExerciseParam.objects.filter(exercise_user=c_exs[0].id, user=cur_user)
         if user_params.exists() and user_params[0].id != None:
             user_params = user_params.values()[0]
             res_exs['favorite'] = user_params['favorite']
@@ -2778,7 +2788,10 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
         if request.user.club_id is not None:
             team_params = UserExerciseParamTeam.objects.filter(exercise_club=c_exs[0].id, team_club=cur_team)
         else:
-            team_params = UserExerciseParamTeam.objects.filter(exercise_user=c_exs[0].id, team=cur_team)
+            if request.user.is_anonymous:
+                team_params = UserExerciseParamTeam.objects.filter(exercise_user=c_exs[0].id)
+            else:
+                team_params = UserExerciseParamTeam.objects.filter(exercise_user=c_exs[0].id, team=cur_team)
         if team_params.exists() and team_params[0].id != None:
             team_params = team_params.values()[0]
             res_exs['additional_data'] = get_by_language_code(team_params['additional_data'], request.LANGUAGE_CODE)
@@ -2811,7 +2824,7 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
             res_exs['coaching'] = get_by_language_code(team_params['coaching'], request.LANGUAGE_CODE)
             res_exs['notes'] = get_by_language_code(team_params['note'], request.LANGUAGE_CODE)
     elif folder_type == FOLDER_CLUB:
-        if not util_check_access(cur_user, {
+        if not request.user.is_anonymous and not util_check_access(cur_user, {
             'perms_user': ["exercises.view_userexercise"], 
             'perms_club': ["exercises.view_clubexercise"]
         }):

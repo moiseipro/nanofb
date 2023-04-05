@@ -176,42 +176,6 @@ function ToggleUpFilter(id, state) {
             folderType = $('.folders_div:not(.d-none)').attr('data-id');
             $('.exs-edit-block').find('.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
             break;
-        case "copy":
-            if ($('.exercises-list').find('.exs-elem.active').length <= 0) {
-                $('.up-tabs-elem[data-id="copy"]').removeClass('selected3');
-                $('.up-tabs-elem[data-id="copy"]').attr('data-state', '0');
-                swal("Внимание", "Выберите упражнение из списка.", "info");
-            } else {
-                $('#exerciseCopyModal').find('.modal-title').text("Режим копирования");
-                $('#exerciseCopyModal').find('[name="copy_mode"]').val('1');
-                $('#exerciseCopyModal').find('.move-show').addClass('d-none');
-                $('#exerciseCopyModal').find('.copy-show').removeClass('d-none');
-                $('#exerciseCopyModal').find('.toggle-mode').removeClass('active');
-                $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-move-exercise"]').addClass('active');
-                $('#exerciseCopyModal').find('.content-block').addClass('d-none');
-                $('#exerciseCopyModal').find('.content-block.copy-move-exercise').removeClass('d-none');
-                if (state) {$('#exerciseCopyModal').modal('show');} 
-                else {$('#exerciseCopyModal').modal('hide');}
-            }
-            break;
-        case "move":
-            if ($('.exercises-list').find('.exs-elem.active').length <= 0) {
-                $('.up-tabs-elem[data-id="move"]').removeClass('selected3');
-                $('.up-tabs-elem[data-id="move"]').attr('data-state', '0');
-                swal("Внимание", "Выберите упражнение из списка.", "info");
-            } else {
-                $('#exerciseCopyModal').find('.modal-title').text("Режим перемещения");
-                $('#exerciseCopyModal').find('[name="copy_mode"]').val('2');
-                $('#exerciseCopyModal').find('.copy-show').addClass('d-none');
-                $('#exerciseCopyModal').find('.move-show').removeClass('d-none');
-                $('#exerciseCopyModal').find('.toggle-mode').removeClass('active');
-                $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-move-exercise"]').addClass('active');
-                $('#exerciseCopyModal').find('.content-block').addClass('d-none');
-                $('#exerciseCopyModal').find('.content-block.copy-move-exercise').removeClass('d-none');
-                if (state) {$('#exerciseCopyModal').modal('show');} 
-                else {$('#exerciseCopyModal').modal('hide');}
-            }
-            break;
         case "share":
             if ($('.exercises-list').find('.exs-elem.active').length <= 0) {
                 $('.up-tabs-elem[data-id="share"]').removeClass('selected3');
@@ -748,6 +712,37 @@ function CopySchemeFromExsToExs(toExsId, toFolderType) {
         },
         complete: function (res) {
         }
+    });
+}
+
+function fallbackCopyTextToClipboard(text) {
+    let textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.position = "fixed";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+        var successful = document.execCommand('copy');
+        var msg = successful ? 'successful' : 'unsuccessful';
+        console.log('Fallback: Copying text command was ' + msg);
+    } catch (err) {
+        console.error('Fallback: Oops, unable to copy', err);
+    }
+    document.body.removeChild(textArea);
+}
+
+function copyTextToClipboard(text) {
+    if (!navigator.clipboard) {
+        fallbackCopyTextToClipboard(text);
+        return;
+    }
+    navigator.clipboard.writeText(text).then(function() {
+        console.log('Async: Copying to clipboard was successful!');
+    }, function(err) {
+        console.error('Async: Could not copy text: ', err);
     });
 }
 
@@ -1675,7 +1670,7 @@ $(function() {
         let cLink = $(e.currentTarget).attr('data-link');
         if (cLink && cLink != "") {
             try {
-                navigator.clipboard.writeText(cLink);
+                copyTextToClipboard(cLink);
             } catch(e) {}
             swal("Готово", `Ссылка скопирована (${cLink})!`, "success");
             return;
@@ -1707,15 +1702,15 @@ $(function() {
                     $('#exerciseShareModal').find('.link-text > a').attr('href', res.data.link);
                     $('#exerciseShareModal').find('button.btn-share').attr('data-link', res.data.link);
                     try {
-                        navigator.clipboard.writeText(res.data.link);
+                        copyTextToClipboard(res.data.link);
                     } catch(e) {}
                     swal("Готово", `Ссылка скопирована (${res.data.link})!`, "success");
                 }
             },
             error: function (res) {
-                if (res.type == "date") {
+                if (res.responseJSON.type == "date") {
                     swal("Ошибка", "Дата введена не корректно!", "error");
-                } else if (res.type == "link") {
+                } else if (res.responseJSON.type == "link") {
                     swal("Ошибка", "Невозможно создать общую ссылку!", "error");
                 }
                 console.log(res);
