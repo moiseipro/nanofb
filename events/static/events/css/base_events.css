@@ -9,6 +9,10 @@ table.dataTable>tbody>tr.selected>* {
     color: black;
 }
 
+table.dataTable>tbody>tr.selected {
+    border: 2px solid black;
+}
+
 tr.month_top_border{
     border-top: 1.05px solid black !important;
 }

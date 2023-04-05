@@ -152,7 +152,9 @@ $(window).on('load', function (){
     $('#training-video-modal .open-link').on('click', function () {
         //console.log("open link")
         let url = $('#training-video-modal input[name="video_href"]').val()
-        window.open(url, '_blank');
+        if(url!=''){
+            window.open(url, '_blank');
+        }
     })
     $('#training-video-modal .copy-link').on('click', function () {
         let url = $('#training-video-modal input[name="video_href"]').val()
