@@ -104,7 +104,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             num_tr = 1
                             let count_player = 0
                             let count_goalkeeper = 0
-
+                            //console.log(event.training)
                             if(event_class === 'trainingClass' && event['only_date'] === event_date) num_tr++
                             if(('exercises_info' in event.training && event.training.exercises_info.length == 0) || ('protocol_info' in event.training && event.training.protocol_info.length == 0)) isFilled = false
                             if('protocol_info' in event.training && event.training.protocol_info.length > 0){
@@ -116,6 +116,15 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                         }
                                     }
                                 });
+                            } else {
+                                if(event.training.players_count != null && Object.keys(event.training.players_count).length>0){
+                                    //console.log(event.training.players_count[0])
+                                    count_player = event.training.players_count[0]
+                                }
+                                if(event.training.goalkeepers_count != null && Object.keys(event.training.goalkeepers_count).length>0){
+                                    count_goalkeeper = event.training.goalkeepers_count[0]
+                                }
+
                             }
                             hasVideo = event.training.video_href != '' && event.training.video_href != null
                             event_name = 'tr'+num_tr
@@ -128,7 +137,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                 <td><a href="/trainings${isLite ? '/lite' : ''}/view/${event.training.event_id}" class="btn btn-sm btn-block btn-info py-0" data-id="${event.training.event_id}">${gettext('Training')+' '+(num_tr == 2 ? '2' : '')}</a></td>
                                 <td><i class="switch-favorites fa ${event.training.favourites == 1 ? 'fa-star text-success' : (event.training.favourites == 2 ? 'fa-star text-warning' : (event.training.favourites == 3 ? 'fa-star text-danger' : 'fa-star-o'))}" data-switch="${event.training.favourites}"></i></td>
                                 <td>${count_player}</td>
-                                <td>0</td>
+                                <td>${count_goalkeeper}</td>
                             `
                         } else if('match' in event && event['match'] != null){
                             event_name = 'm'+(event['match']['m_type']+1)

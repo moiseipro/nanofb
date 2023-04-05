@@ -133,7 +133,7 @@ function load_training_print(training_id) {
                     <div class="row">
                         <div class="col-12 px-0">
                             <textarea class="form-control form-control-sm rounded-0" rows="5" cols="5" style="max-height: 500px; min-height: 60px; height: 150px">
-                                ${get_translation_name(exercise.description)}
+                                ${exercise.description}
                             </textarea>
                         </div>
                     </div>
