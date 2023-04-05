@@ -681,6 +681,12 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             if req.user.club_id is not None:
                 f_exercises = ClubExercise.objects.filter(folder__in = club_folders)
     
+    if not cur_user.is_superuser:
+        if cur_user.is_demo_mode:
+            f_exercises = f_exercises.filter(visible_demo=True)
+        else:
+            f_exercises = f_exercises.filter(visible=True)
+    
     if filter_goal != -1:
         f_exercises = f_exercises.filter(ref_goal=filter_goal)
     if filter_ball != -1:
