@@ -2,6 +2,15 @@
     height: calc(1em + 0.5rem + 2px) !important;
     background: none;
 }
+#print-training-block input{
+    height: calc(1em + 0.5rem + 2px) !important;
+    background: none;
+}
+#print-training-block exercise-print-col{
+    height: calc(1em + 0.5rem + 2px) !important;
+    background: none;
+}
+
 
 #print-training-block textarea{
     background: none;
@@ -9,4 +18,8 @@
 
 #print-training-block border{
     border: 1px solid black;
+}
+
+#print-training-block textarea{
+    overflow: hidden;
 }

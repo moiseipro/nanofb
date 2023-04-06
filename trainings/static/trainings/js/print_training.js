@@ -122,23 +122,25 @@ function load_training_print(training_id) {
 
                 html_scheme += `
                 <div class="col-8 exercise-info-block">
-                    <div class="row">
-                        <div class="col-10 px-1 border" style="background: #efefef">
+                    <div class="row h-100">
+                        <div class="col-10 px-1 align-self-start calculate-name border" style="background: #efefef">
                             <input type="text" class="form-control form-control-sm border-0 font-weight-bold text-center" placeholder="${gettext("Title")}" value="${get_translation_name(exercise.exercise_name)}">
                         </div>
-                        <div class="col-2 px-1 border">
+                        <div class="col-2 px-1 align-self-start border">
                             <input type="text" class="form-control form-control-sm border-0 font-weight-bold text-center" placeholder="${gettext("Duration")}" value="(${exercise.duration}\`)">
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 px-0">
+
+                        <div class="col-12 px-0 align-self-start">
                             <textarea class="form-control form-control-sm rounded-0" rows="5" cols="5" style="max-height: 500px; min-height: 60px; height: 150px">
                                 ${exercise.description ? exercise.description : ''}
                             </textarea>
                         </div>
-                    </div>
-                    <div class="row">
-                        ${additional_data}
+                        <div class="col-12 align-self-end calculate-additional">
+                            <div class="row">
+                            ${additional_data}
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
                 `
@@ -154,5 +156,18 @@ function load_training_print(training_id) {
 
         }
         $('#print-training-block .exercise-list').html(html_scheme)
+        resize_textarea()
+
     })
+}
+
+function resize_textarea() {
+    $('#print-training-block .exercise-list .exercise-info-block').each(function() {
+        let textarea = $(this).find('textarea');
+        console.log(textarea)
+        let new_height = 242 - $(this).find(".calculate-name").height() - $(this).find(".calculate-additional").height()
+        console.log(new_height)
+        textarea.css('min-height', new_height+"px");
+        textarea.css('height', new_height+"px");
+    });
 }

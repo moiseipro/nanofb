@@ -21,7 +21,7 @@ from events.serializers import UserMicrocyclesSerializer, UserMicrocyclesUpdateS
 from matches.models import UserMatch, ClubMatch, LiteMatch
 from references.models import UserTeam, UserSeason, ClubSeason, ClubTeam
 from trainings.models import UserTraining, ClubTraining, UserTrainingExercise, ClubTrainingExercise, LiteTraining, \
-    LiteTrainingExercise
+    LiteTrainingExercise, ClubTrainingExerciseAdditional, UserTrainingExerciseAdditional, LiteTrainingExerciseAdditional
 from system_icons.views import get_ui_elements
 
 
@@ -212,7 +212,6 @@ class EventViewSet(viewsets.ModelViewSet):
                 count_tr = 0
             try:
                 exercises = ClubTrainingExercise.objects.filter(training_id=pk)
-                print(exercises)
             except ClubTrainingExercise.DoesNotExist:
                 exercises = None
             try:
@@ -237,7 +236,6 @@ class EventViewSet(viewsets.ModelViewSet):
                 count_tr = 0
             try:
                 exercises = UserTrainingExercise.objects.filter(training_id=pk)
-                print(exercises)
             except UserTrainingExercise.DoesNotExist:
                 exercises = None
             try:
@@ -272,9 +270,29 @@ class EventViewSet(viewsets.ModelViewSet):
                 training.protocol.clear()
                 training.save()
                 for exercise in exercises:
+                    print(exercise)
+                    if self.request.user.club_id is not None:
+                        last_additional = ClubTrainingExercise.objects.get(pk=exercise.pk).clubtrainingexerciseadditional_set.all()
+                    else:
+                        last_additional = UserTrainingExercise.objects.get(pk=exercise.pk).usertrainingexerciseadditional_set.all()
                     exercise.pk = None
+                    print(last_additional)
                     exercise.training_id = training
                     exercise.save()
+                    if self.request.user.club_id is not None:
+                        for additional in last_additional:
+                            ClubTrainingExerciseAdditional.objects.create(
+                                training_exercise_id=exercise,
+                                additional_id=additional.additional_id,
+                                note=additional.note
+                            )
+                    else:
+                        for additional in last_additional:
+                            UserTrainingExerciseAdditional.objects.create(
+                                training_exercise_id=exercise,
+                                additional_id=additional.additional_id,
+                                note=additional.note
+                            )
                 response = Response({'status': 'training_copied'})
             elif match:
                 match.pk = None
@@ -474,9 +492,16 @@ class LiteEventViewSet(viewsets.ModelViewSet):
                 training.event_id = event
                 training.save()
                 for exercise in exercises:
+                    last_additional = LiteTrainingExercise.objects.get(pk=exercise.pk).litetrainingexerciseadditional_set.all()
                     exercise.pk = None
                     exercise.training_id = training
                     exercise.save()
+                    for additional in last_additional:
+                        LiteTrainingExerciseAdditional.objects.create(
+                            training_exercise_id=exercise,
+                            additional_id=additional.additional_id,
+                            note=additional.note
+                        )
                 response = Response({'status': 'training_copied'})
             elif match:
                 match.pk = None

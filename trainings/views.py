@@ -339,6 +339,15 @@ class LiteTrainingViewSet(viewsets.ModelViewSet):
         exercise_count = LiteTrainingExercise.objects.filter(training_id=pk, group=data['group']).count()
         current_exercise = LiteTrainingExercise.objects.filter(training_id=pk, group=data['group'],
                                                                exercise_id=data['exercise_id']).count()
+        previous_training = LiteTrainingExercise.objects.filter(
+            exercise_id=data['exercise_id'],
+            training_id__team_id=self.request.session['team'],
+            training_id__event_id__date__lte=LiteTraining.objects.get(pk=pk).event_id.date
+        ).last()
+        if previous_training:
+            last_additional = previous_training.litetrainingexerciseadditional_set.all()
+        else:
+            last_additional = None
         print(exercise_count)
         if exercise_count > 6:
             return Response({'status': 'exercise_limit'})
@@ -363,7 +372,15 @@ class LiteTrainingViewSet(viewsets.ModelViewSet):
         #print(serializer)
         if serializer.is_valid(raise_exception=True):
             new_obj = serializer.save()
+            if last_additional:
+                for additional in last_additional:
+                    LiteTrainingExerciseAdditional.objects.create(
+                        training_exercise_id=new_obj,
+                        additional_id=additional.additional_id,
+                        note=additional.note
+                    )
             object_serialize = LiteTrainingExerciseSerializer(new_obj).data
+
 
             return Response({'status': 'exercise_added', 'obj': object_serialize})
         else:
