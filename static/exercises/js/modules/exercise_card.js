@@ -830,25 +830,13 @@ function DeleteExerciseOne(exsId=null, folderType=null, isMultiExs=false) {
                     <div class="form-check">
                         <label class="form-check-label">
                             <input type="radio" class="form-check-input" name="delete_exs_type" value="1">
-                            Удалить только видео 1
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="delete_exs_type" value="2">
-                            Удалить только видео 2
+                            Удалить только видео
                         </label>
                     </div>
                     <div class="form-check">
                         <label class="form-check-label">
                             <input type="radio" class="form-check-input" name="delete_exs_type" value="3">
-                            Удалить только анимацию 1
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="delete_exs_type" value="4">
-                            Удалить только анимацию 2
+                            Удалить только анимацию
                         </label>
                     </div>
                     <div class="form-check disabled">
@@ -1641,7 +1629,7 @@ $(function() {
                     $('#descriptionEditor2').next().find('.ck-editor__top').addClass('d-none');
                     $('#descriptionEditor2').next().find('.ck-content.ck-editor__editable').addClass('borders-off');
                 }
-                $('.resizeable-block').css('height', `79vh`);
+                $('.resizeable-block').css('height', `100%`);
 				return editor;
 			})
 		});
@@ -1724,7 +1712,7 @@ $(function() {
             .then( editor => {
                 editor.setData($('#descriptionEditor2Template').attr('data-content'));
                 document.descriptionEditor2Template = editor;
-                $('.resizeable-block').css('height', `79vh`);
+                $('.resizeable-block').css('height', `100%`);
 				return editor;
 			})
 		});
