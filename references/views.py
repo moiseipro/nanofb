@@ -177,7 +177,7 @@ class ExsAdditionalViewSet(viewsets.ModelViewSet):
                 additionals = ExsAdditionalData.objects.all()
                 for additional in additionals:
                     UserExsAdditionalData.objects.create(
-                        user_id=self.request.user.id,
+                        user_id=self.request.user,
                         name=additional.name,
                         short_name=additional.short_name,
                         order=additional.order,
