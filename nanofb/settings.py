@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
+from . import email_props
 
 
 
@@ -153,11 +154,11 @@ CACHES = {
 
 
 # EMAIL
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 465
-EMAIL_HOST_USER = 'admin@nanofootball.ru'
-EMAIL_HOST_PASSWORD = '9Kp-8vg-A28-aJC'
-EMAIL_USE_SSL = True
+EMAIL_HOST = email_props.HOST
+EMAIL_PORT = email_props.PORT
+EMAIL_HOST_USER = email_props.HOST_USER
+EMAIL_HOST_PASSWORD = email_props.HOST_PASSWORD
+EMAIL_USE_SSL = email_props.USE_SSL
 
 
 # Password validation
