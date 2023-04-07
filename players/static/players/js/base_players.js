@@ -290,11 +290,9 @@ $(function() {
         let selectedRow = players_table.rows({selected: true}).data().toArray()[0];
         let selectedId = selectedRow ? selectedRow.id : null;
         if (selectedId) {
-            window.location.href = `/players/player?id=${selectedId}`;
-        } else {
-            window.location.href = `/players/player`;
-            // swal("Внимание", "Выберите игрока из таблицы.", "info");
+            sessionStorage.setItem("selectedPlayer", `${selectedId}`)
         }
+        window.location.href = `/players/player`;
     });
 
     // Table columns Settings

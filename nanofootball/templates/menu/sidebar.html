@@ -79,6 +79,30 @@
         <span>{% translate "My Profile" %}</span>
     </a>
 </li>
+{% if perms.helper_football.view_userarticle or perms.helper_football.view_clubarticle %}
+<li class="{{ menu_helper_football }}">
+    <a href="{% url 'helper_football:helper_football' %}" class="btn">
+        {% if ui_elements.sidebar__helper_football %}
+            {{ ui_elements.sidebar__helper_football }}
+        {% else %}
+            <i class="fa fa-book"></i>
+        {% endif %}
+        <span>{% trans 'Helper 1' %}</span>
+    </a>
+</li>
+{% endif %}
+{% if perms.helper_site.view_userarticle or perms.helper_site.view_clubarticle %}
+<li class="{{ menu_helper_site }}">
+    <a href="{% url 'helper_site:helper_site' %}" class="btn">
+        {% if ui_elements.sidebar__helper_site %}
+            {{ ui_elements.sidebar__helper_site }}
+        {% else %}
+            <i class="fa fa-book"></i>
+        {% endif %}
+        <span>{% trans 'Helper 2' %}</span>
+    </a>
+</li>
+{% endif %}
 {% if perms.exercises.change_adminfolder or perms.exercises.change_userfolder or perms.exercises.change_clubfolder %}
 <li class="{{ menu_exercises_folders }}">
     <a class="" href="{% url 'exercises:folders' %}" class="btn">

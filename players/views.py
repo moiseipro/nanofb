@@ -81,16 +81,6 @@ def player(request):
         cur_team = int(request.session['team'])
     except:
         pass
-    selected_player_id = -1
-    try:
-        selected_player_id = int(request.GET.get('id', -1))
-    except:
-        pass
-    selected_player = UserPlayer.objects.filter(user=cur_user[0], id=selected_player_id)
-    if selected_player.exists() and selected_player[0].id != None:
-        if selected_player[0].team:
-            cur_team = selected_player[0].team.id
-            request.session['team'] = str(cur_team)
     players = v_api.GET_get_players_json(request, cur_user[0], cur_team, False, False)
     refs = {}
     refs = v_api.get_players_refs(request)
