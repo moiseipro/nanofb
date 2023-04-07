@@ -160,8 +160,30 @@ class ExsAdditionalViewSet(viewsets.ModelViewSet):
         print(self.request.data)
         if self.request.user.club_id is not None:
             additionals = ClubExsAdditionalData.objects.filter(club_id=self.request.user.club_id)
+            if additionals.count() == 0:
+                additionals = ExsAdditionalData.objects.all()
+                for additional in additionals:
+                    ClubExsAdditionalData.objects.create(
+                        club_id=self.request.user.club_id,
+                        name=additional.name,
+                        short_name=additional.short_name,
+                        order=additional.order,
+                        translation_names=additional.translation_names
+                    )
+                additionals = ClubExsAdditionalData.objects.filter(club_id=self.request.user.club_id)
         else:
             additionals = UserExsAdditionalData.objects.filter(user_id=self.request.user.id)
+            if additionals.count() == 0:
+                additionals = ExsAdditionalData.objects.all()
+                for additional in additionals:
+                    UserExsAdditionalData.objects.create(
+                        user_id=self.request.user.id,
+                        name=additional.name,
+                        short_name=additional.short_name,
+                        order=additional.order,
+                        translation_names=additional.translation_names
+                    )
+                additionals = UserExsAdditionalData.objects.filter(user_id=self.request.user.id)
         return additionals
 
 

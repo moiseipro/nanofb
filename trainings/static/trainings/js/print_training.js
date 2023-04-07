@@ -3,7 +3,7 @@ $(window).on('load', function () {
     //Распечатать тренировку
     $('#print-training-button').on('click', function () {
         $("#print-training-block").print({
-            timeout: 5000,
+            timeout: 8000,
             stylesheet: $('#print-style-href').val()
         });
     })

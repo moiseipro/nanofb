@@ -7,6 +7,7 @@ from clubs.models import Club
 from users.models import User
 
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext as _g
 
 
 # Create your models here.
@@ -31,7 +32,7 @@ class AbstractReference(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return self.name or 'No name'
 
     class Meta:
         abstract = True
