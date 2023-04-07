@@ -744,10 +744,10 @@ $(function() {
 
     window.editingMode = false;
     RenderPlayerOne();
-    const urlParams = new URLSearchParams(window.location.search);
-    let pId = urlParams.get('id');
+    let pId = sessionStorage.getItem("selectedPlayer");
     if (pId) {
         $('table#players').find(`.player-row[data-id="${pId}"]`).click();
+        sessionStorage.removeItem("selectedPlayer");
     }
 
     // Add player

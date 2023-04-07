@@ -1,0 +1,255 @@
+{% extends '../base/app_main.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}Методология{% endblock %}
+
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'helper_football/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="">
+    <div class="row">
+        <div class="col-12 px-0">
+            <div class="card mb-1">
+                <div class="card-body p-1">
+                    <div class="card-inside">
+                        <div class="row row-header">
+                            <div class="col-12">
+                                <div class="btn-group w-100 d-flex justify-content-end" role="group" aria-label="">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x active" data-id="toggle_article_block" title="Скрыть / показать папки" style="--w-max-x:5%;">
+                                        <i class="fa fa-bars" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="toggle_folders" data-state="0" title="Свернуть / развернуть все папки" style="--w-max-x:5%;">
+                                        <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="toggle_columns_size" data-state="0" title="Изменить размер колонок" style="--w-max-x:5%;">
+                                        <i class="fa fa-columns" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="toggle_favorite" data-state="0" title="Показать избранное" style="--w-max-x:5%;">
+                                        <span class="icon-custom i-favor icon--favorite-selected" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="toggle_edit_options" title="Дополнительные опции" style="--w-max-x:5%;">
+                                        <i class="fa fa-cog" aria-hidden="true"></i>
+                                    </button>
+                                    <input name="" class="form-control form-control-sm btn-block my-0 article-name" 
+                                        type="text" value="" placeholder="Название статьи" autocomplete="off" readonly="" style="cursor:default;">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="add_folder" title="Добавить новую папку" style="--w-max-x:5%;">
+                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="add_article" title="Добавить новую статью" style="--w-max-x:5%;">
+                                        <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-content split mt-2">
+                            <div class="folders-wrapper px-0" id="splitCol_0">
+                                <ul class="list-group folders-group">
+                                </ul>
+                            </div>
+                            <div class="viewer-wrapper" id="splitCol_1">
+                                <div class="article-viewer-block">
+                                    <textarea id="articleViewer" name=""></textarea>
+                                </div>
+                            </div>
+                            <div class="article-editor-col">
+                                <div class="row aec-header mb-2">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-6 d-flex justify-content-start">
+                                                <h5 class="modal-title">Добавление / изменение статьи</h5>
+                                            </div>
+                                            <div class="col-6 d-flex justify-content-end">
+                                                <button type="button" class="btn btn-sm btn-info btn-video">Видео</button>
+                                                <button type="button" class="btn btn-sm btn-warning btn-completed ml-2" name="a_completed">
+                                                    <i class="fa fa-square" aria-hidden="true"></i>
+                                                    Завершена
+                                                </button>
+                                                <button type="submit" class="btn btn-sm btn-success btn-save ml-2">Сохранить</button>
+                                                <button type="button" class="btn btn-sm btn-secondary ml-2" data-dismiss="modal">Отмена</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row aec-body">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-7">
+                                                <div class="form-group mb-1">
+                                                    <input name="a_title" type="text" class="form-control form-control-sm" aria-describedby="" placeholder="Название статьи" autocomplete="off" required="">
+                                                </div>
+                                            </div>
+                                            <div class="col-5">
+                                                <div class="form-group mb-1">
+                                                    <select name="a_folder" class="form-control form-control-sm" autocomplete="off" required="">
+                                                        <option value="">- Выберите папку -</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-0">
+                                            <div class="article-editor-block">
+                                                <textarea id="articleEditor" name="a_content"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editFolderModal" tabindex="-1" role="dialog" aria-labelledby="editFolderModalLbl" aria-hidden="true" data-id="">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Добавление / изменение папки</h5>
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="f_title">Название папки:</label>
+                        <input name="f_title" type="text" class="form-control form-control-sm" id="f_title" aria-describedby="" autocomplete="off" required="">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-save">Сохранить</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteFolderModal" tabindex="-1" role="dialog" aria-labelledby="deleteFolderModalLbl" aria-hidden="true" data-id="">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Удаление папки</h5>
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                </div>
+                <div class="modal-body">
+                    Внимание! Удаление папки приведёт к удалению всех статей, которые привязаны к этой папке.
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger btn-delete">Удалить</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteArticleModal" tabindex="-1" role="dialog" aria-labelledby="deleteArticleModalLbl" aria-hidden="true" data-id="">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Удаление статьи</h5>
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                </div>
+                <div class="modal-body">
+                    Вы точно хотите удалить данную статью?
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger btn-delete">Удалить</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="videoSelectorModal" tabindex="-1" role="dialog" aria-labelledby="videoSelectorModalLbl" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document" style="max-width: 88vw !important;">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 video-filter-container mb-2">
+                            <div class="row">
+                                <div class="col-md-1 col-lg-1">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <button id="video-filters-clear" class="btn btn-secondary btn-block font-weight-bold">
+                                                <i class="fa fa-reply" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-lg-3 px-1 form-select-sm">
+                                    <select class="select form-control form-control-sm video-source" data-theme="bootstrap4">
+                                        <option value="">{% trans 'All' %}</option>
+                                        {% for source in video_params.sources %}
+                                            <option value="{{ source.name }}" data-count="{{ source.videos }}">{{ source.name }}</option>
+                                        {% empty %}
+                                            <option value="">{% trans 'No sources' %}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-3 col-lg-3 px-1 form-select-sm">
+                                    <select class="select form-control form-control-sm exercise-folder" data-theme="bootstrap4">
+                                        <option value="">{% trans 'All' %}</option>
+                                        {% for folder in video_params.folders %}
+                                            <option value="{{ folder.short_name }}">{{ folder.name }}</option>
+                                        {% empty %}
+                                            <option value="">{% trans 'No sources' %}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-2 col-lg-2 px-1 form-select-sm">
+                                    <select class="select form-control form-control-sm video-tags-filter" multiple data-theme="bootstrap4">
+                                        {% for tag in video_params.tags %}
+                                            <option value="{{ tag.name }}">{{ tag.name }}</option>
+                                        {% empty %}
+                                            <option value="">{% trans 'No tags' %}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-3 col-lg-3 px-1 form-select-sm">
+                                    <input type="search" class="form-control video-search" placeholder="Поиск" aria-controls="video">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="row">
+                                <div class="col-12 video-list-container">
+                                    {% include 'video/modules/video_list.html' %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card mb-0 mt-2 w-100">
+                                        <video id="video-player-modal" class="video-js resize-block not-active">
+                                        </video>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-group w-100">
+                        <input type="text" class="form-control video-link btn-block mx-1" placeholder="" aria-controls="">
+                        <button type="button" class="btn btn-success btn-copy btn-block mt-0 mx-1 size-max-w-x" style="--w-max-x:12%;">Скопировать</button>
+                        <button type="button" class="btn btn-secondary btn-block mt-0 mx-1 size-max-w-x" data-dismiss="modal" style="--w-max-x:12%;">Отмена</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</main>
+{% endblock %}
+
+{% block custom_scripts %}
+    <script src="{% static 'ckeditor_4.20.2/ckeditor.js' %}"></script>
+    <script src="{% static 'ckeditor_4.20.2/lang/ru.js' %}"></script>
+
+    <script src="{% static 'video/js/video_list.js' %}"></script>
+    <script src="{% static 'video/js/video_info.js' %}"></script>
+
+    <script src="{% static 'helper_football/js/base_helper_football.js' %}"></script>
+{% endblock %}

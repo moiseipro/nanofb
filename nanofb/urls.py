@@ -47,6 +47,8 @@ urlpatterns = [
     path('shared/', include(('shared.urls', 'shared'), namespace='shared')),
     path('presentation/', include(('presentation.urls', 'presentation'), namespace='presentation')),
     path('methodology/', include(('methodology.urls', 'methodology'), namespace='methodology')),
+    path('helper_football/', include(('helper_football.urls', 'helper_football'), namespace='helper_football')),
+    path('helper_site/', include(('helper_site.urls', 'helper_site'), namespace='helper_site')),
 
     path('i18n/', include('django.conf.urls.i18n')),
     path('schemeDrawer/', include(('schemeDrawer.urls', 'schemeDrawer'), namespace='schemeDrawer')),
