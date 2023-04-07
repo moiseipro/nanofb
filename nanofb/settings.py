@@ -158,7 +158,7 @@ EMAIL_HOST = email_props.HOST
 EMAIL_PORT = email_props.PORT
 EMAIL_HOST_USER = email_props.HOST_USER
 EMAIL_HOST_PASSWORD = email_props.HOST_PASSWORD
-EMAIL_USE_SSL = email_props.USE_SSL
+EMAIL_USE_TLS = email_props.USE_SSL
 
 
 # Password validation
