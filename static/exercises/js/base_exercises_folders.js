@@ -124,16 +124,22 @@ function RenderNFBFolders(data = []) {
                 let tElem = folderList['data'][key][keyElem];
                 let cId = $(tElem).find('.nfb-folder-elem').attr('data-id');
                 if (cId != key) {
-                    $(tElem).find('.folder-point').html(`
-                        <span class="icon-custom icon--folder ml-4" style="--i-w: 1em; --i-h: 1em;"></span>
-                    `);
+                    // $(tElem).find('.folder-point').html(`
+                    //     <span class="icon-custom icon--folder ml-4" style="--i-w: 1em; --i-h: 1em;"></span>
+                    // `);
+                    $(tElem).find('.folder-point').html(``);
                     $(tElem).find('.folder-elem').attr('data-root', '0');
                 } else {
                     $(tElem).find('.folder-elem').attr('data-root', '1');
+                    $(tElem).addClass('root-elem');
                 }
                 $('#folderNanoFbModal').find('.nfb_folders_list > .list-group').append(tElem);
             }
         }
+        window.shortNameStorage = {'root': 0, 'folder': 0};
+        $('#folderNanoFbModal').find('.list-group-item').each((ind, elem) => {
+            SetNewShortName(elem);
+        });
     }, 250);
 }
 
