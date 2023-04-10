@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-10 10:55+0300\n"
+"POT-Creation-Date: 2023-04-10 13:29+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2267,46 +2267,51 @@ msgstr ""
 msgid "Open the selected exercise"
 msgstr ""
 
-#: .\events\templates\events\base_events.html:27
-#: .\events\templates\events\lite_events.html:27
-msgid "Show/Hide calendar"
-msgstr ""
-
-#: .\events\templates\events\base_events.html:33
-#: .\events\templates\events\lite_events.html:30
+#: .\events\templates\events\base_events.html:30
 msgid "Show/Hide event card"
 msgstr ""
 
-#: .\events\templates\events\base_events.html:45
+#: .\events\templates\events\base_events.html:36
 #: .\events\templates\events\lite_events.html:33
-msgid "Resetting all filtering and calendar"
-msgstr ""
-
-#: .\events\templates\events\base_events.html:110
-#: .\events\templates\events\lite_events.html:89
-msgid "MC days"
-msgstr ""
-
-#: .\events\templates\events\base_events.html:119
-#: .\events\templates\events\lite_events.html:98
 msgid "Filtering of training events"
 msgstr ""
 
-#: .\events\templates\events\base_events.html:142
+#: .\events\templates\events\base_events.html:42
+#: .\events\templates\events\lite_events.html:39
+msgid "Resetting all filtering and calendar"
+msgstr ""
+
+#: .\events\templates\events\base_events.html:52
+#: .\events\templates\events\lite_events.html:49
+msgid "Show/Hide calendar"
+msgstr ""
+
+#: .\events\templates\events\base_events.html:52
+#: .\events\templates\events\lite_events.html:49
+msgid "Calendar"
+msgstr ""
+
+#: .\events\templates\events\base_events.html:104
+#: .\events\templates\events\lite_events.html:98
+msgid "MC days"
+msgstr ""
+
+#: .\events\templates\events\base_events.html:127
 #: .\events\templates\events\lite_events.html:121
 #: .\trainings\templates\trainings\print_training.html:52
+#: .\trainings\templates\trainings\training_card.html:87
 msgid "Goal"
 msgstr ""
 
-#: .\events\templates\events\base_events.html:145
+#: .\events\templates\events\base_events.html:130
 #: .\events\templates\events\lite_events.html:124
 msgid "Objectives"
 msgstr ""
 
-#: .\events\templates\events\base_events.html:148
+#: .\events\templates\events\base_events.html:133
 #: .\events\templates\events\lite_events.html:127
 #: .\trainings\templates\trainings\print_training.html:60
-#: .\trainings\templates\trainings\training_card.html:85
+#: .\trainings\templates\trainings\training_card.html:99
 msgid "Load"
 msgstr ""
 
@@ -2388,7 +2393,7 @@ msgstr ""
 #: .\exercises\templates\exercises\base_folders.html:85
 #: .\references\templates\references\forms\reference_edit.html:20
 #: .\references\templates\references\forms\reference_edit.html:33
-#: .\trainings\templates\trainings\training_card.html:119
+#: .\trainings\templates\trainings\training_card.html:126
 #: .\video\templates\video\modules\video_list.html:15
 #: .\video\templates\video\modules\video_list_exercises.html:14
 #: .\video\templates\video\video_card.html:41
@@ -3229,12 +3234,10 @@ msgid "Goalkeepers"
 msgstr ""
 
 #: .\trainings\templates\trainings\print_training.html:57
-#: .\trainings\templates\trainings\training_card.html:91
 msgid "Objective 1"
 msgstr ""
 
 #: .\trainings\templates\trainings\print_training.html:65
-#: .\trainings\templates\trainings\training_card.html:97
 msgid "Objective 2"
 msgstr ""
 
@@ -3250,19 +3253,23 @@ msgstr ""
 msgid "Field size"
 msgstr ""
 
-#: .\trainings\templates\trainings\training_card.html:125
+#: .\trainings\templates\trainings\training_card.html:93
+msgid "Objective"
+msgstr ""
+
+#: .\trainings\templates\trainings\training_card.html:132
 msgid "Description"
 msgstr ""
 
-#: .\trainings\templates\trainings\training_card.html:125
+#: .\trainings\templates\trainings\training_card.html:132
 msgid "for print"
 msgstr ""
 
-#: .\trainings\templates\trainings\training_card.html:134
+#: .\trainings\templates\trainings\training_card.html:141
 msgid "Additional Conditions"
 msgstr ""
 
-#: .\trainings\templates\trainings\training_card.html:139
+#: .\trainings\templates\trainings\training_card.html:146
 msgid "Delete all/empty data"
 msgstr ""
 

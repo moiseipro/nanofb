@@ -23,11 +23,17 @@
                                 <div class="col px-1">
                                     <button id="open-select-exercise" title="{% trans 'Open the selected exercise' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-pencil" aria-hidden="true"></i></button>
                                 </div>
+{#                                <div class="col px-1">#}
+{#                                    <button id="toggle-event-card" title="{% trans 'Show/Hide event card' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-file-text-o" aria-hidden="true"></i></button>#}
+{#                                </div>#}
                                 <div class="col px-1">
-                                    <button id="toggle-calendar" title="{% trans 'Show/Hide calendar' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+                                    <button id="favourites-event-filter" data-filter="0" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-star-o" aria-hidden="true"></i></button>
                                 </div>
                                 <div class="col px-1">
-                                    <button id="toggle-event-card" title="{% trans 'Show/Hide event card' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-file-text-o" aria-hidden="true"></i></button>
+                                    <button id="filled-event-filter" data-filter="0" title="{% trans "Filtering of training events" %}" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-soccer-ball-o" aria-hidden="true"></i></button>
+                                </div>
+                                <div class="col px-1">
+                                    <button id="video-event-filter" data-filter="0" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><b class="text-info">V</b></button>
                                 </div>
                                 <div class="col px-1">
                                     <button id="clear-events-filters" class="btn btn-block btn-reset-filter btn-md font-weight-bold" title="{% trans "Resetting all filtering and calendar" %}"><i class="fa fa-repeat" aria-hidden="true"></i></button>
@@ -36,14 +42,17 @@
                         </div>
                         <div id="rescalenda-control-buttons" class="col-2 p-0" style="">
                             <div class="row rescalendar_controls text-truncate text-center">
-                                <div class="col-6 px-1">
+                                <div class="col-3 px-1 rescalendar_move_button">
                                     <button class="btn btn-block btn-lightgray btn-md move-left move_to_last_month"> &lt;&lt; </button>
+                                </div>
+                                <div class="col px-1">
+                                    <button id="toggle-calendar" title="{% trans 'Show/Hide calendar' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold px-0 active">{% trans "Calendar" %}</button>
                                 </div>
                                 <div class="col px-0 d-none">
                                     <button class="btn btn-block btn-lightgray btn-md font-weight-bold move_to_today"> --- </button>
                                     <input class="refDate" type="text" value="" style="display:none;">
                                 </div>
-                                <div class="col-6 px-1">
+                                <div class="col-3 px-1 rescalendar_move_button">
                                     <button class="btn btn-block btn-lightgray btn-md move-right move_to_next_month"> &gt;&gt; </button>
                                 </div>
                             </div>
@@ -82,24 +91,15 @@
                         {% if perms.events.add_litemicrocycles or perms.events.view_litemicrocycles %}
                         <div class="col">
                             <div class="row">
-                                <div class="col-4 pl-0 pr-1">
+                                <div class="col-6 pl-0 pr-1">
                                     <input id="microcycle-day-filter" type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="M.D." autocomplete="off">
                                 </div>
-                                <div class="col-4 px-1">
+                                <div class="col-6 px-1">
                                     <input id="microcycle-days-filter" type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="{% trans 'MC days' %}" autocomplete="off">
                                 </div>
 {#                                <div class="col-4 px-1">#}
 {#                                    <input id="field_size-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Field size' %}">#}
 {#                                </div>#}
-                                <div class="col px-1">
-                                    <button id="favourites-event-filter" data-filter="0" title="" class="btn btn-block btn-filter-events btn-sm font-weight-bold"><i class="fa fa-star-o" aria-hidden="true"></i></button>
-                                </div>
-                                <div class="col px-1">
-                                    <button id="filled-event-filter" data-filter="0" title="{% trans "Filtering of training events" %}" class="btn btn-block btn-filter-events btn-sm font-weight-bold"><i class="fa fa-soccer-ball-o" aria-hidden="true"></i></button>
-                                </div>
-                                <div class="col px-1">
-                                    <button id="video-event-filter" data-filter="0" title="" class="btn btn-block btn-filter-events btn-sm font-weight-bold"><b class="text-info">V</b></button>
-                                </div>
                             </div>
                         </div>
                         <div class="col-8">

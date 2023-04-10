@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-10 11:03+0300\n"
+"POT-Creation-Date: 2023-04-10 13:29+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2283,46 +2283,51 @@ msgstr "Дата окончания микроцикла"
 msgid "Open the selected exercise"
 msgstr "Открыть выбранное упражнение"
 
-#: .\events\templates\events\base_events.html:27
-#: .\events\templates\events\lite_events.html:27
-msgid "Show/Hide calendar"
-msgstr "Показать/скрыть календарь"
-
-#: .\events\templates\events\base_events.html:33
-#: .\events\templates\events\lite_events.html:30
+#: .\events\templates\events\base_events.html:30
 msgid "Show/Hide event card"
 msgstr "Показать/скрыть карточку события"
 
-#: .\events\templates\events\base_events.html:45
+#: .\events\templates\events\base_events.html:36
 #: .\events\templates\events\lite_events.html:33
-msgid "Resetting all filtering and calendar"
-msgstr "Сброс всей фильтрации и календаря"
-
-#: .\events\templates\events\base_events.html:110
-#: .\events\templates\events\lite_events.html:89
-msgid "MC days"
-msgstr "Дни МЦ"
-
-#: .\events\templates\events\base_events.html:119
-#: .\events\templates\events\lite_events.html:98
 msgid "Filtering of training events"
 msgstr "Фильтрация событий тренировки"
 
-#: .\events\templates\events\base_events.html:142
+#: .\events\templates\events\base_events.html:42
+#: .\events\templates\events\lite_events.html:39
+msgid "Resetting all filtering and calendar"
+msgstr "Сброс всей фильтрации и календаря"
+
+#: .\events\templates\events\base_events.html:52
+#: .\events\templates\events\lite_events.html:49
+msgid "Show/Hide calendar"
+msgstr "Показать/скрыть календарь"
+
+#: .\events\templates\events\base_events.html:52
+#: .\events\templates\events\lite_events.html:49
+msgid "Calendar"
+msgstr "Календарь"
+
+#: .\events\templates\events\base_events.html:104
+#: .\events\templates\events\lite_events.html:98
+msgid "MC days"
+msgstr "Дни МЦ"
+
+#: .\events\templates\events\base_events.html:127
 #: .\events\templates\events\lite_events.html:121
 #: .\trainings\templates\trainings\print_training.html:52
+#: .\trainings\templates\trainings\training_card.html:87
 msgid "Goal"
 msgstr "Цель"
 
-#: .\events\templates\events\base_events.html:145
+#: .\events\templates\events\base_events.html:130
 #: .\events\templates\events\lite_events.html:124
 msgid "Objectives"
 msgstr "Задачи"
 
-#: .\events\templates\events\base_events.html:148
+#: .\events\templates\events\base_events.html:133
 #: .\events\templates\events\lite_events.html:127
 #: .\trainings\templates\trainings\print_training.html:60
-#: .\trainings\templates\trainings\training_card.html:85
+#: .\trainings\templates\trainings\training_card.html:99
 msgid "Load"
 msgstr "Нагрузка"
 
@@ -2404,7 +2409,7 @@ msgstr "Короткий ключ"
 #: .\exercises\templates\exercises\base_folders.html:85
 #: .\references\templates\references\forms\reference_edit.html:20
 #: .\references\templates\references\forms\reference_edit.html:33
-#: .\trainings\templates\trainings\training_card.html:119
+#: .\trainings\templates\trainings\training_card.html:126
 #: .\video\templates\video\modules\video_list.html:15
 #: .\video\templates\video\modules\video_list_exercises.html:14
 #: .\video\templates\video\video_card.html:41
@@ -3245,12 +3250,10 @@ msgid "Goalkeepers"
 msgstr "Вратари"
 
 #: .\trainings\templates\trainings\print_training.html:57
-#: .\trainings\templates\trainings\training_card.html:91
 msgid "Objective 1"
 msgstr "Задача 1"
 
 #: .\trainings\templates\trainings\print_training.html:65
-#: .\trainings\templates\trainings\training_card.html:97
 msgid "Objective 2"
 msgstr "Задача 2"
 
@@ -3266,19 +3269,25 @@ msgstr "Количество игроков"
 msgid "Field size"
 msgstr "Размер поля"
 
-#: .\trainings\templates\trainings\training_card.html:125
+#: .\trainings\templates\trainings\training_card.html:93
+#, fuzzy
+#| msgid "Objectives"
+msgid "Objective"
+msgstr "Задачи"
+
+#: .\trainings\templates\trainings\training_card.html:132
 msgid "Description"
 msgstr "Описание"
 
-#: .\trainings\templates\trainings\training_card.html:125
+#: .\trainings\templates\trainings\training_card.html:132
 msgid "for print"
 msgstr "для печати"
 
-#: .\trainings\templates\trainings\training_card.html:134
+#: .\trainings\templates\trainings\training_card.html:141
 msgid "Additional Conditions"
 msgstr "Доп. Данные"
 
-#: .\trainings\templates\trainings\training_card.html:139
+#: .\trainings\templates\trainings\training_card.html:146
 msgid "Delete all/empty data"
 msgstr "Удалить все/пустые данные"
 

@@ -156,7 +156,7 @@ $(window).on('load', function (){
         training_data['additional'] = JSON.stringify(additionals)
         training_data['field_size'] = $('#training-main-data input[name="field_size"]').val()
         training_data['load_type'] = $('#training-main-data input[name="load_type"]').val()
-        training_data['goal'] = $('#block-training-info input[name="goal"]').val()
+        training_data['goal'] = $('#training-main-data input[name="goal"]').val()
         training_data['objective_1'] = $('#training-main-data input[name="objective_1"]').val()
         training_data['objective_2'] = $('#training-main-data input[name="objective_2"]').val()
         training_data['video_href'] = $('#training-video-modal input[name="video_href"]').val()

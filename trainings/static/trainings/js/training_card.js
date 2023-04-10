@@ -283,20 +283,20 @@ function load_all_exercises_training(training_id = null, group = null) {
         $('#training-main-data .trainer-select').text(data.trainer);
         $('#training-main-data input[name="field_size"]').val(data.field_size)
         $('#training-main-data input[name="load_type"]').val(data.load_type)
-        $('#block-training-info input[name="goal"]').val(data.goal)
+        $('#training-main-data input[name="goal"]').val(data.goal)
         $('#training-main-data input[name="objective_1"]').val(data.objective_1)
         $('#training-main-data input[name="objective_2"]').val(data.objective_2)
         $('#training-video-modal input[name="video_href"]').val(data.video_href)
 
         let exs_time = [0, 0]
         let html_scheme = ''
-        html_scheme += `
-            <div class="row training-data-row mb-1">
-                <div class="col-12 px-0">
-                    <input type="text" name="goal" class="btn btn-sm btn-primary btn-block border border-light rounded-0 font-weight-bold text-center edit-input" value="${data.goal ? data.goal : ''}" placeholder="${gettext('Goal')}" ${!edit_mode ? 'disabled' : ''} autocomplete="off">
-                </div>
-            </div>
-            `
+        // html_scheme += `
+        //     <div class="row training-data-row mb-1">
+        //         <div class="col-12 px-0">
+        //             <input type="text" name="goal" class="btn btn-sm btn-primary btn-block border border-light rounded-0 font-weight-bold text-center edit-input" value="${data.goal ? data.goal : ''}" placeholder="${gettext('Goal')}" ${!edit_mode ? 'disabled' : ''} autocomplete="off">
+        //         </div>
+        //     </div>
+        //     `
         html_scheme += `<div class="row training-info">`
 
         let player_count = 0
