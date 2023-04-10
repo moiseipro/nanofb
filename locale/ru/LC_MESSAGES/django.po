@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-07 15:11+0300\n"
+"POT-Creation-Date: 2023-04-07 15:28+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2169,12 +2169,12 @@ msgstr "Должность"
 
 #: .\events\apps.py:8 .\events\templates\events\base_events.html:5
 #: .\events\templates\events\lite_events.html:5
-#: .\nanofootball\templates\menu\sidebar.html:102
-#: .\nanofootball\templates\menu\sidebar.html:114
+#: .\nanofootball\templates\menu\sidebar.html:126
+#: .\nanofootball\templates\menu\sidebar.html:138
 msgid "Events"
 msgstr "События"
 
-#: .\events\forms.py:40 .\nanofootball\templates\menu\sidebar.html:138
+#: .\events\forms.py:40 .\nanofootball\templates\menu\sidebar.html:162
 msgid "Training"
 msgstr "Тренировки"
 
@@ -2368,7 +2368,7 @@ msgstr "Создать"
 msgid "options"
 msgstr "опции"
 
-#: .\exercises\apps.py:8 .\nanofootball\templates\menu\sidebar.html:150
+#: .\exercises\apps.py:8 .\nanofootball\templates\menu\sidebar.html:174
 #: .\trainings\templates\trainings\view_lite_training.html:39
 #: .\trainings\templates\trainings\view_training.html:39
 msgid "Exercises"
@@ -2379,7 +2379,7 @@ msgid "Folders management"
 msgstr "Управление папками"
 
 #: .\exercises\templates\exercises\base_folders.html:34
-#: .\nanofootball\templates\menu\sidebar.html:90
+#: .\nanofootball\templates\menu\sidebar.html:114
 msgid "Folders"
 msgstr "Папки"
 
@@ -2434,6 +2434,10 @@ msgstr "Выберите эту структуру"
 
 #: .\exercises\templates\exercises\modules\exercise_card.html:1074
 #: .\exercises\templates\exercises\modules\exercise_card.html:1084
+#: .\helper_football\templates\helper_football\base_helper_football.html:182
+#: .\helper_football\templates\helper_football\base_helper_football.html:192
+#: .\helper_site\templates\helper_site\base_helper_site.html:182
+#: .\helper_site\templates\helper_site\base_helper_site.html:192
 #: .\methodology\templates\methodology\base_methodology.html:182
 #: .\methodology\templates\methodology\base_methodology.html:192
 #: .\video\templates\video\base_video.html:48
@@ -2443,6 +2447,10 @@ msgstr "Все"
 
 #: .\exercises\templates\exercises\modules\exercise_card.html:1078
 #: .\exercises\templates\exercises\modules\exercise_card.html:1088
+#: .\helper_football\templates\helper_football\base_helper_football.html:186
+#: .\helper_football\templates\helper_football\base_helper_football.html:196
+#: .\helper_site\templates\helper_site\base_helper_site.html:186
+#: .\helper_site\templates\helper_site\base_helper_site.html:196
 #: .\methodology\templates\methodology\base_methodology.html:186
 #: .\methodology\templates\methodology\base_methodology.html:196
 #: .\video\templates\video\base_video.html:52
@@ -2451,13 +2459,15 @@ msgid "No sources"
 msgstr "Нет источников"
 
 #: .\exercises\templates\exercises\modules\exercise_card.html:1097
+#: .\helper_football\templates\helper_football\base_helper_football.html:205
+#: .\helper_site\templates\helper_site\base_helper_site.html:205
 #: .\methodology\templates\methodology\base_methodology.html:205
 #: .\video\templates\video\base_video.html:71
 msgid "No tags"
 msgstr "Нет тегов"
 
 #: .\matches\apps.py:8 .\matches\templates\matches\base_matches.html:5
-#: .\nanofootball\templates\menu\sidebar.html:126
+#: .\nanofootball\templates\menu\sidebar.html:150
 msgid "Matches"
 msgstr "Матчи"
 
@@ -2558,27 +2568,27 @@ msgstr "Матч"
 msgid "No team selected"
 msgstr "Команда не выбрана"
 
-#: .\nanofb\settings.py:229
+#: .\nanofb\settings.py:231
 msgid "Russian"
 msgstr "Русский"
 
-#: .\nanofb\settings.py:230
+#: .\nanofb\settings.py:232
 msgid "English"
 msgstr "Английский"
 
-#: .\nanofb\settings.py:231
+#: .\nanofb\settings.py:233
 msgid "Portuguese"
 msgstr "Португальский"
 
-#: .\nanofb\settings.py:232
+#: .\nanofb\settings.py:234
 msgid "Spanish"
 msgstr "Испанский"
 
-#: .\nanofb\settings.py:233
+#: .\nanofb\settings.py:235
 msgid "German"
 msgstr "Немецкий"
 
-#: .\nanofb\settings.py:234
+#: .\nanofb\settings.py:236
 msgid "French"
 msgstr "Французский"
 
@@ -2638,7 +2648,15 @@ msgstr "Федерации"
 msgid "Main sections"
 msgstr "Основные разделы"
 
-#: .\nanofootball\templates\menu\sidebar.html:162 .\players\apps.py:8
+#: .\nanofootball\templates\menu\sidebar.html:90
+msgid "Helper 1"
+msgstr ""
+
+#: .\nanofootball\templates\menu\sidebar.html:102
+msgid "Helper 2"
+msgstr ""
+
+#: .\nanofootball\templates\menu\sidebar.html:186 .\players\apps.py:8
 #: .\trainings\templates\trainings\print_training.html:28
 #: .\trainings\templates\trainings\print_training.html:31
 #: .\trainings\templates\trainings\print_training.html:34
@@ -2646,23 +2664,23 @@ msgstr "Основные разделы"
 msgid "Players"
 msgstr "Игроки"
 
-#: .\nanofootball\templates\menu\sidebar.html:208
+#: .\nanofootball\templates\menu\sidebar.html:232
 msgid "Analytics"
 msgstr "Аналитика"
 
-#: .\nanofootball\templates\menu\sidebar.html:220
+#: .\nanofootball\templates\menu\sidebar.html:244
 msgid "Applications"
 msgstr "Приложения"
 
-#: .\nanofootball\templates\menu\sidebar.html:224
+#: .\nanofootball\templates\menu\sidebar.html:248
 msgid "Mailing"
 msgstr "Рассылки"
 
-#: .\nanofootball\templates\menu\sidebar.html:225
+#: .\nanofootball\templates\menu\sidebar.html:249
 msgid "Chat"
 msgstr "Чат"
 
-#: .\nanofootball\templates\menu\sidebar.html:226
+#: .\nanofootball\templates\menu\sidebar.html:250
 #: .\trainings\templates\trainings\view_lite_training.html:50
 #: .\trainings\templates\trainings\view_training.html:53
 #: .\video\templates\video\base_video.html:10
@@ -2670,23 +2688,23 @@ msgstr "Чат"
 msgid "Video"
 msgstr "Видео"
 
-#: .\nanofootball\templates\menu\sidebar.html:227
+#: .\nanofootball\templates\menu\sidebar.html:251
 msgid "Tests"
 msgstr "Тесты"
 
-#: .\nanofootball\templates\menu\sidebar.html:228
+#: .\nanofootball\templates\menu\sidebar.html:252
 msgid "Finance"
 msgstr "Финансы"
 
-#: .\nanofootball\templates\menu\sidebar.html:234
+#: .\nanofootball\templates\menu\sidebar.html:258
 msgid "Education"
 msgstr "Обучение"
 
-#: .\nanofootball\templates\menu\sidebar.html:243
+#: .\nanofootball\templates\menu\sidebar.html:267
 msgid "Methodology"
 msgstr "Методология"
 
-#: .\nanofootball\templates\menu\sidebar.html:253
+#: .\nanofootball\templates\menu\sidebar.html:277
 msgid "Courses"
 msgstr "Курсы"
 
