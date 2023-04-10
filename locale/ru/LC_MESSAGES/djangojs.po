@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-31 14:16+0300\n"
+"POT-Creation-Date: 2023-04-07 15:29+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -227,8 +227,8 @@ msgstr "Удалить"
 msgid "Close"
 msgstr "Закрыть"
 
-#: .\events\static\events\js\generate_table.js:128
-#: .\static\events\base_events.js:409 .\static\events\js\generate_table.js:128
+#: .\events\static\events\js\generate_table.js:137
+#: .\static\events\base_events.js:409 .\static\events\js\generate_table.js:137
 #: .\static\trainings\js\action_lite_training.js:19
 #: .\static\trainings\js\action_lite_training.js:21
 #: .\static\trainings\js\action_lite_training.js:23
@@ -266,41 +266,41 @@ msgstr "Закрыть"
 msgid "Training"
 msgstr "Тренировка"
 
-#: .\events\static\events\js\generate_table.js:142
-#: .\static\events\base_events.js:411 .\static\events\js\generate_table.js:142
+#: .\events\static\events\js\generate_table.js:151
+#: .\static\events\base_events.js:411 .\static\events\js\generate_table.js:151
 msgid "Match"
 msgstr "Матч"
 
-#: .\events\static\events\js\generate_table.js:179
-#: .\events\static\events\js\generate_table.js:235
+#: .\events\static\events\js\generate_table.js:188
+#: .\events\static\events\js\generate_table.js:244
 #: .\static\events\base_events.js:318 .\static\events\base_events.js:327
-#: .\static\events\js\generate_table.js:179
-#: .\static\events\js\generate_table.js:235
+#: .\static\events\js\generate_table.js:188
+#: .\static\events\js\generate_table.js:244
 msgid "Event save"
 msgstr "Сохранить событие"
 
-#: .\events\static\events\js\generate_table.js:179
-#: .\events\static\events\js\generate_table.js:235
+#: .\events\static\events\js\generate_table.js:188
+#: .\events\static\events\js\generate_table.js:244
 #: .\static\events\base_events.js:318 .\static\events\base_events.js:327
-#: .\static\events\js\generate_table.js:179
-#: .\static\events\js\generate_table.js:235
+#: .\static\events\js\generate_table.js:188
+#: .\static\events\js\generate_table.js:244
 msgid "Error when action the event!"
 msgstr "Ошибка при выполнении события!"
 
-#: .\events\static\events\js\generate_table.js:193
+#: .\events\static\events\js\generate_table.js:202
 #: .\static\admin\js\admin\DateTimeShortcuts.js:239
 #: .\static\admin\js\admin\DateTimeShortcuts.js:319
-#: .\static\events\base_events.js:338 .\static\events\js\generate_table.js:193
+#: .\static\events\base_events.js:338 .\static\events\js\generate_table.js:202
 msgid "Today"
 msgstr "Сегодня"
 
-#: .\events\static\events\js\generate_table.js:194
-#: .\static\events\base_events.js:339 .\static\events\js\generate_table.js:194
+#: .\events\static\events\js\generate_table.js:203
+#: .\static\events\base_events.js:339 .\static\events\js\generate_table.js:203
 msgid "Failed to initialize"
 msgstr "Не удалось инициализировать"
 
-#: .\events\static\events\js\generate_table.js:195
-#: .\static\events\base_events.js:340 .\static\events\js\generate_table.js:195
+#: .\events\static\events\js\generate_table.js:204
+#: .\static\events\base_events.js:340 .\static\events\js\generate_table.js:204
 msgid "No data was found to show"
 msgstr "Не было найдено данных для отображения"
 
@@ -511,10 +511,10 @@ msgstr "Ошибка при действии с сезоном!"
 
 #: .\references\static\references\references_edit.js:114
 #: .\static\references\references_edit.js:114
-#: .\static\trainings\js\print_training.js:126
-#: .\static\trainings\js\training_card.js:265
-#: .\trainings\static\trainings\js\print_training.js:126
-#: .\trainings\static\trainings\js\training_card.js:265
+#: .\static\trainings\js\print_training.js:127
+#: .\static\trainings\js\training_card.js:267
+#: .\trainings\static\trainings\js\print_training.js:127
+#: .\trainings\static\trainings\js\training_card.js:267
 msgid "Title"
 msgstr "Название"
 
@@ -920,8 +920,8 @@ msgstr "Ошибка при выполнении действия с упраж�
 msgid "Exercise data action error in training!"
 msgstr "Ошибка действия с данными упражнения в тренировке!"
 
-#: .\static\trainings\js\print_training.js:129
-#: .\trainings\static\trainings\js\print_training.js:129
+#: .\static\trainings\js\print_training.js:130
+#: .\trainings\static\trainings\js\print_training.js:130
 msgid "Duration"
 msgstr "Длительность"
 
@@ -955,13 +955,13 @@ msgstr "При загрузке данных существующие будут
 msgid "Delete all additional data from the exercise?"
 msgstr "Удалите все дополнительные данные из упражнения?"
 
-#: .\static\trainings\js\training_card.js:268
-#: .\trainings\static\trainings\js\training_card.js:268
+#: .\static\trainings\js\training_card.js:270
+#: .\trainings\static\trainings\js\training_card.js:270
 msgid "Note"
 msgstr "Заметка"
 
-#: .\static\trainings\js\training_card.js:294
-#: .\trainings\static\trainings\js\training_card.js:294
+#: .\static\trainings\js\training_card.js:296
+#: .\trainings\static\trainings\js\training_card.js:296
 msgid "Goal"
 msgstr "Цель"
 

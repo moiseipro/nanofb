@@ -336,9 +336,9 @@ $(window).on('load', function (){
     })
 
     $('#toggle-calendar').on('click', function () {
-        if ($(this).hasClass('active')) calendar_active = true;
-        else calendar_active = false;
-        $(this).toggleClass('active', !calendar_active)
+        if ($(this).hasClass('active')) calendar_active = false;
+        else calendar_active = true;
+        $(this).toggleClass('active', calendar_active)
 
         $('#toggle-event-card').toggleClass('active', false)
 
@@ -346,7 +346,7 @@ $(window).on('load', function (){
         $(this).children('i').toggleClass('fa-arrow-up', calendar_active).toggleClass('fa-arrow-down', !calendar_active)
         $('.move_to_today').toggleClass('isMonth', !calendar_active)
         $('#filters-row').toggleClass('d-none', calendar_active)
-        $('#rescalenda-control-buttons').toggleClass('d-none', !calendar_active)
+        $('#rescalenda-control-buttons .rescalendar_move_button').toggleClass('d-none', !calendar_active)
 
         hide_training_card()
         $('#events-content').removeClass('d-none')
