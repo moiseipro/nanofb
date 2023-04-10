@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-07 15:28+0300\n"
+"POT-Creation-Date: 2023-04-10 11:03+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2649,12 +2649,9 @@ msgid "Main sections"
 msgstr "Основные разделы"
 
 #: .\nanofootball\templates\menu\sidebar.html:90
-msgid "Helper 1"
-msgstr ""
-
 #: .\nanofootball\templates\menu\sidebar.html:102
-msgid "Helper 2"
-msgstr ""
+msgid "Helper"
+msgstr "Помощник"
 
 #: .\nanofootball\templates\menu\sidebar.html:186 .\players\apps.py:8
 #: .\trainings\templates\trainings\print_training.html:28
