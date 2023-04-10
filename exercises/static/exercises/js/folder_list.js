@@ -10,6 +10,27 @@ function GetHierarchyNum(elem, classList, classElem, id = 0) {
     return [id, isParent];
 }
 
+window.shortNameStorage = {'root': 0, 'folder': 0};
+function SetNewShortName(elem) {
+    const shortNameChars = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+    let isRoot = $(elem).hasClass('root-elem');
+    let currentShortName = "";
+    if (isRoot) {
+        window.shortNameStorage['root'] += 1;
+        window.shortNameStorage['folder'] = 0;
+        currentShortName = shortNameChars[(window.shortNameStorage['root'] - 1) % shortNameChars.length].toUpperCase();
+    } else {
+        window.shortNameStorage['folder'] += 1;
+        currentShortName = `${shortNameChars[(window.shortNameStorage['root'] - 1) % shortNameChars.length].toUpperCase()}${window.shortNameStorage['folder']}`;
+    }
+    $(elem).find('div').first().attr('data-short', currentShortName);
+    let cName = $(elem).find('div').first().attr('data-name');
+    $(elem).find('div').first().attr('title', `${currentShortName}. ${cName}`);
+    $(elem).find('div').first().find('.folder-title').text(`${currentShortName}. ${cName}`);
+}
+
+
+
 $(function() {
     let folderList = {'order': [], 'data': {}};
     $('.folders_list').find('.list-group-item').each((ind, elem) => {
@@ -36,10 +57,10 @@ $(function() {
             let tElem = folderList['data'][key][keyElem];
             let cId = $(tElem).find('.folder-elem').attr('data-id');
             if (cId != key) {
-                // $(tElem).find('.folder-point').html('<i class="fa fa-folder-o ml-4" aria-hidden="true"></i>');
-                $(tElem).find('.folder-point').html(`
-                    <span class="icon-custom icon--folder ml-4" style="--i-w: 1em; --i-h: 1em;"></span>
-                `);
+                // $(tElem).find('.folder-point').html(`
+                //     <span class="icon-custom icon--folder ml-4" style="--i-w: 1em; --i-h: 1em;"></span>
+                // `);
+                $(tElem).find('.folder-point').html(``);
                 $(tElem).find('.folder-sub-add').empty();
                 $(tElem).find('.folder-elem').attr('data-root', '0');
             } else {
@@ -50,6 +71,10 @@ $(function() {
             $('.folders_list > .list-group').append(tElem);
         }
     }
+    window.shortNameStorage = {'root': 0, 'folder': 0};
+    $('.folders_list').find('.list-group-item').each((ind, elem) => {
+        SetNewShortName(elem);
+    });
 
     let folderNFBList = {'order': [], 'data': {}};
     $('.folders_nfb_list').find('.list-group-item').each((ind, elem) => {
@@ -76,10 +101,10 @@ $(function() {
             let tElem = folderNFBList['data'][key][keyElem];
             let cId = $(tElem).find('.folder-nfb-elem').attr('data-id');
             if (cId != key) {
-                // $(tElem).find('.folder-point').html('<i class="fa fa-folder-o ml-4" aria-hidden="true"></i>');
-                $(tElem).find('.folder-point').html(`
-                    <span class="icon-custom icon--folder ml-4" style="--i-w: 1em; --i-h: 1em;"></span>
-                `);
+                // $(tElem).find('.folder-point').html(`
+                //     <span class="icon-custom icon--folder ml-4" style="--i-w: 1em; --i-h: 1em;"></span>
+                // `);
+                $(tElem).find('.folder-point').html(``);
                 $(tElem).find('.folder-sub-add').empty();
                 $(tElem).find('.folder-nfb-elem').attr('data-root', '0');
             } else {
@@ -90,6 +115,10 @@ $(function() {
             $('.folders_nfb_list > .list-group').append(tElem);
         }
     }
+    window.shortNameStorage = {'root': 0, 'folder': 0};
+    $('.folders_nfb_list').find('.list-group-item').each((ind, elem) => {
+        SetNewShortName(elem);
+    });
 
     let folderClubList = {'order': [], 'data': {}};
     $('.folders_club_list').find('.list-group-item').each((ind, elem) => {
@@ -116,10 +145,10 @@ $(function() {
             let tElem = folderClubList['data'][key][keyElem];
             let cId = $(tElem).find('.folder-club-elem').attr('data-id');
             if (cId != key) {
-                // $(tElem).find('.folder-point').html('<i class="fa fa-folder-o ml-4" aria-hidden="true"></i>');
-                $(tElem).find('.folder-point').html(`
-                    <span class="icon-custom icon--folder ml-4" style="--i-w: 1em; --i-h: 1em;"></span>
-                `);
+                // $(tElem).find('.folder-point').html(`
+                //     <span class="icon-custom icon--folder ml-4" style="--i-w: 1em; --i-h: 1em;"></span>
+                // `);
+                $(tElem).find('.folder-point').html(``);
                 $(tElem).find('.folder-sub-add').empty();
                 $(tElem).find('.folder-club-elem').attr('data-root', '0');
             } else {
@@ -130,5 +159,9 @@ $(function() {
             $('.folders_club_list > .list-group').append(tElem);
         }
     }
+    window.shortNameStorage = {'root': 0, 'folder': 0};
+    $('.folders_club_list').find('.list-group-item').each((ind, elem) => {
+        SetNewShortName(elem);
+    });
 
 });

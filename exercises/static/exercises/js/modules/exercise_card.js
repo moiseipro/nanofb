@@ -464,6 +464,13 @@ function RenderExerciseOne(data) {
             RenderCarouselAll();
         } catch(e) {}
 
+        try {
+            if (data.clone_nfb_id) {
+                $('ul.list-group.exs-card-editor').addClass('d-none');
+            } else {
+                $('ul.list-group.exs-card-editor').removeClass('d-none');
+            }
+        } catch(e) {}
     } else {
         $(exsCard).attr('data-exs', '-1');
 
@@ -527,6 +534,8 @@ function RenderExerciseOne(data) {
         try {
             RenderCarouselAll();
         } catch(e) {}
+        
+        $('ul.list-group.exs-card-editor').removeClass('d-none');
 
         $('.exs-list-group').find('.list-group-item').removeClass('active');
         // clear video, animation and scheme

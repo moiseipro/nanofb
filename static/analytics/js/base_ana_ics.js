@@ -101,6 +101,11 @@ function RenderAnalyticsTable(data) {
     try {
         analytics_table.destroy();
     } catch(e) {}
+    const shortNameChars = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+    $('#analytics').find('th[data-col*=col_folder_]').each((ind, elem) => {
+        let currentShortName = shortNameChars[(ind) % shortNameChars.length].toUpperCase();
+        $(elem).text(`${currentShortName}`);
+    });
     $('#analytics').find('tbody').html('');
     if (data['players'] && typeof data['players'] === "object" && !Array.isArray(data['players'])) {
         let tmpHtml = "";
