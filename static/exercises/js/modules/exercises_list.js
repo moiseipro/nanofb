@@ -47,9 +47,9 @@ function ResizeSplitCols() {
         window.split.setSizes(sizes);
         lastColWidth = sizes[2];
     } catch(e) {}
-    if (lastColWidth > 0) {
-        $('#splitCol_2').css('width', `calc(${lastColWidth}% + 20px)`);
-    }
+    // if (lastColWidth > 0) {
+    //     $('#splitCol_2').css('width', `calc(${lastColWidth}% + 20px)`);
+    // }
     // let colWidth = !state ? `calc(${$('#splitCol_0').css('width')} / 2)` : `calc(${$('#splitCol_2').css('width')} * 2)`;
     // $('#splitCol_0').css('width', colWidth);
 }
@@ -650,12 +650,11 @@ $(function() {
 
     // Split columns
     window.dataForSplit = JSON.parse(localStorage.getItem('split_cols'));
-    if (!window.dataForSplit) {
+    if (Array.isArray(window.dataForSplit) && window.dataForSplit.length == 3 || !Array.isArray(window.dataForSplit)) {
         window.dataForSplit = [30, 50];
         localStorage.setItem('split_cols', JSON.stringify(window.dataForSplit));
     }
     RenderSplitCols();
-
 
     $('.tags-filter-block').on('click', '.toggle-tags-view', (e) => {
         $('.tags-filter-block').find('.toggle-tags-view').removeClass('active');
