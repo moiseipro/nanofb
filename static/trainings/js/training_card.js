@@ -189,44 +189,44 @@ function show_training_card(id = ''){
     $('#training-content').attr('data-training', id)
     let data_send = {}
     ajax_training_action('GET', data_send, 'view card', id).then(function (data) {
-        //console.log(data)
+        console.log(data)
         let count_1 = 0, count_2 = 0;
         let html_group_1 = `
-                <div class="col px-0">
-                    <button data-group="1" class="btn btn-sm btn-block border-white rounded-0 group-filter-card">A</button>
+                <div class="col-12 px-0">
+                    <button data-group="1" class="btn btn-sm btn-block border-dark font-weight-bold rounded-0 py-0 group-filter-card">${gettext('Group')} A</button>
                 </div>`
         let html_group_2 = `
-                <div class="col px-0">
-                    <button data-group="2" class="btn btn-sm btn-block border-white rounded-0 group-filter-card">B</button>
+                <div class="col-12 px-0">
+                    <button data-group="2" class="btn btn-sm btn-block border-dark font-weight-bold rounded-0 py-0 group-filter-card">${gettext('Group')} B</button>
                 </div>`
         $.each( data.exercises_info, function( key, value ) {
             if (value.group==1){
                 html_group_1 += `
-                <div class="col px-0">
-                    <button data-id="${value.id}" class="btn btn-sm btn-block border-white rounded-0 exs-filter-card" title="${(get_cur_lang() in value.exercise_name) ? value.exercise_name[get_cur_lang()] : Object.values(value.exercise_name)[0]}">${count_1+1}</button>
+                <div class="col-12 px-0">
+                    <button data-id="${value.id}" class="btn btn-sm btn-block border-white rounded-0 py-0 exs-filter-card" title="${get_translation_name(value.exercise_name)}"><span class="float-left">${value.exercise_data.folder.short_name}. ${get_translation_name(value.exercise_name)}</span> <span class="float-right">${value.duration}\`</span></button>
                 </div>`
                 count_1++
             } else if (value.group==2){
                 html_group_2 += `
-                <div class="col px-0">
-                    <button data-id="${value.id}" class="btn btn-sm btn-block border-white rounded-0 exs-filter-card" title="${(get_cur_lang() in value.exercise_name) ? value.exercise_name[get_cur_lang()] : Object.values(value.exercise_name)[0]}">${count_2+1}</button>
+                <div class="col-12 px-0">
+                    <button data-id="${value.id}" class="btn btn-sm btn-block border-white rounded-0 py-0 exs-filter-card" title="${get_translation_name(value.exercise_name)}"><span class="float-left">${value.exercise_data.folder.short_name}. ${get_translation_name(value.exercise_name)}</span> <span class="float-right">${value.duration}\`</span></button>
                 </div>`
                 count_2++
             }
         });
-        if (count_1<count_2){
-            for (let i=0; i < count_2-count_1; i++){
-                html_group_1 += `
-                <div class="col px-0">
-                </div>`
-            }
-        } else {
-            for (let i=0; i < count_1-count_2; i++){
-                html_group_2 += `
-                <div class="col px-0">
-                </div>`
-            }
-        }
+        // if (count_1<count_2){
+        //     for (let i=0; i < count_2-count_1; i++){
+        //         html_group_1 += `
+        //         <div class="col px-0">
+        //         </div>`
+        //     }
+        // } else {
+        //     for (let i=0; i < count_1-count_2; i++){
+        //         html_group_2 += `
+        //         <div class="col px-0">
+        //         </div>`
+        //     }
+        // }
         $('.exercise-list[data-group="1"]').html(html_group_1)
         $('.exercise-list[data-group="2"]').html(html_group_2)
 

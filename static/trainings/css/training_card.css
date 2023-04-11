@@ -12,7 +12,7 @@
 
 .group-filter-card{
     color: black !important;
-    background: lightblue !important;
+    background: white !important;
 }
 .exs-filter-card{
     color: black !important;
@@ -21,7 +21,7 @@
 .group-filter-card.active{
     font-weight: bold;
     color: darkred !important;
-    background: #f9db48 !important;
+    background: #ffe3af !important;
 }
 .exs-filter-card.active{
     font-weight: bold;
@@ -42,7 +42,7 @@
 
 
 .training-exercise-title{
-    background: #eecd38;
+    background: #87d7e3;
     border: 1px solid white !important;
 }
 

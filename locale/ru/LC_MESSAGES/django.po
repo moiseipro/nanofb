@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-10 13:29+0300\n"
+"POT-Creation-Date: 2023-04-11 14:12+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2409,7 +2409,6 @@ msgstr "Короткий ключ"
 #: .\exercises\templates\exercises\base_folders.html:85
 #: .\references\templates\references\forms\reference_edit.html:20
 #: .\references\templates\references\forms\reference_edit.html:33
-#: .\trainings\templates\trainings\training_card.html:126
 #: .\video\templates\video\modules\video_list.html:15
 #: .\video\templates\video\modules\video_list_exercises.html:14
 #: .\video\templates\video\video_card.html:41
@@ -2524,7 +2523,7 @@ msgstr "пенальти соперника"
 msgid "Number of opponent team penalties per match."
 msgstr "Количество пенальти команды соперника за матч."
 
-#: .\matches\models.py:54 .\trainings\models.py:327
+#: .\matches\models.py:54 .\trainings\models.py:333
 msgid "estimation"
 msgstr "оценка"
 
@@ -2759,11 +2758,11 @@ msgstr "Краткое имя не более 10 символов"
 msgid "Empty"
 msgstr "Пусто"
 
-#: .\references\models.py:29 .\trainings\models.py:206
+#: .\references\models.py:29 .\trainings\models.py:212
 msgid "order"
 msgstr "порядок"
 
-#: .\references\models.py:30 .\trainings\models.py:207
+#: .\references\models.py:30 .\trainings\models.py:213
 msgid "Sorting index"
 msgstr "Порядковый номер"
 
@@ -3153,7 +3152,7 @@ msgstr "ссылка на видео"
 msgid "Link to the training video"
 msgstr "Ссылка на видео тренировки"
 
-#: .\trainings\models.py:72
+#: .\trainings\models.py:72 .\trainings\models.py:206
 msgid "additional"
 msgstr "дополнительно"
 
@@ -3213,15 +3212,21 @@ msgstr "описание"
 msgid "Description of the exercise inside the training"
 msgstr "Описание упражнения внутри тренировки"
 
-#: .\trainings\models.py:267
+#: .\trainings\models.py:207
+#, fuzzy
+#| msgid "Additional training data"
+msgid "Additional training exercise data"
+msgstr "Дополнительные данные тренировки"
+
+#: .\trainings\models.py:273
 msgid "note"
 msgstr "примечание"
 
-#: .\trainings\models.py:268
+#: .\trainings\models.py:274
 msgid "Note to the reference book"
 msgstr "Примечание к справочнику"
 
-#: .\trainings\models.py:328
+#: .\trainings\models.py:334
 msgid "Player rating like/dislike"
 msgstr "Рейтинг игрока нравится/не нравится"
 
@@ -3270,10 +3275,8 @@ msgid "Field size"
 msgstr "Размер поля"
 
 #: .\trainings\templates\trainings\training_card.html:93
-#, fuzzy
-#| msgid "Objectives"
 msgid "Objective"
-msgstr "Задачи"
+msgstr "Задача"
 
 #: .\trainings\templates\trainings\training_card.html:132
 msgid "Description"

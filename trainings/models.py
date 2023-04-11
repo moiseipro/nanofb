@@ -202,6 +202,12 @@ class AbstractTrainingExercise(models.Model):
         null=True,
         blank=True
     )
+    additional_json = models.JSONField(
+        verbose_name=_('additional'),
+        help_text=_('Additional training exercise data'),
+        blank=True,
+        null=True
+    )
     order = models.IntegerField(
         verbose_name=_('order'),
         help_text=_('Sorting index'),

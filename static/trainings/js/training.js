@@ -166,7 +166,7 @@ $(window).on('load', function (){
         console.log(training_data)
 
         ajax_training_action('PUT', training_data, 'save', id).then(function (data) {
-
+            show_training_card(id)
         })
     })
 
