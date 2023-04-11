@@ -1,18 +1,18 @@
 function RenderSplitCols() {
     $('.exercises-list').find('div.gutter').remove();
     let sizesArr = window.dataForSplit;
-    window.split = Split(['#splitCol_0', '#splitCol_1', '#splitCol_2'], {
+    window.split = Split(['#splitCol_0', '#splitCol_1'], {
         sizes: sizesArr,
         gutterSize: 12,
         onDrag: () => {
             let lastColWidth = 0;
-            try {
-                let sizes = window.split.getSizes();
-                lastColWidth = sizes[2];
-            } catch(e) {}
-            if (lastColWidth > 0) {
-                $('#splitCol_2').css('width', `calc(${lastColWidth}% + 20px)`);
-            }
+            // try {
+            //     let sizes = window.split.getSizes();
+            //     lastColWidth = sizes[2];
+            // } catch(e) {}
+            // if (lastColWidth > 0) {
+            //     $('#splitCol_2').css('width', `calc(${lastColWidth}% + 20px)`);
+            // }
         },
         onDragEnd: (arr) => {
             if (!$('#toggleFoldersNames').attr('data-state') == '1') {
@@ -25,7 +25,8 @@ function RenderSplitCols() {
         }
     });
     let stateColSize = $('.up-tabs-elem[data-id="cols_size"]').attr('data-state') == '1';
-    $('.exercises-list').find('div.gutter').toggleClass('d-none', !stateColSize);
+    // $('.exercises-list').find('div.gutter').toggleClass('d-none', !stateColSize);
+    $('.exercises-list').find('div.gutter').toggleClass('d-none', false);
     ResizeSplitCols();
 }
 
@@ -46,9 +47,9 @@ function ResizeSplitCols() {
         window.split.setSizes(sizes);
         lastColWidth = sizes[2];
     } catch(e) {}
-    if (lastColWidth > 0) {
-        $('#splitCol_2').css('width', `calc(${lastColWidth}% + 20px)`);
-    }
+    // if (lastColWidth > 0) {
+    //     $('#splitCol_2').css('width', `calc(${lastColWidth}% + 20px)`);
+    // }
     // let colWidth = !state ? `calc(${$('#splitCol_0').css('width')} / 2)` : `calc(${$('#splitCol_2').css('width')} * 2)`;
     // $('#splitCol_0').css('width', colWidth);
 }
@@ -489,7 +490,7 @@ $(function() {
 
     // Toggle columns size
     $('#columnsSizeToggle').on('click', (e) => {
-        $('.exercises-list').find('div.gutter').toggleClass('d-none');
+        // $('.exercises-list').find('div.gutter').toggleClass('d-none');
     });
 
 
@@ -649,12 +650,11 @@ $(function() {
 
     // Split columns
     window.dataForSplit = JSON.parse(localStorage.getItem('split_cols'));
-    if (!window.dataForSplit) {
-        window.dataForSplit = [25, 50, 25];
+    if (Array.isArray(window.dataForSplit) && window.dataForSplit.length == 3 || !Array.isArray(window.dataForSplit)) {
+        window.dataForSplit = [30, 50];
         localStorage.setItem('split_cols', JSON.stringify(window.dataForSplit));
     }
     RenderSplitCols();
-
 
     $('.tags-filter-block').on('click', '.toggle-tags-view', (e) => {
         $('.tags-filter-block').find('.toggle-tags-view').removeClass('active');
