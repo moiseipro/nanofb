@@ -460,6 +460,9 @@ function RenderExerciseOne(data) {
         $('#carouselAnim').find('.carousel-item:not(.d-none)').first().addClass('active');
         $('#carouselAnim').find('.carousel-indicators > li').removeClass('active');
         $('#carouselAnim').find('.carousel-indicators > li:not(.d-none)').first().addClass('active');
+        if ($('#carouselVideo').find('.carousel-item:not(.d-none)').length > 0 && $('#carouselAnim').find('.carousel-item:not(.d-none)').length > 0) {
+            $('#carouselAnim').find('.carousel-item:not(.d-none)').addClass('d-none');
+        }
         try {
             RenderCarouselAll();
         } catch(e) {}
@@ -531,6 +534,9 @@ function RenderExerciseOne(data) {
         $('#carouselAnim').find('.carousel-item:not(.d-none)').first().addClass('active');
         $('#carouselAnim').find('.carousel-indicators > li').removeClass('active');
         $('#carouselAnim').find('.carousel-indicators > li:not(.d-none)').first().addClass('active');
+        if ($('#carouselVideo').find('.carousel-item:not(.d-none)').length > 0 && $('#carouselAnim').find('.carousel-item:not(.d-none)').length > 0) {
+            $('#carouselAnim').find('.carousel-item:not(.d-none)').addClass('d-none');
+        }
         try {
             RenderCarouselAll();
         } catch(e) {}
