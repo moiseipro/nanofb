@@ -39,7 +39,12 @@
     background: #f9db48 !important;
 }
 
-
+.training-filter-edit{
+    border: 2px solid dodgerblue !important;
+}
+.training-filter-edit:focus{
+    border: 2px solid indianred !important;
+}
 
 .training-exercise-title{
     background: #87d7e3;

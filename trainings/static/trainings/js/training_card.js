@@ -119,22 +119,28 @@ $(window).on('load', function (){
         });
     })
     // Редактирование дополнительных данных в упражнении
-    $('#training-exercise-additional').on('change', '.edit-input', function (){
+    $('#collapse-exercise-additional').on('change', '.edit-input', function (){
+        let exs_id = $('.exs-filter-card.active').attr('data-id')
         let cur_row = $(this).closest('.exercise-additional-row')
         let exercise_additional_id = cur_row.attr('data-id')
 
         let send_data = {}
-        send_data.additional_id = cur_row.find('[name="additional_id"]').val()
-        send_data.note = cur_row.find('[name="note"]').val()
-        if(send_data.note){
-            cur_row.removeClass('edit-button')
-        } else {
-            cur_row.addClass('edit-button')
-        }
+        let additionals = {}
+        for (let i = 0; i < 6; i++) {
+            let name = $('#collapse-exercise-additional input[name="name_'+i+'"]')
+            let note = $('#collapse-exercise-additional input[name="note_'+i+'"]')
 
-        ajax_training_exercise_data_action('PUT', send_data, 'update data', exercise_additional_id).then(function (data) {
-            //console.log(data)
-            //render_exercises_additional_data(training_exercise_id)
+            name.closest('.exercise-additional-row').toggleClass('edit-button', !name.val() && !note.val())
+
+            additionals[i] = {
+                'name': name.val(),
+                'note' : note.val()
+            }
+        }
+        send_data['additional_json'] = JSON.stringify(additionals)
+
+        ajax_training_exercise_action('PUT', send_data, 'update', exs_id, '').then(function () {
+
         })
     })
 
@@ -436,7 +442,7 @@ function load_all_exercises_training(training_id = null, group = null) {
 function load_exercises_training_data(training_exercise_id = null) {
     let send_data = {}
     ajax_training_exercise_action('GET', send_data, 'load exercise', training_exercise_id).then(function (exercise) {
-        //console.log(exercise)
+        console.log(exercise)
 
         let video_data = null
         $('#block-training-info').html('')
@@ -455,6 +461,28 @@ function load_exercises_training_data(training_exercise_id = null) {
                 $('#training-exercise-description #descriptionExerciseView').val('')
             }
         }
+        let additional_html = ''
+        for (let i = 0; i < 6; i++) {
+            let name;
+            let note;
+            if (exercise.additional_json != null){
+                name = exercise.additional_json[i]['name']
+                note = exercise.additional_json[i]['note']
+            }
+            additional_html += `
+            <div class="col-6 exercise-additional-row ${note ? '' : 'edit-button'} ${!note && !edit_mode ? 'd-none' : ''}">
+                <div class="row">
+                    <div class="col-6 px-0">
+                        <input type="text" name="name_${i}" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded edit-input" value="${name ? name : ''}" placeholder="${gettext('Title')}" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
+                    </div>
+                    <div class="col px-0">
+                        <input type="text" name="note_${i}" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded edit-input" value="${note ? note : ''}" placeholder="${gettext('Note')}" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
+                    </div>
+                </div>
+            </div>
+            `
+        }
+        $('#collapse-exercise-additional').html(additional_html)
 
 
         //$('#training-exercise-description .exercise-description').val(exercise.description)
@@ -623,7 +651,6 @@ function load_exercises_additional_data(training_exercise_id = null) {
                 </div>
             </div>
             `
-            // $('.exercise-additional-row[data-id="'+additional.id+'"] select').val(additional.additional_id)
 
         })
         $('#training-exercise-additional').html(additional_html)

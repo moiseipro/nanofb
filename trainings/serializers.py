@@ -122,7 +122,7 @@ class TrainingExerciseSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
             'id', 'training_id', 'exercise_id', 'exercise_name', 'exercise_scheme', 'scheme_1', 'scheme_2', 'group',
-            'duration', 'order', 'description'
+            'duration', 'order', 'description', 'additional_json'
         )
 
 
