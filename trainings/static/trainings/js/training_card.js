@@ -191,29 +191,35 @@ function show_training_card(id = ''){
     ajax_training_action('GET', data_send, 'view card', id).then(function (data) {
         console.log(data)
         let count_1 = 0, count_2 = 0;
-        let html_group_1 = `
-                <div class="col-12 px-0">
-                    <button data-group="1" class="btn btn-sm btn-block border-dark font-weight-bold rounded-0 py-0 group-filter-card">${gettext('Group')} A</button>
-                </div>`
-        let html_group_2 = `
-                <div class="col-12 px-0">
-                    <button data-group="2" class="btn btn-sm btn-block border-dark font-weight-bold rounded-0 py-0 group-filter-card">${gettext('Group')} B</button>
-                </div>`
+        let min_1 = 0, min_2 = 0;
+
+        let html_group_1 = ''
+        let html_group_2 = ''
         $.each( data.exercises_info, function( key, value ) {
             if (value.group==1){
                 html_group_1 += `
                 <div class="col-12 px-0">
                     <button data-id="${value.id}" class="btn btn-sm btn-block border-white rounded-0 py-0 exs-filter-card" title="${get_translation_name(value.exercise_name)}"><span class="float-left">${value.exercise_data.folder.short_name}. ${get_translation_name(value.exercise_name)}</span> <span class="float-right">${value.duration}\`</span></button>
                 </div>`
+                min_1+=value.duration
                 count_1++
             } else if (value.group==2){
                 html_group_2 += `
                 <div class="col-12 px-0">
                     <button data-id="${value.id}" class="btn btn-sm btn-block border-white rounded-0 py-0 exs-filter-card" title="${get_translation_name(value.exercise_name)}"><span class="float-left">${value.exercise_data.folder.short_name}. ${get_translation_name(value.exercise_name)}</span> <span class="float-right">${value.duration}\`</span></button>
                 </div>`
+                 min_2+=value.duration
                 count_2++
             }
         });
+        let html_group_A = `
+                <div class="col-12 px-0">
+                    <button data-group="1" class="btn btn-sm btn-block border-dark font-weight-bold rounded-0 py-0 group-filter-card"><span class="float-left">${gettext('Group')} A</span> <span class="float-right">${min_1}\`</span></button>
+                </div>`
+        let html_group_B = `
+                <div class="col-12 px-0">
+                    <button data-group="2" class="btn btn-sm btn-block border-dark font-weight-bold rounded-0 py-0 group-filter-card"><span class="float-left">${gettext('Group')} B</span> <span class="float-right">${min_2}\`</span></button>
+                </div>`
         // if (count_1<count_2){
         //     for (let i=0; i < count_2-count_1; i++){
         //         html_group_1 += `
@@ -227,8 +233,10 @@ function show_training_card(id = ''){
         //         </div>`
         //     }
         // }
-        $('.exercise-list[data-group="1"]').html(html_group_1)
-        $('.exercise-list[data-group="2"]').html(html_group_2)
+        $('.exercise-list[data-group="1"]').html(html_group_A)
+        $('.exercise-list[data-group="2"]').html(html_group_B)
+        $('.exercise-list[data-group="1"]').append(html_group_1)
+        $('.exercise-list[data-group="2"]').append(html_group_2)
 
         $('#training-content .group-filter-card[data-group="1"]').click()
         $('#training-content').removeClass('d-none')
