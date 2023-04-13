@@ -20,13 +20,15 @@
 }
 .group-filter-card.active{
     font-weight: bold;
-    color: darkred !important;
-    background: #ffe3af !important;
+    border: 2px solid black !important;
+    #color: darkred !important;
+    #background: #ffe3af !important;
 }
 .exs-filter-card.active{
     font-weight: bold;
-    color: darkred !important;
-    background: #f9db48 !important;
+    border: 2px solid black !important;
+    #color: darkred !important;
+    #background: #f9db48 !important;
 }
 
 .btn-lightblue{
@@ -45,6 +47,19 @@
 .training-filter-edit:focus{
     border: 2px solid indianred !important;
 }
+
+.training-filter-edit::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: dodgerblue;
+    opacity: 1; /* Firefox */
+}
+
+.training-filter-edit:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: dodgerblue;
+}
+
+.training-filter-edit::-ms-input-placeholder { /* Microsoft Edge */
+    color: dodgerblue;
+ }
 
 .training-exercise-title{
     background: #87d7e3;

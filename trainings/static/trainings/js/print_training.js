@@ -98,15 +98,20 @@ function load_training_print(training_id) {
                 `
 
                 let additional_data = ''
-                if (exercise.additional.length > 0) {
-                    for (let additional of exercise.additional) {
-                        if (additional.note != null && additional.note != ''){
+
+
+                if (exercise.additional_json != null && Object.keys(exercise.additional_json).length > 0) {
+                    console.log(Object.keys(exercise.additional_json).length)
+                    for (let number of Object.keys(exercise.additional_json)) {
+                        let additional = exercise.additional_json[number];
+                        console.log(additional)
+                        if ((additional.note != null && additional.note != '') || (additional.name != null && additional.name != '')){
                             additional_data += '<div class="col-6">'
 
                             additional_data += `
                                 <div class="row">
                                     <div class="col-6 px-1 border">
-                                        <b>${get_translation_name(additional.additional_name)}</b>
+                                        <b>${additional.name}</b>
                                     </div>
                                     <div class="col-6 px-1 border text-center">
                                         ${additional.note}
@@ -116,9 +121,29 @@ function load_training_print(training_id) {
 
                             additional_data += '</div>'
                         }
-
                     }
                 }
+                // if (exercise.additional.length > 0) {
+                //     for (let additional of exercise.additional) {
+                //         if (additional.note != null && additional.note != ''){
+                //             additional_data += '<div class="col-6">'
+                //
+                //             additional_data += `
+                //                 <div class="row">
+                //                     <div class="col-6 px-1 border">
+                //                         <b>${get_translation_name(additional.additional_name)}</b>
+                //                     </div>
+                //                     <div class="col-6 px-1 border text-center">
+                //                         ${additional.note}
+                //                     </div>
+                //                 </div>
+                //             `
+                //
+                //             additional_data += '</div>'
+                //         }
+                //
+                //     }
+                // }
 
                 html_scheme += `
                 <div class="col-8 exercise-info-block">

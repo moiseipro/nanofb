@@ -1,3 +1,4 @@
 #print-training-block textarea{
     overflow: hidden;
+    resize: none;
 }
