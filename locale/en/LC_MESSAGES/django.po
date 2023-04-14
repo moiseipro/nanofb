@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-10 13:29+0300\n"
+"POT-Creation-Date: 2023-04-14 11:44+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2291,25 +2291,25 @@ msgstr ""
 msgid "Calendar"
 msgstr ""
 
-#: .\events\templates\events\base_events.html:104
-#: .\events\templates\events\lite_events.html:98
+#: .\events\templates\events\base_events.html:107
+#: .\events\templates\events\lite_events.html:101
 msgid "MC days"
 msgstr ""
 
-#: .\events\templates\events\base_events.html:127
-#: .\events\templates\events\lite_events.html:121
+#: .\events\templates\events\base_events.html:130
+#: .\events\templates\events\lite_events.html:124
 #: .\trainings\templates\trainings\print_training.html:52
 #: .\trainings\templates\trainings\training_card.html:87
 msgid "Goal"
 msgstr ""
 
-#: .\events\templates\events\base_events.html:130
-#: .\events\templates\events\lite_events.html:124
+#: .\events\templates\events\base_events.html:133
+#: .\events\templates\events\lite_events.html:127
 msgid "Objectives"
 msgstr ""
 
-#: .\events\templates\events\base_events.html:133
-#: .\events\templates\events\lite_events.html:127
+#: .\events\templates\events\base_events.html:136
+#: .\events\templates\events\lite_events.html:130
 #: .\trainings\templates\trainings\print_training.html:60
 #: .\trainings\templates\trainings\training_card.html:99
 msgid "Load"
@@ -2393,7 +2393,6 @@ msgstr ""
 #: .\exercises\templates\exercises\base_folders.html:85
 #: .\references\templates\references\forms\reference_edit.html:20
 #: .\references\templates\references\forms\reference_edit.html:33
-#: .\trainings\templates\trainings\training_card.html:126
 #: .\video\templates\video\modules\video_list.html:15
 #: .\video\templates\video\modules\video_list_exercises.html:14
 #: .\video\templates\video\video_card.html:41
@@ -2508,7 +2507,7 @@ msgstr ""
 msgid "Number of opponent team penalties per match."
 msgstr ""
 
-#: .\matches\models.py:54 .\trainings\models.py:327
+#: .\matches\models.py:54 .\trainings\models.py:333
 msgid "estimation"
 msgstr ""
 
@@ -2743,11 +2742,11 @@ msgstr ""
 msgid "Empty"
 msgstr ""
 
-#: .\references\models.py:29 .\trainings\models.py:206
+#: .\references\models.py:29 .\trainings\models.py:212
 msgid "order"
 msgstr ""
 
-#: .\references\models.py:30 .\trainings\models.py:207
+#: .\references\models.py:30 .\trainings\models.py:213
 msgid "Sorting index"
 msgstr ""
 
@@ -2956,7 +2955,6 @@ msgid "Exercise physical qualities"
 msgstr ""
 
 #: .\references\models.py:305 .\references\models.py:306
-#: .\references\templates\references\modules\references_list.html:7
 msgid "Exercise additional data"
 msgstr ""
 
@@ -3137,7 +3135,7 @@ msgstr ""
 msgid "Link to the training video"
 msgstr ""
 
-#: .\trainings\models.py:72
+#: .\trainings\models.py:72 .\trainings\models.py:206
 msgid "additional"
 msgstr ""
 
@@ -3197,15 +3195,19 @@ msgstr ""
 msgid "Description of the exercise inside the training"
 msgstr ""
 
-#: .\trainings\models.py:267
+#: .\trainings\models.py:207
+msgid "Additional training exercise data"
+msgstr ""
+
+#: .\trainings\models.py:273
 msgid "note"
 msgstr ""
 
-#: .\trainings\models.py:268
+#: .\trainings\models.py:274
 msgid "Note to the reference book"
 msgstr ""
 
-#: .\trainings\models.py:328
+#: .\trainings\models.py:334
 msgid "Player rating like/dislike"
 msgstr ""
 
@@ -3266,11 +3268,7 @@ msgid "for print"
 msgstr ""
 
 #: .\trainings\templates\trainings\training_card.html:141
-msgid "Additional Conditions"
-msgstr ""
-
-#: .\trainings\templates\trainings\training_card.html:146
-msgid "Delete all/empty data"
+msgid "Add. information"
 msgstr ""
 
 #: .\trainings\templates\trainings\training_video.html:10

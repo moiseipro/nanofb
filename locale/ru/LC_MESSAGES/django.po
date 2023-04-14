@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-11 14:12+0300\n"
+"POT-Creation-Date: 2023-04-14 11:46+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2307,25 +2307,25 @@ msgstr "Показать/скрыть календарь"
 msgid "Calendar"
 msgstr "Календарь"
 
-#: .\events\templates\events\base_events.html:104
-#: .\events\templates\events\lite_events.html:98
+#: .\events\templates\events\base_events.html:107
+#: .\events\templates\events\lite_events.html:101
 msgid "MC days"
 msgstr "Дни МЦ"
 
-#: .\events\templates\events\base_events.html:127
-#: .\events\templates\events\lite_events.html:121
+#: .\events\templates\events\base_events.html:130
+#: .\events\templates\events\lite_events.html:124
 #: .\trainings\templates\trainings\print_training.html:52
 #: .\trainings\templates\trainings\training_card.html:87
 msgid "Goal"
 msgstr "Цель"
 
-#: .\events\templates\events\base_events.html:130
-#: .\events\templates\events\lite_events.html:124
+#: .\events\templates\events\base_events.html:133
+#: .\events\templates\events\lite_events.html:127
 msgid "Objectives"
 msgstr "Задачи"
 
-#: .\events\templates\events\base_events.html:133
-#: .\events\templates\events\lite_events.html:127
+#: .\events\templates\events\base_events.html:136
+#: .\events\templates\events\lite_events.html:130
 #: .\trainings\templates\trainings\print_training.html:60
 #: .\trainings\templates\trainings\training_card.html:99
 msgid "Load"
@@ -2971,7 +2971,6 @@ msgid "Exercise physical qualities"
 msgstr "Физические качества упражнения"
 
 #: .\references\models.py:305 .\references\models.py:306
-#: .\references\templates\references\modules\references_list.html:7
 msgid "Exercise additional data"
 msgstr "Дополнительные данные упражнения"
 
@@ -3287,12 +3286,8 @@ msgid "for print"
 msgstr "для печати"
 
 #: .\trainings\templates\trainings\training_card.html:141
-msgid "Additional Conditions"
-msgstr "Доп. Данные"
-
-#: .\trainings\templates\trainings\training_card.html:146
-msgid "Delete all/empty data"
-msgstr "Удалить все/пустые данные"
+msgid "Add. information"
+msgstr "Доп. Информация"
 
 #: .\trainings\templates\trainings\training_video.html:10
 msgid "Video from the training"
@@ -3942,6 +3937,12 @@ msgstr "Видео / Анимация"
 #: .\video\templates\video\video_card.html:141
 msgid "Animation"
 msgstr "Анимация"
+
+#~ msgid "Additional Conditions"
+#~ msgstr "Доп. Данные"
+
+#~ msgid "Delete all/empty data"
+#~ msgstr "Удалить все/пустые данные"
 
 #~ msgid "Microcycle days"
 #~ msgstr "Дни микроцикла"

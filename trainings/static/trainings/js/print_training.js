@@ -110,15 +110,14 @@ function load_training_print(training_id) {
 
                             additional_data += `
                                 <div class="row">
-                                    <div class="col-6 px-1 border">
+                                    <div class="col-12 px-1 border text-center">
                                         <b>${additional.name}</b>
-                                    </div>
-                                    <div class="col-6 px-1 border text-center">
-                                        ${additional.note}
                                     </div>
                                 </div>
                             `
-
+                            // <div class="col-6 px-1 border text-center">
+                            //     ${additional.note}
+                            // </div>
                             additional_data += '</div>'
                         }
                     }

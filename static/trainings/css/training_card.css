@@ -22,7 +22,7 @@
     font-weight: bold;
     border: 2px solid black !important;
     #color: darkred !important;
-    #background: #ffe3af !important;
+    background: #ffe3af !important;
 }
 .exs-filter-card.active{
     font-weight: bold;
@@ -62,7 +62,7 @@
  }
 
 .training-exercise-title{
-    background: #87d7e3;
+    background: #ffe3af;
     border: 1px solid white !important;
 }
 

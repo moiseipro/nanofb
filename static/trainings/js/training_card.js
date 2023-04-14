@@ -134,7 +134,7 @@ $(window).on('load', function (){
 
             additionals[i] = {
                 'name': name.val(),
-                'note' : note.val()
+                //'note' : note.val()
             }
         }
         send_data['additional_json'] = JSON.stringify(additionals)
@@ -467,20 +467,20 @@ function load_exercises_training_data(training_exercise_id = null) {
             let note;
             if (exercise.additional_json != null){
                 name = exercise.additional_json[i]['name']
-                note = exercise.additional_json[i]['note']
+                //note = exercise.additional_json[i]['note']
             }
             additional_html += `
-            <div class="col-6 exercise-additional-row ${note ? '' : 'edit-button'} ${!note && !edit_mode ? 'd-none' : ''}">
+            <div class="col-6 exercise-additional-row ${name ? '' : 'edit-button'} ${!name && !edit_mode ? 'd-none' : ''}">
                 <div class="row">
-                    <div class="col-6 px-0">
-                        <input type="text" name="name_${i}" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded edit-input" value="${name ? name : ''}" placeholder="${gettext('Title')}" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
-                    </div>
-                    <div class="col px-0">
-                        <input type="text" name="note_${i}" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded edit-input" value="${note ? note : ''}" placeholder="${gettext('Note')}" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
+                    <div class="col-12 px-0">
+                        <input type="text" name="name_${i}" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded edit-input" value="${name ? name : ''}" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
                     </div>
                 </div>
             </div>
             `
+            // <div class="col px-0">
+            //     <input type="text" name="note_${i}" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded edit-input" value="${note ? note : ''}" placeholder="${gettext('Note')}" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
+            // </div>
         }
         $('#collapse-exercise-additional').html(additional_html)
 
