@@ -1506,7 +1506,7 @@ $(function() {
             cId = "copy-move-exercise";
             $('#exerciseCopyModal').find(`.content-block.${cId}`).removeClass('d-none');
         }
-        $('#exerciseCopyModal').find('.modal-footer').toggleClass('d-none', cId != "copy-move-exercise");
+        $('#exerciseCopyModal').find('.exs-applier').toggleClass('d-none', cId != "copy-move-exercise");
         let cTitle = "";
         if ($('#exerciseCopyModal').find('[name="copy_mode"]').val() == '1') {
             cTitle = "Скопировать упражнение в выбранную папку";
@@ -1640,6 +1640,7 @@ $(function() {
         $('#exerciseShareModal').find('.link-text > a').text('-');
         $('#exerciseShareModal').find('.link-text > a').attr('href', '');
         $('#exerciseShareModal').find('button.btn-share').attr('data-link', "");
+        $('#exerciseShareModal').find('.link-qrcode').html('');
 
         let exsId = $('.exercises-block').find('.exs-elem.active').attr('data-id');
         let folderType = $('.up-block-content').find('.folders-toggle:visible').first().attr('data-id');
@@ -1656,6 +1657,11 @@ $(function() {
                     $('#exerciseShareModal').find('.link-text > a').text(res.data.link);
                     $('#exerciseShareModal').find('.link-text > a').attr('href', res.data.link);
                     $('#exerciseShareModal').find('button.btn-share').attr('data-link', res.data.link);
+                    $('#exerciseShareModal').find('.link-qrcode').ClassyQR({
+                        create: true,
+                        type: 'url',
+                        url: res.data.link
+                    });
                 }
             },
             error: function (res) {
@@ -1705,6 +1711,11 @@ $(function() {
                     $('#exerciseShareModal').find('.link-text > a').text(res.data.link);
                     $('#exerciseShareModal').find('.link-text > a').attr('href', res.data.link);
                     $('#exerciseShareModal').find('button.btn-share').attr('data-link', res.data.link);
+                    $('#exerciseShareModal').find('.link-qrcode').ClassyQR({
+                        create: true,
+                        type: 'url',
+                        url: res.data.link
+                    });
                     try {
                         copyTextToClipboard(res.data.link);
                     } catch(e) {}
@@ -2313,7 +2324,7 @@ $(function() {
                 $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-move-exercise"]').addClass('active');
                 $('#exerciseCopyModal').find('.content-block').addClass('d-none');
                 $('#exerciseCopyModal').find('.content-block.copy-move-exercise').removeClass('d-none');
-                $('#exerciseCopyModal').find('.modal-footer').removeClass('d-none')
+                $('#exerciseCopyModal').find('.exs-applier').removeClass('d-none')
                 let visibledExsCount = $('.exs-list-group').find('.list-group-item:visible').length;
                 $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-move-exercise-2"]').find('.counter').text(` (${visibledExsCount}) `);;
                 $('#exerciseCopyModal').modal('show'); 
@@ -2326,7 +2337,7 @@ $(function() {
                 $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-move-exercise"]').addClass('active');
                 $('#exerciseCopyModal').find('.content-block').addClass('d-none');
                 $('#exerciseCopyModal').find('.content-block.copy-move-exercise').removeClass('d-none');
-                $('#exerciseCopyModal').find('.modal-footer').removeClass('d-none');
+                $('#exerciseCopyModal').find('.exs-applier').removeClass('d-none');
                 let visibledExsCount = $('.exs-list-group').find('.list-group-item:visible').length;
                 $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-move-exercise-2"]').find('.counter').text(` (${visibledExsCount}) `);
                 $('#exerciseCopyModal').modal('show');

@@ -467,13 +467,11 @@ function RenderExerciseOne(data) {
             RenderCarouselAll();
         } catch(e) {}
 
-        try {
-            if (data.clone_nfb_id) {
-                $('ul.list-group.exs-card-editor').addClass('d-none');
-            } else {
-                $('ul.list-group.exs-card-editor').removeClass('d-none');
-            }
-        } catch(e) {}
+        if (data.clone_nfb_id) {
+            $('ul.list-group.exs-card-editor').find('li.nf-copy-off').addClass('d-none');
+        } else {
+            $('ul.list-group.exs-card-editor').find('li.nf-copy-off').removeClass('d-none');
+        }
     } else {
         $(exsCard).attr('data-exs', '-1');
 
@@ -541,7 +539,8 @@ function RenderExerciseOne(data) {
             RenderCarouselAll();
         } catch(e) {}
         
-        $('ul.list-group.exs-card-editor').removeClass('d-none');
+        $('ul.list-group.exs-card-editor').find('li.nf-copy-off').removeClass('d-none');
+
 
         $('.exs-list-group').find('.list-group-item').removeClass('active');
         // clear video, animation and scheme
