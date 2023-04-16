@@ -82,8 +82,9 @@ class TrainingViewSet(viewsets.ModelViewSet):
                 exercise_id=data['exercise_id'],
                 training_id__team_id=self.request.session['team'],
                 training_id__event_id__date__lte=ClubTraining.objects.get(pk=pk).event_id.date
-            ).latest('id')
+            )
             if previous_training:
+                previous_training = previous_training.latest('id')
                 last_additional = previous_training.clubtrainingexerciseadditional_set.all()
             else:
                 last_additional = None
@@ -95,8 +96,9 @@ class TrainingViewSet(viewsets.ModelViewSet):
                 exercise_id=data['exercise_id'],
                 training_id__team_id=self.request.session['team'],
                 training_id__event_id__date__lte=UserTraining.objects.get(pk=pk).event_id.date
-            ).latest('id')
+            )
             if previous_training:
+                previous_training = previous_training.latest('id')
                 last_additional = previous_training.usertrainingexerciseadditional_set.all()
             else:
                 last_additional = None
@@ -106,7 +108,7 @@ class TrainingViewSet(viewsets.ModelViewSet):
         else:
             last_description = ''
             last_additional_json = json.dumps(None)
-        print(last_additional_json)
+
         if exercise_count > 6:
             return Response({'status': 'exercise_limit'})
         if current_exercise > 0:
@@ -346,8 +348,9 @@ class LiteTrainingViewSet(viewsets.ModelViewSet):
             exercise_id=data['exercise_id'],
             training_id__team_id=self.request.session['team'],
             training_id__event_id__date__lte=LiteTraining.objects.get(pk=pk).event_id.date
-        ).latest('id')
+        )
         if previous_training:
+            previous_training = previous_training.latest('id')
             last_description = previous_training.description
             last_additional_json = json.dumps(previous_training.additional_json)
             last_additional = previous_training.litetrainingexerciseadditional_set.all()
@@ -356,9 +359,6 @@ class LiteTrainingViewSet(viewsets.ModelViewSet):
             last_additional_json = json.dumps(None)
             last_description = ''
 
-        print(previous_training.pk)
-        print(previous_training.training_id.pk)
-        print(previous_training.additional_json)
         if exercise_count > 6:
             return Response({'status': 'exercise_limit'})
         if current_exercise > 0:
