@@ -534,6 +534,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
     filter_ball = -1
     filter_favorite = -1
     filter_new_exs = -1
+    filter_editing_exs = -1
     filter_search = ""
     filter_tags = []
     filter_video_source = -1
@@ -568,6 +569,14 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             filter_new_exs = int(req.POST.get("filter[new_exs]", -1))
     except:
         pass
+    try:
+        if req.method == "GET":
+            filter_editing_exs = int(req.GET.get("filter[editing_exs]", -1))
+        elif req.method == "POST":
+            filter_editing_exs = int(req.POST.get("filter[editing_exs]", -1))
+    except:
+        pass
+    
     try:
         if req.method == "GET":
             filter_search = req.GET.get("filter[_search]", "")
@@ -698,6 +707,9 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
         enddate = datetime.date.today()
         startdate = enddate - datetime.timedelta(days=30)
         f_exercises = f_exercises.filter(date_creation__range=[startdate, enddate])
+    if filter_editing_exs != -1:
+        enddate = datetime.date.today()
+        f_exercises = f_exercises.filter(date_editing=enddate)
     if filter_favorite != -1:
         f_exercises = f_exercises.filter(
             Q(userexerciseparam__favorite=filter_favorite, userexerciseparam__user=cur_user)
@@ -1056,16 +1068,11 @@ def POST_copy_exs(request, cur_user, cur_team):
                     elif folder_type == FOLDER_CLUB:
                         videos = c_exs[0].videos.through.objects.filter(exercise_club=c_exs[0])
                     for video in videos:
-                        video.pk = None
-                        video.exercise_nfb = None
-                        video.exercise_user = None
-                        video.exercise_club = None
-                        if request.user.club_id is not None:
-                            video.exercise_club = new_exs
-                        else:
-                            video.exercise_user = new_exs
-                        video.save()
-                        new_exs.videos.through.objects.add(video)
+                        if video.type == 1 or video.type == 3:
+                            if request.user.club_id is not None:
+                                new_exs.videos.through.objects.update_or_create(type=video.type, exercise_club=new_exs, defaults={"video": video.video})
+                            else:
+                                new_exs.videos.through.objects.update_or_create(type=video.type, exercise_user=new_exs, defaults={"video": video.video})
                     res_data['videos'].append("OK")
                 except Exception as e:
                     res_data['err'].append(str(e))
@@ -1280,12 +1287,15 @@ def POST_edit_exs(request, cur_user, cur_team):
         c_exs.field_task = set_by_language_code(c_exs.field_task, request.LANGUAGE_CODE, request.POST.get("data[field_task]", ""))
     
     c_exs.description = set_by_language_code(c_exs.description, request.LANGUAGE_CODE, request.POST.get("data[description]", ""))
+    c_exs.description_trainer = set_by_language_code(c_exs.description_trainer, request.LANGUAGE_CODE, request.POST.get("data[description_trainer]", ""))
     if cur_user.is_superuser:
         description_template = ExsDescriptionTemplate.objects.filter().first()
         if not description_template:
             description_template = ExsDescriptionTemplate()
         description_template.description = set_by_language_code(description_template.description, request.LANGUAGE_CODE, request.POST.get("data[description_template]", ""))
         description_template.save()
+
+    c_exs.date_editing = datetime.datetime.now()
 
     c_exs.scheme_1 = request.POST.get("data[scheme_1]", None)
     c_exs.scheme_2 = request.POST.get("data[scheme_2]", None)
@@ -1398,6 +1408,7 @@ def POST_edit_exs(request, cur_user, cur_team):
         c_exs.save()
         res_data = f'Exs with id: [{c_exs.id}] is added / edited successfully.'
     except Exception as e:
+        print(e)
         return JsonResponse({"err": "Can't edit the exs.", "success": False}, status=200)
     
     if is_can_edit_full:
@@ -2873,6 +2884,7 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
             return JsonResponse({"errors": "Exercise not found.", "success": False}, status=400)
     res_exs['title'] = get_by_language_code(res_exs['title'], request.LANGUAGE_CODE)
     res_exs['description'] = get_by_language_code(res_exs['description'], request.LANGUAGE_CODE)
+    res_exs['description_trainer'] = get_by_language_code(res_exs['description_trainer'], request.LANGUAGE_CODE)
     res_exs['scheme_data'] = get_exs_scheme_data(res_exs['scheme_data'])
     res_exs['video_data'] = get_exs_video_data(res_exs['video_data'])
     res_exs['animation_data'] = get_exs_animation_data(res_exs['animation_data'])
@@ -2947,6 +2959,7 @@ def GET_get_exs_graphic_content(request, cur_user, cur_team):
         return JsonResponse({"errors": "Exercise not found.", "success": False}, status=400)
     if c_exs is not None and c_exs.exists() and c_exs[0].id != None:
         res_exs['description'] = get_by_language_code(res_exs['description'], request.LANGUAGE_CODE)
+        res_exs['description_trainer'] = get_by_language_code(res_exs['description_trainer'], request.LANGUAGE_CODE)
         res_exs['scheme_data'] = get_exs_scheme_data(res_exs['scheme_data'])
         res_exs['video_data'] = get_exs_video_data(res_exs['video_data'])
         res_exs['animation_data'] = get_exs_animation_data(res_exs['animation_data'])
@@ -3046,12 +3059,14 @@ def GET_get_exs_full_name(request, cur_user, cur_team):
             c_exs = c_exs[0]
             res_exs['title'] = c_exs.title
             res_exs['description'] = c_exs.description
+            res_exs['description_trainer'] = c_exs.description_trainer
     elif folder_type == FOLDER_NFB:
         c_exs = AdminExercise.objects.filter(id=exs_id, visible=True)
         if c_exs.exists() and c_exs[0].id != None:
             c_exs = c_exs[0]
             res_exs['title'] = c_exs.title
             res_exs['description'] = c_exs.description
+            res_exs['description_trainer'] = c_exs.description_trainer
     elif folder_type == FOLDER_CLUB:
         if not util_check_access(cur_user, {
             'perms_user': ["exercises.view_userexercise"], 
@@ -3064,6 +3079,7 @@ def GET_get_exs_full_name(request, cur_user, cur_team):
             c_exs = c_exs[0]
             res_exs['title'] = c_exs.title
             res_exs['description'] = c_exs.description
+            res_exs['description_trainer'] = c_exs.description_trainer
     else:
         return JsonResponse({"errors": "Exercise not found.", "success": False}, status=400)
     return JsonResponse({"data": res_exs, "success": True}, status=200)

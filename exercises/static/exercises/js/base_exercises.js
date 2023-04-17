@@ -273,6 +273,23 @@ function ToggleUpFilter(id, state) {
                 CountExsInFolder();
             }
             break;
+        case "toggle_editing":
+            if (state) {
+                window.exercisesFilter['editing_exs'] = '1';
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            } else {
+                delete window.exercisesFilter['editing_exs'];
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            }
+            break;
         case "toggle_pro":
             if (!state && !$('.up-tabs-elem[data-id="toggle_pro"]').hasClass('filtering')) {
                 $('.up-tabs-elem[data-id="toggle_pro"]').addClass('filtering');
@@ -747,7 +764,7 @@ function copyTextToClipboard(text) {
 }
 
 function ToggleFoldersNames() {
-    let state = $('#toggleFoldersNames').attr('data-state') == '1';
+    let state = $('#toggleFoldersNames').attr('data-state') == '1' || true;
     $('.folders-block').find('.folder-elem').each((ind, elem) => {
         let tmpText = !state ? `${$(elem).attr('data-short')}. ${$(elem).attr('data-name')}` : `${$(elem).attr('data-short')}`;
         $(elem).find('.folder-title').text(tmpText);
@@ -948,6 +965,23 @@ $(function() {
     // Toggle Names of folders:
     $('#toggleFoldersNames').on('click', (e) => {
         ToggleFoldersNames();
+    });
+
+
+    $('#changeColumnSize').on('click', (e) => {
+        try {
+            let sizes = window.split.getSizes();
+            if (Array.isArray(sizes) && sizes.length == 2) {
+                if (sizes[0] + 10 < 65) {
+                    sizes[0] += 10;
+                    sizes[1] -= 10;
+                } else {
+                    sizes[0] = 30; sizes[1] = 50;
+                }
+                window.split.setSizes(sizes);
+                localStorage.setItem('split_cols', JSON.stringify(sizes));
+            }
+        } catch(e) {}
     });
 
 
@@ -2088,7 +2122,7 @@ $(function() {
 
     // Save & Load current folders mode
     window.addEventListener("beforeunload", (e) => {
-        let toggledFolders = $('#toggleFoldersNames').attr('data-state') == '1';
+        let toggledFolders = $('#toggleFoldersNames').attr('data-state') == '1' || true;
         let cFolderType = $('.up-tabs-elem.folders-toggle:not(.d-none)').first().attr('data-id');
         let foldersSettings = JSON.stringify({'expandToggled': toggledFolders, 'type': cFolderType});
         localStorage.setItem('folders_sets', foldersSettings);

@@ -614,16 +614,18 @@
                                                 <tr class="bck-custom description-buttons d-none">
                                                     <td>
                                                         <button type="button" class="btn btn-outline-secondary btn-sm description-button active" data-id="original">
-                                                            Оригинал описания
+                                                            Описание N.F.
                                                         </button>
                                                         <button type="button" class="btn btn-outline-secondary btn-sm description-button" data-id="template">
                                                             Шаблон описания
                                                         </button>
+                                                        <button type="button" class="btn btn-outline-secondary btn-sm description-button active" data-id="trainer">
+                                                            Описание "Тренер"
+                                                        </button>
                                                     </td>
                                                 </tr>
                                                 <tr class="bck-custom description-panel" data-id="original">
-                                                    <td title="Описание" style="background-color: white;">
-                                                        <!-- <div class="resizeable-block" style="resize: vertical; overflow: auto;"> -->
+                                                    <td title="Описание N.F." style="background-color: white;">
                                                         <div class="resizeable-block">
                                                             <div id="descriptionEditor2" class="ckeditor w-100" name="description_text"></div>
                                                         </div>
@@ -631,9 +633,16 @@
                                                 </tr>
                                                 <tr class="bck-custom description-panel d-none" data-id="template">
                                                     <td title="Описание - Шаблон" style="background-color: white;">
-                                                        <!-- <div class="resizeable-block" style="resize: vertical; overflow: auto;"> -->
                                                         <div class="resizeable-block">
                                                             <div id="descriptionEditor2Template" class="ckeditor w-100" name="" data-content="{{ description_template }}">
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="bck-custom description-panel d-none" data-id="trainer">
+                                                    <td title="Описание <Тренер>" style="background-color: white;">
+                                                        <div class="resizeable-block">
+                                                            <div id="descriptionEditor2Trainer" class="ckeditor w-100" name="description_trainer_text">
                                                             </div>
                                                         </div>
                                                     </td>
@@ -825,7 +834,7 @@
                                                 </ol> -->
                                                 <div class="carousel-inner">
                                                     <div class="carousel-item active" title="Видео">
-                                                        <video id="video-player-card-1" class="video-js resize-block not-active">
+                                                        <video id="video-player-card-1" class="video-js resize-block not-active1">
                                                         </video>
                                                     </div>
                                                     <!-- <div class="carousel-item" title="Видео 2">
@@ -833,14 +842,14 @@
                                                         </video>
                                                     </div> -->
                                                 </div>
-                                                <a class="carousel-control-prev ml-2" href="#carouselVideo" role="button" data-slide="prev">
+                                                <!-- <a class="carousel-control-prev ml-2" href="#carouselVideo" role="button" data-slide="prev">
                                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                                     <span class="sr-only">Previous</span>
                                                 </a>
                                                 <a class="carousel-control-next" href="#carouselVideo" role="button" data-slide="next">
                                                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                                     <span class="sr-only">Next</span>
-                                                </a>
+                                                </a> -->
                                             </div>
                                         </div>
                                         <div class="col-12">
@@ -851,7 +860,7 @@
                                                 </ol> -->
                                                 <div class="carousel-inner">
                                                     <div class="carousel-item active" title="Анимация">
-                                                        <video id="video-player-card-3" class="video-js resize-block not-active">
+                                                        <video id="video-player-card-3" class="video-js resize-block not-active1">
                                                         </video>
                                                     </div>
                                                     <!-- <div class="carousel-item" title="Анимация 2">
@@ -859,14 +868,14 @@
                                                         </video>
                                                     </div> -->
                                                 </div>
-                                                <a class="carousel-control-prev ml-2" href="#carouselAnim" role="button" data-slide="prev">
+                                                <!-- <a class="carousel-control-prev ml-2" href="#carouselAnim" role="button" data-slide="prev">
                                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                                     <span class="sr-only">Previous</span>
                                                 </a>
                                                 <a class="carousel-control-next" href="#carouselAnim" role="button" data-slide="next">
                                                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                                     <span class="sr-only">Next</span>
-                                                </a>
+                                                </a> -->
                                             </div>
                                         </div>
                                     </div>

@@ -148,6 +148,7 @@ class ClubExerciseAdditionalParams(models.Model):
 
 class AbstractExercise(models.Model):
     date_creation = models.DateField(auto_now_add=True)
+    date_editing = models.DateField(null=True, blank=True)
     order = models.IntegerField(
         help_text='Индекс сортировки',
         default=0
@@ -177,6 +178,7 @@ class AbstractExercise(models.Model):
     ref_cognitive_load = models.ForeignKey(ExsCognitiveLoad, on_delete=models.SET_NULL, null=True, blank=True)
     ref_stress_type = models.ForeignKey(ExsStressType, on_delete=models.SET_NULL, null=True, blank=True)
     description = models.JSONField(null=True, blank=True)
+    description_trainer = models.JSONField(null=True, blank=True)
     field_players = models.JSONField(null=True, blank=True)
     field_goal = models.JSONField(null=True, blank=True)
     field_age = models.JSONField(null=True, blank=True)

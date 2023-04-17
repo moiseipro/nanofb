@@ -89,6 +89,15 @@ $(function() {
     $('#exerciseGraphicsModal').on('click', '.carousel-control-next', (e) => {
         StopAllVideos();
     });
+
+
+    $('#exerciseGraphicsModal').on('click', 'button.toggle-description', (e) => {
+        let cId = $(e.currentTarget).attr('data-id');
+        $('#exerciseGraphicsModal').find('button.toggle-description').removeClass('active');
+        $(e.currentTarget).addClass('active');
+        $('#exerciseGraphicsModal').find('.description-panel').addClass('d-none');
+        $('#exerciseGraphicsModal').find(`.description-panel[data-id="${cId}"]`).removeClass('d-none');
+    });
 })
 
 function LoadGraphicsModal(id = -1, f_type="team_folders", activeNum = 1) {
@@ -253,7 +262,20 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
             <div class="card size-h-x" style="--h-x:75vh;">
                 <div class="card-body py-0">
                     <h5 class="card-title">Описание</h5>
-                    <div id="descriptionEditorView" class="ckeditor" name=""></div>
+                    <div class="choose-description-panel">
+                        <button type="button" class="btn btn-outline-secondary btn-sm toggle-description active" data-id="nf">
+                            Описание N.F.
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm toggle-description" data-id="trainer">
+                            Описание "Тренер"
+                        </button>
+                    </div>
+                    <div class="description-panel" data-id="nf">
+                        <div id="descriptionEditorView" class="ckeditor" name=""></div>
+                    </div>
+                    <div class="description-panel d-none" data-id="trainer">
+                        <div id="descriptionEditorTrainerView" class="ckeditor" name=""></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -293,9 +315,40 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
 		.catch((error) => {
             console.error("Error with CKEditor5: ", error);
         });
-    } catch (e) {
-        console.log(e)
-    }
+    } catch (e) {}
+    try {
+        let cLang = $('#select-language').val();
+        let watchdog_descriptionEditorTrainerView = new CKSource.EditorWatchdog();
+		watchdog_descriptionEditorTrainerView.setCreator((element, config) => {
+			return CKSource.Editor
+            .create(element, config)
+            .then( editor => {
+                if (data !== null && data.description_trainer !== null) {
+                    editor.setData(data.description_trainer);
+                }
+                editor.enableReadOnlyMode('');
+                $('#descriptionEditorTrainerView').next().find('.ck-editor__top').addClass('d-none');
+                $('#descriptionEditorTrainerView').next().find('.ck-content.ck-editor__editable').addClass('borders-off');
+				return editor;
+			})
+		});
+        watchdog_descriptionEditorTrainerView.setDestructor(editor => {
+            return editor.destroy();
+        });
+		watchdog_descriptionEditorTrainerView.on('error', (error) => {
+            console.error("Error with CKEditor5: ", error);
+        });
+        watchdog_descriptionEditorTrainerView
+		.create(document.querySelector('#descriptionEditorTrainerView'), {
+			licenseKey: '',
+            language: cLang,
+            removePlugins: ['Title'],
+		})
+		.catch((error) => {
+            console.error("Error with CKEditor5: ", error);
+        });
+    } catch (e) {}
+
     let items = $('#exerciseGraphicsModal').find('.video-modal');
     for (let i = 0; i < items.length; i++) {
         let tId = $(items[i]).attr('id');

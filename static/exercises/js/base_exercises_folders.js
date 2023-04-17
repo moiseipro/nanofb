@@ -327,32 +327,41 @@ $(function() {
     });
 
     $('#folderNanoFbModal').on('click', 'button[type="submit"]', (e) => {
-        if (confirm(gettext("Attention. The current folder structure will be completely cleared. Are you sure?"))) {
-            $('#folderNanoFbModal').find('button.btn-submit').prop('disabled', true);
-            let data = {'nfb_folders_set': 1};
-            $('.page-loader-wrapper').fadeIn();
-            $.ajax({
-                headers:{"X-CSRFToken": csrftoken},
-                data: data,
-                type: 'GET', // GET или POST
-                dataType: 'json',
-                url: "folders_api",
-                success: function (res) {
-                    if (res.data.type && res.data.type == "nfb_folders_set") {
-                        window.location.reload();
-                    } else {
-                        swal(gettext("Error"), gettext("Failed to copy folder structure."), "error");
+        swal({
+            title: "Вы точно хотите выбрать данную структуру?",
+            text: "Внимание! После данной операции текущая структура папок будет полностью очищена, все упражнения в этих папках будут удалены.",
+            icon: "warning",
+            buttons: ["Отмена", "Подтвердить"],
+            dangerMode: true,
+        })
+        .then((willChange) => {
+            if (willChange) {
+                $('#folderNanoFbModal').find('button.btn-submit').prop('disabled', true);
+                let data = {'nfb_folders_set': 1};
+                $('.page-loader-wrapper').fadeIn();
+                $.ajax({
+                    headers:{"X-CSRFToken": csrftoken},
+                    data: data,
+                    type: 'GET', // GET или POST
+                    dataType: 'json',
+                    url: "folders_api",
+                    success: function (res) {
+                        if (res.data.type && res.data.type == "nfb_folders_set") {
+                            window.location.reload();
+                        } else {
+                            swal(gettext("Error"), gettext("Failed to copy folder structure."), "error");
+                        }
+                    },
+                    error: function (res) {
+                        console.log(res.responseJSON.errors)
+                    },
+                    complete: function (res) {
+                        $('#folderNanoFbModal').find('button.btn-submit').prop('disabled', false);
+                        $('.page-loader-wrapper').fadeOut();
                     }
-                },
-                error: function (res) {
-                    console.log(res.responseJSON.errors)
-                },
-                complete: function (res) {
-                    $('#folderNanoFbModal').find('button.btn-submit').prop('disabled', false);
-                    $('.page-loader-wrapper').fadeOut();
-                }
-            });
-        }
+                });
+            }
+        });
     });
 
     let currentFType = sessionStorage.getItem('folders_manager__f_type');
