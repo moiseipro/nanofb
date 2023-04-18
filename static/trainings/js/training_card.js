@@ -204,14 +204,14 @@ function show_training_card(id = ''){
         $.each( data.exercises_info, function( key, value ) {
             if (value.group==1){
                 html_group_1 += `
-                <div class="col-12 px-0" style="padding-bottom: 2px">
+                <div class="col-12 px-0 mb-1">
                     <button data-id="${value.id}" class="btn btn-sm btn-block border-white rounded-0 py-0 exs-filter-card" title="${get_translation_name(value.exercise_name)}"><span class="float-left">${value.exercise_data.folder.short_name}. ${get_translation_name(value.exercise_name)}</span> <span class="float-right">${value.duration}\`</span></button>
                 </div>`
                 min_1+=value.duration
                 count_1++
             } else if (value.group==2){
                 html_group_2 += `
-                <div class="col-12 px-0" style="padding-bottom: 2px">
+                <div class="col-12 px-0 mb-1">
                     <button data-id="${value.id}" class="btn btn-sm btn-block border-white rounded-0 py-0 exs-filter-card" title="${get_translation_name(value.exercise_name)}"><span class="float-left">${value.exercise_data.folder.short_name}. ${get_translation_name(value.exercise_name)}</span> <span class="float-right">${value.duration}\`</span></button>
                 </div>`
                  min_2+=value.duration
@@ -219,11 +219,11 @@ function show_training_card(id = ''){
             }
         });
         let html_group_A = `
-                <div class="col-12 px-0" style="padding-bottom: 2px">
+                <div class="col-12 px-0 mb-1">
                     <button data-group="1" class="btn btn-sm btn-block border-dark font-weight-bold rounded-0 py-0 group-filter-card"><span class="float-left">${gettext('Group')} A</span> <span class="float-right">${min_1}\`</span></button>
                 </div>`
         let html_group_B = `
-                <div class="col-12 px-0" style="padding-bottom: 2px">
+                <div class="col-12 px-0 mb-1">
                     <button data-group="2" class="btn btn-sm btn-block border-dark font-weight-bold rounded-0 py-0 group-filter-card"><span class="float-left">${gettext('Group')} B</span> <span class="float-right">${min_2}\`</span></button>
                 </div>`
         // if (count_1<count_2){
