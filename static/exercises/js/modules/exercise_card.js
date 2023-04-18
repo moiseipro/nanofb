@@ -48,11 +48,13 @@ function ToggleEditFields(flag) {
     try {
         if (flag) {
             document.descriptionEditor2.disableReadOnlyMode('');
+            document.descriptionEditor2Trainer.disableReadOnlyMode('');
             $(document).find('.ck-editor__top').removeClass('d-none');
             $(document).find('.ck-editor__main').removeClass('read-mode');
             $(document).find('.ck-editor__main').addClass('edit-mode');
         } else {
             document.descriptionEditor2.enableReadOnlyMode('');
+            document.descriptionEditor2Trainer.enableReadOnlyMode('');
             $(document).find('.ck-editor__top').addClass('d-none');
             $(document).find('.ck-editor__main').addClass('read-mode');
             $(document).find('.ck-editor__main').removeClass('edit-mode');
@@ -350,6 +352,9 @@ function RenderExerciseOne(data) {
         if (document.descriptionEditorView) {
             document.descriptionEditorView.setData(data.description);
         }
+        if (document.descriptionEditor2Trainer) {
+            document.descriptionEditor2Trainer.setData(data.description_trainer);
+        }
 
         $('#carouselSchema').find('.carousel-item.new-scheme').remove();
         $('#carouselSchema').find('.carousel-indicators > li.new-scheme').remove();
@@ -496,6 +501,10 @@ function RenderExerciseOne(data) {
         if (document.descriptionEditorView) {
             document.descriptionEditorView.disableReadOnlyMode('');
             document.descriptionEditorView.setData('');
+        }
+        if (document.descriptionEditor2Trainer) {
+            document.descriptionEditor2Trainer.disableReadOnlyMode('');
+            document.descriptionEditor2Trainer.setData('');
         }
 
         // CheckMultiRows(exsCard, '', '.exs_edit_field[name="additional_data[]"]', 'additional_data');
@@ -727,6 +736,7 @@ function SaveExerciseOne() {
     });
     dataToSend.data['description'] = document.descriptionEditor2.getData();
     dataToSend.data['description_template'] = document.descriptionEditor2Template.getData();
+    dataToSend.data['description_trainer'] = document.descriptionEditor2Trainer.getData();
     if (dataToSend.data.title == "") {
         swal("Внимание", "Добавьте название для упражнения.", "info");
         return;
@@ -1784,6 +1794,64 @@ $(function() {
         //     .catch(err => {
         //         console.error(err);
         //     });
+    } catch(e) {}
+    try {
+        let watchdog_descriptionEditor2Trainer = new CKSource.EditorWatchdog();
+		watchdog_descriptionEditor2Trainer.setCreator((element, config) => {
+			return CKSource.Editor
+            .create(element, config)
+            .then( editor => {
+                document.descriptionEditor2Trainer = editor;
+                if (window.onlyViewMode) {
+                    document.descriptionEditor2Trainer.enableReadOnlyMode('');
+                    $('#descriptionEditor2Trainer').next().find('.ck-editor__top').addClass('d-none');
+                    $('#descriptionEditor2Trainer').next().find('.ck-content.ck-editor__editable').addClass('borders-off');
+                }
+                $('.resizeable-block').css('height', `100%`);
+				return editor;
+			})
+		});
+        watchdog_descriptionEditor2Trainer.setDestructor(editor => {
+            return editor.destroy();
+        });
+		watchdog_descriptionEditor2Trainer.on('error', (error) => {
+            console.error("Error with CKEditor5: ", error);
+        });
+        watchdog_descriptionEditor2Trainer
+		.create(document.querySelector('#descriptionEditor2Trainer'), {
+			licenseKey: '',
+            language: cLang,
+            removePlugins: ['Title'],
+            fontSize: {
+                options: [
+                    10,
+                    11,
+                    12,
+                    13,
+                    'default',
+                    15,
+                    16,
+                    17,
+                    18,
+                ]
+            },
+            toolbar: {
+                items: [
+                    'heading', '|',
+                    'fontSize', 'fontColor', 'fontBackgroundColor', '|',
+                    'specialCharacters', '|',
+                    'undo', 'redo', '|',
+                    'bold', 'italic', 'underline', '|',
+                    'bulletedList', 'numberedList', 'toDoList', '|',
+                    'outdent', 'indent', 'alignment', '|',
+                    'link', 'insertImage', 'blockQuote', 'insertTable', '|'
+                ],
+                shouldNotGroupWhenFull: true,
+            },
+		})
+		.catch((error) => {
+            console.error("Error with CKEditor5: ", error);
+        });
     } catch(e) {}
 
     window.dataForSplitExsCardCols = JSON.parse(localStorage.getItem('split_exs_card_cols'));

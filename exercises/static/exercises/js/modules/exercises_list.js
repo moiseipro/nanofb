@@ -15,7 +15,7 @@ function RenderSplitCols() {
             // }
         },
         onDragEnd: (arr) => {
-            if (!$('#toggleFoldersNames').attr('data-state') == '1') {
+            if (!$('#toggleFoldersNames').attr('data-state') == '1' && false) {
                 let oldValue = arr[0];
                 arr[0] *= 2; let diff = oldValue - arr[0];
                 arr[1] += diff;
@@ -31,21 +31,21 @@ function RenderSplitCols() {
 }
 
 function ResizeSplitCols() {
-    let state = $('#toggleFoldersNames').attr('data-state') == '1';
+    let state = $('#toggleFoldersNames').attr('data-state') == '1' || true;
     let lastColWidth = 0;
     try {
         let sizes = window.split.getSizes();
-        if (!state) {
-            let oldValue = sizes[0];
-            sizes[0] /= 2; let diff = oldValue - sizes[0];
-            sizes[1] += diff;
-        } else {
-            let oldValue = sizes[0];
-            sizes[0] *= 2; let diff = oldValue - sizes[0];
-            sizes[1] += diff;
-        }
-        window.split.setSizes(sizes);
-        lastColWidth = sizes[2];
+        // if (!state) {
+        //     let oldValue = sizes[0];
+        //     sizes[0] /= 2; let diff = oldValue - sizes[0];
+        //     sizes[1] += diff;
+        // } else {
+        //     let oldValue = sizes[0];
+        //     sizes[0] *= 2; let diff = oldValue - sizes[0];
+        //     sizes[1] += diff;
+        // }
+        // window.split.setSizes(sizes);
+        // lastColWidth = sizes[2];
     } catch(e) {}
     // if (lastColWidth > 0) {
     //     $('#splitCol_2').css('width', `calc(${lastColWidth}% + 20px)`);
