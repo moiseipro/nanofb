@@ -4,39 +4,49 @@
 
 <form id="edit-user-form">
     <div class="row form-row">
-        <div class="col-12 col-sm-6">
-            <div class="form-group mb-1">
-                <label>{% trans 'Email'%}</label>
-                <input type="text" name="email" class="form-control form-control-sm edit-input" value="{{ user.email }}" autocomplete="off" required disabled>
+        <div class="col-sm-12">
+            <div class="form-group row mb-1">
+                <label class="col col-form-label">{% trans 'Email'%}</label>
+                <div class="col">
+                    <input type="text" name="email" class="form-control form-control-sm edit-input" value="{{ user.email }}" autocomplete="off" required disabled>
+                </div>
             </div>
         </div>
-        <div class="col-12 col-sm-6">
-            <div class="form-group mb-1">
-                <label>{% trans 'Club'%}</label>
-                <select name="club_id" id="club-select" class="form-control form-control-sm edit-input" disabled>
-                    <option value="">{% trans "No" %}</option>
-                    {% for club in clubs %}
-                        <option value="{{ club.id }}">{{ club.name }}</option>
-                    {% endfor %}
-                </select>
+        <div class="col-sm-12">
+            <div class="form-group row mb-1">
+                <label class="col col-form-label">{% trans 'Club'%}</label>
+                <div class="col">
+                    <select name="club_id" id="club-select" class="form-control form-control-sm edit-input" disabled>
+                        <option value="">{% trans "No" %}</option>
+                        {% for club in clubs %}
+                            <option value="{{ club.id }}">{{ club.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
         </div>
-        <div class="col-12 col-sm-6">
-            <div class="form-group mb-1">
-                <label>{% trans 'Date of registration'%}</label>
-                <input type="text" name="date_joined" class="form-control form-control-sm datetimepicker" data-toggle="datetimepicker" value="{{ user.date_joined|date:"d/m/Y"}}" autocomplete="off" required disabled>
+        <div class="col-sm-12">
+            <div class="form-group row mb-1">
+                <label class="col col-form-label">{% trans 'Date of registration'%}</label>
+                <div class="col">
+                    <input type="text" name="date_joined" class="form-control form-control-sm datetimepicker" data-toggle="datetimepicker" value="{{ user.date_joined|date:"d/m/Y"}}" autocomplete="off" required disabled>
+                </div>
             </div>
         </div>
-        <div class="col-12 col-sm-6">
-            <div class="form-group mb-1">
-                <label>{% trans 'Last login date'%}</label>
-                <input type="text" name="date_last_login" class="form-control form-control-sm datetimepicker" data-toggle="datetimepicker" value="{{ user.date_last_login|date:"d/m/Y"}}" autocomplete="off" required disabled>
+        <div class="col-sm-12">
+            <div class="form-group row mb-1">
+                <label class="col col-form-label">{% trans 'Last login date'%}</label>
+                <div class="col">
+                    <input type="text" name="date_last_login" class="form-control form-control-sm datetimepicker" data-toggle="datetimepicker" value="{{ user.date_last_login|date:"d/m/Y"}}" autocomplete="off" required disabled>
+                </div>
             </div>
         </div>
-        <div class="col-12 col-sm-12">
-            <div class="form-group mb-1">
-                <label>{% trans 'Version expiration date'%}</label>
-                <input type="text" name="registration_to" class="form-control form-control-sm datetimepicker edit-input" data-toggle="datetimepicker" value="{{ user.registration_to|date:"d/m/Y"}}" autocomplete="off" required disabled>
+        <div class="col-sm-12">
+            <div class="form-group row mb-1">
+                <label class="col col-form-label">{% trans 'Program license'%}</label>
+                <div class="col">
+                    <input type="text" name="registration_to" class="form-control form-control-sm datetimepicker edit-input" data-toggle="datetimepicker" value="{{ user.registration_to|date:"d/m/Y"}}" autocomplete="off" required disabled>
+                </div>
             </div>
         </div>
     </div>

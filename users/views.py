@@ -10,6 +10,7 @@ from rest_framework.generics import UpdateAPIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from django.utils.translation import gettext_lazy as _
+from datetime import date
 from rest_framework_datatables.django_filters.backends import DatatablesFilterBackend
 
 from clubs.models import Club
@@ -28,10 +29,24 @@ class BaseProfileView(LoginRequiredMixin, TemplateView):
     template_name = 'users/base_profile.html'
     model = User
 
+    def licence_check(self):
+        activation = 'active'
+        if self.request.user.is_archive:
+            activation = 'achieve'
+        elif self.request.user.club_id is not None:
+            if self.request.user.club_id.date_registration_to < date.today():
+                activation = 'club_license_expired'
+        else:
+            if self.request.user.registration_to < date.today():
+                activation = 'license_expired'
+
+        return activation
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['edit_profile'] = EditUserPersonalForm()
         context['menu_profile'] = "active"
+        context['activation'] = self.licence_check()
         context['ui_elements'] = get_ui_elements(self.request)
         return context
 

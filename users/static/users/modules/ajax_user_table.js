@@ -13,23 +13,19 @@ function generate_ajax_users_table(scroll_y = ''){
         scrollY: scroll_y,
         rowCallback: function( row, data ) {
             console.log(data)
-            if(Cookies.get('user_selected_id')){
-                if ( data.id == Cookies.get('user_selected_id')) {
-                    $(row).addClass('selected');
-                }
-            }
+            $(row).attr('data-user', data.id)
         },
         drawCallback: function( settings ) {
             $('#club-users-table-counter').text(settings._iRecordsDisplay)
+            if(Cookies.get('user_selected_id')){
+                $('#users-table tr[data-user="'+Cookies.get('user_selected_id')+'"] td:first').click();
+            }
         },
         ajax: {
             url:'/user/clients/api?format=datatables',
             data: function(data){
                 console.log(data)
-            },
-            // success: function (data){
-            //     console.log(data)
-            // }
+            }
         },
         columns: [
             {'data': 'activation', 'name': 'activation', render: function (data, type, row, meta) {
@@ -54,6 +50,7 @@ function generate_ajax_users_table(scroll_y = ''){
                 `
                 return html;
             }},
+            {'data': 'club_name', 'name': 'club_name', 'defaultContent': "---"},
             {'data': 'admin_type', 'name': 'admin_type', sortable: false, searchable: false,},
             {'data': 'p_version', 'name': 'p_version', 'defaultContent': "---", render: function (data, type, row, meta) {
                 if(data && 'name' in data)
@@ -62,13 +59,16 @@ function generate_ajax_users_table(scroll_y = ''){
             {'data': 'days_entered', 'name': 'days_entered', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
                 return data;
             }},
-            {'data': 'registration_to', 'name': 'registration_to', 'defaultContent': "---"},
-            // {'data': 'is_active', 'name': 'is_active', sortable: false, searchable: false, render: function (data, type, row, meta) {
-            //     let view_data = ''
-            //     if(data==true) view_data = `<span class="badge badge-success" style="font-size: 14px;">${gettext('Activation')}</span>`
-            //     else view_data = `<span class="badge badge-secondary" style="font-size: 14px;">${gettext('Archive')}</span>`
-            //     return view_data;
-            // }},
+            {'data': 'registration_to', 'name': 'registration_to', 'defaultContent': "---", render: function (data, type, row, meta) {
+                console.log(row);
+                let date = '';
+                if('club_registration_to' in row && row.club_registration_to != '' && row.club_registration_to != null){
+                    date = row.club_registration_to;
+                } else {
+                    date = data;
+                }
+                return date;
+            }},
             {'data': 'id', sortable: false, searchable: false, render: function (data, type, row, meta) {
                 let button_html = ``
                 button_html += `<button type="button" class="btn btn-sm btn-outline-danger mr-1 close-access-user py-0" data-id="${data}">X</button>`

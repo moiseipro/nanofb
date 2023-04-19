@@ -1,4 +1,7 @@
+from django.shortcuts import redirect
+
 from references.models import UserTeam, ClubTeam, ClubSeason, UserSeason
+from datetime import date
 
 # The function of limiting the use of the program by subscription
 class LicenseValidityCheck:
@@ -9,16 +12,20 @@ class LicenseValidityCheck:
     def __call__(self, request):
         # Code to be executed for each request before
         # the view (and later middleware) are called.
-        if not request.user.is_anonymous:
-            if request.user.club_id is not None:
-                if request.user.has_perm('clubs.club_admin'):
-                    request.teams_list = ClubTeam.objects.filter(club_id=request.user.club_id)
+        print(request.path)
+        if not request.path == "/user/profile":
+            if not request.user.is_anonymous and not request.user.is_superuser:
+                if request.user.is_archive == 1:
+                    print("Пользователь в архиве")
+                    return redirect('users:profile')
+                elif request.user.club_id is not None:
+                    if request.user.club_id.date_registration_to < date.today():
+                        print("Лицензия клуба истекла")
+                        return redirect('users:profile')
                 else:
-                    request.teams_list = ClubTeam.objects.filter(club_id=request.user.club_id, users=request.user)
-                request.seasons_list = ClubSeason.objects.filter(club_id=request.user.club_id)
-            else:
-                request.teams_list = UserTeam.objects.filter(user_id=request.user)
-                request.seasons_list = UserSeason.objects.filter(user_id=request.user)
+                    if request.user.registration_to < date.today():
+                        print("Лицензия истекла")
+                        return redirect('users:profile')
 
         response = self.get_response(request)
 

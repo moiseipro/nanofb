@@ -5,13 +5,13 @@ $(window).on("load", function () {
     generate_ajax_users_table("calc(100vh - 310px)")
 
     if(!Cookies.get('user_selected_id')){
-        $('#users-table-block .open-profile-modal').prop('disabled', true)
+        $('#open-profile-modal').prop('disabled', true)
     }
 
-    $('#users-table-block').on('click', '.open-profile-modal', function () {
+    $('#open-profile-modal').on('click', function () {
 
-        $('#user-management-block').removeClass('d-none').addClass('col-sm-8');
-        $('#users-table-block').removeClass('col-sm-12').addClass('col-sm-4');
+        $('#user-management-block').removeClass('d-none').addClass('col-sm-7');
+        $('#users-table-block').removeClass('col-sm-12').addClass('col-sm-5');
 
         users_table.columns( [1,2,5,6,7,8,9,10,11,12,13] ).visible( false );
 
@@ -19,8 +19,8 @@ $(window).on("load", function () {
 
     $('#back-users-table').on('click', function () {
 
-        $('#user-management-block').removeClass('col-sm-8').addClass('d-none');
-        $('#users-table-block').removeClass('col-sm-4').addClass('col-sm-12');
+        $('#user-management-block').addClass('d-none').removeClass('col-sm-7');
+        $('#users-table-block').removeClass('col-sm-5').addClass('col-sm-12');
 
         users_table.columns( [1,2,5,6,7,8,9,10,11,12,13] ).visible( true );
 
