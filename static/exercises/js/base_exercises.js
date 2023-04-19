@@ -971,12 +971,13 @@ $(function() {
     $('#changeColumnSize').on('click', (e) => {
         try {
             let sizes = window.split.getSizes();
+            let differVal = 8;
             if (Array.isArray(sizes) && sizes.length == 2) {
-                if (sizes[0] + 10 < 65) {
-                    sizes[0] += 10;
-                    sizes[1] -= 10;
+                if (sizes[0] - differVal > 25) {
+                    sizes[0] -= differVal;
+                    sizes[1] += differVal;
                 } else {
-                    sizes[0] = 30; sizes[1] = 50;
+                    sizes[0] = 50; sizes[1] = 30;
                 }
                 window.split.setSizes(sizes);
                 localStorage.setItem('split_cols', JSON.stringify(sizes));
