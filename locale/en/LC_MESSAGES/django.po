@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-19 14:44+0300\n"
+"POT-Creation-Date: 2023-04-20 14:15+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1823,13 +1823,13 @@ msgstr ""
 
 #: .\authorization\forms.py:31 .\users\models.py:27
 #: .\users\templates\users\forms\edit-personal-form.html:17
-#: .\users\templates\users\modules\user_table.html:10
+#: .\users\templates\users\modules\user_table.html:11
 msgid "Last name"
 msgstr ""
 
 #: .\authorization\forms.py:40 .\users\models.py:22
 #: .\users\templates\users\forms\edit-personal-form.html:9
-#: .\users\templates\users\modules\user_table.html:11
+#: .\users\templates\users\modules\user_table.html:12
 msgid "First name"
 msgstr ""
 
@@ -1860,7 +1860,7 @@ msgstr ""
 #: .\authorization\forms.py:99 .\users\models.py:48
 #: .\users\templates\users\base_profile.html:98
 #: .\users\templates\users\forms\edit-personal-form.html:73
-#: .\users\templates\users\modules\user_table.html:8
+#: .\users\templates\users\modules\user_table.html:9
 msgid "License"
 msgstr ""
 
@@ -1979,7 +1979,7 @@ msgstr ""
 
 #: .\clubs\forms.py:85 .\users\admin.py:24 .\users\models.py:59
 #: .\users\templates\users\forms\edit-personal-form.html:92
-#: .\users\templates\users\modules\user_table.html:15
+#: .\users\templates\users\modules\user_table.html:16
 msgid "Country"
 msgstr ""
 
@@ -2138,7 +2138,7 @@ msgid "To log in to the site, use this data."
 msgstr ""
 
 #: .\clubs\templates\clubs\users_table.html:7
-#: .\users\templates\users\modules\user_table.html:7
+#: .\users\templates\users\modules\user_table.html:8
 msgid "Activation"
 msgstr ""
 
@@ -3049,7 +3049,7 @@ msgid "Seasons"
 msgstr ""
 
 #: .\references\templates\references\base_settings.html:47
-#: .\users\templates\users\modules\user_table.html:12
+#: .\users\templates\users\modules\user_table.html:13
 msgid "Age"
 msgstr ""
 
@@ -3321,14 +3321,14 @@ msgstr ""
 #: .\users\admin.py:23 .\users\models.py:183
 #: .\users\templates\users\base_profile.html:172
 #: .\users\templates\users\forms\edit-user-form.html:17
-#: .\users\templates\users\modules\user_table.html:16
+#: .\users\templates\users\modules\user_table.html:17
 msgid "Club"
 msgstr ""
 
 #: .\users\forms.py:22 .\users\models.py:41
 #: .\users\templates\users\base_profile.html:94
 #: .\users\templates\users\forms\edit-personal-form.html:65
-#: .\users\templates\users\modules\user_table.html:14
+#: .\users\templates\users\modules\user_table.html:15
 msgid "Job title"
 msgstr ""
 
@@ -3433,7 +3433,7 @@ msgid "email address"
 msgstr ""
 
 #: .\users\models.py:174 .\users\templates\users\base_profile.html:168
-#: .\users\templates\users\modules\user_table.html:18
+#: .\users\templates\users\modules\user_table.html:19
 msgid "Version"
 msgstr ""
 
@@ -3479,31 +3479,31 @@ msgstr ""
 msgid "User Payment Information card"
 msgstr ""
 
-#: .\users\serializers.py:164
+#: .\users\serializers.py:165
 msgid "MA"
 msgstr ""
 
-#: .\users\serializers.py:166
+#: .\users\serializers.py:167
 msgid "CA"
 msgstr ""
 
-#: .\users\serializers.py:181
+#: .\users\serializers.py:182
 msgid "Active"
 msgstr ""
 
-#: .\users\serializers.py:184 .\users\templates\users\base_profile.html:152
+#: .\users\serializers.py:185 .\users\templates\users\base_profile.html:152
 msgid "Archive"
 msgstr ""
 
-#: .\users\serializers.py:188 .\users\templates\users\base_profile.html:156
+#: .\users\serializers.py:189 .\users\templates\users\base_profile.html:156
 msgid "Club license expired"
 msgstr ""
 
-#: .\users\serializers.py:192 .\users\templates\users\base_profile.html:154
+#: .\users\serializers.py:193 .\users\templates\users\base_profile.html:154
 msgid "License expired"
 msgstr ""
 
-#: .\users\serializers.py:196
+#: .\users\serializers.py:197
 msgid "Not active"
 msgstr ""
 
@@ -3580,7 +3580,7 @@ msgstr ""
 
 #: .\users\templates\users\base_profile.html:221
 #: .\users\templates\users\forms\edit-personal-form.html:121
-#: .\users\templates\users\forms\edit-user-form.html:53
+#: .\users\templates\users\forms\edit-user-form.html:61
 msgid "Save Changes"
 msgstr ""
 
@@ -3588,23 +3588,27 @@ msgstr ""
 msgid "Program license"
 msgstr ""
 
+#: .\users\templates\users\forms\edit-user-form.html:54
+msgid "Demo version"
+msgstr ""
+
 #: .\users\templates\users\modules\management_client.html:39
 msgid "Generate a new password"
 msgstr ""
 
-#: .\users\templates\users\modules\user_table.html:9
+#: .\users\templates\users\modules\user_table.html:10
 msgid "License to"
 msgstr ""
 
-#: .\users\templates\users\modules\user_table.html:13
+#: .\users\templates\users\modules\user_table.html:14
 msgid "Birth"
 msgstr ""
 
-#: .\users\templates\users\modules\user_table.html:17
+#: .\users\templates\users\modules\user_table.html:18
 msgid "A"
 msgstr ""
 
-#: .\users\templates\users\modules\user_table.html:20
+#: .\users\templates\users\modules\user_table.html:21
 msgid "Access to"
 msgstr ""
 

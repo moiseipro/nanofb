@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-19 14:52+0300\n"
+"POT-Creation-Date: 2023-04-20 14:17+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1839,13 +1839,13 @@ msgstr ""
 
 #: .\authorization\forms.py:31 .\users\models.py:27
 #: .\users\templates\users\forms\edit-personal-form.html:17
-#: .\users\templates\users\modules\user_table.html:10
+#: .\users\templates\users\modules\user_table.html:11
 msgid "Last name"
 msgstr "Фамилия"
 
 #: .\authorization\forms.py:40 .\users\models.py:22
 #: .\users\templates\users\forms\edit-personal-form.html:9
-#: .\users\templates\users\modules\user_table.html:11
+#: .\users\templates\users\modules\user_table.html:12
 msgid "First name"
 msgstr "Имя"
 
@@ -1876,7 +1876,7 @@ msgstr "Регион"
 #: .\authorization\forms.py:99 .\users\models.py:48
 #: .\users\templates\users\base_profile.html:98
 #: .\users\templates\users\forms\edit-personal-form.html:73
-#: .\users\templates\users\modules\user_table.html:8
+#: .\users\templates\users\modules\user_table.html:9
 msgid "License"
 msgstr "Лицензия"
 
@@ -1995,7 +1995,7 @@ msgstr "Клубы"
 
 #: .\clubs\forms.py:85 .\users\admin.py:24 .\users\models.py:59
 #: .\users\templates\users\forms\edit-personal-form.html:92
-#: .\users\templates\users\modules\user_table.html:15
+#: .\users\templates\users\modules\user_table.html:16
 msgid "Country"
 msgstr "Страна"
 
@@ -2154,7 +2154,7 @@ msgid "To log in to the site, use this data."
 msgstr "Чтобы войти на сайт, используйте эти данные."
 
 #: .\clubs\templates\clubs\users_table.html:7
-#: .\users\templates\users\modules\user_table.html:7
+#: .\users\templates\users\modules\user_table.html:8
 msgid "Activation"
 msgstr "Активация"
 
@@ -3065,7 +3065,7 @@ msgid "Seasons"
 msgstr "Сезоны"
 
 #: .\references\templates\references\base_settings.html:47
-#: .\users\templates\users\modules\user_table.html:12
+#: .\users\templates\users\modules\user_table.html:13
 msgid "Age"
 msgstr "Возраст"
 
@@ -3337,14 +3337,14 @@ msgstr "Добавить всех игроков"
 #: .\users\admin.py:23 .\users\models.py:183
 #: .\users\templates\users\base_profile.html:172
 #: .\users\templates\users\forms\edit-user-form.html:17
-#: .\users\templates\users\modules\user_table.html:16
+#: .\users\templates\users\modules\user_table.html:17
 msgid "Club"
 msgstr "Клуб"
 
 #: .\users\forms.py:22 .\users\models.py:41
 #: .\users\templates\users\base_profile.html:94
 #: .\users\templates\users\forms\edit-personal-form.html:65
-#: .\users\templates\users\modules\user_table.html:14
+#: .\users\templates\users\modules\user_table.html:15
 msgid "Job title"
 msgstr "Должность"
 
@@ -3449,7 +3449,7 @@ msgid "email address"
 msgstr "адрес электронной почты"
 
 #: .\users\models.py:174 .\users\templates\users\base_profile.html:168
-#: .\users\templates\users\modules\user_table.html:18
+#: .\users\templates\users\modules\user_table.html:19
 msgid "Version"
 msgstr "Версия"
 
@@ -3495,31 +3495,31 @@ msgstr "Платежная информация"
 msgid "User Payment Information card"
 msgstr "Карточка платежной информации пользователя"
 
-#: .\users\serializers.py:164
+#: .\users\serializers.py:165
 msgid "MA"
 msgstr ""
 
-#: .\users\serializers.py:166
+#: .\users\serializers.py:167
 msgid "CA"
 msgstr ""
 
-#: .\users\serializers.py:181
+#: .\users\serializers.py:182
 msgid "Active"
 msgstr "Активно"
 
-#: .\users\serializers.py:184 .\users\templates\users\base_profile.html:152
+#: .\users\serializers.py:185 .\users\templates\users\base_profile.html:152
 msgid "Archive"
 msgstr "Архив"
 
-#: .\users\serializers.py:188 .\users\templates\users\base_profile.html:156
+#: .\users\serializers.py:189 .\users\templates\users\base_profile.html:156
 msgid "Club license expired"
 msgstr "Клубная лицензия истекла"
 
-#: .\users\serializers.py:192 .\users\templates\users\base_profile.html:154
+#: .\users\serializers.py:193 .\users\templates\users\base_profile.html:154
 msgid "License expired"
 msgstr "Лицензия истекла"
 
-#: .\users\serializers.py:196
+#: .\users\serializers.py:197
 msgid "Not active"
 msgstr "Не активно"
 
@@ -3564,7 +3564,8 @@ msgstr "Статус аккаунта"
 
 #: .\users\templates\users\base_profile.html:148
 msgid "License has expired, contact your administrator to renew"
-msgstr "Срок действия лицензии истек, обратитесь к администратору для продления"
+msgstr ""
+"Срок действия лицензии истек, обратитесь к администратору для продления"
 
 #: .\users\templates\users\base_profile.html:158
 msgid "Active to"
@@ -3596,7 +3597,7 @@ msgstr "Подтвердите пароль"
 
 #: .\users\templates\users\base_profile.html:221
 #: .\users\templates\users\forms\edit-personal-form.html:121
-#: .\users\templates\users\forms\edit-user-form.html:53
+#: .\users\templates\users\forms\edit-user-form.html:61
 msgid "Save Changes"
 msgstr "Сохранить изменения"
 
@@ -3604,23 +3605,27 @@ msgstr "Сохранить изменения"
 msgid "Program license"
 msgstr "Лицензия на программу"
 
+#: .\users\templates\users\forms\edit-user-form.html:54
+msgid "Demo version"
+msgstr "Демо версия"
+
 #: .\users\templates\users\modules\management_client.html:39
 msgid "Generate a new password"
 msgstr "Создать новый пароль"
 
-#: .\users\templates\users\modules\user_table.html:9
+#: .\users\templates\users\modules\user_table.html:10
 msgid "License to"
 msgstr "Лицензия до"
 
-#: .\users\templates\users\modules\user_table.html:13
+#: .\users\templates\users\modules\user_table.html:14
 msgid "Birth"
-msgstr "День рождения"
+msgstr "Д.Р."
 
-#: .\users\templates\users\modules\user_table.html:17
+#: .\users\templates\users\modules\user_table.html:18
 msgid "A"
 msgstr ""
 
-#: .\users\templates\users\modules\user_table.html:20
+#: .\users\templates\users\modules\user_table.html:21
 msgid "Access to"
 msgstr "Доступ до"
 

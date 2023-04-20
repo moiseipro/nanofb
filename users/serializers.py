@@ -77,7 +77,7 @@ class UserEditSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'id', 'email', 'club_id', 'registration_to'
+            'id', 'email', 'club_id', 'registration_to', 'is_archive', 'is_demo_mode'
         ]
 
 
@@ -102,7 +102,8 @@ class UserAllDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'id', 'email', 'club_id', 'date_last_login', 'date_joined', 'days_entered', 'is_active', 'registration_to', 'personal'
+            'id', 'email', 'club_id', 'date_last_login', 'date_joined', 'days_entered', 'is_active', 'registration_to',
+            'personal', 'is_archive', 'is_demo_mode'
         ]
 
 
@@ -201,6 +202,6 @@ class UserManagementSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'email', 'days_entered', 'is_active', 'admin_type', 'p_version', 'registration_to', 'groups',
             'last_name', 'first_name', 'job_title', 'date_birthsday', 'age', 'license', 'license_date', 'flag',
-            'activation', 'club_name', 'club_registration_to'
+            'activation', 'club_name', 'club_registration_to', 'is_archive'
         ]
-        datatables_always_serialize = ('id', 'groups', 'club_registration_to')
+        datatables_always_serialize = ('id', 'groups', 'club_registration_to', 'is_archive')

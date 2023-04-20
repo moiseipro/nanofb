@@ -2,6 +2,8 @@ var users_table;
 
 function generate_ajax_users_table(scroll_y = ''){
     users_table = $('#users-table').DataTable({
+        pageLength: 50,
+        lengthMenu: [ 50, 100 ],
         language: {
             url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
         },
@@ -28,6 +30,9 @@ function generate_ajax_users_table(scroll_y = ''){
             }
         },
         columns: [
+            {'data': 'id', render: function (data, type, row, meta) {
+                return meta.row + meta.settings._iDisplayStart + 1;
+            }, searchable: false},
             {'data': 'activation', 'name': 'activation', render: function (data, type, row, meta) {
                 console.log(data);
                 let html = `
@@ -67,11 +72,20 @@ function generate_ajax_users_table(scroll_y = ''){
                 } else {
                     date = data;
                 }
-                return date;
+                let start = moment(date, "DD/MM/YYYY");
+                let end = moment();
+                let days = start.diff(end, "days");
+                let style = ''
+                if (days < 15){
+                    style = 'text-danger font-weight-bold'
+                }
+                console.log(days)
+                let html = `<span class="${style}">${date}</span>`
+                return html;
             }},
             {'data': 'id', sortable: false, searchable: false, render: function (data, type, row, meta) {
                 let button_html = ``
-                button_html += `<button type="button" class="btn btn-sm btn-outline-danger mr-1 close-access-user py-0" data-id="${data}">X</button>`
+                button_html += `<button type="button" class="btn btn-sm btn-outline-dark mr-1 archive-user py-0 ${row.is_archive==1?'active':''}" data-id="${data}"><i class="fa fa-archive" aria-hidden="true"></i></button>`
                 return button_html;
             }},
         ],

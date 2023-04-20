@@ -13,7 +13,7 @@ $(window).on("load", function () {
         $('#user-management-block').removeClass('d-none').addClass('col-sm-7');
         $('#users-table-block').removeClass('col-sm-12').addClass('col-sm-5');
 
-        users_table.columns( [1,2,5,6,7,8,9,10,11,12,13] ).visible( false );
+        users_table.columns( [2,3,6,7,8,9,10,11,12,13,14] ).visible( false );
 
     })
 
@@ -22,7 +22,7 @@ $(window).on("load", function () {
         $('#user-management-block').addClass('d-none').removeClass('col-sm-7');
         $('#users-table-block').removeClass('col-sm-5').addClass('col-sm-12');
 
-        users_table.columns( [1,2,5,6,7,8,9,10,11,12,13] ).visible( true );
+        users_table.columns( [2,3,6,7,8,9,10,11,12,13,14] ).visible( true );
 
     })
 
@@ -41,10 +41,37 @@ $(window).on("load", function () {
     $('#edit-user-button').on('click', function () {
         if(!$('#edit-user-form').valid()) return
         let personal = $('#edit-user-form').serializeArray()
+        let has_demo = false;
+        for (const data of personal) {
+            if (data.name=='is_demo_mode'){
+                has_demo = true;
+            }
+        }
+        if (!has_demo){
+            personal.push({name:'is_demo_mode', value:'off'})
+        }
         let send_data = personal
         console.log(send_data);
 
         ajax_users_action('POST', send_data, 'edit', user_select_id, 'edit_user').then(function (data) {
+            console.log(data)
+        })
+    })
+
+    $('#users-table').on('click', '.archive-user', function () {
+        let is_archive
+        let user_id = $(this).attr('data-id')
+        if ($(this).hasClass('active')){
+            is_archive = 0
+            $(this).removeClass('active')
+        } else {
+            is_archive = 1
+            $(this).addClass('active')
+        }
+        let send_data = {'is_archive' : is_archive}
+        console.log(send_data);
+
+        ajax_users_action('POST', send_data, 'edit', user_id, 'edit_user').then(function (data) {
             console.log(data)
         })
     })
@@ -92,7 +119,11 @@ function load_user_data(id = -1) {
         let user = data.data
         for (const idKey in user) {
             $('select[name="'+idKey+'"]').val(user[idKey])
-            $('input[name="'+idKey+'"]').val(user[idKey])
+            if (idKey == 'is_demo_mode'){
+                $('input[name="'+idKey+'"]').prop('checked', user[idKey])
+            } else {
+                $('input[name="'+idKey+'"]').val(user[idKey])
+            }
             if (idKey == 'personal'){
                 for (const idKey2 in user.personal) {
                     //console.log(idKey2)

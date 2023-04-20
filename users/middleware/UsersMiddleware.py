@@ -13,7 +13,7 @@ class LicenseValidityCheck:
         # Code to be executed for each request before
         # the view (and later middleware) are called.
         print(request.path)
-        if not request.path == "/user/profile":
+        if not request.path == "/user/profile" and not request.path == "/login/logout":
             if not request.user.is_anonymous and not request.user.is_superuser:
                 if request.user.is_archive == 1:
                     print("Пользователь в архиве")
