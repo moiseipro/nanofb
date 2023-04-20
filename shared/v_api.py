@@ -113,6 +113,12 @@ def POST_add_link(request, cur_user):
         pass
     elif c_type == "exercise_club_folders":
         pass
+    elif c_type == "training_user":
+        pass
+    elif c_type == "training_club":
+        pass
+    elif c_type == "training_lite":
+        pass
     if f_obj:
         new_link = SharedLink(**c_dict)
         try:
@@ -146,6 +152,12 @@ def GET_get_link(request, cur_user=None):
             pass
         elif c_type == "exercise_club_folders":
             pass
+        elif c_type == "training_user":
+            pass
+        elif c_type == "training_club":
+            pass
+        elif c_type == "training_lite":
+            pass
         if f_obj:
             c_link = SharedLink.objects.filter(**f_dict).first()
     else:
@@ -169,6 +181,15 @@ def GET_get_link(request, cur_user=None):
                     data['exercise'] = exercises_v_api.GET_get_exs_one(request, -1, -1, {'f_type': FOLDER_TEAM, 'exs': c_link.exercise_user.id})
                 elif c_link.exercise_club != None:
                     pass
+                elif c_link.training_user != None:
+                    c_html_file = "shared/base_shared_training.html"
+                    data['training'] = None
+                elif c_link.training_club != None:
+                    c_html_file = "shared/base_shared_training.html"
+                    data['training'] = None
+                elif c_link.training_lite != None:
+                    c_html_file = "shared/base_shared_training.html"
+                    data['training'] = None
                 if c_html_file:
                     return render(request, c_html_file, data)
     if cur_user:

@@ -2,8 +2,8 @@ from django.db import models
 from django.utils import timezone
 from users.models import User
 from exercises.models import AdminExercise, UserExercise, ClubExercise
-from trainings.models import UserTraining, ClubTraining
-from matches.models import UserMatch, ClubMatch
+from trainings.models import UserTraining, ClubTraining, LiteTraining
+from matches.models import UserMatch, ClubMatch, LiteMatch
 
 
 
@@ -18,7 +18,9 @@ class SharedLink(models.Model):
     exercise_club = models.ForeignKey(ClubExercise, on_delete=models.CASCADE, null=True, blank=True)
     training_user = models.ForeignKey(UserTraining, on_delete=models.CASCADE, null=True, blank=True)
     training_club = models.ForeignKey(ClubTraining, on_delete=models.CASCADE, null=True, blank=True)
+    training_lite = models.ForeignKey(LiteTraining, on_delete=models.CASCADE, null=True, blank=True)
     match_user = models.ForeignKey(UserMatch, on_delete=models.CASCADE, null=True, blank=True)
     match_club = models.ForeignKey(ClubMatch, on_delete=models.CASCADE, null=True, blank=True)
+    match_lite = models.ForeignKey(LiteMatch, on_delete=models.CASCADE, null=True, blank=True)
 
     objects = models.Manager()
