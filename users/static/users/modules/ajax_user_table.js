@@ -2,8 +2,6 @@ var users_table;
 
 function generate_ajax_users_table(scroll_y = ''){
     users_table = $('#users-table').DataTable({
-        // pageLength: 25,
-        // lengthMenu: [ 25, 50, 100 ],
         language: {
             url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
         },
@@ -13,6 +11,8 @@ function generate_ajax_users_table(scroll_y = ''){
         serverSide: true,
         processing: true,
         scrollY: scroll_y,
+        pageLength: 25,
+        lengthMenu: [ 25, 50, 100 ],
         rowCallback: function( row, data ) {
             console.log(data)
             $(row).attr('data-user', data.id)
@@ -24,7 +24,7 @@ function generate_ajax_users_table(scroll_y = ''){
             }
         },
         ajax: {
-            url:'/user/clients/api?format=datatables',
+            url:'/user/clients/api/?format=datatables',
             data: function(data){
                 console.log(data)
             }
