@@ -2,8 +2,8 @@ var users_table;
 
 function generate_ajax_users_table(scroll_y = ''){
     users_table = $('#users-table').DataTable({
-        pageLength: 25,
-        lengthMenu: [ 25, 50, 100 ],
+        // pageLength: 25,
+        // lengthMenu: [ 25, 50, 100 ],
         language: {
             url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
         },
