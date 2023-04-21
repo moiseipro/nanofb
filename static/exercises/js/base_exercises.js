@@ -520,7 +520,7 @@ function RenderContentInCardModalForEdit(data) {
     if (data && data.scheme_1 && data.scheme_1 != "") {
         $('#exerciseCopyModal').find('.graphics-content[data-id="scheme_1"]').html(`
             <div class="col-12">
-                <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_1}" alt="scheme" width="100%" height="100%"> 
+                <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_1}" alt="scheme" loading="lazy" width="100%" height="100%"> 
             </div>
         `);
     } else if (data && data.scheme_data && data.scheme_data[0]) {
@@ -533,7 +533,7 @@ function RenderContentInCardModalForEdit(data) {
     if (data && data.scheme_2 && data.scheme_2 != "") {
         $('#exerciseCopyModal').find('.graphics-content[data-id="scheme_2"]').html(`
             <div class="col-12">
-                <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_2}" alt="scheme" width="100%" height="100%"> 
+                <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_2}" alt="scheme" loading="lazy" width="100%" height="100%"> 
             </div>
         `);
     } else if (data && data.scheme_data && data.scheme_data[1]) {

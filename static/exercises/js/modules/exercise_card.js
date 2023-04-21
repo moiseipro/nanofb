@@ -365,7 +365,7 @@ function RenderExerciseOne(data) {
             let link = `http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_2}`;
             $('#carouselSchema').find('.carousel-item').first().before(`
                 <div class="carousel-item new-scheme" title="Рисунок 2 (новый)" data-type="scheme_2">
-                    <img src="${link}" alt="scheme" width="100%" height="100%">
+                    <img src="${link}" alt="scheme" loading="lazy" width="100%" height="100%">
                 </div>
             `);
             $('#carouselSchema').find('.carousel-indicators > li').last().after(`
@@ -377,7 +377,7 @@ function RenderExerciseOne(data) {
             let link = `http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_1}`;
             $('#carouselSchema').find('.carousel-item').first().before(`
                 <div class="carousel-item new-scheme" title="Рисунок 1 (новый)" data-type="scheme_1">
-                    <img src="${link}" alt="scheme" width="100%" height="100%">
+                    <img src="${link}" alt="scheme" loading="lazy" width="100%" height="100%">
                 </div>
             `);
             $('#carouselSchema').find('.carousel-indicators > li').last().after(`

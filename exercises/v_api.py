@@ -1285,8 +1285,7 @@ def POST_edit_exs(request, cur_user, cur_team):
         c_exs.field_goal = set_by_language_code(c_exs.field_goal, request.LANGUAGE_CODE, request.POST.get("data[field_goal]", ""))
         c_exs.field_age = set_by_language_code(c_exs.field_age, request.LANGUAGE_CODE, request.POST.get("data[field_age]", ""))
         c_exs.field_task = set_by_language_code(c_exs.field_task, request.LANGUAGE_CODE, request.POST.get("data[field_task]", ""))
-    
-    c_exs.description = set_by_language_code(c_exs.description, request.LANGUAGE_CODE, request.POST.get("data[description]", ""))
+        c_exs.description = set_by_language_code(c_exs.description, request.LANGUAGE_CODE, request.POST.get("data[description]", ""))
     c_exs.description_trainer = set_by_language_code(c_exs.description_trainer, request.LANGUAGE_CODE, request.POST.get("data[description_trainer]", ""))
     if cur_user.is_superuser:
         description_template = ExsDescriptionTemplate.objects.filter().first()
@@ -1296,10 +1295,6 @@ def POST_edit_exs(request, cur_user, cur_team):
         description_template.save()
 
     c_exs.date_editing = datetime.datetime.now()
-
-    c_exs.scheme_1 = request.POST.get("data[scheme_1]", None)
-    c_exs.scheme_2 = request.POST.get("data[scheme_2]", None)
-
     if is_can_edit_full:
         c_exs.field_age_a = set_value_as_int(request, "data[field_age_a]", None)
         c_exs.field_age_b = set_value_as_int(request, "data[field_age_b]", None)
@@ -1322,7 +1317,6 @@ def POST_edit_exs(request, cur_user, cur_team):
         field_fields = set_value_as_list(request, "data[field_fields]", "data[field_fields][]", [])
         c_exs.field_fields = field_fields
 
-    if is_can_edit_full:
         video_links_links = set_value_as_list(request, "data[video_links_link[]]", "data[video_links_link[]][]", [])
         video_links_names = set_value_as_list(request, "data[video_links_name[]]", "data[video_links_name[]][]", [])
         video_links_notes = set_value_as_list(request, "data[video_links_note[]]", "data[video_links_note[]][]", [])
@@ -1336,8 +1330,7 @@ def POST_edit_exs(request, cur_user, cur_team):
                 })
                 pass
             c_exs.video_links = video_links
-    
-    if is_can_edit_full:
+        
         c_exs.tags.clear()
         tags_arr = set_value_as_list(request, "data[tags]", "data[tags][]", [])
         for c_tag in tags_arr:
@@ -1373,16 +1366,15 @@ def POST_edit_exs(request, cur_user, cur_team):
                 pass
             if f_tag is not None:
                 c_exs.tags.add(f_tag)
-    
-    if is_can_edit_full:
         c_exs = set_exs_additional_params(request, c_exs, folder_type)
-    
-    if is_can_edit_full:
+        
         video1_id = -1
         video2_id = -1
         animation1_id = -1
         animation2_id = -1
         if not copied_from_nfb:
+            c_exs.scheme_1 = request.POST.get("data[scheme_1]", None)
+            c_exs.scheme_2 = request.POST.get("data[scheme_2]", None)
             if type(c_exs.scheme_data) is dict:
                 c_exs.scheme_data['scheme_1'] = request.POST.get("data[scheme_1_old]")
                 c_exs.scheme_data['scheme_2'] = request.POST.get("data[scheme_2_old]")

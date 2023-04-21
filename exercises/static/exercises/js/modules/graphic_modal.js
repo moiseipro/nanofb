@@ -142,12 +142,12 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
     let htmlStr = `
         ${data && data.scheme_1 && data.scheme_1 != "" ? `
         <div class="carousel-item">
-            <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_1}" alt="scheme" width="100%" height="100%"> 
+            <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_1}" alt="scheme" loading="lazy" width="100%" height="100%"> 
         </div>
         ` : ''}
         ${data && data.scheme_2 && data.scheme_2 != "" ? `
         <div class="carousel-item">
-            <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_2}" alt="scheme" width="100%" height="100%"> 
+            <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_2}" alt="scheme" loading="lazy" width="100%" height="100%"> 
         </div>
         ` : ''}
         <div class="carousel-item">
