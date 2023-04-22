@@ -355,6 +355,12 @@ function RenderExerciseOne(data) {
         if (document.descriptionEditor2Trainer) {
             document.descriptionEditor2Trainer.setData(data.description_trainer);
         }
+        if (document.descriptionEditorViewFromFolders) {
+            document.descriptionEditorViewFromFolders.setData(data.description);
+        }
+        if (document.document.descriptionEditorViewFromFoldersTrainer) {
+            document.document.descriptionEditorViewFromFoldersTrainer.setData(data.description_trainer);
+        }
 
         $('#carouselSchema').find('.carousel-item.new-scheme').remove();
         $('#carouselSchema').find('.carousel-indicators > li.new-scheme').remove();
@@ -365,7 +371,29 @@ function RenderExerciseOne(data) {
             let link = `http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_2}`;
             $('#carouselSchema').find('.carousel-item').first().before(`
                 <div class="carousel-item new-scheme" title="Рисунок 2 (новый)" data-type="scheme_2">
-                    <img src="${link}" alt="scheme" loading="lazy" width="100%" height="100%">
+                    <div class="tempimg">
+                        <svg class="d-block bg-success mx-auto" height="100%" id="block" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <marker fill="#000000" id="arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                <marker fill="#ffffff" id="ffffffarrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                <marker fill="#ffff00" id="ffff00arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                <marker fill="#ff0000" id="ff0000arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                <marker fill="#000000" id="000000arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                <filter height="200%" id="f3" width="200%" x="0" y="0"><feOffset dx="5" dy="5" in="SourceAlpha" result="offOut"></feOffset><feGaussianBlur in="offOut" result="blurOut" stdDeviation="3"></feGaussianBlur><feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend></filter>
+                            </defs>
+                            <image data-height="400" data-width="600" height="100%" href="/static/schemeDrawer/img/plane/f01.svg" id="plane" width="100%" x="0" y="0"></image>
+                            <g id="selects"></g>
+                            <g id="figures"></g>
+                            <g id="lines"></g>
+                            <g id="objects"></g>
+                            <g id="dots"></g>
+                            <line id="xLine" stroke="red" stroke-dasharray="10" stroke-width="1" x1="-1" x2="-1" y1="0" y2="1600"></line>
+                            <line id="yLine" stroke="red" stroke-dasharray="10" stroke-width="1" x1="0" x2="2400" y1="-1" y2="-1"></line>
+                            <line id="xLine2" stroke="red" stroke-dasharray="10" stroke-width="1" x1="-2400" x2="-2400" y1="0" y2="1600"></line>
+                            <line id="yLine2" stroke="red" stroke-dasharray="10" stroke-width="1" x1="0" x2="2400" y1="-1600" y2="-1600"></line>
+                        </svg>
+                    </div>
+                    <img class="img-lazyload d-none" src="${link}" alt="scheme" width="100%" height="100%">
                 </div>
             `);
             $('#carouselSchema').find('.carousel-indicators > li').last().after(`
@@ -377,13 +405,41 @@ function RenderExerciseOne(data) {
             let link = `http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_1}`;
             $('#carouselSchema').find('.carousel-item').first().before(`
                 <div class="carousel-item new-scheme" title="Рисунок 1 (новый)" data-type="scheme_1">
-                    <img src="${link}" alt="scheme" loading="lazy" width="100%" height="100%">
+                    <div class="tempimg">
+                        <svg class="d-block bg-success mx-auto" height="100%" id="block" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <marker fill="#000000" id="arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                <marker fill="#ffffff" id="ffffffarrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                <marker fill="#ffff00" id="ffff00arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                <marker fill="#ff0000" id="ff0000arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                <marker fill="#000000" id="000000arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                <filter height="200%" id="f3" width="200%" x="0" y="0"><feOffset dx="5" dy="5" in="SourceAlpha" result="offOut"></feOffset><feGaussianBlur in="offOut" result="blurOut" stdDeviation="3"></feGaussianBlur><feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend></filter>
+                            </defs>
+                            <image data-height="400" data-width="600" height="100%" href="/static/schemeDrawer/img/plane/f01.svg" id="plane" width="100%" x="0" y="0"></image>
+                            <g id="selects"></g>
+                            <g id="figures"></g>
+                            <g id="lines"></g>
+                            <g id="objects"></g>
+                            <g id="dots"></g>
+                            <line id="xLine" stroke="red" stroke-dasharray="10" stroke-width="1" x1="-1" x2="-1" y1="0" y2="1600"></line>
+                            <line id="yLine" stroke="red" stroke-dasharray="10" stroke-width="1" x1="0" x2="2400" y1="-1" y2="-1"></line>
+                            <line id="xLine2" stroke="red" stroke-dasharray="10" stroke-width="1" x1="-2400" x2="-2400" y1="0" y2="1600"></line>
+                            <line id="yLine2" stroke="red" stroke-dasharray="10" stroke-width="1" x1="0" x2="2400" y1="-1600" y2="-1600"></line>
+                        </svg>
+                    </div>
+                    <img class="img-lazyload d-none" src="${link}" alt="scheme" width="100%" height="100%">
                 </div>
             `);
             $('#carouselSchema').find('.carousel-indicators > li').last().after(`
                 <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
             `);
         }
+        $('#carouselSchema').find('.carousel-item').find('.img-lazyload').each((index, elem) => {
+            $(elem).on('load', (e) => {
+                $(e.currentTarget).removeClass('d-none');
+                $(e.currentTarget).prev().addClass('d-none');
+            });
+        });
 
         $('#card_drawing1').find('.card').last().html(data.scheme_data[0]);
         $('#card_drawing2').find('.card').last().html(data.scheme_data[1]);
@@ -505,6 +561,12 @@ function RenderExerciseOne(data) {
         if (document.descriptionEditor2Trainer) {
             document.descriptionEditor2Trainer.disableReadOnlyMode('');
             document.descriptionEditor2Trainer.setData('');
+        }
+        if (document.descriptionEditorViewFromFolders) {
+            document.descriptionEditorViewFromFolders.setData('');
+        }
+        if (document.document.descriptionEditorViewFromFoldersTrainer) {
+            document.document.descriptionEditorViewFromFoldersTrainer.setData('');
         }
 
         // CheckMultiRows(exsCard, '', '.exs_edit_field[name="additional_data[]"]', 'additional_data');

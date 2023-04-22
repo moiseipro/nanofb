@@ -163,7 +163,7 @@ function RenderProtocolInMatch(data, selectedRow = -1) {
                 {"width": "5%", "targets": [1, 3, 4, 5, 6, 7, 8, 9, 10]},
                 {"width": "2%", "targets": [11, 12]},
                 {"className": "dt-vertical-center", "targets": "_all"},
-                {"width": "50%", "targets": [14]},
+                {"width": "60%", "targets": [14]},
                 {"visible": false, "targets": [14]}
             ]
         };

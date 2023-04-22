@@ -332,8 +332,8 @@ function CheckLastExs() {
     if (window.lastExercise && window.lastExercise.type) {
         $('.up-tabs-elem.folders-toggle').addClass('d-none');
         $(`.up-tabs-elem[data-id="${window.lastExercise.type}"]`).removeClass('d-none');
-        $('.folders-block > div').addClass('d-none');
-        $(`.folders-block > div[data-id="${window.lastExercise.type}"]`).removeClass('d-none');
+        $('.folders-block > div.folders-container > div.folders_div').addClass('d-none');
+        $(`.folders-block > div.folders-container > div.folders_div[data-id="${window.lastExercise.type}"]`).removeClass('d-none');
         setTimeout(() => {
             if (window.lastExercise.folder) {
                 if (window.lastExercise.type == "team_folders") {
@@ -520,7 +520,29 @@ function RenderContentInCardModalForEdit(data) {
     if (data && data.scheme_1 && data.scheme_1 != "") {
         $('#exerciseCopyModal').find('.graphics-content[data-id="scheme_1"]').html(`
             <div class="col-12">
-                <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_1}" alt="scheme" loading="lazy" width="100%" height="100%"> 
+                <div class="tempimg">
+                    <svg class="d-block bg-success mx-auto" height="100%" id="block" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <marker fill="#000000" id="arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                            <marker fill="#ffffff" id="ffffffarrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                            <marker fill="#ffff00" id="ffff00arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                            <marker fill="#ff0000" id="ff0000arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                            <marker fill="#000000" id="000000arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                            <filter height="200%" id="f3" width="200%" x="0" y="0"><feOffset dx="5" dy="5" in="SourceAlpha" result="offOut"></feOffset><feGaussianBlur in="offOut" result="blurOut" stdDeviation="3"></feGaussianBlur><feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend></filter>
+                        </defs>
+                        <image data-height="400" data-width="600" height="100%" href="/static/schemeDrawer/img/plane/f01.svg" id="plane" width="100%" x="0" y="0"></image>
+                        <g id="selects"></g>
+                        <g id="figures"></g>
+                        <g id="lines"></g>
+                        <g id="objects"></g>
+                        <g id="dots"></g>
+                        <line id="xLine" stroke="red" stroke-dasharray="10" stroke-width="1" x1="-1" x2="-1" y1="0" y2="1600"></line>
+                        <line id="yLine" stroke="red" stroke-dasharray="10" stroke-width="1" x1="0" x2="2400" y1="-1" y2="-1"></line>
+                        <line id="xLine2" stroke="red" stroke-dasharray="10" stroke-width="1" x1="-2400" x2="-2400" y1="0" y2="1600"></line>
+                        <line id="yLine2" stroke="red" stroke-dasharray="10" stroke-width="1" x1="0" x2="2400" y1="-1600" y2="-1600"></line>
+                    </svg>
+                </div>
+                <img class="img-lazyload d-none" src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_1}" alt="scheme" width="100%" height="100%"> 
             </div>
         `);
     } else if (data && data.scheme_data && data.scheme_data[0]) {
@@ -533,7 +555,29 @@ function RenderContentInCardModalForEdit(data) {
     if (data && data.scheme_2 && data.scheme_2 != "") {
         $('#exerciseCopyModal').find('.graphics-content[data-id="scheme_2"]').html(`
             <div class="col-12">
-                <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_2}" alt="scheme" loading="lazy" width="100%" height="100%"> 
+                <div class="tempimg">
+                    <svg class="d-block bg-success mx-auto" height="100%" id="block" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <marker fill="#000000" id="arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                            <marker fill="#ffffff" id="ffffffarrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                            <marker fill="#ffff00" id="ffff00arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                            <marker fill="#ff0000" id="ff0000arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                            <marker fill="#000000" id="000000arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                            <filter height="200%" id="f3" width="200%" x="0" y="0"><feOffset dx="5" dy="5" in="SourceAlpha" result="offOut"></feOffset><feGaussianBlur in="offOut" result="blurOut" stdDeviation="3"></feGaussianBlur><feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend></filter>
+                        </defs>
+                        <image data-height="400" data-width="600" height="100%" href="/static/schemeDrawer/img/plane/f01.svg" id="plane" width="100%" x="0" y="0"></image>
+                        <g id="selects"></g>
+                        <g id="figures"></g>
+                        <g id="lines"></g>
+                        <g id="objects"></g>
+                        <g id="dots"></g>
+                        <line id="xLine" stroke="red" stroke-dasharray="10" stroke-width="1" x1="-1" x2="-1" y1="0" y2="1600"></line>
+                        <line id="yLine" stroke="red" stroke-dasharray="10" stroke-width="1" x1="0" x2="2400" y1="-1" y2="-1"></line>
+                        <line id="xLine2" stroke="red" stroke-dasharray="10" stroke-width="1" x1="-2400" x2="-2400" y1="0" y2="1600"></line>
+                        <line id="yLine2" stroke="red" stroke-dasharray="10" stroke-width="1" x1="0" x2="2400" y1="-1600" y2="-1600"></line>
+                    </svg>
+                </div>
+                <img class="img-lazyload d-none" src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_2}" alt="scheme" width="100%" height="100%"> 
             </div>
         `);
     } else if (data && data.scheme_data && data.scheme_data[1]) {
@@ -543,6 +587,12 @@ function RenderContentInCardModalForEdit(data) {
     } else {
         $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-scheme-2"]').css('display', 'none');
     }
+    $('#exerciseCopyModal').find('.img-lazyload').each((index, elem) => {
+        $(elem).on('load', (e) => {
+            $(e.currentTarget).removeClass('d-none');
+            $(e.currentTarget).prev().addClass('d-none');
+        });
+    });
     if (data && data.video_1 && data.video_1.id != -1) {
         $('#exerciseCopyModal').find('.graphics-content[data-id="video_1"]').html(`
             <div class="col-12">
@@ -796,6 +846,7 @@ $(function() {
     if (selectedTeam && selectedTeam != "") {
         let tText = $('#select-team').find(`option[value="${selectedTeam}"]`).text();
         $('.up-block-content').find('.folders-toggle[data-id="team_folders"]').find('span').first().text(`ПАПКИ "${tText}"`);
+        $('.folders-container').find('.folders-toggle[data-id="team_folders"]').find('span').first().text(`ПАПКИ "${tText}"`);
     }
 
 
@@ -1678,7 +1729,8 @@ $(function() {
         $('#exerciseShareModal').find('.link-qrcode').html('');
 
         let exsId = $('.exercises-block').find('.exs-elem.active').attr('data-id');
-        let folderType = $('.up-block-content').find('.folders-toggle:visible').first().attr('data-id');
+        // let folderType = $('.up-block-content').find('.folders-toggle:visible').first().attr('data-id');
+        let folderType = $('.folders-container').find('.folders-toggle:visible').first().attr('data-id');
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
             headers:{"X-CSRFToken": csrftoken},
@@ -1721,7 +1773,8 @@ $(function() {
             return;
         }
         let exsId = $('.exercises-block').find('.exs-elem.active').attr('data-id');
-        let folderType = $('.up-block-content').find('.folders-toggle:visible').first().attr('data-id');
+        // let folderType = $('.up-block-content').find('.folders-toggle:visible').first().attr('data-id');
+        let folderType = $('.folders-container').find('.folders-toggle:visible').first().attr('data-id');
         let expireDate = $('#exerciseShareModal').find('input[name="date"]').val();
         let options = {};
         $('#exerciseShareModal').find('input[type="checkbox"]:visible').each((ind, elem) => {
@@ -1990,7 +2043,8 @@ $(function() {
 
     // Open graphics in modal
     $('.visual-block').on('click', '.carousel-item', (e) => {
-        let folderType = $('.up-block-content').find('.folders-toggle:visible').first().attr('data-id');
+        // let folderType = $('.up-block-content').find('.folders-toggle:visible').first().attr('data-id');
+        let folderType = $('.folders-container').find('.folders-toggle:visible').first().attr('data-id');
         let id = -1;
         try {
             id = parseInt($('.exercises-block').find('.exs-elem.active').attr('data-id'));
@@ -2142,8 +2196,8 @@ $(function() {
     if (cFoldersSettings.type !== null && cFoldersSettings.type !== undefined) {
         $('.up-tabs-elem.folders-toggle').addClass('d-none');
         $(`.up-tabs-elem[data-id="${cFoldersSettings.type}"]`).removeClass('d-none');
-        $('.folders-block > div').addClass('d-none');
-        $(`.folders-block > div[data-id="${cFoldersSettings.type}"]`).removeClass('d-none');
+        $('.folders-block > div.folders-container > div.folders_div').addClass('d-none');
+        $(`.folders-block > div.folders-container > div.folders_div[data-id="${cFoldersSettings.type}"]`).removeClass('d-none');
         if (cFoldersSettings.type == "team_folders") {
             $('.toggle-filter-content').removeClass('btn-custom-outline-green');
             $('.toggle-filter-content').removeClass('btn-custom-outline-red');

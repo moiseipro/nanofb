@@ -43,7 +43,7 @@ let protocol_notes_table_options = {
         {"searchable": false, "orderable": false, "targets": [3]},
         {"width": "30%", "targets": 2},
         {"visible": false, "targets": 0},
-        {"width": "50%", "targets": 3},
+        {"width": "60%", "targets": 3},
         {"className": "dt-vertical-center", "targets": "_all"}
     ]
 };

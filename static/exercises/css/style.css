@@ -65,7 +65,7 @@
     height: 88vh !important;
 }
 .folders_list, .folders_nfb_list, .folders_club_list {
-    height: 80vh !important;
+    height: 73vh !important;
     overflow-y: auto;
 }
 .exs-list-group {
@@ -80,7 +80,10 @@
     height: 80vh !important;
     overflow-y: auto;
 }
-
+.description-panel-in-folders {
+    height: 70vh !important;
+    overflow-y: auto;
+}
 
 .left-col-card {
     height: 82vh !important;

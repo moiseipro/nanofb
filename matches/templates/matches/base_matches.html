@@ -53,9 +53,9 @@
                                 <button class="btn btn-sm btn-outline-primary toggle-collapse" type="button" id="" data-toggle="collapse" data-target="#collapse-notes" aria-expanded="false" aria-controls="collapseExample">
                                     Записи
                                 </button>
-                                <button class="btn btn-sm btn-outline-primary toggle-collapse" type="button" id="" data-toggle="collapse" data-target="#collapse-video" aria-expanded="false" aria-controls="collapseExample">
+                                <!-- <button class="btn btn-sm btn-outline-primary toggle-collapse" type="button" id="" data-toggle="collapse" data-target="#collapse-video" aria-expanded="false" aria-controls="collapseExample">
                                     Видео
-                                </button>
+                                </button> -->
                                 <button class="btn btn-sm btn-outline-primary toggle-collapse" type="button" id="" data-toggle="collapse" data-target="#collapse-settings" aria-expanded="false" aria-controls="collapseExample">
                                     Настройки
                                 </button>
@@ -166,7 +166,7 @@
                                 </div>
                                 <div class="col-7 px-1 collapse collapse-block" id="collapse-protocol">
                                     <div class="table-responsive">
-                                        <table id="protocol" class="table table-sm table-bordered dataTable" style="width:100%">
+                                        <table id="protocol" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
                                             <thead>
                                                 <tr>
                                                     <th class="team-type-order"></th>
@@ -210,7 +210,7 @@
                                 </div>
                                 <div class="col-7 px-1 collapse collapse-block" id="collapse-notes">
                                     <div class="table-responsive">
-                                        <table id="protocol_notes" class="table table-sm table-bordered dataTable" style="width:100%">
+                                        <table id="protocol_notes" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
                                             <thead>
                                                 <tr>
                                                     <th class="team-type-order"></th>
@@ -248,6 +248,16 @@
                             <div class="row mx-0"><div class="col-12 d-flex justify-content-center">
                                 <button class="btn btn-outline-danger" action="removeMatch" title="Удалить матч">
                                     <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                            </div></div>
+                            <div class="row mx-0 mt-2"><div class="col-12 d-flex justify-content-center">
+                                <button class="btn btn-outline-warning" action="printMatch" title="Распечатать">
+                                    <i class="fa fa-print" aria-hidden="true"></i>
+                                </button>
+                            </div></div>
+                            <div class="row mx-0"><div class="col-12 d-flex justify-content-center">
+                                <button class="btn btn-outline-warning" action="shareMatch" title="Поделиться">
+                                    <span class="icon-custom icon--share mt-1" style="--i-w: 1em; --i-h: 1em;"></span>
                                 </button>
                             </div></div>
                         </div>

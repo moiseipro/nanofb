@@ -555,6 +555,65 @@ $(function() {
     });
     ToggleFoldersView(false);
 
+    let cLang = $('#select-language').val();
+    try {
+        let watchdog_descriptionEditorViewFromFolders = new CKSource.EditorWatchdog();
+		watchdog_descriptionEditorViewFromFolders.setCreator((element, config) => {
+			return CKSource.Editor
+            .create(element, config)
+            .then( editor => {
+                document.descriptionEditorViewFromFolders = editor;
+                document.descriptionEditorViewFromFolders.enableReadOnlyMode('');
+                $('#descriptionEditorViewFromFolders').next().find('.ck-editor__top').addClass('d-none');
+                $('#descriptionEditorViewFromFolders').next().find('.ck-content.ck-editor__editable').addClass('borders-off');
+				return editor;
+			})
+		});
+        watchdog_descriptionEditorViewFromFolders.setDestructor(editor => {
+            return editor.destroy();
+        });
+		watchdog_descriptionEditorViewFromFolders.on('error', (error) => {
+            console.error("Error with CKEditor5: ", error);
+        });
+        watchdog_descriptionEditorViewFromFolders
+		.create(document.querySelector('#descriptionEditorViewFromFolders'), {
+			licenseKey: '',
+            language: cLang,
+            removePlugins: ['Title'],
+		})
+		.catch((error) => {
+            console.error("Error with CKEditor5: ", error);
+        });
+    } catch (e) {}
+    try {
+        let watchdog_descriptionEditorViewFromFoldersTrainer = new CKSource.EditorWatchdog();
+		watchdog_descriptionEditorViewFromFoldersTrainer.setCreator((element, config) => {
+			return CKSource.Editor
+            .create(element, config)
+            .then( editor => {
+                document.descriptionEditorViewFromFoldersTrainer = editor;
+                document.descriptionEditorViewFromFoldersTrainer.enableReadOnlyMode('');
+                $('#descriptionEditorViewFromFoldersTrainer').next().find('.ck-editor__top').addClass('d-none');
+                $('#descriptionEditorViewFromFoldersTrainer').next().find('.ck-content.ck-editor__editable').addClass('borders-off');
+				return editor;
+			})
+		});
+        watchdog_descriptionEditorViewFromFoldersTrainer.setDestructor(editor => {
+            return editor.destroy();
+        });
+		watchdog_descriptionEditorViewFromFoldersTrainer.on('error', (error) => {
+            console.error("Error with CKEditor5: ", error);
+        });
+        watchdog_descriptionEditorViewFromFoldersTrainer
+		.create(document.querySelector('#descriptionEditorViewFromFoldersTrainer'), {
+			licenseKey: '',
+            language: cLang,
+            removePlugins: ['Title'],
+		})
+		.catch((error) => {
+            console.error("Error with CKEditor5: ", error);
+        });
+    } catch (e) {}
 
     // Change exercise using keys and change content in graphic modal
     window.canChangeExs = true;
@@ -647,6 +706,30 @@ $(function() {
         ToggleFoldersView(true);
     });
 
+    window.split_sizes_tempo = [];
+    $('#toggleDescriptionInFolders').on('click', (e) => {
+        $('.folders-block').find('.folders-container').toggleClass('d-none');
+        $('.folders-block').find('.description-container').toggleClass('d-none');
+        if (!$('.folders-block').find('.description-container').hasClass('d-none')) {
+            try {
+                window.split_sizes_tempo = window.split.getSizes();
+                window.split.setSizes([40, 40]);
+            } catch(e) {}
+        } else {
+            try {
+                if (window.split_sizes_tempo.length == 2) {
+                    window.split.setSizes(window.split_sizes_tempo);
+                }
+            } catch(e) {}
+        }
+    });
+    $('.folders-block').on('click', 'button.toggle-description', (e) => {
+        let cId = $(e.currentTarget).attr('data-id');
+        $('.folders-block').find('.description-container').find('button.toggle-description').removeClass('active');
+        $(e.currentTarget).addClass('active');
+        $('.folders-block').find('.description-container').find('.description-panel').addClass('d-none');
+        $('.folders-block').find('.description-container').find(`.description-panel[data-id="${cId}"]`).removeClass('d-none');
+    });
 
     // Split columns
     window.dataForSplit = JSON.parse(localStorage.getItem('split_cols'));

@@ -83,7 +83,48 @@
         </div>
     </div>
     <div class="px-0 folders-block" id="splitCol_0">
-        {% include 'exercises/folders_list.html' %}
+        <div class="folders-container">
+            <div class="folders-toggle-container">
+                <button type="button" class="btn btn-success btn-sm btn-custom custom-green2 up-tabs-elem folders-toggle size-w-x mt-0 ml-2" data-id="nfb_folders" style="--w-x:95%;">
+                    <div class="">
+                        <span class="text-center text-uppercase ml-2">папки n.f.</span>
+                        <span class="exs_counter float-right">(...)</span>
+                    </div>
+                </button>
+                {% if show_club_folders %}
+                <button type="button" class="btn btn-warning btn-sm btn-custom custom-red2 up-tabs-elem folders-toggle size-w-x mt-0 ml-2 d-none" data-id="club_folders" style="--w-x:95%;">
+                    <div class="">
+                        <span class="text-center text-uppercase ml-2">папки "клуб"</span>
+                        <span class="exs_counter float-right">(...)</span>
+                    </div>
+                </button>
+                {% endif %}
+                <button type="button" class="btn btn-sm btn-custom custom-blue2 up-tabs-elem folders-toggle size-w-x mt-0 ml-2 d-none" data-id="team_folders" style="--w-x:95%;">
+                    <div class="">
+                        <span class="text-center text-uppercase ml-2">папки "команда"</span>
+                        <span class="exs_counter float-right">(...)</span>
+                    </div>
+                </button>
+            </div>
+            {% include 'exercises/folders_list.html' %}
+        </div>
+        <div class="description-container d-none">
+            <div>Описание:</div>
+            <div class="choose-description-panel">
+                <button type="button" class="btn btn-outline-secondary btn-sm toggle-description active" data-id="nf">
+                    Описание N.F.
+                </button>
+                <button type="button" class="btn btn-outline-secondary btn-sm toggle-description" data-id="trainer">
+                    Описание "Тренер"
+                </button>
+            </div>
+            <div class="description-panel description-panel-in-folders" data-id="nf">
+                <div id="descriptionEditorViewFromFolders" class="ckeditor" name=""></div>
+            </div>
+            <div class="description-panel description-panel-in-folders d-none" data-id="trainer">
+                <div id="descriptionEditorViewFromFoldersTrainer" class="ckeditor" name=""></div>
+            </div>
+        </div>
     </div>
     <div class="px-1 exercises-block" id="splitCol_1">
         <div class="row mt-2">
