@@ -358,8 +358,8 @@ function RenderExerciseOne(data) {
         if (document.descriptionEditorViewFromFolders) {
             document.descriptionEditorViewFromFolders.setData(data.description);
         }
-        if (document.document.descriptionEditorViewFromFoldersTrainer) {
-            document.document.descriptionEditorViewFromFoldersTrainer.setData(data.description_trainer);
+        if (document.descriptionEditorViewFromFoldersTrainer) {
+            document.descriptionEditorViewFromFoldersTrainer.setData(data.description_trainer);
         }
 
         $('#carouselSchema').find('.carousel-item.new-scheme').remove();
@@ -565,8 +565,8 @@ function RenderExerciseOne(data) {
         if (document.descriptionEditorViewFromFolders) {
             document.descriptionEditorViewFromFolders.setData('');
         }
-        if (document.document.descriptionEditorViewFromFoldersTrainer) {
-            document.document.descriptionEditorViewFromFoldersTrainer.setData('');
+        if (document.descriptionEditorViewFromFoldersTrainer) {
+            document.descriptionEditorViewFromFoldersTrainer.setData('');
         }
 
         // CheckMultiRows(exsCard, '', '.exs_edit_field[name="additional_data[]"]', 'additional_data');
