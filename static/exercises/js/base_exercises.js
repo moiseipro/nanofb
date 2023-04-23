@@ -597,8 +597,8 @@ function RenderContentInCardModalForEdit(data) {
         $('#exerciseCopyModal').find('.graphics-content[data-id="video_1"]').html(`
             <div class="col-12">
             ${'nftv' in data.video_1['links'] && data.video_1['links']['nftv'] != '' ? `
-                <video id="video-player-modal-copy-0" class="video-js resize-block video-copy-modal" poster="https://213.108.4.28/video/poster/${data.video_1['links']['nftv']}">
-                    <source src="https://213.108.4.28/video/player/${data.video_1['links']['nftv']}" type="video/mp4" />
+                <video id="video-player-modal-copy-0" class="video-js resize-block video-copy-modal" poster="http://213.108.4.28/video/poster/${data.video_1['links']['nftv']}">
+                    <source src="http://213.108.4.28/video/player/${data.video_1['links']['nftv']}" type="video/mp4" />
                 </video>
             ` : 'youtube' in data.video_1['links'] && data.video_1['links']['youtube'] != '' ? `
                 <video id="video-player-modal-copy-0" class="video-js resize-block video-copy-modal" poster="">
@@ -614,8 +614,8 @@ function RenderContentInCardModalForEdit(data) {
     //     $('#exerciseCopyModal').find('.graphics-content[data-id="video_2"]').html(`
     //         <div class="col-12">
     //         ${'nftv' in data.video_2['links'] && data.video_2['links']['nftv'] != '' ? `
-    //             <video id="video-player-modal-copy-1" class="video-js resize-block video-copy-modal" poster="https://213.108.4.28/video/poster/${data.video_2['links']['nftv']}">
-    //                 <source src="https://213.108.4.28/video/player/${data.video_2['links']['nftv']}" type="video/mp4" />
+    //             <video id="video-player-modal-copy-1" class="video-js resize-block video-copy-modal" poster="http://213.108.4.28/video/poster/${data.video_2['links']['nftv']}">
+    //                 <source src="http://213.108.4.28/video/player/${data.video_2['links']['nftv']}" type="video/mp4" />
     //             </video>
     //         ` : 'youtube' in data.video_2['links'] && data.video_2['links']['youtube'] != '' ? `
     //             <video id="video-player-modal-copy-1" class="video-js resize-block video-copy-modal" poster="">
@@ -631,8 +631,8 @@ function RenderContentInCardModalForEdit(data) {
         $('#exerciseCopyModal').find('.graphics-content[data-id="animation_1"]').html(`
             <div class="col-12">
             ${'nftv' in data.animation_1['links'] && data.animation_1['links']['nftv'] != '' ? `
-                <video id="video-player-modal-copy-2" class="video-js resize-block video-copy-modal" poster="https://213.108.4.28/video/poster/${data.animation_1['links']['nftv']}">
-                    <source src="https://213.108.4.28/video/player/${data.animation_1['links']['nftv']}" type="video/mp4" />
+                <video id="video-player-modal-copy-2" class="video-js resize-block video-copy-modal" poster="http://213.108.4.28/video/poster/${data.animation_1['links']['nftv']}">
+                    <source src="http://213.108.4.28/video/player/${data.animation_1['links']['nftv']}" type="video/mp4" />
                 </video>
             ` : 'youtube' in data.animation_1['links'] && data.animation_1['links']['youtube'] != '' ? `
                 <video id="video-player-modal-copy-2" class="video-js resize-block video-copy-modal" poster="">
@@ -648,8 +648,8 @@ function RenderContentInCardModalForEdit(data) {
     //     $('#exerciseCopyModal').find('.graphics-content[data-id="animation_2"]').html(`
     //         <div class="col-12">
     //         ${'nftv' in data.animation_2['links'] && data.animation_2['links']['nftv'] != '' ? `
-    //             <video id="video-player-modal-copy-3" class="video-js resize-block video-copy-modal" poster="https://213.108.4.28/video/poster/${data.animation_2['links']['nftv']}">
-    //                 <source src="https://213.108.4.28/video/player/${data.animation_2['links']['nftv']}" type="video/mp4" />
+    //             <video id="video-player-modal-copy-3" class="video-js resize-block video-copy-modal" poster="http://213.108.4.28/video/poster/${data.animation_2['links']['nftv']}">
+    //                 <source src="http://213.108.4.28/video/player/${data.animation_2['links']['nftv']}" type="video/mp4" />
     //             </video>
     //         ` : 'youtube' in data.animation_2['links'] && data.animation_2['links']['youtube'] != '' ? `
     //             <video id="video-player-modal-copy-3" class="video-js resize-block video-copy-modal" poster="">
