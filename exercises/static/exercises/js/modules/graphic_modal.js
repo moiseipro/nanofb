@@ -127,6 +127,7 @@ function LoadGraphicsModal(id = -1, f_type="team_folders", activeNum = 1) {
 }
 
 function RenderGraphicsModal(data = null, activeNum = 1) {
+    console.log(data)
     let activeExs = $('.exercises-list').find('.exs-elem.active');
     let videoWatched_1 = undefined;
     let videoWatched_2 = undefined;
@@ -341,8 +342,7 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
 			return CKSource.Editor
             .create(element, config)
             .then( editor => {
-                console.log("nn: ", data.description)
-                if (data !== null && data.description !== null) {
+                if (data !== null && data.description !== null && data.description !== undefined) {
                     editor.setData(data.description);
                 }
                 editor.enableReadOnlyMode('');
@@ -374,8 +374,7 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
 			return CKSource.Editor
             .create(element, config)
             .then( editor => {
-                console.log("tt: ", data.description_trainer)
-                if (data !== null && data.description_trainer !== null) {
+                if (data !== null && data.description_trainer !== null && data.description_trainer !== undefined) {
                     editor.setData(data.description_trainer);
                 }
                 editor.enableReadOnlyMode('');
