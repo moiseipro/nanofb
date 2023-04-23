@@ -102,6 +102,7 @@ $(function() {
 
 function LoadGraphicsModal(id = -1, f_type="team_folders", activeNum = 1) {
     let data = {'get_exs_graphic_content': 1, 'exs': id, 'f_type': f_type};
+    console.log(data)
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
         headers:{"X-CSRFToken": csrftoken},
@@ -121,13 +122,13 @@ function LoadGraphicsModal(id = -1, f_type="team_folders", activeNum = 1) {
             console.log(res);
         },
         complete: function (res) {
+            console.log(res)
             $('.page-loader-wrapper').fadeOut();
         }
     });
 }
 
 function RenderGraphicsModal(data = null, activeNum = 1) {
-    console.log(data)
     let activeExs = $('.exercises-list').find('.exs-elem.active');
     let videoWatched_1 = undefined;
     let videoWatched_2 = undefined;
