@@ -359,7 +359,9 @@ function CheckLastExs() {
         $(`.up-tabs-elem[data-id="${window.lastExercise.type}"]`).removeClass('d-none');
         $(`.up-tabs-elem[data-id="${window.lastExercise.type}"]`).addClass('selected');
         $('.folders-block > div.folders-container > div.folders_div').addClass('d-none');
+        $('.folders-block > div.folders-container > div.folders_div').removeClass('selected');
         $(`.folders-block > div.folders-container > div.folders_div[data-id="${window.lastExercise.type}"]`).removeClass('d-none');
+        $(`.folders-block > div.folders-container > div.folders_div[data-id="${window.lastExercise.type}"]`).addClass('selected');
         setTimeout(() => {
             if (window.lastExercise.folder) {
                 if (window.lastExercise.type == "team_folders") {
@@ -2225,7 +2227,9 @@ $(function() {
         $(`.up-tabs-elem[data-id="${cFoldersSettings.type}"]`).removeClass('d-none');
         $(`.up-tabs-elem[data-id="${cFoldersSettings.type}"]`).addClass('selected');
         $('.folders-block > div.folders-container > div.folders_div').addClass('d-none');
+        $('.folders-block > div.folders-container > div.folders_div').removeClass('selected');
         $(`.folders-block > div.folders-container > div.folders_div[data-id="${cFoldersSettings.type}"]`).removeClass('d-none');
+        $(`.folders-block > div.folders-container > div.folders_div[data-id="${cFoldersSettings.type}"]`).addClass('selected');
         if (cFoldersSettings.type == "team_folders") {
             $('.toggle-filter-content').removeClass('btn-custom-outline-green');
             $('.toggle-filter-content').removeClass('btn-custom-outline-red');
