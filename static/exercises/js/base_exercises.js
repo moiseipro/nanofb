@@ -54,22 +54,34 @@ function ToggleUpFilter(id, state) {
                 $('.folders_nfb_list').toggleClass('d-none', true);
                 $('.folders_club_list').toggleClass('d-none', false);
                 $('.folders_list').toggleClass('d-none', true);
+                $('.folders_nfb_list').toggleClass('selected', false);
+                $('.folders_club_list').toggleClass('selected', true);
+                $('.folders_list').toggleClass('selected', false);
                 $('.exercises-list').find('.list-group-item:not(.side-filter-elem)').removeClass('active');
                 $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
     
                 $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('d-none', true);
                 $('.up-tabs-elem[data-id="club_folders"]').toggleClass('d-none', false);
                 $('.up-tabs-elem[data-id="team_folders"]').toggleClass('d-none', true);
+                $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('selected', false);
+                $('.up-tabs-elem[data-id="club_folders"]').toggleClass('selected', true);
+                $('.up-tabs-elem[data-id="team_folders"]').toggleClass('selected', false);
             } else {
                 $('.folders_nfb_list').toggleClass('d-none', true);
                 $('.folders_club_list').toggleClass('d-none', true);
                 $('.folders_list').toggleClass('d-none', false);
+                $('.folders_nfb_list').toggleClass('selected', false);
+                $('.folders_club_list').toggleClass('selected', false);
+                $('.folders_list').toggleClass('selected', true);
                 $('.exercises-list').find('.list-group-item:not(.side-filter-elem)').removeClass('active');
                 $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
     
                 $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('d-none', true);
                 $('.up-tabs-elem[data-id="club_folders"]').toggleClass('d-none', true);
                 $('.up-tabs-elem[data-id="team_folders"]').toggleClass('d-none', false);
+                $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('selected', false);
+                $('.up-tabs-elem[data-id="club_folders"]').toggleClass('selected', false);
+                $('.up-tabs-elem[data-id="team_folders"]').toggleClass('selected', true);
             }
 
             $('#exerciseCopyModal').find('select[name="copy_mode"]').val('1');
@@ -85,7 +97,7 @@ function ToggleUpFilter(id, state) {
             CountExsInFoldersByType();
             ToggleTagsView();
 
-            folderType = $('.folders_div:not(.d-none)').attr('data-id');
+            folderType = $('.folders_div.selected').attr('data-id');
             $('.exs-edit-block').find('.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
             break;
         case "club_folders":
@@ -112,10 +124,16 @@ function ToggleUpFilter(id, state) {
             $('.folders_nfb_list').toggleClass('d-none', true);
             $('.folders_club_list').toggleClass('d-none', true);
             $('.folders_list').toggleClass('d-none', false);
+            $('.folders_nfb_list').toggleClass('selected', false);
+            $('.folders_club_list').toggleClass('selected', false);
+            $('.folders_list').toggleClass('selected', true);
 
             $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('d-none', true);
             $('.up-tabs-elem[data-id="club_folders"]').toggleClass('d-none', true);
             $('.up-tabs-elem[data-id="team_folders"]').toggleClass('d-none', false);
+            $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('selected', false);
+            $('.up-tabs-elem[data-id="club_folders"]').toggleClass('selected', false);
+            $('.up-tabs-elem[data-id="team_folders"]').toggleClass('selected', true);
             CountFilteredExs();
 
             $('.toggle-filter-content').removeClass('btn-custom-outline-green');
@@ -127,7 +145,7 @@ function ToggleUpFilter(id, state) {
             CountExsInFoldersByType();
             ToggleTagsView();
 
-            folderType = $('.folders_div:not(.d-none)').attr('data-id');
+            folderType = $('.folders_div.selected').attr('data-id');
             $('.exs-edit-block').find('.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
             break;
         case "team_folders":
@@ -154,12 +172,18 @@ function ToggleUpFilter(id, state) {
             $('.folders_nfb_list').toggleClass('d-none', false);
             $('.folders_club_list').toggleClass('d-none', true);
             $('.folders_list').toggleClass('d-none', true);
+            $('.folders_nfb_list').toggleClass('selected', true);
+            $('.folders_club_list').toggleClass('selected', false);
+            $('.folders_list').toggleClass('selected', false);
             $('.exercises-list').find('.list-group-item:not(.side-filter-elem)').removeClass('active');
             $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
 
             $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('d-none', false);
             $('.up-tabs-elem[data-id="club_folders"]').toggleClass('d-none', true);
             $('.up-tabs-elem[data-id="team_folders"]').toggleClass('d-none', true);
+            $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('selected', true);
+            $('.up-tabs-elem[data-id="club_folders"]').toggleClass('selected', false);
+            $('.up-tabs-elem[data-id="team_folders"]').toggleClass('selected', false);
 
             $('#exerciseCopyModal').find('select[name="copy_mode"]').prop('disabled', false);
             CountFilteredExs();
@@ -173,7 +197,7 @@ function ToggleUpFilter(id, state) {
             CountExsInFoldersByType();
             ToggleTagsView();
 
-            folderType = $('.folders_div:not(.d-none)').attr('data-id');
+            folderType = $('.folders_div.selected').attr('data-id');
             $('.exs-edit-block').find('.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
             break;
         case "share":
@@ -331,7 +355,9 @@ function CheckLastExs() {
     sessionStorage.setItem('last_exs', '');
     if (window.lastExercise && window.lastExercise.type) {
         $('.up-tabs-elem.folders-toggle').addClass('d-none');
+        $('.up-tabs-elem.folders-toggle').removeClass('selected');
         $(`.up-tabs-elem[data-id="${window.lastExercise.type}"]`).removeClass('d-none');
+        $(`.up-tabs-elem[data-id="${window.lastExercise.type}"]`).addClass('selected');
         $('.folders-block > div.folders-container > div.folders_div').addClass('d-none');
         $(`.folders-block > div.folders-container > div.folders_div[data-id="${window.lastExercise.type}"]`).removeClass('d-none');
         setTimeout(() => {
@@ -391,7 +417,7 @@ function getFormattedDateFromTodayWithDelta(delta=0) {
 
 function LoadExerciseFullName() {
     let cId = $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs');
-    let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+    let folderType = $('.folders_div.selected').attr('data-id');
     let resData = {};
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
@@ -467,7 +493,7 @@ function SaveExerciseFullName(exsId, folderType, key, value, lang, additional={}
 
 function ToggleTagsView() {
     let cId = $('.tags-filter-block').find('.toggle-tags-view.active').attr('data-id');
-    let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+    let folderType = $('.folders_div.selected').attr('data-id');
     $('.tags-filter-block').find('.list-group[data-t="self"]').find('.side-filter-elem').toggleClass('t-hidden', folderType == "nfb_folders");
     $('.tags-filter-block').find('.list-group[data-t="self"]').find('.side-filter-elem').toggleClass('d-none', folderType == "nfb_folders");
     $('.tags-filter-block').find('.tag-header[data-t="self"]').toggleClass('t-hidden', folderType == "nfb_folders");
@@ -1066,7 +1092,7 @@ $(function() {
         }
     });
     $('#exercisesChangeLangTitleModal').on('click', '.btn-move', (e) => {
-        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        let folderType = $('.folders_div.selected').attr('data-id');
         let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
         let newLangCode =  $('#exercisesChangeLangTitleModal').find('select[name="new_language"]').val();
         $('.page-loader-wrapper').fadeIn();
@@ -1094,7 +1120,7 @@ $(function() {
         });
     });
     $('#exercisesChangeLangTitleModal').on('click', '.btn-copy', (e) => {
-        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        let folderType = $('.folders_div.selected').attr('data-id');
         let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
         let newLangCode =  $('#exercisesChangeLangTitleModal').find('select[name="new_language"]').val();
         $('.page-loader-wrapper').fadeIn();
@@ -1210,7 +1236,7 @@ $(function() {
 
 
     $('#createExercise').on('click', (e) => {
-        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        let folderType = $('.folders_div.selected').attr('data-id');
         let cLink = `/exercises/exercise?id=new&type=${folderType}&section=card`;
         // window.location.href = cLink;
         $('#exerciseCardModalForEdit').find('iframe').addClass('d-none');
@@ -1247,7 +1273,7 @@ $(function() {
         let activeExsId = $(activeExs).attr('data-id');
         if ($(activeExs).length > 0) {
             let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
-            let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+            let folderType = $('.folders_div.selected').attr('data-id');
             let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
             let data = {'type': folderType, 'folder': folder, 'exs': activeExsId};
             data = JSON.stringify(data);
@@ -1489,7 +1515,7 @@ $(function() {
     let foldersLoadedForCopy = false;
     $('#exerciseCopyModal').on('show.bs.modal', (e) => {
         let isNfb = $('#exerciseCopyModal').find('input[name="nfb"]').val() == '1' && 
-            $('.folders_div:not(.d-none)').attr('data-id') == "nfb_folders" && 
+            $('.folders_div.selected').attr('data-id') == "nfb_folders" && 
             $('#exerciseCopyModal').find('[name="copy_mode"]').val() != '1';
         let htmlList = isNfb ? "folders_nfb_list" : "folders_list";
         let htmlElemInList = isNfb ? "folder-nfb-elem" : "folder-elem";
@@ -1544,7 +1570,7 @@ $(function() {
             }
             let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
             let selectedFolder = $('#exerciseCopyModal').find('.list-group-item.active').find('.folder-copy-elem').attr('data-id');
-            let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+            let folderType = $('.folders_div.selected').attr('data-id');
             let data = {
                 'move_exs': modeVal == '2' ? 1 : 0,
                 'copy_exs': modeVal == '1' ? 1 : 0,
@@ -1623,7 +1649,7 @@ $(function() {
     });
     $('#exerciseCopyModal').on('click', '.btn-video-move-apply', (e) => {
         let exsId = $('.exs-list-group').find('.exs-elem.active').attr('data-id');
-        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        let folderType = $('.folders_div.selected').attr('data-id');
         let selectedVideos = [$(e.currentTarget).attr('data-value')];
         if (selectedVideos.length > 0) {
             window.moveVideoFromExsToExs = {'f_type': folderType, 'exs_from': exsId, 'content': selectedVideos};
@@ -1636,7 +1662,7 @@ $(function() {
     });
     $('#exerciseCopyModal').on('click', '.btn-scheme-copy-apply', (e) => {
         let exsId = $('.exs-list-group').find('.exs-elem.active').attr('data-id');
-        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        let folderType = $('.folders_div.selected').attr('data-id');
         let selectedSchemes = [$(e.currentTarget).attr('data-value')];
         if (selectedSchemes.length > 0) {
             window.copySchemeFromExsToExs = {'f_type': folderType, 'exs_from': exsId, 'content': selectedSchemes};
@@ -1649,7 +1675,7 @@ $(function() {
     });
     $('.copy-modal-status').on('click', '.btn-apply', (e) => {
         if (window.moveVideoFromExsToExs) {
-            let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+            let folderType = $('.folders_div.selected').attr('data-id');
             let exsId = $('.exs-list-group').find('.exs-elem.active').attr('data-id');
             if (window.moveVideoFromExsToExs['f_type'] && window.moveVideoFromExsToExs['f_type'] == "nfb_folders" && folderType == "nfb_folders") {
                 swal({
@@ -1674,7 +1700,7 @@ $(function() {
                 $('.exercises-block').find('.copy-modal-status').addClass('d-none');
             }
         } else if (window.copySchemeFromExsToExs) {
-            let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+            let folderType = $('.folders_div.selected').attr('data-id');
             let exsId = $('.exs-list-group').find('.exs-elem.active').attr('data-id');
             swal({
                 title: "Вы точно хотите скопировать контент в это упражнение?",
@@ -1836,7 +1862,7 @@ $(function() {
         let fromNFB = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? 1 : 0;
         let cId = $(currentTarget).attr('data-id');
         let state = $(currentTarget).hasClass('selected');
-        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        let folderType = $('.folders_div.selected').attr('data-id');
         let dataToSend = {'edit_exs_user_params': 1, 'exs': exsId, 'nfb': fromNFB, 'type': folderType, 'data': {'key': cId, 'value': state ? 0 : 1}};
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
@@ -1888,7 +1914,7 @@ $(function() {
         let fromNFB = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? 1 : 0;
         let cId = $(e.currentTarget).attr('data-id');
         let state = $(e.currentTarget).hasClass('selected');
-        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        let folderType = $('.folders_div.selected').attr('data-id');
         let dataToSend = {'edit_exs_admin_options': 1, 'exs': exsId, 'nfb': fromNFB, 'type': folderType, 'data': {'key': cId, 'value': state ? 0 : 1}};
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
@@ -1941,7 +1967,7 @@ $(function() {
                     document.descriptionEditorAdmin[$(elem).val()].editing.view.document.on('change:isFocused', (evt, data, isFocused) => {
                         if (isFocused == false) {
                             let exsId = $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs');
-                            let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+                            let folderType = $('.folders_div.selected').attr('data-id');
                             let cVal = document.descriptionEditorAdmin[$(elem).val()].getData();
                             let cLangCode = $(elem).val();
                             SaveExerciseFullName(exsId, folderType, 'description', cVal, cLangCode);
@@ -1992,14 +2018,14 @@ $(function() {
     });
     $('#exerciseLangTitleModal').on('change', 'input.exs-title', (e) => {
         let exsId = $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs');
-        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        let folderType = $('.folders_div.selected').attr('data-id');
         let cVal = $(e.currentTarget).val();
         let cLangCode = $(e.currentTarget).attr('data-lang');
         SaveExerciseFullName(exsId, folderType, 'title', cVal, cLangCode);
     });
     $('#exerciseLangTitleModal').on('click', '.change-title-pos-prev', (e) => {
         let exsId = $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs');
-        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        let folderType = $('.folders_div.selected').attr('data-id');
         let cVal = $(e.currentTarget).parent().parent().find('input.exs-title').val();
         let cLangCode = $(e.currentTarget).parent().parent().find('input.exs-title').attr('data-lang');
         let prevRow = $(e.currentTarget).parent().parent().prevAll().not(".d-none").first();
@@ -2014,7 +2040,7 @@ $(function() {
     });
     $('#exerciseLangTitleModal').on('click', '.change-title-pos-next', (e) => {
         let exsId = $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs');
-        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        let folderType = $('.folders_div.selected').attr('data-id');
         let cVal = $(e.currentTarget).parent().parent().find('input.exs-title').val();
         let cLangCode = $(e.currentTarget).parent().parent().find('input.exs-title').attr('data-lang');
         let nextRow = $(e.currentTarget).parent().parent().nextAll().not(".d-none").first();
@@ -2195,7 +2221,9 @@ $(function() {
     }
     if (cFoldersSettings.type !== null && cFoldersSettings.type !== undefined) {
         $('.up-tabs-elem.folders-toggle').addClass('d-none');
+        $('.up-tabs-elem.folders-toggle').removeClass('selected');
         $(`.up-tabs-elem[data-id="${cFoldersSettings.type}"]`).removeClass('d-none');
+        $(`.up-tabs-elem[data-id="${cFoldersSettings.type}"]`).addClass('selected');
         $('.folders-block > div.folders-container > div.folders_div').addClass('d-none');
         $(`.folders-block > div.folders-container > div.folders_div[data-id="${cFoldersSettings.type}"]`).removeClass('d-none');
         if (cFoldersSettings.type == "team_folders") {
@@ -2251,7 +2279,7 @@ $(function() {
     $('#exerciseDownloadModal').on('click', 'button.btn-download', (e) => {
         let activeExs = $('.exs-list-group').find('.list-group-item.active');
         let activeExsId = $(activeExs).attr('data-id');
-        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        let folderType = $('.folders_div.selected').attr('data-id');
         let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
         let schemeRender_1 = $('#exerciseDownloadModal').find('input[name="scheme_1"]:visible').prop('checked') ? 1 : 0;
         let schemeRender_2 = $('#exerciseDownloadModal').find('input[name="scheme_2"]:visible').prop('checked') ? 1 : 0;
@@ -2276,12 +2304,12 @@ $(function() {
     // Open editable panel for exercise
     if (sessionStorage.getItem("exercises__exs_edit_panel") !== null) {
         $('.exs-edit-block').toggleClass('d-none', sessionStorage.getItem("exercises__exs_edit_panel") != '1');
-        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        let folderType = $('.folders_div.selected').attr('data-id');
         $('.exs-edit-block').find('.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
     }
     $('#toggleExsEditPanel').on('click', (e) => {
         $('.exs-edit-block').toggleClass('d-none');
-        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+        let folderType = $('.folders_div.selected').attr('data-id');
         $('.exs-edit-block').find('.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
         sessionStorage.setItem("exercises__exs_edit_panel", $('.exs-edit-block').hasClass('d-none') ? 0 : 1);
     });
@@ -2313,7 +2341,7 @@ $(function() {
                 }
             } else {
                 let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
-                let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+                let folderType = $('.folders_div.selected').attr('data-id');
                 let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
                 let linkForModal = `/exercises/exercise?id=${activeExsId}&nfb=${fromNfbFolder ? 1 : 0}&type=${folderType}&section=${cId}`;
                 $('#exerciseCardModalForEdit').find('iframe').addClass('d-none');
@@ -2381,7 +2409,7 @@ $(function() {
                         let sectionId = $('.exs-edit-block').find('.btn-o-modal.active').attr('data-id');
                         let activeExsId = $('.exs-list-group').find('.list-group-item.active').attr('data-id');
                         let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
-                        let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+                        let folderType = $('.folders_div.selected').attr('data-id');
                         let linkForModal = `/exercises/exercise?id=${activeExsId}&nfb=${fromNfbFolder ? 1 : 0}&type=${folderType}&section=${sectionId}`;
                         $('#exerciseCardModalForEdit').find('iframe').addClass('d-none');
                         $('#exerciseCardModalForEdit').find('iframe').attr('src', linkForModal);
@@ -2460,7 +2488,7 @@ $(function() {
                 } else {
                     exsId = $(activeExs).attr('data-id');
                 }
-                let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+                let folderType = $('.folders_div.selected').attr('data-id');
                 let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
                 let data = {'type': folderType, 'folder': folder, 'exs': exsId};
                 data = JSON.stringify(data);

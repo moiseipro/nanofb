@@ -67,7 +67,7 @@ function LoadFolderExercises() {
     let activeNfbRow = $('.folders_nfb_list').find('.list-group-item.active');
     if (activeRow.length <= 0 && activeNfbRow.length <= 0) {return;}
     let isNfbExs = activeNfbRow.length > 0;
-    let fType = $('.folders-block').find('.folders_div:not(.d-none)').attr('data-id');
+    let fType = $('.folders-block').find('.folders_div.selected').attr('data-id');
     let folderElemStr = isClub ? '.folder-club-elem' : '.folder-elem';
     let cFolderId = !isNfbExs ? $(activeRow).find(folderElemStr).attr('data-id') : $(activeNfbRow).find('.folder-nfb-elem').attr('data-id');
     let tExs = !isNfbExs ? exercises : exercises['nfb'];
@@ -301,7 +301,7 @@ function LoadExerciseOneHandler() {
     if ($(activeExs).length <= 0) {return;}
     let cId = $(activeExs).attr('data-id');
     let fromNFB = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? 1 : 0;
-    let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+    let folderType = $('.folders_div.selected').attr('data-id');
     LoadExerciseOne(cId, fromNFB, folderType);
     CountExsInFolder(true, true);
     try {
@@ -760,7 +760,7 @@ $(function() {
             swal("Внимание", "Выберите упражнение из списка.", "info");
         } else {
             let exsId = $(activeExs).attr('data-id');
-            let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+            let folderType = $('.folders_div.selected').attr('data-id');
             let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
             let data = {'type': folderType, 'folder': folder, 'exs': exsId};
             data = JSON.stringify(data);

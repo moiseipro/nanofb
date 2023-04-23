@@ -99,8 +99,8 @@ function CountExsInFolder(useFilter = true, skipFolders = false) {
         }
     }
     let tagsElems = $('.tags-filter-block').find('.side-filter-elem[data-type="tags"]');
-    let folderType = $('.folders_div:not(.d-none)').attr('data-id');
-    let folderId = $('.folders_div:not(.d-none)').find('.list-group-item.active > div').attr('data-id');
+    let folderType = $('.folders_div.selected').attr('data-id');
+    let folderId = $('.folders_div.selected').find('.list-group-item.active > div').attr('data-id');
     let exerciseId = $('.exercises-list').find('.exs-elem.active').attr('data-id');
     for (let i = 0; i < tagsElems.length; i++) {
         let tagElem = $(tagsElems[i]);
@@ -129,7 +129,7 @@ function CountExsInFolder(useFilter = true, skipFolders = false) {
 
 function CountFilteredExs() {
     let res = 0;
-    $('.folders-block').find('.folders_div:not(.d-none)').find('[data-root="0"]').find('.folder-exs-counter').each((ind, elem) =>{
+    $('.folders-block').find('.folders_div.selected').find('[data-root="0"]').find('.folder-exs-counter').each((ind, elem) =>{
         let tVal = 0;
         try {
             tVal = parseInt($(elem).text());
@@ -150,7 +150,7 @@ function CountFilteredExs() {
 
 function CountExsInFoldersByType() {
     let res = 0;
-    $('.folders-block').find('.folders_div:not(.d-none)').find('[data-root="0"]').find('.folder-exs-counter').each((ind, elem) =>{
+    $('.folders-block').find('.folders_div.selected').find('[data-root="0"]').find('.folder-exs-counter').each((ind, elem) =>{
         let tVal = 0;
         try {
             tVal = parseInt($(elem).text());
