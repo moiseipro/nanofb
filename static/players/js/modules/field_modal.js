@@ -23,7 +23,7 @@ function SetLabelsToField(customId = null, labels = null, labelSize = "20px") {
                 }
             }
             $(fieldElem).append(`
-                <div class="circle-label ${customId === null ? "draggable ui-widget-content" : "custom"}" data-id="${label.id}"
+                <div class="circle-label ${customId === null ? "draggable ui-widget-content" : "custom"}" data-id="${label.id} "data-color="${label.color}"
                     style="${posStr} --lbl-size: ${labelSize};"
                 >${label.id}</div>
             `);
@@ -42,11 +42,16 @@ $(function() {
     window.labelInitPos = null;
     window.fieldLabels = [];
     $('#fieldEditorModal').on('show.bs.modal', (e) => {
-        let labelsCount = 99;
+        let labelsCount = 100;
         $('#fieldEditorModal').find('.labels-selector').html('');
-        for (let i = 0; i < labelsCount; i++) {
-            $('#fieldEditorModal').find('.labels-selector').append(`
-                <div class="circle-label" data-id="${i+1}">${i+1}</div>
+        for (let i = 0; i < labelsCount / 2; i++) {
+            $('#fieldEditorModal').find('.labels-selector.selector-left').append(`
+                <div class="circle-label" data-id="${i+1}" data-color="c_gray">${i+1}</div>
+            `);
+        }
+        for (let i = labelsCount / 2; i < labelsCount-1; i++) {
+            $('#fieldEditorModal').find('.labels-selector.selector-right').append(`
+                <div class="circle-label" data-id="${i+1}" data-color="c_gray">${i+1}</div>
             `);
         }
         $('#fieldEditorModal').find('.draggable-zone').append(`
@@ -63,8 +68,9 @@ $(function() {
     
     $('#fieldEditorModal').on('click', '.circle-label:not(.draggable)', (e) => {
         let cId = $(e.currentTarget).attr('data-id');
+        let cColor = $(e.currentTarget).attr('data-color');
         $('#fieldEditorModal').find('.draggable-zone').append(`
-            <div class="circle-label draggable ui-widget-content" data-id="${cId}">${cId}</div>
+            <div class="circle-label draggable ui-widget-content" data-id="${cId}" data-color="${cColor}">${cId}</div>
         `);
         $('#fieldEditorModal').find('.circle-label.draggable').draggable({
             containment: "parent",
@@ -84,6 +90,11 @@ $(function() {
                 break;
         }
     });
+
+    $('#fieldEditorModal').on('change', 'select.change-labels-color', (e) => {
+        let val = $(e.currentTarget).val();
+        $('#fieldEditorModal').find('.circle-label:not(.draggable)').attr('data-color', val);
+    });
     
     $('#fieldEditorModal').on('click', 'button[name="save"]', (e) => {
         let labels = [];
@@ -99,6 +110,7 @@ $(function() {
             };
             labels.push({
                 'id': $(elem).attr('data-id'),
+                'color': $(elem).attr('data-color'),
                 'coords': elemCoords
             });
         });

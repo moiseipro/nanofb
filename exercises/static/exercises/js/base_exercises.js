@@ -2294,15 +2294,34 @@ $(function() {
         let activeExs = $('.exs-list-group').find('.list-group-item.active');
         let activeExsId = $(activeExs).attr('data-id');
         if ($(activeExs).length > 0) {
-            let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
-            let folderType = $('.folders_div:not(.d-none)').attr('data-id');
-            let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
-            let linkForModal = `/exercises/exercise?id=${activeExsId}&nfb=${fromNfbFolder ? 1 : 0}&type=${folderType}&section=${cId}`;
-            $('#exerciseCardModalForEdit').find('iframe').addClass('d-none');
-            $('#exerciseCardModalForEdit').find('iframe').attr('src', linkForModal);
-            $('#exerciseCardModalForEdit').modal('show');
-            $('#exerciseCardModalForEdit').find('.btn-change-exs').removeClass('d-none');
-            $(e.currentTarget).addClass('active');
+            if (cId == "description") {
+                $('.folders-block').find('.folders-container').toggleClass('d-none');
+                $('.folders-block').find('.description-container').toggleClass('d-none');
+                if (!$('.folders-block').find('.description-container').hasClass('d-none')) {
+                    $(e.currentTarget).addClass('active');
+                    try {
+                        window.split_sizes_tempo = window.split.getSizes();
+                        window.split.setSizes([40, 40]);
+                    } catch(e) {}
+                } else {
+                    $(e.currentTarget).removeClass('active');
+                    try {
+                        if (window.split_sizes_tempo.length == 2) {
+                            window.split.setSizes(window.split_sizes_tempo);
+                        }
+                    } catch(e) {}
+                }
+            } else {
+                let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
+                let folderType = $('.folders_div:not(.d-none)').attr('data-id');
+                let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
+                let linkForModal = `/exercises/exercise?id=${activeExsId}&nfb=${fromNfbFolder ? 1 : 0}&type=${folderType}&section=${cId}`;
+                $('#exerciseCardModalForEdit').find('iframe').addClass('d-none');
+                $('#exerciseCardModalForEdit').find('iframe').attr('src', linkForModal);
+                $('#exerciseCardModalForEdit').modal('show');
+                $('#exerciseCardModalForEdit').find('.btn-change-exs').removeClass('d-none');
+                $(e.currentTarget).addClass('active');
+            }
         } else {
             swal("Внимание", "Выберите упражнение из списка.", "info");
         }

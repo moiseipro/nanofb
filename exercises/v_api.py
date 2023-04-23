@@ -13,7 +13,7 @@ from references.models import ExsDescriptionTemplate
 from video.models import Video
 from nanofootball.views import util_check_access
 from video.views import delete_video_obj_nf
-from trainings.models import UserTraining, ClubTraining
+from trainings.models import UserTraining, ClubTraining, UserTrainingExercise, ClubTrainingExercise
 import re
 import requests
 
@@ -758,11 +758,21 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             exercise['has_video_2'] = False
             exercise['has_animation_1'] = False
             exercise['has_animation_2'] = False
+            exercise['trainings_count'] = -1
             user_params = None
             video_1 = None
             video_2 = None
             anim_1 = None
             anim_2 = None
+            f_season = None
+            try:
+                cur_season = int(req.session['season'])
+                if req.user.club_id is not None:
+                    f_season = ClubSeason.objects.get(id=cur_season, club_id=req.user.club_id)
+                else:
+                    f_season = UserSeason.objects.get(id=cur_season, user_id=cur_user)
+            except:
+                pass
             if folder_type == FOLDER_TEAM:
                 if req.user.club_id is not None:
                     user_params = UserExerciseParam.objects.filter(exercise_club=exercise['id'], user=cur_user)
@@ -772,6 +782,12 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
                 video_2 = ExerciseVideo.objects.filter(exercise_user=exercise['id'], type=2).first()
                 anim_1 = ExerciseVideo.objects.filter(exercise_user=exercise['id'], type=3).first()
                 anim_2 = ExerciseVideo.objects.filter(exercise_user=exercise['id'], type=4).first()
+                exercise['trainings_count'] = 0
+                if f_season and f_season.id != None:
+                    if req.user.club_id is not None:
+                        exercise['trainings_count'] = UserTrainingExercise.objects.filter(exercise_id=exercise['id'], training_id__event_id__club_id=req.user.club_id, training_id__team_id=cur_team, training_id__event_id__date__range=[f_season.date_with, f_season.date_by]).count()
+                    else:
+                        exercise['trainings_count'] = UserTrainingExercise.objects.filter(exercise_id=exercise['id'], training_id__event_id__user_id=cur_user, training_id__team_id=cur_team, training_id__event_id__date__range=[f_season.date_with, f_season.date_by]).count()
             elif folder_type == FOLDER_NFB:
                 user_params = UserExerciseParam.objects.filter(exercise_nfb=exercise['id'], user=cur_user)
                 if cur_user.is_superuser:
@@ -2684,6 +2700,8 @@ def GET_get_exs_all(request, cur_user, cur_team):
             'opt_has_scheme': exercise['opt_has_scheme'],
             'visible': exercise['visible'],
             'visible_demo': exercise['visible_demo'],
+            'clone_nfb_id': exercise['clone_nfb_id'],
+            'trainings_count': exercise['trainings_count'],
         }
         videos_arr = get_exs_video_data(exercise['video_data'])
         anims_arr = get_exs_video_data(exercise['animation_data'])

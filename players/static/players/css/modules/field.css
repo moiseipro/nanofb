@@ -1,7 +1,7 @@
 .circle-label {
-    width: 25px;
-    height: 25px;
-    line-height: 25px;
+    width: 37px;
+    height: 37px;
+    line-height: 37px;
     border-radius: 50%;
     display: inline-block;
     color: rgb(61, 61, 61);
@@ -35,6 +35,47 @@
 }
 .circle-label.custom:hover {
     background-color: rgb(180, 180, 180);
+}
+
+.circle-label[data-color="c_gray"] {
+    background-color: rgb(180, 180, 180);
+    color: rgb(60, 60, 60);
+}
+.circle-label[data-color="c_gray"]:hover {
+    background-color: rgb(140, 140, 140);
+}
+.circle-label[data-color="c_gray"].custom:hover {
+    background-color: rgb(180, 180, 180);
+}
+.circle-label[data-color="c_red"] {
+    background-color: rgb(185, 20, 20);
+    color: rgb(200, 200, 200);
+}
+.circle-label[data-color="c_red"]:hover {
+    background-color: rgb(150, 15, 15);
+}
+.circle-label[data-color="c_red"].custom:hover {
+    background-color: rgb(185, 20, 20);
+}
+.circle-label[data-color="c_black"] {
+    background-color: rgb(0, 0, 0);
+    color: rgb(200, 200, 200);
+}
+.circle-label[data-color="c_black"]:hover {
+    background-color: rgb(40, 40, 40);
+}
+.circle-label[data-color="c_black"].custom:hover {
+    background-color: rgb(0, 0, 0);
+}
+.circle-label[data-color="c_yellow"] {
+    background-color: rgb(210, 210, 20);
+    color: rgb(60, 60, 60);
+}
+.circle-label[data-color="c_yellow"]:hover {
+    background-color: rgb(165, 165, 15);
+}
+.circle-label[data-color="c_yellow"].custom:hover {
+    background-color: rgb(210, 210, 20);
 }
 
 .draggable-zone {

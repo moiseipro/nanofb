@@ -64,6 +64,7 @@ def exercises(request):
         'refs': refs, 
         'is_exercises': True,
         'menu_exercises': 'active',
+        'show_folders_button': True,
         'exercises_tags': exs_tags,
         'video_params': video_params,
         'show_club_folders': is_show_club_folders,

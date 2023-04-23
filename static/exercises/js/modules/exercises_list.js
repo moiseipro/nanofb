@@ -27,6 +27,7 @@ function RenderSplitCols() {
     let stateColSize = $('.up-tabs-elem[data-id="cols_size"]').attr('data-state') == '1';
     // $('.exercises-list').find('div.gutter').toggleClass('d-none', !stateColSize);
     $('.exercises-list').find('div.gutter').toggleClass('d-none', false);
+    $('.exercises-list').find('div.gutter').addClass('my-2');
     ResizeSplitCols();
 }
 
@@ -267,6 +268,11 @@ function RenderFolderExercises(id, tExs) {
                     <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="lang" style="--w-x:24px; min-width: 24px; --h-x:24px;" title="">
                         <i class="fa fa-globe" aria-hidden="true"></i>
                     </button>
+                    ${exElem.trainings_count >= 0 ? `
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="" data-id="" style="--w-x:24px; min-width: 24px; --h-x:24px;" title="">
+                            <span style="${exElem.clone_nfb_id ? '' : 'color:#ad2d2d;'}">[${exElem.trainings_count}]</span>
+                        </button>
+                    ` : ''}
                 </div>
             </div>
         </li>
@@ -711,11 +717,13 @@ $(function() {
         $('.folders-block').find('.folders-container').toggleClass('d-none');
         $('.folders-block').find('.description-container').toggleClass('d-none');
         if (!$('.folders-block').find('.description-container').hasClass('d-none')) {
+            $('.exs-edit-block').find('.btn-o-modal[data-id="description"]').addClass('active');
             try {
                 window.split_sizes_tempo = window.split.getSizes();
                 window.split.setSizes([40, 40]);
             } catch(e) {}
         } else {
+            $('.exs-edit-block').find('.btn-o-modal[data-id="description"]').removeClass('active');
             try {
                 if (window.split_sizes_tempo.length == 2) {
                     window.split.setSizes(window.split_sizes_tempo);

@@ -67,6 +67,7 @@ def matches(request):
                     datetime.combine(f_season.date_by, datetime.max.time())
                 ],
             )
+        f_matches = f_matches.order_by('-event_id__date')
         for match in f_matches:
             match_obj = model_to_dict(match)
             match_obj['team_name'] = match.team_id.name

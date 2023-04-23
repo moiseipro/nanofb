@@ -1,5 +1,5 @@
 <div class="exercises-list split">
-    <div class="px-1 mt-2 exs-edit-block d-none" id="" style="width: 15%;">
+    <div class="px-1 exs-edit-block d-none" id="" style="width: 15%;">
         <div class="row mx-0">
             <div class="col-12 px-4 mt-2">
                 <button type="button" class="btn btn-sm btn-outline-danger btn-block" data-dismiss="panel" title="Свернуть">
@@ -58,12 +58,12 @@
             <div class="col-12 px-0 mt-4">
                 <ul class="list-group">
                     <li class="list-group-item py-1">
-                        <button type="button" class="btn btn-sm btn-outline-warning btn-block btn-edit-e" data-id="copy">
+                        <button type="button" class="btn btn-sm btn-outline-success btn-block btn-edit-e" data-id="copy">
                             Копировать
                         </button>
                     </li>
                     <li class="list-group-item py-1 {% if not user.is_superuser %}d-e-nf{% endif %}">
-                        <button type="button" class="btn btn-sm btn-outline-warning btn-block btn-edit-e" data-id="move">
+                        <button type="button" class="btn btn-sm btn-outline-success btn-block btn-edit-e" data-id="move">
                             Переместить
                         </button>
                     </li>
@@ -84,37 +84,38 @@
     </div>
     <div class="px-0 folders-block" id="splitCol_0">
         <div class="folders-container">
+            {% if show_folders_button %}
             <div class="folders-toggle-container">
-                <button type="button" class="btn btn-success btn-sm btn-custom custom-green2 up-tabs-elem folders-toggle size-w-x mt-0 ml-2" data-id="nfb_folders" style="--w-x:95%;">
+                <button type="button" class="btn btn-success btn-sm btn-custom custom-green2 up-tabs-elem folders-toggle size-w-x mt-2 ml-2" data-id="nfb_folders" style="--w-x:95%;">
                     <div class="">
                         <span class="text-center text-uppercase ml-2">папки n.f.</span>
                         <span class="exs_counter float-right">(...)</span>
                     </div>
                 </button>
                 {% if show_club_folders %}
-                <button type="button" class="btn btn-warning btn-sm btn-custom custom-red2 up-tabs-elem folders-toggle size-w-x mt-0 ml-2 d-none" data-id="club_folders" style="--w-x:95%;">
+                <button type="button" class="btn btn-warning btn-sm btn-custom custom-red2 up-tabs-elem folders-toggle size-w-x mt-2 ml-2 d-none" data-id="club_folders" style="--w-x:95%;">
                     <div class="">
                         <span class="text-center text-uppercase ml-2">папки "клуб"</span>
                         <span class="exs_counter float-right">(...)</span>
                     </div>
                 </button>
                 {% endif %}
-                <button type="button" class="btn btn-sm btn-custom custom-blue2 up-tabs-elem folders-toggle size-w-x mt-0 ml-2 d-none" data-id="team_folders" style="--w-x:95%;">
+                <button type="button" class="btn btn-sm btn-custom custom-blue2 up-tabs-elem folders-toggle size-w-x mt-2 ml-2 d-none" data-id="team_folders" style="--w-x:95%;">
                     <div class="">
                         <span class="text-center text-uppercase ml-2">папки "команда"</span>
                         <span class="exs_counter float-right">(...)</span>
                     </div>
                 </button>
             </div>
+            {% endif %}
             {% include 'exercises/folders_list.html' %}
         </div>
         <div class="description-container d-none">
-            <div>Описание:</div>
             <div class="choose-description-panel">
-                <button type="button" class="btn btn-outline-secondary btn-sm toggle-description active" data-id="nf">
+                <button type="button" class="btn btn-outline-secondary btn-sm toggle-description mt-2 active" data-id="nf">
                     Описание N.F.
                 </button>
-                <button type="button" class="btn btn-outline-secondary btn-sm toggle-description" data-id="trainer">
+                <button type="button" class="btn btn-outline-secondary btn-sm toggle-description mt-2" data-id="trainer">
                     Описание "Тренер"
                 </button>
             </div>
