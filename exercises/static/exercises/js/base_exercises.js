@@ -1757,8 +1757,7 @@ $(function() {
         $('#exerciseShareModal').find('.link-qrcode').html('');
 
         let exsId = $('.exercises-block').find('.exs-elem.active').attr('data-id');
-        // let folderType = $('.up-block-content').find('.folders-toggle:visible').first().attr('data-id');
-        let folderType = $('.folders-container').find('.folders-toggle:visible').first().attr('data-id');
+        let folderType = $('.folders-container').find('.folders-toggle.selected').first().attr('data-id');
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
             headers:{"X-CSRFToken": csrftoken},
@@ -1801,8 +1800,7 @@ $(function() {
             return;
         }
         let exsId = $('.exercises-block').find('.exs-elem.active').attr('data-id');
-        // let folderType = $('.up-block-content').find('.folders-toggle:visible').first().attr('data-id');
-        let folderType = $('.folders-container').find('.folders-toggle:visible').first().attr('data-id');
+        let folderType = $('.folders-container').find('.folders-toggle.selected').first().attr('data-id');
         let expireDate = $('#exerciseShareModal').find('input[name="date"]').val();
         let options = {};
         $('#exerciseShareModal').find('input[type="checkbox"]:visible').each((ind, elem) => {
@@ -2071,8 +2069,7 @@ $(function() {
 
     // Open graphics in modal
     $('.visual-block').on('click', '.carousel-item', (e) => {
-        // let folderType = $('.up-block-content').find('.folders-toggle:visible').first().attr('data-id');
-        let folderType = $('.folders-container').find('.folders-toggle:visible').first().attr('data-id');
+        let folderType = $('.folders-container').find('.folders-toggle.selected').first().attr('data-id');
         let id = -1;
         try {
             id = parseInt($('.exercises-block').find('.exs-elem.active').attr('data-id'));
