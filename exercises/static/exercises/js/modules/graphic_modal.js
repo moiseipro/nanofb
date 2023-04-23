@@ -341,6 +341,7 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
 			return CKSource.Editor
             .create(element, config)
             .then( editor => {
+                console.log("nn: ", data.description)
                 if (data !== null && data.description !== null) {
                     editor.setData(data.description);
                 }
@@ -373,6 +374,7 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
 			return CKSource.Editor
             .create(element, config)
             .then( editor => {
+                console.log("tt: ", data.description_trainer)
                 if (data !== null && data.description_trainer !== null) {
                     editor.setData(data.description_trainer);
                 }
