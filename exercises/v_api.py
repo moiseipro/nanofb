@@ -785,7 +785,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
                 exercise['trainings_count'] = 0
                 if f_season and f_season.id != None:
                     if req.user.club_id is not None:
-                        exercise['trainings_count'] = UserTrainingExercise.objects.filter(exercise_id=exercise['id'], training_id__event_id__club_id=req.user.club_id, training_id__team_id=cur_team, training_id__event_id__date__range=[f_season.date_with, f_season.date_by]).count()
+                        exercise['trainings_count'] = ClubTrainingExercise.objects.filter(exercise_id=exercise['id'], training_id__event_id__club_id=req.user.club_id, training_id__team_id=cur_team, training_id__event_id__date__range=[f_season.date_with, f_season.date_by]).count()
                     else:
                         exercise['trainings_count'] = UserTrainingExercise.objects.filter(exercise_id=exercise['id'], training_id__event_id__user_id=cur_user, training_id__team_id=cur_team, training_id__event_id__date__range=[f_season.date_with, f_season.date_by]).count()
             elif folder_type == FOLDER_NFB:
