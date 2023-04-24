@@ -1489,7 +1489,147 @@ def POST_edit_exs(request, cur_user, cur_team):
                 res_data += '\nCant add team params for exs.'
         elif folder_type == FOLDER_CLUB:
             pass
+    return JsonResponse({"data": res_data, "success": True}, status=200)
 
+
+def POST_edit_exs_custom(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on POST operation "Edit exercise custom using description or card". Editing exercise's object, UserExerciseParamTeam's object.
+    Only user with adminstrator status can edit NFB exercises.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
+    exs_id = -1
+    folder_id = -1
+    folder_type = request.POST.get("type", "")
+    edit_mode = request.POST.get("mode", "")
+    try:
+        exs_id = int(request.POST.get("exs", -1))
+    except:
+        pass
+    try:
+        folder_id = int(request.POST.get("data[folder_main]", -1))
+    except:
+        pass
+    c_exs = None
+    access_denied = False
+    copied_from_nfb = False
+    found_team = None
+    if request.user.club_id is not None:
+        found_team = ClubTeam.objects.filter(id=cur_team, club_id=request.user.club_id)
+    else:
+        found_team = UserTeam.objects.filter(id=cur_team, user_id=cur_user)
+    if folder_type == FOLDER_TEAM:
+        if not found_team or not found_team.exists() or found_team[0].id == None:
+            return JsonResponse({"err": "Team not found.", "success": False}, status=400)
+        if not util_check_access(cur_user, {
+            'perms_user': ["exercises.change_userexercise", "exercises.add_userexercise"], 
+            'perms_club': ["exercises.change_clubexercise", "exercises.add_clubexercise"]
+        }):
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        c_folder = None
+        if request.user.club_id is not None:
+            c_folder = ClubFolder.objects.filter(id=folder_id, club=request.user.club_id)
+        else:
+            c_folder = UserFolder.objects.filter(id=folder_id, user=cur_user)
+        if not c_folder.exists() or c_folder[0].id == None:
+            return JsonResponse({"err": "Folder not found.", "success": False}, status=400)
+        c_exs = None
+        if request.user.club_id is not None:
+            c_exs = ClubExercise.objects.filter(id=exs_id, club=request.user.club_id, team=found_team[0])
+        else:
+            c_exs = UserExercise.objects.filter(id=exs_id, user=cur_user)
+        if not c_exs.exists() or c_exs[0].id == None:
+            if request.user.club_id is not None:
+                c_exs = ClubExercise(user=cur_user, folder=c_folder[0], club=request.user.club_id, team=found_team[0])
+            else:
+                c_exs = UserExercise(user=cur_user, folder=c_folder[0])
+            try:
+                c_exs.save()
+            except Exception as e:
+                return JsonResponse({"err": "Can't edit the exs.", "success": False}, status=200)
+        else:
+            c_exs = c_exs[0]
+            c_exs.folder = c_folder[0]
+            copied_from_nfb = c_exs.clone_nfb_id != None
+    elif folder_type == FOLDER_NFB:
+        if not util_check_access(cur_user, {
+            'perms_user': ["exercises.change_adminexercise", "exercises.add_adminexercise"], 
+            'perms_club': ["exercises.change_adminexercise", "exercises.add_adminexercise"]
+        }):
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        c_folder = AdminFolder.objects.filter(id=folder_id, visible=True)
+        if not c_folder.exists() or c_folder[0].id == None:
+            return JsonResponse({"err": "Folder not found.", "success": False}, status=400)
+        c_exs = AdminExercise.objects.filter(id=exs_id)
+        if not c_exs.exists() or c_exs[0].id == None:
+            c_exs = AdminExercise(folder=c_folder[0])
+            try:
+                c_exs.save()
+            except Exception as e:
+                return JsonResponse({"err": "Can't edit the exs.", "success": False}, status=200)
+        else:
+            c_exs = c_exs[0]
+            c_exs.folder = c_folder[0]
+    elif folder_type == FOLDER_CLUB:
+        if not found_team or not found_team.exists() or found_team[0].id == None:
+            return JsonResponse({"err": "Team not found.", "success": False}, status=400)
+        if access_denied:
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        pass
+    if c_exs == None:
+            return JsonResponse({"err": "Exercise not found.", "success": False}, status=400)
+    print(request.POST)
+
+    is_can_edit_full = True
+    nfb_id = -1
+    try:
+        nfb_id = int(c_exs.clone_nfb_id)
+    except:
+        pass
+    found_admin_exercise = AdminExercise.objects.filter(id=nfb_id).first()
+    is_can_edit_full = found_admin_exercise == None
+    
+    if edit_mode == "card":
+        if is_can_edit_full:
+            c_exs.title = set_by_language_code(c_exs.title, request.LANGUAGE_CODE, request.POST.get("data[title]", ""))
+            c_exs.field_task = set_by_language_code(c_exs.field_task, request.LANGUAGE_CODE, request.POST.get("data[field_task]", ""))
+            c_exs.field_age_a = set_value_as_int(request, "data[field_age_a]", None)
+            c_exs.field_age_b = set_value_as_int(request, "data[field_age_b]", None)
+            c_exs.field_players_a = set_value_as_int(request, "data[field_players_a]", None)
+            c_exs.field_players_b = set_value_as_int(request, "data[field_players_b]", None)
+            c_exs.field_keyword_a = request.POST.get("data[field_keyword_a]", None)
+            c_exs.field_keyword_b = request.POST.get("data[field_keyword_b]", None)
+
+            field_categories = set_value_as_list(request, "data[field_categories]", "data[field_categories][]", [])
+            c_exs.field_categories = field_categories
+            field_types = set_value_as_list(request, "data[field_types]", "data[field_types][]", [])
+            c_exs.field_types = field_types
+            field_cognitive_loads = set_value_as_list(request, "data[field_cognitive_loads]", "data[field_cognitive_loads][]", [])
+            c_exs.field_cognitive_loads = field_cognitive_loads
+            field_fields = set_value_as_list(request, "data[field_fields]", "data[field_fields][]", [])
+            c_exs.field_fields = field_fields
+    elif edit_mode == "description":
+        if is_can_edit_full:
+            c_exs.description = set_by_language_code(c_exs.description, request.LANGUAGE_CODE, request.POST.get("data[description]", ""))
+        c_exs.description_trainer = set_by_language_code(c_exs.description_trainer, request.LANGUAGE_CODE, request.POST.get("data[description_trainer]", ""))
+
+    c_exs.date_editing = datetime.datetime.now()
+    res_data = ""
+    try:
+        c_exs.save()
+        res_data = f'Exs with id: [{c_exs.id}] is edited successfully. Mode: {edit_mode}'
+    except Exception as e:
+        print(e)
+        return JsonResponse({"err": "Can't edit the exs.", "success": False}, status=200)
     return JsonResponse({"data": res_data, "success": True}, status=200)
 
 

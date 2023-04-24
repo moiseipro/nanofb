@@ -118,12 +118,241 @@
                 <button type="button" class="btn btn-outline-secondary btn-sm toggle-description mt-2" data-id="trainer">
                     Описание "Тренер"
                 </button>
+                <button type="button" class="btn btn-secondary btn-sm edit-exercise mt-2" data-id="description">Редактировать</button>
             </div>
             <div class="description-panel description-panel-in-folders" data-id="nf">
                 <div id="descriptionEditorViewFromFolders" class="ckeditor" name=""></div>
             </div>
             <div class="description-panel description-panel-in-folders d-none" data-id="trainer">
                 <div id="descriptionEditorViewFromFoldersTrainer" class="ckeditor" name=""></div>
+            </div>
+        </div>
+        <div class="card-container d-none" id="exerciseCard">
+            <div class="container table-responsive px-0 card-table-container">
+                <table class="table table-sm table-bordered" style="table-layout: fixed;">
+                    <colgroup>
+                        <col span="1" style="width: 50%;">
+                        <col span="1" style="width: 50%;">
+                    </colgroup>
+                    <tbody class="">
+                        <tr class="bck-custom">
+                            <td colspan="2">
+                                <button type="button" class="btn btn-secondary btn-sm edit-exercise" data-id="card">Редактировать</button>
+                            </td>
+                        </tr>
+                        <tr class="bck-custom-color" style="--bck-color:#eee; --bck-color-h:#eee;">
+                            <td colspan="2" title="Название упражнения">
+                                <input name="title" class="form-control form-control-sm exs_edit_field text-center placeholder-font-weight" 
+                                    type="text" value="" placeholder="Название упражнения" autocomplete="off" 
+                                    style="--fw:700; background-color: #fff0; border-color: #fff0;" required="">
+                            </td>
+                        </tr>
+                        <tr class="bck-custom border-y-custom folder-container">
+                            <td colspan="2" title="Главные папки">
+                                <select name="folder_parent" class="form-control form-control-sm exs_edit_field nfb_folders d-none" required="" autocomplete="off">
+                                    {% for folder in nfb_folders %}
+                                        {% if folder.root %}
+                                            <option value="{{ folder.id }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                                <select name="folder_parent" class="form-control form-control-sm exs_edit_field team_folders" required="" autocomplete="off">
+                                    {% for folder in folders %}
+                                        {% if folder.root %}
+                                            <option value="{{ folder.id }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="bck-custom border-y-custom folder-container">
+                            <td colspan="2" title="Папки с упражнением">
+                                <select name="folder_main" class="form-control form-control-sm exs_edit_field nfb_folders d-none" required="" autocomplete="off">
+                                    {% for folder in nfb_folders %}
+                                        {% if not folder.root %}
+                                            <option value="{{ folder.id }}" data-parent="{{ folder.parent }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                                <select name="folder_main" class="form-control form-control-sm exs_edit_field team_folders" required="" autocomplete="off">
+                                    {% for folder in folders %}
+                                        {% if not folder.root %}
+                                            <option value="{{ folder.id }}" data-parent="{{ folder.parent }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="bck-custom-color text-center font-weight-bold" style="--bck-color:#eee; --bck-color-h:#eee;">
+                            <td class="align-middle folder-text" colspan="2"></td>
+                        </tr>
+                        <tr class="bck-custom">
+                            <td colspan="2">
+                                <input name="field_task" class="form-control form-control-sm exs_edit_field text-center" 
+                                    type="text" value="" placeholder="Задача" autocomplete="off" 
+                                    required="" title="Задача">
+                            </td>
+                        </tr>
+                        <tr class="bck-custom-color text-center font-weight-bold" style="--bck-color:#eee; --bck-color-h:#eee;">
+                            <td class="align-middle folder-text" colspan="2"></td>
+                        </tr>
+                        <tr class="bck-custom border-y-custom" data-id="card_block">
+                            <td class="text-center" title="Игроки с">
+                                <input name="field_players_a" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="Игроки с" autocomplete="off" min="0" max="50">
+                            </td>
+                            <td class="text-center" title="Игроки по">
+                                <input name="field_players_b" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="Игроки по" autocomplete="off" min="0" max="50">
+                            </td>
+                        </tr>
+                        <tr class="bck-custom border-y-custom" data-id="card_block">
+                            <td class="text-center" title="Возраст с">
+                                <input name="field_age_a" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="Возраст с" autocomplete="off" min="0" max="150">
+                            </td>
+                            <td class="text-center" title="Возраст по">
+                                <input name="field_age_b" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="Возраст по" autocomplete="off" min="0" max="150">
+                            </td>
+                        </tr>
+                        <tr class="bck-custom border-y-custom" data-id="card_block">
+                            <td class="text-center" title="Ключевое слово" colspan="2">
+                                <input name="field_keyword_a" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="Ключевое слово" autocomplete="off">
+                            </td>
+                        </tr>
+                        <tr class="bck-custom-color text-center font-weight-bold toggle-categories-block-0" style="--bck-color:#eee; --bck-color-h:#eee;">
+                            <td class="align-middle folder-text" colspan="2"></td>
+                        </tr>
+                        <tr class="bck-custom border-y-custom" data-id="categories_block">
+                            <td colspan="2">
+                                <div class="row mx-0">
+                                    <div class="col-12 px-0 my-1">
+                                        <div class="btn-group btn-group-custom-active categories-list w-100" role="group" aria-label="">
+                                            {% for elem in refs.exs_category %}
+                                            <button type="button" class="btn btn-outline-secondary btn-block my-0 mx-1" data-id="{{ elem.keycode }}">
+                                                {{ elem.title }}
+                                            </button>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="bck-custom-color text-center font-weight-bold" style="--bck-color:#eee; --bck-color-h:#eee;">
+                            <td class="align-middle folder-text" colspan="2"></td>
+                        </tr>
+                        <tr class="bck-custom border-y-custom" data-id="fields_block">
+                            <td colspan="2">
+                                <div class="row mx-0">
+                                    <div class="col-12 px-0 my-1">
+                                        <div class="btn-group btn-group-custom-active fields-list w-100" role="group" aria-label="">
+                                            <button type="button" class="btn btn-outline-secondary btn-block my-0 mx-1" data-id="field_0">
+                                                Поле 1
+                                            </button>
+                                            <button type="button" class="btn btn-outline-secondary btn-block my-0 mx-1" data-id="field_1">
+                                                Поле 1 / 2
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="bck-custom-color text-center font-weight-bold" style="--bck-color:#eee; --bck-color-h:#eee;">
+                            <td class="align-middle folder-text" colspan="2"></td>
+                        </tr>
+                        <tr class="bck-custom border-y-custom" data-id="">
+                            <td colspan="2">
+                                <div class="row mx-0">
+                                    <div class="col-12 px-0 my-1">
+                                        <div class="btn-group btn-group-custom-active exs-types-list w-100" role="group" aria-label="">
+                                            {% for elem in refs.exs_types %}
+                                            <button type="button" class="btn btn-outline-secondary btn-block my-0 mx-1" data-id="{{ elem.keycode }}">
+                                                {{ elem.title }}
+                                            </button>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="bck-custom-color text-center font-weight-bold toggle-ball-gates-block-0" style="--bck-color:#eee; --bck-color-h:#eee;">
+                            <td class="align-middle folder-text" colspan="2"></td>
+                        </tr>
+                        <tr class="bck-custom border-y-custom" data-id="ball_gates_block">
+                            <td colspan="2">
+                                <div class="row mx-0">
+                                    <div class="col-12 px-0 my-1">
+                                        <div class="btn-group btn-group-custom-active ball-gates-list w-100" role="group" aria-label="">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1" data-id="ball">
+                                                <span class="icon-custom icon--ball mt-1" style="--i-w: 1.4em; --i-h: 1.4em;"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1" data-id="gate" data-val="G + G">
+                                                G + G
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1" data-id="gate" data-val="G">
+                                                G
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1" data-id="gate" data-val="G + g">
+                                                G + g
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1" data-id="gate" data-val="g + g">
+                                                g + g
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 d-none">
+                                        <select name="ref_ball" class="form-control form-control-sm exs_edit_field" autocomplete="off" title="Мяч">
+                                            {% for elem in refs.exs_ball %}
+                                                <option value="{{ elem.id }}" data-short="{{ elem.short_name }}">{{ elem.title }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <input name="field_goal" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="" autocomplete="off">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="bck-custom-color text-center font-weight-bold" style="--bck-color:#eee; --bck-color-h:#eee;">
+                            <td class="align-middle folder-text" colspan="2"></td>
+                        </tr>
+                        <tr class="bck-custom-color text-center font-weight-bold" style="--bck-color:#eee; --bck-color-h:#eee;">
+                            <td class="align-middle folder-text" colspan="2"></td>
+                        </tr>
+                        <tr class="bck-custom border-y-custom" data-id="">
+                            <td colspan="2">
+                                <div class="row mx-0">
+                                    <div class="col-12 px-0 my-1">
+                                        <div class="btn-group btn-group-custom-active cognitive-load-list w-100" role="group" aria-label="">
+                                            {% for elem in refs.exs_cognitive_load %}
+                                            <button type="button" class="btn btn-outline-secondary btn-block my-0 mx-1" data-id="{{ elem.keycode }}" title="{{ elem.title }}">
+                                                {{ elem.short_name }}
+                                            </button>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="wider_row bck-custom d-none" data-id="additional_characteristics_data_block">
+                            <td colspan="2">
+                                <select name="tags" class="select w-100 custom-select custom-select-sm tag-select exs_edit_field" multiple data-tags="true" data-theme="bootstrap4" disabled style="width: 100%;">
+                                    {% for tag in exercises_tags.nfb %}
+                                        <option value="{{ tag.name }}" data-color="{{ tag.category.color }}" data-tag-class="tag-dot">
+                                            {% if tag.category %}
+                                                {{ tag.category.name }}. 
+                                            {% endif %}
+                                            {{ tag.name }}
+                                        </option>
+                                    {% endfor %}
+                                    {% for tag in exercises_tags.self %}
+                                        <option value="{{ tag.name }}" data-color="{{ tag.category.color }}" data-tag-class="tag-square">
+                                            {% if tag.category %}
+                                                {{ tag.category.name }}. 
+                                            {% endif %}
+                                            {{ tag.name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
