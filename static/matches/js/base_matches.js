@@ -78,7 +78,7 @@ function RenderProtocolInMatches(data) {
                         </div>
                     </td>
                     <td class="text-center">
-                        <span title="${elem.status_full}">${elem.status_short}</span>
+                        <span title="${elem.status_full}" style="color:red;">${elem.status_short}</span>
                     </td>
                     <td class="text-center">
                         ${elem.minute_from ? elem.minute_from : '-'}
