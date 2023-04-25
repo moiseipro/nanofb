@@ -559,6 +559,86 @@ $(window).on('load', function (){
         $('#print-training-modal').attr('data-id', id)
         $('#print-training-modal').modal('show')
     })
+    // Модальное окно поделиться тренировкой
+    $('#trainingShareModal').on('show.bs.modal', (e) => {
+        let shared_modal = $('#trainingShareModal');
+        let startDate = getFormattedDateFromTodayWithDelta(1);
+        let endDate = getFormattedDateFromTodayWithDelta(8);
+        shared_modal.find('input[name="date"]').val(startDate);
+        shared_modal.find('input[name="date"]').attr('min', startDate);
+        shared_modal.find('input[name="date"]').attr('max', endDate);
+
+        shared_modal.find('.create-block').removeClass('d-none');
+        shared_modal.find('.link-text > a').text('-');
+        shared_modal.find('.link-text > a').attr('href', '');
+        shared_modal.find('button.btn-share').attr('data-link', "");
+        shared_modal.find('.link-qrcode').html('');
+
+        let type = $('#shared-modal-button').attr('data-training-type')
+        let training_id = $('#events-table .hasEvent.selected').attr('data-value');
+
+        let dataToSend = {
+            'get_link': 1,
+            'id': training_id,
+            'type': `training_${type}`,
+        };
+
+        ajax_share('GET', dataToSend).then(function (res) {
+            console.log(res)
+            if (res.success) {
+                shared_modal.find('.create-block').addClass('d-none');
+                shared_modal.find('.link-text > a').text(res.data.link);
+                shared_modal.find('.link-text > a').attr('href', res.data.link);
+                shared_modal.find('button.btn-share').attr('data-link', res.data.link);
+                shared_modal.find('.link-qrcode').ClassyQR({
+                    create: true,
+                    type: 'url',
+                    url: res.data.link
+                });
+            }
+        })
+    })
+    // Поделиться тренировкой
+    $('#trainingShareModal').on('click', '.btn-share', (e) => {
+        let cLink = $(e.currentTarget).attr('data-link');
+        if (cLink && cLink != "") {
+            try {
+                copyTextToClipboard(cLink);
+            } catch(e) {}
+            swal(gettext("Ready"), gettext('Link copied')+` (${cLink})!`, "success");
+            return;
+        }
+        let type = $('#shared-modal-button').attr('data-training-type')
+        let expireDate = $('#trainingShareModal').find('input[name="date"]').val();
+        let training_id = $('#events-table .hasEvent.selected').attr('data-value');
+
+        let dataToSend = {
+            'add_link': 1,
+            'id': training_id,
+            'type': `training_${type}`,
+            'expire_date': expireDate,
+        };
+
+        ajax_share('POST', dataToSend).then(function (res) {
+            console.log(res)
+            if (res.success) {
+                 $('#trainingShareModal').find('.link-text > a').text(res.data.link);
+                 $('#trainingShareModal').find('.link-text > a').attr('href', res.data.link);
+                 $('#trainingShareModal').find('button.btn-share').attr('data-link', res.data.link);
+                 $('#trainingShareModal').find('.link-qrcode').ClassyQR({
+                     create: true,
+                     type: 'url',
+                     url: res.data.link
+                 });
+                 try {
+                     copyTextToClipboard(res.data.link);
+                 } catch (e) {
+                 }
+                 swal(gettext("Ready"), gettext('Link copied')+` (${res.data.link})!`, "success");
+             }
+        })
+    })
+
 })
 
 function clear_event_form(){

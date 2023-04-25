@@ -1,0 +1,48 @@
+{% load static %}
+{% load i18n %}
+
+<!-- Logo -->
+<div class="header-left">
+    <a href="#" class="logo">
+        <img src="{% static 'preadmin/img/logo_n.png' %}" alt="Logo" height="28">
+    </a>
+    <a href="#" class="logo logo-small">
+        <img src="{% static 'preadmin/img/logo-small_n.png' %}" alt="Logo" width="28" height="28">
+    </a>
+</div>
+
+<!-- Header Right Menu -->
+<ul class="nav user-menu">
+    <!-- User Menu -->
+    <li class="nav-item dropdown has-arrow">
+        <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+            <span class="user-img"><img class="rounded-circle" src="{% static 'preadmin/img/profiles/avatar-01.jpg' %}" width="31" alt="{{ user.personal.full_name }}"></span>
+        </a>
+        <div class="dropdown-menu">
+            <div class="user-header">
+                <div class="avatar avatar-sm">
+                    <img src="{% static 'preadmin/img/profiles/avatar-01.jpg' %}" alt="User Image" class="avatar-img rounded-circle">
+                </div>
+                <div class="user-text">
+                    <h6>{% trans 'View page' %}</h6>
+                </div>
+            </div>
+            <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+                <input name="next" type="hidden" value="{{ redirect_to }}">
+                <select id="select-language" name="language" class="form-control form-control-sm">
+                    {% get_current_language as LANGUAGE_CODE %}
+                    {% get_available_languages as LANGUAGES %}
+                    {% get_language_info_list for LANGUAGES as languages %}
+                    {% for language in languages %}
+                        <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                            {{ language.name_local }} ({{ language.code }})
+                        </option>
+                    {% endfor %}
+                </select>
+            </form>
+        </div>
+    </li>
+    <!-- /User Menu -->
+
+</ul>
+<!-- /Header Right Menu -->

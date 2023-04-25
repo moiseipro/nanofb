@@ -1,0 +1,41 @@
+{% load i18n %}
+
+<div class="modal fade" id="trainingShareModal" tabindex="-1" role="dialog" aria-labelledby="trainingShareModalLbl" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{% trans "Share training"%}</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 create-block">
+                        <div class="row">
+                            <div class="col-6">
+                                {% trans "Link will be available until"%}:
+                            </div>
+                            <div class="col-6">
+                                <input class="form-control form-control-sm" name="date" type="date" value="" autocomplete="off" required="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 link-block">
+                        <div class="row mt-3">
+                            <div class="col-2">
+                                {% trans "Link"%}:
+                            </div>
+                            <div class="col-10 link-text">
+                                <a href="" target="_blank">-</a>
+                            </div>
+                            <div class="col-12 link-qrcode text-center">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-share" data-link="">{% trans "Share"%}</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "Cancel"%}</button>
+            </div>
+        </div>
+    </div>
+</div>

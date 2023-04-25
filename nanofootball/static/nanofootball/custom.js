@@ -119,3 +119,12 @@ var debounce = function (func, wait, immediate) {
          if (callNow) func.apply(context, args);
      };
 };
+
+function getFormattedDateFromTodayWithDelta(delta=0) {
+    let date = new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * delta);
+    return date.getFullYear()
+        + "-"
+        + ("0" + (date.getMonth() + 1)).slice(-2)
+        + "-"
+        + ("0" + date.getDate()).slice(-2);
+}

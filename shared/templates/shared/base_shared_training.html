@@ -1,0 +1,85 @@
+{% extends '../base/view_main.html' %}
+{% load i18n %}
+{% load static %}
+{% load language_json %}
+
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'shared/css/style.css' %}">
+{% endblock %}
+
+{% block title %}{% trans 'Share Training' %}{% endblock %}
+
+{% block content %}
+
+<div id="print-training-block" class="modal-body">
+    <div class="row">
+        <div class="col-4">
+            <div class="row">
+                {{ training }}
+                <div class="col-6 px-0 border training-date">
+                    <input type="text" class="form-control form-control-sm border-0" value="{{ training.event_date }}" placeholder="{% trans "Date" %}" disabled>
+                </div>
+                <div class="col-6 px-0 border training-time">
+                    <input type="text" class="form-control form-control-sm border-0" value="{{ training.event_time }}" placeholder="{% trans "Time" %}" disabled>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 px-0 border">
+                    {% trans "Players" %}
+                </div>
+                <div class="col-3 px-0 border training-players-0">
+                    <input type="text" class="form-control form-control-sm border-0" placeholder="" disabled> <!--{% trans "Players" %} A-->
+                </div>
+                <div class="col-3 px-0 border training-players-1">
+                    <input type="text" class="form-control form-control-sm border-0" placeholder="" disabled> <!--{% trans "Players" %} B-->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 px-0 border">
+                    {% trans "Goalkeepers" %}
+                </div>
+                <div class="col-3 px-0 border training-goalkeepers-0">
+                    <input type="text" class="form-control form-control-sm border-0" placeholder="" disabled> <!--{% trans "Goalkeepers" %} A-->
+                </div>
+                <div class="col-3 px-0 border training-goalkeepers-1">
+                    <input type="text" class="form-control form-control-sm border-0" placeholder="" disabled> <!--{% trans "Goalkeepers" %} B-->
+                </div>
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="row">
+                <div class="col-12 px-0 border training-goal">
+                    <input type="text" class="form-control form-control-sm border-0" value="{{ training.goal }}" placeholder="{% trans "Goal" %}" disabled>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 px-0 border training-objective_1">
+                    <input type="text" class="form-control form-control-sm border-0" value="{{ training.objective_1 }}" placeholder="{% trans "Objective 1" %}" disabled>
+                </div>
+                <div class="col-6 px-0 border training-load">
+                    <input type="text" class="form-control form-control-sm border-0" value="{{ training.load_type }}" placeholder="{% trans "Load" %}" disabled>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 px-0 border training-objective_2">
+                    <input type="text" class="form-control form-control-sm border-0" value="{{ training.objective_2 }}" placeholder="{% trans "Objective 2" %}" disabled>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 exercise-list">
+            {% for exercise in exercises_info %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block custom_scripts %}
+    <script src="{% static 'ckeditor5-36.0.0-i0g4ar8o2g2v/build/ckeditor.js' %}"></script>
+    <!-- ckeditor5 languages: -->
+    <script src="{% static 'ckeditor5-36.0.0-i0g4ar8o2g2v/build/translations/ru.js' %}"></script>
+
+    <script src="{% static 'shared/js/base_shared_training.js' %}"></script>
+{% endblock %}

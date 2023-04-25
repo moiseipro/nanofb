@@ -7,6 +7,8 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.sites.shortcuts import get_current_site
 
+from trainings.models import UserTraining, ClubTraining, LiteTraining
+from trainings.serializers import UserTrainingSerializer, ClubTrainingSerializer, LiteTrainingSerializer
 from users.models import User
 from shared.models import SharedLink
 from exercises.models import AdminExercise, UserExercise, ClubExercise
@@ -114,11 +116,17 @@ def POST_add_link(request, cur_user):
     elif c_type == "exercise_club_folders":
         pass
     elif c_type == "training_user":
-        pass
+        f_obj = UserTraining.objects.get(event_id=c_id)
+        if f_obj and f_obj.event_id != None:
+            c_dict['training_user'] = f_obj
     elif c_type == "training_club":
-        pass
+        f_obj = ClubTraining.objects.get(event_id=c_id)
+        if f_obj and f_obj.event_id != None:
+            c_dict['training_club'] = f_obj
     elif c_type == "training_lite":
-        pass
+        f_obj = LiteTraining.objects.get(event_id=c_id)
+        if f_obj and f_obj.event_id != None:
+            c_dict['training_lite'] = f_obj
     if f_obj:
         new_link = SharedLink(**c_dict)
         try:
@@ -153,11 +161,17 @@ def GET_get_link(request, cur_user=None):
         elif c_type == "exercise_club_folders":
             pass
         elif c_type == "training_user":
-            pass
+            f_obj = UserTraining.objects.get(event_id=c_id)
+            if f_obj and f_obj.event_id != None:
+                f_dict['training_user'] = f_obj
         elif c_type == "training_club":
-            pass
+            f_obj = ClubTraining.objects.get(event_id=c_id)
+            if f_obj and f_obj.event_id != None:
+                f_dict['training_club'] = f_obj
         elif c_type == "training_lite":
-            pass
+            f_obj = LiteTraining.objects.get(event_id=c_id)
+            if f_obj and f_obj.event_id != None:
+                f_dict['training_lite'] = f_obj
         if f_obj:
             c_link = SharedLink.objects.filter(**f_dict).first()
     else:
@@ -183,13 +197,13 @@ def GET_get_link(request, cur_user=None):
                     pass
                 elif c_link.training_user != None:
                     c_html_file = "shared/base_shared_training.html"
-                    data['training'] = None
+                    data['training'] = UserTrainingSerializer(c_link.training_user).data
                 elif c_link.training_club != None:
                     c_html_file = "shared/base_shared_training.html"
-                    data['training'] = None
+                    data['training'] = ClubTrainingSerializer(c_link.training_club).data
                 elif c_link.training_lite != None:
                     c_html_file = "shared/base_shared_training.html"
-                    data['training'] = None
+                    data['training'] = LiteTrainingSerializer(c_link.training_lite).data
                 if c_html_file:
                     return render(request, c_html_file, data)
     if cur_user:
