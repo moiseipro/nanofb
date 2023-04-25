@@ -110,6 +110,7 @@ def POST_add_link(request, cur_user):
             f_obj = ClubExercise.objects.get(id=c_id, club=request.user.club_id)
             if f_obj and f_obj.id != None:
                 c_dict['exercise_club'] = f_obj
+                c_dict['club'] = request.user.club_id
         else:
             f_obj = UserExercise.objects.get(id=c_id, user=cur_user)
             if f_obj and f_obj.id != None:
@@ -154,6 +155,7 @@ def GET_get_link(request, cur_user=None):
                 f_obj = ClubExercise.objects.get(id=c_id, club=request.user.club_id)
                 if f_obj and f_obj.id != None:
                     f_dict['exercise_club'] = f_obj
+                    f_dict['club'] = request.user.club_id
             else:
                 f_obj = UserExercise.objects.get(id=c_id, user=cur_user)
                 if f_obj and f_obj.id != None:
@@ -191,6 +193,7 @@ def GET_get_link(request, cur_user=None):
                     data['exercise'] = exercises_v_api.GET_get_exs_one(request, -1, -1, {'f_type': FOLDER_TEAM, 'exs': c_link.exercise_user.id})
                 elif c_link.exercise_club != None:
                     c_html_file = "shared/base_shared_exercise.html"
+                    request.user.temp_club = c_link.club
                     data['exercise'] = exercises_v_api.GET_get_exs_one(request, -1, -1, {'f_type': FOLDER_TEAM, 'exs': c_link.exercise_club.id})
                 elif c_link.training_user != None:
                     c_html_file = "shared/base_shared_training.html"

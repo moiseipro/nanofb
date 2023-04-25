@@ -2912,8 +2912,9 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
     c_exs = None
     if request.user.is_anonymous:
         request.user.club_id = None
+        if request.user.temp_club:
+            request.user.club_id = request.user.temp_club
         cur_user = request.user.id
-    print(cur_user)
     if folder_type == FOLDER_TEAM:
         if not request.user.is_anonymous and not util_check_access(cur_user, {
             'perms_user': ["exercises.view_userexercise"], 
@@ -2924,7 +2925,10 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
             else:
                 return JsonResponse({"err": "Access denied.", "success": False}, status=400)
         if request.user.club_id is not None:
-            c_exs = ClubExercise.objects.filter(id=exs_id, visible=True, club=request.user.club_id, team=cur_team)
+            if request.user.is_anonymous:
+                c_exs = ClubExercise.objects.filter(id=exs_id, visible=True, club=request.user.club_id)
+            else:
+                c_exs = ClubExercise.objects.filter(id=exs_id, visible=True, club=request.user.club_id, team=cur_team)
         else:
             if request.user.is_anonymous:
                 c_exs = UserExercise.objects.filter(id=exs_id, visible=True)
@@ -2932,7 +2936,6 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
                 c_exs = UserExercise.objects.filter(id=exs_id, visible=True, user=cur_user)
         if c_exs.exists() and c_exs[0].id != None:
             res_exs = c_exs.values()[0]
-            print(res_exs)
             res_exs['nfb'] = False
             res_exs['folder_parent_id'] = c_exs[0].folder.parent
             res_exs['copied_from_nfb'] = c_exs[0].clone_nfb_id != None
