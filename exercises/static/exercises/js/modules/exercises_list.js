@@ -714,16 +714,28 @@ $(function() {
 
     window.split_sizes_tempo = [];
     $('#toggleDescriptionInFolders').on('click', (e) => {
-        $('.folders-block').find('.folders-container').toggleClass('d-none');
-        $('.folders-block').find('.description-container').toggleClass('d-none');
-        if (!$('.folders-block').find('.description-container').hasClass('d-none')) {
+        if (!$('.folders-block').find('.folders-container').hasClass('d-none') && $('.folders-block').find('.description-container').hasClass('d-none')) {
+            $('.folders-block').find('.folders-container').addClass('d-none');
+            $('.folders-block').find('.description-container').removeClass('d-none');
+            $('.folders-block').find('.card-container').addClass('d-none');
             $('.exs-edit-block').find('.btn-o-modal[data-id="description"]').addClass('active');
+            $('.exs-edit-block').find('.btn-o-modal[data-id="card"]').removeClass('active');
             try {
                 window.split_sizes_tempo = window.split.getSizes();
                 window.split.setSizes([40, 40]);
             } catch(e) {}
-        } else {
+        } else if (!$('.folders-block').find('.description-container').hasClass('d-none') && $('.folders-block').find('.card-container').hasClass('d-none')) {
+            $('.folders-block').find('.folders-container').addClass('d-none');
+            $('.folders-block').find('.description-container').addClass('d-none');
+            $('.folders-block').find('.card-container').removeClass('d-none');
             $('.exs-edit-block').find('.btn-o-modal[data-id="description"]').removeClass('active');
+            $('.exs-edit-block').find('.btn-o-modal[data-id="card"]').addClass('active');
+        } else if (!$('.folders-block').find('.card-container').hasClass('d-none') && $('.folders-block').find('.folders-container').hasClass('d-none')) {
+            $('.folders-block').find('.folders-container').removeClass('d-none');
+            $('.folders-block').find('.description-container').addClass('d-none');
+            $('.folders-block').find('.card-container').addClass('d-none');
+            $('.exs-edit-block').find('.btn-o-modal[data-id="description"]').removeClass('active');
+            $('.exs-edit-block').find('.btn-o-modal[data-id="card"]').removeClass('active');
             try {
                 if (window.split_sizes_tempo.length == 2) {
                     window.split.setSizes(window.split_sizes_tempo);

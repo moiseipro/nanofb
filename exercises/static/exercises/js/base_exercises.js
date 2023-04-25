@@ -2324,10 +2324,12 @@ $(function() {
         let activeExsId = $(activeExs).attr('data-id');
         if ($(activeExs).length > 0) {
             if (cId == "description") {
-                $('.folders-block').find('.folders-container').toggleClass('d-none');
-                $('.folders-block').find('.description-container').toggleClass('d-none');
+                $('.folders-block').find('.folders-container').addClass('d-none');
+                $('.folders-block').find('.description-container').removeClass('d-none');
+                $('.folders-block').find('.card-container').addClass('d-none');
                 if (!$('.folders-block').find('.description-container').hasClass('d-none')) {
                     $(e.currentTarget).addClass('active');
+                    $('.exs-edit-block').find('.btn-o-modal[data-id="card"]').removeClass('active');
                     try {
                         window.split_sizes_tempo = window.split.getSizes();
                         window.split.setSizes([40, 40]);
@@ -2338,6 +2340,18 @@ $(function() {
                         if (window.split_sizes_tempo.length == 2) {
                             window.split.setSizes(window.split_sizes_tempo);
                         }
+                    } catch(e) {}
+                }
+            } else if (cId == "card") {
+                $('.folders-block').find('.folders-container').addClass('d-none');
+                $('.folders-block').find('.description-container').addClass('d-none');
+                $('.folders-block').find('.card-container').removeClass('d-none');
+                if (!$('.folders-block').find('.card-container').hasClass('d-none')) {
+                    $(e.currentTarget).addClass('active');
+                    $('.exs-edit-block').find('.btn-o-modal[data-id="description"]').removeClass('active');
+                    try {
+                        window.split_sizes_tempo = window.split.getSizes();
+                        window.split.setSizes([40, 40]);
                     } catch(e) {}
                 }
             } else {
@@ -2520,6 +2534,157 @@ $(function() {
     });
     $('#exerciseCopyModal').on('hidden.bs.modal', (e) => {
         $('.exs-edit-block').find('.btn-edit-e').removeClass('active');
+    });
+
+    $('.folders-block').on('click', '.edit-exercise', (e) => {
+        let cId = $(e.currentTarget).attr('data-id');
+        let isSelected = $(e.currentTarget).hasClass('selected');
+        if (cId == "description") {
+            if (!isSelected) {
+                try {
+                    document.descriptionEditorViewFromFolders.disableReadOnlyMode('');
+                    $('#descriptionEditorViewFromFolders').next().find('.ck-editor__top').removeClass('d-none');
+                    $('#descriptionEditorViewFromFolders').next().find('.ck-content.ck-editor__editable').removeClass('borders-off');
+                    document.descriptionEditorViewFromFoldersTrainer.disableReadOnlyMode('');
+                    $('#descriptionEditorViewFromFoldersTrainer').next().find('.ck-editor__top').removeClass('d-none');
+                    $('#descriptionEditorViewFromFoldersTrainer').next().find('.ck-content.ck-editor__editable').removeClass('borders-off');
+                } catch(e) {}
+            } else {
+                let folderType = $('.folders_div.selected').attr('data-id');
+                let exsId = $('.exs-list-group').find('.list-group-item.active').attr('data-id');
+                let dataToSend = {'edit_exs_custom': 1, 'exs': exsId, 'type': folderType, 'data': {}, 'mode': cId};
+                $('#exerciseCard').find('.exs_edit_field').each((ind, elem) => {
+                    if (!$(elem).hasClass('d-none') || $(elem).hasClass('selected')) {
+                        let name = $(elem).attr('name');
+                        if (name in dataToSend.data) {
+                            if (!Array.isArray(dataToSend.data[name])) {
+                                let tVal = dataToSend.data[name];
+                                dataToSend.data[name] = [tVal];
+                            }
+                            dataToSend.data[name].push($(elem).val());
+                        } else {
+                            dataToSend.data[name] = $(elem).val();
+                        }
+                    }
+                });
+                dataToSend.data['description'] = document.descriptionEditorViewFromFolders.getData();
+                dataToSend.data['description_template'] = document.descriptionEditor2Template.getData();
+                dataToSend.data['description_trainer'] = document.descriptionEditorViewFromFoldersTrainer.getData();
+                $('.page-loader-wrapper').fadeIn();
+                $.ajax({
+                    headers:{"X-CSRFToken": csrftoken},
+                    data: dataToSend,
+                    type: 'POST', // GET или POST
+                    dataType: 'json',
+                    url: "exercises_api",
+                    success: function (res) {
+                        if (res.success) {
+                            LoadExerciseOneHandler();
+                            swal("Готово", "Упражнение успешно изменено.", "success");
+                        } else {
+                            swal("Ошибка", `При изменении упражнения произошла ошибка (${res.err}).`, "error");
+                        }
+                    },
+                    error: function (res) {
+                        swal("Ошибка", "Упражнение не удалось изменить.", "error");
+                        console.log(res);
+                    },
+                    complete: function (res) {
+                        try {
+                            document.descriptionEditorViewFromFolders.enableReadOnlyMode('');
+                            $('#descriptionEditorViewFromFolders').next().find('.ck-editor__top').addClass('d-none');
+                            $('#descriptionEditorViewFromFolders').next().find('.ck-content.ck-editor__editable').addClass('borders-off');
+                            document.descriptionEditorViewFromFoldersTrainer.enableReadOnlyMode('');
+                            $('#descriptionEditorViewFromFoldersTrainer').next().find('.ck-editor__top').addClass('d-none');
+                            $('#descriptionEditorViewFromFoldersTrainer').next().find('.ck-content.ck-editor__editable').addClass('borders-off');
+                        } catch(e) {}
+                        $('.page-loader-wrapper').fadeOut();
+                    }
+                });
+            }
+        } else if (cId == "card") {
+            if (!isSelected) {
+                ToggleEditFields(true);
+            } else {
+                let folderType = $('.folders_div.selected').attr('data-id');
+                let exsId = $('.exs-list-group').find('.list-group-item.active').attr('data-id');
+                let dataToSend = {'edit_exs_custom': 1, 'exs': exsId, 'type': folderType, 'data': {}, 'mode': cId};
+                $('#exerciseCard').find('.exs_edit_field').each((ind, elem) => {
+                    if (!$(elem).hasClass('d-none') || $(elem).hasClass('selected')) {
+                        let name = $(elem).attr('name');
+                        if (name in dataToSend.data) {
+                            if (!Array.isArray(dataToSend.data[name])) {
+                                let tVal = dataToSend.data[name];
+                                dataToSend.data[name] = [tVal];
+                            }
+                            dataToSend.data[name].push($(elem).val());
+                        } else {
+                            dataToSend.data[name] = $(elem).val();
+                        }
+                    }
+                });
+                if (dataToSend.data.title == "") {
+                    swal("Внимание", "Добавьте название для упражнения.", "info");
+                    return;
+                }
+                if (dataToSend.data.folder_parent == "" || dataToSend.data.folder_main == "") {
+                    swal("Внимание", "Выберите папку для упражнения.", "info");
+                    return;
+                }
+                let selectedCategories = [];
+                $('#exerciseCard').find('.categories-list > button.active').each((ind, elem) => {
+                    selectedCategories.push($(elem).attr('data-id')); 
+                });
+                dataToSend.data['field_categories'] = selectedCategories;
+            
+                let selectedTypes = [];
+                $('#exerciseCard').find('.exs-types-list > button.active').each((ind, elem) => {
+                    selectedTypes.push($(elem).attr('data-id')); 
+                });
+                dataToSend.data['field_types'] = selectedTypes;
+            
+                let selectedCognitiveLoads = [];
+                $('#exerciseCard').find('.cognitive-load-list > button.active').each((ind, elem) => {
+                    selectedCognitiveLoads.push($(elem).attr('data-id')); 
+                });
+                dataToSend.data['field_cognitive_loads'] = selectedCognitiveLoads;
+            
+                let selectedFields = [];
+                $('#exerciseCard').find('.fields-list > button.active').each((ind, elem) => {
+                    selectedFields.push($(elem).attr('data-id')); 
+                });
+                dataToSend.data['field_fields'] = selectedFields;
+                $('.page-loader-wrapper').fadeIn();
+                $.ajax({
+                    headers:{"X-CSRFToken": csrftoken},
+                    data: dataToSend,
+                    type: 'POST', // GET или POST
+                    dataType: 'json',
+                    url: "exercises_api",
+                    success: function (res) {
+                        if (res.success) {
+                            LoadExerciseOneHandler();
+                            swal("Готово", "Упражнение успешно изменено.", "success");
+                        } else {
+                            swal("Ошибка", `При изменении упражнения произошла ошибка (${res.err}).`, "error");
+                        }
+                    },
+                    error: function (res) {
+                        swal("Ошибка", "Упражнение не удалось изменить.", "error");
+                        console.log(res);
+                    },
+                    complete: function (res) {
+                        ToggleEditFields(false);
+                        $('.page-loader-wrapper').fadeOut();
+                    }
+                });
+            }
+        }
+        $(e.currentTarget).toggleClass('selected', !isSelected);
+        $(e.currentTarget).toggleClass('btn-success', !isSelected);
+        $(e.currentTarget).toggleClass('btn-secondary', isSelected);
+        $(e.currentTarget).text(isSelected ? "Редактировать" : "Сохранить");
+
     });
 
     // Toggle left menu

@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from users.models import User
+from clubs.models import Club
 from exercises.models import AdminExercise, UserExercise, ClubExercise
 from trainings.models import UserTraining, ClubTraining, LiteTraining
 from matches.models import UserMatch, ClubMatch, LiteMatch
@@ -10,6 +11,7 @@ from matches.models import UserMatch, ClubMatch, LiteMatch
 class SharedLink(models.Model):
     link = models.CharField(max_length=255)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    club = models.ForeignKey(Club, on_delete=models.CASCADE, null=True, blank=True)
     options = models.JSONField(null=True, blank=True)
     expiration_date = models.DateTimeField(blank=False, default=timezone.now)
     language = models.CharField(max_length=10, default='en')

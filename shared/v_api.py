@@ -108,9 +108,15 @@ def POST_add_link(request, cur_user):
     }
     f_obj = None
     if c_type == "exercise_team_folders":
-        f_obj = UserExercise.objects.get(id=c_id, user=cur_user)
-        if f_obj and f_obj.id != None:
-            c_dict['exercise_user'] = f_obj
+        if request.user.club_id is not None:
+            f_obj = ClubExercise.objects.get(id=c_id, club=request.user.club_id)
+            if f_obj and f_obj.id != None:
+                c_dict['exercise_club'] = f_obj
+                c_dict['club'] = request.user.club_id
+        else:
+            f_obj = UserExercise.objects.get(id=c_id, user=cur_user)
+            if f_obj and f_obj.id != None:
+                c_dict['exercise_user'] = f_obj
     elif c_type == "exercise_nfb_folders":
         pass
     elif c_type == "exercise_club_folders":
@@ -153,9 +159,15 @@ def GET_get_link(request, cur_user=None):
         f_dict = {'user': cur_user}
         f_obj = None
         if c_type == "exercise_team_folders":
-            f_obj = UserExercise.objects.get(id=c_id, user=cur_user)
-            if f_obj and f_obj.id != None:
-                f_dict['exercise_user'] = f_obj
+            if request.user.club_id is not None:
+                f_obj = ClubExercise.objects.get(id=c_id, club=request.user.club_id)
+                if f_obj and f_obj.id != None:
+                    f_dict['exercise_club'] = f_obj
+                    f_dict['club'] = request.user.club_id
+            else:
+                f_obj = UserExercise.objects.get(id=c_id, user=cur_user)
+                if f_obj and f_obj.id != None:
+                    f_dict['exercise_user'] = f_obj
         elif c_type == "exercise_nfb_folders":
             pass
         elif c_type == "exercise_club_folders":
@@ -192,9 +204,12 @@ def GET_get_link(request, cur_user=None):
                     pass
                 elif c_link.exercise_user != None:
                     c_html_file = "shared/base_shared_exercise.html"
+                    request.user.temp_club = None
                     data['exercise'] = exercises_v_api.GET_get_exs_one(request, -1, -1, {'f_type': FOLDER_TEAM, 'exs': c_link.exercise_user.id})
                 elif c_link.exercise_club != None:
-                    pass
+                    c_html_file = "shared/base_shared_exercise.html"
+                    request.user.temp_club = c_link.club
+                    data['exercise'] = exercises_v_api.GET_get_exs_one(request, -1, -1, {'f_type': FOLDER_TEAM, 'exs': c_link.exercise_club.id})
                 elif c_link.training_user != None:
                     c_html_file = "shared/base_shared_training.html"
                     data['training'] = UserTrainingSerializer(c_link.training_user).data

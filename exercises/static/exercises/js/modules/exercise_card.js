@@ -76,6 +76,8 @@ function ToggleEditFields(flag) {
     $('#exerciseCard').find('.physical-qualities-list > button').toggleClass('custom-disabled', !flag);
     $('#exerciseCard').find('.cognitive-load-list > button').toggleClass('custom-disabled', !flag);
 
+    $('#exerciseCard').find('tr.folder-container').toggleClass('d-none', !flag);
+
     window.onlyViewMode = !flag;
 }
 
@@ -1081,18 +1083,27 @@ function ToggleExsDir(dir = 0) {
 function ToggleFoldersType(data = null) {
     let searchParams = new URLSearchParams(window.location.search);
     let folderType = searchParams.get('type');
+    try {
+        if ($('.folders_div.selected').length > 0) {
+            folderType = $('.folders_div.selected').attr('data-id');
+        }
+    } catch(e) {}
     let exsCard = $('#exerciseCard');
     let folderName = "";
     $(exsCard).find('tr.folder-container').addClass('d-none');
     if (data == null) {
         $(exsCard).find('.exs_edit_field.nfb_folders').toggleClass('d-none', folderType != "nfb_folders");
         $(exsCard).find('.exs_edit_field.team_folders').toggleClass('d-none', folderType != "team_folders");
+        $(exsCard).find('.exs_edit_field.nfb_folders').toggleClass('selected', folderType == "nfb_folders");
+        $(exsCard).find('.exs_edit_field.team_folders').toggleClass('selected', folderType == "team_folders");
         $(exsCard).find(`.${folderType}[name="folder_parent"]`).val('');
         $(exsCard).find('[name="folder_main"]').find('option').addClass('d-none');
         $(exsCard).find(`.${folderType}[name="folder_main"]`).val('');
     } else {
         $(exsCard).find('.exs_edit_field.nfb_folders').toggleClass('d-none', folderType != "nfb_folders");
         $(exsCard).find('.exs_edit_field.team_folders').toggleClass('d-none', folderType != "team_folders");
+        $(exsCard).find('.exs_edit_field.nfb_folders').toggleClass('selected', folderType == "nfb_folders");
+        $(exsCard).find('.exs_edit_field.team_folders').toggleClass('selected', folderType == "team_folders");
         $(exsCard).find(`.${folderType}[name="folder_parent"]`).val(data.folder_parent_id);
         $(exsCard).find('[name="folder_main"]').find('option').addClass('d-none');
         $(exsCard).find('[name="folder_main"]').find(`option[data-parent=${data.folder_parent_id}]`).removeClass('d-none');
@@ -2652,7 +2663,7 @@ $(function() {
     $('#exerciseCard').on('click', '.keywords-list > li', (e) => {
         let isActive = $(e.currentTarget).hasClass('active');
         let activeKeywordsAmount = $('#exerciseCard').find('.keywords-list > li.active').length;
-        if ($('#editExs').attr('data-active') == '1') {
+        if ($('#editExs').length > 0 && $('#editExs').attr('data-active') == '1' || $('button.edit-exercise.selected[data-id="card"]').length > 0) {
             if (!isActive && activeKeywordsAmount < 2) {
                 $(e.currentTarget).addClass('active');
             } else if (isActive) {
@@ -2662,21 +2673,21 @@ $(function() {
     });
 
     $('#exerciseCard').on('click', '.categories-list > button', (e) => {
-        if ($('#editExs').attr('data-active') == '1') {
+        if ($('#editExs').length > 0 && $('#editExs').attr('data-active') == '1' || $('button.edit-exercise.selected[data-id="card"]').length > 0) {
             $(e.currentTarget).toggleClass('active');
         }
     });
 
     $('#exerciseCard').on('click', '.fields-list > button', (e) => {
         let isActive = $(e.currentTarget).hasClass('active');
-        if ($('#editExs').attr('data-active') == '1') {
+        if ($('#editExs').length > 0 && $('#editExs').attr('data-active') == '1' || $('button.edit-exercise.selected[data-id="card"]').length > 0) {
             $('#exerciseCard').find('.fields-list > button').removeClass('active');
             $(e.currentTarget).toggleClass('active', !isActive);
         }
     });
 
     $('#exerciseCard').on('click', '.ball-gates-list > button', (e) => {
-        if ($('#editExs').attr('data-active') == '1') {
+        if ($('#editExs').length > 0 && $('#editExs').attr('data-active') == '1' || $('button.edit-exercise.selected[data-id="card"]').length > 0) {
             let cId = $(e.currentTarget).attr('data-id');
             let isActive = $(e.currentTarget).hasClass('active');
             if (cId == "ball") {
@@ -2695,7 +2706,7 @@ $(function() {
 
     $('#exerciseCard').on('click', '.exs-types-list > button', (e) => {
         let isActive = $(e.currentTarget).hasClass('active');
-        if ($('#editExs').attr('data-active') == '1') {
+        if ($('#editExs').length > 0 && $('#editExs').attr('data-active') == '1' || $('button.edit-exercise.selected[data-id="card"]').length > 0) {
             $('#exerciseCard').find('.exs-types-list > button').removeClass('active');
             $(e.currentTarget).toggleClass('active', !isActive);
         }
@@ -2703,14 +2714,14 @@ $(function() {
 
     $('#exerciseCard').on('click', '.physical-qualities-list > button', (e) => {
         let isActive = $(e.currentTarget).hasClass('active');
-        if ($('#editExs').attr('data-active') == '1') {
+        if ($('#editExs').length > 0 && $('#editExs').attr('data-active') == '1' || $('button.edit-exercise.selected[data-id="card"]').length > 0) {
             $(e.currentTarget).toggleClass('active', !isActive);
         }
     });
 
     $('#exerciseCard').on('click', '.cognitive-load-list > button', (e) => {
         let isActive = $(e.currentTarget).hasClass('active');
-        if ($('#editExs').attr('data-active') == '1') {
+        if ($('#editExs').length > 0 && $('#editExs').attr('data-active') == '1' || $('button.edit-exercise.selected[data-id="card"]').length > 0) {
             $('#exerciseCard').find('.cognitive-load-list > button').removeClass('active');
             $(e.currentTarget).toggleClass('active', !isActive);
         }
