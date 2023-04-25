@@ -106,7 +106,10 @@ def POST_add_link(request, cur_user):
     }
     f_obj = None
     if c_type == "exercise_team_folders":
-        f_obj = UserExercise.objects.get(id=c_id, user=cur_user)
+        if request.user.club_id is not None:
+            f_obj = ClubExercise.objects.get(id=c_id, club=request.user.club_id)
+        else:
+            f_obj = UserExercise.objects.get(id=c_id, user=cur_user)
         if f_obj and f_obj.id != None:
             c_dict['exercise_user'] = f_obj
     elif c_type == "exercise_nfb_folders":
@@ -145,7 +148,10 @@ def GET_get_link(request, cur_user=None):
         f_dict = {'user': cur_user}
         f_obj = None
         if c_type == "exercise_team_folders":
-            f_obj = UserExercise.objects.get(id=c_id, user=cur_user)
+            if request.user.club_id is not None:
+                f_obj = ClubExercise.objects.get(id=c_id, club=request.user.club_id)
+            else:
+                f_obj = UserExercise.objects.get(id=c_id, user=cur_user)
             if f_obj and f_obj.id != None:
                 f_dict['exercise_user'] = f_obj
         elif c_type == "exercise_nfb_folders":
