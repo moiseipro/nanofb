@@ -190,6 +190,7 @@ def GET_get_link(request, cur_user=None):
                     pass
                 elif c_link.exercise_user != None:
                     c_html_file = "shared/base_shared_exercise.html"
+                    request.user.temp_club = None
                     data['exercise'] = exercises_v_api.GET_get_exs_one(request, -1, -1, {'f_type': FOLDER_TEAM, 'exs': c_link.exercise_user.id})
                 elif c_link.exercise_club != None:
                     c_html_file = "shared/base_shared_exercise.html"
