@@ -78,7 +78,7 @@ function RenderProtocolInMatches(data) {
                         </div>
                     </td>
                     <td class="text-center">
-                        <span title="${elem.status_full}">${elem.status_short}</span>
+                        <span title="${elem.status_full}" style="color:red;">${elem.status_short}</span>
                     </td>
                     <td class="text-center">
                         ${elem.minute_from ? elem.minute_from : '-'}
@@ -216,9 +216,39 @@ function RenderMatchOneInMatches(data) {
     SetLabelsToField("playersFieldOpponent", fieldLabelsOpponent, "35px");
 }
 
+function ToggleColumnsSize(full=true) {
+    if (full) {
+        $('#splitCol_0').css('width', '100%');
+    } else {
+        try {
+            window.split.setSizes(window.dataForSplit);
+        } catch(e) {}
+    }
+    $('#splitCol_1').toggleClass('d-none', full);
+    $('.gutter').toggleClass('d-none', full);
+}
+
 
 
 $(function() {
+
+    window.dataForSplit = JSON.parse(localStorage.getItem('split_cols_matches'));
+    if (Array.isArray(window.dataForSplit) && window.dataForSplit.length == 3 || !Array.isArray(window.dataForSplit)) {
+        window.dataForSplit = [40, 60];
+        localStorage.setItem('split_cols_matches', JSON.stringify(window.dataForSplit));
+    }
+    let sizesArr = window.dataForSplit;
+    window.split = Split(['#splitCol_0', '#splitCol_1'], {
+        sizes: sizesArr,
+        gutterSize: 12,
+        onDrag: () => {
+        },
+        onDragEnd: (arr) => {
+            window.dataForSplit = arr;
+            localStorage.setItem('split_cols_matches', JSON.stringify(window.dataForSplit));
+        }
+    });
+    ToggleColumnsSize();
 
     ToggleMatchEditFields();
     $('#addMatchBtn').on('click', (e) => {
@@ -252,12 +282,14 @@ $(function() {
     protocol_notes_table.draw();
 
     $('.card-header').on('click', '.clear-collapses', (e) => {
+        ToggleColumnsSize(true);
         $('.card-header').find('.toggle-collapse').removeClass('active');
         $(e.currentTarget).addClass('active');
         $('.card-body').find('.collapse-block').collapse('hide');
         matches_table.columns([8,9,10,11]).visible(true);
     });
     $('.card-header').on('click', '.toggle-collapse', (e) => {
+        ToggleColumnsSize(false);
         let isActive = $(e.currentTarget).hasClass('active');
         $('.card-header').find('.toggle-collapse').removeClass('active');
         $('.card-header').find('.clear-collapses').toggleClass('active', isActive);

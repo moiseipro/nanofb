@@ -66,7 +66,7 @@ $(function() {
     });
     
     
-    $('#fieldEditorModal').on('click', '.circle-label:not(.draggable)', (e) => {
+    $('#fieldEditorModal').on('click', '.circle-label:not(.draggable):not(.label-color)', (e) => {
         let cId = $(e.currentTarget).attr('data-id');
         let cColor = $(e.currentTarget).attr('data-color');
         $('#fieldEditorModal').find('.draggable-zone').append(`
@@ -91,9 +91,9 @@ $(function() {
         }
     });
 
-    $('#fieldEditorModal').on('change', 'select.change-labels-color', (e) => {
-        let val = $(e.currentTarget).val();
-        $('#fieldEditorModal').find('.circle-label:not(.draggable)').attr('data-color', val);
+    $('#fieldEditorModal').on('click', '.circle-label.label-color', (e) => {
+        let val = $(e.currentTarget).attr('data-color');
+        $('#fieldEditorModal').find('.circle-label:not(.draggable):not(.label-color)').attr('data-color', val);
     });
     
     $('#fieldEditorModal').on('click', 'button[name="save"]', (e) => {
