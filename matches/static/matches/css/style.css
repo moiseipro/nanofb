@@ -18,6 +18,20 @@
     max-height: var(--h-max-x) !important;
 }
 
+.split {
+    display: flex;
+    flex-direction: row;
+}
+.gutter {
+    opacity: 0.5;
+    background-color: #1e4fd4;
+    background-repeat: no-repeat;
+    background-position: 50%;
+}
+.gutter.gutter-horizontal {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+    cursor: col-resize;
+}
 
 
 .scrollable-block {

@@ -67,167 +67,171 @@
                     <div class="row">
                         <div class="col">
                             <div class="row">
-                                <div class="col px-0">
-                                    <div class="table-responsive">
-                                        <table id="matches" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
-                                            <!-- <colgroup>
-                                                <col span="1" style="width: 5%;">
-                                                <col span="1" style="width: 10%;">
-                                                <col span="1" style="width: 5%;">
-                                                <col span="1" style="width: 5%;">
-                                                <col span="1" style="width: 5%;">
-                                                <col span="1" style="width: 5%;">
-                                                <col span="1" style="width: auto;">
-                                                <col span="1" style="width: 20%;">
-                                                <col span="1" style="width: 10%;">
-                                                <col span="1" style="width: 10%;">
-                                                <col span="1" style="width: 10%;">
-                                                <col span="1" style="width: 10%;">
-                                            </colgroup> -->
-                                            <thead>
-                                                <tr>
-                                                    <th class="text-center">#</th>
-                                                    <th class="text-center">Дата</th>
-                                                    <th class="text-center">Д.Н.</th>
-                                                    <th class="text-center" title="Время"><i class="fa fa-clock-o" aria-hidden="true"></i></th>
-                                                    <th class="text-center" title="Длительность"><i class="fa fa-clock-o" aria-hidden="true"></i></th>
-                                                    <th class="text-center" title="Результат (В.П.Н.)">В.П.Н.</th>
-                                                    <th class="text-center">Счет</th>
-                                                    <th class="text-center">Соперник</th>
-                                                    <th class="text-center">Тип матча</th>
-                                                    <th class="text-center">Формат матча</th>
-                                                    <th class="text-center">Турнир</th>
-                                                    <th class="text-center">Место</th>
-                                                    <th class="text-center">Видео</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {% for match in matches %}
-                                                <tr class="match-row" data-id="{{ match.event_id }}">
-                                                    <td class="text-center">{{ forloop.counter }}</td>
-                                                    <td class="text-center" data-order="{{ match.date_timestamp }}">{{ match.date }}</td>
-                                                    <td class="text-center">{{ match.date_day }}</td>
-                                                    <td class="text-center">{{ match.date_time }}</td>
-                                                    <td class="text-center">{{ match.duration }}</td>
-                                                    <td class="text-center">
-                                                        {% if match.result == 1 %}
-                                                            <span class="text-success" title="Выигрыш">В</span>
-                                                        {% elif match.result == 2 %}
-                                                            <span class="text-danger" title="Проигрыш">П</span>
-                                                        {% else %}
-                                                            <span class="text-secondary" title="Ничья">Н</span>
-                                                        {% endif %}
-                                                    </td>
-                                                    <td class="text-center">
-                                                        {{ match.goals }}:{{ match.o_goals }}
-                                                        {% if match.penalty > 0 or match.o_penalty > 0 %}
-                                                            ({{ match.penalty }}:{{ match.o_penalty }})
-                                                        {% endif %}
-                                                    </td>
-                                                    <td class="text-center">{{ match.opponent }}</td>
-                                                    <td class="text-center">
-                                                        {% if match.m_type == 1 %}
-                                                            <span title="Официальный">Офиц.</span>
-                                                        {% else %}
-                                                            <span title="Неофициальный">Неофиц.</span>
-                                                        {% endif %}
-                                                    </td>
-                                                    <td class="text-center">
-                                                        {% if match.m_format %}
-                                                            {{ match.m_format }}
-                                                        {% endif %}
-                                                    </td>
-                                                    <td class="text-center">
-                                                        {% if match.tournament %}
-                                                            {{ match.tournament }}
-                                                        {% endif %}
-                                                    </td>
-                                                    <td class="text-center">
-                                                        {% if match.place %}
-                                                            {{ match.place }}
-                                                        {% endif %}
-                                                    </td>
-                                                    <td class="text-center">
-                                                        {% if match.videos_count > 0 %}
-                                                            <button type="button" class="btn btn-sm btn-secondary video-player-match">
-                                                                Видео
-                                                            </button>
-                                                        {% else %}
-                                                            <button type="button" class="btn btn-sm btn-secondary video-player-match btn-empty">
-                                                                Видео
-                                                            </button>
-                                                        {% endif %}
-                                                    </td>
-                                                </tr>
-                                                {% endfor %}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="col-7 px-1 collapse collapse-block" id="collapse-protocol">
-                                    <div class="table-responsive">
-                                        <table id="protocol" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
-                                            <thead>
-                                                <tr>
-                                                    <th class="team-type-order"></th>
-                                                    <th class="text-center">№</th>
-                                                    <th>ФИ</th>
-                                                    <th></th>
-                                                    <th class="text-center">с</th>
-                                                    <th class="text-center">по</th>
-                                                    <th class="text-center">гол.</th>
-                                                    <th class="text-center">пен.</th>
-                                                    <th class="text-center">пас.</th>
-                                                    <th class="text-center">ж.к.</th>
-                                                    <th class="text-center">к.к.</th>
-                                                    <th class="text-center">оц.</th>
-                                                    <th class="text-center">видео</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="col-7 px-1 collapse collapse-block" id="collapse-scheme">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="card card-i justify-content-center" id="playersFieldTeam" style="height: 75vh;">
-                                                <img class="card-img img-field h-100" src="#" alt="" onerror=this.src="/static/players/img/player_plane.svg" data-type="team">
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="card card-i justify-content-center" id="playersFieldOpponent" style="height: 75vh;">
-                                                <img class="card-img img-field h-100" src="#" alt="" onerror=this.src="/static/players/img/player_plane.svg" data-type="team">
-                                            </div>
+                                <div class="col-12 split">
+                                    <div class="" id="splitCol_0">
+                                        <div class="table-responsive">
+                                            <table id="matches" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
+                                                <!-- <colgroup>
+                                                    <col span="1" style="width: 5%;">
+                                                    <col span="1" style="width: 10%;">
+                                                    <col span="1" style="width: 5%;">
+                                                    <col span="1" style="width: 5%;">
+                                                    <col span="1" style="width: 5%;">
+                                                    <col span="1" style="width: 5%;">
+                                                    <col span="1" style="width: auto;">
+                                                    <col span="1" style="width: 20%;">
+                                                    <col span="1" style="width: 10%;">
+                                                    <col span="1" style="width: 10%;">
+                                                    <col span="1" style="width: 10%;">
+                                                    <col span="1" style="width: 10%;">
+                                                </colgroup> -->
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center">#</th>
+                                                        <th class="text-center">Дата</th>
+                                                        <th class="text-center">Д.Н.</th>
+                                                        <th class="text-center" title="Время"><i class="fa fa-clock-o" aria-hidden="true"></i></th>
+                                                        <th class="text-center" title="Длительность"><i class="fa fa-clock-o" aria-hidden="true"></i></th>
+                                                        <th class="text-center" title="Результат (В.П.Н.)">В.П.Н.</th>
+                                                        <th class="text-center">Счет</th>
+                                                        <th class="text-center">Соперник</th>
+                                                        <th class="text-center">Тип матча</th>
+                                                        <th class="text-center">Формат матча</th>
+                                                        <th class="text-center">Турнир</th>
+                                                        <th class="text-center">Место</th>
+                                                        <th class="text-center">Видео</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for match in matches %}
+                                                    <tr class="match-row" data-id="{{ match.event_id }}">
+                                                        <td class="text-center">{{ forloop.counter }}</td>
+                                                        <td class="text-center" data-order="{{ match.date_timestamp }}">{{ match.date }}</td>
+                                                        <td class="text-center">{{ match.date_day }}</td>
+                                                        <td class="text-center">{{ match.date_time }}</td>
+                                                        <td class="text-center">{{ match.duration }}</td>
+                                                        <td class="text-center">
+                                                            {% if match.result == 1 %}
+                                                                <span class="text-success" title="Выигрыш">В</span>
+                                                            {% elif match.result == 2 %}
+                                                                <span class="text-danger" title="Проигрыш">П</span>
+                                                            {% else %}
+                                                                <span class="text-secondary" title="Ничья">Н</span>
+                                                            {% endif %}
+                                                        </td>
+                                                        <td class="text-center">
+                                                            {{ match.goals }}:{{ match.o_goals }}
+                                                            {% if match.penalty > 0 or match.o_penalty > 0 %}
+                                                                ({{ match.penalty }}:{{ match.o_penalty }})
+                                                            {% endif %}
+                                                        </td>
+                                                        <td class="text-center">{{ match.opponent }}</td>
+                                                        <td class="text-center">
+                                                            {% if match.m_type == 1 %}
+                                                                <span title="Официальный">Офиц.</span>
+                                                            {% else %}
+                                                                <span title="Неофициальный">Неофиц.</span>
+                                                            {% endif %}
+                                                        </td>
+                                                        <td class="text-center">
+                                                            {% if match.m_format %}
+                                                                {{ match.m_format }}
+                                                            {% endif %}
+                                                        </td>
+                                                        <td class="text-center">
+                                                            {% if match.tournament %}
+                                                                {{ match.tournament }}
+                                                            {% endif %}
+                                                        </td>
+                                                        <td class="text-center">
+                                                            {% if match.place %}
+                                                                {{ match.place }}
+                                                            {% endif %}
+                                                        </td>
+                                                        <td class="text-center">
+                                                            {% if match.videos_count > 0 %}
+                                                                <button type="button" class="btn btn-sm btn-secondary video-player-match">
+                                                                    Видео
+                                                                </button>
+                                                            {% else %}
+                                                                <button type="button" class="btn btn-sm btn-secondary video-player-match btn-empty">
+                                                                    Видео
+                                                                </button>
+                                                            {% endif %}
+                                                        </td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-7 px-1 collapse collapse-block" id="collapse-statistics">
-                                    Статистика
-                                </div>
-                                <div class="col-7 px-1 collapse collapse-block" id="collapse-analytics">
-                                    Аналитика
-                                </div>
-                                <div class="col-7 px-1 collapse collapse-block" id="collapse-notes">
-                                    <div class="table-responsive">
-                                        <table id="protocol_notes" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
-                                            <thead>
-                                                <tr>
-                                                    <th class="team-type-order"></th>
-                                                    <th class="text-center">№</th>
-                                                    <th>ФИ</th>
-                                                    <th class="text-center">Записи</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                        </table>
+                                    <div class="" id="splitCol_1">
+                                        <div class="px-1 collapse collapse-block" id="collapse-protocol">
+                                            <div class="table-responsive">
+                                                <table id="protocol" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="team-type-order"></th>
+                                                            <th class="text-center">№</th>
+                                                            <th>ФИ</th>
+                                                            <th></th>
+                                                            <th class="text-center">с</th>
+                                                            <th class="text-center">по</th>
+                                                            <th class="text-center">гол.</th>
+                                                            <th class="text-center">пен.</th>
+                                                            <th class="text-center">пас.</th>
+                                                            <th class="text-center">ж.к.</th>
+                                                            <th class="text-center">к.к.</th>
+                                                            <th class="text-center">оц.</th>
+                                                            <th class="text-center">видео</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="px-2 collapse collapse-block" id="collapse-scheme">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="card card-i justify-content-center" id="playersFieldTeam" style="height: 75vh;">
+                                                        <img class="card-img img-field h-100" src="#" alt="" onerror=this.src="/static/players/img/player_plane.svg" data-type="team">
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="card card-i justify-content-center" id="playersFieldOpponent" style="height: 75vh;">
+                                                        <img class="card-img img-field h-100" src="#" alt="" onerror=this.src="/static/players/img/player_plane.svg" data-type="team">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="px-1 collapse collapse-block" id="collapse-statistics">
+                                            Статистика
+                                        </div>
+                                        <div class="px-1 collapse collapse-block" id="collapse-analytics">
+                                            Аналитика
+                                        </div>
+                                        <div class="px-1 collapse collapse-block" id="collapse-notes">
+                                            <div class="table-responsive">
+                                                <table id="protocol_notes" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="team-type-order"></th>
+                                                            <th class="text-center">№</th>
+                                                            <th>ФИ</th>
+                                                            <th class="text-center">Записи</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="px-1 collapse collapse-block" id="collapse-video">
+                                            Видео
+                                        </div>
+                                        <div class="px-1 collapse collapse-block" id="collapse-settings">
+                                            Настройки
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-7 px-1 collapse collapse-block" id="collapse-video">
-                                    Видео
-                                </div>
-                                <div class="col-7 px-1 collapse collapse-block" id="collapse-settings">
-                                    Настройки
                                 </div>
                             </div>
                         </div>
