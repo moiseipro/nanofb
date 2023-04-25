@@ -150,11 +150,13 @@
                         <tr class="bck-custom border-y-custom folder-container">
                             <td colspan="2" title="Главные папки">
                                 <select name="folder_parent" class="form-control form-control-sm exs_edit_field nfb_folders d-none" required="" autocomplete="off">
-                                    {% for folder in nfb_folders %}
-                                        {% if folder.root %}
-                                            <option value="{{ folder.id }}">{{ folder.short_name }}. {{ folder.name }}</option>
-                                        {% endif %}
-                                    {% endfor %}
+                                    {% if nfb_folders %}
+                                        {% for folder in nfb_folders %}
+                                            {% if folder.root %}
+                                                <option value="{{ folder.id }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
                                 </select>
                                 <select name="folder_parent" class="form-control form-control-sm exs_edit_field team_folders" required="" autocomplete="off">
                                     {% for folder in folders %}
@@ -168,11 +170,13 @@
                         <tr class="bck-custom border-y-custom folder-container">
                             <td colspan="2" title="Папки с упражнением">
                                 <select name="folder_main" class="form-control form-control-sm exs_edit_field nfb_folders d-none" required="" autocomplete="off">
-                                    {% for folder in nfb_folders %}
-                                        {% if not folder.root %}
-                                            <option value="{{ folder.id }}" data-parent="{{ folder.parent }}">{{ folder.short_name }}. {{ folder.name }}</option>
-                                        {% endif %}
-                                    {% endfor %}
+                                    {% if nfb_folders %}
+                                        {% for folder in nfb_folders %}
+                                            {% if not folder.root %}
+                                                <option value="{{ folder.id }}" data-parent="{{ folder.parent }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
                                 </select>
                                 <select name="folder_main" class="form-control form-control-sm exs_edit_field team_folders" required="" autocomplete="off">
                                     {% for folder in folders %}
