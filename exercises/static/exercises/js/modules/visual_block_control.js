@@ -10,6 +10,11 @@ function RenderCarouselAll() {
     $(elems).find('video').attr('id', '');
     $('.visual-block').find('#carouselAll').find('.carousel-inner > div').removeClass('active');
     $('.visual-block').find('#carouselAll').find('.carousel-inner > div').first().addClass('active');
+
+    $('#carouselAll').find('.carousel-item').find('.img-lazyload').each((index, elem) => {
+        $(elem.currentTarget).removeClass('d-none');
+        $(elem.currentTarget).prev().addClass('d-none');
+    });
 }
 
 
