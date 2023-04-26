@@ -447,6 +447,12 @@ function RenderExerciseOne(data) {
                 $(e.currentTarget).prev().addClass('d-none');
             });
         });
+        $('#carouselAll').find('.carousel-item').find('.img-lazyload').each((index, elem) => {
+            $(elem).on('load', (e) => {
+                $(e.currentTarget).removeClass('d-none');
+                $(e.currentTarget).prev().addClass('d-none');
+            });
+        });
 
         $('#card_drawing1').find('.card').last().html(data.scheme_data[0]);
         $('#card_drawing2').find('.card').last().html(data.scheme_data[1]);
