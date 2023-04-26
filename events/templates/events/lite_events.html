@@ -27,13 +27,13 @@
 {#                                    <button id="toggle-event-card" title="{% trans 'Show/Hide event card' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-file-text-o" aria-hidden="true"></i></button>#}
 {#                                </div>#}
                                 <div class="col px-1">
-                                    <button id="favourites-event-filter" data-filter="0" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-star-o" aria-hidden="true"></i></button>
+                                    <button id="favourites-event-filter" data-filter="0" title="{% trans 'Filter by favorites' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-star-o" aria-hidden="true"></i></button>
                                 </div>
                                 <div class="col px-1">
                                     <button id="filled-event-filter" data-filter="0" title="{% trans "Filtering of training events" %}" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-soccer-ball-o" aria-hidden="true"></i></button>
                                 </div>
                                 <div class="col px-1">
-                                    <button id="video-event-filter" data-filter="0" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><b class="text-dark">V.</b></button>
+                                    <button id="video-event-filter" data-filter="0" title="{% trans 'Filter by video' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold"><b class="text-dark">V.</b></button>
                                 </div>
                                 <div class="col px-1">
                                     <button id="clear-events-filters" class="btn btn-block btn-reset-filter btn-md font-weight-bold" title="{% trans "Resetting all filtering and calendar" %}"><i class="fa fa-repeat" aria-hidden="true"></i></button>
@@ -63,22 +63,22 @@
                                     <button id="event-show-filter-data-button" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
                                 </div>
                                 <div class="col px-1">
-                                    <button id="event-video-modal-button" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold" data-toggle="modal" data-target="#training-video-modal"><b class="text-info">V</b></button>
+                                    <button id="event-video-modal-button" title="{% trans 'Video of selected event' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold" data-toggle="modal" data-target="#training-video-modal"><b class="text-info">V</b></button>
                                 </div>
                                 <div class="col px-1">
-                                    <button id="#" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><span class="icon-custom icon--share" style="--i-w: 1.0em; --i-h: 1.0em;"></span></button>
+                                    <button id="shared-modal-button" title="{% trans 'Share training' %}" data-training-type="lite" data-toggle="modal" data-target="#trainingShareModal" class="btn btn-block btn-lightgray btn-md font-weight-bold"><span class="icon-custom icon--share" style="--i-w: 1.0em; --i-h: 1.0em;"></span></button>
                                 </div>
                                 <div class="col px-1">
-                                    <button id="event-copy-modal-button" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><span class="icon-custom icon--copy" style="--i-w: 1.0em; --i-h: 1.0em;"></span></button>
+                                    <button id="event-copy-modal-button" title="{% trans 'Copy event' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold"><span class="icon-custom icon--copy" style="--i-w: 1.0em; --i-h: 1.0em;"></span></button>
                                 </div>
                                 <div class="col px-1">
-                                    <button id="event-render-presentation" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold" disabled><span class="icon-custom icon--download" style="--i-w: 1.0em; --i-h: 1.0em;"></span></button>
+                                    <button id="event-render-presentation" title="{% trans 'Download presentation' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold" disabled><span class="icon-custom icon--download" style="--i-w: 1.0em; --i-h: 1.0em;"></span></button>
                                 </div>
                                 <div class="col px-1">
-                                    <button id="event-print-card" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-print" aria-hidden="true"></i></button>
+                                    <button id="event-print-card" title="{% trans 'Print' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-print" aria-hidden="true"></i></button>
                                 </div>
                                 <div class="col px-1">
-                                    <button id="delete-event-button" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold text-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                    <button id="delete-event-button" title="{% trans 'Delete event' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold text-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -107,27 +107,23 @@
                         </div>
                         <div class="col-8">
                             <div class="row">
-{#                                <div class="col-4">#}
-{#                                    <div class="row">#}
-{#                                        <div class="col px-1">#}
-{#                                            <button id="favourites-event-filter" data-filter="0" title="" class="btn btn-block btn-filter-events btn-sm font-weight-bold"><i class="fa fa-star-o" aria-hidden="true"></i></button>#}
-{#                                        </div>#}
-{#                                        <div class="col px-1">#}
-{#                                            <button id="filled-event-filter" data-filter="0" title="{% trans "Filtering of unfilled events" %}" class="btn btn-block btn-filter-events btn-sm font-weight-bold"><b class="text-danger">?</b></button>#}
-{#                                        </div>#}
-{#                                        <div class="col px-1">#}
-{#                                            <button id="video-event-filter" data-filter="0" title="" class="btn btn-block btn-filter-events btn-sm font-weight-bold"><b class="text-info">V</b></button>#}
-{#                                        </div>#}
-{#                                    </div>#}
+{#                                <div class="col-4 px-1">#}
+{#                                    <input id="goal-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Goal' %}" autocomplete="off">#}
+{#                                </div>#}
+{#                                <div class="col-4 px-1">#}
+{#                                    <input id="keywords-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Objectives' %}" autocomplete="off">#}
+{#                                </div>#}
+{#                                <div class="col-4 pl-1 pr-0">#}
+{#                                    <input id="load-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Load' %}" autocomplete="off">#}
 {#                                </div>#}
                                 <div class="col-4 px-1">
-                                    <input id="goal-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Goal' %}" autocomplete="off">
+                                    <input id="goal-event-view" type="text" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Goal' %}" autocomplete="off" readonly>
                                 </div>
                                 <div class="col-4 px-1">
-                                    <input id="keywords-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Objectives' %}" autocomplete="off">
+                                    <input id="keywords-event-view" type="text" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Objectives' %}" autocomplete="off" readonly>
                                 </div>
                                 <div class="col-4 pl-1 pr-0">
-                                    <input id="load-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Load' %}" autocomplete="off">
+                                    <input id="load-event-view" type="text" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Load' %}" autocomplete="off" readonly>
                                 </div>
                             </div>
                         </div>
@@ -164,6 +160,7 @@
         </div>
     </div>
 
+    {% include 'shared/modules/shared_training_modal.html' %}
     {% include 'trainings/print_training.html' %}
     {% include 'events/forms/microcycle_modal.html' %}
     {% include 'events/forms/create_event.html' %}
@@ -184,7 +181,9 @@
     <script src="{% static 'ckeditor5-36.0.0-i0g4ar8o2g2v/build/ckeditor.js' %}"></script>
     <!-- ckeditor5 languages: -->
     <script src="{% static 'ckeditor5-36.0.0-i0g4ar8o2g2v/build/translations/ru.js' %}"></script>
-    
+    <script src="{% static 'preadmin/plugins/jqueryClassyqr/jquery.classyqr.min.js' %}"></script>
+
+    <script src="{% static 'shared/js/modules/shared_ajax.js' %}"></script>
     <script src="{% static 'exercises/js/modules/graphic_modal.js' %}"></script>
     <script src="{% static 'references/exercise_additional_data.js' %}"></script>
     <script src="{% static 'references/training_additional.js' %}"></script>

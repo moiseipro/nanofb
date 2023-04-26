@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-20 14:17+0300\n"
+"POT-Creation-Date: 2023-04-26 12:02+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -717,6 +717,7 @@ msgid ""
 msgstr ""
 
 #: .\Lib\site-packages\django\db\models\fields\__init__.py:1728
+#: .\shared\templates\shared\base_shared_training.html:131
 #: .\trainings\templates\trainings\training_card.html:68
 #: .\video\templates\video\video_card.html:92
 msgid "Duration"
@@ -811,6 +812,7 @@ msgstr ""
 
 #: .\Lib\site-packages\django\db\models\fields\__init__.py:2382
 #: .\events\forms.py:100 .\events\forms.py:142
+#: .\shared\templates\shared\base_shared_training.html:22
 #: .\trainings\templates\trainings\print_training.html:23
 #: .\trainings\templates\trainings\training_card.html:39
 msgid "Time"
@@ -1700,7 +1702,7 @@ msgstr "Главная"
 
 #: .\Lib\site-packages\furo\theme\furo\page.html:193
 msgid "On this page"
-msgstr ""
+msgstr "На этой странице"
 
 #: .\Lib\site-packages\furo\theme\furo\sidebar\rtd-versions.html:11
 #: .\Lib\site-packages\furo\theme\furo\sidebar\variant-selector.html:3
@@ -2029,6 +2031,8 @@ msgid ""
 "The groups this club belongs to. A club will get all permissions granted to "
 "each of their groups."
 msgstr ""
+"Группы, к которым принадлежит этот клуб. Клуб получит все разрешения, предоставленные"
+"каждой из их групп."
 
 #: .\clubs\models.py:34 .\version\models.py:144
 msgid "permissions"
@@ -2198,6 +2202,7 @@ msgstr "Сохранить"
 #: .\events\forms.py:72 .\exercises\templates\exercises\base_folders.html:93
 #: .\exercises\templates\exercises\base_folders.html:113
 #: .\exercises\templates\exercises\base_folders.html:137
+#: .\shared\templates\shared\modules\shared_training_modal.html:37
 #: .\trainings\templates\trainings\view_lite_training.html:24
 #: .\trainings\templates\trainings\view_training.html:24
 #: .\users\templates\users\modules\management_client.html:15
@@ -2209,7 +2214,8 @@ msgstr "Отменить"
 msgid "Event type"
 msgstr "Тип события"
 
-#: .\events\forms.py:94 .\trainings\templates\trainings\print_training.html:20
+#: .\events\forms.py:94 .\shared\templates\shared\base_shared_training.html:19
+#: .\trainings\templates\trainings\print_training.html:20
 #: .\trainings\templates\trainings\training_card.html:33
 #: .\trainings\templates\trainings\training_card.html:35
 #: .\video\templates\video\modules\video_list_exercises.html:12
@@ -2312,20 +2318,22 @@ msgstr "Календарь"
 msgid "MC days"
 msgstr "Дни МЦ"
 
-#: .\events\templates\events\base_events.html:130
-#: .\events\templates\events\lite_events.html:124
+#: .\events\templates\events\base_events.html:126
+#: .\events\templates\events\lite_events.html:120
+#: .\shared\templates\shared\base_shared_training.html:51
 #: .\trainings\templates\trainings\print_training.html:52
 #: .\trainings\templates\trainings\training_card.html:87
 msgid "Goal"
 msgstr "Цель"
 
-#: .\events\templates\events\base_events.html:133
-#: .\events\templates\events\lite_events.html:127
+#: .\events\templates\events\base_events.html:129
+#: .\events\templates\events\lite_events.html:123
 msgid "Objectives"
 msgstr "Задачи"
 
-#: .\events\templates\events\base_events.html:136
-#: .\events\templates\events\lite_events.html:130
+#: .\events\templates\events\base_events.html:132
+#: .\events\templates\events\lite_events.html:126
+#: .\shared\templates\shared\base_shared_training.html:59
 #: .\trainings\templates\trainings\print_training.html:60
 #: .\trainings\templates\trainings\training_card.html:99
 msgid "Load"
@@ -2409,6 +2417,7 @@ msgstr "Короткий ключ"
 #: .\exercises\templates\exercises\base_folders.html:85
 #: .\references\templates\references\forms\reference_edit.html:20
 #: .\references\templates\references\forms\reference_edit.html:33
+#: .\shared\templates\shared\base_shared_training.html:128
 #: .\video\templates\video\modules\video_list.html:15
 #: .\video\templates\video\modules\video_list_exercises.html:14
 #: .\video\templates\video\video_card.html:41
@@ -2625,6 +2634,10 @@ msgstr "Профиль"
 msgid "Logout"
 msgstr "Выйти"
 
+#: .\nanofootball\templates\menu\header_view.html:27
+msgid "View page"
+msgstr "Просмотр страницы"
+
 #: .\nanofootball\templates\menu\sidebar.html:11
 msgid "Administration"
 msgstr "Администрирование"
@@ -2658,6 +2671,9 @@ msgid "Main sections"
 msgstr "Основные разделы"
 
 #: .\nanofootball\templates\menu\sidebar.html:210 .\players\apps.py:8
+#: .\shared\templates\shared\base_shared_training.html:27
+#: .\shared\templates\shared\base_shared_training.html:30
+#: .\shared\templates\shared\base_shared_training.html:33
 #: .\trainings\templates\trainings\print_training.html:28
 #: .\trainings\templates\trainings\print_training.html:31
 #: .\trainings\templates\trainings\print_training.html:34
@@ -3085,6 +3101,46 @@ msgstr "Создать Сезон"
 msgid "Team Create"
 msgstr "Создать Команду"
 
+#: .\shared\templates\shared\base_shared_training.html:10
+msgid "Share Training"
+msgstr "Поделиться тренировкой"
+
+#: .\shared\templates\shared\base_shared_training.html:38
+#: .\shared\templates\shared\base_shared_training.html:41
+#: .\shared\templates\shared\base_shared_training.html:44
+#: .\trainings\templates\trainings\print_training.html:39
+#: .\trainings\templates\trainings\print_training.html:42
+#: .\trainings\templates\trainings\print_training.html:45
+#: .\trainings\templates\trainings\training_card.html:62
+msgid "Goalkeepers"
+msgstr "Вратари"
+
+#: .\shared\templates\shared\base_shared_training.html:56
+#: .\trainings\templates\trainings\print_training.html:57
+msgid "Objective 1"
+msgstr "Задача 1"
+
+#: .\shared\templates\shared\base_shared_training.html:64
+#: .\trainings\templates\trainings\print_training.html:65
+msgid "Objective 2"
+msgstr "Задача 2"
+
+#: .\shared\templates\shared\modules\shared_training_modal.html:7
+msgid "Share training"
+msgstr "Поделиться тренировкой"
+
+#: .\shared\templates\shared\modules\shared_training_modal.html:14
+msgid "Link will be available until"
+msgstr "Ссылка будет доступна до"
+
+#: .\shared\templates\shared\modules\shared_training_modal.html:24
+msgid "Link"
+msgstr "Ссылка"
+
+#: .\shared\templates\shared\modules\shared_training_modal.html:36
+msgid "Share"
+msgstr "Поделиться"
+
 #: .\templates\admin\base_site.html:3
 msgid "Nanofb site admin"
 msgstr "Администратор сайта Nanofb"
@@ -3243,21 +3299,6 @@ msgstr "Добавить выбранных"
 #: .\trainings\templates\trainings\print_training.html:9
 msgid "Print training"
 msgstr "Распечатать тренировку"
-
-#: .\trainings\templates\trainings\print_training.html:39
-#: .\trainings\templates\trainings\print_training.html:42
-#: .\trainings\templates\trainings\print_training.html:45
-#: .\trainings\templates\trainings\training_card.html:62
-msgid "Goalkeepers"
-msgstr "Вратари"
-
-#: .\trainings\templates\trainings\print_training.html:57
-msgid "Objective 1"
-msgstr "Задача 1"
-
-#: .\trainings\templates\trainings\print_training.html:65
-msgid "Objective 2"
-msgstr "Задача 2"
 
 #: .\trainings\templates\trainings\training_card.html:45
 msgid "Trainer"

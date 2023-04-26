@@ -54,7 +54,7 @@ $(window).on('load', function (){
                     <div class="col px-0 text-truncate" title="${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}">${ exercise.exercise_data.folder.short_name }. ${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}</div>
                     <div class="col-sm-12 col-md-3 px-0">
                         <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 px-1 h-100 float-right delete-exercise edit-button ${!edit_mode ? 'd-none' : ''}"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                        <input type="number" name="duration" min="0" max="999" class="form-control form-control-sm rounded-0 py-0 h-auto text-center float-right edit-input" value="${exercise.duration}" style="width: 40px" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
+                        <input type="number" name="duration" min="0" max="999" class="form-control form-control-sm rounded-0 py-0 h-auto text-center float-right edit-input" value="${exercise.duration}" style="width: 50px" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
                     </div>
                 </div>
                 `)
@@ -243,7 +243,7 @@ function render_exercises_training(training_id = null, group = null) {
                 <div class="col px-0 text-truncate" title="${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}">${ exercise.exercise_data.folder.short_name }. ${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}</div>
                 <div class="col-sm-12 col-md-3 px-0">
                     <button type="button" class="btn btn-sm btn-danger rounded-0 py-0 px-1 h-100 float-right delete-exercise edit-button ${!edit_mode ? 'd-none' : ''}"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                    <input type="number" name="duration" min="0" max="999" class="form-control form-control-sm rounded-0 p-0 h-auto text-center float-right edit-input" value="${exercise.duration}" style="width: 40px" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
+                    <input type="number" name="duration" min="0" max="999" class="form-control form-control-sm rounded-0 p-0 h-auto text-center float-right edit-input" value="${exercise.duration}" style="width: 50px" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
                 </div>
             </div>`
         });
