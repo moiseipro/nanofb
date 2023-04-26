@@ -261,6 +261,7 @@ function RenderExerciseOne(data) {
         //     }
         // } catch(e) {}
         try {
+            $(exsCard).find(`.categories-list > button`).removeClass('active');
             for (let i = 0; i < data.field_categories.length; i++) {
                 let cId = data.field_categories[i];
                 $(exsCard).find(`.categories-list > button[data-id="${cId}"]`).addClass('active');
@@ -276,24 +277,28 @@ function RenderExerciseOne(data) {
         } catch(e) {}
 
         try {
+            $(exsCard).find(`.exs-types-list > button`).removeClass('active');
             for (let i = 0; i < data.field_types.length; i++) {
                 let cId = data.field_types[i];
                 $(exsCard).find(`.exs-types-list > button[data-id="${cId}"]`).addClass('active');
             }
         } catch(e) {}
         try {
+            $(exsCard).find(`.physical-qualities-list > button`).removeClass('active');
             for (let i = 0; i < data.field_physical_qualities.length; i++) {
                 let cId = data.field_physical_qualities[i];
                 $(exsCard).find(`.physical-qualities-list > button[data-id="${cId}"]`).addClass('active');
             }
         } catch(e) {}
         try {
+            $(exsCard).find(`.cognitive-load-list > button`).removeClass('active');
             for (let i = 0; i < data.field_cognitive_loads.length; i++) {
                 let cId = data.field_cognitive_loads[i];
                 $(exsCard).find(`.cognitive-load-list > button[data-id="${cId}"]`).addClass('active');
             }
         } catch(e) {}
         try {
+            $(exsCard).find(`.fields-list > button`).removeClass('active');
             for (let i = 0; i < data.field_fields.length; i++) {
                 let cId = data.field_fields[i];
                 $(exsCard).find(`.fields-list > button[data-id="${cId}"]`).addClass('active');
