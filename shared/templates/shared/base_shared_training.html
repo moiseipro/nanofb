@@ -152,11 +152,11 @@
                                                 {% for video in exercise.exercise_data.videos %}
                                                     <div class="carousel-item {% if forloop.first %}active{% endif %}">
                                                         {% if video.links.nftv and video.links.nftv != "" %}
-                                                            <video id="video-player-{{ forloop.counter0 }}" class="video-js resize-block" poster="http://213.108.4.28/video/poster/{{ video.links.nftv }}">
+                                                            <video id="video-player-{{ video.id }}" class="video-js resize-block" poster="http://213.108.4.28/video/poster/{{ video.links.nftv }}">
                                                                 <source src="http://213.108.4.28/video/player/{{ video.links.nftv }}" type="video/mp4" />
                                                             </video>
                                                         {% else %}
-                                                            <video id="video-player-{{ forloop.counter0 }}" class="video-js resize-block" poster="">
+                                                            <video id="video-player-{{ video.id }}" class="video-js resize-block" poster="">
                                                                 <source src="https://www.youtube.com/watch?v={{ video.links.youtube }}" type="video/youtube" />
                                                             </video>
                                                         {% endif %}

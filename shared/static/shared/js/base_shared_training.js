@@ -7,14 +7,13 @@ $(window).on('load', function () {
     })
 
     let items = $('.video-js');
-    for (let i = 0; i < items.length; i++) {
-        let tId = $(items[i]).attr('id');
-        videojs($(`#${tId}`)[0], {
+    items.each(function( index ) {
+        videojs(items[index], {
             preload: 'auto',
             autoplay: false,
             controls: true,
             aspectRatio: '16:9',
             youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
         });
-    }
+    })
 })
