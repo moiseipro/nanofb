@@ -11,189 +11,397 @@
 
 {% block content %}
 
-<div id="print-training-block" class="modal-body">
-    <div class="row">
-        <div class="col-4">
-            <div class="row">
-                <div class="col-6 px-0 border training-date">
-                    <input type="text" class="form-control form-control-sm border-0" value="{{ training.event_date }}" placeholder="{% trans "Date" %}" disabled>
+<div id="share-training-block" class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-sm-12 col-md-4">
+                <div class="row">
+                    <div class="col-6 px-0 border training-date">
+                        <input type="text" class="form-control form-control-sm border-0" value="{{ training.event_date }}" placeholder="{% trans "Date" %}" disabled>
+                    </div>
+                    <div class="col-6 px-0 border training-time">
+                        <input type="text" class="form-control form-control-sm border-0" value="{{ training.event_time }}" placeholder="{% trans "Time" %}" disabled>
+                    </div>
                 </div>
-                <div class="col-6 px-0 border training-time">
-                    <input type="text" class="form-control form-control-sm border-0" value="{{ training.event_time }}" placeholder="{% trans "Time" %}" disabled>
+                <div class="row">
+                    <div class="col-6 px-2 pt-2 border">
+                        {% trans "Players" %}
+                    </div>
+                    <div class="col-3 px-0 border training-players-0">
+                        <input type="text" class="form-control form-control-sm border-0" placeholder="" value="{{ training.players_count.0 }}" disabled> <!--{% trans "Players" %} A-->
+                    </div>
+                    <div class="col-3 px-0 border training-players-1">
+                        <input type="text" class="form-control form-control-sm border-0" placeholder="" value="{{ training.players_count.1 }}" disabled> <!--{% trans "Players" %} B-->
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-6 px-0 border">
-                    {% trans "Players" %}
-                </div>
-                <div class="col-3 px-0 border training-players-0">
-                    <input type="text" class="form-control form-control-sm border-0" placeholder="" value="{{ training.players_count.0 }}" disabled> <!--{% trans "Players" %} A-->
-                </div>
-                <div class="col-3 px-0 border training-players-1">
-                    <input type="text" class="form-control form-control-sm border-0" placeholder="" value="{{ training.players_count.1 }}" disabled> <!--{% trans "Players" %} B-->
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-6 px-0 border">
-                    {% trans "Goalkeepers" %}
-                </div>
-                <div class="col-3 px-0 border training-goalkeepers-0">
-                    <input type="text" class="form-control form-control-sm border-0" placeholder="" value="{{ training.goalkeepers_count.0 }}" disabled> <!--{% trans "Goalkeepers" %} A-->
-                </div>
-                <div class="col-3 px-0 border training-goalkeepers-1">
-                    <input type="text" class="form-control form-control-sm border-0" placeholder="" value="{{ training.goalkeepers_count.1 }}" disabled> <!--{% trans "Goalkeepers" %} B-->
-                </div>
-            </div>
-        </div>
-        <div class="col-8">
-            <div class="row">
-                <div class="col-12 px-0 border training-goal">
-                    <input type="text" class="form-control form-control-sm border-0" value="{{ training.goal }}" placeholder="{% trans "Goal" %}" disabled>
+                <div class="row">
+                    <div class="col-6 px-2 pt-2 border">
+                        {% trans "Goalkeepers" %}
+                    </div>
+                    <div class="col-3 px-0 border training-goalkeepers-0">
+                        <input type="text" class="form-control form-control-sm border-0" placeholder="" value="{{ training.goalkeepers_count.0 }}" disabled> <!--{% trans "Goalkeepers" %} A-->
+                    </div>
+                    <div class="col-3 px-0 border training-goalkeepers-1">
+                        <input type="text" class="form-control form-control-sm border-0" placeholder="" value="{{ training.goalkeepers_count.1 }}" disabled> <!--{% trans "Goalkeepers" %} B-->
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-6 px-0 border training-objective_1">
-                    <input type="text" class="form-control form-control-sm border-0" value="{{ training.objective_1 }}" placeholder="{% trans "Objective 1" %}" disabled>
+            <div class="col-sm-12 col-md-8">
+                <div class="row">
+                    <div class="col-12 px-0 border training-goal">
+                        <input type="text" class="form-control form-control-sm border-0" value="{{ training.goal }}" placeholder="{% trans "Goal" %}" disabled>
+                    </div>
                 </div>
-                <div class="col-6 px-0 border training-load">
-                    <input type="text" class="form-control form-control-sm border-0" value="{{ training.load_type }}" placeholder="{% trans "Load" %}" disabled>
+                <div class="row">
+                    <div class="col-12 px-0 border training-objective_1">
+                        <input type="text" class="form-control form-control-sm border-0" value="{{ training.objective_1 }}" placeholder="{% trans "Objective 1" %}" disabled>
+                    </div>
+
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-6 px-0 border training-objective_2">
-                    <input type="text" class="form-control form-control-sm border-0" value="{{ training.objective_2 }}" placeholder="{% trans "Objective 2" %}" disabled>
+                <div class="row">
+                    <div class="col-12 px-0 border training-load">
+                        <input type="text" class="form-control form-control-sm border-0" value="{{ training.load_type }}" placeholder="{% trans "Load" %}" disabled>
+                    </div>
                 </div>
+{#                <div class="row">#}
+{#                    <div class="col-6 px-0 border training-objective_2">#}
+{#                        <input type="text" class="form-control form-control-sm border-0" value="{{ training.objective_2 }}" placeholder="{% trans "Objective 2" %}" disabled>#}
+{#                    </div>#}
+{#                </div>#}
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-12 exercise-list">
+    <div class="card-body p-0">
+        <div id="accordion">
             {% for exercise in training.exercises_info %}
-                <div class="row" style="border-top: 2px solid black">
-                    <div class="col-4 px-0 exercise-scheme-block">
-                        <div id="carouselPrintSchema-{{exercise.id}}" class="carousel slide carouselPrintSchema" data-ride="carousel" data-interval="false">
-                            <ol class="carousel-indicators no-print">
-                                {% if exercise.scheme_1 %}
-                                    <li data-target="#carouselTrainingPrintSchema-{{ exercise.id }}" data-slide-to="0" class="active"></li>
-                                {% endif %}
-                                {% if exercise.scheme_2 %}
-                                    <li data-target="#carouselTrainingPrintSchema-{{ exercise.id }}" data-slide-to="1" class="{% if not exercise.scheme_1 %}active{% endif %}"></li>
-                                {% endif %}
-                                {% if exercise.exercise_scheme %}
-                                    {% if exercise.exercise_scheme.scheme_1 %}
-                                        <li data-target="#carouselTrainingPrintSchema-{{ exercise.id }}" data-slide-to="2" class="{% if not exercise.scheme_1 and not exercise.scheme_2 %}active{% endif %}"></li>
-                                    {% endif %}
-                                    {% if exercise.exercise_scheme.scheme_2 %}
-                                        <li data-target="#carouselTrainingPrintSchema-{{ exercise.id }}" data-slide-to="3" class="{% if not exercise.scheme_1 and not exercise.scheme_2 and not exercise.exercise_scheme.scheme_1 %}active{% endif %}"></li>
-                                    {% endif %}
-                                {% endif %}
-                            </ol>
-                            <div class="carousel-inner">
-                                {% if exercise.scheme_1 %}
-                                    <div class="carousel-item active">
-                                        <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id={{exercise.scheme_1}}" alt="scheme" width="100%" height="100%">
-                                    </div>
-                                {% endif %}
-                                {% if exercise.scheme_2 %}
-                                    <div class="carousel-item {% if not exercise.scheme_1 %}active{% endif %}">
-                                        <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id={{exercise.scheme_2}}" alt="scheme" width="100%" height="100%">
-                                    </div>
-                                {% endif %}
-                                {% if exercise.exercise_scheme %}
-                                    {% if exercise.exercise_scheme.scheme_1 %}
-                                        <div class="carousel-item {% if not exercise.scheme_1 and not exercise.scheme_2 %}active{% endif %}">
-                                            {{ exercise.exercise_scheme.scheme_1|safe }}
+                <div class="card">
+                    <div class="card-header p-0" id="headingOne">
+                        <h5 class="mb-0">
+                            <button class="btn btn-block btn-secondary calculate-name" data-toggle="collapse" data-target="#collapse-{{ exercise.id }}" data-value="{{ exercise.exercise_name }}" aria-expanded="true" aria-controls="collapseOne">
+                                <span class="float-left title"></span>
+                                <span class="float-right duration"><b>{{exercise.duration}}`</b></span>
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapse-{{ exercise.id }}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body py-1">
+                            <div class="row" style="border-top: 2px solid black">
+                                <div class="col-12 px-0 exercise-scheme-block">
+                                    <div id="carouselShareSchema-{{exercise.id}}" class="carousel slide carouselShareSchema" data-ride="carousel" data-interval="false">
+                                        <ol class="carousel-indicators no-print">
+                                            {% if exercise.scheme_1 %}
+                                                <li data-target="#carouselShareSchema-{{ exercise.id }}" data-slide-to="0" class="active"></li>
+                                            {% endif %}
+                                            {% if exercise.scheme_2 %}
+                                                <li data-target="#carouselShareSchema-{{ exercise.id }}" data-slide-to="1" class="{% if not exercise.scheme_1 %}active{% endif %}"></li>
+                                            {% endif %}
+                                            {% if exercise.exercise_scheme %}
+                                                {% if exercise.exercise_scheme.scheme_1 %}
+                                                    <li data-target="#carouselShareSchema-{{ exercise.id }}" data-slide-to="2" class="{% if not exercise.scheme_1 and not exercise.scheme_2 %}active{% endif %}"></li>
+                                                {% endif %}
+                                                {% if exercise.exercise_scheme.scheme_2 %}
+                                                    <li data-target="#carouselShareSchema-{{ exercise.id }}" data-slide-to="3" class="{% if not exercise.scheme_1 and not exercise.scheme_2 and not exercise.exercise_scheme.scheme_1 %}active{% endif %}"></li>
+                                                {% endif %}
+                                            {% endif %}
+                                        </ol>
+                                        <div class="carousel-inner">
+                                            {% if exercise.scheme_1 %}
+                                                <div class="carousel-item active">
+                                                    <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id={{exercise.scheme_1}}" alt="scheme" width="100%" height="100%">
+                                                </div>
+                                            {% endif %}
+                                            {% if exercise.scheme_2 %}
+                                                <div class="carousel-item {% if not exercise.scheme_1 %}active{% endif %}">
+                                                    <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id={{exercise.scheme_2}}" alt="scheme" width="100%" height="100%">
+                                                </div>
+                                            {% endif %}
+                                            {% if exercise.exercise_scheme %}
+                                                {% if exercise.exercise_scheme.scheme_1 %}
+                                                    <div class="carousel-item {% if not exercise.scheme_1 and not exercise.scheme_2 %}active{% endif %}">
+                                                        {{ exercise.exercise_scheme.scheme_1|safe }}
+                                                    </div>
+                                                {% endif %}
+                                                {% if exercise.exercise_scheme.scheme_2 %}
+                                                    <div class="carousel-item {% if not exercise.scheme_1 and not exercise.scheme_2 and not exercise.exercise_scheme.scheme_1 %}active{% endif %}">
+                                                        {{ exercise.exercise_scheme.scheme_2|safe }}
+                                                    </div>
+                                                {% endif %}
+                                            {% endif %}
                                         </div>
-                                    {% endif %}
-                                    {% if exercise.exercise_scheme.scheme_2 %}
-                                        <div class="carousel-item {% if not exercise.scheme_1 and not exercise.scheme_2 and not exercise.exercise_scheme.scheme_1 %}active{% endif %}">
-                                            {{ exercise.exercise_scheme.scheme_2|safe }}
-                                        </div>
-                                    {% endif %}
-                                {% endif %}
+                                        <a class="carousel-control-prev ml-2 no-print" href="#carouselShareSchema-{{exercise.id}}" role="button" data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next no-print" href="#carouselShareSchema-{{exercise.id}}" role="button" data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
-                            <a class="carousel-control-prev ml-2 no-print" href="#carouselPrintSchema-{{exercise.id}}" role="button" data-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                            <a class="carousel-control-next no-print" href="#carouselPrintSchema-{{exercise.id}}" role="button" data-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Next</span>
-                            </a>
+                            {% if exercise.exercise_data.videos|length > 0 %}
+                                <div class="row" style="border-top: 2px solid black">
+                                    <div class="col-12 px-0 exercise-video-block">
+                                        <div id="carouselShareVideo-{{exercise.id}}" class="carousel slide carouselShareVideo" data-ride="carousel" data-interval="false">
+                                            <ol class="carousel-indicators no-print">
+                                                {% for video in exercise.exercise_data.videos %}
+                                                    <li data-target="#carouselShareVideo-{{ exercise.id }}" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}"></li>
+                                                {% endfor %}
+                                            </ol>
+                                            <div class="carousel-inner">
+                                                {% for video in exercise.exercise_data.videos %}
+                                                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                                        {% if video.links.nftv and video.links.nftv != "" %}
+                                                            <video id="video-player-{{ forloop.counter0 }}" class="video-js resize-block" poster="http://213.108.4.28/video/poster/{{ video.links.nftv }}">
+                                                                <source src="http://213.108.4.28/video/player/{{ video.links.nftv }}" type="video/mp4" />
+                                                            </video>
+                                                        {% else %}
+                                                            <video id="video-player-{{ forloop.counter0 }}" class="video-js resize-block" poster="">
+                                                                <source src="https://www.youtube.com/watch?v={{ video.links.youtube }}" type="video/youtube" />
+                                                            </video>
+                                                        {% endif %}
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                            <a class="carousel-control-prev ml-2 no-print" href="#carouselShareVideo-{{exercise.id}}" role="button" data-slide="prev" style="margin-bottom: 35px;">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                            <a class="carousel-control-next no-print" href="#carouselShareVideo-{{exercise.id}}" role="button" data-slide="next" style="margin-bottom: 35px;">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div class="row">
+                                <div class="col-12 exercise-info-block">
+                                    <div class="row h-100">
+{#                                        <div class="col-10 px-0 align-self-start calculate-name border" style="background: #efefef">#}
+{#                                            <input type="text" class="form-control form-control-sm border-0 font-weight-bold text-center" placeholder="{% trans 'Title' %}" data-value="{{ exercise.exercise_name }}" value="" disabled>#}
+{#                                        </div>#}
+{#                                        <div class="col-2 px-0 align-self-start border" style="background: #efefef">#}
+{#                                            <input type="text" class="form-control form-control-sm border-0 font-weight-bold text-center" placeholder="{% trans 'Duration' %}" value="({{exercise.duration}}`)" disabled>#}
+{#                                        </div>#}
+
+                                        <div class="col-12 px-0 align-self-start">
+                                            <p class="border p-1 m-0">
+                                                {% if exercise.description %}
+                                                    {{ exercise.description|safe }}
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                        <div class="col-12 align-self-end calculate-additional">
+                                            <div class="row">
+                                                {% if exercise.additional_json.0.name %}
+                                                    <div class="col-6">
+                                                        <div class="row">
+                                                            <div class="col-12 px-1 border text-center">
+                                                                <b>{{ exercise.additional_json.0.name }}</b>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                                {% if exercise.additional_json.1.name %}
+                                                    <div class="col-6">
+                                                        <div class="row">
+                                                            <div class="col-12 px-1 border text-center">
+                                                                <b>{{ exercise.additional_json.1.name }}</b>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                                {% if exercise.additional_json.2.name %}
+                                                    <div class="col-6">
+                                                        <div class="row">
+                                                            <div class="col-12 px-1 border text-center">
+                                                                <b>{{ exercise.additional_json.2.name }}</b>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                                {% if exercise.additional_json.3.name %}
+                                                    <div class="col-6">
+                                                        <div class="row">
+                                                            <div class="col-12 px-1 border text-center">
+                                                                <b>{{ exercise.additional_json.3.name }}</b>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                                {% if exercise.additional_json.4.name %}
+                                                    <div class="col-6">
+                                                        <div class="row">
+                                                            <div class="col-12 px-1 border text-center">
+                                                                <b>{{ exercise.additional_json.4.name }}</b>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                                {% if exercise.additional_json.5.name %}
+                                                    <div class="col-6">
+                                                        <div class="row">
+                                                            <div class="col-12 px-1 border text-center">
+                                                                <b>{{ exercise.additional_json.5.name }}</b>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+            {#                                    {% if exercise.additional_json and exercise.additional_json|length > 0 %}#}
+            {#                                        {% for additional in exercise.additional_json %}#}
+            {#                                            {{ additional }}#}
+            {#                                            {% if additional.name and additional.name is not '' %}#}
+            {#                                                <div class="col-6">#}
+            {#                                                    <div class="row">#}
+            {#                                                        <div class="col-12 px-1 border text-center">#}
+            {#                                                            <b>{{additional.name}}</b>#}
+            {#                                                        </div>#}
+            {#                                                    </div>#}
+            {#                                                </div>#}
+            {#                                            {% endif %}#}
+            {#                                        {% endfor %}#}
+            {#                                    {% endif %}#}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-8 exercise-info-block">
-                        <div class="row h-100">
-                            <div class="col-10 px-0 align-self-start calculate-name border" style="background: #efefef">
-                                <input type="text" class="form-control form-control-sm border-0 font-weight-bold text-center" placeholder="{% trans 'Title' %}" data-value="{{ exercise.exercise_name }}" value="" disabled>
-                            </div>
-                            <div class="col-2 px-0 align-self-start border" style="background: #efefef">
-                                <input type="text" class="form-control form-control-sm border-0 font-weight-bold text-center" placeholder="{% trans 'Duration' %}" value="({{exercise.duration}}`)" disabled>
-                            </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 
-                            <div class="col-12 px-0 align-self-start">
-                                <textarea class="form-control form-control-sm rounded-0" rows="5" cols="5" style="resize: none; max-height: 500px; min-height: 60px; height: 150px" disabled>
-                                    {% if exercise.description %}
-                                        {{ exercise.description }}
-                                    {% endif %}
-                                </textarea>
-                            </div>
-                            <div class="col-12 align-self-end calculate-additional">
-                                <div class="row">
-                                    {% if exercise.additional_json.0.name %}
-                                        <div class="col-6">
-                                            <div class="row">
-                                                <div class="col-12 px-1 border text-center">
-                                                    <b>{{ exercise.additional_json.0.name }}</b>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    {% endif %}
-                                    {% if exercise.additional_json.1.name %}
-                                        <div class="col-6">
-                                            <div class="row">
-                                                <div class="col-12 px-1 border text-center">
-                                                    <b>{{ exercise.additional_json.1.name }}</b>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    {% endif %}
-                                    {% if exercise.additional_json.2.name %}
-                                        <div class="col-6">
-                                            <div class="row">
-                                                <div class="col-12 px-1 border text-center">
-                                                    <b>{{ exercise.additional_json.2.name }}</b>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    {% endif %}
-                                    {% if exercise.additional_json.3.name %}
-                                        <div class="col-6">
-                                            <div class="row">
-                                                <div class="col-12 px-1 border text-center">
-                                                    <b>{{ exercise.additional_json.3.name }}</b>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    {% endif %}
-                                    {% if exercise.additional_json.4.name %}
-                                        <div class="col-6">
-                                            <div class="row">
-                                                <div class="col-12 px-1 border text-center">
-                                                    <b>{{ exercise.additional_json.4.name }}</b>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    {% endif %}
-                                    {% if exercise.additional_json.5.name %}
-                                        <div class="col-6">
-                                            <div class="row">
-                                                <div class="col-12 px-1 border text-center">
-                                                    <b>{{ exercise.additional_json.5.name }}</b>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    {% endif %}
+{#    <div class="row">#}
+{#        <div class="col-12 exercise-list">#}
+{#            {% for exercise in training.exercises_info %}#}
+{#                <div class="row" style="border-top: 2px solid black">#}
+{#                    <div class="col-4 px-0 exercise-scheme-block">#}
+{#                        <div id="carouselPrintSchema-{{exercise.id}}" class="carousel slide carouselPrintSchema" data-ride="carousel" data-interval="false">#}
+{#                            <ol class="carousel-indicators no-print">#}
+{#                                {% if exercise.scheme_1 %}#}
+{#                                    <li data-target="#carouselTrainingPrintSchema-{{ exercise.id }}" data-slide-to="0" class="active"></li>#}
+{#                                {% endif %}#}
+{#                                {% if exercise.scheme_2 %}#}
+{#                                    <li data-target="#carouselTrainingPrintSchema-{{ exercise.id }}" data-slide-to="1" class="{% if not exercise.scheme_1 %}active{% endif %}"></li>#}
+{#                                {% endif %}#}
+{#                                {% if exercise.exercise_scheme %}#}
+{#                                    {% if exercise.exercise_scheme.scheme_1 %}#}
+{#                                        <li data-target="#carouselTrainingPrintSchema-{{ exercise.id }}" data-slide-to="2" class="{% if not exercise.scheme_1 and not exercise.scheme_2 %}active{% endif %}"></li>#}
+{#                                    {% endif %}#}
+{#                                    {% if exercise.exercise_scheme.scheme_2 %}#}
+{#                                        <li data-target="#carouselTrainingPrintSchema-{{ exercise.id }}" data-slide-to="3" class="{% if not exercise.scheme_1 and not exercise.scheme_2 and not exercise.exercise_scheme.scheme_1 %}active{% endif %}"></li>#}
+{#                                    {% endif %}#}
+{#                                {% endif %}#}
+{#                            </ol>#}
+{#                            <div class="carousel-inner">#}
+{#                                {% if exercise.scheme_1 %}#}
+{#                                    <div class="carousel-item active">#}
+{#                                        <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id={{exercise.scheme_1}}" alt="scheme" width="100%" height="100%">#}
+{#                                    </div>#}
+{#                                {% endif %}#}
+{#                                {% if exercise.scheme_2 %}#}
+{#                                    <div class="carousel-item {% if not exercise.scheme_1 %}active{% endif %}">#}
+{#                                        <img src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id={{exercise.scheme_2}}" alt="scheme" width="100%" height="100%">#}
+{#                                    </div>#}
+{#                                {% endif %}#}
+{#                                {% if exercise.exercise_scheme %}#}
+{#                                    {% if exercise.exercise_scheme.scheme_1 %}#}
+{#                                        <div class="carousel-item {% if not exercise.scheme_1 and not exercise.scheme_2 %}active{% endif %}">#}
+{#                                            {{ exercise.exercise_scheme.scheme_1|safe }}#}
+{#                                        </div>#}
+{#                                    {% endif %}#}
+{#                                    {% if exercise.exercise_scheme.scheme_2 %}#}
+{#                                        <div class="carousel-item {% if not exercise.scheme_1 and not exercise.scheme_2 and not exercise.exercise_scheme.scheme_1 %}active{% endif %}">#}
+{#                                            {{ exercise.exercise_scheme.scheme_2|safe }}#}
+{#                                        </div>#}
+{#                                    {% endif %}#}
+{#                                {% endif %}#}
+{#                            </div>#}
+{#                            <a class="carousel-control-prev ml-2 no-print" href="#carouselPrintSchema-{{exercise.id}}" role="button" data-slide="prev">#}
+{#                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>#}
+{#                                <span class="sr-only">Previous</span>#}
+{#                            </a>#}
+{#                            <a class="carousel-control-next no-print" href="#carouselPrintSchema-{{exercise.id}}" role="button" data-slide="next">#}
+{#                                <span class="carousel-control-next-icon" aria-hidden="true"></span>#}
+{#                                <span class="sr-only">Next</span>#}
+{#                            </a>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="col-8 exercise-info-block">#}
+{#                        <div class="row h-100">#}
+{#                            <div class="col-10 px-0 align-self-start calculate-name border" style="background: #efefef">#}
+{#                                <input type="text" class="form-control form-control-sm border-0 font-weight-bold text-center" placeholder="{% trans 'Title' %}" data-value="{{ exercise.exercise_name }}" value="" disabled>#}
+{#                            </div>#}
+{#                            <div class="col-2 px-0 align-self-start border" style="background: #efefef">#}
+{#                                <input type="text" class="form-control form-control-sm border-0 font-weight-bold text-center" placeholder="{% trans 'Duration' %}" value="({{exercise.duration}}`)" disabled>#}
+{#                            </div>#}
+{##}
+{#                            <div class="col-12 px-0 align-self-start">#}
+{#                                <textarea class="form-control form-control-sm rounded-0" rows="5" cols="5" style="resize: none; max-height: 500px; min-height: 60px; height: 150px" disabled>#}
+{#                                    {% if exercise.description %}#}
+{#                                        {{ exercise.description }}#}
+{#                                    {% endif %}#}
+{#                                </textarea>#}
+{#                            </div>#}
+{#                            <div class="col-12 align-self-end calculate-additional">#}
+{#                                <div class="row">#}
+{#                                    {% if exercise.additional_json.0.name %}#}
+{#                                        <div class="col-6">#}
+{#                                            <div class="row">#}
+{#                                                <div class="col-12 px-1 border text-center">#}
+{#                                                    <b>{{ exercise.additional_json.0.name }}</b>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    {% endif %}#}
+{#                                    {% if exercise.additional_json.1.name %}#}
+{#                                        <div class="col-6">#}
+{#                                            <div class="row">#}
+{#                                                <div class="col-12 px-1 border text-center">#}
+{#                                                    <b>{{ exercise.additional_json.1.name }}</b>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    {% endif %}#}
+{#                                    {% if exercise.additional_json.2.name %}#}
+{#                                        <div class="col-6">#}
+{#                                            <div class="row">#}
+{#                                                <div class="col-12 px-1 border text-center">#}
+{#                                                    <b>{{ exercise.additional_json.2.name }}</b>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    {% endif %}#}
+{#                                    {% if exercise.additional_json.3.name %}#}
+{#                                        <div class="col-6">#}
+{#                                            <div class="row">#}
+{#                                                <div class="col-12 px-1 border text-center">#}
+{#                                                    <b>{{ exercise.additional_json.3.name }}</b>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    {% endif %}#}
+{#                                    {% if exercise.additional_json.4.name %}#}
+{#                                        <div class="col-6">#}
+{#                                            <div class="row">#}
+{#                                                <div class="col-12 px-1 border text-center">#}
+{#                                                    <b>{{ exercise.additional_json.4.name }}</b>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    {% endif %}#}
+{#                                    {% if exercise.additional_json.5.name %}#}
+{#                                        <div class="col-6">#}
+{#                                            <div class="row">#}
+{#                                                <div class="col-12 px-1 border text-center">#}
+{#                                                    <b>{{ exercise.additional_json.5.name }}</b>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    {% endif %}#}
 {#                                    {% if exercise.additional_json and exercise.additional_json|length > 0 %}#}
 {#                                        {% for additional in exercise.additional_json %}#}
 {#                                            {{ additional }}#}
@@ -208,13 +416,13 @@
 {#                                            {% endif %}#}
 {#                                        {% endfor %}#}
 {#                                    {% endif %}#}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            {% endfor %}#}
+{#        </div>#}
     </div>
 </div>
 {% endblock %}
