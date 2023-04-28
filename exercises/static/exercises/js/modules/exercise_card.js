@@ -811,10 +811,12 @@ function SaveExerciseOne() {
     dataToSend.data['description_template'] = document.descriptionEditor2Template.getData();
     dataToSend.data['description_trainer'] = document.descriptionEditor2Trainer.getData();
     if (dataToSend.data.title == "") {
+        window.parent.postMessage("exercise_end_edited", '*');
         swal("Внимание", "Добавьте название для упражнения.", "info");
         return;
     }
-    if (dataToSend.data.folder_parent == "" || dataToSend.data.folder_main == "") {
+    if (dataToSend.data.folder_parent == "" || dataToSend.data.folder_main == "" || !dataToSend.data.folder_parent || !dataToSend.data.folder_main) {
+        window.parent.postMessage("exercise_end_edited", '*');
         swal("Внимание", "Выберите папку для упражнения.", "info");
         return;
     }
@@ -1106,6 +1108,7 @@ function ToggleFoldersType(data = null) {
         $(exsCard).find('.exs_edit_field.nfb_folders').toggleClass('selected', folderType == "nfb_folders");
         $(exsCard).find('.exs_edit_field.team_folders').toggleClass('selected', folderType == "team_folders");
         $(exsCard).find(`.${folderType}[name="folder_parent"]`).val('');
+        $(exsCard).find(`.${folderType}[name="folder_parent"]`).trigger('change');
         $(exsCard).find('[name="folder_main"]').find('option').addClass('d-none');
         $(exsCard).find(`.${folderType}[name="folder_main"]`).val('');
     } else {
@@ -1114,6 +1117,7 @@ function ToggleFoldersType(data = null) {
         $(exsCard).find('.exs_edit_field.nfb_folders').toggleClass('selected', folderType == "nfb_folders");
         $(exsCard).find('.exs_edit_field.team_folders').toggleClass('selected', folderType == "team_folders");
         $(exsCard).find(`.${folderType}[name="folder_parent"]`).val(data.folder_parent_id);
+        $(exsCard).find(`.${folderType}[name="folder_parent"]`).trigger('change');
         $(exsCard).find('[name="folder_main"]').find('option').addClass('d-none');
         $(exsCard).find('[name="folder_main"]').find(`option[data-parent=${data.folder_parent_id}]`).removeClass('d-none');
         $(exsCard).find(`.${folderType}[name="folder_main"]`).val(data.folder_id);
@@ -2243,19 +2247,45 @@ $(function() {
         window.changedData = true;
     });
 
-
+    const shortNameChars = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+    $('#exerciseCard').find('.nfb_folders[name="folder_parent"] > option').each((ind, elem) => {
+        try {
+            let currentShortName = shortNameChars[ind].toUpperCase();
+            let currentName = $(elem).attr('data-name');
+            $(elem).attr('data-short', currentShortName);
+            $(elem).text(`${currentShortName}. ${currentName}`);
+        } catch(e) {}
+    });
     $('#exerciseCard').on('change', '.nfb_folders[name="folder_parent"]', (e) => {
         let cId = $(e.currentTarget).val();
+        let cShort = $('#exerciseCard').find(`.nfb_folders[name="folder_parent"] > option[value="${cId}"]`).attr('data-short');
         $('#exerciseCard').find('.nfb_folders[name="folder_main"]').val('');
         $('#exerciseCard').find('.nfb_folders[name="folder_main"] > option').each((ind, elem) => {
             $(elem).toggleClass('d-none', !($(elem).attr('data-parent') == cId));
         });
+        $('#exerciseCard').find('.nfb_folders[name="folder_main"] > option:not(.d-none)').each((ind, elem) => {
+            let cName = $(elem).attr('data-name');
+            $(elem).text(`${cShort}${(ind+1)}. ${cName}`);
+        });
+    });
+    $('#exerciseCard').find('.team_folders[name="folder_parent"] > option').each((ind, elem) => {
+        try {
+            let currentShortName = shortNameChars[ind].toUpperCase();
+            let currentName = $(elem).attr('data-name');
+            $(elem).attr('data-short', currentShortName);
+            $(elem).text(`${currentShortName}. ${currentName}`);
+        } catch(e) {}
     });
     $('#exerciseCard').on('change', '.team_folders[name="folder_parent"]', (e) => {
         let cId = $(e.currentTarget).val();
+        let cShort = $('#exerciseCard').find(`.team_folders[name="folder_parent"] > option[value="${cId}"]`).attr('data-short');
         $('#exerciseCard').find('.team_folders[name="folder_main"]').val('');
         $('#exerciseCard').find('.team_folders[name="folder_main"] > option').each((ind, elem) => {
             $(elem).toggleClass('d-none', !($(elem).attr('data-parent') == cId));
+        });
+        $('#exerciseCard').find('.team_folders[name="folder_main"] > option:not(.d-none)').each((ind, elem) => {
+            let cName = $(elem).attr('data-name');
+            $(elem).text(`${cShort}${(ind+1)}. ${cName}`);
         });
     });
 
