@@ -142,7 +142,7 @@ function LoadExerciseOne(exsID = null, fromNFB = 0, folderType = "") {
     if (!folderType || folderType == "") {
         folderType = searchParams.get('type');
     }
-    AdaptPageToSection(chosenSection, searchParams.get('id') == "new", false);
+    AdaptPageToSection(chosenSection, searchParams.get('id') == "new", false, searchParams.get('id') == "new");
     if (searchParams.get('id') == "new") {
         window.parent.postMessage("exercise_loaded", '*');
     }
@@ -158,7 +158,7 @@ function LoadExerciseOne(exsID = null, fromNFB = 0, folderType = "") {
         success: function (res) {
             if (res.success) {
                 RenderExerciseOne(res.data);
-                AdaptPageToSection(chosenSection, true, false);
+                AdaptPageToSection(chosenSection, true, false, false);
             }
         },
         error: function (res) {
@@ -625,9 +625,13 @@ function RenderExerciseOne(data) {
     }
 }
 
-function AdaptPageToSection(section, exerciseLoaded=false, onlyChangeSection=false) {
+function AdaptPageToSection(section, exerciseLoaded=false, onlyChangeSection=false, isNewExs=false) {
     let availableSections = ["card", "description", "scheme_1", "scheme_2", "video_1", "video_2", "animation_1", "animation_2", "tags"];
     if (availableSections.includes(section)) {
+        if (isNewExs) {
+            $('.exs-edit-block-in-card').find('.btn-o-modal[data-id="card"]').parent().toggleClass('d-none', !isNewExs);
+            $('.exs-edit-block-in-card').find('.btn-o-modal[data-id="description"]').parent().toggleClass('d-none', !isNewExs);
+        }
         if (!onlyChangeSection) {
             $(document).find('div.header').remove();
             $(document).find('div.sidebar').remove();
@@ -2652,7 +2656,7 @@ $(function() {
         let cId = $(e.currentTarget).attr('data-id');
         $('.exs-edit-block-in-card').find('.btn-o-modal').removeClass('active');
         $(e.currentTarget).addClass('active');
-        AdaptPageToSection(cId, true, true);
+        AdaptPageToSection(cId, true, true, false);
     });
 
     $('#exerciseCard').find('.keywords-blocks-toggle > button').first().addClass('active');
