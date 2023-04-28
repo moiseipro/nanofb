@@ -1238,6 +1238,7 @@ $(function() {
     $('#createExercise').on('click', (e) => {
         let folderType = $('.folders_div.selected').attr('data-id');
         if ($(e.currentTarget).hasClass('usr-dft') && folderType == "nfb_folders") {
+            $(e.currentTarget).removeClass('selected3');
             swal("Внимание", "Выберите папки <Команда> для добавления упражнения.", "info");
             return;
         }
