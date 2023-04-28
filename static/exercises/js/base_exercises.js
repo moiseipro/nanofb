@@ -66,6 +66,10 @@ function ToggleUpFilter(id, state) {
                 $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('selected', false);
                 $('.up-tabs-elem[data-id="club_folders"]').toggleClass('selected', true);
                 $('.up-tabs-elem[data-id="team_folders"]').toggleClass('selected', false);
+
+                $('.up-tabs-elem').removeClass('b-c-blue2');
+                $('.up-tabs-elem').removeClass('b-c-green2');
+                $('.up-tabs-elem').addClass('b-c-red2');
             } else {
                 $('.folders_nfb_list').toggleClass('d-none', true);
                 $('.folders_club_list').toggleClass('d-none', true);
@@ -82,6 +86,10 @@ function ToggleUpFilter(id, state) {
                 $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('selected', false);
                 $('.up-tabs-elem[data-id="club_folders"]').toggleClass('selected', false);
                 $('.up-tabs-elem[data-id="team_folders"]').toggleClass('selected', true);
+
+                $('.up-tabs-elem').addClass('b-c-blue2');
+                $('.up-tabs-elem').removeClass('b-c-green2');
+                $('.up-tabs-elem').removeClass('b-c-red2');
             }
 
             $('#exerciseCopyModal').find('select[name="copy_mode"]').val('1');
@@ -91,9 +99,6 @@ function ToggleUpFilter(id, state) {
             $('.toggle-filter-content').removeClass('btn-custom-outline-blue');
             $('.toggle-filter-content').removeClass('btn-custom-outline-green');
             $('.toggle-filter-content').addClass('btn-custom-outline-red');
-            $('.up-tabs-elem').removeClass('b-c-blue2');
-            $('.up-tabs-elem').removeClass('b-c-green2');
-            $('.up-tabs-elem').addClass('b-c-red2');
             CountExsInFoldersByType();
             ToggleTagsView();
 
