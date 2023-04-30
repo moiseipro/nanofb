@@ -277,23 +277,23 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
                 </div>
             ` : ''}
         </div>
-        ` : data && data.video_links && data.video_links[2] && data.video_links[2]['link'] && data.video_links[2]['link'] != "" ? `
+        ` : data && data.video_links && data.video_links[1] && data.video_links[1]['link'] && data.video_links[1]['link'] != "" ? `
         <div class="carousel-item">
             <div class="mt-5 px-5">
                 <div class="row">
                     <div class="col-3">Название анимации:</div>
-                    <div class="col-9">${data.video_links[2]['name']}</div>
+                    <div class="col-9">${data.video_links[1]['name']}</div>
                 </div>
                 <div class="row">
                     <div class="col-3">Описание:</div>
-                    <div class="col-9">${data.video_links[2]['note']}</div>
+                    <div class="col-9">${data.video_links[1]['note']}</div>
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <a class="btn btn-sm btn-primary" href="${data.video_links[2]['link']}" target="_blank" role="button">
+                        <a class="btn btn-sm btn-primary" href="${data.video_links[1]['link']}" target="_blank" role="button">
                             Просмотреть анимацию
                         </a>
-                        <button class="btn btn-sm btn-info" value="${data.video_links[2]['link']}" onclick="navigator.clipboard.writeText(this.value);">
+                        <button class="btn btn-sm btn-info" value="${data.video_links[1]['link']}" onclick="navigator.clipboard.writeText(this.value);">
                             Скопировать анимацию
                         </button>
                     </div>

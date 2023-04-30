@@ -306,7 +306,7 @@ function RenderExerciseOne(data) {
         } catch(e) {}
 
         try {
-            if (Array.isArray(data.video_links) && data.video_links.length == 4) {
+            if (Array.isArray(data.video_links) && data.video_links.length == 2) {
                 for (let i = 0; i < data.video_links.length; i++) {
                     let cLink = data.video_links[i]['link'];
                     let cName = data.video_links[i]['name'];
@@ -316,6 +316,16 @@ function RenderExerciseOne(data) {
                     $(exsCard).find(`.exs_video_link:nth-child(${i+1})`).find(`.exs_edit_field[name="video_links_note[]"]`).val(cNote);
                 }
             }
+            // if (Array.isArray(data.video_links) && data.video_links.length == 4) {
+            //     for (let i = 0; i < data.video_links.length; i++) {
+            //         let cLink = data.video_links[i]['link'];
+            //         let cName = data.video_links[i]['name'];
+            //         let cNote = data.video_links[i]['note'];
+            //         $(exsCard).find(`.exs_video_link:nth-child(${i+1})`).find(`.exs_edit_field[name="video_links_name[]"]`).val(cName);
+            //         $(exsCard).find(`.exs_video_link:nth-child(${i+1})`).find(`.exs_edit_field[name="video_links_link[]"]`).val(cLink);
+            //         $(exsCard).find(`.exs_video_link:nth-child(${i+1})`).find(`.exs_edit_field[name="video_links_note[]"]`).val(cNote);
+            //     }
+            // }
         } catch(e) {}
 
         $(exsCard).find('.exs_edit_field[name="tags"]').val(data.tags).trigger('change');
@@ -460,15 +470,19 @@ function RenderExerciseOne(data) {
         $('#carouselAnim').find('.carousel-control-prev').removeClass('d-none');
         $('#carouselAnim').find('.carousel-control-next').removeClass('d-none');
 
-        let video_1_link = $(exsCard).find(`.exs_video_link[data-type="video_1"]`).find(`.exs_edit_field[name="video_links_link[]"]`).val();
-        let video_2_link = $(exsCard).find(`.exs_video_link[data-type="video_2"]`).find(`.exs_edit_field[name="video_links_link[]"]`).val();
-        let anim_1_link = $(exsCard).find(`.exs_video_link[data-type="animation_1"]`).find(`.exs_edit_field[name="video_links_link[]"]`).val();
-        let anim_2_link = $(exsCard).find(`.exs_video_link[data-type="animation_2"]`).find(`.exs_edit_field[name="video_links_link[]"]`).val();
+        let video_link = null;
+        let anim_link = null;
+        try {
+            if (Array.isArray(data.video_links) && data.video_links.length == 2) {
+                video_link = data.video_links[0]['link'];
+                anim_link = data.video_links[1]['link'];
+            }
+        } catch(e) {}
         if (data.video_1 && data.video_1.id && data.video_1.id != -1) {
             $('#carouselVideo').find('.carousel-item').first().removeClass('d-none');
             $(exsCard).find('.video-value[name="video1"]').val(data.video_1.id);
             RenderVideo(data.video_1.id, $(exsCard).find('.video-value[name="video1"]'), window.videoPlayerCard1);
-        } else if (video_1_link && video_1_link != "") {
+        } else if (video_link && video_link != "") {
             $('#carouselVideo').find('.carousel-item').first().removeClass('d-none');
         } else {
             $('#carouselVideo').find('.carousel-item').first().addClass('d-none');
@@ -494,7 +508,7 @@ function RenderExerciseOne(data) {
             $('#carouselAnim').find('.carousel-item').first().removeClass('d-none');
             $(exsCard).find('.video-value[name="animation1"]').val(data.animation_1.id);
             RenderVideo(data.animation_1.id, $(exsCard).find('.video-value[name="animation1"]'), window.videoPlayerCard3);
-        } else if (anim_1_link && anim_1_link != "") {
+        } else if (anim_link && anim_link != "") {
             $('#carouselAnim').find('.carousel-item').first().removeClass('d-none');
         } else {
             $('#carouselAnim').find('.carousel-item').first().addClass('d-none');

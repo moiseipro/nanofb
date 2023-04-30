@@ -1336,7 +1336,7 @@ def POST_edit_exs(request, cur_user, cur_team):
         video_links_links = set_value_as_list(request, "data[video_links_link[]]", "data[video_links_link[]][]", [])
         video_links_names = set_value_as_list(request, "data[video_links_name[]]", "data[video_links_name[]][]", [])
         video_links_notes = set_value_as_list(request, "data[video_links_note[]]", "data[video_links_note[]][]", [])
-        if len(video_links_links) == 4:
+        if len(video_links_links) == 2:
             video_links = []
             for _i in range(len(video_links_links)):
                 video_links.append({
