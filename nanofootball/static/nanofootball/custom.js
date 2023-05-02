@@ -81,7 +81,14 @@ function toggle_edit_mode(toggle = null){
     $('.view-button').toggleClass('d-none', edit_mode)
     if(edit_mode) $('.sortable-edit.ui-sortable-disabled').sortable("enable")
     else $('.sortable-edit.ui-sortable').sortable("disable")
-
+    //ckeditor
+    if (document.descriptionEditor){
+        if (edit_mode) document.descriptionEditor.disableReadOnlyMode('');
+        else document.descriptionEditor.enableReadOnlyMode('');
+    }
+    // $(document).find('.ck-editor__top').toggleClass('d-none', edit_mode);
+    // $(document).find('.ck-editor__main').toggleClass('read-mode', edit_mode);
+    // $(document).find('.ck-editor__main').toggleClass('edit-mode', !edit_mode);
 }
 $('.toggle-edit-mode').on('click', function () {
     toggle_edit_mode()

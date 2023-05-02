@@ -221,6 +221,10 @@ DJOSER = {
     'SERIALIZERS': {
         'user_create': 'authorization.serializers.UserCreateSerializer'
     },
+    'EMAIL': {
+        'activation': 'authorization.email.ActivationEmail',
+        'confirmation': 'authorization.email.ConfirmationEmail',
+    },
 }
 
 # Internationalization

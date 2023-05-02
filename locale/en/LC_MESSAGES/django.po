@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-26 12:00+0300\n"
+"POT-Creation-Date: 2023-05-02 13:38+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -701,7 +701,6 @@ msgid ""
 msgstr ""
 
 #: .\Lib\site-packages\django\db\models\fields\__init__.py:1728
-#: .\shared\templates\shared\base_shared_training.html:131
 #: .\trainings\templates\trainings\training_card.html:68
 #: .\video\templates\video\video_card.html:92
 msgid "Duration"
@@ -796,7 +795,7 @@ msgstr ""
 
 #: .\Lib\site-packages\django\db\models\fields\__init__.py:2382
 #: .\events\forms.py:100 .\events\forms.py:142
-#: .\shared\templates\shared\base_shared_training.html:22
+#: .\shared\templates\shared\base_shared_training.html:23
 #: .\trainings\templates\trainings\print_training.html:23
 #: .\trainings\templates\trainings\training_card.html:39
 msgid "Time"
@@ -1942,6 +1941,79 @@ msgstr ""
 msgid "Forgot your password?"
 msgstr ""
 
+#: .\authorization\templates\authorization\mail\ActivationEmail.html:4
+#, python-format
+msgid "Account activation on %(site_name)s"
+msgstr ""
+
+#: .\authorization\templates\authorization\mail\ActivationEmail.html:8
+#: .\authorization\templates\authorization\mail\ActivationEmail.html:23
+#, python-format
+msgid ""
+"You're receiving this email because you need to finish activation process on "
+"%(site_name)s."
+msgstr ""
+
+#: .\authorization\templates\authorization\mail\ActivationEmail.html:10
+#: .\authorization\templates\authorization\mail\ActivationEmail.html:25
+msgid "Please go to the following page to activate account:"
+msgstr ""
+
+#: .\authorization\templates\authorization\mail\ActivationEmail.html:13
+#: .\authorization\templates\authorization\mail\ActivationEmail.html:28
+#: .\authorization\templates\authorization\mail\ConfirmationEmail.html:10
+#: .\authorization\templates\authorization\mail\ConfirmationEmail.html:22
+msgid "Thanks for using our site!"
+msgstr ""
+
+#: .\authorization\templates\authorization\mail\ActivationEmail.html:15
+#: .\authorization\templates\authorization\mail\ActivationEmail.html:30
+#: .\authorization\templates\authorization\mail\ConfirmationEmail.html:12
+#: .\authorization\templates\authorization\mail\ConfirmationEmail.html:24
+#, python-format
+msgid "The %(site_name)s team"
+msgstr ""
+
+#: .\authorization\templates\authorization\mail\ActivationEmail.html:17
+#: .\authorization\templates\authorization\mail\ActivationEmail.html:32
+#: .\authorization\templates\authorization\mail\ConfirmationEmail.html:14
+#: .\authorization\templates\authorization\mail\ConfirmationEmail.html:26
+#: .\clubs\templates\clubs\mail\email.html:15
+msgid "Project leader"
+msgstr ""
+
+#: .\authorization\templates\authorization\mail\ActivationEmail.html:17
+#: .\authorization\templates\authorization\mail\ActivationEmail.html:18
+#: .\authorization\templates\authorization\mail\ActivationEmail.html:32
+#: .\authorization\templates\authorization\mail\ActivationEmail.html:33
+#: .\authorization\templates\authorization\mail\ConfirmationEmail.html:14
+#: .\authorization\templates\authorization\mail\ConfirmationEmail.html:15
+#: .\authorization\templates\authorization\mail\ConfirmationEmail.html:26
+#: .\authorization\templates\authorization\mail\ConfirmationEmail.html:27
+#: .\clubs\templates\clubs\mail\email.html:15
+#: .\clubs\templates\clubs\mail\email.html:16
+msgid "tel"
+msgstr ""
+
+#: .\authorization\templates\authorization\mail\ActivationEmail.html:18
+#: .\authorization\templates\authorization\mail\ActivationEmail.html:33
+#: .\authorization\templates\authorization\mail\ConfirmationEmail.html:15
+#: .\authorization\templates\authorization\mail\ConfirmationEmail.html:27
+#: .\clubs\templates\clubs\mail\email.html:16
+msgid "Project manager"
+msgstr ""
+
+#: .\authorization\templates\authorization\mail\ConfirmationEmail.html:4
+#, python-format
+msgid ""
+"%(site_name)s - Your account has been successfully created and activated!"
+msgstr ""
+
+#: .\authorization\templates\authorization\mail\ConfirmationEmail.html:8
+#: .\authorization\templates\authorization\mail\ConfirmationEmail.html:20
+msgid "Your account has been created and is ready to use!"
+msgstr ""
+
 #: .\authorization\templates\authorization\register.html:26
 msgid "Sign up"
 msgstr ""
@@ -2196,7 +2268,7 @@ msgstr ""
 msgid "Event type"
 msgstr ""
 
-#: .\events\forms.py:94 .\shared\templates\shared\base_shared_training.html:19
+#: .\events\forms.py:94 .\shared\templates\shared\base_shared_training.html:20
 #: .\trainings\templates\trainings\print_training.html:20
 #: .\trainings\templates\trainings\training_card.html:33
 #: .\trainings\templates\trainings\training_card.html:35
@@ -2275,9 +2347,19 @@ msgstr ""
 msgid "Show/Hide event card"
 msgstr ""
 
+#: .\events\templates\events\base_events.html:33
+#: .\events\templates\events\lite_events.html:30
+msgid "Filter by favorites"
+msgstr ""
+
 #: .\events\templates\events\base_events.html:36
 #: .\events\templates\events\lite_events.html:33
 msgid "Filtering of training events"
+msgstr ""
+
+#: .\events\templates\events\base_events.html:39
+#: .\events\templates\events\lite_events.html:36
+msgid "Filter by video"
 msgstr ""
 
 #: .\events\templates\events\base_events.html:42
@@ -2295,6 +2377,37 @@ msgstr ""
 msgid "Calendar"
 msgstr ""
 
+#: .\events\templates\events\base_events.html:72
+#: .\events\templates\events\lite_events.html:66
+msgid "Video of selected event"
+msgstr ""
+
+#: .\events\templates\events\base_events.html:75
+#: .\events\templates\events\lite_events.html:69
+#: .\shared\templates\shared\modules\shared_training_modal.html:7
+msgid "Share training"
+msgstr ""
+
+#: .\events\templates\events\base_events.html:78
+#: .\events\templates\events\lite_events.html:72
+msgid "Copy event"
+msgstr ""
+
+#: .\events\templates\events\base_events.html:81
+#: .\events\templates\events\lite_events.html:75
+msgid "Download presentation"
+msgstr ""
+
+#: .\events\templates\events\base_events.html:84
+#: .\events\templates\events\lite_events.html:78
+msgid "Print"
+msgstr ""
+
+#: .\events\templates\events\base_events.html:87
+#: .\events\templates\events\lite_events.html:81
+msgid "Delete event"
+msgstr ""
+
 #: .\events\templates\events\base_events.html:107
 #: .\events\templates\events\lite_events.html:101
 msgid "MC days"
@@ -2302,7 +2415,7 @@ msgstr ""
 
 #: .\events\templates\events\base_events.html:126
 #: .\events\templates\events\lite_events.html:120
-#: .\shared\templates\shared\base_shared_training.html:51
+#: .\shared\templates\shared\base_shared_training.html:52
 #: .\trainings\templates\trainings\print_training.html:52
 #: .\trainings\templates\trainings\training_card.html:87
 msgid "Goal"
@@ -2315,7 +2428,7 @@ msgstr ""
 
 #: .\events\templates\events\base_events.html:132
 #: .\events\templates\events\lite_events.html:126
-#: .\shared\templates\shared\base_shared_training.html:59
+#: .\shared\templates\shared\base_shared_training.html:63
 #: .\trainings\templates\trainings\print_training.html:60
 #: .\trainings\templates\trainings\training_card.html:99
 msgid "Load"
@@ -2399,7 +2512,6 @@ msgstr ""
 #: .\exercises\templates\exercises\base_folders.html:85
 #: .\references\templates\references\forms\reference_edit.html:20
 #: .\references\templates\references\forms\reference_edit.html:33
-#: .\shared\templates\shared\base_shared_training.html:128
 #: .\video\templates\video\modules\video_list.html:15
 #: .\video\templates\video\modules\video_list_exercises.html:14
 #: .\video\templates\video\video_card.html:41
@@ -2563,27 +2675,27 @@ msgstr ""
 msgid "No team selected"
 msgstr ""
 
-#: .\nanofb\settings.py:232
+#: .\nanofb\settings.py:236
 msgid "Russian"
 msgstr ""
 
-#: .\nanofb\settings.py:233
+#: .\nanofb\settings.py:237
 msgid "English"
 msgstr ""
 
-#: .\nanofb\settings.py:234
+#: .\nanofb\settings.py:238
 msgid "Portuguese"
 msgstr ""
 
-#: .\nanofb\settings.py:235
+#: .\nanofb\settings.py:239
 msgid "Spanish"
 msgstr ""
 
-#: .\nanofb\settings.py:236
+#: .\nanofb\settings.py:240
 msgid "German"
 msgstr ""
 
-#: .\nanofb\settings.py:237
+#: .\nanofb\settings.py:241
 msgid "French"
 msgstr ""
 
@@ -2653,9 +2765,9 @@ msgid "Main sections"
 msgstr ""
 
 #: .\nanofootball\templates\menu\sidebar.html:210 .\players\apps.py:8
-#: .\shared\templates\shared\base_shared_training.html:27
-#: .\shared\templates\shared\base_shared_training.html:30
-#: .\shared\templates\shared\base_shared_training.html:33
+#: .\shared\templates\shared\base_shared_training.html:28
+#: .\shared\templates\shared\base_shared_training.html:31
+#: .\shared\templates\shared\base_shared_training.html:34
 #: .\trainings\templates\trainings\print_training.html:28
 #: .\trainings\templates\trainings\print_training.html:31
 #: .\trainings\templates\trainings\print_training.html:34
@@ -3087,9 +3199,9 @@ msgstr ""
 msgid "Share Training"
 msgstr ""
 
-#: .\shared\templates\shared\base_shared_training.html:38
-#: .\shared\templates\shared\base_shared_training.html:41
-#: .\shared\templates\shared\base_shared_training.html:44
+#: .\shared\templates\shared\base_shared_training.html:39
+#: .\shared\templates\shared\base_shared_training.html:42
+#: .\shared\templates\shared\base_shared_training.html:45
 #: .\trainings\templates\trainings\print_training.html:39
 #: .\trainings\templates\trainings\print_training.html:42
 #: .\trainings\templates\trainings\print_training.html:45
@@ -3097,18 +3209,9 @@ msgstr ""
 msgid "Goalkeepers"
 msgstr ""
 
-#: .\shared\templates\shared\base_shared_training.html:56
+#: .\shared\templates\shared\base_shared_training.html:57
 #: .\trainings\templates\trainings\print_training.html:57
 msgid "Objective 1"
-msgstr ""
-
-#: .\shared\templates\shared\base_shared_training.html:64
-#: .\trainings\templates\trainings\print_training.html:65
-msgid "Objective 2"
-msgstr ""
-
-#: .\shared\templates\shared\modules\shared_training_modal.html:7
-msgid "Share training"
 msgstr ""
 
 #: .\shared\templates\shared\modules\shared_training_modal.html:14
@@ -3280,6 +3383,10 @@ msgstr ""
 
 #: .\trainings\templates\trainings\print_training.html:9
 msgid "Print training"
+msgstr ""
+
+#: .\trainings\templates\trainings\print_training.html:65
+msgid "Objective 2"
 msgstr ""
 
 #: .\trainings\templates\trainings\training_card.html:45

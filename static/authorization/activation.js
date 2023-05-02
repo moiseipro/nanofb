@@ -11,6 +11,7 @@ $(window).on('load', function () {
             data: form_data,
             success: function (data) {
                 console.log(data)
+                swal(gettext('Activation'), gettext('Account activated')+'!', "success");
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log(jqXHR)

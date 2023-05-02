@@ -1,6 +1,83 @@
 var players_count, goalkeepers_count;
 
 $(window).on('load', function (){
+    //Создание редактора
+    let cLang = $('#select-language').val();
+    try {
+        let watchdog_descriptionEditor = new CKSource.EditorWatchdog();
+		watchdog_descriptionEditor.setCreator((element, config) => {
+			return CKSource.Editor
+            .create(element, config)
+            .then( editor => {
+                document.descriptionEditor = editor;
+                const toolbarElement = editor.ui.view.toolbar.element;
+                editor.on( 'change:isReadOnly', ( evt, propertyName, isReadOnly ) => {
+                    if ( isReadOnly ) {
+                        toolbarElement.style.display = 'none';
+                    } else {
+                        toolbarElement.style.display = 'flex';
+                    }
+                } );
+                editor.model.document.on( 'change:data', debounce(function () {
+                    console.log( 'The Document has changed!' );
+                    let exs_id = $('.exs-filter-card.active').attr('data-id')
+                    let data = {}
+                    data.description = editor.getData()
+                    ajax_training_exercise_action('PUT', data, 'update', exs_id, '').then(function () {
+
+                    })
+                }, 1000));
+                $('.resizeable-block').css('height', `100%`);
+				return editor;
+			})
+		});
+        watchdog_descriptionEditor.setDestructor(editor => {
+            return editor.destroy();
+        });
+		watchdog_descriptionEditor.on('error', (error) => {
+            console.error("Error with CKEditor5: ", error);
+        });
+        watchdog_descriptionEditor
+		.create(document.querySelector('#descriptionExerciseView'), {
+			licenseKey: '',
+            language: cLang,
+            removePlugins: ['Title'],
+            fontSize: {
+                options: [
+                    10,
+                    11,
+                    12,
+                    13,
+                    'default',
+                    15,
+                    16,
+                    17,
+                    18,
+                ]
+            },
+            toolbar: {
+                items: [
+                    'heading', '|',
+                    'fontSize', 'fontColor', 'fontBackgroundColor', '|',
+                    'specialCharacters', '|',
+                    'undo', 'redo', '|',
+                    'bold', 'italic', 'underline', '|',
+                    // 'bulletedList', 'numberedList', 'toDoList', '|',
+                    // 'outdent', 'indent', 'alignment', '|',
+                    // 'link', 'insertImage', 'blockQuote', 'insertTable', '|'
+                ],
+                shouldNotGroupWhenFull: true,
+            },
+		}).then((editor)=>{
+		    if (edit_mode) document.descriptionEditor.disableReadOnlyMode('');
+            else document.descriptionEditor.enableReadOnlyMode('');
+        })
+		.catch((error) => {
+            console.error("Error with CKEditor5: ", error);
+        });
+    } catch(e) {}
+
+
     //Переключатель по группам
     $('#training-content').on('click', '.group-filter-card', function () {
         let group_id = $(this).attr('data-group')
@@ -144,15 +221,16 @@ $(window).on('load', function (){
         })
     })
 
-    $('#training-exercise-description #descriptionExerciseView').on('change', function () {
-        let exs_id = $('.exs-filter-card.active').attr('data-id')
-        //console.log(exs_id)
-        let data = {}
-        data.description = $(this).val()
-        ajax_training_exercise_action('PUT', data, 'update', exs_id, '').then(function () {
-
-        })
-    })
+    //Редактирование описание (старая версия)
+    // document.descriptionEditor.on('change', function () {
+    //     let exs_id = $('.exs-filter-card.active').attr('data-id')
+    //     let data = {}
+    //     //data.description = $(this).val()
+    //     data.description = document.descriptionEditor.getData()
+    //     ajax_training_exercise_action('PUT', data, 'update', exs_id, '').then(function () {
+    //
+    //     })
+    // })
 
     //Действия со ссылкой на видео тренировки
     $('#training-video-modal .open-link').on('click', function () {
@@ -453,12 +531,15 @@ function load_exercises_training_data(training_exercise_id = null) {
             <div class="w-100 ${exercise.duration==0 ? 'font-weight-bold text-danger':''}">${exercise.duration}</div>
         `)
         if(exercise.description){
-            $('#training-exercise-description #descriptionExerciseView').val(exercise.description)
+            //$('#training-exercise-description #descriptionExerciseView').val(exercise.description)
+            document.descriptionEditor.setData(exercise.description)
         } else {
             if(exercise.exercise_data.description){
-                $('#training-exercise-description #descriptionExerciseView').val(get_translation_name(exercise.exercise_data.description))
+                document.descriptionEditor.setData(get_translation_name(exercise.exercise_data.description))
+                //$('#training-exercise-description #descriptionExerciseView').val(get_translation_name(exercise.exercise_data.description))
             } else{
-                $('#training-exercise-description #descriptionExerciseView').val('')
+                document.descriptionEditor.setData('')
+                //$('#training-exercise-description #descriptionExerciseView').val('')
             }
         }
         let additional_html = ''

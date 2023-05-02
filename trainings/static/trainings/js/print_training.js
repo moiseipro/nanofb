@@ -2,9 +2,11 @@
 $(window).on('load', function () {
     //Распечатать тренировку
     $('#print-training-button').on('click', function () {
+        resize_textarea()
         $("#print-training-block").print({
             timeout: 8000,
-            stylesheet: $('#print-style-href').val()
+            stylesheet: $('#print-style-href').val(),
+            prepend: '<div class="font-weight-bold px-2 py-1">Nanofootball</div>'
         });
     })
 
@@ -38,6 +40,7 @@ function load_training_print(training_id) {
 
         let html_scheme = ''
         if (exercises.length > 0) {
+            let num = 0;
             for (let exercise of exercises) {
                 html_scheme += '<div class="row" style="border-top: 2px solid black">'
                 let count_slide = 0
@@ -155,8 +158,8 @@ function load_training_print(training_id) {
                         </div>
 
                         <div class="col-12 px-0 align-self-start">
-                            <textarea class="form-control form-control-sm rounded-0" rows="5" cols="5" style="max-height: 500px; min-height: 60px; height: 150px">
-                                ${exercise.description ? exercise.description : ''}
+                            <textarea id="CKeditor-${num}" class="ck-editor-view-block" data-text="${exercise.description ? exercise.description : ''}" style="max-height: 500px; min-height: 60px; height: 150px">
+                                
                             </textarea>
                         </div>
                         <div class="col-12 align-self-end calculate-additional">
@@ -176,22 +179,72 @@ function load_training_print(training_id) {
                     <div class="col-8"></div>
                 `
                 html_scheme += '</div>'
+                num++
             }
 
         }
         $('#print-training-block .exercise-list').html(html_scheme)
-        resize_textarea()
-
+        create_editor()
     })
 }
 
 function resize_textarea() {
     $('#print-training-block .exercise-list .exercise-info-block').each(function() {
-        let textarea = $(this).find('textarea');
+        let textarea = $(this).find('.ck-editor__editable');
         console.log(textarea)
-        let new_height = 242 - $(this).find(".calculate-name").height() - $(this).find(".calculate-additional").height()
+        let new_height = 245 - $(this).find(".calculate-name").height() - $(this).find(".calculate-additional").height()
         console.log(new_height)
         textarea.css('min-height', new_height+"px");
-        textarea.css('height', new_height+"px");
+        //textarea.css('height', new_height+"px");
     });
+}
+
+function create_editor() {
+    //Создание редакторов
+    let cLang = $('#select-language').val();
+    try {
+        $('#print-training-block .ck-editor-view-block').each(function( index ) {
+            let data = $(this).attr('data-text')
+            let id = $(this).attr('id')
+            console.log(id)
+            CKSource.Editor
+            .create(document.querySelector('#'+id), {
+                licenseKey: '',
+                language: cLang,
+                removePlugins: ['Title'],
+                fontSize: {
+                    options: [
+                        10,
+                        11,
+                        12,
+                        13,
+                        'default',
+                        15,
+                        16,
+                        17,
+                        18,
+                    ]
+                },
+                toolbar: false
+            })
+            .then( editor => {
+                //document.editor = editor;
+
+                const toolbarElement = editor.ui.view.toolbar.element;
+                editor.on( 'change:isReadOnly', ( evt, propertyName, isReadOnly ) => {
+                    if ( isReadOnly ) {
+                        toolbarElement.style.display = 'none';
+                    } else {
+                        toolbarElement.style.display = 'none';
+                        //toolbarElement.style.display = 'flex';
+                    }
+                } );
+                $('.resizeable-block').css('height', `100%`);
+                editor.setData(data)
+                return editor;
+            })
+
+        });
+
+    } catch(e) {}
 }
