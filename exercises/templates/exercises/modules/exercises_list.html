@@ -85,7 +85,7 @@
     <div class="px-0 folders-block" id="splitCol_0">
         <div class="folders-container">
             {% if show_folders_button %}
-            <div class="folders-toggle-container">
+            <div class="folders-toggle-container {% if not user.is_superuser %}df-usr{% endif %}">
                 <button type="button" class="btn btn-success btn-sm btn-custom custom-green2 up-tabs-elem folders-toggle size-w-x mt-2 ml-2" data-id="nfb_folders" style="--w-x:95%;">
                     <div class="">
                         <span class="text-center text-uppercase ml-2">папки n.f.</span>

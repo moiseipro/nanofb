@@ -2551,8 +2551,19 @@ $(function() {
     $('.folders-block').on('click', '.edit-exercise', (e) => {
         let cId = $(e.currentTarget).attr('data-id');
         let isSelected = $(e.currentTarget).hasClass('selected');
+        if ($('.exs-list-group').find('.list-group-item.exs-elem.active').length == 0) {
+            swal("Внимание", "Выберите упражнение из списка.", "info");
+            return;
+        }
+        if ($('.folders-toggle-container').hasClass('df-usr') && $('.folders-toggle[data-id="nfb_folders"]').hasClass('selected')) {
+            swal("Внимание", "Редактирование N.F. упражнения невозможно.", "info");
+            return;
+        }
         if (cId == "description") {
             if (!isSelected) {
+                if ($('.exs-list-group').find('.list-group-item.exs-elem.active').hasClass('nf-cloned')) {
+                    swal("Внимание", `Только описание "Тренер" сохранится в скопированном N.F. упражнении.`, "info");
+                }
                 try {
                     document.descriptionEditorViewFromFolders.disableReadOnlyMode('');
                     $('#descriptionEditorViewFromFolders').next().find('.ck-editor__top').removeClass('d-none');

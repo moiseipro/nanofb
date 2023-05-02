@@ -222,6 +222,21 @@ function RenderExerciseOne(data) {
             } catch(e) {}
         }
     }
+    function ResetEditPanels() {
+        try {
+            document.descriptionEditorViewFromFolders.enableReadOnlyMode('');
+            $('#descriptionEditorViewFromFolders').next().find('.ck-editor__top').addClass('d-none');
+            $('#descriptionEditorViewFromFolders').next().find('.ck-content.ck-editor__editable').addClass('borders-off');
+            document.descriptionEditorViewFromFoldersTrainer.enableReadOnlyMode('');
+            $('#descriptionEditorViewFromFoldersTrainer').next().find('.ck-editor__top').addClass('d-none');
+            $('#descriptionEditorViewFromFoldersTrainer').next().find('.ck-content.ck-editor__editable').addClass('borders-off');
+        } catch(e) {}
+        ToggleEditFields(false);
+        $('.folders-block').find('.edit-exercise').removeClass('selected');
+        $('.folders-block').find('.edit-exercise').removeClass('btn-success');
+        $('.folders-block').find('.edit-exercise').addClass('btn-secondary');
+        $('.folders-block').find('.edit-exercise').text("Редактировать");
+    }
 
     let exsCard = $('#exerciseCard');
     if (data && data.id) {
@@ -484,6 +499,7 @@ function RenderExerciseOne(data) {
             RenderVideo(data.video_1.id, $(exsCard).find('.video-value[name="video1"]'), window.videoPlayerCard1);
         } else if (video_link && video_link != "") {
             $('#carouselVideo').find('.carousel-item').first().removeClass('d-none');
+            window.videoPlayerCard1.poster(`/static/exercises/img/v_player_link.jpg`);
         } else {
             $('#carouselVideo').find('.carousel-item').first().addClass('d-none');
             $('#carouselVideo').find('.carousel-indicators > li').first().addClass('d-none');
@@ -510,6 +526,7 @@ function RenderExerciseOne(data) {
             RenderVideo(data.animation_1.id, $(exsCard).find('.video-value[name="animation1"]'), window.videoPlayerCard3);
         } else if (anim_link && anim_link != "") {
             $('#carouselAnim').find('.carousel-item').first().removeClass('d-none');
+            window.videoPlayerCard3.poster(`/static/exercises/img/v_player_link.jpg`);
         } else {
             $('#carouselAnim').find('.carousel-item').first().addClass('d-none');
             $('#carouselAnim').find('.carousel-indicators > li').first().addClass('d-none');
@@ -637,6 +654,7 @@ function RenderExerciseOne(data) {
         $('.exs-list-group').find('.list-group-item').removeClass('active');
         // clear video, animation and scheme
     }
+    ResetEditPanels();
 }
 
 function AdaptPageToSection(section, exerciseLoaded=false, onlyChangeSection=false, isNewExs=false) {
