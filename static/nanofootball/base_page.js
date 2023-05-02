@@ -13,7 +13,7 @@ $(function() {
             url: "feedback_form",
             success: function (res) {
                 if (res.success) {
-                    swal("Готово", "Заявка успешно отправлена.", "success");
+                    swal("Готово", "Заявка успешно отправлена. Скоро с вами свяжется менеджер.", "success");
                 } else {
                     swal("Ошибка", `При отправке заявки произошла ошибка (${res.err}).`, "error");
                 }
