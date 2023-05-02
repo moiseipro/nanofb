@@ -705,10 +705,9 @@ $(function() {
             let isRoot = $(elem).hasClass('root-elem');
             let isVisible = !$(elem).hasClass('d-none');
             if (!isRoot) {
-                $(elem).toggleClass('d-none', !isToggled);
+                $(elem).toggleClass('d-none', isToggled);
             }
         });
-        $(e.currentTarget).attr('data-state', isToggled ? '0' : '1');
         ToggleFoldersView(true);
     });
 
@@ -720,6 +719,7 @@ $(function() {
             $('.folders-block').find('.card-container').addClass('d-none');
             $('.exs-edit-block').find('.btn-o-modal[data-id="description"]').addClass('active');
             $('.exs-edit-block').find('.btn-o-modal[data-id="card"]').removeClass('active');
+            $(e.currentTarget).attr('data-state', '0');
             try {
                 window.split_sizes_tempo = window.split.getSizes();
                 window.split.setSizes([40, 40]);

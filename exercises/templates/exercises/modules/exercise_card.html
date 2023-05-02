@@ -51,16 +51,16 @@
                             <div class="row mx-0">
                                 <div class="col-12 px-0 mt-4">
                                     <ul class="list-group exs-card-editor">
-                                        <!-- <li class="list-group-item py-1">
+                                        <li class="list-group-item py-1 d-none">
                                             <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="card">
                                                 Карточка
                                             </button>
                                         </li>
-                                        <li class="list-group-item py-1">
+                                        <li class="list-group-item py-1 d-none">
                                             <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="description">
                                                 Описание
                                             </button>
-                                        </li> -->
+                                        </li>
                                         <li class="list-group-item py-1 nf-copy-off">
                                             <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="video_1">
                                                 Видео
@@ -136,14 +136,14 @@
                                                         <select name="folder_parent" class="form-control form-control-sm exs_edit_field nfb_folders d-none" required="" autocomplete="off">
                                                             {% for folder in nfb_folders %}
                                                                 {% if folder.root %}
-                                                                    <option value="{{ folder.id }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                                                    <option value="{{ folder.id }}" data-name="{{ folder.name }}">{{ folder.short_name }}. {{ folder.name }}</option>
                                                                 {% endif %}
                                                             {% endfor %}
                                                         </select>
                                                         <select name="folder_parent" class="form-control form-control-sm exs_edit_field team_folders" required="" autocomplete="off">
                                                             {% for folder in folders %}
                                                                 {% if folder.root %}
-                                                                    <option value="{{ folder.id }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                                                    <option value="{{ folder.id }}" data-name="{{ folder.name }}">{{ folder.short_name }}. {{ folder.name }}</option>
                                                                 {% endif %}
                                                             {% endfor %}
                                                         </select>
@@ -154,14 +154,14 @@
                                                         <select name="folder_main" class="form-control form-control-sm exs_edit_field nfb_folders d-none" required="" autocomplete="off">
                                                             {% for folder in nfb_folders %}
                                                                 {% if not folder.root %}
-                                                                    <option value="{{ folder.id }}" data-parent="{{ folder.parent }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                                                    <option value="{{ folder.id }}" data-parent="{{ folder.parent }}" data-name="{{ folder.name }}">{{ folder.short_name }}. {{ folder.name }}</option>
                                                                 {% endif %}
                                                             {% endfor %}
                                                         </select>
                                                         <select name="folder_main" class="form-control form-control-sm exs_edit_field team_folders" required="" autocomplete="off">
                                                             {% for folder in folders %}
                                                                 {% if not folder.root %}
-                                                                    <option value="{{ folder.id }}" data-parent="{{ folder.parent }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                                                    <option value="{{ folder.id }}" data-parent="{{ folder.parent }}" data-name="{{ folder.name }}">{{ folder.short_name }}. {{ folder.name }}</option>
                                                                 {% endif %}
                                                             {% endfor %}
                                                         </select>

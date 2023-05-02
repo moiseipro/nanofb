@@ -153,7 +153,7 @@
                                     {% if nfb_folders %}
                                         {% for folder in nfb_folders %}
                                             {% if folder.root %}
-                                                <option value="{{ folder.id }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                                <option value="{{ folder.id }}" data-name="{{ folder.name }}">{{ folder.short_name }}. {{ folder.name }}</option>
                                             {% endif %}
                                         {% endfor %}
                                     {% endif %}
@@ -161,7 +161,7 @@
                                 <select name="folder_parent" class="form-control form-control-sm exs_edit_field team_folders" required="" autocomplete="off">
                                     {% for folder in folders %}
                                         {% if folder.root %}
-                                            <option value="{{ folder.id }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                            <option value="{{ folder.id }}" data-name="{{ folder.name }}">{{ folder.short_name }}. {{ folder.name }}</option>
                                         {% endif %}
                                     {% endfor %}
                                 </select>
@@ -173,7 +173,7 @@
                                     {% if nfb_folders %}
                                         {% for folder in nfb_folders %}
                                             {% if not folder.root %}
-                                                <option value="{{ folder.id }}" data-parent="{{ folder.parent }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                                <option value="{{ folder.id }}" data-parent="{{ folder.parent }}" data-name="{{ folder.name }}">{{ folder.short_name }}. {{ folder.name }}</option>
                                             {% endif %}
                                         {% endfor %}
                                     {% endif %}
@@ -181,7 +181,7 @@
                                 <select name="folder_main" class="form-control form-control-sm exs_edit_field team_folders" required="" autocomplete="off">
                                     {% for folder in folders %}
                                         {% if not folder.root %}
-                                            <option value="{{ folder.id }}" data-parent="{{ folder.parent }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                            <option value="{{ folder.id }}" data-parent="{{ folder.parent }}" data-name="{{ folder.name }}">{{ folder.short_name }}. {{ folder.name }}</option>
                                         {% endif %}
                                     {% endfor %}
                                 </select>

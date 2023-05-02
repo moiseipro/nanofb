@@ -142,7 +142,7 @@ function LoadExerciseOne(exsID = null, fromNFB = 0, folderType = "") {
     if (!folderType || folderType == "") {
         folderType = searchParams.get('type');
     }
-    AdaptPageToSection(chosenSection, searchParams.get('id') == "new", false);
+    AdaptPageToSection(chosenSection, searchParams.get('id') == "new", false, searchParams.get('id') == "new");
     if (searchParams.get('id') == "new") {
         window.parent.postMessage("exercise_loaded", '*');
     }
@@ -158,7 +158,7 @@ function LoadExerciseOne(exsID = null, fromNFB = 0, folderType = "") {
         success: function (res) {
             if (res.success) {
                 RenderExerciseOne(res.data);
-                AdaptPageToSection(chosenSection, true, false);
+                AdaptPageToSection(chosenSection, true, false, false);
             }
         },
         error: function (res) {
@@ -306,7 +306,7 @@ function RenderExerciseOne(data) {
         } catch(e) {}
 
         try {
-            if (Array.isArray(data.video_links) && data.video_links.length == 4) {
+            if (Array.isArray(data.video_links) && data.video_links.length == 2) {
                 for (let i = 0; i < data.video_links.length; i++) {
                     let cLink = data.video_links[i]['link'];
                     let cName = data.video_links[i]['name'];
@@ -316,6 +316,16 @@ function RenderExerciseOne(data) {
                     $(exsCard).find(`.exs_video_link:nth-child(${i+1})`).find(`.exs_edit_field[name="video_links_note[]"]`).val(cNote);
                 }
             }
+            // if (Array.isArray(data.video_links) && data.video_links.length == 4) {
+            //     for (let i = 0; i < data.video_links.length; i++) {
+            //         let cLink = data.video_links[i]['link'];
+            //         let cName = data.video_links[i]['name'];
+            //         let cNote = data.video_links[i]['note'];
+            //         $(exsCard).find(`.exs_video_link:nth-child(${i+1})`).find(`.exs_edit_field[name="video_links_name[]"]`).val(cName);
+            //         $(exsCard).find(`.exs_video_link:nth-child(${i+1})`).find(`.exs_edit_field[name="video_links_link[]"]`).val(cLink);
+            //         $(exsCard).find(`.exs_video_link:nth-child(${i+1})`).find(`.exs_edit_field[name="video_links_note[]"]`).val(cNote);
+            //     }
+            // }
         } catch(e) {}
 
         $(exsCard).find('.exs_edit_field[name="tags"]').val(data.tags).trigger('change');
@@ -460,15 +470,19 @@ function RenderExerciseOne(data) {
         $('#carouselAnim').find('.carousel-control-prev').removeClass('d-none');
         $('#carouselAnim').find('.carousel-control-next').removeClass('d-none');
 
-        let video_1_link = $(exsCard).find(`.exs_video_link[data-type="video_1"]`).find(`.exs_edit_field[name="video_links_link[]"]`).val();
-        let video_2_link = $(exsCard).find(`.exs_video_link[data-type="video_2"]`).find(`.exs_edit_field[name="video_links_link[]"]`).val();
-        let anim_1_link = $(exsCard).find(`.exs_video_link[data-type="animation_1"]`).find(`.exs_edit_field[name="video_links_link[]"]`).val();
-        let anim_2_link = $(exsCard).find(`.exs_video_link[data-type="animation_2"]`).find(`.exs_edit_field[name="video_links_link[]"]`).val();
+        let video_link = null;
+        let anim_link = null;
+        try {
+            if (Array.isArray(data.video_links) && data.video_links.length == 2) {
+                video_link = data.video_links[0]['link'];
+                anim_link = data.video_links[1]['link'];
+            }
+        } catch(e) {}
         if (data.video_1 && data.video_1.id && data.video_1.id != -1) {
             $('#carouselVideo').find('.carousel-item').first().removeClass('d-none');
             $(exsCard).find('.video-value[name="video1"]').val(data.video_1.id);
             RenderVideo(data.video_1.id, $(exsCard).find('.video-value[name="video1"]'), window.videoPlayerCard1);
-        } else if (video_1_link && video_1_link != "") {
+        } else if (video_link && video_link != "") {
             $('#carouselVideo').find('.carousel-item').first().removeClass('d-none');
         } else {
             $('#carouselVideo').find('.carousel-item').first().addClass('d-none');
@@ -494,7 +508,7 @@ function RenderExerciseOne(data) {
             $('#carouselAnim').find('.carousel-item').first().removeClass('d-none');
             $(exsCard).find('.video-value[name="animation1"]').val(data.animation_1.id);
             RenderVideo(data.animation_1.id, $(exsCard).find('.video-value[name="animation1"]'), window.videoPlayerCard3);
-        } else if (anim_1_link && anim_1_link != "") {
+        } else if (anim_link && anim_link != "") {
             $('#carouselAnim').find('.carousel-item').first().removeClass('d-none');
         } else {
             $('#carouselAnim').find('.carousel-item').first().addClass('d-none');
@@ -625,9 +639,13 @@ function RenderExerciseOne(data) {
     }
 }
 
-function AdaptPageToSection(section, exerciseLoaded=false, onlyChangeSection=false) {
+function AdaptPageToSection(section, exerciseLoaded=false, onlyChangeSection=false, isNewExs=false) {
     let availableSections = ["card", "description", "scheme_1", "scheme_2", "video_1", "video_2", "animation_1", "animation_2", "tags"];
     if (availableSections.includes(section)) {
+        if (isNewExs) {
+            $('.exs-edit-block-in-card').find('.btn-o-modal[data-id="card"]').parent().toggleClass('d-none', !isNewExs);
+            $('.exs-edit-block-in-card').find('.btn-o-modal[data-id="description"]').parent().toggleClass('d-none', !isNewExs);
+        }
         if (!onlyChangeSection) {
             $(document).find('div.header').remove();
             $(document).find('div.sidebar').remove();
@@ -807,10 +825,12 @@ function SaveExerciseOne() {
     dataToSend.data['description_template'] = document.descriptionEditor2Template.getData();
     dataToSend.data['description_trainer'] = document.descriptionEditor2Trainer.getData();
     if (dataToSend.data.title == "") {
+        window.parent.postMessage("exercise_end_edited", '*');
         swal("Внимание", "Добавьте название для упражнения.", "info");
         return;
     }
-    if (dataToSend.data.folder_parent == "" || dataToSend.data.folder_main == "") {
+    if (dataToSend.data.folder_parent == "" || dataToSend.data.folder_main == "" || !dataToSend.data.folder_parent || !dataToSend.data.folder_main) {
+        window.parent.postMessage("exercise_end_edited", '*');
         swal("Внимание", "Выберите папку для упражнения.", "info");
         return;
     }
@@ -1102,6 +1122,7 @@ function ToggleFoldersType(data = null) {
         $(exsCard).find('.exs_edit_field.nfb_folders').toggleClass('selected', folderType == "nfb_folders");
         $(exsCard).find('.exs_edit_field.team_folders').toggleClass('selected', folderType == "team_folders");
         $(exsCard).find(`.${folderType}[name="folder_parent"]`).val('');
+        $(exsCard).find(`.${folderType}[name="folder_parent"]`).trigger('change');
         $(exsCard).find('[name="folder_main"]').find('option').addClass('d-none');
         $(exsCard).find(`.${folderType}[name="folder_main"]`).val('');
     } else {
@@ -1110,6 +1131,7 @@ function ToggleFoldersType(data = null) {
         $(exsCard).find('.exs_edit_field.nfb_folders').toggleClass('selected', folderType == "nfb_folders");
         $(exsCard).find('.exs_edit_field.team_folders').toggleClass('selected', folderType == "team_folders");
         $(exsCard).find(`.${folderType}[name="folder_parent"]`).val(data.folder_parent_id);
+        $(exsCard).find(`.${folderType}[name="folder_parent"]`).trigger('change');
         $(exsCard).find('[name="folder_main"]').find('option').addClass('d-none');
         $(exsCard).find('[name="folder_main"]').find(`option[data-parent=${data.folder_parent_id}]`).removeClass('d-none');
         $(exsCard).find(`.${folderType}[name="folder_main"]`).val(data.folder_id);
@@ -2239,19 +2261,45 @@ $(function() {
         window.changedData = true;
     });
 
-
+    const shortNameChars = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+    $('#exerciseCard').find('.nfb_folders[name="folder_parent"] > option').each((ind, elem) => {
+        try {
+            let currentShortName = shortNameChars[ind].toUpperCase();
+            let currentName = $(elem).attr('data-name');
+            $(elem).attr('data-short', currentShortName);
+            $(elem).text(`${currentShortName}. ${currentName}`);
+        } catch(e) {}
+    });
     $('#exerciseCard').on('change', '.nfb_folders[name="folder_parent"]', (e) => {
         let cId = $(e.currentTarget).val();
+        let cShort = $('#exerciseCard').find(`.nfb_folders[name="folder_parent"] > option[value="${cId}"]`).attr('data-short');
         $('#exerciseCard').find('.nfb_folders[name="folder_main"]').val('');
         $('#exerciseCard').find('.nfb_folders[name="folder_main"] > option').each((ind, elem) => {
             $(elem).toggleClass('d-none', !($(elem).attr('data-parent') == cId));
         });
+        $('#exerciseCard').find('.nfb_folders[name="folder_main"] > option:not(.d-none)').each((ind, elem) => {
+            let cName = $(elem).attr('data-name');
+            $(elem).text(`${cShort}${(ind+1)}. ${cName}`);
+        });
+    });
+    $('#exerciseCard').find('.team_folders[name="folder_parent"] > option').each((ind, elem) => {
+        try {
+            let currentShortName = shortNameChars[ind].toUpperCase();
+            let currentName = $(elem).attr('data-name');
+            $(elem).attr('data-short', currentShortName);
+            $(elem).text(`${currentShortName}. ${currentName}`);
+        } catch(e) {}
     });
     $('#exerciseCard').on('change', '.team_folders[name="folder_parent"]', (e) => {
         let cId = $(e.currentTarget).val();
+        let cShort = $('#exerciseCard').find(`.team_folders[name="folder_parent"] > option[value="${cId}"]`).attr('data-short');
         $('#exerciseCard').find('.team_folders[name="folder_main"]').val('');
         $('#exerciseCard').find('.team_folders[name="folder_main"] > option').each((ind, elem) => {
             $(elem).toggleClass('d-none', !($(elem).attr('data-parent') == cId));
+        });
+        $('#exerciseCard').find('.team_folders[name="folder_main"] > option:not(.d-none)').each((ind, elem) => {
+            let cName = $(elem).attr('data-name');
+            $(elem).text(`${cShort}${(ind+1)}. ${cName}`);
         });
     });
 
@@ -2652,7 +2700,7 @@ $(function() {
         let cId = $(e.currentTarget).attr('data-id');
         $('.exs-edit-block-in-card').find('.btn-o-modal').removeClass('active');
         $(e.currentTarget).addClass('active');
-        AdaptPageToSection(cId, true, true);
+        AdaptPageToSection(cId, true, true, false);
     });
 
     $('#exerciseCard').find('.keywords-blocks-toggle > button').first().addClass('active');

@@ -66,6 +66,10 @@ function ToggleUpFilter(id, state) {
                 $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('selected', false);
                 $('.up-tabs-elem[data-id="club_folders"]').toggleClass('selected', true);
                 $('.up-tabs-elem[data-id="team_folders"]').toggleClass('selected', false);
+
+                $('.up-tabs-elem').removeClass('b-c-blue2');
+                $('.up-tabs-elem').removeClass('b-c-green2');
+                $('.up-tabs-elem').addClass('b-c-red2');
             } else {
                 $('.folders_nfb_list').toggleClass('d-none', true);
                 $('.folders_club_list').toggleClass('d-none', true);
@@ -82,6 +86,10 @@ function ToggleUpFilter(id, state) {
                 $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('selected', false);
                 $('.up-tabs-elem[data-id="club_folders"]').toggleClass('selected', false);
                 $('.up-tabs-elem[data-id="team_folders"]').toggleClass('selected', true);
+
+                $('.up-tabs-elem').addClass('b-c-blue2');
+                $('.up-tabs-elem').removeClass('b-c-green2');
+                $('.up-tabs-elem').removeClass('b-c-red2');
             }
 
             $('#exerciseCopyModal').find('select[name="copy_mode"]').val('1');
@@ -91,9 +99,6 @@ function ToggleUpFilter(id, state) {
             $('.toggle-filter-content').removeClass('btn-custom-outline-blue');
             $('.toggle-filter-content').removeClass('btn-custom-outline-green');
             $('.toggle-filter-content').addClass('btn-custom-outline-red');
-            $('.up-tabs-elem').removeClass('b-c-blue2');
-            $('.up-tabs-elem').removeClass('b-c-green2');
-            $('.up-tabs-elem').addClass('b-c-red2');
             CountExsInFoldersByType();
             ToggleTagsView();
 
@@ -882,8 +887,6 @@ $(function() {
     $('button.up-tabs-elem').on('click', (e) => {
         let id = $(e.currentTarget).attr('data-id');
         let state = $(e.currentTarget).attr('data-state') == '1';
-        // $(e.currentTarget).toggleClass('btn-secondary', state);
-        // $(e.currentTarget).toggleClass('btn-primary', !state);
         $(e.currentTarget).toggleClass('selected3', !state);
         $(e.currentTarget).attr('data-state', state ? '0' : '1');
         ToggleUpFilter(id, !state);
@@ -1239,12 +1242,18 @@ $(function() {
 
     $('#createExercise').on('click', (e) => {
         let folderType = $('.folders_div.selected').attr('data-id');
+        if ($(e.currentTarget).hasClass('usr-dft') && folderType == "nfb_folders") {
+            $(e.currentTarget).removeClass('selected3');
+            swal("Внимание", "Выберите папки <Команда> для добавления упражнения.", "info");
+            return;
+        }
         let cLink = `/exercises/exercise?id=new&type=${folderType}&section=card`;
         // window.location.href = cLink;
         $('#exerciseCardModalForEdit').find('iframe').addClass('d-none');
         $('#exerciseCardModalForEdit').find('iframe').attr('src', cLink);
         $('#exerciseCardModalForEdit').modal('show');
         $('#exerciseCardModalForEdit').find('.btn-change-exs').addClass('d-none');
+        $(e.currentTarget).addClass('selected3');
     });
 
 
@@ -2310,12 +2319,14 @@ $(function() {
     }
     $('#toggleExsEditPanel').on('click', (e) => {
         $('.exs-edit-block').toggleClass('d-none');
+        $(e.currentTarget).toggleClass('selected3', !$('.exs-edit-block').hasClass('d-none'));
         let folderType = $('.folders_div.selected').attr('data-id');
         $('.exs-edit-block').find('.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
         sessionStorage.setItem("exercises__exs_edit_panel", $('.exs-edit-block').hasClass('d-none') ? 0 : 1);
     });
     $('.exs-edit-block').on('click', 'button[data-dismiss="panel"]', (e) => {
         $('.exs-edit-block').addClass('d-none');
+        $('#toggleExsEditPanel').toggleClass('selected3', !$('.exs-edit-block').hasClass('d-none'));
         sessionStorage.setItem("exercises__exs_edit_panel", 0);
     });
     $('.exs-edit-block').on('click', '.btn-o-modal', (e) => {
@@ -2383,6 +2394,7 @@ $(function() {
     $('#exerciseCardModalForEdit').on('hidden.bs.modal', (e) => {
         $('.exs-edit-block').find('.btn-o-modal').removeClass('active');
         $('#sidebar').removeClass('z-index-reduce');
+        $('#createExercise').removeClass('selected3');
     });
     $('#exerciseCardModalForEdit').on('click', '.btn-prev, .btn-next', (e) => {
         let currentList = '.exs-list-group';

@@ -754,8 +754,9 @@ button.custom-disabled:hover {
     color:rgb(0, 0, 0);
 }
 .btn-group-custom-active > button.active {
-    background-color: #a5e1ff90 !important;
+    background-color: #7b9aed !important;
     color: #000 !important;
+    font-weight: bolder;
 }
 
 
