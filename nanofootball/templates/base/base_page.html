@@ -1,4 +1,5 @@
 {% extends '../base/base.html' %}
+{% load static %}
 
 {% block main %}
     <style>
@@ -115,7 +116,7 @@
                     </div>
                 </div>
                 <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Отправить</button>
+                    <button type="button" id="feedbackFormSubmit" class="btn btn-primary">Отправить</button>
                 </div>
             </form>
         </div>
@@ -344,7 +345,7 @@
                 </div>
                 <div class="modal-body">
                     <div id="formToMailWrapper">
-                        <form class="need-validation" id="formMail" action="" method="POST">
+                        <form class="need-validation" id="formMail">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="inputSurname">Фамилия</label>
@@ -369,7 +370,7 @@
                                     <input type="text" class="form-control" id="inputPhone" name="phone" placeholder="Телефон" required="">
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary">Отправить</button>
+                            <button type="submit" id="sendToMail" class="btn btn-primary">Отправить</button>
                         </form>
                     </div>
                     <div id="resInfo" class="d-none">
@@ -429,4 +430,8 @@
             </div>
         </div>
     </section>
+{% endblock %}
+
+{% block custom_scripts %}
+<script src="{% static 'nanofootball/base_page.js' %}"></script>
 {% endblock %}
