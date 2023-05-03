@@ -135,7 +135,7 @@ function RenderFolderExercises(id, tExs) {
             isIQ = exElem.field_cognitive_loads[0].toUpperCase().replace('_', '-');
         } catch(e) {}
         exsHtml += `
-        <li class="exs-elem list-group-item py-1 px-0" data-id="${exElem.id}" data-folder="${exElem.folder}">
+        <li class="exs-elem list-group-item py-1 px-0 ${exElem.clone_nfb_id ? 'nf-cloned' : ''}" data-id="${exElem.id}" data-folder="${exElem.folder}">
             <div class="row w-100">
                 <div class="col-12 d-flex px-0">
                     <span class="ml-3 w-100">
