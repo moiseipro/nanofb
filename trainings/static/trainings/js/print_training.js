@@ -39,6 +39,7 @@ function load_training_print(training_id) {
         $('#print-training-block .training-load input').val(training.load_type)
 
         let html_scheme = ''
+        let ck_editor_data = []
         if (exercises.length > 0) {
             let num = 0;
             for (let exercise of exercises) {
@@ -158,7 +159,7 @@ function load_training_print(training_id) {
                         </div>
 
                         <div class="col-12 px-0 align-self-start">
-                            <textarea id="CKeditor-${num}" class="ck-editor-view-block" data-text="${exercise.description ? exercise.description : ''}" style="max-height: 500px; min-height: 60px; height: 150px">
+                            <textarea id="CKeditor-${num}" class="ck-editor-view-block" style="max-height: 500px; min-height: 60px; height: 150px">
                                 
                             </textarea>
                         </div>
@@ -171,6 +172,7 @@ function load_training_print(training_id) {
                     </div>
                 </div>
                 `
+                ck_editor_data.push({'id': `CKeditor-${num}`, 'data': exercise.description ? exercise.description : ''})
                 html_scheme += '</div>'
                 html_scheme += '<div class="row">'
                 html_scheme += `
@@ -184,7 +186,7 @@ function load_training_print(training_id) {
 
         }
         $('#print-training-block .exercise-list').html(html_scheme)
-        create_editor()
+        create_editor(ck_editor_data)
     })
 }
 
@@ -199,13 +201,14 @@ function resize_textarea() {
     });
 }
 
-function create_editor() {
+function create_editor(editors_array) {
     //Создание редакторов
     let cLang = $('#select-language').val();
     try {
-        $('#print-training-block .ck-editor-view-block').each(function( index ) {
-            let data = $(this).attr('data-text')
-            let id = $(this).attr('id')
+        console.log(editors_array)
+        for (let ck_data of editors_array) {
+            let data = ck_data['data']
+            let id = ck_data['id']
             console.log(id)
             CKSource.Editor
             .create(document.querySelector('#'+id), {
@@ -243,8 +246,7 @@ function create_editor() {
                 editor.setData(data)
                 return editor;
             })
-
-        });
+        }
 
     } catch(e) {}
 }

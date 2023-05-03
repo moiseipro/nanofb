@@ -11,6 +11,8 @@ function generate_ajax_club_users_table(scroll_y = ''){
         serverSide: true,
         processing: true,
         scrollY: scroll_y,
+        pageLength: 50,
+        lengthMenu: [ 25, 50, 100 ],
         drawCallback: function( settings ) {
             $('#club-users-table-counter').text(settings._iRecordsDisplay)
         },
@@ -21,24 +23,29 @@ function generate_ajax_club_users_table(scroll_y = ''){
             },
         },
         columns: [
-            {'data': 'is_active', 'name': 'is_active', sortable: false, searchable: false, render: function (data, type, row, meta) {
-                let view_data = ''
-                if(data==true) view_data = `<span class="badge badge-success" style="font-size: 14px;">${gettext('Activation')}</span>`
-                else view_data = `<span class="badge badge-secondary" style="font-size: 14px;">${gettext('Archive')}</span>`
-                return view_data;
+            {'data': 'id', render: function (data, type, row, meta) {
+                return meta.row + meta.settings._iDisplayStart + 1;
+            }, searchable: false},
+            {'data': 'activation', 'name': 'activation', render: function (data, type, row, meta) {
+                console.log(data);
+                let html = `
+                    <span class="w-100 badge badge-${data.type}">${data.status}</span>
+                `
+                return html;
             }},
-            {'data': 'full_name', 'name': 'full_name'},
+            {'data': 'last_name', 'name': 'last_name'},
+            {'data': 'first_name', 'name': 'first_name'},
             {'data': 'email', 'name': 'email'},
+            {'data': 'age', 'name': 'age', sortable: false, searchable: false,},
+            {'data': 'date_birthsday', 'name': 'date_birthsday', 'defaultContent': "---"},
             {'data': 'job_title', 'name': 'job_title', 'defaultContent': "---"},
-
-            {'data': 'date_birthsday', 'name': 'date_birthsday'},
             {'data': 'days_entered', 'name': 'days_entered', sortable: false, searchable: false, render: function (data, type, row, meta) {
                 return data;
             }},
             {'data': 'id', sortable: false, searchable: false, render: function (data, type, row, meta) {
                 let button_html = ``
-                button_html += `<button type="button" class="btn btn-sm btn-outline-secondary mr-1 edit-club-user" data-id="${data}" data-toggle="modal" data-target="#edit-club-user-modal"><i class="fa fa-bars" aria-hidden="true"></i></button>`
-                button_html += `<button type="button" class="btn btn-sm btn-outline-secondary mr-1 archive-club-user" data-id="${data}"><i class="fa fa-archive" aria-hidden="true"></i></button>`
+                button_html += `<button type="button" class="btn btn-sm btn-outline-secondary mr-1 edit-club-user py-0" data-id="${data}" data-toggle="modal" data-target="#edit-club-user-modal"><i class="fa fa-bars" aria-hidden="true"></i></button>`
+                button_html += `<button type="button" class="btn btn-sm btn-outline-dark mr-1 archive-user py-0 ${row.is_archive==1?'active':''}" data-id="${data}"><i class="fa fa-archive" aria-hidden="true"></i></button>`
                 return button_html;
             }},
         ],

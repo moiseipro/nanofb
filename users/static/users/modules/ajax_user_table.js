@@ -11,7 +11,7 @@ function generate_ajax_users_table(scroll_y = ''){
         serverSide: true,
         processing: true,
         scrollY: scroll_y,
-        pageLength: 25,
+        pageLength: 50,
         lengthMenu: [ 25, 50, 100 ],
         rowCallback: function( row, data ) {
             console.log(data)

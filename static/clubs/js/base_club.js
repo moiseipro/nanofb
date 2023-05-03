@@ -90,6 +90,25 @@ $(window).on('load', function (){
         })
 
     })
+
+    $('#club-users').on('click', '.archive-user', function () {
+        let is_archive
+        let user_id = $(this).attr('data-id')
+        if ($(this).hasClass('active')){
+            is_archive = 0
+            $(this).removeClass('active')
+        } else {
+            is_archive = 1
+            $(this).addClass('active')
+        }
+        let send_data = {'is_archive' : is_archive}
+        console.log(send_data);
+
+        ajax_club_users_action('POST', send_data, 'edit', user_id, 'edit_user').then(function (data) {
+            console.log(data)
+            club_users_table.ajax.reload()
+        })
+    })
     
     $(document).on('click', '.check-permission', function () {
         let user_id = $('#edit-club-user-modal').attr('data-user');

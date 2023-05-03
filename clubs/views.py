@@ -18,7 +18,8 @@ from clubs.forms import ClubAddUserForm, ClubAddPersonalForm
 from clubs.models import Club
 from clubs.serializers import ClubSerializer, ClubUserCreateSerializer
 from users.models import User, UserPersonal
-from users.serializers import UserSerializer, UserPersonalSerializer, CreateUserSerializer
+from users.serializers import UserSerializer, UserPersonalSerializer, CreateUserSerializer, UserEditSerializer, \
+    UserManagementSerializer
 
 
 class ClubPermissions(DjangoModelPermissions):
@@ -108,6 +109,21 @@ class ClubUsersViewSet(viewsets.ModelViewSet):
             user_edit.groups.add(group)
             return Response({'status': 'group_added'})
 
+    @action(detail=True, methods=['post'])
+    def edit_user(self, request, pk=None):
+        instance = User.objects.get(pk=pk)
+        serializer = UserEditSerializer(instance, data=self.request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            response = {
+                'status': 'success',
+                'message': _('User data is saved!'),
+                'data': serializer.data
+            }
+            return Response(response, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
@@ -118,7 +134,7 @@ class ClubUsersViewSet(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
     def get_serializer_class(self):
-        return UserSerializer
+        return UserManagementSerializer
 
     def get_queryset(self):
         users = User.objects.filter(club_id=self.request.user.club_id)
