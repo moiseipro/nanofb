@@ -447,7 +447,7 @@ tr.bck-custom > td {
 
 .ck-editor {
     width: 100% !important;
-    height: 100% !important;
+    /* height: 100% !important; */
 }
 .ck-editor__main.read-mode {
     width: 100% !important;
