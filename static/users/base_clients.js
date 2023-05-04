@@ -92,7 +92,7 @@ $(window).on("load", function () {
                 let cur_edit_data = rowData[0]
                 console.log(cur_edit_data)
                 Cookies.set('user_selected_id', cur_edit_data.id, { expires: 1 })
-                $('#users-table-block #open-profile-modal').prop('disabled', false)
+                $('#open-profile-modal').prop('disabled', false)
                 user_select_id = cur_edit_data.id
                 load_user_data(user_select_id)
             }
