@@ -26,12 +26,14 @@ date_event_input_widget = forms.DateTimeInput(attrs={
     'class': 'datepicker-event',
     'id': 'datetimepicker-event',
     'data-toggle': 'datetimepicker',
+    'data-target': '#datetimepicker-event',
     'autocomplete': 'off'
 })
 time_event_input_widget = forms.TimeInput(attrs={
     'class': 'timepicker',
     'id': 'timepicker-event',
     'data-toggle': 'datetimepicker',
+    'data-target': '#timepicker-event',
     'autocomplete': 'off'
 })
 

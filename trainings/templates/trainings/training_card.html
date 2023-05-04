@@ -84,13 +84,13 @@
                 <div class="row mt-4">
 {#                    <div class="col-6 border border-white text-black text-uppercase text-left" style="background: lightblue !important;">{% trans 'Goal' %}</div>#}
                     <div class="col-12 px-0 text-center training-goal">
-                        <input type="text" name="goal" class="form-control form-control-sm rounded-0 py-0 h-auto text-center training-filter-edit mb-1 edit-input" value="" placeholder="{% trans 'Goal' %}" autocomplete="off" disabled>
+                        <input type="text" name="goal" class="form-control form-control-sm rounded-0 py-0 h-auto text-center training-filter-edit mb-1 edit-input" value="" placeholder="{% trans 'Objective' %} 1" autocomplete="off" disabled>
                     </div>
                 </div>
                 <div class="row">
 {#                    <div class="col-6 border border-white text-black text-uppercase text-left" style="background: lightblue !important;">{% trans 'Objective' %}</div>#}
                     <div class="col-12 px-0 text-center training-objectives">
-                        <input type="text" name="objective_1" class="form-control form-control-sm rounded-0 py-0 h-auto text-center training-filter-edit mb-1 edit-input" value="" placeholder="{% trans 'Objective' %}" autocomplete="off" disabled>
+                        <input type="text" name="objective_1" class="form-control form-control-sm rounded-0 py-0 h-auto text-center training-filter-edit mb-1 edit-input" value="" placeholder="{% trans 'Objective' %} 2" autocomplete="off" disabled>
                     </div>
                 </div>
                 <div class="row">
@@ -129,7 +129,7 @@
 {#            </div>#}
 {#        </div>#}
         <div class="row exercise-data-row font-weight-bold training-exercise-title training-exercise-description" data-toggle="collapse" data-target="#collapse-exercise-description" style="cursor: pointer">
-            <div class="col text-center pt-1 px-0">{% trans "Description" %} ({% trans "for print" %} / QR)</div>
+            <div class="col text-center pt-1 px-0">{% trans "Description" %} ({% trans "print" %} / QR / {% trans "link" %})</div>
 
         </div>
         <div id="collapse-exercise-description" class="row exercise-data-row collapse show">
