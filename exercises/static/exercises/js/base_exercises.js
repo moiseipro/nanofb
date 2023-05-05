@@ -630,8 +630,8 @@ function RenderContentInCardModalForEdit(data) {
         $('#exerciseCopyModal').find('.graphics-content[data-id="video_1"]').html(`
             <div class="col-12">
             ${'nftv' in data.video_1['links'] && data.video_1['links']['nftv'] != '' ? `
-                <video id="video-player-modal-copy-0" class="video-js resize-block video-copy-modal" poster="http://213.108.4.28/video/poster/${data.video_1['links']['nftv']}">
-                    <source src="http://213.108.4.28/video/player/${data.video_1['links']['nftv']}" type="video/mp4" />
+                <video id="video-player-modal-copy-0" class="video-js resize-block video-copy-modal" poster="https://nanofootball.kz/video/poster/${data.video_1['links']['nftv']}">
+                    <source src="https://nanofootball.kz/video/player/${data.video_1['links']['nftv']}" type="video/mp4" />
                 </video>
             ` : 'youtube' in data.video_1['links'] && data.video_1['links']['youtube'] != '' ? `
                 <video id="video-player-modal-copy-0" class="video-js resize-block video-copy-modal" poster="">
@@ -647,8 +647,8 @@ function RenderContentInCardModalForEdit(data) {
     //     $('#exerciseCopyModal').find('.graphics-content[data-id="video_2"]').html(`
     //         <div class="col-12">
     //         ${'nftv' in data.video_2['links'] && data.video_2['links']['nftv'] != '' ? `
-    //             <video id="video-player-modal-copy-1" class="video-js resize-block video-copy-modal" poster="http://213.108.4.28/video/poster/${data.video_2['links']['nftv']}">
-    //                 <source src="http://213.108.4.28/video/player/${data.video_2['links']['nftv']}" type="video/mp4" />
+    //             <video id="video-player-modal-copy-1" class="video-js resize-block video-copy-modal" poster="https://nanofootball.kz/video/poster/${data.video_2['links']['nftv']}">
+    //                 <source src="https://nanofootball.kz/video/player/${data.video_2['links']['nftv']}" type="video/mp4" />
     //             </video>
     //         ` : 'youtube' in data.video_2['links'] && data.video_2['links']['youtube'] != '' ? `
     //             <video id="video-player-modal-copy-1" class="video-js resize-block video-copy-modal" poster="">
@@ -664,8 +664,8 @@ function RenderContentInCardModalForEdit(data) {
         $('#exerciseCopyModal').find('.graphics-content[data-id="animation_1"]').html(`
             <div class="col-12">
             ${'nftv' in data.animation_1['links'] && data.animation_1['links']['nftv'] != '' ? `
-                <video id="video-player-modal-copy-2" class="video-js resize-block video-copy-modal" poster="http://213.108.4.28/video/poster/${data.animation_1['links']['nftv']}">
-                    <source src="http://213.108.4.28/video/player/${data.animation_1['links']['nftv']}" type="video/mp4" />
+                <video id="video-player-modal-copy-2" class="video-js resize-block video-copy-modal" poster="https://nanofootball.kz/video/poster/${data.animation_1['links']['nftv']}">
+                    <source src="https://nanofootball.kz/video/player/${data.animation_1['links']['nftv']}" type="video/mp4" />
                 </video>
             ` : 'youtube' in data.animation_1['links'] && data.animation_1['links']['youtube'] != '' ? `
                 <video id="video-player-modal-copy-2" class="video-js resize-block video-copy-modal" poster="">
@@ -681,8 +681,8 @@ function RenderContentInCardModalForEdit(data) {
     //     $('#exerciseCopyModal').find('.graphics-content[data-id="animation_2"]').html(`
     //         <div class="col-12">
     //         ${'nftv' in data.animation_2['links'] && data.animation_2['links']['nftv'] != '' ? `
-    //             <video id="video-player-modal-copy-3" class="video-js resize-block video-copy-modal" poster="http://213.108.4.28/video/poster/${data.animation_2['links']['nftv']}">
-    //                 <source src="http://213.108.4.28/video/player/${data.animation_2['links']['nftv']}" type="video/mp4" />
+    //             <video id="video-player-modal-copy-3" class="video-js resize-block video-copy-modal" poster="https://nanofootball.kz/video/poster/${data.animation_2['links']['nftv']}">
+    //                 <source src="https://nanofootball.kz/video/player/${data.animation_2['links']['nftv']}" type="video/mp4" />
     //             </video>
     //         ` : 'youtube' in data.animation_2['links'] && data.animation_2['links']['youtube'] != '' ? `
     //             <video id="video-player-modal-copy-3" class="video-js resize-block video-copy-modal" poster="">
@@ -2220,47 +2220,49 @@ $(function() {
     try {
         cFoldersSettings = JSON.parse(cFoldersSettings);
     } catch(e) {}
-    if (cFoldersSettings.expandToggled !== null && cFoldersSettings.expandToggled !== undefined) {
-        if (cFoldersSettings.expandToggled) {
-            setTimeout((e) => {
-                $('#toggleFoldersNames').first().click();
-            }, 600);
+    if (cFoldersSettings && cFoldersSettings !== null) {
+        if (cFoldersSettings.expandToggled !== null && cFoldersSettings.expandToggled !== undefined) {
+            if (cFoldersSettings.expandToggled) {
+                setTimeout((e) => {
+                    $('#toggleFoldersNames').first().click();
+                }, 600);
+            }
+        }
+        if (cFoldersSettings.type !== null && cFoldersSettings.type !== undefined) {
+            $('.up-tabs-elem.folders-toggle').addClass('d-none');
+            $('.up-tabs-elem.folders-toggle').removeClass('selected');
+            $(`.up-tabs-elem[data-id="${cFoldersSettings.type}"]`).removeClass('d-none');
+            $(`.up-tabs-elem[data-id="${cFoldersSettings.type}"]`).addClass('selected');
+            $('.folders-block > div.folders-container > div.folders_div').addClass('d-none');
+            $('.folders-block > div.folders-container > div.folders_div').removeClass('selected');
+            $(`.folders-block > div.folders-container > div.folders_div[data-id="${cFoldersSettings.type}"]`).removeClass('d-none');
+            $(`.folders-block > div.folders-container > div.folders_div[data-id="${cFoldersSettings.type}"]`).addClass('selected');
+            if (cFoldersSettings.type == "team_folders") {
+                $('.toggle-filter-content').removeClass('btn-custom-outline-green');
+                $('.toggle-filter-content').removeClass('btn-custom-outline-red');
+                $('.toggle-filter-content').addClass('btn-custom-outline-blue');
+                $('.up-tabs-elem').removeClass('b-c-green2');
+                $('.up-tabs-elem').removeClass('b-c-red2');
+                $('.up-tabs-elem').addClass('b-c-blue2');
+            } else if (cFoldersSettings.type == "nfb_folders") {
+                $('.toggle-filter-content').removeClass('btn-custom-outline-blue');
+                $('.toggle-filter-content').removeClass('btn-custom-outline-red');
+                $('.toggle-filter-content').addClass('btn-custom-outline-green');
+                $('.up-tabs-elem').removeClass('b-c-blue2');
+                $('.up-tabs-elem').removeClass('b-c-red2');
+                $('.up-tabs-elem').addClass('b-c-green2');
+            } else if (cFoldersSettings.type == "club_folders") {
+                $('.toggle-filter-content').removeClass('btn-custom-outline-blue');
+                $('.toggle-filter-content').removeClass('btn-custom-outline-green');
+                $('.toggle-filter-content').addClass('btn-custom-outline-red');
+                $('.up-tabs-elem').removeClass('b-c-blue2');
+                $('.up-tabs-elem').removeClass('b-c-green2');
+                $('.up-tabs-elem').addClass('b-c-red2');
+            }
+            ToggleTagsView();
         }
     }
-    if (cFoldersSettings.type !== null && cFoldersSettings.type !== undefined) {
-        $('.up-tabs-elem.folders-toggle').addClass('d-none');
-        $('.up-tabs-elem.folders-toggle').removeClass('selected');
-        $(`.up-tabs-elem[data-id="${cFoldersSettings.type}"]`).removeClass('d-none');
-        $(`.up-tabs-elem[data-id="${cFoldersSettings.type}"]`).addClass('selected');
-        $('.folders-block > div.folders-container > div.folders_div').addClass('d-none');
-        $('.folders-block > div.folders-container > div.folders_div').removeClass('selected');
-        $(`.folders-block > div.folders-container > div.folders_div[data-id="${cFoldersSettings.type}"]`).removeClass('d-none');
-        $(`.folders-block > div.folders-container > div.folders_div[data-id="${cFoldersSettings.type}"]`).addClass('selected');
-        if (cFoldersSettings.type == "team_folders") {
-            $('.toggle-filter-content').removeClass('btn-custom-outline-green');
-            $('.toggle-filter-content').removeClass('btn-custom-outline-red');
-            $('.toggle-filter-content').addClass('btn-custom-outline-blue');
-            $('.up-tabs-elem').removeClass('b-c-green2');
-            $('.up-tabs-elem').removeClass('b-c-red2');
-            $('.up-tabs-elem').addClass('b-c-blue2');
-        } else if (cFoldersSettings.type == "nfb_folders") {
-            $('.toggle-filter-content').removeClass('btn-custom-outline-blue');
-            $('.toggle-filter-content').removeClass('btn-custom-outline-red');
-            $('.toggle-filter-content').addClass('btn-custom-outline-green');
-            $('.up-tabs-elem').removeClass('b-c-blue2');
-            $('.up-tabs-elem').removeClass('b-c-red2');
-            $('.up-tabs-elem').addClass('b-c-green2');
-        } else if (cFoldersSettings.type == "club_folders") {
-            $('.toggle-filter-content').removeClass('btn-custom-outline-blue');
-            $('.toggle-filter-content').removeClass('btn-custom-outline-green');
-            $('.toggle-filter-content').addClass('btn-custom-outline-red');
-            $('.up-tabs-elem').removeClass('b-c-blue2');
-            $('.up-tabs-elem').removeClass('b-c-green2');
-            $('.up-tabs-elem').addClass('b-c-red2');
-        }
-        ToggleTagsView();
-    }
-
+    
     // Download exercise
     $('#downloadExs').on('click', (e) => {
         let activeExs = $('.exs-list-group').find('.list-group-item.active');

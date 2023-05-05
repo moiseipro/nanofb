@@ -231,7 +231,7 @@ function render_json_block(data) {
         //Получение ссылки на видео через API видеохостинга
         video_player.show()
         youtube_player.hide()
-        video_player.attr('src', 'http://213.108.4.28/video/player/'+data['links']['nftv'])
+        video_player.attr('src', 'https://nanofootball.kz/video/player/'+data['links']['nftv'])
     } else if('youtube' in data['links'] && data['links']['youtube'] != ''){
         video_player.hide()
         youtube_player.show()

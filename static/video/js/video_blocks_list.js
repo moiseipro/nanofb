@@ -11,7 +11,7 @@ function render_video_block_page(url) {
 
          $.each(data.results, function(index, element) {
              //console.log(element)
-             let img_url = `http://213.108.4.28/video/poster/${element['links']['nftv']}`
+             let img_url = `https://nanofootball.kz/video/poster/${element['links']['nftv']}`
 
              video_html += `
                  <div class="col-sm-6 col-md-4 col-lg-3">
