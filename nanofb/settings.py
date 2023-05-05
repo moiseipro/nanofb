@@ -35,6 +35,7 @@ ALLOWED_HOSTS = [
     'https.nanofootball.com', 'https://www.nanofootball.com', 'https://nanofootball.com',
     'http://nanofootball.com'
 ]
+CSRF_TRUSTED_ORIGINS = ['https://nanofootball.com', 'https://www.nanofootball.com']
 
 # Application definition
 
