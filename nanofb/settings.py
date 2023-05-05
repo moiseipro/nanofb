@@ -32,8 +32,10 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'nanofb.pythonanywhere.com', '127.0.0.1', 'localhost', '91.245.227.74', 
     'nanofootball.com', 'www.nanofootball.com', 'http.nanofootball.com', 
-    'https.nanofootball.com'
+    'https.nanofootball.com', 'https://www.nanofootball.com', 'https://nanofootball.com',
+    'http://nanofootball.com'
 ]
+CSRF_TRUSTED_ORIGINS = ['https://nanofootball.com', 'https://www.nanofootball.com']
 
 # Application definition
 
