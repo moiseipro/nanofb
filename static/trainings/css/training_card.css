@@ -16,7 +16,8 @@
 }
 .exs-filter-card{
     color: black !important;
-    background: #d9d9de !important;
+    background: #e1e3e7 !important;
+
 }
 .group-filter-card.active{
     font-weight: bold;
@@ -112,4 +113,8 @@ input.btn-primary::-ms-input-placeholder { /* Microsoft Edge */
 }
 input.btn-primary::placeholder { /* Most modern browsers support this now. */
    color: white;
+}
+
+.bg-disabled{
+    background-color: #e9ecef;
 }

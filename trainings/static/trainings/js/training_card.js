@@ -95,16 +95,22 @@ $(window).on('load', function (){
     //Переключатель по упражнениям
     $('#training-content').on('click', '.exs-filter-card', function () {
         let exs_id = $(this).attr('data-id')
+        let group_id = $(this).attr('data-group')
         //console.log(exs_id)
-        $('.exercise-data-row').removeClass('d-none')
-        $('.training-data-row').addClass('d-none')
+        if($(this).hasClass('active')){
+            $(`#training-content .group-filter-card[data-group="${group_id}"]`).click()
+        } else {
+            $('.exercise-data-row').removeClass('d-none')
+            $('.training-data-row').addClass('d-none')
+            $('#training-content .group-filter-card').removeClass('active')
+            $('#training-content .exs-filter-card').removeClass('active')
+            $(this).addClass('active')
+            load_exercises_training_data(exs_id)
+            load_exercises_additional_data(exs_id)
+        }
 
-        $('#training-content .group-filter-card').removeClass('active')
-        $('#training-content .exs-filter-card').removeClass('active')
-        $(this).addClass('active')
-        load_exercises_training_data(exs_id)
-        load_exercises_additional_data(exs_id)
     })
+
     // Добавление всех дополнительных данных в тренировку
     $('#training-exercise-additional-modal').on('click', '#add-exercise-additional', function (){
         let training_exercise_id = $('#training-content').find('.exs-filter-card.active').attr('data-id')
@@ -283,14 +289,14 @@ function show_training_card(id = ''){
             if (value.group==1){
                 html_group_1 += `
                 <div class="col-12 px-0 mb-1">
-                    <button data-id="${value.id}" class="btn btn-sm btn-block border-white rounded-0 py-0 exs-filter-card" title="${get_translation_name(value.exercise_name)}"><span class="float-left">${value.exercise_data.folder.short_name}. ${get_translation_name(value.exercise_name)}</span> <span class="float-right">${value.duration}\`</span></button>
+                    <button data-id="${value.id}" data-group="${value.group}" class="btn btn-sm btn-block border-white rounded-0 py-0 exs-filter-card" title="${get_translation_name(value.exercise_name)}"><span class="float-left">${value.exercise_data.folder.short_name}. ${get_translation_name(value.exercise_name)}</span> <span class="float-right">${value.duration}\`</span></button>
                 </div>`
                 min_1+=value.duration
                 count_1++
             } else if (value.group==2){
                 html_group_2 += `
                 <div class="col-12 px-0 mb-1">
-                    <button data-id="${value.id}" class="btn btn-sm btn-block border-white rounded-0 py-0 exs-filter-card" title="${get_translation_name(value.exercise_name)}"><span class="float-left">${value.exercise_data.folder.short_name}. ${get_translation_name(value.exercise_name)}</span> <span class="float-right">${value.duration}\`</span></button>
+                    <button data-id="${value.id}" data-group="${value.group}" class="btn btn-sm btn-block border-white rounded-0 py-0 exs-filter-card" title="${get_translation_name(value.exercise_name)}"><span class="float-left">${value.exercise_data.folder.short_name}. ${get_translation_name(value.exercise_name)}</span> <span class="float-right">${value.duration}\`</span></button>
                 </div>`
                  min_2+=value.duration
                 count_2++

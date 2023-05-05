@@ -120,8 +120,8 @@ class NewUserPersonalForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.helper.layout = Layout(
             Row(
-                Column('first_name', css_class='form-group col-md-12 mb-0'),
                 Column('last_name', css_class='form-group col-md-12 mb-0'),
+                Column('first_name', css_class='form-group col-md-12 mb-0'),
                 Column('father_name', css_class='form-group col-md-12 mb-0'),
                 Column('country_id', css_class='form-group col-md-12 mb-0'),
                 Column('region', css_class='form-group col-md-12 mb-0'),
