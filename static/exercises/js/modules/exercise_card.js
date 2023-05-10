@@ -400,7 +400,7 @@ function RenderExerciseOne(data) {
         $('#carouselSchema').find('.carousel-item').last().html(data.scheme_data[1]);
         let carouselIndicatorNum = 2;
         if (data.scheme_2 && data.scheme_2 != "") {
-            let link = `http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_2}`;
+            let link = `https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${data.scheme_2}`;
             $('#carouselSchema').find('.carousel-item').first().before(`
                 <div class="carousel-item new-scheme" title="Рисунок 2 (новый)" data-type="scheme_2">
                     <div class="tempimg">
@@ -434,7 +434,7 @@ function RenderExerciseOne(data) {
             carouselIndicatorNum ++;
         }
         if (data.scheme_1 && data.scheme_1 != "") {
-            let link = `http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_1}`;
+            let link = `https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${data.scheme_1}`;
             $('#carouselSchema').find('.carousel-item').first().before(`
                 <div class="carousel-item new-scheme" title="Рисунок 1 (новый)" data-type="scheme_1">
                     <div class="tempimg">
@@ -2042,13 +2042,13 @@ $(function() {
             //     $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
             // }, 100);
             let cId = $('#exerciseCard').find('.exs_edit_field[name="scheme_1"]').val();
-            let cSrc = "http://62.113.105.179/canvas/new";
+            let cSrc = "https://nanofootballdraw.ru/canvas/new";
             if (cId && cId != "") {
-                cSrc = `http://62.113.105.179/canvas/edit/${cId}`;
+                cSrc = `https://nanofootballdraw.ru/canvas/edit/${cId}`;
             }
             $('.scheme-editor').find('iframe').attr('src', cSrc);
             window.addEventListener('message', (e) => {
-                if (e.origin === "http://62.113.105.179") {
+                if (e.origin === "https://nanofootballdraw.ru") {
                     const { event, payload } = e.data;
                     let newId = null;
                     try {
@@ -2056,7 +2056,7 @@ $(function() {
                     } catch (e) {}
                     if (event == "canvas::load") {return;}
                     if (newId && newId != "") {
-                        // let cSrc = `http://62.113.105.179/canvas/edit/${newId}`;
+                        // let cSrc = `https://nanofootballdraw.ru/canvas/edit/${newId}`;
                         // $('.scheme-editor').find('iframe').attr('src', cSrc);
                         if ($('#openDrawing1').hasClass('selected2')) {
                             $('#exerciseCard').find('.exs_edit_field[name="scheme_1"]').val(newId);
@@ -2090,13 +2090,13 @@ $(function() {
             //     $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
             // }, 100);
             let cId = $('#exerciseCard').find('.exs_edit_field[name="scheme_2"]').val();
-            let cSrc = "http://62.113.105.179/canvas/new";
+            let cSrc = "https://nanofootballdraw.ru/canvas/new";
             if (cId && cId != "") {
-                cSrc = `http://62.113.105.179/canvas/edit/${cId}`;
+                cSrc = `https://nanofootballdraw.ru/canvas/edit/${cId}`;
             }
             $('.scheme-editor').find('iframe').attr('src', cSrc);
             window.addEventListener('message', (e) => {
-                if (e.origin === "http://62.113.105.179") {
+                if (e.origin === "https://nanofootballdraw.ru") {
                     const { event, payload } = e.data;
                     let newId = null;
                     try {
@@ -2104,7 +2104,7 @@ $(function() {
                     } catch (e) {}
                     if (event == "canvas::load") {return;}
                     if (newId && newId != "") {
-                        // let cSrc = `http://62.113.105.179/canvas/edit/${newId}`;
+                        // let cSrc = `https://nanofootballdraw.ru/canvas/edit/${newId}`;
                         // $('.scheme-editor').find('iframe').attr('src', cSrc);
                         if ($('#openDrawing2').hasClass('selected2')) {
                             $('#exerciseCard').find('.exs_edit_field[name="scheme_2"]').val(newId);

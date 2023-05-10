@@ -575,7 +575,7 @@ function RenderContentInCardModalForEdit(data) {
                         <line id="yLine2" stroke="red" stroke-dasharray="10" stroke-width="1" x1="0" x2="2400" y1="-1600" y2="-1600"></line>
                     </svg>
                 </div>
-                <img class="img-lazyload d-none" src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_1}" alt="scheme" width="100%" height="100%"> 
+                <img class="img-lazyload d-none" src="https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${data.scheme_1}" alt="scheme" width="100%" height="100%"> 
             </div>
         `);
     } else if (data && data.scheme_data && data.scheme_data[0]) {
@@ -610,7 +610,7 @@ function RenderContentInCardModalForEdit(data) {
                         <line id="yLine2" stroke="red" stroke-dasharray="10" stroke-width="1" x1="0" x2="2400" y1="-1600" y2="-1600"></line>
                     </svg>
                 </div>
-                <img class="img-lazyload d-none" src="http://62.113.105.179/api/canvas-draw/v1/canvas/render?id=${data.scheme_2}" alt="scheme" width="100%" height="100%"> 
+                <img class="img-lazyload d-none" src="https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${data.scheme_2}" alt="scheme" width="100%" height="100%"> 
             </div>
         `);
     } else if (data && data.scheme_data && data.scheme_data[1]) {

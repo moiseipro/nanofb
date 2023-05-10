@@ -23,7 +23,7 @@ LANG_CODE_DEFAULT = "en"
 FOLDER_TEAM = "team_folders"
 FOLDER_NFB = "nfb_folders"
 FOLDER_CLUB = "club_folders"
-NEW_SCHEME_DRAWER_URL = "http://62.113.105.179"
+NEW_SCHEME_DRAWER_URL = "https://nanofootballdraw.ru"
 
 
 
