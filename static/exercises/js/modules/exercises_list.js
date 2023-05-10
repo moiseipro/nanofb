@@ -456,21 +456,21 @@ function ToggleFoldersView(saveView) {
         $('.folders_div').find('.folder-elem').each((ind, elem) => {
             let isRoot = $(elem).parent().hasClass('root-elem');
             let isVisible = !$(elem).parent().hasClass('d-none');
-            if (!isRoot) {
+            if (!isRoot || true) {
                 data['folder-elem'].push({'id': $(elem).attr('data-id'), 'visible': isVisible});
             }
         });
         $('.folders_div').find('.folder-nfb-elem').each((ind, elem) => {
             let isRoot = $(elem).parent().hasClass('root-elem');
             let isVisible = !$(elem).parent().hasClass('d-none');
-            if (!isRoot) {
+            if (!isRoot || true) {
                 data['folder-nfb-elem'].push({'id': $(elem).attr('data-id'), 'visible': isVisible});
             }
         });
         $('.folders_div').find('.folder-club-elem').each((ind, elem) => {
             let isRoot = $(elem).parent().hasClass('root-elem');
             let isVisible = !$(elem).parent().hasClass('d-none');
-            if (!isRoot) {
+            if (!isRoot || true) {
                 data['folder-club-elem'].push({'id': $(elem).attr('data-id'), 'visible': isVisible});
             }
         });
@@ -481,10 +481,23 @@ function ToggleFoldersView(saveView) {
         try {
             data = JSON.parse(sessionStorage.getItem("folders_views"));
         } catch(e) {}
+        let setDefaultFoldersVisible = true;
         for (let key in data) {
             data[key].forEach(elem => {
                 $('.folders_div').find(`.${key}[data-id="${elem['id']}"]`).parent().toggleClass('d-none', !elem['visible']);
+                setDefaultFoldersVisible = false;
             });
+        }
+        if (setDefaultFoldersVisible) {
+            $('.folders_div').find('li.list-group-item').each((ind, elem) => {
+                let isRoot = $(elem).hasClass('root-elem');
+                if (isRoot) {
+                    $(elem).toggleClass('d-none', true);
+                } else {
+                    $(elem).toggleClass('d-none', false);
+                }
+            });
+            ToggleFoldersView(true);
         }
         window.foldersViewStatus = true;
     }
@@ -700,12 +713,30 @@ $(function() {
 
     // Toggle folders:
     $('#toggleFoldersViews').on('click', (e) => {
-        let isToggled = $(e.currentTarget).attr('data-state') == "1";
+        let visibleRoot = false;
+        let visibleOthers = false;
+        if ($(e.currentTarget).attr('data-state') == "1") {
+            visibleRoot = true;
+            visibleOthers = false;
+            $(e.currentTarget).attr('data-state', '2');
+            $(e.currentTarget).toggleClass('selected3', true);
+        } else if ($(e.currentTarget).attr('data-state') == "2") {
+            visibleRoot = false;
+            visibleOthers = true;
+            $(e.currentTarget).attr('data-state', '0');
+            $(e.currentTarget).toggleClass('selected3', false);
+        } else {
+            visibleRoot = true;
+            visibleOthers = true;
+            $(e.currentTarget).attr('data-state', '1');
+            $(e.currentTarget).toggleClass('selected3', true);
+        }
         $('.folders_div').find('li.list-group-item').each((ind, elem) => {
             let isRoot = $(elem).hasClass('root-elem');
-            let isVisible = !$(elem).hasClass('d-none');
-            if (!isRoot) {
-                $(elem).toggleClass('d-none', isToggled);
+            if (isRoot) {
+                $(elem).toggleClass('d-none', !visibleRoot);
+            } else {
+                $(elem).toggleClass('d-none', !visibleOthers);
             }
         });
         ToggleFoldersView(true);

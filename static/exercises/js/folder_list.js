@@ -168,4 +168,15 @@ $(function() {
         SetNewShortName(elem);
     });
 
+    let allFolders = $('.folders_div').find('.list-group-item');
+    for (let i = 0; i < allFolders.length; i++) {
+        let elem = allFolders[i];
+        let isRoot = $(elem).hasClass('root-elem');
+        try {
+            if (isRoot) {
+                $(allFolders[i-1]).addClass('last-elem')
+            }
+        } catch(e) {}
+    }
+
 });

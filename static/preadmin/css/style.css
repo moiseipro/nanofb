@@ -4266,6 +4266,12 @@ table.table-inbox tbody tr.checked {
 .icon--share {
 	content: url(../img/icons/share.png);
 }
+.icon--sorting-arrows {
+	content: url(../img/icons/sorting-arrows.png);
+}
+.icon--sorting-arrows-horizontal {
+	content: url(../img/icons/sorting-arrows-horizontal.png);
+}
 .icon--speed {
 	content: url(../img/icons/speed.png);
 }

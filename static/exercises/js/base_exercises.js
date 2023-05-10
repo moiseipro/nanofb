@@ -885,6 +885,7 @@ $(function() {
 
     // Toggle upper buttons panel
     $('button.up-tabs-elem').on('click', (e) => {
+        if ($(e.currentTarget).hasClass('up-tab-custom')) {return;}
         let id = $(e.currentTarget).attr('data-id');
         let state = $(e.currentTarget).attr('data-state') == '1';
         $(e.currentTarget).toggleClass('selected3', !state);

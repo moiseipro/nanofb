@@ -65,7 +65,7 @@
     height: 88vh !important;
 }
 .folders_list, .folders_nfb_list, .folders_club_list {
-    height: 73vh !important;
+    height: 72vh !important;
     overflow-y: auto;
 }
 .exs-list-group {
@@ -370,6 +370,9 @@ tr.bck-custom > td {
     font-weight: bold;
     margin-bottom: .25rem !important;
 }
+.folders_list > .list-group > .list-group-item.last-elem {
+    border-bottom: 3px solid #a8c5e4;
+}
 .folders_nfb_list > .list-group > .list-group-item {
     background-color: #fff;
 }
@@ -384,6 +387,9 @@ tr.bck-custom > td {
     border-color: #a8c5e4;
     font-weight: bold;
     margin-bottom: .25rem !important;
+}
+.folders_nfb_list > .list-group > .list-group-item.last-elem {
+    border-bottom: 3px solid #a8c5e4;
 }
 .nfb_folders_list > .list-group > .list-group-item {
     background-color: #fff;
@@ -408,6 +414,9 @@ tr.bck-custom > td {
     border-color: #a8c5e4;
     font-weight: bold;
     margin-bottom: .25rem !important;
+}
+.folders_club_list > .list-group > .list-group-item.last-elem {
+    border-bottom: 3px solid #a8c5e4;
 }
 .folders_list_copy > .list-group > .list-group-item {
     background-color: #fff;
