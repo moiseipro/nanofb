@@ -43,11 +43,11 @@
                             Рисунок 1
                         </button>
                     </li>
-                    <li class="list-group-item py-1 nf-copy-off">
+                    <!-- <li class="list-group-item py-1 nf-copy-off">
                         <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="scheme_2">
                             Рисунок 2
                         </button>
-                    </li>
+                    </li> -->
                     <!-- <li class="list-group-item py-1">
                         <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="tags" {% if not user.is_superuser %}disabled=""{% endif %}>
                             Характеристики
@@ -118,7 +118,7 @@
                 <button type="button" class="btn btn-outline-secondary btn-sm toggle-description mt-2" data-id="trainer">
                     Описание "Тренер"
                 </button>
-                <button type="button" class="btn btn-secondary btn-sm edit-exercise mt-2" data-id="description">Редактировать</button>
+                <button type="button" class="btn btn-secondary btn-sm edit-exercise {% if not user.is_superuser %}d-e-nf{% endif %} mt-2" data-id="description">Редактировать</button>
             </div>
             <div class="description-panel description-panel-in-folders" data-id="nf">
                 <div id="descriptionEditorViewFromFolders" class="ckeditor" name=""></div>
@@ -137,7 +137,7 @@
                     <tbody class="">
                         <tr class="bck-custom">
                             <td colspan="2">
-                                <button type="button" class="btn btn-secondary btn-sm edit-exercise" data-id="card">Редактировать</button>
+                                <button type="button" class="btn btn-secondary btn-sm edit-exercise {% if not user.is_superuser %}d-e-nf{% endif %}" data-id="card">Редактировать</button>
                             </td>
                         </tr>
                         <tr class="bck-custom-color" style="--bck-color:#eee; --bck-color-h:#eee;">
@@ -190,13 +190,13 @@
                         <tr class="bck-custom-color text-center font-weight-bold" style="--bck-color:#eee; --bck-color-h:#eee;">
                             <td class="align-middle folder-text" colspan="2"></td>
                         </tr>
-                        <tr class="bck-custom">
+                        <!-- <tr class="bck-custom">
                             <td colspan="2">
                                 <input name="field_task" class="form-control form-control-sm exs_edit_field text-center" 
                                     type="text" value="" placeholder="Задача" autocomplete="off" 
                                     required="" title="Задача">
                             </td>
-                        </tr>
+                        </tr> -->
                         <tr class="bck-custom-color text-center font-weight-bold" style="--bck-color:#eee; --bck-color-h:#eee;">
                             <td class="align-middle folder-text" colspan="2"></td>
                         </tr>
@@ -216,11 +216,11 @@
                                 <input name="field_age_b" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="Возраст по" autocomplete="off" min="0" max="150">
                             </td>
                         </tr>
-                        <tr class="bck-custom border-y-custom" data-id="card_block">
+                        <!-- <tr class="bck-custom border-y-custom" data-id="card_block">
                             <td class="text-center" title="Ключевое слово" colspan="2">
                                 <input name="field_keyword_a" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="Ключевое слово" autocomplete="off">
                             </td>
-                        </tr>
+                        </tr> -->
                         <tr class="bck-custom-color text-center font-weight-bold toggle-categories-block-0" style="--bck-color:#eee; --bck-color-h:#eee;">
                             <td class="align-middle folder-text" colspan="2"></td>
                         </tr>

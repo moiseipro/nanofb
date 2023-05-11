@@ -744,6 +744,8 @@ $(function() {
 
     window.split_sizes_tempo = [];
     $('#toggleDescriptionInFolders').on('click', (e) => {
+        let folderType = $('.folders_div.selected').attr('data-id');
+        $('.folders-block').find('button.edit-exercise.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
         if (!$('.folders-block').find('.folders-container').hasClass('d-none') && $('.folders-block').find('.description-container').hasClass('d-none')) {
             $('.folders-block').find('.folders-container').addClass('d-none');
             $('.folders-block').find('.description-container').removeClass('d-none');
