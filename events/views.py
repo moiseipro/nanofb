@@ -1,5 +1,6 @@
 from datetime import timedelta, time
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, QueryDict
 from django.shortcuts import render
 from django.utils.datetime_safe import datetime
@@ -564,7 +565,7 @@ class LiteEventViewSet(viewsets.ModelViewSet):
 
 
 # DJANGO
-class EventsView(TemplateView):
+class EventsView(LoginRequiredMixin, TemplateView):
     template_name = "events/base_events.html"
 
     def get_context_data(self, **kwargs):
@@ -578,7 +579,7 @@ class EventsView(TemplateView):
 
 
 # DJANGO
-class LiteEventsView(TemplateView):
+class LiteEventsView(LoginRequiredMixin, TemplateView):
     template_name = "events/lite_events.html"
 
     def get_context_data(self, **kwargs):

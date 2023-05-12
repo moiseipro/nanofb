@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-02 13:40+0300\n"
+"POT-Creation-Date: 2023-05-12 14:38+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -810,7 +810,7 @@ msgid ""
 msgstr ""
 
 #: .\Lib\site-packages\django\db\models\fields\__init__.py:2382
-#: .\events\forms.py:100 .\events\forms.py:142
+#: .\events\forms.py:102 .\events\forms.py:144
 #: .\shared\templates\shared\base_shared_training.html:23
 #: .\trainings\templates\trainings\print_training.html:23
 #: .\trainings\templates\trainings\training_card.html:39
@@ -1838,14 +1838,15 @@ msgctxt "stick"
 msgid "club"
 msgstr ""
 
-#: .\authorization\forms.py:31 .\users\models.py:27
-#: .\users\templates\users\forms\edit-personal-form.html:17
+#: .\authorization\forms.py:31 .\clubs\templates\clubs\users_table.html:9
+#: .\users\models.py:27 .\users\templates\users\forms\edit-personal-form.html:9
 #: .\users\templates\users\modules\user_table.html:11
 msgid "Last name"
 msgstr "Фамилия"
 
-#: .\authorization\forms.py:40 .\users\models.py:22
-#: .\users\templates\users\forms\edit-personal-form.html:9
+#: .\authorization\forms.py:40 .\clubs\templates\clubs\users_table.html:10
+#: .\users\models.py:22
+#: .\users\templates\users\forms\edit-personal-form.html:17
 #: .\users\templates\users\modules\user_table.html:12
 msgid "First name"
 msgstr "Имя"
@@ -1855,8 +1856,7 @@ msgstr "Имя"
 msgid "Father name"
 msgstr "Отчество"
 
-#: .\authorization\forms.py:62 .\clubs\templates\clubs\users_table.html:11
-#: .\users\models.py:74
+#: .\authorization\forms.py:62 .\users\models.py:74
 msgid "Date of birth"
 msgstr "День рождения"
 
@@ -1888,7 +1888,7 @@ msgstr "Срок лицензии"
 
 #: .\authorization\forms.py:157
 #: .\authorization\templates\authorization\forgot_password.html:16
-#: .\clubs\templates\clubs\users_table.html:9
+#: .\clubs\templates\clubs\users_table.html:11
 #: .\users\templates\users\base_profile.html:106
 #: .\users\templates\users\forms\edit-user-form.html:9
 msgid "Email"
@@ -1975,7 +1975,9 @@ msgstr ""
 #: .\authorization\templates\authorization\mail\ActivationEmail.html:10
 #: .\authorization\templates\authorization\mail\ActivationEmail.html:25
 msgid "Please go to the following page to activate account:"
-msgstr "Пожалуйста, перейдите на следующую страницу, чтобы активировать учетную запись:"
+msgstr ""
+"Пожалуйста, перейдите на следующую страницу, чтобы активировать учетную "
+"запись:"
 
 #: .\authorization\templates\authorization\mail\ActivationEmail.html:13
 #: .\authorization\templates\authorization\mail\ActivationEmail.html:28
@@ -2025,8 +2027,7 @@ msgstr "Менеджер проекта"
 #, python-format
 msgid ""
 "%(site_name)s - Your account has been successfully created and activated!"
-msgstr ""
-"%(site_name)s - Ваша учетная запись успешно создана и активирована!"
+msgstr "%(site_name)s - Ваша учетная запись успешно создана и активирована!"
 
 #: .\authorization\templates\authorization\mail\ConfirmationEmail.html:8
 #: .\authorization\templates\authorization\mail\ConfirmationEmail.html:20
@@ -2058,11 +2059,11 @@ msgstr "Новый пароль"
 msgid "Repeat the password"
 msgstr "Повторите пароль"
 
-#: .\authorization\views.py:99 .\clubs\views.py:61
+#: .\authorization\views.py:99 .\clubs\views.py:62
 msgid "A user with this Email already exists!"
 msgstr "Пользователь с этим адресом электронной почты уже существует!"
 
-#: .\authorization\views.py:119 .\clubs\views.py:82
+#: .\authorization\views.py:119 .\clubs\views.py:83
 msgid "Registration success!"
 msgstr "Регистрация прошла успешно!"
 
@@ -2224,7 +2225,7 @@ msgstr "Команда"
 msgid "Create user"
 msgstr "Создать пользователя"
 
-#: .\clubs\templates\clubs\mail\email.html:7 .\clubs\views.py:88
+#: .\clubs\templates\clubs\mail\email.html:7 .\clubs\views.py:89
 msgid "Registration on the Nanofootball website"
 msgstr "Регистрация на сайте Nanofootball"
 
@@ -2232,19 +2233,32 @@ msgstr "Регистрация на сайте Nanofootball"
 msgid "To log in to the site, use this data."
 msgstr "Чтобы войти на сайт, используйте эти данные."
 
-#: .\clubs\templates\clubs\users_table.html:7
+#: .\clubs\templates\clubs\users_table.html:8
 #: .\users\templates\users\modules\user_table.html:8
 msgid "Activation"
 msgstr "Активация"
 
-#: .\clubs\templates\clubs\users_table.html:8 .\users\models.py:21
-#: .\users\templates\users\base_profile.html:86
-msgid "Name"
-msgstr "Имя"
+#: .\clubs\templates\clubs\users_table.html:12
+#: .\references\templates\references\base_settings.html:47
+#: .\users\templates\users\modules\user_table.html:13
+msgid "Age"
+msgstr "Возраст"
 
-#: .\clubs\templates\clubs\users_table.html:10
-msgid "Job Title"
+#: .\clubs\templates\clubs\users_table.html:13
+#: .\users\templates\users\modules\user_table.html:14
+msgid "Birth"
+msgstr "Д.Р."
+
+#: .\clubs\templates\clubs\users_table.html:14 .\users\forms.py:22
+#: .\users\models.py:41 .\users\templates\users\base_profile.html:94
+#: .\users\templates\users\forms\edit-personal-form.html:65
+#: .\users\templates\users\modules\user_table.html:15
+msgid "Job title"
 msgstr "Должность"
+
+#: .\clubs\views.py:120 .\users\views.py:106
+msgid "User data is saved!"
+msgstr "Данные пользователя сохранены!"
 
 #: .\events\apps.py:8 .\events\templates\events\base_events.html:5
 #: .\events\templates\events\lite_events.html:5
@@ -2253,20 +2267,20 @@ msgstr "Должность"
 msgid "Events"
 msgstr "События"
 
-#: .\events\forms.py:40 .\nanofootball\templates\menu\sidebar.html:186
+#: .\events\forms.py:42 .\nanofootball\templates\menu\sidebar.html:186
 msgid "Training"
 msgstr "Тренировки"
 
-#: .\events\forms.py:41
+#: .\events\forms.py:43
 msgid "Unofficial match"
 msgstr "Неофициальный матч"
 
-#: .\events\forms.py:42
+#: .\events\forms.py:44
 msgid "Official match"
 msgstr "Официальный матч"
 
-#: .\events\forms.py:71 .\events\forms.py:83 .\events\forms.py:117
-#: .\events\forms.py:131 .\events\forms.py:161 .\references\forms.py:27
+#: .\events\forms.py:73 .\events\forms.py:85 .\events\forms.py:119
+#: .\events\forms.py:133 .\events\forms.py:163 .\references\forms.py:27
 #: .\references\forms.py:52
 #: .\trainings\templates\trainings\view_lite_training.html:28
 #: .\trainings\templates\trainings\view_training.html:28 .\video\forms.py:19
@@ -2274,7 +2288,7 @@ msgstr "Официальный матч"
 msgid "Save"
 msgstr "Сохранить"
 
-#: .\events\forms.py:72 .\exercises\templates\exercises\base_folders.html:93
+#: .\events\forms.py:74 .\exercises\templates\exercises\base_folders.html:93
 #: .\exercises\templates\exercises\base_folders.html:113
 #: .\exercises\templates\exercises\base_folders.html:137
 #: .\shared\templates\shared\modules\shared_training_modal.html:37
@@ -2285,11 +2299,11 @@ msgstr "Сохранить"
 msgid "Cancel"
 msgstr "Отменить"
 
-#: .\events\forms.py:88
+#: .\events\forms.py:90
 msgid "Event type"
 msgstr "Тип события"
 
-#: .\events\forms.py:94 .\shared\templates\shared\base_shared_training.html:20
+#: .\events\forms.py:96 .\shared\templates\shared\base_shared_training.html:20
 #: .\trainings\templates\trainings\print_training.html:20
 #: .\trainings\templates\trainings\training_card.html:33
 #: .\trainings\templates\trainings\training_card.html:35
@@ -2435,22 +2449,20 @@ msgid "MC days"
 msgstr "Дни МЦ"
 
 #: .\events\templates\events\base_events.html:126
-#: .\events\templates\events\lite_events.html:120
-#: .\shared\templates\shared\base_shared_training.html:52
-#: .\trainings\templates\trainings\print_training.html:52
-#: .\trainings\templates\trainings\training_card.html:87
-msgid "Goal"
-msgstr "Цель"
-
 #: .\events\templates\events\base_events.html:129
+#: .\events\templates\events\lite_events.html:120
 #: .\events\templates\events\lite_events.html:123
-msgid "Objectives"
-msgstr "Задачи"
+#: .\trainings\templates\trainings\print_training.html:52
+#: .\trainings\templates\trainings\print_training.html:57
+#: .\trainings\templates\trainings\training_card.html:87
+#: .\trainings\templates\trainings\training_card.html:93
+msgid "Objective"
+msgstr "Задача"
 
 #: .\events\templates\events\base_events.html:132
 #: .\events\templates\events\lite_events.html:126
 #: .\shared\templates\shared\base_shared_training.html:63
-#: .\trainings\templates\trainings\print_training.html:60
+#: .\trainings\templates\trainings\print_training.html:63
 #: .\trainings\templates\trainings\training_card.html:99
 msgid "Load"
 msgstr "Нагрузка"
@@ -2696,27 +2708,27 @@ msgstr "Матч"
 msgid "No team selected"
 msgstr "Команда не выбрана"
 
-#: .\nanofb\settings.py:236
+#: .\nanofb\settings.py:240
 msgid "Russian"
 msgstr "Русский"
 
-#: .\nanofb\settings.py:237
+#: .\nanofb\settings.py:241
 msgid "English"
 msgstr "Английский"
 
-#: .\nanofb\settings.py:238
+#: .\nanofb\settings.py:242
 msgid "Portuguese"
 msgstr "Португальский"
 
-#: .\nanofb\settings.py:239
+#: .\nanofb\settings.py:243
 msgid "Spanish"
 msgstr "Испанский"
 
-#: .\nanofb\settings.py:240
+#: .\nanofb\settings.py:244
 msgid "German"
 msgstr "Немецкий"
 
-#: .\nanofb\settings.py:241
+#: .\nanofb\settings.py:245
 msgid "French"
 msgstr "Французский"
 
@@ -2906,6 +2918,7 @@ msgid "Translations of reference books"
 msgstr "Переводы справочников"
 
 #: .\references\models.py:77
+#: .\trainings\templates\trainings\training_card.html:132
 msgid "link"
 msgstr "ссылка"
 
@@ -3195,11 +3208,6 @@ msgstr "Настройки"
 msgid "Seasons"
 msgstr "Сезоны"
 
-#: .\references\templates\references\base_settings.html:47
-#: .\users\templates\users\modules\user_table.html:13
-msgid "Age"
-msgstr "Возраст"
-
 #: .\references\templates\references\forms\reference_edit.html:7
 msgid "Reference edit"
 msgstr "Редактирование справочника"
@@ -3230,8 +3238,11 @@ msgstr "Поделиться тренировкой"
 msgid "Goalkeepers"
 msgstr "Вратари"
 
+#: .\shared\templates\shared\base_shared_training.html:52
+msgid "Goal"
+msgstr "Цель"
+
 #: .\shared\templates\shared\base_shared_training.html:57
-#: .\trainings\templates\trainings\print_training.html:57
 msgid "Objective 1"
 msgstr "Задача 1"
 
@@ -3406,10 +3417,6 @@ msgstr "Добавить выбранных"
 msgid "Print training"
 msgstr "Распечатать тренировку"
 
-#: .\trainings\templates\trainings\print_training.html:65
-msgid "Objective 2"
-msgstr "Задача 2"
-
 #: .\trainings\templates\trainings\training_card.html:45
 msgid "Trainer"
 msgstr "Тренер"
@@ -3422,17 +3429,13 @@ msgstr "Количество игроков"
 msgid "Field size"
 msgstr "Размер поля"
 
-#: .\trainings\templates\trainings\training_card.html:93
-msgid "Objective"
-msgstr "Задача"
-
 #: .\trainings\templates\trainings\training_card.html:132
 msgid "Description"
 msgstr "Описание"
 
 #: .\trainings\templates\trainings\training_card.html:132
-msgid "for print"
-msgstr "для печати"
+msgid "print"
+msgstr "печать"
 
 #: .\trainings\templates\trainings\training_card.html:141
 msgid "Add. information"
@@ -3492,13 +3495,6 @@ msgstr "Добавить всех игроков"
 msgid "Club"
 msgstr "Клуб"
 
-#: .\users\forms.py:22 .\users\models.py:41
-#: .\users\templates\users\base_profile.html:94
-#: .\users\templates\users\forms\edit-personal-form.html:65
-#: .\users\templates\users\modules\user_table.html:15
-msgid "Job title"
-msgstr "Должность"
-
 #: .\users\forms.py:47 .\users\templates\users\base_profile.html:110
 msgid "Spare Email"
 msgstr "Запасной Email"
@@ -3514,6 +3510,10 @@ msgstr ""
 #: .\users\managers.py:35
 msgid "Superuser must have is_superuser=True."
 msgstr ""
+
+#: .\users\models.py:21 .\users\templates\users\base_profile.html:86
+msgid "Name"
+msgstr "Имя"
 
 #: .\users\models.py:26
 msgid "Surname"
@@ -3734,23 +3734,27 @@ msgstr "Текущие доступы"
 msgid "Change Password"
 msgstr "Поменять пароль"
 
-#: .\users\templates\users\base_profile.html:210
+#: .\users\templates\users\forms\edit-password-form.html:7
 msgid "Old Password"
 msgstr "Старый пароль"
 
-#: .\users\templates\users\base_profile.html:214
+#: .\users\templates\users\forms\edit-password-form.html:11
 msgid "New Password"
 msgstr "Новый пароль"
 
-#: .\users\templates\users\base_profile.html:218
+#: .\users\templates\users\forms\edit-password-form.html:15
 msgid "Confirm Password"
 msgstr "Подтвердите пароль"
 
-#: .\users\templates\users\base_profile.html:221
+#: .\users\templates\users\forms\edit-password-form.html:18
 #: .\users\templates\users\forms\edit-personal-form.html:121
 #: .\users\templates\users\forms\edit-user-form.html:61
 msgid "Save Changes"
 msgstr "Сохранить изменения"
+
+#: .\users\templates\users\forms\edit-password-form.html:20
+msgid "If you change your password, you will need to log in again"
+msgstr "Если вы измените свой пароль, вам нужно будет снова войти в систему"
 
 #: .\users\templates\users\forms\edit-user-form.html:46
 msgid "Program license"
@@ -3768,10 +3772,6 @@ msgstr "Создать новый пароль"
 msgid "License to"
 msgstr "Лицензия до"
 
-#: .\users\templates\users\modules\user_table.html:14
-msgid "Birth"
-msgstr "Д.Р."
-
 #: .\users\templates\users\modules\user_table.html:18
 msgid "A"
 msgstr ""
@@ -3780,33 +3780,53 @@ msgstr ""
 msgid "Access to"
 msgstr "Доступ до"
 
-#: .\users\views.py:92
+#: .\users\templates\users\modules\warning_change_password.html:10
+msgid "Recommendations"
+msgstr "Рекомендации"
+
+#: .\users\templates\users\modules\warning_change_password.html:16
+msgid ""
+"For the convenience of using the program, it is recommended to change the "
+"password to a more convenient one"
+msgstr ""
+"Для удобства использования программы рекомендуется изменить "
+"пароль на более удобный"
+
+#: .\users\templates\users\modules\warning_change_password.html:17
+msgid "This can be done in your personal account/profile"
+msgstr "Это можно сделать в личном кабинете/профиле"
+
+#: .\users\templates\users\modules\warning_change_password.html:18
+msgid "Change password"
+msgstr "Поменять пароль"
+
+#: .\users\templates\users\modules\warning_change_password.html:22
+msgid "Don`t show again"
+msgstr "Больше не показывать"
+
+#: .\users\views.py:91
 msgid "New personal profile data is saved!"
 msgstr "Новые данные личного профиля сохранены!"
 
-#: .\users\views.py:107
-msgid "User data is saved!"
-msgstr "Данные пользователя сохранены!"
-
-#: .\users\views.py:139
+#: .\users\views.py:138
 msgid "New password on the Nanofootball website"
 msgstr "Новый пароль на сайте Nanofootball"
 
-#: .\users\views.py:145
+#: .\users\views.py:144
 msgid "A new password has been sent to the mail!"
 msgstr "На почту отправлен новый пароль!"
 
-#: .\users\views.py:151
+#: .\users\views.py:150
 msgid "Password generation error!"
 msgstr "Ошибка генерации пароля!"
 
-#: .\users\views.py:210
-msgid "Wrong password."
-msgstr "Неверный пароль."
+#: .\users\views.py:212
+msgid "Password updated successfully"
+msgstr "Пароль успешно изменен"
 
-#: .\users\views.py:217
-msgid "Password updated successfully!"
-msgstr "Пароль успешно обновлен!"
+#: .\users\views.py:214
+msgid "Wrong password"
+msgstr "Неверный пароль"
 
 #: .\version\admin.py:41
 msgid "custom groups"
@@ -4115,6 +4135,18 @@ msgstr "Видео / Анимация"
 #: .\video\templates\video\video_card.html:141
 msgid "Animation"
 msgstr "Анимация"
+
+#~ msgid "Job Title"
+#~ msgstr "Должность"
+
+#~ msgid "Objectives"
+#~ msgstr "Задачи"
+
+#~ msgid "Objective 2"
+#~ msgstr "Задача 2"
+
+#~ msgid "for print"
+#~ msgstr "для печати"
 
 #~ msgid "Admin"
 #~ msgstr "Администратор"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-02 13:42+0300\n"
+"POT-Creation-Date: 2023-05-12 14:40+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,9 +24,8 @@ msgstr ""
 
 #: .\authorization\static\authorization\activation.js:14
 #: .\authorization\static\authorization\activation.js:18
-#: .\clubs\static\clubs\js\users_list.js:26
 #: .\static\authorization\activation.js:14
-#: .\static\authorization\activation.js:18 .\static\clubs\js\users_list.js:26
+#: .\static\authorization\activation.js:18
 msgid "Activation"
 msgstr "Активация"
 
@@ -75,11 +74,11 @@ msgid "The limit of exercises for the selected group has been reached"
 msgstr "Лимит упражнений для выбранной группы достигнут"
 
 #: .\clubs\static\clubs\js\club_ajax.js:24
-#: .\clubs\static\clubs\js\users_list.js:90
+#: .\clubs\static\clubs\js\users_list.js:97
 #: .\events\static\events\js\event_lite_update.js:35
 #: .\events\static\events\js\event_update.js:35
 #: .\references\static\references\team_ajax.js:22
-#: .\static\clubs\js\club_ajax.js:24 .\static\clubs\js\users_list.js:90
+#: .\static\clubs\js\club_ajax.js:24 .\static\clubs\js\users_list.js:97
 #: .\static\events\base_events.js:244
 #: .\static\events\js\event_lite_update.js:35
 #: .\static\events\js\event_update.js:35 .\static\references\team_ajax.js:22
@@ -93,14 +92,10 @@ msgstr "Лимит упражнений для выбранной группы �
 msgid "Error when action \""
 msgstr "Ошибка при выполнении \""
 
-#: .\clubs\static\clubs\js\users_list.js:27 .\static\clubs\js\users_list.js:27
-msgid "Archive"
-msgstr "Архив"
-
-#: .\clubs\static\clubs\js\users_list.js:80
-#: .\clubs\static\clubs\js\users_list.js:88
-#: .\clubs\static\clubs\js\users_list.js:90 .\static\clubs\js\users_list.js:80
-#: .\static\clubs\js\users_list.js:88 .\static\clubs\js\users_list.js:90
+#: .\clubs\static\clubs\js\users_list.js:87
+#: .\clubs\static\clubs\js\users_list.js:95
+#: .\clubs\static\clubs\js\users_list.js:97 .\static\clubs\js\users_list.js:87
+#: .\static\clubs\js\users_list.js:95 .\static\clubs\js\users_list.js:97
 #: .\static\users\modules\ajax_user_table.js:134
 #: .\static\users\modules\ajax_user_table.js:136
 #: .\users\static\users\modules\ajax_user_table.js:134
@@ -108,17 +103,17 @@ msgstr "Архив"
 msgid "Users "
 msgstr "Пользователи "
 
-#: .\clubs\static\clubs\js\users_list.js:80 .\static\clubs\js\users_list.js:80
+#: .\clubs\static\clubs\js\users_list.js:87 .\static\clubs\js\users_list.js:87
 msgid "The limit of users for the club"
 msgstr "Лимит пользователей для клуба"
 
-#: .\clubs\static\clubs\js\users_list.js:82 .\static\clubs\js\users_list.js:82
+#: .\clubs\static\clubs\js\users_list.js:89 .\static\clubs\js\users_list.js:89
 #: .\static\users\modules\ajax_user_table.js:128
 #: .\users\static\users\modules\ajax_user_table.js:128
 msgid "Club user registration"
 msgstr "Регистрация пользователя клуба"
 
-#: .\clubs\static\clubs\js\users_list.js:88 .\static\clubs\js\users_list.js:88
+#: .\clubs\static\clubs\js\users_list.js:95 .\static\clubs\js\users_list.js:95
 #: .\static\users\modules\ajax_user_table.js:134
 #: .\users\static\users\modules\ajax_user_table.js:134
 msgid "The limit of users for the club has been reached!"
@@ -527,10 +522,10 @@ msgstr "Ошибка при действии с сезоном!"
 
 #: .\references\static\references\references_edit.js:114
 #: .\static\references\references_edit.js:114
-#: .\static\trainings\js\print_training.js:154
-#: .\static\trainings\js\training_card.js:359
-#: .\trainings\static\trainings\js\print_training.js:154
-#: .\trainings\static\trainings\js\training_card.js:359
+#: .\static\trainings\js\print_training.js:155
+#: .\static\trainings\js\training_card.js:365
+#: .\trainings\static\trainings\js\print_training.js:155
+#: .\trainings\static\trainings\js\training_card.js:365
 msgid "Title"
 msgstr "Название"
 
@@ -640,19 +635,13 @@ msgstr ""
 "действие."
 
 #: .\static\admin\js\actions.js:175
-#, fuzzy
-#| msgid ""
-#| "You have selected an action, but you haven’t saved your changes to "
-#| "individual fields yet. Please click OK to save. You’ll need to re-run the "
-#| "action."
 msgid ""
 "You have selected an action, and you haven’t made any changes on individual "
 "fields. You’re probably looking for the Go button rather than the Save "
 "button."
 msgstr ""
-"Вы выбрали действие, но не сохранили свои изменения в отдельных полях. "
-"Пожалуйста, нажмите ОК, чтобы сохранить. Вам нужно будет повторно запустить "
-"действие."
+"Вы выбрали действие и не внесли никаких изменений в отдельных "
+"полях. Вы, вероятно, ищете кнопку «Перейти», а не «Сохранить». "
 
 #: .\static\admin\js\admin\DateTimeShortcuts.js:13
 #: .\static\admin\js\admin\DateTimeShortcuts.js:111
@@ -767,74 +756,56 @@ msgid "December"
 msgstr "Декабрь"
 
 #: .\static\admin\js\calendar.js:25
-#, fuzzy
-#| msgid "January"
 msgctxt "abbrev. month January"
 msgid "Jan"
-msgstr "Январь"
+msgstr "Янв"
 
 #: .\static\admin\js\calendar.js:26
 msgctxt "abbrev. month February"
 msgid "Feb"
-msgstr ""
+msgstr "Фев"
 
 #: .\static\admin\js\calendar.js:27
-#, fuzzy
-#| msgid "March"
 msgctxt "abbrev. month March"
 msgid "Mar"
-msgstr "Март"
+msgstr "Мар"
 
 #: .\static\admin\js\calendar.js:28
-#, fuzzy
-#| msgid "April"
 msgctxt "abbrev. month April"
 msgid "Apr"
-msgstr "Апрель"
+msgstr "Апр"
 
 #: .\static\admin\js\calendar.js:29
-#, fuzzy
-#| msgid "May"
 msgctxt "abbrev. month May"
 msgid "May"
 msgstr "Май"
 
 #: .\static\admin\js\calendar.js:30
-#, fuzzy
-#| msgid "June"
 msgctxt "abbrev. month June"
 msgid "Jun"
 msgstr "Июнь"
 
 #: .\static\admin\js\calendar.js:31
-#, fuzzy
-#| msgid "July"
 msgctxt "abbrev. month July"
 msgid "Jul"
 msgstr "Июль"
 
 #: .\static\admin\js\calendar.js:32
-#, fuzzy
-#| msgid "August"
 msgctxt "abbrev. month August"
 msgid "Aug"
-msgstr "Август"
+msgstr "Авг"
 
 #: .\static\admin\js\calendar.js:33
 msgctxt "abbrev. month September"
 msgid "Sep"
-msgstr ""
+msgstr "Сен"
 
 #: .\static\admin\js\calendar.js:34
-#, fuzzy
-#| msgid "October"
 msgctxt "abbrev. month October"
 msgid "Oct"
-msgstr "Октябрь"
+msgstr "Окт"
 
 #: .\static\admin\js\calendar.js:35
-#, fuzzy
-#| msgid "Now"
 msgctxt "abbrev. month November"
 msgid "Nov"
 msgstr "Сейчас"
@@ -842,7 +813,7 @@ msgstr "Сейчас"
 #: .\static\admin\js\calendar.js:36
 msgctxt "abbrev. month December"
 msgid "Dec"
-msgstr ""
+msgstr "Дек"
 
 #: .\static\admin\js\calendar.js:39
 msgctxt "one letter Sunday"
@@ -946,8 +917,8 @@ msgstr "Ошибка при выполнении действия с упраж�
 msgid "Exercise data action error in training!"
 msgstr "Ошибка действия с данными упражнения в тренировке!"
 
-#: .\static\trainings\js\print_training.js:157
-#: .\trainings\static\trainings\js\print_training.js:157
+#: .\static\trainings\js\print_training.js:158
+#: .\trainings\static\trainings\js\print_training.js:158
 msgid "Duration"
 msgstr "Длительность"
 
@@ -971,27 +942,27 @@ msgstr "Группа A"
 msgid "Group B"
 msgstr "Группа B"
 
-#: .\static\trainings\js\training_card.js:116
-#: .\trainings\static\trainings\js\training_card.js:116
+#: .\static\trainings\js\training_card.js:122
+#: .\trainings\static\trainings\js\training_card.js:122
 msgid "When uploading data, the existing ones will be reset."
 msgstr "При загрузке данных существующие будут сброшены."
 
-#: .\static\trainings\js\training_card.js:184
-#: .\trainings\static\trainings\js\training_card.js:184
+#: .\static\trainings\js\training_card.js:190
+#: .\trainings\static\trainings\js\training_card.js:190
 msgid "Delete all additional data from the exercise?"
 msgstr "Удалите все дополнительные данные из упражнения?"
 
-#: .\static\trainings\js\training_card.js:301
-#: .\static\trainings\js\training_card.js:305
+#: .\static\trainings\js\training_card.js:307
+#: .\static\trainings\js\training_card.js:311
 #: .\static\trainings\js\view_training.js:278
-#: .\trainings\static\trainings\js\training_card.js:301
-#: .\trainings\static\trainings\js\training_card.js:305
+#: .\trainings\static\trainings\js\training_card.js:307
+#: .\trainings\static\trainings\js\training_card.js:311
 #: .\trainings\static\trainings\js\view_training.js:278
 msgid "Group"
 msgstr "Группа"
 
-#: .\static\trainings\js\training_card.js:362
-#: .\trainings\static\trainings\js\training_card.js:362
+#: .\static\trainings\js\training_card.js:368
+#: .\trainings\static\trainings\js\training_card.js:368
 msgid "Note"
 msgstr "Заметка"
 
@@ -1103,6 +1074,9 @@ msgstr "Видео "
 #: .\static\video\js\video_card.js:98 .\video\static\video\js\video_card.js:98
 msgid "Video action \""
 msgstr "Действие с видео \""
+
+#~ msgid "Archive"
+#~ msgstr "Архив"
 
 #~ msgid ""
 #~ "Attention. The current folder structure will be completely cleared. Are "

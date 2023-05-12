@@ -29,6 +29,23 @@ $(document).ready(function() {
         console.log(this.form)
         this.form.submit();
     });
+    //Вызов окна рекомендаций по изменению пароля
+    $('#dont_show_change_password_modal').on('change', function () {
+        console.log($(this).is(':checked'))
+        if($(this).is(':checked')){
+            Cookies.set('show_change_password_recommendation', '1', { expires: 365})
+        } else {
+            Cookies.remove('show_change_password_recommendation')
+        }
+    })
+    let cookie_password_recommendation = Cookies.get('show_change_password_recommendation');
+    if(!cookie_password_recommendation){
+        $('#edit_password_modal').modal('show')
+        Cookies.set('show_change_password_recommendation', '1', { expires: 3})
+        //Cookies.remove('show_change_password_recommendation')
+    }
+    //Cookies.remove('show_change_password_recommendation')
+
 });
 
 

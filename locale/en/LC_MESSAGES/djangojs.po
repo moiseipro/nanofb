@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-02 13:40+0300\n"
+"POT-Creation-Date: 2023-05-12 14:39+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,9 +22,8 @@ msgstr ""
 
 #: .\authorization\static\authorization\activation.js:14
 #: .\authorization\static\authorization\activation.js:18
-#: .\clubs\static\clubs\js\users_list.js:26
 #: .\static\authorization\activation.js:14
-#: .\static\authorization\activation.js:18 .\static\clubs\js\users_list.js:26
+#: .\static\authorization\activation.js:18
 msgid "Activation"
 msgstr ""
 
@@ -73,11 +72,11 @@ msgid "The limit of exercises for the selected group has been reached"
 msgstr ""
 
 #: .\clubs\static\clubs\js\club_ajax.js:24
-#: .\clubs\static\clubs\js\users_list.js:90
+#: .\clubs\static\clubs\js\users_list.js:97
 #: .\events\static\events\js\event_lite_update.js:35
 #: .\events\static\events\js\event_update.js:35
 #: .\references\static\references\team_ajax.js:22
-#: .\static\clubs\js\club_ajax.js:24 .\static\clubs\js\users_list.js:90
+#: .\static\clubs\js\club_ajax.js:24 .\static\clubs\js\users_list.js:97
 #: .\static\events\base_events.js:244
 #: .\static\events\js\event_lite_update.js:35
 #: .\static\events\js\event_update.js:35 .\static\references\team_ajax.js:22
@@ -91,14 +90,10 @@ msgstr ""
 msgid "Error when action \""
 msgstr ""
 
-#: .\clubs\static\clubs\js\users_list.js:27 .\static\clubs\js\users_list.js:27
-msgid "Archive"
-msgstr ""
-
-#: .\clubs\static\clubs\js\users_list.js:80
-#: .\clubs\static\clubs\js\users_list.js:88
-#: .\clubs\static\clubs\js\users_list.js:90 .\static\clubs\js\users_list.js:80
-#: .\static\clubs\js\users_list.js:88 .\static\clubs\js\users_list.js:90
+#: .\clubs\static\clubs\js\users_list.js:87
+#: .\clubs\static\clubs\js\users_list.js:95
+#: .\clubs\static\clubs\js\users_list.js:97 .\static\clubs\js\users_list.js:87
+#: .\static\clubs\js\users_list.js:95 .\static\clubs\js\users_list.js:97
 #: .\static\users\modules\ajax_user_table.js:134
 #: .\static\users\modules\ajax_user_table.js:136
 #: .\users\static\users\modules\ajax_user_table.js:134
@@ -106,17 +101,17 @@ msgstr ""
 msgid "Users "
 msgstr ""
 
-#: .\clubs\static\clubs\js\users_list.js:80 .\static\clubs\js\users_list.js:80
+#: .\clubs\static\clubs\js\users_list.js:87 .\static\clubs\js\users_list.js:87
 msgid "The limit of users for the club"
 msgstr ""
 
-#: .\clubs\static\clubs\js\users_list.js:82 .\static\clubs\js\users_list.js:82
+#: .\clubs\static\clubs\js\users_list.js:89 .\static\clubs\js\users_list.js:89
 #: .\static\users\modules\ajax_user_table.js:128
 #: .\users\static\users\modules\ajax_user_table.js:128
 msgid "Club user registration"
 msgstr ""
 
-#: .\clubs\static\clubs\js\users_list.js:88 .\static\clubs\js\users_list.js:88
+#: .\clubs\static\clubs\js\users_list.js:95 .\static\clubs\js\users_list.js:95
 #: .\static\users\modules\ajax_user_table.js:134
 #: .\users\static\users\modules\ajax_user_table.js:134
 msgid "The limit of users for the club has been reached!"
@@ -523,10 +518,10 @@ msgstr ""
 
 #: .\references\static\references\references_edit.js:114
 #: .\static\references\references_edit.js:114
-#: .\static\trainings\js\print_training.js:154
-#: .\static\trainings\js\training_card.js:359
-#: .\trainings\static\trainings\js\print_training.js:154
-#: .\trainings\static\trainings\js\training_card.js:359
+#: .\static\trainings\js\print_training.js:155
+#: .\static\trainings\js\training_card.js:365
+#: .\trainings\static\trainings\js\print_training.js:155
+#: .\trainings\static\trainings\js\training_card.js:365
 msgid "Title"
 msgstr ""
 
@@ -901,8 +896,8 @@ msgstr ""
 msgid "Exercise data action error in training!"
 msgstr ""
 
-#: .\static\trainings\js\print_training.js:157
-#: .\trainings\static\trainings\js\print_training.js:157
+#: .\static\trainings\js\print_training.js:158
+#: .\trainings\static\trainings\js\print_training.js:158
 msgid "Duration"
 msgstr ""
 
@@ -926,27 +921,27 @@ msgstr ""
 msgid "Group B"
 msgstr ""
 
-#: .\static\trainings\js\training_card.js:116
-#: .\trainings\static\trainings\js\training_card.js:116
+#: .\static\trainings\js\training_card.js:122
+#: .\trainings\static\trainings\js\training_card.js:122
 msgid "When uploading data, the existing ones will be reset."
 msgstr ""
 
-#: .\static\trainings\js\training_card.js:184
-#: .\trainings\static\trainings\js\training_card.js:184
+#: .\static\trainings\js\training_card.js:190
+#: .\trainings\static\trainings\js\training_card.js:190
 msgid "Delete all additional data from the exercise?"
 msgstr ""
 
-#: .\static\trainings\js\training_card.js:301
-#: .\static\trainings\js\training_card.js:305
+#: .\static\trainings\js\training_card.js:307
+#: .\static\trainings\js\training_card.js:311
 #: .\static\trainings\js\view_training.js:278
-#: .\trainings\static\trainings\js\training_card.js:301
-#: .\trainings\static\trainings\js\training_card.js:305
+#: .\trainings\static\trainings\js\training_card.js:307
+#: .\trainings\static\trainings\js\training_card.js:311
 #: .\trainings\static\trainings\js\view_training.js:278
 msgid "Group"
 msgstr ""
 
-#: .\static\trainings\js\training_card.js:362
-#: .\trainings\static\trainings\js\training_card.js:362
+#: .\static\trainings\js\training_card.js:368
+#: .\trainings\static\trainings\js\training_card.js:368
 msgid "Note"
 msgstr ""
 

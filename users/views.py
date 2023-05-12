@@ -25,7 +25,6 @@ from users.serializers import UserPersonalSerializer, ChangePasswordSerializer, 
 
 # Create your views here.
 class BaseProfileView(LoginRequiredMixin, TemplateView):
-    redirect_field_name = "authorization:login"
     template_name = 'users/base_profile.html'
     model = User
 
@@ -206,19 +205,15 @@ class EditPasswordApiView(UpdateAPIView):
 
         if serializer.is_valid():
             # Check old password
-            if not self.object.check_password(serializer.data.get("old_password")):
-                return Response({"old_password": _("Wrong password.")}, status=status.HTTP_400_BAD_REQUEST)
-            # set_password also hashes the password that the user will get
-            self.object.set_password(serializer.data.get("password"))
-            self.object.save()
-            response = {
-                'status': 'success',
-                'code': status.HTTP_200_OK,
-                'message': _('Password updated successfully!'),
-                'data': []
-            }
+            if self.object.check_password(serializer.data.get("old_password")):
+                # set_password also hashes the password that the user will get
+                self.object.set_password(serializer.data.get("password"))
+                self.object.save()
+                response = Response({"message": _('Password updated successfully')+'!'}, status=status.HTTP_200_OK)
+            else:
+                response = Response({"message": _("Wrong password")+'!'}, status=status.HTTP_400_BAD_REQUEST)
 
-            return Response(response)
+            return response
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

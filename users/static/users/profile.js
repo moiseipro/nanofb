@@ -21,23 +21,16 @@ $(window).on('load', function () {
             password2: {
                 required: true,
                 minlength: 6,
-                equalTo: '[name="password"]'
+                equalTo: '#new_password'
             }
         }
     })
+
+    if (get_url_value('change_password')){
+        $('#password-change-open').click()
+    }
+
     //$('#personal-form').valid()
-
-    $('#edit-profile-button').on('click', function () {
-        if(!$('#edit-personal-form').valid()) return
-        let personal = $('#edit-personal-form').serializeArray()
-        let send_data = personal
-        console.log(send_data);
-
-        ajax_profile('PUT', send_data, 'edit', '', 'edit').then(function (data) {
-            console.log(data)
-            location.reload()
-        })
-    })
 
     $('#edit_personal_details').on('shown.bs.modal', function (){
         toggle_edit_mode(true)
@@ -55,7 +48,8 @@ $(window).on('load', function () {
 
         ajax_profile('PUT', send_data, 'password', '', 'password').then(function (data) {
             console.log(data)
-            //location.reload()
+            $('#change-password-form').find("input").val("");
+            location.reload()
         })
     })
 })
