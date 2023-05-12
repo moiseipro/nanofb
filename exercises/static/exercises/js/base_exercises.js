@@ -104,6 +104,7 @@ function ToggleUpFilter(id, state) {
 
             folderType = $('.folders_div.selected').attr('data-id');
             $('.exs-edit-block').find('.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
+            $('.folders-block').find('button.edit-exercise.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
             break;
         case "club_folders":
             if (IsSelectedExercisesForDelete()) {
@@ -152,6 +153,7 @@ function ToggleUpFilter(id, state) {
 
             folderType = $('.folders_div.selected').attr('data-id');
             $('.exs-edit-block').find('.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
+            $('.folders-block').find('button.edit-exercise.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
             break;
         case "team_folders":
             if (IsSelectedExercisesForDelete()) {
@@ -204,6 +206,7 @@ function ToggleUpFilter(id, state) {
 
             folderType = $('.folders_div.selected').attr('data-id');
             $('.exs-edit-block').find('.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
+            $('.folders-block').find('button.edit-exercise.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
             break;
         case "share":
             if ($('.exercises-list').find('.exs-elem.active').length <= 0) {
@@ -2319,6 +2322,7 @@ $(function() {
         $('.exs-edit-block').toggleClass('d-none', sessionStorage.getItem("exercises__exs_edit_panel") != '1');
         let folderType = $('.folders_div.selected').attr('data-id');
         $('.exs-edit-block').find('.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
+        $('.folders-block').find('button.edit-exercise.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
     }
     $('#toggleExsEditPanel').on('click', (e) => {
         $('.exs-edit-block').toggleClass('d-none');
