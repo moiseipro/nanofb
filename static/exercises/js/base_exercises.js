@@ -849,25 +849,6 @@ function copyTextToClipboard(text) {
     });
 }
 
-function ToggleFoldersNames() {
-    let state = $('#toggleFoldersNames').attr('data-state') == '1' || true;
-    $('.folders-block').find('.folder-elem').each((ind, elem) => {
-        let tmpText = !state ? `${$(elem).attr('data-short')}. ${$(elem).attr('data-name')}` : `${$(elem).attr('data-short')}`;
-        $(elem).find('.folder-title').text(tmpText);
-    });
-    $('.folders-block').find('.folder-nfb-elem').each((ind, elem) => {
-        let tmpText = !state ? `${$(elem).attr('data-short')}. ${$(elem).attr('data-name')}` : `${$(elem).attr('data-short')}`;
-        $(elem).find('.folder-title').text(tmpText);
-    });
-    $('.folders-block').find('.folder-club-elem').each((ind, elem) => {
-        let tmpText = !state ? `${$(elem).attr('data-short')}. ${$(elem).attr('data-name')}` : `${$(elem).attr('data-short')}`;
-        $(elem).find('.folder-title').text(tmpText);
-    });
-    $('#toggleFoldersNames').attr('data-state', state ? '0' : '1');
-    $('#toggleFoldersNames').toggleClass('selected', !state);
-    ResizeSplitCols();
-}
-
 
 
 $(function() {
