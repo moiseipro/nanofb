@@ -673,10 +673,10 @@ $(function() {
                 if ($(activeElem).prev().length > 0) {
                     $(activeElem).prev().addClass('active');
                 } else {
-                    $(currentList).find('.list-group-item.exs-elem').last().addClass('active');
+                    $(currentList).find('.list-group-item.exs-elem:not(.exs-blocked)').last().addClass('active');
                 }
             } else {
-                $(currentList).find('.list-group-item.exs-elem').last().addClass('active');
+                $(currentList).find('.list-group-item.exs-elem:not(.exs-blocked)').last().addClass('active');
             }
             loadExs = true;
         }
@@ -686,10 +686,10 @@ $(function() {
                 if ($(activeElem).next().length > 0) {
                     $(activeElem).next().addClass('active');
                 } else {
-                    $(currentList).find('.list-group-item.exs-elem').first().addClass('active');
+                    $(currentList).find('.list-group-item.exs-elem:not(.exs-blocked)').first().addClass('active');
                 }
             } else {
-                $(currentList).find('.list-group-item.exs-elem').first().addClass('active');
+                $(currentList).find('.list-group-item.exs-elem:not(.exs-blocked)').first().addClass('active');
             }
             loadExs = true;
         }
@@ -722,6 +722,9 @@ $(function() {
 
     // Choose exercise
     $('.exercises-list').on('click', '.exs-elem', (e) => {
+        if ($(e.currentTarget).hasClass('.exs-blocked')) {
+            return;
+        }
         if ($(e.target).is('button') || $(e.target).hasClass('icon-custom') || $(e.target).is('input') || $(e.target).is('i') || $(e.target).hasClass('label')) {
             return;
         }
