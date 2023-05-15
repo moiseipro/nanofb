@@ -760,6 +760,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             exercise['has_animation_1'] = False
             exercise['has_animation_2'] = False
             exercise['trainings_count'] = -1
+            exercise['nf_exs'] = folder_type == FOLDER_NFB
             user_params = None
             video_1 = None
             video_2 = None
@@ -2868,7 +2869,7 @@ def GET_get_exs_all(request, cur_user, cur_team):
         exs_data['ball_val'] = exercise['ref_ball_id']
         exs_data['favorite'] = exercise['favorite'] if 'favorite' in exercise else None
         exs_data['has_notes'] = exercise['has_notes'] if 'has_notes' in exercise else None
-        exs_data['blocked'] = not exercise['visible_demo'] if cur_user.is_demo_mode else False
+        exs_data['blocked'] = not exercise['visible_demo'] if cur_user.is_demo_mode and exercise['nf_exs'] else False
         res_exs.append(exs_data)
     # sorting list by title:
     for elem in res_exs:
