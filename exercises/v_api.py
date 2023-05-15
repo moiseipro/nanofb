@@ -690,11 +690,12 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             if req.user.club_id is not None:
                 f_exercises = ClubExercise.objects.filter(folder__in = club_folders)
     
-    if not cur_user.is_superuser:
-        if cur_user.is_demo_mode:
-            f_exercises = f_exercises.filter(visible_demo=True)
-        else:
-            f_exercises = f_exercises.filter(visible=True)
+    # if not cur_user.is_superuser:
+    #     if cur_user.is_demo_mode:
+    #         f_exercises = f_exercises.filter(visible_demo=True)
+    #     else:
+    #         f_exercises = f_exercises.filter(visible=True)
+    f_exercises = f_exercises.filter(visible=True)
     
     if filter_goal != -1:
         f_exercises = f_exercises.filter(ref_goal=filter_goal)
@@ -2867,6 +2868,7 @@ def GET_get_exs_all(request, cur_user, cur_team):
         exs_data['ball_val'] = exercise['ref_ball_id']
         exs_data['favorite'] = exercise['favorite'] if 'favorite' in exercise else None
         exs_data['has_notes'] = exercise['has_notes'] if 'has_notes' in exercise else None
+        exs_data['blocked'] = not exercise['visible_demo'] if cur_user.is_demo_mode else False
         res_exs.append(exs_data)
     # sorting list by title:
     for elem in res_exs:

@@ -759,7 +759,6 @@ function MoveVideoFromExsToExs(toExsId) {
         'to_exs': toExsId, 
         'content': window.moveVideoFromExsToExs['content']
     };
-    console.log(data)
     $.ajax({
         headers:{"X-CSRFToken": csrftoken},
         data: data,
@@ -793,7 +792,6 @@ function CopySchemeFromExsToExs(toExsId, toFolderType) {
         'to_f_type': toFolderType,
         'content': window.copySchemeFromExsToExs['content']
     };
-    console.log(data)
     $.ajax({
         headers:{"X-CSRFToken": csrftoken},
         data: data,

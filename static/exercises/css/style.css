@@ -115,6 +115,9 @@
     overflow-y: auto;
 } */
 
+.exs-elem.exs-blocked {
+    opacity: 0.75;
+}
 
 .vert-line-left {
     border-left: 2px solid black;

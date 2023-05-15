@@ -155,7 +155,7 @@ function RenderFolderExercises(id, tExs) {
             isIQ = exElem.field_cognitive_loads[0].toUpperCase().replace('_', '-');
         } catch(e) {}
         exsHtml += `
-        <li class="exs-elem list-group-item py-1 px-0 ${exElem.clone_nfb_id ? 'nf-cloned' : ''}" data-id="${exElem.id}" data-folder="${exElem.folder}">
+        <li class="exs-elem list-group-item py-1 px-0 ${exElem.clone_nfb_id ? 'nf-cloned' : ''} ${exElem.blocked ? 'exs-blocked' : ''}" data-id="${exElem.id}" data-folder="${exElem.folder}">
             <div class="row w-100">
                 <div class="col-12 d-flex px-0">
                     <span class="ml-3 w-100">
@@ -293,6 +293,11 @@ function RenderFolderExercises(id, tExs) {
                             <span style="${exElem.clone_nfb_id ? '' : 'color:#ad2d2d;'}">[${exElem.trainings_count}]</span>
                         </button>
                     ` : ''}
+                    ${exElem.blocked ? `
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="" data-id="" style="--w-x:24px; min-width: 24px; --h-x:24px;" title="">
+                            <span style="" title="Данное упражнение недоступно для демо-версии">?</span>
+                        </button>
+                    ` : ''}
                 </div>
             </div>
         </li>
@@ -317,7 +322,7 @@ function RenderFolderExercises(id, tExs) {
 
 // Handler for func LoadExerciseOne in exercise card:
 function LoadExerciseOneHandler() {
-    let activeExs = $('.exercises-list').find('.exs-elem.active');
+    let activeExs = $('.exercises-list').find('.exs-elem.active:not(.exs-blocked)');
     if ($(activeExs).length <= 0) {return;}
     let cId = $(activeExs).attr('data-id');
     let fromNFB = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? 1 : 0;
