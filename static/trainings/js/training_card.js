@@ -289,14 +289,14 @@ function show_training_card(id = ''){
             if (value.group==1){
                 html_group_1 += `
                 <div class="col-12 px-0 mb-1">
-                    <button data-id="${value.id}" data-group="${value.group}" class="btn btn-sm btn-block border-white rounded-0 py-0 exs-filter-card" title="${get_translation_name(value.exercise_name)}"><span class="float-left">${value.exercise_data.folder.short_name}. ${get_translation_name(value.exercise_name)}</span> <span class="float-right">${value.duration}\`</span></button>
+                    <button data-id="${value.id}" data-group="${value.group}" class="btn btn-sm btn-block border-white rounded-0 py-0 exs-filter-card" title="${get_translation_name(value.exercise_name)}"><span class="float-left">${get_translation_name(value.exercise_name)}</span> <span class="float-right">${value.duration}\`</span></button>
                 </div>`
                 min_1+=value.duration
                 count_1++
             } else if (value.group==2){
                 html_group_2 += `
                 <div class="col-12 px-0 mb-1">
-                    <button data-id="${value.id}" data-group="${value.group}" class="btn btn-sm btn-block border-white rounded-0 py-0 exs-filter-card" title="${get_translation_name(value.exercise_name)}"><span class="float-left">${value.exercise_data.folder.short_name}. ${get_translation_name(value.exercise_name)}</span> <span class="float-right">${value.duration}\`</span></button>
+                    <button data-id="${value.id}" data-group="${value.group}" class="btn btn-sm btn-block border-white rounded-0 py-0 exs-filter-card" title="${get_translation_name(value.exercise_name)}"><span class="float-left">${get_translation_name(value.exercise_name)}</span> <span class="float-right">${value.duration}\`</span></button>
                 </div>`
                  min_2+=value.duration
                 count_2++
