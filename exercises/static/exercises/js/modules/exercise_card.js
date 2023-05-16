@@ -1250,6 +1250,7 @@ function RenderVideo(value, htmlElem, windowElem) {
         if (data) {
             $(htmlElem).removeClass('d-none');
             $(htmlElem).removeClass('not-active');
+            windowElem.poster('');
             if ('nftv' in data['links'] && data['links']['nftv'] != '') {
                 windowElem.src({type: 'video/mp4', src: `https://nanofootball.kz/video/player/${data['links']['nftv']}`});
                 windowElem.poster(`https://nanofootball.kz/video/poster/${data['links']['nftv']}`);
@@ -1258,6 +1259,7 @@ function RenderVideo(value, htmlElem, windowElem) {
                 windowElem.poster('');
             }
         } else {
+            windowElem.poster('');
             $(htmlElem).addClass('d-none');
         }
     })
