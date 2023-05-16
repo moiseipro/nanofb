@@ -31,6 +31,26 @@ function RenderSplitCols() {
     ResizeSplitCols();
 }
 
+function ToggleFoldersNames() {
+    let state = $('#toggleFoldersNames').attr('data-state') == '1' && false;
+    $('.folders-block').find('.folder-elem').each((ind, elem) => {
+        let tmpText = !state ? `${$(elem).attr('data-short')}. ${$(elem).attr('data-name')}` : `${$(elem).attr('data-short')}`;
+        $(elem).find('.folder-title').text(tmpText);
+    });
+    $('.folders-block').find('.folder-nfb-elem').each((ind, elem) => {
+        let tmpText = !state ? `${$(elem).attr('data-short')}. ${$(elem).attr('data-name')}` : `${$(elem).attr('data-short')}`;
+        $(elem).find('.folder-title').text(tmpText);
+    });
+    $('.folders-block').find('.folder-club-elem').each((ind, elem) => {
+        let tmpText = !state ? `${$(elem).attr('data-short')}. ${$(elem).attr('data-name')}` : `${$(elem).attr('data-short')}`;
+        $(elem).find('.folder-title').text(tmpText);
+    });
+    $('#toggleFoldersNames').attr('data-state', state ? '0' : '1');
+    $('#toggleFoldersNames').toggleClass('selected', !state);
+    ResizeSplitCols();
+    ToggleFoldersView(false, true);
+}
+
 function ResizeSplitCols() {
     let state = $('#toggleFoldersNames').attr('data-state') == '1' || true;
     let lastColWidth = 0;
@@ -135,7 +155,7 @@ function RenderFolderExercises(id, tExs) {
             isIQ = exElem.field_cognitive_loads[0].toUpperCase().replace('_', '-');
         } catch(e) {}
         exsHtml += `
-        <li class="exs-elem list-group-item py-1 px-0 ${exElem.clone_nfb_id ? 'nf-cloned' : ''}" data-id="${exElem.id}" data-folder="${exElem.folder}">
+        <li class="exs-elem list-group-item py-1 px-0 ${exElem.clone_nfb_id ? 'nf-cloned' : ''} ${exElem.blocked ? 'exs-blocked' : ''}" data-id="${exElem.id}" data-folder="${exElem.folder}">
             <div class="row w-100">
                 <div class="col-12 d-flex px-0">
                     <span class="ml-3 w-100">
@@ -273,6 +293,11 @@ function RenderFolderExercises(id, tExs) {
                             <span style="${exElem.clone_nfb_id ? '' : 'color:#ad2d2d;'}">[${exElem.trainings_count}]</span>
                         </button>
                     ` : ''}
+                    ${exElem.blocked ? `
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="" data-id="" style="--w-x:24px; min-width: 24px; --h-x:24px;" title="">
+                            <span style="" title="Данное упражнение недоступно для демо-версии">?</span>
+                        </button>
+                    ` : ''}
                 </div>
             </div>
         </li>
@@ -297,7 +322,7 @@ function RenderFolderExercises(id, tExs) {
 
 // Handler for func LoadExerciseOne in exercise card:
 function LoadExerciseOneHandler() {
-    let activeExs = $('.exercises-list').find('.exs-elem.active');
+    let activeExs = $('.exercises-list').find('.exs-elem.active:not(.exs-blocked)');
     if ($(activeExs).length <= 0) {return;}
     let cId = $(activeExs).attr('data-id');
     let fromNFB = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? 1 : 0;
@@ -450,7 +475,7 @@ function PauseCountExsCalls(currentCall) {
     }
 }
 
-function ToggleFoldersView(saveView) {
+function ToggleFoldersView(saveView, ignoreViewStatus=false) {
     if (saveView) {
         let data = {'folder-elem': [], 'folder-nfb-elem': [], 'folder-club-elem': []};
         $('.folders_div').find('.folder-elem').each((ind, elem) => {
@@ -474,20 +499,20 @@ function ToggleFoldersView(saveView) {
                 data['folder-club-elem'].push({'id': $(elem).attr('data-id'), 'visible': isVisible});
             }
         });
-        sessionStorage.setItem("folders_views", JSON.stringify(data));
+        // sessionStorage.setItem("folders_views", JSON.stringify(data));
     } else {
-        if (window.foldersViewStatus) {return;}
-        let data = {};
-        try {
-            data = JSON.parse(sessionStorage.getItem("folders_views"));
-        } catch(e) {}
+        if (window.foldersViewStatus && !ignoreViewStatus) {return;}
+        // let data = {};
+        // try {
+        //     data = JSON.parse(sessionStorage.getItem("folders_views"));
+        // } catch(e) {}
         let setDefaultFoldersVisible = true;
-        for (let key in data) {
-            data[key].forEach(elem => {
-                $('.folders_div').find(`.${key}[data-id="${elem['id']}"]`).parent().toggleClass('d-none', !elem['visible']);
-                setDefaultFoldersVisible = false;
-            });
-        }
+        // for (let key in data) {
+        //     data[key].forEach(elem => {
+        //         $('.folders_div').find(`.${key}[data-id="${elem['id']}"]`).parent().toggleClass('d-none', !elem['visible']);
+        //         setDefaultFoldersVisible = false;
+        //     });
+        // }
         if (setDefaultFoldersVisible) {
             $('.folders_div').find('li.list-group-item').each((ind, elem) => {
                 let isRoot = $(elem).hasClass('root-elem');
@@ -648,10 +673,10 @@ $(function() {
                 if ($(activeElem).prev().length > 0) {
                     $(activeElem).prev().addClass('active');
                 } else {
-                    $(currentList).find('.list-group-item.exs-elem').last().addClass('active');
+                    $(currentList).find('.list-group-item.exs-elem:not(.exs-blocked)').last().addClass('active');
                 }
             } else {
-                $(currentList).find('.list-group-item.exs-elem').last().addClass('active');
+                $(currentList).find('.list-group-item.exs-elem:not(.exs-blocked)').last().addClass('active');
             }
             loadExs = true;
         }
@@ -661,10 +686,10 @@ $(function() {
                 if ($(activeElem).next().length > 0) {
                     $(activeElem).next().addClass('active');
                 } else {
-                    $(currentList).find('.list-group-item.exs-elem').first().addClass('active');
+                    $(currentList).find('.list-group-item.exs-elem:not(.exs-blocked)').first().addClass('active');
                 }
             } else {
-                $(currentList).find('.list-group-item.exs-elem').first().addClass('active');
+                $(currentList).find('.list-group-item.exs-elem:not(.exs-blocked)').first().addClass('active');
             }
             loadExs = true;
         }
@@ -697,6 +722,9 @@ $(function() {
 
     // Choose exercise
     $('.exercises-list').on('click', '.exs-elem', (e) => {
+        if ($(e.currentTarget).hasClass('exs-blocked')) {
+            return;
+        }
         if ($(e.target).is('button') || $(e.target).hasClass('icon-custom') || $(e.target).is('input') || $(e.target).is('i') || $(e.target).hasClass('label')) {
             return;
         }
@@ -713,7 +741,24 @@ $(function() {
 
     // Toggle folders:
     $('#toggleFoldersViews').on('click', (e) => {
-        if ($('#toggleDescriptionInFolders').hasClass('c-active')) {return;}
+        if ($('#toggleDescriptionInFolders').hasClass('c-active')) {
+            $('#toggleDescriptionInFolders').removeClass('c-active');
+            $('#toggleDescriptionInFolders').removeClass('selected3');
+            $('#toggleDescriptionInFolders').attr('data-state', '0');
+
+            $('.folders-block').find('.folders-container').removeClass('d-none');
+            $('.folders-block').find('.description-container').addClass('d-none');
+            $('.folders-block').find('.card-container').addClass('d-none');
+            $('.exs-edit-block').find('.btn-o-modal[data-id="description"]').removeClass('active');
+            $('.exs-edit-block').find('.btn-o-modal[data-id="card"]').removeClass('active');
+            try {
+                if (window.split_sizes_tempo.length == 2) {
+                    window.split.setSizes(window.split_sizes_tempo);
+                }
+            } catch(e) {}
+            $(e.currentTarget).toggleClass('selected3', true);
+            return;
+        }
         let visibleRoot = false;
         let visibleOthers = false;
         if ($(e.currentTarget).attr('data-state') == "1") {
@@ -769,18 +814,27 @@ $(function() {
             $(e.currentTarget).addClass("c-active");
             $('#toggleFoldersViews').toggleClass('selected3', false);
         } else if (!$('.folders-block').find('.card-container').hasClass('d-none') && $('.folders-block').find('.folders-container').hasClass('d-none')) {
-            $('.folders-block').find('.folders-container').removeClass('d-none');
-            $('.folders-block').find('.description-container').addClass('d-none');
+            $('.folders-block').find('.folders-container').addClass('d-none');
+            $('.folders-block').find('.description-container').removeClass('d-none');
             $('.folders-block').find('.card-container').addClass('d-none');
-            $('.exs-edit-block').find('.btn-o-modal[data-id="description"]').removeClass('active');
+            $('.exs-edit-block').find('.btn-o-modal[data-id="description"]').addClass('active');
             $('.exs-edit-block').find('.btn-o-modal[data-id="card"]').removeClass('active');
-            try {
-                if (window.split_sizes_tempo.length == 2) {
-                    window.split.setSizes(window.split_sizes_tempo);
-                }
-            } catch(e) {}
-            $(e.currentTarget).removeClass("c-active");
-            $('#toggleFoldersViews').toggleClass('selected3', $('#toggleFoldersViews').attr('data-state') != '0');
+            $(e.currentTarget).attr('data-state', '0');
+            $(e.currentTarget).addClass("c-active");
+            $(e.currentTarget).addClass("selected3");
+            $('#toggleFoldersViews').toggleClass('selected3', false);
+            // $('.folders-block').find('.folders-container').removeClass('d-none');
+            // $('.folders-block').find('.description-container').addClass('d-none');
+            // $('.folders-block').find('.card-container').addClass('d-none');
+            // $('.exs-edit-block').find('.btn-o-modal[data-id="description"]').removeClass('active');
+            // $('.exs-edit-block').find('.btn-o-modal[data-id="card"]').removeClass('active');
+            // try {
+            //     if (window.split_sizes_tempo.length == 2) {
+            //         window.split.setSizes(window.split_sizes_tempo);
+            //     }
+            // } catch(e) {}
+            // $(e.currentTarget).removeClass("c-active");
+            // $('#toggleFoldersViews').toggleClass('selected3', $('#toggleFoldersViews').attr('data-state') != '0');
         }
     });
     $('.folders-block').on('click', 'button.toggle-description', (e) => {
