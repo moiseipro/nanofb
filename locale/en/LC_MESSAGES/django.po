@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-12 14:36+0300\n"
+"POT-Creation-Date: 2023-05-16 14:51+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1824,14 +1824,14 @@ msgstr ""
 
 #: .\authorization\forms.py:31 .\clubs\templates\clubs\users_table.html:9
 #: .\users\models.py:27 .\users\templates\users\forms\edit-personal-form.html:9
-#: .\users\templates\users\modules\user_table.html:11
+#: .\users\templates\users\modules\user_table.html:12
 msgid "Last name"
 msgstr ""
 
 #: .\authorization\forms.py:40 .\clubs\templates\clubs\users_table.html:10
 #: .\users\models.py:22
 #: .\users\templates\users\forms\edit-personal-form.html:17
-#: .\users\templates\users\modules\user_table.html:12
+#: .\users\templates\users\modules\user_table.html:13
 msgid "First name"
 msgstr ""
 
@@ -1861,7 +1861,6 @@ msgstr ""
 #: .\authorization\forms.py:99 .\users\models.py:48
 #: .\users\templates\users\base_profile.html:98
 #: .\users\templates\users\forms\edit-personal-form.html:73
-#: .\users\templates\users\modules\user_table.html:9
 msgid "License"
 msgstr ""
 
@@ -1875,6 +1874,8 @@ msgstr ""
 #: .\clubs\templates\clubs\users_table.html:11
 #: .\users\templates\users\base_profile.html:106
 #: .\users\templates\users\forms\edit-user-form.html:9
+#: .\users\templates\users\modules\user_table.html:14
+#: .\users\templates\users\modules\user_table_settings.html:20
 msgid "Email"
 msgstr ""
 
@@ -2048,12 +2049,13 @@ msgid "Registration success!"
 msgstr ""
 
 #: .\clubs\apps.py:8 .\nanofootball\templates\menu\sidebar.html:64
+#: .\users\templates\users\base_clients.html:25
 msgid "Clubs"
 msgstr ""
 
 #: .\clubs\forms.py:85 .\users\admin.py:24 .\users\models.py:59
+#: .\users\templates\users\base_clients.html:44
 #: .\users\templates\users\forms\edit-personal-form.html:92
-#: .\users\templates\users\modules\user_table.html:16
 msgid "Country"
 msgstr ""
 
@@ -2140,11 +2142,12 @@ msgstr ""
 #: .\clubs\templates\clubs\admin_panel.html:20
 #: .\clubs\templates\clubs\club_information.html:27
 #: .\nanofootball\templates\menu\sidebar.html:63 .\users\apps.py:8
-#: .\users\templates\users\base_clients.html:20
+#: .\users\templates\users\base_clients.html:22
 msgid "Users"
 msgstr ""
 
 #: .\clubs\templates\clubs\admin_panel.html:23
+#: .\users\templates\users\base_clients.html:28
 msgid "Add user"
 msgstr ""
 
@@ -2218,19 +2221,20 @@ msgstr ""
 
 #: .\clubs\templates\clubs\users_table.html:12
 #: .\references\templates\references\base_settings.html:47
-#: .\users\templates\users\modules\user_table.html:13
 msgid "Age"
 msgstr ""
 
 #: .\clubs\templates\clubs\users_table.html:13
-#: .\users\templates\users\modules\user_table.html:14
+#: .\users\templates\users\modules\user_table.html:16
+#: .\users\templates\users\modules\user_table_settings.html:26
 msgid "Birth"
 msgstr ""
 
 #: .\clubs\templates\clubs\users_table.html:14 .\users\forms.py:22
 #: .\users\models.py:41 .\users\templates\users\base_profile.html:94
 #: .\users\templates\users\forms\edit-personal-form.html:65
-#: .\users\templates\users\modules\user_table.html:15
+#: .\users\templates\users\modules\user_table.html:18
+#: .\users\templates\users\modules\user_table_settings.html:32
 msgid "Job title"
 msgstr ""
 
@@ -3469,7 +3473,7 @@ msgstr ""
 #: .\users\admin.py:23 .\users\models.py:183
 #: .\users\templates\users\base_profile.html:172
 #: .\users\templates\users\forms\edit-user-form.html:17
-#: .\users\templates\users\modules\user_table.html:17
+#: .\users\templates\users\modules\user_table.html:9
 msgid "Club"
 msgstr ""
 
@@ -3577,8 +3581,9 @@ msgstr ""
 msgid "email address"
 msgstr ""
 
-#: .\users\models.py:174 .\users\templates\users\base_profile.html:168
-#: .\users\templates\users\modules\user_table.html:19
+#: .\users\models.py:174 .\users\templates\users\base_clients.html:55
+#: .\users\templates\users\base_profile.html:168
+#: .\users\templates\users\modules\user_table.html:20
 msgid "Version"
 msgstr ""
 
@@ -3591,12 +3596,10 @@ msgid "The club the user is a member of"
 msgstr ""
 
 #: .\users\models.py:191 .\users\models.py:192
-#: .\users\templates\users\forms\edit-user-form.html:30
 msgid "Date of registration"
 msgstr ""
 
 #: .\users\models.py:196 .\users\models.py:197
-#: .\users\templates\users\forms\edit-user-form.html:38
 msgid "Last login date"
 msgstr ""
 
@@ -3654,6 +3657,35 @@ msgstr ""
 
 #: .\users\templates\users\base_clients.html:6
 msgid "Clients Management"
+msgstr ""
+
+#: .\users\templates\users\base_clients.html:40
+msgid "Search by name"
+msgstr ""
+
+#: .\users\templates\users\base_clients.html:48
+#: .\users\templates\users\forms\edit-user-form.html:30
+#: .\users\templates\users\modules\user_table.html:21
+#: .\users\templates\users\modules\user_table_settings.html:38
+msgid "Registration"
+msgstr ""
+
+#: .\users\templates\users\base_clients.html:51
+#: .\users\templates\users\forms\edit-user-form.html:46
+#: .\users\templates\users\modules\user_table.html:22
+msgid "Access to"
+msgstr ""
+
+#: .\users\templates\users\base_clients.html:59
+msgid "Reset filters"
+msgstr ""
+
+#: .\users\templates\users\base_clients.html:62
+msgid "Open user profile"
+msgstr ""
+
+#: .\users\templates\users\base_clients.html:65
+msgid "Open table settings"
 msgstr ""
 
 #: .\users\templates\users\base_profile.html:11
@@ -3733,8 +3765,8 @@ msgstr ""
 msgid "If you change your password, you will need to log in again"
 msgstr ""
 
-#: .\users\templates\users\forms\edit-user-form.html:46
-msgid "Program license"
+#: .\users\templates\users\forms\edit-user-form.html:38
+msgid "Last login"
 msgstr ""
 
 #: .\users\templates\users\forms\edit-user-form.html:54
@@ -3746,15 +3778,23 @@ msgid "Generate a new password"
 msgstr ""
 
 #: .\users\templates\users\modules\user_table.html:10
-msgid "License to"
+msgid "Lic."
 msgstr ""
 
-#: .\users\templates\users\modules\user_table.html:18
+#: .\users\templates\users\modules\user_table.html:11
+msgid "Lic. to"
+msgstr ""
+
+#: .\users\templates\users\modules\user_table.html:19
 msgid "A"
 msgstr ""
 
-#: .\users\templates\users\modules\user_table.html:21
-msgid "Access to"
+#: .\users\templates\users\modules\user_table_settings.html:8
+msgid "Columns"
+msgstr ""
+
+#: .\users\templates\users\modules\user_table_settings.html:14
+msgid "License to"
 msgstr ""
 
 #: .\users\templates\users\modules\warning_change_password.html:10

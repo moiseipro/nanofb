@@ -4,22 +4,24 @@
     <table id="users-table" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
         <thead>
             <tr>
-                <th>№</th>
-                <th>{% trans 'Activation' %}</th>
-                <th>{% trans 'License' %}</th>
-                <th>{% trans 'License to' %}</th>
-                <th>{% trans 'Last name' %}</th>
-                <th>{% trans 'First name' %}</th>
-                <th>{% trans 'Age' %}</th>
-                <th>{% trans 'Birth' %}</th>
-                <th>{% trans 'Job title' %}</th>
-                <th>{% trans 'Country' %}</th>
-                <th>{% trans 'Club' %}</th>
-                <th>{% trans 'A' %}</th>
-                <th>{% trans 'Version' %}</th>
-                <th><i class="fe fe-bar-chart"></i></th>
-                <th>{% trans 'Access to' %}</th>
-                <th></th>
+                <th class="text-center main-info-col">№</th>
+                <th class="text-center main-info-col">{% trans 'Activation' %}</th>
+                <th class="text-center side-info-col">{% trans 'Club' %}</th>
+                <th class="text-center side-info-col">{% trans 'Lic.' %}</th>
+                <th class="text-center additional-info-col lic-date-info-col">{% trans 'Lic. to' %}</th>
+                <th class="text-center main-info-col">{% trans 'Last name' %}</th>
+                <th class="text-center main-info-col">{% trans 'First name' %}</th>
+                <th class="text-center additional-info-col email-info-col">{% trans 'Email' %}</th>
+                <th class="text-center side-info-col"><i class="fa fa-birthday-cake" aria-hidden="true"></i></th>
+                <th class="text-center additional-info-col birth-info-col">{% trans 'Birth' %}</th>
+                <th class="text-center side-info-col"><i class="fa fa-flag" aria-hidden="true"></i></th>
+                <th class="text-center additional-info-col job-info-col">{% trans 'Job title' %}</th>
+                <th class="text-center side-info-col">{% trans 'A' %}</th>
+                <th class="text-center side-info-col">{% trans 'Version' %}</th>
+                <th class="text-center additional-info-col registration-info-col">{% trans 'Registration' %}</th>
+                <th class="text-center side-info-col">{% trans 'Access to' %}</th>
+                <th class="text-center additional-info-col activity-info-col"><i class="fe fe-bar-chart"></i></th>
+                <th class="text-center main-info-col"></th>
             </tr>
         </thead>
     </table>

@@ -1,18 +1,21 @@
 var users_table;
+var users_table_visible_col = [0, 1, 2 ,3, 5, 6, 8, 10, 11, 12, 13, 15, 17]
 
 function generate_ajax_users_table(scroll_y = ''){
     users_table = $('#users-table').DataTable({
         language: {
             url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
         },
-        dom: "<'row'<'col-sm-12 col-md-12'f>>" +
-             "<'row'<'col-sm-12'tr>>" +
+        dom: "<'row'<'col-sm-12'tr>>" +
              "<'row'<'col-sm-12 col-md-5'l><'col-sm-12 col-md-7'p>>",
         serverSide: true,
         processing: true,
         scrollY: scroll_y,
         pageLength: 50,
         lengthMenu: [ 25, 50, 100 ],
+        columnDefs: [
+            { targets: 'additional-info-col', visible: false }
+        ],
         rowCallback: function( row, data ) {
             console.log(data)
             $(row).attr('data-user', data.id)
@@ -36,17 +39,28 @@ function generate_ajax_users_table(scroll_y = ''){
             {'data': 'activation', 'name': 'activation', render: function (data, type, row, meta) {
                 console.log(data);
                 let html = `
-                    <span class="w-100 badge badge-${data.type}">${data.status}</span>
+                    <div class="w-100 badge badge-${data.type}">${data.status}</div>
                 `
                 return html;
             }},
-            {'data': 'license', 'name': 'license', 'defaultContent': "---"},
+            {'data': 'club_name', 'name': 'club_name', 'defaultContent': "---", render: function (data, type, row, meta) {
+                return `<div class="text-truncate w-100 text-center" title="${data}"> ${data} </div>`;
+            }},
+            {'data': 'license', 'name': 'license', 'defaultContent': "---", render: function (data, type, row, meta) {
+                return `<div class="text-truncate w-100 text-center" title="${data}"> ${data} </div>`;
+            }},
             {'data': 'license_date', 'name': 'license_date', 'defaultContent': "---"},
-            {'data': 'last_name', 'name': 'last_name', 'defaultContent': "---"},
-            {'data': 'first_name', 'name': 'first_name', 'defaultContent': "---"},
-            {'data': 'age', 'name': 'age', sortable: false, searchable: false,},
+            {'data': 'last_name', 'name': 'last_name', 'defaultContent': "---", render: function (data, type, row, meta) {
+                return `<div class="text-truncate" title="${data}"> ${data} </div>`;
+            }},
+            {'data': 'first_name', 'name': 'first_name', 'defaultContent': "---", render: function (data, type, row, meta) {
+                return `<div class="text-truncate" title="${data}"> ${data} </div>`;
+            }},
+            {'data': 'email', 'name': 'email', 'defaultContent': "---"},
+            {'data': 'age', 'name': 'age', sortable: false, searchable: false, render: function (data, type, row, meta) {
+                return `<div class="w-100 text-center" title="${data}"> ${data} </div>`;
+            }},
             {'data': 'date_birthsday', 'name': 'date_birthsday', 'defaultContent': "---"},
-            {'data': 'job_title', 'name': 'job_title', 'defaultContent': "---"},
             {'data': 'flag', 'name': 'flag', 'defaultContent': "---", render: function (data, type, row, meta) {
                 let html = `
                     <div class="w-100 text-center">
@@ -55,15 +69,20 @@ function generate_ajax_users_table(scroll_y = ''){
                 `
                 return html;
             }},
-            {'data': 'club_name', 'name': 'club_name', 'defaultContent': "---"},
-            {'data': 'admin_type', 'name': 'admin_type', sortable: false, searchable: false,},
+            {'data': 'job_title', 'name': 'job_title', 'defaultContent': "---", render: function (data, type, row, meta) {
+                return `<span class="text-truncate" title="${data}"> ${data} </span>`;
+            }},
+            {'data': 'admin_type', 'name': 'admin_type', sortable: false, searchable: false, render: function (data, type, row, meta) {
+                return `<div class="w-100 text-center" title="${data}"> ${data} </div>`;
+            }},
             {'data': 'p_version', 'name': 'p_version', 'defaultContent': "---", render: function (data, type, row, meta) {
                 if(data && 'name' in data)
                     return data.name;
             }},
-            {'data': 'days_entered', 'name': 'days_entered', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
+            {'data': 'date_joined', 'name': 'date_joined', 'defaultContent': "---", render: function (data, type, row, meta) {
                 return data;
             }},
+
             {'data': 'registration_to', 'name': 'registration_to', 'defaultContent': "---", render: function (data, type, row, meta) {
                 console.log(row);
                 let date = '';
@@ -78,10 +97,15 @@ function generate_ajax_users_table(scroll_y = ''){
                 let style = ''
                 if (days < 15){
                     style = 'text-danger font-weight-bold'
+                } else if (days < 30){
+                    style = 'text-warning font-weight-bold'
                 }
                 console.log(days)
-                let html = `<span class="${style}">${date}</span>`
+                let html = `<div class="${style}">${date}</div>`
                 return html;
+            }},
+            {'data': 'days_entered', 'name': 'days_entered', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
+                return data;
             }},
             {'data': 'id', sortable: false, searchable: false, render: function (data, type, row, meta) {
                 let button_html = ``

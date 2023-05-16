@@ -27,7 +27,7 @@
         </div>
         <div class="col-sm-12">
             <div class="form-group row mb-1">
-                <label class="col col-form-label">{% trans 'Date of registration'%}</label>
+                <label class="col col-form-label">{% trans 'Registration'%}</label>
                 <div class="col">
                     <input type="text" name="date_joined" class="form-control form-control-sm datetimepicker" data-toggle="datetimepicker" value="{{ user.date_joined|date:"d/m/Y"}}" autocomplete="off" required disabled>
                 </div>
@@ -35,7 +35,7 @@
         </div>
         <div class="col-sm-12">
             <div class="form-group row mb-1">
-                <label class="col col-form-label">{% trans 'Last login date'%}</label>
+                <label class="col col-form-label">{% trans 'Last login'%}</label>
                 <div class="col">
                     <input type="text" name="date_last_login" class="form-control form-control-sm datetimepicker" data-toggle="datetimepicker" value="{{ user.date_last_login|date:"d/m/Y"}}" autocomplete="off" required disabled>
                 </div>
@@ -43,7 +43,7 @@
         </div>
         <div class="col-sm-12">
             <div class="form-group row mb-1">
-                <label class="col col-form-label">{% trans 'Program license'%}</label>
+                <label class="col col-form-label">{% trans 'Access to'%}</label>
                 <div class="col">
                     <input type="text" name="registration_to" class="form-control form-control-sm datetimepicker edit-input" data-toggle="datetimepicker" value="{{ user.registration_to|date:"d/m/Y"}}" autocomplete="off" required disabled>
                 </div>
