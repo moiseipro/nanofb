@@ -202,6 +202,6 @@ class UserManagementSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'email', 'days_entered', 'is_active', 'admin_type', 'p_version', 'registration_to', 'groups',
             'last_name', 'first_name', 'job_title', 'date_birthsday', 'age', 'license', 'license_date', 'flag',
-            'activation', 'club_name', 'club_registration_to', 'is_archive'
+            'activation', 'club_name', 'club_registration_to', 'is_archive', 'date_joined'
         ]
         datatables_always_serialize = ('id', 'groups', 'club_registration_to', 'is_archive')

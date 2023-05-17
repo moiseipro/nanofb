@@ -1,0 +1,42 @@
+{% load i18n %}
+{% load static %}
+{% load language_json %}
+
+
+<div class="row border">
+    <div class="col-12" style="background: lightgrey">
+        {% trans 'Columns' %}
+    </div>
+    <div class="col-12">
+        <div class="form-check">
+            <input class="form-check-input toggle-user-column" data-col="lic-date-info-col" type="checkbox" value="" id="license-to-check">
+            <label class="form-check-label" for="license-to-check">
+                {% trans 'License to' %}
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input toggle-user-column" data-col="email-info-col" type="checkbox" value="" id="email-check">
+            <label class="form-check-label" for="email-check">
+                {% trans 'Email' %}
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input toggle-user-column" data-col="birth-info-col" type="checkbox" value="" id="birth-check">
+            <label class="form-check-label" for="birth-check">
+                {% trans 'Birth' %}
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input toggle-user-column" data-col="job-info-col" type="checkbox" value="" id="job-title-check">
+            <label class="form-check-label" for="job-title-check">
+                {% trans 'Job title' %}
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input toggle-user-column" data-col="registration-info-col" type="checkbox" value="" id="registration-check">
+            <label class="form-check-label" for="registration-check">
+                {% trans 'Registration' %}
+            </label>
+        </div>
+    </div>
+</div>

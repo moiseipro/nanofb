@@ -15,33 +15,73 @@
         <div class="col-sm-12 px-1">
             <div class="card mb-0">
                 <div class="card-header py-2">
-                    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" data-toggle="pill" href="#users-table-tab" role="tab" aria-controls="club-users" aria-selected="true">{% trans "Users" %}</a>
-                        </li>
-{#                        <li class="nav-item">#}
-{#                            <a class="nav-link" data-toggle="pill" href="#user-add" role="tab" aria-controls="club-user-add" aria-selected="false">{% trans "Add user" %}</a>#}
-{#                        </li>#}
-                        <li class="nav-item px-2">
-                            <button type="button" id="open-profile-modal" class="btn btn-warning mr-1"><i class="fa fa-user-o" aria-hidden="true"></i></button>
-                        </li>
-                    </ul>
+                    <div class="row">
+                        <div class="col-12 px-1">
+                            <ul class="nav nav-pills mb-0" id="pills-tab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="pill" href="#users-table-tab" role="tab" aria-controls="club-users" aria-selected="true">{% trans "Users" %}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="pill" href="#clubs-table-tab" role="tab" aria-controls="club-users" aria-selected="true">{% trans "Clubs" %}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="pill" href="#user-add" role="tab" aria-controls="club-user-add" aria-selected="false">{% trans "Add user" %}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
 
                 </div>
-                <div class="card-body py-2 px-1">
+                <div class="card-body py-2">
                     <div class="tab-content pt-0" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="users-table-tab" role="tabpanel" aria-labelledby="pills-home-tab">
                             <div class="row">
-                                <div id="users-table-block" class="col-sm-12">
+                                <div class="col px-1">
+                                    <input type="text" class="form-control" placeholder="{% trans 'Search by name' %}">
+                                </div>
+                                <div class="col px-1">
+                                    <select class="form-control select2">
+                                        <option value="">{% trans 'Country' %}</option>
+                                    </select>
+                                </div>
+                                <div class="col px-1">
+                                    <input type="text" class="form-control datetimepicker" data-toggle="datetimepicker" placeholder="{% trans 'Registration' %}">
+                                </div>
+                                <div class="col px-1">
+                                    <input type="text" class="form-control datetimepicker" data-toggle="datetimepicker" placeholder="{% trans 'Access to' %}">
+                                </div>
+                                <div class="col px-1">
+                                    <select class="form-control select2">
+                                        <option value="">{% trans 'Version' %}</option>
+                                    </select>
+                                </div>
+                                <div class="col-1 px-1">
+                                    <button type="button" id="clear-user-filters" class="btn btn-block btn-secondary" title="{% trans 'Reset filters' %}"><i class="fa fa-undo" aria-hidden="true"></i></button>
+                                </div>
+                                <div class="col-1 px-1">
+                                    <button type="button" id="open-profile-modal" class="btn btn-block btn-warning" title="{% trans 'Open user profile' %}"><i class="fa fa-user-o" aria-hidden="true"></i></button>
+                                </div>
+                                <div class="col-1 px-1">
+                                    <button type="button" id="open-table-settings" class="btn btn-block btn-secondary" title="{% trans 'Open table settings' %}"><i class="fa fa-outdent" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div id="users-table-block" class="col-sm-12 px-1">
                                     {% include "users/modules/user_table.html" %}
                                 </div>
-                                <div id="user-management-block" class="d-none">
+                                <div id="user-management-block" class="px-1 pt-2 d-none">
                                     {% include "users/modules/management_client.html" %}
+                                </div>
+                                <div id="user-table-settings-block" class="pt-2 d-none">
+                                    {% include "users/modules/user_table_settings.html" %}
                                 </div>
                             </div>
 
                         </div>
-                        <div class="tab-pane fade" id="user-add" role="tabpanel" aria-labelledby="pills-profile-tab">
+                        <div class="tab-pane fade" id="clubs-table-tab" role="tabpanel" aria-labelledby="pills-clubs-tab">
+
+                        </div>
+                        <div class="tab-pane fade" id="user-add" role="tabpanel" aria-labelledby="pills-user-add-tab">
 
                         </div>
                     </div>

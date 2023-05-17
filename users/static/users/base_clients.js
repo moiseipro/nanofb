@@ -1,28 +1,72 @@
 
 var user_select_id;
+var users_menu_state = null
 
 $(window).on("load", function () {
-    generate_ajax_users_table("calc(100vh - 310px)")
+    generate_ajax_users_table("calc(100vh - 280px)")
 
     if(!Cookies.get('user_selected_id')){
         $('#open-profile-modal').prop('disabled', true)
     }
 
+    $('.select2').select2({
+        width: '100%'
+    })
+
     $('#open-profile-modal').on('click', function () {
+
+        if (users_menu_state == 'table_settings'){
+            $('#open-table-settings').click()
+        } else if (users_menu_state == 'user_info'){
+            $('#back-users-table').click()
+            return false
+        }
+
+
+        users_menu_state = 'user_info'
 
         $('#user-management-block').removeClass('d-none').addClass('col-sm-7');
         $('#users-table-block').removeClass('col-sm-12').addClass('col-sm-5');
 
-        users_table.columns( [2,3,6,7,8,9,10,11,12,13,14] ).visible( false );
+        users_table.columns( '.main-info-col' ).visible( true );
+        users_table.columns( '.side-info-col' ).visible( false );
+        users_table.columns( '.additional-info-col' ).visible( false );
+
+        $('.toggle-user-column').prop('checked', false)
+
+    })
+
+    $('#open-table-settings').on('click', function () {
+
+        if (users_menu_state == 'user_info')
+            $('#back-users-table').click()
+
+        if (users_menu_state == 'table_settings'){
+            users_menu_state = null
+            $(this).children('i').removeClass('fa-indent').addClass('fa-outdent')
+            $('#user-table-settings-block').addClass('d-none').removeClass('col-sm-2');
+            $('#users-table-block').removeClass('col-sm-10').addClass('col-sm-12');
+            users_table.columns.adjust().draw( false );
+            return false;
+        }
+
+        users_menu_state = 'table_settings'
+
+        $(this).children('i').removeClass('fa-outdent').addClass('fa-indent')
+        $('#user-table-settings-block').removeClass('d-none').addClass('col-sm-2');
+        $('#users-table-block').removeClass('col-sm-12').addClass('col-sm-10');
 
     })
 
     $('#back-users-table').on('click', function () {
 
+        users_menu_state = null
+
         $('#user-management-block').addClass('d-none').removeClass('col-sm-7');
         $('#users-table-block').removeClass('col-sm-5').addClass('col-sm-12');
 
-        users_table.columns( [2,3,6,7,8,9,10,11,12,13,14] ).visible( true );
+        users_table.columns( '.main-info-col' ).visible( true );
+        users_table.columns( '.side-info-col' ).visible( true );
 
     })
 
@@ -56,6 +100,16 @@ $(window).on("load", function () {
         ajax_users_action('POST', send_data, 'edit', user_select_id, 'edit_user').then(function (data) {
             console.log(data)
         })
+    })
+
+    // Настройки показа колонок в таблице пользователей
+    $('.toggle-user-column').on('change', function () {
+        let checkbox = $(this);
+        console.log(checkbox.is(':checked'))
+
+        let col_data = checkbox.attr('data-col')
+        users_table.columns( '.'+col_data ).visible( checkbox.is(':checked') );
+
     })
 
     $('#users-table').on('click', '.archive-user', function () {
