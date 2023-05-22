@@ -44,6 +44,10 @@
     border-color: red !important;
 }
 
+.dataTable > tbody > tr.selected > * {
+    box-shadow: inset 0 0 0 9999px #ffce904f !important;
+    color: black !important;
+}
 
 table.dataTable.table-sm > thead > tr > th {
     padding: 0 0 !important;

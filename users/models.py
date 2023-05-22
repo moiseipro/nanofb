@@ -185,7 +185,7 @@ class User(AbstractUser):
     )
     is_archive = models.BooleanField(default=0)
     is_api_access = models.BooleanField(default=0)
-    is_demo_mode = models.BooleanField(default=1)
+    is_demo_mode = models.BooleanField(default=0)
     date_joined = models.DateField(
         auto_now_add=True,
         verbose_name=_('Date of registration'),
