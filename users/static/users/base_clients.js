@@ -9,8 +9,81 @@ $(window).on("load", function () {
         $('#open-profile-modal').prop('disabled', true)
     }
 
-    $('.select2').select2({
-        width: '100%'
+    $('#country-filter').select2({
+        minimumResultsForSearch: -1,
+        placeholder: gettext("Country"),
+        language: get_cur_lang(),
+        theme: 'bootstrap4',
+        width: '100%',
+        ajax: {
+            url: '/user/countries',
+            dataType: 'json',
+            data: function (params) {
+                // var query = {
+                //     search: params.term,
+                //     page: params.page || 1
+                // }
+                //
+                // // Query parameters will be ?search=[term]&page=[page]
+                //return query;
+            },
+            processResults: function (data, params) {
+                // parse the results into the format expected by Select2
+                // since we are using custom formatting functions we do not need to
+                // alter the remote JSON data, except to indicate that infinite
+                // scrolling can be used
+                console.log(data)
+
+                return {
+                    results: data,
+                    pagination: {
+                      more: false
+                    }
+                };
+            },
+            cache: true
+        },
+        templateResult: function (state) {
+            console.log(state)
+            var $state = $(`
+                <div class="w-100"><img src="${state.flag}" class="img-flag" /> ${state.text} <span class="float-right">${state.count ? '('+state.count+')':''}</span></div>
+                
+            `);
+            return $state;
+        }
+    })
+
+    $('#version-filter').select2({
+        minimumResultsForSearch: -1,
+        placeholder: gettext("Version"),
+        language: get_cur_lang(),
+        theme: 'bootstrap4',
+        width: '100%',
+        ajax: {
+            url: '/user/versions',
+            dataType: 'json',
+            data: function (params) {
+
+            },
+            processResults: function (data, params) {
+                console.log(data)
+                return {
+                    results: data,
+                    pagination: {
+                      more: false
+                    }
+                };
+            },
+            cache: true
+        },
+        templateResult: function (state) {
+            console.log(state)
+            var $state = $(`
+                <div class="w-100"> ${state.text} <span class="float-right">${state.count ? '('+state.count+')':''}</span></div>
+                
+            `);
+            return $state;
+        }
     })
 
     $('#open-profile-modal').on('click', function () {
@@ -159,10 +232,21 @@ $(window).on("load", function () {
             //     $('#back-users-table').click()
             //     user_select_id = null
             // }
-
-
         })
 
+    // Фильтрация таблицы пользователей
+    $('.user-table-filter').on('change', function () {
+        let value = $(this).val()
+        let filter = $(this).attr('data-filter')
+        let filter_obj = `.${filter}`;
+        console.log(filter_obj)
+        if(value == 'all'){
+            users_table.columns(filter_obj).search( '' ).draw();
+        } else{
+            users_table.columns(filter_obj).search( value ).draw();
+        }
+
+    })
 })
 
 function load_user_data(id = -1) {
