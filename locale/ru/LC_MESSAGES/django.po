@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-16 14:52+0300\n"
+"POT-Creation-Date: 2023-05-23 16:04+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1857,6 +1857,7 @@ msgid "Father name"
 msgstr "Отчество"
 
 #: .\authorization\forms.py:62 .\users\models.py:74
+#: .\users\templates\users\modules\user_table_settings.html:61
 msgid "Date of birth"
 msgstr "День рождения"
 
@@ -1871,6 +1872,9 @@ msgstr "Город"
 
 #: .\authorization\forms.py:83
 #: .\users\templates\users\forms\edit-personal-form.html:106
+#: .\users\templates\users\modules\user_table.html:19
+#: .\users\templates\users\modules\user_table_settings.html:21
+#: .\users\templates\users\modules\user_table_settings.html:67
 msgid "Region"
 msgstr "Регион"
 
@@ -1891,7 +1895,7 @@ msgstr "Срок лицензии"
 #: .\users\templates\users\base_profile.html:106
 #: .\users\templates\users\forms\edit-user-form.html:9
 #: .\users\templates\users\modules\user_table.html:14
-#: .\users\templates\users\modules\user_table_settings.html:20
+#: .\users\templates\users\modules\user_table_settings.html:49
 msgid "Email"
 msgstr "Электронная почта"
 
@@ -2074,7 +2078,6 @@ msgid "Clubs"
 msgstr "Клубы"
 
 #: .\clubs\forms.py:85 .\users\admin.py:24 .\users\models.py:59
-#: .\users\templates\users\base_clients.html:44
 #: .\users\templates\users\forms\edit-personal-form.html:92
 msgid "Country"
 msgstr "Страна"
@@ -2247,20 +2250,19 @@ msgid "Age"
 msgstr "Возраст"
 
 #: .\clubs\templates\clubs\users_table.html:13
-#: .\users\templates\users\modules\user_table.html:16
-#: .\users\templates\users\modules\user_table_settings.html:26
+#: .\users\templates\users\modules\user_table.html:17
 msgid "Birth"
 msgstr "Д.Р."
 
 #: .\clubs\templates\clubs\users_table.html:14 .\users\forms.py:22
 #: .\users\models.py:41 .\users\templates\users\base_profile.html:94
 #: .\users\templates\users\forms\edit-personal-form.html:65
-#: .\users\templates\users\modules\user_table.html:18
-#: .\users\templates\users\modules\user_table_settings.html:32
+#: .\users\templates\users\modules\user_table.html:20
+#: .\users\templates\users\modules\user_table_settings.html:73
 msgid "Job title"
 msgstr "Должность"
 
-#: .\clubs\views.py:120 .\users\views.py:106
+#: .\clubs\views.py:120 .\users\views.py:112
 msgid "User data is saved!"
 msgstr "Данные пользователя сохранены!"
 
@@ -3553,6 +3555,8 @@ msgstr "День рождения"
 
 #: .\users\models.py:81
 #: .\users\templates\users\forms\edit-personal-form.html:41
+#: .\users\templates\users\modules\user_table.html:15
+#: .\users\templates\users\modules\user_table_settings.html:55
 msgid "Phone"
 msgstr "Телефон"
 
@@ -3603,9 +3607,9 @@ msgstr "Платежная информация"
 msgid "email address"
 msgstr "адрес электронной почты"
 
-#: .\users\models.py:174 .\users\templates\users\base_clients.html:55
-#: .\users\templates\users\base_profile.html:168
-#: .\users\templates\users\modules\user_table.html:20
+#: .\users\models.py:174 .\users\templates\users\base_profile.html:168
+#: .\users\templates\users\modules\user_table.html:22
+#: .\users\templates\users\modules\user_table_settings.html:31
 msgid "Version"
 msgstr "Версия"
 
@@ -3649,31 +3653,31 @@ msgstr "Платежная информация"
 msgid "User Payment Information card"
 msgstr "Карточка платежной информации пользователя"
 
-#: .\users\serializers.py:165
+#: .\users\serializers.py:171
 msgid "MA"
 msgstr ""
 
-#: .\users\serializers.py:167
+#: .\users\serializers.py:173
 msgid "CA"
 msgstr ""
 
-#: .\users\serializers.py:182
+#: .\users\serializers.py:188
 msgid "Active"
 msgstr "Активно"
 
-#: .\users\serializers.py:185 .\users\templates\users\base_profile.html:152
+#: .\users\serializers.py:191 .\users\templates\users\base_profile.html:152
 msgid "Archive"
 msgstr "Архив"
 
-#: .\users\serializers.py:189 .\users\templates\users\base_profile.html:156
+#: .\users\serializers.py:195 .\users\templates\users\base_profile.html:156
 msgid "Club license expired"
 msgstr "Клубная лицензия истекла"
 
-#: .\users\serializers.py:193 .\users\templates\users\base_profile.html:154
+#: .\users\serializers.py:199 .\users\templates\users\base_profile.html:154
 msgid "License expired"
 msgstr "Лицензия истекла"
 
-#: .\users\serializers.py:197
+#: .\users\serializers.py:203
 msgid "Not active"
 msgstr "Не активно"
 
@@ -3682,31 +3686,10 @@ msgid "Clients Management"
 msgstr "Управление клиентами"
 
 #: .\users\templates\users\base_clients.html:40
-msgid "Search by name"
-msgstr "Поиск по имени"
-
-#: .\users\templates\users\base_clients.html:48
-#: .\users\templates\users\forms\edit-user-form.html:30
-#: .\users\templates\users\modules\user_table.html:21
-#: .\users\templates\users\modules\user_table_settings.html:38
-msgid "Registration"
-msgstr "Регистрация"
-
-#: .\users\templates\users\base_clients.html:51
-#: .\users\templates\users\forms\edit-user-form.html:46
-#: .\users\templates\users\modules\user_table.html:22
-msgid "Access to"
-msgstr "Доступ до"
-
-#: .\users\templates\users\base_clients.html:59
-msgid "Reset filters"
-msgstr "Сбросить фильтры"
-
-#: .\users\templates\users\base_clients.html:62
 msgid "Open user profile"
 msgstr "Профиль пользователя"
 
-#: .\users\templates\users\base_clients.html:65
+#: .\users\templates\users\base_clients.html:43
 msgid "Open table settings"
 msgstr "Настройки таблицы"
 
@@ -3788,9 +3771,25 @@ msgstr "Сохранить изменения"
 msgid "If you change your password, you will need to log in again"
 msgstr "Если вы измените свой пароль, вам нужно будет снова войти в систему"
 
+#: .\users\templates\users\forms\edit-user-form.html:30
+#: .\users\templates\users\modules\user_table.html:24
+#: .\users\templates\users\modules\user_table_settings.html:24
+#: .\users\templates\users\modules\user_table_settings.html:79
+msgid "Registration"
+msgstr "Регистрация"
+
 #: .\users\templates\users\forms\edit-user-form.html:38
+#: .\users\templates\users\modules\user_table.html:23
+#: .\users\templates\users\modules\user_table_settings.html:97
 msgid "Last login"
 msgstr "Последний вход"
+
+#: .\users\templates\users\forms\edit-user-form.html:46
+#: .\users\templates\users\modules\user_table.html:25
+#: .\users\templates\users\modules\user_table_settings.html:27
+#: .\users\templates\users\modules\user_table_settings.html:85
+msgid "Access to"
+msgstr "Доступ до"
 
 #: .\users\templates\users\forms\edit-user-form.html:54
 msgid "Demo version"
@@ -3808,17 +3807,33 @@ msgstr "Лиц."
 msgid "Lic. to"
 msgstr "Лиц. до"
 
-#: .\users\templates\users\modules\user_table.html:19
+#: .\users\templates\users\modules\user_table.html:21
 msgid "A"
 msgstr ""
 
 #: .\users\templates\users\modules\user_table_settings.html:8
+msgid "Filters"
+msgstr "Фильтры"
+
+#: .\users\templates\users\modules\user_table_settings.html:9
+msgid "Reset filters"
+msgstr "Сбросить фильтры"
+
+#: .\users\templates\users\modules\user_table_settings.html:14
+msgid "Search by name"
+msgstr "Поиск по имени"
+
+#: .\users\templates\users\modules\user_table_settings.html:37
 msgid "Columns"
 msgstr "Колонки"
 
-#: .\users\templates\users\modules\user_table_settings.html:14
+#: .\users\templates\users\modules\user_table_settings.html:43
 msgid "License to"
 msgstr "Лицензия до"
+
+#: .\users\templates\users\modules\user_table_settings.html:91
+msgid "Activity index"
+msgstr "Индекс активности"
 
 #: .\users\templates\users\modules\warning_change_password.html:10
 msgid "Recommendations"
@@ -3844,29 +3859,33 @@ msgstr "Поменять пароль"
 msgid "Don`t show again"
 msgstr "Больше не показывать"
 
-#: .\users\views.py:91
+#: .\users\views.py:97
 msgid "New personal profile data is saved!"
 msgstr "Новые данные личного профиля сохранены!"
 
-#: .\users\views.py:138
+#: .\users\views.py:144
 msgid "New password on the Nanofootball website"
 msgstr "Новый пароль на сайте Nanofootball"
 
-#: .\users\views.py:144
+#: .\users\views.py:150
 msgid "A new password has been sent to the mail!"
 msgstr "На почту отправлен новый пароль!"
 
-#: .\users\views.py:150
+#: .\users\views.py:156
 msgid "Password generation error!"
 msgstr "Ошибка генерации пароля!"
 
-#: .\users\views.py:212
+#: .\users\views.py:218
 msgid "Password updated successfully"
 msgstr "Пароль успешно изменен"
 
-#: .\users\views.py:214
+#: .\users\views.py:220
 msgid "Wrong password"
 msgstr "Неверный пароль"
+
+#: .\users\views.py:257 .\users\views.py:287
+msgid "Not chosen"
+msgstr "Не выбрано"
 
 #: .\version\admin.py:41
 msgid "custom groups"

@@ -18,13 +18,13 @@
                 </select>
             </div>
             <div class="col-12 pb-1">
-                <input type="search" class="form-control user-table-filter" placeholder="{% trans 'Region' %}">
+                <input type="search" class="form-control user-table-filter" data-filter="region-user-filter" placeholder="{% trans 'Region' %}">
             </div>
             <div class="col-12 pb-1">
-                <input type="text" class="form-control user-table-filter datetimepicker" data-toggle="datetimepicker" placeholder="{% trans 'Registration' %}">
+                <input type="text" class="form-control user-table-filter datetimepickerfilter" data-toggle="datetimepicker" data-filter="registration-user-filter" placeholder="{% trans 'Registration' %}">
             </div>
             <div class="col-12 pb-1">
-                <input type="text" class="form-control user-table-filter datetimepicker" data-toggle="datetimepicker" placeholder="{% trans 'Access to' %}">
+                <input type="text" class="form-control user-table-filter datetimepickerfilter" data-toggle="datetimepicker" data-filter="access-user-filter" placeholder="{% trans 'Access to' %}">
             </div>
             <div class="col-12 pb-1">
                 <select id="version-filter" class="form-control user-table-filter select2" data-filter="version-user-filter">
@@ -59,6 +59,12 @@
             <input class="form-check-input toggle-user-column" data-col="birth-info-col" type="checkbox" value="" id="birth-check">
             <label class="form-check-label" for="birth-check">
                 {% trans 'Date of birth' %}
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input toggle-user-column" data-col="region-info-col" type="checkbox" value="" id="region-check">
+            <label class="form-check-label" for="region-check">
+                {% trans 'Region' %}
             </label>
         </div>
         <div class="form-check">

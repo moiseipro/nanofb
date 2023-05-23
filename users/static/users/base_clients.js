@@ -9,6 +9,21 @@ $(window).on("load", function () {
         $('#open-profile-modal').prop('disabled', true)
     }
 
+    $('.datetimepickerfilter').datetimepicker({
+        format: 'DD/MM/YYYY',
+        useCurrent: false,
+        buttons: {
+            showClear: true,
+        },
+        locale: get_cur_lang(),
+        icons: {
+            up: "fa fa-angle-up",
+            down: "fa fa-angle-down",
+            next: 'fa fa-angle-right',
+            previous: 'fa fa-angle-left'
+        }
+    });
+
     $('#country-filter').select2({
         minimumResultsForSearch: -1,
         placeholder: gettext("Country"),
@@ -235,8 +250,12 @@ $(window).on("load", function () {
         })
 
     // Фильтрация таблицы пользователей
-    $('.user-table-filter').on('change', function () {
+    $('.user-table-filter').on('change, change.datetimepicker', function (e) {
         let value = $(this).val()
+        if ($(this).hasClass('datetimepickerfilter') && value != ''){
+            value = moment(value, 'DD/MM/YYYY').format('YYYY-MM-DD')
+            console.log(value)
+        }
         let filter = $(this).attr('data-filter')
         let filter_obj = `.${filter}`;
         console.log(filter_obj)
@@ -245,7 +264,6 @@ $(window).on("load", function () {
         } else{
             users_table.columns(filter_obj).search( value ).draw();
         }
-
     })
 })
 

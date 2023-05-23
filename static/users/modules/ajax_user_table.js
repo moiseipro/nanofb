@@ -70,6 +70,9 @@ function generate_ajax_users_table(scroll_y = ''){
                 `
                 return html;
             }},
+            {'data': 'region', 'name': 'region', 'defaultContent': "---", render: function (data, type, row, meta) {
+                return `<span class="text-truncate" title="${data}"> ${data} </span>`;
+            }},
             {'data': 'job_title', 'name': 'job_title', 'defaultContent': "---", render: function (data, type, row, meta) {
                 return `<span class="text-truncate" title="${data}"> ${data} </span>`;
             }},
