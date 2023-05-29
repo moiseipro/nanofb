@@ -110,26 +110,24 @@ class UserManagementApiView(viewsets.ModelViewSet):
         print(query_dict)
         serializer = CreateUserManagementSerializer(data=userDict)
         serializer.is_valid(raise_exception=True)
-        try:
-            serializer.save()
-            headers = self.get_success_headers(serializer.data)
+        serializer.save()
+        headers = self.get_success_headers(serializer.data)
 
-            res_data = {'registration': _("Registration success!")}
-            res_data.update(serializer.data)
-            context = {'email': request.data['email'], 'password': password}
-            text_content = render_to_string('clubs/mail/email.txt', context)
-            html_content = render_to_string('clubs/mail/email.html', context)
+        res_data = {'registration': _("Registration success!")}
+        res_data.update(serializer.data)
+        context = {'email': request.data['email'], 'password': password}
+        text_content = render_to_string('clubs/mail/email.txt', context)
+        html_content = render_to_string('clubs/mail/email.html', context)
 
-            email = EmailMultiAlternatives(_('Registration on the Nanofootball website'), text_content)
-            email.attach_alternative(html_content, "text/html")
-            email.to = [request.data['email']]
-            email.send()
-            return Response(res_data, status=status.HTTP_201_CREATED, headers=headers)
-        except e:
-            headers = self.get_exception_handler(serializer.data)
-            UserPersonal.objects.get(id=serializer_personal.data.id).delete()
-            res_data = {'registration': _("A user with this Email already exists!")}
-            return Response(res_data, status=status.HTTP_400_BAD_REQUEST, headers=headers)
+        email = EmailMultiAlternatives(_('Registration on the Nanofootball website'), text_content)
+        email.attach_alternative(html_content, "text/html")
+        email.to = [request.data['email']]
+        email.send()
+        return Response(res_data, status=status.HTTP_201_CREATED, headers=headers)
+        # headers = self.get_exception_handler(serializer.data)
+        # UserPersonal.objects.get(id=serializer_personal.data.id).delete()
+        # res_data = {'registration': _("A user with this Email already exists!")}
+        # return Response(res_data, status=status.HTTP_400_BAD_REQUEST, headers=headers)
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', True)

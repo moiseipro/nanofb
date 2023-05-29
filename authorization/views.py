@@ -27,10 +27,21 @@ def login_req(request):
             password = form.cleaned_data.get('password')
             user = authenticate(email=email, password=password)
             if user is not None:
-                if len(user.groups.all()) == 0 and user.p_version is not None:
-                    print(user.p_version.groups.all().values_list('id', flat=True))
-                    user.groups.set(user.p_version.groups.all().values_list('id', flat=True))
-                    #user.save()
+                if user.club_id is None:
+                    if user.p_version is not None:
+                        version_groups = user.p_version.groups.all().values_list('id', flat=True)
+                        user_groups = user.groups.all().values_list('id', flat=True)
+                        if len(user.groups.all()) == 0:
+                            print(version_groups)
+                            user.groups.set(version_groups)
+                            #user.save()
+                        else:
+                            a = set(user_groups)
+                            b = set(version_groups)
+                            if a != b:
+                                user.groups.set(version_groups)
+                                print("Noticed a mismatch of rights with the version")
+
                 login(request, user)
                 messages.info(request, f"You are now logged in as {email}.")
                 return redirect("users:profile")

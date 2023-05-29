@@ -1,5 +1,6 @@
 import datetime
 
+from django.db import IntegrityError
 from django.contrib.auth.models import Group, Permission
 from rest_framework import serializers
 
@@ -80,7 +81,7 @@ class UserEditSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'id', 'email', 'club_id', 'registration_to', 'is_archive', 'is_demo_mode'
+            'id', 'email', 'club_id', 'p_version', 'registration_to', 'is_archive', 'is_demo_mode'
         ]
 
 
@@ -105,8 +106,8 @@ class UserAllDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'id', 'email', 'club_id', 'date_last_login', 'date_joined', 'days_entered', 'is_active', 'registration_to',
-            'personal', 'is_archive', 'is_demo_mode'
+            'id', 'email', 'club_id', 'p_version', 'date_last_login', 'date_joined', 'days_entered', 'is_active',
+            'registration_to', 'personal', 'is_archive', 'is_demo_mode'
         ]
 
 
@@ -136,6 +137,21 @@ class CreateUserManagementSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'club_id', 'email', 'password', 'personal', 'p_version'
         ]
+
+    def perform_create(self, validated_data):
+        print(validated_data)
+        user = User.objects.create_user(**validated_data)
+        user.save()
+
+        return user
+
+    def create(self, validated_data):
+        try:
+            user = self.perform_create(validated_data)
+        except IntegrityError:
+            self.fail("cannot_create_user")
+
+        return user
 
 
 class UserManagementSerializer(serializers.ModelSerializer):
