@@ -2,10 +2,13 @@ import datetime
 
 from django.contrib.auth.models import Group, Permission
 from rest_framework import serializers
+
+from clubs.models import Club
 from users.models import User, UserPersonal
 from django_countries.serializer_fields import CountryField
 from django.utils.translation import gettext_lazy as _
 
+from version.models import Version
 from version.serializers import VersionSerializer
 
 
@@ -115,6 +118,23 @@ class CreateUserSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'id', 'club_id', 'email', 'password', 'personal'
+        ]
+
+
+class CreateUserManagementSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    email = serializers.EmailField()
+    password = serializers.CharField()
+
+    personal = serializers.PrimaryKeyRelatedField(queryset=UserPersonal.objects.all())
+    #club_id = serializers.PrimaryKeyRelatedField(queryset=Club.objects.all())
+    #p_version = serializers.PrimaryKeyRelatedField(queryset=Version.objects.all())
+
+    class Meta:
+        model = User
+        fields = [
+            'id', 'club_id', 'email', 'password', 'personal', 'p_version'
         ]
 
 

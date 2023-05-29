@@ -1,4 +1,6 @@
 from datetime import date
+
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import pre_save
@@ -37,20 +39,27 @@ class UserPersonal(models.Model):
     job_title = models.CharField(
         max_length=30,
         null=True,
-        #blank=True,
+        blank=True,
         verbose_name=_('Job title'),
         help_text=_('User job title')
+    )
+    club_title = models.CharField(
+        max_length=60,
+        null=True,
+        blank=True,
+        verbose_name=_('Club title'),
+        help_text=_('User club title')
     )
     license = models.CharField(
         max_length=30,
         null=True,
-        #blank=True,
+        blank=True,
         verbose_name=_('License'),
         help_text=_('Trainer\'s License')
     )
     license_date = models.DateField(
         null=True,
-        # blank=True,
+        blank=True,
         default=date.today,
         verbose_name=_('License date'),
         help_text=_('License expiration date'),
@@ -109,6 +118,7 @@ class UserPersonal(models.Model):
         blank=True,
         upload_to=user_directory_path
     )
+    my_contacts = models.BooleanField(default=0)
 
     @property
     def full_name(self):
@@ -159,6 +169,29 @@ class UserPayment(models.Model):
 
     class Meta:
         verbose_name = _('Payment information')
+
+
+class UserPaymentInformation(models.Model):
+    payment = models.DecimalField(
+        verbose_name=_('Payment'),
+        help_text=_("Payment in foreign currency"),
+        max_digits=8,
+        decimal_places=2,
+        default=0.00
+    )
+    discount = models.PositiveSmallIntegerField(
+        verbose_name=_('Discount'),
+        help_text=_("Percent discount (0-100%)"),
+        default=0,
+        validators=[
+            MaxValueValidator(100),
+            MinValueValidator(0)
+        ]
+    )
+    date = models.DateField(
+        verbose_name=_('Date of payment'),
+        help_text=_('Date when the user paid'),
+    )
 
 
 class User(AbstractUser):
@@ -214,6 +247,13 @@ class User(AbstractUser):
         verbose_name=_('Personal Information'),
         help_text=_('User Personal Information card'),
         unique=True,
+    )
+
+    payment_information = models.ManyToManyField(
+        UserPaymentInformation,
+        verbose_name=_("Payment Information"),
+        help_text=_("Payment information for accounting"),
+        blank=True
     )
 
     payment = models.OneToOneField(

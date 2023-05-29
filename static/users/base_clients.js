@@ -190,6 +190,26 @@ $(window).on("load", function () {
         })
     })
 
+    $('#add-user-button').on('click', function () {
+        if(!$('#add-user-form').valid()) return
+        let personal = $('#add-user-form').serializeArray()
+        // let has_demo = false;
+        // for (const data of personal) {
+        //     if (data.name=='is_demo_mode'){
+        //         has_demo = true;
+        //     }
+        // }
+        // if (!has_demo){
+        //     personal.push({name:'is_demo_mode', value:'off'})
+        // }
+        let send_data = personal
+        console.log(send_data);
+
+        ajax_users_action('POST', send_data, 'create').then(function (data) {
+            console.log(data)
+        })
+    })
+
     // Настройки показа колонок в таблице пользователей
     $('.toggle-user-column').on('change', function () {
         let checkbox = $(this);

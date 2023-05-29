@@ -2,6 +2,8 @@ from collections import Counter
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.mail import EmailMultiAlternatives
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 from django.db.models import QuerySet, Count
 from django.http import QueryDict
 from django.shortcuts import render, redirect
@@ -26,10 +28,14 @@ from users.filters import UserManagementGlobalFilter
 from users.forms import EditUserPersonalForm
 from users.models import User, UserPersonal
 from users.serializers import UserPersonalSerializer, ChangePasswordSerializer, UserSerializer, \
-    UserManagementSerializer, UserEditSerializer, UserAllDataSerializer
+    UserManagementSerializer, UserEditSerializer, UserAllDataSerializer, CreateUserSerializer, \
+    CreateUserManagementSerializer
 
 
 # Create your views here.
+from version.models import Version
+
+
 class BaseProfileView(LoginRequiredMixin, TemplateView):
     template_name = 'users/base_profile.html'
     model = User
@@ -68,6 +74,7 @@ class UserManagementView(PermissionRequiredMixin, TemplateView):
         context['menu_clients'] = "active"
         context['ui_elements'] = get_ui_elements(self.request)
         context['clubs'] = Club.objects.all()
+        context['versions'] = Version.objects.all()
         return context
 
 
@@ -75,6 +82,54 @@ class UserManagementApiView(viewsets.ModelViewSet):
     permission_classes = (IsAdminUser,)
     filter_backends = (DatatablesFilterBackend,)
     filterset_class = UserManagementGlobalFilter
+
+    def create(self, request, *args, **kwargs):
+        print(request.data)
+        if User.objects.filter(email=request.data['email']).exists():
+            res_data = {'registration': _("A user with this Email already exists!")}
+            return Response(res_data, status=status.HTTP_403_FORBIDDEN)
+        try:
+            validate_email(request.data['email'])
+        except ValidationError as e:
+            res_data = {'registration': _("This Email not valid!")}
+            return Response(res_data, status=status.HTTP_403_FORBIDDEN, headers=e)
+        serializer_personal = UserPersonalSerializer(data=request.data)
+        serializer_personal.is_valid(raise_exception=True)
+        serializer_personal.save()
+        print(serializer_personal.data)
+        password = User.objects.make_random_password()
+        userDict = dict(
+            personal=serializer_personal.data['id'],
+            email=request.data['email'],
+            password=password,
+            club_id=request.data['club_id'],
+            p_version=request.data['p_version']
+        )
+        query_dict = QueryDict('', mutable=True)
+        query_dict.update(userDict)
+        print(query_dict)
+        serializer = CreateUserManagementSerializer(data=userDict)
+        serializer.is_valid(raise_exception=True)
+        try:
+            serializer.save()
+            headers = self.get_success_headers(serializer.data)
+
+            res_data = {'registration': _("Registration success!")}
+            res_data.update(serializer.data)
+            context = {'email': request.data['email'], 'password': password}
+            text_content = render_to_string('clubs/mail/email.txt', context)
+            html_content = render_to_string('clubs/mail/email.html', context)
+
+            email = EmailMultiAlternatives(_('Registration on the Nanofootball website'), text_content)
+            email.attach_alternative(html_content, "text/html")
+            email.to = [request.data['email']]
+            email.send()
+            return Response(res_data, status=status.HTTP_201_CREATED, headers=headers)
+        except e:
+            headers = self.get_exception_handler(serializer.data)
+            UserPersonal.objects.get(id=serializer_personal.data.id).delete()
+            res_data = {'registration': _("A user with this Email already exists!")}
+            return Response(res_data, status=status.HTTP_400_BAD_REQUEST, headers=headers)
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', True)

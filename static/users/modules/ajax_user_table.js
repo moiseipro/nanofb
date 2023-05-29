@@ -156,16 +156,13 @@ async function ajax_users_action(method, data, action = '', id = '', func = '') 
             if(data.status == 'success'){
                 swal(gettext('User'), data.message, 'success');
             } else if('registration' in data && data.registration != '') {
-                swal(gettext('Club user registration'), data.registration, "success");
+                swal(gettext('User registration'), data.registration, "success");
             }
         },
         error: function(jqXHR, textStatus, errorThrown){
             console.log(jqXHR)
-            if('limit' in jqXHR.responseJSON){
-                swal(gettext('Users '+action), gettext('The limit of users for the club has been reached!'), "error");
-            }else{
-                swal(gettext('Users '+action), gettext('Error when action "'+action+'" the club users!'), "error");
-            }
+            if('registration' in jqXHR.responseJSON)
+                swal(gettext('Users '+action), jqXHR.responseJSON.registration, "error");
         },
         complete: function () {
             $('.page-loader-wrapper').fadeOut();
