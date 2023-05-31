@@ -135,6 +135,13 @@ $(window).on('load', function (){
         console.log($(this).serialize())
         ajax_season_action($(this).attr('method'), $(this).serialize(), cur_edit_data ? cur_edit_data.id : 0)
     })
+    //Переход по модальному окну для создания команд или сезонов
+    let create_data = get_url_value('create_data')
+    if (create_data == 'season'){
+        $('#nav-seasons-tab').click()
+    } else if (create_data == 'team'){
+        $('#nav-teams-tab').click()
+    }
 })
 
 function clear_team_form() {

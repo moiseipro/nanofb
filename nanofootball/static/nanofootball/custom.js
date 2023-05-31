@@ -44,6 +44,13 @@ $(document).ready(function() {
         Cookies.set('show_change_password_recommendation', '1', { expires: 3})
         //Cookies.remove('show_change_password_recommendation')
     }
+    let warning_settings_modal = $('#empty_settings_modal')
+    if(warning_settings_modal){
+        let create_data = get_url_value('create_data')
+        if (!create_data){
+            warning_settings_modal.modal('show')
+        }
+    }
     //Cookies.remove('show_change_password_recommendation')
 
 });
