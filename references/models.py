@@ -133,6 +133,7 @@ class AbstractTeam(AbstractReference):
 class UserTeam(AbstractTeam, MixUserReference):
 
     class Meta:
+        ordering = ["name"]
         verbose_name = _('User Team')
         verbose_name_plural = _('User Teams')
 
@@ -164,6 +165,7 @@ class ClubTeam(AbstractTeam, MixClubReference):
     )
 
     class Meta:
+        ordering = ["name"]
         verbose_name = _('Club Team')
         verbose_name_plural = _('Club Teams')
 
