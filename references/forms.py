@@ -38,7 +38,7 @@ class CreateTeamForm(forms.ModelForm):
         labels = {
             'name': _('Team title'),
             #'short_name': _('Team short name'),
-            'age_key': _('Team age'),
+            'age_key': _('Year of birth'),
             'u_key': _('Age U'),
             #'ref_team_status': _('Team status'),
         }

@@ -96,7 +96,8 @@ class AbstractMicrocycles(models.Model):
         verbose_name=_('title'),
         help_text=_("Name of the microcycle. The maximum length is 80 characters"),
         max_length=80,
-        default=_('Microcycle')
+        default=_('Microcycle'),
+        blank=True
     )
     date_with = models.DateField(
         verbose_name=_('start date'),

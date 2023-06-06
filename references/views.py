@@ -35,6 +35,7 @@ class ReferencePermissions(DjangoModelPermissions):
 # REST FRAMEWORK
 class TeamViewSet(viewsets.ModelViewSet):
     permission_classes = [ReferencePermissions]
+    pagination_class = None
 
     def perform_create(self, serializer):
         is_limit = False

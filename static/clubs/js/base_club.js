@@ -72,9 +72,9 @@ $(window).on('load', function (){
             $('#user-permissions').html(html_permission)
         })
         ajax_team_action('GET', send_data, 'get team').then(function (data) {
-            let teams = data.results
+            let teams = data
             let row_data = club_users_table.row(tr_obj).data()
-            console.log(teams)
+            console.log(row_data)
             if(teams.length > 0) {
                 let html_teams = ``
                 $.each(teams, function (key, value) {

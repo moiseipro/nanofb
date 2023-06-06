@@ -1,5 +1,5 @@
 table.dataTable > tbody > tr > .selected {
-  background-color: rgba(2, 117, 216, 0.9);
+  background-color: rgba(120, 120, 120, 0.9);
   color: white;
 }
 table.dataTable tbody td.select-checkbox,

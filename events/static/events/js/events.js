@@ -766,10 +766,10 @@ function generateMicrocyclesTable(){
             },
         },
         columns: [
-            {'data': 'name'},
-            {'data': 'date_with', 'searchable': 'false'},
-            {'data': 'date_by' , 'searchable': 'false'},
-            {'data': 'id' , render : function ( data, type, row, meta ) {
+            {'data': 'name', 'defaultContent': "---"},
+            {'data': 'date_with', searchable: false},
+            {'data': 'date_by' , searchable: false},
+            {'data': 'id' , sortable: false, searchable: false, render : function ( data, type, row, meta ) {
               return type === 'display'  ?
                 '<button class="btn btn-sm btn-warning mx-1 py-0 edit" data-id="'+data+'"><i class="fa fa-pencil"></i></button>'+
                 '<button class="btn btn-sm btn-danger mx-1 py-0 delete" data-id="'+data+'"><i class="fa fa-trash"></i></button>':

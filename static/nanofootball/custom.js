@@ -19,11 +19,23 @@ $(document).ready(function() {
         console.log(this.form)
         this.form.submit();
     });
+    //Список выбора сезонов
+    $('#select-season').select2({
+        language: get_cur_lang(),
+        dropdownAutoWidth: true,
+    })
+    console.log(get_cur_lang())
     //Отправка формы смены сезона по изменению select
     $('#select-season').on('change', function() {
         console.log(this.form)
         this.form.submit();
     });
+    //Список выбора команд
+    $('#select-team').select2({
+        language: get_cur_lang(),
+        dropdownAutoWidth: true,
+
+    })
     //Отправка формы смены команды по изменению select
     $('#select-team').on('change', function() {
         console.log(this.form)

@@ -146,6 +146,8 @@ $(window).on("load", function () {
 
     })
 
+    $('#open-table-settings').click()
+
     $('#back-users-table').on('click', function () {
 
         users_menu_state = null
