@@ -1,16 +1,24 @@
+from collections import Counter
+
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.mail import EmailMultiAlternatives
-from django.db.models import QuerySet
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+from django.db.models import QuerySet, Count
+from django.http import QueryDict
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.views.generic import TemplateView, DetailView
-from rest_framework import status, viewsets
+from django_countries import countries
+from rest_framework import status, viewsets, authentication, permissions
 from rest_framework.decorators import action
-from rest_framework.generics import UpdateAPIView
+from rest_framework.generics import UpdateAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from django.utils.translation import gettext_lazy as _
 from datetime import date
+
+from rest_framework.views import APIView
 from rest_framework_datatables.django_filters.backends import DatatablesFilterBackend
 
 from clubs.models import Club
@@ -20,10 +28,14 @@ from users.filters import UserManagementGlobalFilter
 from users.forms import EditUserPersonalForm
 from users.models import User, UserPersonal
 from users.serializers import UserPersonalSerializer, ChangePasswordSerializer, UserSerializer, \
-    UserManagementSerializer, UserEditSerializer, UserAllDataSerializer
+    UserManagementSerializer, UserEditSerializer, UserAllDataSerializer, CreateUserSerializer, \
+    CreateUserManagementSerializer
 
 
 # Create your views here.
+from version.models import Version
+
+
 class BaseProfileView(LoginRequiredMixin, TemplateView):
     template_name = 'users/base_profile.html'
     model = User
@@ -62,6 +74,7 @@ class UserManagementView(PermissionRequiredMixin, TemplateView):
         context['menu_clients'] = "active"
         context['ui_elements'] = get_ui_elements(self.request)
         context['clubs'] = Club.objects.all()
+        context['versions'] = Version.objects.all()
         return context
 
 
@@ -69,6 +82,52 @@ class UserManagementApiView(viewsets.ModelViewSet):
     permission_classes = (IsAdminUser,)
     filter_backends = (DatatablesFilterBackend,)
     filterset_class = UserManagementGlobalFilter
+
+    def create(self, request, *args, **kwargs):
+        print(request.data)
+        if User.objects.filter(email=request.data['email']).exists():
+            res_data = {'registration': _("A user with this Email already exists!")}
+            return Response(res_data, status=status.HTTP_403_FORBIDDEN)
+        try:
+            validate_email(request.data['email'])
+        except ValidationError as e:
+            res_data = {'registration': _("This Email not valid!")}
+            return Response(res_data, status=status.HTTP_403_FORBIDDEN, headers=e)
+        serializer_personal = UserPersonalSerializer(data=request.data)
+        serializer_personal.is_valid(raise_exception=True)
+        serializer_personal.save()
+        print(serializer_personal.data)
+        password = User.objects.make_random_password()
+        userDict = dict(
+            personal=serializer_personal.data['id'],
+            email=request.data['email'],
+            password=password,
+            club_id=request.data['club_id'],
+            p_version=request.data['p_version']
+        )
+        query_dict = QueryDict('', mutable=True)
+        query_dict.update(userDict)
+        print(query_dict)
+        serializer = CreateUserManagementSerializer(data=userDict)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        headers = self.get_success_headers(serializer.data)
+
+        res_data = {'registration': _("Registration success!")}
+        res_data.update(serializer.data)
+        context = {'email': request.data['email'], 'password': password}
+        text_content = render_to_string('clubs/mail/email.txt', context)
+        html_content = render_to_string('clubs/mail/email.html', context)
+
+        email = EmailMultiAlternatives(_('Registration on the Nanofootball website'), text_content)
+        email.attach_alternative(html_content, "text/html")
+        email.to = [request.data['email']]
+        email.send()
+        return Response(res_data, status=status.HTTP_201_CREATED, headers=headers)
+        # headers = self.get_exception_handler(serializer.data)
+        # UserPersonal.objects.get(id=serializer_personal.data.id).delete()
+        # res_data = {'registration': _("A user with this Email already exists!")}
+        # return Response(res_data, status=status.HTTP_400_BAD_REQUEST, headers=headers)
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', True)
@@ -163,7 +222,7 @@ class UserManagementApiView(viewsets.ModelViewSet):
 
         #users = User.objects.filter(club_id=request.user.club_id)
         users = User.objects.all()
-
+        #User.objects.filter(first_name__icontains=)
         return users
 
 
@@ -216,6 +275,71 @@ class EditPasswordApiView(UpdateAPIView):
             return response
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CountryListApiView(APIView):
+    #authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAdminUser]
+
+    def get(self, request, format=None):
+        queryset = UserPersonal.objects.annotate(countries=Count('country_id')).order_by(
+            '-country_id')
+        list_countries = [
+            {
+                'id': personal.country_id.code,
+                'name': personal.country_id.name,
+                'flag': personal.country_id.flag,
+                'count': personal.countries
+            } for personal in queryset
+        ]
+        print(list_countries)
+        countries_count = {}
+        for country in list_countries:
+            print(country)
+            countries_count[country['id']] = countries_count.get(country['id'], {'name': '', 'count': 0})
+            countries_count[country['id']]['count'] += country['count']
+            countries_count[country['id']]['name'] = country['name']
+            countries_count[country['id']]['flag'] = country['flag']
+        print(countries_count)
+        # counter = Counter()
+        # for d in list_countries:
+        #     id, name, count = d.get('id'), d.get('name'), d.get('count')
+        #     counter.update({id: count, name: count})
+        # print(counter)
+        list2 = [{'id': id, 'flag': data['flag'], 'count': data['count'], 'text': data['name']} for id, data in countries_count.items()]
+        list2.insert(0, {'id': 'all', 'flag': '', 'count': '', 'text': _('Not chosen')})
+        print(list2)
+        return Response(list2)
+
+
+class VersionListApiView(APIView):
+    #authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAdminUser]
+
+    def get(self, request, format=None):
+        queryset = User.objects.exclude(p_version=None).annotate(versions=Count('p_version')).order_by(
+            'p_version')
+        print(queryset.values())
+        list_versions = [
+            {
+                'id': data.p_version.id,
+                'name': data.p_version.name,
+                'count': data.versions
+            } for data in queryset
+        ]
+        print(list_versions)
+        versions_count = {}
+        for version in list_versions:
+            print(version)
+            versions_count[version['id']] = versions_count.get(version['id'], {'name': '', 'count': 0})
+            versions_count[version['id']]['count'] += version['count']
+            versions_count[version['id']]['name'] = version['name']
+        print(versions_count)
+
+        list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in versions_count.items()]
+        list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+        print(list2)
+        return Response(list2)
 
 
 def profile_req(request):

@@ -4,6 +4,35 @@
 
 
 <div class="row border">
+    <div class="col-12 pr-0" style="background: lightgrey">
+        <span class="float-left">{% trans 'Filters' %}</span>
+        <span class="float-right"><button type="button" id="clear-user-filters" class="btn btn-sm btn-secondary py-0" title="{% trans 'Reset filters' %}"><i class="fa fa-undo" aria-hidden="true"></i></button></span>
+    </div>
+    <div class="col-12 px-0">
+        <div class="row">
+            <div class="col-12 pb-1">
+                <input type="search" class="form-control user-table-filter" data-filter="name-user-filter" placeholder="{% trans 'Search by name' %}">
+            </div>
+            <div class="col-12 pb-1">
+                <select id="country-filter" class="form-control user-table-filter select2" data-filter="flag-user-filter">
+                </select>
+            </div>
+            <div class="col-12 pb-1">
+                <input type="search" class="form-control user-table-filter" data-filter="region-user-filter" placeholder="{% trans 'Region' %}">
+            </div>
+            <div class="col-12 pb-1">
+                <input type="text" class="form-control user-table-filter datetimepickerfilter" data-toggle="datetimepicker" data-filter="registration-user-filter" placeholder="{% trans 'Registration' %}">
+            </div>
+            <div class="col-12 pb-1">
+                <input type="text" class="form-control user-table-filter datetimepickerfilter" data-toggle="datetimepicker" data-filter="access-user-filter" placeholder="{% trans 'Access to' %}">
+            </div>
+            <div class="col-12 pb-1">
+                <select id="version-filter" class="form-control user-table-filter select2" data-filter="version-user-filter">
+                    <option value="">{% trans 'Version' %}</option>
+                </select>
+            </div>
+        </div>
+    </div>
     <div class="col-12" style="background: lightgrey">
         {% trans 'Columns' %}
     </div>
@@ -21,9 +50,21 @@
             </label>
         </div>
         <div class="form-check">
+            <input class="form-check-input toggle-user-column" data-col="phone-info-col" type="checkbox" value="" id="phone-check">
+            <label class="form-check-label" for="phone-check">
+                {% trans 'Phone' %}
+            </label>
+        </div>
+        <div class="form-check">
             <input class="form-check-input toggle-user-column" data-col="birth-info-col" type="checkbox" value="" id="birth-check">
             <label class="form-check-label" for="birth-check">
-                {% trans 'Birth' %}
+                {% trans 'Date of birth' %}
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input toggle-user-column" data-col="region-info-col" type="checkbox" value="" id="region-check">
+            <label class="form-check-label" for="region-check">
+                {% trans 'Region' %}
             </label>
         </div>
         <div class="form-check">
@@ -36,6 +77,24 @@
             <input class="form-check-input toggle-user-column" data-col="registration-info-col" type="checkbox" value="" id="registration-check">
             <label class="form-check-label" for="registration-check">
                 {% trans 'Registration' %}
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input toggle-user-column" data-col="access-info-col" type="checkbox" value="" id="access-check">
+            <label class="form-check-label" for="access-check">
+                {% trans 'Access to' %}
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input toggle-user-column" data-col="activity-info-col" type="checkbox" value="" id="activity-check">
+            <label class="form-check-label" for="activity-check">
+                {% trans 'Activity index' %}
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input toggle-user-column" data-col="login-info-col" type="checkbox" value="" id="login-check">
+            <label class="form-check-label" for="login-check">
+                {% trans 'Last login' %}
             </label>
         </div>
     </div>

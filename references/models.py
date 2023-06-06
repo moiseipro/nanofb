@@ -115,7 +115,9 @@ class AbstractTeam(AbstractReference):
         max_length=10,
         verbose_name=_('U key'),
         help_text=_('U key no more than 10 characters'),
-        default=_('U')
+        null=True,
+        blank=True
+
     )
     ref_team_status = models.ForeignKey(
         TeamStatus,
@@ -133,6 +135,7 @@ class AbstractTeam(AbstractReference):
 class UserTeam(AbstractTeam, MixUserReference):
 
     class Meta:
+        ordering = ["name"]
         verbose_name = _('User Team')
         verbose_name_plural = _('User Teams')
 
@@ -164,6 +167,7 @@ class ClubTeam(AbstractTeam, MixClubReference):
     )
 
     class Meta:
+        ordering = ["name"]
         verbose_name = _('Club Team')
         verbose_name_plural = _('Club Teams')
 

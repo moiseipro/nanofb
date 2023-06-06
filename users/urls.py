@@ -14,4 +14,7 @@ urlpatterns = [
 
     path('clients', views.UserManagementView.as_view(), name='clients'),
     path('clients/api/', include(router.urls), name='api_clients'),
+
+    path('countries', views.CountryListApiView.as_view(), name='counties'),
+    path('versions', views.VersionListApiView.as_view(), name='versions'),
 ]

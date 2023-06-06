@@ -52,6 +52,17 @@ $(window).on('load', function () {
             location.reload()
         })
     })
+
+    $('#edit-profile-button').on('click', function () {
+        if(!$('#edit-personal-form').valid()) return
+        let personal = $('#edit-personal-form').serializeArray()
+        let send_data = personal
+        console.log(send_data);
+        ajax_profile('PUT', send_data, 'edit', '', 'edit').then(function (data) {
+            console.log(data)
+            location.reload()
+        })
+    })
 })
 
 function initialize_phone_input() {

@@ -33,10 +33,10 @@ function generate_ajax_users_table(scroll_y = ''){
             }
         },
         columns: [
-            {'data': 'id', render: function (data, type, row, meta) {
+            {'data': 'id', sortable: false, render: function (data, type, row, meta) {
                 return meta.row + meta.settings._iDisplayStart + 1;
             }, searchable: false},
-            {'data': 'activation', 'name': 'activation', render: function (data, type, row, meta) {
+            {'data': 'activation', 'name': 'activation', sortable: false, render: function (data, type, row, meta) {
                 console.log(data);
                 let html = `
                     <div class="w-100 badge badge-${data.type}">${data.status}</div>
@@ -57,6 +57,7 @@ function generate_ajax_users_table(scroll_y = ''){
                 return `<div class="text-truncate" title="${data}"> ${data} </div>`;
             }},
             {'data': 'email', 'name': 'email', 'defaultContent': "---"},
+            {'data': 'phone', 'name': 'phone', 'defaultContent': "---"},
             {'data': 'age', 'name': 'age', sortable: false, searchable: false, render: function (data, type, row, meta) {
                 return `<div class="w-100 text-center" title="${data}"> ${data} </div>`;
             }},
@@ -69,6 +70,9 @@ function generate_ajax_users_table(scroll_y = ''){
                 `
                 return html;
             }},
+            {'data': 'region', 'name': 'region', 'defaultContent': "---", render: function (data, type, row, meta) {
+                return `<span class="text-truncate" title="${data}"> ${data} </span>`;
+            }},
             {'data': 'job_title', 'name': 'job_title', 'defaultContent': "---", render: function (data, type, row, meta) {
                 return `<span class="text-truncate" title="${data}"> ${data} </span>`;
             }},
@@ -78,6 +82,9 @@ function generate_ajax_users_table(scroll_y = ''){
             {'data': 'p_version', 'name': 'p_version', 'defaultContent': "---", render: function (data, type, row, meta) {
                 if(data && 'name' in data)
                     return data.name;
+            }},
+            {'data': 'date_last_login', 'name': 'date_last_login', 'defaultContent': "---", render: function (data, type, row, meta) {
+                return data;
             }},
             {'data': 'date_joined', 'name': 'date_joined', 'defaultContent': "---", render: function (data, type, row, meta) {
                 return data;
@@ -149,16 +156,13 @@ async function ajax_users_action(method, data, action = '', id = '', func = '') 
             if(data.status == 'success'){
                 swal(gettext('User'), data.message, 'success');
             } else if('registration' in data && data.registration != '') {
-                swal(gettext('Club user registration'), data.registration, "success");
+                swal(gettext('User registration'), data.registration, "success");
             }
         },
         error: function(jqXHR, textStatus, errorThrown){
             console.log(jqXHR)
-            if('limit' in jqXHR.responseJSON){
-                swal(gettext('Users '+action), gettext('The limit of users for the club has been reached!'), "error");
-            }else{
-                swal(gettext('Users '+action), gettext('Error when action "'+action+'" the club users!'), "error");
-            }
+            if('registration' in jqXHR.responseJSON)
+                swal(gettext('Users '+action), jqXHR.responseJSON.registration, "error");
         },
         complete: function () {
             $('.page-loader-wrapper').fadeOut();

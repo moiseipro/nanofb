@@ -27,6 +27,19 @@
         </div>
         <div class="col-sm-12">
             <div class="form-group row mb-1">
+                <label class="col col-form-label" for="p_version-select">{% trans 'Version'%}</label>
+                <div class="col">
+                    <select name="p_version" id="p_version-select" class="form-control form-control-sm edit-input" disabled>
+                        <option value="">{% trans "No" %}</option>
+                        {% for version in versions %}
+                            <option value="{{ version.id }}">{{ version.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="form-group row mb-1">
                 <label class="col col-form-label">{% trans 'Registration'%}</label>
                 <div class="col">
                     <input type="text" name="date_joined" class="form-control form-control-sm datetimepicker" data-toggle="datetimepicker" value="{{ user.date_joined|date:"d/m/Y"}}" autocomplete="off" required disabled>

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-12 14:40+0300\n"
+"POT-Creation-Date: 2023-06-06 14:01+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -83,11 +83,8 @@ msgstr "Лимит упражнений для выбранной группы �
 #: .\static\events\js\event_lite_update.js:35
 #: .\static\events\js\event_update.js:35 .\static\references\team_ajax.js:22
 #: .\static\trainings\js\view_protocol.js:25
-#: .\static\trainings\view_training.js:36
-#: .\static\users\modules\ajax_user_table.js:136
-#: .\static\video\js\video_card.js:104
+#: .\static\trainings\view_training.js:36 .\static\video\js\video_card.js:104
 #: .\trainings\static\trainings\js\view_protocol.js:25
-#: .\users\static\users\modules\ajax_user_table.js:136
 #: .\video\static\video\js\video_card.js:104
 msgid "Error when action \""
 msgstr "Ошибка при выполнении \""
@@ -96,10 +93,8 @@ msgstr "Ошибка при выполнении \""
 #: .\clubs\static\clubs\js\users_list.js:95
 #: .\clubs\static\clubs\js\users_list.js:97 .\static\clubs\js\users_list.js:87
 #: .\static\clubs\js\users_list.js:95 .\static\clubs\js\users_list.js:97
-#: .\static\users\modules\ajax_user_table.js:134
-#: .\static\users\modules\ajax_user_table.js:136
-#: .\users\static\users\modules\ajax_user_table.js:134
-#: .\users\static\users\modules\ajax_user_table.js:136
+#: .\static\users\modules\ajax_user_table.js:165
+#: .\users\static\users\modules\ajax_user_table.js:165
 msgid "Users "
 msgstr "Пользователи "
 
@@ -108,14 +103,10 @@ msgid "The limit of users for the club"
 msgstr "Лимит пользователей для клуба"
 
 #: .\clubs\static\clubs\js\users_list.js:89 .\static\clubs\js\users_list.js:89
-#: .\static\users\modules\ajax_user_table.js:128
-#: .\users\static\users\modules\ajax_user_table.js:128
 msgid "Club user registration"
 msgstr "Регистрация пользователя клуба"
 
 #: .\clubs\static\clubs\js\users_list.js:95 .\static\clubs\js\users_list.js:95
-#: .\static\users\modules\ajax_user_table.js:134
-#: .\users\static\users\modules\ajax_user_table.js:134
 msgid "The limit of users for the club has been reached!"
 msgstr "Лимит пользователей для клуба достигнут!"
 
@@ -477,46 +468,46 @@ msgstr "Создать сезон"
 msgid "Changing the team"
 msgstr "Смена команды"
 
-#: .\references\static\references\ref_settings.js:156
-#: .\static\references\ref_settings.js:156
+#: .\references\static\references\ref_settings.js:163
+#: .\static\references\ref_settings.js:163
 msgid "Apply action to team?"
 msgstr "Применить действие к команде?"
 
-#: .\references\static\references\ref_settings.js:169
-#: .\static\references\ref_settings.js:169
+#: .\references\static\references\ref_settings.js:176
+#: .\static\references\ref_settings.js:176
 msgid "Team saved successfully!"
 msgstr "Команда успешно сохранена!"
 
-#: .\references\static\references\ref_settings.js:174
-#: .\references\static\references\ref_settings.js:176
-#: .\static\references\ref_settings.js:174
-#: .\static\references\ref_settings.js:176
+#: .\references\static\references\ref_settings.js:181
+#: .\references\static\references\ref_settings.js:183
+#: .\static\references\ref_settings.js:181
+#: .\static\references\ref_settings.js:183
 msgid "Team"
 msgstr "Команда"
 
-#: .\references\static\references\ref_settings.js:174
+#: .\references\static\references\ref_settings.js:181
 #: .\references\static\references\team_ajax.js:20
-#: .\static\references\ref_settings.js:174 .\static\references\team_ajax.js:20
+#: .\static\references\ref_settings.js:181 .\static\references\team_ajax.js:20
 msgid "The team limit has been reached!"
 msgstr "Лимит команд был достигнут!"
 
-#: .\references\static\references\ref_settings.js:176
-#: .\static\references\ref_settings.js:176
+#: .\references\static\references\ref_settings.js:183
+#: .\static\references\ref_settings.js:183
 msgid "Error when action the team!"
 msgstr "Ошибка при действии с командой!"
 
-#: .\references\static\references\ref_settings.js:189
-#: .\static\references\ref_settings.js:189
+#: .\references\static\references\ref_settings.js:196
+#: .\static\references\ref_settings.js:196
 msgid "Apply an action to a season?"
 msgstr "Применить действие к сезону?"
 
-#: .\references\static\references\ref_settings.js:202
-#: .\static\references\ref_settings.js:202
+#: .\references\static\references\ref_settings.js:209
+#: .\static\references\ref_settings.js:209
 msgid "Season saved successfully!"
 msgstr "Сезон успешно сохранен!"
 
-#: .\references\static\references\ref_settings.js:206
-#: .\static\references\ref_settings.js:206
+#: .\references\static\references\ref_settings.js:213
+#: .\static\references\ref_settings.js:213
 msgid "Error when action the season!"
 msgstr "Ошибка при действии с сезоном!"
 
@@ -640,8 +631,8 @@ msgid ""
 "fields. You’re probably looking for the Go button rather than the Save "
 "button."
 msgstr ""
-"Вы выбрали действие и не внесли никаких изменений в отдельных "
-"полях. Вы, вероятно, ищете кнопку «Перейти», а не «Сохранить». "
+"Вы выбрали действие и не внесли никаких изменений в отдельных полях. Вы, "
+"вероятно, ищете кнопку «Перейти», а не «Сохранить». "
 
 #: .\static\admin\js\admin\DateTimeShortcuts.js:13
 #: .\static\admin\js\admin\DateTimeShortcuts.js:111
@@ -1025,10 +1016,23 @@ msgstr "Есть незаполненные игроки! Заполните и�
 msgid "Training action \""
 msgstr "Действие с тренировкой \""
 
-#: .\static\users\modules\ajax_user_table.js:126
-#: .\users\static\users\modules\ajax_user_table.js:126
+#: .\static\users\base_clients.js:29 .\users\static\users\base_clients.js:29
+msgid "Country"
+msgstr "Страна"
+
+#: .\static\users\base_clients.js:73 .\users\static\users\base_clients.js:73
+msgid "Version"
+msgstr "Версия"
+
+#: .\static\users\modules\ajax_user_table.js:157
+#: .\users\static\users\modules\ajax_user_table.js:157
 msgid "User"
 msgstr "Пользователь"
+
+#: .\static\users\modules\ajax_user_table.js:159
+#: .\users\static\users\modules\ajax_user_table.js:159
+msgid "User registration"
+msgstr "Регистрация пользователя"
 
 #: .\static\users\profile_ajax.js:27 .\users\static\users\profile_ajax.js:27
 msgid "Profile"

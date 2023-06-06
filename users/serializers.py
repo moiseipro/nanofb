@@ -1,11 +1,15 @@
 import datetime
 
+from django.db import IntegrityError
 from django.contrib.auth.models import Group, Permission
 from rest_framework import serializers
+
+from clubs.models import Club
 from users.models import User, UserPersonal
 from django_countries.serializer_fields import CountryField
 from django.utils.translation import gettext_lazy as _
 
+from version.models import Version
 from version.serializers import VersionSerializer
 
 
@@ -77,7 +81,7 @@ class UserEditSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'id', 'email', 'club_id', 'registration_to', 'is_archive', 'is_demo_mode'
+            'id', 'email', 'club_id', 'p_version', 'registration_to', 'is_archive', 'is_demo_mode'
         ]
 
 
@@ -102,8 +106,8 @@ class UserAllDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'id', 'email', 'club_id', 'date_last_login', 'date_joined', 'days_entered', 'is_active', 'registration_to',
-            'personal', 'is_archive', 'is_demo_mode'
+            'id', 'email', 'club_id', 'p_version', 'date_last_login', 'date_joined', 'days_entered', 'is_active',
+            'registration_to', 'personal', 'is_archive', 'is_demo_mode'
         ]
 
 
@@ -116,6 +120,38 @@ class CreateUserSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'club_id', 'email', 'password', 'personal'
         ]
+
+
+class CreateUserManagementSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    email = serializers.EmailField()
+    password = serializers.CharField()
+
+    personal = serializers.PrimaryKeyRelatedField(queryset=UserPersonal.objects.all())
+    #club_id = serializers.PrimaryKeyRelatedField(queryset=Club.objects.all())
+    #p_version = serializers.PrimaryKeyRelatedField(queryset=Version.objects.all())
+
+    class Meta:
+        model = User
+        fields = [
+            'id', 'club_id', 'email', 'password', 'personal', 'p_version'
+        ]
+
+    def perform_create(self, validated_data):
+        print(validated_data)
+        user = User.objects.create_user(**validated_data)
+        user.save()
+
+        return user
+
+    def create(self, validated_data):
+        try:
+            user = self.perform_create(validated_data)
+        except IntegrityError:
+            self.fail("cannot_create_user")
+
+        return user
 
 
 class UserManagementSerializer(serializers.ModelSerializer):
@@ -140,6 +176,9 @@ class UserManagementSerializer(serializers.ModelSerializer):
     license_date = serializers.DateField(
         source="personal.license_date"
     )
+    phone = serializers.CharField(
+        source="personal.phone"
+    )
     club_name = serializers.CharField(
         source="club_id.name",
         default="---"
@@ -151,6 +190,9 @@ class UserManagementSerializer(serializers.ModelSerializer):
     p_version = VersionSerializer()
     flag = serializers.CharField(
         source="personal.country_id.flag"
+    )
+    region = serializers.CharField(
+        source="personal.region"
     )
 
     groups = GroupSerializer(read_only=True, many=True)
@@ -202,6 +244,7 @@ class UserManagementSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'email', 'days_entered', 'is_active', 'admin_type', 'p_version', 'registration_to', 'groups',
             'last_name', 'first_name', 'job_title', 'date_birthsday', 'age', 'license', 'license_date', 'flag',
-            'activation', 'club_name', 'club_registration_to', 'is_archive', 'date_joined'
+            'activation', 'club_name', 'club_registration_to', 'is_archive', 'date_joined', 'phone', 'date_last_login',
+            'region'
         ]
         datatables_always_serialize = ('id', 'groups', 'club_registration_to', 'is_archive')

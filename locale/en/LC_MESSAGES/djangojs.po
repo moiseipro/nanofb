@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-12 14:39+0300\n"
+"POT-Creation-Date: 2023-06-06 13:59+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -81,11 +81,8 @@ msgstr ""
 #: .\static\events\js\event_lite_update.js:35
 #: .\static\events\js\event_update.js:35 .\static\references\team_ajax.js:22
 #: .\static\trainings\js\view_protocol.js:25
-#: .\static\trainings\view_training.js:36
-#: .\static\users\modules\ajax_user_table.js:136
-#: .\static\video\js\video_card.js:104
+#: .\static\trainings\view_training.js:36 .\static\video\js\video_card.js:104
 #: .\trainings\static\trainings\js\view_protocol.js:25
-#: .\users\static\users\modules\ajax_user_table.js:136
 #: .\video\static\video\js\video_card.js:104
 msgid "Error when action \""
 msgstr ""
@@ -94,10 +91,8 @@ msgstr ""
 #: .\clubs\static\clubs\js\users_list.js:95
 #: .\clubs\static\clubs\js\users_list.js:97 .\static\clubs\js\users_list.js:87
 #: .\static\clubs\js\users_list.js:95 .\static\clubs\js\users_list.js:97
-#: .\static\users\modules\ajax_user_table.js:134
-#: .\static\users\modules\ajax_user_table.js:136
-#: .\users\static\users\modules\ajax_user_table.js:134
-#: .\users\static\users\modules\ajax_user_table.js:136
+#: .\static\users\modules\ajax_user_table.js:165
+#: .\users\static\users\modules\ajax_user_table.js:165
 msgid "Users "
 msgstr ""
 
@@ -106,14 +101,10 @@ msgid "The limit of users for the club"
 msgstr ""
 
 #: .\clubs\static\clubs\js\users_list.js:89 .\static\clubs\js\users_list.js:89
-#: .\static\users\modules\ajax_user_table.js:128
-#: .\users\static\users\modules\ajax_user_table.js:128
 msgid "Club user registration"
 msgstr ""
 
 #: .\clubs\static\clubs\js\users_list.js:95 .\static\clubs\js\users_list.js:95
-#: .\static\users\modules\ajax_user_table.js:134
-#: .\users\static\users\modules\ajax_user_table.js:134
 msgid "The limit of users for the club has been reached!"
 msgstr ""
 
@@ -473,46 +464,46 @@ msgstr ""
 msgid "Changing the team"
 msgstr ""
 
-#: .\references\static\references\ref_settings.js:156
-#: .\static\references\ref_settings.js:156
+#: .\references\static\references\ref_settings.js:163
+#: .\static\references\ref_settings.js:163
 msgid "Apply action to team?"
 msgstr ""
 
-#: .\references\static\references\ref_settings.js:169
-#: .\static\references\ref_settings.js:169
+#: .\references\static\references\ref_settings.js:176
+#: .\static\references\ref_settings.js:176
 msgid "Team saved successfully!"
 msgstr ""
 
-#: .\references\static\references\ref_settings.js:174
-#: .\references\static\references\ref_settings.js:176
-#: .\static\references\ref_settings.js:174
-#: .\static\references\ref_settings.js:176
+#: .\references\static\references\ref_settings.js:181
+#: .\references\static\references\ref_settings.js:183
+#: .\static\references\ref_settings.js:181
+#: .\static\references\ref_settings.js:183
 msgid "Team"
 msgstr ""
 
-#: .\references\static\references\ref_settings.js:174
+#: .\references\static\references\ref_settings.js:181
 #: .\references\static\references\team_ajax.js:20
-#: .\static\references\ref_settings.js:174 .\static\references\team_ajax.js:20
+#: .\static\references\ref_settings.js:181 .\static\references\team_ajax.js:20
 msgid "The team limit has been reached!"
 msgstr ""
 
-#: .\references\static\references\ref_settings.js:176
-#: .\static\references\ref_settings.js:176
+#: .\references\static\references\ref_settings.js:183
+#: .\static\references\ref_settings.js:183
 msgid "Error when action the team!"
 msgstr ""
 
-#: .\references\static\references\ref_settings.js:189
-#: .\static\references\ref_settings.js:189
+#: .\references\static\references\ref_settings.js:196
+#: .\static\references\ref_settings.js:196
 msgid "Apply an action to a season?"
 msgstr ""
 
-#: .\references\static\references\ref_settings.js:202
-#: .\static\references\ref_settings.js:202
+#: .\references\static\references\ref_settings.js:209
+#: .\static\references\ref_settings.js:209
 msgid "Season saved successfully!"
 msgstr ""
 
-#: .\references\static\references\ref_settings.js:206
-#: .\static\references\ref_settings.js:206
+#: .\references\static\references\ref_settings.js:213
+#: .\static\references\ref_settings.js:213
 msgid "Error when action the season!"
 msgstr ""
 
@@ -1004,9 +995,22 @@ msgstr ""
 msgid "Training action \""
 msgstr ""
 
-#: .\static\users\modules\ajax_user_table.js:126
-#: .\users\static\users\modules\ajax_user_table.js:126
+#: .\static\users\base_clients.js:29 .\users\static\users\base_clients.js:29
+msgid "Country"
+msgstr ""
+
+#: .\static\users\base_clients.js:73 .\users\static\users\base_clients.js:73
+msgid "Version"
+msgstr ""
+
+#: .\static\users\modules\ajax_user_table.js:157
+#: .\users\static\users\modules\ajax_user_table.js:157
 msgid "User"
+msgstr ""
+
+#: .\static\users\modules\ajax_user_table.js:159
+#: .\users\static\users\modules\ajax_user_table.js:159
+msgid "User registration"
 msgstr ""
 
 #: .\static\users\profile_ajax.js:27 .\users\static\users\profile_ajax.js:27

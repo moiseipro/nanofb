@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-16 14:51+0300\n"
+"POT-Creation-Date: 2023-06-06 13:46+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1056,7 +1056,10 @@ msgid "Yes"
 msgstr ""
 
 #: .\Lib\site-packages\django\forms\widgets.py:767
+#: .\users\templates\users\forms\add-user-form.html:35
+#: .\users\templates\users\forms\add-user-form.html:46
 #: .\users\templates\users\forms\edit-user-form.html:20
+#: .\users\templates\users\forms\edit-user-form.html:33
 #: .\video\templates\video\video_card.html:102
 msgid "No"
 msgstr ""
@@ -1823,24 +1826,27 @@ msgid "club"
 msgstr ""
 
 #: .\authorization\forms.py:31 .\clubs\templates\clubs\users_table.html:9
-#: .\users\models.py:27 .\users\templates\users\forms\edit-personal-form.html:9
+#: .\users\models.py:29 .\users\templates\users\forms\add-user-form.html:9
+#: .\users\templates\users\forms\edit-personal-form.html:9
 #: .\users\templates\users\modules\user_table.html:12
 msgid "Last name"
 msgstr ""
 
 #: .\authorization\forms.py:40 .\clubs\templates\clubs\users_table.html:10
-#: .\users\models.py:22
+#: .\users\models.py:24 .\users\templates\users\forms\add-user-form.html:15
 #: .\users\templates\users\forms\edit-personal-form.html:17
 #: .\users\templates\users\modules\user_table.html:13
 msgid "First name"
 msgstr ""
 
-#: .\authorization\forms.py:49 .\users\models.py:35
+#: .\authorization\forms.py:49 .\users\models.py:37
+#: .\users\templates\users\forms\add-user-form.html:21
 #: .\users\templates\users\forms\edit-personal-form.html:25
 msgid "Father name"
 msgstr ""
 
-#: .\authorization\forms.py:62 .\users\models.py:74
+#: .\authorization\forms.py:62 .\users\models.py:83
+#: .\users\templates\users\modules\user_table_settings.html:61
 msgid "Date of birth"
 msgstr ""
 
@@ -1849,22 +1855,29 @@ msgid "Select country"
 msgstr ""
 
 #: .\authorization\forms.py:76
+#: .\users\templates\users\forms\add-user-form.html:109
 #: .\users\templates\users\forms\edit-personal-form.html:114
 msgid "City"
 msgstr ""
 
 #: .\authorization\forms.py:83
+#: .\users\templates\users\forms\add-user-form.html:103
 #: .\users\templates\users\forms\edit-personal-form.html:106
+#: .\users\templates\users\modules\user_table.html:19
+#: .\users\templates\users\modules\user_table_settings.html:21
+#: .\users\templates\users\modules\user_table_settings.html:67
 msgid "Region"
 msgstr ""
 
-#: .\authorization\forms.py:99 .\users\models.py:48
+#: .\authorization\forms.py:99 .\users\models.py:57
 #: .\users\templates\users\base_profile.html:98
+#: .\users\templates\users\forms\add-user-form.html:79
 #: .\users\templates\users\forms\edit-personal-form.html:73
 msgid "License"
 msgstr ""
 
 #: .\authorization\forms.py:111 .\users\templates\users\base_profile.html:102
+#: .\users\templates\users\forms\add-user-form.html:85
 #: .\users\templates\users\forms\edit-personal-form.html:81
 msgid "License period"
 msgstr ""
@@ -1873,9 +1886,10 @@ msgstr ""
 #: .\authorization\templates\authorization\forgot_password.html:16
 #: .\clubs\templates\clubs\users_table.html:11
 #: .\users\templates\users\base_profile.html:106
+#: .\users\templates\users\forms\add-user-form.html:27
 #: .\users\templates\users\forms\edit-user-form.html:9
 #: .\users\templates\users\modules\user_table.html:14
-#: .\users\templates\users\modules\user_table_settings.html:20
+#: .\users\templates\users\modules\user_table_settings.html:49
 msgid "Email"
 msgstr ""
 
@@ -2040,11 +2054,11 @@ msgstr ""
 msgid "Repeat the password"
 msgstr ""
 
-#: .\authorization\views.py:99 .\clubs\views.py:62
+#: .\authorization\views.py:110 .\clubs\views.py:62 .\users\views.py:89
 msgid "A user with this Email already exists!"
 msgstr ""
 
-#: .\authorization\views.py:119 .\clubs\views.py:83
+#: .\authorization\views.py:130 .\clubs\views.py:83 .\users\views.py:116
 msgid "Registration success!"
 msgstr ""
 
@@ -2053,8 +2067,8 @@ msgstr ""
 msgid "Clubs"
 msgstr ""
 
-#: .\clubs\forms.py:85 .\users\admin.py:24 .\users\models.py:59
-#: .\users\templates\users\base_clients.html:44
+#: .\clubs\forms.py:85 .\users\admin.py:24 .\users\models.py:68
+#: .\users\templates\users\forms\add-user-form.html:91
 #: .\users\templates\users\forms\edit-personal-form.html:92
 msgid "Country"
 msgstr ""
@@ -2207,6 +2221,7 @@ msgid "Create user"
 msgstr ""
 
 #: .\clubs\templates\clubs\mail\email.html:7 .\clubs\views.py:89
+#: .\users\views.py:122
 msgid "Registration on the Nanofootball website"
 msgstr ""
 
@@ -2220,25 +2235,24 @@ msgid "Activation"
 msgstr ""
 
 #: .\clubs\templates\clubs\users_table.html:12
-#: .\references\templates\references\base_settings.html:47
 msgid "Age"
 msgstr ""
 
 #: .\clubs\templates\clubs\users_table.html:13
-#: .\users\templates\users\modules\user_table.html:16
-#: .\users\templates\users\modules\user_table_settings.html:26
+#: .\users\templates\users\modules\user_table.html:17
 msgid "Birth"
 msgstr ""
 
 #: .\clubs\templates\clubs\users_table.html:14 .\users\forms.py:22
-#: .\users\models.py:41 .\users\templates\users\base_profile.html:94
+#: .\users\models.py:43 .\users\templates\users\base_profile.html:94
+#: .\users\templates\users\forms\add-user-form.html:73
 #: .\users\templates\users\forms\edit-personal-form.html:65
-#: .\users\templates\users\modules\user_table.html:18
-#: .\users\templates\users\modules\user_table_settings.html:32
+#: .\users\templates\users\modules\user_table.html:20
+#: .\users\templates\users\modules\user_table_settings.html:73
 msgid "Job title"
 msgstr ""
 
-#: .\clubs\views.py:120 .\users\views.py:106
+#: .\clubs\views.py:120 .\users\views.py:165
 msgid "User data is saved!"
 msgstr ""
 
@@ -2333,25 +2347,25 @@ msgstr ""
 msgid "Microcycle"
 msgstr ""
 
-#: .\events\models.py:102
+#: .\events\models.py:103
 #: .\events\templates\events\forms\microcycle_modal.html:41
-#: .\references\models.py:142 .\references\models.py:173
+#: .\references\models.py:145 .\references\models.py:177
 #: .\references\templates\references\base_settings.html:66
 msgid "start date"
 msgstr ""
 
-#: .\events\models.py:103
+#: .\events\models.py:104
 msgid "Start date of the microcycle."
 msgstr ""
 
-#: .\events\models.py:106
+#: .\events\models.py:107
 #: .\events\templates\events\forms\microcycle_modal.html:42
-#: .\references\models.py:147 .\references\models.py:178
+#: .\references\models.py:150 .\references\models.py:182
 #: .\references\templates\references\base_settings.html:67
 msgid "end date"
 msgstr ""
 
-#: .\events\models.py:107
+#: .\events\models.py:108
 msgid "End date of the microcycle."
 msgstr ""
 
@@ -2469,6 +2483,7 @@ msgstr ""
 
 #: .\events\templates\events\forms\event_copy.html:33
 #: .\nanofootball\templates\menu\header.html:78
+#: .\users\templates\users\modules\warning_settings.html:28
 msgid "Create a team"
 msgstr ""
 
@@ -2482,6 +2497,7 @@ msgstr ""
 
 #: .\events\templates\events\forms\microcycle_modal.html:14
 #: .\references\templates\references\forms\reference_edit.html:23
+#: .\users\templates\users\forms\add-user-form.html:114
 msgid "Create"
 msgstr ""
 
@@ -2731,6 +2747,7 @@ msgid "No seasons"
 msgstr ""
 
 #: .\nanofootball\templates\menu\header.html:58
+#: .\users\templates\users\modules\warning_settings.html:20
 msgid "Create a season"
 msgstr ""
 
@@ -2847,7 +2864,8 @@ msgid "Team title"
 msgstr ""
 
 #: .\references\forms.py:41
-msgid "Team age"
+#: .\references\templates\references\base_settings.html:47
+msgid "Year of birth"
 msgstr ""
 
 #: .\references\forms.py:42
@@ -2948,235 +2966,231 @@ msgstr ""
 msgid "U key no more than 10 characters"
 msgstr ""
 
-#: .\references\models.py:118
-msgid "U"
-msgstr ""
-
-#: .\references\models.py:123
+#: .\references\models.py:125
 msgid "team status"
 msgstr ""
 
-#: .\references\models.py:124
+#: .\references\models.py:126
 msgid "Team status."
 msgstr ""
 
-#: .\references\models.py:136
+#: .\references\models.py:139
 msgid "User Team"
 msgstr ""
 
-#: .\references\models.py:137
+#: .\references\models.py:140
 msgid "User Teams"
 msgstr ""
 
-#: .\references\models.py:143 .\references\models.py:174
+#: .\references\models.py:146 .\references\models.py:178
 msgid "Start date of the season."
 msgstr ""
 
-#: .\references\models.py:148 .\references\models.py:179
+#: .\references\models.py:151 .\references\models.py:183
 msgid "End date of the season."
 msgstr ""
 
-#: .\references\models.py:153
+#: .\references\models.py:156
 msgid "User Season"
 msgstr ""
 
-#: .\references\models.py:154
+#: .\references\models.py:157
 msgid "User Seasons"
 msgstr ""
 
-#: .\references\models.py:162
+#: .\references\models.py:165
 msgid "users"
 msgstr ""
 
-#: .\references\models.py:163
+#: .\references\models.py:166
 msgid "Users who have access to the team"
 msgstr ""
 
-#: .\references\models.py:167
+#: .\references\models.py:171
 msgid "Club Team"
 msgstr ""
 
-#: .\references\models.py:168
+#: .\references\models.py:172
 msgid "Club Teams"
 msgstr ""
 
-#: .\references\models.py:184
+#: .\references\models.py:188
 msgid "Club Season"
 msgstr ""
 
-#: .\references\models.py:185
+#: .\references\models.py:189
 msgid "Club Seasons"
 msgstr ""
 
-#: .\references\models.py:191
+#: .\references\models.py:195
 msgid "Exercise goal"
 msgstr ""
 
-#: .\references\models.py:192
+#: .\references\models.py:196
 msgid "Exercise goals"
 msgstr ""
 
-#: .\references\models.py:197 .\references\models.py:198
+#: .\references\models.py:201 .\references\models.py:202
 msgid "Exercise with a ball"
 msgstr ""
 
-#: .\references\models.py:203
+#: .\references\models.py:207
 msgid "Exercise team category"
 msgstr ""
 
-#: .\references\models.py:204
+#: .\references\models.py:208
 msgid "Exercise team categories"
 msgstr ""
 
-#: .\references\models.py:209
+#: .\references\models.py:213
 msgid "Exercise age category"
 msgstr ""
 
-#: .\references\models.py:210
+#: .\references\models.py:214
 msgid "Exercise age categories"
 msgstr ""
 
-#: .\references\models.py:215
+#: .\references\models.py:219
 msgid "Exercise part of the training"
 msgstr ""
 
-#: .\references\models.py:216
+#: .\references\models.py:220
 msgid "Exercise parts of the training"
 msgstr ""
 
-#: .\references\models.py:223
+#: .\references\models.py:227
 msgid "Exercise cognitive load"
 msgstr ""
 
-#: .\references\models.py:224
+#: .\references\models.py:228
 msgid "Exercise cognitive loads"
 msgstr ""
 
-#: .\references\models.py:236
+#: .\references\models.py:240
 msgid "Exercise keyword"
 msgstr ""
 
-#: .\references\models.py:237
+#: .\references\models.py:241
 msgid "Exercise keywords"
 msgstr ""
 
-#: .\references\models.py:247
+#: .\references\models.py:251
 msgid "Exercise stress type"
 msgstr ""
 
-#: .\references\models.py:248
+#: .\references\models.py:252
 msgid "Exercise stress types"
 msgstr ""
 
-#: .\references\models.py:253
+#: .\references\models.py:257
 msgid "Exercise purpose"
 msgstr ""
 
-#: .\references\models.py:254
+#: .\references\models.py:258
 msgid "Exercise purposes"
 msgstr ""
 
-#: .\references\models.py:259 .\references\models.py:260
+#: .\references\models.py:263 .\references\models.py:264
 msgid "Exercise coaching"
 msgstr ""
 
-#: .\references\models.py:267
+#: .\references\models.py:271
 msgid "Exercise category"
 msgstr ""
 
-#: .\references\models.py:268
+#: .\references\models.py:272
 msgid "Exercise categories"
 msgstr ""
 
-#: .\references\models.py:280 .\references\models.py:281
+#: .\references\models.py:284 .\references\models.py:285
 msgid "Exercise types"
 msgstr ""
 
-#: .\references\models.py:294 .\references\models.py:295
+#: .\references\models.py:298 .\references\models.py:299
 msgid "Exercise physical qualities"
 msgstr ""
 
-#: .\references\models.py:305 .\references\models.py:306
+#: .\references\models.py:309 .\references\models.py:310
 msgid "Exercise additional data"
 msgstr ""
 
-#: .\references\models.py:311 .\references\models.py:312
+#: .\references\models.py:315 .\references\models.py:316
 msgid "User exercise additional data"
 msgstr ""
 
-#: .\references\models.py:317 .\references\models.py:318
+#: .\references\models.py:321 .\references\models.py:322
 msgid "Club exercise additional data"
 msgstr ""
 
-#: .\references\models.py:323
+#: .\references\models.py:327
 msgid "Exercise title name"
 msgstr ""
 
-#: .\references\models.py:324
+#: .\references\models.py:328
 msgid "Exercise title names"
 msgstr ""
 
-#: .\references\models.py:331 .\references\models.py:332
+#: .\references\models.py:335 .\references\models.py:336
 msgid "Exercise description template"
 msgstr ""
 
-#: .\references\models.py:338
+#: .\references\models.py:342
 msgid "Player team status"
 msgstr ""
 
-#: .\references\models.py:339
+#: .\references\models.py:343
 msgid "Player team statuses"
 msgstr ""
 
-#: .\references\models.py:344
+#: .\references\models.py:348
 msgid "Player status"
 msgstr ""
 
-#: .\references\models.py:345
+#: .\references\models.py:349
 msgid "Player statuses"
 msgstr ""
 
-#: .\references\models.py:350
+#: .\references\models.py:354
 msgid "Player level"
 msgstr ""
 
-#: .\references\models.py:351
+#: .\references\models.py:355
 msgid "Player levels"
 msgstr ""
 
-#: .\references\models.py:356
+#: .\references\models.py:360
 msgid "Player position"
 msgstr ""
 
-#: .\references\models.py:357
+#: .\references\models.py:361
 msgid "Player positions"
 msgstr ""
 
-#: .\references\models.py:362
+#: .\references\models.py:366
 msgid "Player leg"
 msgstr ""
 
-#: .\references\models.py:363
+#: .\references\models.py:367
 msgid "Player legs"
 msgstr ""
 
-#: .\references\models.py:371
+#: .\references\models.py:375
 msgid "Player protocol status"
 msgstr ""
 
-#: .\references\models.py:372
+#: .\references\models.py:376
 msgid "Player protocol statuses"
 msgstr ""
 
-#: .\references\models.py:379 .\references\models.py:380
+#: .\references\models.py:383 .\references\models.py:384
 msgid "lowercase title"
 msgstr ""
 
-#: .\references\models.py:386 .\references\models.py:387
+#: .\references\models.py:390 .\references\models.py:391
 msgid "Custom tags"
 msgstr ""
 
-#: .\references\models.py:398 .\references\models.py:399
+#: .\references\models.py:402 .\references\models.py:403
 msgid "Training additional data"
 msgstr ""
 
@@ -3470,8 +3484,9 @@ msgstr ""
 msgid "Add all players"
 msgstr ""
 
-#: .\users\admin.py:23 .\users\models.py:183
+#: .\users\admin.py:23 .\users\models.py:216
 #: .\users\templates\users\base_profile.html:172
+#: .\users\templates\users\forms\add-user-form.html:33
 #: .\users\templates\users\forms\edit-user-form.html:17
 #: .\users\templates\users\modules\user_table.html:9
 msgid "Club"
@@ -3493,165 +3508,205 @@ msgstr ""
 msgid "Superuser must have is_superuser=True."
 msgstr ""
 
-#: .\users\models.py:21 .\users\templates\users\base_profile.html:86
+#: .\users\models.py:23 .\users\templates\users\base_profile.html:86
 msgid "Name"
 msgstr ""
 
-#: .\users\models.py:26
+#: .\users\models.py:28
 msgid "Surname"
 msgstr ""
 
-#: .\users\models.py:34
+#: .\users\models.py:36
 msgid "Patronymic"
 msgstr ""
 
-#: .\users\models.py:42
+#: .\users\models.py:44
 msgid "User job title"
 msgstr ""
 
-#: .\users\models.py:49
+#: .\users\models.py:50
+msgid "Club title"
+msgstr ""
+
+#: .\users\models.py:51
+msgid "User club title"
+msgstr ""
+
+#: .\users\models.py:58
 msgid "Trainer's License"
 msgstr ""
 
-#: .\users\models.py:55
+#: .\users\models.py:64
 msgid "License date"
 msgstr ""
 
-#: .\users\models.py:56
+#: .\users\models.py:65
 msgid "License expiration date"
 msgstr ""
 
-#: .\users\models.py:60
+#: .\users\models.py:69
 msgid "Country of residence"
 msgstr ""
 
-#: .\users\models.py:73
+#: .\users\models.py:82
 msgid "Birthday"
 msgstr ""
 
-#: .\users\models.py:81
+#: .\users\models.py:90 .\users\templates\users\forms\add-user-form.html:61
 #: .\users\templates\users\forms\edit-personal-form.html:41
+#: .\users\templates\users\modules\user_table.html:15
+#: .\users\templates\users\modules\user_table_settings.html:55
 msgid "Phone"
 msgstr ""
 
-#: .\users\models.py:82
+#: .\users\models.py:91
 msgid "Phone number"
 msgstr ""
 
-#: .\users\models.py:89
+#: .\users\models.py:98
 #: .\users\templates\users\forms\edit-personal-form.html:49
 msgid "Spare phone"
 msgstr ""
 
-#: .\users\models.py:90
+#: .\users\models.py:99
 msgid "Spare phone number"
 msgstr ""
 
-#: .\users\models.py:97 .\users\models.py:98
+#: .\users\models.py:106 .\users\models.py:107
 #: .\users\templates\users\forms\edit-personal-form.html:33
 msgid "Spare email"
 msgstr ""
 
-#: .\users\models.py:105
+#: .\users\models.py:114
 msgid "Skype"
 msgstr ""
 
-#: .\users\models.py:119 .\users\models.py:123 .\users\models.py:127
-#: .\users\models.py:131 .\users\models.py:135
+#: .\users\models.py:129 .\users\models.py:133 .\users\models.py:137
+#: .\users\models.py:141 .\users\models.py:145
 msgid "Not specified"
 msgstr ""
 
-#: .\users\models.py:140 .\users\models.py:239
+#: .\users\models.py:150 .\users\models.py:279
 msgid "No name"
 msgstr ""
 
-#: .\users\models.py:140 .\users\models.py:239
+#: .\users\models.py:150 .\users\models.py:279
 msgid "No last name"
 msgstr ""
 
-#: .\users\models.py:147
+#: .\users\models.py:157
 msgid "Personal information"
 msgstr ""
 
-#: .\users\models.py:161
+#: .\users\models.py:171
 msgid "Payment information"
 msgstr ""
 
-#: .\users\models.py:168
-msgid "email address"
+#: .\users\models.py:176
+msgid "Payment"
 msgstr ""
 
-#: .\users\models.py:174 .\users\templates\users\base_clients.html:55
-#: .\users\templates\users\base_profile.html:168
-#: .\users\templates\users\modules\user_table.html:20
-msgid "Version"
+#: .\users\models.py:177
+msgid "Payment in foreign currency"
 msgstr ""
 
-#: .\users\models.py:175
-msgid "User version"
+#: .\users\models.py:183
+msgid "Discount"
 msgstr ""
 
 #: .\users\models.py:184
+msgid "Percent discount (0-100%)"
+msgstr ""
+
+#: .\users\models.py:192
+msgid "Date of payment"
+msgstr ""
+
+#: .\users\models.py:193
+msgid "Date when the user paid"
+msgstr ""
+
+#: .\users\models.py:201
+msgid "email address"
+msgstr ""
+
+#: .\users\models.py:207 .\users\templates\users\base_profile.html:168
+#: .\users\templates\users\forms\add-user-form.html:44
+#: .\users\templates\users\forms\edit-user-form.html:30
+#: .\users\templates\users\modules\user_table.html:22
+#: .\users\templates\users\modules\user_table_settings.html:31
+msgid "Version"
+msgstr ""
+
+#: .\users\models.py:208
+msgid "User version"
+msgstr ""
+
+#: .\users\models.py:217
 msgid "The club the user is a member of"
 msgstr ""
 
-#: .\users\models.py:191 .\users\models.py:192
+#: .\users\models.py:224 .\users\models.py:225
 msgid "Date of registration"
 msgstr ""
 
-#: .\users\models.py:196 .\users\models.py:197
+#: .\users\models.py:229 .\users\models.py:230
 msgid "Last login date"
 msgstr ""
 
-#: .\users\models.py:204
+#: .\users\models.py:237
 msgid "Expiration version"
 msgstr ""
 
-#: .\users\models.py:205
+#: .\users\models.py:238
 msgid "Version expiration date"
 msgstr ""
 
-#: .\users\models.py:214
+#: .\users\models.py:247
 msgid "Personal Information"
 msgstr ""
 
-#: .\users\models.py:215
+#: .\users\models.py:248
 msgid "User Personal Information card"
 msgstr ""
 
-#: .\users\models.py:225
+#: .\users\models.py:254 .\users\models.py:265
 msgid "Payment Information"
 msgstr ""
 
-#: .\users\models.py:226
+#: .\users\models.py:255
+msgid "Payment information for accounting"
+msgstr ""
+
+#: .\users\models.py:266
 msgid "User Payment Information card"
 msgstr ""
 
-#: .\users\serializers.py:165
+#: .\users\serializers.py:207
 msgid "MA"
 msgstr ""
 
-#: .\users\serializers.py:167
+#: .\users\serializers.py:209
 msgid "CA"
 msgstr ""
 
-#: .\users\serializers.py:182
+#: .\users\serializers.py:224
 msgid "Active"
 msgstr ""
 
-#: .\users\serializers.py:185 .\users\templates\users\base_profile.html:152
+#: .\users\serializers.py:227 .\users\templates\users\base_profile.html:152
 msgid "Archive"
 msgstr ""
 
-#: .\users\serializers.py:189 .\users\templates\users\base_profile.html:156
+#: .\users\serializers.py:231 .\users\templates\users\base_profile.html:156
 msgid "Club license expired"
 msgstr ""
 
-#: .\users\serializers.py:193 .\users\templates\users\base_profile.html:154
+#: .\users\serializers.py:235 .\users\templates\users\base_profile.html:154
 msgid "License expired"
 msgstr ""
 
-#: .\users\serializers.py:197
+#: .\users\serializers.py:239
 msgid "Not active"
 msgstr ""
 
@@ -3660,31 +3715,10 @@ msgid "Clients Management"
 msgstr ""
 
 #: .\users\templates\users\base_clients.html:40
-msgid "Search by name"
-msgstr ""
-
-#: .\users\templates\users\base_clients.html:48
-#: .\users\templates\users\forms\edit-user-form.html:30
-#: .\users\templates\users\modules\user_table.html:21
-#: .\users\templates\users\modules\user_table_settings.html:38
-msgid "Registration"
-msgstr ""
-
-#: .\users\templates\users\base_clients.html:51
-#: .\users\templates\users\forms\edit-user-form.html:46
-#: .\users\templates\users\modules\user_table.html:22
-msgid "Access to"
-msgstr ""
-
-#: .\users\templates\users\base_clients.html:59
-msgid "Reset filters"
-msgstr ""
-
-#: .\users\templates\users\base_clients.html:62
 msgid "Open user profile"
 msgstr ""
 
-#: .\users\templates\users\base_clients.html:65
+#: .\users\templates\users\base_clients.html:43
 msgid "Open table settings"
 msgstr ""
 
@@ -3703,6 +3737,7 @@ msgid "Personal Details"
 msgstr ""
 
 #: .\users\templates\users\base_profile.html:90
+#: .\users\templates\users\forms\add-user-form.html:67
 #: .\users\templates\users\forms\edit-personal-form.html:57
 msgid "Date of Birth"
 msgstr ""
@@ -3743,6 +3778,14 @@ msgstr ""
 msgid "Change Password"
 msgstr ""
 
+#: .\users\templates\users\forms\add-user-form.html:55
+#: .\users\templates\users\forms\edit-user-form.html:59
+#: .\users\templates\users\modules\user_table.html:25
+#: .\users\templates\users\modules\user_table_settings.html:27
+#: .\users\templates\users\modules\user_table_settings.html:85
+msgid "Access to"
+msgstr ""
+
 #: .\users\templates\users\forms\edit-password-form.html:7
 msgid "Old Password"
 msgstr ""
@@ -3757,7 +3800,7 @@ msgstr ""
 
 #: .\users\templates\users\forms\edit-password-form.html:18
 #: .\users\templates\users\forms\edit-personal-form.html:121
-#: .\users\templates\users\forms\edit-user-form.html:61
+#: .\users\templates\users\forms\edit-user-form.html:74
 msgid "Save Changes"
 msgstr ""
 
@@ -3765,11 +3808,20 @@ msgstr ""
 msgid "If you change your password, you will need to log in again"
 msgstr ""
 
-#: .\users\templates\users\forms\edit-user-form.html:38
+#: .\users\templates\users\forms\edit-user-form.html:43
+#: .\users\templates\users\modules\user_table.html:24
+#: .\users\templates\users\modules\user_table_settings.html:24
+#: .\users\templates\users\modules\user_table_settings.html:79
+msgid "Registration"
+msgstr ""
+
+#: .\users\templates\users\forms\edit-user-form.html:51
+#: .\users\templates\users\modules\user_table.html:23
+#: .\users\templates\users\modules\user_table_settings.html:97
 msgid "Last login"
 msgstr ""
 
-#: .\users\templates\users\forms\edit-user-form.html:54
+#: .\users\templates\users\forms\edit-user-form.html:67
 msgid "Demo version"
 msgstr ""
 
@@ -3785,16 +3837,32 @@ msgstr ""
 msgid "Lic. to"
 msgstr ""
 
-#: .\users\templates\users\modules\user_table.html:19
+#: .\users\templates\users\modules\user_table.html:21
 msgid "A"
 msgstr ""
 
 #: .\users\templates\users\modules\user_table_settings.html:8
-msgid "Columns"
+msgid "Filters"
+msgstr ""
+
+#: .\users\templates\users\modules\user_table_settings.html:9
+msgid "Reset filters"
 msgstr ""
 
 #: .\users\templates\users\modules\user_table_settings.html:14
+msgid "Search by name"
+msgstr ""
+
+#: .\users\templates\users\modules\user_table_settings.html:37
+msgid "Columns"
+msgstr ""
+
+#: .\users\templates\users\modules\user_table_settings.html:43
 msgid "License to"
+msgstr ""
+
+#: .\users\templates\users\modules\user_table_settings.html:91
+msgid "Activity index"
 msgstr ""
 
 #: .\users\templates\users\modules\warning_change_password.html:10
@@ -3819,28 +3887,56 @@ msgstr ""
 msgid "Don`t show again"
 msgstr ""
 
-#: .\users\views.py:91
-msgid "New personal profile data is saved!"
+#: .\users\templates\users\modules\warning_settings.html:11
+msgid "Important Settings"
 msgstr ""
 
-#: .\users\views.py:138
-msgid "New password on the Nanofootball website"
+#: .\users\templates\users\modules\warning_settings.html:19
+msgid "You have not created any season"
 msgstr ""
 
-#: .\users\views.py:144
-msgid "A new password has been sent to the mail!"
+#: .\users\templates\users\modules\warning_settings.html:22
+msgid "Contact your administrator to create seasons"
+msgstr ""
+
+#: .\users\templates\users\modules\warning_settings.html:27
+msgid "You have not created any team"
+msgstr ""
+
+#: .\users\templates\users\modules\warning_settings.html:30
+msgid "Contact your administrator to create teams"
+msgstr ""
+
+#: .\users\views.py:94
+msgid "This Email not valid!"
 msgstr ""
 
 #: .\users\views.py:150
+msgid "New personal profile data is saved!"
+msgstr ""
+
+#: .\users\views.py:197
+msgid "New password on the Nanofootball website"
+msgstr ""
+
+#: .\users\views.py:203
+msgid "A new password has been sent to the mail!"
+msgstr ""
+
+#: .\users\views.py:209
 msgid "Password generation error!"
 msgstr ""
 
-#: .\users\views.py:212
+#: .\users\views.py:271
 msgid "Password updated successfully"
 msgstr ""
 
-#: .\users\views.py:214
+#: .\users\views.py:273
 msgid "Wrong password"
+msgstr ""
+
+#: .\users\views.py:310 .\users\views.py:340
+msgid "Not chosen"
 msgstr ""
 
 #: .\version\admin.py:41

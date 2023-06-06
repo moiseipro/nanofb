@@ -19,11 +19,23 @@ $(document).ready(function() {
         console.log(this.form)
         this.form.submit();
     });
+    //Список выбора сезонов
+    $('#select-season').select2({
+        language: get_cur_lang(),
+        dropdownAutoWidth: true,
+    })
+    console.log(get_cur_lang())
     //Отправка формы смены сезона по изменению select
     $('#select-season').on('change', function() {
         console.log(this.form)
         this.form.submit();
     });
+    //Список выбора команд
+    $('#select-team').select2({
+        language: get_cur_lang(),
+        dropdownAutoWidth: true,
+
+    })
     //Отправка формы смены команды по изменению select
     $('#select-team').on('change', function() {
         console.log(this.form)
@@ -43,6 +55,13 @@ $(document).ready(function() {
         $('#edit_password_modal').modal('show')
         Cookies.set('show_change_password_recommendation', '1', { expires: 3})
         //Cookies.remove('show_change_password_recommendation')
+    }
+    let warning_settings_modal = $('#empty_settings_modal')
+    if(warning_settings_modal){
+        let create_data = get_url_value('create_data')
+        if (!create_data){
+            warning_settings_modal.modal('show')
+        }
     }
     //Cookies.remove('show_change_password_recommendation')
 

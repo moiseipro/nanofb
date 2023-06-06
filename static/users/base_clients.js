@@ -9,8 +9,96 @@ $(window).on("load", function () {
         $('#open-profile-modal').prop('disabled', true)
     }
 
-    $('.select2').select2({
-        width: '100%'
+    $('.datetimepickerfilter').datetimepicker({
+        format: 'DD/MM/YYYY',
+        useCurrent: false,
+        buttons: {
+            showClear: true,
+        },
+        locale: get_cur_lang(),
+        icons: {
+            up: "fa fa-angle-up",
+            down: "fa fa-angle-down",
+            next: 'fa fa-angle-right',
+            previous: 'fa fa-angle-left'
+        }
+    });
+
+    $('#country-filter').select2({
+        minimumResultsForSearch: -1,
+        placeholder: gettext("Country"),
+        language: get_cur_lang(),
+        theme: 'bootstrap4',
+        width: '100%',
+        ajax: {
+            url: '/user/countries',
+            dataType: 'json',
+            data: function (params) {
+                // var query = {
+                //     search: params.term,
+                //     page: params.page || 1
+                // }
+                //
+                // // Query parameters will be ?search=[term]&page=[page]
+                //return query;
+            },
+            processResults: function (data, params) {
+                // parse the results into the format expected by Select2
+                // since we are using custom formatting functions we do not need to
+                // alter the remote JSON data, except to indicate that infinite
+                // scrolling can be used
+                console.log(data)
+
+                return {
+                    results: data,
+                    pagination: {
+                      more: false
+                    }
+                };
+            },
+            cache: true
+        },
+        templateResult: function (state) {
+            console.log(state)
+            var $state = $(`
+                <div class="w-100"><img src="${state.flag}" class="img-flag" /> ${state.text} <span class="float-right">${state.count ? '('+state.count+')':''}</span></div>
+                
+            `);
+            return $state;
+        }
+    })
+
+    $('#version-filter').select2({
+        minimumResultsForSearch: -1,
+        placeholder: gettext("Version"),
+        language: get_cur_lang(),
+        theme: 'bootstrap4',
+        width: '100%',
+        ajax: {
+            url: '/user/versions',
+            dataType: 'json',
+            data: function (params) {
+
+            },
+            processResults: function (data, params) {
+                console.log(data)
+                return {
+                    results: data,
+                    pagination: {
+                      more: false
+                    }
+                };
+            },
+            cache: true
+        },
+        templateResult: function (state) {
+            console.log(state)
+            var $state = $(`
+                <div class="w-100"> ${state.text} <span class="float-right">${state.count ? '('+state.count+')':''}</span></div>
+                
+            `);
+            return $state;
+        }
     })
 
     $('#open-profile-modal').on('click', function () {
@@ -58,6 +146,8 @@ $(window).on("load", function () {
 
     })
 
+    $('#open-table-settings').click()
+
     $('#back-users-table').on('click', function () {
 
         users_menu_state = null
@@ -98,6 +188,26 @@ $(window).on("load", function () {
         console.log(send_data);
 
         ajax_users_action('POST', send_data, 'edit', user_select_id, 'edit_user').then(function (data) {
+            console.log(data)
+        })
+    })
+
+    $('#add-user-button').on('click', function () {
+        if(!$('#add-user-form').valid()) return
+        let personal = $('#add-user-form').serializeArray()
+        // let has_demo = false;
+        // for (const data of personal) {
+        //     if (data.name=='is_demo_mode'){
+        //         has_demo = true;
+        //     }
+        // }
+        // if (!has_demo){
+        //     personal.push({name:'is_demo_mode', value:'off'})
+        // }
+        let send_data = personal
+        console.log(send_data);
+
+        ajax_users_action('POST', send_data, 'create').then(function (data) {
             console.log(data)
         })
     })
@@ -159,29 +269,43 @@ $(window).on("load", function () {
             //     $('#back-users-table').click()
             //     user_select_id = null
             // }
-
-
         })
 
+    // Фильтрация таблицы пользователей
+    $('.user-table-filter').on('change, change.datetimepicker', function (e) {
+        let value = $(this).val()
+        if ($(this).hasClass('datetimepickerfilter') && value != ''){
+            value = moment(value, 'DD/MM/YYYY').format('YYYY-MM-DD')
+            console.log(value)
+        }
+        let filter = $(this).attr('data-filter')
+        let filter_obj = `.${filter}`;
+        console.log(filter_obj)
+        if(value == 'all'){
+            users_table.columns(filter_obj).search( '' ).draw();
+        } else{
+            users_table.columns(filter_obj).search( value ).draw();
+        }
+    })
 })
 
 function load_user_data(id = -1) {
     if(id == -1) return false;
     let send_data = {}
     ajax_users_action('GET', send_data, 'user data', id, 'get_user_data').then(function (data) {
-        //console.log(data)
+        console.log(data)
         let user = data.data
         for (const idKey in user) {
-            $('select[name="'+idKey+'"]').val(user[idKey])
+            $('#profile-user select[name="'+idKey+'"]').val(user[idKey])
             if (idKey == 'is_demo_mode'){
-                $('input[name="'+idKey+'"]').prop('checked', user[idKey])
+                $('#profile-user input[name="'+idKey+'"]').prop('checked', user[idKey])
             } else {
-                $('input[name="'+idKey+'"]').val(user[idKey])
+                $('#profile-user input[name="'+idKey+'"]').val(user[idKey])
             }
             if (idKey == 'personal'){
                 for (const idKey2 in user.personal) {
                     //console.log(idKey2)
-                    $('input[name="'+idKey2+'"]').val(user.personal[idKey2])
+                    $('#profile-user input[name="'+idKey2+'"]').val(user.personal[idKey2])
                 }
             }
         }
