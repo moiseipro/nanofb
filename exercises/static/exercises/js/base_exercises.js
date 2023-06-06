@@ -2214,6 +2214,12 @@ $(function() {
         if (cFoldersSettings.type !== null && cFoldersSettings.type !== undefined) {
             $('.up-tabs-elem.folders-toggle').addClass('d-none');
             $('.up-tabs-elem.folders-toggle').removeClass('selected');
+
+            // temp -> club folders are invisible
+            if (cFoldersSettings.type == "club_folders") {
+                cFoldersSettings.type == "nfb_folders";
+            }
+
             $(`.up-tabs-elem[data-id="${cFoldersSettings.type}"]`).removeClass('d-none');
             $(`.up-tabs-elem[data-id="${cFoldersSettings.type}"]`).addClass('selected');
             $('.folders-block > div.folders-container > div.folders_div').addClass('d-none');

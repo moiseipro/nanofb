@@ -1284,7 +1284,7 @@ def GET_get_card_sections(request, cur_user):
 
     """
     res_data = {'sections': [], 'user_params': [], 'mode': "nfb" if cur_user.is_superuser else "user"}
-    sections = CardSection.objects.filter()
+    sections = CardSection.objects.filter(visible=True)
     sections = [entry for entry in sections.values()]
     for section in sections:
         section['title'] = get_by_language_code(section['title'], request.LANGUAGE_CODE)

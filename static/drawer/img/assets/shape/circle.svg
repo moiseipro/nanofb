@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 150 150" height="150" width="150">
+    <circle
+        cx="75"
+        cy="75"
+        r="70"
+        stroke="var(--stroke-color, #000)"
+        stroke-width="var(--stroke-width, 1)"
+        stroke-dasharray="var(--stroke-dasharray, 0)"
+        fill="var(--fill-color, #000)"
+    />
+</svg>

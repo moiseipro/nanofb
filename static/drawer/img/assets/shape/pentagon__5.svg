@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 150 150" height="150" width="150">
+    <polygon
+        points="75,5 146.3292387221365,56.82372542187894 119.0838939219355,140.67627457812105 30.916106078064523,140.67627457812105 3.670761277863477,56.82372542187896"
+        stroke="var(--stroke-color, #000)"
+        stroke-width="var(--stroke-width, 1)"
+        stroke-dasharray="var(--stroke-dasharray, 0)"
+        fill="var(--fill-color, #000)"
+    />
+</svg>

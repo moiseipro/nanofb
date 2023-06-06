@@ -4174,6 +4174,11 @@ table.table-inbox tbody tr.checked {
 }
 
 
+.select2-container--default .select2-results > .select2-results__options {
+	max-height: 90vh !important;
+}
+
+
 
 .icon-custom {
     width: var(--i-w) !important;

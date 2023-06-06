@@ -48,6 +48,7 @@ def exercises(request):
     except:
         pass
     is_show_club_folders = cur_user[0].is_superuser or request.user.club_id is not None
+    is_show_club_folders = False
     found_folders = []
     found_club_folders = []
     found_nfb_folders = []

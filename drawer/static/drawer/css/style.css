@@ -1,0 +1,99 @@
+
+.a-button {
+    box-sizing: border-box;
+    min-width: 48px;
+    min-height: 48px;
+    padding: 6px;
+    line-height: 0;
+    border: 1px solid #191919;
+    background-color: #f8f9fa;
+    border-radius: .25rem;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+}
+.a-button:hover {
+    background-color: #c3c3c3 !important;
+}
+.a-button.selected {
+    background-color: #ffd800 !important;
+}
+
+
+.draw-canvas-block {
+    height: 90vh !important;
+    overflow-y: hidden;
+}
+.draw-leftmenu-content {
+    height: 85vh !important;
+    overflow-y: auto;
+}
+.draw-canvas-block {
+    background-color: #343a40;
+}
+
+.draw-leftmenu-header {
+    font-size: 1.25rem;
+    font-weight: 700;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    line-height: 2rem;
+    display: flex;
+    align-items: center;
+}
+
+
+.cvs-elem > .c-img {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+.cvs-elem > .c-img:hover {
+    opacity: 0.8;
+}
+.cvs-elem.selected {
+    border: 3px double #ea4335;
+}
+.cvs-elem.arat3_2 > .c-img {
+    aspect-ratio: 3 / 2;
+}
+.cvs-elem.arat1_1 > .c-img {
+    aspect-ratio: 1 / 1;
+}
+.cvs-elem.arat150_50 > .c-img {
+    aspect-ratio: 150 / 50;
+}
+.cvs-elem.darkback > .c-img {
+    background-color: #333;
+}
+.cvs-elem.grayback > .c-img {
+    background-color: #767676;
+}
+
+
+.colors-panel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1px;
+    border: 1px solid #ccc;
+    border-radius: .5rem;
+    background-color: #ccc;
+    overflow: hidden;
+}
+.colors-panel > div {
+    height: 2rem;
+    display: grid;
+    place-items: center;
+    padding: .5rem;
+    cursor: pointer;
+    background-color: #fff;
+    color: #111;
+}
+.colors-panel > div.selected.s-white {
+    color: #eee;
+}
+.colors-panel > div.selected {
+    font-weight: bold;
+}
+.colors-panel > div.selected::after {
+    content: "✔";
+}

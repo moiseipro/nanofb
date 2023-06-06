@@ -265,7 +265,7 @@
                             <td colspan="2">
                                 <div class="row mx-0">
                                     <div class="col-12 px-0 my-1">
-                                        <div class="btn-group btn-group-custom-active exs-types-list w-100" role="group" aria-label="">
+                                        <div class="btn-group btn-group-custom-active exs-types-list w-100 d-none" role="group" aria-label="">
                                             {% for elem in refs.exs_types %}
                                             <button type="button" class="btn btn-outline-secondary btn-block my-0 mx-1" data-id="{{ elem.keycode }}">
                                                 {{ elem.title }}
@@ -322,7 +322,7 @@
                             <td colspan="2">
                                 <div class="row mx-0">
                                     <div class="col-12 px-0 my-1">
-                                        <div class="btn-group btn-group-custom-active cognitive-load-list w-100" role="group" aria-label="">
+                                        <div class="btn-group btn-group-custom-active cognitive-load-list w-100 d-none" role="group" aria-label="">
                                             {% for elem in refs.exs_cognitive_load %}
                                             <button type="button" class="btn btn-outline-secondary btn-block my-0 mx-1" data-id="{{ elem.keycode }}" title="{{ elem.title }}">
                                                 {{ elem.short_name }}

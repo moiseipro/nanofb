@@ -63,7 +63,7 @@
             {% if request.teams_list %}
                 {% if perms.references.view_userteam or perms.references.view_clubteam %}
                 <form class="mt-2 mx-1" action="{% url 'references:set_team' %}" method="post">{% csrf_token %}
-                    <select id="select-team" class="select custom-select teams" name="team_value" tabindex="-1" aria-hidden="true">
+                    <select id="select-team" class="select custom-select teams" name="team_value" tabindex="-1" aria-hidden="true" style="width: 100%;">
                         <option value="">{% trans 'No team selected' %}</option>
                         {% for team in request.teams_list %}
                             <option value="{{ team.id }}" {% if request.session.team == team.id|stringformat:"i" %}selected{% endif %}>{{ team.name }}</option>

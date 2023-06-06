@@ -78,9 +78,17 @@ Version      : 1.0
 	// Select 2
 	
     if ($('.select').length > 0) {
-        $('.select').select2({
+        // $('.select').select2({
+        //     minimumResultsForSearch: -1,
+        //     width: '100%'
+        // });
+		$('.select:not(#select-team)').select2({
             minimumResultsForSearch: -1,
             width: '100%'
+        });
+		$('.select#select-team').select2({
+            minimumResultsForSearch: -1,
+            width: '300px'
         });
     }
 	
