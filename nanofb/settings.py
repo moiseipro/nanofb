@@ -94,7 +94,8 @@ MIDDLEWARE = [
 
     # Custom
     'references.middleware.ReferencesMiddleware.TeamAndSeasons',
-    'users.middleware.UsersMiddleware.LicenseValidityCheck'
+    'users.middleware.UsersMiddleware.LicenseValidityCheck',
+    'users.middleware.UsersMiddleware.SetLastVisit'
 
 ]
 

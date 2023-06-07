@@ -2,8 +2,12 @@ from django.shortcuts import redirect
 
 from references.models import UserTeam, ClubTeam, ClubSeason, UserSeason
 from datetime import date
+from django.utils.timezone import now
 
 # The function of limiting the use of the program by subscription
+from users.models import User
+
+
 class LicenseValidityCheck:
     def __init__(self, get_response):
         self.get_response = get_response
@@ -31,5 +35,20 @@ class LicenseValidityCheck:
 
         # Code to be executed for each request/response after
         # the view is called.
+
+        return response
+
+
+class SetLastVisit:
+    def __init__(self, get_response):
+        self.get_response = get_response
+        # One-time configuration and initialization.
+
+    def __call__(self, request):
+        if request.user.is_authenticated:
+            # Update last visit time after request finished processing.
+            User.objects.filter(pk=request.user.pk).update(date_last_login=now())
+
+        response = self.get_response(request)
 
         return response

@@ -225,7 +225,6 @@ class User(AbstractUser):
         help_text=_('Date of registration'),
     )
     date_last_login = models.DateField(
-        auto_now=True,
         verbose_name=_('Last login date'),
         help_text=_('Last login date'),
     )
