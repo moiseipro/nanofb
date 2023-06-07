@@ -78,6 +78,7 @@ INSTALLED_APPS = [
     'methodology.apps.MethodologyConfig',
     'helper_football.apps.HelperFootballConfig',
     'helper_site.apps.HelperSiteConfig',
+    'drawer.apps.DrawerConfig',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

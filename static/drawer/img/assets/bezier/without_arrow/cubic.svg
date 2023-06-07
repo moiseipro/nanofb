@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 150 50" height="50" width="150">
+    <path
+        d="M2,50 C0,0 150,50 148,0"
+        stroke-width="var(--stroke-width, 1)"
+        stroke="var(--stroke-color, #000)"
+        stroke-dasharray="var(--stroke-dasharray, 0)"
+        fill="none"
+    />
+</svg>

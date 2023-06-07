@@ -1,0 +1,621 @@
+{% extends '../../base/app_main.html' %}
+{% load static %}
+
+{% block title %}Рисунок{% endblock %}
+
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'drawer/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between mt-1">
+                <div class="d-flex">
+                    <div class="a-button mx-1" title="Скачать" data-id="download">
+                        {% include 'drawer/modules/icons/IconDownload.html' %}
+                    </div>
+                    <div class="a-button mx-1 selected" title="Слои" data-id="layers">
+                        {% include 'drawer/modules/icons/IconLayers.html' %}
+                    </div>
+                    <div class="a-button mx-1" title="Очистить поле" data-id="deleteAll">
+                        {% include 'drawer/modules/icons/IconDelete.html' %}
+                    </div>
+                    <div class="a-button mx-1" title="Удалить выделенное" data-id="deleteSelected">
+                        {% include 'drawer/modules/icons/IconDeleteSweep.html' %}
+                    </div>
+                    <div class="a-button mx-1 bg-success text-white text-uppercase" title="" data-id="save">
+                        Сохранить
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="a-button mx-1" title="Поля" data-id="fields">
+                        {% include 'drawer/modules/icons/IconField.html' %}
+                    </div>
+                    <div class="a-button mx-1" title="Ворота" data-id="gates">
+                        {% include 'drawer/modules/icons/IconGoalKeeper.html' %}
+                    </div>
+                    <div class="a-button mx-1" title="Инвентарь" data-id="inventory">
+                        {% include 'drawer/modules/icons/IconInventory.html' %}
+                    </div>
+                    <div class="a-button mx-1" title="Игроки" data-id="players">
+                        {% include 'drawer/modules/icons/IconPlayer.html' %}
+                    </div>
+                    <div class="a-button mx-1" title="Линии" data-id="lines">
+                        {% include 'drawer/modules/icons/IconLine.html' %}
+                    </div>
+                    <div class="a-button mx-1" title="Зоны" data-id="zones">
+                        {% include 'drawer/modules/icons/IconZone.html' %}
+                    </div>
+                    <div class="a-button mx-1" title="Метки" data-id="labels">
+                        {% include 'drawer/modules/icons/IconLabel.html' %}
+                    </div>
+                    <div class="a-button mx-1" title="Логотип NF" data-id="logoNF">
+                        {% include 'drawer/modules/icons/IconNF.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="row draw-full-block mt-2">
+                <div class="col-3">
+                    <div class="draw-leftmenu-block h-100">
+                        <div class="draw-leftmenu-header">
+                            Слои
+                        </div>
+                        <div class="draw-leftmenu-content">
+                            <div class="leftmenu-content-element" data-id="layers">
+                                <div class="" role="group" aria-label="">
+                                    <button type="button" class="btn btn-sm btn-outline-primary layer-type mt-1 active" data-id="all">Все объекты</button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary layer-type mt-1" data-id="gates">Ворота</button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary layer-type mt-1" data-id="inventory">Инвентарь</button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary layer-type mt-1" data-id="players">Игроки</button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary layer-type mt-1" data-id="labels">Метки</button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary layer-type mt-1" data-id="lines">Линии</button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary layer-type mt-1" data-id="zones">Зоны</button>
+                                </div>
+                            </div>
+                            <div class="leftmenu-content-element d-none" data-id="fields">
+                                <div class="row mx-0">
+                                    {% for elem in assets.plane %}
+                                    <div class="col-4 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="leftmenu-content-element d-none" data-id="gates">
+                                <div class="row mx-0">
+                                    <div class="col-12 px-0 btn-group" role="group" aria-label="">
+                                        <button type="button" class="btn btn-sm btn-outline-primary gates-type mt-1 active" data-id="small">Маленькие</button>
+                                        <button type="button" class="btn btn-sm btn-outline-primary gates-type mt-1" data-id="big">Большие</button>
+                                    </div>
+                                </div>
+                                <div class="row mx-0">
+                                    {% for elem in assets.gate %}
+                                    <div class="col-6 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="leftmenu-content-element d-none" data-id="inventory">
+                                <div class="row mx-0">
+                                    {% for elem in assets.equipment.ball %}
+                                    <div class="col-2 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <hr>
+                                <div class="row mx-0">
+                                    {% for elem in assets.equipment.cone %}
+                                    <div class="col-2 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <hr>
+                                <div class="row mx-0">
+                                    {% for elem in assets.equipment.small_cone %}
+                                    <div class="col-2 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <hr>
+                                <div class="row mx-0">
+                                    {% for elem in assets.equipment.flag %}
+                                    <div class="col-2 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <hr>
+                                <div class="row mx-0">
+                                    {% for elem in assets.equipment.beam %}
+                                    <div class="col-2 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <hr>
+                                <div class="row mx-0">
+                                    {% for elem in assets.equipment.cone_beam %}
+                                    <div class="col-2 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <hr>
+                                <div class="row mx-0">
+                                    {% for elem in assets.equipment.ring %}
+                                    <div class="col-2 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <hr>
+                                <div class="row mx-0">
+                                    {% for elem in assets.equipment.stick %}
+                                    <div class="col-2 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <hr>
+                                <div class="row mx-0">
+                                    {% for elem in assets.equipment.barrier %}
+                                    <div class="col-2 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <hr>
+                                <div class="row mx-0">
+                                    {% for elem in assets.equipment.ladder %}
+                                    <div class="col-2 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="leftmenu-content-element d-none" data-id="players">
+                                <div class="row mx-0 clothes-settings">
+                                    <div class="col-12 mt-2">
+                                        <div class="row mx-0 colors-panel-container-players" data-id="up">
+                                            <div class="col-4">
+                                                <div class="w-100 h-100 d-flex justify-content-center align-items-center colors-clothes" style="color: rgb(241, 27, 39);">
+                                                    {% include 'drawer/modules/icons/IconClothesUp.html' %}
+                                                    {% include 'drawer/modules/icons/IconClothesUpEdit.html' %}
+                                                </div>
+                                            </div>
+                                            <div class="col-8 px-0 colors-panel">
+                                                <div class="col color-elem s-white selected" style="background-color: rgb(241, 27, 39);"></div>
+                                                <div class="col color-elem s-white" style="background-color: rgb(43, 61, 205);"></div>
+                                                <div class="col color-elem" style="background-color: rgb(234, 229, 14);"></div>
+                                                <div class="col color-elem" style="background-color: rgb(255, 255, 255);"></div>
+                                                <div class="col color-elem s-white" style="background-color: rgb(243, 94, 17);"></div>
+                                                <div class="col color-elem s-white" style="background-color: rgb(0, 99, 48);"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 mt-2">
+                                        <div class="row mx-0 colors-panel-container-players" data-id="mid">
+                                            <div class="col-4">
+                                                <div class="w-100 h-100 d-flex justify-content-center align-items-center colors-clothes" style="color: rgb(255, 255, 255);">
+                                                    {% include 'drawer/modules/icons/IconClothesMid.html' %}
+                                                    {% include 'drawer/modules/icons/IconClothesMidEdit.html' %}
+                                                </div>
+                                            </div>
+                                            <div class="col-8 px-0 colors-panel">
+                                                <div class="col color-elem selected" style="background-color: rgb(255, 255, 255);"></div>
+                                                <div class="col color-elem s-white" style="background-color: rgb(43, 61, 205);"></div>
+                                                <div class="col color-elem s-white" style="background-color: rgb(2, 2, 2);"></div>
+                                                <div class="col color-elem s-white" style="background-color: rgb(0, 99, 48);"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 mt-2">
+                                        <div class="row mx-0 colors-panel-container-players" data-id="down">
+                                            <div class="col-4">
+                                                <div class="w-100 h-100 d-flex justify-content-center align-items-center colors-clothes" style="color: rgb(255, 255, 255);">
+                                                    {% include 'drawer/modules/icons/IconClothesDown.html' %}
+                                                    {% include 'drawer/modules/icons/IconClothesDownEdit.html' %}
+                                                </div>
+                                            </div>
+                                            <div class="col-8 px-0 colors-panel">
+                                                <div class="col color-elem selected" style="background-color: rgb(255, 255, 255);"></div>
+                                                <div class="col color-elem s-white" style="background-color: rgb(43, 61, 205);"></div>
+                                                <div class="col color-elem s-white" style="background-color: rgb(2, 2, 2);"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row mx-0">
+                                    <div class="col-12 px-0 btn-group" role="group" aria-label="">
+                                        <button type="button" class="btn btn-sm btn-outline-primary players-type active" data-id="adult">Взрослые</button>
+                                        <button type="button" class="btn btn-sm btn-outline-primary players-type" data-id="adult_goalkeeper">Взрослые Вратари</button>
+                                        <button type="button" class="btn btn-sm btn-outline-primary players-type" data-id="child">Дети</button>
+                                    </div>
+                                    <div class="col-12 px-0 btn-group" role="group" aria-label="">
+                                        <button type="button" class="btn btn-sm btn-outline-primary players-type" data-id="child_goalkeeper">Дети Вратари</button>
+                                        <button type="button" class="btn btn-sm btn-outline-primary players-type" data-id="referee">Тренеры</button>
+                                    </div>
+                                    <div class="col-12 px-0 my-2 btn-group" role="group" aria-label="">
+                                        <button type="button" class="btn btn-sm btn-outline-primary players-pos-type active" data-id="back">Спиной</button>
+                                        <button type="button" class="btn btn-sm btn-outline-primary players-pos-type" data-id="front">Лицом</button>
+                                        <button type="button" class="btn btn-sm btn-outline-primary players-pos-type" data-id="left">Левый</button>
+                                        <button type="button" class="btn btn-sm btn-outline-primary players-pos-type" data-id="right">Правый</button>
+                                    </div>
+                                </div>
+                                <div class="row mx-0 players-list">
+                                    {% for elem in assets.player.adult.back %}
+                                    <div class="col-4 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}" data-g-type2="{{ elem.g_type_2 }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    {% for elem in assets.player.adult.front %}
+                                    <div class="col-4 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}" data-g-type2="{{ elem.g_type_2 }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    {% for elem in assets.player.adult.left %}
+                                    <div class="col-4 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}" data-g-type2="{{ elem.g_type_2 }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    {% for elem in assets.player.adult.right %}
+                                    <div class="col-4 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}" data-g-type2="{{ elem.g_type_2 }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+
+                                    {% for elem in assets.player.adult_goalkeeper.back %}
+                                    <div class="col-4 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}" data-g-type2="{{ elem.g_type_2 }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    {% for elem in assets.player.adult_goalkeeper.front %}
+                                    <div class="col-4 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}" data-g-type2="{{ elem.g_type_2 }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    {% for elem in assets.player.adult_goalkeeper.left %}
+                                    <div class="col-4 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}" data-g-type2="{{ elem.g_type_2 }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    {% for elem in assets.player.adult_goalkeeper.right %}
+                                    <div class="col-4 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}" data-g-type2="{{ elem.g_type_2 }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+
+                                    {% for elem in assets.player.child.back %}
+                                    <div class="col-4 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}" data-g-type2="{{ elem.g_type_2 }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    {% for elem in assets.player.child.front %}
+                                    <div class="col-4 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}" data-g-type2="{{ elem.g_type_2 }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    {% for elem in assets.player.child.left %}
+                                    <div class="col-4 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}" data-g-type2="{{ elem.g_type_2 }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    {% for elem in assets.player.child.right %}
+                                    <div class="col-4 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}" data-g-type2="{{ elem.g_type_2 }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+
+                                    {% for elem in assets.player.child_goalkeeper.back %}
+                                    <div class="col-4 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}" data-g-type2="{{ elem.g_type_2 }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    {% for elem in assets.player.child_goalkeeper.front %}
+                                    <div class="col-4 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}" data-g-type2="{{ elem.g_type_2 }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    {% for elem in assets.player.child_goalkeeper.left %}
+                                    <div class="col-4 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}" data-g-type2="{{ elem.g_type_2 }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    {% for elem in assets.player.child_goalkeeper.right %}
+                                    <div class="col-4 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}" data-g-type2="{{ elem.g_type_2 }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+
+                                    {% for elem in assets.player.referee.back %}
+                                    <div class="col-4 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}" data-g-type2="{{ elem.g_type_2 }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    {% for elem in assets.player.referee.front %}
+                                    <div class="col-4 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}" data-g-type2="{{ elem.g_type_2 }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    {% for elem in assets.player.referee.left %}
+                                    <div class="col-4 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}" data-g-type2="{{ elem.g_type_2 }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    {% for elem in assets.player.referee.right %}
+                                    <div class="col-4 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}" data-g-type2="{{ elem.g_type_2 }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+
+                                </div>
+                            </div>
+                            <div class="leftmenu-content-element d-none" data-id="lines">
+                                <div class="row mx-0">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-4 px-0 mt-2">
+                                                Превью
+                                            </div>
+                                            <div class="col-8 mt-2">
+                                                <div class="line-preview-block">
+                                                    {% for elem in assets.bezier.with_arrow %}
+                                                    <div class="line-preview-elem d-none" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}" data-name="{{ elem.name }}">
+                                                        <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                                    </div>
+                                                    {% endfor %}
+                                                    {% for elem in assets.bezier.without_arrow %}
+                                                    <div class="line-preview-elem d-none" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}" data-name="{{ elem.name }}">
+                                                        <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                                    </div>
+                                                    {% endfor %}
+                                                    <div class="cvs-elem arat150_50 grayback" data-group="line">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 px-0 mt-2">
+                                                Тип
+                                            </div>
+                                            <div class="col-8 mt-2">
+                                                <div class="row mx-0">
+                                                    <div class="col-12 px-0 btn-group" role="group" aria-label="">
+                                                        <button type="button" class="btn btn-sm btn-outline-primary line-edit-any line-type active" data-id="linear">Прямая</button>
+                                                        <button type="button" class="btn btn-sm btn-outline-primary line-edit-any line-type" data-id="quadratic">Арка</button>
+                                                        <button type="button" class="btn btn-sm btn-outline-primary line-edit-any line-type" data-id="cubic">Змейка</button>
+                                                    </div>
+                                                    <div class="col-12 px-0 btn-group" role="group" aria-label="">
+                                                        <button type="button" class="btn btn-sm btn-outline-primary line-edit-any line-type" data-id="cubic2">Змейка 2</button>
+                                                    </div>
+                                                    <div class="col-12 px-0 mt-2 btn-group" role="group" aria-label="">
+                                                        <button type="button" class="btn btn-sm btn-outline-primary line-edit-any line-type-2 active" data-id="solid">Сплошная</button>
+                                                        <button type="button" class="btn btn-sm btn-outline-primary line-edit-any line-type-2" data-id="dotted">Пунктирная</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 px-0 mt-2">
+                                                Толщина Линии
+                                            </div>
+                                            <div class="col-8 mt-2">
+                                                <div class="row mx-0">
+                                                    <div class="col-12 px-0 btn-group" role="group" aria-label="">
+                                                        <button type="button" class="btn btn-sm btn-outline-primary line-edit-any line-thickness-type active" data-id="1">Тонкая</button>
+                                                        <button type="button" class="btn btn-sm btn-outline-primary line-edit-any line-thickness-type" data-id="2">Средняя</button>
+                                                        <button type="button" class="btn btn-sm btn-outline-primary line-edit-any line-thickness-type" data-id="3">Толстая</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 px-0 mt-2">
+                                                Маркер
+                                            </div>
+                                            <div class="col-8 mt-2">
+                                                <input type="checkbox" class="line-edit-any line-marker" id="" checked="checked">
+                                            </div>
+                                            <div class="col-4 px-0 mt-2">
+                                                Цвет
+                                            </div>
+                                            <div class="col-8 mt-2">
+                                                <div class="row mx-0 colors-panel-container-lines" data-id="">
+                                                    <div class="col-12 px-0 colors-panel">
+                                                        <div class="col color-elem s-white" style="background-color: rgb(0, 0, 0);"></div>
+                                                        <div class="col color-elem selected" style="background-color: rgb(255, 255, 0);"></div>
+                                                        <div class="col color-elem s-white" style="background-color: rgb(255, 0, 0);"></div>
+                                                        <div class="col color-elem" style="background-color: rgb(255, 255, 255);"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="leftmenu-content-element d-none" data-id="zones">
+                                <div class="row mx-0 zones-preview-block">
+                                    {% for elem in assets.shape %}
+                                    <div class="col-4 px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}" data-g-type2="{{ elem.g_type_2 }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="row zones-settings">
+                                    <div class="col-5 mt-2">
+                                        Цвет
+                                    </div>
+                                    <div class="col-7 mt-2">
+                                        <div class="row mx-0 colors-panel-container-zones" data-id="color">
+                                            <div class="col-12 px-0 colors-panel">
+                                                <div class="col color-elem s-white" style="background-color: rgb(0, 0, 0);"></div>
+                                                <div class="col color-elem selected" style="background-color: rgb(255, 255, 0);"></div>
+                                                <div class="col color-elem s-white" style="background-color: rgb(255, 0, 0);"></div>
+                                                <div class="col color-elem" style="background-color: rgb(255, 255, 255);"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-5 mt-2">
+                                        Цвет заливки
+                                    </div>
+                                    <div class="col-7 mt-2">
+                                        <div class="row mx-0 colors-panel-container-zones" data-id="fill">
+                                            <div class="col-12 px-0 colors-panel">
+                                                <div class="col color-elem s-white selected" style="background-color: rgba(0, 0, 0, 1);"></div>
+                                                <div class="col color-elem" style="background-color: rgba(255, 255, 0, 1);"></div>
+                                                <div class="col color-elem s-white" style="background-color: rgba(255, 0, 0, 1);"></div>
+                                                <div class="col color-elem" style="background-color: rgba(255, 255, 255, 1);"></div>
+                                                <div class="col color-elem" style="background-color: transparent;">Нет</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-5 mt-2">
+                                        Толщина линии
+                                    </div>
+                                    <div class="col-7 mt-2">
+                                        <div class="row mx-0">
+                                            <div class="col-12 px-0 btn-group" role="group" aria-label="">
+                                                <button type="button" class="btn btn-sm btn-outline-primary zone-thickness-type" data-id="0">0</button>
+                                                <button type="button" class="btn btn-sm btn-outline-primary zone-thickness-type" data-id="1">1</button>
+                                                <button type="button" class="btn btn-sm btn-outline-primary zone-thickness-type" data-id="2">2</button>
+                                                <button type="button" class="btn btn-sm btn-outline-primary zone-thickness-type active" data-id="3">3</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-5 mt-2">
+                                        Тип
+                                    </div>
+                                    <div class="col-7 mt-2">
+                                        <div class="row mx-0">
+                                            <div class="col-12 px-0 btn-group" role="group" aria-label="">
+                                                <button type="button" class="btn btn-sm btn-outline-primary zone-type active" data-id="solid">Сплошная</button>
+                                                <button type="button" class="btn btn-sm btn-outline-primary zone-type" data-id="dotted">Пунктирная</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="leftmenu-content-element d-none" data-id="labels">
+                                <div class="row mx-0 colors-panel-container-labels" data-id="fill">
+                                    <div class="col-12 px-0 colors-panel">
+                                        <div class="col color-elem selected" style="background-color: rgb(190, 190, 190);"></div>
+                                        <div class="col color-elem s-white" style="background-color: rgb(40, 40, 40);"></div>
+                                        <div class="col color-elem s-white" style="background-color: rgba(255, 0, 0, 1);"></div>
+                                        <div class="col color-elem" style="background-color: rgb(255, 175, 38);"></div>
+                                        <div class="col color-elem" style="background-color: rgb(255, 255, 0);"></div>
+                                    </div>
+                                </div>
+                                <div class="text-center mt-2">
+                                    <h6>Метки</h6>
+                                </div>
+                                <hr>
+                                <div class="text-center mt-2">
+                                    <h6>Манекены</h6>
+                                </div>
+                                <hr>
+                                <div class="row mx-0 labels-caps-block">
+                                    {% for elem in assets.caps %}
+                                    <div class="col px-0">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}" data-g-type2="{{ elem.g_type_2 }}">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0" data-src="{{ elem.path }}">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="text-center mt-2">
+                                    <h6>Цифры</h6>
+                                </div>
+                                <hr>
+                            </div>
+                            <div class="leftmenu-content-element d-none" data-id="logoNF">
+                                logoNF
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-9 px-0">
+                    <div class="draw-canvas-block d-flex align-items-center justify-content-center">
+                        <div id="canvas">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block custom_scripts %}
+    <script src="{% static 'preadmin/js/konva.min.js' %}"></script>
+    <script src="{% static 'drawer/js/modules/drawer.js' %}"></script>
+{% endblock %}

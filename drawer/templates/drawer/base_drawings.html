@@ -1,0 +1,25 @@
+{% extends '../base/app_main.html' %}
+{% load static %}
+
+{% block title %}Рисунки{% endblock %}
+
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'drawer/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="">
+    <div class="row">
+        <div class="col-12">
+            РИСУНКИ / Список
+        </div>
+        <div class="col-12">
+            <a href="{% url 'drawer:draw' %}">Порисуем!</a>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block custom_scripts %}
+    <script src="{% static 'drawer/js/drawings.js' %}"></script>
+{% endblock %}

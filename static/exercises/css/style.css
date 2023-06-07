@@ -692,7 +692,7 @@ span.drag.selected > a {
 
 
 .select2-results {
-    height: 52vh;
+    height: 90vh;
 }
 .select2-results > ul {
     max-height: 50vh !important;
