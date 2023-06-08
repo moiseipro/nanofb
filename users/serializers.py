@@ -9,8 +9,8 @@ from users.models import User, UserPersonal
 from django_countries.serializer_fields import CountryField
 from django.utils.translation import gettext_lazy as _
 
-from version.models import Version
-from version.serializers import VersionSerializer
+from version.models import Version, CustomGroup
+from version.serializers import VersionSerializer, SectionSerializer
 
 
 class ChangePasswordSerializer(serializers.Serializer):
@@ -29,6 +29,18 @@ class PermissionSerializer(serializers.ModelSerializer):
         ]
 
 
+class CustomGroupSerializer(serializers.ModelSerializer):
+    section = SectionSerializer(
+        read_only=True
+    )
+
+    class Meta:
+        model = CustomGroup
+        fields = [
+            'translation_name', 'order_column', 'section', 'tree_depth', 'text_id'
+        ]
+
+
 class GroupSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
 
@@ -37,10 +49,14 @@ class GroupSerializer(serializers.ModelSerializer):
         many=True
     )
 
+    customgroup = CustomGroupSerializer(
+        read_only=True
+    )
+
     class Meta:
         model = Group
         fields = [
-            'id', 'name', 'permissions'
+            'id', 'name', 'permissions', 'customgroup'
         ]
 
 

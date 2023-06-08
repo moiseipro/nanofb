@@ -47,7 +47,7 @@
                                 <div id="users-table-block" class="col-sm-12 px-1">
                                     {% include "users/modules/user_table.html" %}
                                 </div>
-                                <div id="user-management-block" class="px-1 pt-2 d-none">
+                                <div id="user-management-block" class="pt-2 d-none">
                                     {% include "users/modules/management_client.html" %}
                                 </div>
                                 <div id="user-table-settings-block" class="pt-1 d-none">
@@ -74,6 +74,8 @@
 {% endblock %}
 
 {% block custom_scripts %}
+    <script src="{% static 'users/modules/ajax_permission.js' %}"></script>
     <script src="{% static 'users/modules/ajax_user_table.js' %}"></script>
+    <script src="{% static 'users/modules/edit_permission.js' %}"></script>
     <script src="{% static 'users/base_clients.js' %}"></script>
 {% endblock %}

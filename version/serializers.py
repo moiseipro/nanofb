@@ -9,7 +9,7 @@ class SectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Section
         fields = (
-            'id', 'name', 'tag'
+            'id', 'name', 'translation_name', 'tag'
         )
 
 
@@ -21,3 +21,5 @@ class VersionSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'name', 'tag', 'price'
         )
+
+

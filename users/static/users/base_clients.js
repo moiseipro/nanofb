@@ -259,6 +259,7 @@ $(window).on("load", function () {
                 $('#open-profile-modal').prop('disabled', false)
                 user_select_id = cur_edit_data.id
                 load_user_data(user_select_id)
+                load_group_data(user_select_id)
             }
         })
         .on( 'deselect', function ( e, dt, type, indexes ) {

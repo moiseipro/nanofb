@@ -29,8 +29,7 @@ from users.forms import EditUserPersonalForm
 from users.models import User, UserPersonal
 from users.serializers import UserPersonalSerializer, ChangePasswordSerializer, UserSerializer, \
     UserManagementSerializer, UserEditSerializer, UserAllDataSerializer, CreateUserSerializer, \
-    CreateUserManagementSerializer
-
+    CreateUserManagementSerializer, GroupSerializer
 
 # Create your views here.
 from version.models import Version
@@ -176,6 +175,19 @@ class UserManagementApiView(viewsets.ModelViewSet):
         if serializer.data:
             response = {
                 'status': 'get_users',
+                'data': serializer.data
+            }
+            return Response(response, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=['get'])
+    def get_user_group(self, request, pk=None):
+        groups = User.objects.get(pk=pk).groups
+        serializer = GroupSerializer(groups, many=True)
+        if serializer.data:
+            response = {
+                'status': 'user_group',
                 'data': serializer.data
             }
             return Response(response, status=status.HTTP_200_OK)
