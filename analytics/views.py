@@ -45,7 +45,7 @@ def analytics(request):
         pass
     refs = {}
     folders = v_api.get_exs_folders(request, cur_user[0], cur_team)
-    months = v_api.get_season_months(request, cur_season)
+    months = v_api.get_season_months(request, cur_season, cur_user[0])
     return render(request, 'analytics/base_analytics.html', {
         'refs': refs, 
         'folders': folders,
