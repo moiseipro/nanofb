@@ -188,7 +188,7 @@ $(window).on('load', function (){
         let send_data = {}
         ajax_team_action('GET', send_data, 'get teams', '').then(function (data) {
             let select = ''
-            let options = data.results;
+            let options = data;
             console.log(options)
             let option_html = ''
             option_html+=`
