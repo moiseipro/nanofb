@@ -101,7 +101,7 @@ def months_between(start_date, end_date):
             month += 1
 
 
-def get_season_months(request, season):
+def get_season_months(request, season, c_user):
     """
     Return list of objects, which contains full name of month and short 3 letter word. Names of months selected by current system's language.
 
@@ -125,7 +125,11 @@ def get_season_months(request, season):
         }
     }
     res = []
-    f_season = UserSeason.objects.get(id=season)
+    f_season = None
+    if request.user.club_id is not None:
+        f_season = ClubSeason.objects.get(id=season, club_id=request.user.club_id)
+    else:
+        f_season = UserSeason.objects.get(id=season, user_id=c_user)
     if f_season and f_season.id != None:
         for month in months_between(f_season.date_with, f_season.date_by):
             month_id = month.strftime("%m")
@@ -532,7 +536,7 @@ def GET_get_analytics_by_folders_full_in_team(request, cur_user, cur_team, cur_s
     """
     res_data = {'months': {}}
     season_type = None
-    s_months = get_season_months(request, cur_season)
+    s_months = get_season_months(request, cur_season, cur_user)
     for index in range(len(s_months)):
         s_months[index]['id'] = index + 1
     s_months.insert(0, {'name': "30 дней", 'short': "30", 'id': -1})
