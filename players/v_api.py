@@ -1155,7 +1155,7 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
         'card__citizenship', 'team__name', 'card__ref_position__short_name', ['card__is_captain', 'card__is_vice_captain'], 
         'card__foot', 'card__growth', 'card__weight', 'card__game_num', 
         'card__come', 'card__club_from', 'card__contract_with', 
-        'card__contract_by', 'card__video', 'card__notes'
+        'card__contract_by', 'card__video', 'card__notes', 'card_ref_level'
     ]
     column_order_id = 0
     column_order = 'id'
@@ -1204,7 +1204,6 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
             if isinstance(column_order, list):
                 for _i in range(len(column_order)):
                     column_order[_i] = f'{column_order_dir}{column_order[_i]}'
-                print(column_order)
                 players = players.order_by(*column_order)
             else:
                 players = players.order_by(f'{column_order_dir}{column_order}')
@@ -1242,6 +1241,11 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
                     captain_val = '<span title="Вице-Капитан">(K.)</span>'
             except:
                 pass
+            level_val = ""
+            try:
+                level_val = get_by_language_code(player.card.ref_level.translation_names, request.LANGUAGE_CODE)
+            except:
+                pass
             player_data = {
                 'id': player.id,
                 'surname': player.surname,
@@ -1262,7 +1266,8 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
                 'contract_with': player.card.contract_with if player.card else "",
                 'contract_by': player.card.contract_by if player.card else "",
                 'video': "",
-                'notes': f'<span style="{player_notes_recent}">записи ({player_notes_amount})</span>'
+                'notes': f'<span style="{player_notes_recent}">записи ({player_notes_amount})</span>',
+                'level': level_val
             }
             players_data.append(player_data)
     if return_JsonResponse:

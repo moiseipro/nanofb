@@ -47,7 +47,8 @@ function GeneratePlayersTable(scroll_y = '') {
             {'data': 'contract_with', 'name': 'card__contract_with'},
             {'data': 'contract_by', 'name': 'card__contract_by'},
             {'data': 'video', 'name': 'card__video'},
-            {'data': 'notes', 'name': 'card__notes'}
+            {'data': 'notes', 'name': 'card__notes'},
+            {'data': 'level', 'name': 'card__level'},
         ],
     });
 }
