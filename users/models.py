@@ -227,6 +227,8 @@ class User(AbstractUser):
     date_last_login = models.DateField(
         verbose_name=_('Last login date'),
         help_text=_('Last login date'),
+        null=True,
+
     )
     days_entered = models.IntegerField(default=0)
     registration_to = models.DateField(
