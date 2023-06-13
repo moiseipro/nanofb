@@ -1,6 +1,7 @@
 from collections import Counter
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.models import Group
 from django.core.mail import EmailMultiAlternatives
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
@@ -181,10 +182,27 @@ class UserManagementApiView(viewsets.ModelViewSet):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    @action(detail=True, methods=['post'])
+    def change_permission(self, request, pk=None):
+        data = request.data
+
+        user_edit = User.objects.get(id=pk)
+        print(user_edit.groups.all())
+        group = Group.objects.get(id=data['group_id'])
+        print(data)
+        if group in user_edit.groups.all():
+            user_edit.groups.remove(group)
+            return Response({'status': 'group_removed'})
+        else:
+            user_edit.groups.add(group)
+            return Response({'status': 'group_added'})
+
     @action(detail=True, methods=['get'])
     def get_user_group(self, request, pk=None):
         groups = User.objects.get(pk=pk).groups
+        print(groups.values())
         serializer = GroupSerializer(groups, many=True)
+        #serializer.is_valid()
         if serializer.data:
             response = {
                 'status': 'user_group',
@@ -192,7 +210,12 @@ class UserManagementApiView(viewsets.ModelViewSet):
             }
             return Response(response, status=status.HTTP_200_OK)
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            response = {
+                'status': 'user_group',
+                'data': ''
+            }
+            return Response(response, status=status.HTTP_200_OK)
+            #return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=True, methods=['post'])
     def generate_new_password(self, request, pk=None):

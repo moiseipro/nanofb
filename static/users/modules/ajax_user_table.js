@@ -161,8 +161,11 @@ async function ajax_users_action(method, data, action = '', id = '', func = '') 
         },
         error: function(jqXHR, textStatus, errorThrown){
             console.log(jqXHR)
-            if('registration' in jqXHR.responseJSON)
-                swal(gettext('Users '+action), jqXHR.responseJSON.registration, "error");
+            if ('responseJSON' in jqXHR){
+                if('registration' in jqXHR.responseJSON)
+                    swal(gettext('Users '+action), jqXHR.responseJSON.registration, "error");
+            }
+
         },
         complete: function () {
             $('.page-loader-wrapper').fadeOut();

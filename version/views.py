@@ -30,9 +30,13 @@ class PermissionsApiView(viewsets.ReadOnlyModelViewSet):
         user = User.objects.get(id=pk)
         serializer_class = GroupSerializer
         if user.club_id is not None:
-            queryset = Group.objects.filter(customgroup__text_id="club")
+            queryset = user.club_id.groups
+            #queryset = Group.objects.filter(customgroup__text_id="club")
+        elif user.p_version is not None:
+            queryset = user.p_version.groups
         else:
             queryset = Group.objects.filter(customgroup__text_id="user")
+
 
         print(queryset)
 
