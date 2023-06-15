@@ -1,6 +1,7 @@
+from django.contrib.auth.models import Group, Permission
 from rest_framework import serializers
 
-from version.models import Section, Version
+from version.models import Section, Version, CustomGroup
 
 
 class SectionSerializer(serializers.ModelSerializer):
@@ -23,3 +24,42 @@ class VersionSerializer(serializers.ModelSerializer):
         )
 
 
+class PermissionSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = Permission
+        fields = [
+            'id', 'name'
+        ]
+
+
+class CustomGroupSerializer(serializers.ModelSerializer):
+    section = SectionSerializer(
+        read_only=True
+    )
+
+    class Meta:
+        model = CustomGroup
+        fields = [
+            'translation_name', 'order_column', 'section', 'tree_depth', 'text_id'
+        ]
+
+
+class GroupSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    permissions = PermissionSerializer(
+        read_only=True,
+        many=True
+    )
+
+    customgroup = CustomGroupSerializer(
+        read_only=True
+    )
+
+    class Meta:
+        model = Group
+        fields = [
+            'id', 'name', 'permissions', 'customgroup'
+        ]

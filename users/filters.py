@@ -18,6 +18,19 @@ class GlobalDateFilter(GlobalFilter, filters.DateFilter):
     pass
 
 
+class GlobalClubFilter(GlobalFilter, filters.CharFilter):
+    def filter(self, qs, value):
+        if value:
+            chooses = [choose.strip() for choose in value.split(',')]
+            print(chooses)
+
+            if self.distinct:
+                qs = qs.distinct()
+
+            qs = qs.filter(club_id_id__in=chooses)
+        return qs
+
+
 class GlobalNameFilter(GlobalFilter, filters.CharFilter):
     def filter(self, qs, value):
         if value:
@@ -74,9 +87,11 @@ class UserManagementGlobalFilter(DatatablesFilterSet):
     club_name = GlobalCharFilter(field_name='club_id__name', lookup_expr='icontains')
 
     p_version = GlobalNumberFilter(field_name='p_version__id', lookup_expr='exact')
+    club_id = GlobalClubFilter(field_name='club_id__id', lookup_expr='exact')
 
 
 
     class Meta:
         #model = User
-        fields = ['registration_to', 'date_birthsday', 'last_name', 'first_name', 'job_title', 'license', 'p_version']
+        fields = ['registration_to', 'date_birthsday', 'last_name', 'first_name', 'job_title', 'license', 'p_version',
+                  'club_id']

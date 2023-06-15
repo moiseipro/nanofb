@@ -17,4 +17,5 @@ urlpatterns = [
 
     path('countries', views.CountryListApiView.as_view(), name='counties'),
     path('versions', views.VersionListApiView.as_view(), name='versions'),
+    path('clubs', views.ClubListApiView.as_view(), name='clubs'),
 ]

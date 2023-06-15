@@ -3,8 +3,9 @@ from rest_framework import serializers
 
 from clubs.models import Club
 from users.models import User, UserPersonal
-from users.serializers import GroupSerializer, PermissionSerializer
 from django.utils.translation import gettext_lazy as _
+
+from version.serializers import PermissionSerializer, GroupSerializer
 
 
 class ClubSerializer(serializers.ModelSerializer):
