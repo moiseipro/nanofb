@@ -24,7 +24,7 @@ def get_assets_paths(c_obj, group=None, g_type=None, g_type_2=None, c_style=""):
     files = list(get_files(s, location=t_path))
     for c_file in files:
             f_path = os.path.join(STATIC_URL, c_file)
-            f_name = c_file.split('\\')[1]
+            f_name = os.path.basename(c_file)
             data.append({
                 'name': f_name,
                 'path': f_path,
@@ -64,7 +64,6 @@ def get_icon(request):
     svg_path = request.GET.get("url", "")
     style_str = request.GET.get("style", "")
     svg_path = svg_path[1:]
-    print(style_str)
     svg = None
     try:
         ET.register_namespace('', "http://www.w3.org/2000/svg")
