@@ -101,6 +101,40 @@ $(window).on("load", function () {
         }
     })
 
+    $('#club-filter').select2({
+        minimumResultsForSearch: -1,
+        multiple: true,
+        placeholder: gettext("Club"),
+        language: get_cur_lang(),
+        theme: 'bootstrap4',
+        width: '100%',
+        ajax: {
+            url: '/user/clubs',
+            dataType: 'json',
+            data: function (params) {
+
+            },
+            processResults: function (data, params) {
+                console.log(data)
+                return {
+                    results: data,
+                    pagination: {
+                      more: false
+                    }
+                };
+            },
+            cache: true
+        },
+        templateResult: function (state) {
+            console.log(state)
+            var $state = $(`
+                <div class="w-100"> ${state.text} <span class="float-right">${state.count ? '('+state.count+')':''}</span></div>
+                
+            `);
+            return $state;
+        }
+    })
+
     $('#open-profile-modal').on('click', function () {
 
         if (users_menu_state == 'table_settings'){
@@ -279,6 +313,7 @@ $(window).on("load", function () {
             value = moment(value, 'DD/MM/YYYY').format('YYYY-MM-DD')
             console.log(value)
         }
+        console.log(value)
         let filter = $(this).attr('data-filter')
         let filter_obj = `.${filter}`;
         console.log(filter_obj)

@@ -1,63 +1,20 @@
 import datetime
 
 from django.db import IntegrityError
-from django.contrib.auth.models import Group, Permission
 from rest_framework import serializers
 
-from clubs.models import Club
+from clubs.serializers import ClubSerializer
 from users.models import User, UserPersonal
 from django_countries.serializer_fields import CountryField
 from django.utils.translation import gettext_lazy as _
 
-from version.models import Version, CustomGroup
-from version.serializers import VersionSerializer, SectionSerializer
+from version.serializers import VersionSerializer, SectionSerializer, GroupSerializer
 
 
 class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
     password = serializers.CharField(required=True)
     password2 = serializers.CharField(required=True)
-
-
-class PermissionSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(read_only=True)
-
-    class Meta:
-        model = Permission
-        fields = [
-            'id', 'name'
-        ]
-
-
-class CustomGroupSerializer(serializers.ModelSerializer):
-    section = SectionSerializer(
-        read_only=True
-    )
-
-    class Meta:
-        model = CustomGroup
-        fields = [
-            'translation_name', 'order_column', 'section', 'tree_depth', 'text_id'
-        ]
-
-
-class GroupSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(read_only=True)
-
-    permissions = PermissionSerializer(
-        read_only=True,
-        many=True
-    )
-
-    customgroup = CustomGroupSerializer(
-        read_only=True
-    )
-
-    class Meta:
-        model = Group
-        fields = [
-            'id', 'name', 'permissions', 'customgroup'
-        ]
 
 
 class ClubUserEditPermission(serializers.ModelSerializer):
@@ -199,6 +156,7 @@ class UserManagementSerializer(serializers.ModelSerializer):
         source="club_id.name",
         default="---"
     )
+    club_id = ClubSerializer()
     club_registration_to = serializers.DateField(
         source="club_id.date_registration_to",
         default=""
@@ -261,6 +219,6 @@ class UserManagementSerializer(serializers.ModelSerializer):
             'id', 'email', 'days_entered', 'is_active', 'admin_type', 'p_version', 'registration_to', 'groups',
             'last_name', 'first_name', 'job_title', 'date_birthsday', 'age', 'license', 'license_date', 'flag',
             'activation', 'club_name', 'club_registration_to', 'is_archive', 'date_joined', 'phone', 'date_last_login',
-            'region'
+            'region', 'club_id'
         ]
         datatables_always_serialize = ('id', 'groups', 'club_registration_to', 'is_archive')

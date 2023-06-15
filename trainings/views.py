@@ -12,7 +12,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 
 from events.models import UserEvent
-from exercises.models import UserExercise
+from exercises.models import UserExercise, ClubExercise
 from exercises.v_api import get_exercises_params
 from players.models import UserPlayer, ClubPlayer
 from references.models import UserTeam, UserSeason, ClubTeam, ClubSeason, ExsAdditionalData, UserExsAdditionalData, \
@@ -83,6 +83,10 @@ class TrainingViewSet(viewsets.ModelViewSet):
                 training_id__team_id=self.request.session['team'],
                 training_id__event_id__date__lte=ClubTraining.objects.get(pk=pk).event_id.date
             )
+            full_exercise = ClubExercise.objects.get(
+                pk=data['exercise_id']
+            )
+
             if previous_training:
                 previous_training = previous_training.latest('id')
                 last_additional = previous_training.clubtrainingexerciseadditional_set.all()
@@ -97,6 +101,10 @@ class TrainingViewSet(viewsets.ModelViewSet):
                 training_id__team_id=self.request.session['team'],
                 training_id__event_id__date__lte=UserTraining.objects.get(pk=pk).event_id.date
             )
+            full_exercise = UserExercise.objects.get(
+                pk=data['exercise_id']
+            )
+
             if previous_training:
                 previous_training = previous_training.latest('id')
                 last_additional = previous_training.usertrainingexerciseadditional_set.all()
@@ -106,7 +114,16 @@ class TrainingViewSet(viewsets.ModelViewSet):
             last_description = previous_training.description
             last_additional_json = json.dumps(previous_training.additional_json)
         else:
-            last_description = ''
+            if full_exercise.description_trainer is not None and request.LANGUAGE_CODE in full_exercise.description_trainer and \
+                    full_exercise.description_trainer[request.LANGUAGE_CODE] != '':
+                last_description = full_exercise.description_trainer[request.LANGUAGE_CODE]
+            elif full_exercise.description is not None and request.LANGUAGE_CODE in full_exercise.description and \
+                    full_exercise.description[request.LANGUAGE_CODE] != '':
+                last_description = full_exercise.description[request.LANGUAGE_CODE]
+            else:
+                last_description = ''
+
+            print(last_description)
             last_additional_json = json.dumps(None)
 
         if exercise_count > 6:

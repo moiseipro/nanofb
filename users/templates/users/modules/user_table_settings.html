@@ -31,6 +31,12 @@
                     <option value="">{% trans 'Version' %}</option>
                 </select>
             </div>
+            <div class="col-12 pb-1">
+                <label class="form-check-label" for="club-filter">
+                    {% trans 'Clubs' %}
+                </label>
+                <select id="club-filter" class="form-control user-table-filter select2" data-filter="club-user-filter"></select>
+            </div>
         </div>
     </div>
     <div class="col-12" style="background: lightgrey">

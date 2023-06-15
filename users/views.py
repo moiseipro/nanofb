@@ -377,6 +377,37 @@ class VersionListApiView(APIView):
         return Response(list2)
 
 
+class ClubListApiView(APIView):
+    #authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAdminUser]
+
+    def get(self, request, format=None):
+        queryset = User.objects.exclude(club_id=None).annotate(users=Count('club_id')).order_by(
+            'club_id')
+        print(queryset.values())
+        list_clubs = [
+            {
+                'id': data.club_id.id,
+                'name': data.club_id.name,
+                'count': data.users
+            } for data in queryset
+        ]
+        print(list_clubs)
+        clubs_count = {}
+        for club in list_clubs:
+            print(club)
+            clubs_count[club['id']] = clubs_count.get(club['id'], {'name': '', 'count': 0})
+            clubs_count[club['id']]['count'] += club['count']
+            clubs_count[club['id']]['name'] = club['name']
+        print(clubs_count)
+
+        list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in clubs_count.items()]
+        #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+        print(list2)
+        #User.objects.filter(club_id_id__in=)
+        return Response(list2)
+
+
 def profile_req(request):
     if not request.user.is_authenticated:
         return redirect("authorization:login")
