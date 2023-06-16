@@ -9,6 +9,7 @@ function ClearPage() {
 }
 
 function GetIcon(elem, url, style) {
+    let resData = "";
     $.ajax({
         headers:{"X-CSRFToken": csrftoken},
         data: {'url': url, 'style': style},
@@ -17,13 +18,14 @@ function GetIcon(elem, url, style) {
         url: "/drawer/get_icon",
         success: function (res) {
             if (res.success) {
-                $(elem).attr('src', `data:image/svg+xml;utf8,${res.data}`);
-                $(elem).after(res.data)
+                resData = `data:image/svg+xml;base64,${res.data}`;
+                $(elem).attr('src', resData);
             }
         },
         error: function (res) {
         },
         complete: function (res) {
+            $('.tmp-current-icon').attr('src', resData);
         }
     });
 }
@@ -158,6 +160,9 @@ function ToggleNewObjOnCanvas(onCreate=true) {
                     scaleVal = 2.5;
                 }
             }
+            if ($(selectedElem).attr('data-group') == "caps") {
+                scaleVal = 0.045;
+            }
             window.canvas.selectedObj = Konva.Image.fromURL(cUrl, (node) => {
                 node.setAttrs({
                     x: mousePos.x,
@@ -271,19 +276,12 @@ function ChangePlayersColor() {
         if (cId == "mid") {pantsColor = cColor;}
         if (cId == "down") {socksColor = cColor;}
     });
-    $('.leftmenu-content-element[data-id="players"]').find('.players-list').find('.cvs-elem > img').each((ind, elem) => {
-        let imageUri = $(elem).attr('src');
-        $(elem).addClass('d-none');
-        $(elem).parent().find('svg').remove();
-        $.get(imageUri, (data) => {
-            let svg = $(data).find('svg');
-            $(svg).removeAttr('xmlns:a');
-            $(svg).addClass('img-thumbnail c-img');
-            $(svg).css('--shirt-color', shirtColor);
-            $(svg).css('--pants-color', pantsColor);
-            $(svg).css('--socks-color', socksColor);
-            $(elem).after(svg);
-        });
+    let finalStyle = `--shirt-color:${shirtColor};`;
+    finalStyle += `--pants-color:${pantsColor};`;
+    finalStyle += `--socks-color:${socksColor};`;
+    $('.leftmenu-content-element[data-id="players"]').find('.players-list').find('.cvs-elem').each((ind, elem) => {
+        let cUrl = $(elem).find('img').attr('data-src');
+        GetIcon($(elem).find('img'), cUrl, finalStyle);
     });
 }
 
@@ -340,6 +338,15 @@ function LoadZonePreview() {
             $(svg).css('--stroke-dasharray', zoneType == "dotted" ? [10, 10] : 0);
             $(elem).after(svg);
         });
+    });
+}
+
+function LoadLabelsPreview() {
+    let zoneColor = $('.leftmenu-content-element[data-id="labels"]').find('.colors-panel-container-labels[data-id="fill"]').find('.color-elem.selected').css('background-color');
+    let finalStyle = `--color: ${zoneColor};`;
+    $('.leftmenu-content-element[data-id="labels"]').find('.cvs-elem').each((ind, elem) => {
+        let cUrl = $(elem).find('img').attr('data-src');
+        GetIcon($(elem).find('img'), cUrl, finalStyle);
     });
 }
 
@@ -451,12 +458,14 @@ $(function() {
         $(e.currentTarget).addClass('active');
         LoadZonePreview();
     });
-
-
-    $('.leftmenu-content-element[data-id="labels"]').on('click', '.cvs-elem', (e) => {
-        let cUrl = $(e.currentTarget).find('img').attr('data-src');
-        let style = "--color: black;";
-        GetIcon($(e.currentTarget).find('img'), cUrl, style);
+    
+    LoadLabelsPreview();
+    $('.colors-panel-container-labels').on('click', '.color-elem', (e) => {
+        let cId = $(e.delegateTarget).attr('data-id');
+        $(`.colors-panel-container-labels[data-id="${cId}"]`).find('.color-elem').removeClass('selected');
+        $(e.currentTarget).addClass('selected');
+        LoadLabelsPreview();
     });
+
 
 });

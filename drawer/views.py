@@ -7,6 +7,7 @@ from django.contrib.staticfiles.storage import StaticFilesStorage
 import os
 from nanofb.settings import STATIC_URL
 import xml.etree.ElementTree as ET
+import base64
 
 # https://konvajs.org/docs/index.html
 
@@ -23,7 +24,7 @@ def get_assets_paths(c_obj, group=None, g_type=None, g_type_2=None, c_style=""):
     files = list(get_files(s, location=t_path))
     for c_file in files:
             f_path = os.path.join(STATIC_URL, c_file)
-            f_name = c_file.split('\\')[1]
+            f_name = os.path.basename(c_file)
             data.append({
                 'name': f_name,
                 'path': f_path,
@@ -70,7 +71,9 @@ def get_icon(request):
         root = tree.getroot()
         root.set('style', style_str)
         svg = ET.tostring(root, encoding="unicode", method="html")
-        print(type(svg))
+        svg = base64.b64encode(bytes(svg, 'utf-8'))
+        svg = f"{svg}"
+        svg = svg[2:len(svg)-1] # remove <b'> from start and <'> from end of svg's string
     except:
         return JsonResponse({"success": False}, status=400)
     return JsonResponse({"data": svg, "success": True}, status=200)
