@@ -1,6 +1,6 @@
 from django.contrib import admin
 from references.models import ExsGoal, ExsBall, ExsTeamCategory, ExsAgeCategory, ExsTrainPart, ExsCognitiveLoad, \
-    PlayerProtocolStatus, ClubSeason, ClubTeam, TrainingSpace, TrainingAdditionalData
+    PlayerProtocolStatus, ClubSeason, ClubTeam, TrainingSpace, TrainingAdditionalData, TeamStatus
 from references.models import ExsKeyword, ExsStressType, ExsPurpose, ExsCoaching
 from references.models import ExsCategory, ExsAdditionalData, ExsTitleName, ExsType, ExsPhysicalQualities
 from references.models import VideoSource, UserSeason, UserTeam
@@ -25,5 +25,5 @@ admin.site.register([PlayerTeamStatus, PlayerPlayerStatus, PlayerLevel, PlayerPo
 
 
 #For Test
-admin.site.register([UserSeason, UserTeam, ClubSeason])
+admin.site.register([UserSeason, UserTeam, ClubSeason, TeamStatus])
 admin.site.register(ClubTeam, ClubTeamAdmin)

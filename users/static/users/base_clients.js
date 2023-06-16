@@ -276,9 +276,20 @@ $(window).on("load", function () {
 
     $('#generate-password-user-button').on('click', function () {
         let send_data = {}
-        ajax_users_action('POST', send_data, 'new password', user_select_id, 'generate_new_password').then(function (data) {
-            console.log(data)
+        swal({
+            title: gettext("Are you sure you want to generate a new password?"),
+            text: "The new password will be sent by email!",
+            icon: "warning",
+            buttons: true,
         })
+        .then((willDelete) => {
+            if (willDelete) {
+                ajax_users_action('POST', send_data, 'new password', user_select_id, 'generate_new_password').then(function (data) {
+                    console.log(data)
+                })
+            }
+        });
+
     })
 
     users_table

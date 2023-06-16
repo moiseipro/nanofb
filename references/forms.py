@@ -34,13 +34,13 @@ class CreateTeamForm(forms.ModelForm):
 
     class Meta:
         model = UserTeam
-        fields = ['name', 'age_key', 'u_key']
+        fields = ['name', 'age_key', 'u_key', 'ref_team_status']
         labels = {
             'name': _('Team title'),
             #'short_name': _('Team short name'),
             'age_key': _('Year of birth'),
             'u_key': _('Age U'),
-            #'ref_team_status': _('Team status'),
+            'ref_team_status': _('Team status'),
         }
         help_texts = {
             'name': None,

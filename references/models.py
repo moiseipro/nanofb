@@ -91,7 +91,7 @@ class VideoSource(AbstractReference):
         verbose_name_plural = _('Video sources')
 
 
-class TeamStatus(AbstractReference):
+class TeamStatus(AbstractReference, MixTranslateReference):
 
     @classmethod
     def get_default_pk(cls):
