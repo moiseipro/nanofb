@@ -50,7 +50,7 @@ function generate_ajax_users_table(scroll_y = ''){
                 }
                 return html;
             }},
-            {'data': 'license', 'name': 'license', 'defaultContent': "---", render: function (data, type, row, meta) {
+            {'data': 'license', 'name': 'trainer_license', 'defaultContent': "---", render: function (data, type, row, meta) {
                 return `<div class="text-truncate w-100 text-center" title="${data}"> ${data} </div>`;
             }},
             {'data': 'license_date', 'name': 'license_date', 'defaultContent': "---"},

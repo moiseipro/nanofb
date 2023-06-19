@@ -352,6 +352,7 @@ function load_user_data(id = -1) {
             if (idKey == 'personal'){
                 for (const idKey2 in user.personal) {
                     //console.log(idKey2)
+                    $('#profile-user select[name="'+idKey2+'"]').val(user.personal[idKey2])
                     $('#profile-user input[name="'+idKey2+'"]').val(user.personal[idKey2])
                 }
             }
