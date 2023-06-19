@@ -63,6 +63,7 @@ def drawings(request):
 def get_icon(request):
     svg_path = request.GET.get("url", "")
     style_str = request.GET.get("style", "")
+    value_text_str = request.GET.get("value_text", "")
     svg_path = svg_path[1:]
     svg = None
     try:
@@ -70,6 +71,9 @@ def get_icon(request):
         tree = ET.parse(svg_path)
         root = tree.getroot()
         root.set('style', style_str)
+        if value_text_str != "":
+            text_tag = root.find("{http://www.w3.org/2000/svg}text")
+            text_tag.text = value_text_str
         svg = ET.tostring(root, encoding="unicode", method="html")
         svg = base64.b64encode(bytes(svg, 'utf-8'))
         svg = f"{svg}"
