@@ -4,31 +4,31 @@
 
 <form id="add-user-form">
     <div class="row form-row">
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <div class="form-group mb-1">
                 <label class="">{% trans 'Last name'%}</label>
                 <input type="text" name="last_name" class="form-control form-control-sm" value="" autocomplete="off" required>
             </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <div class="form-group mb-1">
                 <label class="">{% trans 'First name'%}</label>
                 <input type="text" name="first_name" class="form-control form-control-sm" value="" autocomplete="off" required>
             </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <div class="form-group mb-1">
                 <label class="">{% trans 'Father name'%}</label>
                 <input type="text" name="father_name" class="form-control form-control-sm" value="" autocomplete="off">
             </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <div class="form-group mb-1">
                 <label class="">{% trans 'Email'%}</label>
                 <input type="text" name="email" class="form-control form-control-sm" value="" autocomplete="off" required>
             </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <div class="form-group mb-1">
                 <label class="">{% trans 'Club'%}</label>
                 <select name="club_id" id="club-create-select" class="form-control form-control-sm">
@@ -39,7 +39,7 @@
                 </select>
             </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <div class="form-group mb-1">
                 <label class="" for="p_version-create-select">{% trans 'Version'%}</label>
                 <select name="p_version" id="p_version-create-select" class="form-control form-control-sm">
@@ -50,13 +50,25 @@
                 </select>
             </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <div class="form-group mb-1">
                 <label class="">{% trans 'Access to'%}</label>
                 <input type="text" name="registration_to" class="form-control form-control-sm datetimepicker" data-toggle="datetimepicker" value="" autocomplete="off" required>
             </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-3">
+            <div class="form-group mb-1">
+                <label class="">{% trans 'Date of Birth'%}</label>
+                <input type="text" name="date_birthsday" class="form-control form-control-sm datetimepicker" data-toggle="datetimepicker" value="" autocomplete="off" required>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group mb-1">
+                <label class="">{% trans 'Job title'%}</label>
+                <input type="text" name="job_title" class="form-control form-control-sm" value="" autocomplete="off">
+            </div>
+        </div>
+        <div class="col-sm-6">
             <div class="form-group mb-1">
                 <label class="">{% trans 'Phone'%}</label>
                 <input id="phone" name="phone" type="tel" value="" class="form-control form-control-sm" autocomplete="off" required>
@@ -64,19 +76,18 @@
         </div>
         <div class="col-sm-4">
             <div class="form-group mb-1">
-                <label class="">{% trans 'Date of Birth'%}</label>
-                <input type="text" name="date_birthsday" class="form-control form-control-sm datetimepicker" data-toggle="datetimepicker" value="" autocomplete="off" required>
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="form-group mb-1">
-                <label class="">{% trans 'Job title'%}</label>
-                <input type="text" name="job_title" class="form-control form-control-sm" value="" autocomplete="off">
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="form-group mb-1">
                 <label class="">{% trans 'License'%}</label>
+                <select name="trainer_license" id="trainer_license-select" class="form-control form-control-sm">
+                    <option value="">{% trans "No" %}</option>
+                    {% for license in trainer_license %}
+                        <option value="{{ license.id }}">{{ license.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group mb-1">
+                <label class="">---</label>
                 <input type="text" name="license" class="form-control form-control-sm" value="" autocomplete="off">
             </div>
         </div>

@@ -17,6 +17,30 @@ def user_directory_path(instance, filename):
     return 'user_{0}/{1}'.format(instance.user.id, filename)
 
 
+# User References
+class TrainerLicense(models.Model):
+    name = models.CharField(
+        max_length=50,
+        verbose_name=_('title'),
+        help_text=_('Imported source name'),
+        null=True,
+        blank=True
+    )
+    order = models.IntegerField(
+        verbose_name=_('order'),
+        help_text=_('Sorting index'),
+        default=0
+    )
+
+    def __str__(self):
+        return self.name or 'No name'
+
+    class Meta:
+        verbose_name = _('Trainer License')
+        verbose_name_plural = _('Trainer\'s licenses')
+        ordering = ['order']
+
+
 class UserPersonal(models.Model):
     first_name = models.CharField(
         max_length=50,
@@ -50,8 +74,16 @@ class UserPersonal(models.Model):
         verbose_name=_('Club title'),
         help_text=_('User club title')
     )
+    trainer_license = models.ForeignKey(
+        TrainerLicense,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name=_('Trainer license'),
+        help_text=_('Trainer user license'),
+    )
     license = models.CharField(
-        max_length=30,
+        max_length=15,
         null=True,
         blank=True,
         verbose_name=_('License'),
@@ -61,7 +93,7 @@ class UserPersonal(models.Model):
         null=True,
         blank=True,
         default=date.today,
-        verbose_name=_('License date'),
+        verbose_name=_('License to'),
         help_text=_('License expiration date'),
     )
     country_id = CountryField(

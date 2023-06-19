@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from users.models import User, UserPersonal, UserPayment
+from users.models import User, UserPersonal, UserPayment, TrainerLicense
 
 from django.utils.translation import gettext_lazy as _
 
@@ -27,3 +27,4 @@ class UserAdmin(admin.ModelAdmin):
 admin.site.register(User, UserAdmin)
 admin.site.register(UserPersonal)
 admin.site.register(UserPayment)
+admin.site.register(TrainerLicense)

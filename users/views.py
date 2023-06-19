@@ -27,7 +27,7 @@ from system_icons.views import get_ui_elements
 
 from users.filters import UserManagementGlobalFilter
 from users.forms import EditUserPersonalForm
-from users.models import User, UserPersonal
+from users.models import User, UserPersonal, TrainerLicense
 from users.serializers import UserPersonalSerializer, ChangePasswordSerializer, UserSerializer, \
     UserManagementSerializer, UserEditSerializer, UserAllDataSerializer, CreateUserSerializer, \
     CreateUserManagementSerializer, GroupSerializer
@@ -58,6 +58,7 @@ class BaseProfileView(LoginRequiredMixin, TemplateView):
         context['edit_profile'] = EditUserPersonalForm()
         context['menu_profile'] = "active"
         context['activation'] = self.licence_check()
+        context['trainer_license'] = TrainerLicense.objects.all()
         context['ui_elements'] = get_ui_elements(self.request)
         return context
 
@@ -75,6 +76,7 @@ class UserManagementView(PermissionRequiredMixin, TemplateView):
         context['ui_elements'] = get_ui_elements(self.request)
         context['clubs'] = Club.objects.all()
         context['versions'] = Version.objects.all()
+        context['trainer_license'] = TrainerLicense.objects.all()
         return context
 
 

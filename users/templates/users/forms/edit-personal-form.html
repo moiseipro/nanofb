@@ -72,15 +72,28 @@
             <div class="form-group row mb-1">
                 <label class="col-sm-6 col-form-label">{% trans 'License'%}</label>
                 <div class="col-sm-6">
-                    <input type="text" name="license" class="form-control form-control-sm edit-input" value="{% if user.personal.license %}{{ user.personal.license}}{% endif %}" autocomplete="off" required disabled>
+                    <select name="trainer_license" id="trainer_license-select" class="form-control edit-input" disabled>
+                        <option value="">{% trans "No" %}</option>
+                        {% for license in trainer_license %}
+                            <option value="{{ license.id }}" {% if user.personal.trainer_license.id == license.id %} selected {% endif %}>{{ license.name }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
             </div>
         </div>
         <div class="col-sm-12">
             <div class="form-group row mb-1">
-                <label class="col-sm-6 col-form-label">{% trans 'License period'%}</label>
+                <label class="col-sm-6 col-form-label"></label>
                 <div class="col-sm-6">
-                    <input type="text" name="license_date" class="form-control form-control-sm datetimepicker edit-input" data-toggle="datetimepicker" value="{{ user.personal.license_date|date:"d/m/Y" }}" autocomplete="off" required disabled>
+                    <input type="text" name="license" class="form-control form-control-sm edit-input" placeholder="{% trans "License" %}" value="{% if user.personal.license %}{{ user.personal.license}}{% endif %}" autocomplete="off" disabled>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="form-group row mb-1">
+                <label class="col-sm-6 col-form-label">{% trans 'License to'%}</label>
+                <div class="col-sm-6">
+                    <input type="text" name="license_date" class="form-control form-control-sm datetimepicker edit-input" data-toggle="datetimepicker" value="{{ user.personal.license_date|date:"d/m/Y" }}" autocomplete="off" disabled>
                 </div>
             </div>
         </div>

@@ -4,12 +4,23 @@ from django.db import IntegrityError
 from rest_framework import serializers
 
 from clubs.serializers import ClubSerializer
-from users.models import User, UserPersonal
+from users.models import User, UserPersonal, TrainerLicense
 from django_countries.serializer_fields import CountryField
 from django.utils.translation import gettext_lazy as _
 
 from version.serializers import VersionSerializer, SectionSerializer, GroupSerializer
 
+
+class TrainerLicenseSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+
+    name = serializers.CharField()
+
+    class Meta:
+        model = TrainerLicense
+        fields = [
+            'id', 'name'
+        ]
 
 class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
@@ -67,7 +78,7 @@ class UserPersonalSerializer(serializers.ModelSerializer):
         model = UserPersonal
         fields = [
             'id', 'first_name', 'last_name', 'father_name', 'email_2', 'job_title', 'date_birthsday', 'country_id',
-            'region', 'city', 'phone', 'phone_2', 'license', 'license_date', 'skype'
+            'region', 'city', 'phone', 'phone_2', 'trainer_license', 'license', 'license_date', 'skype'
         ]
 
 
@@ -143,9 +154,10 @@ class UserManagementSerializer(serializers.ModelSerializer):
         source="personal.date_birthsday"
     )
     age = serializers.SerializerMethodField()
-    license = serializers.CharField(
-        source="personal.license"
+    trainer_license = TrainerLicenseSerializer(
+        source="personal.trainer_license"
     )
+    license = serializers.SerializerMethodField()
     license_date = serializers.DateField(
         source="personal.license_date"
     )
@@ -174,6 +186,14 @@ class UserManagementSerializer(serializers.ModelSerializer):
     admin_type = serializers.SerializerMethodField()
 
     activation = serializers.SerializerMethodField()
+
+    def get_license(self, user):
+        license_name = ''
+        if user.personal.trainer_license is not None:
+            license_name += user.personal.trainer_license.name
+        if user.personal.license is not None:
+            license_name += ' ' + user.personal.license
+        return license_name
 
     def get_admin_type(self, user):
         admin_types = ''
@@ -217,8 +237,9 @@ class UserManagementSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'id', 'email', 'days_entered', 'is_active', 'admin_type', 'p_version', 'registration_to', 'groups',
-            'last_name', 'first_name', 'job_title', 'date_birthsday', 'age', 'license', 'license_date', 'flag',
+            'last_name', 'first_name', 'job_title', 'date_birthsday', 'age',
+            'trainer_license', 'license', 'license_date', 'flag',
             'activation', 'club_name', 'club_registration_to', 'is_archive', 'date_joined', 'phone', 'date_last_login',
             'region', 'club_id'
         ]
-        datatables_always_serialize = ('id', 'groups', 'club_registration_to', 'is_archive')
+        datatables_always_serialize = ('id', 'groups', 'trainer_license', 'club_registration_to', 'is_archive')

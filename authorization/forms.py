@@ -6,7 +6,7 @@ from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
 from django.utils.translation import gettext_lazy as _
 
-from users.models import User, UserPersonal
+from users.models import User, UserPersonal, TrainerLicense
 from version.models import Version
 
 
@@ -91,30 +91,39 @@ class NewUserPersonalForm(forms.Form):
             'autocomplete': 'off',
             'type': 'tel'
         }))
-    license = forms.CharField(
+    trainer_license = forms.ModelChoiceField(
         required=True,
         label=False,
+        empty_label=_("No"),
+        queryset=TrainerLicense.objects.all(),
+        widget=forms.Select(attrs={
+            'class': 'form-control form-control-sm'
+        })
+    )
+    license = forms.CharField(
+        #required=True,
+        label=False,
         widget=forms.TextInput(attrs={
-            'class': 'form-control form-control-sm',
+            'class': 'form-control form-control-md',
             'placeholder': _('License'),
             'autocomplete': 'off',
         }))
     license_date = forms.DateField(
-        required=True,
+        #required=True,
         label=False,
         widget=forms.DateInput(attrs={
-            'class': 'form-control form-control-sm datetimepicker',
+            'class': 'form-control form-control-md datetimepicker',
             'type': 'text',
             'id': 'datetimepicker-license',
             'data-toggle': 'datetimepicker',
             'autocomplete': 'off',
-            'placeholder': _('License period'),
+            'placeholder': _('License to'),
         }))
 
     class Meta:
         model = UserPersonal
         fields = ["last_name", "first_name", "father_name", "date_birthsday", "country_id", "region", "city", "phone",
-                  "license", "license_date"]
+                  "trainer_license", "license", "license_date"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -128,8 +137,9 @@ class NewUserPersonalForm(forms.Form):
                 Column('city', css_class='form-group col-md-12 mb-0'),
                 Column('date_birthsday', css_class='form-group col-md-6 mb-0'),
                 Column('phone', css_class='form-group col-md-6 mb-0'),
-                Column('license', css_class='form-group col-md-6 mb-0'),
-                Column('license_date', css_class='form-group col-md-6 mb-0'),
+                Column('trainer_license', css_class='form-group col-md-4 mb-0'),
+                Column('license', css_class='form-group col-md-4 mb-0'),
+                Column('license_date', css_class='form-group col-md-4 mb-0'),
                 css_class='form-row'
             ),
 
