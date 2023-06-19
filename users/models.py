@@ -83,7 +83,7 @@ class UserPersonal(models.Model):
         help_text=_('Trainer user license'),
     )
     license = models.CharField(
-        max_length=15,
+        max_length=30,
         null=True,
         blank=True,
         verbose_name=_('License'),
