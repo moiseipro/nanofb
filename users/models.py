@@ -87,7 +87,7 @@ class UserPersonal(models.Model):
         null=True,
         blank=True,
         verbose_name=_('License'),
-        help_text=_('Trainer\'s License')
+        help_text=_('Trainer License')
     )
     license_date = models.DateField(
         null=True,
