@@ -97,3 +97,16 @@
 .colors-panel > div.selected::after {
     content: "✔";
 }
+
+
+.col-custom-10 {
+    -ms-flex: 0 0 10% !important;
+    flex: 0 0 10% !important;
+    max-width: 10% !important;
+}
+.col-custom-8 {
+    -ms-flex: 0 0 12.5% !important;
+    flex: 0 0 12.5% !important;
+    max-width: 12.5% !important;
+}
+

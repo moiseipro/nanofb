@@ -8,11 +8,11 @@ function ClearPage() {
     }, 1500);
 }
 
-function GetIcon(elem, url, style) {
+function GetIcon(elem, url, style, value_text="") {
     let resData = "";
     $.ajax({
         headers:{"X-CSRFToken": csrftoken},
-        data: {'url': url, 'style': style},
+        data: {'url': url, 'style': style, 'value_text': value_text},
         type: 'GET', // GET или POST
         dataType: 'json',
         url: "/drawer/get_icon",
@@ -85,6 +85,8 @@ function CreateCanvasDraw() {
         y2 = stage.getPointerPosition().y;
 
         selectionRectangle.visible(true);
+        selectionRectangle.x(x1);
+        selectionRectangle.y(y1);
         selectionRectangle.width(0);
         selectionRectangle.height(0);
     });
@@ -118,6 +120,9 @@ function CreateCanvasDraw() {
         transformer.nodes(selected);
     });
     stage.on('click tap', (e) => {
+        if (selectionRectangle.visible() && e.target.hasName('c-line')) {
+            console.log('selecting line twice')
+        }
         if (selectionRectangle.visible()) {
             return;
         }
@@ -152,32 +157,83 @@ function ToggleNewObjOnCanvas(onCreate=true) {
     if (onCreate) {
         let mousePos = window.canvas.stage.getPointerPosition();
         if (selectedElem) {
+            let currentGroup = $(selectedElem).attr('data-group');
             let scaleVal = 0.5;
-            if ($(selectedElem).attr('data-group') == "gate") {
+            if (currentGroup == "gate") {
                 if ($('.leftmenu-content-element[data-id="gates"]').find('.gates-type.active').attr('data-id') == "small") {
                     scaleVal = 1.4;
                 } else {
                     scaleVal = 2.5;
                 }
             }
-            if ($(selectedElem).attr('data-group') == "caps") {
+            if (currentGroup == "player") {
+                scaleVal = 0.06;
+            }
+            if (currentGroup == "caps") {
                 scaleVal = 0.045;
             }
-            window.canvas.selectedObj = Konva.Image.fromURL(cUrl, (node) => {
-                node.setAttrs({
-                    x: mousePos.x,
-                    y: mousePos.y,
-                    scaleX: scaleVal,
-                    scaleY: scaleVal,
-                    draggable: true,
-                    name: "c-elem",
-                });
-                window.canvas.layer.add(node);
-                window.canvas.transformer.moveToTop();
-                window.canvas.selectionRectangle.moveToTop();
+            if (currentGroup == "labels" || currentGroup == "numbers") {
+                scaleVal = 0.25;
+            }
+            
+            if (currentGroup == "line") {
+                let lineType = $('.leftmenu-content-element[data-id="lines"]').find('.line-type.active').attr('data-id');
+                let lineType2 = $('.leftmenu-content-element[data-id="lines"]').find('.line-type-2.active').attr('data-id');
+                let lineThickness = 1;
+                try {
+                    lineThickness = parseInt($('.leftmenu-content-element[data-id="lines"]').find('.line-thickness-type.active').attr('data-id')) * 2;
+                } catch(e) {}
+                let isMarker = $('.leftmenu-content-element[data-id="lines"]').find('.line-marker').prop('checked');
+                let lineColor = $('.leftmenu-content-element[data-id="lines"]').find('.color-elem.selected').css('background-color');
+                let lineLength = 150;
+                if (isMarker) {
+                    let arrow = new Konva.Arrow({
+                        x: mousePos.x,
+                        y: mousePos.y,
+                        points: [0, 0, lineLength, 0],
+                        pointerLength: 20,
+                        pointerWidth: 20,
+                        fill: `${lineColor}`,
+                        stroke: `${lineColor}`,
+                        strokeWidth: lineThickness,
+                        dash: lineType2 == "dotted" ? [10, 10] : 0,
+                        draggable: true,
+                        name: "c-elem c-line",
+                    });
+                    window.canvas.layer.add(arrow);
+                } else {
+                    let line = new Konva.Line({
+                        points: [mousePos.x, mousePos.y, mousePos.x+lineLength, mousePos.y],
+                        stroke: `${lineColor}`,
+                        strokeWidth: lineThickness,
+                        lineCap: 'round',
+                        lineJoin: 'round',
+                        dash: lineType2 == "dotted" ? [10, 10] : 0,
+                        draggable: true,
+                        name: "c-elem c-line",
+                    });
+                    window.canvas.layer.add(line);
+                }
                 window.canvas.layer.draw();
-                node.fire('dragstart');
-            });
+            } else if (currentGroup == "shape") {
+
+            } else {
+                window.canvas.selectedObj = Konva.Image.fromURL(cUrl, (node) => {
+                    node.setAttrs({
+                        x: mousePos.x,
+                        y: mousePos.y,
+                        scaleX: scaleVal,
+                        scaleY: scaleVal,
+                        draggable: true,
+                        name: "c-elem",
+                    });
+                    window.canvas.layer.add(node);
+                    window.canvas.transformer.moveToTop();
+                    window.canvas.selectionRectangle.moveToTop();
+                    window.canvas.layer.draw();
+                    node.fire('dragstart');
+                });
+            }
             $(selectedElem).removeClass('selected');
         }
     } else {
@@ -223,7 +279,7 @@ function ToggleLeftMenu(id) {
     const leftMenuTitles = {
         'layers': "Слои", 'fields': "Поля", 'gates': "Ворота", 'inventory': "Инвентарь",
         'players': "Игроки", 'lines': "Линии", 'zones': "Зоны", 'labels': "Метки",
-        'logoNF': "Логотип NF",
+        'text': "Добавление текста", 'image': "Загрузка изображения", 'logoNF': "Логотип NF",
     };
     $('.draw-leftmenu-header').text(leftMenuTitles[id]);
     $('.draw-leftmenu-content').find('.leftmenu-content-element').addClass('d-none');
@@ -234,7 +290,7 @@ function ToggleLeftMenu(id) {
 
 function ActionButton(id=null) {
     if (!id) {return;}
-    const leftMenus = ["layers", "fields", "gates", "inventory", "players", "lines", "zones", "labels", "logoNF"];
+    const leftMenus = ["layers", "fields", "gates", "inventory", "players", "lines", "zones", "labels", "text", "image", "logoNF"];
     if (leftMenus.includes(id)) {
         ToggleLeftMenu(id);
     } else {
@@ -263,6 +319,8 @@ function TogglePlayersByType() {
     let cPosType = $('.leftmenu-content-element[data-id="players"]').find('.players-pos-type.active').attr('data-id');
     $('.leftmenu-content-element[data-id="players"]').find('.players-list').find('.cvs-elem').parent().addClass('d-none');
     $('.leftmenu-content-element[data-id="players"]').find('.players-list').find(`.cvs-elem[data-g-type="${cType}"][data-g-type2="${cPosType}"]`).parent().removeClass('d-none');
+
+    ChangePlayersColor();
 }
 
 function ChangePlayersColor() {
@@ -280,6 +338,7 @@ function ChangePlayersColor() {
     finalStyle += `--pants-color:${pantsColor};`;
     finalStyle += `--socks-color:${socksColor};`;
     $('.leftmenu-content-element[data-id="players"]').find('.players-list').find('.cvs-elem').each((ind, elem) => {
+        if ($(elem).parent().hasClass('d-none')) {return;}
         let cUrl = $(elem).find('img').attr('data-src');
         GetIcon($(elem).find('img'), cUrl, finalStyle);
     });
@@ -341,12 +400,71 @@ function LoadZonePreview() {
     });
 }
 
+function CreateLabelsInPrev() {
+    const labels = [
+        {'text': "A", 'fill': true},
+        {'text': "B", 'fill': true},
+        {'text': "C", 'fill': true},
+        {'text': "D", 'fill': true},
+        {'text': "E", 'fill': true},
+        {'text': "F", 'fill': true},
+        {'text': "G", 'fill': true},
+        {'text': "H", 'fill': true},
+        {'text': "N", 'fill': true},
+        {'text': "n", 'fill': true},
+        {'text': "", 'fill': true},
+    ];
+    for (let i = 0; i < 10; i ++) {
+        $('.leftmenu-content-element[data-id="labels"]').find('.labels-labels-block').append(`
+            <div class="col-2 col-custom-10 px-0">
+                <div class="cvs-elem" data-group="labels" data-g-type="None" data-g-type2="None" data-text="${i+1}" data-fill="${false}">
+                    <img src="/static/drawer/img/assets/label.svg" alt="..." class="img-thumbnail c-img px-0" data-src="/static/drawer/img/assets/label.svg">
+                </div>
+            </div>
+        `);
+    }
+    for (let i = 0; i < labels.length; i ++) {
+        let label = labels[i];
+        $('.leftmenu-content-element[data-id="labels"]').find('.labels-labels-block').append(`
+            <div class="col-2 col-custom-8 px-0">
+                <div class="cvs-elem" data-group="labels" data-g-type="None" data-g-type2="None" data-text="${label.text}" data-fill="${label.fill}">
+                    <img src="/static/drawer/img/assets/label.svg" alt="..." class="img-thumbnail c-img px-0" data-src="/static/drawer/img/assets/label.svg">
+                </div>
+            </div>
+        `);
+    }
+    const numbersCount = 100;
+    for (let i = 0; i < numbersCount; i++) {
+        $('.leftmenu-content-element[data-id="labels"]').find('.labels-numbers-block').append(`
+            <div class="col-2 col-custom-10 px-0">
+                <div class="cvs-elem" data-group="numbers" data-g-type="None" data-g-type2="None" data-text="${i}" data-fill="true">
+                    <img src="/static/drawer/img/assets/label.svg" alt="..." class="img-thumbnail c-img px-0" data-src="/static/drawer/img/assets/label.svg">
+                </div>
+            </div>
+        `);
+    }
+
+    LoadLabelsPreview();
+}
+
 function LoadLabelsPreview() {
     let zoneColor = $('.leftmenu-content-element[data-id="labels"]').find('.colors-panel-container-labels[data-id="fill"]').find('.color-elem.selected').css('background-color');
-    let finalStyle = `--color: ${zoneColor};`;
+    let finalStyle = `--color:${zoneColor};`;
     $('.leftmenu-content-element[data-id="labels"]').find('.cvs-elem').each((ind, elem) => {
         let cUrl = $(elem).find('img').attr('data-src');
-        GetIcon($(elem).find('img'), cUrl, finalStyle);
+        let cText = null;
+        if ($(elem).attr('data-group') == "labels" || $(elem).attr('data-group') == "numbers") {
+            cText = $(elem).attr('data-text');
+            let isFill = $(elem).attr('data-fill') == "true";
+            if (isFill) {
+                finalStyle = `--fill-color:${zoneColor};`;
+                finalStyle += `--font-color:#000;`;
+            } else {
+                finalStyle = `--fill-color:transparent;`;
+                finalStyle += `--font-color:${zoneColor};`;
+            }
+        }
+        GetIcon($(elem).find('img'), cUrl, finalStyle, cText);
     });
 }
 
@@ -389,14 +507,13 @@ $(function() {
 
 
     // Players panel
-    ChangePlayersColor();
     $('.colors-panel-container-players').on('click', '.color-elem', (e) => {
         let cId = $(e.delegateTarget).attr('data-id');
         let cColor = $(e.currentTarget).css('background-color');
         $(`.colors-panel-container-players[data-id="${cId}"]`).find('.color-elem').removeClass('selected');
         $(e.currentTarget).addClass('selected');
         $(`.colors-panel-container-players[data-id="${cId}"]`).find('.colors-clothes').css('color', cColor);
-        ChangePlayersColor();
+        TogglePlayersByType();
     });
 
     TogglePlayersByType();
@@ -458,8 +575,9 @@ $(function() {
         $(e.currentTarget).addClass('active');
         LoadZonePreview();
     });
-    
-    LoadLabelsPreview();
+
+
+    CreateLabelsInPrev();
     $('.colors-panel-container-labels').on('click', '.color-elem', (e) => {
         let cId = $(e.delegateTarget).attr('data-id');
         $(`.colors-panel-container-labels[data-id="${cId}"]`).find('.color-elem').removeClass('selected');

@@ -25,6 +25,12 @@
                     <div class="a-button mx-1" title="Удалить выделенное" data-id="deleteSelected">
                         {% include 'drawer/modules/icons/IconDeleteSweep.html' %}
                     </div>
+                    <div class="a-button mx-1" title="Уменьшить размер" data-id="sizeDecrease">
+                        {% include 'drawer/modules/icons/IconZoomDecrease.html' %}
+                    </div>
+                    <div class="a-button mx-1" title="Увеличить размер" data-id="sizeIncrease">
+                        {% include 'drawer/modules/icons/IconZoomIncrease.html' %}
+                    </div>
                     <div class="a-button mx-1 bg-success text-white text-uppercase" title="" data-id="save">
                         Сохранить
                     </div>
@@ -50,6 +56,12 @@
                     </div>
                     <div class="a-button mx-1" title="Метки" data-id="labels">
                         {% include 'drawer/modules/icons/IconLabel.html' %}
+                    </div>
+                    <div class="a-button mx-1" title="Текст" data-id="text">
+                        {% include 'drawer/modules/icons/IconTextAdd.html' %}
+                    </div>
+                    <div class="a-button mx-1" title="Загрузка изображения" data-id="image">
+                        {% include 'drawer/modules/icons/IconImageUpload.html' %}
                     </div>
                     <div class="a-button mx-1" title="Логотип NF" data-id="logoNF">
                         {% include 'drawer/modules/icons/IconNF.html' %}
@@ -567,7 +579,7 @@
                             <div class="leftmenu-content-element d-none" data-id="labels">
                                 <div class="row mx-0 colors-panel-container-labels" data-id="fill">
                                     <div class="col-12 px-0 colors-panel">
-                                        <div class="col color-elem selected" style="background-color: rgb(190, 190, 190);"></div>
+                                        <div class="col color-elem selected" style="background-color: rgb(210, 210, 210);"></div>
                                         <div class="col color-elem s-white" style="background-color: rgb(40, 40, 40);"></div>
                                         <div class="col color-elem s-white" style="background-color: rgba(255, 0, 0, 1);"></div>
                                         <div class="col color-elem" style="background-color: rgb(255, 175, 38);"></div>
@@ -578,6 +590,8 @@
                                     <h6>Метки</h6>
                                 </div>
                                 <hr>
+                                <div class="row mx-0 labels-labels-block">
+                                </div>
                                 <div class="text-center mt-2">
                                     <h6>Манекены</h6>
                                 </div>
@@ -595,6 +609,14 @@
                                     <h6>Цифры</h6>
                                 </div>
                                 <hr>
+                                <div class="row mx-0 labels-numbers-block">
+                                </div>
+                            </div>
+                            <div class="leftmenu-content-element d-none" data-id="text">
+                                text
+                            </div>
+                            <div class="leftmenu-content-element d-none" data-id="image">
+                                image
                             </div>
                             <div class="leftmenu-content-element d-none" data-id="logoNF">
                                 logoNF

@@ -1610,7 +1610,8 @@ def POST_edit_exs_custom(request, cur_user, cur_team):
             c_exs.field_players_b = set_value_as_int(request, "data[field_players_b]", None)
             c_exs.field_keyword_a = request.POST.get("data[field_keyword_a]", None)
             c_exs.field_keyword_b = request.POST.get("data[field_keyword_b]", None)
-
+            c_exs.ref_ball = set_value_as_ref(request, "data[ref_ball]", None)
+            c_exs.field_goal = set_by_language_code(c_exs.field_goal, request.LANGUAGE_CODE, request.POST.get("data[field_goal]", ""))
             field_categories = set_value_as_list(request, "data[field_categories]", "data[field_categories][]", [])
             c_exs.field_categories = field_categories
             field_types = set_value_as_list(request, "data[field_types]", "data[field_types][]", [])

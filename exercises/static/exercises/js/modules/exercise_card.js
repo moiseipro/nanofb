@@ -902,6 +902,8 @@ function SaveExerciseOne() {
     });
     dataToSend.data['field_fields'] = selectedFields;
 
+    
+
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
         headers:{"X-CSRFToken": csrftoken},
