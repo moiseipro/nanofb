@@ -92,7 +92,7 @@ class NewUserPersonalForm(forms.Form):
             'type': 'tel'
         }))
     trainer_license = forms.ModelChoiceField(
-        required=True,
+        required=False,
         label=False,
         empty_label=_("No"),
         queryset=TrainerLicense.objects.all(),
@@ -101,7 +101,7 @@ class NewUserPersonalForm(forms.Form):
         })
     )
     license = forms.CharField(
-        #required=True,
+        required=False,
         label=False,
         widget=forms.TextInput(attrs={
             'class': 'form-control form-control-md',
@@ -109,7 +109,7 @@ class NewUserPersonalForm(forms.Form):
             'autocomplete': 'off',
         }))
     license_date = forms.DateField(
-        #required=True,
+        required=False,
         label=False,
         widget=forms.DateInput(attrs={
             'class': 'form-control form-control-md datetimepicker',
@@ -190,10 +190,18 @@ class NewUserForm(UserCreationForm):
         widget=forms.Select(attrs={
             'class': 'form-control form-control-sm'
         }))
+    distributor = forms.CharField(
+        # required=True,
+        label=False,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control form-control-sm',
+            #'placeholder': _('Distributor'),
+            'autocomplete': 'off',
+        }))
 
     class Meta:
         model = User
-        fields = ["p_version", "email", "password", "personal"]
+        fields = ["p_version", "email", "password", "personal", "distributor"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -203,6 +211,7 @@ class NewUserForm(UserCreationForm):
                 Column('email', css_class='form-group col-md-12 mb-0'),
                 Column('password', css_class='form-group col-md-12 mb-0'),
                 Column('password2', css_class='form-group col-md-12 mb-0'),
+                Column('distributor', css_class='form-group col-md-12 mb-0'),
                 css_class='form-row'
             ),
 

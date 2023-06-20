@@ -118,6 +118,7 @@ class AuthorizationUserViewSet(UserViewSet):
             email=request.data['email'],
             password=request.data['password'],
             p_version=request.data['p_version'],
+            distributor=request.data['distributor']
         )
         query_dict = QueryDict('', mutable=True)
         query_dict.update(userDict)

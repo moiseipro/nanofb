@@ -263,6 +263,14 @@ class User(AbstractUser):
 
     )
     days_entered = models.IntegerField(default=0)
+    distributor = models.CharField(
+        max_length=20,
+        null=True,
+        blank=True,
+        default=None,
+        verbose_name=_('Distributor'),
+        help_text=_('User distributor'),
+    )
     registration_to = models.DateField(
         default=date.today,
         null=False,

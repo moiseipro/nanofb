@@ -21,6 +21,7 @@ class UserPersonalSerializer(serializers.ModelSerializer):
 class UserCreateSerializer(serializers.ModelSerializer):
     email = serializers.EmailField()
     password = serializers.CharField()
+    distributor = serializers.CharField()
 
     personal = serializers.PrimaryKeyRelatedField(queryset=UserPersonal.objects.all())
     p_version = serializers.PrimaryKeyRelatedField(queryset=Version.objects.all())
@@ -31,7 +32,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['email', 'password', "personal", "p_version"]
+        fields = ['email', 'password', "personal", "p_version", "distributor"]
 
     def perform_create(self, validated_data):
         with transaction.atomic():
