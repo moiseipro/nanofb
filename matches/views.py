@@ -49,9 +49,9 @@ def matches(request):
     matches = []
     f_season = None
     if request.user.club_id is not None:
-        f_season = ClubSeason.objects.get(id=cur_season, club_id=request.user.club_id)
+        f_season = ClubSeason.objects.filter(id=cur_season, club_id=request.user.club_id).first()
     else:
-        f_season = UserSeason.objects.get(id=cur_season, user_id=cur_user[0])
+        f_season = UserSeason.objects.filter(id=cur_season, user_id=cur_user[0]).first()
     if f_season and f_season.id != None:
         if request.user.club_id is not None:
             f_matches = ClubMatch.objects.filter(team_id=cur_team, event_id__club_id=request.user.club_id,

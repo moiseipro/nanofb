@@ -186,34 +186,70 @@ function ToggleNewObjOnCanvas(onCreate=true) {
                 let isMarker = $('.leftmenu-content-element[data-id="lines"]').find('.line-marker').prop('checked');
                 let lineColor = $('.leftmenu-content-element[data-id="lines"]').find('.color-elem.selected').css('background-color');
                 let lineLength = 150;
-                if (isMarker) {
-                    let arrow = new Konva.Arrow({
-                        x: mousePos.x,
-                        y: mousePos.y,
-                        points: [0, 0, lineLength, 0],
-                        pointerLength: 20,
-                        pointerWidth: 20,
-                        fill: `${lineColor}`,
-                        stroke: `${lineColor}`,
-                        strokeWidth: lineThickness,
-                        dash: lineType2 == "dotted" ? [10, 10] : 0,
-                        draggable: true,
-                        name: "c-elem c-line",
-                    });
-                    window.canvas.layer.add(arrow);
-                } else {
-                    let line = new Konva.Line({
-                        points: [mousePos.x, mousePos.y, mousePos.x+lineLength, mousePos.y],
-                        stroke: `${lineColor}`,
-                        strokeWidth: lineThickness,
-                        lineCap: 'round',
-                        lineJoin: 'round',
-                        dash: lineType2 == "dotted" ? [10, 10] : 0,
-                        draggable: true,
-                        name: "c-elem c-line",
-                    });
-                    window.canvas.layer.add(line);
+                
+
+                let points = [0, 0, lineLength, 0];
+                if (lineType == "quadratic") {
+                    points = [0, 0, (lineLength/2), (-lineLength/3), lineLength, 0];
+                } else if (lineType == "cubic") {
+                    points = [
+                        0, (lineLength/2),
+                        (lineLength/4), (lineLength/6),
+                        (lineLength/2), 0,
+                        (3*lineLength/4), (-lineLength/6),
+                        lineLength, (-lineLength/2)
+                    ];
+                } else if (lineType == "cubic2") {
+                    points = [];
                 }
+                let line = new Konva.Arrow({
+                    x: mousePos.x,
+                    y: mousePos.y,
+                    points: points,
+                    pointerAtEnding: isMarker,
+                    pointerLength: 20,
+                    pointerWidth: 20,
+                    fill: `${lineColor}`,
+                    stroke: `${lineColor}`,
+                    strokeWidth: lineThickness,
+                    lineCap: 'round',
+                    lineJoin: 'round',
+                    dash: lineType2 == "dotted" ? [10, 10] : 0,
+                    tension: 0.5,
+                    draggable: true,
+                    name: "c-elem c-line",
+                });
+                window.canvas.layer.add(line);
+
+
+                // if (isMarker) {
+                //     let arrow = new Konva.Arrow({
+                //         x: mousePos.x,
+                //         y: mousePos.y,
+                //         points: [0, 0, lineLength, 0],
+                //         pointerLength: 20,
+                //         pointerWidth: 20,
+                //         fill: `${lineColor}`,
+                //         stroke: `${lineColor}`,
+                //         strokeWidth: lineThickness,
+                //         dash: lineType2 == "dotted" ? [10, 10] : 0,
+                //         draggable: true,
+                //         name: "c-elem c-line",
+                //     });
+                //     window.canvas.layer.add(arrow);
+                // } else {
+                //     let line = new Konva.Line({
+                //         points: [mousePos.x, mousePos.y, mousePos.x+lineLength, mousePos.y],
+                //         stroke: `${lineColor}`,
+                //         strokeWidth: lineThickness,
+                //         lineCap: 'round',
+                //         lineJoin: 'round',
+                //         dash: lineType2 == "dotted" ? [10, 10] : 0,
+                //         draggable: true,
+                //         name: "c-elem c-line",
+                //     });
+                //     window.canvas.layer.add(line);
+                // }
                 window.canvas.layer.draw();
             } else if (currentGroup == "shape") {
 

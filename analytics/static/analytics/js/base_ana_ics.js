@@ -452,6 +452,13 @@ function RenderAnalyticsByFoldersFullTable(data) {
 
 $(function() {
 
+    let selectedTeam = $('#select-team').val();
+    let selectedSeason = $('#select-season').val();
+    if (!selectedTeam || selectedTeam == "" || !selectedSeason || selectedSeason == "") {
+        swal("Внимание", "Выберите сезон и команду для отображения данных!", "warning");
+    }
+    
+
     LoadAnalytics();
 
     $('.analytics-table-container').find('.season-toggle').removeClass('active');
