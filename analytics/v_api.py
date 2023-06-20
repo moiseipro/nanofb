@@ -127,9 +127,9 @@ def get_season_months(request, season, c_user):
     res = []
     f_season = None
     if request.user.club_id is not None:
-        f_season = ClubSeason.objects.get(id=season, club_id=request.user.club_id)
+        f_season = ClubSeason.objects.filter(id=season, club_id=request.user.club_id).first()
     else:
-        f_season = UserSeason.objects.get(id=season, user_id=c_user)
+        f_season = UserSeason.objects.filter(id=season, user_id=c_user).first()
     if f_season and f_season.id != None:
         for month in months_between(f_season.date_with, f_season.date_by):
             month_id = month.strftime("%m")

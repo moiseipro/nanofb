@@ -232,6 +232,13 @@ function ToggleColumnsSize(full=true) {
 
 $(function() {
 
+    let selectedTeam = $('#select-team').val();
+    let selectedSeason = $('#select-season').val();
+    if (!selectedTeam || selectedTeam == "" || !selectedSeason || selectedSeason == "") {
+        swal("Внимание", "Выберите сезон и команду для отображения данных!", "warning");
+    }
+
+    
     window.dataForSplit = JSON.parse(localStorage.getItem('split_cols_matches'));
     if (Array.isArray(window.dataForSplit) && window.dataForSplit.length == 3 || !Array.isArray(window.dataForSplit)) {
         window.dataForSplit = [40, 60];
