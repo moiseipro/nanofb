@@ -276,7 +276,7 @@ class User(AbstractUser):
         help_text=_('User distributor'),
     )
     registration_to = models.DateField(
-        default=get_default_date,
+        default=date.today,
         null=False,
         blank=False,
         verbose_name=_('Expiration version'),
@@ -320,6 +320,8 @@ class User(AbstractUser):
         return self.email
 
     def save(self, *args, **kwargs):
+        if not self.id:
+            self.registration_to = date.today() + timedelta(days=7)
         if not self.personal:
             self.personal = UserPersonal.objects.create(first_name=_('No name'), last_name=_('No last name'))
         if not self.payment:

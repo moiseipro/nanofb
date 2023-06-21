@@ -191,7 +191,7 @@ class NewUserForm(UserCreationForm):
             'class': 'form-control form-control-sm'
         }))
     distributor = forms.CharField(
-        # required=True,
+        required=False,
         label=False,
         widget=forms.TextInput(attrs={
             'class': 'form-control form-control-sm',
