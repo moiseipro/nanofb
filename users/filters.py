@@ -45,7 +45,7 @@ class GlobalFlagFilter(GlobalFilter, filters.CharFilter):
         if value:
             if self.distinct:
                 qs = qs.distinct()
-            qs = qs.filter(Q(personal__last_name__icontains=value) | Q(personal__first_name__icontains=value))
+            qs = qs.filter(personal__country_id=value)
         return qs
 
 
@@ -78,7 +78,7 @@ class UserManagementGlobalFilter(DatatablesFilterSet):
     first_name = GlobalNameFilter(field_name='personal__first_name', lookup_expr='icontains')
     job_title = GlobalCharFilter(field_name='personal__job_title', lookup_expr='icontains')
     license = GlobalCharFilter(field_name='personal__license', lookup_expr='icontains')
-    flag = GlobalCharFilter(field_name='personal__country_id', lookup_expr='icontains')
+    flag = GlobalFlagFilter(field_name='personal__country_id', lookup_expr='icontains')
     license = GlobalCharFilter(field_name='personal__license', lookup_expr='icontains')
     license_date = GlobalDateFilter(field_name='personal__license_date')
     phone = GlobalCharFilter(field_name='personal__phone', lookup_expr='icontains')

@@ -104,10 +104,13 @@ class AuthorizationUserViewSet(UserViewSet):
 
     def create(self, request, *args, **kwargs):
         print(request.data)
+        if User.objects.filter(email=request.data['email']).exists():
+            res_data = {'registration': _("A user with this Email already exists!")}
+            return Response(res_data, status=status.HTTP_403_FORBIDDEN)
         try:
             validate_email(request.data['email'])
         except ValidationError as e:
-            res_data = {'registration': _("A user with this Email already exists!")}
+            res_data = {'registration': _("Incorrect email address!")}
             return Response(res_data, status=status.HTTP_403_FORBIDDEN, headers=e)
         serializer_personal = UserPersonalSerializer(data=request.data)
         serializer_personal.is_valid(raise_exception=True)
@@ -124,7 +127,8 @@ class AuthorizationUserViewSet(UserViewSet):
         query_dict.update(userDict)
         print(query_dict)
         serializer = UserCreateSerializer(data=userDict)
-        serializer.is_valid(raise_exception=True)
+        if not serializer.is_valid(raise_exception=True):
+            UserPersonal.objects.get(id=serializer_personal.data['id']).delete()
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
 

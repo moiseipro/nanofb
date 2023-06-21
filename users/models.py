@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta, datetime
 
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
@@ -15,6 +15,10 @@ from version.models import Version
 
 def user_directory_path(instance, filename):
     return 'user_{0}/{1}'.format(instance.user.id, filename)
+
+
+def get_default_date():
+    return date.today() + timedelta(days=7)
 
 
 # User References
@@ -272,7 +276,7 @@ class User(AbstractUser):
         help_text=_('User distributor'),
     )
     registration_to = models.DateField(
-        default=date.today,
+        default=get_default_date,
         null=False,
         blank=False,
         verbose_name=_('Expiration version'),

@@ -11,6 +11,7 @@ from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.views.generic import TemplateView, DetailView
 from django_countries import countries
+from django_countries.fields import Country
 from rest_framework import status, viewsets, authentication, permissions
 from rest_framework.decorators import action
 from rest_framework.generics import UpdateAPIView, ListAPIView
