@@ -61,6 +61,7 @@ function generate_ajax_users_table(scroll_y = ''){
                 return `<div class="text-truncate" title="${data}"> ${data} </div>`;
             }},
             {'data': 'email', 'name': 'email', 'defaultContent': "---"},
+            {'data': 'distributor', 'name': 'distributor', 'defaultContent': "---"},
             {'data': 'phone', 'name': 'phone', 'defaultContent': "---"},
             {'data': 'age', 'name': 'age', sortable: false, searchable: false, render: function (data, type, row, meta) {
                 return `<div class="w-100 text-center" title="${data}"> ${data} </div>`;
