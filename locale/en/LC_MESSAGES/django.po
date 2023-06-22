@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-21 15:02+0300\n"
+"POT-Creation-Date: 2023-06-22 14:48+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1848,7 +1848,7 @@ msgid "Father name"
 msgstr ""
 
 #: .\authorization\forms.py:62 .\users\models.py:119
-#: .\users\templates\users\modules\user_table_settings.html:67
+#: .\users\templates\users\modules\user_table_settings.html:78
 msgid "Date of birth"
 msgstr ""
 
@@ -1867,7 +1867,7 @@ msgstr ""
 #: .\users\templates\users\forms\edit-personal-form.html:119
 #: .\users\templates\users\modules\user_table.html:20
 #: .\users\templates\users\modules\user_table_settings.html:21
-#: .\users\templates\users\modules\user_table_settings.html:73
+#: .\users\templates\users\modules\user_table_settings.html:84
 msgid "Region"
 msgstr ""
 
@@ -1881,7 +1881,7 @@ msgstr ""
 
 #: .\authorization\forms.py:120 .\users\models.py:100
 #: .\users\templates\users\forms\edit-personal-form.html:94
-#: .\users\templates\users\modules\user_table_settings.html:49
+#: .\users\templates\users\modules\user_table_settings.html:60
 msgid "License to"
 msgstr ""
 
@@ -1892,7 +1892,7 @@ msgstr ""
 #: .\users\templates\users\forms\add-user-form.html:27
 #: .\users\templates\users\forms\edit-user-form.html:9
 #: .\users\templates\users\modules\user_table.html:14
-#: .\users\templates\users\modules\user_table_settings.html:55
+#: .\users\templates\users\modules\user_table_settings.html:66
 msgid "Email"
 msgstr ""
 
@@ -2256,7 +2256,7 @@ msgstr ""
 #: .\users\templates\users\forms\add-user-form.html:67
 #: .\users\templates\users\forms\edit-personal-form.html:65
 #: .\users\templates\users\modules\user_table.html:21
-#: .\users\templates\users\modules\user_table_settings.html:79
+#: .\users\templates\users\modules\user_table_settings.html:90
 msgid "Job title"
 msgstr ""
 
@@ -3572,7 +3572,7 @@ msgstr ""
 #: .\users\models.py:126 .\users\templates\users\forms\add-user-form.html:73
 #: .\users\templates\users\forms\edit-personal-form.html:41
 #: .\users\templates\users\modules\user_table.html:16
-#: .\users\templates\users\modules\user_table_settings.html:61
+#: .\users\templates\users\modules\user_table_settings.html:72
 msgid "Phone"
 msgstr ""
 
@@ -3603,11 +3603,11 @@ msgstr ""
 msgid "Not specified"
 msgstr ""
 
-#: .\users\models.py:186 .\users\models.py:324
+#: .\users\models.py:186 .\users\models.py:326
 msgid "No name"
 msgstr ""
 
-#: .\users\models.py:186 .\users\models.py:324
+#: .\users\models.py:186 .\users\models.py:326
 msgid "No last name"
 msgstr ""
 
@@ -3672,7 +3672,7 @@ msgid "Last login date"
 msgstr ""
 
 #: .\users\models.py:275
-#: .\users\templates\users\modules\user_table_settings.html:109
+#: .\users\templates\users\modules\user_table_settings.html:120
 msgid "Distributor"
 msgstr ""
 
@@ -3808,7 +3808,7 @@ msgstr ""
 #: .\users\templates\users\forms\edit-user-form.html:59
 #: .\users\templates\users\modules\user_table.html:26
 #: .\users\templates\users\modules\user_table_settings.html:27
-#: .\users\templates\users\modules\user_table_settings.html:91
+#: .\users\templates\users\modules\user_table_settings.html:102
 msgid "Access to"
 msgstr ""
 
@@ -3841,13 +3841,13 @@ msgstr ""
 #: .\users\templates\users\forms\edit-user-form.html:43
 #: .\users\templates\users\modules\user_table.html:25
 #: .\users\templates\users\modules\user_table_settings.html:24
-#: .\users\templates\users\modules\user_table_settings.html:85
+#: .\users\templates\users\modules\user_table_settings.html:96
 msgid "Registration"
 msgstr ""
 
 #: .\users\templates\users\forms\edit-user-form.html:51
 #: .\users\templates\users\modules\user_table.html:24
-#: .\users\templates\users\modules\user_table_settings.html:103
+#: .\users\templates\users\modules\user_table_settings.html:114
 msgid "Last login"
 msgstr ""
 
@@ -3888,10 +3888,18 @@ msgid "Search by name"
 msgstr ""
 
 #: .\users\templates\users\modules\user_table_settings.html:43
+msgid "Add. filters"
+msgstr ""
+
+#: .\users\templates\users\modules\user_table_settings.html:49
+msgid "New users"
+msgstr ""
+
+#: .\users\templates\users\modules\user_table_settings.html:54
 msgid "Columns"
 msgstr ""
 
-#: .\users\templates\users\modules\user_table_settings.html:97
+#: .\users\templates\users\modules\user_table_settings.html:108
 msgid "Activity index"
 msgstr ""
 
@@ -3965,7 +3973,7 @@ msgstr ""
 msgid "Wrong password"
 msgstr ""
 
-#: .\users\views.py:348 .\users\views.py:378
+#: .\users\views.py:349 .\users\views.py:379
 msgid "Not chosen"
 msgstr ""
 

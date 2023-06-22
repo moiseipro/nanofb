@@ -40,6 +40,17 @@
         </div>
     </div>
     <div class="col-12" style="background: lightgrey">
+        {% trans 'Add. filters' %}
+    </div>
+    <div class="col-12">
+        <div class="form-check">
+            <input class="form-check-input user-table-filter" data-filter="registration-user-filter" type="checkbox" value="{% now "Y-m-d" %}" id="registration-filter-check">
+            <label class="form-check-label" for="registration-filter-check">
+                {% trans 'New users' %}
+            </label>
+        </div>
+    </div>
+    <div class="col-12" style="background: lightgrey">
         {% trans 'Columns' %}
     </div>
     <div class="col-12">

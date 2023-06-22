@@ -324,6 +324,13 @@ $(window).on("load", function () {
             value = moment(value, 'DD/MM/YYYY').format('YYYY-MM-DD')
             console.log(value)
         }
+        if ($(this).hasClass('form-check-input')){
+            if (!$(this).is(":checked")){
+                value = ''
+            }
+
+            console.log(value)
+        }
         console.log(value)
         let filter = $(this).attr('data-filter')
         let filter_obj = `.${filter}`;

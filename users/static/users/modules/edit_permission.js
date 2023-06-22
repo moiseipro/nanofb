@@ -25,10 +25,6 @@ function load_group_data(id = -1) {
 
         let available_group = data['objs']
 
-
-
-        
-
         ajax_users_action('GET', send_users, 'user data', id, 'get_user_group').then(function (data) {
             console.log(data)
 
@@ -67,7 +63,7 @@ function load_group_data(id = -1) {
                         permission_panel.append(
                             `
                             <div class="row section-row" data-section="${available_value.customgroup.section.id}">
-                                <div class="col-12 bg-light text-dark border">
+                                <div class="col-12 bg-light text-dark font-weight-bold border">
                                     ${available_value.customgroup.section.name}
                                 </div>
                                 <div class="col-12 permission-col">

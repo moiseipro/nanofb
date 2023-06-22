@@ -1,3 +1,5 @@
+from datetime import date, timedelta
+
 from django.db.models import Q
 from django_filters import filters
 from rest_framework_datatables.django_filters.filterset import DatatablesFilterSet
@@ -16,6 +18,15 @@ class GlobalNumberFilter(GlobalFilter, filters.NumberFilter):
 
 class GlobalDateFilter(GlobalFilter, filters.DateFilter):
     pass
+
+
+class GlobalJoinDateFilter(GlobalFilter, filters.DateFilter):
+    def filter(self, qs, value):
+        if value:
+            if self.distinct:
+                qs = qs.distinct()
+            qs = qs.filter(date_joined__gt=date.today()-timedelta(days=3))
+        return qs
 
 
 class GlobalClubFilter(GlobalFilter, filters.CharFilter):
@@ -71,7 +82,7 @@ class UserManagementGlobalFilter(DatatablesFilterSet):
     registration_to = GlobalDateFilter()
     email = GlobalNameFilter(field_name='email', lookup_expr='icontains')
     date_last_login = GlobalDateFilter()
-    date_joined = GlobalDateFilter()
+    date_joined = GlobalJoinDateFilter()
 
     date_birthsday = GlobalDateFilter(field_name='personal__date_birthsday')
     last_name = GlobalNameFilter(field_name='personal__last_name', lookup_expr='icontains')

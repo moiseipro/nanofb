@@ -320,15 +320,15 @@ class CountryListApiView(APIView):
     permission_classes = [permissions.IsAdminUser]
 
     def get(self, request, format=None):
-        queryset = UserPersonal.objects.annotate(countries=Count('country_id')).order_by(
-            '-country_id')
+        queryset = User.objects.annotate(countries=Count('personal__country_id')).order_by(
+            '-personal__country_id')
         list_countries = [
             {
-                'id': personal.country_id.code,
-                'name': personal.country_id.name,
-                'flag': personal.country_id.flag,
-                'count': personal.countries
-            } for personal in queryset
+                'id': user.personal.country_id.code,
+                'name': user.personal.country_id.name,
+                'flag': user.personal.country_id.flag,
+                'count': user.countries
+            } for user in queryset
         ]
         print(list_countries)
         countries_count = {}
@@ -344,6 +344,7 @@ class CountryListApiView(APIView):
         #     id, name, count = d.get('id'), d.get('name'), d.get('count')
         #     counter.update({id: count, name: count})
         # print(counter)
+        #User.objects.filter(date_joined__gt=date.today()-timedelta(days=3))
         list2 = [{'id': id, 'flag': data['flag'], 'count': data['count'], 'text': data['name']} for id, data in countries_count.items()]
         list2.insert(0, {'id': 'all', 'flag': '', 'count': '', 'text': _('Not chosen')})
         print(list2)

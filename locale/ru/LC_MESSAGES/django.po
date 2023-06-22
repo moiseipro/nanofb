@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-21 15:03+0300\n"
+"POT-Creation-Date: 2023-06-22 14:50+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1864,7 +1864,7 @@ msgid "Father name"
 msgstr "Отчество"
 
 #: .\authorization\forms.py:62 .\users\models.py:119
-#: .\users\templates\users\modules\user_table_settings.html:67
+#: .\users\templates\users\modules\user_table_settings.html:78
 msgid "Date of birth"
 msgstr "День рождения"
 
@@ -1883,7 +1883,7 @@ msgstr "Город"
 #: .\users\templates\users\forms\edit-personal-form.html:119
 #: .\users\templates\users\modules\user_table.html:20
 #: .\users\templates\users\modules\user_table_settings.html:21
-#: .\users\templates\users\modules\user_table_settings.html:73
+#: .\users\templates\users\modules\user_table_settings.html:84
 msgid "Region"
 msgstr "Регион"
 
@@ -1897,7 +1897,7 @@ msgstr "Лицензия"
 
 #: .\authorization\forms.py:120 .\users\models.py:100
 #: .\users\templates\users\forms\edit-personal-form.html:94
-#: .\users\templates\users\modules\user_table_settings.html:49
+#: .\users\templates\users\modules\user_table_settings.html:60
 msgid "License to"
 msgstr "Лицензия до"
 
@@ -1908,7 +1908,7 @@ msgstr "Лицензия до"
 #: .\users\templates\users\forms\add-user-form.html:27
 #: .\users\templates\users\forms\edit-user-form.html:9
 #: .\users\templates\users\modules\user_table.html:14
-#: .\users\templates\users\modules\user_table_settings.html:55
+#: .\users\templates\users\modules\user_table_settings.html:66
 msgid "Email"
 msgstr "Электронная почта"
 
@@ -2278,7 +2278,7 @@ msgstr "Д.Р."
 #: .\users\templates\users\forms\add-user-form.html:67
 #: .\users\templates\users\forms\edit-personal-form.html:65
 #: .\users\templates\users\modules\user_table.html:21
-#: .\users\templates\users\modules\user_table_settings.html:79
+#: .\users\templates\users\modules\user_table_settings.html:90
 msgid "Job title"
 msgstr "Должность"
 
@@ -3594,7 +3594,7 @@ msgstr "День рождения"
 #: .\users\models.py:126 .\users\templates\users\forms\add-user-form.html:73
 #: .\users\templates\users\forms\edit-personal-form.html:41
 #: .\users\templates\users\modules\user_table.html:16
-#: .\users\templates\users\modules\user_table_settings.html:61
+#: .\users\templates\users\modules\user_table_settings.html:72
 msgid "Phone"
 msgstr "Телефон"
 
@@ -3625,11 +3625,11 @@ msgstr ""
 msgid "Not specified"
 msgstr "Не указан(а)"
 
-#: .\users\models.py:186 .\users\models.py:324
+#: .\users\models.py:186 .\users\models.py:326
 msgid "No name"
 msgstr "Нет имени"
 
-#: .\users\models.py:186 .\users\models.py:324
+#: .\users\models.py:186 .\users\models.py:326
 msgid "No last name"
 msgstr "Нет фамилии"
 
@@ -3694,7 +3694,7 @@ msgid "Last login date"
 msgstr "Дата последнего входа"
 
 #: .\users\models.py:275
-#: .\users\templates\users\modules\user_table_settings.html:109
+#: .\users\templates\users\modules\user_table_settings.html:120
 msgid "Distributor"
 msgstr "Дистрибьютор"
 
@@ -3831,7 +3831,7 @@ msgstr "Поменять пароль"
 #: .\users\templates\users\forms\edit-user-form.html:59
 #: .\users\templates\users\modules\user_table.html:26
 #: .\users\templates\users\modules\user_table_settings.html:27
-#: .\users\templates\users\modules\user_table_settings.html:91
+#: .\users\templates\users\modules\user_table_settings.html:102
 msgid "Access to"
 msgstr "Доступ до"
 
@@ -3864,13 +3864,13 @@ msgstr "Если вы измените свой пароль, вам нужно 
 #: .\users\templates\users\forms\edit-user-form.html:43
 #: .\users\templates\users\modules\user_table.html:25
 #: .\users\templates\users\modules\user_table_settings.html:24
-#: .\users\templates\users\modules\user_table_settings.html:85
+#: .\users\templates\users\modules\user_table_settings.html:96
 msgid "Registration"
 msgstr "Регистрация"
 
 #: .\users\templates\users\forms\edit-user-form.html:51
 #: .\users\templates\users\modules\user_table.html:24
-#: .\users\templates\users\modules\user_table_settings.html:103
+#: .\users\templates\users\modules\user_table_settings.html:114
 msgid "Last login"
 msgstr "Последний вход"
 
@@ -3911,10 +3911,18 @@ msgid "Search by name"
 msgstr "Поиск по имени"
 
 #: .\users\templates\users\modules\user_table_settings.html:43
+msgid "Add. filters"
+msgstr "Доп. Фильтры"
+
+#: .\users\templates\users\modules\user_table_settings.html:49
+msgid "New users"
+msgstr "Новые пользователи"
+
+#: .\users\templates\users\modules\user_table_settings.html:54
 msgid "Columns"
 msgstr "Колонки"
 
-#: .\users\templates\users\modules\user_table_settings.html:97
+#: .\users\templates\users\modules\user_table_settings.html:108
 msgid "Activity index"
 msgstr "Индекс активности"
 
@@ -3990,7 +3998,7 @@ msgstr "Пароль успешно изменен"
 msgid "Wrong password"
 msgstr "Неверный пароль"
 
-#: .\users\views.py:348 .\users\views.py:378
+#: .\users\views.py:349 .\users\views.py:379
 msgid "Not chosen"
 msgstr "Не выбрано"
 
