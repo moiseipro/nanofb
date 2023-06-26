@@ -1,0 +1,126 @@
+body{
+    background: #171717;
+    color: white;
+}
+
+.button-outline-main{
+    border: 2px solid white;
+    background: none;
+    padding: 12px 25px;
+    color: white;
+}
+.button-outline-main:hover{
+    color: black;
+    background: whitesmoke;
+}
+.yellow-block .yellow-circle{
+    background: #ffce46;
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    /*max-height: 50vw;*/
+    z-index: -100;
+    margin: auto;
+    width: 90%;
+}
+
+.info-container .button-outline-main{
+    color: black;
+}
+
+.dash-line{
+    min-width: 47px;
+    border: 4px solid white;
+    margin-top: 20px;
+    margin-right: 20px;
+}
+
+.version-button-block{
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+
+.feedback-form input{
+    border: 1px solid #2C56FB;
+    background: none;
+}
+.feedback-form input:focus{
+    border: 1px solid #2C56FB;
+    background: rgba(255,255,255,0.2);
+}
+
+.feedback-form button{
+    background: white;
+    color: black;
+}
+
+.site-header {
+    background-color: black;
+    color: white !important;
+}
+
+.site-header a{
+    color:white;
+}
+
+.plans-field {
+    background-image: url('https://nanofootball.ru/tmp/about_page/images/bg_thumbnails.jpg?>');
+    background-color: black;
+}
+
+.card-cust {
+    background: url('https://nanofootball.ru/tmp/about_page/images/tarifyi-1.png?>') 100% 100% no-repeat;
+    background-size: cover;
+    width: 20rem;
+    height: 25rem;
+}
+.card-cust > .card-body {
+    padding: 0px 0px 0px 0px !important;
+    margin-left: 40px;
+}
+.card-cust > .card-header, .card-cust > .card-footer {
+    background-color: inherit;
+    border: none;
+}
+.card-cust > .card-footer > a {
+    color: white;
+    background-color: #CBB36D;
+    border: solid;
+}
+
+#accordion > .card {
+    margin-bottom: 0px;
+}
+
+@media only screen and (max-width: 600px) {
+    .cust-div {
+        text-align: center !important;
+    }
+    .yellow-block .yellow-circle{
+        height: 130px;
+        padding-top: 55px;
+        margin-top: -110px;
+    }
+}
+@media only screen and (min-width: 600px) {
+    .cust-div {
+        text-align: left !important;
+    }
+}
+
+@media only screen and (min-width:600px) and (max-width: 900px) {
+
+    .yellow-block .yellow-circle{
+        height: 200px;
+        padding-top: 120px;
+        margin-top: -200px;
+    }
+}
+
+@media only screen and (min-width:900px) {
+
+    .yellow-block .yellow-circle{
+        height: 250px;
+        padding-top: 150px;
+        margin-top: -300px;
+    }
+}

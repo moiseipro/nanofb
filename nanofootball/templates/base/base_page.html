@@ -1,406 +1,445 @@
 {% extends '../base/base.html' %}
 {% load static %}
 
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'preadmin/css/main-page-style.css' %}">
+{% endblock %}
+
 {% block main %}
-    <style>
-        .site-header {
-            background-color: black;
-            color: white !important;
-        }
-        .site-header a {
-            color: white;
-        }
-        .site-header a:hover {
-            color: grey;
-        }
-
-        .cover-container {
-            background-color: black;
-            color: white;
-        }
-        .cover-container a {
-            color: black;
-        }
-
-        .plans-field {
-            background-image: url('https://nanofootball.ru/tmp/about_page/images/bg_thumbnails.jpg?>');
-            background-color: black;
-        }
-
-        .card-cust {
-            background: url('https://nanofootball.ru/tmp/about_page/images/tarifyi-1.png?>') 100% 100% no-repeat;
-            background-size: cover;
-            width: 20rem;
-            height: 25rem;   
-        }
-        .card-cust > .card-body {
-            padding: 0px 0px 0px 0px !important;
-            margin-left: 40px;
-        }
-        .card-cust > .card-header, .card-cust > .card-footer {
-            background-color: inherit;
-            border: none;
-        }
-        .card-cust > .card-footer > a {
-            color: white;
-            background-color: #CBB36D;
-            border: solid;
-        }
-
-        #accordion > .card {
-            margin-bottom: 0px;
-        }
-
-        @media only screen and (max-width: 600px) {
-            .cust-div {
-                text-align: center !important;
-            }
-        }
-        @media only screen and (min-width: 600px) {
-            .cust-div {
-                text-align: left !important;
-            }
-        }     
-    </style>
     <nav class="site-header fixed-top py-3">
         <div class="row justify-content-between">
-            <div class="col-sm-4 text-center">
-                <a class="py-2 mx-1 d-none d-md-inline-block" href="#about">О ПРОГРАММЕ</a>
-                <a class="py-2 mx-1 d-none d-md-inline-block" href="#contact">КОНТАКТЫ</a>
-            </div>
-            <div class="col-sm-4 text-center">
+            <div class="col-sm-6 text-center">
                 <span class="py-2">
-                    <img src="https://nanofootball.ru/tmp/about_page/images/logo_w.png?>" alt="NANOFOOTBALL">
+                    <img src="{% static "preadmin/img/logo_n.png" %}" height="40px" alt="NANOFOOTBALL">
                 </span>
             </div>
-            <div class="col-sm-4 text-right">
+            <div class="col-sm-6 text-right">
                 <a class="py-2 mx-1 d-none d-md-inline-block" href="{% url 'authorization:login' %}">Вход</a>
-                <span class="py-2 mr-4 d-none d-md-inline-block"></span>
+                <span class="py-2 d-none d-md-inline-block">/</span>
+                <a class="py-2 ml-1 mr-4 d-none d-md-inline-block" href="{% url 'authorization:register' %}">Регистрация</a>
+
             </div>
         </div>
     </nav>
-
     <section id="home">
-        <div class="cover-container d-flex p-3 mx-auto flex-column text-center">
+        <div class="info-container d-flex p-3 mx-auto flex-column text-center">
             <main role="main" class="inner cover">
-                <div class="" style="margin-top: 12rem !important;">
-                    <img class="img-fluid" src="https://nanofootball.ru/tmp/about_page/images/3d-football-pitch2.png?>" alt="">
+                <h1 class="" style="margin-top: 7rem !important;">ИНСТРУМЕНТ ДЛЯ ЭФФЕКТИВНОЙ РАБОТЫ ТРЕНЕРА</h1>
+                <div class="">
+                    <img class="img-fluid" src="{% static "preadmin/img/main_page/main_field.svg" %}" alt="">
                 </div>
-                <div class="mt-4 mb-2">
-                    <a href="{% url 'authorization:login' %}" class="btn btn-lg btn-light ml-3" style="padding: 12px 50px;"><strong>ВХОД</strong></a>
+                <div class="yellow-block">
+                    <div class="yellow-circle">
+                        <a href="{% url 'authorization:login' %}" class="btn btn-lg button-outline-main"><strong>ВХОД</strong></a>
+                    </div>
                 </div>
             </main>
         </div>
     </section>
 
-    <section id="feedback_form_section" class="" style="border-bottom: 2px solid black;">
-        <div class="cover2-container d-flex p-3 mx-auto my-2 flex-column w-75">
-            <h2 class="text-center">Запрос на регистрацию</h2>
-            <form id="feedbackForm" class="" action="" method="POST">
-                <div class="form-row">
-                    <div class="form-group col-12 col-lg-4">
-                        <label for="inputName">ФИО *</label>
-                        <input type="text" class="form-control" id="inputName" name="name" placeholder="ФИО" required="">
+    <section id="about-program">
+        <div class="cover-container d-flex p-3 mx-auto flex-column text-left">
+            <div class="container">
+                <div class="row justify-content-between">
+                    <div class="col-lg-7 align-self-center">
+                        <h4 class="my-4">Более тысячи упражнений с видео и анимацией;</h4>
+                        <h4 class="my-4">Создание своих упражнений и тренировок;</h4>
+                        <h4 class="my-4">Планирование по микрциклам;</h4>
+                        <h4 class="my-4">Календарь и удобные поисковые системы;</h4>
+                        <h4 class="my-4">Командная и индивидуальная статистика;</h4>
+                        <h4 class="my-4">Конспект и рассылка созданной тренироовки;</h4>
+                        <h4 class="my-4">Карточка игрока и протокол матчей;</h4>
+                        <h4 class="my-4">Собственная рисовалка;</h4>
+                        <h4 class="my-4">Полезный методический материал;</h4>
                     </div>
-                    <div class="form-group col-12 col-lg-4">
-                        <label for="inputEmail">Email адрес</label>
-                        <input type="email" class="form-control" id="inputEmail" name="email" aria-describedby="" placeholder="Введите Email">
-                    </div>
-                    <div class="form-group col-12 col-lg-2">
-                        <label for="inputPhone">Ваш телефон *</label>
-                        <input type="tel" class="form-control" id="inputPhone" name="phone" aria-describedby="" placeholder="Введите телефон" required="">
-                    </div>
-                    <div class="form-group col-12 col-lg-2">
-                        <label for="inputClub">Ваш клуб</label>
-                        <input type="text" class="form-control" id="inputClub" name="club" aria-describedby="" placeholder="Введите клуб">
+                    <div class="col-lg-5">
+                        <img class="my-3" src="{% static "preadmin/img/main_page/scrin_1.svg" %}" width="100%" alt="NANOFOOTBALL">
+                        <img class="my-3" src="{% static "preadmin/img/main_page/scrin_2.svg" %}" width="100%" alt="NANOFOOTBALL">
                     </div>
                 </div>
-                <div class="text-center">
-                    <button type="button" id="feedbackFormSubmit" class="btn btn-primary">Отправить</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="about-program">
+        <div class="cover-container d-flex p-3 mx-auto flex-column text-left">
+            <div class="container align-center align-middle text-center">
+                <div class="row justify-content-between">
+                    <div class="col-md-6 my-2">
+                        <a class="btn btn-lg button-outline-main float-md-right" style="width: 220px" href="#">Версия "Клуб"</a>
+                    </div>
+                    <div class="col-md-6 my-2 version-button-block">
+                        <div class="dash-line"></div>
+                        <h4 class="text-left">Управление программой через клубного администратора</h4>
+                    </div>
+                    <div class="col-md-6 my-2">
+                        <a class="btn btn-lg button-outline-main float-md-right" style="width: 220px" href="#">Версия "Тренер"</a>
+                    </div>
+                    <div class="col-md-6 my-2 version-button-block">
+                        <div class="dash-line"></div>
+                        <h4 class="text-left">Индивидуальный пользователь программы</h4>
+                    </div>
                 </div>
-            </form>
+            </div>
         </div>
     </section>
 
     <section id="about" class="mt-4">
         <div class="container">
             <div class="text-center">
-                <h1 style="font-weight: bold;">NanoFootball - это</h1>
+                <h1 style="font-weight: bold;">НАШИ КОНТАКТЫ</h1>
                 <div class="row">
-                    <div class="col-sm-6 text-left">
-                        <p>• Платформа управления твоей команды или всех команд Академии</p>
-                        <p>• Современная методика обучения</p>
-                        <p>• Обучение и возможность практического применения одновременно</p>
-                        <p>• Планирование микроциклов</p>
-                        <p>• Более 600 готовых упражнений по возрастным категориям</p>
-                        <p>• Анимация и видео примеры к упражнениям</p>
-                        <p>• Фильтрация упражнений по возрастным категориям</p>
+                    <div class="col-sm-6 text-center">
+                        <div class="row">
+                            <div class="col-12 my-4">
+                                <p>По вопросам консультации выбора версии программы и способах оплаты:</p>
+                            </div>
+                            <div class="col-12">
+                                <h1 style="color: #ffce46">+7(909)150-33-22</h1>
+                                <h1 style="color: #ffce46">+7(903)200-54-08</h1>
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="col-sm-6 text-left">
-                        <p>• Возможность создавать свои упражнения</p>
-                        <p>• Возможность составлять тренировки</p>
-                        <p>• Аналитическая статистика по каждому игроку</p>
-                        <p>• Хранение данных: карточка игрока, протоколы матчей, архив тренировок</p>
-                        <p>• Возможность управлять двумя командами в одном аккаунте</p>
-                        <p>• Персональный тренер/консультант</p>
-                        <p>• Консультант по технической поддержки</p>
-                    </div>
-                </div>
-            </div>
-            <div class="">
-                <div id="carouselPeople" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item">
-                            <div class="card flex-md-row mb-4">
-                                <img class="mx-auto d-block mt-4" style="width: 200px; height: 200px; border-radius: 50%;" src="https://nanofootball.ru/tmp/about_page/images/img1.jpg?>" alt="">
-                                <div class="card-body d-flex flex-column align-items-start">
-                                    <p class="card-text mb-auto">«Я увидел очень интересный, перспективный продукт для футбольных Академий и клубов. В этой программе сосредоточен огромный арсенал упражнений, периодических циклов для подготовки молодых футболистов всех возрастов, анализ тренировочного процесса, селекция… Я думаю что при тщательном исследовании и применении этой программы можно правильно выбрать и сформировать стратегию работы Академий и футбольных клубов, тренировочный процесс, философию игры и соответственно готовить отчеты, проводить анализ и вести различную статистику. Также огромное внимание уделено селекции, что очень важно. Более того, на базе этой программы тренеры, которые научатся полноценно использовать все ее преимущества и ноу-хау, однозначно, повысят уровень российских футболистов, и как следствие наших профессиональных клубов.»</p>
-                                    <strong class="d-inline-block mb-2 text-primary">Александр Толстиков, Технический Директор ФК «Краснодар»</strong>
-                                </div>
+                    <div class="col-sm-6 text-center">
+                        <div class="row">
+                            <div class="col-12 my-4">
+                                <p>По вопросам регистрации программы и технической поддержки:</p>
                             </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="card flex-md-row mb-4">
-                                <img class="mx-auto d-block mt-4" style="width: 200px; height: 200px; border-radius: 50%;" src="https://nanofootball.ru/tmp/about_page/images/img2.jpg?>" alt="">
-                                <div class="card-body d-flex flex-column align-items-start">
-                                    <p class="card-text mb-auto">«Подавляющее большинство наших детских тренеров работают без единой программы подготовки ребят не то что в России, а даже в конкретной взятой школе/академии. В связи с этим, Программа «Нанофутбол», сделанная людьми, которые имеют колоссальный опыт как в профессиональном футболе, так и в подготовке молодежи, позволяет не только планировать и контролировать работу тренеров, но и управлять как футболистами так и самими тренерами. На мой взгляд, эта Программа поможет руководителям клубов иметь четкую картину соблюдения единых принципов тренировочного процесса, которые применяются в той или иной школе. Это одно из ключевых преимуществ данного продукта, чего я не встречал ни в одном подобной программе. Хотя ничего соотносимого в комплексе на рынке инновационных футбольных решений, я в принципе, вообще не встречал. Время, проведенное футболистами на поле, какую работу они выполняли в тот или иной период времени, показания датчиков, тестирования – на сколько это все в совокупности влияет на текущее и будущее состояние ребят... Мы можем и должны управлять этим процессом.»</p>
-                                    <strong class="d-inline-block mb-2 text-primary">Андрей Талалаев, Главный тренер ФК «Ахмат»</strong>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item active carousel-item-left">
-                            <div class="card flex-md-row mb-4">
-                                <img class="mx-auto d-block mt-4" style="width: 200px; height: 200px; border-radius: 50%;" src="https://nanofootball.ru/tmp/about_page/images/img3.jpg?>" alt="">
-                                <div class="card-body d-flex flex-column align-items-start">
-                                    <p class="card-text mb-auto">«Сегодня я увидел продукт, систему, своего рода инструмент для методически грамотного выстраивания тренировочного процесса в любой Академии, в чьих руках окажется эта программа. Всё будет зависеть, конечно, от кадров, пользующихся этой системой, но ее инструментарий верно направляет, подсказывает пути решения тех или иных задач, которые будет ставить перед собой любой тренер. Очень интересный продукт!»</p>
-                                    <strong class="d-inline-block mb-2 text-primary">Дмитрий Гунько, Главный тренер ФК «Ноа» (Армения), экс-Главный тренер Академии ФК «Спартак» (Москва)</strong>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item carousel-item-next carousel-item-left">
-                            <div class="card flex-md-row mb-4">
-                                <img class="mx-auto d-block mt-4" style="width: 200px; height: 200px; border-radius: 50%;" src="https://nanofootball.ru/tmp/about_page/images/img4.jpg?>" alt="">
-                                <div class="card-body d-flex flex-column align-items-start">
-                                    <p class="card-text mb-auto">«Одна из основных проблем российского футбола – отсутствие методического фундамента как при воспитании молодых футболистов в момент становлении их мастерства, так и в период их профессиональной деятельности. Данная платформа, как мне кажется, может стать тем базисом от которого должен оттолкнуться любой тренер, чтобы его воспитанники, впитав материал данной программы, смогли доказать - Россия – футбольная страна, а наши игроки и тренеры достойны уважения! Спасибо разработчикам за большую и успешную работу!»</p>
-                                    <strong class="d-inline-block mb-2 text-primary">Сергей Булатов, старший тренер ФК «Крылья Советов»</strong>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="card flex-md-row mb-4">
-                                <img class="mx-auto d-block mt-4" style="width: 200px; height: 200px; border-radius: 50%;" src="https://nanofootball.ru/tmp/about_page/images/img5.jpg?>" alt="">
-                                <div class="card-body d-flex flex-column align-items-start">
-                                    <p class="card-text mb-auto">«Очень интересный и инновационный продукт! В успешной работе/результате в детско-юношеском футболе выделю основные составляющие: филофия школы, селекция, тренерский коллектив и единые методологические стандарты подготовки. Так вот, на мой взгляд, данная программа позволяет формировать и администрировать все эти компоненты. Хочу пожелать разработчикам Удачи в продвижении своих идей!»</p>
-                                    <strong class="d-inline-block mb-2 text-primary">Сергей Хабаров, спортивный директор Футбольной Академии «Чертаново»</strong>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="card flex-md-row mb-4">
-                                <img class="mx-auto d-block mt-4" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;" src="https://nanofootball.ru/tmp/about_page/images/img6.jpg?>" alt="">
-                                <div class="card-body d-flex flex-column align-items-start">
-                                    <p class="card-text mb-auto">«Инновации в футболе это всегда актуально и интересно. В своей профессиональной деятельности Я впервые столкнулся с представленной информационной платформой предназначенной для Тренеров и их ассистентов, как профессиональной команды, так и футбольных Академий. За платформой Nanofootball.ru несомненно будущее!! Футбольный клуб «Балтика» и наша Академия поддерживает данный информационный ресурс и Мы будем применять его в повседневной деятельности.»</p>
-                                    <strong class="d-inline-block mb-2 text-primary">Генеральный Директор ФК «Балтика» (Калининград) Тажутдин Качукаев</strong>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="card flex-md-row mb-4">
-                                <img class="mx-auto d-block mt-4" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;" src="https://nanofootball.ru/tmp/about_page/images/img7.jpg?>" alt="">
-                                <div class="card-body d-flex flex-column align-items-start">
-                                    <p class="card-text mb-auto">Облик современного мира меняется каждый день и XXI век - это время расцвета информационных технологий и цифровизации. Не обошла эта тенденция и современный футбол. Платформа «NanoFootball» яркое тому подтверждение. Те возможности, которые предоставляет данная программа, помогают вывести на новый уровень планирование, реализацию и анализ учебно-тренировочного процесса как профессиональных футболистов, так и футболистов детско-юношеских команд. Систематизированные данные, полученные с помощью «NanoFootball» позволяют тренерам вести научно-методическую работу, что, несомненно, приведет к увеличению количества качественных футболистов. Такие программы - незаменимые помощники тренеров и их ассистентов.</p>
-                                    <strong class="d-inline-block mb-2 text-primary">Сергей Томаров, Главный тренер Школы ФК «Уфа»</strong>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="card flex-md-row mb-4">
-                                <img class="mx-auto d-block mt-4" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;" src="https://nanofootball.ru/tmp/about_page/images/img8.jpg?>" alt="">
-                                <div class="card-body d-flex flex-column align-items-start">
-                                    <p class="card-text mb-auto">В последнее время очень много говорится и делается в инновационном плане для развития игры в футбол. Это и «умные мячи « , это система ВАР , система автоматического определения голов и тд.
-                                    Платформа NanoFootball реально должна помочь тренерам и игрокам обучаться и совершенствовать свои профессиональные навыки за счёт грамотного подбора упражнений, планирования МКЦ, и анализа тренировочной и соревновательной деятельности, как отдельных игроков, так и команды в целом. Желаю разроботчикам проекта успеха и не останавливаться на достигнутом!</p>
-                                    <strong class="d-inline-block mb-2 text-primary">Сергей Бойко, тренер ФК «Динамо» (Тбилиси)</strong>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="card flex-md-row mb-4">
-                                <img class="mx-auto d-block mt-4" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;" src="https://nanofootball.ru/tmp/about_page/images/img9.jpg?>" alt="">
-                                <div class="card-body d-flex flex-column align-items-start">
-                                    <p class="card-text mb-auto">«Я долгое время работаю в качестве тренера со взрослыми/профессиональными командами...Но всегда интересно было узнать новинки, связанные с тренерской профессией, пусть они предназначены больше для детско-юношеского и молодежного футбола... Мне очень понравилась платформа Nanofootball. В одной программе сосредоточен, по сути, «рабочий стол» тренера! Очень достойный и интересный подбор упражнений, возможность формировать тренировочные циклы, аналитика, раздел «Медицина» - всё на высоком уровне, лаконично, по делу, чувствуется продукт делали высококвалифицированные «люди футбола». Жду от авторов «профессиональную» версию программы!</p>
-                                    <strong class="d-inline-block mb-2 text-primary">Олег Фоменко, тренер ФК «Сочи»/экс-тренер ФК «Краснодар»</strong>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="card flex-md-row mb-4">
-                                <img class="mx-auto d-block mt-4" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;" src="https://nanofootball.ru/tmp/about_page/images/img10.jpg?>" alt="">
-                                <div class="card-body d-flex flex-column align-items-start">
-                                    <p class="card-text mb-auto">Только системная, методичная работа на базе передовых мировых разработок считаю, позволит нам конкурировать в футбольном образовании с ведущими мировыми державами . Nanofootball -очень интересная отечественная разработка! Более 500 упражнений для различной возрастной группы (большинство из которых четко описано и представлено с видео или в анимационной версией)!Очень интересный раздел «Аналитика». Жду в ближайшее время анансированного кластера «Методология», с лекциями и статьями лучших профильных специалистов по миру!. Удачи Nanofootball во всем, развития и новых побед!!!</p>
-                                    <strong class="d-inline-block mb-2 text-primary">В.С. Волчек, экс-тренер ФК «Торпедо», «Локомотив», «Краснодар»; главный тренер Сборной России U-15</strong>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="card flex-md-row mb-4">
-                                <img class="mx-auto d-block mt-4" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;" src="https://nanofootball.ru/tmp/about_page/images/img11.jpg?>" alt="">
-                                <div class="card-body d-flex flex-column align-items-start">
-                                    <p class="card-text mb-auto">Я занимаюсь детско-юношеским и молодежным футболом более 15 лет. Думаю есть чем гордиться, кое-чего мы с «Чертаново» достигли… На основе своего опыта я четко понимаю и могу утверждать, что основным слагающим успеха в футбольной академии являются прежде всего конкретные люди: педагоги, селекционеры, тренеры, врачи и т.д. При этом стратегию и системность в работе никто не отменял. Стратегия «Чертаново» известна и понятна всем профессионалам и любителям футбола в нашей стране. Системность же заключается в четкой иерархии управления, постановки задач и контроля их выполнения и, конечно, в постоянном повышении профессионального уровня, внедрению самых современных методик и инноваций в работе. Меня всегда интересовали и интересуют последние нововведения в футбольной индустрии, в т.ч. в IT-технологиях/предложениях... Программа Nanofootball позволяет руководителям академий и школ, тренерскому штабу по новому взглянуть на свою работу, автоматизировать многие процессы, выстроить современные коммуникации с молодыми футболистами и их родителями. Отрадно, что ее создали и постоянно улучшают люди, которые имеют большой и успешный опыт работы в наших лучших центрах подготовки футболистов. Желаю ребятам успеха и процветания!</p>
-                                    <strong class="d-inline-block mb-2 text-primary">Николай Ларин, Директор Футбольной школы и ФК «Чертаново» (2008-2021)</strong>
-                                </div>
+                            <div class="col-12">
+                                <h1 style="color: #ffce46">+7(953)502-58-39</h1>
                             </div>
                         </div>
                     </div>
-                    <a class="carousel-control-prev" href="#carouselPeople" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true" style="margin-right: 7rem !important;"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselPeople" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true" style="margin-left: 7rem !important;"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="price" class="mt-2 d-none">
-        <div class="cover-container d-flex p-3 mx-auto flex-column text-center plans-field">
+    <section id="feedback_form_section" class="" style="">
+        <div class="cover2-container d-flex p-3 mx-auto my-2 flex-column w-75">
+            <div class="yellow-block">
+                <div class="yellow-circle" style="margin-top: 0px; padding-top: 130px; padding-bottom: 10px; height: auto">
+                    <form id="feedbackForm" class="feedback-form" action="" method="POST" style="padding: 0px 80px 0px 80px">
+                        <div class="row">
+                            <div class="col-lg-8" style="align-self: center;">
+                                <div class="form-row">
+                                    <div class="form-group col-12 col-lg-6">
+                                        <input type="text" class="form-control" id="inputName" name="name" placeholder="Имя" required="">
+                                    </div>
+                                    <div class="form-group col-12 col-lg-6">
+                                        <input type="tel" class="form-control" id="inputPhone" name="phone" aria-describedby="" placeholder="Телефон" required="">
+                                    </div>
+                                    <div class="form-group col-12 col-lg-6 mb-lg-0">
+                                        <input type="email" class="form-control" id="inputEmail" name="email" aria-describedby="" placeholder="Email">
+                                    </div>
+                                    <div class="form-group col-12 col-lg-6 mb-lg-0">
+                                        <input type="text" class="form-control" id="inputClub" name="club" aria-describedby="" placeholder="Клуб">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4" style="align-self: center;">
+                                <div class="text-center align-center">
+                                    <button type="button" id="feedbackFormSubmit" class="btn button-outline-main font-weight-bold">Отправить</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about-data">
+        <div class="cover-container d-flex p-3 mx-auto flex-column text-left" style="margin-bottom: 60px">
             <div class="container">
-                <div class="mt-4">
-                    <h1 class="" style="margin-top: 70px;"><strong>ТАРИФНЫЕ ПЛАНЫ</strong></h1>
-
-                    <div class="container-fluid mt-4">
-                        <div class="row justify-content-center">
-                            <div class="col-auto mb-3">
-                                <div class="card card-cust">
-                                    <div class="card-body">
-                                        <h4 class="my-0 font-weight-normal">ТРЕНЕР</h4>
-                                        <h3 class="card-title pricing-card-title" style="color: #CBB36D;">390 р. / месяц</h3>
-                                        <ul class="list-unstyled">
-                                            <li>Упражнения: упражнения NanoFootball и возможность составлять свои упражнения.</li>
-                                            <li>Тренировки: составить тренировку.</li>
-                                            <li>Анимация и видео примеры к упражнения</li>
-                                            <li>Раздел «Методология».</li>
-                                            <li>Возможность управлять двумя командами в одном аккаунте</li>
-                                        </ul>
-                                    </div>
-                                    <div class="card-footer">
-                                        <a href="/login/" class="btn card-text">ПОПРОБОВАТЬ</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-auto mb-3">
-                                <div class="card card-cust">
-                                    <div class="card-body">
-                                        <h4 class="my-0 font-weight-normal">ТРЕНЕР +</h4>
-                                        <h3 class="card-title pricing-card-title" style="color: #CBB36D;">890 р. / месяц</h3>
-                                        <ul class="list-unstyled">
-                                            <li><strong>Функционал версии Тренер</strong></li>
-                                            <li>Карточка игрока</li>
-                                            <li>Протоколы матчей</li>
-                                            <li>Аналитика по каждому игроку</li>
-                                            <li>Аналитика по тренировочному процессу</li>
-                                            <li>Видео-контент – методический видео материал.</li>
-                                        </ul>
-                                    </div>
-                                    <div class="card-footer">
-                                        <a href="/login/" class="btn card-text">ПОПРОБОВАТЬ</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-auto mb-3">
-                                <div class="card card-cust">
-                                    <div class="card-body">
-                                        <h4 class="my-0 font-weight-normal">АКАДЕМИЯ</h4>
-                                        <h3 class="card-title pricing-card-title" style="color: #CBB36D;">Цена по запросу</h3>
-                                        <ul class="list-unstyled">
-                                            <li><strong>Функционал версии Тренер +</strong></li>
-                                            <li>Раздел Медицина</li>
-                                            <li>Раздел Селекция</li>
-                                            <li>Инструменты управление программой для руководства</li>
-                                            <li>Персональный тренер/консультант</li>
-                                        </ul>
-                                    </div>
-                                    <div class="card-footer">
-                                        <a href="#" class="btn card-text" data-toggle="modal" data-target="#modalToMail">НА ПОЧТУ</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="row justify-content-between">
+                    <div class="col-lg-6">
+                        <img class="my-3" src="{% static "preadmin/img/main_page/scrin_3.svg" %}" width="100%" alt="NANOFOOTBALL">
+                    </div>
+                    <div class="col-lg-6">
+                        <img class="my-3" src="{% static "preadmin/img/main_page/scrin_4.svg" %}" width="100%" alt="NANOFOOTBALL">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <h3>В нашей базе, более 1000 ВИДЕО и АНИМАЦИЙ для всех видов упражнений.</h3>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="modal fade" id="modalToMail" tabindex="-1" role="dialog" aria-labelledby="modalToMailLbl" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalToMailLbl">Оставить заявку для версии "Академия"</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div id="formToMailWrapper">
-                        <form class="need-validation" id="formMail">
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="inputSurname">Фамилия</label>
-                                    <input type="text" class="form-control" id="inputSurname" name="surname" placeholder="Фамилия" required="">
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="inputName">Имя</label>
-                                    <input type="text" class="form-control" id="inputName" name="name" placeholder="Имя" required="">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputMail">Почтовый адрес</label>
-                                <input type="email" class="form-control" id="inputMail" name="mail" placeholder="@mail" required="">
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-4">
-                                    <label for="inputClub">Клуб</label>
-                                    <input type="text" class="form-control" id="inputClub" name="club" placeholder="Клуб" required="">
-                                </div>
-                                <div class="form-group col-md-8">
-                                    <label for="inputPhone">Телефон</label>
-                                    <input type="text" class="form-control" id="inputPhone" name="phone" placeholder="Телефон" required="">
-                                </div>
-                            </div>
-                            <button type="submit" id="sendToMail" class="btn btn-primary">Отправить</button>
-                        </form>
-                    </div>
-                    <div id="resInfo" class="d-none">
-                        <p>Заявка сохранена успешно. Ожидайте звонка от менеджера!</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+{#    <section id="about" class="mt-4">#}
+{#        <div class="container">#}
+{#            <div class="text-center">#}
+{#                <h1 style="font-weight: bold;">NanoFootball - это</h1>#}
+{#                <div class="row">#}
+{#                    <div class="col-sm-6 text-left">#}
+{#                        <p>• Платформа управления твоей команды или всех команд Академии</p>#}
+{#                        <p>• Современная методика обучения</p>#}
+{#                        <p>• Обучение и возможность практического применения одновременно</p>#}
+{#                        <p>• Планирование микроциклов</p>#}
+{#                        <p>• Более 600 готовых упражнений по возрастным категориям</p>#}
+{#                        <p>• Анимация и видео примеры к упражнениям</p>#}
+{#                        <p>• Фильтрация упражнений по возрастным категориям</p>#}
+{#                    </div>#}
+{#                    <div class="col-sm-6 text-left">#}
+{#                        <p>• Возможность создавать свои упражнения</p>#}
+{#                        <p>• Возможность составлять тренировки</p>#}
+{#                        <p>• Аналитическая статистика по каждому игроку</p>#}
+{#                        <p>• Хранение данных: карточка игрока, протоколы матчей, архив тренировок</p>#}
+{#                        <p>• Возможность управлять двумя командами в одном аккаунте</p>#}
+{#                        <p>• Персональный тренер/консультант</p>#}
+{#                        <p>• Консультант по технической поддержки</p>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="">#}
+{#                <div id="carouselPeople" class="carousel slide" data-ride="carousel">#}
+{#                    <div class="carousel-inner">#}
+{#                        <div class="carousel-item">#}
+{#                            <div class="card flex-md-row mb-4">#}
+{#                                <img class="mx-auto d-block mt-4" style="width: 200px; height: 200px; border-radius: 50%;" src="https://nanofootball.ru/tmp/about_page/images/img1.jpg?>" alt="">#}
+{#                                <div class="card-body d-flex flex-column align-items-start">#}
+{#                                    <p class="card-text mb-auto">«Я увидел очень интересный, перспективный продукт для футбольных Академий и клубов. В этой программе сосредоточен огромный арсенал упражнений, периодических циклов для подготовки молодых футболистов всех возрастов, анализ тренировочного процесса, селекция… Я думаю что при тщательном исследовании и применении этой программы можно правильно выбрать и сформировать стратегию работы Академий и футбольных клубов, тренировочный процесс, философию игры и соответственно готовить отчеты, проводить анализ и вести различную статистику. Также огромное внимание уделено селекции, что очень важно. Более того, на базе этой программы тренеры, которые научатся полноценно использовать все ее преимущества и ноу-хау, однозначно, повысят уровень российских футболистов, и как следствие наших профессиональных клубов.»</p>#}
+{#                                    <strong class="d-inline-block mb-2 text-primary">Александр Толстиков, Технический Директор ФК «Краснодар»</strong>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="carousel-item">#}
+{#                            <div class="card flex-md-row mb-4">#}
+{#                                <img class="mx-auto d-block mt-4" style="width: 200px; height: 200px; border-radius: 50%;" src="https://nanofootball.ru/tmp/about_page/images/img2.jpg?>" alt="">#}
+{#                                <div class="card-body d-flex flex-column align-items-start">#}
+{#                                    <p class="card-text mb-auto">«Подавляющее большинство наших детских тренеров работают без единой программы подготовки ребят не то что в России, а даже в конкретной взятой школе/академии. В связи с этим, Программа «Нанофутбол», сделанная людьми, которые имеют колоссальный опыт как в профессиональном футболе, так и в подготовке молодежи, позволяет не только планировать и контролировать работу тренеров, но и управлять как футболистами так и самими тренерами. На мой взгляд, эта Программа поможет руководителям клубов иметь четкую картину соблюдения единых принципов тренировочного процесса, которые применяются в той или иной школе. Это одно из ключевых преимуществ данного продукта, чего я не встречал ни в одном подобной программе. Хотя ничего соотносимого в комплексе на рынке инновационных футбольных решений, я в принципе, вообще не встречал. Время, проведенное футболистами на поле, какую работу они выполняли в тот или иной период времени, показания датчиков, тестирования – на сколько это все в совокупности влияет на текущее и будущее состояние ребят... Мы можем и должны управлять этим процессом.»</p>#}
+{#                                    <strong class="d-inline-block mb-2 text-primary">Андрей Талалаев, Главный тренер ФК «Ахмат»</strong>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="carousel-item active carousel-item-left">#}
+{#                            <div class="card flex-md-row mb-4">#}
+{#                                <img class="mx-auto d-block mt-4" style="width: 200px; height: 200px; border-radius: 50%;" src="https://nanofootball.ru/tmp/about_page/images/img3.jpg?>" alt="">#}
+{#                                <div class="card-body d-flex flex-column align-items-start">#}
+{#                                    <p class="card-text mb-auto">«Сегодня я увидел продукт, систему, своего рода инструмент для методически грамотного выстраивания тренировочного процесса в любой Академии, в чьих руках окажется эта программа. Всё будет зависеть, конечно, от кадров, пользующихся этой системой, но ее инструментарий верно направляет, подсказывает пути решения тех или иных задач, которые будет ставить перед собой любой тренер. Очень интересный продукт!»</p>#}
+{#                                    <strong class="d-inline-block mb-2 text-primary">Дмитрий Гунько, Главный тренер ФК «Ноа» (Армения), экс-Главный тренер Академии ФК «Спартак» (Москва)</strong>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="carousel-item carousel-item-next carousel-item-left">#}
+{#                            <div class="card flex-md-row mb-4">#}
+{#                                <img class="mx-auto d-block mt-4" style="width: 200px; height: 200px; border-radius: 50%;" src="https://nanofootball.ru/tmp/about_page/images/img4.jpg?>" alt="">#}
+{#                                <div class="card-body d-flex flex-column align-items-start">#}
+{#                                    <p class="card-text mb-auto">«Одна из основных проблем российского футбола – отсутствие методического фундамента как при воспитании молодых футболистов в момент становлении их мастерства, так и в период их профессиональной деятельности. Данная платформа, как мне кажется, может стать тем базисом от которого должен оттолкнуться любой тренер, чтобы его воспитанники, впитав материал данной программы, смогли доказать - Россия – футбольная страна, а наши игроки и тренеры достойны уважения! Спасибо разработчикам за большую и успешную работу!»</p>#}
+{#                                    <strong class="d-inline-block mb-2 text-primary">Сергей Булатов, старший тренер ФК «Крылья Советов»</strong>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="carousel-item">#}
+{#                            <div class="card flex-md-row mb-4">#}
+{#                                <img class="mx-auto d-block mt-4" style="width: 200px; height: 200px; border-radius: 50%;" src="https://nanofootball.ru/tmp/about_page/images/img5.jpg?>" alt="">#}
+{#                                <div class="card-body d-flex flex-column align-items-start">#}
+{#                                    <p class="card-text mb-auto">«Очень интересный и инновационный продукт! В успешной работе/результате в детско-юношеском футболе выделю основные составляющие: филофия школы, селекция, тренерский коллектив и единые методологические стандарты подготовки. Так вот, на мой взгляд, данная программа позволяет формировать и администрировать все эти компоненты. Хочу пожелать разработчикам Удачи в продвижении своих идей!»</p>#}
+{#                                    <strong class="d-inline-block mb-2 text-primary">Сергей Хабаров, спортивный директор Футбольной Академии «Чертаново»</strong>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="carousel-item">#}
+{#                            <div class="card flex-md-row mb-4">#}
+{#                                <img class="mx-auto d-block mt-4" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;" src="https://nanofootball.ru/tmp/about_page/images/img6.jpg?>" alt="">#}
+{#                                <div class="card-body d-flex flex-column align-items-start">#}
+{#                                    <p class="card-text mb-auto">«Инновации в футболе это всегда актуально и интересно. В своей профессиональной деятельности Я впервые столкнулся с представленной информационной платформой предназначенной для Тренеров и их ассистентов, как профессиональной команды, так и футбольных Академий. За платформой Nanofootball.ru несомненно будущее!! Футбольный клуб «Балтика» и наша Академия поддерживает данный информационный ресурс и Мы будем применять его в повседневной деятельности.»</p>#}
+{#                                    <strong class="d-inline-block mb-2 text-primary">Генеральный Директор ФК «Балтика» (Калининград) Тажутдин Качукаев</strong>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="carousel-item">#}
+{#                            <div class="card flex-md-row mb-4">#}
+{#                                <img class="mx-auto d-block mt-4" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;" src="https://nanofootball.ru/tmp/about_page/images/img7.jpg?>" alt="">#}
+{#                                <div class="card-body d-flex flex-column align-items-start">#}
+{#                                    <p class="card-text mb-auto">Облик современного мира меняется каждый день и XXI век - это время расцвета информационных технологий и цифровизации. Не обошла эта тенденция и современный футбол. Платформа «NanoFootball» яркое тому подтверждение. Те возможности, которые предоставляет данная программа, помогают вывести на новый уровень планирование, реализацию и анализ учебно-тренировочного процесса как профессиональных футболистов, так и футболистов детско-юношеских команд. Систематизированные данные, полученные с помощью «NanoFootball» позволяют тренерам вести научно-методическую работу, что, несомненно, приведет к увеличению количества качественных футболистов. Такие программы - незаменимые помощники тренеров и их ассистентов.</p>#}
+{#                                    <strong class="d-inline-block mb-2 text-primary">Сергей Томаров, Главный тренер Школы ФК «Уфа»</strong>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="carousel-item">#}
+{#                            <div class="card flex-md-row mb-4">#}
+{#                                <img class="mx-auto d-block mt-4" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;" src="https://nanofootball.ru/tmp/about_page/images/img8.jpg?>" alt="">#}
+{#                                <div class="card-body d-flex flex-column align-items-start">#}
+{#                                    <p class="card-text mb-auto">В последнее время очень много говорится и делается в инновационном плане для развития игры в футбол. Это и «умные мячи « , это система ВАР , система автоматического определения голов и тд.#}
+{#                                    Платформа NanoFootball реально должна помочь тренерам и игрокам обучаться и совершенствовать свои профессиональные навыки за счёт грамотного подбора упражнений, планирования МКЦ, и анализа тренировочной и соревновательной деятельности, как отдельных игроков, так и команды в целом. Желаю разроботчикам проекта успеха и не останавливаться на достигнутом!</p>#}
+{#                                    <strong class="d-inline-block mb-2 text-primary">Сергей Бойко, тренер ФК «Динамо» (Тбилиси)</strong>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="carousel-item">#}
+{#                            <div class="card flex-md-row mb-4">#}
+{#                                <img class="mx-auto d-block mt-4" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;" src="https://nanofootball.ru/tmp/about_page/images/img9.jpg?>" alt="">#}
+{#                                <div class="card-body d-flex flex-column align-items-start">#}
+{#                                    <p class="card-text mb-auto">«Я долгое время работаю в качестве тренера со взрослыми/профессиональными командами...Но всегда интересно было узнать новинки, связанные с тренерской профессией, пусть они предназначены больше для детско-юношеского и молодежного футбола... Мне очень понравилась платформа Nanofootball. В одной программе сосредоточен, по сути, «рабочий стол» тренера! Очень достойный и интересный подбор упражнений, возможность формировать тренировочные циклы, аналитика, раздел «Медицина» - всё на высоком уровне, лаконично, по делу, чувствуется продукт делали высококвалифицированные «люди футбола». Жду от авторов «профессиональную» версию программы!</p>#}
+{#                                    <strong class="d-inline-block mb-2 text-primary">Олег Фоменко, тренер ФК «Сочи»/экс-тренер ФК «Краснодар»</strong>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="carousel-item">#}
+{#                            <div class="card flex-md-row mb-4">#}
+{#                                <img class="mx-auto d-block mt-4" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;" src="https://nanofootball.ru/tmp/about_page/images/img10.jpg?>" alt="">#}
+{#                                <div class="card-body d-flex flex-column align-items-start">#}
+{#                                    <p class="card-text mb-auto">Только системная, методичная работа на базе передовых мировых разработок считаю, позволит нам конкурировать в футбольном образовании с ведущими мировыми державами . Nanofootball -очень интересная отечественная разработка! Более 500 упражнений для различной возрастной группы (большинство из которых четко описано и представлено с видео или в анимационной версией)!Очень интересный раздел «Аналитика». Жду в ближайшее время анансированного кластера «Методология», с лекциями и статьями лучших профильных специалистов по миру!. Удачи Nanofootball во всем, развития и новых побед!!!</p>#}
+{#                                    <strong class="d-inline-block mb-2 text-primary">В.С. Волчек, экс-тренер ФК «Торпедо», «Локомотив», «Краснодар»; главный тренер Сборной России U-15</strong>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="carousel-item">#}
+{#                            <div class="card flex-md-row mb-4">#}
+{#                                <img class="mx-auto d-block mt-4" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;" src="https://nanofootball.ru/tmp/about_page/images/img11.jpg?>" alt="">#}
+{#                                <div class="card-body d-flex flex-column align-items-start">#}
+{#                                    <p class="card-text mb-auto">Я занимаюсь детско-юношеским и молодежным футболом более 15 лет. Думаю есть чем гордиться, кое-чего мы с «Чертаново» достигли… На основе своего опыта я четко понимаю и могу утверждать, что основным слагающим успеха в футбольной академии являются прежде всего конкретные люди: педагоги, селекционеры, тренеры, врачи и т.д. При этом стратегию и системность в работе никто не отменял. Стратегия «Чертаново» известна и понятна всем профессионалам и любителям футбола в нашей стране. Системность же заключается в четкой иерархии управления, постановки задач и контроля их выполнения и, конечно, в постоянном повышении профессионального уровня, внедрению самых современных методик и инноваций в работе. Меня всегда интересовали и интересуют последние нововведения в футбольной индустрии, в т.ч. в IT-технологиях/предложениях... Программа Nanofootball позволяет руководителям академий и школ, тренерскому штабу по новому взглянуть на свою работу, автоматизировать многие процессы, выстроить современные коммуникации с молодыми футболистами и их родителями. Отрадно, что ее создали и постоянно улучшают люди, которые имеют большой и успешный опыт работы в наших лучших центрах подготовки футболистов. Желаю ребятам успеха и процветания!</p>#}
+{#                                    <strong class="d-inline-block mb-2 text-primary">Николай Ларин, Директор Футбольной школы и ФК «Чертаново» (2008-2021)</strong>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <a class="carousel-control-prev" href="#carouselPeople" role="button" data-slide="prev">#}
+{#                        <span class="carousel-control-prev-icon" aria-hidden="true" style="margin-right: 7rem !important;"></span>#}
+{#                        <span class="sr-only">Previous</span>#}
+{#                    </a>#}
+{#                    <a class="carousel-control-next" href="#carouselPeople" role="button" data-slide="next">#}
+{#                        <span class="carousel-control-next-icon" aria-hidden="true" style="margin-left: 7rem !important;"></span>#}
+{#                        <span class="sr-only">Next</span>#}
+{#                    </a>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </section>#}
+
+{#    <section id="price" class="mt-2 d-none">#}
+{#        <div class="cover-container d-flex p-3 mx-auto flex-column text-center plans-field">#}
+{#            <div class="container">#}
+{#                <div class="mt-4">#}
+{#                    <h1 class="" style="margin-top: 70px;"><strong>ТАРИФНЫЕ ПЛАНЫ</strong></h1>#}
+{##}
+{#                    <div class="container-fluid mt-4">#}
+{#                        <div class="row justify-content-center">#}
+{#                            <div class="col-auto mb-3">#}
+{#                                <div class="card card-cust">#}
+{#                                    <div class="card-body">#}
+{#                                        <h4 class="my-0 font-weight-normal">ТРЕНЕР</h4>#}
+{#                                        <h3 class="card-title pricing-card-title" style="color: #CBB36D;">390 р. / месяц</h3>#}
+{#                                        <ul class="list-unstyled">#}
+{#                                            <li>Упражнения: упражнения NanoFootball и возможность составлять свои упражнения.</li>#}
+{#                                            <li>Тренировки: составить тренировку.</li>#}
+{#                                            <li>Анимация и видео примеры к упражнения</li>#}
+{#                                            <li>Раздел «Методология».</li>#}
+{#                                            <li>Возможность управлять двумя командами в одном аккаунте</li>#}
+{#                                        </ul>#}
+{#                                    </div>#}
+{#                                    <div class="card-footer">#}
+{#                                        <a href="/login/" class="btn card-text">ПОПРОБОВАТЬ</a>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="col-auto mb-3">#}
+{#                                <div class="card card-cust">#}
+{#                                    <div class="card-body">#}
+{#                                        <h4 class="my-0 font-weight-normal">ТРЕНЕР +</h4>#}
+{#                                        <h3 class="card-title pricing-card-title" style="color: #CBB36D;">890 р. / месяц</h3>#}
+{#                                        <ul class="list-unstyled">#}
+{#                                            <li><strong>Функционал версии Тренер</strong></li>#}
+{#                                            <li>Карточка игрока</li>#}
+{#                                            <li>Протоколы матчей</li>#}
+{#                                            <li>Аналитика по каждому игроку</li>#}
+{#                                            <li>Аналитика по тренировочному процессу</li>#}
+{#                                            <li>Видео-контент – методический видео материал.</li>#}
+{#                                        </ul>#}
+{#                                    </div>#}
+{#                                    <div class="card-footer">#}
+{#                                        <a href="/login/" class="btn card-text">ПОПРОБОВАТЬ</a>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="col-auto mb-3">#}
+{#                                <div class="card card-cust">#}
+{#                                    <div class="card-body">#}
+{#                                        <h4 class="my-0 font-weight-normal">АКАДЕМИЯ</h4>#}
+{#                                        <h3 class="card-title pricing-card-title" style="color: #CBB36D;">Цена по запросу</h3>#}
+{#                                        <ul class="list-unstyled">#}
+{#                                            <li><strong>Функционал версии Тренер +</strong></li>#}
+{#                                            <li>Раздел Медицина</li>#}
+{#                                            <li>Раздел Селекция</li>#}
+{#                                            <li>Инструменты управление программой для руководства</li>#}
+{#                                            <li>Персональный тренер/консультант</li>#}
+{#                                        </ul>#}
+{#                                    </div>#}
+{#                                    <div class="card-footer">#}
+{#                                        <a href="#" class="btn card-text" data-toggle="modal" data-target="#modalToMail">НА ПОЧТУ</a>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </section>#}
+{##}
+{#    <div class="modal fade" id="modalToMail" tabindex="-1" role="dialog" aria-labelledby="modalToMailLbl" aria-hidden="true">#}
+{#        <div class="modal-dialog modal-lg" role="document">#}
+{#            <div class="modal-content">#}
+{#                <div class="modal-header">#}
+{#                    <h5 class="modal-title" id="modalToMailLbl">Оставить заявку для версии "Академия"</h5>#}
+{#                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
+{#                    <span aria-hidden="true">×</span>#}
+{#                    </button>#}
+{#                </div>#}
+{#                <div class="modal-body">#}
+{#                    <div id="formToMailWrapper">#}
+{#                        <form class="need-validation" id="formMail">#}
+{#                            <div class="form-row">#}
+{#                                <div class="form-group col-md-6">#}
+{#                                    <label for="inputSurname">Фамилия</label>#}
+{#                                    <input type="text" class="form-control" id="inputSurname" name="surname" placeholder="Фамилия" required="">#}
+{#                                </div>#}
+{#                                <div class="form-group col-md-6">#}
+{#                                    <label for="inputName">Имя</label>#}
+{#                                    <input type="text" class="form-control" id="inputName" name="name" placeholder="Имя" required="">#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="form-group">#}
+{#                                <label for="inputMail">Почтовый адрес</label>#}
+{#                                <input type="email" class="form-control" id="inputMail" name="mail" placeholder="@mail" required="">#}
+{#                            </div>#}
+{#                            <div class="form-row">#}
+{#                                <div class="form-group col-md-4">#}
+{#                                    <label for="inputClub">Клуб</label>#}
+{#                                    <input type="text" class="form-control" id="inputClub" name="club" placeholder="Клуб" required="">#}
+{#                                </div>#}
+{#                                <div class="form-group col-md-8">#}
+{#                                    <label for="inputPhone">Телефон</label>#}
+{#                                    <input type="text" class="form-control" id="inputPhone" name="phone" placeholder="Телефон" required="">#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <button type="submit" id="sendToMail" class="btn btn-primary">Отправить</button>#}
+{#                        </form>#}
+{#                    </div>#}
+{#                    <div id="resInfo" class="d-none">#}
+{#                        <p>Заявка сохранена успешно. Ожидайте звонка от менеджера!</p>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
 
     <section id="pics" class="mt-4 mb-4">
         <div class="container mt-4">
+            <h2 class="text-center">Изображения программы NANOFOOTBALL</h2>
             <div class="text-center">
                 <div id="carouselPics" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
-                        <div class="carousel-item">
-                            <h4><strong>Упражнения</strong></h4>
-                            <img class="d-block w-100" src="https://nanofootball.ru/tmp/about_page/images/exercises.jpg?>" alt="">
-                        </div>
-                        <div class="carousel-item">
-                            <h4><strong>Тренировки</strong></h4>
-                            <img class="d-block w-100" src="https://nanofootball.ru/tmp/about_page/images/trainings.jpg?>" alt="">
-                        </div>
-                        <div class="carousel-item active carousel-item-left">
-                            <h4><strong>Матчи</strong></h4>
-                            <img class="d-block w-100" src="https://nanofootball.ru/tmp/about_page/images/matches.jpg?>" alt="">
-                        </div>
-                        <div class="carousel-item carousel-item-next carousel-item-left">
-                            <h4><strong>Игроки</strong></h4>
-                            <img class="d-block w-100" src="https://nanofootball.ru/tmp/about_page/images/players.jpg?>" alt="">
+                        <div class="carousel-item active">
+{#                            <h4><strong>Упражнения</strong></h4>#}
+                            <img class="d-block w-100" src="{% static "preadmin/img/main_page/scrin_5.svg" %}" alt="">
                         </div>
                     </div>
                     <a class="carousel-control-prev" href="#carouselPics" role="button" data-slide="prev">
@@ -413,23 +452,27 @@
                     </a>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section id="contact" class="mt-4">
-        <div class="cover-container d-flex p-3 mx-auto flex-column text-center">
-            <div class="container">
-                <h1>КОНТАКТЫ</h1>
-                <h3>+7 953 502-58-39</h3>
-                <h3>info@nanofootball.ru</h3><br>
-                <p>
-                    <span>ООО «СПОРТЕМАТИКА»,</span>
-                    <span>ИНН: 9731073040,</span>
-                    <span>ОГРН: 1207700453344</span>
-                </p>
+            <div class="yellow-block">
+                <div class="yellow-circle" style="margin-top: -100px; padding-top: 160px; padding-bottom: 10px; height: auto">
+                </div>
             </div>
         </div>
     </section>
+
+{#    <section id="contact" class="mt-4">#}
+{#        <div class="cover-container d-flex p-3 mx-auto flex-column text-center">#}
+{#            <div class="container">#}
+{#                <h1>КОНТАКТЫ</h1>#}
+{#                <h3>+7 953 502-58-39</h3>#}
+{#                <h3>info@nanofootball.ru</h3><br>#}
+{#                <p>#}
+{#                    <span>ООО «СПОРТЕМАТИКА»,</span>#}
+{#                    <span>ИНН: 9731073040,</span>#}
+{#                    <span>ОГРН: 1207700453344</span>#}
+{#                </p>#}
+{#            </div>#}
+{#        </div>#}
+{#    </section>#}
 {% endblock %}
 
 {% block custom_scripts %}
