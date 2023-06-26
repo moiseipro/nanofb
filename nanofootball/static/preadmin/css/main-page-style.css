@@ -39,6 +39,10 @@ body{
     align-items: baseline;
 }
 
+.feedback-form{
+    padding: 0px 80px 0px 80px
+}
+
 .feedback-form input{
     border: 1px solid #2C56FB;
     background: none;
@@ -100,6 +104,13 @@ body{
         padding-top: 55px;
         margin-top: -110px;
     }
+    .yellow-block .yellow-cube{
+        border-radius: 25px;
+        padding-top: 35px !important;
+    }
+    .feedback-form{
+        padding: 0px 40px 0px 40px
+    }
 }
 @media only screen and (min-width: 600px) {
     .cust-div {
@@ -107,16 +118,26 @@ body{
     }
 }
 
-@media only screen and (min-width:600px) and (max-width: 900px) {
+@media only screen and (min-width:600px) and (max-width: 991px) {
 
     .yellow-block .yellow-circle{
         height: 200px;
         padding-top: 120px;
         margin-top: -200px;
     }
+    .feedback-form{
+        padding: 0px 80px 0px 80px
+    }
+    .yellow-block .yellow-cube{
+        border-radius: 25px;
+        padding-top: 35px !important;
+    }
+    .feedback-form{
+        padding: 0px 40px 0px 40px
+    }
 }
 
-@media only screen and (min-width:900px) {
+@media only screen and (min-width:991px) {
 
     .yellow-block .yellow-circle{
         height: 250px;
