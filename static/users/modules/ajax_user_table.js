@@ -81,6 +81,9 @@ function generate_ajax_users_table(scroll_y = ''){
             {'data': 'job_title', 'name': 'job_title', 'defaultContent': "---", render: function (data, type, row, meta) {
                 return `<span class="text-truncate" title="${data}"> ${data} </span>`;
             }},
+            {'data': 'club_title', 'name': 'club_title', 'defaultContent': "---", render: function (data, type, row, meta) {
+                return `<span class="text-truncate" title="${data ? data : '---'}"> ${data ? data : '---'} </span>`;
+            }},
             {'data': 'admin_type', 'name': 'admin_type', sortable: false, searchable: false, render: function (data, type, row, meta) {
                 return `<div class="w-100 text-center" title="${data}"> ${data} </div>`;
             }},
