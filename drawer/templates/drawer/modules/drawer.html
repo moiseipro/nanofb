@@ -63,7 +63,7 @@
                     <div class="a-button mx-1" title="Загрузка изображения" data-id="image">
                         {% include 'drawer/modules/icons/IconImageUpload.html' %}
                     </div>
-                    <div class="a-button mx-1" title="Логотип NF" data-id="logoNF">
+                    <div class="a-button mx-1" title="Логотип NF" data-id="logoNF1">
                         {% include 'drawer/modules/icons/IconNF.html' %}
                     </div>
                 </div>
@@ -516,7 +516,7 @@
                                 <div class="row mx-0 zones-preview-block">
                                     {% for elem in assets.shape %}
                                     <div class="col-4 px-0">
-                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-g-type="{{ elem.g_type }}" data-g-type2="{{ elem.g_type_2 }}">
+                                        <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-name="{{ elem.name }}" data-g-type="{{ elem.g_type }}" data-g-type2="{{ elem.g_type_2 }}">
                                             <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
                                         </div>
                                     </div>
@@ -558,8 +558,8 @@
                                             <div class="col-12 px-0 btn-group" role="group" aria-label="">
                                                 <button type="button" class="btn btn-sm btn-outline-primary zone-thickness-type" data-id="0">0</button>
                                                 <button type="button" class="btn btn-sm btn-outline-primary zone-thickness-type" data-id="1">1</button>
-                                                <button type="button" class="btn btn-sm btn-outline-primary zone-thickness-type" data-id="2">2</button>
-                                                <button type="button" class="btn btn-sm btn-outline-primary zone-thickness-type active" data-id="3">3</button>
+                                                <button type="button" class="btn btn-sm btn-outline-primary zone-thickness-type active" data-id="2">2</button>
+                                                <button type="button" class="btn btn-sm btn-outline-primary zone-thickness-type" data-id="3">3</button>
                                             </div>
                                         </div>
                                     </div>
@@ -613,7 +613,61 @@
                                 </div>
                             </div>
                             <div class="leftmenu-content-element d-none" data-id="text">
-                                text
+                                <div class="row mx-0">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-4 px-0 mt-2">
+                                                Текст
+                                            </div>
+                                            <div class="col-8 mt-2 d-flex justify-content-center">
+                                                <input class="form-control form-control-sm" name="text_content" type="text" placeholder="Введите текст" value="" autocomplete="off">
+                                                <div class="cvs-elem" data-group="text">
+                                                    {% include 'drawer/modules/icons/IconText.html' %}
+                                                </div>
+                                            </div>
+                                            <div class="col-4 px-0 mt-2">
+                                                Размер Шрифта
+                                            </div>
+                                            <div class="col-8 mt-2">
+                                                <div class="row mx-0">
+                                                    <div class="col-12 px-0 btn-group" role="group" aria-label="">
+                                                        <button type="button" class="btn btn-sm btn-outline-primary text-edit-any text-size-type" data-id="1">1</button>
+                                                        <button type="button" class="btn btn-sm btn-outline-primary text-edit-any text-size-type" data-id="2">2</button>
+                                                        <button type="button" class="btn btn-sm btn-outline-primary text-edit-any text-size-type active" data-id="3">3</button>
+                                                        <button type="button" class="btn btn-sm btn-outline-primary text-edit-any text-size-type" data-id="4">4</button>
+                                                        <button type="button" class="btn btn-sm btn-outline-primary text-edit-any text-size-type" data-id="5">5</button>
+                                                        <button type="button" class="btn btn-sm btn-outline-primary text-edit-any text-size-type" data-id="6">6</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 px-0 mt-2">
+                                                Толщина Шрифта
+                                            </div>
+                                            <div class="col-8 mt-2">
+                                                <div class="row mx-0">
+                                                    <div class="col-12 px-0 btn-group" role="group" aria-label="">
+                                                        <button type="button" class="btn btn-sm btn-outline-primary text-edit-any text-thickness-type" data-id="200">Тонкий</button>
+                                                        <button type="button" class="btn btn-sm btn-outline-primary text-edit-any text-thickness-type active" data-id="400">Средний</button>
+                                                        <button type="button" class="btn btn-sm btn-outline-primary text-edit-any text-thickness-type" data-id="600">Толстый</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 px-0 mt-2">
+                                                Цвет
+                                            </div>
+                                            <div class="col-8 mt-2">
+                                                <div class="row mx-0 colors-panel-container-text" data-id="">
+                                                    <div class="col-12 px-0 colors-panel">
+                                                        <div class="col color-elem s-white selected" style="background-color: rgb(0, 0, 0);"></div>
+                                                        <div class="col color-elem" style="background-color: rgb(255, 255, 0);"></div>
+                                                        <div class="col color-elem s-white" style="background-color: rgb(255, 0, 0);"></div>
+                                                        <div class="col color-elem" style="background-color: rgb(255, 255, 255);"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="leftmenu-content-element d-none" data-id="image">
                                 image
@@ -629,9 +683,9 @@
                 </div>
                 <div class="col-9 px-0">
                     <div class="draw-canvas-block d-flex align-items-center justify-content-center">
-                        <div id="canvas">
+                        <canvas id="canvas">
 
-                        </div>
+                        </canvas>
                     </div>
                 </div>
             </div>
@@ -642,5 +696,7 @@
 
 {% block custom_scripts %}
     <script src="{% static 'preadmin/js/konva.min.js' %}"></script>
-    <script src="{% static 'drawer/js/modules/drawer.js' %}"></script>
+
+    <script src="{% static 'preadmin/js/fabric.min.js' %}"></script>
+    <script src="{% static 'drawer/js/modules/drawer2.js' %}"></script>
 {% endblock %}
