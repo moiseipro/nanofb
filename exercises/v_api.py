@@ -695,7 +695,8 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
     #         f_exercises = f_exercises.filter(visible_demo=True)
     #     else:
     #         f_exercises = f_exercises.filter(visible=True)
-    f_exercises = f_exercises.filter(visible=True)
+    if not cur_user.is_superuser:
+        f_exercises = f_exercises.filter(visible=True)
     
     if filter_goal != -1:
         f_exercises = f_exercises.filter(ref_goal=filter_goal)
