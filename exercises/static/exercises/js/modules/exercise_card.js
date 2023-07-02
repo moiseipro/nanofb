@@ -2046,7 +2046,7 @@ $(function() {
             //     $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
             // }, 100);
             let cId = $('#exerciseCard').find('.exs_edit_field[name="scheme_1"]').val();
-            let cSrc = "https://nanofootballdraw.ru/canvas/new";
+            let cSrc = "/drawer/draw";
             if (cId && cId != "") {
                 cSrc = `https://nanofootballdraw.ru/canvas/edit/${cId}`;
             }
@@ -2094,7 +2094,7 @@ $(function() {
             //     $('.scheme-editor').find('iframe')[0].contentWindow.svgBlockResize();
             // }, 100);
             let cId = $('#exerciseCard').find('.exs_edit_field[name="scheme_2"]').val();
-            let cSrc = "https://nanofootballdraw.ru/canvas/new";
+            let cSrc = "/drawer/draw";
             if (cId && cId != "") {
                 cSrc = `https://nanofootballdraw.ru/canvas/edit/${cId}`;
             }

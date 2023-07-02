@@ -1,15 +1,18 @@
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from users.models import User
+from drawer.models import AdminDraw, UserDraw, ClubDraw
+import drawer.v_api as v_api
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 from django.contrib.staticfiles.utils import get_files
 from django.contrib.staticfiles.storage import StaticFilesStorage
+from django.core.files.base import ContentFile
 import os
 from nanofb.settings import STATIC_URL
 import xml.etree.ElementTree as ET
 import base64
 
-# https://konvajs.org/docs/index.html
+# https://nanofootballdraw.ru/canvas/edit/
 
 def get_assets_paths(c_obj, group=None, g_type=None, g_type_2=None, c_style=""):
     data = []
@@ -93,8 +96,6 @@ def drawer(request):
         cur_team = int(request.session['team'])
     except:
         pass
-    draw_id = request.GET.get("id", "")
-    print(f"id: {draw_id}")
     t_assets = {}
     t_assets = get_assets_paths(t_assets, "plane", None, None, "arat3_2")
     t_assets = get_assets_paths(t_assets, "gate", None, None, "arat1_1 darkback")
@@ -131,9 +132,97 @@ def drawer(request):
     t_assets = get_assets_paths(t_assets, "bezier", "without_arrow", None, "arat150_50 grayback")
     t_assets = get_assets_paths(t_assets, "shape", None, None, "arat1_1 grayback")
     t_assets = get_assets_paths(t_assets, "caps", None, None, "")
-
     return render(request, 'drawer/modules/drawer.html', {'assets': t_assets})
 
 
+@xframe_options_sameorigin
+def rendered(request):
+    if not request.user.is_authenticated:
+        return redirect("authorization:login")
+    cur_user = User.objects.filter(email=request.user).only("club_id")
+    cur_team = -1
+    try:
+        cur_team = int(request.session['team'])
+    except:
+        pass
+    draw_id = request.GET.get("id", "")
+    draw_instance = None
+    img_url = None
+    if cur_user[0].is_superuser:
+        draw_instance = AdminDraw.objects.filter(name=draw_id).first()
+    else:
+        if request.user.club_id is not None:
+            draw_instance = ClubDraw.objects.filter(name=draw_id, club=request.user.club_id).first()
+        else:
+            draw_instance = UserDraw.objects.filter(name=draw_id, user=cur_user).first()
+    try:
+        if draw_instance is not None:
+            img_url = draw_instance.rendered_img.url
+    except Exception as e:
+        pass
+    response = redirect(img_url)
+    return response
+
+
 def drawer_api(request):
-    pass
+    if not request.user.is_authenticated:
+        return JsonResponse({"errors": "authenticate_err"}, status=400)
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    if request.method == "POST" and is_ajax:
+        add_back_picture_status = 0
+        delete_back_picture_status = 0
+        save_drawing_status = 0
+        cur_user = User.objects.filter(email=request.user).only("id")
+        cur_team = -1
+        try:
+            cur_team = int(request.session['team'])
+        except:
+            pass
+        if not cur_user.exists() or cur_user[0].id == None:
+            return JsonResponse({"errors": "trouble_with_user"}, status=400)
+        try:
+            add_back_picture_status = int(request.POST.get("add_back_picture", 0))
+        except:
+            pass
+        try:
+            delete_back_picture_status = int(request.POST.get("delete_back_picture", 0))
+        except:
+            pass
+        try:
+            save_drawing_status = int(request.POST.get("save_drawing", 0))
+        except:
+            pass
+        if add_back_picture_status == 1:
+            return v_api.POST_add_back_picture(request, cur_user[0])
+        elif delete_back_picture_status == 1:
+            return v_api.POST_delete_back_picture(request, cur_user[0])
+        elif save_drawing_status == 1:
+            return v_api.POST_save_drawing(request, cur_user[0])
+        return JsonResponse({"errors": "access_error"}, status=400)
+    elif request.method == "GET" and is_ajax:
+        get_back_pictures_status = 0
+        get_drawing_status = 0
+        cur_user = User.objects.filter(email=request.user).only("id")
+        cur_team = -1
+        try:
+            cur_team = int(request.session['team'])
+        except:
+            pass
+        if not cur_user.exists() or cur_user[0].id == None:
+            return JsonResponse({"errors": "trouble_with_user"}, status=400)
+        try:
+            get_back_pictures_status = int(request.GET.get("get_back_pictures", 0))
+        except:
+            pass
+        try:
+            get_drawing_status = int(request.GET.get("get_drawing", 0))
+        except:
+            pass
+        if get_back_pictures_status == 1:
+            return v_api.GET_get_back_pictures(request, cur_user[0])
+        elif get_drawing_status == 1:
+            return v_api.GET_get_drawing(request, cur_user[0])
+        return JsonResponse({"errors": "access_error"}, status=400)
+    else:
+        return JsonResponse({"errors": "access_error"}, status=400)
+

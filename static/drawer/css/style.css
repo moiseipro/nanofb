@@ -42,15 +42,19 @@
 }
 
 
-.cvs-elem > .c-img {
+.cvs-elem:not(.cvs-elem-view) > .c-img {
     width: 100%;
     height: 100%;
     cursor: pointer;
 }
-.cvs-elem > .c-img:hover {
+.cvs-elem.cvs-elem-view > .c-img {
+    width: 100%;
+    height: 100%;
+}
+.cvs-elem:not(.cvs-elem-view) > .c-img:hover {
     opacity: 0.8;
 }
-.cvs-elem.selected {
+.cvs-elem:not(.cvs-elem-view).selected {
     border: 3px double #ea4335;
 }
 .cvs-elem.arat3_2 > .c-img {
@@ -110,3 +114,8 @@
     max-width: 12.5% !important;
 }
 
+
+.leftmenu-content-element[data-id="layers"] .layer-elem.selected {
+    background-color: #2962ff;
+    color: #fff;
+}

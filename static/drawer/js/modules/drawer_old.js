@@ -1,34 +1,3 @@
-/**
- * Non-unique attributes
- */
-fabric.Canvas.prototype.getItemsByAttr = (cvs, attr, val) => {
-    let objectList = [];
-    traverseObjects(cvs.getObjects(), attr, val, objectList);
-    return objectList;
-};
-/**
- * Unique attribute
- */
-fabric.Canvas.prototype.getItemByAttr = (cvs, attr, val) => {
-    let objectList = [];
-    traverseObjects(cvs.getObjects(), attr, val, objectList);
-    return objectList[0];
-};
-/**
- * Traverse objects in groups (and subgroups)
- */
-function traverseObjects(objects, attr, val, objectList) {
-    for (i in objects) {
-        if (objects[i]['type'] == 'group') {
-            traverseObjects(objects[i].getObjects(), attr, val, objectList);
-        } else if (objects[i][attr] == val) {
-            objectList.push(objects[i]);
-        }
-    }
-}
-
-
-
 function ClearPage() {
     $('.header').remove();
     $('.sidebar').remove();
@@ -62,53 +31,123 @@ function GetIcon(elem, url, style, value_text="") {
 }
 
 function CreateCanvasDraw() {
-    function saveMouseCoords(opts) {
-        let mouseX = opts.e.layerX;
-        let mouseY = opts.e.layerY;
-        window.canvasMouse = {'x': mouseX, 'y': mouseY};
-    }
-
-    const tWidth = $('.draw-canvas-block').width() * 0.782;
+    const tWidth = $('.draw-canvas-block').width() * 0.8;
     const tHeight = $('.draw-canvas-block').height() * 0.95;
-    let canvas = new fabric.Canvas('canvas', {
-        backgroundColor: '#595e64',
+    let stage = new Konva.Stage({
+        container: 'canvas',
         width: tWidth,
-        height: tHeight,
+        height: tHeight
     });
-    canvas.on('mouse:move', (opt) => {
-        saveMouseCoords(opt);
-    });
-    canvas.on('mouse:over', (opt) => {
-        saveMouseCoords(opt);
+    let layer = new Konva.Layer();
+    layer.on('mouseover', (e) => {
         if ($('.draw-leftmenu-content').find('.cvs-elem.selected').length > 0) {
             ToggleNewObjOnCanvas(true);
         }
     });
-    canvas.on('mouse:out', (opt) => {
-        saveMouseCoords(opt);
+    layer.on('mouseout', (e) => {
         if ($('.draw-leftmenu-content').find('.cvs-elem.selected').length > 0) {
             ToggleNewObjOnCanvas(false);
         }
     });
-    canvas.on('object:moving', (e) => {
-        let obj = e.target;
-        // if object is too big ignore
-        if (obj.currentHeight > obj.canvas.height || obj.currentWidth > obj.canvas.width) {
+    let transformer = new Konva.Transformer({
+        rotateAnchorOffset: 20,
+        enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
+        padding: 4,
+        borderStroke: "#000",
+        borderStrokeWidth: 2,
+        anchorStroke: "#000",
+        anchorCornerRadius: 50,
+        anchorStrokeWidth: 2,
+        anchorSize: 14,
+        flipEnabled: false,
+    });
+    layer.add(transformer);
+    let selectionRectangle = new Konva.Rect({
+        fill: 'rgba(255,255,255,0.2)',
+        stroke: 'black',
+        strokeWidth: 2,
+        dash: [33, 10],
+        visible: false,
+    });
+    layer.add(selectionRectangle);
+    stage.add(layer);
+    layer.draw();
+
+    let x1, y1, x2, y2;
+    stage.on('mousedown touchstart', (e) => {
+        if (e.target !== stage && e.target.attrs.id != "field") {
             return;
         }
-        obj.setCoords();
-        // top-left  corner
-        if (obj.getBoundingRect().top < 0 || obj.getBoundingRect().left < 0) {
-            obj.top = Math.max(obj.top, obj.top-obj.getBoundingRect().top);
-            obj.left = Math.max(obj.left, obj.left-obj.getBoundingRect().left);
+        e.evt.preventDefault();
+        x1 = stage.getPointerPosition().x;
+        y1 = stage.getPointerPosition().y;
+        x2 = stage.getPointerPosition().x;
+        y2 = stage.getPointerPosition().y;
+
+        selectionRectangle.visible(true);
+        selectionRectangle.x(x1);
+        selectionRectangle.y(y1);
+        selectionRectangle.width(0);
+        selectionRectangle.height(0);
+    });
+    stage.on('mousemove touchmove', (e) => {
+        if (!selectionRectangle.visible()) {
+            return;
         }
-        // bot-right corner
-        if (obj.getBoundingRect().top+obj.getBoundingRect().height  > obj.canvas.height || obj.getBoundingRect().left+obj.getBoundingRect().width  > obj.canvas.width) {
-            obj.top = Math.min(obj.top, obj.canvas.height-obj.getBoundingRect().height+obj.top-obj.getBoundingRect().top);
-            obj.left = Math.min(obj.left, obj.canvas.width-obj.getBoundingRect().width+obj.left-obj.getBoundingRect().left);
+        e.evt.preventDefault();
+        x2 = stage.getPointerPosition().x;
+        y2 = stage.getPointerPosition().y;
+        selectionRectangle.setAttrs({
+            x: Math.min(x1, x2),
+            y: Math.min(y1, y2),
+            width: Math.abs(x2 - x1),
+            height: Math.abs(y2 - y1),
+        });
+    });
+    stage.on('mouseup touchend', (e) => {
+        if (!selectionRectangle.visible()) {
+            return;
+        }
+        e.evt.preventDefault();
+        setTimeout(() => {
+            selectionRectangle.visible(false);
+        });
+        let shapes = stage.find('.c-elem');
+        let box = selectionRectangle.getClientRect();
+        let selected = shapes.filter((shape) =>
+            Konva.Util.haveIntersection(box, shape.getClientRect())
+        );
+        transformer.nodes(selected);
+    });
+    stage.on('click tap', (e) => {
+        if (selectionRectangle.visible() && e.target.hasName('c-line')) {
+            console.log('selecting line twice')
+        }
+        if (selectionRectangle.visible()) {
+            return;
+        }
+        if (e.target === stage || e.target.attrs.id == "field") {
+            transformer.nodes([]);
+            return;
+        }
+        if (!e.target.hasName('c-elem')) {
+            return;
+        }
+        const metaPressed = e.evt.shiftKey || e.evt.ctrlKey || e.evt.metaKey;
+        const isSelected = transformer.nodes().indexOf(e.target) >= 0;
+        if (!metaPressed && !isSelected) {
+            transformer.nodes([e.target]);
+        } else if (metaPressed && isSelected) {
+            const nodes = transformer.nodes().slice();
+            nodes.splice(nodes.indexOf(e.target), 1);
+            transformer.nodes(nodes);
+        } else if (metaPressed && !isSelected) {
+            const nodes = transformer.nodes().concat([e.target]);
+            transformer.nodes(nodes);
         }
     });
-    window.canvas = canvas;
+    window.canvas = {stage, layer, transformer, selectionRectangle};
+
     ChangeField();
 }
 
@@ -116,7 +155,7 @@ function ToggleNewObjOnCanvas(onCreate=true) {
     let selectedElem = $('.draw-leftmenu-content').find('.cvs-elem.selected').first();
     let cUrl = $(selectedElem).find('img:not(.d-none)').attr('src');
     if (onCreate) {
-        let mousePos = window.canvasMouse;
+        let mousePos = window.canvas.stage.getPointerPosition();
         if (selectedElem) {
             let currentGroup = $(selectedElem).attr('data-group');
             let scaleVal = 0.5;
@@ -147,174 +186,108 @@ function ToggleNewObjOnCanvas(onCreate=true) {
                 let isMarker = $('.leftmenu-content-element[data-id="lines"]').find('.line-marker').prop('checked');
                 let lineColor = $('.leftmenu-content-element[data-id="lines"]').find('.color-elem.selected').css('background-color');
                 let lineLength = 150;
-             
-                let linePath = "M0,25 L130,25";
+                
+
+                // let points = [0, 0, lineLength, 0];
+                // if (lineType == "quadratic") {
+                //     points = [0, 0, (lineLength/2), (-lineLength/3), lineLength, 0];
+                // } else if (lineType == "cubic") {
+                //     points = [
+                //         0, (lineLength/2),
+                //         (lineLength/4), (lineLength/6),
+                //         (lineLength/2), 0,
+                //         (3*lineLength/4), (-lineLength/6),
+                //         lineLength, (-lineLength/2)
+                //     ];
+                // } else if (lineType == "cubic2") {
+                //     points = [];
+                // }
+                // let line = new Konva.Arrow({
+                //     x: mousePos.x,
+                //     y: mousePos.y,
+                //     points: points,
+                //     pointerAtEnding: isMarker,
+                //     pointerLength: 20,
+                //     pointerWidth: 20,
+                //     fill: `${lineColor}`,
+                //     stroke: `${lineColor}`,
+                //     strokeWidth: lineThickness,
+                //     lineCap: 'round',
+                //     lineJoin: 'round',
+                //     dash: lineType2 == "dotted" ? [10, 10] : 0,
+                //     tension: 0.5,
+                //     draggable: true,
+                //     name: "c-elem c-line",
+                // });
+                // window.canvas.layer.add(line);
+
+                let points = {
+                    'start': {'x': mousePos.x, 'y': mousePos.y},
+                    'end': {'x': mousePos.x + lineLength, 'y': mousePos.y},
+                    'control': [],
+                };
                 if (lineType == "quadratic") {
-                    linePath = "M2,37.5 Q 75,0 130,37.5";
+                    points.control.push({'x': mousePos.x + lineLength/2, 'y': mousePos.y - lineLength/2});
                 } else if (lineType == "cubic") {
-                    linePath = "M2,50 C0,0 120,50 139,18";
+                    points.control.push({'x': mousePos.x + lineLength/2, 'y': mousePos.y});
+                    points.control.push({'x': mousePos.x + lineLength/2, 'y': mousePos.y});
                 } else if (lineType == "cubic2") {
 
                 }
-                let cLine = new fabric.Path(linePath, {
-                    name: "c-elem c-line",
-                    hoverCursor: 'pointer',
-                    fill: '',
+                let curveLine = new Konva.Shape({
+                    points: points,
                     stroke: `${lineColor}`,
                     strokeWidth: lineThickness,
-                    strokeDashArray: lineType2 == "dotted" ? [10, 10] : 0,
-                    left: mousePos.x,
-                    top: mousePos.y,
-                    padding: 15,
+                    dash: lineType2 == "dotted" ? [10, 10] : 0,
+                    tension: 0.5,
+                    draggable: true,
+                    name: "c-elem c-line",
+                    sceneFunc: (ctx, shape) => {
+                        ctx.beginPath();
+                        ctx.moveTo(points.start.x, points.start.y);
+                        if (points.control.length == 0) {
+                            ctx.lineTo(points.end.x, points.end.y);
+                        } else if (points.control.length == 1) {
+                            ctx.quadraticCurveTo(
+                                points.control[0].x,
+                                points.control[0].y,
+                                points.end.x,
+                                points.end.y,
+                            );
+                        } else if (points.control.length == 2) {
+                            ctx.bezierCurveTo(
+                                points.control[0].x,
+                                points.control[0].y,
+                                points.control[1].x,
+                                points.control[1].y,
+                                points.end.x,
+                                points.end.y,
+                            );
+                        }
+                        ctx.fillStrokeShape(shape);
+                    },
                 });
-                cLine.setControlsVisibility({
-                    bl: true,
-                    br: true,
-                    mb: false,
-                    ml: false,
-                    mr: false,
-                    mt: false,
-                    tl: true,
-                    tr: true,
-                    mtr: true,
-                });
-                window.canvas.add(cLine);
+                window.canvas.layer.add(curveLine);
+
+                window.canvas.layer.draw();
             } else if (currentGroup == "shape") {
-                let zoneColor = $('.leftmenu-content-element[data-id="zones"]').find('.colors-panel-container-zones[data-id="color"]').find('.color-elem.selected').css('background-color');
-                let zoneFillColor = $('.leftmenu-content-element[data-id="zones"]').find('.colors-panel-container-zones[data-id="fill"]').find('.color-elem.selected').css('background-color');
-                let partsFillColor = zoneFillColor.match(/[\d.]+/g);
-                if (partsFillColor.length === 3) {partsFillColor.push(1);}
-                if (partsFillColor[3] != 0) {partsFillColor[3] = 0.3;}
-                zoneFillColor = `rgba(${ partsFillColor.join(',') })`;
-                let zoneThickness = 1;
-                try {
-                    zoneThickness = parseInt($('.leftmenu-content-element[data-id="zones"]').find('.zone-thickness-type.active').attr('data-id')) * 2;
-                } catch(e) {}
-                let zoneType = $('.leftmenu-content-element[data-id="zones"]').find('.zone-type.active').attr('data-id');
-                let zoneName = $(selectedElem).attr('data-name');
-                let objOptions = {
-                    hoverCursor: 'pointer',
-                    stroke: `${zoneColor}`,
-                    strokeWidth: zoneThickness,
-                    fill: `${zoneFillColor}`,
-                    strokeDashArray: zoneType == "dotted" ? [10, 10] : 0,
-                    left: mousePos.x,
-                    top: mousePos.y,
-                };
-                let cObj = null;
-                if (zoneName.includes("circle")) {
-                    objOptions['name'] = "c-elem c-circle";
-                    objOptions['radius'] = 30;
-                    cObj = new fabric.Circle(objOptions);
-                } else if (zoneName.includes("ellipse")) {
-                    objOptions['name'] = "c-elem c-ellipse";
-                    objOptions['rx'] = 60;
-                    objOptions['ry'] = 30;
-                    cObj = new fabric.Ellipse(objOptions);
-                } else if (zoneName.includes("pentagon")) {
-                    objOptions['name'] = "c-elem c-pentagon";
-                    cObj = new fabric.Polygon([
-                        {x: 0, y: 0},
-                        {x: 29.04, y: 19.8},
-                        {x: 16.5, y: 52.8},
-                        {x: -16.5, y: 52.8},
-                        {x: -29.04, y: 19.8},
-                    ], objOptions);
-                } else if (zoneName.includes("square")) {
-                    objOptions['name'] = "c-elem c-square";
-                    cObj = new fabric.Polygon([
-                        {x: -25, y: 0},
-                        {x: 25, y: 0},
-                        {x: 25, y: 50},
-                        {x: -25, y: 50},
-                    ], objOptions);
-                } else if (zoneName.includes("trapezoid")) {
-                    objOptions['name'] = "c-elem c-trapezoid";
-                    cObj = new fabric.Polygon([
-                        {x: -18, y: 0},
-                        {x: 18, y: 0},
-                        {x: 25, y: 50},
-                        {x: -25, y: 50},
-                    ], objOptions);
-                } else if (zoneName.includes("triangle")) {
-                    objOptions['name'] = "c-elem c-triangle";
-                    cObj = new fabric.Polygon([
-                        {x: 0, y: 0},
-                        {x: 30, y: 50},
-                        {x: -30, y: 50},
-                    ], objOptions);
-                }
-                if (cObj) {
-                    cObj.setControlsVisibility({
-                        bl: true,
-                        br: true,
-                        mb: false,
-                        ml: false,
-                        mr: false,
-                        mt: false,
-                        tl: true,
-                        tr: true,
-                        mtr: true,
-                    });
-                    window.canvas.add(cObj);
-                }
-            } else if (currentGroup == "text") {
-                let textColor = $('.leftmenu-content-element[data-id="text"]').find('.colors-panel-container-text').find('.color-elem.selected').css('background-color');
-                let textSize = 10;
-                try {
-                    textSize *= parseInt($('.leftmenu-content-element[data-id="text"]').find('.text-size-type.active').attr('data-id'));
-                } catch(e) {}
-                let textThickness = 400;
-                try {
-                    textThickness = parseInt($('.leftmenu-content-element[data-id="text"]').find('.text-thickness-type.active').attr('data-id'));
-                } catch(e) {}
-                let textContent = $('.leftmenu-content-element[data-id="text"]').find('input[name="text_content"]').val();
-                if (textContent == "") {return;}
-                let text = new fabric.Text(textContent, {
-                    name: "c-elem c-text",
-                    hoverCursor: 'pointer',
-                    fill: `${textColor}`,
-                    fontSize: textSize,
-                    fontWeight: textThickness,
-                    left: mousePos.x,
-                    top: mousePos.y,
-                });
-                text.setControlsVisibility({
-                    bl: true,
-                    br: true,
-                    mb: false,
-                    ml: false,
-                    mr: false,
-                    mt: false,
-                    tl: true,
-                    tr: true,
-                    mtr: true,
-                });
-                window.canvas.add(text);
+
             } else {
-                fabric.Image.fromURL(cUrl, (oImg) => {
-                    oImg.set({
-                        name: "c-elem",
-                        hoverCursor: 'pointer',
+                window.canvas.selectedObj = Konva.Image.fromURL(cUrl, (node) => {
+                    node.setAttrs({
+                        x: mousePos.x,
+                        y: mousePos.y,
                         scaleX: scaleVal,
                         scaleY: scaleVal,
-                        left: mousePos.x,
-                        top: mousePos.y,
+                        draggable: true,
+                        name: "c-elem",
                     });
-                    oImg.setControlsVisibility({
-                        bl: true,
-                        br: true,
-                        mb: false,
-                        ml: false,
-                        mr: false,
-                        mt: false,
-                        tl: true,
-                        tr: true,
-                        mtr: true,
-                    });
-                    window.canvas.add(oImg);
+                    window.canvas.layer.add(node);
+                    window.canvas.transformer.moveToTop();
+                    window.canvas.selectionRectangle.moveToTop();
+                    window.canvas.layer.draw();
+                    node.fire('dragstart');
                 });
-
             }
             $(selectedElem).removeClass('selected');
         }
@@ -326,24 +299,29 @@ function ToggleNewObjOnCanvas(onCreate=true) {
 }
 
 function ChangeField(url=null) {
+    let cField = window.canvas.stage.find('#field')[0];
+    if (cField) {
+        cField.destroy();
+    }
+    const tWidth = $('.draw-canvas-block').width() * 0.8;
+    const tHeight = $('.draw-canvas-block').height() * 0.95;
     if (!url) {
         url = "/static/drawer/img/assets/plane/f01.svg";
     }
-    let currentField = window.canvas.getItemByAttr(window.canvas, 'name', 'field');
-    if (currentField) {
-        window.canvas.remove(currentField);
-    }
-    fabric.Image.fromURL(url, (oImg) => {
-        oImg.set({
-            name: "field",
-            originX: 'left', 
-            originY: 'top',
-            selectable: false,
+    Konva.Image.fromURL(url, (node) => {
+        node.setAttrs({
+            x: 0,
+            y: 0,
+            width: tWidth,
+            height: tHeight,
+            cornerRadius: 20,
+            id: "field",
         });
-        oImg.scaleToWidth(window.canvas.getWidth());
-        oImg.scaleToHeight(window.canvas.getHeight());
-        window.canvas.add(oImg);
-        window.canvas.sendToBack(oImg);
+        window.canvas.layer.add(node);
+        node.moveToBottom();
+        window.canvas.transformer.moveToTop();
+        window.canvas.selectionRectangle.moveToTop();
+        window.canvas.layer.draw();
     });
 }
 
@@ -351,7 +329,6 @@ function SaveCanvas() {
     let json = window.canvas.stage.toJSON();
     console.log(json)
 }
-
 
 function ToggleLeftMenu(id) {
     const leftMenuTitles = {
@@ -661,21 +638,6 @@ $(function() {
         $(`.colors-panel-container-labels[data-id="${cId}"]`).find('.color-elem').removeClass('selected');
         $(e.currentTarget).addClass('selected');
         LoadLabelsPreview();
-    });
-
-
-    $('.colors-panel-container-text').on('click', '.color-elem', (e) => {
-        let cColor = $(e.currentTarget).css('background-color');
-        $(`.colors-panel-container-text`).find('.color-elem').removeClass('selected');
-        $(e.currentTarget).addClass('selected');
-    });
-    $('.leftmenu-content-element[data-id="text"]').on('click', '.text-size-type', (e) => {
-        $('.leftmenu-content-element[data-id="text"]').find('.text-size-type').removeClass('active');
-        $(e.currentTarget).addClass('active');
-    });
-    $('.leftmenu-content-element[data-id="text"]').on('click', '.text-thickness-type', (e) => {
-        $('.leftmenu-content-element[data-id="text"]').find('.text-thickness-type').removeClass('active');
-        $(e.currentTarget).addClass('active');
     });
 
 
