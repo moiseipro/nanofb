@@ -9,6 +9,7 @@ from django_countries.fields import CountryField
 from django.utils.translation import gettext_lazy as _
 
 from clubs.models import Club
+from federations.models import Federation
 from .managers import CustomUserManager
 from version.models import Version
 
@@ -251,6 +252,15 @@ class User(AbstractUser):
         default=None,
         verbose_name=_('Club'),
         help_text=_('The club the user is a member of'),
+    )
+    federation_id = models.ForeignKey(
+        Federation,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        default=None,
+        verbose_name=_('Federation'),
+        help_text=_('The federation the user is a member of'),
     )
     is_archive = models.BooleanField(default=0)
     is_api_access = models.BooleanField(default=0)

@@ -5,6 +5,8 @@ from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy as _p
 
 from django.contrib.auth.models import Permission, Group
+
+from federations.models import Federation
 from version.models import ClubLimitations
 
 
@@ -19,6 +21,15 @@ class Club(ClubLimitations):
         max_length=10,
         verbose_name=_('subdomain'),
         help_text=_('The domain that will be displayed. The maximum length is 10 characters.'),
+    )
+    federation_id = models.ForeignKey(
+        Federation,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        default=None,
+        verbose_name=_('Federation'),
+        help_text=_('The federation the club is a member of'),
     )
     groups = models.ManyToManyField(
         Group,
@@ -54,14 +65,6 @@ class Club(ClubLimitations):
         null=False,
         blank=False,
     )
-    # limits = models.ForeignKey(
-    #     ClubLimitations,
-    #     verbose_name=_('limits'),
-    #     help_text=_("Club limits"),
-    #     on_delete=models.SET_NULL,
-    #     null=True,
-    #     blank=True
-    # )
 
     def __str__(self):
         return self.name

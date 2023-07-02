@@ -114,6 +114,17 @@ class ClubLimitations(Limitations):
         abstract = True
 
 
+class FederationLimitations(models.Model):
+    club_limit = models.IntegerField(
+        verbose_name=_('number of clubs'),
+        help_text=_("limit on the number of clubs"),
+        default=10
+    )
+
+    class Meta:
+        abstract = True
+
+
 class Version(Limitations):
     name = models.CharField(
         max_length=255,

@@ -70,6 +70,14 @@
         </div>
         <div class="col-sm-12">
             <div class="form-group row mb-1">
+                <label class="col-sm-6 col-form-label">{% trans 'Club title'%}</label>
+                <div class="col-sm-6">
+                    <input type="text" name="club_title" class="form-control form-control-sm edit-input" value="{% if user.personal.club_title %}{{ user.personal.club_title}}{% endif %}" autocomplete="off" disabled>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="form-group row mb-1">
                 <label class="col-sm-6 col-form-label">{% trans 'License'%}</label>
                 <div class="col-sm-6">
                     <select name="trainer_license" id="trainer_license-select" class="form-control edit-input" disabled>

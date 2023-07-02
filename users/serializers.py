@@ -78,7 +78,7 @@ class UserPersonalSerializer(serializers.ModelSerializer):
         model = UserPersonal
         fields = [
             'id', 'first_name', 'last_name', 'father_name', 'email_2', 'job_title', 'date_birthsday', 'country_id',
-            'region', 'city', 'phone', 'phone_2', 'trainer_license', 'license', 'license_date', 'skype'
+            'region', 'city', 'phone', 'phone_2', 'trainer_license', 'license', 'license_date', 'skype', 'club_title'
         ]
 
 
@@ -173,6 +173,9 @@ class UserManagementSerializer(serializers.ModelSerializer):
         source="club_id.date_registration_to",
         default=""
     )
+    club_title = serializers.CharField(
+        source="personal.club_title"
+    )
     p_version = VersionSerializer()
     flag = serializers.CharField(
         source="personal.country_id.flag"
@@ -238,7 +241,7 @@ class UserManagementSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'email', 'days_entered', 'is_active', 'admin_type', 'p_version', 'registration_to', 'groups',
             'last_name', 'first_name', 'job_title', 'date_birthsday', 'age',
-            'trainer_license', 'license', 'license_date', 'flag', 'distributor', 'date_joined',
+            'trainer_license', 'license', 'license_date', 'flag', 'distributor', 'date_joined', 'club_title',
             'activation', 'club_name', 'club_registration_to', 'is_archive', 'date_joined', 'phone', 'date_last_login',
             'region', 'club_id'
         ]

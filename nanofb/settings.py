@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     'matches.apps.MatchesConfig',
     'trainings.apps.TrainingsConfig',
     'clubs.apps.ClubsConfig',
+    'federations.apps.FederationsConfig',
     'schemeDrawer.apps.SchemedrawerConfig',
     'api.apps.ApiConfig',
     'analytics.apps.AnalyticsConfig',
