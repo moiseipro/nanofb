@@ -71,7 +71,7 @@
         </div>
         <div class="col-12">
             <div class="row draw-full-block mt-2">
-                <div class="col-3">
+                <div class="col col-custom-fixed" style="--col-width: 350px;">
                     <div class="draw-leftmenu-block h-100">
                         <div class="draw-leftmenu-header">
                             Слои
@@ -97,8 +97,8 @@
                                         <colgroup>
                                             <col style="width: 10%;" span="1">
                                             <col style="width: 15%;" span="1">
-                                            <col style="width: 65%;" span="1">
-                                            <col style="width: 10%;" span="1">
+                                            <col style="width: 60%;" span="1">
+                                            <col style="width: 15%;" span="1">
                                         </colgroup>
                                         <tbody class="layers-body">
                                         </tbody>
@@ -726,11 +726,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-9 px-0">
+                <div class="col col-custom-fluid px-0" style="--col-width: 350px;">
                     <div class="draw-canvas-block d-flex align-items-center justify-content-center">
-                        <canvas id="canvas">
-
-                        </canvas>
+                        <canvas id="canvas"></canvas>
                     </div>
                 </div>
             </div>

@@ -27,7 +27,32 @@ function traverseObjects(objects, attr, val, objectList) {
     }
 }
 
-
+function ResizeCanvas() {
+    const newWidth = $('.draw-canvas-block').width() * 0.8;
+    const newHeight = $('.draw-canvas-block').height() * 0.95;
+    if (window.canvas.width != newWidth || window.canvas.height != newHeight) {
+        const scaleX = newWidth / window.canvas.width;
+        const scaleY = newHeight / window.canvas.height;
+        let objects = window.canvas.getObjects();
+        for (let i in objects) {
+            objects[i].scaleX = objects[i].scaleX * scaleX;
+            objects[i].scaleY = objects[i].scaleY * scaleY;
+            objects[i].left = objects[i].left * scaleX;
+            objects[i].top = objects[i].top * scaleY;
+            objects[i].setCoords();
+        }
+        let obj = window.canvas.backgroundImage;
+        if (obj) {
+            obj.scaleX = obj.scaleX * scaleX;
+            obj.scaleY = obj.scaleY * scaleY;
+        }
+        window.canvas.discardActiveObject();
+        window.canvas.setWidth(window.canvas.getWidth() * scaleX);
+        window.canvas.setHeight(window.canvas.getHeight() * scaleY);
+        window.canvas.renderAll();
+        window.canvas.calcOffset();
+    }
+}
 
 function ClearPage() {
     $('.header').remove();
@@ -67,7 +92,7 @@ function CreateCanvasDraw() {
         let mouseY = opts.e.layerY;
         window.canvasMouse = {'x': mouseX, 'y': mouseY};
     }
-    function SelectionHandle(obj) {
+    function selectionHandle(obj) {
         $('.leftmenu-content-element[data-id="layers"]').find('.layer-elem').removeClass('selected');
         $('.leftmenu-content-element[data-id="layers"]').find('.layer-elem').find('[name="selectable"]').prop('checked', false);
         let elems = window.canvas.getActiveObjects();
@@ -82,8 +107,8 @@ function CreateCanvasDraw() {
         $('.leftmenu-content-element[data-id="layers"]').find('#checkAll').prop('checked', checkedAll);
     }
 
-    const tWidth = $('.draw-canvas-block').width() * 0.782;
-    const tHeight = $('.draw-canvas-block').height() * 0.95;
+    let tWidth = $('.draw-canvas-block').width() * 0.8;
+    let tHeight = $('.draw-canvas-block').height() * 0.95;
     let canvas = new fabric.Canvas('canvas', {
         backgroundColor: '#343a40',
         width: tWidth,
@@ -123,9 +148,10 @@ function CreateCanvasDraw() {
         }
     });
     canvas.on({
-        'mouse:up': SelectionHandle,
+        'mouse:up': selectionHandle,
     });
     window.canvas = canvas;
+    $(window).resize(ResizeCanvas);
     ChangeField();
 
     LoadCanvas();
@@ -141,10 +167,11 @@ function ToggleNewObjOnCanvas(onCreate=true) {
         let mousePos = window.canvasMouse;
         if (selectedElem) {
             let currentGroup = $(selectedElem).attr('data-group');
+            let currentGType = $(selectedElem).attr('data-g-type');
             let scaleVal = 0.5;
             if (currentGroup == "gate") {
                 if ($('.leftmenu-content-element[data-id="gates"]').find('.gates-type.active').attr('data-id') == "small") {
-                    scaleVal = 1.4;
+                    scaleVal = 1.45;
                 } else {
                     scaleVal = 2.5;
                 }
@@ -158,7 +185,16 @@ function ToggleNewObjOnCanvas(onCreate=true) {
             if (currentGroup == "labels" || currentGroup == "numbers") {
                 scaleVal = 0.25;
             }
+            if (currentGroup == "equipment") {
+                if (currentGType == "flag") {
+                    scaleVal = 1;
+                }
+                if (currentGType == "beam") {
+                    scaleVal = 0.95;
+                }
+            }
             
+            window.createdObject = null;
             if (currentGroup == "line") {
                 let lineType = $('.leftmenu-content-element[data-id="lines"]').find('.line-type.active').attr('data-id');
                 let lineType2 = $('.leftmenu-content-element[data-id="lines"]').find('.line-type-2.active').attr('data-id');
@@ -204,6 +240,7 @@ function ToggleNewObjOnCanvas(onCreate=true) {
                     mtr: true,
                 });
                 window.canvas.add(cLine);
+                window.createdObject = cline;
             } else if (currentGroup == "shape") {
                 let zoneColor = $('.leftmenu-content-element[data-id="zones"]').find('.colors-panel-container-zones[data-id="color"]').find('.color-elem.selected').css('background-color');
                 let zoneFillColor = $('.leftmenu-content-element[data-id="zones"]').find('.colors-panel-container-zones[data-id="fill"]').find('.color-elem.selected').css('background-color');
@@ -290,6 +327,7 @@ function ToggleNewObjOnCanvas(onCreate=true) {
                         mtr: true,
                     });
                     window.canvas.add(cObj);
+                    window.createdObject = cObj;
                 }
             } else if (currentGroup == "text") {
                 let textColor = $('.leftmenu-content-element[data-id="text"]').find('.colors-panel-container-text').find('.color-elem.selected').css('background-color');
@@ -327,6 +365,7 @@ function ToggleNewObjOnCanvas(onCreate=true) {
                     mtr: true,
                 });
                 window.canvas.add(text);
+                window.createdObject = text;
             } else if (currentGroup == "custom_field") {
                 ChangeField(cUrl);
             } else {
@@ -353,9 +392,17 @@ function ToggleNewObjOnCanvas(onCreate=true) {
                         mtr: true,
                     });
                     window.canvas.add(oImg);
+                    window.createdObject = oImg;
                 });
-
             }
+            setTimeout(() => {
+                if (window.createdObject) {
+                    window.createdObject.new = '1';
+                    window.createdObject.moving = true;
+                    window.canvas.setActiveObject(window.createdObject).renderAll();
+                    
+                }
+            }, 150);
             $(selectedElem).removeClass('selected');
             RenderLayersContent();
         }
@@ -438,21 +485,11 @@ function ChangeField(url=null) {
     if (!url) {
         url = "/static/drawer/img/assets/plane/f01.svg";
     }
-    let currentField = window.canvas.getItemByAttr(window.canvas, 'name', 'field');
-    if (currentField) {
-        window.canvas.remove(currentField);
-    }
-    fabric.Image.fromURL(url, (oImg) => {
-        oImg.set({
-            name: "field",
-            originX: 'left', 
-            originY: 'top',
-            selectable: false,
+    fabric.Image.fromURL(url, (img) => {
+        window.canvas.setBackgroundImage(img, window.canvas.renderAll.bind(canvas), {
+            scaleX: canvas.width / img.width,
+            scaleY: canvas.height / img.height
         });
-        oImg.scaleToWidth(window.canvas.getWidth());
-        oImg.scaleToHeight(window.canvas.getHeight());
-        window.canvas.add(oImg);
-        window.canvas.sendToBack(oImg);
     });
 }
 
@@ -508,7 +545,6 @@ function LoadCanvas() {
         url: "drawer_api",
         success: function (res) {
             if (res.success) {
-                console.log(res.data)
                 try {
                     window.canvas.loadFromJSON(res.data, () => {
                         window.canvas.renderAll(); 
@@ -522,6 +558,7 @@ function LoadCanvas() {
             console.error(res);
         },
         complete: function (res) {
+            ResizeCanvas();
         }
     });
 }
@@ -589,6 +626,21 @@ function ToggleLeftMenu(id) {
         'players': "Игроки", 'lines': "Линии", 'zones': "Зоны", 'labels': "Метки",
         'text': "Добавление текста", 'image': "Загрузка изображения", 'logoNF': "Логотип NF",
     };
+    if (id == "players") {
+        TogglePlayersByType();
+    }
+    if (id == "lines") {
+        LoadLinePreview();
+    }
+    if (id == "zones") {
+        LoadZonePreview();
+    }
+    if (id == "labels") {
+        LoadLabelsPreview();
+    }
+    if (id == "image") {
+        LoadBackPictures();
+    }
     $('.draw-leftmenu-header').text(leftMenuTitles[id]);
     $('.draw-leftmenu-content').find('.leftmenu-content-element').addClass('d-none');
     $('.draw-leftmenu-content').find(`.leftmenu-content-element[data-id="${id}"]`).removeClass('d-none');
@@ -645,7 +697,6 @@ function TogglePlayersByType() {
     let cPosType = $('.leftmenu-content-element[data-id="players"]').find('.players-pos-type.active').attr('data-id');
     $('.leftmenu-content-element[data-id="players"]').find('.players-list').find('.cvs-elem').parent().addClass('d-none');
     $('.leftmenu-content-element[data-id="players"]').find('.players-list').find(`.cvs-elem[data-g-type="${cType}"][data-g-type2="${cPosType}"]`).parent().removeClass('d-none');
-
     ChangePlayersColor();
 }
 
@@ -770,11 +821,12 @@ function CreateLabelsInPrev() {
         `);
     }
 
-    LoadLabelsPreview();
+    // LoadLabelsPreview();
 }
 
 function LoadLabelsPreview() {
     let zoneColor = $('.leftmenu-content-element[data-id="labels"]').find('.colors-panel-container-labels[data-id="fill"]').find('.color-elem.selected').css('background-color');
+    let useWhiteText = $('.leftmenu-content-element[data-id="labels"]').find('.colors-panel-container-labels[data-id="fill"]').find('.color-elem.selected').hasClass('s-white');
     let finalStyle = `--color:${zoneColor};`;
     $('.leftmenu-content-element[data-id="labels"]').find('.cvs-elem').each((ind, elem) => {
         let cUrl = $(elem).find('img').attr('data-src');
@@ -783,10 +835,10 @@ function LoadLabelsPreview() {
             cText = $(elem).attr('data-text');
             let isFill = $(elem).attr('data-fill') == "true";
             if (isFill) {
-                finalStyle = `--fill-color:${zoneColor};`;
-                finalStyle += `--font-color:#000;`;
+                finalStyle += `--fill-color:${zoneColor};`;
+                finalStyle += `--font-color:${useWhiteText ? '#fff' : '#000'};`;
             } else {
-                finalStyle = `--fill-color:transparent;`;
+                finalStyle += `--fill-color:transparent;`;
                 finalStyle += `--font-color:${zoneColor};`;
             }
         }
@@ -906,7 +958,7 @@ $(function() {
         TogglePlayersByType();
     });
 
-    TogglePlayersByType();
+    // TogglePlayersByType();
     $('.leftmenu-content-element[data-id="players"]').on('click', '.players-type', (e) => {
         $('.leftmenu-content-element[data-id="players"]').find('.players-type').removeClass('active');
         $(e.currentTarget).addClass('active');
@@ -919,7 +971,7 @@ $(function() {
     });
 
 
-    LoadLinePreview();
+    // LoadLinePreview();
     $('.leftmenu-content-element[data-id="lines"]').on('click', '.line-type', (e) => {
         $('.leftmenu-content-element[data-id="lines"]').find('.line-type').removeClass('active');
         $(e.currentTarget).addClass('active');
@@ -947,7 +999,7 @@ $(function() {
     });
 
 
-    LoadZonePreview();
+    // LoadZonePreview();
     $('.colors-panel-container-zones').on('click', '.color-elem', (e) => {
         let cId = $(e.delegateTarget).attr('data-id');
         let cColor = $(e.currentTarget).css('background-color');
@@ -991,7 +1043,7 @@ $(function() {
     });
 
 
-    LoadBackPictures();
+    // LoadBackPictures();
     $('.leftmenu-content-element[data-id="image"]').on('click', '.img-type', (e) => {
         let cId = $(e.currentTarget).attr('data-id');
         $('.leftmenu-content-element[data-id="image"]').find('.img-type').removeClass('active');

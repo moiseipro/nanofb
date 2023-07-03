@@ -113,6 +113,14 @@
     flex: 0 0 12.5% !important;
     max-width: 12.5% !important;
 }
+.col-custom-fixed {
+    -ms-flex: 0 0 var(--col-width);
+    flex: 0 0 var(--col-width);
+}
+.col-custom-fluid {
+    -ms-flex: 0 0 calc(100% - var(--col-width));
+    flex: 0 0 calc(100% - var(--col-width));
+}
 
 
 .leftmenu-content-element[data-id="layers"] .layer-elem.selected {
