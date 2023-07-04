@@ -239,7 +239,7 @@ function ToggleNewObjOnCanvas(onCreate=true) {
                     tr: true,
                     mtr: true,
                 });
-                window.canvasNewObj = cline;
+                window.canvasNewObj = cLine;
             } else if (currentGroup == "shape") {
                 let zoneColor = $('.leftmenu-content-element[data-id="zones"]').find('.colors-panel-container-zones[data-id="color"]').find('.color-elem.selected').css('background-color');
                 let zoneFillColor = $('.leftmenu-content-element[data-id="zones"]').find('.colors-panel-container-zones[data-id="fill"]').find('.color-elem.selected').css('background-color');
