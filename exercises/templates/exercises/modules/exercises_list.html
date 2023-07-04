@@ -315,6 +315,21 @@
                         <tr class="bck-custom-color text-center font-weight-bold" style="--bck-color:#eee; --bck-color-h:#eee;">
                             <td class="align-middle folder-text" colspan="2"></td>
                         </tr>
+                        <tr class="bck-custom border-y-custom" data-id="">
+                            <td colspan="2">
+                                <div class="row mx-0">
+                                    <div class="col-12 px-0 my-1">
+                                        <div class="btn-group btn-group-custom-active physical-qualities-list w-100" role="group" aria-label="">
+                                            {% for elem in refs.exs_physical_qualities %}
+                                            <button type="button" class="btn btn-sm btn-outline-secondary mx-1" data-id="{{ elem.keycode }}" title="{{ elem.title }}">
+                                                <span class="icon-custom icon--{{ elem.icon_id }} mt-1" style="--i-w: 1.5em; --i-h: 1.5em;"></span>
+                                            </button>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
                         <tr class="bck-custom-color text-center font-weight-bold" style="--bck-color:#eee; --bck-color-h:#eee;">
                             <td class="align-middle folder-text" colspan="2"></td>
                         </tr>

@@ -1280,8 +1280,6 @@ def POST_edit_exs(request, cur_user, cur_team):
         pass
     if c_exs == None:
             return JsonResponse({"err": "Exercise not found.", "success": False}, status=400)
-    print(request.POST)
-
     is_can_edit_full = True
     nfb_id = -1
     try:
@@ -1617,6 +1615,8 @@ def POST_edit_exs_custom(request, cur_user, cur_team):
             c_exs.field_categories = field_categories
             field_types = set_value_as_list(request, "data[field_types]", "data[field_types][]", [])
             c_exs.field_types = field_types
+            field_physical_qualities = set_value_as_list(request, "data[field_physical_qualities]", "data[field_physical_qualities][]", [])
+            c_exs.field_physical_qualities = field_physical_qualities
             field_cognitive_loads = set_value_as_list(request, "data[field_cognitive_loads]", "data[field_cognitive_loads][]", [])
             c_exs.field_cognitive_loads = field_cognitive_loads
             field_fields = set_value_as_list(request, "data[field_fields]", "data[field_fields][]", [])

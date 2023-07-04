@@ -710,6 +710,12 @@ $(function() {
         if (loadExs && $(currentList).find('.list-group-item.exs-elem.active').length > 0) {
             window.canChangeExs = false;
             LoadExerciseOneHandler();
+            setTimeout(() => {
+                $(currentList).find('.list-group-item.exs-elem.active').get(0).scrollIntoView({
+                    behavior: 'instant',
+                    block: 'center',
+                });
+            }, 250);
         }
     });
     // Open exercise using keys
@@ -759,6 +765,25 @@ $(function() {
             $(e.currentTarget).toggleClass('selected3', true);
             return;
         }
+        if ($('#toggleCardInFolders').hasClass('c-active')) {
+            $('#toggleCardInFolders').removeClass('c-active');
+            $('#toggleCardInFolders').removeClass('selected3');
+            $('#toggleCardInFolders').attr('data-state', '0');
+
+            $('.folders-block').find('.folders-container').removeClass('d-none');
+            $('.folders-block').find('.description-container').addClass('d-none');
+            $('.folders-block').find('.card-container').addClass('d-none');
+            $('.exs-edit-block').find('.btn-o-modal[data-id="description"]').removeClass('active');
+            $('.exs-edit-block').find('.btn-o-modal[data-id="card"]').removeClass('active');
+            try {
+                if (window.split_sizes_tempo.length == 2) {
+                    window.split.setSizes(window.split_sizes_tempo);
+                }
+            } catch(e) {}
+            $(e.currentTarget).toggleClass('selected3', true);
+            return;
+        }
+        
         let visibleRoot = false;
         let visibleOthers = false;
         if ($(e.currentTarget).attr('data-state') == "1") {
@@ -792,49 +817,61 @@ $(function() {
     $('#toggleDescriptionInFolders').on('click', (e) => {
         let folderType = $('.folders_div.selected').attr('data-id');
         $('.folders-block').find('button.edit-exercise.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
-        if (!$('.folders-block').find('.folders-container').hasClass('d-none') && $('.folders-block').find('.description-container').hasClass('d-none')) {
+        if ($('.folders-block').find('.description-container').hasClass('d-none')) {
             $('.folders-block').find('.folders-container').addClass('d-none');
             $('.folders-block').find('.description-container').removeClass('d-none');
             $('.folders-block').find('.card-container').addClass('d-none');
             $('.exs-edit-block').find('.btn-o-modal[data-id="description"]').addClass('active');
             $('.exs-edit-block').find('.btn-o-modal[data-id="card"]').removeClass('active');
-            $(e.currentTarget).attr('data-state', '0');
             try {
                 window.split_sizes_tempo = window.split.getSizes();
                 window.split.setSizes([40, 40]);
             } catch(e) {}
-            $(e.currentTarget).addClass("c-active");
             $('#toggleFoldersViews').toggleClass('selected3', false);
-        } else if (!$('.folders-block').find('.description-container').hasClass('d-none') && $('.folders-block').find('.card-container').hasClass('d-none')) {
+            $('#toggleCardInFolders').attr('data-state', '0');
+            $('#toggleCardInFolders').removeClass("c-active");
+            $('#toggleCardInFolders').removeClass("selected3");
+        } else if (!$('.folders-block').find('.description-container').hasClass('d-none')) {
+            $('.folders-block').find('.folders-container').removeClass('d-none');
+            $('.folders-block').find('.description-container').addClass('d-none');
+            $('.folders-block').find('.card-container').addClass('d-none');
+            $('.exs-edit-block').find('.btn-o-modal[data-id="description"]').removeClass('active');
+            $('.exs-edit-block').find('.btn-o-modal[data-id="card"]').removeClass('active');
+            $('#toggleFoldersViews').toggleClass('selected3', false);
+        } else {
+            $(e.currentTarget).attr('data-state', '0');
+            $(e.currentTarget).removeClass("c-active");
+            $(e.currentTarget).removeClass("selected3");
+        }
+    });
+    $('#toggleCardInFolders').on('click', (e) => {
+        let folderType = $('.folders_div.selected').attr('data-id');
+        $('.folders-block').find('button.edit-exercise.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
+        if ($('.folders-block').find('.card-container').hasClass('d-none')) {
             $('.folders-block').find('.folders-container').addClass('d-none');
             $('.folders-block').find('.description-container').addClass('d-none');
             $('.folders-block').find('.card-container').removeClass('d-none');
             $('.exs-edit-block').find('.btn-o-modal[data-id="description"]').removeClass('active');
             $('.exs-edit-block').find('.btn-o-modal[data-id="card"]').addClass('active');
-            $(e.currentTarget).addClass("c-active");
+            try {
+                window.split_sizes_tempo = window.split.getSizes();
+                window.split.setSizes([40, 40]);
+            } catch(e) {}
             $('#toggleFoldersViews').toggleClass('selected3', false);
-        } else if (!$('.folders-block').find('.card-container').hasClass('d-none') && $('.folders-block').find('.folders-container').hasClass('d-none')) {
-            $('.folders-block').find('.folders-container').addClass('d-none');
-            $('.folders-block').find('.description-container').removeClass('d-none');
+            $('#toggleDescriptionInFolders').attr('data-state', '0');
+            $('#toggleDescriptionInFolders').removeClass("c-active");
+            $('#toggleDescriptionInFolders').removeClass("selected3");
+        } else if (!$('.folders-block').find('.card-container').hasClass('d-none')) {
+            $('.folders-block').find('.folders-container').removeClass('d-none');
+            $('.folders-block').find('.description-container').addClass('d-none');
             $('.folders-block').find('.card-container').addClass('d-none');
-            $('.exs-edit-block').find('.btn-o-modal[data-id="description"]').addClass('active');
+            $('.exs-edit-block').find('.btn-o-modal[data-id="description"]').removeClass('active');
             $('.exs-edit-block').find('.btn-o-modal[data-id="card"]').removeClass('active');
-            $(e.currentTarget).attr('data-state', '0');
-            $(e.currentTarget).addClass("c-active");
-            $(e.currentTarget).addClass("selected3");
             $('#toggleFoldersViews').toggleClass('selected3', false);
-            // $('.folders-block').find('.folders-container').removeClass('d-none');
-            // $('.folders-block').find('.description-container').addClass('d-none');
-            // $('.folders-block').find('.card-container').addClass('d-none');
-            // $('.exs-edit-block').find('.btn-o-modal[data-id="description"]').removeClass('active');
-            // $('.exs-edit-block').find('.btn-o-modal[data-id="card"]').removeClass('active');
-            // try {
-            //     if (window.split_sizes_tempo.length == 2) {
-            //         window.split.setSizes(window.split_sizes_tempo);
-            //     }
-            // } catch(e) {}
-            // $(e.currentTarget).removeClass("c-active");
-            // $('#toggleFoldersViews').toggleClass('selected3', $('#toggleFoldersViews').attr('data-state') != '0');
+        } else {
+            $(e.currentTarget).attr('data-state', '0');
+            $(e.currentTarget).removeClass("c-active");
+            $(e.currentTarget).removeClass("selected3");
         }
     });
     $('.folders-block').on('click', 'button.toggle-description', (e) => {

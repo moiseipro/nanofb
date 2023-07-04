@@ -2657,6 +2657,12 @@ $(function() {
                     selectedTypes.push($(elem).attr('data-id')); 
                 });
                 dataToSend.data['field_types'] = selectedTypes;
+
+                let selectedPhysicalQualities = [];
+                $('#exerciseCard').find('.physical-qualities-list > button.active').each((ind, elem) => {
+                    selectedPhysicalQualities.push($(elem).attr('data-id')); 
+                });
+                dataToSend.data['field_physical_qualities'] = selectedPhysicalQualities;
             
                 let selectedCognitiveLoads = [];
                 $('#exerciseCard').find('.cognitive-load-list > button.active').each((ind, elem) => {

@@ -194,7 +194,7 @@ function ToggleNewObjOnCanvas(onCreate=true) {
                 }
             }
             
-            window.createdObject = null;
+            window.canvasNewObj = null;
             if (currentGroup == "line") {
                 let lineType = $('.leftmenu-content-element[data-id="lines"]').find('.line-type.active').attr('data-id');
                 let lineType2 = $('.leftmenu-content-element[data-id="lines"]').find('.line-type-2.active').attr('data-id');
@@ -239,8 +239,7 @@ function ToggleNewObjOnCanvas(onCreate=true) {
                     tr: true,
                     mtr: true,
                 });
-                window.canvas.add(cLine);
-                window.createdObject = cline;
+                window.canvasNewObj = cline;
             } else if (currentGroup == "shape") {
                 let zoneColor = $('.leftmenu-content-element[data-id="zones"]').find('.colors-panel-container-zones[data-id="color"]').find('.color-elem.selected').css('background-color');
                 let zoneFillColor = $('.leftmenu-content-element[data-id="zones"]').find('.colors-panel-container-zones[data-id="fill"]').find('.color-elem.selected').css('background-color');
@@ -326,8 +325,7 @@ function ToggleNewObjOnCanvas(onCreate=true) {
                         tr: true,
                         mtr: true,
                     });
-                    window.canvas.add(cObj);
-                    window.createdObject = cObj;
+                    window.canvasNewObj = cObj;
                 }
             } else if (currentGroup == "text") {
                 let textColor = $('.leftmenu-content-element[data-id="text"]').find('.colors-panel-container-text').find('.color-elem.selected').css('background-color');
@@ -364,8 +362,7 @@ function ToggleNewObjOnCanvas(onCreate=true) {
                     tr: true,
                     mtr: true,
                 });
-                window.canvas.add(text);
-                window.createdObject = text;
+                window.canvasNewObj = text;
             } else if (currentGroup == "custom_field") {
                 ChangeField(cUrl);
             } else {
@@ -391,20 +388,17 @@ function ToggleNewObjOnCanvas(onCreate=true) {
                         tr: true,
                         mtr: true,
                     });
-                    window.canvas.add(oImg);
-                    window.createdObject = oImg;
+                    window.canvasNewObj = oImg;
                 });
             }
             setTimeout(() => {
-                if (window.createdObject) {
-                    window.createdObject.new = '1';
-                    window.createdObject.moving = true;
-                    window.canvas.setActiveObject(window.createdObject).renderAll();
-                    
+                if (window.canvasNewObj) {
+                    window.canvas.add(window.canvasNewObj);
+                    window.canvas.setActiveObject(window.canvasNewObj).renderAll();
                 }
-            }, 150);
-            $(selectedElem).removeClass('selected');
-            RenderLayersContent();
+                $(selectedElem).removeClass('selected');
+                RenderLayersContent();
+            }, 100);
         }
     } else {
         // if (window.canvas.selectedObj) {
@@ -454,7 +448,7 @@ function RenderLayersContent() {
             `;
         }
         $('.leftmenu-content-element[data-id="layers"]').find('.layers-body').html(cHtml);
-    }, 250);
+    }, 100);
 }
 
 function SelectObjsFromLayers() {
