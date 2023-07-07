@@ -50,6 +50,7 @@ class AbstractPlayer(models.Model):
     surname = models.CharField(max_length=30)
     name = models.CharField(max_length=30)
     patronymic = models.CharField(max_length=30, null=True, blank=True)
+    is_archive = models.BooleanField(default=False)
 
     photo = models.ImageField(upload_to='players/img/uploads', null=True, blank=True)
     card = models.ForeignKey(PlayerCard, on_delete=models.CASCADE, null=True, blank=True)

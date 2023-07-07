@@ -27,8 +27,8 @@ function LoadPlayerOne(id = null) {
 }
 
 function RenderPlayerOne(data = {}) {
-    $('.cnt-center-block').find('.form-control').prop('disabled', true);
-    $('.cnt-center-block').find('.form-control').removeClass('req-empty');
+    $('.cnt-center-block').find('.edit-field').prop('disabled', true);
+    $('.cnt-center-block').find('.edit-field').removeClass('req-empty');
     $('.cnt-center-block').find('.edit-field-btn').prop('disabled', true);
 
     $('.cnt-center-block').find('[name="surname"]').val(data.surname);
@@ -44,6 +44,9 @@ function RenderPlayerOne(data = {}) {
         if (key == "is_goalkeeper" || key == "is_captain" || key == "is_vice_captain") {
             $(elem).val(data[key] == true ? 1 : 0);
             $(elem).parent().toggleClass('selected', data[key] == true);
+        }
+        if (key == "is_archive") {
+            $(elem).prop('checked', data[key]);
         }
     });
 
@@ -680,6 +683,12 @@ $(function() {
         LoadPlayerOne(cId);
     });
 
+    let fromArchive = sessionStorage.getItem("fromArchive");
+    if (fromArchive == '1') {
+        $('table#players').find('.player-row[data-archive="0"]').addClass('d-none');
+    } else {
+        $('table#players').find('.player-row[data-archive="1"]').addClass('d-none');
+    }
 
     // Change Team
     let cTeam = $('#select-team').find('option[selected=""]').text();
@@ -803,11 +812,16 @@ $(function() {
             if (!$(elem).hasClass('d-none') || true) {
                 let name = $(elem).attr('name');
                 let dataVal = $(elem).attr('data-val');
-                if (typeof dataVal !== 'undefined' && dataVal !== false) {
-                    dataToSend.append(`data[${name}]`, dataVal);
+                if (name == "is_archive") {
+                    dataToSend.append(`data[${name}]`, $(elem).prop('checked') ? '1' : '0');
                 } else {
-                    dataToSend.append(`data[${name}]`, $(elem).val());
+                    if (typeof dataVal !== 'undefined' && dataVal !== false) {
+                        dataToSend.append(`data[${name}]`, dataVal);
+                    } else {
+                        dataToSend.append(`data[${name}]`, $(elem).val());
+                    }
                 }
+               
             }
         });
         if ($('#showImgPhoto').find('#fileImgPhoto')[0].files[0]) {

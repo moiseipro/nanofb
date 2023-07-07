@@ -1,7 +1,9 @@
-let players_table
+let players_table;
+let players_table_archive;
 
 function GeneratePlayersTable(scroll_y = '') {
-    players_table = $('#players').DataTable({
+    let isArchive = $('#players').hasClass('archive-table');
+    let tableOptions = {
         language: {
             url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
         },
@@ -24,7 +26,7 @@ function GeneratePlayersTable(scroll_y = '') {
         ],
         ajax: {
             url:'players_api',
-            data: {'get_players_json_table': 1},
+            data: {'get_players_json_table': 1, 'is_archive': isArchive ? '1': '0'},
         },
         columns: [
             {'data': 'id', 'name': 'id', render: function (data, type, row, meta) {
@@ -50,7 +52,8 @@ function GeneratePlayersTable(scroll_y = '') {
             {'data': 'notes', 'name': 'card__notes'},
             {'data': 'level', 'name': 'card__level'},
         ],
-    });
+    };
+    players_table = $('#players').DataTable(tableOptions);
 }
 
 function LoadPlayersTableCols() {
@@ -293,7 +296,14 @@ $(function() {
         if (selectedId) {
             sessionStorage.setItem("selectedPlayer", `${selectedId}`)
         }
+        sessionStorage.setItem("fromArchive", $('#players').hasClass('archive-table') ? '1' : '0');
         window.location.href = `/players/player`;
+    });
+    $('#archivedPlayersList').on('click', (e) => {
+        window.location.href = `/players/archive`;
+    });
+    $('#playersList').on('click', (e) => {
+        window.location.href = `/players`;
     });
 
     // Table columns Settings

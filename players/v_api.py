@@ -289,6 +289,7 @@ def POST_edit_player(request, cur_user, cur_team):
     c_player.surname = request.POST.get("data[surname]", "")
     c_player.name = request.POST.get("data[name]", "")
     c_player.patronymic = request.POST.get("data[patronymic]", "")
+    c_player.is_archive = request.POST.get("data[is_archive]", "0") == '1'
 
     new_team_id = set_value_as_int(request, "data[team]", None)
     new_team = None
@@ -1120,7 +1121,7 @@ def GET_get_player(request, cur_user, cur_team):
     return JsonResponse({"errors": "Player not found.", "success": False}, status=400)
 
 
-def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_JsonResponse=True):
+def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_JsonResponse=True, ignore_archive=False):
     """
     Return JSON Response or object as result on GET operation "Get players in JSON format".
     If return_JsonResponse is False then function return Object
@@ -1150,6 +1151,7 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
         c_length = int(request.GET.get('length'))
     except:
         pass
+    is_archive = request.GET.get('is_archive')
     columns = [
         'id', 'surname', 'name', 'patronymic', 'card__birthsday', 
         'card__citizenship', 'team__name', 'card__ref_position__short_name', ['card__is_captain', 'card__is_vice_captain'], 
@@ -1197,6 +1199,11 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
         players = UserPlayer.objects.filter(user=cur_user, team=cur_team)
     if players is not None:
         startdate = date.today() - timedelta(days=3)
+        if not ignore_archive:
+            if is_archive == '1':
+                players = players.filter(is_archive=True)
+            else:
+                players = players.filter(is_archive=False)
         if is_for_table:
             if search_val and search_val != "":
                 players = players.filter(Q(surname__istartswith=search_val) | Q(name__istartswith=search_val) | Q(patronymic__istartswith=search_val) | Q(card__citizenship__istartswith=search_val) | Q(team__name__istartswith=search_val) | Q(card__club_from__istartswith=search_val))
@@ -1251,6 +1258,7 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
                 'surname': player.surname,
                 'name': player.name,
                 'patronymic': player.patronymic,
+                'archive': '1' if player.is_archive else '0',
                 'citizenship': player.card.citizenship if player.card else "",
                 'team': player.team.name if player.team else "",
                 'club_from': player.card.club_from if player.card else "",
