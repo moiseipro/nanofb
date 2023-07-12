@@ -142,7 +142,7 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
     let htmlStr = `
         ${data && data.scheme_img ? `
             <div class="carousel-item">
-                <img class="img-lazyload d-none" src="/media/${data.scheme_img}" alt="scheme" width="100%" height="100%"> 
+                <img class="img-lazyload d-none" src="/media/${data.scheme_img}" alt="scheme" width="100%" height="100%" style="max-height: 82vh;"> 
             </div>
         ` : ``}
         ${data && data.scheme_1 && data.scheme_1 != "" ? `
