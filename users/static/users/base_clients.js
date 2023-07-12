@@ -1,4 +1,3 @@
-
 var user_select_id;
 var users_menu_state = null
 

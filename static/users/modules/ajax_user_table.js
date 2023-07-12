@@ -1,5 +1,4 @@
 var users_table;
-var users_table_visible_col = [0, 1, 2 ,3, 5, 6, 8, 10, 11, 12, 13, 15, 17]
 
 function generate_ajax_users_table(scroll_y = ''){
     users_table = $('#users-table').DataTable({
