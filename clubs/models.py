@@ -22,6 +22,12 @@ class Club(ClubLimitations):
         verbose_name=_('subdomain'),
         help_text=_('The domain that will be displayed. The maximum length is 10 characters.'),
     )
+    image = models.ImageField(
+        upload_to='clubs_logo/',
+        blank=True,
+        verbose_name=_('logo'),
+        help_text=_('Club logo'),
+    )
     federation_id = models.ForeignKey(
         Federation,
         null=True,

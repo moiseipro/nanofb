@@ -1,0 +1,27 @@
+{% load i18n %}
+{% load static %}
+
+
+<form id="add-club-form">
+    <div class="row form-row">
+        <div class="col-sm-4">
+            <div class="form-group mb-1">
+                <label class="">{% trans 'Title'%}</label>
+                <input type="text" name="name" class="form-control form-control-sm" value="" autocomplete="off" required>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group mb-1">
+                <label class="">{% trans 'Subdomain'%}</label>
+                <input type="text" name="subdomain" class="form-control form-control-sm" value="" autocomplete="off" required>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group mb-1">
+                <label class="">{% trans 'Logo'%}</label>
+                <input type="file" name="logo" class="form-control form-control-sm" value="" accept=".png,.jpg,.jpeg" autocomplete="off">
+            </div>
+        </div>
+    </div>
+    <button id="add-user-button" type="button" class="btn btn-success btn-block">{% trans 'Create'%}</button>
+</form>

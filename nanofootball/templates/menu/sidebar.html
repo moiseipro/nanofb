@@ -19,7 +19,7 @@
         <li><a class="nav-link {{ menu_clubs }}" href="{% url 'clubs:base_club' %}">{% trans '«Club» panel' %}</a></li>
         {% endif %}
         {% if perms.federations.federation_admin %}
-        <li><a class="nav-link disabled" href="#">{% trans '«Federation» panel' %}</a></li>
+        <li><a class="nav-link {{ menu_federations }}" href="{% url 'federations:base_federation' %}">{% trans '«Federation» panel' %}</a></li>
         {% endif %}
         {% if perms.helper_football.view_userarticle or perms.helper_football.view_clubarticle %}
         <li class="{{ menu_helper_football }}">

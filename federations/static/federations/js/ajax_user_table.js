@@ -146,7 +146,7 @@ function generate_ajax_users_table(scroll_y = ''){
 
 async function ajax_users_action(method, data, action = '', id = '', func = '') {
 
-    let url = "/user/clients/api/"
+    let url = "/federation/clients/api/"
     if(id !== '') url += `${id}/`
     if(func !== '') url += `${func}/`
 

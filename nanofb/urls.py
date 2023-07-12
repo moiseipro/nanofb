@@ -44,6 +44,7 @@ urlpatterns = [
     path('references/', include(('references.urls', 'references'), namespace='references')),
     path('analytics/', include(('analytics.urls', 'analytics'), namespace='analytics')),
     path('clubs/', include(('clubs.urls', 'clubs'), namespace='clubs')),
+    path('federations/', include(('federations.urls', 'federations'), namespace='federations')),
     path('shared/', include(('shared.urls', 'shared'), namespace='shared')),
     path('presentation/', include(('presentation.urls', 'presentation'), namespace='presentation')),
     path('methodology/', include(('methodology.urls', 'methodology'), namespace='methodology')),
