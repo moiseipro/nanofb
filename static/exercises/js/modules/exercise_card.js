@@ -473,7 +473,7 @@ function RenderExerciseOne(data) {
         if (data.scheme_img) {
             $('#carouselSchema').find('.carousel-item').first().before(`
                 <div class="carousel-item new-scheme" title="Рисунок (новый / картинка)" data-type="scheme_pic">
-                    <img class="img-lazyload d-none" src="/media/${data.scheme_img}" alt="scheme" style="width: 28vw; height: 27vh;">
+                    <img class="img-lazyload d-none" src="/media/${data.scheme_img}" alt="scheme" style="width: 28vw; height: 41vh;">
                 </div>
             `);
             $('#carouselSchema').find('.carousel-indicators > li').last().after(`
