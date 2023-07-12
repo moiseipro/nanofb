@@ -144,7 +144,7 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
             <div class="carousel-item">
                 <img class="img-lazyload d-none" src="/media/${data.scheme_img}" alt="scheme" width="100%" height="100%"> 
             </div>
-        ` : `
+        ` : ``}
         ${data && data.scheme_1 && data.scheme_1 != "" ? `
             <div class="carousel-item">
                 <div class="tempimg">
@@ -199,7 +199,7 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
                 <img class="img-lazyload d-none" src="https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${data.scheme_2}" alt="scheme" width="100%" height="100%"> 
             </div>
             ` : ''}
-        `}
+        }
         <div class="carousel-item">
             ${data && data.scheme_data && data.scheme_data[0] ? data.scheme_data[0] : `
             <svg id="" class="d-block bg-success mx-auto" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" "="">

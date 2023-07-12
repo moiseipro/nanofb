@@ -406,81 +406,80 @@ function RenderExerciseOne(data) {
         if (data.scheme_img) {
             $('#carouselSchema').find('.carousel-item').first().before(`
                 <div class="carousel-item new-scheme" title="Рисунок (новый / картинка)" data-type="scheme_pic">
-                    <img class="img-lazyload d-none" src="/media/${data.scheme_img}" alt="scheme" style="max-height: 260px;">
+                    <img class="img-lazyload d-none" src="/media/${data.scheme_img}" alt="scheme" style="width: 28vw; height: 59vh;">
                 </div>
             `);
             $('#carouselSchema').find('.carousel-indicators > li').last().after(`
                 <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
             `);
             carouselIndicatorNum ++;
-        } else {
-            if (data.scheme_2 && data.scheme_2 != "") {
-                let link = `https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${data.scheme_2}`;
-                $('#carouselSchema').find('.carousel-item').first().before(`
-                    <div class="carousel-item new-scheme" title="Рисунок 2 (новый)" data-type="scheme_2">
-                        <div class="tempimg">
-                            <svg class="d-block bg-success mx-auto" height="100%" id="block" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
-                                <defs>
-                                    <marker fill="#000000" id="arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                    <marker fill="#ffffff" id="ffffffarrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                    <marker fill="#ffff00" id="ffff00arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                    <marker fill="#ff0000" id="ff0000arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                    <marker fill="#000000" id="000000arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                    <filter height="200%" id="f3" width="200%" x="0" y="0"><feOffset dx="5" dy="5" in="SourceAlpha" result="offOut"></feOffset><feGaussianBlur in="offOut" result="blurOut" stdDeviation="3"></feGaussianBlur><feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend></filter>
-                                </defs>
-                                <image data-height="400" data-width="600" height="100%" href="/static/schemeDrawer/img/plane/f01.svg" id="plane" width="100%" x="0" y="0"></image>
-                                <g id="selects"></g>
-                                <g id="figures"></g>
-                                <g id="lines"></g>
-                                <g id="objects"></g>
-                                <g id="dots"></g>
-                                <line id="xLine" stroke="red" stroke-dasharray="10" stroke-width="1" x1="-1" x2="-1" y1="0" y2="1600"></line>
-                                <line id="yLine" stroke="red" stroke-dasharray="10" stroke-width="1" x1="0" x2="2400" y1="-1" y2="-1"></line>
-                                <line id="xLine2" stroke="red" stroke-dasharray="10" stroke-width="1" x1="-2400" x2="-2400" y1="0" y2="1600"></line>
-                                <line id="yLine2" stroke="red" stroke-dasharray="10" stroke-width="1" x1="0" x2="2400" y1="-1600" y2="-1600"></line>
-                            </svg>
-                        </div>
-                        <img class="img-lazyload d-none" src="${link}" alt="scheme" width="100%" height="100%">
+        }
+        if (data.scheme_2 && data.scheme_2 != "") {
+            let link = `https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${data.scheme_2}`;
+            $('#carouselSchema').find('.carousel-item').first().before(`
+                <div class="carousel-item new-scheme" title="Рисунок 2 (новый)" data-type="scheme_2">
+                    <div class="tempimg">
+                        <svg class="d-block bg-success mx-auto" height="100%" id="block" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <marker fill="#000000" id="arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                <marker fill="#ffffff" id="ffffffarrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                <marker fill="#ffff00" id="ffff00arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                <marker fill="#ff0000" id="ff0000arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                <marker fill="#000000" id="000000arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                <filter height="200%" id="f3" width="200%" x="0" y="0"><feOffset dx="5" dy="5" in="SourceAlpha" result="offOut"></feOffset><feGaussianBlur in="offOut" result="blurOut" stdDeviation="3"></feGaussianBlur><feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend></filter>
+                            </defs>
+                            <image data-height="400" data-width="600" height="100%" href="/static/schemeDrawer/img/plane/f01.svg" id="plane" width="100%" x="0" y="0"></image>
+                            <g id="selects"></g>
+                            <g id="figures"></g>
+                            <g id="lines"></g>
+                            <g id="objects"></g>
+                            <g id="dots"></g>
+                            <line id="xLine" stroke="red" stroke-dasharray="10" stroke-width="1" x1="-1" x2="-1" y1="0" y2="1600"></line>
+                            <line id="yLine" stroke="red" stroke-dasharray="10" stroke-width="1" x1="0" x2="2400" y1="-1" y2="-1"></line>
+                            <line id="xLine2" stroke="red" stroke-dasharray="10" stroke-width="1" x1="-2400" x2="-2400" y1="0" y2="1600"></line>
+                            <line id="yLine2" stroke="red" stroke-dasharray="10" stroke-width="1" x1="0" x2="2400" y1="-1600" y2="-1600"></line>
+                        </svg>
                     </div>
-                `);
-                $('#carouselSchema').find('.carousel-indicators > li').last().after(`
-                    <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
-                `);
-                carouselIndicatorNum ++;
-            }
-            if (data.scheme_1 && data.scheme_1 != "") {
-                let link = `https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${data.scheme_1}`;
-                $('#carouselSchema').find('.carousel-item').first().before(`
-                    <div class="carousel-item new-scheme" title="Рисунок 1 (новый)" data-type="scheme_1">
-                        <div class="tempimg">
-                            <svg class="d-block bg-success mx-auto" height="100%" id="block" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
-                                <defs>
-                                    <marker fill="#000000" id="arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                    <marker fill="#ffffff" id="ffffffarrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                    <marker fill="#ffff00" id="ffff00arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                    <marker fill="#ff0000" id="ff0000arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                    <marker fill="#000000" id="000000arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                    <filter height="200%" id="f3" width="200%" x="0" y="0"><feOffset dx="5" dy="5" in="SourceAlpha" result="offOut"></feOffset><feGaussianBlur in="offOut" result="blurOut" stdDeviation="3"></feGaussianBlur><feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend></filter>
-                                </defs>
-                                <image data-height="400" data-width="600" height="100%" href="/static/schemeDrawer/img/plane/f01.svg" id="plane" width="100%" x="0" y="0"></image>
-                                <g id="selects"></g>
-                                <g id="figures"></g>
-                                <g id="lines"></g>
-                                <g id="objects"></g>
-                                <g id="dots"></g>
-                                <line id="xLine" stroke="red" stroke-dasharray="10" stroke-width="1" x1="-1" x2="-1" y1="0" y2="1600"></line>
-                                <line id="yLine" stroke="red" stroke-dasharray="10" stroke-width="1" x1="0" x2="2400" y1="-1" y2="-1"></line>
-                                <line id="xLine2" stroke="red" stroke-dasharray="10" stroke-width="1" x1="-2400" x2="-2400" y1="0" y2="1600"></line>
-                                <line id="yLine2" stroke="red" stroke-dasharray="10" stroke-width="1" x1="0" x2="2400" y1="-1600" y2="-1600"></line>
-                            </svg>
-                        </div>
-                        <img class="img-lazyload d-none" src="${link}" alt="scheme" width="100%" height="100%">
+                    <img class="img-lazyload d-none" src="${link}" alt="scheme" width="100%" height="100%">
+                </div>
+            `);
+            $('#carouselSchema').find('.carousel-indicators > li').last().after(`
+                <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
+            `);
+            carouselIndicatorNum ++;
+        }
+        if (data.scheme_1 && data.scheme_1 != "") {
+            let link = `https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${data.scheme_1}`;
+            $('#carouselSchema').find('.carousel-item').first().before(`
+                <div class="carousel-item new-scheme" title="Рисунок 1 (новый)" data-type="scheme_1">
+                    <div class="tempimg">
+                        <svg class="d-block bg-success mx-auto" height="100%" id="block" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <marker fill="#000000" id="arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                <marker fill="#ffffff" id="ffffffarrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                <marker fill="#ffff00" id="ffff00arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                <marker fill="#ff0000" id="ff0000arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                <marker fill="#000000" id="000000arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                <filter height="200%" id="f3" width="200%" x="0" y="0"><feOffset dx="5" dy="5" in="SourceAlpha" result="offOut"></feOffset><feGaussianBlur in="offOut" result="blurOut" stdDeviation="3"></feGaussianBlur><feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend></filter>
+                            </defs>
+                            <image data-height="400" data-width="600" height="100%" href="/static/schemeDrawer/img/plane/f01.svg" id="plane" width="100%" x="0" y="0"></image>
+                            <g id="selects"></g>
+                            <g id="figures"></g>
+                            <g id="lines"></g>
+                            <g id="objects"></g>
+                            <g id="dots"></g>
+                            <line id="xLine" stroke="red" stroke-dasharray="10" stroke-width="1" x1="-1" x2="-1" y1="0" y2="1600"></line>
+                            <line id="yLine" stroke="red" stroke-dasharray="10" stroke-width="1" x1="0" x2="2400" y1="-1" y2="-1"></line>
+                            <line id="xLine2" stroke="red" stroke-dasharray="10" stroke-width="1" x1="-2400" x2="-2400" y1="0" y2="1600"></line>
+                            <line id="yLine2" stroke="red" stroke-dasharray="10" stroke-width="1" x1="0" x2="2400" y1="-1600" y2="-1600"></line>
+                        </svg>
                     </div>
-                `);
-                $('#carouselSchema').find('.carousel-indicators > li').last().after(`
-                    <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
-                `);
-            }
+                    <img class="img-lazyload d-none" src="${link}" alt="scheme" width="100%" height="100%">
+                </div>
+            `);
+            $('#carouselSchema').find('.carousel-indicators > li').last().after(`
+                <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
+            `);
         }
 
         $('#carouselSchema').find('.carousel-item').find('.img-lazyload').each((index, elem) => {
