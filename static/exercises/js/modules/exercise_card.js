@@ -403,17 +403,6 @@ function RenderExerciseOne(data) {
         $('#carouselSchema').find('.carousel-item').first().html(data.scheme_data[0]);
         $('#carouselSchema').find('.carousel-item').last().html(data.scheme_data[1]);
         let carouselIndicatorNum = 2;
-        if (data.scheme_img) {
-            $('#carouselSchema').find('.carousel-item').first().before(`
-                <div class="carousel-item new-scheme" title="Рисунок (новый / картинка)" data-type="scheme_pic">
-                    <img class="img-lazyload d-none" src="/media/${data.scheme_img}" alt="scheme" style="width: 28vw; height: 59vh;">
-                </div>
-            `);
-            $('#carouselSchema').find('.carousel-indicators > li').last().after(`
-                <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
-            `);
-            carouselIndicatorNum ++;
-        }
         if (data.scheme_2 && data.scheme_2 != "") {
             let link = `https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${data.scheme_2}`;
             $('#carouselSchema').find('.carousel-item').first().before(`
@@ -480,6 +469,17 @@ function RenderExerciseOne(data) {
             $('#carouselSchema').find('.carousel-indicators > li').last().after(`
                 <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
             `);
+        }
+        if (data.scheme_img) {
+            $('#carouselSchema').find('.carousel-item').first().before(`
+                <div class="carousel-item new-scheme" title="Рисунок (новый / картинка)" data-type="scheme_pic">
+                    <img class="img-lazyload d-none" src="/media/${data.scheme_img}" alt="scheme" style="width: 28vw; height: 27vh;">
+                </div>
+            `);
+            $('#carouselSchema').find('.carousel-indicators > li').last().after(`
+                <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
+            `);
+            carouselIndicatorNum ++;
         }
 
         $('#carouselSchema').find('.carousel-item').find('.img-lazyload').each((index, elem) => {
