@@ -394,78 +394,95 @@ function RenderExerciseOne(data) {
             document.descriptionEditorViewFromFoldersTrainer.setData(data.description_trainer);
         }
 
+        if (data.scheme_img) {
+            $('#exerciseCard').find('.scheme-img > img').attr('src', `/media/${data.scheme_img}`);
+        }
+
         $('#carouselSchema').find('.carousel-item.new-scheme').remove();
         $('#carouselSchema').find('.carousel-indicators > li.new-scheme').remove();
         $('#carouselSchema').find('.carousel-item').first().html(data.scheme_data[0]);
         $('#carouselSchema').find('.carousel-item').last().html(data.scheme_data[1]);
         let carouselIndicatorNum = 2;
-        if (data.scheme_2 && data.scheme_2 != "") {
-            let link = `https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${data.scheme_2}`;
+        if (data.scheme_img) {
             $('#carouselSchema').find('.carousel-item').first().before(`
-                <div class="carousel-item new-scheme" title="Рисунок 2 (новый)" data-type="scheme_2">
-                    <div class="tempimg">
-                        <svg class="d-block bg-success mx-auto" height="100%" id="block" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <marker fill="#000000" id="arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                <marker fill="#ffffff" id="ffffffarrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                <marker fill="#ffff00" id="ffff00arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                <marker fill="#ff0000" id="ff0000arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                <marker fill="#000000" id="000000arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                <filter height="200%" id="f3" width="200%" x="0" y="0"><feOffset dx="5" dy="5" in="SourceAlpha" result="offOut"></feOffset><feGaussianBlur in="offOut" result="blurOut" stdDeviation="3"></feGaussianBlur><feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend></filter>
-                            </defs>
-                            <image data-height="400" data-width="600" height="100%" href="/static/schemeDrawer/img/plane/f01.svg" id="plane" width="100%" x="0" y="0"></image>
-                            <g id="selects"></g>
-                            <g id="figures"></g>
-                            <g id="lines"></g>
-                            <g id="objects"></g>
-                            <g id="dots"></g>
-                            <line id="xLine" stroke="red" stroke-dasharray="10" stroke-width="1" x1="-1" x2="-1" y1="0" y2="1600"></line>
-                            <line id="yLine" stroke="red" stroke-dasharray="10" stroke-width="1" x1="0" x2="2400" y1="-1" y2="-1"></line>
-                            <line id="xLine2" stroke="red" stroke-dasharray="10" stroke-width="1" x1="-2400" x2="-2400" y1="0" y2="1600"></line>
-                            <line id="yLine2" stroke="red" stroke-dasharray="10" stroke-width="1" x1="0" x2="2400" y1="-1600" y2="-1600"></line>
-                        </svg>
-                    </div>
-                    <img class="img-lazyload d-none" src="${link}" alt="scheme" width="100%" height="100%">
+                <div class="carousel-item new-scheme" title="Рисунок (новый / картинка)" data-type="scheme_pic">
+                    <img class="img-lazyload d-none" src="/media/${data.scheme_img}" alt="scheme" style="max-height: 260px;">
                 </div>
             `);
             $('#carouselSchema').find('.carousel-indicators > li').last().after(`
                 <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
             `);
             carouselIndicatorNum ++;
-        }
-        if (data.scheme_1 && data.scheme_1 != "") {
-            let link = `https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${data.scheme_1}`;
-            $('#carouselSchema').find('.carousel-item').first().before(`
-                <div class="carousel-item new-scheme" title="Рисунок 1 (новый)" data-type="scheme_1">
-                    <div class="tempimg">
-                        <svg class="d-block bg-success mx-auto" height="100%" id="block" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <marker fill="#000000" id="arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                <marker fill="#ffffff" id="ffffffarrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                <marker fill="#ffff00" id="ffff00arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                <marker fill="#ff0000" id="ff0000arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                <marker fill="#000000" id="000000arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
-                                <filter height="200%" id="f3" width="200%" x="0" y="0"><feOffset dx="5" dy="5" in="SourceAlpha" result="offOut"></feOffset><feGaussianBlur in="offOut" result="blurOut" stdDeviation="3"></feGaussianBlur><feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend></filter>
-                            </defs>
-                            <image data-height="400" data-width="600" height="100%" href="/static/schemeDrawer/img/plane/f01.svg" id="plane" width="100%" x="0" y="0"></image>
-                            <g id="selects"></g>
-                            <g id="figures"></g>
-                            <g id="lines"></g>
-                            <g id="objects"></g>
-                            <g id="dots"></g>
-                            <line id="xLine" stroke="red" stroke-dasharray="10" stroke-width="1" x1="-1" x2="-1" y1="0" y2="1600"></line>
-                            <line id="yLine" stroke="red" stroke-dasharray="10" stroke-width="1" x1="0" x2="2400" y1="-1" y2="-1"></line>
-                            <line id="xLine2" stroke="red" stroke-dasharray="10" stroke-width="1" x1="-2400" x2="-2400" y1="0" y2="1600"></line>
-                            <line id="yLine2" stroke="red" stroke-dasharray="10" stroke-width="1" x1="0" x2="2400" y1="-1600" y2="-1600"></line>
-                        </svg>
+        } else {
+            if (data.scheme_2 && data.scheme_2 != "") {
+                let link = `https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${data.scheme_2}`;
+                $('#carouselSchema').find('.carousel-item').first().before(`
+                    <div class="carousel-item new-scheme" title="Рисунок 2 (новый)" data-type="scheme_2">
+                        <div class="tempimg">
+                            <svg class="d-block bg-success mx-auto" height="100%" id="block" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <marker fill="#000000" id="arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                    <marker fill="#ffffff" id="ffffffarrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                    <marker fill="#ffff00" id="ffff00arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                    <marker fill="#ff0000" id="ff0000arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                    <marker fill="#000000" id="000000arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                    <filter height="200%" id="f3" width="200%" x="0" y="0"><feOffset dx="5" dy="5" in="SourceAlpha" result="offOut"></feOffset><feGaussianBlur in="offOut" result="blurOut" stdDeviation="3"></feGaussianBlur><feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend></filter>
+                                </defs>
+                                <image data-height="400" data-width="600" height="100%" href="/static/schemeDrawer/img/plane/f01.svg" id="plane" width="100%" x="0" y="0"></image>
+                                <g id="selects"></g>
+                                <g id="figures"></g>
+                                <g id="lines"></g>
+                                <g id="objects"></g>
+                                <g id="dots"></g>
+                                <line id="xLine" stroke="red" stroke-dasharray="10" stroke-width="1" x1="-1" x2="-1" y1="0" y2="1600"></line>
+                                <line id="yLine" stroke="red" stroke-dasharray="10" stroke-width="1" x1="0" x2="2400" y1="-1" y2="-1"></line>
+                                <line id="xLine2" stroke="red" stroke-dasharray="10" stroke-width="1" x1="-2400" x2="-2400" y1="0" y2="1600"></line>
+                                <line id="yLine2" stroke="red" stroke-dasharray="10" stroke-width="1" x1="0" x2="2400" y1="-1600" y2="-1600"></line>
+                            </svg>
+                        </div>
+                        <img class="img-lazyload d-none" src="${link}" alt="scheme" width="100%" height="100%">
                     </div>
-                    <img class="img-lazyload d-none" src="${link}" alt="scheme" width="100%" height="100%">
-                </div>
-            `);
-            $('#carouselSchema').find('.carousel-indicators > li').last().after(`
-                <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
-            `);
+                `);
+                $('#carouselSchema').find('.carousel-indicators > li').last().after(`
+                    <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
+                `);
+                carouselIndicatorNum ++;
+            }
+            if (data.scheme_1 && data.scheme_1 != "") {
+                let link = `https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${data.scheme_1}`;
+                $('#carouselSchema').find('.carousel-item').first().before(`
+                    <div class="carousel-item new-scheme" title="Рисунок 1 (новый)" data-type="scheme_1">
+                        <div class="tempimg">
+                            <svg class="d-block bg-success mx-auto" height="100%" id="block" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <marker fill="#000000" id="arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                    <marker fill="#ffffff" id="ffffffarrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                    <marker fill="#ffff00" id="ffff00arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                    <marker fill="#ff0000" id="ff0000arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                    <marker fill="#000000" id="000000arrow" markerHeight="12" markerUnits="userSpaceOnUse" markerWidth="15" orient="auto" refX="1" refY="6"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                    <filter height="200%" id="f3" width="200%" x="0" y="0"><feOffset dx="5" dy="5" in="SourceAlpha" result="offOut"></feOffset><feGaussianBlur in="offOut" result="blurOut" stdDeviation="3"></feGaussianBlur><feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend></filter>
+                                </defs>
+                                <image data-height="400" data-width="600" height="100%" href="/static/schemeDrawer/img/plane/f01.svg" id="plane" width="100%" x="0" y="0"></image>
+                                <g id="selects"></g>
+                                <g id="figures"></g>
+                                <g id="lines"></g>
+                                <g id="objects"></g>
+                                <g id="dots"></g>
+                                <line id="xLine" stroke="red" stroke-dasharray="10" stroke-width="1" x1="-1" x2="-1" y1="0" y2="1600"></line>
+                                <line id="yLine" stroke="red" stroke-dasharray="10" stroke-width="1" x1="0" x2="2400" y1="-1" y2="-1"></line>
+                                <line id="xLine2" stroke="red" stroke-dasharray="10" stroke-width="1" x1="-2400" x2="-2400" y1="0" y2="1600"></line>
+                                <line id="yLine2" stroke="red" stroke-dasharray="10" stroke-width="1" x1="0" x2="2400" y1="-1600" y2="-1600"></line>
+                            </svg>
+                        </div>
+                        <img class="img-lazyload d-none" src="${link}" alt="scheme" width="100%" height="100%">
+                    </div>
+                `);
+                $('#carouselSchema').find('.carousel-indicators > li').last().after(`
+                    <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
+                `);
+            }
         }
+
         $('#carouselSchema').find('.carousel-item').find('.img-lazyload').each((index, elem) => {
             $(elem).on('load', (e) => {
                 $(e.currentTarget).removeClass('d-none');
@@ -1758,6 +1775,14 @@ function ToggleSelectedTagsInCard() {
     });
 }
 
+function DrawerPanelsToggle() {
+    let activePanel = $('#exerciseCard').find('.drawer-panel-toggle.active').attr('data-panel');
+    $('#exerciseCard').find('.drawer-panel').removeClass('d-flex');
+    $('#exerciseCard').find('.drawer-panel').addClass('d-none');
+    $('#exerciseCard').find(`.drawer-panel[data-panel="${activePanel}"]`).removeClass('d-none');
+    $('#exerciseCard').find(`.drawer-panel[data-panel="${activePanel}"]`).addClass('d-flex');
+}
+
 
 
 $(function() {
@@ -2800,6 +2825,98 @@ $(function() {
             $('#exerciseCard').find('.cognitive-load-list > button').removeClass('active');
             $(e.currentTarget).toggleClass('active', !isActive);
         }
+    });
+
+
+    DrawerPanelsToggle();
+    $('#exerciseCard').on('click', '.drawer-panel-toggle', (e) => {
+        $('#exerciseCard').find('.drawer-panel-toggle').removeClass('active');
+        $(e.currentTarget).addClass('active');
+        DrawerPanelsToggle();
+    });
+    $('#exerciseCard').on('click', '#drawerPanelWarning', (e) => {
+        swal("Внимание", "Редактирование старых рисунков невозможно, так как используется новая система рисования схем.", "info");
+    });
+    $('#exerciseCard').on('click', '[name="fileSchemeUpload"]', (e) => {
+        let searchParams = new URLSearchParams(window.location.search);
+        let folderType = searchParams.get('type');
+        let exsId = $('#exerciseCard').attr('data-exs');
+        let dataToSend = new FormData();
+        let fileImg = $('#exerciseCard').find('#fileSchemePic')[0].files[0];
+        if (fileImg) {
+            dataToSend.append('file_image', fileImg);
+        } else {
+            swal("Внимание", "Выберите файл для загрузки.", "info");
+            return;
+        }
+        dataToSend.append('create_exs_drawing_pic', 1);
+        dataToSend.append('exs', exsId);
+        dataToSend.append('type', folderType);
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: dataToSend,
+            processData: false,
+            contentType: false,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "exercises_api",
+            success: function (res) {
+                if (res.success) {
+                    $('#exerciseCard').find('.scheme-img > img').attr('src', res.data);
+                    swal("Готово", "Рисунок успешно добавлен.", "success").
+                    then(() => {
+                        window.location.reload();
+                    });
+                }
+                $('#exerciseCard').find('#fileSchemePic').val('');
+            },
+            error: function (res) {
+                let optionalInfo = "";
+                try {
+                    optionalInfo = res.responseJSON.err;
+                } catch(e) {}
+                swal("Ошибка", `Изображение не добавлено. ${optionalInfo}`, "error");
+                console.error(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
+    });
+    $('#exerciseCard').on('click', '[name="fileSchemeDelete"]', (e) => {
+        let searchParams = new URLSearchParams(window.location.search);
+        let folderType = searchParams.get('type');
+        let exsId = $('#exerciseCard').attr('data-exs');
+        let data = {'delete_exs_drawing_pic': 1, 'type': folderType, 'exs': exsId};
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: data,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "exercises_api",
+            success: function (res) {
+                if (res.success) {
+                    $('#exerciseCard').find('.scheme-img > img').attr('src', '');
+                    swal("Готово", "Рисунок успешно удален.", "success").
+                    then(() => {
+                        window.location.reload();
+                    });
+                }
+            },
+            error: function (res) {
+                let optionalInfo = "";
+                try {
+                    optionalInfo = res.responseJSON.err;
+                } catch(e) {}
+                swal("Ошибка", `Изображение не удалено. ${optionalInfo}`, "error");
+                console.error(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
     });
 
 });
