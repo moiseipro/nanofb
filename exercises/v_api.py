@@ -3148,7 +3148,7 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
     res_exs['field_age'] = get_by_language_code(res_exs['field_age'], request.LANGUAGE_CODE)
     res_exs['field_task'] = get_by_language_code(res_exs['field_task'], request.LANGUAGE_CODE)
     res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type, request.user.club_id)
-    res_exs = get_exs_additional_params(res_exs, c_exs[0], folder_type, cur_user, request.user.club_id, request.LANGUAGE_CODE)
+    # res_exs = get_exs_additional_params(res_exs, c_exs[0], folder_type, cur_user, request.user.club_id, request.LANGUAGE_CODE)
     res_exs['tags'] = get_tags_of_exercise(c_exs[0])
     if is_as_object:
         return res_exs
