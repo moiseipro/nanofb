@@ -674,7 +674,7 @@ function RenderExerciseOne(data) {
 }
 
 function AdaptPageToSection(section, exerciseLoaded=false, onlyChangeSection=false, isNewExs=false) {
-    let availableSections = ["card", "description", "scheme_1", "scheme_2", "video_1", "video_2", "animation_1", "animation_2", "tags"];
+    let availableSections = ["card", "description", "scheme_1", "scheme_2", "scheme_1_image", "video_1", "video_2", "animation_1", "animation_2", "tags"];
     if (availableSections.includes(section)) {
         if (isNewExs) {
             $('.exs-edit-block-in-card').find('.btn-o-modal[data-id="card"]').parent().toggleClass('d-none', !isNewExs);
@@ -694,6 +694,7 @@ function AdaptPageToSection(section, exerciseLoaded=false, onlyChangeSection=fal
                 if (elemId == "editExs" || elemId == "saveExs") {return;}
                 if (section == "scheme_1" && elemId == "openDrawing1") {return;}
                 if (section == "scheme_2" && elemId == "openDrawing2") {return;}
+                if (section == "scheme_1_image" && elemId == "openDrawing1") {return;}
                 if (section == "video_1" && elemId == "openVideo1") {return;}
                 if (section == "video_2" && elemId == "openVideo2") {return;}
                 if (section == "animation_1" && elemId == "openAnimation1") {return;}
@@ -764,6 +765,10 @@ function AdaptPageToSection(section, exerciseLoaded=false, onlyChangeSection=fal
                 }
                 $(document).find('#openDrawing1').trigger('click');
                 $(document).find('#openDrawing1').addClass('d-none');
+                $('#exerciseCard').find('.drawer-panel-toggle[data-panel="editor"]').addClass('active');
+                $('#exerciseCard').find('.drawer-panel-toggle[data-panel="upload"]').removeClass('active');
+                DrawerPanelsToggle();
+                $('#exerciseCard').find('.drawer-panel-buttons').addClass('d-none');
             }
             if (section == "scheme_2") {
                 if (!onlyChangeSection) {
@@ -772,6 +777,22 @@ function AdaptPageToSection(section, exerciseLoaded=false, onlyChangeSection=fal
                 }
                 $(document).find('#openDrawing2').trigger('click');
                 $(document).find('#openDrawing2').addClass('d-none');
+                $('#exerciseCard').find('.drawer-panel-toggle[data-panel="editor"]').addClass('active');
+                $('#exerciseCard').find('.drawer-panel-toggle[data-panel="upload"]').removeClass('active');
+                DrawerPanelsToggle();
+                $('#exerciseCard').find('.drawer-panel-buttons').addClass('d-none');
+            }
+            if (section == "scheme_1_image") {
+                if (!onlyChangeSection) {
+                    $(document).find('#editExs').trigger('click');
+                    $(document).find('#saveExs').addClass('d-none');
+                }
+                $(document).find('#openDrawing1').trigger('click');
+                $(document).find('#openDrawing1').addClass('d-none');
+                $('#exerciseCard').find('.drawer-panel-toggle[data-panel="editor"]').removeClass('active');
+                $('#exerciseCard').find('.drawer-panel-toggle[data-panel="upload"]').addClass('active');
+                DrawerPanelsToggle();
+                $('#exerciseCard').find('.drawer-panel-buttons').addClass('d-none');
             }
             if (section == "video_1") {
                 if (!onlyChangeSection) {
@@ -1776,10 +1797,8 @@ function ToggleSelectedTagsInCard() {
 
 function DrawerPanelsToggle() {
     let activePanel = $('#exerciseCard').find('.drawer-panel-toggle.active').attr('data-panel');
-    $('#exerciseCard').find('.drawer-panel').removeClass('d-flex');
     $('#exerciseCard').find('.drawer-panel').addClass('d-none');
     $('#exerciseCard').find(`.drawer-panel[data-panel="${activePanel}"]`).removeClass('d-none');
-    $('#exerciseCard').find(`.drawer-panel[data-panel="${activePanel}"]`).addClass('d-flex');
 }
 
 
@@ -2832,9 +2851,6 @@ $(function() {
         $('#exerciseCard').find('.drawer-panel-toggle').removeClass('active');
         $(e.currentTarget).addClass('active');
         DrawerPanelsToggle();
-    });
-    $('#exerciseCard').on('click', '#drawerPanelWarning', (e) => {
-        swal("Внимание", "Редактирование старых рисунков невозможно, так как используется новая система рисования схем.", "info");
     });
     $('#exerciseCard').on('click', '[name="fileSchemeUpload"]', (e) => {
         let searchParams = new URLSearchParams(window.location.search);
