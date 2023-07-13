@@ -725,21 +725,13 @@ function LoadLinePreview() {
     let isMarker = $('.leftmenu-content-element[data-id="lines"]').find('.line-marker').prop('checked');
     let lineColor = $('.leftmenu-content-element[data-id="lines"]').find('.color-elem.selected').css('background-color');
     let previewBlockElem = $('.leftmenu-content-element[data-id="lines"]').find('.line-preview-block');
-    let imageUri = $(previewBlockElem).find(`.line-preview-elem[data-g-type="${
+    let cUrl = $(previewBlockElem).find(`.line-preview-elem[data-g-type="${
         isMarker ? `with_arrow` : `without_arrow`
     }"][data-name*="${lineType}"] > img`).attr('src');
-    if (imageUri) {
-        $(previewBlockElem).find('.cvs-elem').find('svg').remove();
-        $.get(imageUri, (data) => {
-            let svg = $(data).find('svg');
-            $(svg).removeAttr('xmlns:a');
-            $(svg).addClass('img-thumbnail c-img');
-            $(svg).css('--stroke-dasharray', lineType2 == "dotted" ? [10, 10] : 0);
-            $(svg).css('--stroke-width', lineThickness);
-            $(svg).css('--stroke-color', lineColor);
-            $(previewBlockElem).find('.cvs-elem').append(svg)
-        });
-    }
+    let finalStyle = `--stroke-dasharray:${lineType2 == "dotted" ? [10, 10] : 0};`;
+    finalStyle += `--stroke-width:${lineThickness};`;
+    finalStyle += `--stroke-color:${lineColor};`;
+    GetIcon($(previewBlockElem).find('.cvs-elem').find('img'), cUrl, finalStyle);
 }
 
 function LoadZonePreview() {
@@ -754,20 +746,13 @@ function LoadZonePreview() {
         zoneThickness = parseInt($('.leftmenu-content-element[data-id="zones"]').find('.zone-thickness-type.active').attr('data-id')) * 2;
     } catch(e) {}
     let zoneType = $('.leftmenu-content-element[data-id="zones"]').find('.zone-type.active').attr('data-id');
+    let finalStyle = `--stroke-color:${zoneColor};`;
+    finalStyle += `--fill-color:${zoneFillColor};`;
+    finalStyle += `--stroke-width:${zoneThickness};`;
+    finalStyle += `--stroke-dasharray:${zoneType == "dotted" ? [10, 10] : 0};`;
     $('.leftmenu-content-element[data-id="zones"]').find('.zones-preview-block').find('.cvs-elem > img').each((ind, elem) => {
-        let imageUri = $(elem).attr('src');
-        $(elem).addClass('d-none');
-        $(elem).parent().find('svg').remove();
-        $.get(imageUri, (data) => {
-            let svg = $(data).find('svg');
-            $(svg).removeAttr('xmlns:a');
-            $(svg).addClass('img-thumbnail c-img');
-            $(svg).css('--stroke-color', zoneColor);
-            $(svg).css('--fill-color', zoneFillColor);
-            $(svg).css('--stroke-width', zoneThickness);
-            $(svg).css('--stroke-dasharray', zoneType == "dotted" ? [10, 10] : 0);
-            $(elem).after(svg);
-        });
+        let cUrl = $(elem).attr('data-src');
+        GetIcon($(elem), cUrl, finalStyle);
     });
 }
 
@@ -821,10 +806,10 @@ function CreateLabelsInPrev() {
 function LoadLabelsPreview() {
     let zoneColor = $('.leftmenu-content-element[data-id="labels"]').find('.colors-panel-container-labels[data-id="fill"]').find('.color-elem.selected').css('background-color');
     let useWhiteText = $('.leftmenu-content-element[data-id="labels"]').find('.colors-panel-container-labels[data-id="fill"]').find('.color-elem.selected').hasClass('s-white');
-    let finalStyle = `--color:${zoneColor};`;
     $('.leftmenu-content-element[data-id="labels"]').find('.cvs-elem').each((ind, elem) => {
         let cUrl = $(elem).find('img').attr('data-src');
         let cText = null;
+        let finalStyle = `--color:${zoneColor};`;
         if ($(elem).attr('data-group') == "labels" || $(elem).attr('data-group') == "numbers") {
             cText = $(elem).attr('data-text');
             let isFill = $(elem).attr('data-fill') == "true";
