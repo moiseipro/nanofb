@@ -3,6 +3,7 @@ var users_menu_state = null
 
 $(window).on("load", function () {
     generate_ajax_users_table("calc(100vh - 280px)")
+    generate_club_columns();
 
     if(!Cookies.get('user_selected_id')){
         $('#open-profile-modal').prop('disabled', true)
@@ -134,20 +135,20 @@ $(window).on("load", function () {
         }
     })
 
-    $('#open-profile-modal').on('click', function () {
+    $('#club-columns-block').on('click', '.club-column', function () {
 
         if (users_menu_state == 'table_settings'){
             $('#open-table-settings').click()
-        } else if (users_menu_state == 'user_info'){
-            $('#back-users-table').click()
+        } else if (users_menu_state == 'club_info'){
+            $('#back-clubs-table').click()
             return false
         }
 
 
-        users_menu_state = 'user_info'
+        users_menu_state = 'club_info'
 
-        $('#user-management-block').removeClass('d-none').addClass('col-sm-7');
-        $('#users-table-block').removeClass('col-sm-12').addClass('col-sm-5');
+        $('#club-management-block').removeClass('d-none').addClass('col-sm-4');
+        $('#club-columns-block').removeClass('col-sm-12').addClass('col-sm-8');
 
         users_table.columns( '.main-info-col' ).visible( true );
         users_table.columns( '.side-info-col' ).visible( false );
@@ -181,12 +182,12 @@ $(window).on("load", function () {
 
     $('#open-table-settings').click()
 
-    $('#back-users-table').on('click', function () {
+    $('#back-clubs-table').on('click', function () {
 
         users_menu_state = null
 
-        $('#user-management-block').addClass('d-none').removeClass('col-sm-7');
-        $('#users-table-block').removeClass('col-sm-5').addClass('col-sm-12');
+        $('#club-management-block').addClass('d-none').removeClass('col-sm-4');
+        $('#club-columns-block').removeClass('col-sm-8').addClass('col-sm-12');
 
         users_table.columns( '.main-info-col' ).visible( true );
         users_table.columns( '.side-info-col' ).visible( true );
@@ -339,6 +340,16 @@ $(window).on("load", function () {
         } else{
             users_table.columns(filter_obj).search( value ).draw();
         }
+    })
+
+    $('#add-club-form').submit(function (event) {
+        let form_Data = new FormData(this)
+        console.log(form_Data)
+
+        ajax_federation_club_action('POST', form_Data, 'club').then(function (data) {
+            console.log(data)
+        })
+        event.preventDefault();
     })
 })
 

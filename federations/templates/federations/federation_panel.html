@@ -39,7 +39,15 @@
 {#                            {% include "clubs/users_table.html" %}#}
                         </div>
                         <div class="tab-pane fade" id="federation-clubs" role="tabpanel" aria-labelledby="pills-home-tab">
-                            {% include "federations/modules/club_columns.html" %}
+                            <div class="row">
+                                <div id="club-columns-block" class="col-12">
+                                    {% include "federations/modules/club_columns.html" %}
+                                </div>
+                                <div id="club-management-block" class="d-none">
+                                    {% include "clubs/modules/management_clubs.html" %}
+                                </div>
+                            </div>
+
                         </div>
                         <div class="tab-pane fade" id="federation-user-add" role="tabpanel" aria-labelledby="pills-profile-tab">
                             {% include "users/forms/add-user-form.html" %}
@@ -61,6 +69,7 @@
 {% block custom_scripts %}
     <script src="{% static 'references/team_ajax.js' %}"></script>
     <script src="{% static 'federations/js/federation_ajax.js' %}"></script>
+    <script src="{% static 'federations/js/ajax_club_table.js' %}"></script>
     <script src="{% static 'federations/js/ajax_user_table.js' %}"></script>
     <script src="{% static 'federations/js/base_federation.js' %}"></script>
 {% endblock %}

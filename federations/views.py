@@ -1,17 +1,20 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import QueryDict
 from django.views.generic import TemplateView
 from django.shortcuts import render
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.permissions import DjangoModelPermissions
-
-
-# Create your views here.
 from rest_framework.response import Response
 
+from clubs.models import Club
+from clubs.serializers import ClubSerializer
 from federations.models import Federation
 from federations.serializers import FederationSerializer
 
+from django.utils.translation import gettext_lazy as _
 
+
+# Create your views here.
 class FederationPermissions(DjangoModelPermissions):
     perms_map = {
         'GET': ['federations.federation_admin'],
@@ -145,7 +148,44 @@ class FederationViewSet(viewsets.ModelViewSet):
         return FederationSerializer
 
     def get_queryset(self):
-        club = Federation.objects.filter(id=self.request.user.club_id.id)
+        federation = Federation.objects.filter(id=self.request.user.club_id.id)
+        result = federation
+        print(result)
+        return result
+
+
+class FederationClubsViewSet(viewsets.ModelViewSet):
+    pagination_class = None
+
+    def create(self, request, *args, **kwargs):
+        print(request.data)
+        if Club.objects.filter(subdomain=request.data['subdomain']).exists():
+            res_data = {'action': _("A club with this subdomain already exists!")}
+            return Response(res_data, status=status.HTTP_403_FORBIDDEN)
+
+        print(request.data)
+
+        serializer = ClubSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+
+        res_data = {'action': _("Create club success!")}
+        res_data.update(serializer.data)
+        return Response(res_data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def perform_create(self, serializer):
+        serializer.save(federation_id=self.request.user.federation_id)
+
+    def get_permissions(self):
+        permission_classes = [FederationPermissions]
+        return [permission() for permission in permission_classes]
+
+    def get_serializer_class(self):
+        return ClubSerializer
+
+    def get_queryset(self):
+        club = Club.objects.filter(federation_id=self.request.user.federation_id.id)
         result = club
         print(result)
         return result

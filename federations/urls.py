@@ -6,7 +6,9 @@ extra_context = {'menu_federations': 'active'}
 
 router = routers.DefaultRouter()
 #router.register(r'users', views.FederationUsersViewSet, basename='users_list')
+router.register(r'clubs', views.FederationClubsViewSet, basename='clubs')
 router.register(r'', views.FederationViewSet, basename='federation')
+
 
 urlpatterns = [
     path('api/', include(router.urls), name='api_federation'),

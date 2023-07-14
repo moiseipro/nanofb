@@ -12,12 +12,10 @@ class ClubSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
 
     groups = GroupSerializer(
-
         read_only=True,
         many=True
     )
     permissions = PermissionSerializer(
-
         read_only=True,
         many=True
     )
@@ -25,8 +23,8 @@ class ClubSerializer(serializers.ModelSerializer):
     class Meta:
         model = Club
         fields = [
-            'id', 'name', 'subdomain', 'groups', 'permissions', 'date_registration', 'date_registration_to',
-            'team_limit', 'player_limit', 'user_limit'
+            'id', 'name', 'subdomain', 'groups', 'permissions', 'federation_id', 'date_registration', 'date_registration_to',
+            'team_limit', 'player_limit', 'user_limit', 'image'
         ]
 
 
