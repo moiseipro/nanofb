@@ -342,7 +342,6 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
                             player_data['res_protocols']['skip_count'] += 1
                         if "type_disqualification" in m_protocol.p_status.tags and m_protocol.p_status.tags['type_disqualification'] == 1:
                             player_data['res_protocols']['disqualification_count'] += 1
-            player_data = None
             is_status_correct = False
             trainings_protocols = []
             if util_check_access(cur_user, {
@@ -368,6 +367,7 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
                         ],
                     )
             for t_protocol in trainings_protocols:
+                player_data = None
                 try:
                     player_data = res_data['players'][t_protocol.player_id.id]
                 except Exception as e:
