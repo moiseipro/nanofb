@@ -135,7 +135,7 @@ function RenderAnalyticsTable(data) {
                 } catch(e) {}
                 exsFoldersHtml += `
                     <td class="text-center">
-                        ${tVal > 0 ? tVal : '-'}
+                        ${player.res_trainings.trainings_count > 0 && tVal > 0 ? tVal : '-'}
                     </td>
                 `;
             });
