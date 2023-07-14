@@ -210,20 +210,20 @@ function RenderAnalyticsTable(data) {
                         ${player.res_trainings.trainings_count > 0 ? player.res_trainings.trainings_count : '-'}
                     </td>
                     <td class="text-center">
-                        ${player.res_trainings.trainings_time > 0 ? player.res_trainings.trainings_time : '-'}
+                        ${player.res_trainings.trainings_count > 0 && player.res_trainings.trainings_time > 0 ? player.res_trainings.trainings_time : '-'}
                     </td>
                     <td class="text-center">
-                        ${player.res_trainings.trainings_dislike > 0 ? player.res_trainings.trainings_dislike : '-'}
+                        ${player.res_trainings.trainings_count > 0 && player.res_trainings.trainings_dislike > 0 ? player.res_trainings.trainings_dislike : '-'}
                     </td>
                     <td class="text-center border-custom-right">
-                        ${player.res_trainings.trainings_like > 0 ? player.res_trainings.trainings_like : '-'}
+                        ${player.res_trainings.trainings_count > 0 && player.res_trainings.trainings_like > 0 ? player.res_trainings.trainings_like : '-'}
                     </td>
                     ${exsFoldersHtml}
                     <td class="text-center border-custom-left">
-                        ${withBallPercent > 0 ? withBallPercent : '-'}
+                        ${player.res_trainings.trainings_count > 0 && withBallPercent > 0 ? withBallPercent : '-'}
                     </td>
                     <td class="text-center">
-                        ${withoutBallPercent > 0 ? withoutBallPercent : '-'}
+                        ${player.res_trainings.trainings_count > 0 && withoutBallPercent > 0 ? withoutBallPercent : '-'}
                     </td>
                 </tr>
             `;
