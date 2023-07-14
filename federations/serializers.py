@@ -24,5 +24,5 @@ class FederationSerializer(serializers.ModelSerializer):
         model = Federation
         fields = [
             'id', 'name', 'subdomain', 'groups', 'permissions', 'versions', 'date_registration', 'date_registration_to',
-            'team_limit', 'player_limit', 'user_limit'
+            'club_limit'
         ]
