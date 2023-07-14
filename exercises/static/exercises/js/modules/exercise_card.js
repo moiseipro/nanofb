@@ -394,6 +394,10 @@ function RenderExerciseOne(data) {
             document.descriptionEditorViewFromFoldersTrainer.setData(data.description_trainer);
         }
 
+        if (data.scheme_img) {
+            $('#exerciseCard').find('.scheme-img > img').attr('src', `/media/${data.scheme_img}`);
+        }
+
         $('#carouselSchema').find('.carousel-item.new-scheme').remove();
         $('#carouselSchema').find('.carousel-indicators > li.new-scheme').remove();
         $('#carouselSchema').find('.carousel-item').first().html(data.scheme_data[0]);
@@ -466,6 +470,18 @@ function RenderExerciseOne(data) {
                 <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
             `);
         }
+        if (data.scheme_img) {
+            $('#carouselSchema').find('.carousel-item').first().before(`
+                <div class="carousel-item new-scheme" title="Рисунок (новый / картинка)" data-type="scheme_pic">
+                    <img class="img-lazyload d-none" src="/media/${data.scheme_img}" alt="scheme" style="width: 28vw; height: 41vh;">
+                </div>
+            `);
+            $('#carouselSchema').find('.carousel-indicators > li').last().after(`
+                <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
+            `);
+            carouselIndicatorNum ++;
+        }
+
         $('#carouselSchema').find('.carousel-item').find('.img-lazyload').each((index, elem) => {
             $(elem).on('load', (e) => {
                 $(e.currentTarget).removeClass('d-none');
@@ -658,7 +674,7 @@ function RenderExerciseOne(data) {
 }
 
 function AdaptPageToSection(section, exerciseLoaded=false, onlyChangeSection=false, isNewExs=false) {
-    let availableSections = ["card", "description", "scheme_1", "scheme_2", "video_1", "video_2", "animation_1", "animation_2", "tags"];
+    let availableSections = ["card", "description", "scheme_1", "scheme_2", "scheme_1_image", "video_1", "video_2", "animation_1", "animation_2", "tags"];
     if (availableSections.includes(section)) {
         if (isNewExs) {
             $('.exs-edit-block-in-card').find('.btn-o-modal[data-id="card"]').parent().toggleClass('d-none', !isNewExs);
@@ -678,6 +694,7 @@ function AdaptPageToSection(section, exerciseLoaded=false, onlyChangeSection=fal
                 if (elemId == "editExs" || elemId == "saveExs") {return;}
                 if (section == "scheme_1" && elemId == "openDrawing1") {return;}
                 if (section == "scheme_2" && elemId == "openDrawing2") {return;}
+                if (section == "scheme_1_image" && elemId == "openDrawing1") {return;}
                 if (section == "video_1" && elemId == "openVideo1") {return;}
                 if (section == "video_2" && elemId == "openVideo2") {return;}
                 if (section == "animation_1" && elemId == "openAnimation1") {return;}
@@ -748,6 +765,10 @@ function AdaptPageToSection(section, exerciseLoaded=false, onlyChangeSection=fal
                 }
                 $(document).find('#openDrawing1').trigger('click');
                 $(document).find('#openDrawing1').addClass('d-none');
+                $('#exerciseCard').find('.drawer-panel-toggle[data-panel="editor"]').addClass('active');
+                $('#exerciseCard').find('.drawer-panel-toggle[data-panel="upload"]').removeClass('active');
+                DrawerPanelsToggle();
+                $('#exerciseCard').find('.drawer-panel-buttons').addClass('d-none');
             }
             if (section == "scheme_2") {
                 if (!onlyChangeSection) {
@@ -756,6 +777,22 @@ function AdaptPageToSection(section, exerciseLoaded=false, onlyChangeSection=fal
                 }
                 $(document).find('#openDrawing2').trigger('click');
                 $(document).find('#openDrawing2').addClass('d-none');
+                $('#exerciseCard').find('.drawer-panel-toggle[data-panel="editor"]').addClass('active');
+                $('#exerciseCard').find('.drawer-panel-toggle[data-panel="upload"]').removeClass('active');
+                DrawerPanelsToggle();
+                $('#exerciseCard').find('.drawer-panel-buttons').addClass('d-none');
+            }
+            if (section == "scheme_1_image") {
+                if (!onlyChangeSection) {
+                    $(document).find('#editExs').trigger('click');
+                    $(document).find('#saveExs').addClass('d-none');
+                }
+                $(document).find('#openDrawing1').trigger('click');
+                $(document).find('#openDrawing1').addClass('d-none');
+                $('#exerciseCard').find('.drawer-panel-toggle[data-panel="editor"]').removeClass('active');
+                $('#exerciseCard').find('.drawer-panel-toggle[data-panel="upload"]').addClass('active');
+                DrawerPanelsToggle();
+                $('#exerciseCard').find('.drawer-panel-buttons').addClass('d-none');
             }
             if (section == "video_1") {
                 if (!onlyChangeSection) {
@@ -1756,6 +1793,12 @@ function ToggleSelectedTagsInCard() {
         let cId = $(elem).attr('data-name');
         $(elem).toggleClass('active', window.selectedTagsInCard.includes(cId));
     });
+}
+
+function DrawerPanelsToggle() {
+    let activePanel = $('#exerciseCard').find('.drawer-panel-toggle.active').attr('data-panel');
+    $('#exerciseCard').find('.drawer-panel').addClass('d-none');
+    $('#exerciseCard').find(`.drawer-panel[data-panel="${activePanel}"]`).removeClass('d-none');
 }
 
 
@@ -2800,6 +2843,95 @@ $(function() {
             $('#exerciseCard').find('.cognitive-load-list > button').removeClass('active');
             $(e.currentTarget).toggleClass('active', !isActive);
         }
+    });
+
+
+    DrawerPanelsToggle();
+    $('#exerciseCard').on('click', '.drawer-panel-toggle', (e) => {
+        $('#exerciseCard').find('.drawer-panel-toggle').removeClass('active');
+        $(e.currentTarget).addClass('active');
+        DrawerPanelsToggle();
+    });
+    $('#exerciseCard').on('click', '[name="fileSchemeUpload"]', (e) => {
+        let searchParams = new URLSearchParams(window.location.search);
+        let folderType = searchParams.get('type');
+        let exsId = $('#exerciseCard').attr('data-exs');
+        let dataToSend = new FormData();
+        let fileImg = $('#exerciseCard').find('#fileSchemePic')[0].files[0];
+        if (fileImg) {
+            dataToSend.append('file_image', fileImg);
+        } else {
+            swal("Внимание", "Выберите файл для загрузки.", "info");
+            return;
+        }
+        dataToSend.append('create_exs_drawing_pic', 1);
+        dataToSend.append('exs', exsId);
+        dataToSend.append('type', folderType);
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: dataToSend,
+            processData: false,
+            contentType: false,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "exercises_api",
+            success: function (res) {
+                if (res.success) {
+                    $('#exerciseCard').find('.scheme-img > img').attr('src', res.data);
+                    swal("Готово", "Рисунок успешно добавлен.", "success").
+                    then(() => {
+                        window.location.reload();
+                    });
+                }
+                $('#exerciseCard').find('#fileSchemePic').val('');
+            },
+            error: function (res) {
+                let optionalInfo = "";
+                try {
+                    optionalInfo = res.responseJSON.err;
+                } catch(e) {}
+                swal("Ошибка", `Изображение не добавлено. ${optionalInfo}`, "error");
+                console.error(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
+    });
+    $('#exerciseCard').on('click', '[name="fileSchemeDelete"]', (e) => {
+        let searchParams = new URLSearchParams(window.location.search);
+        let folderType = searchParams.get('type');
+        let exsId = $('#exerciseCard').attr('data-exs');
+        let data = {'delete_exs_drawing_pic': 1, 'type': folderType, 'exs': exsId};
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: data,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "exercises_api",
+            success: function (res) {
+                if (res.success) {
+                    $('#exerciseCard').find('.scheme-img > img').attr('src', '');
+                    swal("Готово", "Рисунок успешно удален.", "success").
+                    then(() => {
+                        window.location.reload();
+                    });
+                }
+            },
+            error: function (res) {
+                let optionalInfo = "";
+                try {
+                    optionalInfo = res.responseJSON.err;
+                } catch(e) {}
+                swal("Ошибка", `Изображение не удалено. ${optionalInfo}`, "error");
+                console.error(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
     });
 
 });

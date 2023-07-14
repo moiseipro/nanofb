@@ -472,6 +472,7 @@
                                                     </div>
                                                     {% endfor %}
                                                     <div class="cvs-elem arat150_50 grayback" data-group="line">
+                                                        <img src="" alt="..." class="img-thumbnail c-img px-0" data-src="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -534,7 +535,7 @@
                                     {% for elem in assets.shape %}
                                     <div class="col-4 px-0">
                                         <div class="cvs-elem {{ elem.style_class }}" data-group="{{ elem.group }}" data-name="{{ elem.name }}" data-g-type="{{ elem.g_type }}" data-g-type2="{{ elem.g_type_2 }}">
-                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0">
+                                            <img src="{{ elem.path }}" alt="..." class="img-thumbnail c-img px-0" data-src="{{ elem.path }}">
                                         </div>
                                     </div>
                                     {% endfor %}

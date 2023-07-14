@@ -1279,7 +1279,8 @@ def POST_edit_exs(request, cur_user, cur_team):
             return JsonResponse({"err": "Access denied.", "success": False}, status=400)
         pass
     if c_exs == None:
-            return JsonResponse({"err": "Exercise not found.", "success": False}, status=400)
+        return JsonResponse({"err": "Exercise not found.", "success": False}, status=400)
+    
     is_can_edit_full = True
     nfb_id = -1
     try:
@@ -1587,9 +1588,8 @@ def POST_edit_exs_custom(request, cur_user, cur_team):
             return JsonResponse({"err": "Access denied.", "success": False}, status=400)
         pass
     if c_exs == None:
-            return JsonResponse({"err": "Exercise not found.", "success": False}, status=400)
-    print(request.POST)
-
+        return JsonResponse({"err": "Exercise not found.", "success": False}, status=400)
+    
     is_can_edit_full = True
     nfb_id = -1
     try:
@@ -2717,6 +2717,96 @@ def POST_copy_scheme_from_exs_to_exs(request, cur_user, cur_team):
     return JsonResponse({"data": res_data, "success": is_success}, status=200)
 
 
+def POST_create_exs_drawing_pic(request, cur_user, cur_team):
+    exs_id = -1
+    folder_type = request.POST.get("type", "")
+    try:
+        exs_id = int(request.POST.get("exs", -1))
+    except:
+        pass
+    c_img = request.FILES.get('file_image')
+    c_exs = None
+    found_team = None
+    if request.user.club_id is not None:
+        found_team = ClubTeam.objects.filter(id=cur_team, club_id=request.user.club_id)
+    else:
+        found_team = UserTeam.objects.filter(id=cur_team, user_id=cur_user)
+    if folder_type == FOLDER_TEAM:
+        if not found_team or not found_team.exists() or found_team[0].id == None:
+            return JsonResponse({"err": "Team not found.", "success": False}, status=400)
+        if not util_check_access(cur_user, {
+            'perms_user': ["exercises.change_userexercise", "exercises.add_userexercise"], 
+            'perms_club': ["exercises.change_clubexercise", "exercises.add_clubexercise"]
+        }):
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        if request.user.club_id is not None:
+            c_exs = ClubExercise.objects.filter(id=exs_id, club=request.user.club_id, team=found_team[0]).first()
+        else:
+            c_exs = UserExercise.objects.filter(id=exs_id, user=cur_user).first()
+    elif folder_type == FOLDER_NFB:
+        if not util_check_access(cur_user, {
+            'perms_user': ["exercises.change_adminexercise", "exercises.add_adminexercise"], 
+            'perms_club': ["exercises.change_adminexercise", "exercises.add_adminexercise"]
+        }):
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        c_exs = AdminExercise.objects.filter(id=exs_id).first()
+    img_url = ""
+    if c_exs is not None:
+        try:
+            c_exs.scheme_img = c_img
+            c_exs.save()
+            img_url = c_exs.scheme_img.url
+        except Exception as e:
+            return JsonResponse({"err": f"Cant add image to exercise. ({e})", "success": False}, status=400)
+    else:
+        return JsonResponse({"err": "Exercise not found.", "success": False}, status=400)
+    return JsonResponse({"data": img_url, "success": True}, status=200)
+
+
+def POST_delete_exs_drawing_pic(request, cur_user, cur_team):
+    exs_id = -1
+    folder_type = request.POST.get("type", "")
+    try:
+        exs_id = int(request.POST.get("exs", -1))
+    except:
+        pass
+    c_exs = None
+    found_team = None
+    if request.user.club_id is not None:
+        found_team = ClubTeam.objects.filter(id=cur_team, club_id=request.user.club_id)
+    else:
+        found_team = UserTeam.objects.filter(id=cur_team, user_id=cur_user)
+    if folder_type == FOLDER_TEAM:
+        if not found_team or not found_team.exists() or found_team[0].id == None:
+            return JsonResponse({"err": "Team not found.", "success": False}, status=400)
+        if not util_check_access(cur_user, {
+            'perms_user': ["exercises.change_userexercise", "exercises.add_userexercise"], 
+            'perms_club': ["exercises.change_clubexercise", "exercises.add_clubexercise"]
+        }):
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        if request.user.club_id is not None:
+            c_exs = ClubExercise.objects.filter(id=exs_id, club=request.user.club_id, team=found_team[0]).first()
+        else:
+            c_exs = UserExercise.objects.filter(id=exs_id, user=cur_user).first()
+    elif folder_type == FOLDER_NFB:
+        if not util_check_access(cur_user, {
+            'perms_user': ["exercises.change_adminexercise", "exercises.add_adminexercise"], 
+            'perms_club': ["exercises.change_adminexercise", "exercises.add_adminexercise"]
+        }):
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        c_exs = AdminExercise.objects.filter(id=exs_id).first()
+    img_url = ""
+    if c_exs is not None:
+        try:
+            c_exs.scheme_img.delete(save=True)
+            c_exs.save()
+        except Exception as e:
+            return JsonResponse({"err": f"Cant delete image from exercise. ({e})", "success": False}, status=400)
+    else:
+        return JsonResponse({"err": "Exercise not found.", "success": False}, status=400)
+    return JsonResponse({"data": img_url, "success": True}, status=200)
+
+
 
 def GET_link_video_exs(request, cur_user, cur_team):
     """
@@ -3058,7 +3148,7 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
     res_exs['field_age'] = get_by_language_code(res_exs['field_age'], request.LANGUAGE_CODE)
     res_exs['field_task'] = get_by_language_code(res_exs['field_task'], request.LANGUAGE_CODE)
     res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type, request.user.club_id)
-    res_exs = get_exs_additional_params(res_exs, c_exs[0], folder_type, cur_user, request.user.club_id, request.LANGUAGE_CODE)
+    # res_exs = get_exs_additional_params(res_exs, c_exs[0], folder_type, cur_user, request.user.club_id, request.LANGUAGE_CODE)
     res_exs['tags'] = get_tags_of_exercise(c_exs[0])
     if is_as_object:
         return res_exs

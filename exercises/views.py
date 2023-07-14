@@ -330,6 +330,8 @@ def exercises_api(request):
         edit_all_exs_titles_status = 0
         move_video_from_exs_to_exs_status = 0
         copy_scheme_from_exs_to_exs_status = 0
+        create_exs_drawing_pic_status = 0
+        delete_exs_drawing_pic_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         try:
@@ -422,6 +424,14 @@ def exercises_api(request):
             copy_scheme_from_exs_to_exs_status = int(request.POST.get("copy_scheme_from_exs_to_exs", 0))
         except:
             pass
+        try:
+            create_exs_drawing_pic_status = int(request.POST.get("create_exs_drawing_pic", 0))
+        except:
+            pass
+        try:
+            delete_exs_drawing_pic_status = int(request.POST.get("delete_exs_drawing_pic", 0))
+        except:
+            pass
         if copy_exs_status == 1:
             return v_api.POST_copy_exs(request, cur_user[0], cur_team)
         elif move_exs_status == 1:
@@ -464,6 +474,10 @@ def exercises_api(request):
             return v_api.POST_move_video_from_exs_to_exs(request, cur_user[0], cur_team)
         elif copy_scheme_from_exs_to_exs_status == 1:
             return v_api.POST_copy_scheme_from_exs_to_exs(request, cur_user[0], cur_team)
+        elif create_exs_drawing_pic_status == 1:
+            return v_api.POST_create_exs_drawing_pic(request, cur_user[0], cur_team)
+        elif delete_exs_drawing_pic_status == 1:
+            return v_api.POST_delete_exs_drawing_pic(request, cur_user[0], cur_team)
         return JsonResponse({"errors": "access_error"}, status=400)
     elif request.method == "GET" and is_ajax:
         get_exs_all_status = 0
