@@ -10,7 +10,7 @@ from colorfield.fields import ColorField
 
 
 def upload_location_scheme(instance, filename):
-    filebase, extension = filename.split('.')
+    filebase, extension = filename.rsplit('.', 1)
     return f"exercises/img/uploads/{filebase}.{extension}"
 
 
