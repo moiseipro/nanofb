@@ -557,7 +557,7 @@ function load_exercises_training_data(training_exercise_id = null) {
                 //note = exercise.additional_json[i]['note']
             }
             additional_html += `
-            <div class="col-6 exercise-additional-row ${name ? '' : 'edit-button'} ${!name && !edit_mode ? 'd-none' : ''}">
+            <div class="col-6 exercise-additional-row ${name ? '' : 'edit-input'} ${!name && !edit_mode ? 'disabled' : ''}">
                 <div class="row">
                     <div class="col-12 px-0">
                         <input type="text" name="name_${i}" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded edit-input" value="${name ? name : ''}" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>

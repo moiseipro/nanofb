@@ -4,6 +4,7 @@ from django.db import IntegrityError
 from rest_framework import serializers
 
 from clubs.serializers import ClubSerializer
+from exercises.models import UserExercise, ClubExercise
 from users.models import User, UserPersonal, TrainerLicense
 from django_countries.serializer_fields import CountryField
 from django.utils.translation import gettext_lazy as _
@@ -190,6 +191,8 @@ class UserManagementSerializer(serializers.ModelSerializer):
 
     activation = serializers.SerializerMethodField()
 
+    exercises = serializers.SerializerMethodField()
+
     def get_license(self, user):
         license_name = ''
         if user.personal.trainer_license is not None:
@@ -236,6 +239,11 @@ class UserManagementSerializer(serializers.ModelSerializer):
             active_status['status'] = _("Not active")
         return active_status
 
+    def get_exercises(self, user):
+        exercise_count = UserExercise.objects.filter(user_id=user.id).count()
+        club_exercise_count = ClubExercise.objects.filter(user_id=user.id).count()
+        return str(exercise_count) + ' / ' + str(club_exercise_count)
+
     class Meta:
         model = User
         fields = [
@@ -243,6 +251,6 @@ class UserManagementSerializer(serializers.ModelSerializer):
             'last_name', 'first_name', 'job_title', 'date_birthsday', 'age',
             'trainer_license', 'license', 'license_date', 'flag', 'distributor', 'date_joined', 'club_title',
             'activation', 'club_name', 'club_registration_to', 'is_archive', 'date_joined', 'phone', 'date_last_login',
-            'region', 'club_id'
+            'region', 'club_id', 'exercises'
         ]
         datatables_always_serialize = ('id', 'groups', 'trainer_license', 'club_registration_to', 'is_archive')

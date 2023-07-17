@@ -118,11 +118,15 @@ class TrainingExerciseSerializer(serializers.ModelSerializer):
         source="exercise_id.scheme_2",
         read_only=True
     )
+    scheme_img = serializers.CharField(
+        source="exercise_id.scheme_img",
+        read_only=True
+    )
 
     class Meta:
         fields = (
             'id', 'training_id', 'exercise_id', 'exercise_name', 'exercise_scheme', 'scheme_1', 'scheme_2', 'group',
-            'duration', 'order', 'description', 'additional_json'
+            'duration', 'order', 'description', 'additional_json', 'scheme_img'
         )
 
 
