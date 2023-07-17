@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-06 14:01+0300\n"
+"POT-Creation-Date: 2023-07-17 14:43+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -91,10 +91,15 @@ msgstr "Ошибка при выполнении \""
 
 #: .\clubs\static\clubs\js\users_list.js:87
 #: .\clubs\static\clubs\js\users_list.js:95
-#: .\clubs\static\clubs\js\users_list.js:97 .\static\clubs\js\users_list.js:87
-#: .\static\clubs\js\users_list.js:95 .\static\clubs\js\users_list.js:97
-#: .\static\users\modules\ajax_user_table.js:165
-#: .\users\static\users\modules\ajax_user_table.js:165
+#: .\clubs\static\clubs\js\users_list.js:97
+#: .\federations\static\federations\js\ajax_user_table.js:173
+#: .\static\clubs\js\users_list.js:87 .\static\clubs\js\users_list.js:95
+#: .\static\clubs\js\users_list.js:97
+#: .\static\federations\js\ajax_user_table.js:173
+#: .\static\users\modules\ajax_permission.js:26
+#: .\static\users\modules\ajax_user_table.js:176
+#: .\users\static\users\modules\ajax_permission.js:26
+#: .\users\static\users\modules\ajax_user_table.js:176
 msgid "Users "
 msgstr "Пользователи "
 
@@ -347,6 +352,53 @@ msgstr "Ошибка"
 msgid "Failed to copy folder structure."
 msgstr "Не удалось скопировать структуру папок."
 
+#: .\federations\static\federations\js\ajax_club_table.js:50
+#: .\static\federations\js\ajax_club_table.js:50
+msgid "Licence to: "
+msgstr "Лицензия до: "
+
+#: .\federations\static\federations\js\ajax_user_table.js:164
+#: .\static\federations\js\ajax_user_table.js:164
+#: .\static\users\modules\ajax_permission.js:18
+#: .\static\users\modules\ajax_user_table.js:167
+#: .\users\static\users\modules\ajax_permission.js:18
+#: .\users\static\users\modules\ajax_user_table.js:167
+msgid "User"
+msgstr "Пользователь"
+
+#: .\federations\static\federations\js\ajax_user_table.js:166
+#: .\static\federations\js\ajax_user_table.js:166
+#: .\static\users\modules\ajax_permission.js:20
+#: .\static\users\modules\ajax_user_table.js:169
+#: .\users\static\users\modules\ajax_permission.js:20
+#: .\users\static\users\modules\ajax_user_table.js:169
+msgid "User registration"
+msgstr "Регистрация пользователя"
+
+#: .\federations\static\federations\js\base_federation.js:29
+#: .\static\federations\js\base_federation.js:29
+#: .\static\users\base_clients.js:28 .\users\static\users\base_clients.js:28
+msgid "Country"
+msgstr "Страна"
+
+#: .\federations\static\federations\js\base_federation.js:73
+#: .\static\federations\js\base_federation.js:73
+#: .\static\users\base_clients.js:72 .\users\static\users\base_clients.js:72
+msgid "Version"
+msgstr "Версия"
+
+#: .\federations\static\federations\js\base_federation.js:107
+#: .\static\federations\js\base_federation.js:107
+#: .\static\users\base_clients.js:106 .\users\static\users\base_clients.js:106
+msgid "Club"
+msgstr "Клуб"
+
+#: .\federations\static\federations\js\base_federation.js:280
+#: .\static\federations\js\base_federation.js:280
+#: .\static\users\base_clients.js:279 .\users\static\users\base_clients.js:279
+msgid "Are you sure you want to generate a new password?"
+msgstr "Вы уверены, что хотите сгенерировать новый пароль?"
+
 #: .\nanofootball\static\jquery-ui-1.13.1.custom\jquery-ui.min.js:6
 #: .\static\jquery-ui-1.13.1.custom\jquery-ui.min.js:6
 msgid "'"
@@ -513,9 +565,9 @@ msgstr "Ошибка при действии с сезоном!"
 
 #: .\references\static\references\references_edit.js:114
 #: .\static\references\references_edit.js:114
-#: .\static\trainings\js\print_training.js:155
+#: .\static\trainings\js\print_training.js:165
 #: .\static\trainings\js\training_card.js:365
-#: .\trainings\static\trainings\js\print_training.js:155
+#: .\trainings\static\trainings\js\print_training.js:165
 #: .\trainings\static\trainings\js\training_card.js:365
 msgid "Title"
 msgstr "Название"
@@ -908,8 +960,8 @@ msgstr "Ошибка при выполнении действия с упраж�
 msgid "Exercise data action error in training!"
 msgstr "Ошибка действия с данными упражнения в тренировке!"
 
-#: .\static\trainings\js\print_training.js:158
-#: .\trainings\static\trainings\js\print_training.js:158
+#: .\static\trainings\js\print_training.js:168
+#: .\trainings\static\trainings\js\print_training.js:168
 msgid "Duration"
 msgstr "Длительность"
 
@@ -1015,24 +1067,6 @@ msgstr "Есть незаполненные игроки! Заполните и�
 #: .\static\trainings\view_training.js:32
 msgid "Training action \""
 msgstr "Действие с тренировкой \""
-
-#: .\static\users\base_clients.js:29 .\users\static\users\base_clients.js:29
-msgid "Country"
-msgstr "Страна"
-
-#: .\static\users\base_clients.js:73 .\users\static\users\base_clients.js:73
-msgid "Version"
-msgstr "Версия"
-
-#: .\static\users\modules\ajax_user_table.js:157
-#: .\users\static\users\modules\ajax_user_table.js:157
-msgid "User"
-msgstr "Пользователь"
-
-#: .\static\users\modules\ajax_user_table.js:159
-#: .\users\static\users\modules\ajax_user_table.js:159
-msgid "User registration"
-msgstr "Регистрация пользователя"
 
 #: .\static\users\profile_ajax.js:27 .\users\static\users\profile_ajax.js:27
 msgid "Profile"

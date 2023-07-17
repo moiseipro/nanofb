@@ -118,7 +118,7 @@ class TrainingExerciseSerializer(serializers.ModelSerializer):
         source="exercise_id.scheme_2",
         read_only=True
     )
-    scheme_img = serializers.CharField(
+    scheme_img = serializers.ImageField(
         source="exercise_id.scheme_img",
         read_only=True
     )

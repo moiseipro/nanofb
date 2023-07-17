@@ -413,7 +413,7 @@ function load_all_exercises_training(training_id = null, group = null) {
                     carousel_html+= `
                         <div class="carousel-item active">
                             <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
-                                <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${exercise.scheme_img}" x="0" y="0"></image>
+                                <image data-height="400" data-width="600" height="100%" width="100%" href="${exercise.scheme_img}" x="0" y="0"></image>
                             </svg>
                         </div>`
                 }
@@ -596,7 +596,7 @@ function load_exercises_training_data(training_exercise_id = null) {
             carousel_html+= `
                 <div class="carousel-item active">
                     <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
-                        <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${exercise.scheme_img}" x="0" y="0"></image>
+                        <image data-height="400" data-width="600" height="100%" width="100%" href="${exercise.scheme_img}" x="0" y="0"></image>
                     </svg>
                 </div>`
         }
