@@ -815,6 +815,14 @@ $(function() {
 
     window.split_sizes_tempo = [];
     $('#toggleDescriptionInFolders').on('click', (e) => {
+        let activeExs = $('.exs-list-group').find('.list-group-item.active');
+        if ($(activeExs).length == 0) {
+            $(e.currentTarget).attr('data-state', '0');
+            $(e.currentTarget).removeClass("c-active");
+            $(e.currentTarget).removeClass("selected3");
+            swal("Внимание", "Выберите упражнение из списка.", "info");
+            return;
+        }
         let folderType = $('.folders_div.selected').attr('data-id');
         $('.folders-block').find('button.edit-exercise.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
         if ($('.folders-block').find('.description-container').hasClass('d-none')) {
@@ -845,6 +853,14 @@ $(function() {
         }
     });
     $('#toggleCardInFolders').on('click', (e) => {
+        let activeExs = $('.exs-list-group').find('.list-group-item.active');
+        if ($(activeExs).length == 0) {
+            $(e.currentTarget).attr('data-state', '0');
+            $(e.currentTarget).removeClass("c-active");
+            $(e.currentTarget).removeClass("selected3");
+            swal("Внимание", "Выберите упражнение из списка.", "info");
+            return;
+        }
         let folderType = $('.folders_div.selected').attr('data-id');
         $('.folders-block').find('button.edit-exercise.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
         if ($('.folders-block').find('.card-container').hasClass('d-none')) {

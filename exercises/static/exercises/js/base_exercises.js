@@ -2327,18 +2327,30 @@ $(function() {
         let activeExsId = $(activeExs).attr('data-id');
         if ($(activeExs).length > 0) {
             if (cId == "description") {
-                $('.folders-block').find('.folders-container').addClass('d-none');
-                $('.folders-block').find('.description-container').removeClass('d-none');
-                $('.folders-block').find('.card-container').addClass('d-none');
-                if (!$('.folders-block').find('.description-container').hasClass('d-none')) {
+                $('#toggleCardInFolders').attr('data-state', '0');
+                $('#toggleCardInFolders').removeClass("c-active");
+                $('#toggleCardInFolders').removeClass("selected3");
+                $('.exs-edit-block').find('.btn-o-modal[data-id="card"]').removeClass('active');
+                if ($('.folders-block').find('.description-container').hasClass('d-none')) {
+                    $('.folders-block').find('.folders-container').addClass('d-none');
+                    $('.folders-block').find('.description-container').removeClass('d-none');
+                    $('.folders-block').find('.card-container').addClass('d-none');
                     $(e.currentTarget).addClass('active');
-                    $('.exs-edit-block').find('.btn-o-modal[data-id="card"]').removeClass('active');
+                    $('#toggleDescriptionInFolders').attr('data-state', '1');
+                    $('#toggleDescriptionInFolders').addClass("c-active");
+                    $('#toggleDescriptionInFolders').addClass("selected3");
                     try {
                         window.split_sizes_tempo = window.split.getSizes();
                         window.split.setSizes([40, 40]);
                     } catch(e) {}
                 } else {
+                    $('.folders-block').find('.folders-container').removeClass('d-none');
+                    $('.folders-block').find('.description-container').addClass('d-none');
+                    $('.folders-block').find('.card-container').addClass('d-none');
                     $(e.currentTarget).removeClass('active');
+                    $('#toggleDescriptionInFolders').attr('data-state', '0');
+                    $('#toggleDescriptionInFolders').removeClass("c-active");
+                    $('#toggleDescriptionInFolders').removeClass("selected3");
                     try {
                         if (window.split_sizes_tempo.length == 2) {
                             window.split.setSizes(window.split_sizes_tempo);
@@ -2346,15 +2358,34 @@ $(function() {
                     } catch(e) {}
                 }
             } else if (cId == "card") {
-                $('.folders-block').find('.folders-container').addClass('d-none');
-                $('.folders-block').find('.description-container').addClass('d-none');
-                $('.folders-block').find('.card-container').removeClass('d-none');
-                if (!$('.folders-block').find('.card-container').hasClass('d-none')) {
+                $('#toggleDescriptionInFolders').attr('data-state', '0');
+                $('#toggleDescriptionInFolders').removeClass("c-active");
+                $('#toggleDescriptionInFolders').removeClass("selected3");
+                $('.exs-edit-block').find('.btn-o-modal[data-id="description"]').removeClass('active');
+                if ($('.folders-block').find('.card-container').hasClass('d-none')) {
+                    $('.folders-block').find('.folders-container').addClass('d-none');
+                    $('.folders-block').find('.description-container').addClass('d-none');
+                    $('.folders-block').find('.card-container').removeClass('d-none');
                     $(e.currentTarget).addClass('active');
-                    $('.exs-edit-block').find('.btn-o-modal[data-id="description"]').removeClass('active');
+                    $('#toggleCardInFolders').attr('data-state', '1');
+                    $('#toggleCardInFolders').addClass("c-active");
+                    $('#toggleCardInFolders').addClass("selected3");
                     try {
                         window.split_sizes_tempo = window.split.getSizes();
                         window.split.setSizes([40, 40]);
+                    } catch(e) {}
+                } else {
+                    $('.folders-block').find('.folders-container').removeClass('d-none');
+                    $('.folders-block').find('.description-container').addClass('d-none');
+                    $('.folders-block').find('.card-container').addClass('d-none');
+                    $(e.currentTarget).removeClass('active');
+                    $('#toggleCardInFolders').attr('data-state', '0');
+                    $('#toggleCardInFolders').removeClass("c-active");
+                    $('#toggleCardInFolders').removeClass("selected3");
+                    try {
+                        if (window.split_sizes_tempo.length == 2) {
+                            window.split.setSizes(window.split_sizes_tempo);
+                        }
                     } catch(e) {}
                 }
             } else {
