@@ -192,28 +192,36 @@ $(window).on('load', function (){
                             for (let exercise of exercises) {
                                 let count_slide = 0
                                 let select_html = '', carousel_html = ''
-                                if(exercise.scheme_1){
+                                if (exercise.scheme_img) {
                                     select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="active"></li>`
                                     count_slide++
                                     carousel_html+= `
                                         <div class="carousel-item active">
+                                            <img src="${exercise.scheme_img}" alt="scheme" width="100%" height="100%">
+                                        </div>`
+                                }
+                                if(exercise.scheme_1){
+                                    select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="${!exercise.scheme_img ? 'active': ''}"></li>`
+                                    count_slide++
+                                    carousel_html+= `
+                                        <div class="carousel-item ${!exercise.scheme_img ? 'active': ''}">
                                             <img src="https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${exercise.scheme_1}" alt="scheme" width="100%" height="100%">
                                         </div>`
                                 }
                                 if(exercise.scheme_2){
-                                    select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="${!exercise.scheme_1 ? 'active': ''}"></li>`
+                                    select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="${!exercise.scheme_img && !exercise.scheme_1 ? 'active': ''}"></li>`
                                     count_slide++
                                     carousel_html+= `
-                                        <div class="carousel-item ${!exercise.scheme_1 ? 'active': ''}">
+                                        <div class="carousel-item ${!exercise.scheme_img && !exercise.scheme_1 ? 'active': ''}">
                                             <img src="https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${exercise.scheme_2}" alt="scheme" width="100%" height="100%">
                                         </div>`
                                 }
                                 if(exercise.exercise_scheme){
                                     if(exercise.exercise_scheme['scheme_1']){
-                                        select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="${!exercise.scheme_1 && !exercise.scheme_2  ? 'active': ''}"></li>`
+                                        select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="${!exercise.scheme_img && !exercise.scheme_1 && !exercise.scheme_2  ? 'active': ''}"></li>`
                                         count_slide++
                                         carousel_html+= `
-                                            <div class="carousel-item ${!exercise.scheme_1 && !exercise.scheme_2  ? 'active': ''}">
+                                            <div class="carousel-item ${!exercise.scheme_img && !exercise.scheme_1 && !exercise.scheme_2  ? 'active': ''}">
                                                 ${exercise.exercise_scheme['scheme_1']}
                                             </div>`
                                     }
