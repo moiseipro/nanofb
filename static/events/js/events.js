@@ -197,7 +197,9 @@ $(window).on('load', function (){
                                     count_slide++
                                     carousel_html+= `
                                         <div class="carousel-item active">
-                                            <img src="${exercise.scheme_img}" alt="scheme" width="100%" height="100%">
+                                            <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                                <image data-height="400" data-width="600" height="100%" width="100%" href="${exercise.scheme_img}" x="0" y="0"></image>
+                                            </svg>
                                         </div>`
                                 }
                                 if(exercise.scheme_1){
@@ -205,7 +207,9 @@ $(window).on('load', function (){
                                     count_slide++
                                     carousel_html+= `
                                         <div class="carousel-item ${!exercise.scheme_img ? 'active': ''}">
-                                            <img src="https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${exercise.scheme_1}" alt="scheme" width="100%" height="100%">
+                                            <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                                <image data-height="400" data-width="600" height="100%" width="100%" href="https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${exercise.scheme_1}" x="0" y="0"></image>
+                                            </svg>
                                         </div>`
                                 }
                                 if(exercise.scheme_2){
@@ -213,7 +217,9 @@ $(window).on('load', function (){
                                     count_slide++
                                     carousel_html+= `
                                         <div class="carousel-item ${!exercise.scheme_img && !exercise.scheme_1 ? 'active': ''}">
-                                            <img src="https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${exercise.scheme_2}" alt="scheme" width="100%" height="100%">
+                                            <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                                <image data-height="400" data-width="600" height="100%" width="100%" href="https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${exercise.scheme_2}" x="0" y="0"></image>
+                                            </svg>
                                         </div>`
                                 }
                                 if(exercise.exercise_scheme){
