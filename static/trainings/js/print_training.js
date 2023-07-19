@@ -52,12 +52,12 @@ function load_training_print(training_id) {
                     carousel_html+= `
                         <div class="carousel-item active">
                             <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
-                                <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${exercise.scheme_img}" x="0" y="0"></image>
+                                <image data-height="400" data-width="600" height="100%" width="100%" href="${exercise.scheme_img}" x="0" y="0"></image>
                             </svg>
                         </div>`
                 }
                 if(exercise.scheme_1){
-                    select_html += `<li data-target="#carouselTrainingPrintSchema-${exercise.id}" data-slide-to="${count_slide}" class="active"></li>`
+                    select_html += `<li data-target="#carouselTrainingPrintSchema-${exercise.id}" data-slide-to="${count_slide}" class="${!exercise.scheme_img ? 'active': ''}"></li>`
                     count_slide++
                     carousel_html+= `
                         <div class="carousel-item ${!exercise.scheme_img ? 'active': ''}">
@@ -65,7 +65,7 @@ function load_training_print(training_id) {
                         </div>`
                 }
                 if(exercise.scheme_2){
-                    select_html += `<li data-target="#carouselTrainingPrintSchema-${exercise.id}" data-slide-to="${count_slide}" class="${!exercise.scheme_1 ? 'active': ''}"></li>`
+                    select_html += `<li data-target="#carouselTrainingPrintSchema-${exercise.id}" data-slide-to="${count_slide}" class="${!exercise.scheme_img && !exercise.scheme_1 ? 'active': ''}"></li>`
                     count_slide++
                     carousel_html+= `
                         <div class="carousel-item ${!exercise.scheme_img && !exercise.scheme_1 ? 'active': ''}">
@@ -74,7 +74,7 @@ function load_training_print(training_id) {
                 }
                 if(exercise.exercise_scheme){
                     if(exercise.exercise_scheme['scheme_1']){
-                        select_html += `<li data-target="#carouselTrainingPrintSchema-${exercise.id}" data-slide-to="${count_slide}" class="${!exercise.scheme_1 && !exercise.scheme_2  ? 'active': ''}"></li>`
+                        select_html += `<li data-target="#carouselTrainingPrintSchema-${exercise.id}" data-slide-to="${count_slide}" class="${!exercise.scheme_img && !exercise.scheme_1 && !exercise.scheme_2  ? 'active': ''}"></li>`
                         count_slide++
                         carousel_html+= `
                             <div class="carousel-item ${!exercise.scheme_img && !exercise.scheme_1 && !exercise.scheme_2  ? 'active': ''}">
