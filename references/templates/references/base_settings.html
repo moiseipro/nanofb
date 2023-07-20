@@ -29,6 +29,9 @@
                             {% if perms.references.change_userseason or perms.references.change_clubseason %}
                             <a class="nav-item nav-link btn btn-sm btn-outline-dark font-weight-bold mx-2" id="nav-seasons-tab" data-toggle="tab" href="#nav-seasons" role="tab" aria-controls="nav-seasons" aria-selected="false">{% trans 'Seasons' %}</a>
                             {% endif %}
+                            {% if perms.exercises.change_userfolder or perms.exercises.change_clubfolder %}
+                            <a class="nav-item nav-link btn btn-sm btn-outline-dark font-weight-bold mx-2" id="nav-folders-tab" href="{% url 'exercises:folders' %}">{% trans 'Folders' %}</a>
+                            {% endif %}
                             <a class="nav-item nav-link btn btn-sm btn-outline-dark font-weight-bold mx-2" id="nav-settings-tab" data-toggle="tab" href="#nav-settings" role="tab" aria-controls="nav-settings" aria-selected="false">{% trans 'Settings' %}</a>
                         </div>
                     </nav>
