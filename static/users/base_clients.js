@@ -260,10 +260,10 @@ $(window).on("load", function () {
         let user_id = $(this).attr('data-id')
         if ($(this).hasClass('active')){
             is_archive = 0
-            $(this).removeClass('active')
+            $(this).removeClass('active text-danger')
         } else {
             is_archive = 1
-            $(this).addClass('active')
+            $(this).addClass('active text-danger')
         }
         let send_data = {'is_archive' : is_archive}
         console.log(send_data);

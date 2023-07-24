@@ -1,5 +1,13 @@
 {% load i18n %}
 
+{% if 'impersonate_id' in request.session %}
+    <li>
+        <a href="/?__unimpersonate=True" class="btn text-danger">
+            <i class="fa fa-sign-out" aria-hidden="true"></i>
+            <span>{% trans 'Exit Account' %}</span>
+        </a>
+    </li>
+{% endif %}
 {% if perms.clubs.club_admin or user.is_superuser %}
 <li class="submenu">
     <a href="#">

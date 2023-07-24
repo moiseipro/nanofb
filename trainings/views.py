@@ -51,7 +51,7 @@ class TrainingViewSet(viewsets.ModelViewSet):
             team = ClubTeam.objects.get(pk=self.request.session['team'])
         else:
             team = UserTeam.objects.get(pk=self.request.session['team'])
-        serializer.save(team_id=team)
+        serializer.save(team_id=team, trainer_user_id=self.request.user)
 
     @action(detail=True, methods=['get'])
     def get_exercises(self, request, pk=None):
@@ -340,7 +340,7 @@ class LiteTrainingViewSet(viewsets.ModelViewSet):
     permission_classes = [BaseTrainingsPermissions]
 
     def perform_create(self, serializer):
-        serializer.save(user_id=self.request.user)
+        serializer.save(user_id=self.request.user, trainer_user_id=self.request.user)
 
     @action(detail=True, methods=['get'])
     def get_exercises(self, request, pk=None):

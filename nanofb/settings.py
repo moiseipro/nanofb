@@ -95,6 +95,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     # Custom
+    'users.middleware.ViewUserMiddleware.ImpersonateMiddleware',
     'references.middleware.ReferencesMiddleware.TeamAndSeasons',
     'users.middleware.UsersMiddleware.LicenseValidityCheck',
     'users.middleware.UsersMiddleware.SetLastVisit'

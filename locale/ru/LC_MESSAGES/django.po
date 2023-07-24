@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-17 14:42+0300\n"
+"POT-Creation-Date: 2023-07-24 15:14+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1072,9 +1072,9 @@ msgid "Yes"
 msgstr "Да"
 
 #: .\Lib\site-packages\django\forms\widgets.py:767 .\authorization\forms.py:97
-#: .\users\templates\users\forms\add-user-form.html:35
-#: .\users\templates\users\forms\add-user-form.html:46
-#: .\users\templates\users\forms\add-user-form.html:87
+#: .\users\templates\users\forms\add-user-form.html:54
+#: .\users\templates\users\forms\add-user-form.html:109
+#: .\users\templates\users\forms\add-user-form.html:120
 #: .\users\templates\users\forms\edit-personal-form.html:84
 #: .\users\templates\users\forms\edit-user-form.html:20
 #: .\users\templates\users\forms\edit-user-form.html:33
@@ -1874,13 +1874,13 @@ msgid "Select country"
 msgstr "Выберите страну"
 
 #: .\authorization\forms.py:76
-#: .\users\templates\users\forms\add-user-form.html:126
+#: .\users\templates\users\forms\add-user-form.html:92
 #: .\users\templates\users\forms\edit-personal-form.html:135
 msgid "City"
 msgstr "Город"
 
 #: .\authorization\forms.py:83
-#: .\users\templates\users\forms\add-user-form.html:120
+#: .\users\templates\users\forms\add-user-form.html:86
 #: .\users\templates\users\forms\edit-personal-form.html:127
 #: .\users\templates\users\modules\user_table.html:20
 #: .\users\templates\users\modules\user_table_settings.html:21
@@ -1890,7 +1890,7 @@ msgstr "Регион"
 
 #: .\authorization\forms.py:108 .\users\models.py:94
 #: .\users\templates\users\base_profile.html:98
-#: .\users\templates\users\forms\add-user-form.html:85
+#: .\users\templates\users\forms\add-user-form.html:51
 #: .\users\templates\users\forms\edit-personal-form.html:81
 #: .\users\templates\users\forms\edit-personal-form.html:96
 msgid "License"
@@ -1906,14 +1906,14 @@ msgstr "Лицензия до"
 #: .\authorization\templates\authorization\forgot_password.html:16
 #: .\clubs\templates\clubs\users_table.html:11
 #: .\users\templates\users\base_profile.html:102
-#: .\users\templates\users\forms\add-user-form.html:27
+#: .\users\templates\users\forms\add-user-form.html:100
 #: .\users\templates\users\forms\edit-user-form.html:9
 #: .\users\templates\users\modules\user_table.html:14
 #: .\users\templates\users\modules\user_table_settings.html:66
 msgid "Email"
 msgstr "Электронная почта"
 
-#: .\authorization\forms.py:176 .\clubs\templates\clubs\mail\email.html:13
+#: .\authorization\forms.py:176 .\clubs\templates\clubs\mail\email.html:14
 #: .\users\templates\users\base_profile.html:50
 msgid "Password"
 msgstr "Пароль"
@@ -2017,7 +2017,7 @@ msgstr "Команда %(site_name)s"
 #: .\authorization\templates\authorization\mail\ActivationEmail.html:32
 #: .\authorization\templates\authorization\mail\ConfirmationEmail.html:14
 #: .\authorization\templates\authorization\mail\ConfirmationEmail.html:26
-#: .\clubs\templates\clubs\mail\email.html:15
+#: .\clubs\templates\clubs\mail\email.html:16
 msgid "Project leader"
 msgstr "Руководитель проекта"
 
@@ -2029,8 +2029,8 @@ msgstr "Руководитель проекта"
 #: .\authorization\templates\authorization\mail\ConfirmationEmail.html:15
 #: .\authorization\templates\authorization\mail\ConfirmationEmail.html:26
 #: .\authorization\templates\authorization\mail\ConfirmationEmail.html:27
-#: .\clubs\templates\clubs\mail\email.html:15
 #: .\clubs\templates\clubs\mail\email.html:16
+#: .\clubs\templates\clubs\mail\email.html:17
 msgid "tel"
 msgstr "тел"
 
@@ -2038,7 +2038,7 @@ msgstr "тел"
 #: .\authorization\templates\authorization\mail\ActivationEmail.html:33
 #: .\authorization\templates\authorization\mail\ConfirmationEmail.html:15
 #: .\authorization\templates\authorization\mail\ConfirmationEmail.html:27
-#: .\clubs\templates\clubs\mail\email.html:16
+#: .\clubs\templates\clubs\mail\email.html:17
 msgid "Project manager"
 msgstr "Менеджер проекта"
 
@@ -2092,14 +2092,14 @@ msgstr "Регистрация прошла успешно!"
 
 #: .\clubs\apps.py:8
 #: .\federations\templates\federations\federation_panel.html:23
-#: .\nanofootball\templates\menu\sidebar.html:64
+#: .\nanofootball\templates\menu\sidebar.html:72
 #: .\users\templates\users\base_clients.html:25
 #: .\users\templates\users\modules\user_table_settings.html:36
 msgid "Clubs"
 msgstr "Клубы"
 
 #: .\clubs\forms.py:85 .\users\admin.py:24 .\users\models.py:105
-#: .\users\templates\users\forms\add-user-form.html:108
+#: .\users\templates\users\forms\add-user-form.html:74
 #: .\users\templates\users\forms\edit-personal-form.html:113
 msgid "Country"
 msgstr "Страна"
@@ -2205,7 +2205,7 @@ msgstr "Панель администратора"
 #: .\clubs\templates\clubs\admin_panel.html:20
 #: .\clubs\templates\clubs\club_information.html:27
 #: .\federations\templates\federations\federation_panel.html:20
-#: .\nanofootball\templates\menu\sidebar.html:63 .\users\apps.py:8
+#: .\nanofootball\templates\menu\sidebar.html:71 .\users\apps.py:8
 #: .\users\templates\users\base_clients.html:22
 msgid "Users"
 msgstr "Пользователи"
@@ -2278,7 +2278,7 @@ msgstr "Создать пользователя"
 msgid "Registration on the Nanofootball website"
 msgstr "Регистрация на сайте Nanofootball"
 
-#: .\clubs\templates\clubs\mail\email.html:10
+#: .\clubs\templates\clubs\mail\email.html:11
 msgid "To log in to the site, use this data."
 msgstr "Чтобы войти на сайт, используйте эти данные."
 
@@ -2331,7 +2331,7 @@ msgstr "Д.Р."
 
 #: .\clubs\templates\clubs\users_table.html:14 .\users\forms.py:22
 #: .\users\models.py:72 .\users\templates\users\base_profile.html:94
-#: .\users\templates\users\forms\add-user-form.html:67
+#: .\users\templates\users\forms\add-user-form.html:33
 #: .\users\templates\users\forms\edit-personal-form.html:65
 #: .\users\templates\users\modules\user_table.html:21
 #: .\users\templates\users\modules\user_table_settings.html:90
@@ -2344,12 +2344,12 @@ msgstr "Данные пользователя сохранены!"
 
 #: .\events\apps.py:8 .\events\templates\events\base_events.html:5
 #: .\events\templates\events\lite_events.html:5
-#: .\nanofootball\templates\menu\sidebar.html:150
-#: .\nanofootball\templates\menu\sidebar.html:162
+#: .\nanofootball\templates\menu\sidebar.html:158
+#: .\nanofootball\templates\menu\sidebar.html:170
 msgid "Events"
 msgstr "События"
 
-#: .\events\forms.py:42 .\nanofootball\templates\menu\sidebar.html:186
+#: .\events\forms.py:42 .\nanofootball\templates\menu\sidebar.html:194
 msgid "Training"
 msgstr "Тренировки"
 
@@ -2573,7 +2573,7 @@ msgstr "Работа с микроциклами"
 #: .\events\templates\events\forms\microcycle_modal.html:14
 #: .\references\templates\references\forms\reference_edit.html:23
 #: .\users\templates\users\forms\add-club-form.html:26
-#: .\users\templates\users\forms\add-user-form.html:131
+#: .\users\templates\users\forms\add-user-form.html:136
 msgid "Create"
 msgstr "Создать"
 
@@ -2583,7 +2583,7 @@ msgstr "Создать"
 msgid "options"
 msgstr "опции"
 
-#: .\exercises\apps.py:8 .\nanofootball\templates\menu\sidebar.html:198
+#: .\exercises\apps.py:8 .\nanofootball\templates\menu\sidebar.html:206
 #: .\trainings\templates\trainings\view_lite_training.html:39
 #: .\trainings\templates\trainings\view_training.html:39
 msgid "Exercises"
@@ -2594,7 +2594,7 @@ msgid "Folders management"
 msgstr "Управление папками"
 
 #: .\exercises\templates\exercises\base_folders.html:34
-#: .\nanofootball\templates\menu\sidebar.html:138
+#: .\nanofootball\templates\menu\sidebar.html:146
 msgid "Folders"
 msgstr "Папки"
 
@@ -2681,7 +2681,7 @@ msgstr "Нет источников"
 msgid "No tags"
 msgstr "Нет тегов"
 
-#: .\federations\apps.py:8 .\nanofootball\templates\menu\sidebar.html:65
+#: .\federations\apps.py:8 .\nanofootball\templates\menu\sidebar.html:73
 msgid "Federations"
 msgstr "Федерации"
 
@@ -2746,7 +2746,7 @@ msgid "Create club success!"
 msgstr "Создание клуба успешно!"
 
 #: .\matches\apps.py:8 .\matches\templates\matches\base_matches.html:5
-#: .\nanofootball\templates\menu\sidebar.html:174
+#: .\nanofootball\templates\menu\sidebar.html:182
 msgid "Matches"
 msgstr "Матчи"
 
@@ -2847,27 +2847,27 @@ msgstr "Матч"
 msgid "No team selected"
 msgstr "Команда не выбрана"
 
-#: .\nanofb\settings.py:243
+#: .\nanofb\settings.py:244
 msgid "Russian"
 msgstr "Русский"
 
-#: .\nanofb\settings.py:244
+#: .\nanofb\settings.py:245
 msgid "English"
 msgstr "Английский"
 
-#: .\nanofb\settings.py:245
+#: .\nanofb\settings.py:246
 msgid "Portuguese"
 msgstr "Португальский"
 
-#: .\nanofb\settings.py:246
+#: .\nanofb\settings.py:247
 msgid "Spanish"
 msgstr "Испанский"
 
-#: .\nanofb\settings.py:247
+#: .\nanofb\settings.py:248
 msgid "German"
 msgstr "Немецкий"
 
-#: .\nanofb\settings.py:248
+#: .\nanofb\settings.py:249
 msgid "French"
 msgstr "Французский"
 
@@ -2893,7 +2893,7 @@ msgid "Create a season"
 msgstr "Создать сезон"
 
 #: .\nanofootball\templates\menu\header.html:221
-#: .\nanofootball\templates\menu\sidebar.html:103
+#: .\nanofootball\templates\menu\sidebar.html:111
 msgid "My Profile"
 msgstr "Профиль"
 
@@ -2905,35 +2905,39 @@ msgstr "Выйти"
 msgid "View page"
 msgstr "Просмотр страницы"
 
-#: .\nanofootball\templates\menu\sidebar.html:11
+#: .\nanofootball\templates\menu\sidebar.html:7
+msgid "Exit Account"
+msgstr "Выйти с акаунта"
+
+#: .\nanofootball\templates\menu\sidebar.html:19
 msgid "Administration"
 msgstr "Администрирование"
 
-#: .\nanofootball\templates\menu\sidebar.html:16
-#: .\nanofootball\templates\menu\sidebar.html:59
+#: .\nanofootball\templates\menu\sidebar.html:24
+#: .\nanofootball\templates\menu\sidebar.html:67
 msgid "«Client» system"
 msgstr "Система «Клиент»"
 
-#: .\nanofootball\templates\menu\sidebar.html:19
-#: .\nanofootball\templates\menu\sidebar.html:77
+#: .\nanofootball\templates\menu\sidebar.html:27
+#: .\nanofootball\templates\menu\sidebar.html:85
 msgid "«Club» panel"
 msgstr "Панель «Клуб»"
 
-#: .\nanofootball\templates\menu\sidebar.html:22
-#: .\nanofootball\templates\menu\sidebar.html:89
+#: .\nanofootball\templates\menu\sidebar.html:30
+#: .\nanofootball\templates\menu\sidebar.html:97
 msgid "«Federation» panel"
 msgstr "Панель «Федерация»"
 
-#: .\nanofootball\templates\menu\sidebar.html:32
-#: .\nanofootball\templates\menu\sidebar.html:44
+#: .\nanofootball\templates\menu\sidebar.html:40
+#: .\nanofootball\templates\menu\sidebar.html:52
 msgid "Helper"
 msgstr "Помощник"
 
-#: .\nanofootball\templates\menu\sidebar.html:94
+#: .\nanofootball\templates\menu\sidebar.html:102
 msgid "Main sections"
 msgstr "Основные разделы"
 
-#: .\nanofootball\templates\menu\sidebar.html:210 .\players\apps.py:8
+#: .\nanofootball\templates\menu\sidebar.html:218 .\players\apps.py:8
 #: .\shared\templates\shared\base_shared_training.html:28
 #: .\shared\templates\shared\base_shared_training.html:31
 #: .\shared\templates\shared\base_shared_training.html:34
@@ -2944,23 +2948,23 @@ msgstr "Основные разделы"
 msgid "Players"
 msgstr "Игроки"
 
-#: .\nanofootball\templates\menu\sidebar.html:256
+#: .\nanofootball\templates\menu\sidebar.html:264
 msgid "Analytics"
 msgstr "Аналитика"
 
-#: .\nanofootball\templates\menu\sidebar.html:268
+#: .\nanofootball\templates\menu\sidebar.html:276
 msgid "Applications"
 msgstr "Приложения"
 
-#: .\nanofootball\templates\menu\sidebar.html:272
+#: .\nanofootball\templates\menu\sidebar.html:280
 msgid "Mailing"
 msgstr "Рассылки"
 
-#: .\nanofootball\templates\menu\sidebar.html:273
+#: .\nanofootball\templates\menu\sidebar.html:281
 msgid "Chat"
 msgstr "Чат"
 
-#: .\nanofootball\templates\menu\sidebar.html:274
+#: .\nanofootball\templates\menu\sidebar.html:282
 #: .\trainings\templates\trainings\view_lite_training.html:50
 #: .\trainings\templates\trainings\view_training.html:53
 #: .\video\templates\video\base_video.html:10
@@ -2968,23 +2972,23 @@ msgstr "Чат"
 msgid "Video"
 msgstr "Видео"
 
-#: .\nanofootball\templates\menu\sidebar.html:275
+#: .\nanofootball\templates\menu\sidebar.html:283
 msgid "Tests"
 msgstr "Тесты"
 
-#: .\nanofootball\templates\menu\sidebar.html:276
+#: .\nanofootball\templates\menu\sidebar.html:284
 msgid "Finance"
 msgstr "Финансы"
 
-#: .\nanofootball\templates\menu\sidebar.html:282
+#: .\nanofootball\templates\menu\sidebar.html:290
 msgid "Education"
 msgstr "Обучение"
 
-#: .\nanofootball\templates\menu\sidebar.html:291
+#: .\nanofootball\templates\menu\sidebar.html:299
 msgid "Methodology"
 msgstr "Методология"
 
-#: .\nanofootball\templates\menu\sidebar.html:301
+#: .\nanofootball\templates\menu\sidebar.html:309
 msgid "Courses"
 msgstr "Курсы"
 
@@ -3611,7 +3615,7 @@ msgstr "Добавить всех игроков"
 
 #: .\users\admin.py:23 .\users\models.py:253
 #: .\users\templates\users\base_profile.html:168
-#: .\users\templates\users\forms\add-user-form.html:33
+#: .\users\templates\users\forms\add-user-form.html:106
 #: .\users\templates\users\forms\edit-user-form.html:17
 #: .\users\templates\users\modules\user_table.html:9
 #: .\users\templates\users\modules\user_table.html:22
@@ -3658,7 +3662,7 @@ msgstr "Отчество"
 msgid "User job title"
 msgstr "Должность пользователя"
 
-#: .\users\models.py:79 .\users\templates\users\forms\add-user-form.html:73
+#: .\users\models.py:79 .\users\templates\users\forms\add-user-form.html:39
 #: .\users\templates\users\forms\edit-personal-form.html:73
 #: .\users\templates\users\modules\user_table_settings.html:96
 msgid "Club title"
@@ -3688,7 +3692,7 @@ msgstr "Страна проживания"
 msgid "Birthday"
 msgstr "День рождения"
 
-#: .\users\models.py:127 .\users\templates\users\forms\add-user-form.html:79
+#: .\users\models.py:127 .\users\templates\users\forms\add-user-form.html:45
 #: .\users\templates\users\forms\edit-personal-form.html:41
 #: .\users\templates\users\modules\user_table.html:16
 #: .\users\templates\users\modules\user_table_settings.html:72
@@ -3767,7 +3771,7 @@ msgid "email address"
 msgstr "адрес электронной почты"
 
 #: .\users\models.py:244 .\users\templates\users\base_profile.html:164
-#: .\users\templates\users\forms\add-user-form.html:44
+#: .\users\templates\users\forms\add-user-form.html:117
 #: .\users\templates\users\forms\edit-user-form.html:30
 #: .\users\templates\users\modules\user_table.html:24
 #: .\users\templates\users\modules\user_table_settings.html:31
@@ -3881,7 +3885,7 @@ msgid "Personal Details"
 msgstr "Личные данные"
 
 #: .\users\templates\users\base_profile.html:90
-#: .\users\templates\users\forms\add-user-form.html:61
+#: .\users\templates\users\forms\add-user-form.html:27
 #: .\users\templates\users\forms\edit-personal-form.html:57
 msgid "Date of Birth"
 msgstr "День рождения"
@@ -3927,17 +3931,17 @@ msgstr "Поменять пароль"
 msgid "Logo"
 msgstr "Лого"
 
-#: .\users\templates\users\forms\add-user-form.html:55
+#: .\users\templates\users\forms\add-user-form.html:68
+msgid "License period"
+msgstr "Срок лицензии"
+
+#: .\users\templates\users\forms\add-user-form.html:128
 #: .\users\templates\users\forms\edit-user-form.html:59
 #: .\users\templates\users\modules\user_table.html:28
 #: .\users\templates\users\modules\user_table_settings.html:27
 #: .\users\templates\users\modules\user_table_settings.html:108
 msgid "Access to"
 msgstr "Доступ до"
-
-#: .\users\templates\users\forms\add-user-form.html:102
-msgid "License period"
-msgstr "Срок лицензии"
 
 #: .\users\templates\users\forms\edit-password-form.html:7
 msgid "Old Password"
@@ -4191,16 +4195,12 @@ msgid "limit on the number of users"
 msgstr "ограничение на количество пользователей"
 
 #: .\version\models.py:119
-#, fuzzy
-#| msgid "number of users"
 msgid "number of clubs"
-msgstr "количество пользователей"
+msgstr "количество клубов"
 
 #: .\version\models.py:120
-#, fuzzy
-#| msgid "limit on the number of users"
 msgid "limit on the number of clubs"
-msgstr "ограничение на количество пользователей"
+msgstr "ограничение на количество клубов"
 
 #: .\version\models.py:132
 msgid "Version name"
@@ -4429,6 +4429,11 @@ msgstr "Видео / Анимация"
 #: .\video\templates\video\video_card.html:141
 msgid "Animation"
 msgstr "Анимация"
+
+#, fuzzy
+#~| msgid "Share training"
+#~ msgid "User trainings"
+#~ msgstr "Поделиться тренировкой"
 
 #~ msgid "Add. information"
 #~ msgstr "Доп. Информация"
