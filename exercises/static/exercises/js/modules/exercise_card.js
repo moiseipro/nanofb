@@ -1257,8 +1257,8 @@ function RenderVideo(value, htmlElem, windowElem) {
             $(htmlElem).removeClass('not-active');
             windowElem.poster('');
             if ('nftv' in data['links'] && data['links']['nftv'] != '') {
-                windowElem.src({type: 'video/mp4', src: `https://nanofootball.kz/video/player/${data['links']['nftv']}`});
-                windowElem.poster(`https://nanofootball.kz/video/poster/${data['links']['nftv']}`);
+                windowElem.src({type: 'video/mp4', src: `https://nanofootball.pro/video/player/${data['links']['nftv']}`});
+                windowElem.poster(`https://nanofootball.pro/video/poster/${data['links']['nftv']}`);
             } else if ('youtube' in data['links'] && data['links']['youtube'] != '') {
                 windowElem.src({techOrder: ["youtube"], type: 'video/youtube', src: `https://www.youtube.com/watch?v=${data['links']['youtube']}`});
                 windowElem.poster('');

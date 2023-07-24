@@ -702,8 +702,8 @@ function load_exercises_training_data(training_exercise_id = null) {
                             controls: true,
                             aspectRatio: '16:9',
                         });
-                        videoPlayerExercise.poster(`https://nanofootball.kz/video/poster/${video_data[key].links['nftv']}`)
-                        videoPlayerExercise.src({type: 'video/mp4', src: `https://nanofootball.kz/video/player/${video_data[key].links['nftv']}`});
+                        videoPlayerExercise.poster(`https://nanofootball.pro/video/poster/${video_data[key].links['nftv']}`)
+                        videoPlayerExercise.src({type: 'video/mp4', src: `https://nanofootball.pro/video/player/${video_data[key].links['nftv']}`});
                     } else if ('youtube' in video_data[key].links && video_data[key].links['youtube']){
                         let videoPlayerExercise = videojs($('#block-training-info').get(`#video-exercise-${key}`)[0], {
                             preload: 'auto',
@@ -714,8 +714,8 @@ function load_exercises_training_data(training_exercise_id = null) {
                             techOrder: ["youtube"],
                             youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 }
                         });
-                        videoPlayerExercise.poster(`https://nanofootball.kz/video/poster/${video_data[key].links['youtube']}`)
-                        videoPlayerExercise.src({type: 'video/mp4', src: `https://nanofootball.kz/video/player/${video_data[key].links['youtube']}`});
+                        videoPlayerExercise.poster(`https://nanofootball.pro/video/poster/${video_data[key].links['youtube']}`)
+                        videoPlayerExercise.src({type: 'video/mp4', src: `https://nanofootball.pro/video/player/${video_data[key].links['youtube']}`});
                     }
                 }
 

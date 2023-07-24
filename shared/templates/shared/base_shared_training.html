@@ -152,8 +152,8 @@
                                                 {% for video in exercise.exercise_data.videos %}
                                                     <div class="carousel-item {% if forloop.first %}active{% endif %}">
                                                         {% if video.links.nftv and video.links.nftv != "" %}
-                                                            <video id="video-player-{{ video.id }}" class="video-js resize-block" poster="https://nanofootball.kz/video/poster/{{ video.links.nftv }}">
-                                                                <source src="https://nanofootball.kz/video/player/{{ video.links.nftv }}" type="video/mp4" />
+                                                            <video id="video-player-{{ video.id }}" class="video-js resize-block" poster="https://nanofootball.pro/video/poster/{{ video.links.nftv }}">
+                                                                <source src="https://nanofootball.pro/video/player/{{ video.links.nftv }}" type="video/mp4" />
                                                             </video>
                                                         {% else %}
                                                             <video id="video-player-{{ video.id }}" class="video-js resize-block" poster="">

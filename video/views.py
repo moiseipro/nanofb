@@ -82,7 +82,7 @@ class VideoViewSet(viewsets.ModelViewSet):
         if 'taggit' in data:
             data_dict['taggit'] = data['taggit']
         if 'file_video' in request.FILES:
-            url = 'https://nanofootball.kz/api/add_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
+            url = 'https://nanofootball.pro/api/add_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
             fs = FileSystemStorage()
             print(request.FILES)
             file_name = fs.save(request.FILES['file_video'].name, self.request.FILES['file_video'])
@@ -107,7 +107,7 @@ class VideoViewSet(viewsets.ModelViewSet):
 
             if video_data['success']:
                 links['nftv'] = video_data['id']
-                url = 'https://nanofootball.kz/video/length/' + video_data['id']
+                url = 'https://nanofootball.pro/video/length/' + video_data['id']
                 try:
                     response = requests.get(url)
                     content = json.loads(response.content.decode('utf-8'))
@@ -115,7 +115,7 @@ class VideoViewSet(viewsets.ModelViewSet):
                 except requests.exceptions.ConnectionError as e:
                     response = "No response"
 
-                url = 'https://nanofootball.kz/api/change_cover/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
+                url = 'https://nanofootball.pro/api/change_cover/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
                 if 'file_screen' in request.FILES:
                     fs = FileSystemStorage()
                     file_name = fs.save(request.FILES['file_screen'].name, self.request.FILES['file_screen'])
@@ -186,7 +186,7 @@ class VideoViewSet(viewsets.ModelViewSet):
             music = True
         if 'duration' in self.request.data and self.request.data['duration'] == '00:00:00' and instance.links['nftv'] != '':
             # print(serializer)
-            url = 'https://nanofootball.kz/video/length/' + instance.links['nftv']
+            url = 'https://nanofootball.pro/video/length/' + instance.links['nftv']
             try:
                 response = requests.get(url)
                 content = json.loads(response.content.decode('utf-8'))
@@ -215,7 +215,7 @@ class VideoViewSet(viewsets.ModelViewSet):
                 server_id = instance.links['nftv']
             # print(server_id)
             if server_id:
-                url = 'https://nanofootball.kz/api/remove_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
+                url = 'https://nanofootball.pro/api/remove_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
                 post_data = {
                     "videos": [
                         {"id": server_id},
@@ -230,7 +230,7 @@ class VideoViewSet(viewsets.ModelViewSet):
             else:
                 is_delete = True
             if is_delete:
-                url = 'https://nanofootball.kz/api/add_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
+                url = 'https://nanofootball.pro/api/add_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
                 fs = FileSystemStorage()
                 file_name = fs.save(request.FILES['file_video'].name, self.request.FILES['file_video'])
                 file_content_type = request.FILES['file_video'].content_type
@@ -253,7 +253,7 @@ class VideoViewSet(viewsets.ModelViewSet):
                 if video_data['success']:
                     data.links['nftv'] = video_data['id']
 
-        url = 'https://nanofootball.kz/api/change_cover/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
+        url = 'https://nanofootball.pro/api/change_cover/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
         if 'file_screen' in request.FILES:
             fs = FileSystemStorage()
             file_name = fs.save(request.FILES['file_screen'].name, self.request.FILES['file_screen'])
@@ -333,7 +333,7 @@ class VideoViewSet(viewsets.ModelViewSet):
 
 
 def delete_video_nf(video_id):
-    url = 'https://nanofootball.kz/api/remove_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
+    url = 'https://nanofootball.pro/api/remove_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
     post_data = {
         "videos": [
             {"id": video_id},
@@ -355,7 +355,7 @@ def delete_video_obj_nf(video_obj):
     if 'nftv' in instance.links:
         server_id = instance.links['nftv']
     if server_id:
-        url = 'https://nanofootball.kz/api/remove_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
+        url = 'https://nanofootball.pro/api/remove_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
         post_data = {
             "videos": [
                 {"id": server_id},
@@ -439,7 +439,7 @@ class CreateVideoView(LoginRequiredMixin, CreateView):
         video.links = {'nftv': '', 'youtube': ''}
         # print(video.links)
         if 'file' in self.request.FILES:
-            url = 'https://nanofootball.kz/api/add_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
+            url = 'https://nanofootball.pro/api/add_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
             fs = FileSystemStorage()
             file_name = fs.save(self.request.FILES['file'].name, self.request.FILES['file'])
             file_content_type = self.request.FILES['file'].content_type
@@ -476,7 +476,7 @@ def parse_video(request):
 
     if request.method == "GET":
         response = requests.get(
-            f'https://nanofootball.kz/api/token/3F4AwFqWHk3GYGJuDRWh/?&folders[]="Z13"', verify=False)  # ?&folders[]="Z10"&folders[]="Z11"&folders[]="Z12"&folders[]="Z13"&folders[]="Z14"&folders[]="Z15"&folders[]="Z16"&folders[]="Z17"&folders[]="Z18"&folders[]="Z19"&folders[]="Z20"&folders[]="Z21"&folders[]="Z22"&folders[]="Z23"&folders[]="Z24"&folders[]="Z25"&folders[]="Z26"&folders[]="Z27"&folders[]="Z28"&folders[]="Z29"&folders[]="Z30"&folders[]="Z31"&folders[]="Z32"&folders[]="Z33"&folders[]="Z34"&folders[]="Z35"&folders[]="Z36"&folders[]="Z37"
+            f'https://nanofootball.pro/api/token/3F4AwFqWHk3GYGJuDRWh/?&folders[]="Z13"', verify=False)  # ?&folders[]="Z10"&folders[]="Z11"&folders[]="Z12"&folders[]="Z13"&folders[]="Z14"&folders[]="Z15"&folders[]="Z16"&folders[]="Z17"&folders[]="Z18"&folders[]="Z19"&folders[]="Z20"&folders[]="Z21"&folders[]="Z22"&folders[]="Z23"&folders[]="Z24"&folders[]="Z25"&folders[]="Z26"&folders[]="Z27"&folders[]="Z28"&folders[]="Z29"&folders[]="Z30"&folders[]="Z31"&folders[]="Z32"&folders[]="Z33"&folders[]="Z34"&folders[]="Z35"&folders[]="Z36"&folders[]="Z37"
         context_page['content'] = json.loads(response.content.decode('utf-8'))
         videos = []
         sources = []
@@ -512,7 +512,7 @@ def parse_video(request):
                                     else:
                                         links['nftv'] = nftv_list[0]
                                     if links['nftv'].isdigit():
-                                        url = 'https://nanofootball.kz/video/length/' + links['nftv']
+                                        url = 'https://nanofootball.pro/video/length/' + links['nftv']
                                         # try:
                                         #     response = requests.get(url)
                                         #     print(response.content)
@@ -545,7 +545,7 @@ def parse_video(request):
                             else:
                                 links['nftv'] = nftv_list[0]
                             if links['nftv'].isdigit():
-                                url = 'https://nanofootball.kz/video/length/' + links['nftv']
+                                url = 'https://nanofootball.pro/video/length/' + links['nftv']
                                 # try:
                                 #     response = requests.get(url)
                                 #     print(response.content)

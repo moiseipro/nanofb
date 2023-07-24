@@ -202,11 +202,11 @@ function render_json_block(data) {
         //Получение ссылки на видео через API видеохостинга
         video_player.show()
         youtube_player.hide()
-        video_player.poster(`https://nanofootball.kz/video/poster/${data['links']['nftv']}`)
-        video_player.src({type: 'video/mp4', src: `https://nanofootball.kz/video/player/${data['links']['nftv']}`});
+        video_player.poster(`https://nanofootball.pro/video/poster/${data['links']['nftv']}`)
+        video_player.src({type: 'video/mp4', src: `https://nanofootball.pro/video/player/${data['links']['nftv']}`});
 
-        //attr('src', 'https://nanofootball.kz/video/player/'+data['links']['nftv'])
-        //video_player.attr('poster', 'https://nanofootball.kz/video/poster/'+data['links']['nftv'])
+        //attr('src', 'https://nanofootball.pro/video/player/'+data['links']['nftv'])
+        //video_player.attr('poster', 'https://nanofootball.pro/video/poster/'+data['links']['nftv'])
     } else if('youtube' in data['links'] && data['links']['youtube'] != ''){
         video_player.hide()
         youtube_player.show()

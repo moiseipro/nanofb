@@ -248,4 +248,14 @@ $(function () {
     $("#datetimepicker-by-season").on("change.datetimepicker", function (e) {
         $('#datetimepicker-with-season').datetimepicker('maxDate', e.date);
     });
+
+    let searchParams = new URLSearchParams(window.location.search);
+    let refsId = searchParams.get('refs');
+    let foundNavLink = $('.card-header').find(`a.nav-item[href="#${refsId}"]`);
+    if (foundNavLink.length > 0) {
+        setTimeout(() => {
+            $(foundNavLink).click();
+        }, 250);
+    }
+
 })

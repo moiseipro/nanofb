@@ -540,9 +540,9 @@ function RenderVideo(value, windowElem) {
     .then(data => {
         if (data) {
             if ('nftv' in data['links'] && data['links']['nftv'] != '') {
-                $('#videoSelectorModal').find('input.video-link').val(`https://nanofootball.kz/video/player/${data['links']['nftv']}`);
-                windowElem.src({type: 'video/mp4', src: `https://nanofootball.kz/video/player/${data['links']['nftv']}`});
-                windowElem.poster(`https://nanofootball.kz/video/poster/${data['links']['nftv']}`);
+                $('#videoSelectorModal').find('input.video-link').val(`https://nanofootball.pro/video/player/${data['links']['nftv']}`);
+                windowElem.src({type: 'video/mp4', src: `https://nanofootball.pro/video/player/${data['links']['nftv']}`});
+                windowElem.poster(`https://nanofootball.pro/video/poster/${data['links']['nftv']}`);
             } else if ('youtube' in data['links'] && data['links']['youtube'] != '') {
                 $('#videoSelectorModal').find('input.video-link').val(`https://www.youtube.com/watch?v=${data['links']['youtube']}`);
                 windowElem.src({techOrder: ["youtube"], type: 'video/youtube', src: `https://www.youtube.com/watch?v=${data['links']['youtube']}`});
@@ -669,7 +669,7 @@ $(function() {
                         `);
                         $(elem).after(`
                             ${nfbVideoId != null ? `
-                                <video id="video-player-methodology-${ind}" class="video-js resize-block video-modal" poster="https://nanofootball.kz/video/poster/${nfbVideoId}">
+                                <video id="video-player-methodology-${ind}" class="video-js resize-block video-modal" poster="https://nanofootball.pro/video/poster/${nfbVideoId}">
                                     <source src="${href}" type="video/mp4" />
                                 </video>
                             ` : `

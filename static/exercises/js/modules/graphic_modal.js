@@ -178,8 +178,8 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
         ${data && data.video_1 && data.video_1.id != -1 ? `
         <div class="carousel-item">
             ${'nftv' in data.video_1['links'] && data.video_1['links']['nftv'] != '' ? `
-                <video id="video-player-modal-0" class="video-js resize-block video-modal" poster="https://nanofootball.kz/video/poster/${data.video_1['links']['nftv']}">
-                    <source src="https://nanofootball.kz/video/player/${data.video_1['links']['nftv']}" type="video/mp4" />
+                <video id="video-player-modal-0" class="video-js resize-block video-modal" poster="https://nanofootball.pro/video/poster/${data.video_1['links']['nftv']}">
+                    <source src="https://nanofootball.pro/video/player/${data.video_1['links']['nftv']}" type="video/mp4" />
                 </video>
             ` : 'youtube' in data.video_1['links'] && data.video_1['links']['youtube'] != '' ? `
                 <video id="video-player-modal-0" class="video-js resize-block video-modal" poster="">
@@ -225,8 +225,8 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
         ${data && data.animation_1 && data.animation_1.id != -1 ? `
         <div class="carousel-item">
             ${'nftv' in data.animation_1['links'] && data.animation_1['links']['nftv'] != '' ? `
-                <video id="video-player-modal-2" class="video-js resize-block video-modal" poster="https://nanofootball.kz/video/poster/${data.animation_1['links']['nftv']}">
-                    <source src="https://nanofootball.kz/video/player/${data.animation_1['links']['nftv']}" type="video/mp4" />
+                <video id="video-player-modal-2" class="video-js resize-block video-modal" poster="https://nanofootball.pro/video/poster/${data.animation_1['links']['nftv']}">
+                    <source src="https://nanofootball.pro/video/player/${data.animation_1['links']['nftv']}" type="video/mp4" />
                 </video>
             ` : 'youtube' in data.animation_1['links'] && data.animation_1['links']['youtube'] != '' ? `
                 <video id="video-player-modal-2" class="video-js resize-block video-modal" poster="">

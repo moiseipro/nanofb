@@ -289,7 +289,7 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
             }):
                 if request.user.club_id is not None:
                     matches_protocols = ClubProtocol.objects.filter(
-                        match_id__team_id=cur_team,
+                        # match_id__team_id=cur_team,
                         match_id__event_id__club_id=request.user.club_id,
                         match_id__event_id__date__range=[
                             datetime.combine(date_with, datetime.min.time()),
@@ -298,7 +298,7 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
                     )
                 else:
                     matches_protocols = UserProtocol.objects.filter(
-                        match_id__team_id=cur_team,
+                        # match_id__team_id=cur_team,
                         match_id__event_id__user_id=cur_user,
                         match_id__event_id__date__range=[
                             datetime.combine(date_with, datetime.min.time()),

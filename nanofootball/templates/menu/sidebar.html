@@ -135,7 +135,7 @@
 {#    </a>#}
 {#</li>#}
 {#{% endif %}#}
-{% if perms.exercises.change_adminfolder or perms.exercises.change_userfolder or perms.exercises.change_clubfolder %}
+<!-- {% if perms.exercises.change_adminfolder or perms.exercises.change_userfolder or perms.exercises.change_clubfolder %}
 <li class="{{ menu_exercises_folders }}">
     <a class="" href="{% url 'exercises:folders' %}" class="btn">
         {% if ui_elements.sidebar__methodology %}
@@ -146,7 +146,7 @@
         <span>{% trans 'Folders' %}</span>
     </a>
 </li>
-{% endif %}
+{% endif %} -->
 {% if perms.events.view_userevent or perms.events.view_clubevent %}
 <li class="{{ menu_events }}">
     <a href="{% url 'events:base_events' %}" class="btn">
