@@ -49,7 +49,9 @@ function generate_ajax_club_users_table(scroll_y = ''){
                 return `<div class="w-100 text-center" title="${data}"> ${data} </div>`;
             }},
             {'data': 'date_birthsday', 'name': 'date_birthsday', 'defaultContent': "---"},
-            {'data': 'teams', 'name': 'teams', 'defaultContent': "---", sortable: false, searchable: false},
+            {'data': 'teams', 'name': 'teams', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
+                return `<div class="text-truncate" style="max-width: 200px;" title="${data}"> ${data} </div>`;
+            }},
             {'data': 'job_title', 'name': 'job_title', 'defaultContent': "---", render: function (data, type, row, meta) {
                 return `<span class="text-truncate" title="${data}"> ${data ? data : '---'} </span>`;
             }},
