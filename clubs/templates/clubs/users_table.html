@@ -4,15 +4,17 @@
     <table id="club-users-table" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
         <thead>
             <tr>
-                <th>№</th>
-                <th>{% trans 'Activation' %}</th>
-                <th>{% trans 'Last name' %}</th>
-                <th>{% trans 'First name' %}</th>
-                <th>{% trans 'Email' %}</th>
-                <th>{% trans 'Age' %}</th>
-                <th>{% trans 'Birth' %}</th>
-                <th>{% trans 'Job title' %}</th>
-                <th><i class="fe fe-bar-chart"></i></th>
+                <th class="text-center main-info-col">№</th>
+                <th class="text-center main-info-col">{% trans 'Activation' %}</th>
+                <th class="text-center main-info-col name-user-filter">{% trans 'Last name' %}</th>
+                <th class="text-center main-info-col name-user-filter">{% trans 'First name' %}</th>
+                <th class="text-center side-info-col"><i class="fa fa-birthday-cake" aria-hidden="true"></i></th>
+                <th class="text-center side-info-col birth-info-col">{% trans 'Birth' %}</th> <!--additional-info-col-->
+                <th class="text-center side-info-col birth-info-col">{% trans 'Teams' %}</th> <!--additional-info-col-->
+                <th class="text-center side-info-col job-info-col">{% trans 'Job title' %}</th> <!--additional-info-col-->
+                <th class="text-center side-info-col license-to-info-col">{% trans 'License to' %}</th> <!--additional-info-col-->
+                <th class="text-center side-info-col email-info-col">{% trans 'Email' %}</th> <!--additional-info-col-->
+                <th class="text-center side-info-col phone-info-col">{% trans 'Phone' %}</th> <!--additional-info-col-->
                 <th></th>
             </tr>
         </thead>

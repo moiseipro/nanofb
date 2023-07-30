@@ -1,3 +1,5 @@
+var user_select_id;
+var users_menu_state = null
 
 $(document).ready(function () {
 
@@ -6,6 +8,10 @@ $(document).ready(function () {
 $(window).on('load', function (){
     initialize_phone_input();
     generate_ajax_club_users_table("calc(100vh - 310px)");
+
+    if(!Cookies.get('user_selected_id')){
+        $('#open-profile-modal').prop('disabled', true)
+    }
 
     $('#personal-form').validate({
         errorElement: 'p',
@@ -104,30 +110,30 @@ $(window).on('load', function (){
         let send_data = {'is_archive' : is_archive}
         console.log(send_data);
 
-        ajax_club_users_action('POST', send_data, 'edit', user_id, 'edit_user').then(function (data) {
+        ajax_users_action('POST', send_data, 'edit', user_id, 'edit_user').then(function (data) {
             console.log(data)
             club_users_table.ajax.reload()
         })
     })
     
-    $(document).on('click', '.check-permission', function () {
-        let user_id = $('#edit-club-user-modal').attr('data-user');
-        let group_id = $(this).attr('data-id')
-        let send_data = {group_id}
-        ajax_club_users_action('POST', send_data, 'change permission', user_id, 'change_permission').then(function (data) {
-            console.log(data)
-            club_users_table.ajax.reload()
-        })
-    })
-    $(document).on('click', '.check-team', function () {
-        let user_id = $('#edit-club-user-modal').attr('data-user');
-        let team_id = $(this).attr('data-id')
-        let send_data = {user_id}
-        ajax_team_action('POST', send_data, 'change permission', team_id, 'change_permission').then(function (data) {
-            console.log(data)
-            club_users_table.ajax.reload()
-        })
-    })
+    // $(document).on('click', '.check-permission', function () {
+    //     let user_id = $('#edit-club-user-modal').attr('data-user');
+    //     let group_id = $(this).attr('data-id')
+    //     let send_data = {group_id}
+    //     ajax_users_action('POST', send_data, 'change permission', user_id, 'change_permission').then(function (data) {
+    //         console.log(data)
+    //         club_users_table.ajax.reload()
+    //     })
+    // })
+    // $(document).on('click', '.check-team', function () {
+    //     let user_id = $('#edit-club-user-modal').attr('data-user');
+    //     let team_id = $(this).attr('data-id')
+    //     let send_data = {user_id}
+    //     ajax_team_action('POST', send_data, 'change permission', team_id, 'change_permission').then(function (data) {
+    //         console.log(data)
+    //         club_users_table.ajax.reload()
+    //     })
+    // })
 
     $('#personal-form').validate()
     $('#user-form').validate()
@@ -140,10 +146,94 @@ $(window).on('load', function (){
         send_data = $.merge(send_data, $('#user-form').serializeArray())
         console.log(send_data);
 
-        ajax_club_users_action('POST', send_data, 'add user').then(function (data) {
+        ajax_users_action('POST', send_data, 'add user').then(function (data) {
             console.log(data)
         })
     })
+
+    $('#open-profile-modal').on('click', function () {
+
+        if (users_menu_state == 'table_settings'){
+            $('#open-table-settings').click()
+        } else if (users_menu_state == 'user_info'){
+            $('#back-users-table').click()
+            return false
+        }
+
+
+        users_menu_state = 'user_info'
+
+        $('#user-management-block').removeClass('d-none').addClass('col-sm-7');
+        $('#users-table-block').removeClass('col-sm-12').addClass('col-sm-5');
+
+        club_users_table.columns( '.main-info-col' ).visible( true );
+        club_users_table.columns( '.side-info-col' ).visible( false );
+        club_users_table.columns( '.additional-info-col' ).visible( false );
+
+        $('.toggle-user-column').prop('checked', false)
+
+    })
+
+    $('#back-users-table').on('click', function () {
+
+        users_menu_state = null
+
+        $('#user-management-block').addClass('d-none').removeClass('col-sm-7');
+        $('#users-table-block').removeClass('col-sm-5').addClass('col-sm-12');
+
+        club_users_table.columns( '.main-info-col' ).visible( true );
+        club_users_table.columns( '.side-info-col' ).visible( true );
+
+    })
+
+    $('#edit-profile-button').on('click', function () {
+        if(!$('#edit-personal-form').valid()) return
+        let personal = $('#edit-personal-form').serializeArray()
+        let send_data = personal
+        console.log(send_data);
+
+        ajax_users_action('POST', send_data, 'edit', user_select_id, 'edit_personal').then(function (data) {
+            console.log(data)
+            club_users_table.ajax.reload()
+        })
+    })
+
+    $('#edit-user-button').on('click', function () {
+        if(!$('#edit-user-form').valid()) return
+        let personal = $('#edit-user-form').serializeArray()
+        let send_data = personal
+        console.log(send_data);
+
+        ajax_users_action('POST', send_data, 'edit', user_select_id, 'edit_user').then(function (data) {
+            console.log(data)
+        })
+    })
+
+    club_users_table
+        .on( 'select', function ( e, dt, type, indexes ) {
+            console.log(type)
+            let rowData = club_users_table.rows( indexes ).data().toArray();
+            if(type=='row') {
+                toggle_edit_mode(false)
+                let cur_edit_data = rowData[0]
+                console.log(cur_edit_data)
+                Cookies.set('user_selected_id', cur_edit_data.id, { expires: 1 })
+                $('#open-profile-modal').prop('disabled', false)
+                user_select_id = cur_edit_data.id
+                load_user_data(user_select_id)
+                load_group_data(user_select_id)
+                load_team_data(user_select_id)
+            }
+        })
+        .on( 'deselect', function ( e, dt, type, indexes ) {
+            let rowData = club_users_table.rows( indexes ).data().toArray();
+            let cur_edit_data = rowData[0]
+            // if(user_select_id == cur_edit_data.id){
+            //     $('#users-table-block .open-profile-modal').prop('disabled', true)
+            //     $('#back-users-table').click()
+            //     user_select_id = null
+            // }
+        })
 })
 
 function initialize_phone_input() {

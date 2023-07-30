@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-06 13:59+0300\n"
+"POT-Creation-Date: 2023-07-30 12:39+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -72,12 +72,10 @@ msgid "The limit of exercises for the selected group has been reached"
 msgstr ""
 
 #: .\clubs\static\clubs\js\club_ajax.js:24
-#: .\clubs\static\clubs\js\users_list.js:97
 #: .\events\static\events\js\event_lite_update.js:35
 #: .\events\static\events\js\event_update.js:35
 #: .\references\static\references\team_ajax.js:22
-#: .\static\clubs\js\club_ajax.js:24 .\static\clubs\js\users_list.js:97
-#: .\static\events\base_events.js:244
+#: .\static\clubs\js\club_ajax.js:24 .\static\events\base_events.js:244
 #: .\static\events\js\event_lite_update.js:35
 #: .\static\events\js\event_update.js:35 .\static\references\team_ajax.js:22
 #: .\static\trainings\js\view_protocol.js:25
@@ -87,25 +85,49 @@ msgstr ""
 msgid "Error when action \""
 msgstr ""
 
-#: .\clubs\static\clubs\js\users_list.js:87
-#: .\clubs\static\clubs\js\users_list.js:95
-#: .\clubs\static\clubs\js\users_list.js:97 .\static\clubs\js\users_list.js:87
-#: .\static\clubs\js\users_list.js:95 .\static\clubs\js\users_list.js:97
+#: .\clubs\static\clubs\js\users_list.js:100
+#: .\federations\static\federations\js\ajax_user_table.js:164
+#: .\static\clubs\js\users_list.js:100
+#: .\static\federations\js\ajax_user_table.js:164
+#: .\static\users\modules\ajax_permission.js:18
 #: .\static\users\modules\ajax_user_table.js:165
+#: .\users\static\users\modules\ajax_permission.js:18
 #: .\users\static\users\modules\ajax_user_table.js:165
+msgid "User"
+msgstr ""
+
+#: .\clubs\static\clubs\js\users_list.js:102
+#: .\clubs\static\clubs\js\users_list.js:110
+#: .\clubs\static\clubs\js\users_list.js:112
+#: .\federations\static\federations\js\ajax_user_table.js:173
+#: .\static\clubs\js\users_list.js:102 .\static\clubs\js\users_list.js:110
+#: .\static\clubs\js\users_list.js:112
+#: .\static\federations\js\ajax_user_table.js:173
+#: .\static\users\modules\ajax_permission.js:26
+#: .\static\users\modules\ajax_user_table.js:174
+#: .\users\static\users\modules\ajax_permission.js:26
+#: .\users\static\users\modules\ajax_user_table.js:174
 msgid "Users "
 msgstr ""
 
-#: .\clubs\static\clubs\js\users_list.js:87 .\static\clubs\js\users_list.js:87
+#: .\clubs\static\clubs\js\users_list.js:102
+#: .\static\clubs\js\users_list.js:102
 msgid "The limit of users for the club"
 msgstr ""
 
-#: .\clubs\static\clubs\js\users_list.js:89 .\static\clubs\js\users_list.js:89
+#: .\clubs\static\clubs\js\users_list.js:104
+#: .\static\clubs\js\users_list.js:104
 msgid "Club user registration"
 msgstr ""
 
-#: .\clubs\static\clubs\js\users_list.js:95 .\static\clubs\js\users_list.js:95
+#: .\clubs\static\clubs\js\users_list.js:110
+#: .\static\clubs\js\users_list.js:110
 msgid "The limit of users for the club has been reached!"
+msgstr ""
+
+#: .\clubs\static\clubs\js\users_list.js:112
+#: .\static\clubs\js\users_list.js:112
+msgid "Error when action the club users!"
 msgstr ""
 
 #: .\docs\_build\html\_static\searchtools.js:105
@@ -182,49 +204,49 @@ msgstr ""
 msgid "Choose a team and a season!"
 msgstr ""
 
-#: .\events\static\events\js\events.js:321
-#: .\events\static\events\js\events.js:340 .\static\events\js\events.js:321
-#: .\static\events\js\events.js:340
+#: .\events\static\events\js\events.js:335
+#: .\events\static\events\js\events.js:354 .\static\events\js\events.js:335
+#: .\static\events\js\events.js:354
 msgid "Go to the created event"
 msgstr ""
 
-#: .\events\static\events\js\events.js:478 .\static\events\js\events.js:478
+#: .\events\static\events\js\events.js:492 .\static\events\js\events.js:492
 msgid "No event selected!"
 msgstr ""
 
-#: .\events\static\events\js\events.js:615
-#: .\events\static\events\js\events.js:644 .\static\events\js\events.js:615
-#: .\static\events\js\events.js:644
+#: .\events\static\events\js\events.js:629
+#: .\events\static\events\js\events.js:658 .\static\events\js\events.js:629
+#: .\static\events\js\events.js:658
 msgid "Ready"
 msgstr ""
 
-#: .\events\static\events\js\events.js:615
-#: .\events\static\events\js\events.js:644 .\static\events\js\events.js:615
-#: .\static\events\js\events.js:644
+#: .\events\static\events\js\events.js:629
+#: .\events\static\events\js\events.js:658 .\static\events\js\events.js:629
+#: .\static\events\js\events.js:658
 msgid "Link copied"
 msgstr ""
 
-#: .\events\static\events\js\events.js:857 .\static\events\js\events.js:857
+#: .\events\static\events\js\events.js:871 .\static\events\js\events.js:871
 msgid "Copy"
 msgstr ""
 
-#: .\events\static\events\js\events.js:858
-#: .\events\static\events\js\events.js:895 .\static\events\base_events.js:439
-#: .\static\events\js\events.js:858 .\static\events\js\events.js:895
+#: .\events\static\events\js\events.js:872
+#: .\events\static\events\js\events.js:909 .\static\events\base_events.js:439
+#: .\static\events\js\events.js:872 .\static\events\js\events.js:909
 #: .\static\video\base_video.js:47
 msgid "Edit"
 msgstr ""
 
-#: .\events\static\events\js\events.js:859
-#: .\events\static\events\js\events.js:896 .\static\events\base_events.js:440
-#: .\static\events\js\events.js:859 .\static\events\js\events.js:896
+#: .\events\static\events\js\events.js:873
+#: .\events\static\events\js\events.js:910 .\static\events\base_events.js:440
+#: .\static\events\js\events.js:873 .\static\events\js\events.js:910
 #: .\static\video\base_video.js:57
 msgid "Delete"
 msgstr ""
 
-#: .\events\static\events\js\events.js:861
-#: .\events\static\events\js\events.js:898 .\static\events\base_events.js:442
-#: .\static\events\js\events.js:861 .\static\events\js\events.js:898
+#: .\events\static\events\js\events.js:875
+#: .\events\static\events\js\events.js:912 .\static\events\base_events.js:442
+#: .\static\events\js\events.js:875 .\static\events\js\events.js:912
 msgid "Close"
 msgstr ""
 
@@ -329,18 +351,56 @@ msgstr ""
 msgid "Error when updating the microcycle. "
 msgstr ""
 
-#: .\exercises\static\exercises\js\base_exercises_folders.js:352
+#: .\exercises\static\exercises\js\base_exercises_folders.js:365
 #: .\shared\static\shared\js\modules\shared_ajax.js:17
 #: .\shared\static\shared\js\modules\shared_ajax.js:19
-#: .\static\exercises\js\base_exercises_folders.js:352
+#: .\static\exercises\js\base_exercises_folders.js:365
 #: .\static\shared\js\modules\shared_ajax.js:17
 #: .\static\shared\js\modules\shared_ajax.js:19
 msgid "Error"
 msgstr ""
 
-#: .\exercises\static\exercises\js\base_exercises_folders.js:352
-#: .\static\exercises\js\base_exercises_folders.js:352
+#: .\exercises\static\exercises\js\base_exercises_folders.js:365
+#: .\static\exercises\js\base_exercises_folders.js:365
 msgid "Failed to copy folder structure."
+msgstr ""
+
+#: .\federations\static\federations\js\ajax_club_table.js:50
+#: .\static\federations\js\ajax_club_table.js:50
+msgid "Licence to: "
+msgstr ""
+
+#: .\federations\static\federations\js\ajax_user_table.js:166
+#: .\static\federations\js\ajax_user_table.js:166
+#: .\static\users\modules\ajax_permission.js:20
+#: .\static\users\modules\ajax_user_table.js:167
+#: .\users\static\users\modules\ajax_permission.js:20
+#: .\users\static\users\modules\ajax_user_table.js:167
+msgid "User registration"
+msgstr ""
+
+#: .\federations\static\federations\js\base_federation.js:29
+#: .\static\federations\js\base_federation.js:29
+#: .\static\users\base_clients.js:28 .\users\static\users\base_clients.js:28
+msgid "Country"
+msgstr ""
+
+#: .\federations\static\federations\js\base_federation.js:73
+#: .\static\federations\js\base_federation.js:73
+#: .\static\users\base_clients.js:72 .\users\static\users\base_clients.js:72
+msgid "Version"
+msgstr ""
+
+#: .\federations\static\federations\js\base_federation.js:107
+#: .\static\federations\js\base_federation.js:107
+#: .\static\users\base_clients.js:106 .\users\static\users\base_clients.js:106
+msgid "Club"
+msgstr ""
+
+#: .\federations\static\federations\js\base_federation.js:280
+#: .\static\federations\js\base_federation.js:280
+#: .\static\users\base_clients.js:279 .\users\static\users\base_clients.js:279
+msgid "Are you sure you want to generate a new password?"
 msgstr ""
 
 #: .\nanofootball\static\jquery-ui-1.13.1.custom\jquery-ui.min.js:6
@@ -509,9 +569,9 @@ msgstr ""
 
 #: .\references\static\references\references_edit.js:114
 #: .\static\references\references_edit.js:114
-#: .\static\trainings\js\print_training.js:155
+#: .\static\trainings\js\print_training.js:165
 #: .\static\trainings\js\training_card.js:365
-#: .\trainings\static\trainings\js\print_training.js:155
+#: .\trainings\static\trainings\js\print_training.js:165
 #: .\trainings\static\trainings\js\training_card.js:365
 msgid "Title"
 msgstr ""
@@ -887,8 +947,8 @@ msgstr ""
 msgid "Exercise data action error in training!"
 msgstr ""
 
-#: .\static\trainings\js\print_training.js:158
-#: .\trainings\static\trainings\js\print_training.js:158
+#: .\static\trainings\js\print_training.js:168
+#: .\trainings\static\trainings\js\print_training.js:168
 msgid "Duration"
 msgstr ""
 
@@ -993,24 +1053,6 @@ msgstr ""
 
 #: .\static\trainings\view_training.js:32
 msgid "Training action \""
-msgstr ""
-
-#: .\static\users\base_clients.js:29 .\users\static\users\base_clients.js:29
-msgid "Country"
-msgstr ""
-
-#: .\static\users\base_clients.js:73 .\users\static\users\base_clients.js:73
-msgid "Version"
-msgstr ""
-
-#: .\static\users\modules\ajax_user_table.js:157
-#: .\users\static\users\modules\ajax_user_table.js:157
-msgid "User"
-msgstr ""
-
-#: .\static\users\modules\ajax_user_table.js:159
-#: .\users\static\users\modules\ajax_user_table.js:159
-msgid "User registration"
 msgstr ""
 
 #: .\static\users\profile_ajax.js:27 .\users\static\users\profile_ajax.js:27

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-17 14:43+0300\n"
+"POT-Creation-Date: 2023-07-30 12:40+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -74,12 +74,10 @@ msgid "The limit of exercises for the selected group has been reached"
 msgstr "Лимит упражнений для выбранной группы достигнут"
 
 #: .\clubs\static\clubs\js\club_ajax.js:24
-#: .\clubs\static\clubs\js\users_list.js:97
 #: .\events\static\events\js\event_lite_update.js:35
 #: .\events\static\events\js\event_update.js:35
 #: .\references\static\references\team_ajax.js:22
-#: .\static\clubs\js\club_ajax.js:24 .\static\clubs\js\users_list.js:97
-#: .\static\events\base_events.js:244
+#: .\static\clubs\js\club_ajax.js:24 .\static\events\base_events.js:244
 #: .\static\events\js\event_lite_update.js:35
 #: .\static\events\js\event_update.js:35 .\static\references\team_ajax.js:22
 #: .\static\trainings\js\view_protocol.js:25
@@ -89,31 +87,50 @@ msgstr "Лимит упражнений для выбранной группы �
 msgid "Error when action \""
 msgstr "Ошибка при выполнении \""
 
-#: .\clubs\static\clubs\js\users_list.js:87
-#: .\clubs\static\clubs\js\users_list.js:95
-#: .\clubs\static\clubs\js\users_list.js:97
+#: .\clubs\static\clubs\js\users_list.js:100
+#: .\federations\static\federations\js\ajax_user_table.js:164
+#: .\static\clubs\js\users_list.js:100
+#: .\static\federations\js\ajax_user_table.js:164
+#: .\static\users\modules\ajax_permission.js:18
+#: .\static\users\modules\ajax_user_table.js:165
+#: .\users\static\users\modules\ajax_permission.js:18
+#: .\users\static\users\modules\ajax_user_table.js:165
+msgid "User"
+msgstr "Пользователь"
+
+#: .\clubs\static\clubs\js\users_list.js:102
+#: .\clubs\static\clubs\js\users_list.js:110
+#: .\clubs\static\clubs\js\users_list.js:112
 #: .\federations\static\federations\js\ajax_user_table.js:173
-#: .\static\clubs\js\users_list.js:87 .\static\clubs\js\users_list.js:95
-#: .\static\clubs\js\users_list.js:97
+#: .\static\clubs\js\users_list.js:102 .\static\clubs\js\users_list.js:110
+#: .\static\clubs\js\users_list.js:112
 #: .\static\federations\js\ajax_user_table.js:173
 #: .\static\users\modules\ajax_permission.js:26
-#: .\static\users\modules\ajax_user_table.js:176
+#: .\static\users\modules\ajax_user_table.js:174
 #: .\users\static\users\modules\ajax_permission.js:26
-#: .\users\static\users\modules\ajax_user_table.js:176
+#: .\users\static\users\modules\ajax_user_table.js:174
 msgid "Users "
 msgstr "Пользователи "
 
-#: .\clubs\static\clubs\js\users_list.js:87 .\static\clubs\js\users_list.js:87
+#: .\clubs\static\clubs\js\users_list.js:102
+#: .\static\clubs\js\users_list.js:102
 msgid "The limit of users for the club"
 msgstr "Лимит пользователей для клуба"
 
-#: .\clubs\static\clubs\js\users_list.js:89 .\static\clubs\js\users_list.js:89
+#: .\clubs\static\clubs\js\users_list.js:104
+#: .\static\clubs\js\users_list.js:104
 msgid "Club user registration"
 msgstr "Регистрация пользователя клуба"
 
-#: .\clubs\static\clubs\js\users_list.js:95 .\static\clubs\js\users_list.js:95
+#: .\clubs\static\clubs\js\users_list.js:110
+#: .\static\clubs\js\users_list.js:110
 msgid "The limit of users for the club has been reached!"
 msgstr "Лимит пользователей для клуба достигнут!"
+
+#: .\clubs\static\clubs\js\users_list.js:112
+#: .\static\clubs\js\users_list.js:112
+msgid "Error when action the club users!"
+msgstr "Ошибка при действии c пользователем клуба!"
 
 #: .\docs\_build\html\_static\searchtools.js:105
 msgid "Search Results"
@@ -191,49 +208,49 @@ msgstr "Предупреждение!"
 msgid "Choose a team and a season!"
 msgstr "Выберите команду и сезон!"
 
-#: .\events\static\events\js\events.js:321
-#: .\events\static\events\js\events.js:340 .\static\events\js\events.js:321
-#: .\static\events\js\events.js:340
+#: .\events\static\events\js\events.js:335
+#: .\events\static\events\js\events.js:354 .\static\events\js\events.js:335
+#: .\static\events\js\events.js:354
 msgid "Go to the created event"
 msgstr "Перейти к созданному событию"
 
-#: .\events\static\events\js\events.js:478 .\static\events\js\events.js:478
+#: .\events\static\events\js\events.js:492 .\static\events\js\events.js:492
 msgid "No event selected!"
 msgstr "Событие не выбрано!"
 
-#: .\events\static\events\js\events.js:615
-#: .\events\static\events\js\events.js:644 .\static\events\js\events.js:615
-#: .\static\events\js\events.js:644
+#: .\events\static\events\js\events.js:629
+#: .\events\static\events\js\events.js:658 .\static\events\js\events.js:629
+#: .\static\events\js\events.js:658
 msgid "Ready"
 msgstr "Готово"
 
-#: .\events\static\events\js\events.js:615
-#: .\events\static\events\js\events.js:644 .\static\events\js\events.js:615
-#: .\static\events\js\events.js:644
+#: .\events\static\events\js\events.js:629
+#: .\events\static\events\js\events.js:658 .\static\events\js\events.js:629
+#: .\static\events\js\events.js:658
 msgid "Link copied"
 msgstr "Ссылка скопирована"
 
-#: .\events\static\events\js\events.js:857 .\static\events\js\events.js:857
+#: .\events\static\events\js\events.js:871 .\static\events\js\events.js:871
 msgid "Copy"
 msgstr "Копировать"
 
-#: .\events\static\events\js\events.js:858
-#: .\events\static\events\js\events.js:895 .\static\events\base_events.js:439
-#: .\static\events\js\events.js:858 .\static\events\js\events.js:895
+#: .\events\static\events\js\events.js:872
+#: .\events\static\events\js\events.js:909 .\static\events\base_events.js:439
+#: .\static\events\js\events.js:872 .\static\events\js\events.js:909
 #: .\static\video\base_video.js:47
 msgid "Edit"
 msgstr "Редактировать"
 
-#: .\events\static\events\js\events.js:859
-#: .\events\static\events\js\events.js:896 .\static\events\base_events.js:440
-#: .\static\events\js\events.js:859 .\static\events\js\events.js:896
+#: .\events\static\events\js\events.js:873
+#: .\events\static\events\js\events.js:910 .\static\events\base_events.js:440
+#: .\static\events\js\events.js:873 .\static\events\js\events.js:910
 #: .\static\video\base_video.js:57
 msgid "Delete"
 msgstr "Удалить"
 
-#: .\events\static\events\js\events.js:861
-#: .\events\static\events\js\events.js:898 .\static\events\base_events.js:442
-#: .\static\events\js\events.js:861 .\static\events\js\events.js:898
+#: .\events\static\events\js\events.js:875
+#: .\events\static\events\js\events.js:912 .\static\events\base_events.js:442
+#: .\static\events\js\events.js:875 .\static\events\js\events.js:912
 msgid "Close"
 msgstr "Закрыть"
 
@@ -338,17 +355,17 @@ msgstr "Действие с микроциклом успешно заверше
 msgid "Error when updating the microcycle. "
 msgstr "Ошибка обновления микроцикла. "
 
-#: .\exercises\static\exercises\js\base_exercises_folders.js:352
+#: .\exercises\static\exercises\js\base_exercises_folders.js:365
 #: .\shared\static\shared\js\modules\shared_ajax.js:17
 #: .\shared\static\shared\js\modules\shared_ajax.js:19
-#: .\static\exercises\js\base_exercises_folders.js:352
+#: .\static\exercises\js\base_exercises_folders.js:365
 #: .\static\shared\js\modules\shared_ajax.js:17
 #: .\static\shared\js\modules\shared_ajax.js:19
 msgid "Error"
 msgstr "Ошибка"
 
-#: .\exercises\static\exercises\js\base_exercises_folders.js:352
-#: .\static\exercises\js\base_exercises_folders.js:352
+#: .\exercises\static\exercises\js\base_exercises_folders.js:365
+#: .\static\exercises\js\base_exercises_folders.js:365
 msgid "Failed to copy folder structure."
 msgstr "Не удалось скопировать структуру папок."
 
@@ -357,21 +374,12 @@ msgstr "Не удалось скопировать структуру папок
 msgid "Licence to: "
 msgstr "Лицензия до: "
 
-#: .\federations\static\federations\js\ajax_user_table.js:164
-#: .\static\federations\js\ajax_user_table.js:164
-#: .\static\users\modules\ajax_permission.js:18
-#: .\static\users\modules\ajax_user_table.js:167
-#: .\users\static\users\modules\ajax_permission.js:18
-#: .\users\static\users\modules\ajax_user_table.js:167
-msgid "User"
-msgstr "Пользователь"
-
 #: .\federations\static\federations\js\ajax_user_table.js:166
 #: .\static\federations\js\ajax_user_table.js:166
 #: .\static\users\modules\ajax_permission.js:20
-#: .\static\users\modules\ajax_user_table.js:169
+#: .\static\users\modules\ajax_user_table.js:167
 #: .\users\static\users\modules\ajax_permission.js:20
-#: .\users\static\users\modules\ajax_user_table.js:169
+#: .\users\static\users\modules\ajax_user_table.js:167
 msgid "User registration"
 msgstr "Регистрация пользователя"
 

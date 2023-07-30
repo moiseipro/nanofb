@@ -10,14 +10,24 @@ $(window).on('load', function (){
         })
     })
 
+    $(document).on('click', '.check-team', function () {
+        console.log('click')
+        let user_id = $('#permission-block').attr('data-user');
+        let team_id = $(this).attr('value')
+        let send_data = {user_id}
+        ajax_team_action('POST', send_data, 'change permission', team_id, 'change_permission').then(function (data) {
+            console.log(data)
+        })
+    })
+
 })
 
 
 function load_group_data(id = -1) {
-    if(id == -1) return false;
-    $('#permission-block').attr('data-user', id)
     let permission_panel = $('#permission-user .permission-panel')
     permission_panel.html('')
+    if(id == -1) return false;
+    $('#permission-block').attr('data-user', id)
     let send_group = {}
     let send_users = {}
     ajax_group_action('GET', send_group, 'group data', id, 'get_available_group').then(function (data) {
@@ -105,5 +115,42 @@ function load_group_data(id = -1) {
             }
         })
     })
+}
 
+function load_team_data(id= -1){
+    let permission_team_panel = $('#permission-team .permission-panel')
+    permission_team_panel.html('')
+    if(id == -1) return false;
+    $('#permission-block').attr('data-user', id)
+    let send_data = {}
+
+    ajax_team_action('GET', send_data, 'get team').then(function (data) {
+        console.log(data)
+        let teams = data
+
+
+        for (var team of teams) {
+            let permission_row = ''
+            let is_active = team.users.includes(id)
+
+            permission_row +=
+                `
+            <div class="row permission-row" data-id="${team.id}">
+                <div class="col-9 px-2 border text-nowrap">
+                    <span class="float-left">${team.name}</span>
+                </div>
+                <div class="col-3 px-2 border text-center">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" name="team_value" value="${team.id}" class="custom-control-input check-team" id="team-permission-${team.id}" ${is_active ? 'checked' : ''}>
+                        <label class="custom-control-label" for="team-permission-${team.id}"></label>
+                    </div>
+                </div>
+            </div>
+            
+            `
+            permission_team_panel.prepend(permission_row)
+
+        }
+
+    })
 }
