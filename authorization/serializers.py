@@ -32,7 +32,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['email', 'password', "personal", "p_version", "distributor"]
+        fields = ['email', 'password', "personal", "p_version", "distributor", "is_active"]
 
     def perform_create(self, validated_data):
         with transaction.atomic():

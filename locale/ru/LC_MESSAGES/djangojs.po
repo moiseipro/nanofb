@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-30 12:40+0300\n"
+"POT-Creation-Date: 2023-07-31 14:35+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -87,9 +87,9 @@ msgstr "Лимит упражнений для выбранной группы �
 msgid "Error when action \""
 msgstr "Ошибка при выполнении \""
 
-#: .\clubs\static\clubs\js\users_list.js:100
+#: .\clubs\static\clubs\js\users_list.js:104
 #: .\federations\static\federations\js\ajax_user_table.js:164
-#: .\static\clubs\js\users_list.js:100
+#: .\static\clubs\js\users_list.js:104
 #: .\static\federations\js\ajax_user_table.js:164
 #: .\static\users\modules\ajax_permission.js:18
 #: .\static\users\modules\ajax_user_table.js:165
@@ -98,12 +98,12 @@ msgstr "Ошибка при выполнении \""
 msgid "User"
 msgstr "Пользователь"
 
-#: .\clubs\static\clubs\js\users_list.js:102
-#: .\clubs\static\clubs\js\users_list.js:110
-#: .\clubs\static\clubs\js\users_list.js:112
+#: .\clubs\static\clubs\js\users_list.js:106
+#: .\clubs\static\clubs\js\users_list.js:114
+#: .\clubs\static\clubs\js\users_list.js:116
 #: .\federations\static\federations\js\ajax_user_table.js:173
-#: .\static\clubs\js\users_list.js:102 .\static\clubs\js\users_list.js:110
-#: .\static\clubs\js\users_list.js:112
+#: .\static\clubs\js\users_list.js:106 .\static\clubs\js\users_list.js:114
+#: .\static\clubs\js\users_list.js:116
 #: .\static\federations\js\ajax_user_table.js:173
 #: .\static\users\modules\ajax_permission.js:26
 #: .\static\users\modules\ajax_user_table.js:174
@@ -112,23 +112,23 @@ msgstr "Пользователь"
 msgid "Users "
 msgstr "Пользователи "
 
-#: .\clubs\static\clubs\js\users_list.js:102
-#: .\static\clubs\js\users_list.js:102
+#: .\clubs\static\clubs\js\users_list.js:106
+#: .\static\clubs\js\users_list.js:106
 msgid "The limit of users for the club"
 msgstr "Лимит пользователей для клуба"
 
-#: .\clubs\static\clubs\js\users_list.js:104
-#: .\static\clubs\js\users_list.js:104
+#: .\clubs\static\clubs\js\users_list.js:108
+#: .\static\clubs\js\users_list.js:108
 msgid "Club user registration"
 msgstr "Регистрация пользователя клуба"
 
-#: .\clubs\static\clubs\js\users_list.js:110
-#: .\static\clubs\js\users_list.js:110
+#: .\clubs\static\clubs\js\users_list.js:114
+#: .\static\clubs\js\users_list.js:114
 msgid "The limit of users for the club has been reached!"
 msgstr "Лимит пользователей для клуба достигнут!"
 
-#: .\clubs\static\clubs\js\users_list.js:112
-#: .\static\clubs\js\users_list.js:112
+#: .\clubs\static\clubs\js\users_list.js:116
+#: .\static\clubs\js\users_list.js:116
 msgid "Error when action the club users!"
 msgstr "Ошибка при действии c пользователем клуба!"
 
