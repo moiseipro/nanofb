@@ -130,6 +130,7 @@ function load_team_data(id= -1){
 
 
         for (var team of teams) {
+            if(!('users' in team)) return false
             let permission_row = ''
             let is_active = team.users.includes(id)
 
