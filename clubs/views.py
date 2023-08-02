@@ -19,7 +19,8 @@ from clubs.models import Club
 from clubs.serializers import ClubSerializer, ClubUserCreateSerializer
 from users.models import User, UserPersonal
 from users.serializers import UserSerializer, UserPersonalSerializer, CreateUserSerializer, UserEditSerializer, \
-    UserManagementSerializer
+    UserManagementSerializer, UserAllDataSerializer
+from version.serializers import GroupSerializer
 
 
 class ClubPermissions(DjangoModelPermissions):
@@ -110,9 +111,26 @@ class ClubUsersViewSet(viewsets.ModelViewSet):
             return Response({'status': 'group_added'})
 
     @action(detail=True, methods=['post'])
+    def edit_personal(self, request, pk=None):
+        instance = User.objects.get(pk=pk, club_id=request.user.club_id)
+        personal = UserPersonal.objects.get(pk=instance.personal.pk)
+        serializer = UserPersonalSerializer(personal, data=self.request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            response = {
+                'status': 'success',
+                'message': _('New personal profile data is saved!'),
+                'data': serializer.data
+            }
+            return Response(response, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=['post'])
     def edit_user(self, request, pk=None):
-        instance = User.objects.get(pk=pk)
+        instance = User.objects.get(pk=pk, club_id=request.user.club_id)
         serializer = UserEditSerializer(instance, data=self.request.data, partial=True)
+        print(self.request.data)
         if serializer.is_valid():
             serializer.save()
             response = {
@@ -123,6 +141,67 @@ class ClubUsersViewSet(viewsets.ModelViewSet):
             return Response(response, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=['get'])
+    def get_user_data(self, request, pk=None):
+        instance = User.objects.get(pk=pk, club_id=request.user.club_id)
+        serializer = UserAllDataSerializer(instance)
+        if serializer.data:
+            response = {
+                'status': 'get_users',
+                'data': serializer.data
+            }
+            return Response(response, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=['get'])
+    def get_user_group(self, request, pk=None):
+        groups = User.objects.get(pk=pk, club_id=request.user.club_id).groups
+        print(groups.values())
+        serializer = GroupSerializer(groups, many=True)
+        # serializer.is_valid()
+        if serializer.data:
+            response = {
+                'status': 'user_group',
+                'data': serializer.data
+            }
+            return Response(response, status=status.HTTP_200_OK)
+        else:
+            response = {
+                'status': 'user_group',
+                'data': ''
+            }
+            return Response(response, status=status.HTTP_200_OK)
+            # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=['post'])
+    def generate_new_password(self, request, pk=None):
+        instance = User.objects.get(pk=pk, club_id=request.user.club_id)
+        password = User.objects.make_random_password()
+        instance.set_password(password)
+
+        try:
+            instance.save()
+            context = {'email': instance.email, 'password': password}
+            text_content = render_to_string('clubs/mail/email.txt', context)
+            html_content = render_to_string('clubs/mail/email.html', context)
+
+            email = EmailMultiAlternatives(_('New password on the Nanofootball website'), text_content)
+            email.attach_alternative(html_content, "text/html")
+            email.to = [instance.email]
+            email.send()
+            response = {
+                'status': 'success',
+                'message': _('A new password has been sent to the mail!'),
+            }
+            return Response(response, status=status.HTTP_200_OK)
+        except:
+            response = {
+                'status': 'error',
+                'message': _('Password generation error!'),
+            }
+            return Response(response, status=status.HTTP_400_BAD_REQUEST)
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()

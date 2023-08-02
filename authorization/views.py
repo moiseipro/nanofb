@@ -43,19 +43,19 @@ def login_req(request):
                                 print("Noticed a mismatch of rights with the version")
 
                 login(request, user)
-                messages.info(request, f"You are now logged in as {email}.")
+                messages.info(request, _("You are now logged in as ")+email)
                 return redirect("users:profile")
             else:
-                messages.error(request, "Invalid email or password.")
+                messages.error(request, _("Invalid email or password."))
         else:
-            messages.error(request, "Invalid email or password.")
+            messages.error(request, _("Invalid email or password."))
     form = NewLoginForm()
     return render(request=request, template_name="authorization/login.html", context={"login_form": form})
 
 
 def logout_req(request):
     logout(request)
-    messages.info(request, "You have successfully logged out.")
+    messages.info(request, _("You have successfully logged out."))
     return redirect("authorization:login")
 
 
@@ -116,12 +116,14 @@ class AuthorizationUserViewSet(UserViewSet):
         serializer_personal.is_valid(raise_exception=True)
         serializer_personal.save()
         print(serializer_personal.data)
+        distributor = request.data['distributor'] if request.data['distributor'] != '' else 'NF'
         userDict = dict(
             personal=serializer_personal.data['id'],
             email=request.data['email'],
             password=request.data['password'],
             p_version=request.data['p_version'],
-            distributor=request.data['distributor']
+            distributor=distributor,
+            is_active=False
         )
         query_dict = QueryDict('', mutable=True)
         query_dict.update(userDict)

@@ -3,10 +3,9 @@
 
 <div id="permission-block" class="row">
     <div id="permission-user" class="col-6">
-{#        <div class="row bg-light text-dark">#}
-{#            <div class="col-9 px-2 border">Раздел</div>#}
-{#            <div class="col-3 px-2 text-center border">Доступ</div>#}
-{#        </div>#}
+        <div class="row bg-light text-dark">
+            <div class="col-12 px-2 border text-center">{% trans "Permissions" %}</div>
+        </div>
         <div class="row" style="height: calc(100vh - 280px); overflow-y: auto">
             <div class="col-12 permission-panel">
                 <div class="row section-row">
@@ -32,24 +31,23 @@
         </div>
     </div>
     <div id="permission-team" class="col-6">
-{#        <div class="row bg-light text-dark">#}
-{#            <div class="col-6 px-2 border">Команда</div>#}
-{#            <div class="col-6 px-2 text-center border">Доступ</div>#}
-{#        </div>#}
-{#        <div class="row">#}
-{#            <div class="col-12 permission-panel">#}
-{#                <div class="row permission-row">#}
-{#                    <div class="col-6 px-2 border text-nowrap">#}
-{#                        <span class="float-left">Team 2022</span>#}
-{#                    </div>#}
-{#                    <div class="col-6 px-2 border text-center">#}
-{#                        <div class="custom-control custom-checkbox">#}
-{#                            <input type="checkbox" class="custom-control-input" id="events_view">#}
-{#                            <label class="custom-control-label" for="events_view"></label>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
+        <div class="row bg-light text-dark">
+            <div class="col-12 px-2 border text-center">{% trans "Teams" %}</div>
+        </div>
+        <div class="row">
+            <div class="col-12 permission-panel">
+                <div class="row permission-row">
+                    <div class="col-6 px-2 border text-nowrap">
+                        <span class="float-left">Team 2022</span>
+                    </div>
+                    <div class="col-6 px-2 border text-center">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="events_view">
+                            <label class="custom-control-label" for="events_view"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

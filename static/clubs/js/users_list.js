@@ -5,16 +5,22 @@ function generate_ajax_club_users_table(scroll_y = ''){
         language: {
             url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
         },
-        dom: "<'row'<'col-sm-12 col-md '><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
-             "<'row'<'col-sm-12'tr>>" +
+        dom: "<'row'<'col-sm-12'tr>>" +
              "<'row'<'col-sm-12 col-md-5'l><'col-sm-12 col-md-7'p>>",
         serverSide: true,
         processing: true,
         scrollY: scroll_y,
         pageLength: 50,
         lengthMenu: [ 25, 50, 100 ],
+        rowCallback: function( row, data ) {
+            console.log(data)
+            $(row).attr('data-user', data.id)
+        },
         drawCallback: function( settings ) {
             $('#club-users-table-counter').text(settings._iRecordsDisplay)
+            if(Cookies.get('user_selected_id')){
+                $('#club-users-table tr[data-user="'+Cookies.get('user_selected_id')+'"] td:first').click();
+            }
         },
         ajax: {
             url:'/clubs/api/users?format=datatables',
@@ -33,41 +39,52 @@ function generate_ajax_club_users_table(scroll_y = ''){
                 `
                 return html;
             }},
-            {'data': 'last_name', 'name': 'last_name'},
-            {'data': 'first_name', 'name': 'first_name'},
-            {'data': 'email', 'name': 'email'},
-            {'data': 'age', 'name': 'age', sortable: false, searchable: false,},
+            {'data': 'last_name', 'name': 'last_name', 'defaultContent': "---", render: function (data, type, row, meta) {
+                return `<div class="text-truncate" title="${data}"> ${data} </div>`;
+            }},
+            {'data': 'first_name', 'name': 'first_name', 'defaultContent': "---", render: function (data, type, row, meta) {
+                return `<div class="text-truncate" title="${data}"> ${data} </div>`;
+            }},
+            {'data': 'age', 'name': 'age', sortable: false, searchable: false, render: function (data, type, row, meta) {
+                return `<div class="w-100 text-center" title="${data}"> ${data} </div>`;
+            }},
             {'data': 'date_birthsday', 'name': 'date_birthsday', 'defaultContent': "---"},
-            {'data': 'job_title', 'name': 'job_title', 'defaultContent': "---"},
-            {'data': 'days_entered', 'name': 'days_entered', sortable: false, searchable: false, render: function (data, type, row, meta) {
-                return data;
+            {'data': 'teams', 'name': 'teams', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
+                return `<div class="text-truncate" style="max-width: 200px;" title="${data}"> ${data} </div>`;
+            }},
+            {'data': 'job_title', 'name': 'job_title', 'defaultContent': "---", render: function (data, type, row, meta) {
+                return `<span class="text-truncate" title="${data}"> ${data ? data : '---'} </span>`;
+            }},
+            {'data': 'license_date', 'name': 'license_date', 'defaultContent': "---"},
+            {'data': 'email', 'name': 'email'},
+            {'data': 'phone', 'name': 'phone', 'defaultContent': "---", render: function (data, type, row, meta) {
+                return `<div class="text-truncate" title="${data}"> ${data ? data : '---'} </div>`;
             }},
             {'data': 'id', sortable: false, searchable: false, render: function (data, type, row, meta) {
                 let button_html = ``
-                button_html += `<button type="button" class="btn btn-sm btn-outline-secondary mr-1 edit-club-user py-0" data-id="${data}" data-toggle="modal" data-target="#edit-club-user-modal"><i class="fa fa-bars" aria-hidden="true"></i></button>`
+                //button_html += `<button type="button" class="btn btn-sm btn-outline-secondary mr-1 edit-club-user py-0" data-id="${data}" data-toggle="modal" data-target="#edit-club-user-modal"><i class="fa fa-bars" aria-hidden="true"></i></button>`
                 button_html += `<button type="button" class="btn btn-sm btn-outline-dark mr-1 archive-user py-0 ${row.is_archive==1?'active':''}" data-id="${data}"><i class="fa fa-archive" aria-hidden="true"></i></button>`
                 return button_html;
             }},
         ],
 
     })
-    $('#video').on('click', 'td', function () {
-        console.log('TEST')
-        if($(this).has('.other-exercises').length == 0){
-            console.log('SELECT')
-            if($(this).parent().is('.selected')){
-                video_table.row($(this).parent()).deselect()
-            } else {
-                video_table.rows().deselect()
-                video_table.row($(this).parent()).select()
-            }
 
+    club_users_table.on('click', 'td', function () {
+        console.log('SELECT')
+        if($(this).parent().is('.selected')){
+            //users_table.row($(this).parent()).deselect()
+        } else {
+            club_users_table.rows('.selected').deselect()
+            club_users_table.row($(this).parent()).select()
         }
+
 
     })
 }
 
-async function ajax_club_users_action(method, data, action = '', id = '', func = '') {
+//Club user action ajax
+async function ajax_users_action(method, data, action = '', id = '', func = '') {
 
     let url = "/clubs/api/users/"
     if(id !== '') url += `${id}/`
@@ -83,7 +100,9 @@ async function ajax_club_users_action(method, data, action = '', id = '', func =
         data: data,
         success: function(data){
             //console.log(data)
-            if(data.status == 'exercise_limit'){
+            if(data.status == 'success'){
+                swal(gettext('User'), data.message, 'success');
+            }else if(data.status == 'user_limit'){
                 swal(gettext('Users '+action), gettext('The limit of users for the club'), "error");
             } else if('registration' in data && data.registration != '') {
                 swal(gettext('Club user registration'), data.registration, "success");
@@ -94,7 +113,7 @@ async function ajax_club_users_action(method, data, action = '', id = '', func =
             if('limit' in jqXHR.responseJSON){
                 swal(gettext('Users '+action), gettext('The limit of users for the club has been reached!'), "error");
             }else{
-                swal(gettext('Users '+action), gettext('Error when action "'+action+'" the club users!'), "error");
+                swal(gettext('Users '+action), gettext('Error when action the club users!'), "error");
             }
         },
         complete: function () {

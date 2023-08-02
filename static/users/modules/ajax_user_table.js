@@ -135,16 +135,12 @@ function generate_ajax_users_table(scroll_y = ''){
 
     })
     users_table.on('click', 'td', function () {
-        console.log('TEST')
-        if($(this).has('.other-exercises').length == 0){
-            console.log('SELECT')
-            if($(this).parent().is('.selected')){
-                //users_table.row($(this).parent()).deselect()
-            } else {
-                users_table.rows('.selected').deselect()
-                users_table.row($(this).parent()).select()
-            }
-
+        console.log('SELECT')
+        if($(this).parent().is('.selected')){
+            //users_table.row($(this).parent()).deselect()
+        } else {
+            users_table.rows('.selected').deselect()
+            users_table.row($(this).parent()).select()
         }
     })
 }

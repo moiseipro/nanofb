@@ -12,6 +12,7 @@
                 </div>
             </div>
         </div>
+        {% if perms.federations.federation_admin or user.is_superuser %}
         <div class="col-sm-12">
             <div class="form-group row mb-1">
                 <label class="col col-form-label">{% trans 'Club'%}</label>
@@ -25,6 +26,8 @@
                 </div>
             </div>
         </div>
+        {% endif %}
+        {% if perms.federations.federation_admin or user.is_superuser %}
         <div class="col-sm-12">
             <div class="form-group row mb-1">
                 <label class="col col-form-label" for="p_version-select">{% trans 'Version'%}</label>
@@ -38,6 +41,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
         <div class="col-sm-12">
             <div class="form-group row mb-1">
                 <label class="col col-form-label">{% trans 'Registration'%}</label>
@@ -54,6 +58,7 @@
                 </div>
             </div>
         </div>
+        {% if perms.federations.federation_admin or user.is_superuser %}
         <div class="col-sm-12">
             <div class="form-group row mb-1">
                 <label class="col col-form-label">{% trans 'Access to'%}</label>
@@ -62,6 +67,8 @@
                 </div>
             </div>
         </div>
+        {% endif %}
+        {% if user.is_superuser %}
         <div class="col-sm-12">
             <div class="form-group row mb-1">
                 <label class="col col-form-label">{% trans 'Demo version'%}</label>
@@ -70,6 +77,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
     </div>
     <button id="edit-user-button" type="button" class="btn btn-success btn-block edit-input" disabled>{% trans 'Save Changes'%}</button>
 </form>

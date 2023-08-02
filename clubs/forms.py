@@ -52,6 +52,7 @@ class ClubAddPersonalForm(forms.ModelForm):
 
     last_name = forms.CharField(
         required=True,
+        label=_("Last name"),
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'autocomplete': 'off'
@@ -59,6 +60,7 @@ class ClubAddPersonalForm(forms.ModelForm):
     )
     first_name = forms.CharField(
         required=True,
+        label=_("First name"),
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'autocomplete': 'off'
@@ -66,6 +68,7 @@ class ClubAddPersonalForm(forms.ModelForm):
     )
     father_name = forms.CharField(
         required=False,
+        label=_("Father name"),
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'autocomplete': 'off'
@@ -73,6 +76,7 @@ class ClubAddPersonalForm(forms.ModelForm):
     )
     date_birthsday = forms.DateField(
         required=True,
+        label=_("Date of birth"),
         widget=forms.DateInput(attrs={
             'class': 'form-control datetimepicker',
             'type': 'text',
@@ -89,16 +93,19 @@ class ClubAddPersonalForm(forms.ModelForm):
     )
     city = forms.CharField(
         required=True,
+        label=_("City"),
         widget=forms.TextInput(attrs={
             'class': 'form-control',
         }))
     region = forms.CharField(
         required=True,
+        label=_("Region"),
         widget=forms.TextInput(attrs={
             'class': 'form-control',
         }))
     phone = forms.CharField(
         required=True,
+        label=_("Phone"),
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'id': 'phone',
@@ -107,12 +114,14 @@ class ClubAddPersonalForm(forms.ModelForm):
         }))
     license = forms.CharField(
         required=True,
+        label=_("License"),
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'autocomplete': 'off',
         }))
     license_date = forms.DateField(
         required=True,
+        label=_("License to"),
         widget=forms.DateInput(attrs={
             'class': 'form-control datetimepicker',
             'type': 'text',

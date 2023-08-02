@@ -15,7 +15,7 @@ $(window).on('load', function () {
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log(jqXHR)
-                swal(gettext('Activation'), jqXHR.responseJSON.detail, "error");
+                swal(gettext('Activation'), jqXHR.responseJSON.uid[0], "error");
             }
         });
     });

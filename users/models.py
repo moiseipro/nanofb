@@ -281,7 +281,6 @@ class User(AbstractUser):
         max_length=20,
         null=True,
         blank=True,
-        default=None,
         verbose_name=_('Distributor'),
         help_text=_('User distributor'),
     )
