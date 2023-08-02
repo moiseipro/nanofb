@@ -1,0 +1,33 @@
+#exerciseTagsModal .category-block {
+    padding: 20px;
+    background: #eee;
+    min-height: 100px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+#exerciseTagsModal .drag {
+    border-radius: 5px;
+}
+#exerciseTagsModal .category-container:hover {
+    background-color: rgb(230, 230, 230);
+}
+#exerciseTagsModal .category-container.selected {
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+.tag-dot {
+    height: 10px;
+    width: 10px;
+    background-color: var(--color);
+    border-radius: 50%;
+    display: inline-block;
+}
+.tag-square {
+    height: 10px;
+    width: 10px;
+    background-color: var(--color);
+    border-radius: 0%;
+    display: inline-block;
+}
+

@@ -5,7 +5,13 @@
         <div class="card">
             <div class="card-body">
 {#                <button id="additional-exercise-data" type="button" class="btn btn-primary reference-edit">{% trans "Exercise additional data" %}</button>#}
+                <button type="button" class="btn btn-primary btn-sm" id="exsTagsRef">
+                    Упражнения. Тэги
+                </button>
             </div>
         </div>
     </div>
 </div>
+
+
+{% include 'exercises/modules/exercise_tags_modal.html' %}

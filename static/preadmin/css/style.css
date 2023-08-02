@@ -4283,6 +4283,9 @@ table.table-inbox tbody tr.checked {
 .icon--speed {
 	content: url(../img/icons/speed.png);
 }
+.icon--speed_strength {
+	content: url(../img/icons/speed_strength.png);
+}
 .icon--stamina {
 	content: url(../img/icons/stamina.png);
 }

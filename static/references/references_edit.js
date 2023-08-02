@@ -95,7 +95,14 @@ $(window).on('load', function (){
     //     })
     // })
 
-})
+
+    $('#exsTagsRef').on('click', (e) => {
+        $('#exerciseTagsModal').modal();
+    });
+
+});
+
+
 
 function load_reference_data(data) {
     console.log(data)

@@ -4,6 +4,10 @@
 
 {% block title %}{% trans 'Settings' %}{% endblock %}
 
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'references/style.css' %}">
+{% endblock %}
+
 {% block content %}
 
     {% if messages %}
@@ -92,6 +96,7 @@
 {% endblock %}
 
 {% block custom_scripts %}
+    <script src="{% static 'exercises/js/modules/exercise_tags_modal.js' %}"></script>
     <script src="{% static 'references/exercise_additional_data.js' %}"></script>
     <script src="{% static 'references/ref_settings.js' %}"></script>
     <script src="{% static 'references/references_edit.js' %}"></script>

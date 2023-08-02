@@ -2706,6 +2706,13 @@ $(function() {
                     selectedFields.push($(elem).attr('data-id')); 
                 });
                 dataToSend.data['field_fields'] = selectedFields;
+                if (Array.isArray(dataToSend.data['tags'])) {
+                    for (let i = dataToSend.data['tags'].length-1; i >= 0; i--) {
+                        if (Array.isArray(dataToSend.data['tags'][i])) {
+                            dataToSend.data['tags'].splice(i, 1);
+                        }
+                    }
+                }
                 $('.page-loader-wrapper').fadeIn();
                 $.ajax({
                     headers:{"X-CSRFToken": csrftoken},
