@@ -2297,7 +2297,7 @@ $(function() {
         $('#exerciseCard').find('tr[data-id="keywords_block"]').toggleClass('d-none');
     });
 
-    LoadExercisesTagsAll();
+    // LoadExercisesTagsAll();
     $('#card_tags').on('click', '.nav-link', (e) => {
         let cId = $(e.currentTarget).attr('data-id');
         $('#card_tags').find('a.nav-link').removeClass('active');
