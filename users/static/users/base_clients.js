@@ -69,6 +69,7 @@ $(window).on("load", function () {
 
     $('#version-filter').select2({
         minimumResultsForSearch: -1,
+        multiple: true,
         placeholder: gettext("Version"),
         language: get_cur_lang(),
         theme: 'bootstrap4',

@@ -1,5 +1,6 @@
 from datetime import date, timedelta
 
+from django.contrib.auth.models import Permission
 from django.db.models import Q
 from django_filters import filters
 from rest_framework_datatables.django_filters.filterset import DatatablesFilterSet
@@ -29,6 +30,25 @@ class GlobalJoinDateFilter(GlobalFilter, filters.DateFilter):
         return qs
 
 
+class GlobalDistributorFilter(GlobalFilter, filters.CharFilter):
+    def filter(self, qs, value):
+        if value:
+            if self.distinct:
+                qs = qs.distinct()
+            qs = qs.exclude(distributor__isnull=True)
+        return qs
+
+
+class GlobalAdminTypeFilter(GlobalFilter, filters.CharFilter):
+    def filter(self, qs, value):
+        if value:
+            if self.distinct:
+                qs = qs.distinct()
+            perm = Permission.objects.filter(codename__in=('club_admin', 'federation_admin'))
+            qs = qs.filter(Q(is_staff=True) | Q(is_superuser=True) | Q(user_permissions__in=perm))
+        return qs
+
+
 class GlobalClubFilter(GlobalFilter, filters.CharFilter):
     def filter(self, qs, value):
         if value:
@@ -39,6 +59,19 @@ class GlobalClubFilter(GlobalFilter, filters.CharFilter):
                 qs = qs.distinct()
 
             qs = qs.filter(club_id_id__in=chooses)
+        return qs
+
+
+class GlobalVersionFilter(GlobalFilter, filters.CharFilter):
+    def filter(self, qs, value):
+        if value:
+            chooses = [choose.strip() for choose in value.split(',')]
+            print(chooses)
+
+            if self.distinct:
+                qs = qs.distinct()
+
+            qs = qs.filter(p_version_id__in=chooses)
         return qs
 
 
@@ -83,6 +116,8 @@ class UserManagementGlobalFilter(DatatablesFilterSet):
     email = GlobalNameFilter(field_name='email', lookup_expr='icontains')
     date_last_login = GlobalDateFilter()
     date_joined = GlobalJoinDateFilter()
+    distributor = GlobalDistributorFilter()
+    admin_type = GlobalAdminTypeFilter()
 
     date_birthsday = GlobalDateFilter(field_name='personal__date_birthsday')
     last_name = GlobalNameFilter(field_name='personal__last_name', lookup_expr='icontains')
@@ -97,7 +132,7 @@ class UserManagementGlobalFilter(DatatablesFilterSet):
 
     club_name = GlobalCharFilter(field_name='club_id__name', lookup_expr='icontains')
 
-    p_version = GlobalNumberFilter(field_name='p_version__id', lookup_expr='exact')
+    p_version = GlobalVersionFilter(field_name='p_version__id', lookup_expr='exact')
     club_id = GlobalClubFilter(field_name='club_id__id', lookup_expr='exact')
 
 
@@ -105,4 +140,4 @@ class UserManagementGlobalFilter(DatatablesFilterSet):
     class Meta:
         #model = User
         fields = ['registration_to', 'date_birthsday', 'last_name', 'first_name', 'job_title', 'license', 'p_version',
-                  'club_id']
+                  'club_id', 'distributor']
