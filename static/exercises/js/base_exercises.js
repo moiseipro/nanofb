@@ -344,6 +344,28 @@ function ToggleUpFilter(id, state) {
             }
             ToggleIconsInExs();
             break;
+        case "toggle_academy":
+            if (!state && !$('.up-tabs-elem[data-id="toggle_academy"]').hasClass('filtering')) {
+                $('.up-tabs-elem[data-id="toggle_academy"]').addClass('filtering');
+                $('.up-tabs-elem[data-id="toggle_academy"]').addClass('selected3');
+                $('.up-tabs-elem[data-id="toggle_academy"]').attr('data-state', 1);
+                window.exercisesFilter['academy'] = '1';
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            } else if (!state && $('.up-tabs-elem[data-id="toggle_academy"]').hasClass('filtering')) {
+                $('.up-tabs-elem[data-id="toggle_academy"]').removeClass('filtering');
+                delete window.exercisesFilter['academy'];
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            }
+            ToggleIconsInExs();
+            break;
         case "toggle_field":
             ToggleIconsInExs();
             break;
@@ -2706,6 +2728,13 @@ $(function() {
                     selectedFields.push($(elem).attr('data-id')); 
                 });
                 dataToSend.data['field_fields'] = selectedFields;
+                if (Array.isArray(dataToSend.data['tags'])) {
+                    for (let i = dataToSend.data['tags'].length-1; i >= 0; i--) {
+                        if (Array.isArray(dataToSend.data['tags'][i])) {
+                            dataToSend.data['tags'].splice(i, 1);
+                        }
+                    }
+                }
                 $('.page-loader-wrapper').fadeIn();
                 $.ajax({
                     headers:{"X-CSRFToken": csrftoken},

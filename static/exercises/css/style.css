@@ -341,7 +341,6 @@
 }
 
 .bck-custom {
-    background-color: #d5d5d5;
     color: #5a6268 !important;
     border: 2px solid rgb(100, 100, 100) !important;
 }
@@ -647,24 +646,6 @@ input.exs-search {
     border: 2px solid rgb(100, 100, 100) !important;
 }
 
-
-#exerciseTagsModal .category-block {
-    padding: 20px;
-    background: #eee;
-    min-height: 100px;
-    margin-bottom: 20px;
-    border-radius: 10px;
-}
-#exerciseTagsModal .drag {
-    border-radius: 5px;
-}
-#exerciseTagsModal .category-container:hover {
-    background-color: rgb(230, 230, 230);
-}
-#exerciseTagsModal .category-container.selected {
-    border: 2px solid black;
-    border-radius: 10px;
-}
 
 .tag-dot {
     height: 10px;

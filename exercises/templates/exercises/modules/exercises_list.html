@@ -192,9 +192,6 @@
                                 </select>
                             </td>
                         </tr>
-                        <tr class="bck-custom-color text-center font-weight-bold" style="--bck-color:#eee; --bck-color-h:#eee;">
-                            <td class="align-middle folder-text" colspan="2"></td>
-                        </tr>
                         <!-- <tr class="bck-custom">
                             <td colspan="2">
                                 <input name="field_task" class="form-control form-control-sm exs_edit_field text-center" 
@@ -202,9 +199,6 @@
                                     required="" title="Задача">
                             </td>
                         </tr> -->
-                        <tr class="bck-custom-color text-center font-weight-bold" style="--bck-color:#eee; --bck-color-h:#eee;">
-                            <td class="align-middle folder-text" colspan="2"></td>
-                        </tr>
                         <tr class="bck-custom border-y-custom" data-id="card_block">
                             <td class="text-center" title="Игроки с">
                                 <input name="field_players_a" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="Игроки с" autocomplete="off" min="0" max="50">
@@ -221,15 +215,7 @@
                                 <input name="field_age_b" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="Возраст по" autocomplete="off" min="0" max="150">
                             </td>
                         </tr>
-                        <!-- <tr class="bck-custom border-y-custom" data-id="card_block">
-                            <td class="text-center" title="Ключевое слово" colspan="2">
-                                <input name="field_keyword_a" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="Ключевое слово" autocomplete="off">
-                            </td>
-                        </tr> -->
-                        <tr class="bck-custom-color text-center font-weight-bold toggle-categories-block-0" style="--bck-color:#eee; --bck-color-h:#eee;">
-                            <td class="align-middle folder-text" colspan="2"></td>
-                        </tr>
-                        <tr class="bck-custom border-y-custom" data-id="categories_block">
+                        <tr class="bck-custom border-y-custom1" data-id="categories_block">
                             <td colspan="2">
                                 <div class="row mx-0">
                                     <div class="col-12 px-0 my-1">
@@ -244,53 +230,16 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr class="bck-custom-color text-center font-weight-bold" style="--bck-color:#eee; --bck-color-h:#eee;">
-                            <td class="align-middle folder-text" colspan="2"></td>
-                        </tr>
-                        <tr class="bck-custom border-y-custom" data-id="fields_block">
-                            <td colspan="2">
-                                <div class="row mx-0">
-                                    <div class="col-12 px-0 my-1">
-                                        <div class="btn-group btn-group-custom-active fields-list w-100" role="group" aria-label="">
-                                            <button type="button" class="btn btn-outline-secondary btn-block my-0 mx-1" data-id="field_0">
-                                                Поле 1
-                                            </button>
-                                            <button type="button" class="btn btn-outline-secondary btn-block my-0 mx-1" data-id="field_1">
-                                                Поле 1 / 2
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="bck-custom-color text-center font-weight-bold" style="--bck-color:#eee; --bck-color-h:#eee;">
-                            <td class="align-middle folder-text" colspan="2"></td>
-                        </tr>
-                        <tr class="bck-custom border-y-custom" data-id="">
-                            <td colspan="2">
-                                <div class="row mx-0">
-                                    <div class="col-12 px-0 my-1">
-                                        <div class="btn-group btn-group-custom-active exs-types-list w-100 d-none" role="group" aria-label="">
-                                            {% for elem in refs.exs_types %}
-                                            <button type="button" class="btn btn-outline-secondary btn-block my-0 mx-1" data-id="{{ elem.keycode }}">
-                                                {{ elem.title }}
-                                            </button>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="bck-custom-color text-center font-weight-bold toggle-ball-gates-block-0" style="--bck-color:#eee; --bck-color-h:#eee;">
-                            <td class="align-middle folder-text" colspan="2"></td>
-                        </tr>
-                        <tr class="bck-custom border-y-custom" data-id="ball_gates_block">
+                        <tr class="bck-custom border-y-custom1" data-id="ball_gates_block">
                             <td colspan="2">
                                 <div class="row mx-0">
                                     <div class="col-12 px-0 my-1">
                                         <div class="btn-group btn-group-custom-active ball-gates-list w-100" role="group" aria-label="">
                                             <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1" data-id="ball">
                                                 <span class="icon-custom icon--ball mt-1" style="--i-w: 1.4em; --i-h: 1.4em;"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1" data-id="goalkeeper" data-val="1">
+                                                GK.
                                             </button>
                                             <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1" data-id="gate" data-val="G + G">
                                                 G + G
@@ -313,14 +262,12 @@
                                             {% endfor %}
                                         </select>
                                         <input name="field_goal" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="" autocomplete="off">
+                                        <input name="field_goalkeeper" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="" autocomplete="off">
                                     </div>
                                 </div>
                             </td>
                         </tr>
-                        <tr class="bck-custom-color text-center font-weight-bold" style="--bck-color:#eee; --bck-color-h:#eee;">
-                            <td class="align-middle folder-text" colspan="2"></td>
-                        </tr>
-                        <tr class="bck-custom border-y-custom" data-id="">
+                        <tr class="bck-custom border-y-custom1" data-id="">
                             <td colspan="2">
                                 <div class="row mx-0">
                                     <div class="col-12 px-0 my-1">
@@ -335,9 +282,30 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr class="bck-custom-color text-center font-weight-bold" style="--bck-color:#eee; --bck-color-h:#eee;">
-                            <td class="align-middle folder-text" colspan="2"></td>
+                        <tr class="wider_row bck-custom" data-id="additional_characteristics_data_block">
+                            <td colspan="2">
+                                <select name="tags" class="select w-100 custom-select custom-select-sm tag-select exs_edit_field" multiple data-tags="true" data-theme="bootstrap4" disabled style="width: 100%;">
+                                    <!-- {% for tag in exercises_tags.nfb %}
+                                        <option value="{{ tag.name }}" data-color="{{ tag.category.color }}" data-tag-class="tag-dot">
+                                            {% if tag.category %}
+                                                {{ tag.category.name }}. 
+                                            {% endif %}
+                                            {{ tag.name }}
+                                        </option>
+                                    {% endfor %} -->
+                                    {% for tag in exercises_tags.self %}
+                                        <option value="{{ tag.name }}" data-color="{{ tag.category.color }}" data-tag-class="tag-square">
+                                            {% if tag.category %}
+                                                {{ tag.category.name }}. 
+                                            {% endif %}
+                                            {{ tag.name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </td>
                         </tr>
+                        
+
                         <tr class="bck-custom border-y-custom" data-id="">
                             <td colspan="2">
                                 <div class="row mx-0">

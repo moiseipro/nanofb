@@ -186,6 +186,7 @@ class AbstractExercise(models.Model):
     description_trainer = models.JSONField(null=True, blank=True)
     field_players = models.JSONField(null=True, blank=True)
     field_goal = models.JSONField(null=True, blank=True)
+    field_goalkeeper = models.JSONField(null=True, blank=True)
     field_age = models.JSONField(null=True, blank=True)
     field_task = models.JSONField(null=True, blank=True)
     scheme_data = models.JSONField(null=True, blank=True)

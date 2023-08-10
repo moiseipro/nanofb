@@ -541,6 +541,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
     filter_age = -1
     filter_players = -1
     filter_pro = -1
+    filter_academy = -1
     try:
         if req.method == "GET":
             filter_goal = int(req.GET.get("filter[goal]", -1))
@@ -617,6 +618,13 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             filter_pro = int(req.GET.get("filter[pro]", -1))
         elif req.method == "POST":
             filter_pro = int(req.POST.get("filter[pro]", -1))
+    except:
+        pass
+    try:
+        if req.method == "GET":
+            filter_academy = int(req.GET.get("filter[academy]", -1))
+        elif req.method == "POST":
+            filter_academy = int(req.POST.get("filter[academy]", -1))
     except:
         pass
     f_exercises = []
@@ -748,6 +756,10 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
     if filter_pro != -1:
         f_exercises = f_exercises.filter(
             Q(field_categories__icontains="pro") 
+        )
+    if filter_academy != -1:
+        f_exercises = f_exercises.filter(
+            Q(field_categories__icontains="academy") 
         )
     if count_for_tag:
         f_exercises = f_exercises.filter(tags__lowercase_name__in=[count_for_tag]).distinct()
@@ -1290,20 +1302,20 @@ def POST_edit_exs(request, cur_user, cur_team):
     found_admin_exercise = AdminExercise.objects.filter(id=nfb_id).first()
     is_can_edit_full = found_admin_exercise == None
     
-    if is_can_edit_full:
-        c_exs.title = set_by_language_code(c_exs.title, request.LANGUAGE_CODE, request.POST.get("data[title]", ""))
-        c_exs.ref_goal = set_value_as_ref(request, "data[ref_goal]", None)
-        c_exs.ref_ball = set_value_as_ref(request, "data[ref_ball]", None)
-        c_exs.ref_team_category = set_value_as_ref(request, "data[ref_team_category]", None)
-        c_exs.ref_age_category = set_value_as_ref(request, "data[ref_age_category]", None)
-        c_exs.ref_train_part = set_value_as_ref(request, "data[ref_train_part]", None)
-        c_exs.ref_cognitive_load = set_value_as_ref(request, "data[ref_cognitive_load]", None)
-        c_exs.ref_stress_type = set_value_as_ref(request, "data[ref_stress_type]", None)
-        c_exs.field_players = set_by_language_code(c_exs.field_players, request.LANGUAGE_CODE, request.POST.get("data[field_players]", ""))
-        c_exs.field_goal = set_by_language_code(c_exs.field_goal, request.LANGUAGE_CODE, request.POST.get("data[field_goal]", ""))
-        c_exs.field_age = set_by_language_code(c_exs.field_age, request.LANGUAGE_CODE, request.POST.get("data[field_age]", ""))
-        c_exs.field_task = set_by_language_code(c_exs.field_task, request.LANGUAGE_CODE, request.POST.get("data[field_task]", ""))
-        c_exs.description = set_by_language_code(c_exs.description, request.LANGUAGE_CODE, request.POST.get("data[description]", ""))
+    c_exs.title = set_by_language_code(c_exs.title, request.LANGUAGE_CODE, request.POST.get("data[title]", ""))
+    c_exs.ref_goal = set_value_as_ref(request, "data[ref_goal]", None)
+    c_exs.ref_ball = set_value_as_ref(request, "data[ref_ball]", None)
+    c_exs.ref_team_category = set_value_as_ref(request, "data[ref_team_category]", None)
+    c_exs.ref_age_category = set_value_as_ref(request, "data[ref_age_category]", None)
+    c_exs.ref_train_part = set_value_as_ref(request, "data[ref_train_part]", None)
+    c_exs.ref_cognitive_load = set_value_as_ref(request, "data[ref_cognitive_load]", None)
+    c_exs.ref_stress_type = set_value_as_ref(request, "data[ref_stress_type]", None)
+    c_exs.field_players = set_by_language_code(c_exs.field_players, request.LANGUAGE_CODE, request.POST.get("data[field_players]", ""))
+    c_exs.field_goal = set_by_language_code(c_exs.field_goal, request.LANGUAGE_CODE, request.POST.get("data[field_goal]", ""))
+    c_exs.field_goalkeeper = set_by_language_code(c_exs.field_goalkeeper, request.LANGUAGE_CODE, request.POST.get("data[field_goalkeeper]", ""))
+    c_exs.field_age = set_by_language_code(c_exs.field_age, request.LANGUAGE_CODE, request.POST.get("data[field_age]", ""))
+    c_exs.field_task = set_by_language_code(c_exs.field_task, request.LANGUAGE_CODE, request.POST.get("data[field_task]", ""))
+    c_exs.description = set_by_language_code(c_exs.description, request.LANGUAGE_CODE, request.POST.get("data[description]", ""))
     c_exs.description_trainer = set_by_language_code(c_exs.description_trainer, request.LANGUAGE_CODE, request.POST.get("data[description_trainer]", ""))
     if cur_user.is_superuser:
         description_template = ExsDescriptionTemplate.objects.filter().first()
@@ -1313,28 +1325,28 @@ def POST_edit_exs(request, cur_user, cur_team):
         description_template.save()
 
     c_exs.date_editing = datetime.datetime.now()
-    if is_can_edit_full:
-        c_exs.field_age_a = set_value_as_int(request, "data[field_age_a]", None)
-        c_exs.field_age_b = set_value_as_int(request, "data[field_age_b]", None)
-        c_exs.field_players_a = set_value_as_int(request, "data[field_players_a]", None)
-        c_exs.field_players_b = set_value_as_int(request, "data[field_players_b]", None)
-        c_exs.field_keyword_a = request.POST.get("data[field_keyword_a]", None)
-        c_exs.field_keyword_b = request.POST.get("data[field_keyword_b]", None)
-        field_keywords = set_value_as_list(request, "data[field_keywords]", "data[field_keywords][]", [])
-        c_exs.field_keywords = field_keywords
-        c_exs.field_exs_category_a = request.POST.get("data[field_exs_category_a]", None)
-        c_exs.field_exs_category_b = request.POST.get("data[field_exs_category_b]", None)
-        field_categories = set_value_as_list(request, "data[field_categories]", "data[field_categories][]", [])
-        c_exs.field_categories = field_categories
-        field_types = set_value_as_list(request, "data[field_types]", "data[field_types][]", [])
-        c_exs.field_types = field_types
-        field_physical_qualities = set_value_as_list(request, "data[field_physical_qualities]", "data[field_physical_qualities][]", [])
-        c_exs.field_physical_qualities = field_physical_qualities
-        field_cognitive_loads = set_value_as_list(request, "data[field_cognitive_loads]", "data[field_cognitive_loads][]", [])
-        c_exs.field_cognitive_loads = field_cognitive_loads
-        field_fields = set_value_as_list(request, "data[field_fields]", "data[field_fields][]", [])
-        c_exs.field_fields = field_fields
+    c_exs.field_age_a = set_value_as_int(request, "data[field_age_a]", None)
+    c_exs.field_age_b = set_value_as_int(request, "data[field_age_b]", None)
+    c_exs.field_players_a = set_value_as_int(request, "data[field_players_a]", None)
+    c_exs.field_players_b = set_value_as_int(request, "data[field_players_b]", None)
+    c_exs.field_keyword_a = request.POST.get("data[field_keyword_a]", None)
+    c_exs.field_keyword_b = request.POST.get("data[field_keyword_b]", None)
+    field_keywords = set_value_as_list(request, "data[field_keywords]", "data[field_keywords][]", [])
+    c_exs.field_keywords = field_keywords
+    c_exs.field_exs_category_a = request.POST.get("data[field_exs_category_a]", None)
+    c_exs.field_exs_category_b = request.POST.get("data[field_exs_category_b]", None)
+    field_categories = set_value_as_list(request, "data[field_categories]", "data[field_categories][]", [])
+    c_exs.field_categories = field_categories
+    field_types = set_value_as_list(request, "data[field_types]", "data[field_types][]", [])
+    c_exs.field_types = field_types
+    field_physical_qualities = set_value_as_list(request, "data[field_physical_qualities]", "data[field_physical_qualities][]", [])
+    c_exs.field_physical_qualities = field_physical_qualities
+    field_cognitive_loads = set_value_as_list(request, "data[field_cognitive_loads]", "data[field_cognitive_loads][]", [])
+    c_exs.field_cognitive_loads = field_cognitive_loads
+    field_fields = set_value_as_list(request, "data[field_fields]", "data[field_fields][]", [])
+    c_exs.field_fields = field_fields
 
+    if is_can_edit_full:
         video_links_links = set_value_as_list(request, "data[video_links_link[]]", "data[video_links_link[]][]", [])
         video_links_names = set_value_as_list(request, "data[video_links_name[]]", "data[video_links_name[]][]", [])
         video_links_notes = set_value_as_list(request, "data[video_links_note[]]", "data[video_links_note[]][]", [])
@@ -1348,44 +1360,7 @@ def POST_edit_exs(request, cur_user, cur_team):
                 })
                 pass
             c_exs.video_links = video_links
-        
-        c_exs.tags.clear()
-        tags_arr = set_value_as_list(request, "data[tags]", "data[tags][]", [])
-        for c_tag in tags_arr:
-            c_tag_lower = c_tag.lower()
-            f_tag = None
-            try:
-                if folder_type == FOLDER_TEAM and request.user.club_id is None:
-                    f_tag = ExerciseTag.objects.filter(
-                        Q(is_nfb=True, lowercase_name=c_tag_lower) | Q(is_nfb=False, user=cur_user, lowercase_name=c_tag_lower)
-                    )
-                    if f_tag.exists() and f_tag[0].id != None:
-                        f_tag = f_tag[0]
-                    else:
-                        f_tag = ExerciseTag(is_nfb=False, user=cur_user, name=c_tag, lowercase_name=c_tag_lower)
-                        f_tag.save()
-                elif folder_type == FOLDER_NFB:
-                    f_tag = ExerciseTag.objects.filter(is_nfb=True, lowercase_name=c_tag_lower)
-                    if f_tag.exists() and f_tag[0].id != None:
-                        f_tag = f_tag[0]
-                    else:
-                        f_tag = ExerciseTag(is_nfb=True, name=c_tag, lowercase_name=c_tag_lower)
-                        f_tag.save()
-                elif folder_type == FOLDER_CLUB or folder_type == FOLDER_TEAM and request.user.club_id is not None:
-                    f_tag = ExerciseTag.objects.filter(
-                        Q(is_nfb=True, lowercase_name=c_tag_lower) | Q(is_nfb=False, club=request.user.club_id, lowercase_name=c_tag_lower)
-                    )
-                    if f_tag.exists() and f_tag[0].id != None:
-                        f_tag = f_tag[0]
-                    else:
-                        f_tag = ExerciseTag(is_nfb=False, club=request.user.club_id, name=c_tag, lowercase_name=c_tag_lower)
-                        f_tag.save()
-            except:
-                pass
-            if f_tag is not None:
-                c_exs.tags.add(f_tag)
-        c_exs = set_exs_additional_params(request, c_exs, folder_type)
-        
+
         video1_id = -1
         video2_id = -1
         animation1_id = -1
@@ -1413,7 +1388,43 @@ def POST_edit_exs(request, cur_user, cur_team):
                 c_exs.animation_data['data']['default'] = [animation1_id, animation2_id]
             else:
                 c_exs.animation_data = {'data': {'custom': "", 'default': [animation1_id, animation2_id]}}
-    
+      
+    c_exs.tags.clear()
+    tags_arr = set_value_as_list(request, "data[tags]", "data[tags][]", [])
+    for c_tag in tags_arr:
+        c_tag_lower = c_tag.lower()
+        f_tag = None
+        try:
+            if folder_type == FOLDER_TEAM and request.user.club_id is None:
+                f_tag = ExerciseTag.objects.filter(
+                    Q(is_nfb=True, lowercase_name=c_tag_lower) | Q(is_nfb=False, user=cur_user, lowercase_name=c_tag_lower)
+                )
+                if f_tag.exists() and f_tag[0].id != None:
+                    f_tag = f_tag[0]
+                else:
+                    f_tag = ExerciseTag(is_nfb=False, user=cur_user, name=c_tag, lowercase_name=c_tag_lower)
+                    f_tag.save()
+            elif folder_type == FOLDER_NFB:
+                f_tag = ExerciseTag.objects.filter(is_nfb=True, lowercase_name=c_tag_lower)
+                if f_tag.exists() and f_tag[0].id != None:
+                    f_tag = f_tag[0]
+                else:
+                    f_tag = ExerciseTag(is_nfb=True, name=c_tag, lowercase_name=c_tag_lower)
+                    f_tag.save()
+            elif folder_type == FOLDER_CLUB or folder_type == FOLDER_TEAM and request.user.club_id is not None:
+                f_tag = ExerciseTag.objects.filter(
+                    Q(is_nfb=True, lowercase_name=c_tag_lower) | Q(is_nfb=False, club=request.user.club_id, lowercase_name=c_tag_lower)
+                )
+                if f_tag.exists() and f_tag[0].id != None:
+                    f_tag = f_tag[0]
+                else:
+                    f_tag = ExerciseTag(is_nfb=False, club=request.user.club_id, name=c_tag, lowercase_name=c_tag_lower)
+                    f_tag.save()
+        except:
+            pass
+        if f_tag is not None:
+            c_exs.tags.add(f_tag)
+    c_exs = set_exs_additional_params(request, c_exs, folder_type)
     try:
         c_exs.save()
         res_data = f'Exs with id: [{c_exs.id}] is added / edited successfully.'
@@ -1600,30 +1611,65 @@ def POST_edit_exs_custom(request, cur_user, cur_team):
     is_can_edit_full = found_admin_exercise == None
     
     if edit_mode == "card":
-        if is_can_edit_full:
-            c_exs.title = set_by_language_code(c_exs.title, request.LANGUAGE_CODE, request.POST.get("data[title]", ""))
-            c_exs.field_task = set_by_language_code(c_exs.field_task, request.LANGUAGE_CODE, request.POST.get("data[field_task]", ""))
-            c_exs.field_age_a = set_value_as_int(request, "data[field_age_a]", None)
-            c_exs.field_age_b = set_value_as_int(request, "data[field_age_b]", None)
-            c_exs.field_players_a = set_value_as_int(request, "data[field_players_a]", None)
-            c_exs.field_players_b = set_value_as_int(request, "data[field_players_b]", None)
-            c_exs.field_keyword_a = request.POST.get("data[field_keyword_a]", None)
-            c_exs.field_keyword_b = request.POST.get("data[field_keyword_b]", None)
-            c_exs.ref_ball = set_value_as_ref(request, "data[ref_ball]", None)
-            c_exs.field_goal = set_by_language_code(c_exs.field_goal, request.LANGUAGE_CODE, request.POST.get("data[field_goal]", ""))
-            field_categories = set_value_as_list(request, "data[field_categories]", "data[field_categories][]", [])
-            c_exs.field_categories = field_categories
-            field_types = set_value_as_list(request, "data[field_types]", "data[field_types][]", [])
-            c_exs.field_types = field_types
-            field_physical_qualities = set_value_as_list(request, "data[field_physical_qualities]", "data[field_physical_qualities][]", [])
-            c_exs.field_physical_qualities = field_physical_qualities
-            field_cognitive_loads = set_value_as_list(request, "data[field_cognitive_loads]", "data[field_cognitive_loads][]", [])
-            c_exs.field_cognitive_loads = field_cognitive_loads
-            field_fields = set_value_as_list(request, "data[field_fields]", "data[field_fields][]", [])
-            c_exs.field_fields = field_fields
+        c_exs.title = set_by_language_code(c_exs.title, request.LANGUAGE_CODE, request.POST.get("data[title]", ""))
+        c_exs.field_task = set_by_language_code(c_exs.field_task, request.LANGUAGE_CODE, request.POST.get("data[field_task]", ""))
+        c_exs.field_age_a = set_value_as_int(request, "data[field_age_a]", None)
+        c_exs.field_age_b = set_value_as_int(request, "data[field_age_b]", None)
+        c_exs.field_players_a = set_value_as_int(request, "data[field_players_a]", None)
+        c_exs.field_players_b = set_value_as_int(request, "data[field_players_b]", None)
+        c_exs.field_keyword_a = request.POST.get("data[field_keyword_a]", None)
+        c_exs.field_keyword_b = request.POST.get("data[field_keyword_b]", None)
+        c_exs.ref_ball = set_value_as_ref(request, "data[ref_ball]", None)
+        c_exs.field_goal = set_by_language_code(c_exs.field_goal, request.LANGUAGE_CODE, request.POST.get("data[field_goal]", ""))
+        c_exs.field_goalkeeper = set_by_language_code(c_exs.field_goalkeeper, request.LANGUAGE_CODE, request.POST.get("data[field_goalkeeper]", ""))
+        field_categories = set_value_as_list(request, "data[field_categories]", "data[field_categories][]", [])
+        c_exs.field_categories = field_categories
+        field_types = set_value_as_list(request, "data[field_types]", "data[field_types][]", [])
+        c_exs.field_types = field_types
+        field_physical_qualities = set_value_as_list(request, "data[field_physical_qualities]", "data[field_physical_qualities][]", [])
+        c_exs.field_physical_qualities = field_physical_qualities
+        field_cognitive_loads = set_value_as_list(request, "data[field_cognitive_loads]", "data[field_cognitive_loads][]", [])
+        c_exs.field_cognitive_loads = field_cognitive_loads
+        field_fields = set_value_as_list(request, "data[field_fields]", "data[field_fields][]", [])
+        c_exs.field_fields = field_fields
+
+        c_exs.tags.clear()
+        tags_arr = set_value_as_list(request, "data[tags]", "data[tags][]", [])
+        for c_tag in tags_arr:
+            c_tag_lower = c_tag.lower()
+            f_tag = None
+            try:
+                if folder_type == FOLDER_TEAM and request.user.club_id is None:
+                    f_tag = ExerciseTag.objects.filter(
+                        Q(is_nfb=True, lowercase_name=c_tag_lower) | Q(is_nfb=False, user=cur_user, lowercase_name=c_tag_lower)
+                    )
+                    if f_tag.exists() and f_tag[0].id != None:
+                        f_tag = f_tag[0]
+                    else:
+                        f_tag = ExerciseTag(is_nfb=False, user=cur_user, name=c_tag, lowercase_name=c_tag_lower)
+                        f_tag.save()
+                elif folder_type == FOLDER_NFB:
+                    f_tag = ExerciseTag.objects.filter(is_nfb=True, lowercase_name=c_tag_lower)
+                    if f_tag.exists() and f_tag[0].id != None:
+                        f_tag = f_tag[0]
+                    else:
+                        f_tag = ExerciseTag(is_nfb=True, name=c_tag, lowercase_name=c_tag_lower)
+                        f_tag.save()
+                elif folder_type == FOLDER_CLUB or folder_type == FOLDER_TEAM and request.user.club_id is not None:
+                    f_tag = ExerciseTag.objects.filter(
+                        Q(is_nfb=True, lowercase_name=c_tag_lower) | Q(is_nfb=False, club=request.user.club_id, lowercase_name=c_tag_lower)
+                    )
+                    if f_tag.exists() and f_tag[0].id != None:
+                        f_tag = f_tag[0]
+                    else:
+                        f_tag = ExerciseTag(is_nfb=False, club=request.user.club_id, name=c_tag, lowercase_name=c_tag_lower)
+                        f_tag.save()
+            except:
+                pass
+            if f_tag is not None:
+                c_exs.tags.add(f_tag)
     elif edit_mode == "description":
-        if is_can_edit_full:
-            c_exs.description = set_by_language_code(c_exs.description, request.LANGUAGE_CODE, request.POST.get("data[description]", ""))
+        c_exs.description = set_by_language_code(c_exs.description, request.LANGUAGE_CODE, request.POST.get("data[description]", ""))
         c_exs.description_trainer = set_by_language_code(c_exs.description_trainer, request.LANGUAGE_CODE, request.POST.get("data[description_trainer]", ""))
 
     c_exs.date_editing = datetime.datetime.now()
@@ -3145,6 +3191,7 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
     res_exs['ref_stress_type'] = res_exs['ref_stress_type_id']
     res_exs['field_players'] = get_by_language_code(res_exs['field_players'], request.LANGUAGE_CODE)
     res_exs['field_goal'] = get_by_language_code(res_exs['field_goal'], request.LANGUAGE_CODE)
+    res_exs['field_goalkeeper'] = get_by_language_code(res_exs['field_goalkeeper'], request.LANGUAGE_CODE)
     res_exs['field_age'] = get_by_language_code(res_exs['field_age'], request.LANGUAGE_CODE)
     res_exs['field_task'] = get_by_language_code(res_exs['field_task'], request.LANGUAGE_CODE)
     res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type, request.user.club_id)
