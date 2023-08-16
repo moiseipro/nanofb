@@ -5,6 +5,8 @@ from users import views
 
 router = routers.DefaultRouter()
 router.register(r'', views.UserManagementApiView, basename='clients')
+router_club = routers.DefaultRouter()
+router_club.register(r'', views.ClubsApiViewSet, basename='clubs')
 
 
 urlpatterns = [
@@ -15,7 +17,9 @@ urlpatterns = [
     path('clients', views.UserManagementView.as_view(), name='clients'),
     path('clients/api/', include(router.urls), name='api_clients'),
 
-    path('countries', views.CountryListApiView.as_view(), name='counties'),
-    path('versions', views.VersionListApiView.as_view(), name='versions'),
-    path('clubs', views.ClubListApiView.as_view(), name='clubs'),
+    path('clubs/api/', include(router_club.urls), name='api_clubs'),
+
+    path('countries_list', views.CountryListApiView.as_view(), name='countries_list'),
+    path('versions_list', views.VersionListApiView.as_view(), name='versions_list'),
+    path('clubs_list', views.ClubListApiView.as_view(), name='clubs_list'),
 ]

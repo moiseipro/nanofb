@@ -3,6 +3,7 @@ var users_menu_state = null
 
 $(window).on("load", function () {
     generate_ajax_users_table("calc(100vh - 280px)")
+    generate_ajax_clubs_table("calc(100vh - 280px)")
 
     if(!Cookies.get('user_selected_id')){
         $('#open-profile-modal').prop('disabled', true)
@@ -30,7 +31,7 @@ $(window).on("load", function () {
         theme: 'bootstrap4',
         width: '100%',
         ajax: {
-            url: '/user/countries',
+            url: '/user/countries_list',
             dataType: 'json',
             data: function (params) {
                 // var query = {
@@ -75,7 +76,7 @@ $(window).on("load", function () {
         theme: 'bootstrap4',
         width: '100%',
         ajax: {
-            url: '/user/versions',
+            url: '/user/versions_list',
             dataType: 'json',
             data: function (params) {
 
@@ -109,7 +110,7 @@ $(window).on("load", function () {
         theme: 'bootstrap4',
         width: '100%',
         ajax: {
-            url: '/user/clubs',
+            url: '/user/clubs_list',
             dataType: 'json',
             data: function (params) {
 

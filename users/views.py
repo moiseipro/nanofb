@@ -24,6 +24,7 @@ from rest_framework.views import APIView
 from rest_framework_datatables.django_filters.backends import DatatablesFilterBackend
 
 from clubs.models import Club
+from clubs.serializers import ClubSerializer
 from system_icons.views import get_ui_elements
 
 from users.filters import UserManagementGlobalFilter
@@ -313,6 +314,39 @@ class EditPasswordApiView(UpdateAPIView):
             return response
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ClubsApiViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsAdminUser,)
+
+    def create(self, request, *args, **kwargs):
+        print(request.data)
+        if Club.objects.filter(subdomain=request.data['subdomain']).exists():
+            res_data = {'action': _("A club with this subdomain already exists!")}
+            return Response(res_data, status=status.HTTP_403_FORBIDDEN)
+
+        print(request.data)
+
+        serializer = ClubSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+
+        res_data = {'action': _("Create club success!")}
+        res_data.update(serializer.data)
+        return Response(res_data, status=status.HTTP_201_CREATED, headers=headers)
+
+    # def perform_create(self, serializer):
+    #     serializer.save(federation_id=self.request.user.federation_id)
+
+    def get_serializer_class(self):
+        return ClubSerializer
+
+    def get_queryset(self):
+        club = Club.objects.all()
+        result = club
+        print(result)
+        return result
 
 
 class CountryListApiView(APIView):
