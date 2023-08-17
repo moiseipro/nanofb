@@ -341,7 +341,9 @@ function load_all_exercises_training(training_id = null, group = null) {
     ajax_training_action('GET', send_data, 'view card training', training_id).then(function (data) {
         //console.log(data)
 
-        let additionals = data.additional;
+
+        //Доп данные тренировки
+        /*let additionals = data.additional;
         var additional_data = ''
         for (let i = 0; i < 5; i++) {
             //console.log(additionals)
@@ -371,7 +373,7 @@ function load_all_exercises_training(training_id = null, group = null) {
                 `
             }
         }
-        $('#training-additional-data div').html(additional_data)
+        $('#training-additional-data div').html(additional_data)*/
 
 
         $('#training-main-data [name="date"]').val(data.event_date);

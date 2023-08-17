@@ -89,3 +89,40 @@ function generate_ajax_clubs_table(scroll_y = ''){
         }
     })
 }
+
+async function ajax_club_action(method, data, action = '', id = '', func = '') {
+
+    let url = "/user/clubs/api/"
+    if(id !== '') url += `${id}/`
+    if(func !== '') url += `${func}/`
+
+    $('.page-loader-wrapper').fadeIn();
+
+    return await $.ajax({
+        headers:{"X-CSRFToken": csrftoken },
+        url: url,
+        type: method,
+        dataType: "JSON",
+        data: data,
+        cache : false,
+        processData: false,
+        contentType: false,
+        success: function(data){
+            //console.log(data)
+            if ('action' in data) {
+                swal(data.action, "success");
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+            if ('responseJSON' in jqXHR){
+                if('action' in jqXHR.responseJSON){
+                    swal(jqXHR.responseJSON.action, '', "error");
+                }
+            }
+
+        },
+        complete: function () {
+            $('.page-loader-wrapper').fadeOut();
+        }
+    })
+}

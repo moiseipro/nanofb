@@ -30,6 +30,15 @@ class GlobalJoinDateFilter(GlobalFilter, filters.DateFilter):
         return qs
 
 
+class GlobalArchiveFilter(GlobalFilter, filters.CharFilter):
+    def filter(self, qs, value):
+        if value:
+            if self.distinct:
+                qs = qs.distinct()
+            qs = qs.filter(is_archive=True)
+        return qs
+
+
 class GlobalDistributorFilter(GlobalFilter, filters.CharFilter):
     def filter(self, qs, value):
         if value:
@@ -118,6 +127,7 @@ class UserManagementGlobalFilter(DatatablesFilterSet):
     date_joined = GlobalJoinDateFilter()
     distributor = GlobalDistributorFilter()
     admin_type = GlobalAdminTypeFilter()
+    is_archive = GlobalArchiveFilter()
 
     date_birthsday = GlobalDateFilter(field_name='personal__date_birthsday')
     last_name = GlobalNameFilter(field_name='personal__last_name', lookup_expr='icontains')
@@ -140,4 +150,4 @@ class UserManagementGlobalFilter(DatatablesFilterSet):
     class Meta:
         #model = User
         fields = ['registration_to', 'date_birthsday', 'last_name', 'first_name', 'job_title', 'license', 'p_version',
-                  'club_id', 'distributor']
+                  'club_id', 'distributor', 'is_archive']

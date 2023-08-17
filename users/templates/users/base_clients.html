@@ -25,7 +25,10 @@
                                     <a class="nav-link" data-toggle="pill" href="#clubs-table-tab" role="tab" aria-controls="club-users" aria-selected="true">{% trans "Clubs" %}</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="pill" href="#user-add" role="tab" aria-controls="club-user-add" aria-selected="false">{% trans "Add user" %}</a>
+                                    <a class="nav-link" data-toggle="pill" href="#user-add" role="tab" aria-controls="user-add" aria-selected="false">{% trans "Add user" %}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="pill" href="#club-add" role="tab" aria-controls="club-add" aria-selected="false">{% trans "Add club" %}</a>
                                 </li>
                             </ul>
                         </div>
@@ -67,6 +70,9 @@
                         </div>
                         <div class="tab-pane fade" id="user-add" role="tabpanel" aria-labelledby="pills-user-add-tab">
                             {% include "users/forms/add-user-form.html" %}
+                        </div>
+                        <div class="tab-pane fade" id="club-add" role="tabpanel" aria-labelledby="pills-user-add-tab">
+                            {% include "users/forms/add-club-form.html" %}
                         </div>
                     </div>
                 </div>

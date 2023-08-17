@@ -343,4 +343,14 @@ $(window).on("load", function () {
             users_table.columns(filter_obj).search( value ).draw();
         }
     })
+
+    $('#add-club-form').submit(function (event) {
+        let form_Data = new FormData(this)
+        console.log(form_Data)
+
+        ajax_club_action('POST', form_Data, 'club').then(function (data) {
+            console.log(data)
+        })
+        event.preventDefault();
+    })
 })

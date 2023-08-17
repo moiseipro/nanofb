@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-31 14:35+0300\n"
+"POT-Creation-Date: 2023-08-17 11:42+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,11 +75,10 @@ msgstr "Лимит упражнений для выбранной группы �
 
 #: .\clubs\static\clubs\js\club_ajax.js:24
 #: .\events\static\events\js\event_lite_update.js:35
-#: .\events\static\events\js\event_update.js:35
 #: .\references\static\references\team_ajax.js:22
 #: .\static\clubs\js\club_ajax.js:24 .\static\events\base_events.js:244
 #: .\static\events\js\event_lite_update.js:35
-#: .\static\events\js\event_update.js:35 .\static\references\team_ajax.js:22
+#: .\static\references\team_ajax.js:22
 #: .\static\trainings\js\view_protocol.js:25
 #: .\static\trainings\view_training.js:36 .\static\video\js\video_card.js:104
 #: .\trainings\static\trainings\js\view_protocol.js:25
@@ -92,9 +91,9 @@ msgstr "Ошибка при выполнении \""
 #: .\static\clubs\js\users_list.js:104
 #: .\static\federations\js\ajax_user_table.js:164
 #: .\static\users\modules\ajax_permission.js:18
-#: .\static\users\modules\ajax_user_table.js:165
+#: .\static\users\modules\ajax_user_table.js:170
 #: .\users\static\users\modules\ajax_permission.js:18
-#: .\users\static\users\modules\ajax_user_table.js:165
+#: .\users\static\users\modules\ajax_user_table.js:170
 msgid "User"
 msgstr "Пользователь"
 
@@ -106,9 +105,9 @@ msgstr "Пользователь"
 #: .\static\clubs\js\users_list.js:116
 #: .\static\federations\js\ajax_user_table.js:173
 #: .\static\users\modules\ajax_permission.js:26
-#: .\static\users\modules\ajax_user_table.js:174
+#: .\static\users\modules\ajax_user_table.js:179
 #: .\users\static\users\modules\ajax_permission.js:26
-#: .\users\static\users\modules\ajax_user_table.js:174
+#: .\users\static\users\modules\ajax_user_table.js:179
 msgid "Users "
 msgstr "Пользователи "
 
@@ -164,17 +163,11 @@ msgstr "Скрыть поисковые совпадения"
 #: .\events\static\events\js\event_lite_update.js:22
 #: .\events\static\events\js\event_lite_update.js:27
 #: .\events\static\events\js\event_lite_update.js:35
-#: .\events\static\events\js\event_update.js:20
-#: .\events\static\events\js\event_update.js:22
-#: .\events\static\events\js\event_update.js:27
-#: .\events\static\events\js\event_update.js:35
 #: .\static\events\base_events.js:239 .\static\events\base_events.js:244
 #: .\static\events\js\event_lite_update.js:20
 #: .\static\events\js\event_lite_update.js:22
 #: .\static\events\js\event_lite_update.js:27
 #: .\static\events\js\event_lite_update.js:35
-#: .\static\events\js\event_update.js:20 .\static\events\js\event_update.js:22
-#: .\static\events\js\event_update.js:27 .\static\events\js\event_update.js:35
 msgid "Event "
 msgstr "Событие "
 
@@ -193,12 +186,37 @@ msgid "The training was successfully copied!"
 msgstr "Тренировка была успешно скопирована!"
 
 #: .\events\static\events\js\event_lite_update.js:27
-#: .\events\static\events\js\event_update.js:27
 #: .\static\events\base_events.js:239
 #: .\static\events\js\event_lite_update.js:27
-#: .\static\events\js\event_update.js:27
 msgid "Event action \""
 msgstr "Действие с событием \""
+
+#: .\events\static\events\js\event_update.js:20
+#: .\events\static\events\js\event_update.js:22
+#: .\events\static\events\js\event_update.js:27
+#: .\events\static\events\js\event_update.js:35
+#: .\static\events\base_events.js:413 .\static\events\js\event_update.js:20
+#: .\static\events\js\event_update.js:22 .\static\events\js\event_update.js:27
+#: .\static\events\js\event_update.js:35
+msgid "Event"
+msgstr "Событие"
+
+#: .\events\static\events\js\event_update.js:27
+#: .\static\events\js\event_update.js:27
+#, fuzzy
+#| msgid "Training action successfully!"
+msgid "Event action successfully!"
+msgstr "Действие с тренировкой успешно!"
+
+#: .\events\static\events\js\event_update.js:35
+#: .\events\static\events\js\generate_table.js:188
+#: .\events\static\events\js\generate_table.js:244
+#: .\static\events\base_events.js:318 .\static\events\base_events.js:327
+#: .\static\events\js\event_update.js:35
+#: .\static\events\js\generate_table.js:188
+#: .\static\events\js\generate_table.js:244
+msgid "Error when action the event!"
+msgstr "Ошибка при выполнении события!"
 
 #: .\events\static\events\js\events.js:85 .\static\events\js\events.js:85
 msgid "Warning!"
@@ -306,14 +324,6 @@ msgstr "Матч"
 msgid "Event save"
 msgstr "Сохранить событие"
 
-#: .\events\static\events\js\generate_table.js:188
-#: .\events\static\events\js\generate_table.js:244
-#: .\static\events\base_events.js:318 .\static\events\base_events.js:327
-#: .\static\events\js\generate_table.js:188
-#: .\static\events\js\generate_table.js:244
-msgid "Error when action the event!"
-msgstr "Ошибка при выполнении события!"
-
 #: .\events\static\events\js\generate_table.js:202
 #: .\static\admin\js\admin\DateTimeShortcuts.js:239
 #: .\static\admin\js\admin\DateTimeShortcuts.js:319
@@ -377,33 +387,33 @@ msgstr "Лицензия до: "
 #: .\federations\static\federations\js\ajax_user_table.js:166
 #: .\static\federations\js\ajax_user_table.js:166
 #: .\static\users\modules\ajax_permission.js:20
-#: .\static\users\modules\ajax_user_table.js:167
+#: .\static\users\modules\ajax_user_table.js:172
 #: .\users\static\users\modules\ajax_permission.js:20
-#: .\users\static\users\modules\ajax_user_table.js:167
+#: .\users\static\users\modules\ajax_user_table.js:172
 msgid "User registration"
 msgstr "Регистрация пользователя"
 
 #: .\federations\static\federations\js\base_federation.js:29
 #: .\static\federations\js\base_federation.js:29
-#: .\static\users\base_clients.js:28 .\users\static\users\base_clients.js:28
+#: .\static\users\base_clients.js:29 .\users\static\users\base_clients.js:29
 msgid "Country"
 msgstr "Страна"
 
 #: .\federations\static\federations\js\base_federation.js:73
 #: .\static\federations\js\base_federation.js:73
-#: .\static\users\base_clients.js:72 .\users\static\users\base_clients.js:72
+#: .\static\users\base_clients.js:74 .\users\static\users\base_clients.js:74
 msgid "Version"
 msgstr "Версия"
 
 #: .\federations\static\federations\js\base_federation.js:107
 #: .\static\federations\js\base_federation.js:107
-#: .\static\users\base_clients.js:106 .\users\static\users\base_clients.js:106
+#: .\static\users\base_clients.js:108 .\users\static\users\base_clients.js:108
 msgid "Club"
 msgstr "Клуб"
 
 #: .\federations\static\federations\js\base_federation.js:280
 #: .\static\federations\js\base_federation.js:280
-#: .\static\users\base_clients.js:279 .\users\static\users\base_clients.js:279
+#: .\static\users\base_clients.js:281 .\users\static\users\base_clients.js:281
 msgid "Are you sure you want to generate a new password?"
 msgstr "Вы уверены, что хотите сгенерировать новый пароль?"
 
@@ -571,12 +581,10 @@ msgstr "Сезон успешно сохранен!"
 msgid "Error when action the season!"
 msgstr "Ошибка при действии с сезоном!"
 
-#: .\references\static\references\references_edit.js:114
-#: .\static\references\references_edit.js:114
+#: .\references\static\references\references_edit.js:121
+#: .\static\references\references_edit.js:121
 #: .\static\trainings\js\print_training.js:165
-#: .\static\trainings\js\training_card.js:365
 #: .\trainings\static\trainings\js\print_training.js:165
-#: .\trainings\static\trainings\js\training_card.js:365
 msgid "Title"
 msgstr "Название"
 
@@ -913,10 +921,6 @@ msgstr "Скрыть"
 msgid "Apply action \""
 msgstr "Применить действие \""
 
-#: .\static\events\base_events.js:413
-msgid "Event"
-msgstr "Событие"
-
 #: .\static\trainings\js\action_lite_training.js:21
 #: .\static\trainings\js\action_training.js:21
 #: .\trainings\static\trainings\js\action_lite_training.js:21
@@ -1011,11 +1015,6 @@ msgstr "Удалите все дополнительные данные из у�
 #: .\trainings\static\trainings\js\view_training.js:278
 msgid "Group"
 msgstr "Группа"
-
-#: .\static\trainings\js\training_card.js:368
-#: .\trainings\static\trainings\js\training_card.js:368
-msgid "Note"
-msgstr "Заметка"
 
 #: .\static\trainings\js\view_training.js:9
 #: .\trainings\static\trainings\js\view_training.js:9
@@ -1120,6 +1119,9 @@ msgstr "Видео "
 #: .\static\video\js\video_card.js:98 .\video\static\video\js\video_card.js:98
 msgid "Video action \""
 msgstr "Действие с видео \""
+
+#~ msgid "Note"
+#~ msgstr "Заметка"
 
 #~ msgid "Archive"
 #~ msgstr "Архив"
