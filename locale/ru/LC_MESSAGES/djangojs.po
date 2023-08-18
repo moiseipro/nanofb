@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-17 11:42+0300\n"
+"POT-Creation-Date: 2023-08-18 14:13+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -158,6 +158,16 @@ msgstr ", в "
 #: .\docs\_build\html\_static\sphinx_highlight.js:107
 msgid "Hide Search Matches"
 msgstr "Скрыть поисковые совпадения"
+
+#: .\events\static\events\js\event_copy.js:16
+#: .\static\events\js\event_copy.js:16
+msgid "Copying an event"
+msgstr "Копирование события"
+
+#: .\events\static\events\js\event_copy.js:16
+#: .\static\events\js\event_copy.js:16
+msgid "Date or time not filled!"
+msgstr "Дата или время не заполнены!"
 
 #: .\events\static\events\js\event_lite_update.js:20
 #: .\events\static\events\js\event_lite_update.js:22
