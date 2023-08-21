@@ -3,7 +3,7 @@
 {% load language_json %}
 
 
-<div class="row border">
+<div class="row border" style="max-height: calc(100vh - 200px); overflow-y: auto; overflow-x: hidden">
     <div class="col-12 pr-0" style="background: lightgrey">
         <span class="float-left">{% trans 'Filters' %}</span>
         <span class="float-right"><button type="button" id="clear-user-filters" class="btn btn-sm btn-secondary py-0" title="{% trans 'Reset filters' %}"><i class="fa fa-undo" aria-hidden="true"></i></button></span>
@@ -27,9 +27,10 @@
                 <input type="text" class="form-control user-table-filter datetimepickerfilter" data-toggle="datetimepicker" data-filter="access-user-filter" placeholder="{% trans 'Access to' %}">
             </div>
             <div class="col-12 pb-1">
-                <select id="version-filter" class="form-control user-table-filter select2" data-filter="version-user-filter">
-                    <option value="">{% trans 'Version' %}</option>
-                </select>
+                <label class="form-check-label" for="version-filter">
+                    {% trans 'Version' %}
+                </label>
+                <select id="version-filter" class="form-control user-table-filter select2" data-filter="version-user-filter"></select>
             </div>
             <div class="col-12 pb-1">
                 <label class="form-check-label" for="club-filter">
@@ -44,9 +45,27 @@
     </div>
     <div class="col-12">
         <div class="form-check">
+            <input class="form-check-input user-table-filter" data-filter="archive-user-filter" type="checkbox" value="true" id="archive-filter-check">
+            <label class="form-check-label" for="archive-filter-check">
+                {% trans 'Archive' %} <i class="fa fa-flag" aria-hidden="true"></i>
+            </label>
+        </div>
+        <div class="form-check">
             <input class="form-check-input user-table-filter" data-filter="registration-user-filter" type="checkbox" value="{% now "Y-m-d" %}" id="registration-filter-check">
             <label class="form-check-label" for="registration-filter-check">
                 {% trans 'New users' %}
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input toggle-user-column user-table-filter" data-col="distributor-info-col" data-filter="distributor-filter" type="checkbox" value="true" id="distributor-filter-check">
+            <label class="form-check-label" for="distributor-filter-check">
+                {% trans 'Distributor' %}
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input user-table-filter" data-filter="all-admin-filter" type="checkbox" value="true" id="admins-filter-check">
+            <label class="form-check-label" for="admins-filter-check">
+                {% trans 'Admins' %}
             </label>
         </div>
     </div>
@@ -117,7 +136,7 @@
         <div class="form-check">
             <input class="form-check-input toggle-user-column" data-col="exercises-info-col" type="checkbox" value="" id="exercises-check">
             <label class="form-check-label" for="exercises-check">
-                {% trans 'User exercises' %}
+                {% trans 'Exercises' %}
             </label>
         </div>
         <div class="form-check">
@@ -126,11 +145,11 @@
                 {% trans 'Last login' %}
             </label>
         </div>
-        <div class="form-check">
-            <input class="form-check-input toggle-user-column" data-col="distributor-info-col" type="checkbox" value="" id="distributor-check">
-            <label class="form-check-label" for="distributor-check">
-                {% trans 'Distributor' %}
-            </label>
-        </div>
+{#        <div class="form-check">#}
+{#            <input class="form-check-input toggle-user-column" data-col="distributor-info-col" type="checkbox" value="" id="distributor-check">#}
+{#            <label class="form-check-label" for="distributor-check">#}
+{#                {% trans 'Distributor' %}#}
+{#            </label>#}
+{#        </div>#}
     </div>
 </div>

@@ -93,7 +93,7 @@ class UserAllDataSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'id', 'email', 'club_id', 'p_version', 'date_last_login', 'date_joined', 'days_entered', 'is_active',
-            'registration_to', 'personal', 'is_archive', 'is_demo_mode'
+            'registration_to', 'personal', 'is_archive', 'is_demo_mode', 'distributor'
         ]
 
 

@@ -12,6 +12,10 @@ $(window).on('load', function (){
         let send_data = {}
         let date = $('#form-event-copy-modal .datepicker-event').val()
         let time = $('#form-event-copy-modal .timepicker').val()
+        if(date == '' || time == ''){
+            swal (gettext("Copying an event"), gettext("Date or time not filled!"),  "error" )
+            return false
+        }
         date = moment(date, 'DD/MM/YYYY').format('YYYY-MM-DD')
         send_data['date'] = date+' '+time
         send_data['team'] = $('#copy-event-team').val()

@@ -71,6 +71,16 @@
         {% if user.is_superuser %}
         <div class="col-sm-12">
             <div class="form-group row mb-1">
+                <label class="col col-form-label">{% trans 'Distributor'%}</label>
+                <div class="col">
+                    <input type="text" name="distributor" class="form-control form-control-sm edit-input" value="{{ user.distributor }}" autocomplete="off" required disabled>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if user.is_superuser %}
+        <div class="col-sm-12">
+            <div class="form-group row mb-1">
                 <label class="col col-form-label">{% trans 'Demo version'%}</label>
                 <div class="col">
                     <input type="checkbox" name="is_demo_mode" class="form-control form-control-sm edit-input" value="on" autocomplete="off" disabled>

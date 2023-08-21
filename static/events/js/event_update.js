@@ -17,14 +17,14 @@ async function ajax_event_action(method, data, action = '', id = '', func = '') 
             console.log(data)
             if(data!= undefined && 'status' in data){
                 if(data['status'] == 'event_type_full') {
-                    swal(gettext('Event ' + action), gettext('You have created the maximum number of events of this type for one day!'), "error");
+                    swal(gettext('Event'), gettext('You have created the maximum number of events of this type for one day!'), "error");
                 } else if (data['status'] == 'training_copied'){
-                    swal(gettext('Event ' + action), gettext('The training was successfully copied!'), "success");
+                    swal(gettext('Event'), gettext('The training was successfully copied!'), "success");
                 } else {
 
                 }
             }else if (method == 'POST' || method == 'UPDATE' || method == 'PUT' || method == 'DELETE'){
-                swal(gettext('Event '+action), gettext('Event action "'+action+'" successfully!'), "success");
+                swal(gettext('Event'), gettext('Event action successfully!'), "success");
             } else {
 
             }
@@ -32,7 +32,7 @@ async function ajax_event_action(method, data, action = '', id = '', func = '') 
         },
         error: function(jqXHR, textStatus){
             console.log(jqXHR)
-            swal(gettext('Event '+action), gettext('Error when action "'+action+'" the event!'), "error");
+            swal(gettext('Event'), gettext('Error when action the event!'), "error");
         },
         complete: function () {
             $('.page-loader-wrapper').fadeOut();

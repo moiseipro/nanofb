@@ -124,9 +124,14 @@ function generate_ajax_users_table(scroll_y = ''){
             {'data': 'days_entered', 'name': 'days_entered', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
                 return data;
             }},
-            {'data': 'id', sortable: false, searchable: false, render: function (data, type, row, meta) {
+            {'data': 'is_archive', "name": "is_archive", render: function (data, type, row, meta) {
                 let button_html = `<div class="w-100 text-center" title="">`
-                button_html += `<button type="button" class="btn btn-sm btn-outline-dark mx-1 archive-user py-0 ${row.is_archive==1?'active text-danger':''}" data-id="${data}"><i class="fa fa-flag" aria-hidden="true"></i></button>`
+                button_html += `<button type="button" class="btn btn-sm btn-outline-dark mx-1 archive-user py-0 ${data==1?'active text-danger':''}" data-id="${row.id}"><i class="fa fa-flag" aria-hidden="true"></i></button>`
+                button_html += `</div>`
+                    return button_html;
+            }},
+            {'data': 'id', "name": "archive", sortable: false, searchable: false, render: function (data, type, row, meta) {
+                let button_html = `<div class="w-100 text-center" title="">`
                 button_html += `<a type="button" href="/?__impersonate=${data}" class="btn btn-sm btn-outline-dark mx-1 loginas-user py-0"><i class="fa fa-user-plus" aria-hidden="true"></i></a>`
                 button_html += `</div>`
                     return button_html;

@@ -3,6 +3,7 @@ var users_menu_state = null
 
 $(window).on("load", function () {
     generate_ajax_users_table("calc(100vh - 280px)")
+    generate_ajax_clubs_table("calc(100vh - 280px)")
 
     if(!Cookies.get('user_selected_id')){
         $('#open-profile-modal').prop('disabled', true)
@@ -30,7 +31,7 @@ $(window).on("load", function () {
         theme: 'bootstrap4',
         width: '100%',
         ajax: {
-            url: '/user/countries',
+            url: '/user/countries_list',
             dataType: 'json',
             data: function (params) {
                 // var query = {
@@ -69,12 +70,13 @@ $(window).on("load", function () {
 
     $('#version-filter').select2({
         minimumResultsForSearch: -1,
+        multiple: true,
         placeholder: gettext("Version"),
         language: get_cur_lang(),
         theme: 'bootstrap4',
         width: '100%',
         ajax: {
-            url: '/user/versions',
+            url: '/user/versions_list',
             dataType: 'json',
             data: function (params) {
 
@@ -108,7 +110,7 @@ $(window).on("load", function () {
         theme: 'bootstrap4',
         width: '100%',
         ajax: {
-            url: '/user/clubs',
+            url: '/user/clubs_list',
             dataType: 'json',
             data: function (params) {
 
@@ -340,5 +342,15 @@ $(window).on("load", function () {
         } else{
             users_table.columns(filter_obj).search( value ).draw();
         }
+    })
+
+    $('#add-club-form').submit(function (event) {
+        let form_Data = new FormData(this)
+        console.log(form_Data)
+
+        ajax_club_action('POST', form_Data, 'club').then(function (data) {
+            console.log(data)
+        })
+        event.preventDefault();
     })
 })
