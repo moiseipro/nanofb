@@ -36,6 +36,8 @@ class GlobalArchiveFilter(GlobalFilter, filters.CharFilter):
             if self.distinct:
                 qs = qs.distinct()
             qs = qs.filter(is_archive=True)
+        else:
+            qs = qs.filter(is_archive=False)
         return qs
 
 
@@ -44,7 +46,7 @@ class GlobalDistributorFilter(GlobalFilter, filters.CharFilter):
         if value:
             if self.distinct:
                 qs = qs.distinct()
-            qs = qs.exclude(distributor__isnull=True)
+            qs = qs.exclude(Q(distributor__isnull=True) | Q(distributor=''))
         return qs
 
 

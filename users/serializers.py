@@ -67,7 +67,7 @@ class UserEditSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'id', 'email', 'club_id', 'p_version', 'registration_to', 'is_archive', 'is_demo_mode'
+            'id', 'email', 'club_id', 'p_version', 'registration_to', 'is_archive', 'is_demo_mode', 'distributor'
         ]
 
 
