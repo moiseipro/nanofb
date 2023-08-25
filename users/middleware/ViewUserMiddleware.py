@@ -7,7 +7,7 @@ class ImpersonateMiddleware:
         # One-time configuration and initialization.
 
     def __call__(self, request):
-        if request.user.is_superuser or request.user.has_perm('clubs.club_admin') and "__impersonate" in request.GET:
+        if (request.user.is_superuser or request.user.has_perm('clubs.club_admin')) and "__impersonate" in request.GET:
             request.session['impersonate_id'] = int(request.GET["__impersonate"])
         elif "__unimpersonate" in request.GET:
             del request.session['impersonate_id']
