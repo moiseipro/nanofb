@@ -130,7 +130,7 @@ function generate_ajax_users_table(scroll_y = ''){
                 button_html += `</div>`
                     return button_html;
             }},
-            {'data': 'id', "name": "archive", sortable: false, searchable: false, render: function (data, type, row, meta) {
+            {'data': 'id', sortable: false, searchable: false, render: function (data, type, row, meta) {
                 let button_html = `<div class="w-100 text-center" title="">`
                 button_html += `<a type="button" href="/?__impersonate=${data}" class="btn btn-sm btn-outline-dark mx-1 loginas-user py-0"><i class="fa fa-user-plus" aria-hidden="true"></i></a>`
                 button_html += `</div>`

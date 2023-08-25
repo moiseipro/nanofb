@@ -60,11 +60,17 @@ function generate_ajax_club_users_table(scroll_y = ''){
             {'data': 'phone', 'name': 'phone', 'defaultContent': "---", render: function (data, type, row, meta) {
                 return `<div class="text-truncate" title="${data}"> ${data ? data : '---'} </div>`;
             }},
+            {'data': 'is_archive', "name": "is_archive", render: function (data, type, row, meta) {
+                let button_html = `<div class="w-100 text-center" title="">`
+                button_html += `<button type="button" class="btn btn-sm btn-outline-dark mx-1 archive-user py-0 ${data==1?'active text-danger':''}" data-id="${row.id}"><i class="fa fa-flag" aria-hidden="true"></i></button>`
+                button_html += `</div>`
+                    return button_html;
+            }},
             {'data': 'id', sortable: false, searchable: false, render: function (data, type, row, meta) {
-                let button_html = ``
-                //button_html += `<button type="button" class="btn btn-sm btn-outline-secondary mr-1 edit-club-user py-0" data-id="${data}" data-toggle="modal" data-target="#edit-club-user-modal"><i class="fa fa-bars" aria-hidden="true"></i></button>`
-                button_html += `<button type="button" class="btn btn-sm btn-outline-dark mr-1 archive-user py-0 ${row.is_archive==1?'active':''}" data-id="${data}"><i class="fa fa-archive" aria-hidden="true"></i></button>`
-                return button_html;
+                let button_html = `<div class="w-100 text-center" title="">`
+                button_html += `<a type="button" href="/?__impersonate=${data}" class="btn btn-sm btn-outline-dark mx-1 loginas-user py-0"><i class="fa fa-user-plus" aria-hidden="true"></i></a>`
+                button_html += `</div>`
+                    return button_html;
             }},
         ],
 
