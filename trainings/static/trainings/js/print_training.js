@@ -47,7 +47,7 @@ function load_training_print(training_id) {
             for (const player of training.protocol_info) {
                 if(player.status==null){
                     if(player.is_goalkeeper) player_goalkeeper_count++
-                    else player_count++
+                    player_count++
                 }
             }
             $('#print-training-block .training-players input').val(player_count)
