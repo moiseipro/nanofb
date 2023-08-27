@@ -17,7 +17,7 @@
             <div class="card m-0">
                 <div class="card-header py-2">
                     <div class="row">
-                        <div class="col-3">
+                        <div class="col-4">
                             <div class="row">
                                 <div class="col-6 px-1">
                                     <a id="back-button" href="{% if request.META.HTTP_REFERER %}{{ request.META.HTTP_REFERER }}{% else %}{% url 'events:base_events' %}{% endif %}" title="" class="btn btn-block btn-outline-danger btn-sm font-weight-bold view-button">{% trans "Back" %}</a>
@@ -37,9 +37,9 @@
                                 <li class="nav-item px-1">
                                     <a id="training-exercises-button" class="btn btn-sm btn-block btn-outline-primary font-weight-bold" data-toggle="pill" href="#training-exercises" role="tab">
                                         {% trans "Exercises" %}
-                                        <span class="float-right" id="columnsSizeToggle" title="Поменять размер колонок">
-                                            <i class="fa fa-cog" aria-hidden="true"></i>
-                                        </span>
+{#                                        <span class="float-right" id="columnsSizeToggle" title="Поменять размер колонок">#}
+{#                                            <i class="fa fa-cog" aria-hidden="true"></i>#}
+{#                                        </span>#}
                                     </a>
                                 </li>
                                 <li class="nav-item px-1">

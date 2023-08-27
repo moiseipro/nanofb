@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-17 11:40+0300\n"
+"POT-Creation-Date: 2023-08-27 12:31+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -812,7 +812,6 @@ msgstr ""
 #: .\Lib\site-packages\django\db\models\fields\__init__.py:2382
 #: .\events\forms.py:102 .\events\forms.py:144
 #: .\shared\templates\shared\base_shared_training.html:23
-#: .\trainings\templates\trainings\print_training.html:23
 #: .\trainings\templates\trainings\training_card.html:39
 msgid "Time"
 msgstr "Время"
@@ -2581,8 +2580,8 @@ msgstr "Дни МЦ"
 #: .\events\templates\events\base_events.html:129
 #: .\events\templates\events\lite_events.html:120
 #: .\events\templates\events\lite_events.html:123
-#: .\trainings\templates\trainings\print_training.html:52
-#: .\trainings\templates\trainings\print_training.html:57
+#: .\trainings\templates\trainings\print_training.html:70
+#: .\trainings\templates\trainings\print_training.html:75
 #: .\trainings\templates\trainings\training_card.html:87
 #: .\trainings\templates\trainings\training_card.html:93
 msgid "Objective"
@@ -2591,7 +2590,7 @@ msgstr "Задача"
 #: .\events\templates\events\base_events.html:132
 #: .\events\templates\events\lite_events.html:126
 #: .\shared\templates\shared\base_shared_training.html:63
-#: .\trainings\templates\trainings\print_training.html:63
+#: .\trainings\templates\trainings\print_training.html:81
 #: .\trainings\templates\trainings\training_card.html:99
 msgid "Load"
 msgstr "Нагрузка"
@@ -2644,6 +2643,7 @@ msgstr "опции"
 #: .\exercises\apps.py:8 .\nanofootball\templates\menu\sidebar.html:206
 #: .\trainings\templates\trainings\view_lite_training.html:39
 #: .\trainings\templates\trainings\view_training.html:39
+#: .\users\templates\users\modules\user_table_settings.html:139
 msgid "Exercises"
 msgstr "Упражнения"
 
@@ -2922,27 +2922,27 @@ msgstr "Матч"
 msgid "No team selected"
 msgstr "Команда не выбрана"
 
-#: .\nanofb\settings.py:244
+#: .\nanofb\settings.py:245
 msgid "Russian"
 msgstr "Русский"
 
-#: .\nanofb\settings.py:245
+#: .\nanofb\settings.py:246
 msgid "English"
 msgstr "Английский"
 
-#: .\nanofb\settings.py:246
+#: .\nanofb\settings.py:247
 msgid "Portuguese"
 msgstr "Португальский"
 
-#: .\nanofb\settings.py:247
+#: .\nanofb\settings.py:248
 msgid "Spanish"
 msgstr "Испанский"
 
-#: .\nanofb\settings.py:248
+#: .\nanofb\settings.py:249
 msgid "German"
 msgstr "Немецкий"
 
-#: .\nanofb\settings.py:249
+#: .\nanofb\settings.py:250
 msgid "French"
 msgstr "Французский"
 
@@ -3016,9 +3016,8 @@ msgstr "Основные разделы"
 #: .\shared\templates\shared\base_shared_training.html:28
 #: .\shared\templates\shared\base_shared_training.html:31
 #: .\shared\templates\shared\base_shared_training.html:34
-#: .\trainings\templates\trainings\print_training.html:28
-#: .\trainings\templates\trainings\print_training.html:31
 #: .\trainings\templates\trainings\print_training.html:34
+#: .\trainings\templates\trainings\print_training.html:37
 #: .\trainings\templates\trainings\view_training.html:160
 msgid "Players"
 msgstr "Игроки"
@@ -3434,9 +3433,8 @@ msgstr "Поделиться тренировкой"
 #: .\shared\templates\shared\base_shared_training.html:39
 #: .\shared\templates\shared\base_shared_training.html:42
 #: .\shared\templates\shared\base_shared_training.html:45
-#: .\trainings\templates\trainings\print_training.html:39
-#: .\trainings\templates\trainings\print_training.html:42
-#: .\trainings\templates\trainings\print_training.html:45
+#: .\trainings\templates\trainings\print_training.html:34
+#: .\trainings\templates\trainings\print_training.html:40
 #: .\trainings\templates\trainings\training_card.html:62
 msgid "Goalkeepers"
 msgstr "Вратари"
@@ -3620,8 +3618,27 @@ msgstr "Добавить выбранных"
 msgid "Print training"
 msgstr "Распечатать тренировку"
 
+#: .\trainings\templates\trainings\print_training.html:23
+msgid "Hours"
+msgstr "Часы"
+
+#: .\trainings\templates\trainings\print_training.html:26
+#: .\video\templates\video\modules\video_list.html:12
+#: .\video\templates\video\modules\video_list_exercises.html:13
+msgid "Minutes"
+msgstr "Минуты"
+
+#: .\trainings\templates\trainings\print_training.html:51
+#: .\trainings\templates\trainings\print_training.html:54
 #: .\trainings\templates\trainings\training_card.html:45
 msgid "Trainer"
+msgstr "Тренер"
+
+#: .\trainings\templates\trainings\print_training.html:51
+#: .\trainings\templates\trainings\print_training.html:54
+#, fuzzy
+#| msgid "Trainer"
+msgid "Trainers"
 msgstr "Тренер"
 
 #: .\trainings\templates\trainings\training_card.html:56
@@ -3856,7 +3873,7 @@ msgstr "Дата регистрации"
 msgid "Last login date"
 msgstr "Дата последнего входа"
 
-#: .\users\models.py:284
+#: .\users\models.py:284 .\users\templates\users\forms\edit-user-form.html:74
 #: .\users\templates\users\modules\user_table_settings.html:62
 msgid "Distributor"
 msgstr "Дистрибьютор"
@@ -4012,7 +4029,7 @@ msgstr "Подтвердите пароль"
 
 #: .\users\templates\users\forms\edit-password-form.html:18
 #: .\users\templates\users\forms\edit-personal-form.html:142
-#: .\users\templates\users\forms\edit-user-form.html:82
+#: .\users\templates\users\forms\edit-user-form.html:92
 msgid "Save Changes"
 msgstr "Сохранить изменения"
 
@@ -4034,7 +4051,7 @@ msgstr "Регистрация"
 msgid "Last login"
 msgstr "Последний вход"
 
-#: .\users\templates\users\forms\edit-user-form.html:74
+#: .\users\templates\users\forms\edit-user-form.html:84
 msgid "Demo version"
 msgstr "Демо версия"
 
@@ -4093,10 +4110,6 @@ msgstr "Колонки"
 #: .\users\templates\users\modules\user_table_settings.html:133
 msgid "Activity index"
 msgstr "Индекс активности"
-
-#: .\users\templates\users\modules\user_table_settings.html:139
-msgid "User exercises"
-msgstr "Упражнения пользователя"
 
 #: .\users\templates\users\modules\warning_change_password.html:10
 msgid "Recommendations"
@@ -4419,11 +4432,6 @@ msgstr "Источник"
 msgid "Folder"
 msgstr "Папка"
 
-#: .\video\templates\video\modules\video_list.html:12
-#: .\video\templates\video\modules\video_list_exercises.html:13
-msgid "Minutes"
-msgstr "Минуты"
-
 #: .\video\templates\video\modules\video_list.html:14
 msgid "V/A"
 msgstr ""
@@ -4473,6 +4481,9 @@ msgstr "Видео / Анимация"
 #: .\video\templates\video\video_card.html:141
 msgid "Animation"
 msgstr "Анимация"
+
+#~ msgid "User exercises"
+#~ msgstr "Упражнения пользователя"
 
 #~ msgid "Age"
 #~ msgstr "Возраст"

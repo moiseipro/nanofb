@@ -25,8 +25,11 @@ function load_training_print(training_id) {
         console.log(data)
         let training = data;
         let exercises = training.exercises_info;
+        let hour_minutes = training.event_time.split(":")
         $('#print-training-block .training-date input').val(training.event_date)
-        $('#print-training-block .training-time input').val(training.event_time)
+        $('#print-training-block .training-hour input').val(hour_minutes[0])
+        $('#print-training-block .training-minutes input').val(hour_minutes[1])
+        //$('#print-training-block .training-time input').val(training.event_time)
         if(training.players_count != null){
             $('#print-training-block .training-players input').val(
                 "(A) " + training.players_count[0] + " (B) " + training.players_count[1]
