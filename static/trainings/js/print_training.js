@@ -25,11 +25,7 @@ function load_training_print(training_id) {
         console.log(data)
         let training = data;
         let exercises = training.exercises_info;
-        let hour_minutes = training.event_time.split(":")
-        $('#print-training-block .training-date input').val(training.event_date)
-        $('#print-training-block .training-hour input').val(hour_minutes[0])
-        $('#print-training-block .training-minutes input').val(hour_minutes[1])
-        //$('#print-training-block .training-time input').val(training.event_time)
+        $('#print-training-block .training-time input').val(training.event_time)
         if(training.players_count != null){
             $('#print-training-block .training-players input').val(
                 "(A) " + training.players_count[0] + " (B) " + training.players_count[1]
@@ -63,9 +59,11 @@ function load_training_print(training_id) {
 
         let html_scheme = ''
         let ck_editor_data = []
+        let minutes_count = 0
         if (exercises.length > 0) {
             let num = 0;
             for (let exercise of exercises) {
+                minutes_count += exercise.duration
                 html_scheme += '<div class="row" style="border-top: 2px solid black">'
                 let count_slide = 0
                 let select_html = '', carousel_html = ''
@@ -218,6 +216,7 @@ function load_training_print(training_id) {
             }
 
         }
+        $('#print-training-block .training-minutes input').val(minutes_count)
         $('#print-training-block .exercise-list').html(html_scheme)
         create_editor(ck_editor_data)
     })
