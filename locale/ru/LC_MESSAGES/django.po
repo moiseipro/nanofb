@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-27 12:31+0300\n"
+"POT-Creation-Date: 2023-08-29 13:23+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -812,6 +812,7 @@ msgstr ""
 #: .\Lib\site-packages\django\db\models\fields\__init__.py:2382
 #: .\events\forms.py:102 .\events\forms.py:144
 #: .\shared\templates\shared\base_shared_training.html:23
+#: .\trainings\templates\trainings\print_training.html:23
 #: .\trainings\templates\trainings\training_card.html:39
 msgid "Time"
 msgstr "Время"
@@ -1867,7 +1868,7 @@ msgid "Father name"
 msgstr "Отчество"
 
 #: .\authorization\forms.py:62 .\clubs\forms.py:79 .\users\models.py:120
-#: .\users\templates\users\modules\user_table_settings.html:97
+#: .\users\templates\users\modules\user_table_settings.html:98
 msgid "Date of birth"
 msgstr "День рождения"
 
@@ -1886,7 +1887,7 @@ msgstr "Город"
 #: .\users\templates\users\forms\edit-personal-form.html:127
 #: .\users\templates\users\modules\user_table.html:20
 #: .\users\templates\users\modules\user_table_settings.html:21
-#: .\users\templates\users\modules\user_table_settings.html:103
+#: .\users\templates\users\modules\user_table_settings.html:104
 msgid "Region"
 msgstr "Регион"
 
@@ -1901,7 +1902,7 @@ msgstr "Лицензия"
 #: .\authorization\forms.py:120 .\clubs\forms.py:124
 #: .\clubs\templates\clubs\users_table.html:15 .\users\models.py:101
 #: .\users\templates\users\forms\edit-personal-form.html:102
-#: .\users\templates\users\modules\user_table_settings.html:79
+#: .\users\templates\users\modules\user_table_settings.html:80
 msgid "License to"
 msgstr "Лицензия до"
 
@@ -1912,7 +1913,7 @@ msgstr "Лицензия до"
 #: .\users\templates\users\forms\add-user-form.html:100
 #: .\users\templates\users\forms\edit-user-form.html:9
 #: .\users\templates\users\modules\user_table.html:14
-#: .\users\templates\users\modules\user_table_settings.html:85
+#: .\users\templates\users\modules\user_table_settings.html:86
 msgid "Email"
 msgstr "Электронная почта"
 
@@ -2120,7 +2121,6 @@ msgstr "Регистрация прошла успешно!"
 #: .\federations\templates\federations\federation_panel.html:23
 #: .\nanofootball\templates\menu\sidebar.html:72
 #: .\users\templates\users\base_clients.html:25
-#: .\users\templates\users\modules\user_table_settings.html:37
 msgid "Clubs"
 msgstr "Клубы"
 
@@ -2134,7 +2134,7 @@ msgstr "Страна"
 #: .\users\models.py:127 .\users\templates\users\forms\add-user-form.html:45
 #: .\users\templates\users\forms\edit-personal-form.html:41
 #: .\users\templates\users\modules\user_table.html:16
-#: .\users\templates\users\modules\user_table_settings.html:91
+#: .\users\templates\users\modules\user_table_settings.html:92
 msgid "Phone"
 msgstr "Телефон"
 
@@ -2375,7 +2375,7 @@ msgstr "Д.Р."
 #: .\users\templates\users\forms\add-user-form.html:33
 #: .\users\templates\users\forms\edit-personal-form.html:65
 #: .\users\templates\users\modules\user_table.html:21
-#: .\users\templates\users\modules\user_table_settings.html:109
+#: .\users\templates\users\modules\user_table_settings.html:110
 msgid "Job title"
 msgstr "Должность"
 
@@ -2580,8 +2580,8 @@ msgstr "Дни МЦ"
 #: .\events\templates\events\base_events.html:129
 #: .\events\templates\events\lite_events.html:120
 #: .\events\templates\events\lite_events.html:123
-#: .\trainings\templates\trainings\print_training.html:70
-#: .\trainings\templates\trainings\print_training.html:75
+#: .\trainings\templates\trainings\print_training.html:68
+#: .\trainings\templates\trainings\print_training.html:73
 #: .\trainings\templates\trainings\training_card.html:87
 #: .\trainings\templates\trainings\training_card.html:93
 msgid "Objective"
@@ -2590,7 +2590,7 @@ msgstr "Задача"
 #: .\events\templates\events\base_events.html:132
 #: .\events\templates\events\lite_events.html:126
 #: .\shared\templates\shared\base_shared_training.html:63
-#: .\trainings\templates\trainings\print_training.html:81
+#: .\trainings\templates\trainings\print_training.html:79
 #: .\trainings\templates\trainings\training_card.html:99
 msgid "Load"
 msgstr "Нагрузка"
@@ -2643,7 +2643,7 @@ msgstr "опции"
 #: .\exercises\apps.py:8 .\nanofootball\templates\menu\sidebar.html:206
 #: .\trainings\templates\trainings\view_lite_training.html:39
 #: .\trainings\templates\trainings\view_training.html:39
-#: .\users\templates\users\modules\user_table_settings.html:139
+#: .\users\templates\users\modules\user_table_settings.html:140
 msgid "Exercises"
 msgstr "Упражнения"
 
@@ -3016,8 +3016,8 @@ msgstr "Основные разделы"
 #: .\shared\templates\shared\base_shared_training.html:28
 #: .\shared\templates\shared\base_shared_training.html:31
 #: .\shared\templates\shared\base_shared_training.html:34
-#: .\trainings\templates\trainings\print_training.html:34
-#: .\trainings\templates\trainings\print_training.html:37
+#: .\trainings\templates\trainings\print_training.html:32
+#: .\trainings\templates\trainings\print_training.html:35
 #: .\trainings\templates\trainings\view_training.html:160
 msgid "Players"
 msgstr "Игроки"
@@ -3433,8 +3433,8 @@ msgstr "Поделиться тренировкой"
 #: .\shared\templates\shared\base_shared_training.html:39
 #: .\shared\templates\shared\base_shared_training.html:42
 #: .\shared\templates\shared\base_shared_training.html:45
-#: .\trainings\templates\trainings\print_training.html:34
-#: .\trainings\templates\trainings\print_training.html:40
+#: .\trainings\templates\trainings\print_training.html:32
+#: .\trainings\templates\trainings\print_training.html:38
 #: .\trainings\templates\trainings\training_card.html:62
 msgid "Goalkeepers"
 msgstr "Вратари"
@@ -3618,24 +3618,20 @@ msgstr "Добавить выбранных"
 msgid "Print training"
 msgstr "Распечатать тренировку"
 
-#: .\trainings\templates\trainings\print_training.html:23
-msgid "Hours"
-msgstr "Часы"
-
 #: .\trainings\templates\trainings\print_training.html:26
 #: .\video\templates\video\modules\video_list.html:12
 #: .\video\templates\video\modules\video_list_exercises.html:13
 msgid "Minutes"
 msgstr "Минуты"
 
-#: .\trainings\templates\trainings\print_training.html:51
-#: .\trainings\templates\trainings\print_training.html:54
+#: .\trainings\templates\trainings\print_training.html:49
+#: .\trainings\templates\trainings\print_training.html:52
 #: .\trainings\templates\trainings\training_card.html:45
 msgid "Trainer"
 msgstr "Тренер"
 
-#: .\trainings\templates\trainings\print_training.html:51
-#: .\trainings\templates\trainings\print_training.html:54
+#: .\trainings\templates\trainings\print_training.html:49
+#: .\trainings\templates\trainings\print_training.html:52
 #, fuzzy
 #| msgid "Trainer"
 msgid "Trainers"
@@ -3746,7 +3742,7 @@ msgstr "Должность пользователя"
 
 #: .\users\models.py:79 .\users\templates\users\forms\add-user-form.html:39
 #: .\users\templates\users\forms\edit-personal-form.html:73
-#: .\users\templates\users\modules\user_table_settings.html:115
+#: .\users\templates\users\modules\user_table_settings.html:116
 msgid "Club title"
 msgstr "Название клуба"
 
@@ -3849,7 +3845,6 @@ msgstr "адрес электронной почты"
 #: .\users\templates\users\forms\add-user-form.html:117
 #: .\users\templates\users\forms\edit-user-form.html:33
 #: .\users\templates\users\modules\user_table.html:24
-#: .\users\templates\users\modules\user_table_settings.html:31
 msgid "Version"
 msgstr "Версия"
 
@@ -3874,7 +3869,7 @@ msgid "Last login date"
 msgstr "Дата последнего входа"
 
 #: .\users\models.py:284 .\users\templates\users\forms\edit-user-form.html:74
-#: .\users\templates\users\modules\user_table_settings.html:62
+#: .\users\templates\users\modules\user_table_settings.html:63
 msgid "Distributor"
 msgstr "Дистрибьютор"
 
@@ -3923,7 +3918,7 @@ msgid "Active"
 msgstr "Активно"
 
 #: .\users\serializers.py:230 .\users\templates\users\base_profile.html:148
-#: .\users\templates\users\modules\user_table_settings.html:50
+#: .\users\templates\users\modules\user_table_settings.html:51
 msgid "Archive"
 msgstr "Архив"
 
@@ -4010,8 +4005,8 @@ msgstr "Срок лицензии"
 #: .\users\templates\users\forms\add-user-form.html:128
 #: .\users\templates\users\forms\edit-user-form.html:64
 #: .\users\templates\users\modules\user_table.html:28
-#: .\users\templates\users\modules\user_table_settings.html:27
-#: .\users\templates\users\modules\user_table_settings.html:127
+#: .\users\templates\users\modules\user_table_settings.html:39
+#: .\users\templates\users\modules\user_table_settings.html:128
 msgid "Access to"
 msgstr "Доступ до"
 
@@ -4040,14 +4035,13 @@ msgstr "Если вы измените свой пароль, вам нужно 
 #: .\users\templates\users\forms\edit-user-form.html:47
 #: .\users\templates\users\modules\club_table.html:11
 #: .\users\templates\users\modules\user_table.html:27
-#: .\users\templates\users\modules\user_table_settings.html:24
-#: .\users\templates\users\modules\user_table_settings.html:121
+#: .\users\templates\users\modules\user_table_settings.html:36
+#: .\users\templates\users\modules\user_table_settings.html:122
 msgid "Registration"
 msgstr "Регистрация"
 
 #: .\users\templates\users\forms\edit-user-form.html:55
 #: .\users\templates\users\modules\user_table.html:26
-#: .\users\templates\users\modules\user_table_settings.html:145
 msgid "Last login"
 msgstr "Последний вход"
 
@@ -4091,25 +4085,29 @@ msgstr "Сбросить фильтры"
 msgid "Search by name"
 msgstr "Поиск по имени"
 
-#: .\users\templates\users\modules\user_table_settings.html:44
+#: .\users\templates\users\modules\user_table_settings.html:45
 msgid "Add. filters"
 msgstr "Доп. Фильтры"
 
-#: .\users\templates\users\modules\user_table_settings.html:56
+#: .\users\templates\users\modules\user_table_settings.html:57
 msgid "New users"
 msgstr "Новые пользователи"
 
-#: .\users\templates\users\modules\user_table_settings.html:68
+#: .\users\templates\users\modules\user_table_settings.html:69
 msgid "Admins"
 msgstr "Администраторы"
 
-#: .\users\templates\users\modules\user_table_settings.html:73
+#: .\users\templates\users\modules\user_table_settings.html:74
 msgid "Columns"
 msgstr "Колонки"
 
-#: .\users\templates\users\modules\user_table_settings.html:133
+#: .\users\templates\users\modules\user_table_settings.html:134
 msgid "Activity index"
 msgstr "Индекс активности"
+
+#: .\users\templates\users\modules\user_table_settings.html:146
+msgid "Entrance"
+msgstr "Вход"
 
 #: .\users\templates\users\modules\warning_change_password.html:10
 msgid "Recommendations"
@@ -4167,7 +4165,7 @@ msgstr "Пароль успешно изменен"
 msgid "Wrong password"
 msgstr "Неверный пароль"
 
-#: .\users\views.py:383 .\users\views.py:413
+#: .\users\views.py:383
 msgid "Not chosen"
 msgstr "Не выбрано"
 
@@ -4481,6 +4479,9 @@ msgstr "Видео / Анимация"
 #: .\video\templates\video\video_card.html:141
 msgid "Animation"
 msgstr "Анимация"
+
+#~ msgid "Hours"
+#~ msgstr "Часы"
 
 #~ msgid "User exercises"
 #~ msgstr "Упражнения пользователя"

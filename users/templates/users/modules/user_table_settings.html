@@ -21,23 +21,24 @@
                 <input type="search" class="form-control user-table-filter" data-filter="region-user-filter" placeholder="{% trans 'Region' %}">
             </div>
             <div class="col-12 pb-1">
+{#                <label class="form-check-label" for="version-filter">#}
+{#                    {% trans 'Version' %}#}
+{#                </label>#}
+                <select id="version-filter" class="form-control user-table-filter select2" data-filter="version-user-filter"></select>
+            </div>
+            <div class="col-12 pb-1">
+{#                <label class="form-check-label" for="club-filter">#}
+{#                    {% trans 'Clubs' %}#}
+{#                </label>#}
+                <select id="club-filter" class="form-control user-table-filter select2" data-filter="club-user-filter"></select>
+            </div>
+            <div class="col-12 pb-1">
                 <input type="text" class="form-control user-table-filter datetimepickerfilter" data-toggle="datetimepicker" data-filter="registration-user-filter" placeholder="{% trans 'Registration' %}">
             </div>
             <div class="col-12 pb-1">
                 <input type="text" class="form-control user-table-filter datetimepickerfilter" data-toggle="datetimepicker" data-filter="access-user-filter" placeholder="{% trans 'Access to' %}">
             </div>
-            <div class="col-12 pb-1">
-                <label class="form-check-label" for="version-filter">
-                    {% trans 'Version' %}
-                </label>
-                <select id="version-filter" class="form-control user-table-filter select2" data-filter="version-user-filter"></select>
-            </div>
-            <div class="col-12 pb-1">
-                <label class="form-check-label" for="club-filter">
-                    {% trans 'Clubs' %}
-                </label>
-                <select id="club-filter" class="form-control user-table-filter select2" data-filter="club-user-filter"></select>
-            </div>
+
         </div>
     </div>
     <div class="col-12" style="background: lightgrey">
@@ -142,7 +143,7 @@
         <div class="form-check">
             <input class="form-check-input toggle-user-column" data-col="login-info-col" type="checkbox" value="" id="login-check">
             <label class="form-check-label" for="login-check">
-                {% trans 'Last login' %}
+                {% trans 'Entrance' %}
             </label>
         </div>
 {#        <div class="form-check">#}
