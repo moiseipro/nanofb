@@ -94,7 +94,15 @@ function generate_ajax_users_table(scroll_y = ''){
                 return `<div class="w-100 text-center" title="${data}"> ${data} </div>`;
             }},
             {'data': 'date_last_login', 'name': 'date_last_login', 'defaultContent': "---", render: function (data, type, row, meta) {
-                return data;
+                let view_date = ''
+                if (data == '') view_date = '...'
+                else view_date = moment(data, "DD/MM/YYYY").format('DD/MM/YYYY')
+                let html = `<div class="w-100 text-center" title="${view_date}"> ${view_date} </div>`;
+                return html;
+            }},
+            {'data': 'online', 'name': 'online', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
+                let html = `<div class="w-100 text-center" title="${data}"> ${data} </div>`;
+                return html;
             }},
             {'data': 'date_joined', 'name': 'date_joined', 'defaultContent': "---", render: function (data, type, row, meta) {
                 return data;
@@ -121,9 +129,9 @@ function generate_ajax_users_table(scroll_y = ''){
                 let html = `<div class="${style}">${date}</div>`
                 return html;
             }},
-            {'data': 'days_entered', 'name': 'days_entered', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
-                return data;
-            }},
+            // {'data': 'days_entered', 'name': 'days_entered', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
+            //     return data;
+            // }},
             {'data': 'is_archive', "name": "is_archive", render: function (data, type, row, meta) {
                 let button_html = `<div class="w-100 text-center" title="">`
                 button_html += `<button type="button" class="btn btn-sm btn-outline-dark mx-1 archive-user py-0 ${data==1?'active text-danger':''}" data-id="${row.id}"><i class="fa fa-flag" aria-hidden="true"></i></button>`
