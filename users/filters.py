@@ -1,4 +1,5 @@
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
+from django.utils.timezone import now
 
 from django.contrib.auth.models import Permission
 from django.db.models import Q
@@ -26,6 +27,7 @@ class GlobalJoinDateFilter(GlobalFilter, filters.DateFilter):
         if value:
             if self.distinct:
                 qs = qs.distinct()
+            print(date.today()-timedelta(days=3))
             qs = qs.filter(date_joined__gte=date.today()-timedelta(days=3))
         return qs
 
@@ -38,6 +40,16 @@ class GlobalArchiveFilter(GlobalFilter, filters.CharFilter):
             qs = qs.filter(is_archive=True)
         else:
             qs = qs.filter(is_archive=False)
+        return qs
+
+
+class GlobalOnlineFilter(GlobalFilter, filters.CharFilter):
+    def filter(self, qs, value):
+        if value:
+            if self.distinct:
+                qs = qs.distinct()
+            print(now()-timedelta(minutes=5))
+            qs = qs.filter(date_last_login__gte=now()-timedelta(minutes=5))
         return qs
 
 
@@ -130,6 +142,7 @@ class UserManagementGlobalFilter(DatatablesFilterSet):
     distributor = GlobalDistributorFilter()
     admin_type = GlobalAdminTypeFilter()
     is_archive = GlobalArchiveFilter()
+    online = GlobalOnlineFilter()
 
     date_birthsday = GlobalDateFilter(field_name='personal__date_birthsday')
     last_name = GlobalNameFilter(field_name='personal__last_name', lookup_expr='icontains')
@@ -152,4 +165,4 @@ class UserManagementGlobalFilter(DatatablesFilterSet):
     class Meta:
         #model = User
         fields = ['registration_to', 'date_birthsday', 'last_name', 'first_name', 'job_title', 'license', 'p_version',
-                  'club_id', 'distributor', 'is_archive']
+                  'club_id', 'distributor', 'is_archive', 'online']

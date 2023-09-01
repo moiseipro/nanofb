@@ -271,7 +271,7 @@ class UserManagementSerializer(serializers.ModelSerializer):
         tdelta = now - then
         minutes = round(tdelta.total_seconds() / 60)
         if minutes < 5:
-            return _('Online')
+            return '<span class="text-danger">'+_('Online')+'</span>'
         elif minutes < 60:
             return minutes
         else:

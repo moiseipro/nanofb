@@ -320,16 +320,19 @@ $(window).on("load", function () {
         })
 
     //Загрузка сохраненных фильтров
-    $('.user-table-filter').each(function() {
-        let filter = $(this).attr('data-filter')
-        let value = Cookies.get(filter)
-        console.log(filter + ':' + value)
-        if(value) {
-            if ($(this).attr('type')=="checkbox") $(this).prop('checked', true)
-            else if($(this).hasClass('datetimepickerfilter')) $(this).datetimepicker('date', moment(value, 'YYYY-MM-DD').format('DD/MM/YYYY'))
-            else $(this).val(value).trigger('change')
-        }
+    $('#users-table').on('preInit.dt', function () {
+        $('.user-table-filter').each(function() {
+            let filter = $(this).attr('data-filter')
+            let value = Cookies.get(filter)
+            console.log(filter + ':' + value)
+            if(value) {
+                if ($(this).attr('type')=="checkbox") $(this).prop('checked', true).change()
+                else if($(this).hasClass('datetimepickerfilter')) $(this).datetimepicker('date', moment(value, 'YYYY-MM-DD').format('DD/MM/YYYY'))
+                else $(this).val(value).trigger('change')
+            }
+        });
     });
+
 
     // Фильтрация таблицы пользователей
     $('.user-table-filter').on('change, change.datetimepicker', function (e) {

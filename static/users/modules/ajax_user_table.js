@@ -101,7 +101,7 @@ function generate_ajax_users_table(scroll_y = ''){
                 return html;
             }},
             {'data': 'online', 'name': 'online', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
-                let html = `<div class="w-100 text-center" title="${data}"> ${data} </div>`;
+                let html = `<div class="w-100 text-center"> ${data} </div>`;
                 return html;
             }},
             {'data': 'date_joined', 'name': 'date_joined', 'defaultContent': "---", render: function (data, type, row, meta) {

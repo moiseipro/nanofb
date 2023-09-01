@@ -69,6 +69,12 @@
                 {% trans 'Admins' %}
             </label>
         </div>
+        <div class="form-check">
+            <input class="form-check-input toggle-user-column user-table-filter" data-filter="online-filter" data-col="online-info-col" type="checkbox" value="true" id="online-check">
+            <label class="form-check-label" for="online-check">
+                {% trans 'Online' %}
+            </label>
+        </div>
     </div>
     <div class="col-12" style="background: lightgrey">
         {% trans 'Columns' %}
@@ -134,12 +140,6 @@
 {#                {% trans 'Activity index' %}#}
 {#            </label>#}
 {#        </div>#}
-        <div class="form-check">
-            <input class="form-check-input toggle-user-column" data-col="online-info-col" type="checkbox" value="" id="online-check">
-            <label class="form-check-label" for="online-check">
-                {% trans 'Online' %}
-            </label>
-        </div>
         <div class="form-check">
             <input class="form-check-input toggle-user-column" data-col="exercises-info-col" type="checkbox" value="" id="exercises-check">
             <label class="form-check-label" for="exercises-check">
