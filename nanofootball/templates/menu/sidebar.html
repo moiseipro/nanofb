@@ -265,6 +265,7 @@
     </a>
 </li>
 {% endif %}
+{% if perms.medicine.view_usermedicinediagnosis or perms.medicine.view_clubmedicinediagnosis %}
 <li class="{{ menu_medicine }}">
     <a href="{% url 'medicine:base_medicine' %}" class="btn">
         {% if ui_elements.sidebar__medicine %}
@@ -275,6 +276,7 @@
         <span>{% trans 'Medicine' %}</span>
     </a>
 </li>
+{% endif %}
 {% if user.is_superuser %}
 <li class="submenu">
     <a href="#">
