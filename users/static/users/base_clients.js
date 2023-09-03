@@ -319,6 +319,21 @@ $(window).on("load", function () {
             // }
         })
 
+    //Загрузка сохраненных фильтров
+    $('#users-table').on('preInit.dt', function () {
+        $('.user-table-filter').each(function() {
+            let filter = $(this).attr('data-filter')
+            let value = Cookies.get(filter)
+            console.log(filter + ':' + value)
+            if(value) {
+                if ($(this).attr('type')=="checkbox") $(this).prop('checked', true).change()
+                else if($(this).hasClass('datetimepickerfilter')) $(this).datetimepicker('date', moment(value, 'YYYY-MM-DD').format('DD/MM/YYYY'))
+                else $(this).val(value).trigger('change')
+            }
+        });
+    });
+
+
     // Фильтрация таблицы пользователей
     $('.user-table-filter').on('change, change.datetimepicker', function (e) {
         let value = $(this).val()
@@ -336,12 +351,18 @@ $(window).on("load", function () {
         console.log(value)
         let filter = $(this).attr('data-filter')
         let filter_obj = `.${filter}`;
+        Cookies.set(filter, value);
         console.log(filter_obj)
-        if(value == 'all'){
+        if(value == 'all' || value == null){
             users_table.columns(filter_obj).search( '' ).draw();
         } else{
             users_table.columns(filter_obj).search( value ).draw();
         }
+    })
+
+    // Сброс фильтров
+    $('#clear-user-filters').on('click', function () {
+        clear_filters()
     })
 
     $('#add-club-form').submit(function (event) {
@@ -354,3 +375,14 @@ $(window).on("load", function () {
         event.preventDefault();
     })
 })
+
+function clear_filters() {
+    $('.user-table-filter').each(function() {
+        let filter = $(this).attr('data-filter')
+        Cookies.remove(filter)
+        if($(this).attr('type')=="checkbox") $(this).prop('checked', false)
+        else if($(this).hasClass('datetimepickerfilter')) $(this).datetimepicker('date', '')
+        else $(this).val('').trigger('change')
+        users_table.ajax.reload()
+    });
+}

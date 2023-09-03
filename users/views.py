@@ -260,7 +260,7 @@ class UserManagementApiView(viewsets.ModelViewSet):
         request = self.request
 
         #users = User.objects.filter(club_id=request.user.club_id)
-        users = User.objects.all()
+        users = User.objects.all().order_by('club_id', 'p_version')
         #User.objects.filter(first_name__icontains=)
         return users
 
@@ -410,7 +410,7 @@ class VersionListApiView(APIView):
         print(versions_count)
 
         list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in versions_count.items()]
-        list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+        #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
         print(list2)
         return Response(list2)
 

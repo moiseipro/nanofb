@@ -98,6 +98,7 @@ MIDDLEWARE = [
     # Custom
     'users.middleware.ViewUserMiddleware.ImpersonateMiddleware',
     'references.middleware.ReferencesMiddleware.TeamAndSeasons',
+    'references.middleware.ReferencesMiddleware.AutoSelectTeamAndSeasons',
     'users.middleware.UsersMiddleware.LicenseValidityCheck',
     'users.middleware.UsersMiddleware.SetLastVisit'
 

@@ -1,4 +1,5 @@
 import datetime
+from django.utils import timezone
 
 from django.db import IntegrityError
 from rest_framework import serializers
@@ -67,7 +68,7 @@ class UserEditSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'id', 'email', 'club_id', 'p_version', 'registration_to', 'is_archive', 'is_demo_mode'
+            'id', 'email', 'club_id', 'p_version', 'registration_to', 'is_archive', 'is_demo_mode', 'distributor'
         ]
 
 
@@ -196,6 +197,8 @@ class UserManagementSerializer(serializers.ModelSerializer):
 
     teams = serializers.SerializerMethodField()
 
+    online = serializers.SerializerMethodField()
+
     def get_license(self, user):
         license_name = ''
         if user.personal.trainer_license is not None:
@@ -260,6 +263,20 @@ class UserManagementSerializer(serializers.ModelSerializer):
                     teams_data += ', ' + team.name
         return teams_data
 
+    def get_online(self, user):
+        now = timezone.now()
+        then = user.date_last_login
+        if then is None:
+            return '...'
+        tdelta = now - then
+        minutes = round(tdelta.total_seconds() / 60)
+        if minutes < 5:
+            return '<span class="text-danger">'+_('Online')+'</span>'
+        elif minutes < 60:
+            return minutes
+        else:
+            return '> 60'
+
     class Meta:
         model = User
         fields = [
@@ -267,6 +284,6 @@ class UserManagementSerializer(serializers.ModelSerializer):
             'last_name', 'first_name', 'job_title', 'date_birthsday', 'age',
             'trainer_license', 'license', 'license_date', 'flag', 'distributor', 'date_joined', 'club_title',
             'activation', 'club_name', 'club_registration_to', 'is_archive', 'date_joined', 'phone', 'date_last_login',
-            'region', 'club_id', 'exercises', 'teams'
+            'region', 'club_id', 'exercises', 'teams', 'online'
         ]
         datatables_always_serialize = ('id', 'groups', 'trainer_license', 'club_registration_to', 'is_archive')

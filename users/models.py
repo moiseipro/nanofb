@@ -270,11 +270,10 @@ class User(AbstractUser):
         verbose_name=_('Date of registration'),
         help_text=_('Date of registration'),
     )
-    date_last_login = models.DateField(
+    date_last_login = models.DateTimeField(
         verbose_name=_('Last login date'),
         help_text=_('Last login date'),
         null=True,
-
     )
     days_entered = models.IntegerField(default=0)
     distributor = models.CharField(

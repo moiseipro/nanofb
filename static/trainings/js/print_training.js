@@ -6,7 +6,9 @@ $(window).on('load', function () {
         $("#print-training-block").print({
             timeout: 8000,
             stylesheet: $('#print-style-href').val(),
-            prepend: '<div class="font-weight-bold px-2 py-1">Nanofootball</div>'
+            prepend: `
+                <div class="font-weight-bold px-2 py-1 text-right">nanofootball.com</div>
+            `
         });
     })
 
@@ -23,15 +25,32 @@ function load_training_print(training_id) {
         console.log(data)
         let training = data;
         let exercises = training.exercises_info;
-        $('#print-training-block .training-date input').val(training.event_date)
         $('#print-training-block .training-time input').val(training.event_time)
         if(training.players_count != null){
-            $('#print-training-block .training-players-0 input').val(training.players_count[0] + " (A)")
-            $('#print-training-block .training-players-1 input').val(training.players_count[1] + " (B)")
+            $('#print-training-block .training-players input').val(
+                "(A) " + training.players_count[0] + " (B) " + training.players_count[1]
+            )
+            //$('#print-training-block .training-players-0 input').val(training.players_count[0] + " (A)")
+            //$('#print-training-block .training-players-1 input').val(training.players_count[1] + " (B)")
         }
         if(training.goalkeepers_count != null){
-            $('#print-training-block .training-goalkeepers-0 input').val(training.goalkeepers_count[0] + " (A)")
-            $('#print-training-block .training-goalkeepers-1 input').val(training.goalkeepers_count[1] + " (B)")
+            $('#print-training-block .training-goalkeepers input').val(
+                "(A) " + training.goalkeepers_count[0] + " (B) " + training.goalkeepers_count[1]
+            )
+            //$('#print-training-block .training-goalkeepers-0 input').val(training.goalkeepers_count[0] + " (A)")
+            //$('#print-training-block .training-goalkeepers-1 input').val(training.goalkeepers_count[1] + " (B)")
+        }
+        let player_count = 0
+        let player_goalkeeper_count = 0
+        if(training.protocol_info != null && training.protocol_info.length != 0){
+            for (const player of training.protocol_info) {
+                if(player.status==null){
+                    if(player.is_goalkeeper) player_goalkeeper_count++
+                    player_count++
+                }
+            }
+            $('#print-training-block .training-players input').val(player_count)
+            $('#print-training-block .training-goalkeepers input').val(player_goalkeeper_count)
         }
         $('#print-training-block .training-goal input').val(training.goal)
         $('#print-training-block .training-objective_1 input').val(training.objective_1)
@@ -40,9 +59,11 @@ function load_training_print(training_id) {
 
         let html_scheme = ''
         let ck_editor_data = []
+        let minutes_count = 0
         if (exercises.length > 0) {
             let num = 0;
             for (let exercise of exercises) {
+                minutes_count += exercise.duration
                 html_scheme += '<div class="row" style="border-top: 2px solid black">'
                 let count_slide = 0
                 let select_html = '', carousel_html = ''
@@ -195,6 +216,7 @@ function load_training_print(training_id) {
             }
 
         }
+        $('#print-training-block .training-minutes input').val(minutes_count)
         $('#print-training-block .exercise-list').html(html_scheme)
         create_editor(ck_editor_data)
     })
