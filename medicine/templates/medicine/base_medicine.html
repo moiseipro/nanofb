@@ -1,0 +1,292 @@
+{% extends '../base/app_main.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% trans 'Medicine' %}{% endblock %}
+
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'medicine/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card mb-0">
+                <div class="card-header py-2">
+                    <div class="row">
+                        <div class="col-4 pl-0">
+                            <input id="tableSearch" class="form-control form-control-sm" type="text" placeholder="Поиск" title="Поиск по ФИО">
+                        </div>
+                        <div class="col-2 pl-0">
+                            <select id="medTypes" class="form-control form-control-sm selectpicker" title="Статус" multiple data-max-options="2">
+                                <option value="injury">Травма</option>
+                                <option value="ill">Болен</option>
+                                <option value="healthy">Здоров</option>
+                            </select>
+                        </div>
+                        <div class="col-1 pl-0">
+                            <button type="button" id="clearFilters" class="btn btn-secondary btn-sm" title="Очистка фильтров">
+                                <i class="fa fa-reply-all" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body scrollable-block py-1">
+                    <div class="row">
+                        <div class="col-12 content">
+                            <div class="table-responsive">
+                                <table id="medicine" class="table table-sm table-striped table-bordered dataTable" style="width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Фамилия</th>
+                                            <th>Имя</th>
+                                            <th>Отчество</th>
+                                            <th class="border-black-left">Д.Р.</th>
+                                            <th>№</th>
+                                            <th title="Травма"><i class="fa fa-medkit text-danger" aria-hidden="true"></i></th>
+                                            <th title="Болеет"><i class="fa fa-medkit text-secondary" aria-hidden="true"></i></th>
+                                            <th>Дата</th>
+                                            <th>Статус</th>
+                                            <th>Срок</th>
+                                            <th>Доступ</th>
+                                            <th>Врач</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="medicineEditModal" tabindex="-1" role="dialog" aria-labelledby="medicineEditModalLbl" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document" style="max-width: 92vw !important;">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-5">
+                                    <h5 class="player-name">name</h5>
+                                </div>
+                                <div class="col-1 px-0 text-right">
+                                    <a href="#" id="goToPlayerCard" title="Карточка игрока" class="btn btn-sm btn-outline-info">
+                                        {% if ui_elements.sidebar__players %}
+                                            {{ ui_elements.sidebar__players }}
+                                        {% else %}
+                                            <i class="icon-custom icon--players" style="--i-w: 1.3em; --i-h: 1.3em;"></i>
+                                        {% endif %}
+                                    </a>
+                                </div>
+                                <div class="col-3">
+                                    <select id="medAccess" class="form-control form-control-sm med-edit" disabled="">
+                                        <option value="">Доступы</option>
+                                        {% for elem in refs.med_access_type %}
+                                            <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-3">
+                                    <button type="button" id="cancelEditingMedicine" class="btn btn-sm btn-danger d-none">
+                                        Отменить
+                                    </button>
+                                    <button type="button" id="editMedicine" class="btn btn-sm btn-warning" data-type="edit">
+                                        Редактировать
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <table id="diseaseTable" class="table table-striped table-hover table-bordered compact hover mb-0">
+                                    <thead>
+                                        <tr class="" style="font-size: 15px;">
+                                            <th class="text-left" colspan="8">Диагноз</th>
+                                            <th class="text-right">
+                                                <button type="button" class="btn btn-sm btn-secondary med-edit add-new" name="disease">
+                                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                                </button>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="med-row disease-row row-template d-none" data-id="" data-type="disease">
+                                            <td width="100" title="Дата" class="text-center">
+                                                <input name="date" class="form-control form-control-sm med-edit" type="date" value="" placeholder="---" autocomplete="off" disabled="">
+                                            </td>
+                                            <td width="100" class="text-center">
+                                                <select class="form-control form-control-sm med-edit" name="diagnosis_type" autocomplete="off" disabled="">
+                                                    <option value=""> --- </option>
+                                                    {% for elem in refs.med_diagnosis_type %}
+                                                        <option value="{{ elem.id }}" data-short="{{ elem.short_name }}">{{ elem.title }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </td>
+                                            <td width="200" class="text-center">
+                                                <select class="form-control form-control-sm med-edit d-none" name="disease_specific" autocomplete="off" disabled="">
+                                                    <option value=""> --- </option>
+                                                    {% for elem in refs.med_disease_specific %}
+                                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                <select class="form-control form-control-sm med-edit d-none" name="disease_nonspecific" autocomplete="off" disabled="">
+                                                    <option value=""> --- </option>
+                                                    {% for elem in refs.med_disease_nonspecific %}
+                                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </td>
+                                            <td width="350" title="Диагноз">
+                                                <input name="diagnosis" class="form-control form-control-sm med-edit" type="text" value="" disabled="">
+                                            </td>
+                                            <td width="100" title="Срок восстановления" class="text-center">
+                                                <input name="recovery_period" class="form-control form-control-sm med-edit" type="text" value="" disabled="">
+                                            </td>
+                                            <td width="100" title="Дата возвращения" class="text-center">
+                                                <input name="healthy_date" class="form-control form-control-sm med-edit d-none" type="date" value="" placeholder="---" autocomplete="off" disabled="">
+                                            </td>
+                                            <td width="100" class="text-center">
+                                                <select class="form-control form-control-sm med-edit" name="healthy_status" autocomplete="off" disabled="">
+                                                    <option value=""> --- </option>
+                                                    <option title="Здоров" value="1"> Здоров </option>
+                                                </select>
+                                            </td>
+                                            <td width="125" title="Пользователь" class="text-center doctor-name"></td>
+                                            <td width="50" class="text-center" title="Удалить данный диагноз">
+                                                <button class="remove-med med-edit" type="button">
+                                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="mb-3">
+                                <table id="treatmentTable" class="table table-striped table-hover table-bordered compact hover mb-0">
+                                    <thead>
+                                        <tr class="" style="font-size: 15px;">
+                                            <th class="text-left" colspan="4">Лечение</th>
+                                            <th class="text-right">
+                                                <button type="button" class="btn btn-sm btn-secondary med-edit add-new" name="treatment">
+                                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                                </button>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="med-row treatment-row row-template d-none" data-id="" data-type="treatment">
+                                            <td width="100" title="Дата" class="text-center">
+                                                <input name="date" class="form-control form-control-sm med-edit" type="date" value="" placeholder="---" autocomplete="off" disabled="">
+                                            </td>
+                                            <td width="300" class="text-center">
+                                                <select class="form-control form-control-sm med-edit selectpicker" name="treatment_type" multiple data-max-options="3" title="---" autocomplete="off" disabled="">
+                                                    {% for elem in refs.med_treatment_type %}
+                                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </td>
+                                            <td width="650" title="Примечания">
+                                                <input name="treatment" class="form-control form-control-sm med-edit" type="text" value="" disabled="">
+                                            </td>
+                                            <td width="125" title="Пользователь" class="text-center doctor-name"></td>
+                                            <td width="50" class="text-center" title="Удалить данное лечение">
+                                                <button class="remove-med med-edit" type="button">
+                                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="mb-3">
+                                <table id="documentTable" class="table table-striped table-hover table-bordered compact hover mb-0">
+                                    <thead>
+                                        <tr class="" style="font-size: 15px;">
+                                            <th class="text-left" colspan="4">Документ</th>
+                                            <th class="text-right">
+                                                <button id="" type="button" class="btn btn-sm btn-secondary med-edit add-new" name="document">
+                                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                                </button>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="med-row document-row row-template d-none" data-id="" data-type="document">
+                                            <td width="100" title="Дата" class="text-center">
+                                                <input name="date" class="form-control form-control-sm med-edit" type="date" value="" placeholder="---" autocomplete="off" disabled="">
+                                            </td>
+                                            <td width="700" title="">
+                                                <input name="doc_text" class="form-control form-control-sm med-edit" type="text" value="" disabled="">
+                                            </td>
+                                            <td width="250" title="" class="d-flex">
+                                                <input name="doc" class="form-control-sm med-edit" type="file" value="" disabled="">
+                                                <a target="_blank" href="#" id="goToDocFile" title="Скачать / просмотреть файл" class="btn btn-sm btn-secondary d-none">
+                                                    <i class="fa fa-download" aria-hidden="true"></i>
+                                                </a>
+                                            </td>
+                                            <td width="125" title="Пользователь" class="text-center doctor-name"></td>
+                                            <td width="50" class="text-center" title="Удалить данный документ">
+                                                <button class="remove-med med-edit" type="button">
+                                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="mb-3">
+                                <table id="noteTable" class="table table-striped table-hover table-bordered compact hover mb-0">
+                                    <thead>
+                                        <tr class="" style="font-size: 15px;">
+                                            <th class="text-left" colspan="4">Записи</th>
+                                            <th class="text-right">
+                                                <button type="button" class="btn btn-sm btn-secondary med-edit add-new" name="note">
+                                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                                </button>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="med-row note-row row-template d-none" data-id="" data-type="note">
+                                            <td width="100" title="Дата" class="text-center">
+                                                <input name="date" class="form-control form-control-sm med-edit" type="date" value="" placeholder="---" autocomplete="off" disabled="">
+                                            </td>
+                                            <td width="200" class="text-center">
+                                                <select class="form-control form-control-sm med-edit" name="note_type" autocomplete="off" disabled="">
+                                                    <option value=""> --- </option>
+                                                    {% for elem in refs.med_note_type %}
+                                                        <option value="{{ elem.id }}" data-short="{{ elem.short_name }}">{{ elem.title }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </td>
+                                            <td width="750" title="Примечания">
+                                                <input name="note" class="form-control form-control-sm med-edit" type="text" value="" disabled="">
+                                            </td>
+                                            <td width="125" title="Пользователь" class="text-center doctor-name"></td>
+                                            <td width="50" class="text-center" title="Удалить данную запись">
+                                                <button class="remove-med med-edit" type="button">
+                                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Назад</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block custom_scripts %}
+    <script src="{% static 'medicine/js/base_medicine.js' %}"></script>
+{% endblock %}

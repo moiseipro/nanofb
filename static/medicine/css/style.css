@@ -1,0 +1,21 @@
+
+.size-w-x {
+    width: var(--w-x) !important;
+}
+.size-min-w-x {
+    min-width: var(--w-min-x) !important;
+}
+.size-max-w-x {
+    max-width: var(--w-max-x) !important;
+}
+.size-h-x {
+    height: var(--h-x) !important;
+}
+.size-min-h-x {
+    min-height: var(--h-min-x) !important;
+}
+.size-max-h-x {
+    max-height: var(--h-max-x) !important;
+}
+
+

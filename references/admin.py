@@ -5,6 +5,8 @@ from references.models import ExsKeyword, ExsStressType, ExsPurpose, ExsCoaching
 from references.models import ExsCategory, ExsAdditionalData, ExsTitleName, ExsType, ExsPhysicalQualities
 from references.models import VideoSource, UserSeason, UserTeam
 from references.models import PlayerTeamStatus, PlayerPlayerStatus, PlayerLevel, PlayerPosition, PlayerFoot
+from references.models import MedicineDiagnosisType, MedicineDiseaseSpecific, MedicineDiseaseNonSpecific
+from references.models import MedicineTreatmentType, MedicineNoteType, MedicineAccessType
 
 
 # Register your models here.
@@ -22,6 +24,11 @@ admin.site.register([ExsCategory, ExsAdditionalData, ExsTitleName, ExsType, ExsP
 admin.site.register([TrainingAdditionalData])
 
 admin.site.register([PlayerTeamStatus, PlayerPlayerStatus, PlayerLevel, PlayerPosition, PlayerFoot, PlayerProtocolStatus])
+
+admin.site.register([
+    MedicineDiagnosisType, MedicineDiseaseSpecific, MedicineDiseaseNonSpecific,
+    MedicineTreatmentType, MedicineNoteType, MedicineAccessType
+])
 
 
 #For Test

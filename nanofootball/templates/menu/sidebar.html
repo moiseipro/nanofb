@@ -265,6 +265,16 @@
     </a>
 </li>
 {% endif %}
+<li class="{{ menu_medicine }}">
+    <a href="{% url 'medicine:base_medicine' %}" class="btn">
+        {% if ui_elements.sidebar__medicine %}
+            {{ ui_elements.sidebar__medicine }}
+        {% else %}
+            <i class="fa fa-line-chart"></i>
+        {% endif %}
+        <span>{% trans 'Medicine' %}</span>
+    </a>
+</li>
 {% if user.is_superuser %}
 <li class="submenu">
     <a href="#">

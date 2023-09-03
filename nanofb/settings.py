@@ -77,6 +77,7 @@ INSTALLED_APPS = [
     'shared.apps.SharedConfig',
     'presentation.apps.PresentationConfig',
     'methodology.apps.MethodologyConfig',
+    'medicine.apps.MedicineConfig',
     'helper_football.apps.HelperFootballConfig',
     'helper_site.apps.HelperSiteConfig',
     'drawer.apps.DrawerConfig',

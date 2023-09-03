@@ -401,3 +401,41 @@ class TrainingAdditionalData(AbstractReference, MixTranslateReference):
     class Meta(AbstractReference.Meta):
         verbose_name = _('Training additional data')
         verbose_name_plural = _('Training additional data')
+
+
+# Medicine
+class MedicineDiagnosisType(AbstractReference, MixTranslateReference):
+    class Meta(AbstractReference.Meta):
+        verbose_name = _('Medicine diagnosis type')
+        verbose_name_plural = _('Medicine diagnosis types')
+
+
+class MedicineDiseaseSpecific(AbstractReference, MixTranslateReference):
+    class Meta(AbstractReference.Meta):
+        verbose_name = _('Medicine disease specific')
+        verbose_name_plural = _('Medicine disease specific')
+
+
+class MedicineDiseaseNonSpecific(AbstractReference, MixTranslateReference):
+    class Meta(AbstractReference.Meta):
+        verbose_name = _('Medicine disease nonspecific')
+        verbose_name_plural = _('Medicine disease nonspecific')
+
+
+class MedicineTreatmentType(AbstractReference, MixTranslateReference):
+    class Meta(AbstractReference.Meta):
+        verbose_name = _('Medicine treatment type')
+        verbose_name_plural = _('Medicine treatment types')
+
+
+class MedicineNoteType(AbstractReference, MixTranslateReference):
+    class Meta(AbstractReference.Meta):
+        verbose_name = _('Medicine note type')
+        verbose_name_plural = _('Medicine note types')
+
+
+class MedicineAccessType(AbstractReference, MixTranslateReference):
+    class Meta(AbstractReference.Meta):
+        verbose_name = _('Medicine access type')
+        verbose_name_plural = _('Medicine access types')
+

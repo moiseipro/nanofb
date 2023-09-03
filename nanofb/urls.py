@@ -48,6 +48,7 @@ urlpatterns = [
     path('shared/', include(('shared.urls', 'shared'), namespace='shared')),
     path('presentation/', include(('presentation.urls', 'presentation'), namespace='presentation')),
     path('methodology/', include(('methodology.urls', 'methodology'), namespace='methodology')),
+    path('medicine/', include(('medicine.urls', 'medicine'), namespace='medicine')),
     path('helper_football/', include(('helper_football.urls', 'helper_football'), namespace='helper_football')),
     path('helper_site/', include(('helper_site.urls', 'helper_site'), namespace='helper_site')),
     path('drawer/', include(('drawer.urls', 'drawer'), namespace='drawer')),
