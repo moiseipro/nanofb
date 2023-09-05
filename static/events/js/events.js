@@ -291,8 +291,10 @@ $(window).on('load', function (){
         $('#microcycles-form').attr('method', 'PATCH')
         $('#microcycles-form').removeClass('d-none')
         $('#microcycles-form #id_name').val(cur_edit_data['name'])
-        $('#microcycles-form #datetimepicker-with-microcycle').datetimepicker('date', moment(cur_edit_data['date_with'], 'DD/MM/YYYY'))
-        $('#microcycles-form #datetimepicker-by-microcycle').datetimepicker('date', moment(cur_edit_data['date_by'], 'DD/MM/YYYY'))
+        //$('#microcycles-form #datetimepicker-with-microcycle').datetimepicker('date', moment(cur_edit_data['date_with'], 'DD/MM/YYYY'))
+        //$('#microcycles-form #datetimepicker-by-microcycle').datetimepicker('date', moment(cur_edit_data['date_by'], 'DD/MM/YYYY'))
+        $('#microcycles-form #datetimepicker-with-microcycle').val(moment(cur_edit_data['date_with'], 'DD/MM/YYYY').format('YYYY-MM-DD'))
+        $('#microcycles-form #datetimepicker-by-microcycle').val(moment(cur_edit_data['date_by'], 'DD/MM/YYYY').format('YYYY-MM-DD'))
     })
     //Удаление микроцикла
     $('#microcycles').on('click', '.delete', function() {
@@ -311,8 +313,11 @@ $(window).on('load', function (){
     $('#microcycles-form').on('submit', function(e) {
         e.preventDefault()
         $('#microcycles-form').addClass('d-none')
-        //console.log($(this).serialize())
-        ajax_microcycle_update($(this).attr('method'), $(this).serialize(), cur_edit_data ? cur_edit_data.id : 0)
+        let send_data = getFormData($(this))
+        send_data['date_with'] = moment(send_data['date_with']).format('DD/MM/YYYY')
+        send_data['date_by'] = moment(send_data['date_by']).format('DD/MM/YYYY')
+        console.log(send_data)
+        ajax_microcycle_update($(this).attr('method'), send_data, cur_edit_data ? cur_edit_data.id : 0)
     })
 
     // Создание события
@@ -324,8 +329,9 @@ $(window).on('load', function (){
     $('#form-event').on('submit', function(e) {
         e.preventDefault()
         let data = getFormData($(this))
-        //console.log(data)
-        data['date'] = data['date']+' '+data['time']
+        let date = moment(data['date']).format('DD/MM/YYYY')
+        data['date'] = date+' '+data['time']
+        console.log(data)
         ajax_event_action($(this).attr('method'), data, 'create', cur_edit_data ? cur_edit_data.id : 0).then(function( data ) {
             console.log(data)
             let isLite = false
@@ -343,7 +349,8 @@ $(window).on('load', function (){
         e.preventDefault()
         let data = getFormData($(this))
         console.log(data)
-        data['date'] = data['date']+' '+data['time']
+        let date = moment(data['date']).format('DD/MM/YYYY')
+        data['date'] = date+' '+data['time']
         ajax_event_action($(this).attr('method'), data, 'update', cur_edit_data ? cur_edit_data.id : 0).then(function( data ) {
             //if(events_table) events_table.ajax.reload()
             console.log(data)
@@ -663,7 +670,7 @@ $(window).on('load', function (){
 })
 
 function clear_event_form(){
-    let nowdate = moment().format('DD/MM/YYYY')
+    let nowdate = moment().format('YYYY-MM-DD');
     let nowtime = moment().format('HH:mm')
     $('#form-event #id_short_name').val('')
     $('#form-event #id_event_type option:first').prop('selected', true)
@@ -854,8 +861,10 @@ $(function() {
                         ajax_event_action('GET', null, 'get', event_id).then(function( data ) {
                             cur_edit_data = data
                             console.log(cur_edit_data);
+                            let date = moment(cur_edit_data['only_date'], 'DD/MM/YYYY').format('YYYY-MM-DD');
+                            console.log(date);
                             $('#form-event-edit #id_short_name').val(cur_edit_data['short_name'])
-                            $('#form-event-edit #datetimepicker-event').val(cur_edit_data['only_date'])
+                            $('#form-event-edit #datetimepicker-event').val(date)
                             $('#form-event-edit #timepicker-event').val(cur_edit_data['time'])
                         })
                     } else if(key === 'copy'){
@@ -896,11 +905,13 @@ $(function() {
                         $('#microcycle-modal').modal('show');
                         ajax_microcycle_update('GET', null, microcycle_id).then(function( data ) {
                             cur_edit_data = data
+                            let date_with = moment(cur_edit_data['date_with'], 'DD/MM/YYYY').format('YYYY-MM-DD');
+                            let date_by = moment(cur_edit_data['date_by'], 'DD/MM/YYYY').format('YYYY-MM-DD');
                             $('#microcycles-form').attr('method', 'PATCH')
                             $('#microcycles-form').removeClass('d-none')
                             $('#microcycles-form #id_name').val(cur_edit_data['name'])
-                            $('#microcycles-form #datetimepicker-with-microcycle').val(cur_edit_data['date_with']).change()
-                            $('#microcycles-form #datetimepicker-by-microcycle').val(cur_edit_data['date_by']).change()
+                            $('#microcycles-form #datetimepicker-with-microcycle').val(date_with)
+                            $('#microcycles-form #datetimepicker-by-microcycle').val(date_by)
                         })
                     }
                 },
