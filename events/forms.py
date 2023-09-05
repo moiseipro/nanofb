@@ -11,29 +11,33 @@ name_input_widget = forms.TextInput(attrs={
 date_with_input_widget = forms.DateInput(attrs={
     'class': 'form-control-sm',
     'id': 'datetimepicker-with-microcycle',
-    'data-toggle': 'datetimepicker',
-    'data-target': '#datetimepicker-with-microcycle',
+    #'data-toggle': 'datetimepicker',
+    #'data-target': '#datetimepicker-with-microcycle',
+    'type': 'date',
     'autocomplete': 'off'
 })
 date_by_input_widget = forms.DateInput(attrs={
     'class': 'form-control-sm',
     'id': 'datetimepicker-by-microcycle',
-    'data-toggle': 'datetimepicker',
-    'data-target': '#datetimepicker-by-microcycle',
+    #'data-toggle': 'datetimepicker',
+    #'data-target': '#datetimepicker-by-microcycle',
+    'type': 'date',
     'autocomplete': 'off'
 })
 date_event_input_widget = forms.DateTimeInput(attrs={
-    'class': 'datepicker-event',
+    #'class': 'datepicker-event',
     'id': 'datetimepicker-event',
-    'data-toggle': 'datetimepicker',
-    'data-target': '#datetimepicker-event',
+    #'data-toggle': 'datetimepicker',
+    #'data-target': '#datetimepicker-event',
+    'type': 'date',
     'autocomplete': 'off'
 })
 time_event_input_widget = forms.TimeInput(attrs={
-    'class': 'timepicker',
+    #'class': 'timepicker',
     'id': 'timepicker-event',
-    'data-toggle': 'datetimepicker',
-    'data-target': '#timepicker-event',
+    #'data-toggle': 'datetimepicker',
+    #'data-target': '#timepicker-event',
+    'type': 'time',
     'autocomplete': 'off'
 })
 
