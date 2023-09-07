@@ -135,8 +135,9 @@ function generate_ajax_users_table(scroll_y = ''){
             {'data': 'is_archive', "name": "is_archive", render: function (data, type, row, meta) {
                 let button_html = `<div class="w-100 text-center" title="">`
                 button_html += `<button type="button" class="btn btn-sm btn-outline-dark mx-1 archive-user py-0 ${data==1?'active text-danger':''}" data-id="${row.id}"><i class="fa fa-flag" aria-hidden="true"></i></button>`
+                if(data==1) button_html += `<button type="button" class="btn btn-sm btn-outline-dark mx-1 delete-user py-0 active text-danger" data-id="${row.id}"><i class="fa fa-trash" aria-hidden="true"></i></button>`
                 button_html += `</div>`
-                    return button_html;
+                return button_html;
             }},
             {'data': 'id', sortable: false, searchable: false, render: function (data, type, row, meta) {
                 let button_html = `<div class="w-100 text-center" title="">`
@@ -173,11 +174,13 @@ async function ajax_users_action(method, data, action = '', id = '', func = '') 
         dataType: "JSON",
         data: data,
         success: function(data){
-            //console.log(data)
-            if(data.status == 'success'){
-                swal(gettext('User'), data.message, 'success');
-            } else if('registration' in data && data.registration != '') {
-                swal(gettext('User registration'), data.registration, "success");
+            console.log(data)
+            if (data) {
+                if ('status' in data && data.status == 'success') {
+                    swal(gettext('User'), data.message, 'success');
+                } else if ('registration' in data && data.registration != '') {
+                    swal(gettext('User registration'), data.registration, "success");
+                }
             }
         },
         error: function(jqXHR, textStatus, errorThrown){

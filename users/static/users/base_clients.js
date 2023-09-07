@@ -275,6 +275,29 @@ $(window).on("load", function () {
         })
     })
 
+    $('#users-table').on('click', '.delete-user', function () {
+        let user_id = $(this).attr('data-id')
+        let send_data = {}
+        console.log(send_data);
+        swal({
+            title: gettext("Delete user?"),
+            text: gettext("After deletion, all workouts, folders and exercises of the user will be cleaned."),
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                ajax_users_action('DELETE', send_data, 'delete', user_id).then(function (data) {
+                    users_table.ajax.reload()
+                })
+            } else {
+
+            }
+        });
+
+    })
+
     $('#generate-password-user-button').on('click', function () {
         let send_data = {}
         swal({

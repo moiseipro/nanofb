@@ -249,7 +249,7 @@ class UserExercise(AbstractExercise):
 
 
 class ClubExercise(AbstractExercise):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     club = models.ForeignKey(Club, on_delete=models.CASCADE, null=True, blank=True)
     team = models.ForeignKey(ClubTeam, on_delete=models.CASCADE, null=True, blank=True)
     folder = models.ForeignKey(ClubFolder, on_delete=models.CASCADE)
