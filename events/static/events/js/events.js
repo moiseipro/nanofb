@@ -787,6 +787,9 @@ function generateMicrocyclesTable(){
             },
         },
         columns: [
+            {'data': 'id', sortable: false, render: function (data, type, row, meta) {
+                return meta.row + meta.settings._iDisplayStart + 1;
+            }, searchable: false},
             {'data': 'name', 'defaultContent': "---"},
             {'data': 'date_with', searchable: false},
             {'data': 'date_by' , searchable: false},

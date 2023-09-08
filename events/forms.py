@@ -64,15 +64,18 @@ class MicrocycleUserForm(forms.ModelForm):
             'date_with': '',
             'date_by': '',
         }
+        labels = {
+            'name': _('Purpose')
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Row(
-                Column('name', css_class='form-group col-md-3 mb-0'),
-                Column('date_with', css_class='form-group col-md-3 mb-0'),
-                Column('date_by', css_class='form-group col-md-3 mb-0'),
+                Column('name', css_class='form-group col-md-5 mb-0'),
+                Column('date_with', css_class='form-group col-md-2 mb-0'),
+                Column('date_by', css_class='form-group col-md-2 mb-0'),
                 Column(
                     Submit('submit', _('Save'), css_class='btn-sm btn-block btn-success save'),
                     Button('button', _('Cancel'), css_class='btn-sm btn-block btn-secondary cancel'),
