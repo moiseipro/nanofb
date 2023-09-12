@@ -291,6 +291,7 @@ $(window).on('load', function (){
         $('#microcycles-form').attr('method', 'PATCH')
         $('#microcycles-form').removeClass('d-none')
         $('#microcycles-form #id_name').val(cur_edit_data['name'])
+        $('#microcycles-form #id_goal').val(cur_edit_data['goal'])
         //$('#microcycles-form #datetimepicker-with-microcycle').datetimepicker('date', moment(cur_edit_data['date_with'], 'DD/MM/YYYY'))
         //$('#microcycles-form #datetimepicker-by-microcycle').datetimepicker('date', moment(cur_edit_data['date_by'], 'DD/MM/YYYY'))
         $('#microcycles-form #datetimepicker-with-microcycle').val(moment(cur_edit_data['date_with'], 'DD/MM/YYYY').format('YYYY-MM-DD'))
@@ -374,7 +375,8 @@ $(window).on('load', function (){
         $(this).children('i').toggleClass('fa-arrow-up', calendar_active).toggleClass('fa-arrow-down', !calendar_active)
         $('.move_to_today').toggleClass('isMonth', !calendar_active)
         $('#filters-row').toggleClass('d-none', calendar_active)
-        $('#rescalenda-control-buttons .rescalendar_move_button').toggleClass('d-none', !calendar_active)
+        $('#left-filters-row').toggleClass('d-none', calendar_active)
+        $('#rescalendar-control-buttons .rescalendar_move_button').toggleClass('d-none', !calendar_active)
 
         hide_training_card()
         $('#events-content').removeClass('d-none')
@@ -392,7 +394,8 @@ $(window).on('load', function (){
         $('#event_calendar').toggleClass('d-none', !calendar_active || !card_active)
         $('.move_to_today').toggleClass('isMonth', !calendar_active || !card_active)
         $('#filters-row').toggleClass('d-none', calendar_active || !card_active)
-        $('#rescalenda-control-buttons').toggleClass('d-none', !calendar_active || !card_active)
+        $('#left-filters-row').toggleClass('d-none', calendar_active || !card_active)
+        $('#rescalendar-control-buttons').toggleClass('d-none', !card_active)
         let event_id = $('.hasEvent.trainingClass.selected').attr('data-value')
         if (event_id){
             Cookies.set('event_id', event_id, { expires: 1 })
@@ -566,6 +569,9 @@ $(window).on('load', function (){
     $('.text-filter-events').on('keyup search', function () {
         local_filters_events()
     })
+    $('.select-filter-events').on('change', function () {
+        local_filters_events()
+    })
     //Сброс всей фильтрации
     $('#clear-events-filters').on('click', function () {
         clear_filters_events()
@@ -667,6 +673,72 @@ $(window).on('load', function (){
         })
     })
 
+    $('#microcycle-name-filter').select2({
+        minimumResultsForSearch: -1,
+        placeholder: gettext("M.C.")+" 1",
+        language: get_cur_lang(),
+        theme: 'bootstrap4',
+        width: '100%',
+        ajax: {
+            url: '/events/microcycle_name_list',
+            dataType: 'json',
+            data: function (params) {
+            },
+            processResults: function (data, params) {
+                console.log(data)
+
+                return {
+                    results: data,
+                    pagination: {
+                      more: false
+                    }
+                };
+            },
+            cache: true
+        },
+        templateResult: function (state) {
+            console.log(state)
+            var $state = $(`
+                <div class="w-100"> ${state.text} <span class="float-right">${state.count ? '('+state.count+')':''}</span></div>
+                
+            `);
+            return $state;
+        }
+    })
+
+    $('#microcycle-goal-filter').select2({
+        minimumResultsForSearch: -1,
+        placeholder: gettext("M.C.")+" 2",
+        language: get_cur_lang(),
+        theme: 'bootstrap4',
+        width: '100%',
+        ajax: {
+            url: '/events/microcycle_goal_list',
+            dataType: 'json',
+            data: function (params) {
+            },
+            processResults: function (data, params) {
+                console.log(data)
+
+                return {
+                    results: data,
+                    pagination: {
+                      more: false
+                    }
+                };
+            },
+            cache: true
+        },
+        templateResult: function (state) {
+            console.log(state)
+            var $state = $(`
+                <div class="w-100"> ${state.text} <span class="float-right">${state.count ? '('+state.count+')':''}</span></div>
+                
+            `);
+            return $state;
+        }
+    })
+
 })
 
 function clear_event_form(){
@@ -682,6 +754,7 @@ function clear_event_form(){
 function clear_microcycle_form(){
     let nowdate = moment().format('DD/MM/YYYY')
     $('#microcycles-form #id_name').val('')
+    $('#microcycles-form #id_goal').val('')
     $('#microcycles-form #datetimepicker-with-microcycle').datetimepicker('date', null)
     $('#microcycles-form #datetimepicker-by-microcycle').datetimepicker('date', null)
     $('#datetimepicker-with-microcycle').datetimepicker('maxDate', false);
@@ -689,6 +762,8 @@ function clear_microcycle_form(){
 }
 
 function local_filters_events() {
+    let name_val = $('#microcycle-name-filter').val() ? $('#microcycle-name-filter').val() : ''
+    let goal_val = $('#microcycle-goal-filter').val() ? $('#microcycle-goal-filter').val() : ''
     let days_val = $('#microcycle-days-filter').val() ? $('#microcycle-days-filter').val() : ''
     let day_val = $('#microcycle-day-filter').val() ? $('#microcycle-day-filter').val() : ''
     let filled_val = $('#filled-event-filter').attr('data-filter') ? $('#filled-event-filter').attr('data-filter') : 0
@@ -696,6 +771,16 @@ function local_filters_events() {
 
     $('#events tbody tr').show()
 
+    $('#events tbody tr').filter(function( index ) {
+        let this_obj = $(this)
+        let data_name = this_obj.attr('data-name')
+        return name_val!='all' && name_val!='' && data_name != name_val;
+    }).hide()
+    $('#events tbody tr').filter(function( index ) {
+        let this_obj = $(this)
+        let data_goal = this_obj.attr('data-goal')
+        return goal_val!='all' && goal_val!='' && data_goal != goal_val;
+    }).hide()
     $('#events tbody tr').filter(function( index ) {
         let this_obj = $(this)
         let data_days = this_obj.attr('data-microcycle-days')
@@ -743,7 +828,7 @@ function clear_filters_events() {
 }
 
 function resize_trainings_block(){
-    let css = "calc(93vh - "+Math.round($('#event_calendar').height())+"px - "+Math.round($('.header').height())+ "px - "+Math.round($('#filters-row').height())+ "px - "+Math.round($('.card-header').height())+"px)"
+    let css = "calc(93vh - "+Math.round($('#event_calendar').height())+"px - "+Math.round($('.header').height())+ "px - "+Math.round($('#filters-row').height())+ "px - "+Math.round($('#left-filters-row').height())+ "px - "+Math.round($('.card-header').height())+"px)"
     //console.log(css)
     $('#training-content .training-data').css({"max-height": css})
     $('#training-content .training-data').css({"height": css})
@@ -791,6 +876,7 @@ function generateMicrocyclesTable(){
                 return meta.row + meta.settings._iDisplayStart + 1;
             }, searchable: false},
             {'data': 'name', 'defaultContent': "---"},
+            {'data': 'goal', 'defaultContent': "---"},
             {'data': 'date_with', searchable: false},
             {'data': 'date_by' , searchable: false},
             {'data': 'id' , sortable: false, searchable: false, render : function ( data, type, row, meta ) {
@@ -913,6 +999,7 @@ $(function() {
                             $('#microcycles-form').attr('method', 'PATCH')
                             $('#microcycles-form').removeClass('d-none')
                             $('#microcycles-form #id_name').val(cur_edit_data['name'])
+                            $('#microcycles-form #id_goal').val(cur_edit_data['goal'])
                             $('#microcycles-form #datetimepicker-with-microcycle').val(date_with)
                             $('#microcycles-form #datetimepicker-by-microcycle').val(date_by)
                         })

@@ -10,7 +10,8 @@ from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework_datatables.django_filters.backends import DatatablesFilterBackend
+from rest_framework.views import APIView
+from django.utils.translation import gettext_lazy as _
 
 from events.filters import EventGlobalFilter
 from events.forms import MicrocycleUserForm, EventUserForm, EventEditUserForm
@@ -102,6 +103,80 @@ class LiteMicrocycleViewSet(viewsets.ModelViewSet):
                                                     date_with__gte=season[0].date_with,
                                                     date_by__lte=season[0].date_by)
         return microcycle
+
+
+class MicrocycleNameListApiView(APIView):
+    #authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        if request.user.club_id is not None:
+            season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
+            queryset = ClubMicrocycles.objects.\
+                filter(team_id=self.request.session['team'], date_with__gte=season[0].date_with, date_by__lte=season[0].date_by).\
+                annotate(names=Count('name')).order_by('name')
+        else:
+            season = UserSeason.objects.filter(id=self.request.session['season'])
+            queryset = UserMicrocycles.objects.\
+                filter(team_id=self.request.session['team'], date_with__gte=season[0].date_with, date_by__lte=season[0].date_by).\
+                annotate(names=Count('name')).order_by('name')
+
+        list_microcycles = [
+            {
+                'id': microcycle.name,
+                'name': microcycle.name,
+                'count': microcycle.names
+            } for microcycle in queryset
+        ]
+        print(list_microcycles)
+        microcycles_count = {}
+        for microcycle in list_microcycles:
+            print(microcycle)
+            microcycles_count[microcycle['id']] = microcycles_count.get(microcycle['id'], {'name': '', 'count': 0})
+            microcycles_count[microcycle['id']]['count'] += microcycle['count']
+            microcycles_count[microcycle['id']]['name'] = microcycle['name']
+        print(microcycles_count)
+        list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in microcycles_count.items()]
+        list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+        print(list2)
+        return Response(list2)
+
+
+class MicrocycleGoalListApiView(APIView):
+    #authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        if request.user.club_id is not None:
+            season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
+            queryset = ClubMicrocycles.objects.\
+                filter(team_id=self.request.session['team'], date_with__gte=season[0].date_with, date_by__lte=season[0].date_by).\
+                annotate(names=Count('goal')).order_by('goal')
+        else:
+            season = UserSeason.objects.filter(id=self.request.session['season'])
+            queryset = UserMicrocycles.objects.\
+                filter(team_id=self.request.session['team'], date_with__gte=season[0].date_with, date_by__lte=season[0].date_by).\
+                annotate(goals=Count('goal')).order_by('goal')
+
+        list_microcycles = [
+            {
+                'id': microcycle.goal,
+                'name': microcycle.goal,
+                'count': microcycle.goals
+            } for microcycle in queryset
+        ]
+        print(list_microcycles)
+        microcycles_count = {}
+        for microcycle in list_microcycles:
+            print(microcycle)
+            microcycles_count[microcycle['id']] = microcycles_count.get(microcycle['id'], {'name': '', 'count': 0})
+            microcycles_count[microcycle['id']]['count'] += microcycle['count']
+            microcycles_count[microcycle['id']]['name'] = microcycle['name']
+        print(microcycles_count)
+        list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in microcycles_count.items()]
+        list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+        print(list2)
+        return Response(list2)
 
 
 class EventViewSet(viewsets.ModelViewSet):

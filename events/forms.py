@@ -6,7 +6,14 @@ from crispy_forms.layout import Layout, Submit, Row, Column, Button
 from events.models import UserMicrocycles, UserEvent
 
 name_input_widget = forms.TextInput(attrs={
-    'class': 'form-control-sm', 'autocomplete': 'off'
+    'class': 'form-control-sm',
+    'autocomplete': 'off',
+    'placeholder': _('M.C.')+" 1"
+})
+goal_input_widget = forms.TextInput(attrs={
+    'class': 'form-control-sm',
+    'autocomplete': 'off',
+    'placeholder': _('M.C.')+" 2"
 })
 date_with_input_widget = forms.DateInput(attrs={
     'class': 'form-control-sm',
@@ -53,19 +60,22 @@ EVENT_TYPES =(
 class MicrocycleUserForm(forms.ModelForm):
     class Meta:
         model = UserMicrocycles
-        fields = ['name', 'date_with', 'date_by']
+        fields = ['name', 'goal', 'date_with', 'date_by']
         widgets = {
             'name': name_input_widget,
+            'goal': goal_input_widget,
             'date_with': date_with_input_widget,
             'date_by': date_by_input_widget
         }
         help_texts = {
             'name': '',
+            'goal': '',
             'date_with': '',
             'date_by': '',
         }
         labels = {
-            'name': _('Purpose')
+            'name': "",
+            'goal': "",
         }
 
     def __init__(self, *args, **kwargs):
@@ -73,15 +83,19 @@ class MicrocycleUserForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Row(
-                Column('name', css_class='form-group col-md-5 mb-0'),
-                Column('date_with', css_class='form-group col-md-2 mb-0'),
-                Column('date_by', css_class='form-group col-md-2 mb-0'),
+                Column(
+                    Row(
+                        Column('name', css_class='form-div col-12 mb-0'),
+                        Column('goal', css_class='form-div col-12 mb-0'),
+                        ),
+                    css_class='col-md-5'),
+                Column('date_with', css_class='form-div col-md-2 mb-0'),
+                Column('date_by', css_class='form-div col-md-2 mb-0'),
                 Column(
                     Submit('submit', _('Save'), css_class='btn-sm btn-block btn-success save'),
                     Button('button', _('Cancel'), css_class='btn-sm btn-block btn-secondary cancel'),
-                    css_class='form-group col-md-3 mb-0'
+                    css_class='form-div col-md-3 mb-0'
                 ),
-                css_class='form-row'
             ),
 
         )

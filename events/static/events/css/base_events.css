@@ -103,3 +103,26 @@ a.matchButton1 {
 .carousel-item.description-item {
     overflow-y: auto;
 }
+
+.select2-container .select2-selection--single {
+    border: 2px solid dodgerblue;
+}
+.select2-container--bootstrap4 .select2-selection--single {
+    height: calc(1.5em + 0.5rem + 2px) !important;
+}
+.select2-container--bootstrap4.select2-container--focus .select2-selection {
+    border-color: indianred !important;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.form-div .form-group{
+    margin-bottom: 0.2rem;
+}
+
+.form-div [type="text"]{
+    border: 1px solid dodgerblue;
+}
+
+.form-div .form-group label{
+    margin-bottom: 0.8rem;
+}

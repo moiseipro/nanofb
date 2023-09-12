@@ -93,10 +93,17 @@ class LiteEvent(AbstractEvent):
 
 class AbstractMicrocycles(models.Model):
     name = models.CharField(
-        verbose_name=_('title'),
+        verbose_name=_('M.C.'),
         help_text=_("Name of the microcycle. The maximum length is 80 characters"),
         max_length=80,
-        default=_('Microcycle'),
+        default="",
+        blank=True
+    )
+    goal = models.CharField(
+        verbose_name=_('M.C.')+" 2",
+        help_text=_("Goal of the microcycle. The maximum length is 80 characters"),
+        max_length=80,
+        default="",
         blank=True
     )
     date_with = models.DateField(

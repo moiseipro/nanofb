@@ -43,7 +43,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="rescalenda-control-buttons" class="col-2 p-0" style="">
+                        <div id="rescalendar-control-buttons" class="col-2 p-0" style="">
                             <div class="row rescalendar_controls text-truncate text-center">
                                 <div class="col-3 px-1 rescalendar_move_button">
                                     <button class="btn btn-block btn-lightgray btn-md move-left move_to_last_month"> <i class="fa fa-chevron-left" aria-hidden="true"></i> </button>
@@ -96,7 +96,7 @@
                             <div id="event_calendar" class="rescalendar"></div>
                         </div>
                     </div>
-                    <div id="filters-row" class="row pt-2 d-none">
+                    <div id="filters-row" class="row pt-1 d-none">
                         {% if perms.events.add_clubmicrocycles or perms.events.add_usermicrocycles %}
                         <div class="col">
                             <div class="row">
@@ -129,32 +129,49 @@
                                     <input id="keywords-event-view" type="text" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Objective' %} 2" autocomplete="off" readonly>
                                 </div>
                                 <div class="col-4 pl-1 pr-0">
-                                    <input id="load-event-view" type="text" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Load' %}" autocomplete="off" readonly>
+                                    <input id="load-event-view" type="text" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Objective' %} 3" autocomplete="off" readonly>
                                 </div>
                             </div>
                         </div>
                         {% endif %}
                     </div>
                     {% include 'trainings/training_card.html' %}
-                    <div id="events-content" class="row border-top mt-2">
+                    <div id="events-content" class="row border-top mt-1">
                         <div class="col px-0">
-                            <div id="events-table" class="table-responsive" style="overflow-y: auto;">
-                                <table id="events" class="table table-sm padding-none table-bordered table-hover dataTable" style="width:100%;">
-{#                                    <thead>#}
-{#                                        <tr>#}
-{#                                            <th class="text-center">№</th>#}
-{#                                            <th class="text-center">{% trans 'Date' %}</th>#}
-{#                                            <th class="text-center">{% trans 'Event' %}</th>#}
-{#                                            <th class="text-center">{% trans 'M.D.' %}</th>#}
-{#                                            <th class="text-center"><i class="fa fa-star-o" aria-hidden="true"></i></th>#}
-{#                                            <th class="text-center">{% trans 'Players' %}</th>#}
-{#                                        </tr>#}
-{#                                    </thead>#}
-                                    <tbody>
-
-                                    </tbody>
-                                </table>
+                            <div id="left-filters-row" class="row d-none">
+                                <div class="col">
+                                    <div class="col-12 pl-0 pr-1">
+                                        <select id="microcycle-name-filter" class="form-control form-control-sm select-filter-events select2" placeholder="{% trans 'M.C.' %} 1">
+                                        </select>
+                                    </div>
+                                    <div class="col-12 pl-0 pr-1 pt-1">
+                                        <select id="microcycle-goal-filter" class="form-control form-control-sm select-filter-events select2" placeholder="{% trans 'M.C.' %} 2">
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div id="events-table" class="table-responsive" style="overflow-y: auto;">
+                                        <table id="events" class="table table-sm padding-none table-bordered table-hover dataTable" style="width:100%;">
+        {#                                    <thead>#}
+        {#                                        <tr>#}
+        {#                                            <th class="text-center">№</th>#}
+        {#                                            <th class="text-center">{% trans 'Date' %}</th>#}
+        {#                                            <th class="text-center">{% trans 'Event' %}</th>#}
+        {#                                            <th class="text-center">{% trans 'M.D.' %}</th>#}
+        {#                                            <th class="text-center"><i class="fa fa-star-o" aria-hidden="true"></i></th>#}
+        {#                                            <th class="text-center">{% trans 'Players' %}</th>#}
+        {#                                        </tr>#}
+        {#                                    </thead>#}
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                         <div class="col-8" id="block-event-info">
                             <div class="row event-info" style="overflow-y: auto; overflow-x: hidden">

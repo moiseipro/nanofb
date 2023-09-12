@@ -19,6 +19,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                 newMicrocycle.push({
                     id: microcycle['id'],
                     name: microcycle['name'],
+                    goal: microcycle['goal'],
                     startDate: microcycle['date_with'],
                     endDate: microcycle['date_by'],
                     days: days,
@@ -81,6 +82,8 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                         let only_date = moment(event['only_date'], 'DD/MM/YYYY')
                         let count_day = 0
                         let microcycle_days = 0
+                        let microcycle_name = ""
+                        let microcycle_goal = ""
                         let hasVideo = false
                         let isCurrentDate = false
                         let isFilled = true
@@ -90,6 +93,8 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             let date_with = moment(microcycle['startDate'], 'DD/MM/YYYY')
                             let date_by = moment(microcycle['endDate'], 'DD/MM/YYYY')
                             if(only_date.isBetween( date_with, date_by, undefined, '[]')){
+                                microcycle_name = microcycle.name
+                                microcycle_goal = microcycle.goal
                                 microcycle_days = microcycle.days
                                 count_day = only_date.diff(date_with, "days")+1
                                 if(count_day < 3) count_day = '+'+count_day
@@ -165,7 +170,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                 ` //<a href="#" class="btn btn-sm btn-block btn-secondary py-0 disabled">${/*gettext('Recreation')*/'---'}</a>
                         }
                         console.log(event['only_date']+"   "+moment(event['only_date'], 'DD/MM/YYYY').endOf('month').format('DD/MM/YYYY'))
-                        tr_html += `<tr id="${event['only_date']==moment().format('DD/MM/YYYY') ? 'current_day' : ''}" class="${event_id!=null ? 'hasEvent' : ''} ${event_class} ${event['only_date']==moment(event['only_date'], 'DD/MM/YYYY').endOf('month').format('DD/MM/YYYY') ? "month_top_border" : ''}" data-value="${event_id}" data-microcycle-days="${microcycle_days}" data-microcycle-day="${count_day}" data-unfilled="${!isFilled ? '1' : '0'}" data-video="${hasVideo ? '1' : '0'}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
+                        tr_html += `<tr id="${event['only_date']==moment().format('DD/MM/YYYY') ? 'current_day' : ''}" class="${event_id!=null ? 'hasEvent' : ''} ${event_class} ${event['only_date']==moment(event['only_date'], 'DD/MM/YYYY').endOf('month').format('DD/MM/YYYY') ? "month_top_border" : ''}" data-value="${event_id}" data-microcycle-days="${microcycle_days}" data-microcycle-day="${count_day}" data-unfilled="${!isFilled ? '1' : '0'}" data-video="${hasVideo ? '1' : '0'}" data-name="${microcycle_name}" data-goal="${microcycle_goal}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
                         tr_html += td_html
                         tr_html += `</tr>`
                         event_date = event['only_date']
@@ -250,7 +255,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
 }
 
 function resize_events_table(){
-    let css = "calc(93vh - "+Math.round($('#calendar-row').height())+"px - "+Math.round($('#filters-row').height())+"px - "+Math.round($('.header').height())+"px - "+Math.round($('.card-header').height())+"px)"
+    let css = "calc(93vh - "+Math.round($('#calendar-row').height())+"px - "+Math.round($('#filters-row').height())+"px - "+Math.round($('#left-filters-row').height())+ "px - "+Math.round($('.header').height())+"px - "+Math.round($('.card-header').height())+"px)"
     //console.log(css)
     $('#events-table').css({"max-height": css})
     $('#events-table').css({"height": css})
