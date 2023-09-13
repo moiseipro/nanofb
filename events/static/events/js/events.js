@@ -545,9 +545,11 @@ $(window).on('load', function (){
         if (cur_state>0) {
             cur_state = 0
             $(this).removeClass('active')
+            $(this).find('i').removeClass('fa-arrow-down').addClass('fa-arrow-up')
         } else {
             cur_state += 1
             $(this).addClass('active')
+            $(this).find('i').removeClass('fa-arrow-up').addClass('fa-arrow-down')
         }
         $(this).attr('data-filter', cur_state)
         local_filters_events()
@@ -860,7 +862,7 @@ function generateMicrocyclesTable(){
         dom: "<'row'<'col-sm-12 col-md-12' f>>" +
              "<'row'<'col-sm-12'tr>>" +
              "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-        order: [ 1, 'desc' ],
+        //order: [ 1, 'desc' ],
         serverSide: true,
         processing: true,
         lengthChange: false,

@@ -126,3 +126,7 @@ a.matchButton1 {
 .form-div .form-group label{
     margin-bottom: 0.8rem;
 }
+
+.select2-results__options{
+    max-height: 20em !important;
+}
