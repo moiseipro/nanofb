@@ -16,7 +16,7 @@
                                     <button id="event-add" title="{% trans 'Event' %}" data-toggle="modal" data-target="#form-event-modal" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-plus" aria-hidden="true"></i></button>
                                 </div>
                                 {% if perms.events.add_clubmicrocycles or perms.events.add_usermicrocycles %}
-                                <div class="col px-1">
+                                <div class="col px-1 mc-function d-none">
                                     <button id="microcycle" title="{% trans 'Microcycle' %}" data-toggle="modal" data-target="#microcycle-modal" class="btn btn-block btn-lightgray btn-md font-weight-bold text-success"><i class="fa fa-plus" aria-hidden="true"></i></button>
                                 </div>
                                 {% endif %}
@@ -62,9 +62,9 @@
                         </div>
                         <div class="col py-0">
                             <div class="row">
-{#                                <div class="col px-1">#}
-{#                                    <button id="#" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-comment-o" aria-hidden="true"></i></button>#}
-{#                                </div>#}
+                                <div class="col px-1">
+                                    <button id="toggle-microcycle-functions" title="{% trans 'Show/Hide microcycle functions' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold">{% trans 'M.C.' %}</button>
+                                </div>
                                 <div class="col px-1">
                                     <button id="event-show-filter-data-button" title="" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
                                 </div>
@@ -98,7 +98,7 @@
                     </div>
                     <div id="filters-row" class="row pt-1 d-none">
                         {% if perms.events.add_clubmicrocycles or perms.events.add_usermicrocycles %}
-                        <div class="col">
+                        <div class="col mc-function d-none">
                             <div class="row">
                                 <div class="col-6 pl-0 pr-1">
                                     <input id="microcycle-day-filter" type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="M.D." autocomplete="off">
@@ -111,7 +111,7 @@
 {#                                </div>#}
                             </div>
                         </div>
-                        <div class="col-8">
+                        <div class="col-8 mc-function d-none">
                             <div class="row">
 {#                                <div class="col-4 px-1">#}
 {#                                    <input id="goal-event-filter" type="search" class="form-control form-control-sm text-center text-filter-events ajax-text-filters" placeholder="{% trans 'Goal' %}" autocomplete="off">#}
@@ -137,9 +137,9 @@
                     </div>
                     {% include 'trainings/training_card.html' %}
                     <div id="events-content" class="row border-top mt-1">
-                        <div class="col px-0">
+                        <div class="col-4 px-0">
                             <div id="left-filters-row" class="row d-none">
-                                <div class="col">
+                                <div class="col mc-function d-none">
                                     <div class="col-12 pl-0 pr-1">
                                         <select id="microcycle-name-filter" class="form-control form-control-sm select-filter-events select2" placeholder="{% trans 'M.C.' %} 1">
                                         </select>
@@ -173,7 +173,7 @@
                             </div>
 
                         </div>
-                        <div class="col-8" id="block-event-info">
+                        <div class="col" id="block-event-info">
                             <div class="row event-info" style="overflow-y: auto; overflow-x: hidden">
                             </div>
                         </div>
