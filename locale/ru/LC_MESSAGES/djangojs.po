@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-07 12:53+0300\n"
+"POT-Creation-Date: 2023-09-15 14:09+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -219,71 +219,77 @@ msgid "Event action successfully!"
 msgstr "Действие с тренировкой успешно!"
 
 #: .\events\static\events\js\event_update.js:35
-#: .\events\static\events\js\generate_table.js:188
-#: .\events\static\events\js\generate_table.js:244
+#: .\events\static\events\js\generate_table.js:193
+#: .\events\static\events\js\generate_table.js:249
 #: .\static\events\base_events.js:318 .\static\events\base_events.js:327
 #: .\static\events\js\event_update.js:35
-#: .\static\events\js\generate_table.js:188
-#: .\static\events\js\generate_table.js:244
+#: .\static\events\js\generate_table.js:193
+#: .\static\events\js\generate_table.js:249
 msgid "Error when action the event!"
 msgstr "Ошибка при выполнении события!"
 
-#: .\events\static\events\js\events.js:85 .\static\events\js\events.js:85
+#: .\events\static\events\js\events.js:86 .\static\events\js\events.js:86
 msgid "Warning!"
 msgstr "Предупреждение!"
 
-#: .\events\static\events\js\events.js:85 .\static\events\js\events.js:85
+#: .\events\static\events\js\events.js:86 .\static\events\js\events.js:86
 msgid "Choose a team and a season!"
 msgstr "Выберите команду и сезон!"
 
-#: .\events\static\events\js\events.js:341
-#: .\events\static\events\js\events.js:361 .\static\events\js\events.js:341
-#: .\static\events\js\events.js:361
+#: .\events\static\events\js\events.js:343
+#: .\events\static\events\js\events.js:363 .\static\events\js\events.js:343
+#: .\static\events\js\events.js:363
 msgid "Go to the created event"
 msgstr "Перейти к созданному событию"
 
-#: .\events\static\events\js\events.js:499 .\static\events\js\events.js:499
+#: .\events\static\events\js\events.js:503 .\static\events\js\events.js:503
 msgid "No event selected!"
 msgstr "Событие не выбрано!"
 
-#: .\events\static\events\js\events.js:636
-#: .\events\static\events\js\events.js:665 .\static\events\js\events.js:636
-#: .\static\events\js\events.js:665
+#: .\events\static\events\js\events.js:645
+#: .\events\static\events\js\events.js:674 .\static\events\js\events.js:645
+#: .\static\events\js\events.js:674
 msgid "Ready"
 msgstr "Готово"
 
-#: .\events\static\events\js\events.js:636
-#: .\events\static\events\js\events.js:665 .\static\events\js\events.js:636
-#: .\static\events\js\events.js:665
+#: .\events\static\events\js\events.js:645
+#: .\events\static\events\js\events.js:674 .\static\events\js\events.js:645
+#: .\static\events\js\events.js:674
 msgid "Link copied"
 msgstr "Ссылка скопирована"
 
-#: .\events\static\events\js\events.js:880 .\static\events\js\events.js:880
+#: .\events\static\events\js\events.js:681
+#: .\events\static\events\js\events.js:722 .\static\events\js\events.js:681
+#: .\static\events\js\events.js:722
+msgid "M.C."
+msgstr "М.Ц."
+
+#: .\events\static\events\js\events.js:992 .\static\events\js\events.js:992
 msgid "Copy"
 msgstr "Копировать"
 
-#: .\events\static\events\js\events.js:881
-#: .\events\static\events\js\events.js:920 .\static\events\base_events.js:439
-#: .\static\events\js\events.js:881 .\static\events\js\events.js:920
+#: .\events\static\events\js\events.js:993
+#: .\events\static\events\js\events.js:1033 .\static\events\base_events.js:439
+#: .\static\events\js\events.js:993 .\static\events\js\events.js:1033
 #: .\static\video\base_video.js:47
 msgid "Edit"
 msgstr "Редактировать"
 
-#: .\events\static\events\js\events.js:882
-#: .\events\static\events\js\events.js:921 .\static\events\base_events.js:440
-#: .\static\events\js\events.js:882 .\static\events\js\events.js:921
+#: .\events\static\events\js\events.js:994
+#: .\events\static\events\js\events.js:1034 .\static\events\base_events.js:440
+#: .\static\events\js\events.js:994 .\static\events\js\events.js:1034
 #: .\static\video\base_video.js:57
 msgid "Delete"
 msgstr "Удалить"
 
-#: .\events\static\events\js\events.js:884
-#: .\events\static\events\js\events.js:923 .\static\events\base_events.js:442
-#: .\static\events\js\events.js:884 .\static\events\js\events.js:923
+#: .\events\static\events\js\events.js:996
+#: .\events\static\events\js\events.js:1036 .\static\events\base_events.js:442
+#: .\static\events\js\events.js:996 .\static\events\js\events.js:1036
 msgid "Close"
 msgstr "Закрыть"
 
-#: .\events\static\events\js\generate_table.js:137
-#: .\static\events\base_events.js:409 .\static\events\js\generate_table.js:137
+#: .\events\static\events\js\generate_table.js:142
+#: .\static\events\base_events.js:409 .\static\events\js\generate_table.js:142
 #: .\static\trainings\js\action_lite_training.js:19
 #: .\static\trainings\js\action_lite_training.js:21
 #: .\static\trainings\js\action_lite_training.js:23
@@ -321,33 +327,33 @@ msgstr "Закрыть"
 msgid "Training"
 msgstr "Тренировка"
 
-#: .\events\static\events\js\generate_table.js:151
-#: .\static\events\base_events.js:411 .\static\events\js\generate_table.js:151
+#: .\events\static\events\js\generate_table.js:156
+#: .\static\events\base_events.js:411 .\static\events\js\generate_table.js:156
 msgid "Match"
 msgstr "Матч"
 
-#: .\events\static\events\js\generate_table.js:188
-#: .\events\static\events\js\generate_table.js:244
+#: .\events\static\events\js\generate_table.js:193
+#: .\events\static\events\js\generate_table.js:249
 #: .\static\events\base_events.js:318 .\static\events\base_events.js:327
-#: .\static\events\js\generate_table.js:188
-#: .\static\events\js\generate_table.js:244
+#: .\static\events\js\generate_table.js:193
+#: .\static\events\js\generate_table.js:249
 msgid "Event save"
 msgstr "Сохранить событие"
 
-#: .\events\static\events\js\generate_table.js:202
+#: .\events\static\events\js\generate_table.js:207
 #: .\static\admin\js\admin\DateTimeShortcuts.js:239
 #: .\static\admin\js\admin\DateTimeShortcuts.js:319
-#: .\static\events\base_events.js:338 .\static\events\js\generate_table.js:202
+#: .\static\events\base_events.js:338 .\static\events\js\generate_table.js:207
 msgid "Today"
 msgstr "Сегодня"
 
-#: .\events\static\events\js\generate_table.js:203
-#: .\static\events\base_events.js:339 .\static\events\js\generate_table.js:203
+#: .\events\static\events\js\generate_table.js:208
+#: .\static\events\base_events.js:339 .\static\events\js\generate_table.js:208
 msgid "Failed to initialize"
 msgstr "Не удалось инициализировать"
 
-#: .\events\static\events\js\generate_table.js:204
-#: .\static\events\base_events.js:340 .\static\events\js\generate_table.js:204
+#: .\events\static\events\js\generate_table.js:209
+#: .\static\events\base_events.js:340 .\static\events\js\generate_table.js:209
 msgid "No data was found to show"
 msgstr "Не было найдено данных для отображения"
 

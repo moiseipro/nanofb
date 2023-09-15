@@ -76,6 +76,8 @@ class MicrocycleUserForm(forms.ModelForm):
         labels = {
             'name': "",
             'goal': "",
+            'date_with': _("Date with"),
+            'date_by': _("Date by")
         }
 
     def __init__(self, *args, **kwargs):
@@ -88,13 +90,13 @@ class MicrocycleUserForm(forms.ModelForm):
                         Column('name', css_class='form-div col-12 mb-0'),
                         Column('goal', css_class='form-div col-12 mb-0'),
                         ),
-                    css_class='col-md-5'),
+                    css_class='col-md-6'),
                 Column('date_with', css_class='form-div col-md-2 mb-0'),
                 Column('date_by', css_class='form-div col-md-2 mb-0'),
                 Column(
                     Submit('submit', _('Save'), css_class='btn-sm btn-block btn-success save'),
                     Button('button', _('Cancel'), css_class='btn-sm btn-block btn-secondary cancel'),
-                    css_class='form-div col-md-3 mb-0'
+                    css_class='form-div col-md-2 mb-0'
                 ),
             ),
 

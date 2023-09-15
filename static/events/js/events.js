@@ -702,11 +702,19 @@ $(window).on('load', function (){
         templateResult: function (state) {
             console.log(state)
             var $state = $(`
-                <div class="text-truncate"> ${state.text} <span class="float-right">${state.count ? '('+state.count+')':''}</span></div>
+                <div class="" title="${state.text}"> ${state.text} <span class="float-right">${state.count ? '('+state.count+')':''}</span></div>
                 
             `);
             return $state;
-        }
+        },
+        templateSelection: function (state) {
+            console.log(state)
+            var $state = $(`
+                <div class="text-truncate" title="${state.text}"> ${state.text}</div>
+                
+            `);
+            return $state;
+        },
     })
 
     $('#microcycle-goal-filter').select2({
@@ -735,11 +743,19 @@ $(window).on('load', function (){
         templateResult: function (state) {
             console.log(state)
             var $state = $(`
-                <div class="text-truncate"> ${state.text} <span class="float-right">${state.count ? '('+state.count+')':''}</span></div>
+                <div class="" title="${state.text}"> ${state.text} <span class="float-right">${state.count ? '('+state.count+')':''}</span></div>
                 
             `);
             return $state;
-        }
+        },
+        templateSelection: function (state) {
+            console.log(state)
+            var $state = $(`
+                <div class="text-truncate" title="${state.text}"> ${state.text}</div>
+                
+            `);
+            return $state;
+        },
     })
     $('#toggle-microcycle-functions').on('click', function () {
         mc_active ? mc_active = false : mc_active = true;

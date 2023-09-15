@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-08 11:32+0300\n"
+"POT-Creation-Date: 2023-09-15 13:55+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -810,7 +810,7 @@ msgid ""
 msgstr ""
 
 #: .\Lib\site-packages\django\db\models\fields\__init__.py:2382
-#: .\events\forms.py:109 .\events\forms.py:151
+#: .\events\forms.py:125 .\events\forms.py:167
 #: .\shared\templates\shared\base_shared_training.html:23
 #: .\trainings\templates\trainings\print_training.html:23
 #: .\trainings\templates\trainings\training_card.html:39
@@ -2138,8 +2138,7 @@ msgstr "Страна"
 msgid "Phone"
 msgstr "Телефон"
 
-#: .\clubs\models.py:17 .\events\models.py:96 .\federations\models.py:14
-#: .\references\models.py:17
+#: .\clubs\models.py:17 .\federations\models.py:14 .\references\models.py:17
 #: .\references\templates\references\base_settings.html:52
 #: .\references\templates\references\base_settings.html:71 .\users\models.py:29
 #: .\version\models.py:131 .\video\models.py:17 .\video\models.py:28
@@ -2344,7 +2343,7 @@ msgid "Edit"
 msgstr "Редактировать"
 
 #: .\clubs\templates\clubs\modules\management_clubs.html:15
-#: .\events\forms.py:81 .\exercises\templates\exercises\base_folders.html:139
+#: .\events\forms.py:98 .\exercises\templates\exercises\base_folders.html:139
 #: .\exercises\templates\exercises\base_folders.html:159
 #: .\exercises\templates\exercises\base_folders.html:183
 #: .\shared\templates\shared\modules\shared_training_modal.html:37
@@ -2407,25 +2406,39 @@ msgstr "Ошибка генерации пароля!"
 msgid "Events"
 msgstr "События"
 
-#: .\events\forms.py:46 .\nanofootball\templates\menu\sidebar.html:194
+#: .\events\forms.py:11 .\events\forms.py:16 .\events\models.py:96
+#: .\events\models.py:103 .\events\templates\events\base_events.html:66
+#: .\events\templates\events\base_events.html:144
+#: .\events\templates\events\base_events.html:148
+#: .\events\templates\events\forms\microcycle_modal.html:41
+#: .\events\templates\events\forms\microcycle_modal.html:42
+msgid "M.C."
+msgstr "М.Ц."
+
+#: .\events\forms.py:53 .\nanofootball\templates\menu\sidebar.html:194
 msgid "Training"
 msgstr "Тренировки"
 
-#: .\events\forms.py:47
+#: .\events\forms.py:54
 msgid "Unofficial match"
 msgstr "Неофициальный матч"
 
-#: .\events\forms.py:48
+#: .\events\forms.py:55
 msgid "Official match"
 msgstr "Официальный матч"
 
-#: .\events\forms.py:68
-#: .\events\templates\events\forms\microcycle_modal.html:41
-msgid "Purpose"
-msgstr "Цель"
+#: .\events\forms.py:79
+#: .\events\templates\events\forms\microcycle_modal.html:43
+msgid "Date with"
+msgstr "Дата с"
 
-#: .\events\forms.py:80 .\events\forms.py:92 .\events\forms.py:126
-#: .\events\forms.py:140 .\events\forms.py:170 .\references\forms.py:27
+#: .\events\forms.py:80
+#: .\events\templates\events\forms\microcycle_modal.html:44
+msgid "Date by"
+msgstr "Дата по"
+
+#: .\events\forms.py:97 .\events\forms.py:108 .\events\forms.py:142
+#: .\events\forms.py:156 .\events\forms.py:186 .\references\forms.py:27
 #: .\references\forms.py:52
 #: .\trainings\templates\trainings\view_lite_training.html:28
 #: .\trainings\templates\trainings\view_training.html:28 .\video\forms.py:19
@@ -2433,11 +2446,11 @@ msgstr "Цель"
 msgid "Save"
 msgstr "Сохранить"
 
-#: .\events\forms.py:97
+#: .\events\forms.py:113
 msgid "Event type"
 msgstr "Тип события"
 
-#: .\events\forms.py:103 .\shared\templates\shared\base_shared_training.html:20
+#: .\events\forms.py:119 .\shared\templates\shared\base_shared_training.html:20
 #: .\trainings\templates\trainings\print_training.html:20
 #: .\trainings\templates\trainings\training_card.html:33
 #: .\trainings\templates\trainings\training_card.html:35
@@ -2481,28 +2494,34 @@ msgstr "Событие"
 msgid "Name of the microcycle. The maximum length is 80 characters"
 msgstr "Название микроцикла. Максимальная длина - 80 символов"
 
-#: .\events\models.py:99 .\events\templates\events\base_events.html:20
-#: .\events\templates\events\lite_events.html:20
-msgid "Microcycle"
-msgstr "Микроциклы"
+#: .\events\models.py:104
+#, fuzzy
+#| msgid "Name of the microcycle. The maximum length is 80 characters"
+msgid "Goal of the microcycle. The maximum length is 80 characters"
+msgstr "Название микроцикла. Максимальная длина - 80 символов"
 
-#: .\events\models.py:103 .\references\models.py:145 .\references\models.py:177
+#: .\events\models.py:110 .\references\models.py:145 .\references\models.py:177
 #: .\references\templates\references\base_settings.html:73
 msgid "start date"
 msgstr "Дата начала"
 
-#: .\events\models.py:104
+#: .\events\models.py:111
 msgid "Start date of the microcycle."
 msgstr "Дата начала микроцикла"
 
-#: .\events\models.py:107 .\references\models.py:150 .\references\models.py:182
+#: .\events\models.py:114 .\references\models.py:150 .\references\models.py:182
 #: .\references\templates\references\base_settings.html:74
 msgid "end date"
 msgstr "Дата окончания"
 
-#: .\events\models.py:108
+#: .\events\models.py:115
 msgid "End date of the microcycle."
 msgstr "Дата окончания микроцикла"
+
+#: .\events\templates\events\base_events.html:20
+#: .\events\templates\events\lite_events.html:20
+msgid "Microcycle"
+msgstr "Микроциклы"
 
 #: .\events\templates\events\base_events.html:24
 #: .\events\templates\events\lite_events.html:24
@@ -2543,6 +2562,10 @@ msgstr "Показать/скрыть календарь"
 msgid "Calendar"
 msgstr "Календарь"
 
+#: .\events\templates\events\base_events.html:66
+msgid "Show/Hide microcycle functions"
+msgstr ""
+
 #: .\events\templates\events\base_events.html:72
 #: .\events\templates\events\lite_events.html:66
 msgid "Video of selected event"
@@ -2581,22 +2604,16 @@ msgstr "Дни МЦ"
 
 #: .\events\templates\events\base_events.html:126
 #: .\events\templates\events\base_events.html:129
+#: .\events\templates\events\base_events.html:132
 #: .\events\templates\events\lite_events.html:120
 #: .\events\templates\events\lite_events.html:123
 #: .\trainings\templates\trainings\print_training.html:68
 #: .\trainings\templates\trainings\print_training.html:73
 #: .\trainings\templates\trainings\training_card.html:87
 #: .\trainings\templates\trainings\training_card.html:93
+#: .\trainings\templates\trainings\training_card.html:99
 msgid "Objective"
 msgstr "Задача"
-
-#: .\events\templates\events\base_events.html:132
-#: .\events\templates\events\lite_events.html:126
-#: .\shared\templates\shared\base_shared_training.html:63
-#: .\trainings\templates\trainings\print_training.html:79
-#: .\trainings\templates\trainings\training_card.html:99
-msgid "Load"
-msgstr "Нагрузка"
 
 #: .\events\templates\events\forms\create_event.html:7
 msgid "Event Create"
@@ -2641,13 +2658,15 @@ msgstr "Создать"
 msgid "№"
 msgstr ""
 
-#: .\events\templates\events\forms\microcycle_modal.html:42
-msgid "Start date"
-msgstr "Дата начала"
+#: .\events\templates\events\lite_events.html:126
+#: .\shared\templates\shared\base_shared_training.html:63
+#: .\trainings\templates\trainings\print_training.html:79
+msgid "Load"
+msgstr "Нагрузка"
 
-#: .\events\templates\events\forms\microcycle_modal.html:43
-msgid "End date"
-msgstr "Дата окончания"
+#: .\events\views.py:140 .\events\views.py:177 .\users\views.py:383
+msgid "Not chosen"
+msgstr "Не выбрано"
 
 #: .\exercises\apps.py:8 .\nanofootball\templates\menu\sidebar.html:206
 #: .\trainings\templates\trainings\view_lite_training.html:39
@@ -4263,10 +4282,6 @@ msgstr "Пароль успешно изменен"
 msgid "Wrong password"
 msgstr "Неверный пароль"
 
-#: .\users\views.py:383
-msgid "Not chosen"
-msgstr "Не выбрано"
-
 #: .\version\admin.py:41
 msgid "custom groups"
 msgstr "настраиваемые группы"
@@ -4577,6 +4592,15 @@ msgstr "Видео / Анимация"
 #: .\video\templates\video\video_card.html:141
 msgid "Animation"
 msgstr "Анимация"
+
+#~ msgid "Purpose"
+#~ msgstr "Цель"
+
+#~ msgid "Start date"
+#~ msgstr "Дата начала"
+
+#~ msgid "End date"
+#~ msgstr "Дата окончания"
 
 #~ msgid "Activity index"
 #~ msgstr "Индекс активности"
