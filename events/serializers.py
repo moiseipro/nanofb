@@ -12,7 +12,7 @@ class AbstractMicrocyclesSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = (
-            'id', 'name', 'goal', 'date_with', 'date_by'
+            'id', 'name', 'date_with', 'date_by'
         )
         datatables_always_serialize = ('id',)
 
@@ -35,7 +35,7 @@ class LiteMicrocyclesSerializer(AbstractMicrocyclesSerializer):
 class AbstractMicrocyclesUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
-            'name', 'goal', 'date_with', 'date_by'
+            'name', 'date_with', 'date_by'
         )
 
 

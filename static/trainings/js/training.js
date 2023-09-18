@@ -157,8 +157,8 @@ $(window).on('load', function (){
         training_data['field_size'] = $('#training-main-data input[name="field_size"]').val()
         training_data['load_type'] = $('#training-main-data input[name="load_type"]').val()
         training_data['goal'] = $('#training-main-data input[name="goal"]').val()
-        training_data['objective_1'] = $('#training-main-data input[name="objective_1"]').val()
-        training_data['objective_2'] = $('#training-main-data input[name="objective_2"]').val()
+        training_data['objective_1'] = $('#block-training-goals input[name="objective_1"]').val()
+        training_data['objective_2'] = $('#block-training-goals input[name="objective_2"]').val()
         training_data['video_href'] = $('#training-video-modal input[name="video_href"]').val()
 
         training_data['players_count'] = JSON.stringify(players_count)
@@ -207,11 +207,12 @@ $(window).on('load', function (){
 
 function resize_trainings_block(){
     let css = "calc(94vh - "+Math.round($('.header').height())+"px - "+Math.round($('.card-header').height())+"px)"
-    //console.log(css)
+    console.log($('#block-training-goals').height())
+    let css_block = "calc(94vh - "+Math.round($('.header').height())+"px - 61px - "+Math.round($('.card-header').height())+"px)"
     $('#training-content .training-data').css({"max-height": css})
     $('#training-content .training-data').css({"height": css})
-    $('#block-training-info').css({"max-height": css})
-    $('#block-training-info').css({"height": css})
+    $('#block-training-info').css({"max-height": css_block})
+    $('#block-training-info').css({"height": css_block})
 }
 
 function toggle_folders_name(){

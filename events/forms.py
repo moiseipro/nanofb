@@ -8,13 +8,13 @@ from events.models import UserMicrocycles, UserEvent
 name_input_widget = forms.TextInput(attrs={
     'class': 'form-control-sm',
     'autocomplete': 'off',
-    'placeholder': _('M.C.')+" 1"
+    #'placeholder': _('M.C.')+" 1"
 })
-goal_input_widget = forms.TextInput(attrs={
-    'class': 'form-control-sm',
-    'autocomplete': 'off',
-    'placeholder': _('M.C.')+" 2"
-})
+# goal_input_widget = forms.TextInput(attrs={
+#     'class': 'form-control-sm',
+#     'autocomplete': 'off',
+#     'placeholder': _('M.C.')+" 2"
+# })
 date_with_input_widget = forms.DateInput(attrs={
     'class': 'form-control-sm',
     'id': 'datetimepicker-with-microcycle',
@@ -63,19 +63,19 @@ class MicrocycleUserForm(forms.ModelForm):
         fields = ['name', 'goal', 'date_with', 'date_by']
         widgets = {
             'name': name_input_widget,
-            'goal': goal_input_widget,
+            #'goal': goal_input_widget,
             'date_with': date_with_input_widget,
             'date_by': date_by_input_widget
         }
         help_texts = {
             'name': '',
-            'goal': '',
+            #'goal': '',
             'date_with': '',
             'date_by': '',
         }
         labels = {
-            'name': "",
-            'goal': "",
+            'name': _("M.C."),
+            #'goal': "",
             'date_with': _("Date with"),
             'date_by': _("Date by")
         }
@@ -88,7 +88,7 @@ class MicrocycleUserForm(forms.ModelForm):
                 Column(
                     Row(
                         Column('name', css_class='form-div col-12 mb-0'),
-                        Column('goal', css_class='form-div col-12 mb-0'),
+                        #Column('goal', css_class='form-div col-12 mb-0'),
                         ),
                     css_class='col-md-6'),
                 Column('date_with', css_class='form-div col-md-2 mb-0'),

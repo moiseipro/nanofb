@@ -263,7 +263,7 @@ $(window).on('load', function (){
 })
 
 function resize_trainings_card_blocks(){
-    let css = "calc(86vh - "+Math.round($('#block-training-info .exercise-data-row').height())+"px - "+Math.round($('.header').height())+"px)"
+    let css = "calc(86vh - "+Math.round($('#block-training-info .exercise-data-row').height())+"px - 61px - "+Math.round($('.header').height())+"px)"
     //console.log(css)
     $('#block-training-info .carouselSchema').css({"max-height": css})
     $('#block-training-info .carouselSchema').css({"height": css})
@@ -387,8 +387,8 @@ function load_all_exercises_training(training_id = null, group = null) {
         $('#training-main-data input[name="field_size"]').val(data.field_size)
         $('#training-main-data input[name="load_type"]').val(data.load_type)
         $('#training-main-data input[name="goal"]').val(data.goal)
-        $('#training-main-data input[name="objective_1"]').val(data.objective_1)
-        $('#training-main-data input[name="objective_2"]').val(data.objective_2)
+        $('#block-training-goals input[name="objective_1"]').val(data.objective_1)
+        $('#block-training-goals input[name="objective_2"]').val(data.objective_2)
         $('#training-video-modal input[name="video_href"]').val(data.video_href)
 
         let exs_time = [0, 0]

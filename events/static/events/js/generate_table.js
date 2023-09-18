@@ -255,7 +255,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
 }
 
 function resize_events_table(){
-    let css = "calc(93vh - "+Math.round($('#calendar-row').height())+"px - "+Math.round($('#filters-row').height())+"px - "+Math.round($('#left-filters-row').height())+ "px - "+Math.round($('.header').height())+"px - "+Math.round($('.card-header').height())+"px)"
+    let css = "calc(93vh - "+Math.round($('#calendar-row').height())+"px - "+Math.round($('#filters-row').height())+"px - "+Math.round($('.header').height())+"px - "+Math.round($('.card-header').height())+"px)"
     //console.log(css)
     $('#events-table').css({"max-height": css})
     $('#events-table').css({"height": css})

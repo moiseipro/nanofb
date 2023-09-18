@@ -173,8 +173,8 @@ $(window).on('load', function (){
                 $('.hasEvent').removeClass('selected')
                 $('#block-event-info .event-info').html('')
                 $('#training-video-modal input[name="video_href"]').val('')
-                $('#goal-event-view').val('')
-                $('#keywords-event-view').val('')
+                $('#objective_1-event-view').val('')
+                $('#objective_2-event-view').val('')
                 $('#load-event-view').val('')
             } else {
                 Cookies.set('event_id', data_id, { expires: 1 })
@@ -186,7 +186,8 @@ $(window).on('load', function (){
                         console.log(data.training)
                         $('#training-video-modal input[name="video_href"]').val(data.training.video_href)
                         $('#goal-event-view').val(data.training.goal)
-                        $('#keywords-event-view').val(data.training.objective_1)
+                        $('#objective_1-event-view').val(data.training.objective_1)
+                        $('#objective_2-event-view').val(data.training.objective_2)
                         $('#load-event-view').val(data.training.load_type)
                         if (data.training.exercises_info.length > 0) {
                             let exercises = data.training.exercises_info
@@ -678,7 +679,7 @@ $(window).on('load', function (){
 
     $('#microcycle-name-filter').select2({
         minimumResultsForSearch: -1,
-        placeholder: gettext("M.C.")+" 1",
+        placeholder: gettext("M.C."),
         language: get_cur_lang(),
         theme: 'bootstrap4',
         width: '100%',
@@ -717,51 +718,53 @@ $(window).on('load', function (){
         },
     })
 
-    $('#microcycle-goal-filter').select2({
-        minimumResultsForSearch: -1,
-        placeholder: gettext("M.C.")+" 2",
-        language: get_cur_lang(),
-        theme: 'bootstrap4',
-        width: '100%',
-        ajax: {
-            url: '/events/microcycle_goal_list',
-            dataType: 'json',
-            data: function (params) {
-            },
-            processResults: function (data, params) {
-                console.log(data)
+    // $('#microcycle-goal-filter').select2({
+    //     minimumResultsForSearch: -1,
+    //     placeholder: gettext("M.C.")+" 2",
+    //     language: get_cur_lang(),
+    //     theme: 'bootstrap4',
+    //     width: '100%',
+    //     ajax: {
+    //         url: '/events/microcycle_goal_list',
+    //         dataType: 'json',
+    //         data: function (params) {
+    //         },
+    //         processResults: function (data, params) {
+    //             console.log(data)
+    //
+    //             return {
+    //                 results: data,
+    //                 pagination: {
+    //                   more: false
+    //                 }
+    //             };
+    //         },
+    //         cache: true
+    //     },
+    //     templateResult: function (state) {
+    //         console.log(state)
+    //         var $state = $(`
+    //             <div class="" title="${state.text}"> ${state.text} <span class="float-right">${state.count ? '('+state.count+')':''}</span></div>
+    //
+    //         `);
+    //         return $state;
+    //     },
+    //     templateSelection: function (state) {
+    //         console.log(state)
+    //         var $state = $(`
+    //             <div class="text-truncate" title="${state.text}"> ${state.text}</div>
+    //
+    //         `);
+    //         return $state;
+    //     },
+    // })
 
-                return {
-                    results: data,
-                    pagination: {
-                      more: false
-                    }
-                };
-            },
-            cache: true
-        },
-        templateResult: function (state) {
-            console.log(state)
-            var $state = $(`
-                <div class="" title="${state.text}"> ${state.text} <span class="float-right">${state.count ? '('+state.count+')':''}</span></div>
-                
-            `);
-            return $state;
-        },
-        templateSelection: function (state) {
-            console.log(state)
-            var $state = $(`
-                <div class="text-truncate" title="${state.text}"> ${state.text}</div>
-                
-            `);
-            return $state;
-        },
-    })
-    $('#toggle-microcycle-functions').on('click', function () {
-        mc_active ? mc_active = false : mc_active = true;
-        $('.mc-function').toggleClass("d-none", !mc_active)
-        $('#toggle-microcycle-functions').toggleClass("active", mc_active)
-    })
+    // Скрыть/Показать функционал микроциклов
+    // $('#toggle-microcycle-functions').on('click', function () {
+    //     mc_active ? mc_active = false : mc_active = true;
+    //     $('.mc-function').toggleClass("d-none", !mc_active)
+    //     $('#toggle-microcycle-functions').toggleClass("active", mc_active)
+    // })
 })
 
 function clear_event_form(){
@@ -851,12 +854,13 @@ function clear_filters_events() {
 }
 
 function resize_trainings_block(){
-    let css = "calc(93vh - "+Math.round($('#event_calendar').height())+"px - "+Math.round($('.header').height())+ "px - "+Math.round($('#filters-row').height())+ "px - "+Math.round($('#left-filters-row').height())+ "px - "+Math.round($('.card-header').height())+"px)"
+    let css = "calc(93vh - "+Math.round($('#event_calendar').height())+"px - "+Math.round($('.header').height())+ "px - "+Math.round($('#filters-row').height())+ "px - "+Math.round($('.card-header').height())+"px)"
     //console.log(css)
+    let css_block = "calc(93vh - "+Math.round($('#event_calendar').height())+"px - "+Math.round($('.header').height())+ "px - "+Math.round($('#filters-row').height())+ "px - "+Math.round($('.card-header').height())+"px - 61px)"
     $('#training-content .training-data').css({"max-height": css})
     $('#training-content .training-data').css({"height": css})
-    $('#block-training-info').css({"max-height": css})
-    $('#block-training-info').css({"height": css})
+    $('#block-training-info').css({"max-height": css_block})
+    $('#block-training-info').css({"height": css_block})
 }
 
 function set_month_or_date_button() {
@@ -899,7 +903,7 @@ function generateMicrocyclesTable(){
                 return meta.row + meta.settings._iDisplayStart + 1;
             }, searchable: false},
             {'data': 'name', 'defaultContent': "---"},
-            {'data': 'goal', 'defaultContent': "---"},
+            //{'data': 'goal', 'defaultContent': "---"},
             {'data': 'date_with', searchable: false},
             {'data': 'date_by' , searchable: false},
             {'data': 'id' , sortable: false, searchable: false, render : function ( data, type, row, meta ) {
