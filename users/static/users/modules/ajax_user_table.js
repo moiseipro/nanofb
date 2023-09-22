@@ -90,6 +90,9 @@ function generate_ajax_users_table(scroll_y = ''){
                 if(data && 'name' in data)
                     return data.name;
             }},
+            {'data': 'teams_players', 'name': 'teams_players', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
+                return `<div class="w-100 text-center" title="${data}"> ${data} </div>`;
+            }},
             {'data': 'exercises', 'name': 'exercises', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
                 return `<div class="w-100 text-center" title="${data}"> ${data} </div>`;
             }},

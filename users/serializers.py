@@ -68,7 +68,8 @@ class UserEditSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'id', 'email', 'club_id', 'p_version', 'registration_to', 'is_archive', 'is_demo_mode', 'distributor'
+            'id', 'email', 'club_id', 'p_version', 'registration_to', 'is_archive', 'is_demo_mode', 'distributor',
+            'team_limit', 'player_limit'
         ]
 
 
@@ -94,7 +95,7 @@ class UserAllDataSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'id', 'email', 'club_id', 'p_version', 'date_last_login', 'date_joined', 'days_entered', 'is_active',
-            'registration_to', 'personal', 'is_archive', 'is_demo_mode', 'distributor'
+            'registration_to', 'personal', 'is_archive', 'is_demo_mode', 'distributor', 'team_limit', 'player_limit'
         ]
 
 
@@ -199,6 +200,8 @@ class UserManagementSerializer(serializers.ModelSerializer):
 
     online = serializers.SerializerMethodField()
 
+    teams_players = serializers.SerializerMethodField()
+
     def get_license(self, user):
         license_name = ''
         if user.personal.trainer_license is not None:
@@ -277,6 +280,17 @@ class UserManagementSerializer(serializers.ModelSerializer):
         else:
             return '> 60'
 
+    def get_teams_players(self, user):
+        data = ''
+        if user.club_id is not None:
+            data += str(user.club_id.team_limit) + ' / ' + str(user.club_id.player_limit)
+        else:
+            if user.p_version is not None:
+                data += str(user.p_version.team_limit) + ' / ' + str(user.p_version.player_limit)
+            else:
+                data += str(user.team_limit) + ' / ' + str(user.player_limit)
+        return data
+
     class Meta:
         model = User
         fields = [
@@ -284,6 +298,6 @@ class UserManagementSerializer(serializers.ModelSerializer):
             'last_name', 'first_name', 'job_title', 'date_birthsday', 'age',
             'trainer_license', 'license', 'license_date', 'flag', 'distributor', 'date_joined', 'club_title',
             'activation', 'club_name', 'club_registration_to', 'is_archive', 'date_joined', 'phone', 'date_last_login',
-            'region', 'club_id', 'exercises', 'teams', 'online'
+            'region', 'club_id', 'exercises', 'teams', 'online', 'teams_players'
         ]
         datatables_always_serialize = ('id', 'groups', 'trainer_license', 'club_registration_to', 'is_archive')

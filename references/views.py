@@ -46,7 +46,6 @@ class TeamViewSet(viewsets.ModelViewSet):
             else:
                 is_limit = True
         else:
-
             teams = UserTeam.objects.filter(user_id=self.request.user)
             if self.request.user.p_version is not None:
                 if len(teams) < self.request.user.p_version.team_limit:
@@ -54,7 +53,10 @@ class TeamViewSet(viewsets.ModelViewSet):
                 else:
                     is_limit = True
             else:
-                is_limit = True
+                if len(teams) < self.request.user.team_limit:
+                    serializer.save(user_id=self.request.user)
+                else:
+                    is_limit = True
         return is_limit
 
     def create(self, request, *args, **kwargs):

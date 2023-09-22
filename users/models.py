@@ -11,7 +11,7 @@ from django.utils.translation import gettext_lazy as _
 from clubs.models import Club
 from federations.models import Federation
 from .managers import CustomUserManager
-from version.models import Version
+from version.models import Version, Limitations
 
 
 def user_directory_path(instance, filename):
@@ -231,7 +231,7 @@ class UserPaymentInformation(models.Model):
     )
 
 
-class User(AbstractUser):
+class User(AbstractUser, Limitations):
     username = None
     last_name = None
     first_name = None

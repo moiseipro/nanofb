@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-15 13:55+0300\n"
+"POT-Creation-Date: 2023-09-22 13:31+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2287,6 +2287,8 @@ msgstr "Регистрация до"
 #: .\exercises\templates\exercises\base_folders.html:35
 #: .\references\templates\references\base_settings.html:31
 #: .\users\templates\users\forms\edit-permission.html:35
+#: .\users\templates\users\forms\edit-user-form.html:48
+#: .\users\templates\users\modules\user_table_settings.html:146
 msgid "Teams"
 msgstr "Команды"
 
@@ -2406,15 +2408,6 @@ msgstr "Ошибка генерации пароля!"
 msgid "Events"
 msgstr "События"
 
-#: .\events\forms.py:11 .\events\forms.py:16 .\events\models.py:96
-#: .\events\models.py:103 .\events\templates\events\base_events.html:66
-#: .\events\templates\events\base_events.html:144
-#: .\events\templates\events\base_events.html:148
-#: .\events\templates\events\forms\microcycle_modal.html:41
-#: .\events\templates\events\forms\microcycle_modal.html:42
-msgid "M.C."
-msgstr "М.Ц."
-
 #: .\events\forms.py:53 .\nanofootball\templates\menu\sidebar.html:194
 msgid "Training"
 msgstr "Тренировки"
@@ -2426,6 +2419,12 @@ msgstr "Неофициальный матч"
 #: .\events\forms.py:55
 msgid "Official match"
 msgstr "Официальный матч"
+
+#: .\events\forms.py:77 .\events\models.py:96 .\events\models.py:103
+#: .\events\templates\events\base_events.html:110
+#: .\events\templates\events\forms\microcycle_modal.html:41
+msgid "M.C."
+msgstr "М.Ц."
 
 #: .\events\forms.py:79
 #: .\events\templates\events\forms\microcycle_modal.html:43
@@ -2562,10 +2561,6 @@ msgstr "Показать/скрыть календарь"
 msgid "Calendar"
 msgstr "Календарь"
 
-#: .\events\templates\events\base_events.html:66
-msgid "Show/Hide microcycle functions"
-msgstr ""
-
 #: .\events\templates\events\base_events.html:72
 #: .\events\templates\events\lite_events.html:66
 msgid "Video of selected event"
@@ -2597,21 +2592,23 @@ msgstr "Печать"
 msgid "Delete event"
 msgstr "Удалить событие"
 
+#: .\events\templates\events\base_events.html:104
+msgid "M.D."
+msgstr "М.Д."
+
 #: .\events\templates\events\base_events.html:107
 #: .\events\templates\events\lite_events.html:101
 msgid "MC days"
 msgstr "Дни МЦ"
 
-#: .\events\templates\events\base_events.html:126
-#: .\events\templates\events\base_events.html:129
-#: .\events\templates\events\base_events.html:132
+#: .\events\templates\events\base_events.html:130
+#: .\events\templates\events\base_events.html:133
 #: .\events\templates\events\lite_events.html:120
 #: .\events\templates\events\lite_events.html:123
 #: .\trainings\templates\trainings\print_training.html:68
 #: .\trainings\templates\trainings\print_training.html:73
-#: .\trainings\templates\trainings\training_card.html:87
-#: .\trainings\templates\trainings\training_card.html:93
-#: .\trainings\templates\trainings\training_card.html:99
+#: .\trainings\templates\trainings\training_card.html:151
+#: .\trainings\templates\trainings\training_card.html:154
 msgid "Objective"
 msgstr "Задача"
 
@@ -2671,7 +2668,7 @@ msgstr "Не выбрано"
 #: .\exercises\apps.py:8 .\nanofootball\templates\menu\sidebar.html:206
 #: .\trainings\templates\trainings\view_lite_training.html:39
 #: .\trainings\templates\trainings\view_training.html:39
-#: .\users\templates\users\modules\user_table_settings.html:146
+#: .\users\templates\users\modules\user_table_settings.html:152
 msgid "Exercises"
 msgstr "Упражнения"
 
@@ -3104,6 +3101,8 @@ msgstr "Основные разделы"
 #: .\trainings\templates\trainings\print_training.html:32
 #: .\trainings\templates\trainings\print_training.html:35
 #: .\trainings\templates\trainings\view_training.html:160
+#: .\users\templates\users\forms\edit-user-form.html:60
+#: .\users\templates\users\modules\user_table_settings.html:146
 msgid "Players"
 msgstr "Игроки"
 
@@ -3222,7 +3221,7 @@ msgid "Translations of reference books"
 msgstr "Переводы справочников"
 
 #: .\references\models.py:77
-#: .\trainings\templates\trainings\training_card.html:132
+#: .\trainings\templates\trainings\training_card.html:121
 msgid "link"
 msgstr "ссылка"
 
@@ -3769,15 +3768,15 @@ msgstr "Количество игроков"
 msgid "Field size"
 msgstr "Размер поля"
 
-#: .\trainings\templates\trainings\training_card.html:132
+#: .\trainings\templates\trainings\training_card.html:121
 msgid "Description"
 msgstr "Описание"
 
-#: .\trainings\templates\trainings\training_card.html:132
+#: .\trainings\templates\trainings\training_card.html:121
 msgid "print"
 msgstr "печать"
 
-#: .\trainings\templates\trainings\training_card.html:141
+#: .\trainings\templates\trainings\training_card.html:130
 msgid "Add. Conditions"
 msgstr "Доп. Условия"
 
@@ -3983,7 +3982,7 @@ msgstr "Дата регистрации"
 msgid "Last login date"
 msgstr "Дата последнего входа"
 
-#: .\users\models.py:283 .\users\templates\users\forms\edit-user-form.html:74
+#: .\users\models.py:283 .\users\templates\users\forms\edit-user-form.html:100
 #: .\users\templates\users\modules\user_table_settings.html:63
 msgid "Distributor"
 msgstr "Дистрибьютор"
@@ -4020,37 +4019,37 @@ msgstr "Платежная информация для бухгалтерии"
 msgid "User Payment Information card"
 msgstr "Карточка платежной информации пользователя"
 
-#: .\users\serializers.py:213
+#: .\users\serializers.py:216
 msgid "MA"
 msgstr ""
 
-#: .\users\serializers.py:215
+#: .\users\serializers.py:218
 msgid "CA"
 msgstr ""
 
-#: .\users\serializers.py:230
+#: .\users\serializers.py:233
 msgid "Active"
 msgstr "Активно"
 
-#: .\users\serializers.py:233 .\users\templates\users\base_profile.html:148
+#: .\users\serializers.py:236 .\users\templates\users\base_profile.html:148
 #: .\users\templates\users\modules\user_table_settings.html:51
 msgid "Archive"
 msgstr "Архив"
 
-#: .\users\serializers.py:237 .\users\templates\users\base_profile.html:152
+#: .\users\serializers.py:240 .\users\templates\users\base_profile.html:152
 msgid "Club license expired"
 msgstr "Клубная лицензия истекла"
 
-#: .\users\serializers.py:241 .\users\templates\users\base_profile.html:150
+#: .\users\serializers.py:244 .\users\templates\users\base_profile.html:150
 msgid "License expired"
 msgstr "Лицензия истекла"
 
-#: .\users\serializers.py:245
+#: .\users\serializers.py:248
 msgid "Not active"
 msgstr "Не активно"
 
-#: .\users\serializers.py:274
-#: .\users\templates\users\modules\user_table.html:27
+#: .\users\serializers.py:277
+#: .\users\templates\users\modules\user_table.html:28
 #: .\users\templates\users\modules\user_table_settings.html:75
 msgid "Online"
 msgstr "Онлайн"
@@ -4124,8 +4123,8 @@ msgid "License period"
 msgstr "Срок лицензии"
 
 #: .\users\templates\users\forms\add-user-form.html:128
-#: .\users\templates\users\forms\edit-user-form.html:64
-#: .\users\templates\users\modules\user_table.html:29
+#: .\users\templates\users\forms\edit-user-form.html:90
+#: .\users\templates\users\modules\user_table.html:30
 #: .\users\templates\users\modules\user_table_settings.html:39
 #: .\users\templates\users\modules\user_table_settings.html:134
 msgid "Access to"
@@ -4145,7 +4144,7 @@ msgstr "Подтвердите пароль"
 
 #: .\users\templates\users\forms\edit-password-form.html:18
 #: .\users\templates\users\forms\edit-personal-form.html:142
-#: .\users\templates\users\forms\edit-user-form.html:92
+#: .\users\templates\users\forms\edit-user-form.html:118
 msgid "Save Changes"
 msgstr "Сохранить изменения"
 
@@ -4153,19 +4152,29 @@ msgstr "Сохранить изменения"
 msgid "If you change your password, you will need to log in again"
 msgstr "Если вы измените свой пароль, вам нужно будет снова войти в систему"
 
+#: .\users\templates\users\forms\edit-user-form.html:32
+#: .\users\templates\users\forms\edit-user-form.html:89
+msgid "Setting only for users without a club"
+msgstr "Настройка только для пользователей без клуба"
+
 #: .\users\templates\users\forms\edit-user-form.html:47
+#: .\users\templates\users\forms\edit-user-form.html:59
+msgid "Setting only for users without club and version"
+msgstr "Настройка только для пользователей без клуба и версии"
+
+#: .\users\templates\users\forms\edit-user-form.html:73
 #: .\users\templates\users\modules\club_table.html:11
-#: .\users\templates\users\modules\user_table.html:28
+#: .\users\templates\users\modules\user_table.html:29
 #: .\users\templates\users\modules\user_table_settings.html:36
 #: .\users\templates\users\modules\user_table_settings.html:128
 msgid "Registration"
 msgstr "Регистрация"
 
-#: .\users\templates\users\forms\edit-user-form.html:55
+#: .\users\templates\users\forms\edit-user-form.html:81
 msgid "Last login"
 msgstr "Последний вход"
 
-#: .\users\templates\users\forms\edit-user-form.html:84
+#: .\users\templates\users\forms\edit-user-form.html:110
 msgid "Demo version"
 msgstr "Демо версия"
 
@@ -4190,11 +4199,15 @@ msgid "A"
 msgstr ""
 
 #: .\users\templates\users\modules\user_table.html:25
+msgid "T/P"
+msgstr "К/И"
+
+#: .\users\templates\users\modules\user_table.html:26
 msgid "Exs."
 msgstr "Упр."
 
-#: .\users\templates\users\modules\user_table.html:26
-#: .\users\templates\users\modules\user_table_settings.html:152
+#: .\users\templates\users\modules\user_table.html:27
+#: .\users\templates\users\modules\user_table_settings.html:158
 msgid "Entrance"
 msgstr "Вход"
 
@@ -4654,9 +4667,6 @@ msgstr "Анимация"
 
 #~ msgid "Training load"
 #~ msgstr "Нагрузка тренировки"
-
-#~ msgid "M.D."
-#~ msgstr "М.Д."
 
 #~ msgid "Short name"
 #~ msgstr "Короткий код"

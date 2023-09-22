@@ -29,7 +29,7 @@
         {% endif %}
         {% if perms.federations.federation_admin or user.is_superuser %}
         <div class="col-sm-12">
-            <div class="form-group row mb-1">
+            <div class="form-group row mb-1" title="{% trans 'Setting only for users without a club'%}">
                 <label class="col col-form-label" for="p_version-select">{% trans 'Version'%}</label>
                 <div class="col">
                     <select name="p_version" id="p_version-select" class="form-control form-control-sm edit-input" disabled>
@@ -38,6 +38,32 @@
                             <option value="{{ version.id }}">{{ version.name }}</option>
                         {% endfor %}
                     </select>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if perms.federations.federation_admin or user.is_superuser %}
+        <div class="col-sm-12">
+            <div class="form-group row mb-1" title="{% trans 'Setting only for users without club and version'%}">
+                <label class="col col-form-label" for="teams-players-input">{% trans 'Teams'%}</label>
+                <div class="col">
+                    <div class="row">
+                        <div class="col-12">
+                            <input type="number" name="team_limit" class="form-control form-control-sm edit-input" value="{{ user.team_limit }}" autocomplete="off" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="form-group row mb-1" title="{% trans 'Setting only for users without club and version'%}">
+                <label class="col col-form-label" for="teams-players-input">{% trans 'Players'%}</label>
+                <div class="col">
+                    <div class="row">
+                        <div class="col-12">
+                            <input type="number" name="player_limit" class="form-control form-control-sm edit-input" value="{{ user.player_limit }}" autocomplete="off" disabled>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -60,7 +86,7 @@
         </div>
         {% if perms.federations.federation_admin or user.is_superuser %}
         <div class="col-sm-12">
-            <div class="form-group row mb-1">
+            <div class="form-group row mb-1" title="{% trans 'Setting only for users without a club'%}">
                 <label class="col col-form-label">{% trans 'Access to'%}</label>
                 <div class="col">
                     <input type="text" name="registration_to" class="form-control form-control-sm datetimepicker edit-input" data-toggle="datetimepicker" value="{{ user.registration_to|date:"d/m/Y"}}" autocomplete="off" required disabled>
