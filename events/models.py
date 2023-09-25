@@ -116,7 +116,7 @@ class AbstractMicrocycles(models.Model):
     )
 
     class Meta:
-        ordering = ['date_with']
+        ordering = ['-date_with']
         abstract = True
 
 

@@ -342,43 +342,6 @@ function load_all_exercises_training(training_id = null, group = null) {
     if(group != null) send_data.group = group
 
     ajax_training_action('GET', send_data, 'view card training', training_id).then(function (data) {
-        //console.log(data)
-
-
-        //Доп данные тренировки
-        /*let additionals = data.additional;
-        var additional_data = ''
-        for (let i = 0; i < 5; i++) {
-            //console.log(additionals)
-            if(additionals!=null && additionals[i]){
-                //${ gettext('Title') }
-                //${ gettext('Note') }
-                additional_data+=`
-                    <div class="row training-additional ${!additionals[i].name && !additionals[i].note ? 'edit-button' : ''} ${!additionals[i].name && !additionals[i].note && !edit_mode ? 'd-none' : ''}">
-                        <div class="col-6 px-0 border border-white">
-                            <input type="text" name="name_${ i }" placeholder="" value="${ additionals[i].name ? additionals[i].name : '' }" class="form-control form-control-sm bg-lightgray text-black w-100 p-0 px-3 h-auto text-uppercase text-left rounded-0 edit-input training-additional-data" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
-                        </div>
-                        <div class="col-6 px-0 border-bottom border-dark bg-light">
-                            <input type="text" name="note_${ i }" placeholder="" value="${ additionals[i].note ? additionals[i].note : '' }" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded-0 edit-input training-additional-data" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
-                        </div>
-                    </div>
-                `
-            } else {
-                additional_data+=`
-                    <div class="row training-additional edit-button ${!edit_mode ? 'd-none' : ''}">
-                        <div class="col-6 px-0 border border-white bg-lightgray text-black text-uppercase text-left">
-                            <input type="text" name="name_${ i }" placeholder="${ gettext('Title') }" value="" class="form-control form-control-sm bg-lightgray text-black w-100 p-0 px-3 h-auto text-uppercase text-left rounded-0 edit-input training-additional-data" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
-                        </div>
-                        <div class="col-6 px-0 border-bottom border-dark bg-light">
-                            <input type="text" name="note_${ i }" placeholder="${ gettext('Note') }" value="" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded-0 edit-input training-additional-data" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
-                        </div>
-                    </div>
-                `
-            }
-        }
-        $('#training-additional-data div').html(additional_data)*/
-
-
         $('#training-main-data [name="date"]').val(data.event_date);
         $('#training-main-data [name="time"]').val(data.event_time);
         if('team_info' in data) $('#training-main-data .team-name').text(data.team_info.name);
@@ -389,17 +352,11 @@ function load_all_exercises_training(training_id = null, group = null) {
         $('#training-main-data input[name="goal"]').val(data.goal)
         $('#block-training-goals input[name="objective_1"]').val(data.objective_1)
         $('#block-training-goals input[name="objective_2"]').val(data.objective_2)
+        $('#block-training-goals input[name="objective_3"]').val(data.objective_3)
         $('#training-video-modal input[name="video_href"]').val(data.video_href)
 
         let exs_time = [0, 0]
         let html_scheme = ''
-        // html_scheme += `
-        //     <div class="row training-data-row mb-1">
-        //         <div class="col-12 px-0">
-        //             <input type="text" name="goal" class="btn btn-sm btn-primary btn-block border border-light rounded-0 font-weight-bold text-center edit-input" value="${data.goal ? data.goal : ''}" placeholder="${gettext('Goal')}" ${!edit_mode ? 'disabled' : ''} autocomplete="off">
-        //         </div>
-        //     </div>
-        //     `
         html_scheme += `<div class="row training-info">`
 
         let player_count = 0

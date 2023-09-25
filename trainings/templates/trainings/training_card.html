@@ -70,53 +70,8 @@
 
                     </div>
                 </div>
-                <!--<div class="row" style="border-bottom: 1px solid black">
-                    <div class="col-6 border border-white bg-lightgray text-black text-uppercase text-left" style="border-bottom: 1px solid black !important;">{% trans "Field size" %}</div>
-                    <div class="col-6 px-0 border-bottom border-dark bg-light text-center training-field-size">
-                        <input type="text" name="field_size" class="form-control form-control-sm rounded-0 py-0 h-auto text-center edit-input" value="" autocomplete="off" disabled>
-                    </div>
-                </div>-->
-{#                <div id="training-additional-data" class="row text-center training-data-row">#}
-{#                    <div class="col-12">#}
-{##}
-{#                    </div>#}
-{#                </div>#}
-
-{#                <div class="row">#}
-{#                    <div class="col-6 border border-white text-black text-uppercase text-left" style="background: lightblue !important;">{% trans "Load" %}</div>#}
-{#                    <div class="col-12 px-0 text-center training-load-type">#}
-{#                        <input type="text" name="load_type" class="form-control form-control-sm rounded-0 py-0 h-auto text-center training-filter-edit mb-1 edit-input" value="" placeholder="{% trans 'Objective' %} 3" autocomplete="off" disabled>#}
-{#                    </div>#}
-{#                </div>#}
-
-{#                <div class="row">#}
-{#                    <div class="col-6 border border-white text-black text-uppercase text-left" style="background: lightblue !important;">{% trans 'Objective' %} 2</div>#}
-{#                    <div class="col-6 px-0 border-bottom border-dark bg-light text-center training-objectives">#}
-{#                        <input type="text" name="objective_2" class="form-control form-control-sm rounded-0 py-0 h-auto text-center edit-input" value="" autocomplete="off" disabled>#}
-{#                    </div>#}
-{#                </div>#}
             </div>
         </div>
-{#        <div id="exercise-objectives-data" class="row exercise-data-row border border-white">#}
-{#            <div class="col px-0 exercise-objectives">#}
-{#                <div class="row">#}
-{#                    <div class="col px-0 btn btn-sm btn-primary btn-block border border-light font-weight-bold text-center text-white objective_1">#}
-{#                        ---#}
-{#                    </div>#}
-{#                </div>#}
-{#                <div class="row">#}
-{#                    <div class="col px-0 btn btn-sm btn-primary btn-block border border-light font-weight-bold text-center text-white objective_2">#}
-{#                        ---#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#        <div class="row exercise-data-row font-weight-bold training-exercise-title-white training-exercise-name" style="cursor: default">#}
-{#            <div class="col pt-1 px-0 text-center exercise-name">{% trans "Title" %}</div>#}
-{#            <div class="col-1 text-center pt-1 px-0 exercise-time">#}
-{##}
-{#            </div>#}
-{#        </div>#}
         <div class="row exercise-data-row font-weight-bold training-exercise-title training-exercise-description" data-toggle="collapse" data-target="#collapse-exercise-description" style="cursor: pointer">
             <div class="col text-center pt-1 px-0">{% trans "Description" %} ({% trans "print" %} / QR / {% trans "link" %})</div>
 
@@ -128,30 +83,22 @@
         </div>
         <div class="row exercise-data-row font-weight-bold training-exercise-title" style="cursor: pointer;">
             <div class="col text-center pt-1 px-0" data-toggle="collapse" data-target="#collapse-exercise-additional">{% trans "Add. Conditions" %}</div>
-{#            <div class="col-1 text-center px-0 edit-button d-none">#}
-{#                <button type="button" class="btn btn-sm btn-block btn-success rounded-0 p-0 h-100 float-right" data-toggle="modal" data-target="#training-exercise-additional-modal"><i class="fa fa-plus" aria-hidden="true"></i></button>#}
-{#            </div>#}
-{#            <div class="col-1 text-center px-0 edit-button d-none">#}
-{#                <button type="button" class="btn btn-sm btn-block btn-danger rounded-0 p-0 h-100 float-right delete-all-exercise-additional" title="{% trans 'Delete all/empty data' %}"><i class="fa fa-trash-o" aria-hidden="true"></i></button>#}
-{#            </div>#}
         </div>
         <div id="collapse-exercise-additional" class="row exercise-data-row collapse show">
 {#            <div id="training-exercise-additional" class="col-12 border border-white">#}
 {#            </div>#}
         </div>
-{#        <div class="row training-data-row">#}
-{#            <div class="col-12 px-0">#}
-{#                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>#}
-{#            </div>#}
-{#        </div>#}
     </div>
     <div class="col-8">
         <div id="block-training-goals" class="row">
             <div class="col-12 px-1 text-center training-objective_1">
                 <input type="text" name="objective_1" class="form-control form-control-sm rounded-0 py-0 h-auto text-center training-filter-edit mb-1 edit-input" value="" placeholder="{% trans 'Objective' %} 1" autocomplete="off" disabled>
             </div>
-            <div class="col-12 px-1 text-center training-objective_2">
+            <div class="col-6 px-1 text-center training-objective_2">
                 <input type="text" name="objective_2" class="form-control form-control-sm rounded-0 py-0 h-auto text-center training-filter-edit mb-1 edit-input" value="" placeholder="{% trans 'Objective' %} 2" autocomplete="off" disabled>
+            </div>
+            <div class="col-6 px-1 text-center training-objective_3">
+                <input type="text" name="objective_3" class="form-control form-control-sm rounded-0 py-0 h-auto text-center training-filter-edit mb-1 edit-input" value="" placeholder="{% trans 'Objective' %} 3" autocomplete="off" disabled>
             </div>
         </div>
         <div class="row">

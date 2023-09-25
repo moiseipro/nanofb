@@ -52,10 +52,11 @@ function load_training_print(training_id) {
             $('#print-training-block .training-players input').val(player_count)
             $('#print-training-block .training-goalkeepers input').val(player_goalkeeper_count)
         }
-        $('#print-training-block .training-goal input').val(training.goal)
+        //$('#print-training-block .training-goal input').val(training.goal)
         $('#print-training-block .training-objective_1 input').val(training.objective_1)
         $('#print-training-block .training-objective_2 input').val(training.objective_2)
-        $('#print-training-block .training-load input').val(training.load_type)
+        $('#print-training-block .training-objective_3 input').val(training.objective_3)
+        //$('#print-training-block .training-load input').val(training.load_type)
 
         let html_scheme = ''
         let ck_editor_data = []

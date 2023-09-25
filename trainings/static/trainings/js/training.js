@@ -137,10 +137,6 @@ $(window).on('load', function (){
         })
 
         let training_data = {}
-        // if($('#block-training-info input[name="objective_1"]').length>0 && $('#block-training-info input[name="objective_2"]').length>0 && $('#block-training-info input[name="objectives_3"]').length>0){
-        //     let text1 = $('#block-training-info input[name="objective_1"]').val();
-        //     training_data['notes'] = '[ "'+text1+'" ]'
-        // }
         let additionals = {}
         for (let i = 0; i < 6; i++) {
             let name = $('#training-additional-data input[name="name_'+i+'"]')
@@ -159,6 +155,7 @@ $(window).on('load', function (){
         training_data['goal'] = $('#training-main-data input[name="goal"]').val()
         training_data['objective_1'] = $('#block-training-goals input[name="objective_1"]').val()
         training_data['objective_2'] = $('#block-training-goals input[name="objective_2"]').val()
+        training_data['objective_3'] = $('#block-training-goals input[name="objective_3"]').val()
         training_data['video_href'] = $('#training-video-modal input[name="video_href"]').val()
 
         training_data['players_count'] = JSON.stringify(players_count)

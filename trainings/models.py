@@ -40,13 +40,6 @@ class AbstractTraining(models.Model):
         null=True,
         blank=True,
     )
-    goal = models.CharField(
-        max_length=255,
-        verbose_name=_('goal'),
-        help_text=_('Goal in training'),
-        null=True,
-        blank=True,
-    )
     objective_1 = models.CharField(
         max_length=255,
         verbose_name=_('objective'),
@@ -55,6 +48,13 @@ class AbstractTraining(models.Model):
         blank=True,
     )
     objective_2 = models.CharField(
+        max_length=255,
+        verbose_name=_('objective'),
+        help_text=_('Objective in training'),
+        null=True,
+        blank=True,
+    )
+    objective_3 = models.CharField(
         max_length=255,
         verbose_name=_('objective'),
         help_text=_('Objective in training'),

@@ -24,7 +24,7 @@ async function ajax_event_action(method, data, action = '', id = '', func = '') 
 
                 }
             }else if (method == 'POST' || method == 'UPDATE' || method == 'PUT' || method == 'DELETE'){
-                swal(gettext('Event '+action), gettext('Event action "'+action+'" successfully!'), "success");
+                swal(gettext('Event '+action), gettext('Event action successfully!'), "success");
             } else {
 
             }
@@ -32,7 +32,7 @@ async function ajax_event_action(method, data, action = '', id = '', func = '') 
         },
         error: function(jqXHR, textStatus){
             console.log(jqXHR)
-            swal(gettext('Event '+action), gettext('Error when action "'+action+'" the event!'), "error");
+            swal(gettext('Event '+action), gettext('Error when action the event!'), "error");
         },
         complete: function () {
             $('.page-loader-wrapper').fadeOut();
