@@ -912,7 +912,7 @@ function generateMicrocyclesTable(){
             //{'data': 'goal', 'defaultContent': "---"},
             {'data': 'date_with', searchable: false},
             {'data': 'date_by', searchable: false},
-            {'data': 'days', sortable: false, searchable: false},
+            {'data': 'calculate_days', sortable: false, searchable: false},
             {'data': 'id' , sortable: false, searchable: false, render : function ( data, type, row, meta ) {
               return type === 'display'  ?
                 '<button class="btn btn-sm btn-warning mx-1 py-0 edit" data-id="'+data+'"><i class="fa fa-pencil"></i></button>'+
