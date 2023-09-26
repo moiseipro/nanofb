@@ -10,9 +10,18 @@ from trainings.serializers import UserTrainingSerializer, ClubTrainingSerializer
 class AbstractMicrocyclesSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
 
+    days = serializers.SerializerMethodField()
+
+    def get_days(self, microcycle):
+        date_with = microcycle.date_with
+        date_by = microcycle.date_by
+        tdelta = date_by - date_with
+        days = round(tdelta.total_seconds() / 60 / 60 / 24)+1
+        return days
+
     class Meta:
         fields = (
-            'id', 'name', 'date_with', 'date_by'
+            'id', 'name', 'date_with', 'date_by', 'days'
         )
         datatables_always_serialize = ('id',)
 

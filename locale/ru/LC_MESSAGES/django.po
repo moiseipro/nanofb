@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-22 13:31+0300\n"
+"POT-Creation-Date: 2023-09-26 12:56+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2601,14 +2601,17 @@ msgstr "М.Д."
 msgid "MC days"
 msgstr "Дни МЦ"
 
-#: .\events\templates\events\base_events.html:130
-#: .\events\templates\events\base_events.html:133
+#: .\events\templates\events\base_events.html:121
+#: .\events\templates\events\base_events.html:124
+#: .\events\templates\events\base_events.html:127
 #: .\events\templates\events\lite_events.html:120
 #: .\events\templates\events\lite_events.html:123
 #: .\trainings\templates\trainings\print_training.html:68
 #: .\trainings\templates\trainings\print_training.html:73
-#: .\trainings\templates\trainings\training_card.html:151
-#: .\trainings\templates\trainings\training_card.html:154
+#: .\trainings\templates\trainings\print_training.html:78
+#: .\trainings\templates\trainings\training_card.html:95
+#: .\trainings\templates\trainings\training_card.html:98
+#: .\trainings\templates\trainings\training_card.html:101
 msgid "Objective"
 msgstr "Задача"
 
@@ -2655,9 +2658,12 @@ msgstr "Создать"
 msgid "№"
 msgstr ""
 
+#: .\events\templates\events\forms\microcycle_modal.html:45
+msgid "Days"
+msgstr "Дни"
+
 #: .\events\templates\events\lite_events.html:126
 #: .\shared\templates\shared\base_shared_training.html:63
-#: .\trainings\templates\trainings\print_training.html:79
 msgid "Load"
 msgstr "Нагрузка"
 
@@ -2998,27 +3004,27 @@ msgstr "Место написания справки."
 msgid "Medicine"
 msgstr "Медицина"
 
-#: .\nanofb\settings.py:246
+#: .\nanofb\settings.py:251
 msgid "Russian"
 msgstr "Русский"
 
-#: .\nanofb\settings.py:247
+#: .\nanofb\settings.py:252
 msgid "English"
 msgstr "Английский"
 
-#: .\nanofb\settings.py:248
+#: .\nanofb\settings.py:253
 msgid "Portuguese"
 msgstr "Португальский"
 
-#: .\nanofb\settings.py:249
+#: .\nanofb\settings.py:254
 msgid "Spanish"
 msgstr "Испанский"
 
-#: .\nanofb\settings.py:250
+#: .\nanofb\settings.py:255
 msgid "German"
 msgstr "Немецкий"
 
-#: .\nanofb\settings.py:251
+#: .\nanofb\settings.py:256
 msgid "French"
 msgstr "Французский"
 
@@ -3221,7 +3227,7 @@ msgid "Translations of reference books"
 msgstr "Переводы справочников"
 
 #: .\references\models.py:77
-#: .\trainings\templates\trainings\training_card.html:121
+#: .\trainings\templates\trainings\training_card.html:76
 msgid "link"
 msgstr "ссылка"
 
@@ -3630,19 +3636,11 @@ msgstr "тип нагрузки"
 msgid "Type of training load"
 msgstr "Тип тренировочной нагрузки"
 
-#: .\trainings\models.py:45
-msgid "goal"
-msgstr "цель"
-
-#: .\trainings\models.py:46
-msgid "Goal in training"
-msgstr "Цель тренировки"
-
-#: .\trainings\models.py:52 .\trainings\models.py:59
+#: .\trainings\models.py:45 .\trainings\models.py:52 .\trainings\models.py:59
 msgid "objective"
 msgstr "задача"
 
-#: .\trainings\models.py:53 .\trainings\models.py:60
+#: .\trainings\models.py:46 .\trainings\models.py:53 .\trainings\models.py:60
 msgid "Objective in training"
 msgstr "Задача тренировки"
 
@@ -3764,19 +3762,15 @@ msgstr "Тренеры"
 msgid "Number of players"
 msgstr "Количество игроков"
 
-#: .\trainings\templates\trainings\training_card.html:74
-msgid "Field size"
-msgstr "Размер поля"
-
-#: .\trainings\templates\trainings\training_card.html:121
+#: .\trainings\templates\trainings\training_card.html:76
 msgid "Description"
 msgstr "Описание"
 
-#: .\trainings\templates\trainings\training_card.html:121
+#: .\trainings\templates\trainings\training_card.html:76
 msgid "print"
 msgstr "печать"
 
-#: .\trainings\templates\trainings\training_card.html:130
+#: .\trainings\templates\trainings\training_card.html:85
 msgid "Add. Conditions"
 msgstr "Доп. Условия"
 
@@ -4605,6 +4599,15 @@ msgstr "Видео / Анимация"
 #: .\video\templates\video\video_card.html:141
 msgid "Animation"
 msgstr "Анимация"
+
+#~ msgid "goal"
+#~ msgstr "цель"
+
+#~ msgid "Goal in training"
+#~ msgstr "Цель тренировки"
+
+#~ msgid "Field size"
+#~ msgstr "Размер поля"
 
 #~ msgid "Purpose"
 #~ msgstr "Цель"
