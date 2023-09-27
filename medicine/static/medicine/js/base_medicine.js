@@ -159,6 +159,7 @@ function RenderPlayerMedicine(data) {
                 $(tableBody).append(row);
                 let cSelect = $(row).find('.med-edit[name="treatment_type"]').clone();
                 let cColumn = $(row).find('.med-edit[name="treatment_type"]').parent().parent();
+                $(cSelect).prop('disabled', true);
                 $(cColumn).html(''); $(cColumn).append(cSelect);
                 $(cSelect).selectpicker('refresh');
                 let valsArr = [];
@@ -257,6 +258,7 @@ $(function() {
             $(e.currentTarget).addClass('btn-success');
             $('#medicineEditModal').find('#cancelEditingMedicine').removeClass('d-none');
             $('#medicineEditModal').find('.med-edit').prop('disabled', false);
+            $('#medicineEditModal').find('.med-edit[name="treatment_type"]').next().addClass('active');
             $('.selectpicker').selectpicker('refresh');
         } else {
             let playerId = $('#medicine').find('tr.medicine-row.selected').attr('data-player');
@@ -421,6 +423,16 @@ $(function() {
             complete: function (res) {}
         });
     });
-    
 
+    $('#medicineEditModal').on('click', '#goToPlayerCard', (e) => {
+        let playerId = $('#medicineEditModal').find('.player-name').attr('data-id');
+        sessionStorage.setItem("selectedPlayer", playerId);
+        window.location.href = `/players/player?id=${playerId}`;
+    });
+
+    $('#medicineEditModal').on('click', 'tr.custom-table-hd', (e) => {
+        if ($(e.target).is('button') || $(e.target).is('i')) {return;}
+        let cTableBody = $(e.currentTarget).parent().parent().find('tbody');
+        $(cTableBody).find('tr').toggleClass('hide-row');
+    });
 });
