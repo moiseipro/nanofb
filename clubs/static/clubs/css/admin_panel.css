@@ -5,3 +5,8 @@ label.error {
 	color: #ff0000;
 	font-weight: normal;
 }
+.collapsing {
+    -webkit-transition: none;
+    transition: none;
+    display: none;
+}

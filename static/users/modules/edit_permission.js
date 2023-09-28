@@ -55,13 +55,12 @@ function load_group_data(id = -1) {
                 permission_row +=
                     `
                     <div class="row permission-row" data-id="${available_value.id}">
-                        <div class="col-9 px-2 border text-nowrap">
+                        <div class="col-9 pl-2 pr-0 border text-nowrap text-truncate">
                             <span class="float-left">${available_value.name}</span>
                         </div>
-                        <div class="col-3 px-2 border text-center">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" name="group_value" value="${available_value.id}" class="custom-control-input check-permission" id="group_${available_value.id}" ${is_active? 'checked' : ''}>
-                                <label class="custom-control-label" for="group_${available_value.id}"></label>
+                        <div class="col-3 px-0 border text-center">
+                            <div class="form-check">
+                                <input type="checkbox" name="group_value" value="${available_value.id}" class="form-check-input position-static check-permission" id="group_${available_value.id}" ${is_active? 'checked' : ''}>
                             </div>
                         </div>
                     </div>
@@ -98,13 +97,12 @@ function load_group_data(id = -1) {
                     permission_row =
                     `
                     <div class="row permission-row bg-warning" data-id="${user_value.id}">
-                        <div class="col-9 px-2 border text-nowrap">
+                        <div class="col-9 px-2 border text-nowrap text-truncate">
                             <span class="float-left">${user_value.name}</span>
                         </div>
                         <div class="col-3 px-2 border text-center">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" name="group_value" value="${user_value.id}" class="custom-control-input check-permission" id="group_${user_value.id}" checked>
-                                <label class="custom-control-label" for="group_${user_value.id}"></label>
+                            <div class="form-check">
+                                <input type="checkbox" name="group_value" value="${user_value.id}" class="form-check-input position-static check-permission" id="group_${user_value.id}" checked>
                             </div>
                         </div>
                     </div>
@@ -141,9 +139,8 @@ function load_team_data(id= -1){
                     <span class="float-left">${team.name}</span>
                 </div>
                 <div class="col-3 px-2 border text-center">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" name="team_value" value="${team.id}" class="custom-control-input check-team" id="team-permission-${team.id}" ${is_active ? 'checked' : ''}>
-                        <label class="custom-control-label" for="team-permission-${team.id}"></label>
+                    <div class="form-check">
+                        <input type="checkbox" name="team_value" value="${team.id}" class="form-check-input position-static check-team" id="team-permission-${team.id}" ${is_active ? 'checked' : ''}>
                     </div>
                 </div>
             </div>

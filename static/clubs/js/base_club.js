@@ -9,9 +9,7 @@ $(window).on('load', function (){
     initialize_phone_input();
     generate_ajax_club_users_table("calc(100vh - 310px)");
 
-    if(!Cookies.get('user_selected_id')){
-        $('#open-profile-modal').prop('disabled', true)
-    }
+    check_admin_button()
 
     $('#personal-form').validate({
         errorElement: 'p',
@@ -55,7 +53,7 @@ $(window).on('load', function (){
         $('#edit-club-user-modal').attr('data-user', id)
         ajax_club_action('GET', send_data, 'Club').then(function (data) {
             let club = data.results[0]
-            let row_data = club_users_table.row(tr_obj).data()
+            let row_data = users_table.row(tr_obj).data()
             let group_arr = []
             $.each( row_data.groups, function( key, value ) {
                 group_arr.push(value['id'])
@@ -79,7 +77,7 @@ $(window).on('load', function (){
         })
         ajax_team_action('GET', send_data, 'get team').then(function (data) {
             let teams = data
-            let row_data = club_users_table.row(tr_obj).data()
+            let row_data = users_table.row(tr_obj).data()
             console.log(row_data)
             if(teams.length > 0) {
                 let html_teams = ``
@@ -112,7 +110,7 @@ $(window).on('load', function (){
 
         ajax_users_action('POST', send_data, 'edit', user_id, 'edit_user').then(function (data) {
             console.log(data)
-            club_users_table.ajax.reload()
+            users_table.ajax.reload()
         })
     })
     
@@ -122,7 +120,7 @@ $(window).on('load', function (){
     //     let send_data = {group_id}
     //     ajax_users_action('POST', send_data, 'change permission', user_id, 'change_permission').then(function (data) {
     //         console.log(data)
-    //         club_users_table.ajax.reload()
+    //         users_table.ajax.reload()
     //     })
     // })
     // $(document).on('click', '.check-team', function () {
@@ -131,7 +129,7 @@ $(window).on('load', function (){
     //     let send_data = {user_id}
     //     ajax_team_action('POST', send_data, 'change permission', team_id, 'change_permission').then(function (data) {
     //         console.log(data)
-    //         club_users_table.ajax.reload()
+    //         users_table.ajax.reload()
     //     })
     // })
 
@@ -151,40 +149,40 @@ $(window).on('load', function (){
         })
     })
 
-    $('#open-profile-modal').on('click', function () {
-
-        if (users_menu_state == 'table_settings'){
-            $('#open-table-settings').click()
-        } else if (users_menu_state == 'user_info'){
-            $('#back-users-table').click()
-            return false
-        }
-
-
-        users_menu_state = 'user_info'
-
-        $('#user-management-block').removeClass('d-none').addClass('col-sm-7');
-        $('#users-table-block').removeClass('col-sm-12').addClass('col-sm-5');
-
-        club_users_table.columns( '.main-info-col' ).visible( true );
-        club_users_table.columns( '.side-info-col' ).visible( false );
-        club_users_table.columns( '.additional-info-col' ).visible( false );
-
-        $('.toggle-user-column').prop('checked', false)
-
-    })
-
-    $('#back-users-table').on('click', function () {
-
-        users_menu_state = null
-
-        $('#user-management-block').addClass('d-none').removeClass('col-sm-7');
-        $('#users-table-block').removeClass('col-sm-5').addClass('col-sm-12');
-
-        club_users_table.columns( '.main-info-col' ).visible( true );
-        club_users_table.columns( '.side-info-col' ).visible( true );
-
-    })
+    // $('#open-profile-modal').on('click', function () {
+    //
+    //     if (users_menu_state == 'table_settings'){
+    //         $('#open-table-settings').click()
+    //     } else if (users_menu_state == 'user_info'){
+    //         $('#back-users-table').click()
+    //         return false
+    //     }
+    //
+    //
+    //     users_menu_state = 'user_info'
+    //
+    //     $('#user-management-block').removeClass('d-none').addClass('col-sm-7');
+    //     $('#users-table-block').removeClass('col-sm-12').addClass('col-sm-5');
+    //
+    //     users_table.columns( '.main-info-col' ).visible( true );
+    //     users_table.columns( '.side-info-col' ).visible( false );
+    //     users_table.columns( '.additional-info-col' ).visible( false );
+    //
+    //     $('.toggle-user-column').prop('checked', false)
+    //
+    // })
+    //
+    // $('#back-users-table').on('click', function () {
+    //
+    //     users_menu_state = null
+    //
+    //     $('#user-management-block').addClass('d-none').removeClass('col-sm-7');
+    //     $('#users-table-block').removeClass('col-sm-5').addClass('col-sm-12');
+    //
+    //     users_table.columns( '.main-info-col' ).visible( true );
+    //     users_table.columns( '.side-info-col' ).visible( true );
+    //
+    // })
 
     $('#edit-profile-button').on('click', function () {
         if(!$('#edit-personal-form').valid()) return
@@ -194,7 +192,7 @@ $(window).on('load', function (){
 
         ajax_users_action('POST', send_data, 'edit', user_select_id, 'edit_personal').then(function (data) {
             console.log(data)
-            club_users_table.ajax.reload()
+            users_table.ajax.reload()
         })
     })
 
@@ -209,24 +207,24 @@ $(window).on('load', function (){
         })
     })
 
-    club_users_table
+    users_table
         .on( 'select', function ( e, dt, type, indexes ) {
             console.log(type)
-            let rowData = club_users_table.rows( indexes ).data().toArray();
+            let rowData = users_table.rows( indexes ).data().toArray();
             if(type=='row') {
                 toggle_edit_mode(false)
                 let cur_edit_data = rowData[0]
                 console.log(cur_edit_data)
                 Cookies.set('user_selected_id', cur_edit_data.id, { expires: 1 })
-                $('#open-profile-modal').prop('disabled', false)
                 user_select_id = cur_edit_data.id
                 load_user_data(user_select_id)
                 load_group_data(user_select_id)
                 load_team_data(user_select_id)
+                check_admin_button()
             }
         })
         .on( 'deselect', function ( e, dt, type, indexes ) {
-            let rowData = club_users_table.rows( indexes ).data().toArray();
+            let rowData = users_table.rows( indexes ).data().toArray();
             let cur_edit_data = rowData[0]
             // if(user_select_id == cur_edit_data.id){
             //     $('#users-table-block .open-profile-modal').prop('disabled', true)

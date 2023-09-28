@@ -8,7 +8,7 @@
             <div class="form-group row mb-1">
                 <label class="col-sm-6 col-form-label">{% trans 'Last name'%}</label>
                 <div class="col-sm-6">
-                    <input type="text" name="last_name" class="form-control form-control-sm edit-input" value="{{ user.personal.last_name }}" autocomplete="off" required disabled>
+                    <input type="text" name="last_name" class="form-control form-control-sm" value="{{ user.personal.last_name }}" autocomplete="off" required>
                 </div>
             </div>
         </div>
@@ -16,7 +16,7 @@
             <div class="form-group row mb-1">
                 <label class="col-sm-6 col-form-label">{% trans 'First name'%}</label>
                 <div class="col-sm-6">
-                    <input type="text" name="first_name" class="form-control form-control-sm edit-input" value="{{ user.personal.first_name }}" autocomplete="off" required disabled>
+                    <input type="text" name="first_name" class="form-control form-control-sm" value="{{ user.personal.first_name }}" autocomplete="off" required>
                 </div>
             </div>
         </div>
@@ -24,7 +24,7 @@
             <div class="form-group row mb-1">
                 <label class="col-sm-6 col-form-label">{% trans 'Father name'%}</label>
                 <div class="col-sm-6">
-                    <input type="text" name="father_name" class="form-control form-control-sm edit-input" value="{% if user.personal.father_name %}{{ user.personal.father_name}}{% endif %}" autocomplete="off" disabled>
+                    <input type="text" name="father_name" class="form-control form-control-sm" value="{% if user.personal.father_name %}{{ user.personal.father_name}}{% endif %}" autocomplete="off">
                 </div>
             </div>
         </div>
@@ -32,7 +32,7 @@
             <div class="form-group row mb-1">
                 <label class="col-sm-6 col-form-label">{% trans 'Spare email'%}</label>
                 <div class="col-sm-6">
-                    <input type="email" name="email_2" class="form-control form-control-sm edit-input" value="{% if user.personal.email_2 %}{{ user.personal.email_2}}{% endif %}" autocomplete="off" disabled>
+                    <input type="email" name="email_2" class="form-control form-control-sm" value="{% if user.personal.email_2 %}{{ user.personal.email_2}}{% endif %}" autocomplete="off">
                 </div>
             </div>
         </div>
@@ -40,7 +40,7 @@
             <div class="form-group row mb-1">
                 <label class="col-sm-6 col-form-label">{% trans 'Phone'%}</label>
                 <div class="col-sm-6">
-                    <input id="phone" name="phone" type="tel" value="{% if user.personal.phone %}{{ user.personal.phone}}{% endif %}" class="form-control form-control-sm edit-input" autocomplete="off" required disabled>
+                    <input id="phone" name="phone" type="tel" value="{% if user.personal.phone %}{{ user.personal.phone}}{% endif %}" class="form-control form-control-sm" autocomplete="off" required>
                 </div>
             </div>
         </div>
@@ -48,7 +48,7 @@
             <div class="form-group row mb-1">
                 <label class="col-sm-6 col-form-label">{% trans 'Spare phone'%}</label>
                 <div class="col-sm-6">
-                    <input id="phone_2" name="phone_2" type="tel" value="{% if user.personal.phone_2 %}{{ user.personal.phone_2}}{% endif %}" class="form-control form-control-sm edit-input" autocomplete="off" disabled>
+                    <input id="phone_2" name="phone_2" type="tel" value="{% if user.personal.phone_2 %}{{ user.personal.phone_2}}{% endif %}" class="form-control form-control-sm" autocomplete="off">
                 </div>
             </div>
         </div>
@@ -56,7 +56,7 @@
             <div class="form-group row mb-1">
                 <label class="col-sm-6 col-form-label">{% trans 'Date of Birth'%}</label>
                 <div class="col-sm-6">
-                    <input type="text" name="date_birthsday" class="form-control form-control-sm datetimepicker edit-input" data-toggle="datetimepicker" value="{{ user.personal.date_birthsday|date:"d/m/Y" }}" autocomplete="off" required disabled>
+                    <input type="text" name="date_birthsday" class="form-control form-control-sm datetimepicker" data-toggle="datetimepicker" value="{{ user.personal.date_birthsday|date:"d/m/Y" }}" autocomplete="off" required>
                 </div>
             </div>
         </div>
@@ -64,7 +64,7 @@
             <div class="form-group row mb-1">
                 <label class="col-sm-6 col-form-label">{% trans 'Job title'%}</label>
                 <div class="col-sm-6">
-                    <input type="text" name="job_title" class="form-control form-control-sm edit-input" value="{% if user.personal.job_title %}{{ user.personal.job_title}}{% endif %}" autocomplete="off" disabled>
+                    <input type="text" name="job_title" class="form-control form-control-sm" value="{% if user.personal.job_title %}{{ user.personal.job_title}}{% endif %}" autocomplete="off">
                 </div>
             </div>
         </div>
@@ -72,7 +72,7 @@
             <div class="form-group row mb-1">
                 <label class="col-sm-6 col-form-label">{% trans 'Club title'%}</label>
                 <div class="col-sm-6">
-                    <input type="text" name="club_title" class="form-control form-control-sm edit-input" value="{% if user.personal.club_title %}{{ user.personal.club_title}}{% endif %}" autocomplete="off" disabled>
+                    <input type="text" name="club_title" class="form-control form-control-sm" value="{% if user.personal.club_title %}{{ user.personal.club_title}}{% endif %}" autocomplete="off">
                 </div>
             </div>
         </div>
@@ -80,7 +80,7 @@
             <div class="form-group row mb-1">
                 <label class="col-sm-6 col-form-label">{% trans 'License'%}</label>
                 <div class="col-sm-6">
-                    <select name="trainer_license" id="trainer_license-select" class="form-control edit-input" disabled>
+                    <select name="trainer_license" id="trainer_license-select" class="form-control">
                         <option value="">{% trans "No" %}</option>
                         {% for license in trainer_license %}
                             <option value="{{ license.id }}" {% if user.personal.trainer_license.id == license.id %} selected {% endif %}>{{ license.name }}</option>
@@ -93,7 +93,7 @@
             <div class="form-group row mb-1">
                 <label class="col-sm-6 col-form-label"></label>
                 <div class="col-sm-6">
-                    <input type="text" name="license" class="form-control form-control-sm edit-input" placeholder="{% trans "License" %}" value="{% if user.personal.license %}{{ user.personal.license}}{% endif %}" autocomplete="off" disabled>
+                    <input type="text" name="license" class="form-control form-control-sm" placeholder="{% trans "License" %}" value="{% if user.personal.license %}{{ user.personal.license}}{% endif %}" autocomplete="off">
                 </div>
             </div>
         </div>
@@ -101,7 +101,7 @@
             <div class="form-group row mb-1">
                 <label class="col-sm-6 col-form-label">{% trans 'License to'%}</label>
                 <div class="col-sm-6">
-                    <input type="text" name="license_date" class="form-control form-control-sm datetimepicker edit-input" data-toggle="datetimepicker" value="{{ user.personal.license_date|date:"d/m/Y" }}" autocomplete="off" disabled>
+                    <input type="text" name="license_date" class="form-control form-control-sm datetimepicker" data-toggle="datetimepicker" value="{{ user.personal.license_date|date:"d/m/Y" }}" autocomplete="off">
                 </div>
             </div>
         </div>
@@ -114,7 +114,7 @@
                 <div class="col-sm-6">
                     {% load countries %}
                     {% get_countries as countries %}
-                    <select name="country_id" id="country-select" class="form-control edit-input" required disabled>
+                    <select name="country_id" id="country-select" class="form-control" required>
                         {% for country in countries %}
                             <option value="{{ country.code }}" {% if user.personal.country_id == country.code %} selected {% endif %}>{{ country.name }}</option>
                         {% endfor %}
@@ -126,7 +126,7 @@
             <div class="form-group row mb-1">
                 <label class="col-sm-6 col-form-label">{% trans 'Region'%}</label>
                 <div class="col-sm-6">
-                    <input type="text" name="region" class="form-control form-control-md edit-input" value="{% if user.personal.region %}{{ user.personal.region}}{% endif %}" autocomplete="off" required disabled>
+                    <input type="text" name="region" class="form-control form-control-md" value="{% if user.personal.region %}{{ user.personal.region}}{% endif %}" autocomplete="off" required>
                 </div>
             </div>
         </div>
@@ -134,10 +134,10 @@
             <div class="form-group row mb-1">
                 <label class="col-sm-6 col-form-label">{% trans 'City'%}</label>
                 <div class="col-sm-6">
-                    <input type="text" name="city" class="form-control form-control-md edit-input" value="{% if user.personal.city %}{{ user.personal.city}}{% endif %}" autocomplete="off" required disabled>
+                    <input type="text" name="city" class="form-control form-control-md" value="{% if user.personal.city %}{{ user.personal.city}}{% endif %}" autocomplete="off" required>
                 </div>
             </div>
         </div>
     </div>
-    <button id="edit-profile-button" type="button" class="btn btn-success btn-block edit-input" disabled>{% trans 'Save Changes'%}</button>
+    <button id="edit-profile-button" type="button" class="btn btn-success btn-block">{% trans 'Save Changes'%}</button>
 </form>
