@@ -19,3 +19,19 @@
 }
 
 
+.custom-table-hd {
+    background-color: #527ae7;
+    color: white;
+    cursor: pointer;
+}
+.custom-table-hd > th.text-left > .hd-title {
+    margin-left: 45vw;
+}
+.custom-hr {
+    background-color: #527ae7;
+    height: 2px;
+}
+
+.hide-row {
+    display: none !important;
+}
