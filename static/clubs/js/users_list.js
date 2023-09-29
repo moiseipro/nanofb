@@ -1,7 +1,7 @@
-let club_users_table
+let users_table
 
 function generate_ajax_club_users_table(scroll_y = ''){
-    club_users_table = $('#club-users-table').DataTable({
+    users_table = $('#users-table').DataTable({
         language: {
             url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
         },
@@ -19,7 +19,7 @@ function generate_ajax_club_users_table(scroll_y = ''){
         drawCallback: function( settings ) {
             $('#club-users-table-counter').text(settings._iRecordsDisplay)
             if(Cookies.get('user_selected_id')){
-                $('#club-users-table tr[data-user="'+Cookies.get('user_selected_id')+'"] td:first').click();
+                $('#users-table tr[data-user="'+Cookies.get('user_selected_id')+'"] td:first').click();
             }
         },
         ajax: {
@@ -76,13 +76,13 @@ function generate_ajax_club_users_table(scroll_y = ''){
 
     })
 
-    club_users_table.on('click', 'td', function () {
+    users_table.on('click', 'td', function () {
         console.log('SELECT')
         if($(this).parent().is('.selected')){
             //users_table.row($(this).parent()).deselect()
         } else {
-            club_users_table.rows('.selected').deselect()
-            club_users_table.row($(this).parent()).select()
+            users_table.rows('.selected').deselect()
+            users_table.row($(this).parent()).select()
         }
 
 

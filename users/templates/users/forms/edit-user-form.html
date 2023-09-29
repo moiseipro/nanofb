@@ -8,7 +8,7 @@
             <div class="form-group row mb-1">
                 <label class="col col-form-label">{% trans 'Email'%}</label>
                 <div class="col">
-                    <input type="text" name="email" class="form-control form-control-sm edit-input" value="{{ user.email }}" autocomplete="off" required disabled>
+                    <input type="text" name="email" class="form-control form-control-sm" value="{{ user.email }}" autocomplete="off" required>
                 </div>
             </div>
         </div>
@@ -17,7 +17,7 @@
             <div class="form-group row mb-1">
                 <label class="col col-form-label">{% trans 'Club'%}</label>
                 <div class="col">
-                    <select name="club_id" id="club-select" class="form-control form-control-sm edit-input" disabled>
+                    <select name="club_id" id="club-select" class="form-control form-control-sm">
                         <option value="">{% trans "No" %}</option>
                         {% for club in clubs %}
                             <option value="{{ club.id }}">{{ club.name }}</option>
@@ -32,7 +32,7 @@
             <div class="form-group row mb-1" title="{% trans 'Setting only for users without a club'%}">
                 <label class="col col-form-label" for="p_version-select">{% trans 'Version'%}</label>
                 <div class="col">
-                    <select name="p_version" id="p_version-select" class="form-control form-control-sm edit-input" disabled>
+                    <select name="p_version" id="p_version-select" class="form-control form-control-sm">
                         <option value="">{% trans "No" %}</option>
                         {% for version in versions %}
                             <option value="{{ version.id }}">{{ version.name }}</option>
@@ -49,7 +49,7 @@
                 <div class="col">
                     <div class="row">
                         <div class="col-12">
-                            <input type="number" name="team_limit" class="form-control form-control-sm edit-input" value="{{ user.team_limit }}" autocomplete="off" disabled>
+                            <input type="number" name="team_limit" class="form-control form-control-sm" value="{{ user.team_limit }}" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -61,7 +61,7 @@
                 <div class="col">
                     <div class="row">
                         <div class="col-12">
-                            <input type="number" name="player_limit" class="form-control form-control-sm edit-input" value="{{ user.player_limit }}" autocomplete="off" disabled>
+                            <input type="number" name="player_limit" class="form-control form-control-sm" value="{{ user.player_limit }}" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -89,7 +89,7 @@
             <div class="form-group row mb-1" title="{% trans 'Setting only for users without a club'%}">
                 <label class="col col-form-label">{% trans 'Access to'%}</label>
                 <div class="col">
-                    <input type="text" name="registration_to" class="form-control form-control-sm datetimepicker edit-input" data-toggle="datetimepicker" value="{{ user.registration_to|date:"d/m/Y"}}" autocomplete="off" required disabled>
+                    <input type="text" name="registration_to" class="form-control form-control-sm datetimepicker" data-toggle="datetimepicker" value="{{ user.registration_to|date:"d/m/Y"}}" autocomplete="off" required>
                 </div>
             </div>
         </div>
@@ -99,7 +99,7 @@
             <div class="form-group row mb-1">
                 <label class="col col-form-label">{% trans 'Distributor'%}</label>
                 <div class="col">
-                    <input type="text" name="distributor" class="form-control form-control-sm edit-input" value="{{ user.distributor }}" autocomplete="off" disabled>
+                    <input type="text" name="distributor" class="form-control form-control-sm" value="{{ user.distributor }}" autocomplete="off">
                 </div>
             </div>
         </div>
@@ -109,11 +109,11 @@
             <div class="form-group row mb-1">
                 <label class="col col-form-label">{% trans 'Demo version'%}</label>
                 <div class="col">
-                    <input type="checkbox" name="is_demo_mode" class="form-control form-control-sm edit-input" value="on" autocomplete="off" disabled>
+                    <input type="checkbox" name="is_demo_mode" class="form-control form-control-sm" value="on" autocomplete="off">
                 </div>
             </div>
         </div>
         {% endif %}
     </div>
-    <button id="edit-user-button" type="button" class="btn btn-success btn-block edit-input" disabled>{% trans 'Save Changes'%}</button>
+    <button id="edit-user-button" type="button" class="btn btn-success btn-block">{% trans 'Save Changes'%}</button>
 </form>

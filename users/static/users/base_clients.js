@@ -2,12 +2,10 @@ var user_select_id;
 var users_menu_state = null
 
 $(window).on("load", function () {
-    generate_ajax_users_table("calc(100vh - 280px)")
-    generate_ajax_clubs_table("calc(100vh - 280px)")
+    generate_ajax_users_table("calc(100vh - 240px)")
+    generate_ajax_clubs_table("calc(100vh - 240px)")
 
-    if(!Cookies.get('user_selected_id')){
-        $('#open-profile-modal').prop('disabled', true)
-    }
+    check_admin_button()
 
     $('.datetimepickerfilter').datetimepicker({
         format: 'DD/MM/YYYY',
@@ -135,65 +133,69 @@ $(window).on("load", function () {
             return $state;
         }
     })
+    
+    // $('.function-block').on("shown.bs.collapse hidden.bs.collapse", function (event) {
+    //     check_admin_button()
+    // })
+    
+    // $('#open-profile-modal').on('click', function () {
+    //
+    //     if (users_menu_state == 'table_settings'){
+    //         $('#open-table-settings').click()
+    //     } else if (users_menu_state == 'user_info'){
+    //         $('#back-users-table').click()
+    //         return false
+    //     }
+    //
+    //
+    //     users_menu_state = 'user_info'
+    //
+    //     $('#user-management-block').removeClass('d-none').addClass('col-sm-7');
+    //     $('#users-table-block').removeClass('col-sm-12').addClass('col-sm-5');
+    //
+    //     users_table.columns( '.main-info-col' ).visible( true );
+    //     users_table.columns( '.side-info-col' ).visible( false );
+    //     users_table.columns( '.additional-info-col' ).visible( false );
+    //
+    //     $('.toggle-user-column').prop('checked', false)
+    //
+    // })
+    //
+    // $('#open-table-settings').on('click', function () {
+    //
+    //     if (users_menu_state == 'user_info')
+    //         $('#back-users-table').click()
+    //
+    //     if (users_menu_state == 'table_settings'){
+    //         users_menu_state = null
+    //         $(this).children('i').removeClass('fa-indent').addClass('fa-outdent')
+    //         $('#user-table-settings-block').addClass('d-none').removeClass('col-sm-2');
+    //         $('#users-table-block').removeClass('col-sm-10').addClass('col-sm-12');
+    //         users_table.columns.adjust().draw( false );
+    //         return false;
+    //     }
+    //
+    //     users_menu_state = 'table_settings'
+    //
+    //     $(this).children('i').removeClass('fa-outdent').addClass('fa-indent')
+    //     $('#user-table-settings-block').removeClass('d-none').addClass('col-sm-2');
+    //     $('#users-table-block').removeClass('col-sm-12').addClass('col-sm-10');
+    //
+    // })
 
-    $('#open-profile-modal').on('click', function () {
+    //$('#open-table-settings').click()
 
-        if (users_menu_state == 'table_settings'){
-            $('#open-table-settings').click()
-        } else if (users_menu_state == 'user_info'){
-            $('#back-users-table').click()
-            return false
-        }
-
-
-        users_menu_state = 'user_info'
-
-        $('#user-management-block').removeClass('d-none').addClass('col-sm-7');
-        $('#users-table-block').removeClass('col-sm-12').addClass('col-sm-5');
-
-        users_table.columns( '.main-info-col' ).visible( true );
-        users_table.columns( '.side-info-col' ).visible( false );
-        users_table.columns( '.additional-info-col' ).visible( false );
-
-        $('.toggle-user-column').prop('checked', false)
-
-    })
-
-    $('#open-table-settings').on('click', function () {
-
-        if (users_menu_state == 'user_info')
-            $('#back-users-table').click()
-
-        if (users_menu_state == 'table_settings'){
-            users_menu_state = null
-            $(this).children('i').removeClass('fa-indent').addClass('fa-outdent')
-            $('#user-table-settings-block').addClass('d-none').removeClass('col-sm-2');
-            $('#users-table-block').removeClass('col-sm-10').addClass('col-sm-12');
-            users_table.columns.adjust().draw( false );
-            return false;
-        }
-
-        users_menu_state = 'table_settings'
-
-        $(this).children('i').removeClass('fa-outdent').addClass('fa-indent')
-        $('#user-table-settings-block').removeClass('d-none').addClass('col-sm-2');
-        $('#users-table-block').removeClass('col-sm-12').addClass('col-sm-10');
-
-    })
-
-    $('#open-table-settings').click()
-
-    $('#back-users-table').on('click', function () {
-
-        users_menu_state = null
-
-        $('#user-management-block').addClass('d-none').removeClass('col-sm-7');
-        $('#users-table-block').removeClass('col-sm-5').addClass('col-sm-12');
-
-        users_table.columns( '.main-info-col' ).visible( true );
-        users_table.columns( '.side-info-col' ).visible( true );
-
-    })
+    // $('#back-users-table').on('click', function () {
+    //
+    //     users_menu_state = null
+    //
+    //     $('#user-management-block').addClass('d-none').removeClass('col-sm-7');
+    //     $('#users-table-block').removeClass('col-sm-5').addClass('col-sm-12');
+    //
+    //     users_table.columns( '.main-info-col' ).visible( true );
+    //     users_table.columns( '.side-info-col' ).visible( true );
+    //
+    // })
 
     $('#edit-profile-button').on('click', function () {
         if(!$('#edit-personal-form').valid()) return
@@ -254,7 +256,7 @@ $(window).on("load", function () {
 
         let col_data = checkbox.attr('data-col')
         users_table.columns( '.'+col_data ).visible( checkbox.is(':checked') );
-
+        check_active_filters()
     })
 
     $('#users-table').on('click', '.archive-user', function () {
@@ -325,11 +327,11 @@ $(window).on("load", function () {
                 let cur_edit_data = rowData[0]
                 console.log(cur_edit_data)
                 Cookies.set('user_selected_id', cur_edit_data.id, { expires: 1 })
-                $('#open-profile-modal').prop('disabled', false)
                 user_select_id = cur_edit_data.id
                 load_user_data(user_select_id)
                 load_group_data(user_select_id)
                 load_team_data(user_select_id)
+                check_admin_button()
             }
         })
         .on( 'deselect', function ( e, dt, type, indexes ) {
@@ -381,6 +383,7 @@ $(window).on("load", function () {
         } else{
             users_table.columns(filter_obj).search( value ).draw();
         }
+        check_active_filters()
     })
 
     // Сброс фильтров
@@ -399,6 +402,21 @@ $(window).on("load", function () {
     })
 })
 
+function check_active_filters() {
+    let is_filled = false
+    $('.user-table-filter').each(function() {
+        let value = $(this).not('[type="checkbox"]').val()
+        if (value != '' && value != null && value != undefined && value != "all" || $(this).is(':checked')) is_filled = true
+        console.log($(this).not('[type="checkbox"]').val())
+    })
+    $('.toggle-user-column').each(function() {
+        if ($(this).is(':checked')) is_filled = true
+    })
+
+    console.log(is_filled)
+    is_filled ? $('.only-selected[data-target=".table-settings-block"]').addClass('border-danger') : $('.only-selected[data-target=".table-settings-block"]').removeClass('border-danger')
+}
+
 function clear_filters() {
     $('.user-table-filter').each(function() {
         let filter = $(this).attr('data-filter')
@@ -408,4 +426,5 @@ function clear_filters() {
         else $(this).val('').trigger('change')
         users_table.ajax.reload()
     });
+    check_active_filters()
 }
