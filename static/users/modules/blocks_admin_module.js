@@ -24,6 +24,5 @@ $(window).on("load", function () {
 
 function check_admin_button() {
     let is_selected = $('#users-table tr.selected').length>0
-    console.log(is_selected)
     $('.only-selected').not('.always-active').prop('disabled', !is_selected)
 }

@@ -256,7 +256,7 @@ $(window).on("load", function () {
 
         let col_data = checkbox.attr('data-col')
         users_table.columns( '.'+col_data ).visible( checkbox.is(':checked') );
-
+        check_active_filters()
     })
 
     $('#users-table').on('click', '.archive-user', function () {
@@ -383,6 +383,7 @@ $(window).on("load", function () {
         } else{
             users_table.columns(filter_obj).search( value ).draw();
         }
+        check_active_filters()
     })
 
     // Сброс фильтров
@@ -401,6 +402,21 @@ $(window).on("load", function () {
     })
 })
 
+function check_active_filters() {
+    let is_filled = false
+    $('.user-table-filter').each(function() {
+        let value = $(this).not('[type="checkbox"]').val()
+        if (value != '' && value != null && value != undefined && value != "all" || $(this).is(':checked')) is_filled = true
+        console.log($(this).not('[type="checkbox"]').val())
+    })
+    $('.toggle-user-column').each(function() {
+        if ($(this).is(':checked')) is_filled = true
+    })
+
+    console.log(is_filled)
+    is_filled ? $('.only-selected[data-target=".table-settings-block"]').addClass('border-danger') : $('.only-selected[data-target=".table-settings-block"]').removeClass('border-danger')
+}
+
 function clear_filters() {
     $('.user-table-filter').each(function() {
         let filter = $(this).attr('data-filter')
@@ -410,4 +426,5 @@ function clear_filters() {
         else $(this).val('').trigger('change')
         users_table.ajax.reload()
     });
+    check_active_filters()
 }
