@@ -135,7 +135,7 @@ function load_team_data(id= -1){
             permission_row +=
                 `
             <div class="row permission-row" data-id="${team.id}">
-                <div class="col-9 px-2 border text-nowrap">
+                <div class="col-9 px-2 border text-nowrap text-truncate">
                     <span class="float-left">${team.name}</span>
                 </div>
                 <div class="col-3 px-2 border text-center">

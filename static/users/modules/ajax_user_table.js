@@ -93,6 +93,9 @@ function generate_ajax_users_table(scroll_y = ''){
             {'data': 'teams_players', 'name': 'teams_players', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
                 return `<div class="w-100 text-center" title="${data}"> ${data} </div>`;
             }},
+            {'data': 'teams_players_fact', 'name': 'teams_players_fact', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
+                return `<div class="w-100 text-center font-weight-bold text-warning" title="${data}"> ${data} </div>`;
+            }},
             {'data': 'exercises', 'name': 'exercises', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
                 return `<div class="w-100 text-center" title="${data}"> ${data} </div>`;
             }},

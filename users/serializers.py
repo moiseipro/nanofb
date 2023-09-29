@@ -6,7 +6,8 @@ from rest_framework import serializers
 
 from clubs.serializers import ClubSerializer
 from exercises.models import UserExercise, ClubExercise
-from references.models import ClubTeam
+from players.models import ClubPlayer, UserPlayer
+from references.models import ClubTeam, UserTeam
 from users.models import User, UserPersonal, TrainerLicense
 from django_countries.serializer_fields import CountryField
 from django.utils.translation import gettext_lazy as _
@@ -202,6 +203,8 @@ class UserManagementSerializer(serializers.ModelSerializer):
 
     teams_players = serializers.SerializerMethodField()
 
+    teams_players_fact = serializers.SerializerMethodField()
+
     def get_license(self, user):
         license_name = ''
         if user.personal.trainer_license is not None:
@@ -283,12 +286,27 @@ class UserManagementSerializer(serializers.ModelSerializer):
     def get_teams_players(self, user):
         data = ''
         if user.club_id is not None:
-            data += str(user.club_id.team_limit) + ' / ' + str(user.club_id.player_limit)
+            teams = user.club_id.team_limit
+            players = user.club_id.player_limit
         else:
             if user.p_version is not None:
-                data += str(user.p_version.team_limit) + ' / ' + str(user.p_version.player_limit)
+                teams = user.p_version.team_limit
+                players = user.p_version.player_limit
             else:
-                data += str(user.team_limit) + ' / ' + str(user.player_limit)
+                teams = user.team_limit
+                players = user.player_limit
+        data += str(teams) + ' / ' + str(players)
+        return data
+
+    def get_teams_players_fact(self, user):
+        data = ''
+        if user.club_id is not None:
+            teams = ClubTeam.objects.filter(users=user)
+            players = ClubPlayer.objects.filter(team__in=teams)
+        else:
+            teams = UserTeam.objects.filter(user_id=user)
+            players = UserPlayer.objects.filter(team__in=teams)
+        data += str(teams.count()) + ' / ' + str(players.count())
         return data
 
     class Meta:
@@ -298,6 +316,6 @@ class UserManagementSerializer(serializers.ModelSerializer):
             'last_name', 'first_name', 'job_title', 'date_birthsday', 'age',
             'trainer_license', 'license', 'license_date', 'flag', 'distributor', 'date_joined', 'club_title',
             'activation', 'club_name', 'club_registration_to', 'is_archive', 'date_joined', 'phone', 'date_last_login',
-            'region', 'club_id', 'exercises', 'teams', 'online', 'teams_players'
+            'region', 'club_id', 'exercises', 'teams', 'online', 'teams_players', 'teams_players_fact'
         ]
         datatables_always_serialize = ('id', 'groups', 'trainer_license', 'club_registration_to', 'is_archive')
