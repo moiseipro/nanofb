@@ -24,12 +24,12 @@
     color: white;
     cursor: pointer;
 }
+.custom-table-hd > th {
+    padding: 0.25rem !important;
+}
 .custom-table-hd > th.text-left > .hd-title {
     margin-left: 45vw;
-}
-.custom-hr {
-    background-color: #527ae7;
-    height: 2px;
+    text-transform: uppercase !important;
 }
 
 .hide-row {

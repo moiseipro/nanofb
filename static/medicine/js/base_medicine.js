@@ -1,7 +1,6 @@
 let medicine_table;
 
 function GenerateMedicineTable(scroll_y = '') {
-
     let tableOptions = {
         language: {
             url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
@@ -37,12 +36,12 @@ function GenerateMedicineTable(scroll_y = '') {
             data: {'get_medicine_json_table': 1},
         },
         columns: [
-            {'data': 'id', 'name': 'id', render: function (data, type, row, meta) {
-                return meta.row + meta.settings._iDisplayStart + 1;
-            }},
+            // {'data': 'id', 'name': 'id', render: function (data, type, row, meta) {
+            //     return meta.row + meta.settings._iDisplayStart + 1;
+            // }},
             {'data': 'surname', 'name': 'surname'},
             {'data': 'name', 'name': 'name'},
-            {'data': 'patronymic', 'name': 'patronymic'},
+            // {'data': 'patronymic', 'name': 'patronymic'},
             {'data': 'birthsday', 'name': 'card__birthsday', className: "dt-vertical-center border-black-left"},
             {'data': 'game_num', 'name': 'card__game_num'},
             {'data': 'injury', 'name': 'injury'},
@@ -65,6 +64,9 @@ function GenerateMedicineTable(scroll_y = '') {
         $('#medicine').dataTable().fnDestroy();
     }
     medicine_table = $('#medicine').DataTable(tableOptions);
+    setTimeout(() => {
+        medicine_table.columns.adjust().draw();
+    }, 500);
 }
 
 function LoadPlayerMedicine(playerId) {
@@ -114,9 +116,13 @@ function RenderPlayerMedicine(data) {
                 if (elem[vKey]) {
                     $(row).find(`#goToDocFile`).attr('href', `/media${elem[vKey]}`);
                     $(row).find(`#goToDocFile`).removeClass('d-none');
+                    $(row).find(`#downloadDocFile`).attr('href', `/media${elem[vKey]}`);
+                    $(row).find(`#downloadDocFile`).removeClass('d-none');
                 } else {
                     $(row).find(`#goToDocFile`).addClass('d-none');
                     $(row).find(`#goToDocFile`).attr('href', '#');
+                    $(row).find(`#downloadDocFile`).addClass('d-none');
+                    $(row).find(`#downloadDocFile`).attr('href', '#');
                 }
             } else {
                 $(row).find(`[name="${vKey}"]`).val(elem[vKey] ? elem[vKey] : "");
@@ -203,6 +209,17 @@ function RenderPlayerMedicine(data) {
     $('#medicineEditModal').find('.med-edit').prop('disabled', true);
     $('#medicineEditModal').find('#goToPlayerCard > :not(.no)').css({'width': "18px", 'height': "18px"});
     $('#medicineEditModal').modal('show');
+}
+
+function DownloadDocFile(url) {
+    let a = document.createElement("a");
+    a.href = url;
+    let fileName = url.split("/").pop();
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
 }
 
 
@@ -434,5 +451,11 @@ $(function() {
         if ($(e.target).is('button') || $(e.target).is('i')) {return;}
         let cTableBody = $(e.currentTarget).parent().parent().find('tbody');
         $(cTableBody).find('tr').toggleClass('hide-row');
+    });
+
+    $('#medicineEditModal').on('click', '#downloadDocFile', (e) => {
+        e.preventDefault();
+        let cUrl = $(e.currentTarget).attr('href');
+        DownloadDocFile(cUrl);
     });
 });
