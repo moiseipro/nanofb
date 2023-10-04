@@ -444,7 +444,8 @@ def GET_get_medicine_json(request, cur_user, cur_team, is_for_table=True, return
                 recovery_period = medicine_diagnosis[0].recovery_period
                 doctor_name = medicine_diagnosis[0].doctor_user_id.personal.full_name
             if medicine_access != None and medicine_access.exists() and medicine_access[0].id != None:
-                med_access = get_by_language_code(medicine_access[0].access.translation_names, request.LANGUAGE_CODE)
+                if medicine_access[0].access:
+                    med_access = get_by_language_code(medicine_access[0].access.translation_names, request.LANGUAGE_CODE)
             player_birthsday = ""
             try:
                 if isinstance(player.card.birthsday, date):
