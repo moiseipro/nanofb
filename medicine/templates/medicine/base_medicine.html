@@ -38,10 +38,8 @@
                                 <table id="medicine" class="table table-sm table-striped table-bordered dataTable" style="width:100%;">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
                                             <th>Фамилия</th>
                                             <th>Имя</th>
-                                            <th>Отчество</th>
                                             <th class="border-black-left">Д.Р.</th>
                                             <th>№</th>
                                             <th title="Травма"><i class="fa fa-medkit text-danger" aria-hidden="true"></i></th>
@@ -106,7 +104,7 @@
                                     <thead>
                                         <tr class="custom-table-hd" style="font-size: 15px;">
                                             <th class="text-left" colspan="8"><p class="hd-title my-0">Диагноз</p></th>
-                                            <th class="text-right">
+                                            <th class="text-center">
                                                 <button type="button" class="btn btn-sm btn-success med-edit add-new" name="disease">
                                                     <i class="fa fa-plus" aria-hidden="true"></i>
                                                 </button>
@@ -164,14 +162,13 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <hr class="custom-hr my-0">
                             </div>
                             <div class="mb-3">
                                 <table id="treatmentTable" class="table table-striped table-hover table-bordered compact hover mb-0">
                                     <thead>
                                         <tr class="custom-table-hd" style="font-size: 15px;">
                                             <th class="text-left" colspan="4"><p class="hd-title my-0">Лечение</p></th>
-                                            <th class="text-right">
+                                            <th class="text-center">
                                                 <button type="button" class="btn btn-sm btn-success med-edit add-new" name="treatment">
                                                     <i class="fa fa-plus" aria-hidden="true"></i>
                                                 </button>
@@ -202,14 +199,13 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <hr class="custom-hr my-0">
                             </div>
                             <div class="mb-3">
                                 <table id="documentTable" class="table table-striped table-hover table-bordered compact hover mb-0">
                                     <thead>
                                         <tr class="custom-table-hd" style="font-size: 15px;">
                                             <th class="text-left" colspan="4"><p class="hd-title my-0">Документ</p></th>
-                                            <th class="text-right">
+                                            <th class="text-center">
                                                 <button id="" type="button" class="btn btn-sm btn-success med-edit add-new" name="document">
                                                     <i class="fa fa-plus" aria-hidden="true"></i>
                                                 </button>
@@ -226,7 +222,10 @@
                                             </td>
                                             <td width="300" title="" class="">
                                                 <input name="doc" class="form-control-sm med-edit" type="file" value="" disabled="">
-                                                <a target="_blank" href="#" id="goToDocFile" title="Скачать / просмотреть файл" class="btn btn-sm btn-secondary d-none">
+                                                <a target="_blank" href="#" id="goToDocFile" title="Просмотреть файл" class="btn btn-sm btn-secondary d-none">
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </a>
+                                                <a target="_blank" href="#" id="downloadDocFile" title="Скачать файл" class="btn btn-sm btn-secondary d-none">
                                                     <i class="fa fa-download" aria-hidden="true"></i>
                                                 </a>
                                             </td>
@@ -239,14 +238,13 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <hr class="custom-hr my-0">
                             </div>
                             <div class="mb-3">
                                 <table id="noteTable" class="table table-striped table-hover table-bordered compact hover mb-0">
                                     <thead>
                                         <tr class="custom-table-hd" style="font-size: 15px;">
                                             <th class="text-left" colspan="4"><p class="hd-title my-0">Записи</p></th>
-                                            <th class="text-right">
+                                            <th class="text-center">
                                                 <button type="button" class="btn btn-sm btn-success med-edit add-new" name="note">
                                                     <i class="fa fa-plus" aria-hidden="true"></i>
                                                 </button>
@@ -278,7 +276,6 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <hr class="custom-hr my-0">
                             </div>
                         </div>
                     </div>
