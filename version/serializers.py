@@ -42,7 +42,7 @@ class CustomGroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomGroup
         fields = [
-            'translation_name', 'order_column', 'section', 'tree_depth', 'text_id'
+            'translation_name', 'parent_group', 'section', 'text_id'
         ]
 
 

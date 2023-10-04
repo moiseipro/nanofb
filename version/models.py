@@ -62,21 +62,18 @@ class CustomGroup(models.Model):
         null=True,
         blank=True
     )
-    order_column = models.IntegerField(
-        default=0,
+    parent_group = models.IntegerField(
+        default=-1,
         null=False,
-        blank=False
+        blank=False,
+        verbose_name=_('Parent group'),
+        help_text=_("If it is child access, select parent"),
     )
     section = models.ForeignKey(
         Section,
         null=True,
         blank=True,
         on_delete=models.SET_NULL
-    )
-    tree_depth = models.IntegerField(
-        default=0,
-        blank=False,
-        null=False
     )
     text_id = models.CharField(blank=True, max_length=25, null=True)
 

@@ -7,15 +7,19 @@ $(window).on("load", function () {
         let table_block = '.tab-pane.show .table-block'
         let target = '.tab-pane.show '+$(this).attr('data-target');
         let col = 12
-        $('.only-selected').removeClass('active')
+        if($(this).hasClass('active')){
+            $(this).removeClass('active')
+        } else {
+            $('.only-selected').removeClass('active')
+            $(this).addClass('active')
+            col -= parseInt($(target).attr('data-col'));
+        }
         $('.function-block').collapse('hide')
-        $(this).addClass('active')
-        col -= parseInt($(target).attr('data-col'));
         $(table_block).removeClass('col-'+$(table_block).attr('curr-col'))
         $(table_block).attr('curr-col', col)
         $(table_block).addClass('col-'+col)
         try {
-        users_table.columns.adjust();
+            users_table.columns.adjust();
         } catch {
 
         }

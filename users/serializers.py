@@ -289,12 +289,12 @@ class UserManagementSerializer(serializers.ModelSerializer):
             teams = user.club_id.team_limit
             players = user.club_id.player_limit
         else:
-            if user.p_version is not None:
-                teams = user.p_version.team_limit
-                players = user.p_version.player_limit
-            else:
-                teams = user.team_limit
-                players = user.player_limit
+            # if user.p_version is not None:
+            #     teams = user.p_version.team_limit
+            #     players = user.p_version.player_limit
+            # else:
+            teams = user.team_limit
+            players = user.player_limit
         data += str(teams) + ' / ' + str(players)
         return data
 
