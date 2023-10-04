@@ -415,8 +415,28 @@ class MedicineDiseaseSpecific(AbstractReference, MixTranslateReference):
         verbose_name = _('Medicine disease specific')
         verbose_name_plural = _('Medicine disease specific')
 
+class MedicineDiseaseSpecificUser(AbstractReference, MixTranslateReference, MixUserReference):
+    class Meta(AbstractReference.Meta):
+        verbose_name = _('Medicine disease specific')
+        verbose_name_plural = _('Medicine disease specific')
+
+class MedicineDiseaseSpecificClub(AbstractReference, MixTranslateReference, MixClubReference):
+    class Meta(AbstractReference.Meta):
+        verbose_name = _('Medicine disease specific')
+        verbose_name_plural = _('Medicine disease specific')
+
 
 class MedicineDiseaseNonSpecific(AbstractReference, MixTranslateReference):
+    class Meta(AbstractReference.Meta):
+        verbose_name = _('Medicine disease nonspecific')
+        verbose_name_plural = _('Medicine disease nonspecific')
+
+class MedicineDiseaseNonSpecificUser(AbstractReference, MixTranslateReference, MixUserReference):
+    class Meta(AbstractReference.Meta):
+        verbose_name = _('Medicine disease nonspecific')
+        verbose_name_plural = _('Medicine disease nonspecific')
+
+class MedicineDiseaseNonSpecificClub(AbstractReference, MixTranslateReference, MixClubReference):
     class Meta(AbstractReference.Meta):
         verbose_name = _('Medicine disease nonspecific')
         verbose_name_plural = _('Medicine disease nonspecific')

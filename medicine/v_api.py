@@ -6,6 +6,7 @@ from django.forms.models import model_to_dict
 from django.db.models import Q
 from references.models import UserTeam, ClubTeam
 from references.models import MedicineDiagnosisType, MedicineDiseaseSpecific, MedicineDiseaseNonSpecific
+from references.models import MedicineDiseaseSpecificUser, MedicineDiseaseSpecificClub, MedicineDiseaseNonSpecificUser, MedicineDiseaseNonSpecificClub
 from references.models import MedicineTreatmentType, MedicineNoteType, MedicineAccessType
 from players.models import UserPlayer, ClubPlayer
 from medicine.models import UserMedicineDiagnosis, ClubMedicineDiagnosis, UserMedicineTreatment, ClubMedicineTreatment
@@ -13,8 +14,8 @@ from medicine.models import UserMedicineDocument, ClubMedicineDocument, UserMedi
 from medicine.models import UserMedicineAccess, ClubMedicineAccess
 from nanofootball.views import util_check_access
 
-
 LANG_CODE_DEFAULT = "en"
+
 
 def get_by_language_code(value, code):
     """
@@ -41,6 +42,31 @@ def get_by_language_code(value, code):
         except:
             pass
     return res
+
+
+def set_by_language_code(elem, code, value, value2 = None):
+    """
+    Return edited object as dict where key: language code, value: string text.
+
+    :param elem: Field of current model. Usually it defined as title, name or description.
+    :type elem: [Model.field]
+    :param code: String key of any language. For example: "engilsh" -> "en", "russian" -> "ru".
+    :type code: [str]
+    :param value: New value for returned dictionary.
+    :type value: [str]
+    :param value2: Additional value for replace "value".
+    :type value2: [str] or None
+    :return: Object which is field of the Model.
+    :rtype: [object]
+
+    """
+    if value2:
+        value = value2 if value2 != "" else value
+    if type(elem) is dict:
+        elem[code] = value
+    else:
+        elem = {code: value}
+    return elem
 
 
 def set_value_as_int(value, def_value = None):
@@ -86,7 +112,7 @@ def set_refs_translations(data, lang_code):
     return data
 
 
-def get_medicine_refs(request):
+def get_medicine_refs(request, c_user):
     """
     Return data of Medicine' References with translations.
 
@@ -98,8 +124,12 @@ def get_medicine_refs(request):
     """
     refs = {}
     refs['med_diagnosis_type'] = MedicineDiagnosisType.objects.filter().values()
-    refs['med_disease_specific'] = MedicineDiseaseSpecific.objects.filter().values()
-    refs['med_disease_nonspecific'] = MedicineDiseaseNonSpecific.objects.filter().values()
+    if request.user.club_id is not None:
+        refs['med_disease_specific'] = MedicineDiseaseSpecificClub.objects.filter(club_id=request.user.club_id).values()
+        refs['med_disease_nonspecific'] = MedicineDiseaseNonSpecificClub.objects.filter(club_id=request.user.club_id).values()
+    else:
+        refs['med_disease_specific'] = MedicineDiseaseSpecificUser.objects.filter(user_id=c_user).values()
+        refs['med_disease_nonspecific'] = MedicineDiseaseNonSpecificUser.objects.filter(user_id=c_user).values()
     refs['med_treatment_type'] = MedicineTreatmentType.objects.filter().values()
     refs['med_note_type'] = MedicineNoteType.objects.filter().values()
     refs['med_access_type'] = MedicineAccessType.objects.filter().values()
@@ -107,7 +137,7 @@ def get_medicine_refs(request):
     return refs
 
 
-def transform_med_value(name, value):
+def transform_med_value(name, value, request, c_user):
     tmp_val = -1
     if name == "diagnosis_type":
         try:
@@ -120,13 +150,19 @@ def transform_med_value(name, value):
             tmp_val = int(value)
         except:
             pass
-        value = MedicineDiseaseSpecific.objects.filter(id=tmp_val).first()
+        if request.user.club_id is not None:
+            value = MedicineDiseaseSpecificClub.objects.filter(id=tmp_val, club_id=request.user.club_id).first()
+        else:
+            value = MedicineDiseaseSpecificUser.objects.filter(id=tmp_val, user_id=c_user).first()
     if name == "disease_nonspecific":
         try:
             tmp_val = int(value)
         except:
             pass
-        value = MedicineDiseaseNonSpecific.objects.filter(id=tmp_val).first()
+        if request.user.club_id is not None:
+            value = MedicineDiseaseNonSpecificClub.objects.filter(id=tmp_val, club_id=request.user.club_id).first()
+        else:
+            value = MedicineDiseaseNonSpecificUser.objects.filter(id=tmp_val, user_id=c_user).first()
     if name == "healthy_status":
         value = value == '1'
     if name == "note_type":
@@ -252,7 +288,7 @@ def POST_edit_medicine(request, cur_user, cur_team):
             doc_file = request.FILES['doc']
             c_med.doc = doc_file
         else:
-            c_value = transform_med_value(c_name, c_value)
+            c_value = transform_med_value(c_name, c_value, request, cur_user)
             setattr(c_med, c_name, c_value)
         c_med.save()
         return JsonResponse({"data": {'id': c_med.id}, "success": True}, status=200)
@@ -317,6 +353,115 @@ def POST_delete_medicine(request, cur_user, cur_team):
         return JsonResponse({"data": {}, "success": True}, status=200)
     except Exception as e:
         return JsonResponse({"errors": f"Can't delete med obj. ({e})"}, status=400)
+
+
+def POST_edit_med_disease_one(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on POST operation "Edit medicine's disease one".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
+    med_disease_id = -1
+    try:
+        med_disease_id = int(request.POST.get("id", -1))
+    except:
+        pass
+    med_disease_name = request.POST.get("name", "")
+    med_disease_type = request.POST.get("type", "")
+    med_to_delete = 0
+    try:
+        med_to_delete = int(request.POST.get("delete", 0))
+    except:
+        pass
+    c_med_disease = None
+    if med_disease_type == "specific":
+        if request.user.club_id is not None:
+            c_med_disease = MedicineDiseaseSpecificClub.objects.filter(id=med_disease_id, club_id=request.user.club_id).first()
+            if c_med_disease is None:
+                c_med_disease = MedicineDiseaseSpecificClub(club_id=request.user.club_id)
+        else:
+            c_med_disease = MedicineDiseaseSpecificUser.objects.filter(id=med_disease_id, user_id=cur_user).first()
+            if c_med_disease is None:
+                c_med_disease = MedicineDiseaseSpecificUser(user_id=cur_user)
+    elif med_disease_type == "nonspecific":
+        if request.user.club_id is not None:
+            c_med_disease = MedicineDiseaseNonSpecificClub.objects.filter(id=med_disease_id, club_id=request.user.club_id).first()
+            if c_med_disease is None:
+                c_med_disease = MedicineDiseaseNonSpecificClub(club_id=request.user.club_id)
+        else:
+            c_med_disease = MedicineDiseaseNonSpecificUser.objects.filter(id=med_disease_id, user_id=cur_user).first()
+            if c_med_disease is None:
+                c_med_disease = MedicineDiseaseNonSpecificUser(user_id=cur_user)
+    if med_to_delete == 1:
+        try:
+            c_med_disease.delete()
+            return JsonResponse({"data": "[deleted]", "success": True}, status=200)
+        except Exception as e:
+            return JsonResponse({"errors": f"Can't delete med obj. ({e})"}, status=400)
+    else:
+        try:
+            c_med_disease.name = med_disease_name
+            c_med_disease.translation_names = set_by_language_code(c_med_disease.translation_names, request.LANGUAGE_CODE, med_disease_name)
+            c_med_disease.save()
+            return JsonResponse({"data": {'id': c_med_disease.id}, "success": True}, status=200)
+        except Exception as e:
+            return JsonResponse({"errors": f"Can't edit / create med obj. ({e})"}, status=400)
+
+
+def POST_change_order_med_diseases(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on POST operation "Change medicine's diseases ordering".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
+    status = True
+    ids_data = request.POST.getlist("ids_arr[]", [])
+    ordering_data = request.POST.getlist("order_arr[]", [])
+    c_type = request.POST.get("type", "")
+    logs_arr = []
+    for c_ind in range(len(ids_data)):
+        t_id = -1
+        t_order = 0
+        try:
+            t_id = int(ids_data[c_ind])
+            t_order = int(ordering_data[c_ind])
+        except:
+            pass
+        found_param = None
+        if c_type == "specific":
+            if request.user.club_id is not None:
+                found_param = MedicineDiseaseSpecificClub.objects.filter(id=t_id, club_id=request.user.club_id).first()
+            else:
+                found_param = MedicineDiseaseSpecificUser.objects.filter(id=t_id, user_id=cur_user).first()
+        elif c_type == "nonspecific":
+            if request.user.club_id is not None:
+                found_param = MedicineDiseaseNonSpecificClub.objects.filter(id=t_id, club_id=request.user.club_id).first()
+            else:
+                found_param = MedicineDiseaseNonSpecificUser.objects.filter(id=t_id, user_id=cur_user).first()
+        if found_param and found_param.id != None:
+            found_param.order = t_order
+            try:
+                found_param.save()
+                logs_arr.append(f'Folder [{found_param.id}] is order changed: {t_order}')
+            except Exception as e:
+                logs_arr.append(f'Folder [{found_param.id}] -> ERROR / Not access or another reason')
+    return JsonResponse({"success": status, "type": c_type, "logs": logs_arr}, status=200)
 
 
 
@@ -574,3 +719,42 @@ def GET_get_player_medicine(request, cur_user, cur_team):
             res_data['player_access'] = {}
         return JsonResponse({"data": res_data, "success": True}, status=200)
     return JsonResponse({"errors": "Player not found.", "success": False}, status=400)
+
+
+def GET_get_med_all_diseases(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on GET operation "Get all medicine diseases with by type".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
+    c_type = request.GET.get("type", "")
+    if not util_check_access(cur_user, {
+        'perms_user': ["medicine.view_usermedicinediagnosis"], 
+        'perms_club': ["medicine.view_clubmedicinediagnosis"]
+    }):
+        return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    res_data = []
+    found_elements = None
+    if c_type == "specific":
+        if request.user.club_id is not None:
+            found_elements = MedicineDiseaseSpecificClub.objects.filter(club_id=request.user.club_id)
+        else:
+            found_elements = MedicineDiseaseSpecificUser.objects.filter(user_id=cur_user)
+    elif c_type == "nonspecific":
+        if request.user.club_id is not None:
+            found_elements = MedicineDiseaseNonSpecificClub.objects.filter(club_id=request.user.club_id)
+        else:
+            found_elements = MedicineDiseaseNonSpecificUser.objects.filter(user_id=cur_user)
+    if found_elements:
+        for elem in found_elements:
+            e_name = get_by_language_code(elem.translation_names, request.LANGUAGE_CODE)
+            res_data.append({'id': elem.id, 'name': e_name})
+    return JsonResponse({"data": res_data, "success": True}, status=200)
