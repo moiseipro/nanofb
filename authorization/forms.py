@@ -182,14 +182,14 @@ class NewUserForm(UserCreationForm):
             'class': 'form-control form-control-sm',
             'placeholder': _('Password Confirmation')
         }))
-    p_version = forms.ModelChoiceField(
-        required=True,
-        label=False,
-        empty_label=_("Select the program version"),
-        queryset=Version.objects.all(),
-        widget=forms.Select(attrs={
-            'class': 'form-control form-control-sm'
-        }))
+    # p_version = forms.ModelChoiceField(
+    #     required=True,
+    #     label=False,
+    #     empty_label=_("Select the program version"),
+    #     queryset=Version.objects.all(),
+    #     widget=forms.Select(attrs={
+    #         'class': 'form-control form-control-sm'
+    #     }))
     distributor = forms.CharField(
         required=False,
         label=False,
@@ -201,13 +201,13 @@ class NewUserForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ["p_version", "email", "password", "personal", "distributor"]
+        fields = ["email", "password", "personal", "distributor"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper.layout = Layout(
             Row(
-                Column('p_version', css_class='form-group col-md-12 mb-0'),
+                #Column('p_version', css_class='form-group col-md-12 mb-0'),
                 Column('email', css_class='form-group col-md-12 mb-0'),
                 Column('password', css_class='form-group col-md-12 mb-0'),
                 Column('password2', css_class='form-group col-md-12 mb-0'),

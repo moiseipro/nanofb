@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-04 12:52+0300\n"
+"POT-Creation-Date: 2023-10-05 13:14+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1926,10 +1926,6 @@ msgstr "Пароль"
 msgid "Password Confirmation"
 msgstr "Подтверждение пароля"
 
-#: .\authorization\forms.py:188
-msgid "Select the program version"
-msgstr "Выберите версию программы"
-
 #: .\authorization\serializers.py:30 .\clubs\serializers.py:39
 msgid "Unable to create account."
 msgstr "Не удается создать учетную запись."
@@ -1938,6 +1934,37 @@ msgstr "Не удается создать учетную запись."
 #: .\authorization\templates\authorization\activate.html:18
 msgid "Activate"
 msgstr "Активировать"
+
+#: .\authorization\templates\authorization\activate.html:21
+msgid "Information"
+msgstr "Информация"
+
+#: .\authorization\templates\authorization\activate.html:28
+msgid "Completion of activation"
+msgstr "Завершение активации"
+
+#: .\authorization\templates\authorization\activate.html:35
+msgid ""
+"For the full configuration and choice of the version of the program, our "
+"administrator will contact you."
+msgstr ""
+"Для полной настройки и выбора версии программы наш администратор свяжется с "
+"вами."
+
+#: .\authorization\templates\authorization\activate.html:36
+msgid "You can contact the administrator by number: "
+msgstr "Вы можете связаться с администратором по номеру: "
+
+#: .\authorization\templates\authorization\activate.html:40
+msgid "Login page"
+msgstr "Страница авторизации"
+
+#: .\authorization\templates\authorization\activate.html:41
+#: .\clubs\templates\clubs\modules\management_clubs.html:11
+#: .\trainings\templates\trainings\training_video.html:26
+#: .\users\templates\users\modules\management_client.html:11
+msgid "Close"
+msgstr "Закрыть"
 
 #: .\authorization\templates\authorization\forgot_password.html:5
 #: .\authorization\templates\authorization\reset_password.html:5
@@ -2080,10 +2107,6 @@ msgstr "Если у вас уже есть учетная запись, "
 msgid "login"
 msgstr "авторизоваться"
 
-#: .\authorization\templates\authorization\register.html:28
-msgid "instead"
-msgstr "вместо"
-
 #: .\authorization\templates\authorization\reset_password.html:18
 #: .\authorization\templates\authorization\reset_password.html:19
 msgid "New password"
@@ -2116,6 +2139,10 @@ msgstr "Неверный адрес электронной почты!"
 #: .\authorization\views.py:129 .\clubs\views.py:84 .\users\views.py:120
 msgid "Registration success!"
 msgstr "Регистрация прошла успешно!"
+
+#: .\authorization\views.py:130
+msgid "A letter was sent to the mail to confirm."
+msgstr "На почту было отправлено письмо для подтверждения."
 
 #: .\clubs\apps.py:8
 #: .\federations\templates\federations\federation_panel.html:23
@@ -2342,12 +2369,6 @@ msgstr "Регистрация на сайте Nanofootball"
 msgid "To log in to the site, use this data."
 msgstr "Чтобы войти на сайт, используйте эти данные."
 
-#: .\clubs\templates\clubs\modules\management_clubs.html:11
-#: .\trainings\templates\trainings\training_video.html:26
-#: .\users\templates\users\modules\management_client.html:11
-msgid "Close"
-msgstr "Закрыть"
-
 #: .\clubs\templates\clubs\modules\management_clubs.html:14
 #: .\trainings\templates\trainings\view_lite_training.html:27
 #: .\trainings\templates\trainings\view_training.html:27
@@ -2501,10 +2522,8 @@ msgid "Name of the microcycle. The maximum length is 80 characters"
 msgstr "Название микроцикла. Максимальная длина - 80 символов"
 
 #: .\events\models.py:104
-#, fuzzy
-#| msgid "Name of the microcycle. The maximum length is 80 characters"
 msgid "Goal of the microcycle. The maximum length is 80 characters"
-msgstr "Название микроцикла. Максимальная длина - 80 символов"
+msgstr "Цель микроцикла. Максимальная длина - 80 символов"
 
 #: .\events\models.py:110 .\references\models.py:145 .\references\models.py:177
 #: .\references\templates\references\base_settings.html:73
@@ -4053,10 +4072,8 @@ msgid "Clients Management"
 msgstr "Управление клиентами"
 
 #: .\users\templates\users\base_clients.html:29
-#, fuzzy
-#| msgid "Users"
 msgid "User"
-msgstr "Пользователи"
+msgstr "Пользователь"
 
 #: .\users\templates\users\base_clients.html:39
 #: .\users\templates\users\modules\user_table_settings.html:8
@@ -4346,11 +4363,11 @@ msgstr "Переведенное название группы"
 
 #: .\version\models.py:69
 msgid "Parent group"
-msgstr ""
+msgstr "Родительская группа"
 
 #: .\version\models.py:70
 msgid "If it is child access, select parent"
-msgstr ""
+msgstr "Если это дочерний доступ, выберите родительский"
 
 #: .\version\models.py:84
 msgid "Custom group params"
@@ -4413,6 +4430,8 @@ msgid ""
 "The groups this version belongs to. A version will get all permissions "
 "granted to each of their groups."
 msgstr ""
+"Группы, к которым принадлежит эта версия. Версия получит все разрешения "
+"предоставленные каждой из их групп."
 
 #: .\version\models.py:154
 msgid "Specific permissions for this version."
@@ -4610,6 +4629,12 @@ msgstr "Видео / Анимация"
 #: .\video\templates\video\video_card.html:141
 msgid "Animation"
 msgstr "Анимация"
+
+#~ msgid "Select the program version"
+#~ msgstr "Выберите версию программы"
+
+#~ msgid "instead"
+#~ msgstr "вместо"
 
 #~ msgid "Open user profile"
 #~ msgstr "Профиль пользователя"

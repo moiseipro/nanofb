@@ -25,7 +25,7 @@
             {% crispy register_form %}
             <button id="registration-button" class="w-100 btn btn-lg btn-primary mt-3" type="button">{% trans "Sign up"%}</button>
 {#        </form>#}
-        <p class="text-center">{% trans "If you already have an account, "%}<a href="{% url 'authorization:login' %}">{% trans "login"%}</a> {% trans "instead"%}.</p>
+        <p class="text-center" style="font-size: 18px">{% trans "If you already have an account, "%}<a href="{% url 'authorization:login' %}">{% trans "login"%}</a>.</p>
     </main>
 {% endblock %}
 

@@ -113,7 +113,7 @@ class AuthorizationUserViewSet(UserViewSet):
             personal=serializer_personal.data['id'],
             email=request.data['email'],
             password=request.data['password'],
-            p_version=request.data['p_version'],
+            #p_version=request.data['p_version'],
             distributor=distributor,
             is_active=False
         )
@@ -126,6 +126,7 @@ class AuthorizationUserViewSet(UserViewSet):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
 
-        res_data = {'registration': _("Registration success!")}
+        res_data = {'registration': _("Registration success!"),
+                    'registration_text': _('A letter was sent to the mail to confirm.')}
         res_data.update(serializer.data)
         return Response(res_data, status=status.HTTP_201_CREATED, headers=headers)

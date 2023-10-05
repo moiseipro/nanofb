@@ -24,7 +24,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
     distributor = serializers.CharField()
 
     personal = serializers.PrimaryKeyRelatedField(queryset=UserPersonal.objects.all())
-    p_version = serializers.PrimaryKeyRelatedField(queryset=Version.objects.all())
+    #p_version = serializers.PrimaryKeyRelatedField(queryset=Version.objects.all())
 
     default_error_messages = {
         "cannot_create_user": _('Unable to create account.')
@@ -32,7 +32,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['email', 'password', "personal", "p_version", "distributor", "is_active"]
+        fields = ['email', 'password', "personal", "distributor", "is_active"]
 
     def perform_create(self, validated_data):
         with transaction.atomic():

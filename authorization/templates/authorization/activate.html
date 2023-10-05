@@ -17,7 +17,32 @@
             <input type="hidden" name="token" value="{{ token }}">
             <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">{% trans 'Activate' %}</button>
         </form>
+        <button id="information-button" type="button" class="btn btn-lg btn-block btn-warning mt-2 d-none" data-toggle="modal" data-target="#informationModalCenter">
+            {% trans 'Information' %}
+        </button>
     </main>
+    <div class="modal fade" id="informationModalCenter" tabindex="-1" role="dialog" aria-labelledby="informationModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="informationModalCenterLongTitle">{% trans 'Completion of activation' %}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        {% trans 'For the full configuration and choice of the version of the program, our administrator will contact you.' %}<br>
+                        {% trans 'You can contact the administrator by number: ' %}<br> <b>+7 909 150-33-22</b>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-info" href="{% url 'authorization:login' %}">{% trans "Login page"%}</a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'Close' %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block custom_scripts %}

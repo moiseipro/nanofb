@@ -15,11 +15,11 @@ from references.models import UserSeason, UserTeam, ClubSeason, ClubTeam, ExsAdd
 from references.serializers import UserTeamsSerializer, UserSeasonsSerializer, ExsAdditionalDataSerializer, \
     PlayerProtocolStatusSerializer, ClubTeamsSerializer, ClubSeasonsSerializer, TrainingSpaceSerializer, \
     TrainingAdditionalDataSerializer, ClubExsAdditionalDataSerializer, UserExsAdditionalDataSerializer
+from users.models import User
+from system_icons.views import get_ui_elements
+
 
 # REST PERMISSIONS
-from users.models import User
-
-
 class ReferencePermissions(DjangoModelPermissions):
     perms_map = {
         'GET': ['%(app_label)s.view_%(model_name)s'],
@@ -243,6 +243,7 @@ class SettingsView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['team_form'] = CreateTeamForm
         context['season_form'] = CreateSeasonForm
+        context['ui_elements'] = get_ui_elements(self.request)
         return context
     pass
 

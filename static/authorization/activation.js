@@ -12,6 +12,8 @@ $(window).on('load', function () {
             success: function (data) {
                 console.log(data)
                 swal(gettext('Activation'), gettext('Account activated')+'!', "success");
+                $('#information-button').removeClass('d-none')
+                $('#informationModalCenter').modal('show')
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log(jqXHR)

@@ -15,8 +15,8 @@ async function ajax_authorization(method, data, action = '', id = '', func = '')
         success: function(data){
             console.log(data)
             if (data == undefined || data == '') return;
-            if ('registration' in data){
-                swal(data['registration'], '', "success");
+            if ('registration' in data && 'registration_text' in data){
+                swal(data['registration'], data['registration_text'], "success");
             }
         },
         error: function(jqXHR, textStatus, errorThrown){
