@@ -43,7 +43,7 @@ def medicine(request):
     except:
         pass
     medicine = []
-    refs = v_api.get_medicine_refs(request)
+    refs = v_api.get_medicine_refs(request, cur_user[0])
     return render(request, 'medicine/base_medicine.html', {
         'medicine': medicine,
         'refs': refs,
@@ -76,6 +76,8 @@ def medicine_api(request):
     if request.method == "POST" and is_ajax:
         edit_medicine_status = 0
         delete_medicine_status = 0
+        edit_med_disease_one_status = 0
+        change_order_med_diseases_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         if not cur_user.exists() or cur_user[0].id == None:
@@ -92,16 +94,29 @@ def medicine_api(request):
             delete_medicine_status = int(request.POST.get("delete_medicine", 0))
         except:
             pass
+        try:
+            edit_med_disease_one_status = int(request.POST.get("edit_med_disease_one", 0))
+        except:
+            pass
+        try:
+            change_order_med_diseases_status = int(request.POST.get("change_order_med_diseases", 0))
+        except:
+            pass
         if edit_medicine_status == 1:
             return v_api.POST_edit_medicine(request, cur_user[0], cur_team)
         elif delete_medicine_status == 1:
             return v_api.POST_delete_medicine(request, cur_user[0], cur_team)
+        elif edit_med_disease_one_status == 1:
+            return v_api.POST_edit_med_disease_one(request, cur_user[0], cur_team)
+        elif change_order_med_diseases_status == 1:
+            return v_api.POST_change_order_med_diseases(request, cur_user[0], cur_team)
         return JsonResponse({"errors": "access_error"}, status=400)
     elif request.method == "GET" and is_ajax:
         get_medicine_status = 0
         get_medicine_json_status = 0
         get_medicine_json_table_status = 0
         get_player_medicine_status = 0
+        get_med_all_diseases_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         if not cur_user.exists() or cur_user[0].id == None:
@@ -126,6 +141,10 @@ def medicine_api(request):
             get_player_medicine_status = int(request.GET.get("get_player_medicine", 0))
         except:
             pass
+        try:
+            get_med_all_diseases_status = int(request.GET.get("get_med_all_diseases", 0))
+        except:
+            pass
         if get_medicine_status == 1:
             return v_api.GET_get_medicine(request, cur_user[0], cur_team)
         elif get_medicine_json_status == 1:
@@ -134,6 +153,8 @@ def medicine_api(request):
             return v_api.GET_get_medicine_json(request, cur_user[0], cur_team, True)
         elif get_player_medicine_status == 1:
             return v_api.GET_get_player_medicine(request, cur_user[0], cur_team)
+        elif get_med_all_diseases_status == 1:
+            return v_api.GET_get_med_all_diseases(request, cur_user[0], cur_team)
         return JsonResponse({"errors": "access_error"}, status=400)
     else:
         return JsonResponse({"errors": "access_error"}, status=400)

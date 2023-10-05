@@ -100,6 +100,13 @@ $(window).on('load', function (){
         $('#exerciseTagsModal').modal();
     });
 
+    $('#medicineDiseaseSpecificRef').on('click', (e) => {
+        $('#medicineDiseaseSpecificModal').modal();
+    });
+    $('#medicineDiseaseNonSpecificRef').on('click', (e) => {
+        $('#medicineDiseaseNonSpecificModal').modal();
+    });
+
 });
 
 

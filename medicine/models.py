@@ -4,6 +4,7 @@ from django.utils.translation import pgettext_lazy as _p
 from users.models import User
 from players.models import UserPlayer, ClubPlayer
 from references.models import MedicineDiagnosisType, MedicineDiseaseSpecific, MedicineDiseaseNonSpecific
+from references.models import MedicineDiseaseSpecificUser, MedicineDiseaseSpecificClub, MedicineDiseaseNonSpecificUser, MedicineDiseaseNonSpecificClub
 from references.models import MedicineTreatmentType, MedicineNoteType, MedicineAccessType
 from django.utils import timezone
 
@@ -24,8 +25,8 @@ class AbstractMedicineDiagnosis(models.Model):
         default=timezone.now
     )
     diagnosis_type = models.ForeignKey(MedicineDiagnosisType, on_delete=models.SET_NULL, null=True, blank=True)
-    disease_specific = models.ForeignKey(MedicineDiseaseSpecific, on_delete=models.SET_NULL, null=True, blank=True)
-    disease_nonspecific = models.ForeignKey(MedicineDiseaseNonSpecific, on_delete=models.SET_NULL, null=True, blank=True)
+    # disease_specific = models.ForeignKey(MedicineDiseaseSpecific, on_delete=models.SET_NULL, null=True, blank=True)
+    # disease_nonspecific = models.ForeignKey(MedicineDiseaseNonSpecific, on_delete=models.SET_NULL, null=True, blank=True)
     diagnosis = models.CharField(
         max_length=255,
         verbose_name=_('diagnosis'),
@@ -56,12 +57,16 @@ class AbstractMedicineDiagnosis(models.Model):
 
 class UserMedicineDiagnosis(AbstractMedicineDiagnosis):
     player = models.ForeignKey(UserPlayer, on_delete=models.SET_NULL, null=True, blank=True)
+    disease_specific = models.ForeignKey(MedicineDiseaseSpecificUser, on_delete=models.SET_NULL, null=True, blank=True)
+    disease_nonspecific = models.ForeignKey(MedicineDiseaseNonSpecificUser, on_delete=models.SET_NULL, null=True, blank=True)
     class Meta:
         abstract = False
 
 
 class ClubMedicineDiagnosis(AbstractMedicineDiagnosis):
     player = models.ForeignKey(ClubPlayer, on_delete=models.SET_NULL, null=True, blank=True)
+    disease_specific = models.ForeignKey(MedicineDiseaseSpecificClub, on_delete=models.SET_NULL, null=True, blank=True)
+    disease_nonspecific = models.ForeignKey(MedicineDiseaseNonSpecificClub, on_delete=models.SET_NULL, null=True, blank=True)
     class Meta:
         abstract = False
 
