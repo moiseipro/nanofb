@@ -41,9 +41,10 @@ function load_group_data(id = -1) {
             let user_group = data['data']
 
             for (var available_value of available_group) {
-                //console.log(user_value)
+                console.log(available_value)
                 let permission_row = ''
                 let is_active = false
+                let can_check = false
 
                 for (var user_value of user_group) {
                     if (available_value.id == user_value.id) {
@@ -52,22 +53,32 @@ function load_group_data(id = -1) {
                     }
                 }
 
+                if (available_value.permissions.length != 0){
+                    can_check = true
+                }
+
                 if (available_value.customgroup.parent_group == -1){
                     let section_row = $(`#permission-block .section-row[data-section="${available_value.id}"]`)
                     if (section_row.length == 0){
+                        let check_html = ``
+                        if(can_check){
+                            check_html = `
+                            <div class="col-3 px-0 border text-center">
+                                <div class="form-check">
+                                    <input type="checkbox" name="group_value" value="${available_value.id}" class="form-check-input position-static check-permission" id="group_${available_value.id}" ${is_active? 'checked' : ''}>
+                                </div>
+                            </div>
+                            `
+                        }
                         permission_panel.append(
                             `
                             <div class="row section-row" data-section="${available_value.id}">
                                 <div class="col-12">
                                     <div class="row bg-light text-dark">
-                                        <div class="col-9 pl-2 pr-0 font-weight-bold border text-nowrap text-truncate">
+                                        <div class="${can_check ? 'col-9' : 'col-12'} pl-2 pr-0 font-weight-bold border text-nowrap text-truncate">
                                             <span class="float-left">${available_value.name}</span>
                                         </div>
-                                        <div class="col-3 px-0 border text-center">
-                                            <div class="form-check">
-                                                <input type="checkbox" name="group_value" value="${available_value.id}" class="form-check-input position-static check-permission" id="group_${available_value.id}" ${is_active? 'checked' : ''}>
-                                            </div>
-                                        </div>
+                                        ${check_html}                                        
                                     </div>
                                 </div>
                                 <div class="col-12 permission-col">
@@ -85,6 +96,7 @@ function load_group_data(id = -1) {
                 //console.log(user_value)
                 let permission_row = ''
                 let is_active = false
+                let can_check = false
 
                 for (var user_value of user_group) {
                     if (available_value.id == user_value.id) {
@@ -93,17 +105,27 @@ function load_group_data(id = -1) {
                     }
                 }
 
+                if (available_value.permissions.length != 0){
+                    can_check = true
+                }
+
+                let check_html = ``
+                if(can_check){
+                    check_html = `
+                    <div class="col-3 px-0 border text-center">
+                        <div class="form-check">
+                            <input type="checkbox" name="group_value" value="${available_value.id}" class="form-check-input position-static check-permission" id="group_${available_value.id}" ${is_active? 'checked' : ''}>
+                        </div>
+                    </div>
+                    `
+                }
                 permission_row +=
                     `
                     <div class="row permission-row" data-id="${available_value.id}">
-                        <div class="col-9 pl-2 pr-0 border text-nowrap text-truncate">
+                        <div class="${can_check ? 'col-9' : 'col-12'} pl-2 pr-0 border text-nowrap text-truncate">
                             <span class="float-left">${available_value.name}</span>
                         </div>
-                        <div class="col-3 px-0 border text-center">
-                            <div class="form-check">
-                                <input type="checkbox" name="group_value" value="${available_value.id}" class="form-check-input position-static check-permission" id="group_${available_value.id}" ${is_active? 'checked' : ''}>
-                            </div>
-                        </div>
+                        ${check_html}
                     </div>
                     
                     `

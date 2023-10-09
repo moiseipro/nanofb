@@ -76,6 +76,11 @@ class CustomGroup(models.Model):
         on_delete=models.SET_NULL
     )
     text_id = models.CharField(blank=True, max_length=25, null=True)
+    order = models.IntegerField(
+        default=0,
+        null=False,
+        blank=False,
+    )
 
     def __str__(self):
         return self.group.name
