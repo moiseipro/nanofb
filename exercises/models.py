@@ -227,6 +227,11 @@ class AbstractExercise(models.Model):
     class Meta():
         abstract = True
         ordering = ['order']
+        permissions = (
+            ("view_category_u_big", "View exercises with category <U>"),
+            ("view_category_u_small", "View exercises with category <u>"),
+            ("view_category_u_PRO", "View exercises with category <PRO>"),
+        )
     def __str__(self):
         return f"[id: {self.id}]"
 

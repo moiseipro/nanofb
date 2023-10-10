@@ -541,7 +541,8 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
     filter_age = -1
     filter_players = -1
     filter_pro = -1
-    filter_academy = -1
+    filter_u_big = -1
+    filter_u_small = -1
     try:
         if req.method == "GET":
             filter_goal = int(req.GET.get("filter[goal]", -1))
@@ -622,9 +623,16 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
         pass
     try:
         if req.method == "GET":
-            filter_academy = int(req.GET.get("filter[academy]", -1))
+            filter_u_big = int(req.GET.get("filter[u_big]", -1))
         elif req.method == "POST":
-            filter_academy = int(req.POST.get("filter[academy]", -1))
+            filter_u_big = int(req.POST.get("filter[u_big]", -1))
+    except:
+        pass
+    try:
+        if req.method == "GET":
+            filter_u_small = int(req.GET.get("filter[u_small]", -1))
+        elif req.method == "POST":
+            filter_u_small = int(req.POST.get("filter[u_small]", -1))
     except:
         pass
     f_exercises = []
@@ -757,9 +765,13 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
         f_exercises = f_exercises.filter(
             Q(field_categories__icontains="pro") 
         )
-    if filter_academy != -1:
+    if filter_u_big != -1:
         f_exercises = f_exercises.filter(
-            Q(field_categories__icontains="academy") 
+            Q(field_categories__icontains="u_big") 
+        )
+    if filter_u_small != -1:
+        f_exercises = f_exercises.filter(
+            Q(field_categories__icontains="u_small") 
         )
     if count_for_tag:
         f_exercises = f_exercises.filter(tags__lowercase_name__in=[count_for_tag]).distinct()
