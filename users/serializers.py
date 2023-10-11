@@ -12,7 +12,7 @@ from users.models import User, UserPersonal, TrainerLicense
 from django_countries.serializer_fields import CountryField
 from django.utils.translation import gettext_lazy as _
 
-from version.serializers import VersionSerializer, SectionSerializer, GroupSerializer
+from version.serializers import VersionSerializer, GroupSerializer
 
 
 class TrainerLicenseSerializer(serializers.Serializer):
@@ -69,9 +69,16 @@ class UserEditSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'id', 'email', 'club_id', 'p_version', 'registration_to', 'is_archive', 'is_demo_mode', 'distributor',
-            'team_limit', 'player_limit'
+            'id', 'email', 'club_id', 'p_version', 'is_archive', 'distributor'
         ]
+
+
+class UserAdminEditSerializer(UserEditSerializer):
+
+    class Meta(UserEditSerializer.Meta):
+        pass
+
+    Meta.fields += ('registration_to', 'is_demo_mode', 'team_limit', 'player_limit', 'is_superuser')
 
 
 class UserPersonalSerializer(serializers.ModelSerializer):
@@ -96,7 +103,8 @@ class UserAllDataSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'id', 'email', 'club_id', 'p_version', 'date_last_login', 'date_joined', 'days_entered', 'is_active',
-            'registration_to', 'personal', 'is_archive', 'is_demo_mode', 'distributor', 'team_limit', 'player_limit'
+            'registration_to', 'personal', 'is_archive', 'is_demo_mode', 'distributor', 'team_limit', 'player_limit',
+            'is_superuser'
         ]
 
 

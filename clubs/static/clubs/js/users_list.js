@@ -56,10 +56,10 @@ function generate_ajax_club_users_table(scroll_y = ''){
                 return `<span class="text-truncate" title="${data}"> ${data ? data : '---'} </span>`;
             }},
             {'data': 'license_date', 'name': 'license_date', 'defaultContent': "---"},
-            {'data': 'email', 'name': 'email'},
-            {'data': 'phone', 'name': 'phone', 'defaultContent': "---", render: function (data, type, row, meta) {
-                return `<div class="text-truncate" title="${data}"> ${data ? data : '---'} </div>`;
-            }},
+            // {'data': 'email', 'name': 'email'},
+            // {'data': 'phone', 'name': 'phone', 'defaultContent': "---", render: function (data, type, row, meta) {
+            //     return `<div class="text-truncate" title="${data}"> ${data ? data : '---'} </div>`;
+            // }},
             {'data': 'is_archive', "name": "is_archive", render: function (data, type, row, meta) {
                 let button_html = `<div class="w-100 text-center" title="">`
                 button_html += `<button type="button" class="btn btn-sm btn-outline-dark mx-1 archive-user py-0 ${data==1?'active text-danger':''}" data-id="${row.id}"><i class="fa fa-flag" aria-hidden="true"></i></button>`

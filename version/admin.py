@@ -1,5 +1,6 @@
 from decimal import Decimal
 
+from adminsortable2.admin import SortableAdminMixin
 from django.contrib import admin
 from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
 from django.contrib.auth.models import Group
@@ -43,6 +44,13 @@ class GroupInline(admin.StackedInline):
 
 class GroupAdmin(BaseGroupAdmin):
     inlines = (GroupInline,)
+
+
+@admin.register(CustomGroup)
+class CustomGroupAdmin(SortableAdminMixin, admin.ModelAdmin):
+    ordering = ['order']
+    list_display = ["group", "translation_name", "is_admin", "parent_group", "text_id", "order"]
+    list_editable = ["is_admin", "parent_group", "text_id"]
 
 
 # Re-register GroupAdmin

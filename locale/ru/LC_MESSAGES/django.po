@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-05 13:14+0300\n"
+"POT-Creation-Date: 2023-10-11 11:44+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1908,7 +1908,6 @@ msgstr "Лицензия до"
 
 #: .\authorization\forms.py:167
 #: .\authorization\templates\authorization\forgot_password.html:16
-#: .\clubs\templates\clubs\users_table.html:16
 #: .\users\templates\users\base_profile.html:102
 #: .\users\templates\users\forms\add-user-form.html:100
 #: .\users\templates\users\forms\edit-user-form.html:9
@@ -2157,8 +2156,8 @@ msgstr "Клубы"
 msgid "Country"
 msgstr "Страна"
 
-#: .\clubs\forms.py:108 .\clubs\templates\clubs\users_table.html:17
-#: .\users\models.py:127 .\users\templates\users\forms\add-user-form.html:45
+#: .\clubs\forms.py:108 .\users\models.py:127
+#: .\users\templates\users\forms\add-user-form.html:45
 #: .\users\templates\users\forms\edit-personal-form.html:41
 #: .\users\templates\users\modules\user_table.html:18
 #: .\users\templates\users\modules\user_table_settings.html:98
@@ -2168,7 +2167,7 @@ msgstr "Телефон"
 #: .\clubs\models.py:17 .\federations\models.py:14 .\references\models.py:17
 #: .\references\templates\references\base_settings.html:52
 #: .\references\templates\references\base_settings.html:71 .\users\models.py:29
-#: .\version\models.py:128 .\video\models.py:17 .\video\models.py:28
+#: .\version\models.py:133 .\video\models.py:17 .\video\models.py:28
 msgid "title"
 msgstr "Название"
 
@@ -2201,7 +2200,7 @@ msgstr "Федерация"
 msgid "The federation the club is a member of"
 msgstr "Федерация, к которой принадлежит клуб"
 
-#: .\clubs\models.py:42 .\federations\models.py:30 .\version\models.py:143
+#: .\clubs\models.py:42 .\federations\models.py:30 .\version\models.py:148
 msgid "groups"
 msgstr "группы"
 
@@ -2213,7 +2212,7 @@ msgstr ""
 "Группы, к которым принадлежит этот клуб. Клуб получит все разрешения, "
 "предоставленныекаждой из их групп."
 
-#: .\clubs\models.py:51 .\federations\models.py:39 .\version\models.py:152
+#: .\clubs\models.py:51 .\federations\models.py:39 .\version\models.py:157
 msgid "permissions"
 msgstr "доступы"
 
@@ -2413,19 +2412,19 @@ msgstr "Должность"
 msgid "New personal profile data is saved!"
 msgstr "Новые данные личного профиля сохранены!"
 
-#: .\clubs\views.py:138 .\users\views.py:169
+#: .\clubs\views.py:138 .\users\views.py:172
 msgid "User data is saved!"
 msgstr "Данные пользователя сохранены!"
 
-#: .\clubs\views.py:190 .\users\views.py:236
+#: .\clubs\views.py:190 .\users\views.py:239
 msgid "New password on the Nanofootball website"
 msgstr "Новый пароль на сайте Nanofootball"
 
-#: .\clubs\views.py:196 .\users\views.py:242
+#: .\clubs\views.py:196 .\users\views.py:245
 msgid "A new password has been sent to the mail!"
 msgstr "На почту отправлен новый пароль!"
 
-#: .\clubs\views.py:202 .\users\views.py:248
+#: .\clubs\views.py:202 .\users\views.py:251
 msgid "Password generation error!"
 msgstr "Ошибка генерации пароля!"
 
@@ -2503,8 +2502,8 @@ msgstr "заметки"
 msgid "Notes to the event."
 msgstr "Заметки к событию"
 
-#: .\events\models.py:40 .\medicine\models.py:21 .\medicine\models.py:45
-#: .\medicine\models.py:78 .\medicine\models.py:119 .\medicine\models.py:160
+#: .\events\models.py:40 .\medicine\models.py:22 .\medicine\models.py:46
+#: .\medicine\models.py:83 .\medicine\models.py:124 .\medicine\models.py:165
 msgid "Date and time"
 msgstr "Дата и время"
 
@@ -2693,7 +2692,7 @@ msgstr "Дни"
 msgid "Load"
 msgstr "Нагрузка"
 
-#: .\events\views.py:140 .\events\views.py:177 .\users\views.py:383
+#: .\events\views.py:140 .\events\views.py:177 .\users\views.py:386
 msgid "Not chosen"
 msgstr "Не выбрано"
 
@@ -2861,11 +2860,11 @@ msgstr "Добавить клуб"
 msgid "Federation information"
 msgstr "Информация федерации"
 
-#: .\federations\views.py:163 .\users\views.py:325
+#: .\federations\views.py:163 .\users\views.py:328
 msgid "A club with this subdomain already exists!"
 msgstr "Клуб с этим субдоменом уже существует!"
 
-#: .\federations\views.py:173 .\users\views.py:335
+#: .\federations\views.py:173 .\users\views.py:338
 msgid "Create club success!"
 msgstr "Создание клуба успешно!"
 
@@ -2971,49 +2970,49 @@ msgstr "Матч"
 msgid "No team selected"
 msgstr "Команда не выбрана"
 
-#: .\medicine\models.py:15 .\medicine\models.py:72 .\medicine\models.py:113
-#: .\medicine\models.py:154 .\medicine\models.py:195
+#: .\medicine\models.py:16 .\medicine\models.py:77 .\medicine\models.py:118
+#: .\medicine\models.py:159 .\medicine\models.py:200
 msgid "doctor"
 msgstr "врач"
 
-#: .\medicine\models.py:22 .\medicine\models.py:79 .\medicine\models.py:120
-#: .\medicine\models.py:161
+#: .\medicine\models.py:23 .\medicine\models.py:84 .\medicine\models.py:125
+#: .\medicine\models.py:166
 msgid "Date and time of this medicine"
 msgstr "Дата и время приема этого лекарства"
 
-#: .\medicine\models.py:31
+#: .\medicine\models.py:32
 msgid "diagnosis"
 msgstr "диагноз"
 
-#: .\medicine\models.py:32
+#: .\medicine\models.py:33
 msgid "Venue of the diagnosis."
 msgstr "Место постановки диагноза."
 
-#: .\medicine\models.py:38
+#: .\medicine\models.py:39
 msgid "recovery period"
 msgstr "восстановительный период"
 
-#: .\medicine\models.py:39
+#: .\medicine\models.py:40
 msgid "Venue of the recovery period."
 msgstr "Место проведения восстановительного периода."
 
-#: .\medicine\models.py:46
+#: .\medicine\models.py:47
 msgid "Date and time of healthy status"
 msgstr "Дата и время состояния здоровья"
 
-#: .\medicine\models.py:86 .\medicine\models.py:126
+#: .\medicine\models.py:91 .\medicine\models.py:131
 msgid "treatment"
 msgstr "лечение"
 
-#: .\medicine\models.py:87 .\medicine\models.py:127
+#: .\medicine\models.py:92 .\medicine\models.py:132
 msgid "Venue of the treatment."
 msgstr "Место проведения лечения."
 
-#: .\medicine\models.py:168 .\trainings\models.py:273
+#: .\medicine\models.py:173 .\trainings\models.py:273
 msgid "note"
 msgstr "примечание"
 
-#: .\medicine\models.py:169
+#: .\medicine\models.py:174
 msgid "Venue of the note."
 msgstr "Место написания справки."
 
@@ -3022,27 +3021,27 @@ msgstr "Место написания справки."
 msgid "Medicine"
 msgstr "Медицина"
 
-#: .\nanofb\settings.py:251
+#: .\nanofb\settings.py:252
 msgid "Russian"
 msgstr "Русский"
 
-#: .\nanofb\settings.py:252
+#: .\nanofb\settings.py:253
 msgid "English"
 msgstr "Английский"
 
-#: .\nanofb\settings.py:253
+#: .\nanofb\settings.py:254
 msgid "Portuguese"
 msgstr "Португальский"
 
-#: .\nanofb\settings.py:254
+#: .\nanofb\settings.py:255
 msgid "Spanish"
 msgstr "Испанский"
 
-#: .\nanofb\settings.py:255
+#: .\nanofb\settings.py:256
 msgid "German"
 msgstr "Немецкий"
 
-#: .\nanofb\settings.py:256
+#: .\nanofb\settings.py:257
 msgid "French"
 msgstr "Французский"
 
@@ -3528,34 +3527,38 @@ msgid "Medicine diagnosis types"
 msgstr "Типы диагнозов медицины"
 
 #: .\references\models.py:415 .\references\models.py:416
+#: .\references\models.py:420 .\references\models.py:421
+#: .\references\models.py:425 .\references\models.py:426
 msgid "Medicine disease specific"
 msgstr "Медицина заболевание специфическое"
 
-#: .\references\models.py:421 .\references\models.py:422
+#: .\references\models.py:431 .\references\models.py:432
+#: .\references\models.py:436 .\references\models.py:437
+#: .\references\models.py:441 .\references\models.py:442
 msgid "Medicine disease nonspecific"
 msgstr "Медицина заболевание неспецифическое"
 
-#: .\references\models.py:427
+#: .\references\models.py:447
 msgid "Medicine treatment type"
 msgstr "Тип медикаментозного лечения"
 
-#: .\references\models.py:428
+#: .\references\models.py:448
 msgid "Medicine treatment types"
 msgstr "Виды медикаментозного лечения"
 
-#: .\references\models.py:433
+#: .\references\models.py:453
 msgid "Medicine note type"
 msgstr "Тип медицинской справки"
 
-#: .\references\models.py:434
+#: .\references\models.py:454
 msgid "Medicine note types"
 msgstr "Типы медицинских справок"
 
-#: .\references\models.py:439
+#: .\references\models.py:459
 msgid "Medicine access type"
 msgstr "Тип доступа к медикаментам"
 
-#: .\references\models.py:440
+#: .\references\models.py:460
 msgid "Medicine access types"
 msgstr "Типы доступа к медикаментам"
 
@@ -3995,7 +3998,7 @@ msgstr "Дата регистрации"
 msgid "Last login date"
 msgstr "Дата последнего входа"
 
-#: .\users\models.py:283 .\users\templates\users\forms\edit-user-form.html:100
+#: .\users\models.py:283 .\users\templates\users\forms\edit-user-form.html:110
 #: .\users\templates\users\modules\user_table_settings.html:63
 msgid "Distributor"
 msgstr "Дистрибьютор"
@@ -4032,36 +4035,36 @@ msgstr "Платежная информация для бухгалтерии"
 msgid "User Payment Information card"
 msgstr "Карточка платежной информации пользователя"
 
-#: .\users\serializers.py:219
+#: .\users\serializers.py:227
 msgid "MA"
 msgstr ""
 
-#: .\users\serializers.py:221
+#: .\users\serializers.py:229
 msgid "CA"
 msgstr ""
 
-#: .\users\serializers.py:236
+#: .\users\serializers.py:244
 msgid "Active"
 msgstr "Активно"
 
-#: .\users\serializers.py:239 .\users\templates\users\base_profile.html:148
+#: .\users\serializers.py:247 .\users\templates\users\base_profile.html:148
 #: .\users\templates\users\modules\user_table_settings.html:51
 msgid "Archive"
 msgstr "Архив"
 
-#: .\users\serializers.py:243 .\users\templates\users\base_profile.html:152
+#: .\users\serializers.py:251 .\users\templates\users\base_profile.html:152
 msgid "Club license expired"
 msgstr "Клубная лицензия истекла"
 
-#: .\users\serializers.py:247 .\users\templates\users\base_profile.html:150
+#: .\users\serializers.py:255 .\users\templates\users\base_profile.html:150
 msgid "License expired"
 msgstr "Лицензия истекла"
 
-#: .\users\serializers.py:251
+#: .\users\serializers.py:259
 msgid "Not active"
 msgstr "Не активно"
 
-#: .\users\serializers.py:280
+#: .\users\serializers.py:288
 #: .\users\templates\users\modules\user_table.html:31
 #: .\users\templates\users\modules\user_table_settings.html:75
 msgid "Online"
@@ -4141,7 +4144,7 @@ msgid "License period"
 msgstr "Срок лицензии"
 
 #: .\users\templates\users\forms\add-user-form.html:128
-#: .\users\templates\users\forms\edit-user-form.html:90
+#: .\users\templates\users\forms\edit-user-form.html:100
 #: .\users\templates\users\modules\user_table.html:33
 #: .\users\templates\users\modules\user_table_settings.html:39
 #: .\users\templates\users\modules\user_table_settings.html:134
@@ -4162,7 +4165,7 @@ msgstr "Подтвердите пароль"
 
 #: .\users\templates\users\forms\edit-password-form.html:18
 #: .\users\templates\users\forms\edit-personal-form.html:142
-#: .\users\templates\users\forms\edit-user-form.html:118
+#: .\users\templates\users\forms\edit-user-form.html:128
 msgid "Save Changes"
 msgstr "Сохранить изменения"
 
@@ -4171,7 +4174,7 @@ msgid "If you change your password, you will need to log in again"
 msgstr "Если вы измените свой пароль, вам нужно будет снова войти в систему"
 
 #: .\users\templates\users\forms\edit-user-form.html:32
-#: .\users\templates\users\forms\edit-user-form.html:89
+#: .\users\templates\users\forms\edit-user-form.html:99
 msgid "Setting only for users without a club"
 msgstr "Настройка только для пользователей без клуба"
 
@@ -4180,18 +4183,22 @@ msgstr "Настройка только для пользователей без
 msgid "Setting only for users without club and version"
 msgstr "Настройка только для пользователей без клуба и версии"
 
-#: .\users\templates\users\forms\edit-user-form.html:73
+#: .\users\templates\users\forms\edit-user-form.html:74
+msgid "Main admin"
+msgstr "Главный админ"
+
+#: .\users\templates\users\forms\edit-user-form.html:83
 #: .\users\templates\users\modules\club_table.html:11
 #: .\users\templates\users\modules\user_table.html:32
 #: .\users\templates\users\modules\user_table_settings.html:128
 msgid "Registration"
 msgstr "Регистрация"
 
-#: .\users\templates\users\forms\edit-user-form.html:81
+#: .\users\templates\users\forms\edit-user-form.html:91
 msgid "Last login"
 msgstr "Последний вход"
 
-#: .\users\templates\users\forms\edit-user-form.html:110
+#: .\users\templates\users\forms\edit-user-form.html:120
 msgid "Demo version"
 msgstr "Демо версия"
 
@@ -4301,15 +4308,15 @@ msgstr "Обратитесь к вашему администратору для
 msgid "This Email not valid!"
 msgstr "Этот адрес электронной почты недействителен!"
 
-#: .\users\views.py:310
+#: .\users\views.py:313
 msgid "Password updated successfully"
 msgstr "Пароль успешно изменен"
 
-#: .\users\views.py:312
+#: .\users\views.py:315
 msgid "Wrong password"
 msgstr "Неверный пароль"
 
-#: .\version\admin.py:41
+#: .\version\admin.py:42
 msgid "custom groups"
 msgstr "настраиваемые группы"
 
@@ -4325,7 +4332,7 @@ msgstr "Название раздела"
 msgid "Section translated name"
 msgstr "Переведенное название раздела"
 
-#: .\version\models.py:26 .\version\models.py:158
+#: .\version\models.py:26 .\version\models.py:163
 msgid "tag"
 msgstr "тег"
 
@@ -4345,7 +4352,7 @@ msgstr "раздел"
 msgid "sections"
 msgstr "разделы"
 
-#: .\version\models.py:52 .\version\models.py:162
+#: .\version\models.py:52 .\version\models.py:167
 msgid "price"
 msgstr "цена"
 
@@ -4369,63 +4376,63 @@ msgstr "Родительская группа"
 msgid "If it is child access, select parent"
 msgstr "Если это дочерний доступ, выберите родительский"
 
-#: .\version\models.py:84
+#: .\version\models.py:88
 msgid "Custom group params"
 msgstr "Параметры настраевоемой группы"
 
-#: .\version\models.py:89
+#: .\version\models.py:94
 msgid "number of teams"
 msgstr "количество команд"
 
-#: .\version\models.py:90
+#: .\version\models.py:95
 msgid "limit on the number of teams"
 msgstr "ограничение на количество команд"
 
-#: .\version\models.py:94
+#: .\version\models.py:99
 msgid "number of players"
 msgstr "количество игроков"
 
-#: .\version\models.py:95
+#: .\version\models.py:100
 msgid "limit on the number of players in a team"
 msgstr "ограничение на количество игроков в команде"
 
-#: .\version\models.py:105
+#: .\version\models.py:110
 msgid "number of users"
 msgstr "количество пользователей"
 
-#: .\version\models.py:106
+#: .\version\models.py:111
 msgid "limit on the number of users"
 msgstr "ограничение на количество пользователей"
 
-#: .\version\models.py:116
+#: .\version\models.py:121
 msgid "number of clubs"
 msgstr "количество клубов"
 
-#: .\version\models.py:117
+#: .\version\models.py:122
 msgid "limit on the number of clubs"
 msgstr "ограничение на количество клубов"
 
-#: .\version\models.py:129
+#: .\version\models.py:134
 msgid "Version name"
 msgstr "Название версии"
 
-#: .\version\models.py:132
+#: .\version\models.py:137
 msgid "last update"
 msgstr "последнее обновление"
 
-#: .\version\models.py:133
+#: .\version\models.py:138
 msgid "Version update date"
 msgstr "Дата обновления версии"
 
-#: .\version\models.py:137
+#: .\version\models.py:142
 msgid "active"
 msgstr "активно"
 
-#: .\version\models.py:138
+#: .\version\models.py:143
 msgid "The version is active for user selection"
 msgstr "Версия активна для выбора пользователем"
 
-#: .\version\models.py:146
+#: .\version\models.py:151
 msgid ""
 "The groups this version belongs to. A version will get all permissions "
 "granted to each of their groups."
@@ -4433,23 +4440,23 @@ msgstr ""
 "Группы, к которым принадлежит эта версия. Версия получит все разрешения "
 "предоставленные каждой из их групп."
 
-#: .\version\models.py:154
+#: .\version\models.py:159
 msgid "Specific permissions for this version."
 msgstr "Особые разрешения для этой версии"
 
-#: .\version\models.py:159
+#: .\version\models.py:164
 msgid "Version tag"
 msgstr "Тег веосии"
 
-#: .\version\models.py:163
+#: .\version\models.py:168
 msgid "The cost of the version in the currency"
 msgstr "Стоимость версии в валюте"
 
-#: .\version\models.py:182
+#: .\version\models.py:187
 msgid "version"
 msgstr "версия"
 
-#: .\version\models.py:183
+#: .\version\models.py:188
 msgid "versions"
 msgstr "версии"
 

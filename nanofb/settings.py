@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_datatables',
     'rest_framework.authtoken',
+    'adminsortable2',
     'djoser',
     'taggit',
     'colorfield',
