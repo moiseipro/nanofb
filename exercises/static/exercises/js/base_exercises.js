@@ -344,20 +344,42 @@ function ToggleUpFilter(id, state) {
             }
             ToggleIconsInExs();
             break;
-        case "toggle_academy":
-            if (!state && !$('.up-tabs-elem[data-id="toggle_academy"]').hasClass('filtering')) {
-                $('.up-tabs-elem[data-id="toggle_academy"]').addClass('filtering');
-                $('.up-tabs-elem[data-id="toggle_academy"]').addClass('selected3');
-                $('.up-tabs-elem[data-id="toggle_academy"]').attr('data-state', 1);
-                window.exercisesFilter['academy'] = '1';
+        case "toggle_u_big":
+            if (!state && !$('.up-tabs-elem[data-id="toggle_u_big"]').hasClass('filtering')) {
+                $('.up-tabs-elem[data-id="toggle_u_big"]').addClass('filtering');
+                $('.up-tabs-elem[data-id="toggle_u_big"]').addClass('selected3');
+                $('.up-tabs-elem[data-id="toggle_u_big"]').attr('data-state', 1);
+                window.exercisesFilter['u_big'] = '1';
                 for (ind in window.count_exs_calls) {
                     window.count_exs_calls[ind]['call'].abort();
                 }
                 LoadFolderExercises();
                 CountExsInFolder();
-            } else if (!state && $('.up-tabs-elem[data-id="toggle_academy"]').hasClass('filtering')) {
-                $('.up-tabs-elem[data-id="toggle_academy"]').removeClass('filtering');
-                delete window.exercisesFilter['academy'];
+            } else if (!state && $('.up-tabs-elem[data-id="toggle_u_big"]').hasClass('filtering')) {
+                $('.up-tabs-elem[data-id="toggle_u_big"]').removeClass('filtering');
+                delete window.exercisesFilter['u_big'];
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            }
+            ToggleIconsInExs();
+            break;
+        case "toggle_u_small":
+            if (!state && !$('.up-tabs-elem[data-id="toggle_u_small"]').hasClass('filtering')) {
+                $('.up-tabs-elem[data-id="toggle_u_small"]').addClass('filtering');
+                $('.up-tabs-elem[data-id="toggle_u_small"]').addClass('selected3');
+                $('.up-tabs-elem[data-id="toggle_u_small"]').attr('data-state', 1);
+                window.exercisesFilter['u_small'] = '1';
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            } else if (!state && $('.up-tabs-elem[data-id="toggle_u_small"]').hasClass('filtering')) {
+                $('.up-tabs-elem[data-id="toggle_u_small"]').removeClass('filtering');
+                delete window.exercisesFilter['u_small'];
                 for (ind in window.count_exs_calls) {
                     window.count_exs_calls[ind]['call'].abort();
                 }
