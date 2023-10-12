@@ -115,7 +115,7 @@ function RenderArticles(articles) {
         let articleNum = $('.folders-group').find(`.article-elem[data-folder="${article.folder}"]`).length;
         let htmlStr = `
             <li class="list-group-item p-1 ${$(cFolder).hasClass('active') ? '' : 'd-none'}" data-type="article">
-                <div class="article-elem d-flex justify-content-between" data-id="${article.id}" data-folder="${article.folder}" data-parent="" data-title="${article.title}" data-favor="${article.favorite ? 1 : 0}">
+                <div class="article-elem d-flex justify-content-between" data-id="${article.id}" data-folder="${article.folder}" data-parent="" data-title="${article.title}" data-favor="${article.favorite ? 1 : 0}" data-num="${folderNum}.${(articleNum+1)}">
                     <div class="col-12 d-flex px-0">
                         <span class="w-100">
                             <span class="article-point mr-2">
@@ -126,7 +126,7 @@ function RenderArticles(articles) {
                                 ${article.title}
                             </span>
                         </span>
-                        <a href="#" class="param-option mr-1" data-id="favorite">
+                        <a href="#" class="param-option mr-1 d-none" data-id="favorite">
                             <span class="badge badge-pill bg-default-light">
                                 <span class="icon-custom i-favor ${article.favorite ? 'icon--favorite-selected' : 'icon--favorite'}" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                             </span>
@@ -707,9 +707,47 @@ $(function() {
         let cState = $(e.currentTarget).attr('data-state');
         switch(cId) {
             case "toggle_article_block":
-                $(e.currentTarget).toggleClass('active');
-                $('.row-content').find('.folders-wrapper').toggleClass('d-none', !$(e.currentTarget).hasClass('active'));
-                $('.row-content').find('.viewer-wrapper').toggleClass('w-100', !$(e.currentTarget).hasClass('active'));
+                if (cState == '1') {
+                    $(e.currentTarget).attr('data-state', '2');
+                    $(e.currentTarget).removeClass('active');
+                    $('.row-content').find('.folders-wrapper').addClass('d-none');
+                    $('.row-content').find('.viewer-wrapper').addClass('w-100');
+                    $('.row-content').find('.folders-wrapper').removeClass('w-sm-custom');
+                } else if (cState == '2') {
+                    $(e.currentTarget).attr('data-state', '0');
+                    $(e.currentTarget).addClass('active');
+                    $('.row-content').find('.folders-wrapper').removeClass('d-none');
+                    $('.row-content').find('.viewer-wrapper').removeClass('w-100');
+                    $('.row-content').find('.folders-wrapper').removeClass('w-sm-custom');
+                    $('.folders-group').find('.folder-elem').each((ind, elem) => {
+                        $(elem).find('.folder-title').html(`
+                            <span class="elem-num">${$(elem).attr('data-num')}</span>
+                            ${$(elem).attr('data-title')}
+                        `);
+                    });
+                    $('.folders-group').find('.article-elem').each((ind, elem) => {
+                        $(elem).find('.article-title').html(`
+                            <span class="elem-num">${$(elem).attr('data-num')}</span>
+                            ${$(elem).attr('data-title')}
+                        `);
+                    });
+                } else {
+                    $(e.currentTarget).attr('data-state', '1');
+                    $(e.currentTarget).addClass('active');
+                    $('.row-content').find('.folders-wrapper').removeClass('d-none');
+                    $('.row-content').find('.viewer-wrapper').addClass('w-100');
+                    $('.row-content').find('.folders-wrapper').addClass('w-sm-custom');
+                    $('.folders-group').find('.folder-elem').each((ind, elem) => {
+                        $(elem).find('.folder-title').html(`
+                            <span class="elem-num">${$(elem).attr('data-num')}</span>
+                        `);
+                    });
+                    $('.folders-group').find('.article-elem').each((ind, elem) => {
+                        $(elem).find('.article-title').html(`
+                            <span class="elem-num">${$(elem).attr('data-num')}</span>
+                        `);
+                    });
+                }
                 break;
             case "toggle_folders":
                 if (cState == '1') {
@@ -738,13 +776,18 @@ $(function() {
                 break;
             case "toggle_favorite":
                 if (cState == '1') {
+                    $(e.currentTarget).attr('data-state', '2');
+                    $(e.currentTarget).addClass('active');
+                    $('.row-content').find('.article-elem[data-favor!="1"]').parent().addClass('hide-elem');
+                } else if (cState == '2') {
                     $(e.currentTarget).attr('data-state', '0');
                     $(e.currentTarget).removeClass('active');
                     $('.row-content').find('.article-elem[data-favor!="1"]').parent().removeClass('hide-elem');
+                    $('.row-content').find('.article-elem').find('.param-option[data-id="favorite"]').addClass('d-none');
                 } else {
                     $(e.currentTarget).attr('data-state', '1');
                     $(e.currentTarget).addClass('active');
-                    $('.row-content').find('.article-elem[data-favor!="1"]').parent().addClass('hide-elem');
+                    $('.row-content').find('.article-elem').find('.param-option[data-id="favorite"]').removeClass('d-none');
                 }
                 break;
             case "add_folder":
