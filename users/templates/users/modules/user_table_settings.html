@@ -35,9 +35,9 @@
 {#            <div class="col-12 pb-1">#}
 {#                <input type="text" class="form-control user-table-filter datetimepickerfilter" data-toggle="datetimepicker" data-filter="registration-user-filter" placeholder="{% trans 'Registration' %}">#}
 {#            </div>#}
-            <div class="col-12 pb-1">
-                <input type="text" class="form-control user-table-filter datetimepickerfilter" data-toggle="datetimepicker" data-filter="access-user-filter" placeholder="{% trans 'Access to' %}">
-            </div>
+{#            <div class="col-12 pb-1">#}
+{#                <input type="text" class="form-control user-table-filter datetimepickerfilter" data-toggle="datetimepicker" data-filter="access-user-filter" placeholder="{% trans 'Access to' %}">#}
+{#            </div>#}
 
         </div>
     </div>
@@ -75,6 +75,12 @@
                 {% trans 'Online' %}
             </label>
         </div>
+        <div class="form-check">
+            <input class="form-check-input toggle-user-column user-table-filter" data-col="access-info-col" data-filter="access-user-filter" type="checkbox" value="true" id="access-check">
+            <label class="form-check-label" for="access-check">
+                {% trans 'Access to' %}
+            </label>
+        </div>
     </div>
     <div class="col-12" style="background: lightgrey">
         <span data-toggle="collapse" data-target="#col-admin-filters-block" style="cursor: pointer">{% trans 'Columns' %}</span>
@@ -83,7 +89,7 @@
         <div class="form-check">
             <input class="form-check-input toggle-user-column" data-col="lic-date-info-col" type="checkbox" value="" id="license-to-check">
             <label class="form-check-label" for="license-to-check">
-                {% trans 'License to' %}
+                {% trans 'License' %}
             </label>
         </div>
         <div class="form-check">
@@ -126,12 +132,6 @@
             <input class="form-check-input toggle-user-column" data-col="registration-info-col" type="checkbox" value="" id="registration-check">
             <label class="form-check-label" for="registration-check">
                 {% trans 'Registration' %}
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input toggle-user-column" data-col="access-info-col" type="checkbox" value="" id="access-check">
-            <label class="form-check-label" for="access-check">
-                {% trans 'Access to' %}
             </label>
         </div>
 {#        <div class="form-check">#}

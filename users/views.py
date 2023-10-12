@@ -264,7 +264,8 @@ class UserManagementApiView(viewsets.ModelViewSet):
 
         #users = User.objects.filter(club_id=request.user.club_id)
         users = User.objects.all().order_by('club_id', 'p_version')
-        #User.objects.filter(first_name__icontains=)
+        #User.objects.filter(club_id_id_=False)
+
         return users
 
 

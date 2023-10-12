@@ -1,7 +1,7 @@
 from datetime import date, timedelta, datetime
 from django.utils.timezone import now
 
-from django.contrib.auth.models import Permission
+from django.contrib.auth.models import Permission, Group
 from django.db.models import Q
 from django_filters import filters
 from rest_framework_datatables.django_filters.filterset import DatatablesFilterSet
@@ -29,6 +29,16 @@ class GlobalJoinDateFilter(GlobalFilter, filters.DateFilter):
                 qs = qs.distinct()
             print(date.today()-timedelta(days=3))
             qs = qs.filter(date_joined__gte=date.today()-timedelta(days=3))
+        return qs
+
+
+class GlobalAccessToFilter(GlobalFilter, filters.CharFilter):
+    def filter(self, qs, value):
+        if value:
+            if self.distinct:
+                qs = qs.distinct()
+            print(date.today()+timedelta(days=30))
+            qs = qs.filter(Q(club_id__isnull=True) & Q(registration_to__lte=date.today()+timedelta(days=30)))
         return qs
 
 
@@ -67,8 +77,8 @@ class GlobalAdminTypeFilter(GlobalFilter, filters.CharFilter):
         if value:
             if self.distinct:
                 qs = qs.distinct()
-            perm = Permission.objects.filter(codename__in=('club_admin', 'federation_admin'))
-            qs = qs.filter(Q(is_staff=True) | Q(is_superuser=True) | Q(user_permissions__in=perm))
+            perm = Group.objects.filter(permissions__codename__in=('club_admin', 'federation_admin'))
+            qs = qs.filter(Q(is_staff=True) | Q(is_superuser=True) | Q(groups__in=perm))
         return qs
 
 
@@ -143,6 +153,7 @@ class UserManagementGlobalFilter(DatatablesFilterSet):
     admin_type = GlobalAdminTypeFilter()
     is_archive = GlobalArchiveFilter()
     online = GlobalOnlineFilter()
+    access_to = GlobalAccessToFilter()
 
     date_birthsday = GlobalDateFilter(field_name='personal__date_birthsday')
     last_name = GlobalNameFilter(field_name='personal__last_name', lookup_expr='icontains')
@@ -150,7 +161,6 @@ class UserManagementGlobalFilter(DatatablesFilterSet):
     job_title = GlobalCharFilter(field_name='personal__job_title', lookup_expr='icontains')
     license = GlobalCharFilter(field_name='personal__license', lookup_expr='icontains')
     flag = GlobalFlagFilter(field_name='personal__country_id', lookup_expr='icontains')
-    license = GlobalCharFilter(field_name='personal__license', lookup_expr='icontains')
     license_date = GlobalDateFilter(field_name='personal__license_date')
     phone = GlobalCharFilter(field_name='personal__phone', lookup_expr='icontains')
     region = GlobalCharFilter(field_name='personal__region', lookup_expr='icontains')
@@ -165,4 +175,4 @@ class UserManagementGlobalFilter(DatatablesFilterSet):
     class Meta:
         #model = User
         fields = ['registration_to', 'date_birthsday', 'last_name', 'first_name', 'job_title', 'license', 'p_version',
-                  'club_id', 'distributor', 'is_archive', 'online']
+                  'club_id', 'distributor', 'is_archive', 'online', 'access_to']
