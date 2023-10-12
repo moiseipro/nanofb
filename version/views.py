@@ -35,7 +35,10 @@ class PermissionsApiView(viewsets.ReadOnlyModelViewSet):
         else:
             queryset = Group.objects.filter(customgroup__text_id="user")
 
+        if not self.request.user.is_superuser:
+            queryset = queryset.exclude(customgroup__is_admin=True)
 
+        queryset = queryset.order_by("customgroup__order")
         print(queryset)
 
         serializer = serializer_class(queryset, many=True)

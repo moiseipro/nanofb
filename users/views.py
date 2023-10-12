@@ -32,7 +32,7 @@ from users.forms import EditUserPersonalForm
 from users.models import User, UserPersonal, TrainerLicense
 from users.serializers import UserPersonalSerializer, ChangePasswordSerializer, UserSerializer, \
     UserManagementSerializer, UserEditSerializer, UserAllDataSerializer, CreateUserSerializer, \
-    CreateUserManagementSerializer, GroupSerializer
+    CreateUserManagementSerializer, GroupSerializer, UserAdminEditSerializer
 
 # Create your views here.
 from version.models import Version
@@ -161,7 +161,10 @@ class UserManagementApiView(viewsets.ModelViewSet):
     @action(detail=True, methods=['post'])
     def edit_user(self, request, pk=None):
         instance = User.objects.get(pk=pk)
-        serializer = UserEditSerializer(instance, data=self.request.data, partial=True)
+        if request.user.is_superuser:
+            serializer = UserAdminEditSerializer(instance, data=self.request.data, partial=True)
+        else:
+            serializer = UserEditSerializer(instance, data=self.request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             response = {
@@ -203,7 +206,7 @@ class UserManagementApiView(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['get'])
     def get_user_group(self, request, pk=None):
-        groups = User.objects.get(pk=pk).groups
+        groups = User.objects.get(pk=pk).groups.order_by("customgroup__order")
         print(groups.values())
         serializer = GroupSerializer(groups, many=True)
         #serializer.is_valid()
@@ -261,7 +264,8 @@ class UserManagementApiView(viewsets.ModelViewSet):
 
         #users = User.objects.filter(club_id=request.user.club_id)
         users = User.objects.all().order_by('club_id', 'p_version')
-        #User.objects.filter(first_name__icontains=)
+        #User.objects.filter(groups__=)
+
         return users
 
 

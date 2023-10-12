@@ -12,7 +12,7 @@ from users.models import User, UserPersonal, TrainerLicense
 from django_countries.serializer_fields import CountryField
 from django.utils.translation import gettext_lazy as _
 
-from version.serializers import VersionSerializer, SectionSerializer, GroupSerializer
+from version.serializers import VersionSerializer, GroupSerializer
 
 
 class TrainerLicenseSerializer(serializers.Serializer):
@@ -69,9 +69,16 @@ class UserEditSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'id', 'email', 'club_id', 'p_version', 'registration_to', 'is_archive', 'is_demo_mode', 'distributor',
-            'team_limit', 'player_limit'
+            'id', 'email', 'club_id', 'p_version', 'is_archive', 'distributor'
         ]
+
+
+class UserAdminEditSerializer(UserEditSerializer):
+
+    class Meta(UserEditSerializer.Meta):
+        pass
+
+    Meta.fields += ('registration_to', 'is_demo_mode', 'team_limit', 'player_limit', 'is_superuser')
 
 
 class UserPersonalSerializer(serializers.ModelSerializer):
@@ -96,7 +103,8 @@ class UserAllDataSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'id', 'email', 'club_id', 'p_version', 'date_last_login', 'date_joined', 'days_entered', 'is_active',
-            'registration_to', 'personal', 'is_archive', 'is_demo_mode', 'distributor', 'team_limit', 'player_limit'
+            'registration_to', 'personal', 'is_archive', 'is_demo_mode', 'distributor', 'team_limit', 'player_limit',
+            'is_superuser'
         ]
 
 
@@ -205,6 +213,8 @@ class UserManagementSerializer(serializers.ModelSerializer):
 
     teams_players_fact = serializers.SerializerMethodField()
 
+    access_to = serializers.SerializerMethodField()
+
     def get_license(self, user):
         license_name = ''
         if user.personal.trainer_license is not None:
@@ -309,11 +319,30 @@ class UserManagementSerializer(serializers.ModelSerializer):
         data += str(teams.count()) + ' / ' + str(players.count())
         return data
 
+    def get_access_to(self, user):
+        now = datetime.date.today()
+        if user.club_id is not None:
+            then = user.club_id.date_registration_to
+        else:
+            then = user.registration_to
+        if then is None:
+            return '...'
+        tdelta = then-now
+        days = tdelta.days
+        if days < 0:
+            return str(then) + ' (<span class="text-danger">' + str(days) + '</span>)'
+        if days <= 14:
+            return str(then) + ' (<span class="text-warning">' + str(days) + '</span>)'
+        elif days <= 30:
+            return str(then) + ' (<span class="text-info">' + str(days) + '</span>)'
+        else:
+            return str(then)
+
     class Meta:
         model = User
         fields = [
             'id', 'email', 'days_entered', 'is_active', 'admin_type', 'p_version', 'registration_to', 'groups',
-            'last_name', 'first_name', 'job_title', 'date_birthsday', 'age',
+            'last_name', 'first_name', 'job_title', 'date_birthsday', 'age', 'access_to',
             'trainer_license', 'license', 'license_date', 'flag', 'distributor', 'date_joined', 'club_title',
             'activation', 'club_name', 'club_registration_to', 'is_archive', 'date_joined', 'phone', 'date_last_login',
             'region', 'club_id', 'exercises', 'teams', 'online', 'teams_players', 'teams_players_fact'

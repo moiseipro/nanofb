@@ -184,16 +184,16 @@
 </li>
 {% endif %}
 {% if perms.trainings.view_usertraining or perms.trainings.view_clubtraining %}
-<li class="{{ menu_trainings }}">
-    <a href="{% url 'trainings:base_trainings' %}" class="btn disabled">
-        {% if ui_elements.sidebar__trainings %}
-            {{ ui_elements.sidebar__trainings }}
-        {% else %}
-            <i class="fa fa-calendar-o"></i>
-        {% endif %}
-        <span>{% trans 'Training' %}</span>
-    </a>
-</li>
+{#<li class="{{ menu_trainings }}">#}
+{#    <a href="{% url 'trainings:base_trainings' %}" class="btn disabled">#}
+{#        {% if ui_elements.sidebar__trainings %}#}
+{#            {{ ui_elements.sidebar__trainings }}#}
+{#        {% else %}#}
+{#            <i class="fa fa-calendar-o"></i>#}
+{#        {% endif %}#}
+{#        <span>{% trans 'Training' %}</span>#}
+{#    </a>#}
+{#</li>#}
 {% endif %}
 {% if perms.exercises.view_adminexercise or perms.exercises.view_userexercise or perms.exercises.view_clubexercise %}
 <li class="{{ menu_exercises }}">

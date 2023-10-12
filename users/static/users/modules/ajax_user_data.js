@@ -6,7 +6,7 @@ function load_user_data(id = -1) {
         let user = data.data
         for (const idKey in user) {
             $('.management-main-block select[name="'+idKey+'"]').val(user[idKey])
-            if (idKey == 'is_demo_mode'){
+            if (idKey == 'is_demo_mode' || idKey == 'is_superuser'){
                 $('.management-main-block input[name="'+idKey+'"]').prop('checked', user[idKey])
             } else {
                 $('.management-main-block input[name="'+idKey+'"]').val(user[idKey])

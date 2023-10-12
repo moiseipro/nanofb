@@ -35,14 +35,11 @@ class PermissionSerializer(serializers.ModelSerializer):
 
 
 class CustomGroupSerializer(serializers.ModelSerializer):
-    section = SectionSerializer(
-        read_only=True
-    )
 
     class Meta:
         model = CustomGroup
         fields = [
-            'translation_name', 'parent_group', 'section', 'text_id', 'order'
+            'translation_name', 'parent_group', 'is_admin', 'text_id', 'order'
         ]
 
 

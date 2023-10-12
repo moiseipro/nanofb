@@ -69,11 +69,10 @@ class CustomGroup(models.Model):
         verbose_name=_('Parent group'),
         help_text=_("If it is child access, select parent"),
     )
-    section = models.ForeignKey(
-        Section,
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL
+    is_admin = models.BooleanField(
+        default=False,
+        null=False,
+        blank=False,
     )
     text_id = models.CharField(blank=True, max_length=25, null=True)
     order = models.IntegerField(
@@ -87,6 +86,7 @@ class CustomGroup(models.Model):
 
     class Meta:
         verbose_name = _('Custom group params')
+        ordering = ['order']
 
 
 class Limitations(models.Model):

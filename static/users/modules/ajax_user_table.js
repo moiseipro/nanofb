@@ -114,25 +114,8 @@ function generate_ajax_users_table(scroll_y = ''){
                 return data;
             }},
 
-            {'data': 'registration_to', 'name': 'registration_to', 'defaultContent': "---", render: function (data, type, row, meta) {
-                console.log(row);
-                let date = '';
-                if('club_registration_to' in row && row.club_registration_to != '' && row.club_registration_to != null){
-                    date = row.club_registration_to;
-                } else {
-                    date = data;
-                }
-                let start = moment(date, "DD/MM/YYYY");
-                let end = moment();
-                let days = start.diff(end, "days");
-                let style = ''
-                if (days < 15){
-                    style = 'text-danger font-weight-bold'
-                } else if (days < 30){
-                    style = 'text-warning font-weight-bold'
-                }
-                console.log(days)
-                let html = `<div class="${style}">${date}</div>`
+            {'data': 'access_to', 'name': 'access_to', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
+                let html = `<div class="w-100 text-center"> ${data} </div>`;
                 return html;
             }},
             // {'data': 'days_entered', 'name': 'days_entered', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {

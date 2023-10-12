@@ -213,13 +213,20 @@ $(window).on("load", function () {
         if(!$('#edit-user-form').valid()) return
         let personal = $('#edit-user-form').serializeArray()
         let has_demo = false;
+        let is_super = false;
         for (const data of personal) {
             if (data.name=='is_demo_mode'){
                 has_demo = true;
             }
+            if (data.name=='is_superuser'){
+                is_super = true;
+            }
         }
         if (!has_demo){
             personal.push({name:'is_demo_mode', value:'off'})
+        }
+        if (!is_super){
+            personal.push({name:'is_superuser', value:'off'})
         }
         let send_data = personal
         console.log(send_data);
