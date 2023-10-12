@@ -38,7 +38,8 @@ class GlobalAccessToFilter(GlobalFilter, filters.CharFilter):
             if self.distinct:
                 qs = qs.distinct()
             print(date.today()+timedelta(days=30))
-            qs = qs.filter(Q(club_id__isnull=True) & Q(registration_to__lte=date.today()+timedelta(days=30)))
+            qs = qs.filter(Q(club_id__isnull=True) & Q(registration_to__lte=date.today()+timedelta(days=30))).order_by('registration_to')
+
         return qs
 
 
@@ -78,7 +79,8 @@ class GlobalAdminTypeFilter(GlobalFilter, filters.CharFilter):
             if self.distinct:
                 qs = qs.distinct()
             perm = Group.objects.filter(permissions__codename__in=('club_admin', 'federation_admin'))
-            qs = qs.filter(Q(is_staff=True) | Q(is_superuser=True) | Q(groups__in=perm))
+            qs = qs.filter(Q(is_staff=True) | Q(is_superuser=True) | Q(groups__in=perm)).distinct()
+            print(qs)
         return qs
 
 

@@ -329,10 +329,12 @@ class UserManagementSerializer(serializers.ModelSerializer):
             return '...'
         tdelta = then-now
         days = tdelta.days
-        if days <= 14:
+        if days < 0:
             return str(then) + ' (<span class="text-danger">' + str(days) + '</span>)'
-        elif days <= 30:
+        if days <= 14:
             return str(then) + ' (<span class="text-warning">' + str(days) + '</span>)'
+        elif days <= 30:
+            return str(then) + ' (<span class="text-info">' + str(days) + '</span>)'
         else:
             return str(then)
 
