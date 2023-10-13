@@ -1,8 +1,8 @@
 from django.shortcuts import redirect
 
 from references.models import UserTeam, ClubTeam, ClubSeason, UserSeason
-from datetime import date
-from django.utils.timezone import now
+from datetime import date, datetime
+from django.utils.timezone import now, localtime
 
 # The function of limiting the use of the program by subscription
 from users.models import User
@@ -47,7 +47,7 @@ class SetLastVisit:
     def __call__(self, request):
         if request.user.is_authenticated:
             # Update last visit time after request finished processing.
-            User.objects.filter(pk=request.user.pk).update(date_last_login=now())
+            User.objects.filter(pk=request.user.pk).update(date_last_login=datetime.now())
 
         response = self.get_response(request)
 
