@@ -18,6 +18,10 @@
     max-height: var(--h-max-x) !important;
 }
 
+.w-sm-custom {
+    width: 8% !important;
+}
+
 
 .split {
     display: flex;

@@ -31,25 +31,25 @@
         {% endif %}
         {% if perms.helper_football.view_userarticle or perms.helper_football.view_clubarticle %}
         <li class="{{ menu_helper_football }}">
-            <a href="{% url 'helper_football:helper_football' %}" class="nav-link">
+            <a href="{% url 'helper_football:helper_football' %}" class="nav-link" style="padding-left: 16px;">
                 {% if ui_elements.sidebar__helper_football %}
                     {{ ui_elements.sidebar__helper_football }}
                 {% else %}
                     <i class="fa fa-book"></i>
                 {% endif %}
-                <span class="pl-1">{% trans 'Helper' %} 1</span>
+                <span class="pl-2">{% trans 'Helper' %} 1</span>
             </a>
         </li>
         {% endif %}
         {% if perms.helper_site.view_userarticle or perms.helper_site.view_clubarticle %}
         <li class="{{ menu_helper_site }}">
-            <a href="{% url 'helper_site:helper_site' %}" class="nav-link">
+            <a href="{% url 'helper_site:helper_site' %}" class="nav-link" style="padding-left: 16px;">
                 {% if ui_elements.sidebar__helper_site %}
                     {{ ui_elements.sidebar__helper_site }}
                 {% else %}
                     <i class="fa fa-book"></i>
                 {% endif %}
-                <span class="pl-1">{% trans 'Helper' %} 2</span>
+                <span class="pl-2">{% trans 'Helper' %} 2</span>
             </a>
         </li>
         {% endif %}
