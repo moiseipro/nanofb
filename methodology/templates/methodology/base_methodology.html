@@ -27,6 +27,7 @@
                                     <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="toggle_favorite" data-state="0" title="Избранное" style="--w-max-x:5%;">
                                         <span class="icon-custom i-favor icon--favorite-selected" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                                     </button>
+                                    {% if perms.methodology.change_adminarticle and perms.methodology.delete_adminarticle %}
                                     <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="toggle_edit_options" title="Дополнительные опции" style="--w-max-x:5%;">
                                         <i class="fa fa-cog" aria-hidden="true"></i>
                                     </button>
@@ -38,6 +39,7 @@
                                     <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="add_article" title="Добавить новую статью" style="--w-max-x:5%;">
                                         <i class="fa fa-newspaper-o" aria-hidden="true"></i>
                                     </button>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
