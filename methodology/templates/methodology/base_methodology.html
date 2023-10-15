@@ -39,6 +39,9 @@
                                     <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="add_article" title="Добавить новую статью" style="--w-max-x:5%;">
                                         <i class="fa fa-newspaper-o" aria-hidden="true"></i>
                                     </button>
+                                    {% else %}
+                                    <input name="" class="form-control form-control-sm btn-block my-0 article-name" 
+                                        type="text" value="" placeholder="Название статьи" autocomplete="off" readonly="" style="cursor:default;">
                                     {% endif %}
                                 </div>
                             </div>
