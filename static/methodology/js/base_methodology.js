@@ -492,8 +492,6 @@ function RenderSplitCols() {
             localStorage.setItem('split_cols__methodology', JSON.stringify(window.dataForSplit));
         }
     });
-    let stateColSize = $('.row-header').find('button[data-id="toggle_columns_size"]').attr('data-state') == '1';
-    $('.row-content').find('div.gutter').toggleClass('d-none', !stateColSize);
 }
 
 function ChangeUserParam(elem, key, value) {
@@ -713,6 +711,7 @@ $(function() {
                     $('.row-content').find('.folders-wrapper').addClass('d-none');
                     $('.row-content').find('.viewer-wrapper').addClass('w-100');
                     $('.row-content').find('.folders-wrapper').removeClass('w-sm-custom');
+                    $('.row-content').find('div.gutter').addClass('d-none');
                 } else if (cState == '2') {
                     $(e.currentTarget).attr('data-state', '0');
                     $(e.currentTarget).addClass('active');
@@ -731,6 +730,7 @@ $(function() {
                             ${$(elem).attr('data-title')}
                         `);
                     });
+                    $('.row-content').find('div.gutter').removeClass('d-none');
                 } else {
                     $(e.currentTarget).attr('data-state', '1');
                     $(e.currentTarget).addClass('active');
@@ -747,6 +747,7 @@ $(function() {
                             <span class="elem-num">${$(elem).attr('data-num')}</span>
                         `);
                     });
+                    $('.row-content').find('div.gutter').removeClass('d-none');
                 }
                 break;
             case "toggle_folders":
@@ -762,17 +763,6 @@ $(function() {
                     $('.folders-group').find('li[data-type="article"]').removeClass('d-none');
                 }
                 UpdateSelectedFolders();
-                break;
-            case "toggle_columns_size":
-                if (cState == '1') {
-                    $(e.currentTarget).attr('data-state', '0');
-                    $(e.currentTarget).removeClass('active');
-                    $('.row-content').find('div.gutter').addClass('d-none');
-                } else {
-                    $(e.currentTarget).attr('data-state', '1');
-                    $(e.currentTarget).addClass('active');
-                    $('.row-content').find('div.gutter').removeClass('d-none');
-                }
                 break;
             case "toggle_favorite":
                 if (cState == '1') {
