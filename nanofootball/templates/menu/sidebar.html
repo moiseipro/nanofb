@@ -219,7 +219,7 @@
     </a>
 </li>
 {% endif %}
-{% if perms.players.view_userplayer or perms.players.view_clubplayer %}
+{% if perms.players.view_parents %}
 <li class="{{ menu_parents }}">
     <a href="{% url 'players:parents' %}" class="btn">
         {% if ui_elements.sidebar__parents %}

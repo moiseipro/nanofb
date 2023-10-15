@@ -1,5 +1,7 @@
 from statistics import mode
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+from django.utils.translation import pgettext_lazy as _p
 from django.utils import timezone
 from users.models import User
 from clubs.models import Club
@@ -66,6 +68,9 @@ class AbstractPlayer(models.Model):
     class Meta():
         abstract = True
         ordering = ['surname', 'name', 'patronymic']
+        permissions = [
+            ("view_parents", _("View section <Parents>")),
+        ]
 
     def __str__(self):
         return f"[id: {self.id}] {self.surname} {self.name} {self.patronymic}"

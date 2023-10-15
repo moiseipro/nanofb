@@ -1,5 +1,7 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.utils.translation import gettext_lazy as _
+from django.utils.translation import pgettext_lazy as _p
 from users.models import User
 from clubs.models import Club
 from references.models import UserTeam, ClubTeam, CustomTag
@@ -227,11 +229,11 @@ class AbstractExercise(models.Model):
     class Meta():
         abstract = True
         ordering = ['order']
-        permissions = (
-            ("view_category_u_big", "View exercises with category <U>"),
-            ("view_category_u_small", "View exercises with category <u>"),
-            ("view_category_u_PRO", "View exercises with category <PRO>"),
-        )
+        permissions = [
+            ("view_category_u_big", _("View exercises with category <U>")),
+            ("view_category_u_small", _("View exercises with category <u>")),
+            ("view_category_u_PRO", _("View exercises with category <PRO>")),
+        ]
     def __str__(self):
         return f"[id: {self.id}]"
 
