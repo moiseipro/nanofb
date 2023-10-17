@@ -59,17 +59,17 @@ class MicrocycleViewSet(viewsets.ModelViewSet):
             team = ClubTeam.objects.get(pk=self.request.session['team'], club_id=self.request.user.club_id)
             microcycles = ClubMicrocycles.objects.filter(
                 Q(team_id=team) &
-                (Q(date_by__range=[date_with, date_by]) | Q(date_with__range=[date_with, date_by])) |
+                ((Q(date_by__range=[date_with, date_by]) | Q(date_with__range=[date_with, date_by])) |
                 Q(date_with__lte=date_with) & Q(date_by__gte=date_with) |
-                Q(date_with__lte=date_by) & Q(date_by__gte=date_by)
+                Q(date_with__lte=date_by) & Q(date_by__gte=date_by))
             )
         else:
             team = UserTeam.objects.get(pk=self.request.session['team'])
             microcycles = UserMicrocycles.objects.filter(
                 Q(team_id=team) &
-                (Q(date_by__range=[date_with, date_by]) | Q(date_with__range=[date_with, date_by])) |
-                Q(date_with__lte=date_with) & Q(date_by__gte=date_with) |
-                Q(date_with__lte=date_by) & Q(date_by__gte=date_by)
+                ((Q(date_by__range=[date_with, date_by]) | Q(date_with__range=[date_with, date_by])) |
+                 Q(date_with__lte=date_with) & Q(date_by__gte=date_with) |
+                 Q(date_with__lte=date_by) & Q(date_by__gte=date_by))
             )
 
         if microcycles.count() == 0:
@@ -92,17 +92,17 @@ class MicrocycleViewSet(viewsets.ModelViewSet):
             team = ClubTeam.objects.get(pk=self.request.session['team'], club_id=self.request.user.club_id)
             microcycles = ClubMicrocycles.objects.filter(
                 Q(team_id=team) &
-                (Q(date_by__range=[date_with, date_by]) | Q(date_with__range=[date_with, date_by])) |
-                Q(date_with__lte=date_with) & Q(date_by__gte=date_with) |
-                Q(date_with__lte=date_by) & Q(date_by__gte=date_by)
+                ((Q(date_by__range=[date_with, date_by]) | Q(date_with__range=[date_with, date_by])) |
+                 Q(date_with__lte=date_with) & Q(date_by__gte=date_with) |
+                 Q(date_with__lte=date_by) & Q(date_by__gte=date_by))
             ).exclude(pk=pk)
         else:
             team = UserTeam.objects.get(pk=self.request.session['team'])
             microcycles = UserMicrocycles.objects.filter(
                 Q(team_id=team) &
-                (Q(date_by__range=[date_with, date_by]) | Q(date_with__range=[date_with, date_by])) |
-                Q(date_with__lte=date_with) & Q(date_by__gte=date_with) |
-                Q(date_with__lte=date_by) & Q(date_by__gte=date_by)
+                ((Q(date_by__range=[date_with, date_by]) | Q(date_with__range=[date_with, date_by])) |
+                 Q(date_with__lte=date_with) & Q(date_by__gte=date_with) |
+                 Q(date_with__lte=date_by) & Q(date_by__gte=date_by))
             ).exclude(pk=pk)
 
 
@@ -167,9 +167,9 @@ class LiteMicrocycleViewSet(viewsets.ModelViewSet):
         team = UserTeam.objects.get(pk=self.request.session['team'])
         microcycles = LiteMicrocycles.objects.filter(
             Q(team_id=team) &
-            (Q(date_by__range=[date_with, date_by]) | Q(date_with__range=[date_with, date_by])) |
-            Q(date_with__lte=date_with) & Q(date_by__gte=date_with) |
-            Q(date_with__lte=date_by) & Q(date_by__gte=date_by)
+            ((Q(date_by__range=[date_with, date_by]) | Q(date_with__range=[date_with, date_by])) |
+             Q(date_with__lte=date_with) & Q(date_by__gte=date_with) |
+             Q(date_with__lte=date_by) & Q(date_by__gte=date_by))
         )
         if microcycles.count() == 0:
             serializer.save(team_id=team)
@@ -191,9 +191,9 @@ class LiteMicrocycleViewSet(viewsets.ModelViewSet):
 
         microcycles = LiteMicrocycles.objects.filter(
             Q(team_id=team) &
-            (Q(date_by__range=[date_with, date_by]) | Q(date_with__range=[date_with, date_by])) |
-            Q(date_with__lte=date_with) & Q(date_by__gte=date_with) |
-            Q(date_with__lte=date_by) & Q(date_by__gte=date_by)
+            ((Q(date_by__range=[date_with, date_by]) | Q(date_with__range=[date_with, date_by])) |
+             Q(date_with__lte=date_with) & Q(date_by__gte=date_with) |
+             Q(date_with__lte=date_by) & Q(date_by__gte=date_by))
         ).exclude(pk=pk)
 
         if microcycles.count() == 0:
