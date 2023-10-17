@@ -219,7 +219,7 @@
     </a>
 </li>
 {% endif %}
-{% if perms.players.view_userplayer or perms.players.view_clubplayer %}
+{% if perms.players.view_parents %}
 <li class="{{ menu_parents }}">
     <a href="{% url 'players:parents' %}" class="btn">
         {% if ui_elements.sidebar__parents %}
@@ -297,12 +297,14 @@
     </ul>
 </li>
 {% endif %}
-{% if user.is_superuser %}
+{% if perms.methodology.view_adminarticle %}
 <li class="menu-title">
     <span>{% trans 'Education' %}</span>
 </li>
+{% endif %}
+{% if perms.methodology.view_adminarticle %}
 <li class="{{ menu_methodology }}">
-    <a href="{% url 'methodology:methodology' %}" class="btn {% if not user.is_superuser %}disabled{% endif %}">
+    <a href="{% url 'methodology:methodology' %}" class="btn">
         {% if ui_elements.sidebar__methodology %}
             {{ ui_elements.sidebar__methodology }}
         {% else %}
@@ -311,6 +313,8 @@
         <span>{% trans 'Methodology' %}</span>
     </a>
 </li>
+{% endif %}
+{% if user.is_superuser %}
 <li>
     <a href="#" class="btn disabled">
         {% if ui_elements.sidebar__courses %}

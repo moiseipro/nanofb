@@ -833,6 +833,18 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
                 video_2 = ExerciseVideo.objects.filter(exercise_club=exercise['id'], type=2).first()
                 anim_1 = ExerciseVideo.objects.filter(exercise_club=exercise['id'], type=3).first()
                 anim_2 = ExerciseVideo.objects.filter(exercise_club=exercise['id'], type=4).first()
+            
+            # if video_1 and video_1.video:
+            #     if video_1.video.is_video:
+            #         exercise['has_video_1'] = True
+            #     elif video_1.video.is_anim:
+            #         exercise['has_animation_1'] = True
+            # if anim_1 and anim_1.video:
+            #     if anim_1.video.is_video:
+            #         exercise['has_video_1'] = True
+            #     elif anim_1.video.is_anim:
+            #         exercise['has_animation_1'] = True
+            
             if video_1 and video_1.video:
                 exercise['has_video_1'] = True
             if video_2 and video_2.video:

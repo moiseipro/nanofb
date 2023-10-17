@@ -374,7 +374,7 @@ def parents(request):
         return redirect("authorization:login")
     cur_user = User.objects.filter(email=request.user).only("club_id")
     if not util_check_access(cur_user[0], 
-        {'perms_user': ["players.view_userplayer"], 'perms_club': ["players.view_clubplayer"]}
+        {'perms_user': ["players.view_userplayer", "players.view_parents"], 'perms_club': ["players.view_clubplayer", "players.view_parents"]}
     ):
         return redirect("users:profile")
     cur_team = -1
@@ -391,4 +391,3 @@ def parents(request):
         'teams_list': request.teams_list,
         'ui_elements': get_ui_elements(request)
     })
-
