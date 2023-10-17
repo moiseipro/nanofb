@@ -16,10 +16,11 @@ async function ajax_microcycle_update(method, data, id) {
         success: function (data) {
             //console.log(data)
             if(method != 'GET') {
-                create_alert('alert-update', {
-                    type: 'success',
-                    message: gettext('The action with the microcycle was successfully completed!')
-                })
+                if(data != null && 'status' in data && data.status == 'microcycle_full'){
+                    swal(gettext('Microcycle'), gettext('Microcycles must not overlap!'), 'warning');
+                } else {
+                    swal(gettext('Microcycle'), gettext('The action with the microcycle was successfully completed!'), "success");
+                }
                 generateData()
                 microcycles_table.ajax.reload()
             }

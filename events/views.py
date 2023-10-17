@@ -43,12 +43,81 @@ class BaseEventsPermissions(DjangoModelPermissions):
 class MicrocycleViewSet(viewsets.ModelViewSet):
     permission_classes = [BaseEventsPermissions]
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        if self.perform_create(serializer):
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        else:
+            return Response({'status': 'microcycle_full'})
+
     def perform_create(self, serializer):
+        date_with = datetime.strptime(self.request.data['date_with'], "%d/%m/%Y").date()
+        date_by = datetime.strptime(self.request.data['date_by'], "%d/%m/%Y").date()
         if self.request.user.club_id is not None:
             team = ClubTeam.objects.get(pk=self.request.session['team'], club_id=self.request.user.club_id)
+            microcycles = ClubMicrocycles.objects.filter(
+                Q(team_id=team) &
+                (Q(date_by__range=[date_with, date_by]) | Q(date_with__range=[date_with, date_by])) |
+                Q(date_with__lte=date_with) & Q(date_by__gte=date_with) |
+                Q(date_with__lte=date_by) & Q(date_by__gte=date_by)
+            )
         else:
             team = UserTeam.objects.get(pk=self.request.session['team'])
-        serializer.save(team_id=team)
+            microcycles = UserMicrocycles.objects.filter(
+                Q(team_id=team) &
+                (Q(date_by__range=[date_with, date_by]) | Q(date_with__range=[date_with, date_by])) |
+                Q(date_with__lte=date_with) & Q(date_by__gte=date_with) |
+                Q(date_with__lte=date_by) & Q(date_by__gte=date_by)
+            )
+
+        if microcycles.count() == 0:
+            serializer.save(team_id=team)
+            return True
+        else:
+            return False
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+
+        date_with = datetime.strptime(self.request.data['date_with'], "%d/%m/%Y").date()
+        date_by = datetime.strptime(self.request.data['date_by'], "%d/%m/%Y").date()
+        pk = kwargs.pop('pk')
+        print(pk)
+        if self.request.user.club_id is not None:
+            team = ClubTeam.objects.get(pk=self.request.session['team'], club_id=self.request.user.club_id)
+            microcycles = ClubMicrocycles.objects.filter(
+                Q(team_id=team) &
+                (Q(date_by__range=[date_with, date_by]) | Q(date_with__range=[date_with, date_by])) |
+                Q(date_with__lte=date_with) & Q(date_by__gte=date_with) |
+                Q(date_with__lte=date_by) & Q(date_by__gte=date_by)
+            ).exclude(pk=pk)
+        else:
+            team = UserTeam.objects.get(pk=self.request.session['team'])
+            microcycles = UserMicrocycles.objects.filter(
+                Q(team_id=team) &
+                (Q(date_by__range=[date_with, date_by]) | Q(date_with__range=[date_with, date_by])) |
+                Q(date_with__lte=date_with) & Q(date_by__gte=date_with) |
+                Q(date_with__lte=date_by) & Q(date_by__gte=date_by)
+            ).exclude(pk=pk)
+
+
+
+        if microcycles.count() == 0:
+            self.perform_update(serializer)
+
+            if getattr(instance, '_prefetched_objects_cache', None):
+                # If 'prefetch_related' has been applied to a queryset, we need to
+                # forcibly invalidate the prefetch cache on the instance.
+                instance._prefetched_objects_cache = {}
+
+            return Response(serializer.data)
+        else:
+            return Response({'status': 'microcycle_full'})
 
     def get_serializer_class(self):
         if self.action == 'partial_update':
@@ -83,9 +152,61 @@ class MicrocycleViewSet(viewsets.ModelViewSet):
 class LiteMicrocycleViewSet(viewsets.ModelViewSet):
     permission_classes = [BaseEventsPermissions]
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        if self.perform_create(serializer):
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        else:
+            return Response({'status': 'microcycle_full'})
+
     def perform_create(self, serializer):
+        date_with = datetime.strptime(self.request.data['date_with'], "%d/%m/%Y").date()
+        date_by = datetime.strptime(self.request.data['date_by'], "%d/%m/%Y").date()
         team = UserTeam.objects.get(pk=self.request.session['team'])
-        serializer.save(team_id=team)
+        microcycles = LiteMicrocycles.objects.filter(
+            Q(team_id=team) &
+            (Q(date_by__range=[date_with, date_by]) | Q(date_with__range=[date_with, date_by])) |
+            Q(date_with__lte=date_with) & Q(date_by__gte=date_with) |
+            Q(date_with__lte=date_by) & Q(date_by__gte=date_by)
+        )
+        if microcycles.count() == 0:
+            serializer.save(team_id=team)
+            return True
+        else:
+            return False
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+
+        team = UserTeam.objects.get(pk=self.request.session['team'])
+        date_with = datetime.strptime(self.request.data['date_with'], "%d/%m/%Y").date()
+        date_by = datetime.strptime(self.request.data['date_by'], "%d/%m/%Y").date()
+        pk = kwargs.pop('pk')
+        print(pk)
+
+        microcycles = LiteMicrocycles.objects.filter(
+            Q(team_id=team) &
+            (Q(date_by__range=[date_with, date_by]) | Q(date_with__range=[date_with, date_by])) |
+            Q(date_with__lte=date_with) & Q(date_by__gte=date_with) |
+            Q(date_with__lte=date_by) & Q(date_by__gte=date_by)
+        ).exclude(pk=pk)
+
+        if microcycles.count() == 0:
+            self.perform_update(serializer)
+
+            if getattr(instance, '_prefetched_objects_cache', None):
+                # If 'prefetch_related' has been applied to a queryset, we need to
+                # forcibly invalidate the prefetch cache on the instance.
+                instance._prefetched_objects_cache = {}
+
+            return Response(serializer.data)
+        else:
+            return Response({'status': 'microcycle_full'})
 
     def get_serializer_class(self):
         if self.action == 'partial_update':
@@ -106,19 +227,21 @@ class LiteMicrocycleViewSet(viewsets.ModelViewSet):
 
 
 class MicrocycleNameListApiView(APIView):
-    #authentication_classes = [authentication.TokenAuthentication]
+    # authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request, format=None):
         if request.user.club_id is not None:
             season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
-            queryset = ClubMicrocycles.objects.\
-                filter(team_id=self.request.session['team'], date_with__gte=season[0].date_with, date_by__lte=season[0].date_by).\
+            queryset = ClubMicrocycles.objects. \
+                filter(team_id=self.request.session['team'], date_with__gte=season[0].date_with,
+                       date_by__lte=season[0].date_by). \
                 annotate(names=Count('name')).order_by('name')
         else:
             season = UserSeason.objects.filter(id=self.request.session['season'])
-            queryset = UserMicrocycles.objects.\
-                filter(team_id=self.request.session['team'], date_with__gte=season[0].date_with, date_by__lte=season[0].date_by).\
+            queryset = UserMicrocycles.objects. \
+                filter(team_id=self.request.session['team'], date_with__gte=season[0].date_with,
+                       date_by__lte=season[0].date_by). \
                 annotate(names=Count('name')).order_by('name')
 
         list_microcycles = [
@@ -143,19 +266,21 @@ class MicrocycleNameListApiView(APIView):
 
 
 class MicrocycleGoalListApiView(APIView):
-    #authentication_classes = [authentication.TokenAuthentication]
+    # authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request, format=None):
         if request.user.club_id is not None:
             season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
-            queryset = ClubMicrocycles.objects.\
-                filter(team_id=self.request.session['team'], date_with__gte=season[0].date_with, date_by__lte=season[0].date_by).\
+            queryset = ClubMicrocycles.objects. \
+                filter(team_id=self.request.session['team'], date_with__gte=season[0].date_with,
+                       date_by__lte=season[0].date_by). \
                 annotate(names=Count('goal')).order_by('goal')
         else:
             season = UserSeason.objects.filter(id=self.request.session['season'])
-            queryset = UserMicrocycles.objects.\
-                filter(team_id=self.request.session['team'], date_with__gte=season[0].date_with, date_by__lte=season[0].date_by).\
+            queryset = UserMicrocycles.objects. \
+                filter(team_id=self.request.session['team'], date_with__gte=season[0].date_with,
+                       date_by__lte=season[0].date_by). \
                 annotate(goals=Count('goal')).order_by('goal')
 
         list_microcycles = [
@@ -348,9 +473,11 @@ class EventViewSet(viewsets.ModelViewSet):
                 for exercise in exercises:
                     print(exercise)
                     if self.request.user.club_id is not None:
-                        last_additional = ClubTrainingExercise.objects.get(pk=exercise.pk).clubtrainingexerciseadditional_set.all()
+                        last_additional = ClubTrainingExercise.objects.get(
+                            pk=exercise.pk).clubtrainingexerciseadditional_set.all()
                     else:
-                        last_additional = UserTrainingExercise.objects.get(pk=exercise.pk).usertrainingexerciseadditional_set.all()
+                        last_additional = UserTrainingExercise.objects.get(
+                            pk=exercise.pk).usertrainingexerciseadditional_set.all()
                     exercise.pk = None
                     print(last_additional)
                     exercise.training_id = training
@@ -417,15 +544,16 @@ class EventViewSet(viewsets.ModelViewSet):
             if goal != '' and goal is not None:
                 q_filter &= Q(clubtraining__goal__icontains=goal)
             if keywords != '' and keywords is not None:
-                q_filter &= Q(clubtraining__objective_1__icontains=keywords) | Q(clubtraining__objective_2__icontains=keywords) | Q(clubtraining__goal__icontains=keywords)
+                q_filter &= Q(clubtraining__objective_1__icontains=keywords) | Q(
+                    clubtraining__objective_2__icontains=keywords) | Q(clubtraining__goal__icontains=keywords)
             if field_size != '' and field_size is not None:
                 q_filter &= Q(clubtraining__field_size__icontains=field_size)
             q_filter |= Q(clubmatch__team_id=team)
             events = ClubEvent.objects.filter(q_filter)
 
             events = events.filter(club_id=self.request.user.club_id,
-                          date__gte=season[0].date_with,
-                          date__lte=season[0].date_by)
+                                   date__gte=season[0].date_with,
+                                   date__lte=season[0].date_by)
         else:
             season = UserSeason.objects.filter(id=self.request.session['season'])
 
@@ -437,15 +565,16 @@ class EventViewSet(viewsets.ModelViewSet):
             if goal != '' and goal is not None:
                 q_filter &= Q(usertraining__goal__icontains=goal)
             if keywords != '' and keywords is not None:
-                q_filter &= Q(usertraining__objective_1__icontains=keywords) | Q(usertraining__objective_2__icontains=keywords) | Q(usertraining__goal__icontains=keywords)
+                q_filter &= Q(usertraining__objective_1__icontains=keywords) | Q(
+                    usertraining__objective_2__icontains=keywords) | Q(usertraining__goal__icontains=keywords)
             if field_size != '' and field_size is not None:
                 q_filter &= Q(usertraining__field_size__icontains=field_size)
             q_filter |= Q(usermatch__team_id=team)
             events = UserEvent.objects.filter(q_filter)
 
             events = events.filter(user_id=self.request.user,
-                                  date__gte=season[0].date_with,
-                                  date__lte=season[0].date_by)
+                                   date__gte=season[0].date_with,
+                                   date__lte=season[0].date_by)
 
         if microcycle_before is not None and microcycle_after is not None:
             events = events.filter(date__gte=microcycle_after,
@@ -477,7 +606,8 @@ class LiteEventViewSet(viewsets.ModelViewSet):
         print(cur_date)
 
         if 'event_type' in self.request.data and '1' in self.request.data['event_type']:
-            count_tr = LiteTraining.objects.filter(event_id__user_id=user, event_id__date__date=cur_date, team_id=team).count()
+            count_tr = LiteTraining.objects.filter(event_id__user_id=user, event_id__date__date=cur_date,
+                                                   team_id=team).count()
             print(count_tr)
             if count_tr < 2:
                 event = serializer.save(user_id=user)
@@ -487,7 +617,8 @@ class LiteEventViewSet(viewsets.ModelViewSet):
             else:
                 return False
         elif 'event_type' in self.request.data and '2' in self.request.data['event_type']:
-            match = LiteMatch.objects.filter(event_id__user_id=user, event_id__date__date=cur_date, m_type=0, team_id=team).count()
+            match = LiteMatch.objects.filter(event_id__user_id=user, event_id__date__date=cur_date, m_type=0,
+                                             team_id=team).count()
             print(match)
             if match == 0:
                 event = serializer.save(user_id=user)
@@ -497,7 +628,8 @@ class LiteEventViewSet(viewsets.ModelViewSet):
             else:
                 return False
         elif 'event_type' in self.request.data and '3' in self.request.data['event_type']:
-            match = LiteMatch.objects.filter(event_id__user_id=user, event_id__date__date=cur_date, m_type=1, team_id=team).count()
+            match = LiteMatch.objects.filter(event_id__user_id=user, event_id__date__date=cur_date, m_type=1,
+                                             team_id=team).count()
             print(match)
             if match == 0:
                 event = serializer.save(user_id=user)
@@ -531,7 +663,8 @@ class LiteEventViewSet(viewsets.ModelViewSet):
         event = LiteEvent.objects.get(pk=pk)
         try:
             training = LiteTraining.objects.get(pk=pk)
-            count_tr = LiteTraining.objects.filter(event_id__user_id=user, event_id__date__date=cur_date, team_id=team).count()
+            count_tr = LiteTraining.objects.filter(event_id__user_id=user, event_id__date__date=cur_date,
+                                                   team_id=team).count()
         except LiteTraining.DoesNotExist:
             training = None
             count_tr = 0
@@ -542,8 +675,10 @@ class LiteEventViewSet(viewsets.ModelViewSet):
             exercises = None
         try:
             match = LiteMatch.objects.get(pk=pk)
-            match1 = LiteMatch.objects.filter(event_id__user_id=user, event_id__date__date=cur_date, m_type=0, team_id=team).count()
-            match2 = LiteMatch.objects.filter(event_id__user_id=user, event_id__date__date=cur_date, m_type=1, team_id=team).count()
+            match1 = LiteMatch.objects.filter(event_id__user_id=user, event_id__date__date=cur_date, m_type=0,
+                                              team_id=team).count()
+            match2 = LiteMatch.objects.filter(event_id__user_id=user, event_id__date__date=cur_date, m_type=1,
+                                              team_id=team).count()
 
         except LiteMatch.DoesNotExist:
             match = None
@@ -568,7 +703,8 @@ class LiteEventViewSet(viewsets.ModelViewSet):
                 training.event_id = event
                 training.save()
                 for exercise in exercises:
-                    last_additional = LiteTrainingExercise.objects.get(pk=exercise.pk).litetrainingexerciseadditional_set.all()
+                    last_additional = LiteTrainingExercise.objects.get(
+                        pk=exercise.pk).litetrainingexerciseadditional_set.all()
                     exercise.pk = None
                     exercise.training_id = training
                     exercise.save()
@@ -621,15 +757,16 @@ class LiteEventViewSet(viewsets.ModelViewSet):
         if goal != '' and goal is not None:
             q_filter &= Q(litetraining__goal__icontains=goal)
         if keywords != '' and keywords is not None:
-            q_filter &= Q(litetraining__objective_1__icontains=keywords) | Q(litetraining__objective_2__icontains=keywords) | Q(litetraining__goal__icontains=keywords)
+            q_filter &= Q(litetraining__objective_1__icontains=keywords) | Q(
+                litetraining__objective_2__icontains=keywords) | Q(litetraining__goal__icontains=keywords)
         if field_size != '' and field_size is not None:
             q_filter &= Q(litetraining__field_size__icontains=field_size)
         q_filter |= Q(litematch__team_id=team)
         events = LiteEvent.objects.filter(q_filter)
 
         events = events.filter(user_id=self.request.user,
-                              date__gte=season[0].date_with,
-                              date__lte=season[0].date_by)
+                               date__gte=season[0].date_with,
+                               date__lte=season[0].date_by)
 
         if microcycle_before is not None and microcycle_after is not None:
             events = events.filter(date__gte=microcycle_after,
