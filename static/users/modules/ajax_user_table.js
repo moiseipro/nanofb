@@ -111,7 +111,11 @@ function generate_ajax_users_table(scroll_y = ''){
                 return html;
             }},
             {'data': 'date_joined', 'name': 'date_joined', 'defaultContent': "---", render: function (data, type, row, meta) {
-                return data;
+                let view_date = moment(data, "DD/MM/YYYY").format('DD/MM/YYYY')
+                let last_check_date = moment().subtract(30, 'days')
+                let is_new = moment(data, "DD/MM/YYYY").isAfter(last_check_date)
+                let html = `<div class="w-100 text-center ${is_new ? 'text-danger' : ''}" title="${view_date}"> ${view_date} </div>`;
+                return html;
             }},
 
             {'data': 'access_to', 'name': 'access_to', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {

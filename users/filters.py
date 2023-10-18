@@ -27,8 +27,8 @@ class GlobalJoinDateFilter(GlobalFilter, filters.DateFilter):
         if value:
             if self.distinct:
                 qs = qs.distinct()
-            print(date.today()-timedelta(days=3))
-            qs = qs.filter(date_joined__gte=date.today()-timedelta(days=3))
+            #print(date.today()-timedelta(days=30))
+            qs = qs.filter(date_joined__gte=date.today()-timedelta(days=30))
         return qs
 
 
