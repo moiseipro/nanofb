@@ -792,6 +792,7 @@ $(function() {
                     window.split.setSizes(window.split_sizes_tempo);
                 }
             } catch(e) {}
+            $(e.currentTarget).toggleClass('selected3', $(e.currentTarget).attr('data-state') != "0");
             return;
         }
         if ($('#toggleCardInFolders').hasClass('selected3')) {
@@ -809,6 +810,7 @@ $(function() {
                     window.split.setSizes(window.split_sizes_tempo);
                 }
             } catch(e) {}
+            $(e.currentTarget).toggleClass('selected3', $(e.currentTarget).attr('data-state') != "0");
             return;
         }
         
