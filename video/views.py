@@ -109,7 +109,7 @@ class VideoViewSet(viewsets.ModelViewSet):
                 links['nftv'] = video_data['id']
                 url = 'https://nanofootball.pro/video/length/' + video_data['id']
                 try:
-                    response = requests.get(url)
+                    response = requests.get(url, verify=False)
                     content = json.loads(response.content.decode('utf-8'))
                     data_dict['duration'] = content['time']
                 except requests.exceptions.ConnectionError as e:
@@ -146,7 +146,7 @@ class VideoViewSet(viewsets.ModelViewSet):
                         }
                     )
                     response = requests.post(url, data=mp_encoder,
-                                             headers={'Content-Type': mp_encoder.content_type})
+                                             headers={'Content-Type': mp_encoder.content_type}, verify=False)
                     content = response.json()
                     print(content)
 
@@ -188,7 +188,7 @@ class VideoViewSet(viewsets.ModelViewSet):
             # print(serializer)
             url = 'https://nanofootball.pro/video/length/' + instance.links['nftv']
             try:
-                response = requests.get(url)
+                response = requests.get(url, verify=False)
                 content = json.loads(response.content.decode('utf-8'))
                 print(content)
                 if 'time' in content:
@@ -285,7 +285,7 @@ class VideoViewSet(viewsets.ModelViewSet):
                 }
             )
             response = requests.post(url, data=mp_encoder,
-                                     headers={'Content-Type': mp_encoder.content_type})
+                                     headers={'Content-Type': mp_encoder.content_type}, verify=False)
             content = response.json()
             print(content)
 
