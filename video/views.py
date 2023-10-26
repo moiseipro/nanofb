@@ -96,7 +96,7 @@ class VideoViewSet(viewsets.ModelViewSet):
                     }
                 )
                 print(mp_encoder)
-                response = requests.post(url, data=mp_encoder, headers={'Content-Type': mp_encoder.content_type})
+                response = requests.post(url, data=mp_encoder, headers={'Content-Type': mp_encoder.content_type}, verify=False)
                 content = response.json()
                 if 'data' in content:
                     video_data = content['data'][0]
@@ -130,7 +130,7 @@ class VideoViewSet(viewsets.ModelViewSet):
                         )
                         # print(mp_encoder)
                         response = requests.post(url, data=mp_encoder,
-                                                 headers={'Content-Type': mp_encoder.content_type})
+                                                 headers={'Content-Type': mp_encoder.content_type}, verify=False)
                         content = response.json()
                         print(content)
 
@@ -221,7 +221,7 @@ class VideoViewSet(viewsets.ModelViewSet):
                         {"id": server_id},
                     ]
                 }
-                response = requests.post(url, json=post_data, headers={'Content-Type': 'application/json'})
+                response = requests.post(url, json=post_data, headers={'Content-Type': 'application/json'}, verify=False)
                 content = response.json()
                 # print(content)
                 video_data = content['data'][0]
@@ -243,7 +243,7 @@ class VideoViewSet(viewsets.ModelViewSet):
                         }
                     )
                     # print(mp_encoder)
-                    response = requests.post(url, data=mp_encoder, headers={'Content-Type': mp_encoder.content_type})
+                    response = requests.post(url, data=mp_encoder, headers={'Content-Type': mp_encoder.content_type}, verify=False)
                     content = response.json()
                     video_data = content['data'][0]
                     # print(content)
@@ -268,7 +268,7 @@ class VideoViewSet(viewsets.ModelViewSet):
                 )
                 # print(mp_encoder)
                 response = requests.post(url, data=mp_encoder,
-                                         headers={'Content-Type': mp_encoder.content_type})
+                                         headers={'Content-Type': mp_encoder.content_type}, verify=False)
                 content = response.json()
                 print(content)
 
@@ -339,7 +339,7 @@ def delete_video_nf(video_id):
             {"id": video_id},
         ]
     }
-    response = requests.post(url, json=post_data, headers={'Content-Type': 'application/json'})
+    response = requests.post(url, json=post_data, headers={'Content-Type': 'application/json'}, verify=False)
     content = response.json()
     print(content)
     video_data = content['data'][0]
@@ -361,7 +361,7 @@ def delete_video_obj_nf(video_obj):
                 {"id": server_id},
             ]
         }
-        response = requests.post(url, json=post_data, headers={'Content-Type': 'application/json'})
+        response = requests.post(url, json=post_data, headers={'Content-Type': 'application/json'}, verify=False)
         content = response.json()
         print(content)
         video_data = content['data'][0]
@@ -452,7 +452,7 @@ class CreateVideoView(LoginRequiredMixin, CreateView):
                     }
                 )
                 print(mp_encoder)
-                response = requests.post(url, data=mp_encoder, headers={'Content-Type': mp_encoder.content_type})
+                response = requests.post(url, data=mp_encoder, headers={'Content-Type': mp_encoder.content_type}, verify=False)
                 content = response.json()
                 video_data = content['data'][0]
                 print(content)
