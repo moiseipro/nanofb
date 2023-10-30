@@ -482,7 +482,8 @@ function RenderExerciseOne(data) {
             RenderVideo(data.video_1.id, $(exsCard).find('.video-value[name="video1"]'), window.videoPlayerCard1);
         } else if (video_link && video_link != "") {
             $('#carouselVideo').find('.carousel-item').first().removeClass('d-none');
-            window.videoPlayerCard1.poster(`/static/exercises/img/v_player_link.jpg`);
+            RenderVideo(0, $(exsCard).find('.video-value[name="video1"]'), window.videoPlayerCard1, video_link);
+            // window.videoPlayerCard1.poster(`/static/exercises/img/v_player_link.jpg`);
         } else {
             $('#carouselVideo').find('.carousel-item').first().addClass('d-none');
             $('#carouselVideo').find('.carousel-indicators > li').first().addClass('d-none');
@@ -509,7 +510,8 @@ function RenderExerciseOne(data) {
             RenderVideo(data.animation_1.id, $(exsCard).find('.video-value[name="animation1"]'), window.videoPlayerCard3);
         } else if (anim_link && anim_link != "") {
             $('#carouselAnim').find('.carousel-item').first().removeClass('d-none');
-            window.videoPlayerCard3.poster(`/static/exercises/img/v_player_link.jpg`);
+            RenderVideo(0, $(exsCard).find('.video-value[name="animation1"]'), window.videoPlayerCard3, anim_link);
+            // window.videoPlayerCard3.poster(`/static/exercises/img/v_player_link.jpg`);
         } else {
             $('#carouselAnim').find('.carousel-item').first().addClass('d-none');
             $('#carouselAnim').find('.carousel-indicators > li').first().addClass('d-none');
@@ -1244,35 +1246,44 @@ async function GoToVideoLink(value) {
 
 }
 
-function RenderVideo(value, htmlElem, windowElem) {
+function RenderVideo(value, htmlElem, windowElem, videoLink=null) {
     try {
         windowElem.pause();
     } catch(e) {}
-    if (!value || value == -1) {
+    if ((!value || value == -1) && !videoLink) {
         $(htmlElem).addClass('d-none');
         return;
     }
-    get_video_ids(value)
-    .then(data => {
-        if (data) {
-            $(htmlElem).removeClass('d-none');
-            $(htmlElem).removeClass('not-active');
+    if (videoLink) {
+        if (videoLink.includes("youtube")) {
+            windowElem.src({techOrder: ["youtube"], type: 'video/youtube', src: videoLink});
             windowElem.poster('');
-            if ('nftv' in data['links'] && data['links']['nftv'] != '') {
-                windowElem.src({type: 'video/mp4', src: `https://nanofootball.pro/video/player/${data['links']['nftv']}`});
-                windowElem.poster(`https://nanofootball.pro/video/poster/${data['links']['nftv']}`);
-            } else if ('youtube' in data['links'] && data['links']['youtube'] != '') {
-                windowElem.src({techOrder: ["youtube"], type: 'video/youtube', src: `https://www.youtube.com/watch?v=${data['links']['youtube']}`});
-                windowElem.poster('');
-            }
         } else {
-            windowElem.poster('');
-            $(htmlElem).addClass('d-none');
+            windowElem.poster(`/static/exercises/img/video_start.png`);
         }
-    })
-    .catch(err => {
-        $(htmlElem).addClass('d-none');
-    });
+    } else {
+        get_video_ids(value)
+        .then(data => {
+            if (data) {
+                $(htmlElem).removeClass('d-none');
+                $(htmlElem).removeClass('not-active');
+                windowElem.poster('');
+                if ('nftv' in data['links'] && data['links']['nftv'] != '') {
+                    windowElem.src({type: 'video/mp4', src: `https://nanofootball.pro/video/player/${data['links']['nftv']}`});
+                    windowElem.poster(`https://nanofootball.pro/video/poster/${data['links']['nftv']}`);
+                } else if ('youtube' in data['links'] && data['links']['youtube'] != '') {
+                    windowElem.src({techOrder: ["youtube"], type: 'video/youtube', src: `https://www.youtube.com/watch?v=${data['links']['youtube']}`});
+                    windowElem.poster('');
+                }
+            } else {
+                windowElem.poster('');
+                $(htmlElem).addClass('d-none');
+            }
+        })
+        .catch(err => {
+            $(htmlElem).addClass('d-none');
+        });
+    }
 }
 
 function SetVideoId(value) {

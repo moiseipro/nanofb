@@ -198,28 +198,34 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
             ` : ''}
         </div>
         ` : data && data.video_links && data.video_links[0] && data.video_links[0]['link'] && data.video_links[0]['link'] != "" ? `
-        <div class="carousel-item">
-            <div class="mt-5 px-5">
-                <div class="row">
-                    <div class="col-3">Название видео:</div>
-                    <div class="col-9">${data.video_links[0]['name']}</div>
-                </div>
-                <div class="row">
-                    <div class="col-3">Описание:</div>
-                    <div class="col-9">${data.video_links[0]['note']}</div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <a class="btn btn-sm btn-primary" href="${data.video_links[0]['link']}" target="_blank" role="button">
-                            Просмотреть видео
-                        </a>
-                        <button class="btn btn-sm btn-info" value="${data.video_links[0]['link']}" onclick="navigator.clipboard.writeText(this.value);">
-                            Скопировать видео
-                        </button>
+        ${data.video_links[0]['link'].includes("youtube") ? `
+            <video id="video-player-modal-0" class="video-js resize-block video-modal" poster="">
+                <source src="${data.video_links[0]['link']}" type="video/youtube" />
+            </video>
+        ` : `
+            <div class="carousel-item">
+                <div class="mt-5 px-5">
+                    <div class="row">
+                        <div class="col-3">Название видео:</div>
+                        <div class="col-9">${data.video_links[0]['name']}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">Описание:</div>
+                        <div class="col-9">${data.video_links[0]['note']}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <a class="btn btn-sm btn-primary" href="${data.video_links[0]['link']}" target="_blank" role="button">
+                                Просмотреть видео
+                            </a>
+                            <button class="btn btn-sm btn-info" value="${data.video_links[0]['link']}" onclick="navigator.clipboard.writeText(this.value);">
+                                Скопировать видео
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        `}
         ` 
         : ''}
         ${data && data.animation_1 && data.animation_1.id != -1 ? `
