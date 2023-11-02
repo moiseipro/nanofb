@@ -1,0 +1,19 @@
+{% load i18n %}
+
+<div class="row">
+    <div class="col-12">
+        <form method="POST" id="notification-send-form">
+            <div class="form-group">
+                <label class="form-check-label" for="version-filter">
+                    {% trans 'Notification' %}
+                </label>
+                <select name="notification" id="notification-select" class="form-control select2" required></select>
+            </div>
+            <div class="form-group">
+                <label for="notification-receiving">{% trans "Date receiving" %}</label>
+                <input type="datetime-local" name="date_receiving" class="form-control" id="notification-receiving" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" placeholder="" required>
+            </div>
+            <button type="submit" id="notification-send-button" class="btn btn-block btn-success mb-2">{% trans "Send" %}</button>
+        </form>
+    </div>
+</div>

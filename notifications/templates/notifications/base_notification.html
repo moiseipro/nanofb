@@ -1,0 +1,104 @@
+{% extends '../base/app_main.html' %}
+{% load i18n %}
+{% load static %}
+{% load language_json %}
+
+{% block title %}{% trans 'Notifications Management' %}{% endblock %}
+
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'clubs/css/admin_panel.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/base_clients.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-sm-12 px-1">
+            <div class="card mb-0">
+                <div class="card-header py-2">
+                    <div class="row">
+                        <div class="col px-1">
+                            <ul class="nav nav-pills nav-fill mb-0" id="pills-tab" role="tablist">
+                                <li class="nav-item">
+                                    <a id="notification-create-button" class="nav-link active" data-toggle="pill" href="#notification-create-tab" role="tab" aria-selected="true">{% trans "Create" %}/{% trans "Edit" %}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a id="notification-table-button" class="nav-link" data-toggle="pill" href="#notification-views-tab" role="tab" aria-selected="true">{% trans "Notifications" %}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a id="notification-send-table-button" class="nav-link" data-toggle="pill" href="#notification-sended-tab" role="tab" aria-selected="true">{% trans "Sent" %}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a id="notification-send-button" class="nav-link" data-toggle="pill" href="#notification-send-tab" role="tab" aria-selected="true">{% trans "Send" %}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body py-2">
+                    <div class="row">
+                        <div id="users-table-block" curr-col="12" class="col-4 px-1 table-block">
+                            {% include "users/modules/user_table.html" %}
+                        </div>
+                        <div class="col-6">
+                            <div class="tab-content p-0" id="pills-tabContent">
+                                <div class="tab-pane fade show active" id="notification-create-tab" role="tabpanel" aria-labelledby="pills-notification-create-tab">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            {% include "notifications/forms/notification_create.html" %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="notification-views-tab" role="tabpanel" aria-labelledby="pills-notification-views-tab">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            {% include "notifications/modules/notification_table.html" %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="notification-sended-tab" role="tabpanel" aria-labelledby="pills-notification-views-tab">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            {% include "notifications/modules/notification_send_table.html" %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="notification-send-tab" role="tabpanel" aria-labelledby="pills-notification-send-tab">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            {% include "notifications/forms/notification_send.html" %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="user-table-settings-block" class="pt-1 col-2">
+                            {% include "users/modules/user_table_settings.html" %}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+{#        <div id="user-management-block" class="d-none px-1">#}
+{#            {% include "users/modules/management_client.html" %}#}
+{#        </div>#}
+    </div>
+
+{% endblock %}
+
+{% block custom_scripts %}
+    <script src="{% static 'ckeditor_4.20.2/ckeditor.js' %}"></script>
+    <script src="{% static 'ckeditor_4.20.2/lang/ru.js' %}"></script>
+
+    <script src="{% static 'notifications/js/ajax_notification_sent_table.js' %}"></script>
+    <script src="{% static 'notifications/js/ajax_notification_table.js' %}"></script>
+    <script src="{% static 'notifications/js/ajax_notification.js' %}"></script>
+    <script src="{% static 'notifications/js/ajax_notification_sent.js' %}"></script>
+    <script src="{% static 'references/team_ajax.js' %}"></script>
+    <script src="{% static 'users/modules/ajax_user_table.js' %}"></script>
+    <script src="{% static 'users/modules/ajax_user_data.js' %}"></script>
+    <script src="{% static 'users/modules/blocks_admin_module.js' %}"></script>
+    <script src="{% static 'users/modules/user_table_settings.js' %}"></script>
+    <script src="{% static 'notifications/js/base_notification.js' %}"></script>
+{% endblock %}

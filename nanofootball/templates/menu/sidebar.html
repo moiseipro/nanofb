@@ -23,6 +23,9 @@
         {% if user.is_superuser %}
         <li><a class="nav-link {{ menu_clients }}" href="{% url 'users:clients' %}">{% trans 'Users' %}</a></li>
         {% endif %}
+        {% if user.is_superuser %}
+        <li><a class="nav-link {{ menu_notification }}" href="{% url 'notifications:view' %}">{% trans 'Notification' %}</a></li>
+        {% endif %}
         {% if perms.clubs.club_admin %}
         <li><a class="nav-link {{ menu_clubs }}" href="{% url 'clubs:base_club' %}">{% trans 'Club' %}</a></li>
         {% endif %}

@@ -1,0 +1,19 @@
+{% load i18n %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="table-responsive">
+            <table id="notification-sent-table" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
+                <thead>
+                    <tr>
+                        <th class="text-center main-info-col">№</th>
+                        <th class="text-center main-info-col">{% trans 'Title' %}</th>
+                        <th class="text-center main-info-col ">{% trans 'Date receiving' %}</th>
+                        <th class="text-center additional-info-col notification-user-filter">{% trans 'User' %}</th>
+                        <th class="text-center side-info-col "></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>

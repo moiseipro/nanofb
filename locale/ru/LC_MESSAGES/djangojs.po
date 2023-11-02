@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-17 11:13+0300\n"
+"POT-Creation-Date: 2023-11-02 13:08+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -89,9 +89,9 @@ msgstr "Ошибка при выполнении \""
 #: .\static\clubs\js\users_list.js:110
 #: .\static\federations\js\ajax_user_table.js:164
 #: .\static\users\modules\ajax_permission.js:18
-#: .\static\users\modules\ajax_user_table.js:169
+#: .\static\users\modules\ajax_user_table.js:173
 #: .\users\static\users\modules\ajax_permission.js:18
-#: .\users\static\users\modules\ajax_user_table.js:169
+#: .\users\static\users\modules\ajax_user_table.js:176
 msgid "User"
 msgstr "Пользователь"
 
@@ -99,13 +99,14 @@ msgstr "Пользователь"
 #: .\clubs\static\clubs\js\users_list.js:120
 #: .\clubs\static\clubs\js\users_list.js:122
 #: .\federations\static\federations\js\ajax_user_table.js:173
+#: .\notifications\static\notifications\js\ajax_notification.js:26
 #: .\static\clubs\js\users_list.js:112 .\static\clubs\js\users_list.js:120
 #: .\static\clubs\js\users_list.js:122
 #: .\static\federations\js\ajax_user_table.js:173
 #: .\static\users\modules\ajax_permission.js:26
-#: .\static\users\modules\ajax_user_table.js:179
+#: .\static\users\modules\ajax_user_table.js:183
 #: .\users\static\users\modules\ajax_permission.js:26
-#: .\users\static\users\modules\ajax_user_table.js:179
+#: .\users\static\users\modules\ajax_user_table.js:186
 msgid "Users "
 msgstr "Пользователи "
 
@@ -197,10 +198,8 @@ msgstr "Тренировка была успешно скопирована!"
 #: .\events\static\events\js\event_update.js:27
 #: .\static\events\js\event_lite_update.js:27
 #: .\static\events\js\event_update.js:27
-#, fuzzy
-#| msgid "Training action successfully!"
 msgid "Event action successfully!"
-msgstr "Действие с тренировкой успешно!"
+msgstr "Действие с событием успешно!"
 
 #: .\events\static\events\js\event_lite_update.js:35
 #: .\events\static\events\js\event_update.js:35
@@ -409,33 +408,36 @@ msgstr "Лицензия до: "
 #: .\federations\static\federations\js\ajax_user_table.js:166
 #: .\static\federations\js\ajax_user_table.js:166
 #: .\static\users\modules\ajax_permission.js:20
-#: .\static\users\modules\ajax_user_table.js:171
+#: .\static\users\modules\ajax_user_table.js:175
 #: .\users\static\users\modules\ajax_permission.js:20
-#: .\users\static\users\modules\ajax_user_table.js:171
+#: .\users\static\users\modules\ajax_user_table.js:178
 msgid "User registration"
 msgstr "Регистрация пользователя"
 
 #: .\federations\static\federations\js\base_federation.js:29
 #: .\static\federations\js\base_federation.js:29
-#: .\static\users\base_clients.js:27 .\users\static\users\base_clients.js:27
+#: .\static\users\base_clients.js:27
+#: .\users\static\users\modules\user_table_settings.js:4
 msgid "Country"
 msgstr "Страна"
 
 #: .\federations\static\federations\js\base_federation.js:73
 #: .\static\federations\js\base_federation.js:73
-#: .\static\users\base_clients.js:72 .\users\static\users\base_clients.js:72
+#: .\static\users\base_clients.js:72
+#: .\users\static\users\modules\user_table_settings.js:49
 msgid "Version"
 msgstr "Версия"
 
 #: .\federations\static\federations\js\base_federation.js:107
 #: .\static\federations\js\base_federation.js:107
-#: .\static\users\base_clients.js:106 .\users\static\users\base_clients.js:106
+#: .\static\users\base_clients.js:106
+#: .\users\static\users\modules\user_table_settings.js:83
 msgid "Club"
 msgstr "Клуб"
 
 #: .\federations\static\federations\js\base_federation.js:280
 #: .\static\federations\js\base_federation.js:280
-#: .\static\users\base_clients.js:313 .\users\static\users\base_clients.js:313
+#: .\static\users\base_clients.js:313 .\users\static\users\base_clients.js:128
 msgid "Are you sure you want to generate a new password?"
 msgstr "Вы уверены, что хотите сгенерировать новый пароль?"
 
@@ -535,6 +537,10 @@ msgstr ""
 #: .\static\video-js-7.20.0\video.min.js:12
 msgid "function"
 msgstr "функция"
+
+#: .\notifications\static\notifications\js\ajax_notification_sent.js:38
+msgid "Notification"
+msgstr "Уведомление"
 
 #: .\references\static\references\ref_settings.js:17
 #: .\references\static\references\ref_settings.js:57
@@ -1108,11 +1114,11 @@ msgstr "Есть незаполненные игроки! Заполните и�
 msgid "Training action \""
 msgstr "Действие с тренировкой \""
 
-#: .\static\users\base_clients.js:292 .\users\static\users\base_clients.js:292
+#: .\static\users\base_clients.js:292 .\users\static\users\base_clients.js:107
 msgid "Delete user?"
 msgstr "Удалить пользователя?"
 
-#: .\static\users\base_clients.js:293 .\users\static\users\base_clients.js:293
+#: .\static\users\base_clients.js:293 .\users\static\users\base_clients.js:108
 msgid ""
 "After deletion, all workouts, folders and exercises of the user will be "
 "cleaned."

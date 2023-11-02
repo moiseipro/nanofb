@@ -22,181 +22,6 @@ $(window).on("load", function () {
         }
     });
 
-    $('#country-filter').select2({
-        minimumResultsForSearch: -1,
-        placeholder: gettext("Country"),
-        language: get_cur_lang(),
-        theme: 'bootstrap4',
-        width: '100%',
-        ajax: {
-            url: '/user/countries_list',
-            dataType: 'json',
-            data: function (params) {
-                // var query = {
-                //     search: params.term,
-                //     page: params.page || 1
-                // }
-                //
-                // // Query parameters will be ?search=[term]&page=[page]
-                //return query;
-            },
-            processResults: function (data, params) {
-                // parse the results into the format expected by Select2
-                // since we are using custom formatting functions we do not need to
-                // alter the remote JSON data, except to indicate that infinite
-                // scrolling can be used
-                console.log(data)
-
-                return {
-                    results: data,
-                    pagination: {
-                      more: false
-                    }
-                };
-            },
-            cache: true
-        },
-        templateResult: function (state) {
-            console.log(state)
-            var $state = $(`
-                <div class="w-100"><img src="${state.flag}" class="img-flag" /> ${state.text} <span class="float-right">${state.count ? '('+state.count+')':''}</span></div>
-                
-            `);
-            return $state;
-        }
-    })
-
-    $('#version-filter').select2({
-        minimumResultsForSearch: -1,
-        multiple: true,
-        placeholder: gettext("Version"),
-        language: get_cur_lang(),
-        theme: 'bootstrap4',
-        width: '100%',
-        ajax: {
-            url: '/user/versions_list',
-            dataType: 'json',
-            data: function (params) {
-
-            },
-            processResults: function (data, params) {
-                console.log(data)
-                return {
-                    results: data,
-                    pagination: {
-                      more: false
-                    }
-                };
-            },
-            cache: true
-        },
-        templateResult: function (state) {
-            console.log(state)
-            var $state = $(`
-                <div class="w-100"> ${state.text} <span class="float-right">${state.count ? '('+state.count+')':''}</span></div>
-                
-            `);
-            return $state;
-        }
-    })
-
-    $('#club-filter').select2({
-        minimumResultsForSearch: -1,
-        multiple: true,
-        placeholder: gettext("Club"),
-        language: get_cur_lang(),
-        theme: 'bootstrap4',
-        width: '100%',
-        ajax: {
-            url: '/user/clubs_list',
-            dataType: 'json',
-            data: function (params) {
-
-            },
-            processResults: function (data, params) {
-                console.log(data)
-                return {
-                    results: data,
-                    pagination: {
-                      more: false
-                    }
-                };
-            },
-            cache: true
-        },
-        templateResult: function (state) {
-            console.log(state)
-            var $state = $(`
-                <div class="w-100"> ${state.text} <span class="float-right">${state.count ? '('+state.count+')':''}</span></div>
-                
-            `);
-            return $state;
-        }
-    })
-    
-    // $('.function-block').on("shown.bs.collapse hidden.bs.collapse", function (event) {
-    //     check_admin_button()
-    // })
-    
-    // $('#open-profile-modal').on('click', function () {
-    //
-    //     if (users_menu_state == 'table_settings'){
-    //         $('#open-table-settings').click()
-    //     } else if (users_menu_state == 'user_info'){
-    //         $('#back-users-table').click()
-    //         return false
-    //     }
-    //
-    //
-    //     users_menu_state = 'user_info'
-    //
-    //     $('#user-management-block').removeClass('d-none').addClass('col-sm-7');
-    //     $('#users-table-block').removeClass('col-sm-12').addClass('col-sm-5');
-    //
-    //     users_table.columns( '.main-info-col' ).visible( true );
-    //     users_table.columns( '.side-info-col' ).visible( false );
-    //     users_table.columns( '.additional-info-col' ).visible( false );
-    //
-    //     $('.toggle-user-column').prop('checked', false)
-    //
-    // })
-    //
-    // $('#open-table-settings').on('click', function () {
-    //
-    //     if (users_menu_state == 'user_info')
-    //         $('#back-users-table').click()
-    //
-    //     if (users_menu_state == 'table_settings'){
-    //         users_menu_state = null
-    //         $(this).children('i').removeClass('fa-indent').addClass('fa-outdent')
-    //         $('#user-table-settings-block').addClass('d-none').removeClass('col-sm-2');
-    //         $('#users-table-block').removeClass('col-sm-10').addClass('col-sm-12');
-    //         users_table.columns.adjust().draw( false );
-    //         return false;
-    //     }
-    //
-    //     users_menu_state = 'table_settings'
-    //
-    //     $(this).children('i').removeClass('fa-outdent').addClass('fa-indent')
-    //     $('#user-table-settings-block').removeClass('d-none').addClass('col-sm-2');
-    //     $('#users-table-block').removeClass('col-sm-12').addClass('col-sm-10');
-    //
-    // })
-
-    //$('#open-table-settings').click()
-
-    // $('#back-users-table').on('click', function () {
-    //
-    //     users_menu_state = null
-    //
-    //     $('#user-management-block').addClass('d-none').removeClass('col-sm-7');
-    //     $('#users-table-block').removeClass('col-sm-5').addClass('col-sm-12');
-    //
-    //     users_table.columns( '.main-info-col' ).visible( true );
-    //     users_table.columns( '.side-info-col' ).visible( true );
-    //
-    // })
-
     $('#edit-profile-button').on('click', function () {
         if(!$('#edit-personal-form').valid()) return
         let personal = $('#edit-personal-form').serializeArray()
@@ -254,16 +79,6 @@ $(window).on("load", function () {
         ajax_users_action('POST', send_data, 'create').then(function (data) {
             console.log(data)
         })
-    })
-
-    // Настройки показа колонок в таблице пользователей
-    $('.toggle-user-column').on('change', function () {
-        let checkbox = $(this);
-        console.log(checkbox.is(':checked'))
-
-        let col_data = checkbox.attr('data-col')
-        users_table.columns( '.'+col_data ).visible( checkbox.is(':checked') );
-        check_active_filters()
     })
 
     $('#users-table').on('click', '.archive-user', function () {
@@ -343,60 +158,16 @@ $(window).on("load", function () {
         })
         .on( 'deselect', function ( e, dt, type, indexes ) {
             let rowData = users_table.rows( indexes ).data().toArray();
-            let cur_edit_data = rowData[0]
-            // if(user_select_id == cur_edit_data.id){
-            //     $('#users-table-block .open-profile-modal').prop('disabled', true)
-            //     $('#back-users-table').click()
-            //     user_select_id = null
-            // }
+            if(type=='row') {
+                $('#admin-filters-button').click()
+                toggle_edit_mode(false)
+                let cur_edit_data = rowData[0]
+                console.log(cur_edit_data)
+                Cookies.remove('user_selected_id')
+                user_select_id = null
+                check_admin_button()
+            }
         })
-
-    //Загрузка сохраненных фильтров
-    $('#users-table').on('preInit.dt', function () {
-        $('.user-table-filter').each(function() {
-            let filter = $(this).attr('data-filter')
-            let value = Cookies.get(filter)
-            console.log(filter + ':' + value)
-            if(value) {
-                if ($(this).attr('type')=="checkbox") $(this).prop('checked', true).change()
-                else if($(this).hasClass('datetimepickerfilter')) $(this).datetimepicker('date', moment(value, 'YYYY-MM-DD').format('DD/MM/YYYY'))
-                else $(this).val(value).trigger('change')
-            }
-        });
-    });
-
-
-    // Фильтрация таблицы пользователей
-    $('.user-table-filter').on('change, change.datetimepicker', function (e) {
-        let value = $(this).val()
-        if ($(this).hasClass('datetimepickerfilter') && value != ''){
-            value = moment(value, 'DD/MM/YYYY').format('YYYY-MM-DD')
-            console.log(value)
-        }
-        if ($(this).hasClass('form-check-input')){
-            if (!$(this).is(":checked")){
-                value = ''
-            }
-
-            console.log(value)
-        }
-        console.log(value)
-        let filter = $(this).attr('data-filter')
-        let filter_obj = `.${filter}`;
-        Cookies.set(filter, value);
-        console.log(filter_obj)
-        if(value == 'all' || value == null){
-            users_table.columns(filter_obj).search( '' ).draw();
-        } else{
-            users_table.columns(filter_obj).search( value ).draw();
-        }
-        check_active_filters()
-    })
-
-    // Сброс фильтров
-    $('#clear-user-filters').on('click', function () {
-        clear_filters()
-    })
 
     $('#add-club-form').submit(function (event) {
         let form_Data = new FormData(this)
@@ -408,30 +179,3 @@ $(window).on("load", function () {
         event.preventDefault();
     })
 })
-
-function check_active_filters() {
-    let is_filled = false
-    $('.user-table-filter').each(function() {
-        let value = $(this).not('[type="checkbox"]').val()
-        if (value != '' && value != null && value != undefined && value != "all" || $(this).is(':checked')) is_filled = true
-        console.log($(this).not('[type="checkbox"]').val())
-    })
-    $('.toggle-user-column').each(function() {
-        if ($(this).is(':checked')) is_filled = true
-    })
-
-    console.log(is_filled)
-    is_filled ? $('.only-selected[data-target=".table-settings-block"]').addClass('border-danger') : $('.only-selected[data-target=".table-settings-block"]').removeClass('border-danger')
-}
-
-function clear_filters() {
-    $('.user-table-filter').each(function() {
-        let filter = $(this).attr('data-filter')
-        Cookies.remove(filter)
-        if($(this).attr('type')=="checkbox") $(this).prop('checked', false)
-        else if($(this).hasClass('datetimepickerfilter')) $(this).datetimepicker('date', '')
-        else $(this).val('').trigger('change')
-        users_table.ajax.reload()
-    });
-    check_active_filters()
-}

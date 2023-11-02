@@ -1,17 +1,20 @@
 var users_table;
 
-function generate_ajax_users_table(scroll_y = ''){
+function generate_ajax_users_table(scroll_y = '', pagination = true){
+    let page_length = pagination ? 50 : -1;
+    let length_menu = pagination ? [ 25, 50, 100 ] : false
     users_table = $('#users-table').DataTable({
         language: {
             url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
         },
-        dom: "<'row'<'col-sm-12'tr>>" +
-             "<'row'<'col-sm-12 col-md-5'l><'col-sm-12 col-md-7'p>>",
+        dom: `<'row'<'col-sm-12'tr>>` +
+             `<'row'<'col-sm-12 col-md-5'l><'col-sm-12 col-md-7'${pagination ? 'p': ''}>>`,
         serverSide: true,
         processing: true,
         scrollY: scroll_y,
-        pageLength: 50,
-        lengthMenu: [ 25, 50, 100 ],
+        pageLength: page_length,
+        lengthMenu: length_menu,
+        lengthChange: pagination,
         columnDefs: [
             { targets: 'additional-info-col', visible: false }
         ],
@@ -144,7 +147,7 @@ function generate_ajax_users_table(scroll_y = ''){
     users_table.on('click', 'td', function () {
         console.log('SELECT')
         if($(this).parent().is('.selected')){
-            //users_table.row($(this).parent()).deselect()
+            users_table.row($(this).parent()).deselect()
         } else {
             users_table.rows('.selected').deselect()
             users_table.row($(this).parent()).select()
