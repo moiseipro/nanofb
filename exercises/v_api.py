@@ -834,25 +834,26 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
                 anim_1 = ExerciseVideo.objects.filter(exercise_club=exercise['id'], type=3).first()
                 anim_2 = ExerciseVideo.objects.filter(exercise_club=exercise['id'], type=4).first()
             
-            # if video_1 and video_1.video:
-            #     if video_1.video.is_video:
-            #         exercise['has_video_1'] = True
-            #     elif video_1.video.is_anim:
-            #         exercise['has_animation_1'] = True
-            # if anim_1 and anim_1.video:
-            #     if anim_1.video.is_video:
-            #         exercise['has_video_1'] = True
-            #     elif anim_1.video.is_anim:
-            #         exercise['has_animation_1'] = True
-            
             if video_1 and video_1.video:
-                exercise['has_video_1'] = True
-            if video_2 and video_2.video:
-                exercise['has_video_2'] = True
+                if video_1.video.note and video_1.video.note['video']:
+                    exercise['has_video_1'] = True
+                elif video_1.video.note and video_1.video.note['animation']:
+                    exercise['has_animation_1'] = True
             if anim_1 and anim_1.video:
-                exercise['has_animation_1'] = True
-            if anim_2 and anim_2.video:
-                exercise['has_animation_2'] = True
+                if anim_1.video.note and anim_1.video.note['video']:
+                    exercise['has_video_1'] = True
+                elif anim_1.video.note and anim_1.video.note['animation']:
+                    exercise['has_animation_1'] = True
+            
+            # if video_1 and video_1.video:
+            #     exercise['has_video_1'] = True
+            # if video_2 and video_2.video:
+            #     exercise['has_video_2'] = True
+            # if anim_1 and anim_1.video:
+            #     exercise['has_animation_1'] = True
+            # if anim_2 and anim_2.video:
+            #     exercise['has_animation_2'] = True
+            
             if user_params != None and user_params.exists() and user_params[0].id != None:
                 user_params = user_params.values()[0]
                 exercise['favorite'] = user_params['favorite']

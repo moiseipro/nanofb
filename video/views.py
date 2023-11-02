@@ -96,7 +96,7 @@ class VideoViewSet(viewsets.ModelViewSet):
                     }
                 )
                 print(mp_encoder)
-                response = requests.post(url, data=mp_encoder, headers={'Content-Type': mp_encoder.content_type})
+                response = requests.post(url, data=mp_encoder, headers={'Content-Type': mp_encoder.content_type}, verify=False)
                 content = response.json()
                 if 'data' in content:
                     video_data = content['data'][0]
@@ -109,7 +109,7 @@ class VideoViewSet(viewsets.ModelViewSet):
                 links['nftv'] = video_data['id']
                 url = 'https://nanofootball.pro/video/length/' + video_data['id']
                 try:
-                    response = requests.get(url)
+                    response = requests.get(url, verify=False)
                     content = json.loads(response.content.decode('utf-8'))
                     data_dict['duration'] = content['time']
                 except requests.exceptions.ConnectionError as e:
@@ -130,7 +130,7 @@ class VideoViewSet(viewsets.ModelViewSet):
                         )
                         # print(mp_encoder)
                         response = requests.post(url, data=mp_encoder,
-                                                 headers={'Content-Type': mp_encoder.content_type})
+                                                 headers={'Content-Type': mp_encoder.content_type}, verify=False)
                         content = response.json()
                         print(content)
 
@@ -146,7 +146,7 @@ class VideoViewSet(viewsets.ModelViewSet):
                         }
                     )
                     response = requests.post(url, data=mp_encoder,
-                                             headers={'Content-Type': mp_encoder.content_type})
+                                             headers={'Content-Type': mp_encoder.content_type}, verify=False)
                     content = response.json()
                     print(content)
 
@@ -188,7 +188,7 @@ class VideoViewSet(viewsets.ModelViewSet):
             # print(serializer)
             url = 'https://nanofootball.pro/video/length/' + instance.links['nftv']
             try:
-                response = requests.get(url)
+                response = requests.get(url, verify=False)
                 content = json.loads(response.content.decode('utf-8'))
                 print(content)
                 if 'time' in content:
@@ -221,7 +221,7 @@ class VideoViewSet(viewsets.ModelViewSet):
                         {"id": server_id},
                     ]
                 }
-                response = requests.post(url, json=post_data, headers={'Content-Type': 'application/json'})
+                response = requests.post(url, json=post_data, headers={'Content-Type': 'application/json'}, verify=False)
                 content = response.json()
                 # print(content)
                 video_data = content['data'][0]
@@ -243,7 +243,7 @@ class VideoViewSet(viewsets.ModelViewSet):
                         }
                     )
                     # print(mp_encoder)
-                    response = requests.post(url, data=mp_encoder, headers={'Content-Type': mp_encoder.content_type})
+                    response = requests.post(url, data=mp_encoder, headers={'Content-Type': mp_encoder.content_type}, verify=False)
                     content = response.json()
                     video_data = content['data'][0]
                     # print(content)
@@ -268,7 +268,7 @@ class VideoViewSet(viewsets.ModelViewSet):
                 )
                 # print(mp_encoder)
                 response = requests.post(url, data=mp_encoder,
-                                         headers={'Content-Type': mp_encoder.content_type})
+                                         headers={'Content-Type': mp_encoder.content_type}, verify=False)
                 content = response.json()
                 print(content)
 
@@ -285,7 +285,7 @@ class VideoViewSet(viewsets.ModelViewSet):
                 }
             )
             response = requests.post(url, data=mp_encoder,
-                                     headers={'Content-Type': mp_encoder.content_type})
+                                     headers={'Content-Type': mp_encoder.content_type}, verify=False)
             content = response.json()
             print(content)
 
@@ -339,7 +339,7 @@ def delete_video_nf(video_id):
             {"id": video_id},
         ]
     }
-    response = requests.post(url, json=post_data, headers={'Content-Type': 'application/json'})
+    response = requests.post(url, json=post_data, headers={'Content-Type': 'application/json'}, verify=False)
     content = response.json()
     print(content)
     video_data = content['data'][0]
@@ -361,7 +361,7 @@ def delete_video_obj_nf(video_obj):
                 {"id": server_id},
             ]
         }
-        response = requests.post(url, json=post_data, headers={'Content-Type': 'application/json'})
+        response = requests.post(url, json=post_data, headers={'Content-Type': 'application/json'}, verify=False)
         content = response.json()
         print(content)
         video_data = content['data'][0]
@@ -452,7 +452,7 @@ class CreateVideoView(LoginRequiredMixin, CreateView):
                     }
                 )
                 print(mp_encoder)
-                response = requests.post(url, data=mp_encoder, headers={'Content-Type': mp_encoder.content_type})
+                response = requests.post(url, data=mp_encoder, headers={'Content-Type': mp_encoder.content_type}, verify=False)
                 content = response.json()
                 video_data = content['data'][0]
                 print(content)

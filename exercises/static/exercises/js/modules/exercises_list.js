@@ -777,7 +777,7 @@ $(function() {
 
     // Toggle folders:
     $('#toggleFoldersViews').on('click', (e) => {
-        if ($('#toggleDescriptionInFolders').hasClass('c-active')) {
+        if ($('#toggleDescriptionInFolders').hasClass('selected3')) {
             $('#toggleDescriptionInFolders').removeClass('c-active');
             $('#toggleDescriptionInFolders').removeClass('selected3');
             $('#toggleDescriptionInFolders').attr('data-state', '0');
@@ -792,10 +792,10 @@ $(function() {
                     window.split.setSizes(window.split_sizes_tempo);
                 }
             } catch(e) {}
-            $(e.currentTarget).toggleClass('selected3', true);
+            $(e.currentTarget).toggleClass('selected3', $(e.currentTarget).attr('data-state') != "0");
             return;
         }
-        if ($('#toggleCardInFolders').hasClass('c-active')) {
+        if ($('#toggleCardInFolders').hasClass('selected3')) {
             $('#toggleCardInFolders').removeClass('c-active');
             $('#toggleCardInFolders').removeClass('selected3');
             $('#toggleCardInFolders').attr('data-state', '0');
@@ -810,7 +810,7 @@ $(function() {
                     window.split.setSizes(window.split_sizes_tempo);
                 }
             } catch(e) {}
-            $(e.currentTarget).toggleClass('selected3', true);
+            $(e.currentTarget).toggleClass('selected3', $(e.currentTarget).attr('data-state') != "0");
             return;
         }
         
