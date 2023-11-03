@@ -26,12 +26,14 @@ class NotificationUserSerializer(serializers.ModelSerializer):
         source='notification.title',
         read_only=True
     )
-    # notification = serializers.IntegerField()
-    # user = serializers.IntegerField()
+    content = serializers.CharField(
+        source='notification.content',
+        read_only=True
+    )
 
     class Meta:
         model = NotificationUser
         fields = [
-            'id', 'date_receiving', 'notification', 'title', 'user', 'viewed', 'favorites'
+            'id', 'date_receiving', 'notification', 'title', 'content', 'user', 'viewed', 'favorites'
         ]
         datatables_always_serialize = ('id',)

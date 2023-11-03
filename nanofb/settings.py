@@ -103,7 +103,8 @@ MIDDLEWARE = [
     'references.middleware.ReferencesMiddleware.TeamAndSeasons',
     'references.middleware.ReferencesMiddleware.AutoSelectTeamAndSeasons',
     'users.middleware.UsersMiddleware.LicenseValidityCheck',
-    'users.middleware.UsersMiddleware.SetLastVisit'
+    'users.middleware.UsersMiddleware.SetLastVisit',
+    'notifications.middleware.NotificationsMiddleware.NotificationsCountMiddleware'
 
 ]
 

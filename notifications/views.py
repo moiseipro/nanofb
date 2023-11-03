@@ -1,6 +1,8 @@
 from django.shortcuts import render
+from django.utils.timezone import now, localtime
 from rest_framework import viewsets, status
-from rest_framework.permissions import IsAdminUser
+from rest_framework.decorators import action
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework_datatables.django_filters.backends import DatatablesFilterBackend
 from rest_framework.response import Response
@@ -45,7 +47,7 @@ class NotificationManagementApiView(viewsets.ModelViewSet):
 
 
 class NotificationUserManagementApiView(viewsets.ModelViewSet):
-    permission_classes = (IsAdminUser,)
+    #permission_classes = (IsAdminUser,)
     filter_backends = (DatatablesFilterBackend,)
     filterset_class = NotificationUserManagementGlobalFilter
 
@@ -63,6 +65,41 @@ class NotificationUserManagementApiView(viewsets.ModelViewSet):
             status=status.HTTP_201_CREATED,
             headers=headers
         )
+
+    @action(detail=False, methods=['get'])
+    def get_user_notification(self, request):
+        instance = NotificationUser.objects.filter(user_id=request.user, viewed=False, date_receiving__lte=now())
+        serializer = NotificationUserSerializer(instance, many=True)
+        if serializer.data:
+            response = {
+                'action': 'get_user_notification',
+                'data': serializer.data
+            }
+            return Response(response, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=['post'])
+    def set_view_notification(self, request, pk=None):
+        instance = NotificationUser.objects.get(pk=pk)
+        instance.viewed = True
+        instance.save()
+        #serializer = NotificationUserSerializer(instance)
+        response = {
+            'action': 'set_view_notification',
+            'data': ''
+        }
+        return Response(response, status=status.HTTP_200_OK)
+
+    def get_permissions(self):
+        """
+        Instantiates and returns the list of permissions that this view requires.
+        """
+        if self.action == 'list':
+            permission_classes = [IsAuthenticated]
+        else:
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
 
     def get_serializer_class(self):
         return NotificationUserSerializer

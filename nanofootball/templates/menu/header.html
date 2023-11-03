@@ -113,10 +113,13 @@
     <!-- /Admin settings panel -->
 
     <!-- Notifications -->
-{#    <li class="nav-item dropdown noti-dropdown">#}
-{#        <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">#}
-{#            <i class="fe fe-bell"></i> <span class="badge badge-pill">3</span>#}
-{#        </a>#}
+    <li class="nav-item dropdown noti-dropdown">
+        <a href="#" id="view-notifications-button" class="dropdown-toggle nav-link" data-toggle="modal" data-target="#notifications-view-modal"> {# data-toggle="dropdown" #}
+                <i class="fe fe-bell"></i>
+            {% if request.notifications_count %}
+                <span id="new-notifications-counter" class="badge badge-pill">{{ request.notifications_count }}</span>
+            {% endif %}
+        </a>
 {#        <div class="dropdown-menu notifications">#}
 {#            <div class="topnav-dropdown-header">#}
 {#                <span class="notification-title">Notifications</span>#}
@@ -184,7 +187,7 @@
 {#                <a href="#">View all Notifications</a>#}
 {#            </div>#}
 {#        </div>#}
-{#    </li>#}
+    </li>
     <!-- /Notifications -->
 
     <!-- User Menu -->
