@@ -8,8 +8,9 @@ class NotificationsCountMiddleware:
         # One-time configuration and initialization.
 
     def __call__(self, request):
-        notifications_count = NotificationUser.objects.filter(user=request.user, viewed=False, date_receiving__lte=now()).count()
-        request.notifications_count = notifications_count
+        if not request.user.is_anonymous:
+            notifications_count = NotificationUser.objects.filter(user=request.user, viewed=False, date_receiving__lte=now()).count()
+            request.notifications_count = notifications_count
 
         response = self.get_response(request)
 
