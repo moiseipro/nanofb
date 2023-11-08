@@ -12,7 +12,7 @@ from references.models import PlayerTeamStatus, PlayerPlayerStatus, PlayerLevel,
 
 class PlayerRecord(models.Model):
     date = models.DateTimeField(blank=False, default=timezone.now)
-    record = models.CharField(max_length=30, null=True, blank=True)
+    record = models.CharField(max_length=512, null=True, blank=True)
     class Meta:
         ordering = ['date']
 
