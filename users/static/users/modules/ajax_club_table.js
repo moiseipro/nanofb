@@ -82,7 +82,7 @@ function generate_ajax_clubs_table(scroll_y = ''){
     clubs_table.on('click', 'td', function () {
         console.log('SELECT')
         if($(this).parent().is('.selected')){
-            //clubs_table.row($(this).parent()).deselect()
+            clubs_table.row($(this).parent()).deselect()
         } else {
             clubs_table.rows('.selected').deselect()
             clubs_table.row($(this).parent()).select()

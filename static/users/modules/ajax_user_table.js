@@ -1,4 +1,5 @@
 var users_table;
+var is_select_user = false;
 
 function generate_ajax_users_table(scroll_y = '', pagination = true){
     let page_length = pagination ? 50 : -1;
@@ -25,6 +26,7 @@ function generate_ajax_users_table(scroll_y = '', pagination = true){
         drawCallback: function( settings ) {
             $('#club-users-table-counter').text(settings._iRecordsDisplay)
             if(Cookies.get('user_selected_id')){
+                is_select_user = true
                 $('#users-table tr[data-user="'+Cookies.get('user_selected_id')+'"] td:first').click();
             }
         },
@@ -147,11 +149,45 @@ function generate_ajax_users_table(scroll_y = '', pagination = true){
     users_table.on('click', 'td', function () {
         console.log('SELECT')
         if($(this).parent().is('.selected')){
+            is_select_user = false;
             users_table.row($(this).parent()).deselect()
         } else {
+            is_select_user = true;
             users_table.rows('.selected').deselect()
             users_table.row($(this).parent()).select()
         }
+    })
+
+    //Переключение по пользователям
+    $(document).keydown(function(e) {
+        let isNext = false;
+        console.log('test')
+        if(e.keyCode == 38){
+            $($('#users-table tr').get().reverse()).each(function( index ) {
+                console.log($(this))
+                if(isNext){
+                    console.log('down')
+                    $(this).find('td:first').click()
+                    return false
+                }
+                if($(this).hasClass('selected')){
+                    isNext = true;
+                }
+            });
+        }
+        if(e.keyCode == 40){
+            $('#users-table tr').each(function( index ) {
+                if(isNext){
+                    console.log('down')
+                    $(this).find('td:first').click()
+                    return false
+                }
+                if($(this).hasClass('selected')){
+                    isNext = true;
+                }
+            });
+        }
+
     })
 }
 

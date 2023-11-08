@@ -5,7 +5,10 @@ $(window).on("load", function () {
     generate_ajax_users_table("calc(100vh - 240px)")
     generate_ajax_clubs_table("calc(100vh - 240px)")
 
-    check_admin_button()
+    users_table.on('preInit.dt', function () {
+        check_admin_button()
+    });
+
 
     $('.datetimepickerfilter').datetimepicker({
         format: 'DD/MM/YYYY',
@@ -159,7 +162,6 @@ $(window).on("load", function () {
         .on( 'deselect', function ( e, dt, type, indexes ) {
             let rowData = users_table.rows( indexes ).data().toArray();
             if(type=='row') {
-                $('#admin-filters-button').click()
                 toggle_edit_mode(false)
                 let cur_edit_data = rowData[0]
                 console.log(cur_edit_data)

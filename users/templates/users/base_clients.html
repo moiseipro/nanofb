@@ -36,16 +36,16 @@
                         <div class="col">
                             <div class="row">
                                 <div class="col px-1">
-                                    <button id="admin-filters-button" class="btn btn-outline-secondary btn-block only-selected always-active" data-toggle="collapse" data-target=".table-settings-block" aria-controls="Filters" aria-selected="false">{% trans "Filters" %}</button>
+                                    <button id="admin-filters-button" class="btn btn-outline-secondary btn-block only-selected always-active" data-target=".table-settings-block" aria-controls="Filters" aria-selected="false">{% trans "Filters" %}</button>
                                 </div>
                                 <div class="col px-1">
-                                    <button class="btn btn-outline-secondary btn-block only-selected" data-toggle="collapse" data-target=".management-main-block" aria-controls="Settings" aria-selected="false">{% trans "Settings" %}</button>
+                                    <button class="btn btn-outline-secondary btn-block only-selected" data-target=".management-main-block" aria-controls="Settings" aria-selected="false">{% trans "Settings" %}</button>
                                 </div>
                                 <div class="col px-1">
-                                    <button class="btn btn-outline-secondary btn-block only-selected" data-toggle="collapse" data-target=".management-permissions-block" aria-controls="Permissions" aria-selected="false">{% trans "Permissions" %}</button>
+                                    <button class="btn btn-outline-secondary btn-block only-selected" data-target=".management-permissions-block" aria-controls="Permissions" aria-selected="false">{% trans "Permissions" %}</button>
                                 </div>
                                 <div class="col px-1">
-                                    <button class="btn btn-outline-secondary btn-block only-selected" data-toggle="collapse" data-target=".management-profile-block" aria-controls="Profile" aria-selected="false">{% trans "Profile" %}</button>
+                                    <button class="btn btn-outline-secondary btn-block only-selected" data-target=".management-profile-block" aria-controls="Profile" aria-selected="false">{% trans "Profile" %}</button>
                                 </div>
                             </div>
                         </div>
@@ -75,11 +75,20 @@
                         </div>
                         <div class="tab-pane fade" id="clubs-table-tab" role="tabpanel" aria-labelledby="pills-clubs-tab">
                             <div class="row">
-                                <div id="clubs-table-block" class="col-sm-12 px-1">
+                                <div id="clubs-table-block" curr-col="12" class="col-12 px-1 table-block">
                                     {% include "users/modules/club_table.html" %}
                                 </div>
-                                <div id="club-management-block" class="pt-2 d-none">
-{#                                    {% include "users/modules/management_client.html" %}#}
+                                <div id="club-table-settings-block" data-col="2" class="pt-1 col-2 collapse function-block table-settings-block">
+                                    {% include "users/modules/club_table_settings.html" %}
+                                </div>
+                                <div id="club-management-main-block" data-col="3" class="px-1 col-3 collapse function-block management-main-block">
+                                    {% include "users/modules/management_main.html" %}
+                                </div>
+                                <div id="club-management-permissions-block" data-col="5" class="px-1 col-5 collapse function-block management-permissions-block">
+                                    {% include "users/modules/management_permissions.html" %}
+                                </div>
+                                <div id="club-management-profile-block" data-col="3" class="px-1 col-3 collapse function-block management-profile-block">
+                                    {% include "users/modules/management_profile.html" %}
                                 </div>
                             </div>
                         </div>
