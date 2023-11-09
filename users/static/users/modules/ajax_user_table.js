@@ -104,6 +104,9 @@ function generate_ajax_users_table(scroll_y = '', pagination = true){
             {'data': 'exercises', 'name': 'exercises', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
                 return `<div class="w-100 text-center" title="${data}"> ${data} </div>`;
             }},
+            {'data': 'notifications_count', 'name': 'notifications_count', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
+                return `<div class="w-100 text-center" title="${data}"> ${data} </div>`;
+            }},
             {'data': 'date_last_login', 'name': 'date_last_login', 'defaultContent': "---", render: function (data, type, row, meta) {
                 let view_date = ''
                 if (data == '') view_date = '...'
@@ -162,11 +165,13 @@ function generate_ajax_users_table(scroll_y = '', pagination = true){
     $(document).keydown(function(e) {
         let isNext = false;
         console.log('test')
+        let obj_scroll = ''
         if(e.keyCode == 38){
             $($('#users-table tr').get().reverse()).each(function( index ) {
                 console.log($(this))
                 if(isNext){
                     console.log('down')
+                    obj_scroll = $(this)
                     $(this).find('td:first').click()
                     return false
                 }
@@ -179,6 +184,7 @@ function generate_ajax_users_table(scroll_y = '', pagination = true){
             $('#users-table tr').each(function( index ) {
                 if(isNext){
                     console.log('down')
+                    obj_scroll = $(this)
                     $(this).find('td:first').click()
                     return false
                 }
@@ -187,7 +193,7 @@ function generate_ajax_users_table(scroll_y = '', pagination = true){
                 }
             });
         }
-
+        $('#users-table').parent().animate({scrollTop: obj_scroll.offset().top},'slow');
     })
 }
 

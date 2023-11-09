@@ -6,6 +6,7 @@ from rest_framework import serializers
 
 from clubs.serializers import ClubSerializer
 from exercises.models import UserExercise, ClubExercise
+from notifications.models import NotificationUser
 from players.models import ClubPlayer, UserPlayer
 from references.models import ClubTeam, UserTeam
 from users.models import User, UserPersonal, TrainerLicense
@@ -215,6 +216,8 @@ class UserManagementSerializer(serializers.ModelSerializer):
 
     access_to = serializers.SerializerMethodField()
 
+    notifications_count = serializers.SerializerMethodField()
+
     def get_license(self, user):
         license_name = ''
         if user.personal.trainer_license is not None:
@@ -339,6 +342,11 @@ class UserManagementSerializer(serializers.ModelSerializer):
         else:
             return strdate
 
+    def get_notifications_count(self, user):
+        notifications = NotificationUser.objects.filter(user=user)
+        data = str(notifications.count())
+        return data
+
     class Meta:
         model = User
         fields = [
@@ -346,6 +354,7 @@ class UserManagementSerializer(serializers.ModelSerializer):
             'last_name', 'first_name', 'job_title', 'date_birthsday', 'age', 'access_to',
             'trainer_license', 'license', 'license_date', 'flag', 'distributor', 'date_joined', 'club_title',
             'activation', 'club_name', 'club_registration_to', 'is_archive', 'date_joined', 'phone', 'date_last_login',
-            'region', 'club_id', 'exercises', 'teams', 'online', 'teams_players', 'teams_players_fact'
+            'region', 'club_id', 'exercises', 'teams', 'online', 'teams_players', 'teams_players_fact',
+            'notifications_count'
         ]
         datatables_always_serialize = ('id', 'groups', 'trainer_license', 'club_registration_to', 'is_archive')

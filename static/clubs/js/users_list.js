@@ -1,4 +1,5 @@
 let users_table
+var is_select_user = false;
 
 function generate_ajax_club_users_table(scroll_y = ''){
     users_table = $('#users-table').DataTable({
@@ -19,6 +20,7 @@ function generate_ajax_club_users_table(scroll_y = ''){
         drawCallback: function( settings ) {
             $('#club-users-table-counter').text(settings._iRecordsDisplay)
             if(Cookies.get('user_selected_id')){
+                is_select_user = true
                 $('#users-table tr[data-user="'+Cookies.get('user_selected_id')+'"] td:first').click();
             }
         },
@@ -49,13 +51,24 @@ function generate_ajax_club_users_table(scroll_y = ''){
                 return `<div class="w-100 text-center" title="${data}"> ${data} </div>`;
             }},
             {'data': 'date_birthsday', 'name': 'date_birthsday', 'defaultContent': "---"},
-            {'data': 'teams', 'name': 'teams', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
-                return `<div class="text-truncate" style="max-width: 200px;" title="${data}"> ${data} </div>`;
-            }},
+            // {'data': 'teams', 'name': 'teams', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
+            //     return `<div class="text-truncate" style="max-width: 200px;" title="${data}"> ${data} </div>`;
+            // }},
             {'data': 'job_title', 'name': 'job_title', 'defaultContent': "---", render: function (data, type, row, meta) {
                 return `<span class="text-truncate" title="${data}"> ${data ? data : '---'} </span>`;
             }},
-            {'data': 'license_date', 'name': 'license_date', 'defaultContent': "---"},
+            {'data': 'date_last_login', 'name': 'date_last_login', 'defaultContent': "---", render: function (data, type, row, meta) {
+                let view_date = ''
+                if (data == '') view_date = '...'
+                else view_date = moment(data, "DD/MM/YYYY").format('DD/MM/YYYY')
+                let html = `<div class="w-100 text-center" title="${view_date}"> ${view_date} </div>`;
+                return html;
+            }},
+            {'data': 'online', 'name': 'online', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
+                let html = `<div class="w-100 text-center"> ${data} </div>`;
+                return html;
+            }},
+            //{'data': 'license_date', 'name': 'license_date', 'defaultContent': "---"},
             // {'data': 'email', 'name': 'email'},
             // {'data': 'phone', 'name': 'phone', 'defaultContent': "---", render: function (data, type, row, meta) {
             //     return `<div class="text-truncate" title="${data}"> ${data ? data : '---'} </div>`;
@@ -79,8 +92,10 @@ function generate_ajax_club_users_table(scroll_y = ''){
     users_table.on('click', 'td', function () {
         console.log('SELECT')
         if($(this).parent().is('.selected')){
-            //users_table.row($(this).parent()).deselect()
+            is_select_user = false;
+            users_table.row($(this).parent()).deselect()
         } else {
+            is_select_user = true;
             users_table.rows('.selected').deselect()
             users_table.row($(this).parent()).select()
         }

@@ -2,11 +2,12 @@ from datetime import date, timedelta, datetime
 from django.utils.timezone import now
 
 from django.contrib.auth.models import Permission, Group
-from django.db.models import Q
+from django.db.models import Q, Prefetch
 from django_filters import filters
 from rest_framework_datatables.django_filters.filterset import DatatablesFilterSet
 from rest_framework_datatables.django_filters.filters import GlobalFilter
 
+from notifications.models import NotificationUser
 from users.models import User
 
 
@@ -20,6 +21,15 @@ class GlobalNumberFilter(GlobalFilter, filters.NumberFilter):
 
 class GlobalDateFilter(GlobalFilter, filters.DateFilter):
     pass
+
+
+class GlobalNotificationsFilter(GlobalFilter, filters.CharFilter):
+    def filter(self, qs, value):
+        if value:
+            if self.distinct:
+                qs = qs.distinct()
+            qs = qs.filter(notificationuser__in=NotificationUser.objects.all()).distinct()
+        return qs
 
 
 class GlobalJoinDateFilter(GlobalFilter, filters.DateFilter):
@@ -156,6 +166,7 @@ class UserManagementGlobalFilter(DatatablesFilterSet):
     is_archive = GlobalArchiveFilter()
     online = GlobalOnlineFilter()
     access_to = GlobalAccessToFilter()
+    notifications_count = GlobalNotificationsFilter()
 
     date_birthsday = GlobalDateFilter(field_name='personal__date_birthsday')
     last_name = GlobalNameFilter(field_name='personal__last_name', lookup_expr='icontains')
@@ -177,4 +188,4 @@ class UserManagementGlobalFilter(DatatablesFilterSet):
     class Meta:
         #model = User
         fields = ['registration_to', 'date_birthsday', 'last_name', 'first_name', 'job_title', 'license', 'p_version',
-                  'club_id', 'distributor', 'is_archive', 'online', 'access_to']
+                  'club_id', 'distributor', 'is_archive', 'online', 'access_to', 'notifications_count']

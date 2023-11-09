@@ -9,7 +9,9 @@ $(window).on('load', function (){
     initialize_phone_input();
     generate_ajax_club_users_table("calc(100vh - 310px)");
 
-    check_admin_button()
+    users_table.on('preInit.dt', function () {
+        check_admin_button()
+    });
 
     $('#personal-form').validate({
         errorElement: 'p',
@@ -149,41 +151,6 @@ $(window).on('load', function (){
         })
     })
 
-    // $('#open-profile-modal').on('click', function () {
-    //
-    //     if (users_menu_state == 'table_settings'){
-    //         $('#open-table-settings').click()
-    //     } else if (users_menu_state == 'user_info'){
-    //         $('#back-users-table').click()
-    //         return false
-    //     }
-    //
-    //
-    //     users_menu_state = 'user_info'
-    //
-    //     $('#user-management-block').removeClass('d-none').addClass('col-sm-7');
-    //     $('#users-table-block').removeClass('col-sm-12').addClass('col-sm-5');
-    //
-    //     users_table.columns( '.main-info-col' ).visible( true );
-    //     users_table.columns( '.side-info-col' ).visible( false );
-    //     users_table.columns( '.additional-info-col' ).visible( false );
-    //
-    //     $('.toggle-user-column').prop('checked', false)
-    //
-    // })
-    //
-    // $('#back-users-table').on('click', function () {
-    //
-    //     users_menu_state = null
-    //
-    //     $('#user-management-block').addClass('d-none').removeClass('col-sm-7');
-    //     $('#users-table-block').removeClass('col-sm-5').addClass('col-sm-12');
-    //
-    //     users_table.columns( '.main-info-col' ).visible( true );
-    //     users_table.columns( '.side-info-col' ).visible( true );
-    //
-    // })
-
     $('#edit-profile-button').on('click', function () {
         if(!$('#edit-personal-form').valid()) return
         let personal = $('#edit-personal-form').serializeArray()
@@ -225,12 +192,12 @@ $(window).on('load', function (){
         })
         .on( 'deselect', function ( e, dt, type, indexes ) {
             let rowData = users_table.rows( indexes ).data().toArray();
+            toggle_edit_mode(false)
             let cur_edit_data = rowData[0]
-            // if(user_select_id == cur_edit_data.id){
-            //     $('#users-table-block .open-profile-modal').prop('disabled', true)
-            //     $('#back-users-table').click()
-            //     user_select_id = null
-            // }
+            console.log(cur_edit_data)
+            Cookies.remove('user_selected_id')
+            user_select_id = null
+            check_admin_button()
         })
 })
 

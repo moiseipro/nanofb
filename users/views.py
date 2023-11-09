@@ -25,6 +25,7 @@ from rest_framework_datatables.django_filters.backends import DatatablesFilterBa
 
 from clubs.models import Club
 from clubs.serializers import ClubSerializer
+from notifications.models import Notification
 from system_icons.views import get_ui_elements
 
 from users.filters import UserManagementGlobalFilter
@@ -264,7 +265,7 @@ class UserManagementApiView(viewsets.ModelViewSet):
 
         #users = User.objects.filter(club_id=request.user.club_id)
         users = User.objects.all().order_by('club_id', 'p_version')
-        #User.objects.filter(groups__=)
+        #User.objects.prefetch_related(Prefetch('notificationuser_set'))
 
         return users
 

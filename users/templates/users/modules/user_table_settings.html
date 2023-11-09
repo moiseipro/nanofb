@@ -76,6 +76,12 @@
             </label>
         </div>
         <div class="form-check">
+            <input class="form-check-input toggle-user-column user-table-filter" data-col="notifications-info-col" data-filter="notifications-filter" type="checkbox" value="true" id="notifications-check">
+            <label class="form-check-label" for="notifications-check">
+                {% trans 'Notifications' %}
+            </label>
+        </div>
+        <div class="form-check">
             <input class="form-check-input toggle-user-column user-table-filter" data-col="access-info-col" data-filter="access-user-filter" type="checkbox" value="true" id="access-check">
             <label class="form-check-label" for="access-check">
                 {% trans 'Access to' %}
