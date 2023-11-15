@@ -4,7 +4,6 @@ import re
 from datetime import datetime, date, timedelta
 from django.forms.models import model_to_dict
 from django.db.models import Q
-from references.models import UserTeam, ClubTeam
 from references.models import MedicineDiagnosisType, MedicineDiseaseSpecific, MedicineDiseaseNonSpecific
 from references.models import MedicineDiseaseSpecificUser, MedicineDiseaseSpecificClub, MedicineDiseaseNonSpecificUser, MedicineDiseaseNonSpecificClub
 from references.models import MedicineTreatmentType, MedicineNoteType, MedicineAccessType
@@ -13,103 +12,7 @@ from medicine.models import UserMedicineDiagnosis, ClubMedicineDiagnosis, UserMe
 from medicine.models import UserMedicineDocument, ClubMedicineDocument, UserMedicineNote, ClubMedicineNote
 from medicine.models import UserMedicineAccess, ClubMedicineAccess
 from nanofootball.views import util_check_access
-
-LANG_CODE_DEFAULT = "en"
-
-
-def get_by_language_code(value, code):
-    """
-    Return a value by current language's code.
-
-    :param value: Dictionary with structure("code_1": "value_1",...) for different languages. Usually "value" is STRING.
-    :type value: dict[str]
-    :param code: String key of any language. For example: "engilsh" -> "en", "russian" -> "ru".
-    :type code: [str]
-    :raise None. In case of an exception, the result: "". 
-        If it was not possible to find the desired value by the key, then an attempt will be made to take the default (LANG_CODE_DEFAULT).
-    :return: Value, depending on the current language.
-    :rtype: [str]
-
-    """
-    res = ""
-    try:
-        res = value[code]
-    except:
-        pass
-    if res == "":
-        try:
-            res = value[LANG_CODE_DEFAULT]
-        except:
-            pass
-    return res
-
-
-def set_by_language_code(elem, code, value, value2 = None):
-    """
-    Return edited object as dict where key: language code, value: string text.
-
-    :param elem: Field of current model. Usually it defined as title, name or description.
-    :type elem: [Model.field]
-    :param code: String key of any language. For example: "engilsh" -> "en", "russian" -> "ru".
-    :type code: [str]
-    :param value: New value for returned dictionary.
-    :type value: [str]
-    :param value2: Additional value for replace "value".
-    :type value2: [str] or None
-    :return: Object which is field of the Model.
-    :rtype: [object]
-
-    """
-    if value2:
-        value = value2 if value2 != "" else value
-    if type(elem) is dict:
-        elem[code] = value
-    else:
-        elem = {code: value}
-    return elem
-
-
-def set_value_as_int(value, def_value = None):
-    """
-    Return new value for the Model's Field. Value is obtained by get from request parameter's value and try to transform it to int.
-    In case of success new value will be returned else returned default value.
-
-    :param request: Django HttpRequest.
-    :type request: [HttpRequest]
-    :param name: Name of getting request parameter.
-    :type name: [str]
-    :param def_value: Default value for new value.
-    :type def_value: [int] or None
-    :return: New value.
-    :rtype: [int] or None
-
-    """
-    res = def_value
-    try:
-        res = int(value)
-    except:
-        pass
-    return res
-
-
-def set_refs_translations(data, lang_code):
-    """
-    Return data with new key "title". "Title" - translated value with key "translation_names" at current system's language.
-
-    :param data: Dictionary with references' elements.
-    :type data: dict[object]
-    :param lang_code: String key of any language. For example: "engilsh" -> "en", "russian" -> "ru".
-    :type lang_code: [str]
-    :return: Dictionary with references' elements with new value for key "title".
-    :rtype: dict[object]
-
-    """
-    for key in data:
-        elems = data[key]
-        for elem in elems:
-            title = get_by_language_code(elem['translation_names'], lang_code)
-            elem['title'] = title if title != "" else elem['name']
-    return data
+import nanofootball.utils as utils
 
 
 def get_medicine_refs(request, c_user):
@@ -133,7 +36,7 @@ def get_medicine_refs(request, c_user):
     refs['med_treatment_type'] = MedicineTreatmentType.objects.filter().values()
     refs['med_note_type'] = MedicineNoteType.objects.filter().values()
     refs['med_access_type'] = MedicineAccessType.objects.filter().values()
-    refs = set_refs_translations(refs, request.LANGUAGE_CODE)
+    refs = utils.set_refs_translations(refs, request.LANGUAGE_CODE)
     return refs
 
 
@@ -178,8 +81,6 @@ def transform_med_value(name, value, request, c_user):
             pass
         value = MedicineAccessType.objects.filter(id=tmp_val).first()
     return value
-
-
 # --------------------------------------------------
 # MEDICINE API
 def POST_edit_medicine(request, cur_user, cur_team):
@@ -409,7 +310,7 @@ def POST_edit_med_disease_one(request, cur_user, cur_team):
     else:
         try:
             c_med_disease.name = med_disease_name
-            c_med_disease.translation_names = set_by_language_code(c_med_disease.translation_names, request.LANGUAGE_CODE, med_disease_name)
+            c_med_disease.translation_names = utils.set_by_language_code(c_med_disease.translation_names, request.LANGUAGE_CODE, med_disease_name)
             c_med_disease.save()
             return JsonResponse({"data": {'id': c_med_disease.id}, "success": True}, status=200)
         except Exception as e:
@@ -584,13 +485,13 @@ def GET_get_medicine_json(request, cur_user, cur_team, is_for_table=True, return
                     med_status_code = "healthy"
                 else:
                     if isinstance(medicine_diagnosis[0].diagnosis_type, MedicineDiagnosisType):
-                        med_status = get_by_language_code(medicine_diagnosis[0].diagnosis_type.translation_names, request.LANGUAGE_CODE)
+                        med_status = utils.get_by_language_code(medicine_diagnosis[0].diagnosis_type.translation_names, request.LANGUAGE_CODE)
                         med_status_code = medicine_diagnosis[0].diagnosis_type.short_name
                 recovery_period = medicine_diagnosis[0].recovery_period
                 doctor_name = medicine_diagnosis[0].doctor_user_id.personal.full_name
             if medicine_access != None and medicine_access.exists() and medicine_access[0].id != None:
                 if medicine_access[0].access:
-                    med_access = get_by_language_code(medicine_access[0].access.translation_names, request.LANGUAGE_CODE)
+                    med_access = utils.get_by_language_code(medicine_access[0].access.translation_names, request.LANGUAGE_CODE)
             player_birthsday = ""
             try:
                 if isinstance(player.card.birthsday, date):
@@ -755,6 +656,6 @@ def GET_get_med_all_diseases(request, cur_user, cur_team):
             found_elements = MedicineDiseaseNonSpecificUser.objects.filter(user_id=cur_user)
     if found_elements:
         for elem in found_elements:
-            e_name = get_by_language_code(elem.translation_names, request.LANGUAGE_CODE)
+            e_name = utils.get_by_language_code(elem.translation_names, request.LANGUAGE_CODE)
             res_data.append({'id': elem.id, 'name': e_name})
     return JsonResponse({"data": res_data, "success": True}, status=200)

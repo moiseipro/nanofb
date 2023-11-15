@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
-
 from users.models import User
 from references.models import UserTeam, UserSeason, ClubTeam, ClubSeason
 from system_icons.views import get_ui_elements
@@ -9,7 +8,6 @@ from matches.models import UserMatch, ClubMatch
 from nanofootball.views import util_check_access
 import matches.v_api as v_api
 from datetime import datetime
-
 
 
 def matches(request):
@@ -80,9 +78,7 @@ def matches(request):
             match_obj['goals_equal'] = match_res[1]
             match_obj['duration'] = v_api.get_duration_normal_format(match.duration)
             match_obj['goals'] = match.goals
-            # match_obj['goals'] = match.goals if (match.goals != 0 or match.o_goals != 0) else '-'
             match_obj['o_goals'] = match.o_goals
-            # match_obj['o_goals'] = match.o_goals if (match.goals != 0 or match.o_goals != 0) else '-'
             match_obj['penalty'] = match.penalty if (match.penalty != 0 or match.o_penalty != 0) else '-'
             match_obj['o_penalty'] = match.o_penalty if (match.penalty != 0 or match.o_penalty != 0) else '-'
             match_videos = v_api.GET_get_match_video_event(request, cur_user[0], cur_team, False, match.event_id.id)

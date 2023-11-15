@@ -1,16 +1,10 @@
 
-from math import fabs
-from operator import truediv
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-
 from users.models import User
-from references.models import UserSeason, UserTeam
-from players.models import UserPlayer, ClubPlayer, CardSection
 from system_icons.views import get_ui_elements
 from nanofootball.views import util_check_access
 import players.v_api as v_api
-
 
 
 def players(request):

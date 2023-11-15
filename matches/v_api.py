@@ -1,7 +1,6 @@
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
 import json
-import re
 from datetime import datetime, date, timedelta
 from references.models import UserTeam, ClubTeam
 from events.models import UserEvent, ClubEvent, EventVideoLink
@@ -9,226 +8,7 @@ from matches.models import UserMatch, ClubMatch, UserProtocol, ClubProtocol
 from references.models import PlayerProtocolStatus
 from players.models import UserPlayer, ClubPlayer
 from nanofootball.views import util_check_access
-
-
-LANG_CODE_DEFAULT = "en"
-
-def get_by_language_code(value, code):
-    """
-    Return a value by current language's code.
-
-    :param value: Dictionary with structure("code_1": "value_1",...) for different languages. Usually "value" is STRING.
-    :type value: dict[str]
-    :param code: String key of any language. For example: "engilsh" -> "en", "russian" -> "ru".
-    :type code: [str]
-    :raise None. In case of an exception, the result: "". 
-        If it was not possible to find the desired value by the key, then an attempt will be made to take the default (LANG_CODE_DEFAULT).
-    :return: Value, depending on the current language.
-    :rtype: [str]
-
-    """
-    res = ""
-    try:
-        res = value[code]
-    except:
-        pass
-    if res == "":
-        try:
-            res = value[LANG_CODE_DEFAULT]
-        except:
-            pass
-    return res
-
-
-def set_value_as_int(value, def_value = None):
-    """
-    Return new value for the Model's Field. Value is obtained by get from request parameter's value and try to transform it to int.
-    In case of success new value will be returned else returned default value.
-
-    :param request: Django HttpRequest.
-    :type request: [HttpRequest]
-    :param name: Name of getting request parameter.
-    :type name: [str]
-    :param def_value: Default value for new value.
-    :type def_value: [int] or None
-    :return: New value.
-    :rtype: [int] or None
-
-    """
-    res = def_value
-    try:
-        res = int(value)
-    except:
-        pass
-    return res
-
-
-def set_value_as_datetime(value):
-    """
-    Return Date or None. Transforming value to date using format "ddmmyyyy" or "yyyymmdd".
-
-    :param value: Date string.
-    :type value: [str]
-    :return: Date or None.
-    :rtype: [date] or None
-
-    """
-    format_ddmmyyyy = "%d/%m/%Y %H:%M:%S"
-    format_yyyymmdd = "%Y-%m-%d %H:%M:%S"
-    date1 = None
-    date2 = None
-    try:
-        date1 = datetime.strptime(value, format_ddmmyyyy)
-    except:
-        pass
-    try:
-        date2 = datetime.strptime(value, format_yyyymmdd)
-    except:
-        pass
-    if date1:
-        value = date1
-    elif date2:
-        value = date2
-    else:
-        value = None
-    return value   
-
-
-def set_value_as_duration(value, only_mins=True):
-    """
-    Return Timedelta. Transforming value to timeDelta.
-
-    :param value: Date string.
-    :type value: [str]
-    :param only_mins: If only minutes then time will be created using only minutes. Example: True -> "20", False -> "10:20:10"
-    :type only_mins: [bool]
-    :return: Timedelta.
-    :rtype: [timedelta]
-
-    """
-    if not only_mins:
-        m = re.match(r'(?P<h>\d+):(?P<m>\d+):'r'(?P<s>\d[\.\d+]*)', value)
-        if not m:
-            return timedelta()
-        time_dict = {key: float(val) for key, val in m.groupdict().items()}
-    else:
-        mins_val = 0
-        try:
-            mins_val = int(value)
-        except:
-            pass
-        time_dict = {'h': 0, 'm': mins_val, 's': 0}
-    return timedelta(hours=time_dict['h'], minutes=time_dict['m'], seconds=time_dict['s'])
-
-
-def get_date_str_from_datetime(datetime_obj, code):
-    """
-    Return Date string or None. For different languages different date's formats.
-
-    :param datetime_obj: Datetime object.
-    :type datetime_obj: [datetime]
-    :param code: String key of any language. For example: "engilsh" -> "en", "russian" -> "ru".
-    :type code: [str]
-    :return: Date string or None.
-    :rtype: [str] or None
-
-    """
-    formats = {
-        'en': "%Y-%m-%d",
-        'ru': "%d/%m/%Y"
-    }
-    date_str = ""
-    try:
-        date_str = datetime_obj.strftime(formats[code])
-    except:
-        return None
-    return date_str
-
-
-def get_date_timestamp_from_datetime(datetime_obj):
-    """
-    Return Date's timestamp or None.
-
-    :param datetime_obj: Datetime object.
-    :type datetime_obj: [datetime]
-    :return: Date's timestamp or None.
-    :rtype: [int] or None
-
-    """
-    try:
-        return datetime_obj.timestamp()
-    except:
-        return None
-
-
-def get_day_from_datetime(datetime_obj, code):
-    """
-    Return Day of date string or None.
-
-    :param datetime_obj: Datetime object.
-    :type datetime_obj: [datetime]
-    :param code: String key of any language. For example: "engilsh" -> "en", "russian" -> "ru".
-    :type code: [str]
-    :return: Day string or None.
-    :rtype: [str] or None
-
-    """
-    days = {
-        'ru': ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"],
-        'en': ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-    }
-    day = None
-    try:
-        day = days[code][datetime_obj.weekday()]
-    except:
-        pass
-    return day
-
-
-def get_time_from_datetime(datetime_obj):
-    """
-    Return time string of datetime as "Hour:Minutes".
-
-    :param datetime_obj: Datetime object.
-    :type datetime_obj: [datetime]
-    :return: Time string or None.
-    :rtype: [str] or None
-
-    """
-    time_str = None
-    try:
-        time_str = datetime_obj.strftime("%H:%M")
-    except:
-        pass
-    return time_str
-
-
-def get_duration_normal_format(timedelta_obj, only_mins=True):
-    """
-    Return duration of datetime as string.
-
-    :param timedelta_obj: Datetime object.
-    :type timedelta_obj: [datetime]
-    :param only_mins: If only minutes then duration will be created using only minutes. Example: True -> "20", False -> "10:20:10"
-    :type only_mins: [bool]
-    :return: Duration string of datetime object or None.
-    :rtype: [str] or None
-
-    """
-    duration_str = None
-    if not only_mins:
-        try:
-            t_arr = str(timedelta_obj).split(':')
-            duration_str = "{:02}:{:02}:{:02}".format(int(t_arr[0]), int(t_arr[1]), int(t_arr[2]))
-        except:
-            pass
-    else:
-        try:
-            mins_v = round(timedelta_obj.total_seconds() / 60)
-            duration_str = f"{mins_v}"
-        except:
-            pass
-    return duration_str
+import nanofootball.utils as utils
 
 
 def get_match_result(data):
@@ -250,7 +30,7 @@ def get_match_result(data):
     :rtype: list[int]
 
     """
-    # первый элемент - 0:Ничья, 1:Победа_1-ой_команды, 2:Победа_2-ой.
+    # первый элемент - 0: Ничья, 1: Победа_1-ой_команды, 2: Победа_2-ой.
     # Второй элемент - 1: кол-во голов равно, 0:не равно.
     res = [-1, -1]
     try:
@@ -287,30 +67,10 @@ def get_protocol_status(request, elem):
         if elem.translation_names[request.LANGUAGE_CODE]:
             res["full"] = elem.translation_names[request.LANGUAGE_CODE]
         else:
-            res["full"] = elem.translation_names[request.LANG_CODE_DEFAULT]
+            res["full"] = elem.translation_names[request.utils.LANG_CODE_DEFAULT]
     if elem and elem.short_name:
         res["short"] = elem.short_name
     return res
-
-
-def set_refs_translations(data, lang_code):
-    """
-    Return data with new key "title". "Title" - translated value with key "translation_names" at current system's language.
-
-    :param data: Dictionary with references' elements.
-    :type data: dict[object]
-    :param lang_code: String key of any language. For example: "engilsh" -> "en", "russian" -> "ru".
-    :type lang_code: [str]
-    :return: Dictionary with references' elements with new value for key "title".
-    :rtype: dict[object]
-
-    """
-    for key in data:
-        elems = data[key]
-        for elem in elems:
-            title = get_by_language_code(elem['translation_names'], lang_code)
-            elem['title'] = title if title != "" else elem['name']
-    return data
 
 
 def get_matches_refs(request):
@@ -327,7 +87,7 @@ def get_matches_refs(request):
     refs['player_protocol_status'] = PlayerProtocolStatus.objects.filter(tags__matches=1).values()
     for elem in refs['player_protocol_status']:
         elem['is_red'] = "matches_red" in elem['tags'] and elem['tags']['matches_red'] == 1
-    refs = set_refs_translations(refs, request.LANGUAGE_CODE)
+    refs = utils.set_refs_translations(refs, request.LANGUAGE_CODE)
     return refs
 
 
@@ -347,9 +107,6 @@ def count_videos(data):
             if elem != "":
                 counter += 1
     return counter
-
-
-
 # --------------------------------------------------
 # MATCHES API
 def POST_edit_match(request, cur_user, cur_team):
@@ -386,7 +143,7 @@ def POST_edit_match(request, cur_user, cur_team):
     if not post_data:
         return JsonResponse({"errors": "Can't parse post data"}, status=400)
     adding_mode = False
-    c_datetime = set_value_as_datetime(f"{post_data['date']} {post_data['time']}:00")
+    c_datetime = utils.set_value_as_datetime(f"{post_data['date']} {post_data['time']}:00")
     c_match = None
     if request.user.club_id is not None:
         c_match = ClubMatch.objects.filter(event_id=match_id, team_id=cur_team)
@@ -429,15 +186,15 @@ def POST_edit_match(request, cur_user, cur_team):
     if c_datetime:
         c_match.event_id.date = c_datetime
         c_match.event_id.save()
-    c_match.duration = set_value_as_duration(post_data['duration'])
-    c_match.goals = set_value_as_int(post_data['goals'], 0)
-    c_match.penalty = set_value_as_int(post_data['penalty'], 0)
+    c_match.duration = utils.set_value_as_duration(post_data['duration'])
+    c_match.goals = utils.set_value_as_int2(post_data['goals'], 0)
+    c_match.penalty = utils.set_value_as_int2(post_data['penalty'], 0)
     c_match.opponent = post_data['opponent_name']
-    c_match.o_goals = set_value_as_int(post_data['o_goals'], 0)
-    c_match.o_penalty = set_value_as_int(post_data['o_penalty'], 0)
+    c_match.o_goals = utils.set_value_as_int2(post_data['o_goals'], 0)
+    c_match.o_penalty = utils.set_value_as_int2(post_data['o_penalty'], 0)
     c_match.place = post_data['place']
     c_match.tournament = post_data['tournament']
-    c_match.m_type = set_value_as_int(post_data['m_type'], 0)
+    c_match.m_type = utils.set_value_as_int2(post_data['m_type'], 0)
     c_match.m_format = post_data['m_format']
     try:
         c_match.save()
@@ -906,9 +663,9 @@ def GET_get_match(request, cur_user, cur_team, return_JsonResponse=True):
         match = UserMatch.objects.filter(event_id=match_id, team_id=cur_team)
     if match.exists() and match[0].event_id != None:
         res_data = match.values()[0]
-        res_data['date'] = get_date_str_from_datetime(match[0].event_id.date, LANG_CODE_DEFAULT)
-        res_data['time'] = get_time_from_datetime(match[0].event_id.date)
-        res_data['duration'] = get_duration_normal_format(match[0].duration)
+        res_data['date'] = utils.get_date_str_from_datetime(match[0].event_id.date, utils.LANG_CODE_DEFAULT)
+        res_data['time'] = utils.get_time_from_datetime(match[0].event_id.date)
+        res_data['duration'] = utils.get_duration_normal_format(match[0].duration)
         res_data['team_name'] = match[0].team_id.name
         res_data['opponent_name'] = match[0].opponent
         match_res = get_match_result(res_data)

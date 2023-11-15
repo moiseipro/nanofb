@@ -13,6 +13,7 @@ import exercises.v_api as v_api
 from system_icons.views import get_ui_elements
 from nf_presentation import from_single_exercise as nf_presentation__from_single_exercise
 import json
+import nanofootball.utils as utils
 
 
 def exercises(request):
@@ -120,26 +121,26 @@ def exercise(request):
     is_can_edit_exs = True
     is_can_edit_exs_full = True
     is_can_edit_exs_video_admin = cur_user[0].is_superuser
-    if folder_type == v_api.FOLDER_TEAM:
+    if folder_type == utils.FOLDER_TEAM:
         if cur_user.exists():
             if request.user.club_id is not None:
                 found_exercise = ClubExercise.objects.filter(id=c_id, club=request.user.club_id).values()
             else:
                 found_exercise = UserExercise.objects.filter(id=c_id, user=cur_user[0]).values()
-    elif folder_type == v_api.FOLDER_NFB:
+    elif folder_type == utils.FOLDER_NFB:
         if cur_user.exists():
             found_exercise = AdminExercise.objects.filter(id=c_id).values()
             if not cur_user[0].is_superuser:
                 is_can_edit_exs = False
                 is_can_edit_exs_full = False
-    elif folder_type == v_api.FOLDER_CLUB:
+    elif folder_type == utils.FOLDER_CLUB:
         if cur_user.exists():
             if request.user.club_id is not None:
                 found_exercise = ClubExercise.objects.filter(id=c_id, club=request.user.club_id).values()
     if not found_exercise and not is_new_exs:
         return redirect('/exercises')
-    if is_new_exs and folder_type == v_api.FOLDER_NFB and not cur_user[0].is_superuser:
-        return redirect(f'/exercises/exercise?id=new&type={v_api.FOLDER_TEAM}')
+    if is_new_exs and folder_type == utils.FOLDER_NFB and not cur_user[0].is_superuser:
+        return redirect(f'/exercises/exercise?id=new&type={utils.FOLDER_TEAM}')
     if is_can_edit_exs_full and not cur_user[0].is_superuser:
         nfb_id = -1
         try:
