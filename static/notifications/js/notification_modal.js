@@ -18,7 +18,7 @@ $(window).on("load", function () {
                     <div class="col-md-2 col-3 bg-light mb-2">
                         <button class="btn btn-sm btn-block btn-secondary read-notification">${gettext("Viewed")}</button>
                     </div>
-                    <div class="col-12 py-2">
+                    <div class="col-12 py-2 articleViewer">
                         ${notification.content}
                     </div>
                 </div>
@@ -26,6 +26,7 @@ $(window).on("load", function () {
             }
 
             $('#notification-view-all').html(html)
+            generate_ckeditor_notifications()
         })
     })
 
