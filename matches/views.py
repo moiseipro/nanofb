@@ -8,6 +8,7 @@ from matches.models import UserMatch, ClubMatch
 from nanofootball.views import util_check_access
 import matches.v_api as v_api
 from datetime import datetime
+import nanofootball.utils as utils
 
 
 def matches(request):
@@ -69,14 +70,14 @@ def matches(request):
         for match in f_matches:
             match_obj = model_to_dict(match)
             match_obj['team_name'] = match.team_id.name
-            match_obj['date_timestamp'] = v_api.get_date_timestamp_from_datetime(match.event_id.date)
-            match_obj['date'] = v_api.get_date_str_from_datetime(match.event_id.date, request.LANGUAGE_CODE)
-            match_obj['date_day'] = v_api.get_day_from_datetime(match.event_id.date, request.LANGUAGE_CODE)
-            match_obj['date_time'] = v_api.get_time_from_datetime(match.event_id.date)
+            match_obj['date_timestamp'] = utils.get_date_timestamp_from_datetime(match.event_id.date)
+            match_obj['date'] = utils.get_date_str_from_datetime(match.event_id.date, request.LANGUAGE_CODE)
+            match_obj['date_day'] = utils.get_day_from_datetime(match.event_id.date, request.LANGUAGE_CODE)
+            match_obj['date_time'] = utils.get_time_from_datetime(match.event_id.date)
             match_res = v_api.get_match_result(match_obj)
             match_obj['result'] = match_res[0]
             match_obj['goals_equal'] = match_res[1]
-            match_obj['duration'] = v_api.get_duration_normal_format(match.duration)
+            match_obj['duration'] = utils.get_duration_normal_format(match.duration)
             match_obj['goals'] = match.goals
             match_obj['o_goals'] = match.o_goals
             match_obj['penalty'] = match.penalty if (match.penalty != 0 or match.o_penalty != 0) else '-'
