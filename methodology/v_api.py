@@ -4,68 +4,8 @@ from django.db.models import Sum, Q
 from users.models import User
 from methodology.models import AdminFolder, UserFolder, ClubFolder
 from methodology.models import AdminArticle, UserArticle, ClubArticle, UserArticleParam
-from references.models import UserSeason, ClubSeason, UserTeam, ClubTeam
-from references.models import ExsDescriptionTemplate
 from nanofootball.views import util_check_access
-
-
-LANG_CODE_DEFAULT = "en"
-
-
-def get_by_language_code(value, code):
-    """
-    Return a value by current language's code.
-
-    :param value: Dictionary with structure("code_1": "value_1",...) for different languages. Usually "value" is STRING.
-    :type value: dict[str]
-    :param code: String key of any language. For example: "engilsh" -> "en", "russian" -> "ru".
-    :type code: [str]
-    :raise None. In case of an exception, the result: "". 
-        If it was not possible to find the desired value by the key, then an attempt will be made to take the default (LANG_CODE_DEFAULT).
-    :return: Value, depending on the current language.
-    :rtype: [str]
-
-    """
-    res = ""
-    if not isinstance(value, dict):
-        value = {}
-    try:
-        res = value[code]
-    except:
-        pass
-    if res == "":
-        try:
-            res = value[LANG_CODE_DEFAULT]
-        except:
-            pass
-    if res is None:
-        res = ""
-    return res
-
-
-def set_by_language_code(elem, code, value, value2 = None):
-    """
-    Return edited object as dict where key: language code, value: string text.
-
-    :param elem: Field of current model. Usually it defined as title, name or description.
-    :type elem: [Model.field]
-    :param code: String key of any language. For example: "engilsh" -> "en", "russian" -> "ru".
-    :type code: [str]
-    :param value: New value for returned dictionary.
-    :type value: [str]
-    :param value2: Additional value for replace "value".
-    :type value2: [str] or None
-    :return: Object which is field of the Model.
-    :rtype: [object]
-
-    """
-    if value2:
-        value = value2 if value2 != "" else value
-    if type(elem) is dict:
-        elem[code] = value
-    else:
-        elem = {code: value}
-    return elem
+import nanofootball.utils as utils
 
 
 # --------------------------------------------------
@@ -108,7 +48,7 @@ def POST_edit_folder(request, cur_user):
                 c_folder.save()
             except Exception as e:
                 return JsonResponse({"err": "Can't add the folder.", "success": False}, status=200)
-        c_folder.translations_name = set_by_language_code(c_folder.translations_name, request.LANGUAGE_CODE, folder_title)
+        c_folder.translations_name = utils.set_by_language_code(c_folder.translations_name, request.LANGUAGE_CODE, folder_title)
         try:
             c_folder.save()
             res_data += f'Folder with id: [{c_folder.id}] is edited successfully.'
@@ -255,8 +195,8 @@ def POST_edit_article(request, cur_user):
                 c_article.save()
             except Exception as e:
                 return JsonResponse({"err": "Can't add the article.", "success": False}, status=200)
-        c_article.title = set_by_language_code(c_article.title, request.LANGUAGE_CODE, article_title)
-        c_article.content = set_by_language_code(c_article.content, request.LANGUAGE_CODE, article_content)
+        c_article.title = utils.set_by_language_code(c_article.title, request.LANGUAGE_CODE, article_title)
+        c_article.content = utils.set_by_language_code(c_article.content, request.LANGUAGE_CODE, article_content)
         c_article.folder = c_folder
         c_article.completed = article_completed
         try:
@@ -421,7 +361,7 @@ def GET_get_folders_all(request, cur_user):
     # only admin folders temp:
     found_folders = AdminFolder.objects.filter(visible=True, active=True)
     for folder in found_folders:
-        f_title = get_by_language_code(folder.translations_name, request.LANGUAGE_CODE)
+        f_title = utils.get_by_language_code(folder.translations_name, request.LANGUAGE_CODE)
         folder_data = {
             'id': folder.id, 
             'title': f_title,
@@ -452,7 +392,7 @@ def GET_get_articles_all(request, cur_user):
     # only admin folders temp:
     found_articles = AdminArticle.objects.filter(visible=True)
     for article in found_articles:
-        a_title = get_by_language_code(article.title, request.LANGUAGE_CODE)
+        a_title = utils.get_by_language_code(article.title, request.LANGUAGE_CODE)
         a_favorite = False
         try:
             user_param = UserArticleParam.objects.filter(article_nfb=article, user=cur_user).first()
@@ -498,8 +438,8 @@ def GET_get_article_one(request, cur_user):
     # only admin folders temp:
     found_article = AdminArticle.objects.filter(id=article_id, visible=True).first()
     if found_article:
-        a_title = get_by_language_code(found_article.title, request.LANGUAGE_CODE)
-        a_content = get_by_language_code(found_article.content, request.LANGUAGE_CODE)
+        a_title = utils.get_by_language_code(found_article.title, request.LANGUAGE_CODE)
+        a_content = utils.get_by_language_code(found_article.content, request.LANGUAGE_CODE)
         data_res = {
             'id': found_article.id,
             'folder': found_article.folder.id,

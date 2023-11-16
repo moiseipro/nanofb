@@ -6,34 +6,12 @@ import string
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.sites.shortcuts import get_current_site
-
 from trainings.models import UserTraining, ClubTraining, LiteTraining
 from trainings.serializers import UserTrainingSerializer, ClubTrainingSerializer, LiteTrainingSerializer
-from users.models import User
 from shared.models import SharedLink
 from exercises.models import AdminExercise, UserExercise, ClubExercise
 import exercises.v_api as exercises_v_api
-
-
-
-LANG_CODE_DEFAULT = "en"
-FOLDER_TEAM = "team_folders"
-FOLDER_NFB = "nfb_folders"
-FOLDER_CLUB = "club_folders"
-
-
-def get_by_language_code(value, code):
-    res = ""
-    try:
-        res = value[code]
-    except:
-        pass
-    if res == "":
-        try:
-            res = value[LANG_CODE_DEFAULT]
-        except:
-            pass
-    return res
+import nanofootball.utils as utils
 
 
 def date_from_string(request, name, def_value = None):
@@ -80,9 +58,6 @@ def check_link_expiration(c_link):
             pass
         return False
     return True
-
-
-
 # --------------------------------------------------
 # SHARED API
 def POST_add_link(request, cur_user):
@@ -198,18 +173,18 @@ def GET_get_link(request, cur_user=None):
                 return JsonResponse({"data": {"link": t_link}, "success": True}, status=200)
             else:
                 c_html_file = None
-                request.LANGUAGE_CODE = c_link.language if c_link.language else LANG_CODE_DEFAULT
+                request.LANGUAGE_CODE = c_link.language if c_link.language else utils.LANG_CODE_DEFAULT
                 data = {'options': c_link.options}
                 if c_link.exercise_nfb != None:
                     pass
                 elif c_link.exercise_user != None:
                     c_html_file = "shared/base_shared_exercise.html"
                     request.user.temp_club = None
-                    data['exercise'] = exercises_v_api.GET_get_exs_one(request, -1, -1, {'f_type': FOLDER_TEAM, 'exs': c_link.exercise_user.id})
+                    data['exercise'] = exercises_v_api.GET_get_exs_one(request, -1, -1, {'f_type': utils.FOLDER_TEAM, 'exs': c_link.exercise_user.id})
                 elif c_link.exercise_club != None:
                     c_html_file = "shared/base_shared_exercise.html"
                     request.user.temp_club = c_link.club
-                    data['exercise'] = exercises_v_api.GET_get_exs_one(request, -1, -1, {'f_type': FOLDER_TEAM, 'exs': c_link.exercise_club.id})
+                    data['exercise'] = exercises_v_api.GET_get_exs_one(request, -1, -1, {'f_type': utils.FOLDER_TEAM, 'exs': c_link.exercise_club.id})
                 elif c_link.training_user != None:
                     c_html_file = "shared/base_shared_training.html"
                     data['training'] = UserTrainingSerializer(c_link.training_user).data

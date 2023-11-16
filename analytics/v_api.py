@@ -11,38 +11,10 @@ from nanofootball.views import util_check_access
 from datetime import datetime, date, timedelta
 from dateutil.relativedelta  import relativedelta
 import json
+import nanofootball.utils as utils
 
 
-LANG_CODE_DEFAULT = "en"
 CACHE_EXPIRES_SECS = 60*60*24
-
-
-
-def get_by_language_code(value, code):
-    """
-    Return a value by current language's code.
-
-    :param value: Dictionary with structure("code_1": "value_1",...) for different languages. Usually "value" is STRING.
-    :type value: dict[str]
-    :param code: String key of any language. For example: "engilsh" -> "en", "russian" -> "ru".
-    :type code: [str]
-    :raise None. In case of an exception, the result: "". 
-        If it was not possible to find the desired value by the key, then an attempt will be made to take the default (LANG_CODE_DEFAULT).
-    :return: Value, depending on the current language.
-    :rtype: [str]
-
-    """
-    res = ""
-    try:
-        res = value[code]
-    except:
-        pass
-    if res == "":
-        try:
-            res = value[LANG_CODE_DEFAULT]
-        except:
-            pass
-    return res
 
 
 def get_exs_folders(request, cur_user, cur_team):
@@ -77,30 +49,6 @@ def get_exs_folders(request, cur_user, cur_team):
     return res
 
 
-def months_between(start_date, end_date):
-    """
-    Return every first day of the month from start date to end date as DATE. Using yield.
-
-    :param start_date: Start date of required range.
-    :type start_date: [date]
-    :param end_date: End date of required range.
-    :type end_date: [date]
-    :raise AttributeError. In case "start_date" or "end_date" not DATE, result: exception.
-    :return: Every first day of the month from start date to end date.
-    :rtype: yield[date]
-
-    """
-    year = start_date.year
-    month = start_date.month
-    while (year, month) <= (end_date.year, end_date.month):
-        yield date(year, month, 1)
-        if month == 12:
-            month = 1
-            year += 1
-        else:
-            month += 1
-
-
 def get_season_months(request, season, c_user):
     """
     Return list of objects, which contains full name of month and short 3 letter word. Names of months selected by current system's language.
@@ -131,11 +79,11 @@ def get_season_months(request, season, c_user):
     else:
         f_season = UserSeason.objects.filter(id=season, user_id=c_user).first()
     if f_season and f_season.id != None:
-        for month in months_between(f_season.date_with, f_season.date_by):
+        for month in utils.months_between(f_season.date_with, f_season.date_by):
             month_id = month.strftime("%m")
             month_name = ""
             if not request.LANGUAGE_CODE in months_defs:
-                month_name = months_defs[LANG_CODE_DEFAULT][month_id]
+                month_name = months_defs[utils.LANG_CODE_DEFAULT][month_id]
             else:
                 month_name = months_defs[request.LANGUAGE_CODE][month_id]
             res.append({'name': month_name, 'short': month_name[:3]})
@@ -155,8 +103,6 @@ def check_protocol_status(status):
     if not status or (status and "analytics" in status.tags and status.tags['analytics'] == 1):
         return True
     return False
-
-
 # --------------------------------------------------
 # ANALYTICS API
 def POST_edit_analytics(request, cur_user, cur_team):
@@ -617,6 +563,3 @@ def GET_get_analytics_by_folders_full_in_team(request, cur_user, cur_team, cur_s
         else:
             res_data = cached_data
     return JsonResponse({"data": res_data, "success": True}, status=200)
-
-
-

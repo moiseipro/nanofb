@@ -1,4 +1,3 @@
-from operator import is_
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from django.db.models import Q
@@ -10,82 +9,7 @@ from references.models import PlayerTeamStatus, PlayerPlayerStatus, PlayerLevel,
 from nanofootball.views import util_check_access
 from datetime import datetime, date, timedelta
 import json
-
-
-
-LANG_CODE_DEFAULT = "en"
-
-
-def get_by_language_code(value, code):
-    """
-    Return a value by current language's code.
-
-    :param value: Dictionary with structure("code_1": "value_1",...) for different languages. Usually "value" is STRING.
-    :type value: dict[str]
-    :param code: String key of any language. For example: "engilsh" -> "en", "russian" -> "ru".
-    :type code: [str]
-    :raise None. In case of an exception, the result: "". 
-        If it was not possible to find the desired value by the key, then an attempt will be made to take the default (LANG_CODE_DEFAULT).
-    :return: Value, depending on the current language.
-    :rtype: [str]
-
-    """
-    res = ""
-    try:
-        res = value[code]
-    except:
-        pass
-    if res == "":
-        try:
-            res = value[LANG_CODE_DEFAULT]
-        except:
-            pass
-    return res
-
-
-def set_by_language_code(elem, code, value, value2 = None):
-    """
-    Return edited object as dict where key: language code, value: string text.
-
-    :param elem: Field of current model. Usually it defined as title, name or description.
-    :type elem: [Model.field]
-    :param code: String key of any language. For example: "engilsh" -> "en", "russian" -> "ru".
-    :type code: [str]
-    :param value: New value for returned dictionary.
-    :type value: [str]
-    :param value2: Additional value for replace "value".
-    :type value2: [str] or None
-    :return: Object which is field of the Model.
-    :rtype: [object]
-
-    """
-    if value2:
-        value = value2 if value2 != "" else value
-    if type(elem) is dict:
-        elem[code] = value
-    else:
-        elem = {code: value}
-    return elem
-
-
-def set_refs_translations(data, lang_code):
-    """
-    Return data with new key "title". "Title" - translated value with key "translation_names" at current system's language.
-
-    :param data: Dictionary with references' elements.
-    :type data: dict[object]
-    :param lang_code: String key of any language. For example: "engilsh" -> "en", "russian" -> "ru".
-    :type lang_code: [str]
-    :return: Dictionary with references' elements with new value for key "title".
-    :rtype: dict[object]
-
-    """
-    for key in data:
-        elems = data[key]
-        for elem in elems:
-            title = get_by_language_code(elem['translation_names'], lang_code)
-            elem['title'] = title if title != "" else elem['name']
-    return data
+import nanofootball.utils as utils
 
 
 def photo_url_convert(photo_url):
@@ -96,29 +20,6 @@ def photo_url_convert(photo_url):
     if "players/img/" not in photo_url or not isinstance(photo_url, str):
         return ""
     return f"/media/{photo_url}"
-
-
-def set_value_as_int(request, name, def_value = None):
-    """
-    Return new value for the Model's Field. Value is obtained by get from request parameter's value and try to transform it to int.
-    In case of success new value will be returned else returned default value.
-
-    :param request: Django HttpRequest.
-    :type request: [HttpRequest]
-    :param name: Name of getting request parameter.
-    :type name: [str]
-    :param def_value: Default value for new value.
-    :type def_value: [int] or None
-    :return: New value.
-    :rtype: [int] or None
-
-    """
-    res = def_value
-    try:
-        res = int(request.POST.get(name, def_value))
-    except:
-        pass
-    return res
 
 
 def set_value_as_ref(request, name, ref_type, def_value = None):
@@ -212,11 +113,8 @@ def get_players_refs(request):
     refs['player_level'] = PlayerLevel.objects.filter().values()
     refs['player_position'] = PlayerPosition.objects.filter().values()
     refs['player_foot'] = PlayerFoot.objects.filter().values()
-    refs = set_refs_translations(refs, request.LANGUAGE_CODE)
+    refs = utils.set_refs_translations(refs, request.LANGUAGE_CODE)
     return refs
-
-
-
 # --------------------------------------------------
 # PLAYERS API
 def POST_edit_player(request, cur_user, cur_team):
@@ -273,7 +171,7 @@ def POST_edit_player(request, cur_user, cur_team):
             players_add_limit_flag = False
             players_add_limit_amount = 0
             try:
-                players_add_limit_amount = cur_user.p_version.player_limit
+                players_add_limit_amount = cur_user.player_limit
                 players_add_limit_flag = UserPlayer.objects.filter(user=cur_user, team=cur_team).count() < players_add_limit_amount
             except:
                 pass
@@ -291,7 +189,7 @@ def POST_edit_player(request, cur_user, cur_team):
     c_player.patronymic = request.POST.get("data[patronymic]", "")
     c_player.is_archive = request.POST.get("data[is_archive]", "0") == '1'
 
-    new_team_id = set_value_as_int(request, "data[team]", None)
+    new_team_id = utils.set_value_as_int(request, "data[team]", None)
     new_team = None
     if request.user.club_id is not None:
         new_team = ClubTeam.objects.filter(id=new_team_id, club_id=request.user.club_id) if c_team == None else c_team
@@ -327,9 +225,9 @@ def POST_edit_player(request, cur_user, cur_team):
         c_player_playercard = PlayerCard()
     c_player_playercard.citizenship = request.POST.get("data[citizenship]", None)
     c_player_playercard.club_from = request.POST.get("data[club_from]", None)
-    c_player_playercard.growth = set_value_as_int(request, "data[growth]", None)
-    c_player_playercard.weight = set_value_as_int(request, "data[weight]", None)
-    c_player_playercard.game_num = set_value_as_int(request, "data[game_num]", None)
+    c_player_playercard.growth = utils.set_value_as_int(request, "data[growth]", None)
+    c_player_playercard.weight = utils.set_value_as_int(request, "data[weight]", None)
+    c_player_playercard.game_num = utils.set_value_as_int(request, "data[game_num]", None)
     c_player_playercard.birthsday = set_value_as_date(request, "data[birthsday]", None)
     c_player_playercard.ref_team_status = set_value_as_ref(request, "data[ref_team_status]", "team_status", None)
     c_player_playercard.ref_player_status = set_value_as_ref(request, "data[ref_player_status]", "player_status", None)
@@ -343,9 +241,9 @@ def POST_edit_player(request, cur_user, cur_team):
     c_player_playercard.email = request.POST.get("data[email]", None)
     c_player_playercard.phone = request.POST.get("data[phone]", None)
     c_player_playercard.phone_2 = request.POST.get("data[phone_2]", None)
-    c_player_playercard.is_goalkeeper = set_value_as_int(request, "data[is_goalkeeper]", 0)
-    c_player_playercard.is_captain = set_value_as_int(request, "data[is_captain]", 0)
-    c_player_playercard.is_vice_captain = set_value_as_int(request, "data[is_vice_captain]", 0)
+    c_player_playercard.is_goalkeeper = utils.set_value_as_int(request, "data[is_goalkeeper]", 0)
+    c_player_playercard.is_captain = utils.set_value_as_int(request, "data[is_captain]", 0)
+    c_player_playercard.is_vice_captain = utils.set_value_as_int(request, "data[is_vice_captain]", 0)
     c_player_playercard.field_labels = request.POST.get("data[field_labels]", None)
     try:
         c_player_playercard.save()
@@ -533,7 +431,7 @@ def POST_edit_card_sections(request, cur_user):
             f_section = CardSection.objects.filter(id=elem['id'])
             if f_section.exists() and f_section[0].id != None:
                 f_section = f_section[0]
-                f_section.title = set_by_language_code(f_section.title, request.LANGUAGE_CODE, elem['title'])
+                f_section.title = utils.set_by_language_code(f_section.title, request.LANGUAGE_CODE, elem['title'])
                 f_section.text_id = elem['text_id']
                 f_section.order = elem['order']
                 f_section.visible = elem['visible']
@@ -629,7 +527,7 @@ def POST_edit_players_table_cols(request, cur_user):
             f_column = PlayersTableColumns.objects.filter(id=elem['id'])
             if f_column.exists() and f_column[0].id != None:
                 f_column = f_column[0]
-                f_column.title = set_by_language_code(f_column.title, request.LANGUAGE_CODE, elem['title'])
+                f_column.title = utils.set_by_language_code(f_column.title, request.LANGUAGE_CODE, elem['title'])
                 f_column.text_id = elem['text_id']
                 f_column.order = elem['order']
                 f_column.visible = elem['visible']
@@ -730,7 +628,7 @@ def POST_edit_characteristics_rows(request, cur_user):
                 f_row = PlayerCharacteristicsRows.objects.filter(id=elem['id'], is_nfb=True)
                 if f_row.exists() and f_row[0].id != None:
                     f_row = f_row[0]
-                    f_row.title = set_by_language_code(f_row.title, request.LANGUAGE_CODE, elem['title'])
+                    f_row.title = utils.set_by_language_code(f_row.title, request.LANGUAGE_CODE, elem['title'])
                     f_row.order = elem['order']
                     f_row.visible = elem['visible']
                     try:
@@ -754,7 +652,7 @@ def POST_edit_characteristics_rows(request, cur_user):
                 f_row = PlayerCharacteristicsRows.objects.filter(id=elem['id'], is_nfb=False, user=cur_user)
             if f_row != None and f_row.exists() and f_row[0].id != None:
                 f_row = f_row[0]
-                f_row.title = set_by_language_code(f_row.title, request.LANGUAGE_CODE, elem['title'])
+                f_row.title = utils.set_by_language_code(f_row.title, request.LANGUAGE_CODE, elem['title'])
                 f_row.order = elem['order']
                 f_row.visible = elem['visible']
                 try:
@@ -950,7 +848,7 @@ def POST_edit_questionnaires_rows(request, cur_user):
             f_row = PlayerQuestionnairesRows.objects.filter(id=elem['id'], is_nfb=False, user=cur_user)
         if f_row != None and f_row.exists() and f_row[0].id != None:
             f_row = f_row[0]
-            f_row.title = set_by_language_code(f_row.title, request.LANGUAGE_CODE, elem['title'])
+            f_row.title = utils.set_by_language_code(f_row.title, request.LANGUAGE_CODE, elem['title'])
             f_row.order = elem['order']
             f_row.visible = elem['visible']
             try:
@@ -1250,7 +1148,7 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
                 pass
             level_val = ""
             try:
-                level_val = get_by_language_code(player.card.ref_level.translation_names, request.LANGUAGE_CODE)
+                level_val = utils.get_by_language_code(player.card.ref_level.translation_names, request.LANGUAGE_CODE)
             except:
                 pass
             player_data = {
@@ -1300,7 +1198,7 @@ def GET_get_card_sections(request, cur_user):
     sections = CardSection.objects.filter(visible=True)
     sections = [entry for entry in sections.values()]
     for section in sections:
-        section['title'] = get_by_language_code(section['title'], request.LANGUAGE_CODE)
+        section['title'] = utils.get_by_language_code(section['title'], request.LANGUAGE_CODE)
     res_data["sections"] = sections
     return JsonResponse({"data": res_data, "success": True}, status=200)
 
@@ -1321,7 +1219,7 @@ def GET_get_players_table_cols(request, cur_user):
     columns = PlayersTableColumns.objects.filter()
     columns = [entry for entry in columns.values()]
     for column in columns:
-        column['title'] = get_by_language_code(column['title'], request.LANGUAGE_CODE)
+        column['title'] = utils.get_by_language_code(column['title'], request.LANGUAGE_CODE)
     res_data["columns"] = columns
     return JsonResponse({"data": res_data, "success": True}, status=200)
 
@@ -1354,7 +1252,7 @@ def GET_get_characteristics_rows(request, cur_user):
             characteristics = PlayerCharacteristicsRows.objects.filter(is_nfb=False, user=cur_user)
     characteristics = [entry for entry in characteristics.values()]
     for characteristic in characteristics:
-        characteristic['title'] = get_by_language_code(characteristic['title'], request.LANGUAGE_CODE)
+        characteristic['title'] = utils.get_by_language_code(characteristic['title'], request.LANGUAGE_CODE)
     res_data["characteristics"] = characteristics
     return JsonResponse({"data": res_data, "success": True}, status=200)
 
@@ -1384,7 +1282,7 @@ def GET_get_questionnaires_rows(request, cur_user):
         questionnaires = PlayerQuestionnairesRows.objects.filter(is_nfb=False, user=cur_user)
     questionnaires = [entry for entry in questionnaires.values()]
     for questionnaire in questionnaires:
-        questionnaire['title'] = get_by_language_code(questionnaire['title'], request.LANGUAGE_CODE)
+        questionnaire['title'] = utils.get_by_language_code(questionnaire['title'], request.LANGUAGE_CODE)
     res_data["questionnaires"] = questionnaires
     return JsonResponse({"data": res_data, "success": True}, status=200)
 
