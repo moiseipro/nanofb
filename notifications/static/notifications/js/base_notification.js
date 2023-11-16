@@ -8,6 +8,7 @@ $(window).on("load", function () {
     users_table.on('preInit.dt', function () {
         users_table.columns( '.main-setting-col' ).visible( false );
         users_table.columns( '.side-info-col' ).visible( false );
+        users_table.columns('.flag-info-col').visible(true);
     });
 
     notification_sent_table.on('preInit.dt', function () {
@@ -71,19 +72,43 @@ $(window).on("load", function () {
                 let cur_edit_data = rowData[0]
                 console.log(cur_edit_data)
                 notification_select_id = null
+                clear_notification_form()
+                $('#notification-create-button').text(gettext('Create'))
                 //users_table.columns('.notification-user-filter').search( '' ).draw();
             }
         })
 
-    $('#notification-create-button').on('click', function () {
-        let notification_form = $('#notification-form')
-        if (notification_select_id == null){
-            notification_form.attr('method', 'POST')
-            notification_form.find('#notification-title').val('')
-            document.articleEditor.setData('')
-        }
+    notification_sent_table
+        .on( 'select', function ( e, dt, type, indexes ) {
+            console.log(type)
+            let rowData = notification_sent_table.rows( indexes ).data().toArray();
+            if(type=='row') {
+                let cur_edit_data = rowData[0]
+                console.log(cur_edit_data)
+                notification_sent_select_id = cur_edit_data.id
+                //users_table.columns('.notification-user-filter').search( user_select_id ).draw();
+            }
+        })
+        .on( 'deselect', function ( e, dt, type, indexes ) {
+            let rowData = notification_sent_table.rows( indexes ).data().toArray();
+            let cur_edit_data = rowData[0]
+            if(type=='row') {
+                let cur_edit_data = rowData[0]
+                console.log(cur_edit_data)
+                notification_sent_select_id = null
+                //users_table.columns('.notification-user-filter').search( '' ).draw();
+            }
+        })
 
-    })
+
+    // $('#notification-create-button').on('click', function () {
+    //     let notification_form = $('#notification-form')
+    //     if (notification_select_id == null){
+    //         notification_form.attr('method', 'POST')
+    //         notification_form.find('#notification-title').val('')
+    //         document.articleEditor.setData('')
+    //     }
+    // })
 
     // Submitting a notification creation form
     $('#notification-form').submit(function (event) {
@@ -99,9 +124,9 @@ $(window).on("load", function () {
             }
             form_list[form_data[key].name] = form_data[key].value
         }
-        console.log(form_list)
 
-        ajax_notification_action(method, form_list, 'notification', notification_select_id).then(function (data) {
+        if (method == 'POST')
+        ajax_notification_action(method, form_list, 'notification', method != 'POST' ? notification_select_id : '').then(function (data) {
             console.log(data)
             notification_table.ajax.reload();
             notification_select_id = null
@@ -122,19 +147,19 @@ $(window).on("load", function () {
             form_list[form_data[key].name] = form_data[key].value
         }
         let send_data = []
-        if (user_select_id == null){
+        if (typeof user_select_id != 'undefined' && user_select_id != null){
+            send_data = {
+                'user': user_select_id,
+                'notification': form_data.find((element) => element.name == "notification").value,
+                'date_receiving': moment(form_data.find((element) => element.name == "date_receiving").value).format('DD/MM/YYYY hh:mm')
+            }
+        } else {
             for (const user of user_table_data.data) {
                 send_data.push({
                     'user': user.id,
                     'notification': form_data.find((element) => element.name == "notification").value,
                     'date_receiving': moment(form_data.find((element) => element.name == "date_receiving").value).format('DD/MM/YYYY hh:mm')
                 })
-            }
-        } else {
-            send_data = {
-                'user': user_select_id,
-                'notification': form_data.find((element) => element.name == "notification").value,
-                'date_receiving': moment(form_data.find((element) => element.name == "date_receiving").value).format('DD/MM/YYYY hh:mm')
             }
         }
 
@@ -171,7 +196,70 @@ $(window).on("load", function () {
                 notification_form.attr('method', 'PUT')
                 notification_form.find('#notification-title').val(data.title)
                 document.articleEditor.setData(data.content)
+                $('#notification-create-button').text(gettext('Edit'))
                 $('#notification-create-button').click()
+            }
+
+        })
+    })
+
+    notification_table.on('click', '.view-notification', function (){
+        let id = $(this).attr('data-id')
+        let send_data = {}
+
+        ajax_notification_action('GET', send_data, 'notification', id).then(function (data) {
+            console.log(data)
+            let notification = data;
+            let date = 'date_receiving' in notification ? moment(notification.date_receiving, "DD/MM/YYYY hh:ss").format("DD/MM/YYYY") : ''
+            if (notification_select_id != null) {
+                $('#notification-view-modal').modal('show');
+                let html = ''
+                html += `
+                <div class="row mb-4 border notification-row" data-id="${notification.id}">
+                    <div class="col-md-10 col-8 bg-light mb-2">
+                        <h5>${notification.title}</h5>
+                    </div>
+                    <div class="col-md-2 col-4 bg-light mb-2">
+                        <span class="badge badge-light">${date}</span>
+                    </div>
+                    <div class="col-12 py-2 articleViewer">
+                        ${notification.content}
+                    </div>
+                </div>
+                `
+                $('#notification-view').html(html)
+                generate_ckeditor_notifications()
+            }
+
+        })
+    })
+
+    notification_sent_table.on('click', '.view-sent-notification', function (){
+        let id = $(this).attr('data-id')
+        let send_data = {}
+
+        ajax_notification_send_action('GET', send_data, 'notification', id).then(function (data) {
+            console.log(data)
+            let notification = data;
+            let date = 'date_receiving' in notification ? moment(notification.date_receiving, "DD/MM/YYYY hh:ss").format("DD/MM/YYYY") : ''
+            if (notification_sent_select_id != null) {
+                $('#notification-view-modal').modal('show');
+                let html = ''
+                html += `
+                <div class="row mb-4 border notification-row" data-id="${notification.id}">
+                    <div class="col-md-10 col-8 bg-light mb-2">
+                        <h5>${notification.title}</h5>
+                    </div>
+                    <div class="col-md-2 col-4 bg-light mb-2">
+                        <span class="badge badge-light">${date}</span>
+                    </div>
+                    <div class="col-12 py-2 articleViewer">
+                        ${notification.content}
+                    </div>
+                </div>
+                `
+                $('#notification-view').html(html)
+                generate_ckeditor_notifications()
             }
 
         })
@@ -199,3 +287,12 @@ $(window).on("load", function () {
         $('#videoSelectorModal').modal('show');
     });
 })
+
+function clear_notification_form() {
+    let notification_form = $('#notification-form')
+    if (notification_select_id == null){
+        notification_form.attr('method', 'POST')
+        notification_form.find('#notification-title').val('')
+        document.articleEditor.setData('')
+    }
+}

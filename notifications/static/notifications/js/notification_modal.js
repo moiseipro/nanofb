@@ -16,7 +16,7 @@ $(window).on("load", function () {
                         <span class="badge badge-light">${moment(notification.date_receiving, "DD/MM/YYYY hh:ss").format("DD/MM/YYYY")}</span>
                     </div>
                     <div class="col-md-2 col-3 bg-light mb-2">
-                        <button class="btn btn-sm btn-block btn-secondary read-notification">${gettext("Viewed")}</button>
+                        <button class="btn btn-sm btn-block btn-danger read-notification">${gettext("Delete")}</button>
                     </div>
                     <div class="col-12 py-2 articleViewer">
                         ${notification.content}

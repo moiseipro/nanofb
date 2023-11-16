@@ -1,4 +1,5 @@
 var notification_sent_table;
+var notification_sent_select_id;
 
 function generate_ajax_notification_sent_table(scroll_y = '', pagination = true){
     let page_length = pagination ? 50 : -1;
@@ -56,6 +57,12 @@ function generate_ajax_notification_sent_table(scroll_y = '', pagination = true)
             }},
             {'data': 'id', sortable: false, searchable: false, render: function (data, type, row, meta) {
                 let button_html = `<div class="w-100 text-center" title="">`
+                button_html += `<button type="button" class="btn btn-sm btn-dark mx-1 view-sent-notification py-0 text-warning" data-id="${row.id}"><i class="fa fa-search" aria-hidden="true"></i></button>`
+                button_html += `</div>`
+                return button_html;
+            }},
+            {'data': 'id', sortable: false, searchable: false, render: function (data, type, row, meta) {
+                let button_html = `<div class="w-100 text-center" title="">`
                 button_html += `<button type="button" class="btn btn-sm btn-dark mx-1 delete-sent-notification py-0 text-danger" data-id="${row.id}"><i class="fa fa-trash" aria-hidden="true"></i></button>`
                 button_html += `</div>`
                 return button_html;
@@ -66,7 +73,7 @@ function generate_ajax_notification_sent_table(scroll_y = '', pagination = true)
     notification_sent_table.on('click', 'td', function () {
         console.log('SELECT')
         if($(this).parent().is('.selected')){
-            notification_sent_table.row($(this).parent()).deselect()
+            if ($(this).find('.btn').length == 0) notification_sent_table.row($(this).parent()).deselect()
         } else {
             notification_sent_table.rows('.selected').deselect()
             notification_sent_table.row($(this).parent()).select()

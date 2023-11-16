@@ -81,7 +81,7 @@ $(function() {
                         // $(elem).parent().remove();
                     } else if ($(elem).hasClass('_video_')) {
                         let nfbVideoId = null;
-                        if (href.includes("213.108.4.28/video/player/")) {
+                        if (href.includes("/video/player/")) {
                             nfbVideoId = href;
                             nfbVideoId = nfbVideoId.split("/player/")[1];
                         }

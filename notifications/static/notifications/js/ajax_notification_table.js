@@ -51,6 +51,12 @@ function generate_ajax_notification_table(scroll_y = '', pagination = true){
             }},
             {'data': 'id', sortable: false, searchable: false, render: function (data, type, row, meta) {
                 let button_html = `<div class="w-100 text-center" title="">`
+                button_html += `<button type="button" class="btn btn-sm btn-dark mx-1 view-notification py-0 text-warning" data-id="${row.id}"><i class="fa fa-search" aria-hidden="true"></i></button>`
+                button_html += `</div>`
+                return button_html;
+            }},
+            {'data': 'id', sortable: false, searchable: false, render: function (data, type, row, meta) {
+                let button_html = `<div class="w-100 text-center" title="">`
                 button_html += `<button type="button" class="btn btn-sm btn-dark mx-1 edit-notification py-0 text-warning" data-id="${row.id}"><i class="fa fa-pencil" aria-hidden="true"></i></button>`
                 button_html += `</div>`
                 return button_html;
