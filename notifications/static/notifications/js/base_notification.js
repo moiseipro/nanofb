@@ -9,6 +9,7 @@ $(window).on("load", function () {
         users_table.columns( '.main-setting-col' ).visible( false );
         users_table.columns( '.side-info-col' ).visible( false );
         users_table.columns('.flag-info-col').visible(true);
+        users_table.columns(' .notifications-info-col ').visible(true);
     });
 
     notification_sent_table.on('preInit.dt', function () {

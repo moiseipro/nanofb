@@ -1,3 +1,4 @@
+from django.db.models import Count
 from django.shortcuts import render
 from django.utils.timezone import now, localtime
 from rest_framework import viewsets, status
@@ -6,10 +7,13 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework_datatables.django_filters.backends import DatatablesFilterBackend
 from rest_framework.response import Response
+from taggit.models import Tag
 
+from exercises.models import AdminFolder
 from notifications.filters import NotificationUserManagementGlobalFilter
 from notifications.models import Notification, NotificationUser
 from notifications.serializers import NotificationSerializer, NotificationUserSerializer
+from references.models import VideoSource
 from system_icons.views import get_ui_elements
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import TemplateView
@@ -24,7 +28,12 @@ class NotificationManagementView(PermissionRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        video_params = {}
+        video_params['sources'] = VideoSource.objects.all().annotate(videos=Count('video')).order_by('-videos')
+        video_params['folders'] = AdminFolder.objects.exclude(parent=None).order_by('parent', 'order')
+        video_params['tags'] = Tag.objects.all()
         context['menu_notification'] = "active"
+        context['video_params'] = video_params
         context['ui_elements'] = get_ui_elements(self.request)
         return context
 

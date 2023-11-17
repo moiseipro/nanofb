@@ -42,7 +42,7 @@ function generate_ajax_notification_sent_table(scroll_y = '', pagination = true)
             }},
             {'data': 'date_receiving', 'name': 'date_receiving', 'defaultContent': "---", render: function (data, type, row, meta) {
                 let html = ``
-                let date = moment(data, 'DD/MM/YYYY hh:mm').format("DD/MM/YYYY (hh:mm)")
+                let date = moment(data, 'DD/MM/YYYY hh:mm').format("DD/MM/YYYY")
                 if (data != null){
                     html += `<div class="text-truncate w-100 text-center" title="${date}"> ${date} </div>`
                 }

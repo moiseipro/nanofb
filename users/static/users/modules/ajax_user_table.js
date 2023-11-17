@@ -163,6 +163,7 @@ function generate_ajax_users_table(scroll_y = '', pagination = true){
 
     //Переключение по пользователям
     $(document).keydown(function(e) {
+        if(!is_select_user) return;
         let isNext = false;
         console.log('test')
         let obj_scroll = ''

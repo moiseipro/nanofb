@@ -114,7 +114,7 @@
 
     <!-- Notifications -->
     <li class="nav-item dropdown noti-dropdown">
-        <a href="#" id="view-notifications-button" class="dropdown-toggle nav-link" data-toggle="modal" data-target="#notifications-view-modal"> {# data-toggle="dropdown" #}
+        <a href="#" id="view-notifications-button" data-count="{{ request.notifications_count }}" class="dropdown-toggle nav-link" data-toggle="modal" data-target="#notifications-view-modal"> {# data-toggle="dropdown" #}
                 <i class="fe fe-bell"></i>
             {% if request.notifications_count %}
                 <span id="new-notifications-counter" class="badge badge-pill">{{ request.notifications_count }}</span>
