@@ -1,4 +1,5 @@
 var user_select_id;
+var club_select_id;
 var users_menu_state = null
 
 $(window).on("load", function () {
@@ -8,6 +9,18 @@ $(window).on("load", function () {
     users_table.on('preInit.dt', function () {
         check_admin_button()
     });
+
+    $('.change-management-table').on('shown.bs.tab', function () {
+        users_table.columns.adjust();
+        clubs_table.columns.adjust();
+    })
+
+    $('#toggle_btn').on('click', function () {
+        setTimeout(function (){
+            users_table.columns.adjust();
+            clubs_table.columns.adjust();
+        }, 400);
+    })
 
 
     $('.datetimepickerfilter').datetimepicker({
@@ -171,12 +184,58 @@ $(window).on("load", function () {
             }
         })
 
+    clubs_table
+        .on( 'select', function ( e, dt, type, indexes ) {
+            console.log(type)
+            let rowData = clubs_table.rows( indexes ).data().toArray();
+            if(type=='row') {
+                toggle_edit_mode(false)
+                let cur_edit_data = rowData[0]
+                console.log(cur_edit_data)
+                Cookies.set('club_selected_id', cur_edit_data.id, { expires: 1 })
+                club_select_id = cur_edit_data.id
+                load_club_data(club_select_id)
+
+                check_admin_button()
+            }
+        })
+        .on( 'deselect', function ( e, dt, type, indexes ) {
+            let rowData = clubs_table.rows( indexes ).data().toArray();
+            if(type=='row') {
+                toggle_edit_mode(false)
+                let cur_edit_data = rowData[0]
+                console.log(cur_edit_data)
+                Cookies.remove('club_selected_id')
+                club_select_id = null
+                check_admin_button()
+            }
+        })
+
+    $('.change-management-table').on('click', function () {
+        users_table.rows('.selected').deselect()
+        clubs_table.rows('.selected').deselect()
+        is_select_club = false;
+        is_select_user = false;
+        check_admin_button()
+    })
+
     $('#add-club-form').submit(function (event) {
         let form_Data = new FormData(this)
         console.log(form_Data)
 
         ajax_club_action('POST', form_Data, 'club').then(function (data) {
             console.log(data)
+        })
+        event.preventDefault();
+    })
+
+    $('#edit-club-form').submit(function (event) {
+        let form_Data = new FormData(this)
+        console.log(form_Data);
+
+        ajax_club_action('PUT', form_Data, 'edit', club_select_id).then(function (data) {
+            console.log(data)
+            load_club_data(club_select_id)
         })
         event.preventDefault();
     })

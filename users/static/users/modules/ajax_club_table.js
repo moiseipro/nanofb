@@ -1,4 +1,5 @@
 var clubs_table;
+var is_select_club = false;
 
 function generate_ajax_clubs_table(scroll_y = ''){
     clubs_table = $('#clubs-table').DataTable({
@@ -17,12 +18,13 @@ function generate_ajax_clubs_table(scroll_y = ''){
         ],
         rowCallback: function( row, data ) {
             console.log(data)
-            $(row).attr('data-user', data.id)
+            $(row).attr('data-club', data.id)
         },
         drawCallback: function( settings ) {
             $('#club-users-table-counter').text(settings._iRecordsDisplay)
-            if(Cookies.get('user_selected_id')){
-                $('#users-table tr[data-user="'+Cookies.get('user_selected_id')+'"] td:first').click();
+            if(Cookies.get('club_selected_id')){
+                is_select_club = true;
+                $('#clubs-table tr[data-club="'+Cookies.get('club_selected_id')+'"] td:first').click();
             }
         },
         ajax: {
@@ -82,8 +84,10 @@ function generate_ajax_clubs_table(scroll_y = ''){
     clubs_table.on('click', 'td', function () {
         console.log('SELECT')
         if($(this).parent().is('.selected')){
+            is_select_club = false;
             clubs_table.row($(this).parent()).deselect()
         } else {
+            is_select_club = true;
             clubs_table.rows('.selected').deselect()
             clubs_table.row($(this).parent()).select()
         }

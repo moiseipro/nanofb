@@ -16,6 +16,14 @@ $(window).on("load", function () {
         notification_sent_table.columns( '.additional-info-col' ).visible( false );
     });
 
+    $('#toggle_btn').on('click', function () {
+        setTimeout(function (){
+            notification_table.columns.adjust();
+            notification_sent_table.columns.adjust();
+            users_table.columns.adjust();
+        }, 400);
+    })
+
     $('.datetimepickerfilter').datetimepicker({
         format: 'DD/MM/YYYY',
         useCurrent: false,

@@ -11,16 +11,16 @@ $(window).on("load", function () {
 })
 
 function check_admin_button() {
-    let is_selected = $('#users-table tr.selected').length>0
+    let is_selected = $('#users-table tr.selected').length>0 || $('#clubs-table tr.selected').length>0
     $('.only-selected').not('.always-active').prop('disabled', !is_selected)
 
-    console.log(is_select_user)
+    console.log(is_select_user +"|"+ is_select_club)
     let data_target = Cookies.get('blocks_admin_modules')
-    if(!is_select_user){
+    if(!is_select_user && !is_select_club){
         Cookies.remove('blocks_admin_modules')
     }
 
-    if (!is_select_user) toggle_modules(data_target)
+    if (!is_select_user && !is_select_club) toggle_modules(data_target)
 }
 
 function toggle_modules(data_target = '') {
@@ -47,6 +47,7 @@ function toggle_modules(data_target = '') {
     $(table_block).addClass('col-'+col)
     try {
         users_table.columns.adjust();
+        clubs_table.columns.adjust();
     } catch {
 
     }
