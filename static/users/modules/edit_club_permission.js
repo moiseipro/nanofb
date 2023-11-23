@@ -1,21 +1,13 @@
 $(window).on('load', function (){
 
-    $('#users-table-tab').on('click', '.check-permission', function () {
+    $('#clubs-table-tab').on('click', '.check-permission', function () {
         console.log('click')
-        let user_id = $('#users-table-tab #permission-block').attr('data-user');
+        let user_id = $('#clubs-table-tab #permission-block').attr('data-club');
         let group_id = $(this).attr('value')
-        let send_data = {group_id}
-        ajax_users_action('POST', send_data, 'change permission', user_id, 'change_permission').then(function (data) {
-            console.log(data)
-        })
-    })
+        let formData = new FormData();
+        formData.append('group_id', group_id);
 
-    $('#users-table-tab').on('click', '.check-team', function () {
-        console.log('click')
-        let user_id = $('#users-table-tab #permission-block').attr('data-user');
-        let team_id = $(this).attr('value')
-        let send_data = {user_id}
-        ajax_team_action('POST', send_data, 'change permission', team_id, 'change_permission').then(function (data) {
+        ajax_club_action('POST', formData, 'change permission', user_id, 'change_permission').then(function (data) {
             console.log(data)
         })
     })
@@ -23,22 +15,23 @@ $(window).on('load', function (){
 })
 
 
-function load_group_data(id = -1) {
-    let permission_panel = $('#users-table-tab #permission-user .permission-panel')
+function load_club_group_data(id = -1) {
+    let permission_panel = $('#clubs-table-tab #permission-user .permission-panel')
     permission_panel.html('')
     if(id == -1) return false;
-    $('#users-table-tab #permission-block').attr('data-user', id)
+    $('#clubs-table-tab #permission-block').attr('data-club', id)
     let send_group = {}
     let send_users = {}
-    ajax_group_action('GET', send_group, 'group data', id, 'get_available_group').then(function (data) {
+    console.log("Load")
+    ajax_group_action('GET', send_group, 'group data', id, 'get_club_available_group').then(function (data) {
         console.log(data)
 
         let available_group = data['objs']
 
-        ajax_users_action('GET', send_users, 'user data', id, 'get_user_group').then(function (data) {
+        ajax_club_action('GET', send_users, 'user data', id, 'get_club_group').then(function (data) {
             console.log(data)
 
-            let user_group = data['data']
+            let club_group = data['data']
 
             for (var available_value of available_group) {
                 console.log(available_value)
@@ -46,8 +39,8 @@ function load_group_data(id = -1) {
                 let is_active = false
                 let can_check = false
 
-                for (var user_value of user_group) {
-                    if (available_value.id == user_value.id) {
+                for (var club_value of club_group) {
+                    if (available_value.id == club_value.id) {
                         is_active = true
                         break
                     }
@@ -58,7 +51,7 @@ function load_group_data(id = -1) {
                 }
 
                 if (available_value.customgroup.parent_group == -1){
-                    let section_row = $(`#users-table-tab #permission-block .section-row[data-section="${available_value.id}"]`)
+                    let section_row = $(`#clubs-table-tab #permission-block .section-row[data-section="${available_value.id}"]`)
                     if (section_row.length == 0){
                         let check_html = ``
                         if(can_check){
@@ -98,8 +91,8 @@ function load_group_data(id = -1) {
                 let is_active = false
                 let can_check = false
 
-                for (var user_value of user_group) {
-                    if (available_value.id == user_value.id) {
+                for (var club_value of club_group) {
+                    if (available_value.id == club_value.id) {
                         is_active = true
                         break
                     }
@@ -130,7 +123,7 @@ function load_group_data(id = -1) {
                     
                     `
                 if (available_value.customgroup.parent_group != -1){
-                    let section_row = $(`#users-table-tab #permission-block .section-row[data-section="${available_value.customgroup.parent_group}"]`)
+                    let section_row = $(`#clubs-table-tab #permission-block .section-row[data-section="${available_value.customgroup.parent_group}"]`)
                     if(section_row.length == 0){
                         permission_panel.prepend(permission_row)
                     } else {
@@ -140,43 +133,5 @@ function load_group_data(id = -1) {
 
             }
         })
-    })
-}
-
-function load_team_data(id= -1){
-    let permission_team_panel = $('#users-table-tab #permission-team .permission-panel')
-    permission_team_panel.html('')
-    if(id == -1) return false;
-    $('#users-table-tab #permission-block').attr('data-user', id)
-    let send_data = {}
-
-    ajax_team_action('GET', send_data, 'get team').then(function (data) {
-        console.log(data)
-        let teams = data
-
-
-        for (var team of teams) {
-            if(!('users' in team)) return false
-            let permission_row = ''
-            let is_active = team.users.includes(id)
-
-            permission_row +=
-                `
-            <div class="row permission-row" data-id="${team.id}">
-                <div class="col-9 px-2 border text-nowrap text-truncate">
-                    <span class="float-left">${team.name}</span>
-                </div>
-                <div class="col-3 px-2 border text-center">
-                    <div class="form-check">
-                        <input type="checkbox" name="team_value" value="${team.id}" class="form-check-input position-static check-team" id="team-permission-${team.id}" ${is_active ? 'checked' : ''}>
-                    </div>
-                </div>
-            </div>
-            
-            `
-            permission_team_panel.prepend(permission_row)
-
-        }
-
     })
 }

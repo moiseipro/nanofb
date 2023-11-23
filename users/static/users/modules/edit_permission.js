@@ -1,8 +1,8 @@
 $(window).on('load', function (){
 
-    $(document).on('click', '.check-permission', function () {
+    $('#users-table-tab').on('click', '.check-permission', function () {
         console.log('click')
-        let user_id = $('#permission-block').attr('data-user');
+        let user_id = $('#users-table-tab #permission-block').attr('data-user');
         let group_id = $(this).attr('value')
         let send_data = {group_id}
         ajax_users_action('POST', send_data, 'change permission', user_id, 'change_permission').then(function (data) {
@@ -10,9 +10,9 @@ $(window).on('load', function (){
         })
     })
 
-    $(document).on('click', '.check-team', function () {
+    $('#users-table-tab').on('click', '.check-team', function () {
         console.log('click')
-        let user_id = $('#permission-block').attr('data-user');
+        let user_id = $('#users-table-tab #permission-block').attr('data-user');
         let team_id = $(this).attr('value')
         let send_data = {user_id}
         ajax_team_action('POST', send_data, 'change permission', team_id, 'change_permission').then(function (data) {
@@ -24,10 +24,10 @@ $(window).on('load', function (){
 
 
 function load_group_data(id = -1) {
-    let permission_panel = $('#permission-user .permission-panel')
+    let permission_panel = $('#users-table-tab #permission-user .permission-panel')
     permission_panel.html('')
     if(id == -1) return false;
-    $('#permission-block').attr('data-user', id)
+    $('#users-table-tab #permission-block').attr('data-user', id)
     let send_group = {}
     let send_users = {}
     ajax_group_action('GET', send_group, 'group data', id, 'get_available_group').then(function (data) {
@@ -58,7 +58,7 @@ function load_group_data(id = -1) {
                 }
 
                 if (available_value.customgroup.parent_group == -1){
-                    let section_row = $(`#permission-block .section-row[data-section="${available_value.id}"]`)
+                    let section_row = $(`#users-table-tab #permission-block .section-row[data-section="${available_value.id}"]`)
                     if (section_row.length == 0){
                         let check_html = ``
                         if(can_check){
@@ -130,7 +130,7 @@ function load_group_data(id = -1) {
                     
                     `
                 if (available_value.customgroup.parent_group != -1){
-                    let section_row = $(`#permission-block .section-row[data-section="${available_value.customgroup.parent_group}"]`)
+                    let section_row = $(`#users-table-tab #permission-block .section-row[data-section="${available_value.customgroup.parent_group}"]`)
                     if(section_row.length == 0){
                         permission_panel.prepend(permission_row)
                     } else {
@@ -144,10 +144,10 @@ function load_group_data(id = -1) {
 }
 
 function load_team_data(id= -1){
-    let permission_team_panel = $('#permission-team .permission-panel')
+    let permission_team_panel = $('#users-table-tab #permission-team .permission-panel')
     permission_team_panel.html('')
     if(id == -1) return false;
-    $('#permission-block').attr('data-user', id)
+    $('#users-table-tab #permission-block').attr('data-user', id)
     let send_data = {}
 
     ajax_team_action('GET', send_data, 'get team').then(function (data) {

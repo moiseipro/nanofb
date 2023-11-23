@@ -324,6 +324,41 @@ class EditPasswordApiView(UpdateAPIView):
 class ClubsApiViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAdminUser,)
 
+    @action(detail=True, methods=['get'])
+    def get_club_group(self, request, pk=None):
+        groups = Club.objects.get(pk=pk).groups.order_by("customgroup__order")
+        print(groups.values())
+        serializer = GroupSerializer(groups, many=True)
+        # serializer.is_valid()
+        if serializer.data:
+            response = {
+                'status': 'club_group',
+                'data': serializer.data
+            }
+            return Response(response, status=status.HTTP_200_OK)
+        else:
+            response = {
+                'status': 'club_group',
+                'data': ''
+            }
+            return Response(response, status=status.HTTP_200_OK)
+            # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=['post'])
+    def change_permission(self, request, pk=None):
+        data = request.data
+
+        club_edit = Club.objects.get(id=pk)
+        print(club_edit.groups.all())
+        group = Group.objects.get(id=data['group_id'])
+        print(data)
+        if group in club_edit.groups.all():
+            club_edit.groups.remove(group)
+            return Response({'status': 'group_removed'})
+        else:
+            club_edit.groups.add(group)
+            return Response({'status': 'group_added'})
+
     def create(self, request, *args, **kwargs):
         print(request.data)
         if Club.objects.filter(subdomain=request.data['subdomain']).exists():

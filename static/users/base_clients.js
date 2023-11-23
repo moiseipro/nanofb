@@ -195,6 +195,7 @@ $(window).on("load", function () {
                 Cookies.set('club_selected_id', cur_edit_data.id, { expires: 1 })
                 club_select_id = cur_edit_data.id
                 load_club_data(club_select_id)
+                load_club_group_data(club_select_id)
 
                 check_admin_button()
             }

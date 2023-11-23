@@ -8,14 +8,16 @@ function load_club_data(id = -1) {
         for (const idKey in club) {
             if (idKey == 'image'){
                 $('#clubs-table-tab .management-main-block .club-image').attr("src", club[idKey])
-            }
-
-            $('#clubs-table-tab .management-main-block select[name="'+idKey+'"]').val(club[idKey])
-            if (idKey == 'is_demo_mode' || idKey == 'is_superuser'){
-                $('#clubs-table-tab .management-main-block input[name="'+idKey+'"]').prop('checked', club[idKey])
             } else {
+                $('#clubs-table-tab .management-main-block select[name="'+idKey+'"]').val(club[idKey])
                 $('#clubs-table-tab .management-main-block input[name="'+idKey+'"]').val(club[idKey])
             }
+
+            // if (idKey == 'is_demo_mode' || idKey == 'is_superuser'){
+            //     $('#clubs-table-tab .management-main-block input[name="'+idKey+'"]').prop('checked', club[idKey])
+            // } else {
+            //
+            // }
         }
     })
 }

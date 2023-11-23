@@ -14,13 +14,12 @@ function check_admin_button() {
     let is_selected = $('#users-table tr.selected').length>0 || $('#clubs-table tr.selected').length>0
     $('.only-selected').not('.always-active').prop('disabled', !is_selected)
 
-    console.log(is_select_user +"|"+ is_select_club)
     let data_target = Cookies.get('blocks_admin_modules')
-    if(!is_select_user && !is_select_club){
+    if(!is_select_user && (typeof is_select_club !== 'undefined' ? !is_select_club : true)){
         Cookies.remove('blocks_admin_modules')
     }
 
-    if (!is_select_user && !is_select_club) toggle_modules(data_target)
+    if (!is_select_user && (typeof is_select_club !== 'undefined' ? !is_select_club : true)) toggle_modules(data_target)
 }
 
 function toggle_modules(data_target = '') {

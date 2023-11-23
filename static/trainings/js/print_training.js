@@ -3,13 +3,19 @@ $(window).on('load', function () {
     //Распечатать тренировку
     $('#print-training-button').on('click', function () {
         resize_textarea()
+        $('#print-training-block .form-control').each(function () {
+            $(this).addClass('hide-placeholder')
+        })
         $("#print-training-block").print({
             timeout: 8000,
             stylesheet: $('#print-style-href').val(),
-            prepend: `
-                <div class="font-weight-bold px-2 py-1 text-right">nanofootball.com</div>
-            `
+            // prepend: `
+            //     <div class="font-weight-bold px-2 py-1 text-right">nanofootball.com</div>
+            // `
         });
+        $('#print-training-block .form-control').each(function () {
+            $(this).removeClass('hide-placeholder')
+        })
     })
 
     $('#print-training-modal').on('show.bs.modal', function (e) {
