@@ -3,6 +3,13 @@ var club_select_id;
 var users_menu_state = null
 
 $(window).on("load", function () {
+
+    if(Cookies.get('club_selected_id')){
+        $('#club-table-show-button').tab('show')
+    } else {
+        $('#user-table-show-button').tab('show')
+    }
+
     generate_ajax_users_table("calc(100vh - 240px)")
     generate_ajax_clubs_table("calc(100vh - 240px)")
 

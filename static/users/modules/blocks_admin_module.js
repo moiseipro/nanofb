@@ -1,13 +1,11 @@
 $(window).on("load", function () {
-    // $('.function-block').on("shown.bs.collapse hidden.bs.collapse", function (event) {
-    //     check_admin_button()
-    // })
 
     $('.only-selected').on('click', function (e) {
         let data_target = $(this).attr('data-target')
         Cookies.set('blocks_admin_modules', data_target, { expires: 1 })
         toggle_modules(data_target)
     })
+
 })
 
 function check_admin_button() {
