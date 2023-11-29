@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-28 12:49+0300\n"
+"POT-Creation-Date: 2023-11-29 13:34+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -390,8 +390,8 @@ msgstr "Микроцикл"
 
 #: .\events\static\events\js\microcycle_update.js:20
 #: .\static\events\js\microcycle_update.js:20
-msgid "Microcycles must not overlap!"
-msgstr "Микроциклы не должны пересекаться!"
+msgid "Microcycles should not overlap and go beyond the season!"
+msgstr "Микроциклы не должны пересекаться и выходить за рамки сезона!"
 
 #: .\exercises\static\exercises\js\base_exercises_folders.js:365
 #: .\shared\static\shared\js\modules\shared_ajax.js:17

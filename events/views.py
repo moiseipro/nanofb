@@ -56,6 +56,10 @@ class MicrocycleViewSet(viewsets.ModelViewSet):
         date_with = datetime.strptime(self.request.data['date_with'], "%d/%m/%Y").date()
         date_by = datetime.strptime(self.request.data['date_by'], "%d/%m/%Y").date()
         if self.request.user.club_id is not None:
+            season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
+            if date_with < season[0].date_with or date_by < season[0].date_with or \
+                    date_with > season[0].date_by or date_by > season[0].date_by:
+                return False
             team = ClubTeam.objects.get(pk=self.request.session['team'], club_id=self.request.user.club_id)
             microcycles = ClubMicrocycles.objects.filter(
                 Q(team_id=team) &
@@ -64,6 +68,10 @@ class MicrocycleViewSet(viewsets.ModelViewSet):
                 Q(date_with__lte=date_by) & Q(date_by__gte=date_by))
             )
         else:
+            season = UserSeason.objects.filter(id=self.request.session['season'])
+            if date_with < season[0].date_with or date_by < season[0].date_with or \
+                    date_with > season[0].date_by or date_by > season[0].date_by:
+                return False
             team = UserTeam.objects.get(pk=self.request.session['team'])
             microcycles = UserMicrocycles.objects.filter(
                 Q(team_id=team) &
@@ -89,7 +97,11 @@ class MicrocycleViewSet(viewsets.ModelViewSet):
         pk = kwargs.pop('pk')
         print(pk)
         if self.request.user.club_id is not None:
+            season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
             team = ClubTeam.objects.get(pk=self.request.session['team'], club_id=self.request.user.club_id)
+            if date_with < season[0].date_with or date_by < season[0].date_with or \
+                    date_with > season[0].date_by or date_by > season[0].date_by:
+                return Response({'status': 'microcycle_full'})
             microcycles = ClubMicrocycles.objects.filter(
                 Q(team_id=team) &
                 ((Q(date_by__range=[date_with, date_by]) | Q(date_with__range=[date_with, date_by])) |
@@ -97,7 +109,11 @@ class MicrocycleViewSet(viewsets.ModelViewSet):
                  Q(date_with__lte=date_by) & Q(date_by__gte=date_by))
             ).exclude(pk=pk)
         else:
+            season = UserSeason.objects.filter(id=self.request.session['season'])
             team = UserTeam.objects.get(pk=self.request.session['team'])
+            if date_with < season[0].date_with or date_by < season[0].date_with or \
+                    date_with > season[0].date_by or date_by > season[0].date_by:
+                return Response({'status': 'microcycle_full'})
             microcycles = UserMicrocycles.objects.filter(
                 Q(team_id=team) &
                 ((Q(date_by__range=[date_with, date_by]) | Q(date_with__range=[date_with, date_by])) |
