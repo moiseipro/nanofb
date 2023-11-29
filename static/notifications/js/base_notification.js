@@ -134,7 +134,7 @@ $(window).on("load", function () {
             form_list[form_data[key].name] = form_data[key].value
         }
 
-        if (method == 'POST')
+        //if (method == 'POST')
         ajax_notification_action(method, form_list, 'notification', method != 'POST' ? notification_select_id : '').then(function (data) {
             console.log(data)
             notification_table.ajax.reload();
