@@ -49,6 +49,9 @@
                     <li class="nav-item">
                         <a id="password-change-open" class="nav-link" data-toggle="tab" href="#password_tab">{% trans 'Password'%}</a>
                     </li>
+                    <li class="nav-item">
+                        <a id="payment-open" class="nav-link" data-toggle="tab" href="#payment_tab">{% trans 'Payment'%}</a>
+                    </li>
                     {% if perms.references.add_userteam or perms.references.add_clubteam or perms.references.add_userseason or perms.references.add_clubseason %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'references:settings' %}">{% trans 'Settings'%}</a>
@@ -208,6 +211,18 @@
                     </div>
                 </div>
                 <!-- /Change Password Tab -->
+
+                <!-- Change Payment Tab -->
+                <div id="payment_tab" class="tab-pane fade">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{% trans "Payment QR" %}</h5>
+                            {% include "users/modules/payment_info.html" %}
+                        </div>
+                    </div>
+                </div>
+                <!-- /Change Payment Tab -->
 
             </div>
         </div>
