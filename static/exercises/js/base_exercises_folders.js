@@ -161,7 +161,7 @@ $(function() {
     let cFolderType = "";
     $('.folder-add').on('click', (e) => {
         cFolderIdToChange = null; cParentIdToChange = null;
-        cFolderType = $(e.currentTarget).parent().parent().parent().find('.folders_div').attr('data-id');
+        cFolderType = $(e.currentTarget).parent().parent().parent().parent().parent().find('.folders_div_wrapper').attr('data-id');
         $('#folderChangeModal').find('input[name="short_name"]').val('');
         $('#folderChangeModal').find('input[name="name"]').val('');
         $('#folderChangeModal').modal('show');
@@ -209,6 +209,7 @@ $(function() {
             'edit': 1, 'id': cFolderIdToChange, 'parent_id': cParentIdToChange, 
             'name': name, 'short_name': shortName, 'f_type': cFolderType
         };
+        console.log(data['f_type'])
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
             headers:{"X-CSRFToken": csrftoken},
