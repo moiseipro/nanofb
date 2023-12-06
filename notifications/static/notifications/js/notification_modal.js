@@ -6,23 +6,25 @@ $(window).on("load", function () {
             console.log(data)
             let notifications_list = data.data;
             let html = ''
+            let count = 0;
             for (const notification of notifications_list) {
                 html += `
-                <div class="row mb-4 border notification-row" data-id="${notification.id}">
-                    <div class="col-md-8 col-6 bg-light mb-2" data-toggle="collapse" href="#notification-content-${notification.id}">
-                        <h5>${notification.title}</h5>
+                <div class="row border notification-row" data-id="${notification.id}">
+                    <div class="col-md-8 col-6 bg-secondary notification-header" data-toggle="collapse" href="#notification-content-${notification.id}">
+                        <h5 class="mb-0 mt-1 text-light">${notification.title}</h5>
                     </div>
-                    <div class="col-md-2 col-3 bg-light mb-2">
-                        <span class="badge badge-light">${moment(notification.date_receiving, "DD/MM/YYYY hh:ss").format("DD/MM/YYYY")}</span>
+                    <div class="col-md-2 col-3 bg-secondary pt-1">
+                        <span class="font-weight-bold text-light">${moment(notification.date_receiving, "DD/MM/YYYY hh:ss").format("DD/MM/YYYY")}</span>
                     </div>
-                    <div class="col-md-2 col-3 bg-light mb-2">
-                        <button class="btn btn-sm btn-block btn-danger read-notification">${gettext("Delete")}</button>
+                    <div class="col-md-2 col-3 bg-secondary px-0">
+                        <button class="btn btn-sm btn-block btn-warning rounded-0 read-notification">${gettext("Delete")}</button>
                     </div>
-                    <div id="notification-content-${notification.id}" class="col-12 py-2 articleViewer">
+                    <div id="notification-content-${notification.id}" class="col-12 py-2 mb-4 articleViewer collapse ${count == 0 ? 'show' : ''}">
                         ${notification.content}
                     </div>
                 </div>
                 `
+                count++;
             }
 
             $('#notification-view-all').html(html)

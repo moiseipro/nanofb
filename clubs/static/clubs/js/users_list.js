@@ -57,6 +57,9 @@ function generate_ajax_club_users_table(scroll_y = ''){
             {'data': 'job_title', 'name': 'job_title', 'defaultContent': "---", render: function (data, type, row, meta) {
                 return `<span class="text-truncate" title="${data}"> ${data ? data : '---'} </span>`;
             }},
+            {'data': 'teams_players_fact', 'name': 'teams_players_fact', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
+                return `<div class="w-100 text-center font-weight-bold text-warning" title="${data}"> ${data} </div>`;
+            }},
             {'data': 'date_last_login', 'name': 'date_last_login', 'defaultContent': "---", render: function (data, type, row, meta) {
                 let view_date = ''
                 if (data == '') view_date = '...'

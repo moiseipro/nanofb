@@ -16,6 +16,14 @@ $(window).on("load", function () {
         notification_sent_table.columns( '.additional-info-col' ).visible( false );
     });
 
+    $('#toggle_btn').on('click', function () {
+        setTimeout(function (){
+            notification_table.columns.adjust();
+            notification_sent_table.columns.adjust();
+            users_table.columns.adjust();
+        }, 400);
+    })
+
     $('.datetimepickerfilter').datetimepicker({
         format: 'DD/MM/YYYY',
         useCurrent: false,
@@ -126,7 +134,7 @@ $(window).on("load", function () {
             form_list[form_data[key].name] = form_data[key].value
         }
 
-        if (method == 'POST')
+        //if (method == 'POST')
         ajax_notification_action(method, form_list, 'notification', method != 'POST' ? notification_select_id : '').then(function (data) {
             console.log(data)
             notification_table.ajax.reload();
@@ -177,11 +185,43 @@ $(window).on("load", function () {
     notification_table.on('click', '.delete-notification', function (){
         let id = $(this).attr('data-id')
         let send_data = {}
-
-        ajax_notification_action('DELETE', send_data, 'notification', id).then(function (data) {
-            console.log(data)
-            notification_table.ajax.reload();
+        swal({
+            title: gettext("Removal"),
+            text: gettext("Delete the notification template or delete all sent ones?"),
+            icon: "warning",
+            buttons: {
+                catch: {
+                    text: gettext("Delete a template"),
+                    value: "delete-template",
+                },
+                defeat: {
+                    text: gettext("Delete all sent"),
+                    value: "delete-sent",
+                },
+                cancel: gettext("Cancel"),
+            },
+            dangerMode: true,
         })
+        .then((value) => {
+            switch (value) {
+                case "delete-template":
+                    ajax_notification_action('DELETE', send_data, 'notification', id).then(function (data) {
+                        console.log(data)
+                        notification_table.ajax.reload();
+                        notification_sent_table.ajax.reload();
+                    })
+                    break;
+                case "delete-sent":
+                    ajax_notification_action('POST', send_data, 'delete notification', id, 'delete_notification').then(function (data) {
+                        console.log(data)
+                        notification_sent_table.ajax.reload();
+                    })
+                    break;
+                default:
+                    break;
+            }
+        });
+
     })
 
     notification_table.on('click', '.edit-notification', function (){

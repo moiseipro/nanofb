@@ -43,6 +43,20 @@ class NotificationManagementApiView(viewsets.ModelViewSet):
     filter_backends = (DatatablesFilterBackend,)
     #filterset_class = UserManagementGlobalFilter
 
+    @action(detail=True, methods=['post'])
+    def delete_notification(self, request, pk=None):
+        if NotificationUser.objects.filter(notification_id=pk).delete():
+            response = {
+                'action': 'deleted',
+                'data': ''
+            }
+        else:
+            response = {
+                'action': 'error',
+                'data': ''
+            }
+        return Response(response, status=status.HTTP_200_OK)
+
     def get_serializer_class(self):
         return NotificationSerializer
 

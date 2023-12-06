@@ -44,6 +44,22 @@ class PermissionsApiView(viewsets.ReadOnlyModelViewSet):
         serializer = serializer_class(queryset, many=True)
         return Response({'status': 'available_group', 'objs': serializer.data})
 
+    @action(detail=True, methods=['get'])
+    def get_club_available_group(self, request, pk=None):
+        data = request.data
+        serializer_class = GroupSerializer
+
+        queryset = Group.objects.filter(customgroup__text_id="club")
+
+        if not self.request.user.is_superuser:
+            queryset = queryset.exclude(customgroup__is_admin=True)
+
+        queryset = queryset.order_by("customgroup__order")
+        print(queryset)
+
+        serializer = serializer_class(queryset, many=True)
+        return Response({'status': 'available_group', 'objs': serializer.data})
+
     def get_serializer_class(self):
         return GroupSerializer
 

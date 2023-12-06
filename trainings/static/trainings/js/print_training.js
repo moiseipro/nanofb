@@ -3,13 +3,19 @@ $(window).on('load', function () {
     //Распечатать тренировку
     $('#print-training-button').on('click', function () {
         resize_textarea()
+        $('#print-training-block .form-control').each(function () {
+            $(this).addClass('hide-placeholder')
+        })
         $("#print-training-block").print({
             timeout: 8000,
             stylesheet: $('#print-style-href').val(),
-            prepend: `
-                <div class="font-weight-bold px-2 py-1 text-right">nanofootball.com</div>
-            `
+            // prepend: `
+            //     <div class="font-weight-bold px-2 py-1 text-right">nanofootball.com</div>
+            // `
         });
+        $('#print-training-block .form-control').each(function () {
+            $(this).removeClass('hide-placeholder')
+        })
     })
 
     $('#print-training-modal').on('show.bs.modal', function (e) {
@@ -147,7 +153,7 @@ function load_training_print(training_id) {
                             additional_data += `
                                 <div class="row">
                                     <div class="col-12 px-1 border text-center">
-                                        <b>${additional.name}</b>
+                                        <b><input type="text" class="form-control form-control-sm border-0" value="${additional.name}" placeholder=""></b>
                                     </div>
                                 </div>
                             `
@@ -158,27 +164,6 @@ function load_training_print(training_id) {
                         }
                     }
                 }
-                // if (exercise.additional.length > 0) {
-                //     for (let additional of exercise.additional) {
-                //         if (additional.note != null && additional.note != ''){
-                //             additional_data += '<div class="col-6">'
-                //
-                //             additional_data += `
-                //                 <div class="row">
-                //                     <div class="col-6 px-1 border">
-                //                         <b>${get_translation_name(additional.additional_name)}</b>
-                //                     </div>
-                //                     <div class="col-6 px-1 border text-center">
-                //                         ${additional.note}
-                //                     </div>
-                //                 </div>
-                //             `
-                //
-                //             additional_data += '</div>'
-                //         }
-                //
-                //     }
-                // }
 
                 html_scheme += `
                 <div class="col-8 exercise-info-block">

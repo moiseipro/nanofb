@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from references.models import VideoSource, UserTeam, UserSeason, ClubTeam, ClubSeason, TeamStatus, ExsAdditionalData, \
     PlayerProtocolStatus, PlayerPosition, TrainingSpace, TrainingAdditionalData, UserExsAdditionalData, \
-    ClubExsAdditionalData
+    ClubExsAdditionalData, UserPaymentInformation, PaymentInformation, ClubPaymentInformation
 
 
 class PlayerPositionSerializer(serializers.ModelSerializer):
@@ -126,3 +126,30 @@ class UserSeasonsSerializer(serializers.ModelSerializer):
 class ClubSeasonsSerializer(UserSeasonsSerializer):
     class Meta(UserSeasonsSerializer.Meta):
         model = ClubSeason
+
+
+class PaymentInformationSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = PaymentInformation
+        fields = [
+            'id', 'payment', 'date', 'payment_before'
+        ]
+        datatables_always_serialize = ('id',)
+
+
+class UserPaymentInformationSerializer(PaymentInformationSerializer):
+    class Meta(PaymentInformationSerializer.Meta):
+        model = UserPaymentInformation
+        fields = [
+            'id', 'payment', 'user_id', 'date', 'payment_before'
+        ]
+
+
+class ClubPaymentInformationSerializer(PaymentInformationSerializer):
+    class Meta(PaymentInformationSerializer.Meta):
+        model = ClubPaymentInformation
+        fields = [
+            'id', 'payment', 'club_id', 'date', 'payment_before'
+        ]

@@ -17,7 +17,7 @@ async function ajax_microcycle_update(method, data, id) {
             //console.log(data)
             if(method != 'GET') {
                 if(data != null && 'status' in data && data.status == 'microcycle_full'){
-                    swal(gettext('Microcycle'), gettext('Microcycles must not overlap!'), 'warning');
+                    swal(gettext('Microcycle'), gettext('Microcycles should not overlap and go beyond the season!'), 'warning');
                 } else {
                     swal(gettext('Microcycle'), gettext('The action with the microcycle was successfully completed!'), "success");
                 }

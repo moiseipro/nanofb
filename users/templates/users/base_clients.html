@@ -20,10 +20,10 @@
                         <div class="col px-1">
                             <ul class="nav nav-pills nav-fill mb-0" id="pills-tab" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="pill" href="#users-table-tab" role="tab" aria-controls="club-users" aria-selected="true">{% trans "Users" %}</a>
+                                    <a id="user-table-show-button" class="nav-link change-management-table active" data-toggle="pill" href="#users-table-tab" role="tab" aria-controls="club-users" aria-selected="true">{% trans "Users" %}</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="pill" href="#clubs-table-tab" role="tab" aria-controls="club-users" aria-selected="true">{% trans "Clubs" %}</a>
+                                    <a id="club-table-show-button" class="nav-link change-management-table" data-toggle="pill" href="#clubs-table-tab" role="tab" aria-controls="club-users" aria-selected="true">{% trans "Clubs" %}</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" data-toggle="pill" href="#user-add" role="tab" aria-controls="user-add" aria-selected="false">{% trans "User" %} +</a>
@@ -46,6 +46,9 @@
                                 </div>
                                 <div class="col px-1">
                                     <button class="btn btn-outline-secondary btn-block only-selected" data-target=".management-profile-block" aria-controls="Profile" aria-selected="false">{% trans "Profile" %}</button>
+                                </div>
+                                <div class="col px-1">
+                                    <button class="btn btn-outline-secondary btn-block only-selected show-payment-table" data-target=".management-payment-block" aria-controls="Payment" aria-selected="false">{% trans "Payment" %}</button>
                                 </div>
                             </div>
                         </div>
@@ -71,6 +74,10 @@
                                 <div id="users-management-profile-block" data-col="3" class="px-1 col-3 collapse function-block management-profile-block">
                                     {% include "users/modules/management_profile.html" %}
                                 </div>
+                                <div id="users-management-payment-block" data-col="4" class="px-1 col-4 collapse function-block management-payment-block">
+                                    {% include "users/modules/management_user_payment.html" %}
+                                </div>
+
                             </div>
                         </div>
                         <div class="tab-pane fade" id="clubs-table-tab" role="tabpanel" aria-labelledby="pills-clubs-tab">
@@ -82,13 +89,16 @@
                                     {% include "users/modules/club_table_settings.html" %}
                                 </div>
                                 <div id="club-management-main-block" data-col="3" class="px-1 col-3 collapse function-block management-main-block">
-                                    {% include "users/modules/management_main.html" %}
+                                    {% include "users/modules/club_management_main.html" %}
                                 </div>
-                                <div id="club-management-permissions-block" data-col="5" class="px-1 col-5 collapse function-block management-permissions-block">
-                                    {% include "users/modules/management_permissions.html" %}
+                                <div id="club-management-permissions-block" data-col="3" class="px-1 col-3 collapse function-block management-permissions-block">
+                                    {% include "users/modules/club_management_permissions.html" %}
                                 </div>
                                 <div id="club-management-profile-block" data-col="3" class="px-1 col-3 collapse function-block management-profile-block">
-                                    {% include "users/modules/management_profile.html" %}
+
+                                </div>
+                                <div id="club-management-payment-block" data-col="4" class="px-1 col-4 collapse function-block management-payment-block">
+                                    {% include "users/modules/management_club_payment.html" %}
                                 </div>
                             </div>
                         </div>
@@ -114,8 +124,12 @@
     <script src="{% static 'users/modules/ajax_permission.js' %}"></script>
     <script src="{% static 'users/modules/ajax_user_table.js' %}"></script>
     <script src="{% static 'users/modules/ajax_club_table.js' %}"></script>
+    <script src="{% static 'references/ajax_payment_table.js' %}"></script>
+    <script src="{% static 'references/ajax_payment.js' %}"></script>
     <script src="{% static 'users/modules/edit_permission.js' %}"></script>
+    <script src="{% static 'users/modules/edit_club_permission.js' %}"></script>
     <script src="{% static 'users/modules/ajax_user_data.js' %}"></script>
+    <script src="{% static 'clubs/js/ajax_club_data.js' %}"></script>
     <script src="{% static 'users/modules/blocks_admin_module.js' %}"></script>
     <script src="{% static 'users/modules/user_table_settings.js' %}"></script>
     <script src="{% static 'users/base_clients.js' %}"></script>

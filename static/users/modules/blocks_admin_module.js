@@ -1,26 +1,23 @@
 $(window).on("load", function () {
-    // $('.function-block').on("shown.bs.collapse hidden.bs.collapse", function (event) {
-    //     check_admin_button()
-    // })
 
     $('.only-selected').on('click', function (e) {
         let data_target = $(this).attr('data-target')
         Cookies.set('blocks_admin_modules', data_target, { expires: 1 })
         toggle_modules(data_target)
     })
+
 })
 
 function check_admin_button() {
-    let is_selected = $('#users-table tr.selected').length>0
+    let is_selected = $('#users-table tr.selected').length>0 || $('#clubs-table tr.selected').length>0
     $('.only-selected').not('.always-active').prop('disabled', !is_selected)
 
-    console.log(is_select_user)
     let data_target = Cookies.get('blocks_admin_modules')
-    if(!is_select_user){
+    if(!is_select_user && (typeof is_select_club !== 'undefined' ? !is_select_club : true)){
         Cookies.remove('blocks_admin_modules')
     }
 
-    if (!is_select_user) toggle_modules(data_target)
+    if (!is_select_user && (typeof is_select_club !== 'undefined' ? !is_select_club : true)) toggle_modules(data_target)
 }
 
 function toggle_modules(data_target = '') {
@@ -47,6 +44,7 @@ function toggle_modules(data_target = '') {
     $(table_block).addClass('col-'+col)
     try {
         users_table.columns.adjust();
+        clubs_table.columns.adjust();
     } catch {
 
     }

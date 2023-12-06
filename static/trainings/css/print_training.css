@@ -23,3 +23,16 @@
 #print-training-block textarea{
     overflow: hidden;
 }
+
+.hide-placeholder::-webkit-input-placeholder{
+    opacity: 0;
+}
+.hide-placeholder::-moz-placeholder{
+    opacity: 0;
+}
+.hide-placeholder:-moz-placeholder{
+    opacity: 0;
+}
+.hide-placeholder:-ms-input-placeholder{
+    opacity: 0;
+}
