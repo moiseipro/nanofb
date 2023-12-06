@@ -2,19 +2,25 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponseRedirect
 from django.views.generic.base import TemplateView
 from django.shortcuts import render
+from django.utils.datetime_safe import datetime
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework.response import Response
+from rest_framework_datatables.django_filters.backends import DatatablesFilterBackend
 
+from clubs.models import Club
 from players.models import UserPlayer, ClubPlayer
 from players.serializers import UserPlayerSerializer, ClubPlayerSerializer
+from references.filters import UserPaymentGlobalFilter, ClubPaymentGlobalFilter
 from references.forms import CreateTeamForm, CreateSeasonForm
 from references.models import UserSeason, UserTeam, ClubSeason, ClubTeam, ExsAdditionalData, PlayerProtocolStatus, \
-    TrainingSpace, TrainingAdditionalData, ClubExsAdditionalData, UserExsAdditionalData
+    TrainingSpace, TrainingAdditionalData, ClubExsAdditionalData, UserExsAdditionalData, UserPaymentInformation, \
+    ClubPaymentInformation
 from references.serializers import UserTeamsSerializer, UserSeasonsSerializer, ExsAdditionalDataSerializer, \
     PlayerProtocolStatusSerializer, ClubTeamsSerializer, ClubSeasonsSerializer, TrainingSpaceSerializer, \
-    TrainingAdditionalDataSerializer, ClubExsAdditionalDataSerializer, UserExsAdditionalDataSerializer
+    TrainingAdditionalDataSerializer, ClubExsAdditionalDataSerializer, UserExsAdditionalDataSerializer, \
+    UserPaymentInformationSerializer, ClubPaymentInformationSerializer
 from users.models import User
 from system_icons.views import get_ui_elements
 
@@ -232,7 +238,62 @@ class TrainingAdditionalDataViewSet(viewsets.ModelViewSet):
         return TrainingAdditionalDataSerializer
 
     def get_queryset(self):
-        return TrainingAdditionalData.objects.all()
+        return TrainingAdditionalData.objects.all().order_by("-payment_before")
+
+
+#Payment ViewSet
+class UserPaymentViewSet(viewsets.ModelViewSet):
+    permission_classes = [ReferencePermissions]
+    pagination_class = None
+    filter_backends = (DatatablesFilterBackend,)
+    filterset_class = UserPaymentGlobalFilter
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        user = User.objects.get(id=request.data['user_id'])
+        date = datetime.strptime(request.data['payment_before'], "%d/%m/%Y").date()
+        if date > user.registration_to:
+            user.registration_to = date
+            user.save()
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def get_serializer_class(self):
+        return UserPaymentInformationSerializer
+
+    def get_queryset(self):
+        payment = UserPaymentInformation.objects.all().order_by("-payment_before")
+
+        return payment
+
+
+class ClubPaymentViewSet(viewsets.ModelViewSet):
+    permission_classes = [ReferencePermissions]
+    pagination_class = None
+    filter_backends = (DatatablesFilterBackend,)
+    filterset_class = ClubPaymentGlobalFilter
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        club = Club.objects.get(id=request.data['club_id'])
+        date = datetime.strptime(request.data['payment_before'], "%d/%m/%Y").date()
+        if date > club.date_registration_to:
+            club.date_registration_to = date
+            club.save()
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def get_serializer_class(self):
+        return ClubPaymentInformationSerializer
+
+    def get_queryset(self):
+        payment = ClubPaymentInformation.objects.all()
+
+        return payment
 
 
 # DJANGO

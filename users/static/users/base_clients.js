@@ -12,6 +12,14 @@ $(window).on("load", function () {
 
     generate_ajax_users_table("calc(100vh - 240px)")
     generate_ajax_clubs_table("calc(100vh - 240px)")
+    generate_ajax_user_payment_table("calc(100vh - 310px)")
+    user_payment_table.on('preInit.dt', function () {
+        user_payment_table.columns( '.side-info-col' ).visible( false );
+    });
+    generate_ajax_club_payment_table("calc(100vh - 310px)")
+    club_payment_table.on('preInit.dt', function () {
+        club_payment_table.columns( '.side-info-col' ).visible( false );
+    });
 
     users_table.on('preInit.dt', function () {
         check_admin_button()
@@ -20,12 +28,23 @@ $(window).on("load", function () {
     $('.change-management-table').on('shown.bs.tab', function () {
         users_table.columns.adjust();
         clubs_table.columns.adjust();
+        user_payment_table.columns.adjust();
+        club_payment_table.columns.adjust();
     })
+
+    $('.management-payment-block').on('shown.bs.collapse', function () {
+        user_payment_table.columns.adjust();
+        club_payment_table.columns.adjust();
+    })
+
+
 
     $('#toggle_btn').on('click', function () {
         setTimeout(function (){
             users_table.columns.adjust();
             clubs_table.columns.adjust();
+            user_payment_table.columns.adjust();
+            club_payment_table.columns.adjust();
         }, 400);
     })
 
@@ -176,6 +195,8 @@ $(window).on("load", function () {
                 load_user_data(user_select_id)
                 load_group_data(user_select_id)
                 load_team_data(user_select_id)
+                user_payment_table.columns('.user-payment-filter').search( user_select_id ).draw();
+
                 check_admin_button()
             }
         })
@@ -203,6 +224,7 @@ $(window).on("load", function () {
                 club_select_id = cur_edit_data.id
                 load_club_data(club_select_id)
                 load_club_group_data(club_select_id)
+                club_payment_table.columns('.club-payment-filter').search( club_select_id ).draw();
 
                 check_admin_button()
             }
@@ -246,5 +268,94 @@ $(window).on("load", function () {
             load_club_data(club_select_id)
         })
         event.preventDefault();
+    })
+    
+    $('#add-user-payment-button').on('click', function () {
+        if (user_select_id == null) return
+        let send_data = []
+
+        let obj = $('#payment-user-info-block')
+        console.log(send_data)
+        send_data.push({'name': 'date', 'value': moment(obj.find('[name="date"]').val()).format('DD/MM/YYYY')})
+        send_data.push({'name': 'payment_before', 'value': moment(obj.find('[name="payment_before"]').val()).format('DD/MM/YYYY')})
+        send_data.push({'name': 'payment', 'value': obj.find('[name="payment"]').val()})
+        send_data.push({'name': 'user_id', 'value': user_select_id})
+
+        console.log(send_data)
+
+        ajax_user_payment_action('POST', send_data, 'add').then(function () {
+            user_payment_table.ajax.reload()
+            obj.find('[name="date"]').val('')
+            obj.find('[name="payment_before"]').val('')
+            obj.find('[name="payment"]').val('')
+        })
+    })
+
+    $('#user-payment-table').on('click', '.delete-payment', function () {
+        let payment_id = $(this).attr('data-id')
+        let send_data = {}
+        console.log(send_data);
+        swal({
+            title: gettext("Delete user payment?"),
+            text: gettext("When you delete a payment, the date of access to the program does not change"),
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                ajax_user_payment_action('DELETE', send_data, 'delete', payment_id).then(function (data) {
+                    user_payment_table.ajax.reload()
+                })
+            } else {
+
+            }
+        });
+
+    })
+
+    $('#add-club-payment-button').on('click', function () {
+        if (club_select_id == null) return
+        let send_data = []
+
+        let obj = $('#payment-club-info-block')
+        console.log(send_data)
+        send_data.push({'name': 'date', 'value': moment(obj.find('[name="date"]').val()).format('DD/MM/YYYY')})
+        send_data.push({'name': 'payment_before', 'value': moment(obj.find('[name="payment_before"]').val()).format('DD/MM/YYYY')})
+        send_data.push({'name': 'payment', 'value': obj.find('[name="payment"]').val()})
+        send_data.push({'name': 'club_id', 'value': club_select_id})
+
+        console.log(send_data)
+
+        ajax_club_payment_action('POST', send_data, 'add').then(function () {
+            club_payment_table.ajax.reload()
+            clubs_table.ajax.reload()
+            obj.find('[name="date"]').val('')
+            obj.find('[name="payment_before"]').val('')
+            obj.find('[name="payment"]').val('')
+        })
+    })
+
+    $('#club-payment-table').on('click', '.delete-payment', function () {
+        let payment_id = $(this).attr('data-id')
+        let send_data = {}
+        console.log(send_data);
+        swal({
+            title: gettext("Delete club payment?"),
+            text: gettext("When you delete a payment, the date of access to the program does not change"),
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                ajax_club_payment_action('DELETE', send_data, 'delete', payment_id).then(function (data) {
+                    club_payment_table.ajax.reload()
+                })
+            } else {
+
+            }
+        });
+
     })
 })

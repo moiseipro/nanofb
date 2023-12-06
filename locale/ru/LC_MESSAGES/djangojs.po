@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-29 13:34+0300\n"
+"POT-Creation-Date: 2023-12-06 11:20+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -84,50 +84,50 @@ msgstr "Лимит упражнений для выбранной группы �
 msgid "Error when action \""
 msgstr "Ошибка при выполнении \""
 
-#: .\clubs\static\clubs\js\users_list.js:125
+#: .\clubs\static\clubs\js\users_list.js:128
 #: .\federations\static\federations\js\ajax_user_table.js:164
-#: .\static\clubs\js\users_list.js:125
+#: .\static\clubs\js\users_list.js:128
 #: .\static\federations\js\ajax_user_table.js:164
 #: .\static\users\modules\ajax_permission.js:18
-#: .\static\users\modules\ajax_user_table.js:219
+#: .\static\users\modules\ajax_user_table.js:220
 #: .\users\static\users\modules\ajax_permission.js:18
-#: .\users\static\users\modules\ajax_user_table.js:219
+#: .\users\static\users\modules\ajax_user_table.js:220
 msgid "User"
 msgstr "Пользователь"
 
-#: .\clubs\static\clubs\js\users_list.js:127
-#: .\clubs\static\clubs\js\users_list.js:135
-#: .\clubs\static\clubs\js\users_list.js:137
+#: .\clubs\static\clubs\js\users_list.js:130
+#: .\clubs\static\clubs\js\users_list.js:138
+#: .\clubs\static\clubs\js\users_list.js:140
 #: .\federations\static\federations\js\ajax_user_table.js:173
 #: .\notifications\static\notifications\js\ajax_notification.js:26
-#: .\static\clubs\js\users_list.js:127 .\static\clubs\js\users_list.js:135
-#: .\static\clubs\js\users_list.js:137
+#: .\static\clubs\js\users_list.js:130 .\static\clubs\js\users_list.js:138
+#: .\static\clubs\js\users_list.js:140
 #: .\static\federations\js\ajax_user_table.js:173
 #: .\static\notifications\js\ajax_notification.js:26
 #: .\static\users\modules\ajax_permission.js:26
-#: .\static\users\modules\ajax_user_table.js:229
+#: .\static\users\modules\ajax_user_table.js:230
 #: .\users\static\users\modules\ajax_permission.js:26
-#: .\users\static\users\modules\ajax_user_table.js:229
+#: .\users\static\users\modules\ajax_user_table.js:230
 msgid "Users "
 msgstr "Пользователи "
 
-#: .\clubs\static\clubs\js\users_list.js:127
-#: .\static\clubs\js\users_list.js:127
+#: .\clubs\static\clubs\js\users_list.js:130
+#: .\static\clubs\js\users_list.js:130
 msgid "The limit of users for the club"
 msgstr "Лимит пользователей для клуба"
 
-#: .\clubs\static\clubs\js\users_list.js:129
-#: .\static\clubs\js\users_list.js:129
+#: .\clubs\static\clubs\js\users_list.js:132
+#: .\static\clubs\js\users_list.js:132
 msgid "Club user registration"
 msgstr "Регистрация пользователя клуба"
 
-#: .\clubs\static\clubs\js\users_list.js:135
-#: .\static\clubs\js\users_list.js:135
+#: .\clubs\static\clubs\js\users_list.js:138
+#: .\static\clubs\js\users_list.js:138
 msgid "The limit of users for the club has been reached!"
 msgstr "Лимит пользователей для клуба достигнут!"
 
-#: .\clubs\static\clubs\js\users_list.js:137
-#: .\static\clubs\js\users_list.js:137
+#: .\clubs\static\clubs\js\users_list.js:140
+#: .\static\clubs\js\users_list.js:140
 msgid "Error when action the club users!"
 msgstr "Ошибка при действии c пользователем клуба!"
 
@@ -274,10 +274,10 @@ msgstr "Редактировать"
 
 #: .\events\static\events\js\events.js:1005
 #: .\events\static\events\js\events.js:1045
-#: .\notifications\static\notifications\js\notification_modal.js:19
+#: .\notifications\static\notifications\js\notification_modal.js:20
 #: .\static\events\base_events.js:440 .\static\events\js\events.js:1005
 #: .\static\events\js\events.js:1045
-#: .\static\notifications\js\notification_modal.js:19
+#: .\static\notifications\js\notification_modal.js:20
 #: .\static\video\base_video.js:57
 msgid "Delete"
 msgstr "Удалить"
@@ -415,9 +415,9 @@ msgstr "Лицензия до: "
 #: .\federations\static\federations\js\ajax_user_table.js:166
 #: .\static\federations\js\ajax_user_table.js:166
 #: .\static\users\modules\ajax_permission.js:20
-#: .\static\users\modules\ajax_user_table.js:221
+#: .\static\users\modules\ajax_user_table.js:222
 #: .\users\static\users\modules\ajax_permission.js:20
-#: .\users\static\users\modules\ajax_user_table.js:221
+#: .\users\static\users\modules\ajax_user_table.js:222
 msgid "User registration"
 msgstr "Регистрация пользователя"
 
@@ -444,7 +444,7 @@ msgstr "Клуб"
 
 #: .\federations\static\federations\js\base_federation.js:280
 #: .\static\federations\js\base_federation.js:280
-#: .\static\users\base_clients.js:151 .\users\static\users\base_clients.js:151
+#: .\static\users\base_clients.js:170 .\users\static\users\base_clients.js:170
 msgid "Are you sure you want to generate a new password?"
 msgstr "Вы уверены, что хотите сгенерировать новый пароль?"
 
@@ -648,8 +648,8 @@ msgstr "Ошибка при действии с сезоном!"
 
 #: .\references\static\references\references_edit.js:128
 #: .\static\references\references_edit.js:128
-#: .\static\trainings\js\print_training.js:193
-#: .\trainings\static\trainings\js\print_training.js:193
+#: .\static\trainings\js\print_training.js:172
+#: .\trainings\static\trainings\js\print_training.js:172
 msgid "Title"
 msgstr "Название"
 
@@ -1036,8 +1036,8 @@ msgstr "Ошибка при выполнении действия с упраж�
 msgid "Exercise data action error in training!"
 msgstr "Ошибка действия с данными упражнения в тренировке!"
 
-#: .\static\trainings\js\print_training.js:196
-#: .\trainings\static\trainings\js\print_training.js:196
+#: .\static\trainings\js\print_training.js:175
+#: .\trainings\static\trainings\js\print_training.js:175
 msgid "Duration"
 msgstr "Длительность"
 
@@ -1146,17 +1146,32 @@ msgstr "Есть незаполненные игроки! Заполните и�
 msgid "Training action \""
 msgstr "Действие с тренировкой \""
 
-#: .\static\users\base_clients.js:130 .\users\static\users\base_clients.js:130
+#: .\static\users\base_clients.js:149 .\users\static\users\base_clients.js:149
 msgid "Delete user?"
 msgstr "Удалить пользователя?"
 
-#: .\static\users\base_clients.js:131 .\users\static\users\base_clients.js:131
+#: .\static\users\base_clients.js:150 .\users\static\users\base_clients.js:150
 msgid ""
 "After deletion, all workouts, folders and exercises of the user will be "
 "cleaned."
 msgstr ""
 "После удаления все тренировки, папки и упражнения пользователя будут "
 "отчищены."
+
+#: .\static\users\base_clients.js:299 .\users\static\users\base_clients.js:299
+msgid "Delete user payment?"
+msgstr "Удалить оплату пользователя?"
+
+#: .\static\users\base_clients.js:300 .\static\users\base_clients.js:345
+#: .\users\static\users\base_clients.js:300
+#: .\users\static\users\base_clients.js:345
+msgid ""
+"When you delete a payment, the date of access to the program does not change"
+msgstr "При удалении платежа дата доступа к программе не меняется"
+
+#: .\static\users\base_clients.js:344 .\users\static\users\base_clients.js:344
+msgid "Delete club payment?"
+msgstr "Удалить оплату клуба?"
 
 #: .\static\users\profile_ajax.js:27 .\users\static\users\profile_ajax.js:27
 msgid "Profile"

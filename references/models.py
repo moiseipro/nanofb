@@ -2,6 +2,7 @@ from datetime import date
 from email.policy import default
 
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 from clubs.models import Club
 from users.models import User
@@ -459,3 +460,48 @@ class MedicineAccessType(AbstractReference, MixTranslateReference):
         verbose_name = _('Medicine access type')
         verbose_name_plural = _('Medicine access types')
 
+
+# Payment Info
+class PaymentInformation(models.Model):
+    payment = models.DecimalField(
+        verbose_name=_('Payment'),
+        help_text=_("Payment in foreign currency"),
+        max_digits=8,
+        decimal_places=2,
+        default=0.00
+    )
+    discount = models.PositiveSmallIntegerField(
+        verbose_name=_('Discount'),
+        help_text=_("Percent discount (0-100%)"),
+        default=0,
+        validators=[
+            MaxValueValidator(100),
+            MinValueValidator(0)
+        ]
+    )
+    date = models.DateField(
+        verbose_name=_('Date of payment'),
+        help_text=_('Date when the user paid'),
+    )
+    payment_before = models.DateField(
+        verbose_name=_('Date of payment before'),
+        help_text=_('The date before which the program was paid for'),
+    )
+
+    class Meta:
+        ordering = ["-payment_before", "-date", "-payment"]
+        abstract = True
+
+
+class UserPaymentInformation(PaymentInformation, MixUserReference):
+
+    class Meta:
+        verbose_name = _('User Payment')
+        verbose_name_plural = _('User Payments')
+
+
+class ClubPaymentInformation(PaymentInformation, MixClubReference):
+
+    class Meta:
+        verbose_name = _('Club Payment')
+        verbose_name_plural = _('Club Payments')

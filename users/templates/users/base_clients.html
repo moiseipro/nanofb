@@ -47,6 +47,9 @@
                                 <div class="col px-1">
                                     <button class="btn btn-outline-secondary btn-block only-selected" data-target=".management-profile-block" aria-controls="Profile" aria-selected="false">{% trans "Profile" %}</button>
                                 </div>
+                                <div class="col px-1">
+                                    <button class="btn btn-outline-secondary btn-block only-selected show-payment-table" data-target=".management-payment-block" aria-controls="Payment" aria-selected="false">{% trans "Payment" %}</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -71,6 +74,10 @@
                                 <div id="users-management-profile-block" data-col="3" class="px-1 col-3 collapse function-block management-profile-block">
                                     {% include "users/modules/management_profile.html" %}
                                 </div>
+                                <div id="users-management-payment-block" data-col="4" class="px-1 col-4 collapse function-block management-payment-block">
+                                    {% include "users/modules/management_user_payment.html" %}
+                                </div>
+
                             </div>
                         </div>
                         <div class="tab-pane fade" id="clubs-table-tab" role="tabpanel" aria-labelledby="pills-clubs-tab">
@@ -89,6 +96,9 @@
                                 </div>
                                 <div id="club-management-profile-block" data-col="3" class="px-1 col-3 collapse function-block management-profile-block">
 
+                                </div>
+                                <div id="club-management-payment-block" data-col="4" class="px-1 col-4 collapse function-block management-payment-block">
+                                    {% include "users/modules/management_club_payment.html" %}
                                 </div>
                             </div>
                         </div>
@@ -114,6 +124,8 @@
     <script src="{% static 'users/modules/ajax_permission.js' %}"></script>
     <script src="{% static 'users/modules/ajax_user_table.js' %}"></script>
     <script src="{% static 'users/modules/ajax_club_table.js' %}"></script>
+    <script src="{% static 'references/ajax_payment_table.js' %}"></script>
+    <script src="{% static 'references/ajax_payment.js' %}"></script>
     <script src="{% static 'users/modules/edit_permission.js' %}"></script>
     <script src="{% static 'users/modules/edit_club_permission.js' %}"></script>
     <script src="{% static 'users/modules/ajax_user_data.js' %}"></script>

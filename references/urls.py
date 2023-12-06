@@ -9,6 +9,8 @@ router.register(r'exercise_additional', views.ExsAdditionalViewSet, basename="ex
 router.register(r'protocol_status', views.PlayerProtocolStatusViewSet, basename="protocol_status")
 router.register(r'training_space', views.TrainingSpaceViewSet, basename="training_space")
 router.register(r'training_additional', views.TrainingAdditionalDataViewSet, basename="training_additional")
+router.register(r'payment/user', views.UserPaymentViewSet, basename="payment_user")
+router.register(r'payment/club', views.ClubPaymentViewSet, basename="payment_club")
 
 
 

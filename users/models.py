@@ -1,6 +1,5 @@
 from datetime import date, timedelta, datetime
 
-from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import pre_save
@@ -208,29 +207,6 @@ class UserPayment(models.Model):
         verbose_name = _('Payment information')
 
 
-class UserPaymentInformation(models.Model):
-    payment = models.DecimalField(
-        verbose_name=_('Payment'),
-        help_text=_("Payment in foreign currency"),
-        max_digits=8,
-        decimal_places=2,
-        default=0.00
-    )
-    discount = models.PositiveSmallIntegerField(
-        verbose_name=_('Discount'),
-        help_text=_("Percent discount (0-100%)"),
-        default=0,
-        validators=[
-            MaxValueValidator(100),
-            MinValueValidator(0)
-        ]
-    )
-    date = models.DateField(
-        verbose_name=_('Date of payment'),
-        help_text=_('Date when the user paid'),
-    )
-
-
 class User(AbstractUser, Limitations):
     username = None
     last_name = None
@@ -300,13 +276,6 @@ class User(AbstractUser, Limitations):
         verbose_name=_('Personal Information'),
         help_text=_('User Personal Information card'),
         unique=True,
-    )
-
-    payment_information = models.ManyToManyField(
-        UserPaymentInformation,
-        verbose_name=_("Payment Information"),
-        help_text=_("Payment information for accounting"),
-        blank=True
     )
 
     payment = models.OneToOneField(

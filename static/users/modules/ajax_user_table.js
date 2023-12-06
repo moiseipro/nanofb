@@ -194,7 +194,8 @@ function generate_ajax_users_table(scroll_y = '', pagination = true){
                 }
             });
         }
-        $('#users-table').parent().animate({scrollTop: obj_scroll.offset().top},'slow');
+        if (obj_scroll != '')
+            $('#users-table').parent().animate({scrollTop: obj_scroll.offset().top},'slow');
     })
 }
 
