@@ -8,7 +8,7 @@ from clubs.serializers import ClubSerializer
 from exercises.models import UserExercise, ClubExercise
 from notifications.models import NotificationUser
 from players.models import ClubPlayer, UserPlayer
-from references.models import ClubTeam, UserTeam
+from references.models import ClubTeam, UserTeam, ClubPaymentInformation, UserPaymentInformation
 from users.models import User, UserPersonal, TrainerLicense
 from django_countries.serializer_fields import CountryField
 from django.utils.translation import gettext_lazy as _
@@ -218,6 +218,8 @@ class UserManagementSerializer(serializers.ModelSerializer):
 
     notifications_count = serializers.SerializerMethodField()
 
+    payment_user = serializers.SerializerMethodField()
+
     def get_license(self, user):
         license_name = ''
         if user.personal.trainer_license is not None:
@@ -347,6 +349,19 @@ class UserManagementSerializer(serializers.ModelSerializer):
         data = str(notifications.count())
         return data
 
+    def get_payment_user(self, user):
+        data = ''
+        if user.club_id is not None:
+            payments = ClubPaymentInformation.objects.filter(club_id=user.club_id)
+            if payments.count() > 0:
+                data = str(payments[0].payment) + ' (К)'
+        else:
+            payments = UserPaymentInformation.objects.filter(user_id=user)
+            if payments.count() > 0:
+                data = str(payments[0].payment)
+
+        return data
+
     class Meta:
         model = User
         fields = [
@@ -355,6 +370,6 @@ class UserManagementSerializer(serializers.ModelSerializer):
             'trainer_license', 'license', 'license_date', 'flag', 'distributor', 'date_joined', 'club_title',
             'activation', 'club_name', 'club_registration_to', 'is_archive', 'date_joined', 'phone', 'date_last_login',
             'region', 'club_id', 'exercises', 'teams', 'online', 'teams_players', 'teams_players_fact',
-            'notifications_count'
+            'notifications_count', 'payment_user'
         ]
         datatables_always_serialize = ('id', 'groups', 'trainer_license', 'club_registration_to', 'is_archive')

@@ -165,7 +165,7 @@ class UserManagementGlobalFilter(DatatablesFilterSet):
     admin_type = GlobalAdminTypeFilter()
     is_archive = GlobalArchiveFilter()
     online = GlobalOnlineFilter()
-    access_to = GlobalAccessToFilter()
+    access_to = GlobalAccessToFilter(field_name='registration_to')
     notifications_count = GlobalNotificationsFilter()
 
     date_birthsday = GlobalDateFilter(field_name='personal__date_birthsday')

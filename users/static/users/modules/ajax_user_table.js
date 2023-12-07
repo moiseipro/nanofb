@@ -126,7 +126,11 @@ function generate_ajax_users_table(scroll_y = '', pagination = true){
                 return html;
             }},
 
-            {'data': 'access_to', 'name': 'access_to', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
+            {'data': 'access_to', 'name': 'access_to', 'defaultContent': "---", searchable: false, render: function (data, type, row, meta) {
+                let html = `<div class="w-100 text-center"> ${data} </div>`;
+                return html;
+            }},
+            {'data': 'payment_user', 'name': 'payment_user', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
                 let html = `<div class="w-100 text-center"> ${data} </div>`;
                 return html;
             }},
