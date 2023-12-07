@@ -282,6 +282,7 @@ $(function() {
             {"searchable": false, "orderable": false, "targets": [2, 6, 12]},
             {"className": "dt-vertical-center", "targets": "_all"}
         ],
+        order: [[1, 'desc']],
     });
     protocol_table = $('#protocol').DataTable(protocol_table_options);
     protocol_table.draw();
