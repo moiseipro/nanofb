@@ -40,6 +40,14 @@ function generate_ajax_users_table(scroll_y = '', pagination = true){
             {'data': 'id', sortable: false, render: function (data, type, row, meta) {
                 return meta.row + meta.settings._iDisplayStart + 1;
             }, searchable: false},
+            {'data': 'flag', 'name': 'flag', 'defaultContent': "---", render: function (data, type, row, meta) {
+                let html = `
+                    <div class="w-100 text-center">
+                        <img src="${data}" style="height: 15px">
+                    </div>
+                `
+                return html;
+            }},
             {'data': 'activation', 'name': 'activation', sortable: false, render: function (data, type, row, meta) {
                 console.log(data);
                 let html = `
@@ -71,14 +79,6 @@ function generate_ajax_users_table(scroll_y = '', pagination = true){
                 return `<div class="w-100 text-center" title="${data}"> ${data} </div>`;
             }},
             {'data': 'date_birthsday', 'name': 'date_birthsday', 'defaultContent': "---"},
-            {'data': 'flag', 'name': 'flag', 'defaultContent': "---", render: function (data, type, row, meta) {
-                let html = `
-                    <div class="w-100 text-center">
-                        <img src="${data}" style="height: 15px">
-                    </div>
-                `
-                return html;
-            }},
             {'data': 'region', 'name': 'region', 'defaultContent': "---", render: function (data, type, row, meta) {
                 return `<span class="text-truncate" title="${data}"> ${data} </span>`;
             }},

@@ -1,10 +1,6 @@
 var user_select_id;
 var users_menu_state = null
 
-$(document).ready(function () {
-
-})
-
 $(window).on('load', function (){
     initialize_phone_input();
     generate_ajax_club_users_table("calc(100vh - 310px)");
@@ -23,6 +19,12 @@ $(window).on('load', function (){
     })
     $('#user-form').validate({
         errorElement: 'p',
+    })
+
+    $('#toggle_btn').on('click', function () {
+        setTimeout(function (){
+            users_table.columns.adjust();
+        }, 400);
     })
 
     let send_data = {}

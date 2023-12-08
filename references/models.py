@@ -489,7 +489,7 @@ class PaymentInformation(models.Model):
     )
 
     class Meta:
-        ordering = ["-payment_before", "-date", "-payment"]
+        ordering = ["-payment_before"]
         abstract = True
 
 

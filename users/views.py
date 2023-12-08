@@ -480,7 +480,7 @@ class ClubListApiView(APIView):
         print(clubs_count)
 
         list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in clubs_count.items()]
-        #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+        list2.insert(0, {'id': '-1', 'count': '', 'text': _('No')})
         print(list2)
         #User.objects.filter(club_id_id__in=)
         return Response(list2)

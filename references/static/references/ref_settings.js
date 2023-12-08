@@ -26,7 +26,9 @@ $(window).on('load', function (){
         ],
         ajax: 'api/teams/?format=datatables',
         columns: [
-            {'data': 'id'},
+            {'data': 'id', sortable: false, render: function (data, type, row, meta) {
+                return meta.row + meta.settings._iDisplayStart + 1;
+            }, searchable: false},
             {'data': 'name'},
             //{'data': 'short_name'},
             {'data': 'age_key'},
@@ -66,7 +68,9 @@ $(window).on('load', function (){
         ],
         ajax: 'api/seasons/?format=datatables',
         columns: [
-            {'data': 'id'},
+            {'data': 'id', sortable: false, render: function (data, type, row, meta) {
+                return meta.row + meta.settings._iDisplayStart + 1;
+            }, searchable: false},
             {'data': 'name'},
             {'data': 'short_name'},
             {'data': 'date_with'},

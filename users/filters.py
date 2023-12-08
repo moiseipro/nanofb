@@ -99,11 +99,20 @@ class GlobalClubFilter(GlobalFilter, filters.CharFilter):
         if value:
             chooses = [choose.strip() for choose in value.split(',')]
             print(chooses)
-
             if self.distinct:
                 qs = qs.distinct()
 
-            qs = qs.filter(club_id_id__in=chooses)
+            is_empty_club = False
+
+            for choose in chooses:
+                if choose == '-1':
+                    is_empty_club = True
+
+            if is_empty_club:
+                qs = qs.filter(club_id=None)
+            else:
+                qs = qs.filter(club_id_id__in=chooses)
+
         return qs
 
 

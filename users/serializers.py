@@ -352,11 +352,11 @@ class UserManagementSerializer(serializers.ModelSerializer):
     def get_payment_user(self, user):
         data = ''
         if user.club_id is not None:
-            payments = ClubPaymentInformation.objects.filter(club_id=user.club_id)
+            payments = ClubPaymentInformation.objects.filter(club_id=user.club_id).order_by('-payment_before')
             if payments.count() > 0:
                 data = str(payments[0].payment) + ' (К)'
         else:
-            payments = UserPaymentInformation.objects.filter(user_id=user)
+            payments = UserPaymentInformation.objects.filter(user_id=user).order_by('-payment_before')
             if payments.count() > 0:
                 data = str(payments[0].payment)
 
