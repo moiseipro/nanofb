@@ -1,7 +1,9 @@
 $(window).on('load', function () {
     $('.calculate-name').each(function( index ) {
         let name_obj = $(this)
-        let names = $.parseJSON(name_obj.attr('data-value').replace(/\'/g, '"'));
+        //console.log(name_obj.attr('data-value').replace(/\"/g, "`").replace(/\'/g, '"'))
+        let names = $.parseJSON(name_obj.attr('data-value').replace(/\"/g, "`").replace(/\'/g, '"'));
+
         name_obj.find('.title').text(get_translation_name(names))
         console.log(get_translation_name(names))
     })
