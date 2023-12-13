@@ -354,6 +354,10 @@ function load_all_exercises_training(training_id = null, group = null) {
         $('#block-training-goals input[name="objective_2"]').val(data.objective_2)
         $('#block-training-goals input[name="objective_3"]').val(data.objective_3)
         $('#training-video-modal input[name="video_href"]').val(data.video_href)
+        //console.log(data.inventory)
+        for (const inventory_item of data.inventory) {
+            $('.inventory-data-rows input[name="'+inventory_item.name+'"]').val(inventory_item.value)
+        }
 
         let exs_time = [0, 0]
         let html_scheme = ''

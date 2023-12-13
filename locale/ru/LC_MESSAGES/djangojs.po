@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-06 11:20+0300\n"
+"POT-Creation-Date: 2023-12-12 14:00+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -84,50 +84,50 @@ msgstr "Лимит упражнений для выбранной группы �
 msgid "Error when action \""
 msgstr "Ошибка при выполнении \""
 
-#: .\clubs\static\clubs\js\users_list.js:128
+#: .\clubs\static\clubs\js\users_list.js:131
 #: .\federations\static\federations\js\ajax_user_table.js:164
-#: .\static\clubs\js\users_list.js:128
+#: .\static\clubs\js\users_list.js:131
 #: .\static\federations\js\ajax_user_table.js:164
 #: .\static\users\modules\ajax_permission.js:18
-#: .\static\users\modules\ajax_user_table.js:220
+#: .\static\users\modules\ajax_user_table.js:224
 #: .\users\static\users\modules\ajax_permission.js:18
-#: .\users\static\users\modules\ajax_user_table.js:220
+#: .\users\static\users\modules\ajax_user_table.js:224
 msgid "User"
 msgstr "Пользователь"
 
-#: .\clubs\static\clubs\js\users_list.js:130
-#: .\clubs\static\clubs\js\users_list.js:138
-#: .\clubs\static\clubs\js\users_list.js:140
+#: .\clubs\static\clubs\js\users_list.js:133
+#: .\clubs\static\clubs\js\users_list.js:141
+#: .\clubs\static\clubs\js\users_list.js:143
 #: .\federations\static\federations\js\ajax_user_table.js:173
 #: .\notifications\static\notifications\js\ajax_notification.js:26
-#: .\static\clubs\js\users_list.js:130 .\static\clubs\js\users_list.js:138
-#: .\static\clubs\js\users_list.js:140
+#: .\static\clubs\js\users_list.js:133 .\static\clubs\js\users_list.js:141
+#: .\static\clubs\js\users_list.js:143
 #: .\static\federations\js\ajax_user_table.js:173
 #: .\static\notifications\js\ajax_notification.js:26
 #: .\static\users\modules\ajax_permission.js:26
-#: .\static\users\modules\ajax_user_table.js:230
+#: .\static\users\modules\ajax_user_table.js:234
 #: .\users\static\users\modules\ajax_permission.js:26
-#: .\users\static\users\modules\ajax_user_table.js:230
+#: .\users\static\users\modules\ajax_user_table.js:234
 msgid "Users "
 msgstr "Пользователи "
 
-#: .\clubs\static\clubs\js\users_list.js:130
-#: .\static\clubs\js\users_list.js:130
+#: .\clubs\static\clubs\js\users_list.js:133
+#: .\static\clubs\js\users_list.js:133
 msgid "The limit of users for the club"
 msgstr "Лимит пользователей для клуба"
 
-#: .\clubs\static\clubs\js\users_list.js:132
-#: .\static\clubs\js\users_list.js:132
+#: .\clubs\static\clubs\js\users_list.js:135
+#: .\static\clubs\js\users_list.js:135
 msgid "Club user registration"
 msgstr "Регистрация пользователя клуба"
 
-#: .\clubs\static\clubs\js\users_list.js:138
-#: .\static\clubs\js\users_list.js:138
+#: .\clubs\static\clubs\js\users_list.js:141
+#: .\static\clubs\js\users_list.js:141
 msgid "The limit of users for the club has been reached!"
 msgstr "Лимит пользователей для клуба достигнут!"
 
-#: .\clubs\static\clubs\js\users_list.js:140
-#: .\static\clubs\js\users_list.js:140
+#: .\clubs\static\clubs\js\users_list.js:143
+#: .\static\clubs\js\users_list.js:143
 msgid "Error when action the club users!"
 msgstr "Ошибка при действии c пользователем клуба!"
 
@@ -393,17 +393,17 @@ msgstr "Микроцикл"
 msgid "Microcycles should not overlap and go beyond the season!"
 msgstr "Микроциклы не должны пересекаться и выходить за рамки сезона!"
 
-#: .\exercises\static\exercises\js\base_exercises_folders.js:365
+#: .\exercises\static\exercises\js\base_exercises_folders.js:366
 #: .\shared\static\shared\js\modules\shared_ajax.js:17
 #: .\shared\static\shared\js\modules\shared_ajax.js:19
-#: .\static\exercises\js\base_exercises_folders.js:365
+#: .\static\exercises\js\base_exercises_folders.js:366
 #: .\static\shared\js\modules\shared_ajax.js:17
 #: .\static\shared\js\modules\shared_ajax.js:19
 msgid "Error"
 msgstr "Ошибка"
 
-#: .\exercises\static\exercises\js\base_exercises_folders.js:365
-#: .\static\exercises\js\base_exercises_folders.js:365
+#: .\exercises\static\exercises\js\base_exercises_folders.js:366
+#: .\static\exercises\js\base_exercises_folders.js:366
 msgid "Failed to copy folder structure."
 msgstr "Не удалось скопировать структуру папок."
 
@@ -415,9 +415,9 @@ msgstr "Лицензия до: "
 #: .\federations\static\federations\js\ajax_user_table.js:166
 #: .\static\federations\js\ajax_user_table.js:166
 #: .\static\users\modules\ajax_permission.js:20
-#: .\static\users\modules\ajax_user_table.js:222
+#: .\static\users\modules\ajax_user_table.js:226
 #: .\users\static\users\modules\ajax_permission.js:20
-#: .\users\static\users\modules\ajax_user_table.js:222
+#: .\users\static\users\modules\ajax_user_table.js:226
 msgid "User registration"
 msgstr "Регистрация пользователя"
 
@@ -552,10 +552,10 @@ msgstr "Уведомление"
 
 #: .\notifications\static\notifications\js\base_notification.js:85
 #: .\references\static\references\ref_settings.js:17
-#: .\references\static\references\ref_settings.js:57
+#: .\references\static\references\ref_settings.js:59
 #: .\static\notifications\js\base_notification.js:85
 #: .\static\references\ref_settings.js:17
-#: .\static\references\ref_settings.js:57
+#: .\static\references\ref_settings.js:59
 msgid "Create"
 msgstr "Создать"
 
@@ -591,58 +591,58 @@ msgstr "Отмена"
 msgid "Creating a team"
 msgstr "Создать команду"
 
-#: .\references\static\references\ref_settings.js:61
-#: .\static\references\ref_settings.js:61
+#: .\references\static\references\ref_settings.js:63
+#: .\static\references\ref_settings.js:63
 msgid "Creating a season"
 msgstr "Создать сезон"
 
-#: .\references\static\references\ref_settings.js:88
-#: .\references\static\references\ref_settings.js:116
-#: .\static\references\ref_settings.js:88
-#: .\static\references\ref_settings.js:116
+#: .\references\static\references\ref_settings.js:92
+#: .\references\static\references\ref_settings.js:120
+#: .\static\references\ref_settings.js:92
+#: .\static\references\ref_settings.js:120
 msgid "Changing the team"
 msgstr "Смена команды"
 
-#: .\references\static\references\ref_settings.js:163
-#: .\static\references\ref_settings.js:163
+#: .\references\static\references\ref_settings.js:167
+#: .\static\references\ref_settings.js:167
 msgid "Apply action to team?"
 msgstr "Применить действие к команде?"
 
-#: .\references\static\references\ref_settings.js:176
-#: .\static\references\ref_settings.js:176
+#: .\references\static\references\ref_settings.js:180
+#: .\static\references\ref_settings.js:180
 msgid "Team saved successfully!"
 msgstr "Команда успешно сохранена!"
 
-#: .\references\static\references\ref_settings.js:181
-#: .\references\static\references\ref_settings.js:183
-#: .\static\references\ref_settings.js:181
-#: .\static\references\ref_settings.js:183
+#: .\references\static\references\ref_settings.js:185
+#: .\references\static\references\ref_settings.js:187
+#: .\static\references\ref_settings.js:185
+#: .\static\references\ref_settings.js:187
 msgid "Team"
 msgstr "Команда"
 
-#: .\references\static\references\ref_settings.js:181
+#: .\references\static\references\ref_settings.js:185
 #: .\references\static\references\team_ajax.js:20
-#: .\static\references\ref_settings.js:181 .\static\references\team_ajax.js:20
+#: .\static\references\ref_settings.js:185 .\static\references\team_ajax.js:20
 msgid "The team limit has been reached!"
 msgstr "Лимит команд был достигнут!"
 
-#: .\references\static\references\ref_settings.js:183
-#: .\static\references\ref_settings.js:183
+#: .\references\static\references\ref_settings.js:187
+#: .\static\references\ref_settings.js:187
 msgid "Error when action the team!"
 msgstr "Ошибка при действии с командой!"
 
-#: .\references\static\references\ref_settings.js:196
-#: .\static\references\ref_settings.js:196
+#: .\references\static\references\ref_settings.js:200
+#: .\static\references\ref_settings.js:200
 msgid "Apply an action to a season?"
 msgstr "Применить действие к сезону?"
 
-#: .\references\static\references\ref_settings.js:209
-#: .\static\references\ref_settings.js:209
+#: .\references\static\references\ref_settings.js:213
+#: .\static\references\ref_settings.js:213
 msgid "Season saved successfully!"
 msgstr "Сезон успешно сохранен!"
 
-#: .\references\static\references\ref_settings.js:213
-#: .\static\references\ref_settings.js:213
+#: .\references\static\references\ref_settings.js:217
+#: .\static\references\ref_settings.js:217
 msgid "Error when action the season!"
 msgstr "Ошибка при действии с сезоном!"
 
@@ -1052,12 +1052,12 @@ msgid "Remove an exercise from a training?"
 msgstr "Удалить упражнение из тренировки?"
 
 #: .\static\trainings\js\training.js:354
-#: .\trainings\static\trainings\js\training.js:354
+#: .\trainings\static\trainings\js\training.js:364
 msgid "Group A"
 msgstr "Группа A"
 
 #: .\static\trainings\js\training.js:377
-#: .\trainings\static\trainings\js\training.js:377
+#: .\trainings\static\trainings\js\training.js:387
 msgid "Group B"
 msgstr "Группа B"
 

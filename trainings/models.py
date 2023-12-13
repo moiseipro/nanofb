@@ -80,6 +80,12 @@ class AbstractTraining(models.Model):
         blank=True,
         null=True
     )
+    inventory = models.JSONField(
+        verbose_name=_('inventory'),
+        help_text=_('Inventory for training'),
+        blank=True,
+        null=True
+    )
 
     class Meta:
         abstract = True

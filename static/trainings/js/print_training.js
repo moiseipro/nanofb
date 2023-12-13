@@ -63,6 +63,9 @@ function load_training_print(training_id) {
         $('#print-training-block .training-objective_2 input').val(training.objective_2)
         $('#print-training-block .training-objective_3 input').val(training.objective_3)
         //$('#print-training-block .training-load input').val(training.load_type)
+        for (const inventory_item of training.inventory) {
+            $('#print-training-block .inventory-data-rows input[name="'+inventory_item.name+'"]').val(inventory_item.value).prop('disabled', false)
+        }
 
         let html_scheme = ''
         let ck_editor_data = []

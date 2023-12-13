@@ -246,20 +246,6 @@
                                                         </div>
                                                     </div>
                                                 {% endif %}
-            {#                                    {% if exercise.additional_json and exercise.additional_json|length > 0 %}#}
-            {#                                        {% for additional in exercise.additional_json %}#}
-            {#                                            {{ additional }}#}
-            {#                                            {% if additional.name and additional.name is not '' %}#}
-            {#                                                <div class="col-6">#}
-            {#                                                    <div class="row">#}
-            {#                                                        <div class="col-12 px-1 border text-center">#}
-            {#                                                            <b>{{additional.name}}</b>#}
-            {#                                                        </div>#}
-            {#                                                    </div>#}
-            {#                                                </div>#}
-            {#                                            {% endif %}#}
-            {#                                        {% endfor %}#}
-            {#                                    {% endif %}#}
                                             </div>
                                         </div>
                                     </div>
@@ -271,6 +257,12 @@
             {% endfor %}
         </div>
     </div>
+    <div class="card-footer py-0">
+        <div id="inventory-data-block" data-json="{{ training.inventory }}">
+            {% include "trainings/training_inventory.html" %}
+        </div>
+    </div>
+
 </div>
 {% endblock %}
 

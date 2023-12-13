@@ -10,6 +10,11 @@
     height: calc(1em + 0.5rem + 2px) !important;
     background: none;
 }
+#print-training-block label{
+    padding: 0px !important;
+    height: calc(1em + 0.5rem + 2px) !important;
+    background: none;
+}
 
 
 #print-training-block textarea{

@@ -149,6 +149,16 @@ $(window).on('load', function (){
                 'note' : note.val()
             }
         }
+        let inventory = []
+        $('.inventory-data-rows input').each(function( index ) {
+            console.log( index + ": " + $( this ).text() );
+
+            inventory.push({
+                'name': $(this).attr('name'),
+                'value': $(this).val()
+            })
+        })
+        training_data['inventory'] = JSON.stringify(inventory)
         training_data['additional'] = JSON.stringify(additionals)
         training_data['field_size'] = $('#training-main-data input[name="field_size"]').val()
         training_data['load_type'] = $('#training-main-data input[name="load_type"]').val()
