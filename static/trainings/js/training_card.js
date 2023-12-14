@@ -209,7 +209,7 @@ $(window).on('load', function (){
 
         let send_data = {}
         let additionals = {}
-        for (let i = 0; i < 7; i++) {
+        for (let i = 0; i < 6; i++) {
             let name = $('#collapse-exercise-additional input[name="name_'+i+'"]')
 
             //name.closest('.exercise-additional-row').toggleClass('edit-button', !name.val())
@@ -532,7 +532,7 @@ function load_exercises_training_data(training_exercise_id = null) {
             }
         }
         let additional_html = ''
-        for (let i = 0; i < 7; i++) {
+        for (let i = 0; i < 6; i++) {
             let name;
             let note;
             if (exercise.additional_json != null){
@@ -542,7 +542,7 @@ function load_exercises_training_data(training_exercise_id = null) {
                 }
             }
             additional_html += `
-            <div class="${ i==0 ? 'col-12' : 'col-4'} exercise-additional-row ${name ? '' : 'edit-input'} ${!name && !edit_mode ? 'disabled' : ''}">
+            <div class="col-4 exercise-additional-row ${name ? '' : 'edit-input'} ${!name && !edit_mode ? 'disabled' : ''}">
                 <div class="row">
                     <div class="col-12 px-0">
                         <input type="text" name="name_${i}" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded edit-input" value="${name ? name : ''}" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>

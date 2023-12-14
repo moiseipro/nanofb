@@ -158,7 +158,7 @@ function load_training_print(training_id) {
                         let additional = exercise.additional_json[number];
                         console.log(additional)
                         if ((additional.note != null && additional.note != '') || (additional.name != null && additional.name != '')){
-                            additional_data += `<div class="${ number == 0 ? 'col-12' : 'col-4'}">`
+                            additional_data += `<div class="col-4">`
 
                             additional_data += `
                                 <div class="row">
