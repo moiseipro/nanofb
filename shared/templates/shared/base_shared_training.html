@@ -49,18 +49,18 @@
             <div class="col-sm-12 col-md-8">
                 <div class="row">
                     <div class="col-12 px-0 border training-goal">
-                        <input type="text" class="form-control form-control-sm border-0" value="{{ training.objective_1 }}" placeholder="{% trans "Objective" %} 1" disabled>
+                        <input type="text" class="form-control form-control-sm border-0" value="{% if training.objective_1 %} {{ training.objective_1 }} {% else %}{% endif %}" placeholder="{% trans "Objective" %} 1" disabled>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12 px-0 border training-objective_1">
-                        <input type="text" class="form-control form-control-sm border-0" value="{{ training.objective_2 }}" placeholder="{% trans "Objective" %} 2" disabled>
+                        <input type="text" class="form-control form-control-sm border-0" value="{% if training.objective_2 %} {{ training.objective_2 }} {% else %}{% endif %}" placeholder="{% trans "Objective" %} 2" disabled>
                     </div>
 
                 </div>
                 <div class="row">
                     <div class="col-12 px-0 border training-load">
-                        <input type="text" class="form-control form-control-sm border-0" value="{{ training.objective_3 }}" placeholder="{% trans "Objective" %} 3" disabled>
+                        <input type="text" class="form-control form-control-sm border-0" value="{% if training.objective_3 %} {{ training.objective_3 }} {% else %}{% endif %}" placeholder="{% trans "Objective" %} 3" disabled>
                     </div>
                 </div>
 {#                <div class="row">#}
@@ -193,7 +193,7 @@
                                         <div class="col-12 align-self-end calculate-additional">
                                             <div class="row">
                                                 {% if exercise.additional_json.0.name %}
-                                                    <div class="col-6">
+                                                    <div class="col-12">
                                                         <div class="row">
                                                             <div class="col-12 px-1 border text-center">
                                                                 <b>{{ exercise.additional_json.0.name }}</b>
@@ -202,7 +202,7 @@
                                                     </div>
                                                 {% endif %}
                                                 {% if exercise.additional_json.1.name %}
-                                                    <div class="col-6">
+                                                    <div class="col-4">
                                                         <div class="row">
                                                             <div class="col-12 px-1 border text-center">
                                                                 <b>{{ exercise.additional_json.1.name }}</b>
@@ -211,7 +211,7 @@
                                                     </div>
                                                 {% endif %}
                                                 {% if exercise.additional_json.2.name %}
-                                                    <div class="col-6">
+                                                    <div class="col-4">
                                                         <div class="row">
                                                             <div class="col-12 px-1 border text-center">
                                                                 <b>{{ exercise.additional_json.2.name }}</b>
@@ -220,7 +220,7 @@
                                                     </div>
                                                 {% endif %}
                                                 {% if exercise.additional_json.3.name %}
-                                                    <div class="col-6">
+                                                    <div class="col-4">
                                                         <div class="row">
                                                             <div class="col-12 px-1 border text-center">
                                                                 <b>{{ exercise.additional_json.3.name }}</b>
@@ -229,7 +229,7 @@
                                                     </div>
                                                 {% endif %}
                                                 {% if exercise.additional_json.4.name %}
-                                                    <div class="col-6">
+                                                    <div class="col-4">
                                                         <div class="row">
                                                             <div class="col-12 px-1 border text-center">
                                                                 <b>{{ exercise.additional_json.4.name }}</b>
@@ -238,10 +238,19 @@
                                                     </div>
                                                 {% endif %}
                                                 {% if exercise.additional_json.5.name %}
-                                                    <div class="col-6">
+                                                    <div class="col-4">
                                                         <div class="row">
                                                             <div class="col-12 px-1 border text-center">
                                                                 <b>{{ exercise.additional_json.5.name }}</b>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                                {% if exercise.additional_json.6.name %}
+                                                    <div class="col-4">
+                                                        <div class="row">
+                                                            <div class="col-12 px-1 border text-center">
+                                                                <b>{{ exercise.additional_json.6.name }}</b>
                                                             </div>
                                                         </div>
                                                     </div>

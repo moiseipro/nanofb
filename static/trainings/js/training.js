@@ -138,15 +138,15 @@ $(window).on('load', function (){
 
         let training_data = {}
         let additionals = {}
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < 7; i++) {
             let name = $('#training-additional-data input[name="name_'+i+'"]')
-            let note = $('#training-additional-data input[name="note_'+i+'"]')
+            //let note = $('#training-additional-data input[name="note_'+i+'"]')
 
-            name.closest('.training-additional').toggleClass('edit-button d-none', !name.val() && !note.val())
+            //name.closest('.training-additional').toggleClass('edit-button d-none', !name.val()) //&& !note.val()
 
             additionals[i] = {
                 'name': name.val(),
-                'note' : note.val()
+                //'note' : note.val()
             }
         }
         let inventory = []

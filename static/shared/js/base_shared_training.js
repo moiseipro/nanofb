@@ -8,10 +8,16 @@ $(window).on('load', function () {
         console.log(get_translation_name(names))
     })
 
-    let inventory = $.parseJSON($('#inventory-data-block').attr('data-json').replace(/\'/g, '"'))
-    for (const inventory_item of inventory) {
-        $('.inventory-data-rows input[name="'+inventory_item.name+'"]').val(inventory_item.value)
+    let inventoryJson = $('#inventory-data-block').attr('data-json');
+    if (inventoryJson != 'None'){
+        let inventory = $.parseJSON(inventoryJson.replace(/\'/g, '"'))
+        if (inventory != null) {
+            for (const inventory_item of inventory) {
+                $('.inventory-data-rows input[name="' + inventory_item.name + '"]').val(inventory_item.value)
+            }
+        }
     }
+
 
     let items = $('.video-js');
     items.each(function( index ) {

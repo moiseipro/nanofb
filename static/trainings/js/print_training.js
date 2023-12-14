@@ -63,9 +63,16 @@ function load_training_print(training_id) {
         $('#print-training-block .training-objective_2 input').val(training.objective_2)
         $('#print-training-block .training-objective_3 input').val(training.objective_3)
         //$('#print-training-block .training-load input').val(training.load_type)
-        for (const inventory_item of training.inventory) {
-            $('#print-training-block .inventory-data-rows input[name="'+inventory_item.name+'"]').val(inventory_item.value).prop('disabled', false)
+        if (training.inventory != null){
+            for (const inventory_item of training.inventory) {
+                $('#print-training-block .inventory-data-rows input[name="'+inventory_item.name+'"]').val(inventory_item.value).prop('disabled', false)
+            }
+        } else {
+            $('#print-training-block .inventory-data-rows input').each(function () {
+                $(this).val('')
+            })
         }
+
 
         let html_scheme = ''
         let ck_editor_data = []
@@ -151,12 +158,12 @@ function load_training_print(training_id) {
                         let additional = exercise.additional_json[number];
                         console.log(additional)
                         if ((additional.note != null && additional.note != '') || (additional.name != null && additional.name != '')){
-                            additional_data += '<div class="col-6">'
+                            additional_data += `<div class="${ number == 0 ? 'col-12' : 'col-4'}">`
 
                             additional_data += `
                                 <div class="row">
-                                    <div class="col-12 px-1 border text-center">
-                                        <b><input type="text" class="form-control form-control-sm border-0" value="${additional.name}" placeholder=""></b>
+                                    <div class="col-12 px-1 border">
+                                        <input type="text" class="form-control form-control-sm border-0 text-center" value="${additional.name}" placeholder="">
                                     </div>
                                 </div>
                             `

@@ -209,11 +209,10 @@ $(window).on('load', function (){
 
         let send_data = {}
         let additionals = {}
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < 7; i++) {
             let name = $('#collapse-exercise-additional input[name="name_'+i+'"]')
-            let note = $('#collapse-exercise-additional input[name="note_'+i+'"]')
 
-            name.closest('.exercise-additional-row').toggleClass('edit-button', !name.val() && !note.val())
+            //name.closest('.exercise-additional-row').toggleClass('edit-button', !name.val())
 
             additionals[i] = {
                 'name': name.val(),
@@ -355,9 +354,12 @@ function load_all_exercises_training(training_id = null, group = null) {
         $('#block-training-goals input[name="objective_3"]').val(data.objective_3)
         $('#training-video-modal input[name="video_href"]').val(data.video_href)
         //console.log(data.inventory)
-        for (const inventory_item of data.inventory) {
-            $('.inventory-data-rows input[name="'+inventory_item.name+'"]').val(inventory_item.value)
+        if(data.inventory != null){
+            for (const inventory_item of data.inventory) {
+                $('.inventory-data-rows input[name="'+inventory_item.name+'"]').val(inventory_item.value)
+            }
         }
+
 
         let exs_time = [0, 0]
         let html_scheme = ''
@@ -530,15 +532,17 @@ function load_exercises_training_data(training_exercise_id = null) {
             }
         }
         let additional_html = ''
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < 7; i++) {
             let name;
             let note;
             if (exercise.additional_json != null){
-                name = exercise.additional_json[i]['name']
-                //note = exercise.additional_json[i]['note']
+                if (i in exercise.additional_json){
+                    name = exercise.additional_json[i]['name']
+                    //note = exercise.additional_json[i]['note']
+                }
             }
             additional_html += `
-            <div class="col-6 exercise-additional-row ${name ? '' : 'edit-input'} ${!name && !edit_mode ? 'disabled' : ''}">
+            <div class="${ i==0 ? 'col-12' : 'col-4'} exercise-additional-row ${name ? '' : 'edit-input'} ${!name && !edit_mode ? 'disabled' : ''}">
                 <div class="row">
                     <div class="col-12 px-0">
                         <input type="text" name="name_${i}" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded edit-input" value="${name ? name : ''}" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
@@ -671,7 +675,7 @@ function load_exercises_training_data(training_exercise_id = null) {
                         videoPlayerExercise.poster(`https://nanofootball.pro/video/poster/${video_data[key].links['nftv']}`)
                         videoPlayerExercise.src({type: 'video/mp4', src: `https://nanofootball.pro/video/player/${video_data[key].links['nftv']}`});
                     } else if ('youtube' in video_data[key].links && video_data[key].links['youtube']){
-                        let videoPlayerExercise = videojs($('#block-training-info').get(`#video-exercise-${key}`)[0], {
+                        let videoPlayerExercise = videojs($('#block-training-info').find(`#video-exercise-${key}`)[0], {
                             preload: 'auto',
                             autoplay: false,
                             controls: true,
@@ -716,26 +720,26 @@ function load_exercises_additional_data(training_exercise_id = null) {
         // })
         let additional_html = ''
         console.log(data.objs)
-        $.each( data.objs, function( key, additional ) {
-            additional_html += `
-            <div class="row exercise-additional-row ${additional.note ? '' : 'edit-button'} ${!additional.note && !edit_mode ? 'd-none' : ''}" data-id="${additional.id}" data-additional="${additional.additional_id}">
-                <div class="col-5 px-0 border">
-                    ${ get_translation_name(additional.additional_name) }
-                </div>
-                <div class="col px-0">
-                    <input type="text" name="note" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded edit-input" value="${additional.note ? additional.note : ''}" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
-                </div>
-                <div class="col-sm-12 col-md-1 px-0 edit-button ${!edit_mode ? 'd-none' : ''}">
-                    <button type="button" class="btn btn-sm btn-block btn-success rounded-0 p-0 h-100 float-right edit-input copy-exercise-additional" ${!edit_mode ? 'disabled' : ''}><i class="fa fa-clone" aria-hidden="true"></i></button>
-                </div>
-                <div class="col-sm-12 col-md-1 px-0 edit-button ${!edit_mode ? 'd-none' : ''}">
-                    <button type="button" class="btn btn-sm btn-block btn-danger rounded-0 p-0 h-100 float-right edit-input delete-exercise-additional" ${!edit_mode ? 'disabled' : ''}><i class="fa fa-trash" aria-hidden="true"></i></button>
-                </div>
-            </div>
-            `
-
-        })
-        $('#training-exercise-additional').html(additional_html)
+        // $.each( data.objs, function( key, additional ) {
+        //     additional_html += `
+        //     <div class="row exercise-additional-row ${additional.note ? '' : 'edit-button'} ${!additional.note && !edit_mode ? 'd-none' : ''}" data-id="${additional.id}" data-additional="${additional.additional_id}">
+        //         <div class="col-5 px-0 border">
+        //             ${ get_translation_name(additional.additional_name) }
+        //         </div>
+        //         <div class="col px-0">
+        //             <input type="text" name="note" class="form-control form-control-sm w-100 p-0 h-auto text-center rounded edit-input" value="${additional.note ? additional.note : ''}" autocomplete="off" ${!edit_mode ? 'disabled' : ''}>
+        //         </div>
+        //         <div class="col-sm-12 col-md-1 px-0 edit-button ${!edit_mode ? 'd-none' : ''}">
+        //             <button type="button" class="btn btn-sm btn-block btn-success rounded-0 p-0 h-100 float-right edit-input copy-exercise-additional" ${!edit_mode ? 'disabled' : ''}><i class="fa fa-clone" aria-hidden="true"></i></button>
+        //         </div>
+        //         <div class="col-sm-12 col-md-1 px-0 edit-button ${!edit_mode ? 'd-none' : ''}">
+        //             <button type="button" class="btn btn-sm btn-block btn-danger rounded-0 p-0 h-100 float-right edit-input delete-exercise-additional" ${!edit_mode ? 'disabled' : ''}><i class="fa fa-trash" aria-hidden="true"></i></button>
+        //         </div>
+        //     </div>
+        //     `
+        //
+        // })
+        // $('#training-exercise-additional').html(additional_html)
     })
 }
 
