@@ -6,6 +6,7 @@ from users.models import User
 from clubs.models import Club
 from references.models import UserTeam, ClubTeam, CustomTag
 from references.models import ExsGoal, ExsBall, ExsTeamCategory, ExsAgeCategory, ExsTrainPart, ExsCognitiveLoad, ExsStressType
+from references.models import ExsFeatures, UserExsFeatures, ClubExsFeatures
 from video.models import Video
 from colorfield.fields import ColorField
 
@@ -105,6 +106,17 @@ class ExerciseTag(CustomTag):
 
     objects = models.Manager()
     class Meta(CustomTag.Meta):
+        abstract = False
+
+
+class ExerciseFeature(models.Model):
+    value = models.CharField(max_length=255, null=True, blank=True)
+    ref = models.ForeignKey(ExsFeatures, on_delete=models.CASCADE, null=True, blank=True, related_name='ref_default')
+    ref_user = models.ForeignKey(UserExsFeatures, on_delete=models.CASCADE, null=True, blank=True, related_name='ref_user')
+    ref_club = models.ForeignKey(ClubExsFeatures, on_delete=models.CASCADE, null=True, blank=True, related_name='ref_club')
+
+    objects = models.Manager()
+    class Meta():
         abstract = False
 
 
@@ -223,6 +235,7 @@ class AbstractExercise(models.Model):
     field_fields = models.JSONField(null=True, blank=True)
 
     tags = models.ManyToManyField(ExerciseTag)
+    features = models.ManyToManyField(ExerciseFeature)
 
     objects = models.Manager()
 

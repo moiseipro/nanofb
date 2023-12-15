@@ -1080,13 +1080,13 @@ $(function() {
     $('#changeColumnSize').on('click', (e) => {
         try {
             let sizes = window.split.getSizes();
-            let differVal = 8;
+            let differVal = 6.4;
             if (Array.isArray(sizes) && sizes.length == 2) {
-                if (sizes[0] - differVal > 25) {
+                if (sizes[0] - differVal > 10) {
                     sizes[0] -= differVal;
                     sizes[1] += differVal;
                 } else {
-                    sizes[0] = 50; sizes[1] = 30;
+                    sizes[0] = 51.8; sizes[1] = 38.2;
                 }
                 window.split.setSizes(sizes);
                 localStorage.setItem('split_cols', JSON.stringify(sizes));

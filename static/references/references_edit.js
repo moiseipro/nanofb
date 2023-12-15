@@ -99,6 +99,9 @@ $(window).on('load', function (){
     $('#exsTagsRef').on('click', (e) => {
         $('#exerciseTagsModal').modal();
     });
+    $('#exsFeaturesRef').on('click', (e) => {
+        $('#exerciseFeaturesModal').modal();
+    });
 
     $('#medicineDiseaseSpecificRef').on('click', (e) => {
         $('#medicineDiseaseSpecificModal').modal();

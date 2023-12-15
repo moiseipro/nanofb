@@ -931,7 +931,7 @@ $(function() {
     // Split columns
     window.dataForSplit = JSON.parse(localStorage.getItem('split_cols'));
     if (Array.isArray(window.dataForSplit) && window.dataForSplit.length == 3 || !Array.isArray(window.dataForSplit)) {
-        window.dataForSplit = [30, 50];
+        window.dataForSplit = [36.5, 43.5];
         localStorage.setItem('split_cols', JSON.stringify(window.dataForSplit));
     }
     RenderSplitCols();

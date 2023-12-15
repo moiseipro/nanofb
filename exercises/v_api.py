@@ -10,6 +10,7 @@ from references.models import ExsKeyword, ExsStressType, ExsPurpose, ExsCoaching
 from references.models import ExsCategory, ExsAdditionalData, ExsTitleName, ExsType, ExsPhysicalQualities
 from references.models import UserSeason, ClubSeason, UserTeam, ClubTeam
 from references.models import ExsDescriptionTemplate
+from references.models import ExsFeatures, UserExsFeatures, ClubExsFeatures
 from video.models import Video
 from nanofootball.views import util_check_access
 from video.views import delete_video_obj_nf
@@ -769,6 +770,16 @@ def get_exercises_additional_params(request, user):
         field = utils.get_by_language_code(param.param.field, request.LANGUAGE_CODE)
         setattr(param, 'field', field)
     return {'params': params, 'admin_params': admin_params}
+
+
+def get_exercises_features(request, user, team):
+    features = None
+    if request.user.club_id is not None:
+        features = ClubExsFeatures.objects.filter(club_id=request.user.club_id)
+    else:
+        features = UserExsFeatures.objects.filter(user_id=user)
+    features = list(features.values()) if features is not None else []
+    return features
 # --------------------------------------------------
 # EXERCISES API
 def POST_copy_exs(request, cur_user, cur_team):
@@ -2678,6 +2689,78 @@ def POST_delete_exs_drawing_pic(request, cur_user, cur_team):
     return JsonResponse({"data": img_url, "success": True}, status=200)
 
 
+def POST_edit_exs_feature_one(request, cur_user, cur_team):
+    status = False
+    errors = []
+    c_id = -1
+    delete_status = -1
+    try:
+        c_id = int(request.POST.get("id", -1))
+    except:
+        pass
+    try:
+        delete_status = int(request.POST.get("delete", -1))
+    except:
+        pass
+    c_name = request.POST.get("name", "")
+    c_feature = None
+    if request.user.club_id is not None:
+        c_feature = ClubExsFeatures.objects.filter(id=c_id, club_id=request.user.club_id).first()
+    else:
+        c_feature = UserExsFeatures.objects.filter(id=c_id, user_id=cur_user).first()
+    if delete_status != 1:
+        if c_feature:
+            c_feature.name = c_name
+        else:
+            if request.user.club_id is not None:
+                c_feature = ClubExsFeatures(club_id=request.user.club_id, name=c_name)
+            else:
+                c_feature = UserExsFeatures(user_id=cur_user, name=c_name)
+        try:
+            c_feature.save()
+            status = True
+        except Exception as e:
+            errors.append(e)
+            pass
+    else:
+        if c_feature:
+            try:
+                c_feature.delete()
+                status = True
+            except Exception as e:
+                errors.append(e)
+                pass
+    return JsonResponse({"success": status, 'errs': errors}, status=200)
+
+
+def POST_change_order_exs_features(request, cur_user, cur_team):
+    status = True
+    ids_data = request.POST.getlist("ids_arr[]", [])
+    ordering_data = request.POST.getlist("order_arr[]", [])
+    logs_arr = []
+    for c_ind in range(len(ids_data)):
+        t_id = -1
+        t_order = 0
+        try:
+            t_id = int(ids_data[c_ind])
+            t_order = int(ordering_data[c_ind])
+        except:
+            pass
+        found_param = None
+        if request.user.club_id is not None:
+            found_param = ClubExsFeatures.objects.filter(id=t_id, club_id=request.user.club_id).first()
+        else:
+            found_param = UserExsFeatures.objects.filter(id=t_id, user_id=cur_user).first()
+        if found_param and found_param.id != None:
+            found_param.order = t_order
+            try:
+                found_param.save()
+                logs_arr.append(f'Folder [{found_param.id}] is order changed: {t_order}')
+            except Exception as e:
+                logs_arr.append(f'Folder [{found_param.id}] -> ERROR / Not access or another reason')
+    return JsonResponse({"success": status, "logs": logs_arr}, status=200)
+
+
 
 def GET_link_video_exs(request, cur_user, cur_team):
     """
@@ -3203,6 +3286,30 @@ def GET_get_exs_full_name(request, cur_user, cur_team):
     else:
         return JsonResponse({"errors": "Exercise not found.", "success": False}, status=400)
     return JsonResponse({"data": res_exs, "success": True}, status=200)
+
+
+
+def GET_get_exs_all_features(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on GET operation "Get all exercises' features".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]]
+
+    """
+    if not util_check_access(cur_user, {
+            'perms_user': ["exercises.view_userexercise"], 
+            'perms_club': ["exercises.view_clubexercise"]
+        }):
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    features = get_exercises_features(request, cur_user, cur_team)
+    return JsonResponse({"data": features, "success": True}, status=200)
 
 
 # --------------------------------------------------
