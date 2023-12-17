@@ -193,9 +193,10 @@
                                 </select>
                             </td>
                         </tr>
+
                         <tr class="bck-custom border-y-custom" data-id="card_block">
-                            <td class="text-left bck-light-blue font-weight-bold border">
-                                <span class="ml-4">Игроки</span>
+                            <td class="text-left bck-light-blue font-weight-bold">
+                                <span class="ml-2">Игроки</span>
                             </td>
                             <td class="text-center" title="с">
                                 <input name="field_players_a" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="с" autocomplete="off" min="0" max="50">
@@ -205,8 +206,8 @@
                             </td>
                         </tr>
                         <tr class="bck-custom border-y-custom" data-id="card_block">
-                            <td class="text-left bck-light-blue font-weight-bold border">
-                                <span class="ml-4">Возраст</span>
+                            <td class="text-left bck-light-blue font-weight-bold">
+                                <span class="ml-2">Возраст</span>
                             </td>
                             <td class="text-center" title="с">
                                 <input name="field_age_a" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="с" autocomplete="off" min="0" max="150">
@@ -217,8 +218,8 @@
                         </tr>
                         {% if user.is_superuser %}
                         <tr class="bck-custom border-y-custom" data-id="card_block">
-                            <td class="text-left bck-light-blue font-weight-bold border">
-                                <span class="ml-4">Группы</span>
+                            <td class="text-left bck-light-blue font-weight-bold">
+                                <span class="ml-2">Группы</span>
                             </td>
                             <td class="text-center" title="с">
                                 <input name="field_groups_a" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="с" autocomplete="off" min="0" max="50">
@@ -228,8 +229,8 @@
                             </td>
                         </tr>
                         <tr class="bck-custom border-y-custom" data-id="card_block">
-                            <td class="text-left bck-light-blue font-weight-bold border">
-                                <span class="ml-4">Мяч</span>
+                            <td class="text-left bck-light-blue font-weight-bold">
+                                <span class="ml-2">Мяч</span>
                             </td>
                             <td class="text-center">
                                 <button type="button" class="btn btn-sm btn-outline-secondary btn-block py-0 mt-1" data-id="ball1" data-val="1">
@@ -243,8 +244,8 @@
                             </td>
                         </tr>
                         <tr class="bck-custom border-y-custom" data-id="card_block">
-                            <td class="text-left bck-light-blue font-weight-bold border">
-                                <span class="ml-4">Ворота</span>
+                            <td class="text-left bck-light-blue font-weight-bold">
+                                <span class="ml-2">Ворота</span>
                             </td>
                             <td class="text-center">
                                 <button type="button" class="btn btn-sm btn-outline-secondary btn-block py-1 mt-1" data-id="gate" data-val="G">
@@ -258,8 +259,8 @@
                             </td>
                         </tr>
                         <tr class="bck-custom border-y-custom" data-id="card_block">
-                            <td class="text-left bck-light-blue font-weight-bold border">
-                                <span class="ml-4">Категория</span>
+                            <td class="text-left bck-light-blue font-weight-bold">
+                                <span class="ml-2">Категория</span>
                             </td>
                             <td class="text-center">
                                 <button type="button" class="btn btn-sm btn-outline-secondary btn-block py-1 mt-1" data-id="gate" data-val="G">
@@ -277,8 +278,8 @@
                         {% if user.is_superuser %}
                         {% for feature in exercises_features %}
                         <tr class="bck-custom border-y-custom" data-id="card_block" data-feature="{{ feature.id }}">
-                            <td class="text-left bck-light-blue font-weight-bold border">
-                                <span class="ml-4">{{ feature.name }}</span>
+                            <td class="text-left bck-light-blue font-weight-bold">
+                                <span class="ml-2">{{ feature.name }}</span>
                             </td>
                             <td class="text-center" colspan="2">
                                 <input name="" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="" autocomplete="off">

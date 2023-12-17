@@ -760,8 +760,10 @@ button.custom-disabled:hover {
 
 .bck-light-blue {
     background-color: #b0daff !important;
+    border: 2px solid !important;
 }
 .bck-light-yellow {
     background-color: #fff8b0 !important;
+    border: 2px solid !important;
 }
 
