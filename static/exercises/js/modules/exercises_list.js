@@ -487,7 +487,7 @@ function ToggleMarkersInExs() {
     let isActiveAnimation = $('.up-tabs-elem[data-id="toggle_animation"]').attr('data-state') == "1";
     let isActiveFavorite = $('.up-tabs-elem[data-id="toggle_favorite"]').attr('data-state') == "1";
 
-    $('.exercises-block').find(`[data-type="marker"][data-id!="favorite"][data-watched="1"]`).addClass('d-none');
+    $('.exercises-block').find(`[data-type="marker"][data-id!="favorite"]`).addClass('d-none');
     if (isActiveWatched) {
         $('.exercises-block').find(`[data-type="marker"][data-id!="favorite"][data-watched="1"]`).removeClass('d-none');
     }
