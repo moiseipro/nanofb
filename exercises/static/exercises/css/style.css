@@ -757,3 +757,11 @@ button.custom-disabled:hover {
     overflow-y: auto;
 }
 
+
+.bck-light-blue {
+    background-color: #b0daff !important;
+}
+.bck-light-yellow {
+    background-color: #fff8b0 !important;
+}
+
