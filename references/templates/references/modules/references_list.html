@@ -4,13 +4,15 @@
     <div class="col-6">
         <div class="card">
             <div class="card-body">
-{#                <button id="additional-exercise-data" type="button" class="btn btn-primary reference-edit">{% trans "Exercise additional data" %}</button>#}
-                <button type="button" class="btn btn-primary btn-sm" id="exsTagsRef" disabled="">
+                <!-- <button id="additional-exercise-data" type="button" class="btn btn-primary reference-edit">{% trans "Exercise additional data" %}</button> -->
+                {% if user.is_superuser %}
+                <button type="button" class="btn btn-primary btn-sm" id="exsTagsRef">
                     Упражнения. Тэги
                 </button>
-                <button type="button" class="btn btn-primary btn-sm" id="exsFeaturesRef">
+                {% endif %}
+                <!-- <button type="button" class="btn btn-primary btn-sm" id="exsFeaturesRef">
                     Упражнения. Справочники
-                </button>
+                </button> -->
             </div>
         </div>
     </div>

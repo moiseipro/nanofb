@@ -34,6 +34,9 @@
                                         </div>
 
                                         <div class="col-12 p-0 btn-group btn-group-custom">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 size-max-w-x d-none" id="showOneExs" title="Просмотреть" style="--w-max-x:5%;">
+                                                <span class="icon-custom icon--magnifying-glass mt-1" style="--i-w: 1.7em; --i-h: 1.7em;"></span>
+                                            </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center up-tabs-elem size-max-w-x {% if not user.is_superuser %}usr-dft{% endif %}" id="createExercise" title="Добавить упражнение" style="--w-max-x:5%;">
                                                 <span class="icon-custom icon--plus mx-1" style="--i-w: 1.6em; --i-h: 1.6em;"></span>
                                             </button>
@@ -76,18 +79,15 @@
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="clear_filter" title="Очистить фильтры" style="--w-max-x:5%;">
                                                 <i class="fa fa-lg fa-flip-horizontal fa-repeat" aria-hidden="true" style="color: balck;"></i>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block font-larger up-tabs-elem size-max-w-x" data-id="goal" title="Ворота" style="--w-max-x:5%; font-size: 1.1rem;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block font-larger up-tabs-elem size-max-w-x" data-id="goal_big" title="Ворота" style="--w-max-x:5%; font-size: 1.1rem;">
                                                 G.
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block font-larger up-tabs-elem size-max-w-x" data-id="" title="Ворота" style="--w-max-x:5%; font-size: 1.1rem;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block font-larger up-tabs-elem size-max-w-x" data-id="goal_small" title="Ворота" style="--w-max-x:5%; font-size: 1.1rem;">
                                                 g.
                                             </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="ball" title="Мяч" style="--w-max-x:5%;">
                                                 <span class="icon-custom icon--ball-2" style="--i-w: 1.9em; --i-h: 1.9em;"></span>
                                             </button>
-                                            <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_u_small" title="" style="--w-max-x:5%; font-size: 1.1rem;">
-                                                u.
-                                            </button> -->
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_u_big" title="" style="--w-max-x:5%; font-size: 1.1rem;">
                                                 U.
                                             </button>

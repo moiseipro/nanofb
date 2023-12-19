@@ -70,6 +70,10 @@ function ToggleUpFilter(id, state) {
                 $('.up-tabs-elem').removeClass('b-c-blue2');
                 $('.up-tabs-elem').removeClass('b-c-green2');
                 $('.up-tabs-elem').addClass('b-c-red2');
+
+                $('.in-card-elem').removeClass('b-c-blue2');
+                $('.in-card-elem').removeClass('b-c-green2');
+                $('.in-card-elem').addClass('b-c-red2');
             } else {
                 $('.folders_nfb_list').toggleClass('d-none', true);
                 $('.folders_club_list').toggleClass('d-none', true);
@@ -90,6 +94,10 @@ function ToggleUpFilter(id, state) {
                 $('.up-tabs-elem').addClass('b-c-blue2');
                 $('.up-tabs-elem').removeClass('b-c-green2');
                 $('.up-tabs-elem').removeClass('b-c-red2');
+
+                $('.in-card-elem').addClass('b-c-blue2');
+                $('.in-card-elem').removeClass('b-c-green2');
+                $('.in-card-elem').removeClass('b-c-red2');
             }
 
             $('#exerciseCopyModal').find('select[name="copy_mode"]').val('1');
@@ -148,6 +156,11 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem').removeClass('b-c-green2');
             $('.up-tabs-elem').removeClass('b-c-red2');
             $('.up-tabs-elem').addClass('b-c-blue2');
+
+            $('.in-card-elem').removeClass('b-c-green2');
+            $('.in-card-elem').removeClass('b-c-red2');
+            $('.in-card-elem').addClass('b-c-blue2');
+
             CountExsInFoldersByType();
             ToggleTagsView();
 
@@ -201,6 +214,11 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem').removeClass('b-c-blue2');
             $('.up-tabs-elem').removeClass('b-c-red2');
             $('.up-tabs-elem').addClass('b-c-green2');
+
+            $('.in-card-elem').removeClass('b-c-blue2');
+            $('.in-card-elem').removeClass('b-c-red2');
+            $('.in-card-elem').addClass('b-c-green2');
+
             CountExsInFoldersByType();
             ToggleTagsView();
 
@@ -290,15 +308,51 @@ function ToggleUpFilter(id, state) {
             }
             ToggleMarkersInExs();
             break;
-        case "goal":
-            ToggleIconsInExs();
+        case "goal_big":
+            if (state) {
+                $('.up-tabs-elem[data-id="goal_big"]').addClass('selected3');
+                $('.up-tabs-elem[data-id="goal_big"]').attr('data-state', 1);
+                window.exercisesFilter['goal_big'] = '1';
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            } else {
+                $('.up-tabs-elem[data-id="goal_big"]').removeClass('filtering');
+                delete window.exercisesFilter['goal_big'];
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            }
+            break;
+        case "goal_small":
+            if (state) {
+                $('.up-tabs-elem[data-id="goal_small"]').addClass('selected3');
+                $('.up-tabs-elem[data-id="goal_small"]').attr('data-state', 1);
+                window.exercisesFilter['goal_small'] = '1';
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            } else {
+                $('.up-tabs-elem[data-id="goal_small"]').removeClass('filtering');
+                delete window.exercisesFilter['goal_small'];
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            }
             break;
         case "players":
             ToggleIconsInExs();
             break;
         case "ball":
-            /*if (!state && !$('.up-tabs-elem[data-id="ball"]').hasClass('filtering')) {
-                $('.up-tabs-elem[data-id="ball"]').addClass('filtering');
+            if (state) {
                 $('.up-tabs-elem[data-id="ball"]').addClass('selected3');
                 $('.up-tabs-elem[data-id="ball"]').attr('data-state', 1);
                 window.exercisesFilter['ball'] = '1';
@@ -307,7 +361,7 @@ function ToggleUpFilter(id, state) {
                 }
                 LoadFolderExercises();
                 CountExsInFolder();
-            } else if (!state && $('.up-tabs-elem[data-id="ball"]').hasClass('filtering')) {
+            } else {
                 $('.up-tabs-elem[data-id="ball"]').removeClass('filtering');
                 delete window.exercisesFilter['ball'];
                 for (ind in window.count_exs_calls) {
@@ -315,8 +369,7 @@ function ToggleUpFilter(id, state) {
                 }
                 LoadFolderExercises();
                 CountExsInFolder();
-            }*/
-            ToggleIconsInExs();
+            }
             break;
         case "keywords":
             ToggleIconsInExs();
@@ -356,8 +409,7 @@ function ToggleUpFilter(id, state) {
             }
             break;
         case "toggle_pro":
-            if (!state && !$('.up-tabs-elem[data-id="toggle_pro"]').hasClass('filtering')) {
-                $('.up-tabs-elem[data-id="toggle_pro"]').addClass('filtering');
+            if (state) {
                 $('.up-tabs-elem[data-id="toggle_pro"]').addClass('selected3');
                 $('.up-tabs-elem[data-id="toggle_pro"]').attr('data-state', 1);
                 window.exercisesFilter['pro'] = '1';
@@ -366,7 +418,7 @@ function ToggleUpFilter(id, state) {
                 }
                 LoadFolderExercises();
                 CountExsInFolder();
-            } else if (!state && $('.up-tabs-elem[data-id="toggle_pro"]').hasClass('filtering')) {
+            } else {
                 $('.up-tabs-elem[data-id="toggle_pro"]').removeClass('filtering');
                 delete window.exercisesFilter['pro'];
                 for (ind in window.count_exs_calls) {
@@ -378,8 +430,7 @@ function ToggleUpFilter(id, state) {
             ToggleIconsInExs();
             break;
         case "toggle_u_big":
-            if (!state && !$('.up-tabs-elem[data-id="toggle_u_big"]').hasClass('filtering')) {
-                $('.up-tabs-elem[data-id="toggle_u_big"]').addClass('filtering');
+            if (state) {
                 $('.up-tabs-elem[data-id="toggle_u_big"]').addClass('selected3');
                 $('.up-tabs-elem[data-id="toggle_u_big"]').attr('data-state', 1);
                 window.exercisesFilter['u_big'] = '1';
@@ -388,7 +439,7 @@ function ToggleUpFilter(id, state) {
                 }
                 LoadFolderExercises();
                 CountExsInFolder();
-            } else if (!state && $('.up-tabs-elem[data-id="toggle_u_big"]').hasClass('filtering')) {
+            } else {
                 $('.up-tabs-elem[data-id="toggle_u_big"]').removeClass('filtering');
                 delete window.exercisesFilter['u_big'];
                 for (ind in window.count_exs_calls) {
@@ -397,29 +448,6 @@ function ToggleUpFilter(id, state) {
                 LoadFolderExercises();
                 CountExsInFolder();
             }
-            ToggleIconsInExs();
-            break;
-        case "toggle_u_small":
-            if (!state && !$('.up-tabs-elem[data-id="toggle_u_small"]').hasClass('filtering')) {
-                $('.up-tabs-elem[data-id="toggle_u_small"]').addClass('filtering');
-                $('.up-tabs-elem[data-id="toggle_u_small"]').addClass('selected3');
-                $('.up-tabs-elem[data-id="toggle_u_small"]').attr('data-state', 1);
-                window.exercisesFilter['u_small'] = '1';
-                for (ind in window.count_exs_calls) {
-                    window.count_exs_calls[ind]['call'].abort();
-                }
-                LoadFolderExercises();
-                CountExsInFolder();
-            } else if (!state && $('.up-tabs-elem[data-id="toggle_u_small"]').hasClass('filtering')) {
-                $('.up-tabs-elem[data-id="toggle_u_small"]').removeClass('filtering');
-                delete window.exercisesFilter['u_small'];
-                for (ind in window.count_exs_calls) {
-                    window.count_exs_calls[ind]['call'].abort();
-                }
-                LoadFolderExercises();
-                CountExsInFolder();
-            }
-            ToggleIconsInExs();
             break;
         case "toggle_field":
             ToggleIconsInExs();
@@ -2310,6 +2338,10 @@ $(function() {
                 $('.up-tabs-elem').removeClass('b-c-green2');
                 $('.up-tabs-elem').removeClass('b-c-red2');
                 $('.up-tabs-elem').addClass('b-c-blue2');
+
+                $('.in-card-elem').removeClass('b-c-green2');
+                $('.in-card-elem').removeClass('b-c-red2');
+                $('.in-card-elem').addClass('b-c-blue2');
             } else if (cFoldersSettings.type == "nfb_folders") {
                 $('.toggle-filter-content').removeClass('btn-custom-outline-blue');
                 $('.toggle-filter-content').removeClass('btn-custom-outline-red');
@@ -2317,6 +2349,10 @@ $(function() {
                 $('.up-tabs-elem').removeClass('b-c-blue2');
                 $('.up-tabs-elem').removeClass('b-c-red2');
                 $('.up-tabs-elem').addClass('b-c-green2');
+
+                $('.in-card-elem').removeClass('b-c-blue2');
+                $('.in-card-elem').removeClass('b-c-red2');
+                $('.in-card-elem').addClass('b-c-green2');
             } else if (cFoldersSettings.type == "club_folders") {
                 $('.toggle-filter-content').removeClass('btn-custom-outline-blue');
                 $('.toggle-filter-content').removeClass('btn-custom-outline-green');
@@ -2324,6 +2360,10 @@ $(function() {
                 $('.up-tabs-elem').removeClass('b-c-blue2');
                 $('.up-tabs-elem').removeClass('b-c-green2');
                 $('.up-tabs-elem').addClass('b-c-red2');
+
+                $('.in-card-elem').removeClass('b-c-blue2');
+                $('.in-card-elem').removeClass('b-c-green2');
+                $('.in-card-elem').addClass('b-c-red2');
             }
             ToggleTagsView();
         }
@@ -2693,6 +2733,7 @@ $(function() {
                 dataToSend.data['description'] = document.descriptionEditorViewFromFolders.getData();
                 dataToSend.data['description_template'] = document.descriptionEditor2Template.getData();
                 dataToSend.data['description_trainer'] = document.descriptionEditorViewFromFoldersTrainer.getData();
+
                 $('.page-loader-wrapper').fadeIn();
                 $.ajax({
                     headers:{"X-CSRFToken": csrftoken},
@@ -2755,8 +2796,8 @@ $(function() {
                     return;
                 }
                 let selectedCategories = [];
-                $('#exerciseCard').find('.categories-list > button.active').each((ind, elem) => {
-                    selectedCategories.push($(elem).attr('data-id')); 
+                $('#exerciseCard').find('tr.btn-fields').find('button.selected3[data-id="category"]').each((ind, elem) => {
+                    selectedCategories.push($(elem).attr('data-val')); 
                 });
                 dataToSend.data['field_categories'] = selectedCategories;
             
