@@ -23,7 +23,7 @@ async function ajax_training_action(method, data, action = '', id = '', func = '
                     swal(gettext('Training'), gettext('There are players in the protocol. Remove the players before unloading the entire team.'), "error");
                 } else if(data.status == 'protocol_limit'){
                     swal(gettext('Training'), gettext('The limit of players for one protocol has been reached.'), "error");
-                } else if(data.status == 'exercise_got' || data.status == 'sort_exercise' || data.status == 'protocol_got' || action == 'favourites'){
+                } else if(data.status == 'exercise_got' || data.status == 'sort_exercise' || data.status == 'protocol_got' || action == 'favourites' || action == 'save_inventory'){
 
                 } else {
                     if(method != 'GET') swal(gettext('Training'), gettext('Training action successfully!'), "success");

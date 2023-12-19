@@ -127,6 +127,12 @@ class AbstractTeam(AbstractReference):
         help_text=_('Team status.'),
         default=TeamStatus.get_default_pk
     )
+    players_json = models.JSONField(
+        verbose_name=_('players'),
+        help_text=_('a simple list of players'),
+        blank=True,
+        null=True
+    )
 
     class Meta:
         abstract = True

@@ -17,6 +17,9 @@ $(window).on('load', function () {
             }
         }
     }
+    $('.inventory-data-rows input').each(function () {
+        $(this).prop('disabled', true)
+    })
 
 
     let items = $('.video-js');

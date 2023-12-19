@@ -177,6 +177,25 @@ $(window).on('load', function (){
         })
     })
 
+    //Сохранение инвенторя при изменении значения
+    $('.inventory-data-rows input').on("change", function( index ) {
+        let training_data = {}
+        let inventory = []
+        $('.inventory-data-rows input').each(function( index ) {
+            console.log( index + ": " + $( this ).text() );
+
+            inventory.push({
+                'name': $(this).attr('name'),
+                'value': $(this).val()
+            })
+        })
+        training_data['inventory'] = JSON.stringify(inventory)
+
+        ajax_training_action('PUT', training_data, 'save_inventory', id).then(function (data) {
+
+        })
+    })
+
     // Open graphics in modal
     $('#carouselAll').on('click', '.carousel-item', (e) => {
         let id = -1;
