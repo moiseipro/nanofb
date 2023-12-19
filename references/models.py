@@ -343,6 +343,24 @@ class ExsDescriptionTemplate(AbstractReference, MixTranslateReference):
         verbose_name_plural = _('Exercise description template')
 
 
+class ExsFeatures(AbstractReference, MixTranslateReference):
+    class Meta(AbstractReference.Meta):
+        verbose_name = _('Exercise feature data')
+        verbose_name_plural = _('Exercise feature data')
+
+
+class UserExsFeatures(ExsFeatures, MixUserReference):
+    class Meta(ExsFeatures.Meta):
+        verbose_name = _('User exercise feature data')
+        verbose_name_plural = _('User exercise feature data')
+
+
+class ClubExsFeatures(ExsFeatures, MixClubReference):
+    class Meta(ExsFeatures.Meta):
+        verbose_name = _('Club exercise feature data')
+        verbose_name_plural = _('Club exercise feature data')
+
+
 # --Players--
 class PlayerTeamStatus(AbstractReference, MixTranslateReference):
     class Meta(AbstractReference.Meta):

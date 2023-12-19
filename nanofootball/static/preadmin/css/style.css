@@ -4202,6 +4202,12 @@ table.table-inbox tbody tr.checked {
 .icon--ball-x {
 	content: url(../img/icons/ball-x.png);
 }
+.icon--ball-x2 {
+	content: url(../img/icons/ball-x2.png);
+}
+.icon--ball-2 {
+	content: url(../img/icons/ball-2.png);
+}
 .icon--brush {
 	content: url(../img/icons/brush.png);
 }
@@ -4226,6 +4232,12 @@ table.table-inbox tbody tr.checked {
 .icon--eye-not {
 	content: url(../img/icons/eye_not.png);
 }
+.icon--eye-2 {
+	content: url(../img/icons/eye-2.png);
+}
+.icon--eye-2-not {
+	content: url(../img/icons/eye-2-not.png);
+}
 .icon--favorite {
 	content: url(../img/icons/favorite.png);
 }
@@ -4243,6 +4255,9 @@ table.table-inbox tbody tr.checked {
 }
 .icon--folder-o {
 	content: url(../img/icons/folder-o.png);
+}
+.icon--folder-2 {
+	content: url(../img/icons/folder-2.png);
 }
 .icon--key {
 	content: url(../img/icons/key.png);

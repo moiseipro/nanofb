@@ -56,6 +56,7 @@ def exercises(request):
     refs = {}
     found_folders, found_club_folders, found_nfb_folders, refs = v_api.get_exercises_params(request, cur_user[0], cur_team)
     exs_tags = v_api.get_exercises_tags(request, cur_user[0], cur_team, True)
+    exs_features = v_api.get_exercises_features(request, cur_user[0], cur_team)
     video_params = {}
     video_params['sources'] = VideoSource.objects.all().annotate(videos=Count('video')).order_by('-videos')
     return render(request, 'exercises/base_exercises.html', {
@@ -68,6 +69,7 @@ def exercises(request):
         'menu_exercises': 'active',
         'show_folders_button': True,
         'exercises_tags': exs_tags,
+        'exercises_features': exs_features,
         'video_params': video_params,
         'show_club_folders': is_show_club_folders,
         'seasons_list': request.seasons_list,
@@ -333,6 +335,8 @@ def exercises_api(request):
         copy_scheme_from_exs_to_exs_status = 0
         create_exs_drawing_pic_status = 0
         delete_exs_drawing_pic_status = 0
+        edit_exs_feature_one_status = 0
+        change_order_exs_features_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         try:
@@ -433,6 +437,14 @@ def exercises_api(request):
             delete_exs_drawing_pic_status = int(request.POST.get("delete_exs_drawing_pic", 0))
         except:
             pass
+        try:
+            edit_exs_feature_one_status = int(request.POST.get("edit_exs_feature_one", 0))
+        except:
+            pass
+        try:
+            change_order_exs_features_status = int(request.POST.get("change_order_exs_features", 0))
+        except:
+            pass
         if copy_exs_status == 1:
             return v_api.POST_copy_exs(request, cur_user[0], cur_team)
         elif move_exs_status == 1:
@@ -479,6 +491,10 @@ def exercises_api(request):
             return v_api.POST_create_exs_drawing_pic(request, cur_user[0], cur_team)
         elif delete_exs_drawing_pic_status == 1:
             return v_api.POST_delete_exs_drawing_pic(request, cur_user[0], cur_team)
+        elif edit_exs_feature_one_status == 1:
+            return v_api.POST_edit_exs_feature_one(request, cur_user[0], cur_team)
+        elif change_order_exs_features_status == 1:
+            return v_api.POST_change_order_exs_features(request, cur_user[0], cur_team)
         return JsonResponse({"errors": "access_error"}, status=400)
     elif request.method == "GET" and is_ajax:
         get_exs_all_status = 0
@@ -486,6 +502,7 @@ def exercises_api(request):
         get_exs_graphic_content_status = 0
         get_exs_all_tags_status = 0
         get_exs_full_name_status = 0
+        get_exs_all_features_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         try:
@@ -514,6 +531,10 @@ def exercises_api(request):
             get_exs_full_name_status = int(request.GET.get("get_exs_full_name", 0))
         except:
             pass
+        try:
+            get_exs_all_features_status = int(request.GET.get("get_exs_all_features", 0))
+        except:
+            pass
         if get_exs_all_status == 1:
             return v_api.GET_get_exs_all(request, cur_user[0], cur_team)
         elif get_exs_one_status == 1:
@@ -524,6 +545,8 @@ def exercises_api(request):
             return v_api.GET_get_exs_all_tags(request, cur_user[0], cur_team)
         elif get_exs_full_name_status == 1:
             return v_api.GET_get_exs_full_name(request, cur_user[0], cur_team)
+        elif get_exs_all_features_status == 1:
+            return v_api.GET_get_exs_all_features(request, cur_user[0], cur_team)
         return JsonResponse({"errors": "access_error"}, status=400)
     else:
         return JsonResponse({"errors": "access_error"}, status=400)

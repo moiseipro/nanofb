@@ -233,6 +233,39 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem[data-id="clear_filter"]').attr('data-state', 0);
             break;
         case "toggle_watched":
+            $('.up-tabs-elem[data-id="toggle_watched_not"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="toggle_watched_not"]').attr('data-state', '0');
+            $('.up-tabs-elem[data-id="toggle_video"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="toggle_video"]').attr('data-state', '0');
+            $('.up-tabs-elem[data-id="toggle_animation"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="toggle_animation"]').attr('data-state', '0');
+            ToggleMarkersInExs();
+            break;
+        case "toggle_watched_not":
+            $('.up-tabs-elem[data-id="toggle_watched"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="toggle_watched"]').attr('data-state', '0');
+            $('.up-tabs-elem[data-id="toggle_video"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="toggle_video"]').attr('data-state', '0');
+            $('.up-tabs-elem[data-id="toggle_animation"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="toggle_animation"]').attr('data-state', '0');
+            ToggleMarkersInExs();
+            break;
+        case "toggle_video":
+            $('.up-tabs-elem[data-id="toggle_watched"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="toggle_watched"]').attr('data-state', '0');
+            $('.up-tabs-elem[data-id="toggle_watched_not"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="toggle_watched_not"]').attr('data-state', '0');
+            $('.up-tabs-elem[data-id="toggle_animation"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="toggle_animation"]').attr('data-state', '0');
+            ToggleMarkersInExs();
+            break;
+        case "toggle_animation":
+            $('.up-tabs-elem[data-id="toggle_watched"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="toggle_watched"]').attr('data-state', '0');
+            $('.up-tabs-elem[data-id="toggle_watched_not"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="toggle_watched_not"]').attr('data-state', '0');
+            $('.up-tabs-elem[data-id="toggle_video"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="toggle_video"]').attr('data-state', '0');
             ToggleMarkersInExs();
             break;
         case "toggle_favorite":
@@ -1080,13 +1113,13 @@ $(function() {
     $('#changeColumnSize').on('click', (e) => {
         try {
             let sizes = window.split.getSizes();
-            let differVal = 8;
+            let differVal = 6.4;
             if (Array.isArray(sizes) && sizes.length == 2) {
-                if (sizes[0] - differVal > 25) {
+                if (sizes[0] - differVal > 10) {
                     sizes[0] -= differVal;
                     sizes[1] += differVal;
                 } else {
-                    sizes[0] = 50; sizes[1] = 30;
+                    sizes[0] = 51.8; sizes[1] = 38.2;
                 }
                 window.split.setSizes(sizes);
                 localStorage.setItem('split_cols', JSON.stringify(sizes));

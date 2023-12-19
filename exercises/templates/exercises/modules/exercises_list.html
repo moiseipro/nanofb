@@ -91,21 +91,21 @@
         <div class="folders-container">
             {% if show_folders_button %}
             <div class="folders-toggle-container {% if not user.is_superuser %}df-usr{% endif %}">
-                <button type="button" class="btn btn-success btn-sm btn-custom custom-green2 up-tabs-elem folders-toggle size-w-x mt-2 ml-2" data-id="nfb_folders" style="--w-x:95%;">
+                <button type="button" class="btn btn-success btn-sm btn-custom custom-green2 up-tabs-elem folders-toggle size-w-x mt-2 ml-2" data-id="nfb_folders" style="--w-x:97%;">
                     <div class="">
                         <span class="text-center text-uppercase ml-2">папки n.f.</span>
                         <span class="exs_counter float-right">(...)</span>
                     </div>
                 </button>
                 {% if show_club_folders %}
-                <button type="button" class="btn btn-warning btn-sm btn-custom custom-red2 up-tabs-elem folders-toggle size-w-x mt-2 ml-2 d-none" data-id="club_folders" style="--w-x:95%;">
+                <button type="button" class="btn btn-warning btn-sm btn-custom custom-red2 up-tabs-elem folders-toggle size-w-x mt-2 ml-2 d-none" data-id="club_folders" style="--w-x:97%;">
                     <div class="">
                         <span class="text-center text-uppercase ml-2">папки "клуб"</span>
                         <span class="exs_counter float-right">(...)</span>
                     </div>
                 </button>
                 {% endif %}
-                <button type="button" class="btn btn-sm btn-custom custom-blue2 up-tabs-elem folders-toggle size-w-x mt-2 ml-2 d-none" data-id="team_folders" style="--w-x:95%;">
+                <button type="button" class="btn btn-sm btn-custom custom-blue2 up-tabs-elem folders-toggle size-w-x mt-2 ml-2 d-none" data-id="team_folders" style="--w-x:97%;">
                     <div class="">
                         <span class="text-center text-uppercase ml-2">папки "команда"</span>
                         <span class="exs_counter float-right">(...)</span>
@@ -136,24 +136,25 @@
             <div class="container table-responsive px-0 card-table-container mt-2">
                 <table class="table table-sm table-bordered" style="table-layout: fixed;">
                     <colgroup>
-                        <col span="1" style="width: 50%;">
-                        <col span="1" style="width: 50%;">
+                        <col span="1" style="width: 40%;">
+                        <col span="1" style="width: 30%;">
+                        <col span="1" style="width: 30%;">
                     </colgroup>
                     <tbody class="">
                         <tr class="bck-custom">
-                            <td colspan="2">
+                            <td colspan="3">
                                 <button type="button" class="btn btn-secondary btn-sm edit-exercise {% if not user.is_superuser %}d-e-nf{% endif %}" data-id="card">Редактировать</button>
                             </td>
                         </tr>
                         <tr class="bck-custom-color" style="--bck-color:#eee; --bck-color-h:#eee;">
-                            <td colspan="2" title="Название упражнения">
+                            <td colspan="3" title="Название упражнения">
                                 <input name="title" class="form-control form-control-sm exs_edit_field text-center placeholder-font-weight" 
                                     type="text" value="" placeholder="Название упражнения" autocomplete="off" 
                                     style="--fw:700; background-color: #fff0; border-color: #fff0;" required="">
                             </td>
                         </tr>
                         <tr class="bck-custom border-y-custom folder-container">
-                            <td colspan="2" title="Главные папки">
+                            <td colspan="3" title="Главные папки">
                                 <select name="folder_parent" class="form-control form-control-sm exs_edit_field nfb_folders d-none" required="" autocomplete="off">
                                     {% if nfb_folders %}
                                         {% for folder in nfb_folders %}
@@ -173,7 +174,7 @@
                             </td>
                         </tr>
                         <tr class="bck-custom border-y-custom folder-container">
-                            <td colspan="2" title="Папки с упражнением">
+                            <td colspan="3" title="Папки с упражнением">
                                 <select name="folder_main" class="form-control form-control-sm exs_edit_field nfb_folders d-none" required="" autocomplete="off">
                                     {% if nfb_folders %}
                                         {% for folder in nfb_folders %}
@@ -192,31 +193,103 @@
                                 </select>
                             </td>
                         </tr>
-                        <!-- <tr class="bck-custom">
-                            <td colspan="2">
-                                <input name="field_task" class="form-control form-control-sm exs_edit_field text-center" 
-                                    type="text" value="" placeholder="Задача" autocomplete="off" 
-                                    required="" title="Задача">
-                            </td>
-                        </tr> -->
+
                         <tr class="bck-custom border-y-custom" data-id="card_block">
-                            <td class="text-center" title="Игроки с">
-                                <input name="field_players_a" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="Игроки с" autocomplete="off" min="0" max="50">
+                            <td class="text-left bck-light-blue font-weight-bold">
+                                <span class="ml-2">Игроки</span>
                             </td>
-                            <td class="text-center" title="Игроки по">
-                                <input name="field_players_b" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="Игроки по" autocomplete="off" min="0" max="50">
+                            <td class="text-center" title="с">
+                                <input name="field_players_a" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="с" autocomplete="off" min="0" max="50">
+                            </td>
+                            <td class="text-center" title="по">
+                                <input name="field_players_b" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="по" autocomplete="off" min="0" max="50">
                             </td>
                         </tr>
                         <tr class="bck-custom border-y-custom" data-id="card_block">
-                            <td class="text-center" title="Возраст с">
-                                <input name="field_age_a" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="Возраст с" autocomplete="off" min="0" max="150">
+                            <td class="text-left bck-light-blue font-weight-bold">
+                                <span class="ml-2">Возраст</span>
                             </td>
-                            <td class="text-center" title="Возраст по">
-                                <input name="field_age_b" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="Возраст по" autocomplete="off" min="0" max="150">
+                            <td class="text-center" title="с">
+                                <input name="field_age_a" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="с" autocomplete="off" min="0" max="150">
+                            </td>
+                            <td class="text-center" title="по">
+                                <input name="field_age_b" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="по" autocomplete="off" min="0" max="150">
                             </td>
                         </tr>
+                        {% if user.is_superuser %}
+                        <tr class="bck-custom border-y-custom" data-id="card_block">
+                            <td class="text-left bck-light-blue font-weight-bold">
+                                <span class="ml-2">Группы</span>
+                            </td>
+                            <td class="text-center" title="с">
+                                <input name="field_groups_a" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="с" autocomplete="off" min="0" max="50">
+                            </td>
+                            <td class="text-center" title="по">
+                                <input name="field_groups_b" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="по" autocomplete="off" min="0" max="50">
+                            </td>
+                        </tr>
+                        <tr class="bck-custom border-y-custom" data-id="card_block">
+                            <td class="text-left bck-light-blue font-weight-bold">
+                                <span class="ml-2">Мяч</span>
+                            </td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-sm btn-outline-secondary btn-block py-0 mt-1" data-id="ball1" data-val="1">
+                                    <span class="icon-custom icon--ball mt-1" style="--i-w: 1.2em; --i-h: 1.2em;"></span>
+                                </button>
+                            </td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-sm btn-outline-secondary btn-block py-0 mt-1" data-id="ball1" data-val="0">
+                                    <span class="icon-custom icon--ball-x2 mt-1" style="--i-w: 1.2em; --i-h: 1.2em;"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="bck-custom border-y-custom" data-id="card_block">
+                            <td class="text-left bck-light-blue font-weight-bold">
+                                <span class="ml-2">Ворота</span>
+                            </td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-sm btn-outline-secondary btn-block py-1 mt-1" data-id="gate" data-val="G">
+                                    G.
+                                </button>
+                            </td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-sm btn-outline-secondary btn-block py-1 mt-1" data-id="gate" data-val="g">
+                                    g.
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="bck-custom border-y-custom" data-id="card_block">
+                            <td class="text-left bck-light-blue font-weight-bold">
+                                <span class="ml-2">Категория</span>
+                            </td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-sm btn-outline-secondary btn-block py-1 mt-1" data-id="gate" data-val="G">
+                                    U.
+                                </button>
+                            </td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-sm btn-outline-secondary btn-block py-1 mt-1" data-id="gate" data-val="g">
+                                    PRO
+                                </button>
+                            </td>
+                        </tr>
+                        {% endif %}
+
+                        {% if user.is_superuser %}
+                        {% for feature in exercises_features %}
+                        <tr class="bck-custom border-y-custom" data-id="card_block" data-feature="{{ feature.id }}">
+                            <td class="text-left bck-light-blue font-weight-bold">
+                                <span class="ml-2">{{ feature.name }}</span>
+                            </td>
+                            <td class="text-center" colspan="2">
+                                <input name="" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="" autocomplete="off">
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% endif %}
+
                         <tr class="bck-custom border-y-custom1" data-id="categories_block">
-                            <td colspan="2">
+                            <td colspan="3">
                                 <div class="row mx-0">
                                     <div class="col-12 px-0 my-1">
                                         <div class="btn-group btn-group-custom-active categories-list w-100" role="group" aria-label="">
@@ -231,7 +304,7 @@
                             </td>
                         </tr>
                         <tr class="bck-custom border-y-custom1" data-id="ball_gates_block">
-                            <td colspan="2">
+                            <td colspan="3">
                                 <div class="row mx-0">
                                     <div class="col-12 px-0 my-1">
                                         <div class="btn-group btn-group-custom-active ball-gates-list w-100" role="group" aria-label="">
@@ -268,7 +341,7 @@
                             </td>
                         </tr>
                         <tr class="bck-custom border-y-custom1" data-id="">
-                            <td colspan="2">
+                            <td colspan="3">
                                 <div class="row mx-0">
                                     <div class="col-12 px-0 my-1">
                                         <div class="btn-group btn-group-custom-active physical-qualities-list w-100" role="group" aria-label="">
@@ -283,16 +356,8 @@
                             </td>
                         </tr>
                         <tr class="wider_row bck-custom" data-id="additional_characteristics_data_block">
-                            <td colspan="2">
+                            <td colspan="3">
                                 <select name="tags" class="select w-100 custom-select custom-select-sm tag-select exs_edit_field" multiple data-tags="true" data-theme="bootstrap4" disabled style="width: 100%;">
-                                    <!-- {% for tag in exercises_tags.nfb %}
-                                        <option value="{{ tag.name }}" data-color="{{ tag.category.color }}" data-tag-class="tag-dot">
-                                            {% if tag.category %}
-                                                {{ tag.category.name }}. 
-                                            {% endif %}
-                                            {{ tag.name }}
-                                        </option>
-                                    {% endfor %} -->
                                     {% for tag in exercises_tags.self %}
                                         <option value="{{ tag.name }}" data-color="{{ tag.category.color }}" data-tag-class="tag-square">
                                             {% if tag.category %}
@@ -304,10 +369,8 @@
                                 </select>
                             </td>
                         </tr>
-                        
-
                         <tr class="bck-custom border-y-custom" data-id="">
-                            <td colspan="2">
+                            <td colspan="3">
                                 <div class="row mx-0">
                                     <div class="col-12 px-0 my-1">
                                         <div class="btn-group btn-group-custom-active cognitive-load-list w-100 d-none" role="group" aria-label="">
@@ -322,7 +385,7 @@
                             </td>
                         </tr>
                         <tr class="wider_row bck-custom d-none" data-id="additional_characteristics_data_block">
-                            <td colspan="2">
+                            <td colspan="3">
                                 <select name="tags" class="select w-100 custom-select custom-select-sm tag-select exs_edit_field" multiple data-tags="true" data-theme="bootstrap4" disabled style="width: 100%;">
                                     {% for tag in exercises_tags.nfb %}
                                         <option value="{{ tag.name }}" data-color="{{ tag.category.color }}" data-tag-class="tag-dot">
@@ -352,17 +415,37 @@
         <div class="row mt-2">
             <div class="col-12 d-flex">
                 <div class="row w-100">
-                    <div class="col-8 pr-0">
+                    <div class="col-3 pr-0">
                         <input type="search" class="form-control form-control-sm exs-search text-center" placeholder="Поиск" aria-controls="false">
                     </div>
-                    <div class="col-2 px-0">
+                    <div class="col-3 px-0">
                         <input type="number" class="form-control form-control-sm exs-age-filter text-center" placeholder="Возраст" aria-controls="false">
                     </div>
-                    <div class="col-2 px-0">
+                    <div class="col-3 px-0">
+                        <input type="number" class="form-control form-control-sm exs-----filter text-center" placeholder="Группы по" aria-controls="false">
+                    </div>
+                    <div class="col-3 px-0">
                         <input type="number" class="form-control form-control-sm exs-players-filter text-center" placeholder="Игроки" aria-controls="false">
                     </div>
                 </div>
             </div>
+            {% if user.is_superuser %}
+            <div class="col-12 d-flex">
+                <div class="row w-100">
+                    {% for feature in exercises_features %}
+                        {% if forloop.counter|divisibleby:2 %}
+                        <div class="col-6 px-0">
+                            <input type="text" class="form-control form-control-sm text-center" placeholder="{{ feature.name }}" aria-controls="false">
+                        </div>
+                        {% else %}
+                        <div class="col-6 pr-0">
+                            <input type="text" class="form-control form-control-sm text-center" placeholder="{{ feature.name }}" aria-controls="false">
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
             <div class="col-12 copy-modal-status justify-content-center d-none">
                 <div class="alert alert-warning">
                     <span class="description">
@@ -373,11 +456,11 @@
                 </div>
             </div>
         </div>
-        <ul class="exs-list-group list-group list-group-flush">
+        <ul class="exs-list-group list-group list-group-flush mt-1">
             <li class="list-group-item py-2">Выберите для начала папку.</li>
         </ul>
     </div>
-    <div class="pl-3 visual-block" id="splitCol_2" style="width: 38%;">
+    <div class="pl-3 visual-block" id="splitCol_2" style="width: 42%;">
         <div class="row mx-0">
             <div class="col-12 px-0">
                 <div id="carouselSchema" class="carousel slide mt-2" data-ride="carousel" data-interval="false">
