@@ -86,6 +86,12 @@ class AbstractTraining(models.Model):
         blank=True,
         null=True
     )
+    players_json = models.JSONField(
+        verbose_name=_('players'),
+        help_text=_('Quick list of players'),
+        blank=True,
+        null=True
+    )
 
     class Meta:
         abstract = True

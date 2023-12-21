@@ -52,10 +52,7 @@
 {#                                <div class="col-6 px-1">#}
 {#                                    <button id="#" title="" class="btn btn-block btn-outline-primary btn-sm font-weight-bold" data-toggle="modal" data-target="#training-video-modal">{% trans "Video" %}</button>#}
 {#                                </div>#}
-                                <div class="col-6 px-1">
-                                    <button id="players-training" title="" class="btn btn-block btn-outline-primary btn-sm font-weight-bold" disabled>{% trans "Players" %}</button>
-                                </div>
-                                <div class="col-6 px-1">
+                                <div class="col-12 px-1">
                                     <button id="delete-training" title="" class="btn btn-block btn-outline-danger btn-sm font-weight-bold">{% trans "Delete" %}</button>
                                 </div>
                             </div>
@@ -200,6 +197,7 @@
     <script src="{% static 'references/exercise_additional_data.js' %}"></script>
     <script src="{% static 'references/player_protocol_status.js' %}"></script>
     <script src="{% static 'references/training_additional.js' %}"></script>
+    <script src="{% static 'references/players_list_json.js' %}"></script>
     <script src="{% static 'trainings/js/view_protocol.js' %}"></script>
     <script src="{% static 'trainings/js/exercise_additional_loader.js' %}"></script>
     <script src="{% static 'trainings/js/training_card.js' %}"></script>

@@ -72,6 +72,9 @@
 {#                                    <button id="event-video-modal-button" title="{% trans 'Video of selected event' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold" data-toggle="modal" data-target="#training-video-modal"><b class="text-info">V</b></button>#}
 {#                                </div>#}
                                 <div class="col px-1">
+                                    <button id="players-training" title="{% trans 'Quick list of players' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold" data-toggle="modal" data-target="#players-list-modal"><i class="fa fa-users" aria-hidden="true"></i></button>
+                                </div>
+                                <div class="col px-1">
                                     <button id="shared-modal-button" title="{% trans 'Share training' %}" data-training-type="{% if user.club_id %}club{% else %}user{% endif %}" data-toggle="modal" data-target="#trainingShareModal" class="btn btn-block btn-lightgray btn-md font-weight-bold"><span class="icon-custom icon--share" style="--i-w: 1.0em; --i-h: 1.0em;"></span></button>
                                 </div>
                                 <div class="col px-1">
@@ -152,6 +155,7 @@
                         </div>
                     </div>
                 </div>
+                {% include "references/modules/players_list.html" %}
             </div>
         </div>
     </div>
@@ -180,6 +184,8 @@
     <script src="{% static 'ckeditor5-36.0.0-i0g4ar8o2g2v/build/translations/ru.js' %}"></script>
     <script src="{% static 'preadmin/plugins/jqueryClassyqr/jquery.classyqr.min.js' %}"></script>
 
+    <script src="{% static 'references/team_ajax.js' %}"></script>
+    <script src="{% static 'references/players_list_json.js' %}"></script>
     <script src="{% static 'shared/js/modules/shared_ajax.js' %}"></script>
     <script src="{% static 'exercises/js/modules/graphic_modal.js' %}"></script>
     <script src="{% static 'references/exercise_additional_data.js' %}"></script>

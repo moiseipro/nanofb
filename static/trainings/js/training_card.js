@@ -226,17 +226,6 @@ $(window).on('load', function (){
         })
     })
 
-    //Редактирование описание (старая версия)
-    // document.descriptionEditor.on('change', function () {
-    //     let exs_id = $('.exs-filter-card.active').attr('data-id')
-    //     let data = {}
-    //     //data.description = $(this).val()
-    //     data.description = document.descriptionEditor.getData()
-    //     ajax_training_exercise_action('PUT', data, 'update', exs_id, '').then(function () {
-    //
-    //     })
-    // })
-
     //Действия со ссылкой на видео тренировки
     $('#training-video-modal .open-link').on('click', function () {
         //console.log("open link")
@@ -358,6 +347,18 @@ function load_all_exercises_training(training_id = null, group = null) {
             for (const inventory_item of data.inventory) {
                 $('.inventory-data-rows input[name="'+inventory_item.name+'"]').val(inventory_item.value)
             }
+        }
+        if(data.players_json != null && data.players_json.length > 0){
+            let players_html = players_list_to_html(data.players_json)
+            $('#players-data-list').html(players_html)
+        } else {
+            let selected_team = $('#select-team').val()
+            ajax_team_action('GET', {}, 'get players', selected_team).then(function (data) {
+                let players_json = data.players_json
+                console.log(players_json)
+                let players_html = players_list_to_html(data.players_json)
+                $('#players-data-list').html(players_html)
+            })
         }
 
 

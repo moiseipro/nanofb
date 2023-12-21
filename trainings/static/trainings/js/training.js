@@ -182,8 +182,6 @@ $(window).on('load', function (){
         let training_data = {}
         let inventory = []
         $('.inventory-data-rows input').each(function( index ) {
-            console.log( index + ": " + $( this ).text() );
-
             inventory.push({
                 'name': $(this).attr('name'),
                 'value': $(this).val()
@@ -193,6 +191,45 @@ $(window).on('load', function (){
 
         ajax_training_action('PUT', training_data, 'save_inventory', id).then(function (data) {
 
+        })
+    })
+
+    //Сохранение "быстрых" игроков при изменении значений
+    $('#players-data-list').on("change", 'input', function( index ) {
+        let training_data = {}
+        let players_list = []
+        $('#players-data-list .player-row').each(function( index ) {
+            let group = []
+            $(this).find('.player-group-input').each(function () {
+                group.push($(this).val())
+            })
+            players_list.push({
+                'name': $(this).find('.player-name-input').val(),
+                'group': group,
+                'check': $(this).find('.player-check-input').is(':checked')
+            })
+        })
+        players_list.sort(function (a, b) {
+            if (a.check < b.check) return 1
+            else if (a.check > b.check) return -1
+            else return 0;
+        })
+        training_data['players_json'] = JSON.stringify(players_list)
+
+        ajax_training_action('PUT', training_data, 'save_players', id).then(function (data) {
+            let players_html = players_list_to_html(players_list)
+            $('#players-data-list').html(players_html)
+        })
+    })
+    
+    //Сброс "быстрых" игроков к шаблону таблицы
+    $('#players-data-tab .reset-players').on('click', function () {
+        let selected_team = $('#select-team').val()
+        ajax_team_action('GET', {}, 'get players', selected_team).then(function (data) {
+            let players_json = data.players_json
+            console.log(players_json)
+            let players_html = players_list_to_html(data.players_json)
+            $('#players-data-list').html(players_html)
         })
     })
 
