@@ -251,40 +251,108 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem[data-id="clear_filter"]').attr('data-state', 0);
             break;
         case "toggle_watched":
-            $('.up-tabs-elem[data-id="toggle_watched_not"]').removeClass('selected3');
-            $('.up-tabs-elem[data-id="toggle_watched_not"]').attr('data-state', '0');
-            $('.up-tabs-elem[data-id="toggle_video"]').removeClass('selected3');
-            $('.up-tabs-elem[data-id="toggle_video"]').attr('data-state', '0');
-            $('.up-tabs-elem[data-id="toggle_animation"]').removeClass('selected3');
-            $('.up-tabs-elem[data-id="toggle_animation"]').attr('data-state', '0');
-            ToggleMarkersInExs();
+            if (state) {
+                $('.up-tabs-elem[data-id="toggle_watched_not"]').removeClass('selected3');
+                $('.up-tabs-elem[data-id="toggle_watched_not"]').attr('data-state', '0');
+                $('.up-tabs-elem[data-id="toggle_video"]').removeClass('selected3');
+                $('.up-tabs-elem[data-id="toggle_video"]').attr('data-state', '0');
+                $('.up-tabs-elem[data-id="toggle_animation"]').removeClass('selected3');
+                $('.up-tabs-elem[data-id="toggle_animation"]').attr('data-state', '0');
+                window.exercisesFilter['video_watched'] = '1';
+                delete window.exercisesFilter['video_watched_not'];
+                delete window.exercisesFilter['video_isvideo'];
+                delete window.exercisesFilter['video_isanimation'];
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            } else {
+                delete window.exercisesFilter['video_watched'];
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            }
             break;
         case "toggle_watched_not":
-            $('.up-tabs-elem[data-id="toggle_watched"]').removeClass('selected3');
-            $('.up-tabs-elem[data-id="toggle_watched"]').attr('data-state', '0');
-            $('.up-tabs-elem[data-id="toggle_video"]').removeClass('selected3');
-            $('.up-tabs-elem[data-id="toggle_video"]').attr('data-state', '0');
-            $('.up-tabs-elem[data-id="toggle_animation"]').removeClass('selected3');
-            $('.up-tabs-elem[data-id="toggle_animation"]').attr('data-state', '0');
-            ToggleMarkersInExs();
+            if (state) {
+                $('.up-tabs-elem[data-id="toggle_watched"]').removeClass('selected3');
+                $('.up-tabs-elem[data-id="toggle_watched"]').attr('data-state', '0');
+                $('.up-tabs-elem[data-id="toggle_video"]').removeClass('selected3');
+                $('.up-tabs-elem[data-id="toggle_video"]').attr('data-state', '0');
+                $('.up-tabs-elem[data-id="toggle_animation"]').removeClass('selected3');
+                $('.up-tabs-elem[data-id="toggle_animation"]').attr('data-state', '0');
+                window.exercisesFilter['video_watched_not'] = '1';
+                delete window.exercisesFilter['video_watched'];
+                delete window.exercisesFilter['video_isvideo'];
+                delete window.exercisesFilter['video_isanimation'];
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            } else {
+                delete window.exercisesFilter['video_watched_not'];
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            }
             break;
         case "toggle_video":
-            $('.up-tabs-elem[data-id="toggle_watched"]').removeClass('selected3');
-            $('.up-tabs-elem[data-id="toggle_watched"]').attr('data-state', '0');
-            $('.up-tabs-elem[data-id="toggle_watched_not"]').removeClass('selected3');
-            $('.up-tabs-elem[data-id="toggle_watched_not"]').attr('data-state', '0');
-            $('.up-tabs-elem[data-id="toggle_animation"]').removeClass('selected3');
-            $('.up-tabs-elem[data-id="toggle_animation"]').attr('data-state', '0');
-            ToggleMarkersInExs();
+            if (state) {
+                $('.up-tabs-elem[data-id="toggle_watched"]').removeClass('selected3');
+                $('.up-tabs-elem[data-id="toggle_watched"]').attr('data-state', '0');
+                $('.up-tabs-elem[data-id="toggle_watched_not"]').removeClass('selected3');
+                $('.up-tabs-elem[data-id="toggle_watched_not"]').attr('data-state', '0');
+                $('.up-tabs-elem[data-id="toggle_animation"]').removeClass('selected3');
+                $('.up-tabs-elem[data-id="toggle_animation"]').attr('data-state', '0');
+                window.exercisesFilter['video_isvideo'] = '1';
+                delete window.exercisesFilter['video_watched'];
+                delete window.exercisesFilter['video_watched_not'];
+                delete window.exercisesFilter['video_isanimation'];
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            } else {
+                delete window.exercisesFilter['video_isvideo'];
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            }
             break;
         case "toggle_animation":
-            $('.up-tabs-elem[data-id="toggle_watched"]').removeClass('selected3');
-            $('.up-tabs-elem[data-id="toggle_watched"]').attr('data-state', '0');
-            $('.up-tabs-elem[data-id="toggle_watched_not"]').removeClass('selected3');
-            $('.up-tabs-elem[data-id="toggle_watched_not"]').attr('data-state', '0');
-            $('.up-tabs-elem[data-id="toggle_video"]').removeClass('selected3');
-            $('.up-tabs-elem[data-id="toggle_video"]').attr('data-state', '0');
-            ToggleMarkersInExs();
+            if (state) {
+                $('.up-tabs-elem[data-id="toggle_watched"]').removeClass('selected3');
+                $('.up-tabs-elem[data-id="toggle_watched"]').attr('data-state', '0');
+                $('.up-tabs-elem[data-id="toggle_watched_not"]').removeClass('selected3');
+                $('.up-tabs-elem[data-id="toggle_watched_not"]').attr('data-state', '0');
+                $('.up-tabs-elem[data-id="toggle_video"]').removeClass('selected3');
+                $('.up-tabs-elem[data-id="toggle_video"]').attr('data-state', '0');
+                window.exercisesFilter['video_isanimation'] = '1';
+                delete window.exercisesFilter['video_watched'];
+                delete window.exercisesFilter['video_watched_not'];
+                delete window.exercisesFilter['video_isvideo'];
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            } else {
+                delete window.exercisesFilter['video_isanimation'];
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            }
             break;
         case "toggle_favorite":
             if (!state && !$('.up-tabs-elem[data-id="toggle_favorite"]').hasClass('filtering')) {
@@ -319,7 +387,6 @@ function ToggleUpFilter(id, state) {
                 LoadFolderExercises();
                 CountExsInFolder();
             } else {
-                $('.up-tabs-elem[data-id="goal_big"]').removeClass('filtering');
                 delete window.exercisesFilter['goal_big'];
                 for (ind in window.count_exs_calls) {
                     window.count_exs_calls[ind]['call'].abort();
@@ -339,7 +406,6 @@ function ToggleUpFilter(id, state) {
                 LoadFolderExercises();
                 CountExsInFolder();
             } else {
-                $('.up-tabs-elem[data-id="goal_small"]').removeClass('filtering');
                 delete window.exercisesFilter['goal_small'];
                 for (ind in window.count_exs_calls) {
                     window.count_exs_calls[ind]['call'].abort();
@@ -362,7 +428,6 @@ function ToggleUpFilter(id, state) {
                 LoadFolderExercises();
                 CountExsInFolder();
             } else {
-                $('.up-tabs-elem[data-id="ball"]').removeClass('filtering');
                 delete window.exercisesFilter['ball'];
                 for (ind in window.count_exs_calls) {
                     window.count_exs_calls[ind]['call'].abort();

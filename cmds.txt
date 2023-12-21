@@ -61,3 +61,24 @@ https://docs.locust.io/en/stable/running-distributed.html
 https://www.sphinx-doc.org/en/master/usage/installation.html#windows
 // Запуск из папки "docs"
 
+
+
+
+
+UPDATE `exercises_userexercise` SET `field_categories`= REPLACE(`field_categories`, 'u_small', 'u_big')
+WHERE `field_categories` LIKE '%u_small%';
+
+UPDATE `exercises_userexercise` SET `field_goal`= REPLACE(`field_goal`, '"g"', '"g_small"')
+WHERE `field_goal` LIKE '%"g"%';
+
+UPDATE `exercises_userexercise` SET `field_goal`= REPLACE(`field_goal`, '"g + g"', '"g_small"')
+WHERE `field_goal` LIKE '%"g + g"%';
+
+UPDATE `exercises_userexercise` SET `field_goal`= REPLACE(`field_goal`, '"G + g"', '"g_small g_big"')
+WHERE `field_goal` LIKE '%"G + g"%';
+
+UPDATE `exercises_userexercise` SET `field_goal`= REPLACE(`field_goal`, '"G + G"', '"g_big"')
+WHERE `field_goal` LIKE '%"G + G"%';
+
+UPDATE `exercises_userexercise` SET `field_goal`= REPLACE(`field_goal`, '"G"', '"g_small"')
+WHERE `field_goal` LIKE '%"G"%';
