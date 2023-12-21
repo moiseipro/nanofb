@@ -365,6 +365,10 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
     filter_players = -1
     filter_pro = -1
     filter_u_big = -1
+    filter_video_watched = -1
+    filter_video_watched_not = -1
+    filter_video_isvideo = -1
+    filter_video_isanimation = -1
     try:
         if req.method == "GET":
             filter_goal_big = int(req.GET.get("filter[goal_big]", -1))
@@ -455,6 +459,34 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             filter_u_big = int(req.GET.get("filter[u_big]", -1))
         elif req.method == "POST":
             filter_u_big = int(req.POST.get("filter[u_big]", -1))
+    except:
+        pass
+    try:
+        if req.method == "GET":
+            filter_video_watched = int(req.GET.get("filter[video_watched]", -1))
+        elif req.method == "POST":
+            filter_video_watched = int(req.POST.get("filter[video_watched]", -1))
+    except:
+        pass
+    try:
+        if req.method == "GET":
+            filter_video_watched_not = int(req.GET.get("filter[video_watched_not]", -1))
+        elif req.method == "POST":
+            filter_video_watched_not = int(req.POST.get("filter[video_watched_not]", -1))
+    except:
+        pass
+    try:
+        if req.method == "GET":
+            filter_video_isvideo = int(req.GET.get("filter[video_isvideo]", -1))
+        elif req.method == "POST":
+            filter_video_isvideo = int(req.POST.get("filter[video_isvideo]", -1))
+    except:
+        pass
+    try:
+        if req.method == "GET":
+            filter_video_isanimation = int(req.GET.get("filter[video_isanimation]", -1))
+        elif req.method == "POST":
+            filter_video_isanimation = int(req.POST.get("filter[video_isanimation]", -1))
     except:
         pass
     f_exercises = []
@@ -583,6 +615,28 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
     if filter_u_big != -1:
         f_exercises = f_exercises.filter(
             Q(field_categories__icontains="u_big") 
+        )
+    if filter_video_watched != -1:
+        f_exercises = f_exercises.filter(
+            Q(
+                Q(userexerciseparam__video_1_watched=True) |
+                Q(userexerciseparam__animation_1_watched=True)
+            )
+        )
+    if filter_video_watched_not != -1:
+        f_exercises = f_exercises.filter(
+            Q(
+                Q(Q(userexerciseparam__video_1_watched=False) | Q(userexerciseparam__video_1_watched__isnull=True)) &
+                Q(Q(userexerciseparam__animation_1_watched=False) | Q(userexerciseparam__animation_1_watched__isnull=True))
+            )
+        )
+    if filter_video_isvideo != -1:
+        f_exercises = f_exercises.filter(
+            Q(exercisevideo__video__note__video=True)
+        )
+    if filter_video_isanimation != -1:
+        f_exercises = f_exercises.filter(
+            Q(exercisevideo__video__note__animation=True)
         )
     if count_for_tag:
         f_exercises = f_exercises.filter(tags__lowercase_name__in=[count_for_tag]).distinct()
