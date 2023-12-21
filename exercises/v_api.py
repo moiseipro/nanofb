@@ -618,26 +618,22 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
         )
     if filter_video_watched != -1:
         f_exercises = f_exercises.filter(
-            Q(
-                Q(userexerciseparam__video_1_watched=True) |
-                Q(userexerciseparam__animation_1_watched=True)
-            )
+            Q(userexerciseparam__video_1_watched=True)
         ).distinct()
     if filter_video_watched_not != -1:
         f_exercises = f_exercises.filter(
             Q(
-                Q(Q(userexerciseparam__video_1_watched=False) | Q(userexerciseparam__video_1_watched__isnull=True)) &
-                Q(Q(userexerciseparam__animation_1_watched=False) | Q(userexerciseparam__animation_1_watched__isnull=True))
+                Q(Q(userexerciseparam__video_1_watched=False) | Q(userexerciseparam__video_1_watched__isnull=True))
             )
         ).distinct()
     if filter_video_isvideo != -1:
         f_exercises = f_exercises.filter(
             Q(exercisevideo__video__note__video=True)
-        )
+        ).distinct()
     if filter_video_isanimation != -1:
         f_exercises = f_exercises.filter(
             Q(exercisevideo__video__note__animation=True)
-        )
+        ).distinct()
     if count_for_tag:
         f_exercises = f_exercises.filter(tags__lowercase_name__in=[count_for_tag]).distinct()
 
