@@ -160,18 +160,6 @@ function RenderFolderExercises(id, tExs) {
                             ${exElem.title == "" ? "-- None --" : exElem.title}
                         </span>
                     </span>
-                    ${exElem.has_video_1 == true ? `
-                        <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.video_1_watched == true ? 'selected' : ''}" data-type="marker" data-id="video_1_watched" data-watched="${exElem.video_1_watched == true ? '1' : '0'}" style="--w-x:20px; --h-x:24px;" title="Видео">
-                            <input type="checkbox" class="video-check" value="" ${exElem.video_1_watched == true ? 'checked' : ''}>
-                            <span class="label">V</span>
-                        </button>
-                    ` : ''}
-                    ${exElem.has_animation_1 == true ? `
-                        <button type="button" class="btn btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.animation_1_watched == true ? 'selected' : ''}" data-type="marker" data-id="animation_1_watched" data-watched="${exElem.animation_1_watched == true ? '1' : '0'}" style="--w-x:20px; --h-x:24px;" title="Анимация">
-                            <input type="checkbox" class="video-check" value="" ${exElem.animation_1_watched == true ? 'checked' : ''}>
-                            <span class="label">A</span>
-                        </button>
-                    ` : ''}
                     <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.favorite == true ? 'selected' : ''}" data-type="marker" data-id="favorite" style="--w-x:24px; min-width: 38px; --h-x:24px;" title="Избранное">
                         <span class="icon-custom ${exElem.favorite == true ? 'icon--favorite-selected' : 'icon--favorite'}" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                     </button>
