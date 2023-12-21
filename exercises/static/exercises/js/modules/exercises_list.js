@@ -414,25 +414,7 @@ function ToggleIconsInExs() {
     $('.exercises-block').find(`[data-type="icons"][data-id="lang"]`).toggleClass('d-none', !isActiveLang);
 }
 function ToggleMarkersInExs() {
-    let isActiveWatched = $('.up-tabs-elem[data-id="toggle_watched"]').attr('data-state') == "1";
-    let isActiveNotWatched = $('.up-tabs-elem[data-id="toggle_watched_not"]').attr('data-state') == "1";
-    let isActiveVideo = $('.up-tabs-elem[data-id="toggle_video"]').attr('data-state') == "1";
-    let isActiveAnimation = $('.up-tabs-elem[data-id="toggle_animation"]').attr('data-state') == "1";
     let isActiveFavorite = $('.up-tabs-elem[data-id="toggle_favorite"]').attr('data-state') == "1";
-
-    $('.exercises-block').find(`[data-type="marker"][data-id!="favorite"]`).addClass('d-none');
-    if (isActiveWatched) {
-        $('.exercises-block').find(`[data-type="marker"][data-id!="favorite"][data-watched="1"]`).removeClass('d-none');
-    }
-    if (isActiveNotWatched) {
-        $('.exercises-block').find(`[data-type="marker"][data-id!="favorite"][data-watched="0"]`).removeClass('d-none');
-    }
-    if (isActiveVideo) {
-        $('.exercises-block').find(`[data-type="marker"][data-id="video_1_watched"]`).removeClass('d-none');
-    }
-    if (isActiveAnimation) {
-        $('.exercises-block').find(`[data-type="marker"][data-id="animation_1_watched"]`).removeClass('d-none');
-    }
     $('.exercises-block').find(`[data-type="marker"][data-id="favorite"]`).toggleClass('d-none', !isActiveFavorite);
 }
 
