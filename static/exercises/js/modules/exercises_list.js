@@ -696,7 +696,7 @@ $(function() {
 
     // Toggle folders:
     $('#toggleFoldersViews').on('click', (e) => {
-        if ($('#toggleDescriptionInFolders').hasClass('selected3')) {
+        if (!$('.folders-block').find('.description-container').hasClass('d-none')) {
             $('#toggleDescriptionInFolders').removeClass('c-active');
             $('#toggleDescriptionInFolders').removeClass('selected3');
             $('#toggleDescriptionInFolders').attr('data-state', '0');
@@ -714,7 +714,7 @@ $(function() {
             $(e.currentTarget).toggleClass('selected3', $(e.currentTarget).attr('data-state') != "0");
             return;
         }
-        if ($('#toggleCardInFolders').hasClass('selected3')) {
+        if (!$('.folders-block').find('.card-container').hasClass('d-none')) {
             $('#toggleCardInFolders').removeClass('c-active');
             $('#toggleCardInFolders').removeClass('selected3');
             $('#toggleCardInFolders').attr('data-state', '0');
@@ -765,7 +765,7 @@ $(function() {
     window.split_sizes_tempo = [];
     $('#toggleDescriptionInFolders').on('click', (e) => {
         let activeExs = $('.exs-list-group').find('.list-group-item.active');
-        if ($(activeExs).length == 0) {
+        if ($(activeExs).length == 0 && $('.folders-block').find('.description-container').hasClass('d-none')) {
             $(e.currentTarget).attr('data-state', '0');
             $(e.currentTarget).removeClass("c-active");
             $(e.currentTarget).removeClass("selected3");
