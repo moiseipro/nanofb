@@ -622,9 +622,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
         ).distinct()
     if filter_video_watched_not != -1:
         f_exercises = f_exercises.filter(
-            Q(
-                Q(Q(userexerciseparam__video_1_watched=False) | Q(userexerciseparam__video_1_watched__isnull=True))
-            )
+            Q(userexerciseparam__video_1_watched=False)
         ).distinct()
     if filter_video_isvideo != -1:
         f_exercises = f_exercises.filter(
