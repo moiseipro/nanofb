@@ -56,6 +56,10 @@
     max-height: var(--h-max-x) !important;
 }
 
+.py-custom-1 {
+    padding-top: 0.15rem !important;
+    padding-bottom: 0.15rem !important;
+}
 
 .row-select.active > .row-select-td {
     background-color: #007bff;
@@ -136,8 +140,9 @@
 }
 
 .bck-light-gray {
-    background-color: #cecece;
+    background-color: #bebebe !important;
 }
+
 .ml-custom-10 {
     margin-left: 10rem !important;
 }
@@ -300,8 +305,8 @@
     opacity: 0.9;
 }
 .btn-custom.selected3 {
-    background-color: #e846462b !important;
-    border-color: #e84646 !important;
+    background-color: #fff1cb !important;
+    border-color: #f4b536 !important;
     font-weight: 700;
     opacity: 0.9;
     border-width: 2px;
@@ -341,7 +346,7 @@
 }
 
 .bck-custom {
-    color: #5a6268 !important;
+    color: #2d2d2d !important;
     border: 2px solid rgb(100, 100, 100) !important;
 }
 tr.bck-custom > td {
@@ -560,6 +565,12 @@ a.text-dark:hover {
     border-top: 1px solid rgb(100, 100, 100) !important;
     border-bottom: 1px solid rgb(100, 100, 100) !important;
 }
+.border-top-light {
+    border-top: 3px solid rgb(250, 250, 250) !important;
+}
+.border-top-dark {
+    border-top: 3px solid rgb(100, 100, 100) !important;
+}
 
 
 .carousel-nav-icon-custom {
@@ -756,14 +767,3 @@ button.custom-disabled:hover {
 .carousel-item.description-item {
     overflow-y: auto;
 }
-
-
-.bck-light-blue {
-    background-color: #b0daff !important;
-    border: 2px solid !important;
-}
-.bck-light-yellow {
-    background-color: #fff8b0 !important;
-    border: 2px solid !important;
-}
-

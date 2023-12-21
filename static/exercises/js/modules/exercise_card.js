@@ -76,6 +76,8 @@ function ToggleEditFields(flag) {
     $('#exerciseCard').find('.physical-qualities-list > button').toggleClass('custom-disabled', !flag);
     $('#exerciseCard').find('.cognitive-load-list > button').toggleClass('custom-disabled', !flag);
 
+    $('#exerciseCard').find('tr.btn-fields').find('button').toggleClass('custom-disabled', !flag);
+
     $('#exerciseCard').find('tr.folder-container').toggleClass('d-none', !flag);
 
     window.onlyViewMode = !flag;
@@ -277,20 +279,35 @@ function RenderExerciseOne(data) {
         //     }
         // } catch(e) {}
         try {
-            $(exsCard).find(`.categories-list > button`).removeClass('active');
+            // $(exsCard).find(`.categories-list > button`).removeClass('active');
+            // for (let i = 0; i < data.field_categories.length; i++) {
+            //     let cId = data.field_categories[i];
+            //     $(exsCard).find(`.categories-list > button[data-id="${cId}"]`).addClass('active');
+            // }
+            $(exsCard).find('tr.btn-fields').find('button[data-id="category"]').removeClass('selected3');
             for (let i = 0; i < data.field_categories.length; i++) {
                 let cId = data.field_categories[i];
-                $(exsCard).find(`.categories-list > button[data-id="${cId}"]`).addClass('active');
+                $(exsCard).find('tr.btn-fields').find(`button[data-id="category"][data-val="${cId}"]`).addClass('selected3');
             }
+            
         } catch(e) {}
         try {
             let ballShort = $(exsCard).find('.exs_edit_field[name="ref_ball"]').find(`option[value="${data.ref_ball}"]`).attr('data-short');
-            $(exsCard).find('.ball-gates-list > button[data-id="ball"]').toggleClass('active', ballShort == "true");
+            // $(exsCard).find('.ball-gates-list > button[data-id="ball"]').toggleClass('active', ballShort == "true");
+            $(exsCard).find('tr.btn-fields').find('button[data-id="ball"]').removeClass('selected3');
+            $(exsCard).find('tr.btn-fields').find(`button[data-id="ball"][data-val="${ballShort}"]`).addClass('selected3');
         } catch(e) {}
         try {
-            $(exsCard).find('.ball-gates-list > button[data-id="gate"]').removeClass('active');
-            $(exsCard).find(`.ball-gates-list > button[data-id="gate"][data-val="${data.field_goal}"]`).addClass('active');
-            $(exsCard).find(`.ball-gates-list > button[data-id="goalkeeper"][data-val="${data.field_goalkeeper}"]`).addClass('active');
+            // $(exsCard).find('.ball-gates-list > button[data-id="gate"]').removeClass('active');
+            // $(exsCard).find(`.ball-gates-list > button[data-id="gate"][data-val="${data.field_goal}"]`).addClass('active');
+            // $(exsCard).find(`.ball-gates-list > button[data-id="goalkeeper"][data-val="${data.field_goalkeeper}"]`).addClass('active');
+            $(exsCard).find('tr.btn-fields').find('button[data-id="gate"]').removeClass('selected3');
+            if (data.field_goal.includes('g_small')) {
+                $(exsCard).find('tr.btn-fields').find('button[data-id="gate"][data-val="g_small"]').addClass('selected3');
+            }
+            if (data.field_goal.includes('g_big')) {
+                $(exsCard).find('tr.btn-fields').find('button[data-id="gate"][data-val="g_big"]').addClass('selected3');
+            }
         } catch(e) {}
 
         try {
@@ -880,8 +897,11 @@ function SaveExerciseOne() {
     // dataToSend.data['field_keywords'] = selectedKeywords;
 
     let selectedCategories = [];
-    $('#exerciseCard').find('.categories-list > button.active').each((ind, elem) => {
-        selectedCategories.push($(elem).attr('data-id')); 
+    // $('#exerciseCard').find('.categories-list > button.active').each((ind, elem) => {
+    //     selectedCategories.push($(elem).attr('data-id')); 
+    // });
+    $('#exerciseCard').find('tr.btn-fields').find('button.selected3[data-id="category"]').each((ind, elem) => {
+        selectedCategories.push($(elem).attr('data-val')); 
     });
     dataToSend.data['field_categories'] = selectedCategories;
 
@@ -908,8 +928,6 @@ function SaveExerciseOne() {
         selectedFields.push($(elem).attr('data-id')); 
     });
     dataToSend.data['field_fields'] = selectedFields;
-
-    
 
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
@@ -2415,6 +2433,28 @@ $(function() {
         if ($('#editExs').length > 0 && $('#editExs').attr('data-active') == '1' || $('button.edit-exercise.selected[data-id="card"]').length > 0) {
             $('#exerciseCard').find('.cognitive-load-list > button').removeClass('active');
             $(e.currentTarget).toggleClass('active', !isActive);
+        }
+    });
+
+    $('#exerciseCard').on('click', 'tr.btn-fields > td > button', (e) => {
+        if ($(e.currentTarget).hasClass('custom-disabled')) {return;}
+        let cId = $(e.currentTarget).attr('data-id');
+        let isActive = $(e.currentTarget).hasClass('selected3');
+        let cVal = $(e.currentTarget).attr('data-val');
+        if (cId == "ball") {
+            let val = $('#exerciseCard').find('.exs_edit_field[name="ref_ball"]').find(`option[data-short="${cVal}"]`).attr('value');
+            $('#exerciseCard').find('.exs_edit_field[name="ref_ball"]').val(val);
+            $('#exerciseCard').find('tr.btn-fields').find('button[data-id="ball"]').removeClass('selected3');
+            $(e.currentTarget).addClass('selected3');
+        } else if (cId == "gate") {
+            $(e.currentTarget).toggleClass('selected3', !isActive);
+            let val = "";
+            $('#exerciseCard').find('tr.btn-fields').find('button.selected3[data-id="gate"]').each((index, elem) => {
+                val += $(elem).attr('data-val');
+            });
+            $('#exerciseCard').find('.exs_edit_field[name="field_goal"]').val(val);
+        } else if (cId == "category") {
+            $(e.currentTarget).toggleClass('selected3', !isActive);
         }
     });
 

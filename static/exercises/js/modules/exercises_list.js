@@ -142,18 +142,6 @@ function RenderFolderExercises(id, tExs) {
         try {
             fieldKeywordSecond = exElem.field_keyword_b;
         } catch(e) {}
-        let isPRO = false;
-        try {
-            isPRO = exElem.field_categories.includes("pro");
-        } catch(e) {}
-        let isUBig = false;
-        try {
-            isUBig = exElem.field_categories.includes("u_big");
-        } catch(e) {}
-        let isUSmall = false;
-        try {
-            isUSmall = exElem.field_categories.includes("u_small");
-        } catch(e) {}
         let isField = false;
         try {
             isField = exElem.field_fields[0];
@@ -204,24 +192,6 @@ function RenderFolderExercises(id, tExs) {
                             `}
                         </div>
                     </button>
-                    ${exElem.ref_ball_id == 1 ? `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="ball" style="--w-x:24px; min-width: 38px; --h-x:24px;" disabled="">
-                            <span class="icon-custom icon--ball" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
-                        </button>
-                    ` : `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="ball" style="--w-x:24px; min-width: 38px; --h-x:24px;" disabled="">
-                            -
-                        </button>
-                    `}
-                    ${exElem.field_goal && exElem.field_goal != "" ? `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="goal" style="--w-x:24px; min-width: 54px; --h-x:24px;" disabled="">
-                            ${exElem.field_goal}
-                        </button>
-                    ` : `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="goal" style="--w-x:24px; min-width: 54px; --h-x:24px;" disabled="">
-                            -
-                        </button>
-                    `}
                     ${((fieldKeywordFirst && fieldKeywordFirst != "") || (fieldKeywordSecond && fieldKeywordSecond != "")) ? `
                         <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="keywords" style="--w-x:24px; min-width: 150px; --h-x:24px;" disabled="">
                             <div class="row w-100">
@@ -237,33 +207,6 @@ function RenderFolderExercises(id, tExs) {
                                     ...
                                 </div>
                             </div>
-                        </button>
-                    `}
-                    ${isPRO ? `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="pro" style="--w-x:24px; min-width: 40px; --h-x:24px;" disabled="">
-                            PRO
-                        </button>
-                    ` : `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="pro" style="--w-x:24px; min-width: 40px; --h-x:24px;" disabled="">
-                            ...
-                        </button>
-                    `}
-                    ${isUBig ? `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="u_big" style="--w-x:24px; min-width: 40px; --h-x:24px;" disabled="">
-                            U
-                        </button>
-                    ` : `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="u_big" style="--w-x:24px; min-width: 40px; --h-x:24px;" disabled="">
-                            ...
-                        </button>
-                    `}
-                    ${isUSmall ? `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="u_small" style="--w-x:24px; min-width: 40px; --h-x:24px;" disabled="">
-                            u
-                        </button>
-                    ` : `
-                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="u_small" style="--w-x:24px; min-width: 40px; --h-x:24px;" disabled="">
-                            ...
                         </button>
                     `}
                     ${isField ? `
@@ -452,12 +395,7 @@ function RenderExerciseOne(data) {
 
 function ToggleIconsInExs() {
     let isActivePlayers = $('.up-tabs-elem[data-id="players"]').attr('data-state') == "1";
-    let isActiveGoal = $('.up-tabs-elem[data-id="goal"]').attr('data-state') == "1";
-    let isActiveBall = $('.up-tabs-elem[data-id="ball"]').attr('data-state') == "1";
     let isActiveKeywords = $('.up-tabs-elem[data-id="keywords"]').attr('data-state') == "1";
-    let isActivePro = $('.up-tabs-elem[data-id="toggle_pro"]').attr('data-state') == "1";
-    let isActiveUBig = $('.up-tabs-elem[data-id="toggle_u_big"]').attr('data-state') == "1";
-    let isActiveUSmall = $('.up-tabs-elem[data-id="toggle_u_small"]').attr('data-state') == "1";
     let isActiveField = $('.up-tabs-elem[data-id="toggle_field"]').attr('data-state') == "1";
     let isActiveIQ = $('.up-tabs-elem[data-id="toggle_iq"]').attr('data-state') == "1";
 
@@ -467,12 +405,7 @@ function ToggleIconsInExs() {
     $('.exercises-block').find(`[data-type="icons"]`).toggleClass('d-none', true);
 
     $('.exercises-block').find(`[data-type="icons"][data-id="players"]`).toggleClass('d-none', !isActivePlayers);
-    $('.exercises-block').find(`[data-type="icons"][data-id="goal"]`).toggleClass('d-none', !isActiveGoal);
-    $('.exercises-block').find(`[data-type="icons"][data-id="ball"]`).toggleClass('d-none', !isActiveBall);
     $('.exercises-block').find(`[data-type="icons"][data-id="keywords"]`).toggleClass('d-none', !isActiveKeywords);
-    $('.exercises-block').find(`[data-type="icons"][data-id="pro"]`).toggleClass('d-none', !isActivePro);
-    $('.exercises-block').find(`[data-type="icons"][data-id="u_big"]`).toggleClass('d-none', !isActiveUBig);
-    $('.exercises-block').find(`[data-type="icons"][data-id="u_small"]`).toggleClass('d-none', !isActiveUSmall);
     $('.exercises-block').find(`[data-type="icons"][data-id="field"]`).toggleClass('d-none', !isActiveField);
     $('.exercises-block').find(`[data-type="icons"][data-id="iq"]`).toggleClass('d-none', !isActiveIQ);
 

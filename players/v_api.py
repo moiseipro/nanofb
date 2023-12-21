@@ -153,7 +153,7 @@ def POST_edit_player(request, cur_user, cur_team):
             players_add_limit_amount = 0
             try:
                 players_add_limit_amount = request.user.club_id.player_limit
-                players_add_limit_flag = ClubPlayer.objects.filter(team=cur_team).count() < players_add_limit_amount
+                players_add_limit_flag = ClubPlayer.objects.filter(team=cur_team, is_archive=False).count() < players_add_limit_amount
             except:
                 pass
             if not players_add_limit_flag:
@@ -172,7 +172,7 @@ def POST_edit_player(request, cur_user, cur_team):
             players_add_limit_amount = 0
             try:
                 players_add_limit_amount = cur_user.player_limit
-                players_add_limit_flag = UserPlayer.objects.filter(user=cur_user, team=cur_team).count() < players_add_limit_amount
+                players_add_limit_flag = UserPlayer.objects.filter(user=cur_user, team=cur_team, is_archive=False).count() < players_add_limit_amount
             except:
                 pass
             if not players_add_limit_flag:
