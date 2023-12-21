@@ -803,7 +803,7 @@ $(function() {
     });
     $('#toggleCardInFolders').on('click', (e) => {
         let activeExs = $('.exs-list-group').find('.list-group-item.active');
-        if ($(activeExs).length == 0) {
+        if ($(activeExs).length == 0 && $('.folders-block').find('.card-container').hasClass('d-none')) {
             $(e.currentTarget).attr('data-state', '0');
             $(e.currentTarget).removeClass("c-active");
             $(e.currentTarget).removeClass("selected3");
