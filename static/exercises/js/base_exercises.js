@@ -376,37 +376,18 @@ function ToggleUpFilter(id, state) {
             }
             ToggleMarkersInExs();
             break;
-        case "goal_big":
+        case "goal":
             if (state) {
-                $('.up-tabs-elem[data-id="goal_big"]').addClass('selected3');
-                $('.up-tabs-elem[data-id="goal_big"]').attr('data-state', 1);
-                window.exercisesFilter['goal_big'] = '1';
+                $('.up-tabs-elem[data-id="goal"]').addClass('selected3');
+                $('.up-tabs-elem[data-id="goal"]').attr('data-state', 1);
+                window.exercisesFilter['goal'] = '1';
                 for (ind in window.count_exs_calls) {
                     window.count_exs_calls[ind]['call'].abort();
                 }
                 LoadFolderExercises();
                 CountExsInFolder();
             } else {
-                delete window.exercisesFilter['goal_big'];
-                for (ind in window.count_exs_calls) {
-                    window.count_exs_calls[ind]['call'].abort();
-                }
-                LoadFolderExercises();
-                CountExsInFolder();
-            }
-            break;
-        case "goal_small":
-            if (state) {
-                $('.up-tabs-elem[data-id="goal_small"]').addClass('selected3');
-                $('.up-tabs-elem[data-id="goal_small"]').attr('data-state', 1);
-                window.exercisesFilter['goal_small'] = '1';
-                for (ind in window.count_exs_calls) {
-                    window.count_exs_calls[ind]['call'].abort();
-                }
-                LoadFolderExercises();
-                CountExsInFolder();
-            } else {
-                delete window.exercisesFilter['goal_small'];
+                delete window.exercisesFilter['goal'];
                 for (ind in window.count_exs_calls) {
                     window.count_exs_calls[ind]['call'].abort();
                 }
@@ -2038,10 +2019,7 @@ $(function() {
                     swal("Ошибка", `При изменении параметра произошла ошибка (${res.err}).`, "error");
                 } else {
                     if (cId == "watched") {
-                        $(currentTarget).parent().find('button[data-type="marker"][data-id="watched_not"]').toggleClass('selected', false);
-                    }
-                    if (cId == "watched_not") {
-                        $(currentTarget).parent().find('button[data-type="marker"][data-id="watched"]').toggleClass('selected', false);
+                        LoadFolderExercises();
                     }
                     if (cId == "like") {
                         $(currentTarget).parent().find('button[data-type="marker"][data-id="dislike"]').toggleClass('selected', false);

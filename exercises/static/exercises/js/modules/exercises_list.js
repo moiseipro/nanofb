@@ -150,6 +150,14 @@ function RenderFolderExercises(id, tExs) {
         try {
             isIQ = exElem.field_cognitive_loads[0].toUpperCase().replace('_', '-');
         } catch(e) {}
+        let isGoalBig = false;
+        let isGoalSmall = false;
+        try {
+            isGoalBig = exElem.field_goal.includes('g_big');
+        } catch(e) {}
+        try {
+            isGoalSmall = exElem.field_goal.includes('g_small');
+        } catch(e) {}
         exsHtml += `
         <li class="exs-elem list-group-item py-1 px-0 ${exElem.clone_nfb_id ? 'nf-cloned' : ''} ${exElem.blocked ? 'exs-blocked' : ''}" data-id="${exElem.id}" data-folder="${exElem.folder}">
             <div class="row w-100">
@@ -160,8 +168,21 @@ function RenderFolderExercises(id, tExs) {
                             ${exElem.title == "" ? "-- None --" : exElem.title}
                         </span>
                     </span>
-                    <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.favorite == true ? 'selected' : ''}" data-type="marker" data-id="favorite" style="--w-x:24px; min-width: 38px; --h-x:24px;" title="Избранное">
+                    <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.favorite ? 'selected' : ''}" data-type="marker" data-id="favorite" style="--w-x:24px; min-width: 38px; --h-x:24px;" title="Избранное">
                         <span class="icon-custom ${exElem.favorite == true ? 'icon--favorite-selected' : 'icon--favorite'}" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
+                    </button>
+                    ${isGoalBig ? `
+                    <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x" data-type="marker" data-id="goal" title="Ворота">
+                        <span class=""> G </span>
+                    </button>
+                    ` : ``}
+                    ${isGoalSmall ? `
+                    <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x" data-type="marker" data-id="goal" title="Ворота">
+                        <span class=""> g </span>
+                    </button>
+                    ` : ``}
+                    <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.video_1_watched ? 'selected' : ''}" data-type="marker" data-id="watched" title="Смотрел / Не смотрел">
+                        <input type="checkbox" class="form-check-input" ${exElem.video_1_watched ? 'checked=""': ''}>
                     </button>
                     <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="players" style="--w-x:24px; min-width: 54px; --h-x:24px;" disabled="">
                         <div class="row w-100">
@@ -403,7 +424,12 @@ function ToggleIconsInExs() {
 }
 function ToggleMarkersInExs() {
     let isActiveFavorite = $('.up-tabs-elem[data-id="toggle_favorite"]').attr('data-state') == "1";
+    let isActiveGoal = $('.up-tabs-elem[data-id="goal"]').attr('data-state') == "1";
+    let isActiveWatched = $('.up-tabs-elem[data-id="toggle_watched"]').attr('data-state') == "1";
+    let isActiveWatchedNot = $('.up-tabs-elem[data-id="toggle_watched_not"]').attr('data-state') == "1";
     $('.exercises-block').find(`[data-type="marker"][data-id="favorite"]`).toggleClass('d-none', !isActiveFavorite);
+    $('.exercises-block').find(`[data-type="marker"][data-id="goal"]`).toggleClass('d-none', !isActiveGoal);
+    $('.exercises-block').find(`[data-type="marker"][data-id="watched"]`).toggleClass('d-none', !(isActiveWatched || isActiveWatchedNot));
 }
 
 function PauseCountExsCalls(currentCall) {
