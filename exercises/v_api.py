@@ -1760,6 +1760,14 @@ def POST_edit_exs_user_params(request, cur_user, cur_team):
                 new_params = UserExerciseParam(exercise_nfb=c_exs[0], user=cur_user)
             elif folder_type == utils.FOLDER_CLUB:
                 new_params = UserExerciseParam(exercise_club=c_exs[0], user=cur_user)
+            if post_key == "like":
+                c_exs_params.dislike = 0
+                post_value = 1
+            if post_key == "dislike":
+                c_exs_params.like = 0
+                post_value = 1
+            if post_key == "watched":
+                post_key = "video_1_watched"
             if post_key == "favorite":
                 c_exs = c_exs[0]
                 for video in c_exs.videos.all():
