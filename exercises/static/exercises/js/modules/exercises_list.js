@@ -160,18 +160,6 @@ function RenderFolderExercises(id, tExs) {
                             ${exElem.title == "" ? "-- None --" : exElem.title}
                         </span>
                     </span>
-                    ${exElem.has_video_1 == true ? `
-                        <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.video_1_watched == true ? 'selected' : ''}" data-type="marker" data-id="video_1_watched" data-watched="${exElem.video_1_watched == true ? '1' : '0'}" style="--w-x:20px; --h-x:24px;" title="Видео">
-                            <input type="checkbox" class="video-check" value="" ${exElem.video_1_watched == true ? 'checked' : ''}>
-                            <span class="label">V</span>
-                        </button>
-                    ` : ''}
-                    ${exElem.has_animation_1 == true ? `
-                        <button type="button" class="btn btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.animation_1_watched == true ? 'selected' : ''}" data-type="marker" data-id="animation_1_watched" data-watched="${exElem.animation_1_watched == true ? '1' : '0'}" style="--w-x:20px; --h-x:24px;" title="Анимация">
-                            <input type="checkbox" class="video-check" value="" ${exElem.animation_1_watched == true ? 'checked' : ''}>
-                            <span class="label">A</span>
-                        </button>
-                    ` : ''}
                     <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.favorite == true ? 'selected' : ''}" data-type="marker" data-id="favorite" style="--w-x:24px; min-width: 38px; --h-x:24px;" title="Избранное">
                         <span class="icon-custom ${exElem.favorite == true ? 'icon--favorite-selected' : 'icon--favorite'}" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                     </button>
@@ -414,25 +402,7 @@ function ToggleIconsInExs() {
     $('.exercises-block').find(`[data-type="icons"][data-id="lang"]`).toggleClass('d-none', !isActiveLang);
 }
 function ToggleMarkersInExs() {
-    let isActiveWatched = $('.up-tabs-elem[data-id="toggle_watched"]').attr('data-state') == "1";
-    let isActiveNotWatched = $('.up-tabs-elem[data-id="toggle_watched_not"]').attr('data-state') == "1";
-    let isActiveVideo = $('.up-tabs-elem[data-id="toggle_video"]').attr('data-state') == "1";
-    let isActiveAnimation = $('.up-tabs-elem[data-id="toggle_animation"]').attr('data-state') == "1";
     let isActiveFavorite = $('.up-tabs-elem[data-id="toggle_favorite"]').attr('data-state') == "1";
-
-    $('.exercises-block').find(`[data-type="marker"][data-id!="favorite"]`).addClass('d-none');
-    if (isActiveWatched) {
-        $('.exercises-block').find(`[data-type="marker"][data-id!="favorite"][data-watched="1"]`).removeClass('d-none');
-    }
-    if (isActiveNotWatched) {
-        $('.exercises-block').find(`[data-type="marker"][data-id!="favorite"][data-watched="0"]`).removeClass('d-none');
-    }
-    if (isActiveVideo) {
-        $('.exercises-block').find(`[data-type="marker"][data-id="video_1_watched"]`).removeClass('d-none');
-    }
-    if (isActiveAnimation) {
-        $('.exercises-block').find(`[data-type="marker"][data-id="animation_1_watched"]`).removeClass('d-none');
-    }
     $('.exercises-block').find(`[data-type="marker"][data-id="favorite"]`).toggleClass('d-none', !isActiveFavorite);
 }
 
@@ -726,7 +696,7 @@ $(function() {
 
     // Toggle folders:
     $('#toggleFoldersViews').on('click', (e) => {
-        if ($('#toggleDescriptionInFolders').hasClass('selected3')) {
+        if (!$('.folders-block').find('.description-container').hasClass('d-none')) {
             $('#toggleDescriptionInFolders').removeClass('c-active');
             $('#toggleDescriptionInFolders').removeClass('selected3');
             $('#toggleDescriptionInFolders').attr('data-state', '0');
@@ -744,7 +714,7 @@ $(function() {
             $(e.currentTarget).toggleClass('selected3', $(e.currentTarget).attr('data-state') != "0");
             return;
         }
-        if ($('#toggleCardInFolders').hasClass('selected3')) {
+        if (!$('.folders-block').find('.card-container').hasClass('d-none')) {
             $('#toggleCardInFolders').removeClass('c-active');
             $('#toggleCardInFolders').removeClass('selected3');
             $('#toggleCardInFolders').attr('data-state', '0');
@@ -795,7 +765,7 @@ $(function() {
     window.split_sizes_tempo = [];
     $('#toggleDescriptionInFolders').on('click', (e) => {
         let activeExs = $('.exs-list-group').find('.list-group-item.active');
-        if ($(activeExs).length == 0) {
+        if ($(activeExs).length == 0 && $('.folders-block').find('.description-container').hasClass('d-none')) {
             $(e.currentTarget).attr('data-state', '0');
             $(e.currentTarget).removeClass("c-active");
             $(e.currentTarget).removeClass("selected3");
@@ -833,7 +803,7 @@ $(function() {
     });
     $('#toggleCardInFolders').on('click', (e) => {
         let activeExs = $('.exs-list-group').find('.list-group-item.active');
-        if ($(activeExs).length == 0) {
+        if ($(activeExs).length == 0 && $('.folders-block').find('.card-container').hasClass('d-none')) {
             $(e.currentTarget).attr('data-state', '0');
             $(e.currentTarget).removeClass("c-active");
             $(e.currentTarget).removeClass("selected3");
