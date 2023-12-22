@@ -65,21 +65,23 @@ function players_list_to_html(players_list = []) {
     if(players_list != null && players_list.length > 0){
         for (const player of players_list) {
             players_html += `
-                <div class="row mt-1 player-row">
-                    <div class="col-5 px-1">
-                        <input type="text" class="form-control form-control-sm border-primary rounded-0 py-0 player-name-input" value="${player.name}" style="height: 23px !important;">
-                    </div>
+                <div class="col-6">
+                    <div class="row mt-1 player-row">
+                        <div class="col-10 px-1">
+                            <input type="text" class="form-control form-control-sm border-primary rounded-0 py-0 player-name-input" value="${player.name}" style="height: 23px !important;">
+                        </div>
             `
-            for (let i = 0; i < 6; i++) {
-                players_html += `
-                    <div class="col-1 px-0">
-                        <input type="color" class="form-control form-control-sm border-primary rounded-0 p-0 player-group-input" value="${'group' in player && player.group.length > i ? player.group[i] : ''}" style="height: 23px !important;">
-                    </div>
-                `
-            }
+            // for (let i = 0; i < 6; i++) {
+            //     players_html += `
+            //         <div class="col-1 px-0">
+            //             <input type="color" class="form-control form-control-sm border-primary rounded-0 p-0 player-group-input" value="${'group' in player && player.group.length > i ? player.group[i] : ''}" style="height: 23px !important;">
+            //         </div>
+            //     `
+            // }
             players_html += `
-                    <div class="col-1 px-1">
-                        <input type="checkbox" class="form-control form-control-sm border-primary rounded-0 p-0 player-check-input" ${player.check ? 'checked' : ''} style="height: 23px !important;">
+                        <div class="col-2 px-1">
+                            <input type="checkbox" class="form-control form-control-sm border-primary rounded-0 p-0 player-check-input" ${player.check ? 'checked' : ''} style="height: 23px !important;">
+                        </div>
                     </div>
                 </div>
             `
