@@ -85,7 +85,7 @@ $(window).on('load', function (){
         //console.log(group_id)
 
         $('.exercise-data-row').addClass('d-none')
-        $('.training-data-row').removeClass('d-none')
+        // $('.training-data-row').removeClass('d-none')
 
         $('#training-content .group-filter-card').removeClass('active')
         $('#training-content .exs-filter-card').removeClass('active')
@@ -101,7 +101,7 @@ $(window).on('load', function (){
             $(`#training-content .group-filter-card[data-group="${group_id}"]`).click()
         } else {
             $('.exercise-data-row').removeClass('d-none')
-            $('.training-data-row').addClass('d-none')
+            // $('.training-data-row').addClass('d-none')
             $('#training-content .group-filter-card').removeClass('active')
             $('#training-content .exs-filter-card').removeClass('active')
             $(this).addClass('active')

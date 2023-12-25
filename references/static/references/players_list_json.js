@@ -68,7 +68,7 @@ function players_list_to_html(players_list = []) {
                 <div class="col-6">
                     <div class="row mt-1 player-row">
                         <div class="col-10 px-1">
-                            <input type="text" class="form-control form-control-sm border-primary rounded-0 py-0 player-name-input" value="${player.name}" style="height: 23px !important;">
+                            <input type="text" class="form-control form-control-sm border-primary rounded-0 py-0 player-name-input edit-input" value="${player.name}" style="height: 23px !important;" ${!edit_mode ? 'disabled' : ''}>
                         </div>
             `
             // for (let i = 0; i < 6; i++) {
@@ -80,7 +80,7 @@ function players_list_to_html(players_list = []) {
             // }
             players_html += `
                         <div class="col-2 px-1">
-                            <input type="checkbox" class="form-control form-control-sm border-primary rounded-0 p-0 player-check-input" ${player.check ? 'checked' : ''} style="height: 23px !important;">
+                            <input type="checkbox" class="form-control form-control-sm border-primary rounded-0 p-0 player-check-input edit-input" ${player.check ? 'checked' : ''} style="height: 23px !important;" ${!edit_mode ? 'disabled' : ''}>
                         </div>
                     </div>
                 </div>
