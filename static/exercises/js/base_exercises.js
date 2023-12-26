@@ -1399,7 +1399,7 @@ $(function() {
         }
         if (!$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none')) {
             $(e.currentTarget).removeClass('selected3');
-            swal("Внимание", "Отключите личные упражнения ([TR]).", "info");
+            swal("Внимание", "Отключите упражнения тренера.", "info");
             return;
         }
         let cLink = `/exercises/exercise?id=new&type=${folderType}&section=card`;

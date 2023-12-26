@@ -737,7 +737,7 @@ $(function() {
     // Toggle folders:
     $('#toggleFoldersViews').on('click', (e) => {
         if (!$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none')) {
-            swal("Внимание", "Отключите личные упражнения ([TR]).", "info");
+            swal("Внимание", "Отключите упражнения тренера.", "info");
             return;
         }
         if (!$('.folders-block').find('.description-container').hasClass('d-none')) {
