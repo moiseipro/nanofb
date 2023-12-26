@@ -2237,6 +2237,9 @@ $(function() {
     // Open graphics in modal
     $('.visual-block').on('click', '.carousel-item', (e) => {
         let folderType = $('.folders-container').find('.folders-toggle.selected').first().attr('data-id');
+        if (!$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none')) {
+            folderType = "__is_trainer";
+        }
         let id = -1;
         try {
             id = parseInt($('.exercises-block').find('.exs-elem.active').attr('data-id'));
