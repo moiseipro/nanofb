@@ -279,6 +279,25 @@ class ClubExercise(AbstractExercise):
         abstract = False
 
 
+class TrainerExercise(AbstractExercise):
+    user_name = models.CharField(
+        null=True,
+        blank=True,
+        max_length=50,
+        verbose_name=_('Surname'),
+        help_text=_('Last name')
+    )
+    user_birthdate = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name=_('Birthday'),
+        help_text=_('Date of birth')
+    )
+    videos = models.ManyToManyField(Video, through="ExerciseVideo", through_fields=("exercise_trainer", "video"))
+    class Meta(AbstractExercise.Meta):
+        abstract = False
+
+
 class ExerciseAdditionalParamValue(models.Model):
     param_nfb = models.ForeignKey(AdminExerciseAdditionalParams, on_delete=models.SET_NULL, null=True, blank=True)
     param_user = models.ForeignKey(UserExerciseAdditionalParams, on_delete=models.SET_NULL, null=True, blank=True)
@@ -293,6 +312,7 @@ class ExerciseVideo(models.Model):
     exercise_nfb = models.ForeignKey(AdminExercise, on_delete=models.CASCADE, null=True, blank=True)
     exercise_user = models.ForeignKey(UserExercise, on_delete=models.CASCADE, null=True, blank=True)
     exercise_club = models.ForeignKey(ClubExercise, on_delete=models.CASCADE, null=True, blank=True)
+    exercise_trainer = models.ForeignKey(TrainerExercise, on_delete=models.CASCADE, null=True, blank=True)
     video = models.ForeignKey(Video, on_delete=models.CASCADE, null=True, blank=True, related_name="video")
     type = models.IntegerField(
         help_text='1-2 - видео, 3-4 - анимация',
@@ -311,6 +331,7 @@ class UserExerciseParam(models.Model):
     exercise_user = models.ForeignKey(UserExercise, on_delete=models.CASCADE, null=True, blank=True)
     exercise_club = models.ForeignKey(ClubExercise, on_delete=models.CASCADE, null=True, blank=True)
     exercise_nfb = models.ForeignKey(AdminExercise, on_delete=models.CASCADE, null=True, blank=True)
+    exercise_trainer = models.ForeignKey(TrainerExercise, on_delete=models.CASCADE, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     watched = models.BooleanField(default=False)
     favorite = models.BooleanField(default=False)
@@ -340,5 +361,3 @@ class UserExerciseParamTeam(models.Model):
     note = models.JSONField(null=True, blank=True)
 
     objects = models.Manager()
-
-

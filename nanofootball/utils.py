@@ -6,6 +6,7 @@ LANG_CODE_DEFAULT = "en"
 FOLDER_TEAM = "team_folders"
 FOLDER_NFB = "nfb_folders"
 FOLDER_CLUB = "club_folders"
+FOLDER_TRAINER = "__is_trainer"
 
 
 def get_by_language_code(value, code):

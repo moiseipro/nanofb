@@ -161,6 +161,11 @@ function CountExsInFoldersByType() {
     $('.exs_counter').html(res > 0 ? `(${res})` : "(...)");
 }
 
+function CountAllExsInList() {
+    let res = $('.exercises-block').find('.exs-elem').length;
+    $('.exs_counter').html(res > 0 ? `(${res})` : "(...)");
+}
+
 
 
 $(function() {

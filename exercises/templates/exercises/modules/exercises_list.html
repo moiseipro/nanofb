@@ -73,6 +73,11 @@
                         </button>
                     </li>
                     <li class="list-group-item py-1 {% if not user.is_superuser %}d-e-nf{% endif %}">
+                        <button type="button" class="btn btn-sm btn-outline-success btn-block btn-edit-e" data-id="trainer">
+                            В Личное
+                        </button>
+                    </li>
+                    <li class="list-group-item py-1 {% if not user.is_superuser %}d-e-nf{% endif %}">
                         <button type="button" class="btn btn-sm btn-outline-danger btn-block btn-edit-e" data-id="delete">
                             Удалить
                         </button>
@@ -108,6 +113,12 @@
                 <button type="button" class="btn btn-sm btn-custom custom-blue2 up-tabs-elem folders-toggle size-w-x mt-2 ml-2 d-none" data-id="team_folders" style="--w-x:97%;">
                     <div class="">
                         <span class="text-center text-uppercase ml-2">папки "команда"</span>
+                        <span class="exs_counter float-right">(...)</span>
+                    </div>
+                </button>
+                <button type="button" class="btn btn-sm btn-custom custom-gray2 up-tabs-elem folders-toggle size-w-x mt-2 ml-2 d-none" data-id="trainer_folders" style="--w-x:97%;">
+                    <div class="">
+                        <span class="text-center text-uppercase ml-2">Личные упражнения</span>
                         <span class="exs_counter float-right">(...)</span>
                     </div>
                 </button>

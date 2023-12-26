@@ -130,6 +130,9 @@
     border-right: 2px solid black;
 }
 
+.c-hidden {
+    display: none !important;
+}
 
 .container-custom-inline {
     overflow: auto;
@@ -247,6 +250,14 @@
     background-color: #3a863c;
     border-color: #3a863c;
 }
+.btn-custom.custom-gray2 {
+    pointer-events: none;
+    text-decoration: none !important;
+    color: rgb(49, 49, 49) !important;
+    background-color: #afafaf;
+    border-color: #afafaf;
+}
+
 
 .btn-custom.custom-blue {
     color: #144eec;
