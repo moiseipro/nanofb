@@ -80,12 +80,13 @@ window.exercisesFilter = {};
 function LoadFolderExercises() {
     let activeRow = $('.folders_list').find('.list-group-item.active');
     let isClub = false;
+    let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
     if (activeRow.length <= 0) {
         activeRow = $('.folders_club_list').find('.list-group-item.active');
         isClub = true;
     }
     let activeNfbRow = $('.folders_nfb_list').find('.list-group-item.active');
-    if (activeRow.length <= 0 && activeNfbRow.length <= 0) {return;}
+    if (activeRow.length <= 0 && activeNfbRow.length <= 0 && !isTrainer) {return;}
     let isNfbExs = activeNfbRow.length > 0;
     let fType = $('.folders-block').find('.folders_div.selected').attr('data-id');
     let folderElemStr = isClub ? '.folder-club-elem' : '.folder-elem';
@@ -94,6 +95,10 @@ function LoadFolderExercises() {
     if (cFolderId in tExs) {
         RenderFolderExercises(cFolderId, tExs);
     } else {
+        if (isTrainer) {
+            cFolderId = "trainer";
+            fType = "__is_trainer";
+        }
         let data = {'get_exs_all': 1, 'folder': cFolderId, 'get_nfb': isNfbExs ? 1 : 0, 'f_type': fType, 'filter': window.exercisesFilter};
         $('.page-loader-wrapper').fadeIn();
         let tCall = $.ajax({
@@ -116,11 +121,15 @@ function LoadFolderExercises() {
             complete: function (res) {
                 $('.page-loader-wrapper').fadeOut();
                 RenderFolderExercises(cFolderId, tExs);
-                if (window.lastExercise && window.lastExercise.exs) {
-                    CountExsInFolder();
-                    window.lastExercise = null;
+                if (fType == "__is_trainer") {
+                    CountAllExsInList();
                 } else {
-                    CountExsInFolder(true, true);
+                    if (window.lastExercise && window.lastExercise.exs) {
+                        CountExsInFolder();
+                        window.lastExercise = null;
+                    } else {
+                        CountExsInFolder(true, true);
+                    }
                 }
             }
         });
@@ -305,8 +314,14 @@ function LoadExerciseOneHandler() {
     let cId = $(activeExs).attr('data-id');
     let fromNFB = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? 1 : 0;
     let folderType = $('.folders_div.selected').attr('data-id');
+    let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
+    if (isTrainer) {
+        folderType = "__is_trainer";
+    }
     LoadExerciseOne(cId, fromNFB, folderType);
-    CountExsInFolder(true, true);
+    if (folderType != "__is_trainer") {
+        CountExsInFolder(true, true);
+    }
     try {
         LoadContentInCardModalForEdit(cId, folderType);
     } catch(e) {}
@@ -722,6 +737,10 @@ $(function() {
 
     // Toggle folders:
     $('#toggleFoldersViews').on('click', (e) => {
+        if (!$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none')) {
+            swal("Внимание", "Отключите упражнения тренера.", "info");
+            return;
+        }
         if (!$('.folders-block').find('.description-container').hasClass('d-none')) {
             $('#toggleDescriptionInFolders').removeClass('c-active');
             $('#toggleDescriptionInFolders').removeClass('selected3');

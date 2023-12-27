@@ -185,7 +185,6 @@ function ToggleUpFilter(id, state) {
                 });
                 return;
             }
-
             $('.up-tabs-elem[data-id="team_folders"]').removeClass('selected3');
             $('.exs_counter').html("(...)");
 
@@ -225,6 +224,23 @@ function ToggleUpFilter(id, state) {
             folderType = $('.folders_div.selected').attr('data-id');
             $('.exs-edit-block').find('.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
             $('.folders-block').find('button.edit-exercise.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
+            break;
+        case "toggle_trainer":
+            $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('c-hidden', state);
+            $('.up-tabs-elem[data-id="club_folders"]').toggleClass('c-hidden', state);
+            $('.up-tabs-elem[data-id="team_folders"]').toggleClass('c-hidden', state);
+            $('.up-tabs-elem[data-id="trainer_folders"]').toggleClass('c-hidden', !state);
+            $('.up-tabs-elem[data-id="trainer_folders"]').toggleClass('d-none', !state);
+
+            $('.folders_nfb_list').toggleClass('c-hidden', state);
+            $('.folders_club_list').toggleClass('c-hidden', state);
+            $('.folders_list').toggleClass('c-hidden', state);
+
+            $('.exs-edit-block').find('.btn-o-modal').parent().toggleClass('c-hidden', state);
+            $('.exs-edit-block').find('.btn-edit-e[data-id="move"]').parent().toggleClass('c-hidden', state);
+            $('.exs-edit-block').find('.btn-edit-e[data-id="trainer"]').parent().toggleClass('c-hidden', state);
+
+            LoadFolderExercises();
             break;
         case "share":
             if ($('.exercises-list').find('.exs-elem.active').length <= 0) {
@@ -1381,6 +1397,11 @@ $(function() {
             swal("Внимание", "Выберите папки <Команда> для добавления упражнения.", "info");
             return;
         }
+        if (!$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none')) {
+            $(e.currentTarget).removeClass('selected3');
+            swal("Внимание", "Отключите упражнения тренера.", "info");
+            return;
+        }
         let cLink = `/exercises/exercise?id=new&type=${folderType}&section=card`;
         // window.location.href = cLink;
         $('#exerciseCardModalForEdit').find('iframe').addClass('d-none');
@@ -1662,11 +1683,14 @@ $(function() {
         let isNfb = $('#exerciseCopyModal').find('input[name="nfb"]').val() == '1' && 
             $('.folders_div.selected').attr('data-id') == "nfb_folders" && 
             $('#exerciseCopyModal').find('[name="copy_mode"]').val() != '1';
+        console.log(isNfb)
         let htmlList = isNfb ? "folders_nfb_list" : "folders_list";
         let htmlElemInList = isNfb ? "folder-nfb-elem" : "folder-elem";
         if (!foldersLoadedForCopy) {
             let tList = $('.exercises-list').find(`.${htmlList}`).clone();
+            console.log( tList )
             $(tList).removeClass('d-none');
+            $(tList).removeClass('c-hidden');
             $(tList).removeClass(htmlList);
             $(tList).addClass('folders_list_copy');
             $(tList).find(`.${htmlElemInList}`).addClass('folder-copy-elem');
@@ -1713,9 +1737,13 @@ $(function() {
                     exsId.push($(elem).attr('data-id'));
                 });
             }
+            let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
             let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
             let selectedFolder = $('#exerciseCopyModal').find('.list-group-item.active').find('.folder-copy-elem').attr('data-id');
             let folderType = $('.folders_div.selected').attr('data-id');
+            if (isTrainer) {
+                folderType = "__is_trainer";
+            }
             let data = {
                 'move_exs': modeVal == '2' ? 1 : 0,
                 'copy_exs': modeVal == '1' ? 1 : 0,
@@ -2209,7 +2237,11 @@ $(function() {
 
     // Open graphics in modal
     $('.visual-block').on('click', '.carousel-item', (e) => {
+        let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
         let folderType = $('.folders-container').find('.folders-toggle.selected').first().attr('data-id');
+        if (isTrainer) {
+            folderType = "__is_trainer";
+        }
         let id = -1;
         try {
             id = parseInt($('.exercises-block').find('.exs-elem.active').attr('data-id'));
@@ -2687,6 +2719,53 @@ $(function() {
                 let visibledExsCount = $('.exs-list-group').find('.list-group-item:visible').length;
                 $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-move-exercise-2"]').find('.counter').text(` (${visibledExsCount}) `);
                 $('#exerciseCopyModal').modal('show');
+            } else if (cId == "trainer") {
+                let folderType = $('.folders_div.selected').attr('data-id');
+                if (folderType != "team_folders") {
+                    swal("Внимание", "Упражнение должно быть из папки 'Команды'.", "info");
+                    return;
+                }
+                let exsId = null;
+                if (Array.isArray(window.selectedExercisesForDelete) && window.selectedExercisesForDelete.length > 0) {
+                    exsId = window.selectedExercisesForDelete;
+                } else {
+                    exsId = $(activeExs).attr('data-id');
+                }
+                let data = {
+                    'copy_exs': 1,
+                    'exs': exsId, 
+                    'nfb_folder': 0, 
+                    'folder': "__is_trainer",
+                    'type': folderType
+                };
+                $('.page-loader-wrapper').fadeIn();
+                $.ajax({
+                    headers:{"X-CSRFToken": csrftoken},
+                    data: data,
+                    type: 'POST', // GET или POST
+                    dataType: 'json',
+                    url: "exercises_api",
+                    success: function (res) {
+                        if (res.success) {
+                            swal("Готово", "Упражнение добавлено в папку <Тренер>.", "success");
+                        } else {
+                            swal("Ошибка", "Упражнение не удалось добавить в папку <Тренер>.", "error");
+                            console.log(res);
+                        }
+                    },
+                    error: function (res) {
+                        if (res.responseJSON.code == "limit") {
+                            swal("Ошибка", `Упражнение не удалось добавить в папку <Тренер>. Превышен лимит упражений в папке (максимум: ${res.responseJSON.value}).`, "error");
+                        } else {
+                            swal("Ошибка", "Упражнение не удалось добавить в папку <Тренер>.", "error");
+                        }
+                        console.log(res);
+                    },
+                    complete: function (res) {
+                        $('.page-loader-wrapper').fadeOut();
+                        $('.exs-edit-block').find('.btn-edit-e').removeClass('active');
+                    }
+                });
             } else if (cId == "delete") {
                 let isMultiExs = false;
                 try {
@@ -2699,6 +2778,10 @@ $(function() {
                     exsId = $(activeExs).attr('data-id');
                 }
                 let folderType = $('.folders_div.selected').attr('data-id');
+                let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
+                if (isTrainer) {
+                    folderType = "__is_trainer";
+                }
                 let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
                 let data = {'type': folderType, 'folder': folder, 'exs': exsId};
                 data = JSON.stringify(data);

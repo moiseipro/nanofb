@@ -1158,6 +1158,13 @@ function ToggleFoldersType(data = null) {
             folderType = $('.folders_div.selected').attr('data-id');
         }
     } catch(e) {}
+    let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
+    try {
+        if (isTrainer) {
+            folderType = "__is_trainer";
+            return;
+        }
+    } catch(e) {}
     let exsCard = $('#exerciseCard');
     let folderName = "";
     $(exsCard).find('tr.folder-container').addClass('d-none');
