@@ -298,7 +298,8 @@ $(window).on('load', function (){
         console.log('EDIT : ', cur_edit_data);
         $('#microcycles-form').attr('method', 'PATCH')
         $('#microcycles-form').removeClass('d-none')
-        $('#microcycles-form #id_name').val(cur_edit_data['name'])
+        var newOption = new Option(cur_edit_data['name'], cur_edit_data['name'], false, true);
+        $('#microcycles-form #select-microcycle-name').append(newOption).trigger('change');
         $('#microcycles-form #id_goal').val(cur_edit_data['goal'])
         //$('#microcycles-form #datetimepicker-with-microcycle').datetimepicker('date', moment(cur_edit_data['date_with'], 'DD/MM/YYYY'))
         //$('#microcycles-form #datetimepicker-by-microcycle').datetimepicker('date', moment(cur_edit_data['date_by'], 'DD/MM/YYYY'))
@@ -771,6 +772,52 @@ $(window).on('load', function (){
     //     $('.mc-function').toggleClass("d-none", !mc_active)
     //     $('#toggle-microcycle-functions').toggleClass("active", mc_active)
     // })
+    $('#select-microcycle-name').select2({
+        tags: true,
+        allowClear: true,
+        dropdownParent: $('#microcycles-form'),
+        placeholder: gettext("M.C."),
+        language: get_cur_lang(),
+        theme: 'bootstrap4',
+        width: '100%',
+        ajax: {
+            url: '/events/microcycle_name_list',
+            dataType: 'json',
+            data: function (params) {
+            },
+            processResults: function (data, params) {
+                console.log(data)
+                let clearData = $.grep(data, function(value) {
+                    return value.id != 'all';
+                });
+                clearData.push({id: '', text: 'M.C.', count: ''})
+                console.log(clearData)
+                return {
+                    results: clearData,
+                    pagination: {
+                      more: false
+                    }
+                };
+            },
+            cache: true
+        },
+        templateResult: function (state) {
+            console.log(state)
+            var $state = $(`
+                <div class="" title="${state.text}">${state.text}</div>
+
+            `);
+            return $state;
+        },
+        templateSelection: function (state) {
+            console.log(state)
+            var $state = $(`
+                <div class="text-truncate" title="${state.text}"> ${state.text}</div>
+
+            `);
+            return $state;
+        },
+    });
 })
 
 function clear_event_form(){
@@ -785,7 +832,7 @@ function clear_event_form(){
 
 function clear_microcycle_form(){
     let nowdate = moment().format('DD/MM/YYYY')
-    $('#microcycles-form #id_name').val('')
+    $('#microcycles-form #select-microcycle-name').val(null).trigger("change");
     $('#microcycles-form #id_goal').val('')
     $('#microcycles-form #datetimepicker-with-microcycle').datetimepicker('date', null)
     $('#microcycles-form #datetimepicker-by-microcycle').datetimepicker('date', null)
@@ -1032,7 +1079,8 @@ $(function() {
                             let date_by = moment(cur_edit_data['date_by'], 'DD/MM/YYYY').format('YYYY-MM-DD');
                             $('#microcycles-form').attr('method', 'PATCH')
                             $('#microcycles-form').removeClass('d-none')
-                            $('#microcycles-form #id_name').val(cur_edit_data['name'])
+                            var newOption = new Option(cur_edit_data['name'], cur_edit_data['name'], false, true);
+                            $('#microcycles-form #select-microcycle-name').append(newOption).trigger('change');
                             $('#microcycles-form #id_goal').val(cur_edit_data['goal'])
                             $('#microcycles-form #datetimepicker-with-microcycle').val(date_with)
                             $('#microcycles-form #datetimepicker-by-microcycle').val(date_by)

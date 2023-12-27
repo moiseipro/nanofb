@@ -81,6 +81,13 @@ a.matchButton1 {
     border: 2px solid indianred !important;
 }
 
+.training-input {
+    border: 2px solid dodgerblue !important;
+}
+
+.training-input:focus {
+    border: 2px solid indianred !important;
+}
 
 .size-w-x {
     width: var(--w-x) !important;
@@ -115,6 +122,20 @@ a.matchButton1 {
     -webkit-box-shadow: none;
     box-shadow: none;
 }
+.select2-container--bootstrap4 .select2-selection__clear {
+    float: right;
+    width: 1.1em;
+    height: 1.1em;
+    padding-left: 0.3em;
+    padding-top: 0.25rem;
+    margin-top: 0.4em;
+    margin-right: 0.3em;
+    line-height: .75em;
+    color: #f8f9fa;
+    background-color: #c8c8c8;
+    border-radius: 100%;
+}
+
 .form-div .form-group{
     margin-bottom: 0.2rem;
 }

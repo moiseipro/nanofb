@@ -70,6 +70,8 @@
         <script src="{% static 'preadmin/js/bootstrap.bundle.min.js' %}"></script>
 
         <script src="{% static 'preadmin/plugins/select2/js/select2.min.js' %}"></script>
+        {% get_current_language as LANGUAGE_CODE %}
+        <script src="{% static 'preadmin/plugins/select2/js/i18n/' %}{{ LANGUAGE_CODE }}.js"></script>
         <!-- Slimscroll JS -->
         <script src="{% static 'preadmin/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
         <script src="{% static 'preadmin/plugins/raphael/raphael.min.js' %}"></script>
@@ -96,7 +98,6 @@
         <script src="{% static 'jQuery-contextMenu-2.9.2/jquery.ui.position.min.js' %}"></script>
         <!-- JQuery Validate -->
         <script src="{% static 'jquery-validate/jquery.validate.min.js' %}"></script>
-        {% get_current_language as LANGUAGE_CODE %}
         {% if LANGUAGE_CODE == 'ru'%}
             <script src="{% static 'jquery-validate/localization/messages_ru.min.js' %}"></script>
         {% endif %}

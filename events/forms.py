@@ -5,9 +5,9 @@ from crispy_forms.layout import Layout, Submit, Row, Column, Button
 
 from events.models import UserMicrocycles, UserEvent
 
-name_input_widget = forms.TextInput(attrs={
-    'class': 'form-control-sm',
-    'autocomplete': 'off',
+name_input_widget = forms.Select(attrs={
+    'id': 'select-microcycle-name',
+    'class': 'select2 form-control-sm',
     #'placeholder': _('M.C.')+" 1"
 })
 # goal_input_widget = forms.TextInput(attrs={

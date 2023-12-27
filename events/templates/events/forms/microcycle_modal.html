@@ -23,8 +23,28 @@
                 <div class="row pt-2 border-top">
                     <div class="col-12">
                         <form id="microcycles-form" method="post" class="d-none">
-                            {% load crispy_forms_tags %}
-                            {% crispy microcycle_form %}
+                            <div class="row">
+                                <div class="form-div col-md-6">
+                                    <label for="select-microcycle-name">{% trans 'M.C.' %}</label>
+                                    <select name="name" id="select-microcycle-name" class="form-control form-control-sm training-input" data-tags="true">
+
+                                    </select>
+                                </div>
+                                <div class="form-div col-md-2">
+                                    <label for="datetimepicker-with-microcycle">{% trans 'Date with' %}</label>
+                                    <input type="date" name="date_with" class="form-control form-control-sm dateinput training-input" id="datetimepicker-with-microcycle" autocomplete="off" required>
+                                </div>
+                                <div class="form-div col-md-2">
+                                    <label for="datetimepicker-by-microcycle">{% trans 'Date by' %}</label>
+                                    <input type="date" name="date_by" class="form-control form-control-sm dateinput training-input" id="datetimepicker-by-microcycle" autocomplete="off" required>
+                                </div>
+                                <div class="form-div col-md-2">
+                                    <input type="submit" name="submit" value="{% trans 'Save' %}" class="btn btn-primary btn-sm btn-block btn-success save" id="submit-id-submit">
+                                    <input type="button" name="button" value="{% trans 'Cancle' %}" class="btn btn-sm btn-block btn-secondary cancel" id="button-id-button">
+                                </div>
+                            </div>
+{#                            {% load crispy_forms_tags %}#}
+{#                            {% crispy microcycle_form %}#}
                         </form>
                         <div id="alert-update">
 
