@@ -1737,10 +1737,11 @@ $(function() {
                     exsId.push($(elem).attr('data-id'));
                 });
             }
+            let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
             let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
             let selectedFolder = $('#exerciseCopyModal').find('.list-group-item.active').find('.folder-copy-elem').attr('data-id');
             let folderType = $('.folders_div.selected').attr('data-id');
-            if (!$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none')) {
+            if (isTrainer) {
                 folderType = "__is_trainer";
             }
             let data = {
@@ -2236,8 +2237,9 @@ $(function() {
 
     // Open graphics in modal
     $('.visual-block').on('click', '.carousel-item', (e) => {
+        let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
         let folderType = $('.folders-container').find('.folders-toggle.selected').first().attr('data-id');
-        if (!$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none')) {
+        if (isTrainer) {
             folderType = "__is_trainer";
         }
         let id = -1;
@@ -2776,7 +2778,8 @@ $(function() {
                     exsId = $(activeExs).attr('data-id');
                 }
                 let folderType = $('.folders_div.selected').attr('data-id');
-                if (!$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none')) {
+                let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
+                if (isTrainer) {
                     folderType = "__is_trainer";
                 }
                 let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');

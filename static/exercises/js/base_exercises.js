@@ -1737,10 +1737,11 @@ $(function() {
                     exsId.push($(elem).attr('data-id'));
                 });
             }
+            let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
             let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
             let selectedFolder = $('#exerciseCopyModal').find('.list-group-item.active').find('.folder-copy-elem').attr('data-id');
             let folderType = $('.folders_div.selected').attr('data-id');
-            if (!$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none')) {
+            if (isTrainer) {
                 folderType = "__is_trainer";
             }
             let data = {

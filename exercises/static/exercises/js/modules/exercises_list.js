@@ -80,7 +80,7 @@ window.exercisesFilter = {};
 function LoadFolderExercises() {
     let activeRow = $('.folders_list').find('.list-group-item.active');
     let isClub = false;
-    let isTrainer = !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
+    let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
     if (activeRow.length <= 0) {
         activeRow = $('.folders_club_list').find('.list-group-item.active');
         isClub = true;
@@ -314,7 +314,8 @@ function LoadExerciseOneHandler() {
     let cId = $(activeExs).attr('data-id');
     let fromNFB = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? 1 : 0;
     let folderType = $('.folders_div.selected').attr('data-id');
-    if (!$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none')) {
+    let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
+    if (isTrainer) {
         folderType = "__is_trainer";
     }
     LoadExerciseOne(cId, fromNFB, folderType);

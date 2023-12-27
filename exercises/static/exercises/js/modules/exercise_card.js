@@ -1158,8 +1158,9 @@ function ToggleFoldersType(data = null) {
             folderType = $('.folders_div.selected').attr('data-id');
         }
     } catch(e) {}
+    let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
     try {
-        if ($('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none')) {
+        if (isTrainer) {
             folderType = "__is_trainer";
             return;
         }
