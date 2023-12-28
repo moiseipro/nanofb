@@ -2765,6 +2765,8 @@ $(function() {
                         console.log(res);
                     },
                     complete: function (res) {
+                        window.selectedExercisesForDelete = [];
+                        RenderSelectedExercisesForDelete();
                         $('.page-loader-wrapper').fadeOut();
                         $('.exs-edit-block').find('.btn-edit-e').removeClass('active');
                     }
