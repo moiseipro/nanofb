@@ -2754,7 +2754,7 @@ $(function() {
                         }
                     },
                     error: function (res) {
-                        if (res.responseJSON.code == "limit") {
+                        if (res.responseJSON && res.responseJSON.code && res.responseJSON.code == "limit") {
                             swal("Ошибка", `Упражнение не удалось добавить в папку <Тренер>. Превышен лимит упражений в папке (максимум: ${res.responseJSON.value}).`, "error");
                         } else {
                             swal("Ошибка", "Упражнение не удалось добавить в папку <Тренер>.", "error");

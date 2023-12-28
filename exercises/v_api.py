@@ -888,14 +888,14 @@ def POST_copy_exs(request, cur_user, cur_team):
             found_folder = ClubFolder.objects.filter(id=folder_id, club=request.user.club_id)
         else:
             found_folder = UserFolder.objects.filter(id=folder_id)
-        if request.user.club_id is not None:
-            found_team = ClubTeam.objects.filter(id=cur_team, club_id=request.user.club_id)
-        else:
-            found_team = UserTeam.objects.filter(id=cur_team, user_id=cur_user)
-        if not found_team or not found_team.exists() or found_team[0].id == None:
-            return JsonResponse({"err": "Cant find team.", "success": False}, status=400)
         if not (found_folder and found_folder.exists() and found_folder[0].id != None):
             return JsonResponse({"errors": "Can't copy exercise / exercises"}, status=400)
+    if request.user.club_id is not None:
+        found_team = ClubTeam.objects.filter(id=cur_team, club_id=request.user.club_id)
+    else:
+        found_team = UserTeam.objects.filter(id=cur_team, user_id=cur_user)
+    if not found_team or not found_team.exists() or found_team[0].id == None:
+        return JsonResponse({"err": "Cant find team.", "success": False}, status=400)
     success_status = False
     if move_move != "all":
         exs_ids = [exs_id]

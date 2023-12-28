@@ -2237,8 +2237,9 @@ $(function() {
 
     // Open graphics in modal
     $('.visual-block').on('click', '.carousel-item', (e) => {
+        let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
         let folderType = $('.folders-container').find('.folders-toggle.selected').first().attr('data-id');
-        if (!$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none')) {
+        if (isTrainer) {
             folderType = "__is_trainer";
         }
         let id = -1;
@@ -2753,7 +2754,7 @@ $(function() {
                         }
                     },
                     error: function (res) {
-                        if (res.responseJSON.code == "limit") {
+                        if (res.responseJSON && res.responseJSON.code && res.responseJSON.code == "limit") {
                             swal("Ошибка", `Упражнение не удалось добавить в папку <Тренер>. Превышен лимит упражений в папке (максимум: ${res.responseJSON.value}).`, "error");
                         } else {
                             swal("Ошибка", "Упражнение не удалось добавить в папку <Тренер>.", "error");
@@ -2777,7 +2778,8 @@ $(function() {
                     exsId = $(activeExs).attr('data-id');
                 }
                 let folderType = $('.folders_div.selected').attr('data-id');
-                if (!$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none')) {
+                let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
+                if (isTrainer) {
                     folderType = "__is_trainer";
                 }
                 let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
