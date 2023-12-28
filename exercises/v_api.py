@@ -877,6 +877,8 @@ def POST_copy_exs(request, cur_user, cur_team):
         'perms_club': ["exercises.change_clubexercise", "exercises.add_clubexercise"]
     }):
         return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    if move_move != "all":
+        exs_ids = [exs_id]
     if is_to_trainer:
         EXS_LIMIT = 250
         last_name = cur_user.personal.last_name.lower().replace(' ', '')
@@ -897,8 +899,6 @@ def POST_copy_exs(request, cur_user, cur_team):
     if not found_team or not found_team.exists() or found_team[0].id == None:
         return JsonResponse({"err": "Cant find team.", "success": False}, status=400)
     success_status = False
-    if move_move != "all":
-        exs_ids = [exs_id]
     res_data = {'ids': [], 'exs_params': [], 'videos': [], 'err': []}
     for exs_id in exs_ids:
         c_exs = None

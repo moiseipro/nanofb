@@ -2721,6 +2721,7 @@ $(function() {
                 $('#exerciseCopyModal').modal('show');
             } else if (cId == "trainer") {
                 let folderType = $('.folders_div.selected').attr('data-id');
+                let moveMode = "";
                 if (folderType != "team_folders") {
                     swal("Внимание", "Упражнение должно быть из папки 'Команды'.", "info");
                     return;
@@ -2728,11 +2729,13 @@ $(function() {
                 let exsId = null;
                 if (Array.isArray(window.selectedExercisesForDelete) && window.selectedExercisesForDelete.length > 0) {
                     exsId = window.selectedExercisesForDelete;
+                    moveMode = "all";
                 } else {
                     exsId = $(activeExs).attr('data-id');
                 }
                 let data = {
                     'copy_exs': 1,
+                    'move_mode': moveMode,
                     'exs': exsId, 
                     'nfb_folder': 0, 
                     'folder': "__is_trainer",
