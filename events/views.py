@@ -281,7 +281,7 @@ class MicrocycleNameListApiView(APIView):
         return Response(list2)
 
 
-class MicrocycleGoalListApiView(APIView):
+class MicrocycleShortKeyApiView(APIView):
     # authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -291,19 +291,19 @@ class MicrocycleGoalListApiView(APIView):
             queryset = ClubMicrocycles.objects. \
                 filter(team_id=self.request.session['team'], date_with__gte=season[0].date_with,
                        date_by__lte=season[0].date_by). \
-                annotate(names=Count('goal')).order_by('goal')
+                annotate(short_keys=Count('short_key')).order_by('short_key')
         else:
             season = UserSeason.objects.filter(id=self.request.session['season'])
             queryset = UserMicrocycles.objects. \
                 filter(team_id=self.request.session['team'], date_with__gte=season[0].date_with,
                        date_by__lte=season[0].date_by). \
-                annotate(goals=Count('goal')).order_by('goal')
+                annotate(short_keys=Count('short_key')).order_by('short_key')
 
         list_microcycles = [
             {
-                'id': microcycle.goal,
-                'name': microcycle.goal,
-                'count': microcycle.goals
+                'id': microcycle.short_key,
+                'name': microcycle.short_key,
+                'count': microcycle.short_keys
             } for microcycle in queryset
         ]
         print(list_microcycles)

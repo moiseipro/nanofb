@@ -60,22 +60,19 @@ EVENT_TYPES =(
 class MicrocycleUserForm(forms.ModelForm):
     class Meta:
         model = UserMicrocycles
-        fields = ['name', 'goal', 'date_with', 'date_by']
+        fields = ['name', 'date_with', 'date_by']
         widgets = {
             'name': name_input_widget,
-            #'goal': goal_input_widget,
             'date_with': date_with_input_widget,
             'date_by': date_by_input_widget
         }
         help_texts = {
             'name': '',
-            #'goal': '',
             'date_with': '',
             'date_by': '',
         }
         labels = {
             'name': _("M.C."),
-            #'goal': "",
             'date_with': _("Date with"),
             'date_by': _("Date by")
         }
@@ -88,7 +85,6 @@ class MicrocycleUserForm(forms.ModelForm):
                 Column(
                     Row(
                         Column('name', css_class='form-div col-12 mb-0'),
-                        #Column('goal', css_class='form-div col-12 mb-0'),
                         ),
                     css_class='col-md-6'),
                 Column('date_with', css_class='form-div col-md-2 mb-0'),

@@ -99,10 +99,10 @@ class AbstractMicrocycles(models.Model):
         default="",
         blank=True
     )
-    goal = models.CharField(
-        verbose_name=_('M.C.')+" 2",
-        help_text=_("Goal of the microcycle. The maximum length is 80 characters"),
-        max_length=80,
+    short_key = models.CharField(
+        verbose_name=_('Short key'),
+        help_text=_("Microcycle short code"),
+        max_length=20,
         default="",
         blank=True
     )
