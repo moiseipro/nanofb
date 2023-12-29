@@ -2041,6 +2041,9 @@ $(function() {
         let state = $(currentTarget).hasClass('selected');
         let folderType = $('.folders_div.selected').attr('data-id');
         let dataToSend = {'edit_exs_user_params': 1, 'exs': exsId, 'nfb': fromNFB, 'type': folderType, 'data': {'key': cId, 'value': state ? 0 : 1}};
+        if (cId == "trainer") {
+            return;
+        }
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
             headers:{"X-CSRFToken": csrftoken},
