@@ -1014,6 +1014,12 @@ function copyTextToClipboard(text) {
     });
 }
 
+function CountTrainerExercises() {
+    let data = {'count_exs': 1, 'type': "__is_trainer", 'filter': {}};
+    let folder = $('.exs-edit-block').find('.btn-edit-e[data-id="trainer"]');
+    CountExsAjaxReq(data, folder);
+}
+
 
 
 $(function() {
@@ -2497,9 +2503,11 @@ $(function() {
     // Open editable panel for exercise
     if (sessionStorage.getItem("exercises__exs_edit_panel") !== null) {
         $('.exs-edit-block').toggleClass('d-none', sessionStorage.getItem("exercises__exs_edit_panel") != '1');
+        $('#toggleExsEditPanel').toggleClass('selected3', sessionStorage.getItem("exercises__exs_edit_panel") == '1');
         let folderType = $('.folders_div.selected').attr('data-id');
         $('.exs-edit-block').find('.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
         $('.folders-block').find('button.edit-exercise.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
+        ToggleMarkersInExs();
     }
     $('#toggleExsEditPanel').on('click', (e) => {
         $('.exs-edit-block').toggleClass('d-none');
@@ -2507,6 +2515,7 @@ $(function() {
         let folderType = $('.folders_div.selected').attr('data-id');
         $('.exs-edit-block').find('.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
         sessionStorage.setItem("exercises__exs_edit_panel", $('.exs-edit-block').hasClass('d-none') ? 0 : 1);
+        ToggleMarkersInExs();
     });
     $('.exs-edit-block').on('click', 'button[data-dismiss="panel"]', (e) => {
         $('.exs-edit-block').addClass('d-none');
@@ -2689,6 +2698,8 @@ $(function() {
             return;
         });
     });
+
+    CountTrainerExercises();
     $('.exs-edit-block').on('click', '.btn-edit-e', (e) => {
         let cId = $(e.currentTarget).attr('data-id');
         let activeExs = $('.exs-list-group').find('.list-group-item.active');
@@ -2766,6 +2777,7 @@ $(function() {
                     },
                     complete: function (res) {
                         window.selectedExercisesForDelete = [];
+                        CountTrainerExercises();
                         RenderSelectedExercisesForDelete();
                         $('.page-loader-wrapper').fadeOut();
                         $('.exs-edit-block').find('.btn-edit-e').removeClass('active');
