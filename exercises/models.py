@@ -293,6 +293,7 @@ class TrainerExercise(AbstractExercise):
         verbose_name=_('Birthday'),
         help_text=_('Date of birth')
     )
+    exs_ref = models.IntegerField(null=True, blank=True)
     videos = models.ManyToManyField(Video, through="ExerciseVideo", through_fields=("exercise_trainer", "video"))
     class Meta(AbstractExercise.Meta):
         abstract = False

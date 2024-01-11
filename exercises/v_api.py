@@ -639,6 +639,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
         f_exercises = f_exercises.filter(tags__lowercase_name__in=[count_for_tag]).distinct()
 
     if not to_count:
+        last_name = cur_user.personal.last_name.lower().replace(' ', '')
         f_exercises_list = [entry for entry in f_exercises.values()]
         for exercise in f_exercises_list:
             exercise['search_title'] = utils.get_by_language_code(exercise['title'], req.LANGUAGE_CODE).lower()
@@ -648,6 +649,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             exercise['has_animation_2'] = False
             exercise['trainings_count'] = -1
             exercise['nf_exs'] = folder_type == utils.FOLDER_NFB
+            exercise['in_trainer_folder'] = TrainerExercise.objects.filter(user_name=last_name, user_birthdate=cur_user.personal.date_birthsday, exs_ref=exercise['id']).first() != None
             user_params = None
             video_1 = None
             video_2 = None
@@ -877,6 +879,8 @@ def POST_copy_exs(request, cur_user, cur_team):
         'perms_club': ["exercises.change_clubexercise", "exercises.add_clubexercise"]
     }):
         return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    if move_move != "all":
+        exs_ids = [exs_id]
     if is_to_trainer:
         EXS_LIMIT = 250
         last_name = cur_user.personal.last_name.lower().replace(' ', '')
@@ -897,8 +901,6 @@ def POST_copy_exs(request, cur_user, cur_team):
     if not found_team or not found_team.exists() or found_team[0].id == None:
         return JsonResponse({"err": "Cant find team.", "success": False}, status=400)
     success_status = False
-    if move_move != "all":
-        exs_ids = [exs_id]
     res_data = {'ids': [], 'exs_params': [], 'videos': [], 'err': []}
     for exs_id in exs_ids:
         c_exs = None
@@ -1024,6 +1026,8 @@ def POST_copy_exs(request, cur_user, cur_team):
                 last_name = cur_user.personal.last_name.lower().replace(' ', '')
                 new_exs = TrainerExercise(user_name=last_name, user_birthdate=cur_user.personal.date_birthsday)
                 for key in c_exs.values()[0]:
+                    if key == "id":
+                        setattr(new_exs, 'exs_ref', c_exs.values()[0][key])
                     if key != "id" and key != "date_creation":
                         if key == "scheme_1" or key == "scheme_2":
                             new_scheme_id = ""
@@ -3028,6 +3032,7 @@ def GET_get_exs_all(request, cur_user, cur_team):
             'visible_demo': exercise['visible_demo'],
             'clone_nfb_id': exercise['clone_nfb_id'],
             'trainings_count': exercise['trainings_count'],
+            'in_trainer_folder': exercise['in_trainer_folder'],
         }
         videos_arr = get_exs_video_data(exercise['video_data'])
         anims_arr = get_exs_video_data(exercise['animation_data'])

@@ -139,6 +139,7 @@ function LoadFolderExercises() {
 
 function RenderFolderExercises(id, tExs) {
     let exs = tExs[id];
+    console.log(exs)
     let exsHtml = "";
     $('.exs_counter').html(exs.length > 0 ? `(${exs.length})` : "(...)");
     $('.folders-block').find('.list-group-item.active').find('.folder-exs-counter').html(exs.length > 0 ? exs.length : "...");
@@ -188,6 +189,11 @@ function RenderFolderExercises(id, tExs) {
                     ${isGoalSmall ? `
                     <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x" data-type="marker" data-id="goal" title="Ворота">
                         <span class=""> g </span>
+                    </button>
+                    ` : ``}
+                    ${exElem.in_trainer_folder ? `
+                    <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x" data-type="marker" data-id="trainer" title="В упражнениях тренера">
+                        <span class="icon-custom icon--trainer" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                     </button>
                     ` : ``}
                     <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.video_1_watched ? 'selected' : ''}" data-type="marker" data-id="watched" title="Смотрел / Не смотрел">
@@ -442,9 +448,11 @@ function ToggleMarkersInExs() {
     let isActiveGoal = $('.up-tabs-elem[data-id="goal"]').attr('data-state') == "1";
     let isActiveWatched = $('.up-tabs-elem[data-id="toggle_watched"]').attr('data-state') == "1";
     let isActiveWatchedNot = $('.up-tabs-elem[data-id="toggle_watched_not"]').attr('data-state') == "1";
+    let isActiveEditBlock = !$('.exs-edit-block').hasClass('d-none');
     $('.exercises-block').find(`[data-type="marker"][data-id="favorite"]`).toggleClass('d-none', !isActiveFavorite);
     $('.exercises-block').find(`[data-type="marker"][data-id="goal"]`).toggleClass('d-none', !isActiveGoal);
     $('.exercises-block').find(`[data-type="marker"][data-id="watched"]`).toggleClass('d-none', !(isActiveWatched || isActiveWatchedNot));
+    $('.exercises-block').find(`[data-type="marker"][data-id="trainer"]`).toggleClass('d-none', !isActiveEditBlock);
 }
 
 function PauseCountExsCalls(currentCall) {
