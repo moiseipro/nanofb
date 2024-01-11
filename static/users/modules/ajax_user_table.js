@@ -153,8 +153,9 @@ function generate_ajax_users_table(scroll_y = '', pagination = true){
         ],
 
     })
-    users_table.on('click', 'td', function () {
+    users_table.on('click', 'td', function (e) {
         console.log('SELECT')
+        if($(e.target).closest('.archive-user').length > 0) return false;
         if($(this).parent().is('.selected')){
             is_select_user = false;
             users_table.row($(this).parent()).deselect()

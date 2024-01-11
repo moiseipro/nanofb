@@ -188,13 +188,22 @@ class Version(Limitations):
         verbose_name_plural = _('versions')
 
 
-# Version reaction
-# @receiver(pre_save, sender=Version)
-# def check_price_in_group(sender, instance, **kwargs):
-#     groups = instance.groups.all()
-#     new_price = Decimal("0.00")
-#     for group in groups:
-#         print(group)
-#         new_price += group.customgroup.price
-#     instance.price = new_price
-
+class SectionInformation(models.Model):
+    name = models.CharField(
+        max_length=100,
+        verbose_name=_('Note on section'),
+        help_text=_("A note on the section indicates the location"),
+        null=True,
+        blank=True
+    )
+    content = models.TextField(
+        verbose_name=_('Content'),
+        help_text=_('Information for the user'),
+        null=True,
+        blank=True
+    )
+    last_update = models.DateField(
+        verbose_name=_('Last update'),
+        help_text=_('Date of last update'),
+        auto_now=True
+    )

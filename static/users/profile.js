@@ -63,6 +63,8 @@ $(window).on('load', function () {
             location.reload()
         })
     })
+
+    load_section_information('profile')
 })
 
 function initialize_phone_input() {

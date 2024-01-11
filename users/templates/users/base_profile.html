@@ -57,6 +57,9 @@
                         <a class="nav-link" href="{% url 'references:settings' %}">{% trans 'Settings'%}</a>
                     </li>
                     {% endif %}
+                    <li class="nav-item">
+                        <a id="section_information-open" class="nav-link" data-toggle="tab" href="#section_information_tab">{% trans 'Information'%}</a>
+                    </li>
                 </ul>
             </div>
             <div class="tab-content profile-tab-cont">
@@ -224,6 +227,18 @@
                 </div>
                 <!-- /Change Payment Tab -->
 
+                <!-- Change Payment Tab -->
+                <div id="section_information_tab" class="tab-pane fade">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{% trans "Information" %}</h5>
+                            {% include "version/modules/section_information.html" %}
+                        </div>
+                    </div>
+                </div>
+                <!-- /Change Payment Tab -->
+
             </div>
         </div>
     </div>
@@ -237,6 +252,16 @@
 {% endblock %}
 
 {% block custom_scripts %}
+    <script src="{% static 'ckeditor_4.20.2/ckeditor.js' %}"></script>
+    <script src="{% static 'ckeditor_4.20.2/lang/ru.js' %}"></script>
+
+    <script src="{% static 'version/js/ajax_section_information_action.js' %}"></script>
+    <script src="{% static 'video/js/video_list.js' %}"></script>
+    <script src="{% static 'video/js/video_info.js' %}"></script>
+    <script src="{% static 'video/js/video_select.js' %}"></script>
+    <script src="{% static 'methodology/js/ckeditor_option.js' %}"></script>
+    <script src="{% static 'version/js/section_information.js' %}"></script>
+
     <script src="{% static 'users/profile_ajax.js' %}"></script>
     <script src="{% static 'users/profile.js' %}"></script>
 {% endblock %}

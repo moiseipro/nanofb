@@ -1,0 +1,22 @@
+{% load i18n %}
+{% load static %}
+{% load language_json %}
+
+<div class="row">
+    <div class="col-12">
+        {% if user.is_superuser %}
+        <form method="UPDATE" id="notification-form">
+            <button type="submit" id="section_information-save" class="btn btn-block btn-warning edit-button mb-2">{% trans "Save" %}</button>
+            <button type="button" id="section_information-video" class="btn btn-block btn-info edit-button mb-2">{% trans "Video" %}</button>
+            <div class="form-group">
+                <textarea name="content" class="editor" id="articleEditor"></textarea>
+            </div>
+        </form>
+        {% else %}
+            <div class="form-group">
+                <textarea name="content" class="editor" id="articleViewer"></textarea>
+            </div>
+        {% endif %}
+    </div>
+    {% include "video/modules/video_select_modal.html" %}
+</div>

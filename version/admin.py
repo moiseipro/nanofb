@@ -5,7 +5,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
 from django.contrib.auth.models import Group
 
-from .models import Section, Version, CustomGroup, Limitations, ClubLimitations
+from .models import Section, Version, CustomGroup, SectionInformation
 from django.utils.translation import gettext_lazy as _
 
 
@@ -56,4 +56,5 @@ class CustomGroupAdmin(SortableAdminMixin, admin.ModelAdmin):
 # Re-register GroupAdmin
 admin.site.unregister(Group)
 admin.site.register(Group, GroupAdmin)
+admin.site.register(SectionInformation)
 

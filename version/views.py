@@ -6,12 +6,25 @@ from django.shortcuts import render, redirect
 from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
-
+from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 
 # Create your views here.
 from users.models import User
 from users.serializers import GroupSerializer
+from version.models import SectionInformation
+from version.serializers import SectionInformationSerializer
+
+
+class SectionInformationPermissions(DjangoModelPermissions):
+    perms_map = {
+        'GET': [],
+        'OPTIONS': [],
+        'HEAD': [],
+        'POST': ['%(app_label)s.add_%(model_name)s'],
+        'PUT': ['%(app_label)s.change_%(model_name)s'],
+        'PATCH': ['%(app_label)s.change_%(model_name)s'],
+        'DELETE': ['%(app_label)s.delete_%(model_name)s'],
+    }
 
 
 def index(request):
@@ -69,3 +82,29 @@ class PermissionsApiView(viewsets.ReadOnlyModelViewSet):
         groups = Group.objects.all()
 
         return groups
+
+
+class SectionInformationApiView(viewsets.ModelViewSet):
+    permission_classes = (SectionInformationPermissions,)
+    pagination_class = None
+
+    @action(detail=False, methods=['get'])
+    def get_by_name(self, request):
+        data = request.query_params
+        serializer_class = SectionInformationSerializer
+        print(data['name'])
+        queryset = SectionInformation.objects.get(name=data['name'])
+
+        serializer = serializer_class(queryset, many=False)
+        print(serializer.data)
+        return Response({'status': 'success', 'obj': serializer.data})
+
+    def get_serializer_class(self):
+        return SectionInformationSerializer
+
+    def get_queryset(self):
+        request = self.request
+
+        section_information = SectionInformation.objects.all()
+
+        return section_information
