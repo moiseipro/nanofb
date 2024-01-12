@@ -21,9 +21,9 @@ class AbstractMicrocyclesSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = (
-            'id', 'short_key', 'name', 'date_with', 'date_by', 'calculate_days'
+            'id', 'short_key', 'name', 'block', 'block_key', 'date_with', 'date_by', 'calculate_days'
         )
-        datatables_always_serialize = ('id',)
+        datatables_always_serialize = ('id', 'short_key', 'name', 'block', 'block_key',)
 
 
 class UserMicrocyclesSerializer(AbstractMicrocyclesSerializer):
@@ -44,7 +44,7 @@ class LiteMicrocyclesSerializer(AbstractMicrocyclesSerializer):
 class AbstractMicrocyclesUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
-            'name', 'short_key', 'date_with', 'date_by'
+            'name', 'short_key', 'block', 'block_key', 'date_with', 'date_by'
         )
 
 

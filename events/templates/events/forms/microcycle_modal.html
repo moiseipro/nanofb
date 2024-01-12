@@ -6,15 +6,15 @@
         <div class="modal-content">
             <div class="modal-header block">
                 <div class="row pb-2">
-                    <div class="col-4">
-                        <h5 class="modal-title" id="microcycle-modal-title">{% trans 'Working with microcycles' %}</h5>
-                    </div>
-                    <div class="col-4">
+{#                    <div class="col-4">#}
+{#                        <h5 class="modal-title" id="microcycle-modal-title">{% trans 'Working with microcycles' %}</h5>#}
+{#                    </div>#}
+                    <div class="col-6">
                         <button type="button" class="ml-3 btn btn-sm btn-primary create">
                             <span aria-hidden="true">{% trans 'Create' %}</span>
                         </button>
                     </div>
-                    <div class="col-4">
+                    <div class="col-6">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -25,26 +25,43 @@
                         <form id="microcycles-form" method="post" class="d-none">
                             <div class="row">
                                 <div class="form-div col-md-2">
-                                    <label for="select-microcycle-short_key">{% trans 'Short key' %}</label>
-                                    <select name="short_key" id="select-microcycle-short_key" class="form-control form-control-sm training-input" data-tags="true">
+                                    <div class="row">
+                                        <div class="form-div px-1 col-12">
+                                            <select name="short_key" id="select-microcycle-short_key" class="form-control form-control-sm training-input" data-tags="true">
 
-                                    </select>
-                                </div>
-                                <div class="form-div col-md-4">
-                                    <label for="select-microcycle-name">{% trans 'M.C.' %}</label>
-                                    <select name="name" id="select-microcycle-name" class="form-control form-control-sm training-input" data-tags="true">
+                                            </select>
+                                        </div>
+                                        <div class="form-div col-12 px-1 mt-1">
+                                            <select name="block_key" id="select-microcycle-block_key" class="form-control form-control-sm training-input" data-tags="true">
 
-                                    </select>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-div col-md-2">
+                                <div class="form-div col-md-5">
+                                    <div class="row">
+                                        <div class="form-div col-12 px-1">
+                                            <select name="name" id="select-microcycle-name" class="form-control form-control-sm training-input" data-tags="true">
+
+                                            </select>
+                                        </div>
+                                        <div class="form-div col-12 px-1 mt-1">
+                                            <select name="block" id="select-microcycle-block" class="form-control form-control-sm training-input" data-tags="true">
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-div col-md-2 px-1">
                                     <label for="datetimepicker-with-microcycle">{% trans 'Date with' %}</label>
                                     <input type="date" name="date_with" class="form-control form-control-sm dateinput training-input" id="datetimepicker-with-microcycle" autocomplete="off" required>
                                 </div>
-                                <div class="form-div col-md-2">
+                                <div class="form-div col-md-2 px-1">
                                     <label for="datetimepicker-by-microcycle">{% trans 'Date by' %}</label>
                                     <input type="date" name="date_by" class="form-control form-control-sm dateinput training-input" id="datetimepicker-by-microcycle" autocomplete="off" required>
                                 </div>
-                                <div class="form-div col-md-2">
+                                <div class="form-div col-md-1 px-1">
                                     <input type="submit" name="submit" value="{% trans 'Save' %}" class="btn btn-primary btn-sm btn-block btn-success save" id="submit-id-submit">
                                     <input type="button" name="button" value="{% trans 'Cancel' %}" class="btn btn-sm btn-block btn-secondary cancel" id="button-id-button">
                                 </div>

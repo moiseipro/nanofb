@@ -302,6 +302,10 @@ $(window).on('load', function (){
         $('#microcycles-form #select-microcycle-name').append(newOption).trigger('change');
         newOption = new Option(cur_edit_data['short_key'], cur_edit_data['short_key'], false, true);
         $('#microcycles-form #select-microcycle-short_key').append(newOption).trigger('change');
+        newOption = new Option(cur_edit_data['block'], cur_edit_data['block'], false, true);
+        $('#microcycles-form #select-microcycle-block').append(newOption).trigger('change');
+        newOption = new Option(cur_edit_data['block_key'], cur_edit_data['block_key'], false, true);
+        $('#microcycles-form #select-microcycle-block_key').append(newOption).trigger('change');
         $('#microcycles-form #id_goal').val(cur_edit_data['goal'])
         //$('#microcycles-form #datetimepicker-with-microcycle').datetimepicker('date', moment(cur_edit_data['date_with'], 'DD/MM/YYYY'))
         //$('#microcycles-form #datetimepicker-by-microcycle').datetimepicker('date', moment(cur_edit_data['date_by'], 'DD/MM/YYYY'))
@@ -727,53 +731,6 @@ $(window).on('load', function (){
         },
     })
 
-    // $('#microcycle-goal-filter').select2({
-    //     minimumResultsForSearch: -1,
-    //     placeholder: gettext("M.C.")+" 2",
-    //     language: get_cur_lang(),
-    //     theme: 'bootstrap4',
-    //     width: '100%',
-    //     ajax: {
-    //         url: '/events/microcycle_goal_list',
-    //         dataType: 'json',
-    //         data: function (params) {
-    //         },
-    //         processResults: function (data, params) {
-    //             console.log(data)
-    //
-    //             return {
-    //                 results: data,
-    //                 pagination: {
-    //                   more: false
-    //                 }
-    //             };
-    //         },
-    //         cache: true
-    //     },
-    //     templateResult: function (state) {
-    //         console.log(state)
-    //         var $state = $(`
-    //             <div class="" title="${state.text}"> ${state.text} <span class="float-right">${state.count ? '('+state.count+')':''}</span></div>
-    //
-    //         `);
-    //         return $state;
-    //     },
-    //     templateSelection: function (state) {
-    //         console.log(state)
-    //         var $state = $(`
-    //             <div class="text-truncate" title="${state.text}"> ${state.text}</div>
-    //
-    //         `);
-    //         return $state;
-    //     },
-    // })
-
-    // Скрыть/Показать функционал микроциклов
-    // $('#toggle-microcycle-functions').on('click', function () {
-    //     mc_active ? mc_active = false : mc_active = true;
-    //     $('.mc-function').toggleClass("d-none", !mc_active)
-    //     $('#toggle-microcycle-functions').toggleClass("active", mc_active)
-    // })
     $('#select-microcycle-name').select2({
         tags: true,
         allowClear: true,
@@ -866,6 +823,98 @@ $(window).on('load', function (){
             return $state;
         },
     });
+    $('#select-microcycle-block').select2({
+        tags: true,
+        allowClear: true,
+        dropdownParent: $('#microcycles-form'),
+        placeholder: gettext("Block"),
+        language: get_cur_lang(),
+        theme: 'bootstrap4',
+        width: '100%',
+        ajax: {
+            url: '/events/microcycle_block_list',
+            dataType: 'json',
+            data: function (params) {
+            },
+            processResults: function (data, params) {
+                console.log(data)
+                let clearData = $.grep(data, function(value) {
+                    return value.id != 'all';
+                });
+                clearData.push({id: '', text: 'Block', count: ''})
+                console.log(clearData)
+                return {
+                    results: clearData,
+                    pagination: {
+                      more: false
+                    }
+                };
+            },
+            cache: true
+        },
+        templateResult: function (state) {
+            console.log(state)
+            var $state = $(`
+                <div class="" title="${state.text}">${state.text}</div>
+
+            `);
+            return $state;
+        },
+        templateSelection: function (state) {
+            console.log(state)
+            var $state = $(`
+                <div class="text-truncate" title="${state.text}"> ${state.text}</div>
+
+            `);
+            return $state;
+        },
+    });
+    $('#select-microcycle-block_key').select2({
+        tags: true,
+        allowClear: true,
+        dropdownParent: $('#microcycles-form'),
+        placeholder: gettext("Block key"),
+        language: get_cur_lang(),
+        theme: 'bootstrap4',
+        width: '100%',
+        ajax: {
+            url: '/events/microcycle_block_key_list',
+            dataType: 'json',
+            data: function (params) {
+            },
+            processResults: function (data, params) {
+                console.log(data)
+                let clearData = $.grep(data, function(value) {
+                    return value.id != 'all';
+                });
+                clearData.push({id: '', text: gettext('Block key'), count: ''})
+                console.log(clearData)
+                return {
+                    results: clearData,
+                    pagination: {
+                      more: false
+                    }
+                };
+            },
+            cache: true
+        },
+        templateResult: function (state) {
+            console.log(state)
+            var $state = $(`
+                <div class="" title="${state.text}">${state.text}</div>
+
+            `);
+            return $state;
+        },
+        templateSelection: function (state) {
+            console.log(state)
+            var $state = $(`
+                <div class="text-truncate" title="${state.text}"> ${state.text}</div>
+
+            `);
+            return $state;
+        },
+    });
 })
 
 function clear_event_form(){
@@ -882,6 +931,8 @@ function clear_microcycle_form(){
     let nowdate = moment().format('DD/MM/YYYY')
     $('#microcycles-form #select-microcycle-name').val(null).trigger("change");
     $('#select-microcycle-short_key').val(null).trigger("change");
+    $('#microcycles-form #select-microcycle-block').val(null).trigger("change");
+    $('#select-microcycle-block_key').val(null).trigger("change");
     $('#microcycles-form #id_goal').val('')
     $('#microcycles-form #datetimepicker-with-microcycle').datetimepicker('date', null)
     $('#microcycles-form #datetimepicker-by-microcycle').datetimepicker('date', null)
@@ -997,6 +1048,10 @@ function generateMicrocyclesTable(){
         columnDefs: [
             { "width": "40%", "targets": 2 }
         ],
+        rowCallback: function( row, data ) {
+            console.log(data)
+            $(row).find('td').addClass('py-0 align-middle')
+        },
         ajax: {
             url:'api/microcycles/?format=datatables',
             data: function(data){
@@ -1007,8 +1062,18 @@ function generateMicrocyclesTable(){
             {'data': 'id', sortable: false, render: function (data, type, row, meta) {
                 return meta.row + meta.settings._iDisplayStart + 1;
             }, searchable: false},
-            {'data': 'short_key', 'defaultContent': "---"},
-            {'data': 'name', 'defaultContent': "---"},
+            {'data': 'short_key', 'defaultContent': "---", render : function ( data, type, row, meta ) {
+                console.log(row);
+                let html = '';
+                html += `<span>${row.short_key ? row.short_key : '---'}</span><br><span>${row.block_key ? row.block_key : '---'}</span>`
+                return html;
+            }},
+            {'data': 'name', 'defaultContent': "---", render : function ( data, type, row, meta ) {
+                console.log(row);
+                let html = '';
+                html += `<span>${row.name ? row.name : '---'}</span><br><span>${row.block ? row.block : '---'}</span>`
+                return html;
+            }},
             //{'data': 'goal', 'defaultContent': "---"},
             {'data': 'date_with', searchable: false},
             {'data': 'date_by', searchable: false},
@@ -1140,6 +1205,10 @@ $(function() {
                             $('#microcycles-form #select-microcycle-name').append(newOption).trigger('change');
                             newOption = new Option(cur_edit_data['short_key'], cur_edit_data['short_key'], false, true);
                             $('#microcycles-form #select-microcycle-short_key').append(newOption).trigger('change');
+                            newOption = new Option(cur_edit_data['block'], cur_edit_data['block'], false, true);
+                            $('#microcycles-form #select-microcycle-block').append(newOption).trigger('change');
+                            newOption = new Option(cur_edit_data['block_key'], cur_edit_data['block_key'], false, true);
+                            $('#microcycles-form #select-microcycle-block_key').append(newOption).trigger('change');
                             //$('#microcycles-form #id_goal').val(cur_edit_data['goal'])
                             $('#microcycles-form #datetimepicker-with-microcycle').val(date_with)
                             $('#microcycles-form #datetimepicker-by-microcycle').val(date_by)

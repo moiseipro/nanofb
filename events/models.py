@@ -106,6 +106,20 @@ class AbstractMicrocycles(models.Model):
         default="",
         blank=True
     )
+    block = models.CharField(
+        verbose_name=_('Block'),
+        help_text=_("Block of the microcycle. The maximum length is 100 characters"),
+        max_length=100,
+        default="",
+        blank=True
+    )
+    block_key = models.CharField(
+        verbose_name=_('Block key'),
+        help_text=_("Microcycle block code"),
+        max_length=20,
+        default="",
+        blank=True
+    )
     date_with = models.DateField(
         verbose_name=_('start date'),
         help_text=_('Start date of the microcycle.'),

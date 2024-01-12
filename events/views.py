@@ -320,6 +320,84 @@ class MicrocycleShortKeyApiView(APIView):
         return Response(list2)
 
 
+class MicrocycleBlockListApiView(APIView):
+    # authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        if request.user.club_id is not None:
+            season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
+            queryset = ClubMicrocycles.objects. \
+                filter(team_id=self.request.session['team'], date_with__gte=season[0].date_with,
+                       date_by__lte=season[0].date_by). \
+                annotate(blocks=Count('block')).order_by('block')
+        else:
+            season = UserSeason.objects.filter(id=self.request.session['season'])
+            queryset = UserMicrocycles.objects. \
+                filter(team_id=self.request.session['team'], date_with__gte=season[0].date_with,
+                       date_by__lte=season[0].date_by). \
+                annotate(blocks=Count('block')).order_by('block')
+
+        list_microcycles = [
+            {
+                'id': microcycle.block,
+                'name': microcycle.block,
+                'count': microcycle.blocks
+            } for microcycle in queryset
+        ]
+        print(list_microcycles)
+        microcycles_count = {}
+        for microcycle in list_microcycles:
+            print(microcycle)
+            microcycles_count[microcycle['id']] = microcycles_count.get(microcycle['id'], {'name': '', 'count': 0})
+            microcycles_count[microcycle['id']]['count'] += microcycle['count']
+            microcycles_count[microcycle['id']]['name'] = microcycle['name']
+        print(microcycles_count)
+        list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in microcycles_count.items()]
+        list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+        print(list2)
+        return Response(list2)
+
+
+class MicrocycleBlockKeyApiView(APIView):
+    # authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        if request.user.club_id is not None:
+            season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
+            queryset = ClubMicrocycles.objects. \
+                filter(team_id=self.request.session['team'], date_with__gte=season[0].date_with,
+                       date_by__lte=season[0].date_by). \
+                annotate(block_keys=Count('block_key')).order_by('block_key')
+        else:
+            season = UserSeason.objects.filter(id=self.request.session['season'])
+            queryset = UserMicrocycles.objects. \
+                filter(team_id=self.request.session['team'], date_with__gte=season[0].date_with,
+                       date_by__lte=season[0].date_by). \
+                annotate(block_keys=Count('block_key')).order_by('block_key')
+
+        list_microcycles = [
+            {
+                'id': microcycle.block_key,
+                'name': microcycle.block_key,
+                'count': microcycle.block_keys
+            } for microcycle in queryset
+        ]
+        print(list_microcycles)
+        microcycles_count = {}
+        for microcycle in list_microcycles:
+            print(microcycle)
+            microcycles_count[microcycle['id']] = microcycles_count.get(microcycle['id'], {'name': '', 'count': 0})
+            microcycles_count[microcycle['id']]['count'] += microcycle['count']
+            microcycles_count[microcycle['id']]['name'] = microcycle['name']
+        print(microcycles_count)
+        list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in microcycles_count.items()]
+        list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+        print(list2)
+        return Response(list2)
+
+
 class EventViewSet(viewsets.ModelViewSet):
     permission_classes = [BaseEventsPermissions]
 
