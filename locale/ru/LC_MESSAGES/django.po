@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-25 14:21+0300\n"
+"POT-Creation-Date: 2024-01-12 13:42+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -810,7 +810,7 @@ msgid ""
 msgstr ""
 
 #: .\Lib\site-packages\django\db\models\fields\__init__.py:2382
-#: .\events\forms.py:125 .\events\forms.py:167
+#: .\events\forms.py:121 .\events\forms.py:163
 #: .\shared\templates\shared\base_shared_training.html:23
 #: .\trainings\templates\trainings\print_training.html:28
 #: .\trainings\templates\trainings\training_card.html:30
@@ -1060,7 +1060,7 @@ msgid "Currently"
 msgstr "Текущий"
 
 #: .\Lib\site-packages\django\forms\widgets.py:436
-#: .\users\templates\users\base_profile.html:168
+#: .\users\templates\users\base_profile.html:171
 msgid "Change"
 msgstr "Изменить"
 
@@ -1847,8 +1847,8 @@ msgid "club"
 msgstr ""
 
 #: .\authorization\forms.py:31 .\clubs\forms.py:55
-#: .\clubs\templates\clubs\users_table.html:9 .\users\models.py:57
-#: .\users\templates\users\forms\add-user-form.html:9
+#: .\clubs\templates\clubs\users_table.html:9 .\exercises\models.py:288
+#: .\users\models.py:57 .\users\templates\users\forms\add-user-form.html:9
 #: .\users\templates\users\forms\edit-personal-form.html:9
 #: .\users\templates\users\modules\user_table.html:15
 msgid "Last name"
@@ -1868,7 +1868,8 @@ msgstr "Имя"
 msgid "Father name"
 msgstr "Отчество"
 
-#: .\authorization\forms.py:62 .\clubs\forms.py:79 .\users\models.py:119
+#: .\authorization\forms.py:62 .\clubs\forms.py:79 .\exercises\models.py:294
+#: .\users\models.py:119
 #: .\users\templates\users\modules\user_table_settings.html:116
 msgid "Date of birth"
 msgstr "День рождения"
@@ -1893,7 +1894,7 @@ msgid "Region"
 msgstr "Регион"
 
 #: .\authorization\forms.py:108 .\clubs\forms.py:117 .\users\models.py:93
-#: .\users\templates\users\base_profile.html:101
+#: .\users\templates\users\base_profile.html:104
 #: .\users\templates\users\forms\add-user-form.html:51
 #: .\users\templates\users\forms\edit-personal-form.html:81
 #: .\users\templates\users\forms\edit-personal-form.html:96
@@ -1908,7 +1909,7 @@ msgstr "Лицензия до"
 
 #: .\authorization\forms.py:167
 #: .\authorization\templates\authorization\forgot_password.html:16
-#: .\users\templates\users\base_profile.html:105
+#: .\users\templates\users\base_profile.html:108
 #: .\users\templates\users\forms\add-user-form.html:100
 #: .\users\templates\users\forms\edit-user-form.html:9
 #: .\users\templates\users\modules\user_table.html:17
@@ -1935,6 +1936,8 @@ msgid "Activate"
 msgstr "Активировать"
 
 #: .\authorization\templates\authorization\activate.html:21
+#: .\users\templates\users\base_profile.html:61
+#: .\users\templates\users\base_profile.html:235
 msgid "Information"
 msgstr "Информация"
 
@@ -2377,14 +2380,16 @@ msgstr "Чтобы войти на сайт, используйте эти да�
 #: .\clubs\templates\clubs\modules\management_clubs.html:14
 #: .\trainings\templates\trainings\view_lite_training.html:27
 #: .\trainings\templates\trainings\view_training.html:27
-#: .\users\templates\users\base_profile.html:74
+#: .\users\templates\users\base_profile.html:77
 #: .\users\templates\users\modules\management_client.html:14
 #: .\video\templates\video\video_card.html:10
 msgid "Edit"
 msgstr "Редактировать"
 
 #: .\clubs\templates\clubs\modules\management_clubs.html:15
-#: .\events\forms.py:98 .\exercises\templates\exercises\base_folders.html:139
+#: .\events\forms.py:94
+#: .\events\templates\events\forms\microcycle_modal.html:66
+#: .\exercises\templates\exercises\base_folders.html:139
 #: .\exercises\templates\exercises\base_folders.html:159
 #: .\exercises\templates\exercises\base_folders.html:183
 #: .\shared\templates\shared\modules\shared_training_modal.html:37
@@ -2406,7 +2411,7 @@ msgid "Birth"
 msgstr "Д.Р."
 
 #: .\clubs\templates\clubs\users_table.html:14 .\users\forms.py:22
-#: .\users\models.py:71 .\users\templates\users\base_profile.html:97
+#: .\users\models.py:71 .\users\templates\users\base_profile.html:100
 #: .\users\templates\users\forms\add-user-form.html:33
 #: .\users\templates\users\forms\edit-personal-form.html:65
 #: .\users\templates\users\modules\user_table.html:23
@@ -2476,38 +2481,43 @@ msgstr "Неофициальный матч"
 msgid "Official match"
 msgstr "Официальный матч"
 
-#: .\events\forms.py:77 .\events\models.py:96 .\events\models.py:103
+#: .\events\forms.py:75 .\events\models.py:96
 #: .\events\templates\events\base_events.html:115
-#: .\events\templates\events\forms\microcycle_modal.html:41
+#: .\events\templates\events\forms\microcycle_modal.html:85
 msgid "M.C."
 msgstr "М.Ц."
 
-#: .\events\forms.py:79
-#: .\events\templates\events\forms\microcycle_modal.html:43
+#: .\events\forms.py:76
+#: .\events\templates\events\forms\microcycle_modal.html:57
+#: .\events\templates\events\forms\microcycle_modal.html:87
 msgid "Date with"
 msgstr "Дата с"
 
-#: .\events\forms.py:80
-#: .\events\templates\events\forms\microcycle_modal.html:44
+#: .\events\forms.py:77
+#: .\events\templates\events\forms\microcycle_modal.html:61
+#: .\events\templates\events\forms\microcycle_modal.html:88
 msgid "Date by"
 msgstr "Дата по"
 
-#: .\events\forms.py:97 .\events\forms.py:108 .\events\forms.py:142
-#: .\events\forms.py:156 .\events\forms.py:186
+#: .\events\forms.py:93 .\events\forms.py:104 .\events\forms.py:138
+#: .\events\forms.py:152 .\events\forms.py:182
+#: .\events\templates\events\forms\microcycle_modal.html:65
 #: .\notifications\templates\notifications\forms\notification_create.html:6
 #: .\references\forms.py:27 .\references\forms.py:52
 #: .\references\templates\references\modules\players_list.html:20
 #: .\trainings\templates\trainings\view_lite_training.html:28
-#: .\trainings\templates\trainings\view_training.html:28 .\video\forms.py:19
-#: .\video\forms.py:53 .\video\templates\video\video_card.html:18
+#: .\trainings\templates\trainings\view_training.html:28
+#: .\version\templates\version\modules\section_information.html:9
+#: .\video\forms.py:19 .\video\forms.py:53
+#: .\video\templates\video\video_card.html:18
 msgid "Save"
 msgstr "Сохранить"
 
-#: .\events\forms.py:113
+#: .\events\forms.py:109
 msgid "Event type"
 msgstr "Тип события"
 
-#: .\events\forms.py:119 .\shared\templates\shared\base_shared_training.html:20
+#: .\events\forms.py:115 .\shared\templates\shared\base_shared_training.html:20
 #: .\trainings\templates\trainings\print_training.html:25
 #: .\trainings\templates\trainings\training_card.html:24
 #: .\trainings\templates\trainings\training_card.html:26
@@ -2553,25 +2563,46 @@ msgstr "Событие"
 msgid "Name of the microcycle. The maximum length is 80 characters"
 msgstr "Название микроцикла. Максимальная длина - 80 символов"
 
-#: .\events\models.py:104
-msgid "Goal of the microcycle. The maximum length is 80 characters"
-msgstr "Цель микроцикла. Максимальная длина - 80 символов"
+#: .\events\models.py:103 .\exercises\templates\exercises\base_folders.html:126
+#: .\exercises\templates\exercises\base_folders.html:127
+msgid "Short key"
+msgstr "Короткий ключ"
 
-#: .\events\models.py:110 .\references\models.py:152 .\references\models.py:184
+#: .\events\models.py:104
+msgid "Microcycle short code"
+msgstr "Кородкий код микроцикла"
+
+#: .\events\models.py:110
+msgid "Block"
+msgstr "Блок"
+
+#: .\events\models.py:111
+msgid "Block of the microcycle. The maximum length is 100 characters"
+msgstr "Блок микроцикла. Максимальная длина - 100 символов"
+
+#: .\events\models.py:117
+msgid "Block key"
+msgstr "Ключ блока"
+
+#: .\events\models.py:118
+msgid "Microcycle block code"
+msgstr "Код блока микроцикла"
+
+#: .\events\models.py:124 .\references\models.py:152 .\references\models.py:184
 #: .\references\templates\references\base_settings.html:73
 msgid "start date"
 msgstr "Дата начала"
 
-#: .\events\models.py:111
+#: .\events\models.py:125
 msgid "Start date of the microcycle."
 msgstr "Дата начала микроцикла"
 
-#: .\events\models.py:114 .\references\models.py:157 .\references\models.py:189
+#: .\events\models.py:128 .\references\models.py:157 .\references\models.py:189
 #: .\references\templates\references\base_settings.html:74
 msgid "end date"
 msgstr "Дата окончания"
 
-#: .\events\models.py:115
+#: .\events\models.py:129
 msgid "End date of the microcycle."
 msgstr "Дата окончания микроцикла"
 
@@ -2686,10 +2717,6 @@ msgstr "Создать команду"
 msgid "Copy"
 msgstr "Копировать"
 
-#: .\events\templates\events\forms\microcycle_modal.html:10
-msgid "Working with microcycles"
-msgstr "Работа с микроциклами"
-
 #: .\events\templates\events\forms\microcycle_modal.html:14
 #: .\notifications\templates\notifications\base_notification.html:23
 #: .\references\templates\references\forms\reference_edit.html:23
@@ -2698,11 +2725,15 @@ msgstr "Работа с микроциклами"
 msgid "Create"
 msgstr "Создать"
 
-#: .\events\templates\events\forms\microcycle_modal.html:40
+#: .\events\templates\events\forms\microcycle_modal.html:83
 msgid "№"
 msgstr ""
 
-#: .\events\templates\events\forms\microcycle_modal.html:45
+#: .\events\templates\events\forms\microcycle_modal.html:84
+msgid "Key"
+msgstr "Ключ"
+
+#: .\events\templates\events\forms\microcycle_modal.html:89
 msgid "Days"
 msgstr "Дни"
 
@@ -2722,7 +2753,8 @@ msgstr "Скачать презентацию"
 msgid "Load"
 msgstr "Нагрузка"
 
-#: .\events\views.py:279 .\events\views.py:318 .\users\views.py:423
+#: .\events\views.py:279 .\events\views.py:318 .\events\views.py:357
+#: .\events\views.py:396 .\users\views.py:423
 msgid "Not chosen"
 msgstr "Не выбрано"
 
@@ -2745,6 +2777,14 @@ msgstr "Посмотреть упражнения категории <u>"
 #: .\exercises\models.py:248
 msgid "View exercises with category <PRO>"
 msgstr "Посмотреть упражнения категории <PRO>"
+
+#: .\exercises\models.py:287 .\users\models.py:56
+msgid "Surname"
+msgstr "Фамилия"
+
+#: .\exercises\models.py:293 .\users\models.py:118
+msgid "Birthday"
+msgstr "День рождения"
 
 #: .\exercises\templates\exercises\base_folders.html:5
 msgid "Folders management"
@@ -2774,11 +2814,6 @@ msgstr "Преместить вниз"
 #: .\exercises\templates\exercises\base_folders.html:117
 msgid "Create/Modify folder"
 msgstr "Создание/Изменение папки"
-
-#: .\exercises\templates\exercises\base_folders.html:126
-#: .\exercises\templates\exercises\base_folders.html:127
-msgid "Short key"
-msgstr "Короткий ключ"
 
 #: .\exercises\templates\exercises\base_folders.html:130
 #: .\exercises\templates\exercises\base_folders.html:131
@@ -3141,7 +3176,7 @@ msgstr "Уведомление"
 
 #: .\nanofootball\templates\menu\sidebar.html:30 .\users\admin.py:23
 #: .\users\models.py:229 .\users\templates\users\base_clients.html:32
-#: .\users\templates\users\base_profile.html:171
+#: .\users\templates\users\base_profile.html:174
 #: .\users\templates\users\forms\add-user-form.html:106
 #: .\users\templates\users\forms\edit-user-form.html:18
 #: .\users\templates\users\modules\management_club_payment.html:36
@@ -3204,6 +3239,7 @@ msgstr "Чат"
 #: .\nanofootball\templates\menu\sidebar.html:297
 #: .\notifications\templates\notifications\forms\notification_create.html:7
 #: .\trainings\templates\trainings\view_lite_training.html:50
+#: .\version\templates\version\modules\section_information.html:10
 #: .\video\templates\video\base_video.html:10
 #: .\video\templates\video\video_card.html:135
 msgid "Video"
@@ -3300,6 +3336,7 @@ msgid "Sent"
 msgstr "Отправлено"
 
 #: .\notifications\templates\notifications\forms\notification_create.html:17
+#: .\version\models.py:200
 msgid "Content"
 msgstr "Контент"
 
@@ -4112,7 +4149,7 @@ msgstr "Протокол"
 msgid "Add all players"
 msgstr "Добавить всех игроков"
 
-#: .\users\forms.py:47 .\users\templates\users\base_profile.html:109
+#: .\users\forms.py:47 .\users\templates\users\base_profile.html:112
 msgid "Spare Email"
 msgstr "Запасная почта"
 
@@ -4136,13 +4173,9 @@ msgstr "Лицензия тренера"
 msgid "Trainer's licenses"
 msgstr "Лицензии тренеров"
 
-#: .\users\models.py:51 .\users\templates\users\base_profile.html:89
+#: .\users\models.py:51 .\users\templates\users\base_profile.html:92
 msgid "Name"
 msgstr "Имя"
-
-#: .\users\models.py:56
-msgid "Surname"
-msgstr "Фамилия"
 
 #: .\users\models.py:64
 msgid "Patronymic"
@@ -4177,10 +4210,6 @@ msgstr "Срок действия лицензии"
 #: .\users\models.py:105
 msgid "Country of residence"
 msgstr "Страна проживания"
-
-#: .\users\models.py:118
-msgid "Birthday"
-msgstr "День рождения"
 
 #: .\users\models.py:127
 msgid "Phone number"
@@ -4229,7 +4258,7 @@ msgstr "Платежная информация"
 msgid "email address"
 msgstr "адрес электронной почты"
 
-#: .\users\models.py:220 .\users\templates\users\base_profile.html:167
+#: .\users\models.py:220 .\users\templates\users\base_profile.html:170
 #: .\users\templates\users\forms\add-user-form.html:117
 #: .\users\templates\users\forms\edit-user-form.html:33
 #: .\users\templates\users\modules\user_table.html:26
@@ -4301,16 +4330,16 @@ msgstr ""
 msgid "Active"
 msgstr "Активно"
 
-#: .\users\serializers.py:254 .\users\templates\users\base_profile.html:151
+#: .\users\serializers.py:254 .\users\templates\users\base_profile.html:154
 #: .\users\templates\users\modules\user_table_settings.html:51
 msgid "Archive"
 msgstr "Архив"
 
-#: .\users\serializers.py:258 .\users\templates\users\base_profile.html:155
+#: .\users\serializers.py:258 .\users\templates\users\base_profile.html:158
 msgid "Club license expired"
 msgstr "Клубная лицензия истекла"
 
-#: .\users\serializers.py:262 .\users\templates\users\base_profile.html:153
+#: .\users\serializers.py:262 .\users\templates\users\base_profile.html:156
 msgid "License expired"
 msgstr "Лицензия истекла"
 
@@ -4331,55 +4360,55 @@ msgstr "Фильтры"
 msgid "User card"
 msgstr "Карточка пользователя"
 
-#: .\users\templates\users\base_profile.html:73
+#: .\users\templates\users\base_profile.html:76
 #: .\users\templates\users\modules\personal_modal.html:10
 msgid "Personal Details"
 msgstr "Личные данные"
 
-#: .\users\templates\users\base_profile.html:93
+#: .\users\templates\users\base_profile.html:96
 #: .\users\templates\users\forms\add-user-form.html:27
 #: .\users\templates\users\forms\edit-personal-form.html:57
 msgid "Date of Birth"
 msgstr "День рождения"
 
-#: .\users\templates\users\base_profile.html:113
+#: .\users\templates\users\base_profile.html:116
 msgid "Mobile"
 msgstr "Мобильный"
 
-#: .\users\templates\users\base_profile.html:117
+#: .\users\templates\users\base_profile.html:120
 msgid "Spare Mobile"
 msgstr "Запасной телефон"
 
-#: .\users\templates\users\base_profile.html:121
+#: .\users\templates\users\base_profile.html:124
 msgid "Address"
 msgstr "Адрес"
 
-#: .\users\templates\users\base_profile.html:142
+#: .\users\templates\users\base_profile.html:145
 msgid "Account Status"
 msgstr "Статус аккаунта"
 
-#: .\users\templates\users\base_profile.html:147
+#: .\users\templates\users\base_profile.html:150
 msgid "License has expired, contact your administrator to renew"
 msgstr ""
 "Срок действия лицензии истек, обратитесь к администратору для продления"
 
-#: .\users\templates\users\base_profile.html:157
+#: .\users\templates\users\base_profile.html:160
 msgid "Active to"
 msgstr "Активно до"
 
-#: .\users\templates\users\base_profile.html:176
+#: .\users\templates\users\base_profile.html:179
 msgid "Individual"
 msgstr "Индивидуальный"
 
-#: .\users\templates\users\base_profile.html:179
+#: .\users\templates\users\base_profile.html:182
 msgid "Current accesses"
 msgstr "Текущие доступы"
 
-#: .\users\templates\users\base_profile.html:204
+#: .\users\templates\users\base_profile.html:207
 msgid "Change Password"
 msgstr "Поменять пароль"
 
-#: .\users\templates\users\base_profile.html:220
+#: .\users\templates\users\base_profile.html:223
 #: .\users\templates\users\modules\payment_info.html:7
 msgid "Payment QR"
 msgstr "QR оплаты"
@@ -4715,6 +4744,26 @@ msgstr "версия"
 msgid "versions"
 msgstr "версии"
 
+#: .\version\models.py:194
+msgid "Note on section"
+msgstr "Заметка по разделу"
+
+#: .\version\models.py:195
+msgid "A note on the section indicates the location"
+msgstr "Примечание к разделу указывает местоположение"
+
+#: .\version\models.py:201
+msgid "Information for the user"
+msgstr "Информация для пользователя"
+
+#: .\version\models.py:206
+msgid "Last update"
+msgstr "Последнее обновление"
+
+#: .\version\models.py:207
+msgid "Date of last update"
+msgstr "Дата последнего обновления"
+
 #: .\video\forms.py:37
 msgid "Video title"
 msgstr "Название видео"
@@ -4892,6 +4941,9 @@ msgstr "Видео / Анимация"
 msgid "Animation"
 msgstr "Анимация"
 
+#~ msgid "Working with microcycles"
+#~ msgstr "Работа с микроциклами"
+
 #~ msgid "Show/Hide event card"
 #~ msgstr "Показать/скрыть карточку события"
 
@@ -4988,9 +5040,6 @@ msgstr "Анимация"
 
 #~ msgid "Delete all/empty data"
 #~ msgstr "Удалить все/пустые данные"
-
-#~ msgid "Microcycle days"
-#~ msgstr "Дни микроцикла"
 
 #~ msgid "Training load"
 #~ msgstr "Нагрузка тренировки"
