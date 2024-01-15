@@ -731,6 +731,47 @@ $(window).on('load', function (){
         },
     })
 
+    $('#microcycle-block-filter').select2({
+        minimumResultsForSearch: -1,
+        placeholder: gettext("Block"),
+        language: get_cur_lang(),
+        theme: 'bootstrap4',
+        width: '100%',
+        ajax: {
+            url: '/events/microcycle_block_list',
+            dataType: 'json',
+            data: function (params) {
+            },
+            processResults: function (data, params) {
+                console.log(data)
+
+                return {
+                    results: data,
+                    pagination: {
+                      more: false
+                    }
+                };
+            },
+            cache: true
+        },
+        templateResult: function (state) {
+            console.log(state)
+            var $state = $(`
+                <div class="" title="${state.text}"> ${state.text} <span class="float-right">${state.count ? '('+state.count+')':''}</span></div>
+                
+            `);
+            return $state;
+        },
+        templateSelection: function (state) {
+            console.log(state)
+            var $state = $(`
+                <div class="text-truncate" title="${state.text}"> ${state.text}</div>
+                
+            `);
+            return $state;
+        },
+    })
+
     $('#select-microcycle-name').select2({
         tags: true,
         allowClear: true,
@@ -942,6 +983,7 @@ function clear_microcycle_form(){
 
 function local_filters_events() {
     let name_val = $('#microcycle-name-filter').val() ? $('#microcycle-name-filter').val() : ''
+    let block_val = $('#microcycle-block-filter').val() ? $('#microcycle-block-filter').val() : ''
     let goal_val = $('#microcycle-goal-filter').val() ? $('#microcycle-goal-filter').val() : ''
     let days_val = $('#microcycle-days-filter').val() ? $('#microcycle-days-filter').val() : ''
     let day_val = $('#microcycle-day-filter').val() ? $('#microcycle-day-filter').val() : ''
@@ -954,6 +996,11 @@ function local_filters_events() {
         let this_obj = $(this)
         let data_name = this_obj.attr('data-name')
         return name_val!='all' && name_val!='' && data_name != name_val;
+    }).hide()
+    $('#events tbody tr').filter(function( index ) {
+        let this_obj = $(this)
+        let data_block = this_obj.attr('data-block')
+        return block_val!='all' && block_val!='' && data_block != block_val;
     }).hide()
     $('#events tbody tr').filter(function( index ) {
         let this_obj = $(this)
@@ -998,6 +1045,8 @@ function clear_filters_events() {
     $('#load-event-filter').val('')
     $('#goal-event-filter').val('')
     $('#block-event-info .event-info').html('')
+    $('#microcycle-block-filter').val(null).trigger("change");
+    $('#microcycle-name-filter').val(null).trigger("change");
     if($('#events-content').hasClass('d-none')){
         hide_training_card()
         $('#events-content').removeClass('d-none')
