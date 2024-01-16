@@ -2044,42 +2044,56 @@ $(function() {
         if (cId == "trainer") {
             return;
         }
-        $('.page-loader-wrapper').fadeIn();
-        $.ajax({
-            headers:{"X-CSRFToken": csrftoken},
-            data: dataToSend,
-            type: 'POST', // GET или POST
-            dataType: 'json',
-            url: "exercises_api",
-            success: function (res) {
-                if (!res.success) {
-                    swal("Ошибка", `При изменении параметра произошла ошибка (${res.err}).`, "error");
-                } else {
-                    if (cId == "watched") {
-                        LoadFolderExercises();
+        swal({
+            title: "Вы точно хотите внести изменения?",
+            icon: "warning",
+            buttons: ["Отмена", "Подтвердить"],
+            dangerMode: false,
+        })
+        .then((accepted) => {
+            if (accepted) {
+                $('.page-loader-wrapper').fadeIn();
+                $.ajax({
+                    headers:{"X-CSRFToken": csrftoken},
+                    data: dataToSend,
+                    type: 'POST', // GET или POST
+                    dataType: 'json',
+                    url: "exercises_api",
+                    success: function (res) {
+                        if (!res.success) {
+                            swal("Ошибка", `При изменении параметра произошла ошибка (${res.err}).`, "error");
+                        } else {
+                            if (cId == "watched") {
+                                LoadFolderExercises();
+                            }
+                            if (cId == "like") {
+                                $(currentTarget).parent().find('button[data-type="marker"][data-id="dislike"]').toggleClass('selected', false);
+                            }
+                            if (cId == "dislike") {
+                                $(currentTarget).parent().find('button[data-type="marker"][data-id="like"]').toggleClass('selected', false);
+                            }
+                            $(currentTarget).toggleClass('selected', res.data.value == 1);
+                            if ($(currentTarget).find('input').length > 0) {
+                                $(currentTarget).find('input').prop('checked', res.data.value == 1);
+                            }
+                            if ($(currentTarget).find('span.icon-custom').length > 0) {
+                                $(currentTarget).find('span.icon-custom').toggleClass('icon--favorite', res.data.value != 1);
+                                $(currentTarget).find('span.icon-custom').toggleClass('icon--favorite-selected', res.data.value == 1);
+                            }
+                        }
+                    },
+                    error: function (res) {
+                        swal("Ошибка", "При изменении параметра произошла ошибка.", "error");
+                        console.log(res);
+                    },
+                    complete: function (res) {
+                        $('.page-loader-wrapper').fadeOut();
                     }
-                    if (cId == "like") {
-                        $(currentTarget).parent().find('button[data-type="marker"][data-id="dislike"]').toggleClass('selected', false);
-                    }
-                    if (cId == "dislike") {
-                        $(currentTarget).parent().find('button[data-type="marker"][data-id="like"]').toggleClass('selected', false);
-                    }
-                    $(currentTarget).toggleClass('selected', res.data.value == 1);
-                    if ($(currentTarget).find('input').length > 0) {
-                        $(currentTarget).find('input').prop('checked', res.data.value == 1);
-                    }
-                    if ($(currentTarget).find('span.icon-custom').length > 0) {
-                        $(currentTarget).find('span.icon-custom').toggleClass('icon--favorite', res.data.value != 1);
-                        $(currentTarget).find('span.icon-custom').toggleClass('icon--favorite-selected', res.data.value == 1);
-                    }
+                });
+            } else {
+                if ($(currentTarget).find('input').length > 0) {
+                    $(currentTarget).find('input').prop('checked', state);
                 }
-            },
-            error: function (res) {
-                swal("Ошибка", "При изменении параметра произошла ошибка.", "error");
-                console.log(res);
-            },
-            complete: function (res) {
-                $('.page-loader-wrapper').fadeOut();
             }
         });
     });
@@ -2702,7 +2716,7 @@ $(function() {
         });
     });
 
-    CountTrainerExercises();
+    // CountTrainerExercises();
     $('.exs-edit-block').on('click', '.btn-edit-e', (e) => {
         let cId = $(e.currentTarget).attr('data-id');
         let activeExs = $('.exs-list-group').find('.list-group-item.active');
