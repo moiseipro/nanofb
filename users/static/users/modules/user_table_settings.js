@@ -111,6 +111,48 @@ $(window).on("load", function () {
         }
     })
 
+    $('#group-filter').select2({
+        minimumResultsForSearch: -1,
+        multiple: true,
+        placeholder: gettext("Group"),
+        language: get_cur_lang(),
+        theme: 'bootstrap4',
+        width: '100%',
+        ajax: {
+            url: '/user/group_list',
+            dataType: 'json',
+            data: function (params) {
+            },
+            processResults: function (data, params) {
+                console.log(data)
+
+                return {
+                    results: data,
+                    pagination: {
+                      more: false
+                    }
+                };
+            },
+            cache: true
+        },
+        templateResult: function (state) {
+            console.log(state)
+            var $state = $(`
+                <div class="" title="${state.text}"> ${state.text} <span class="float-right">${state.count ? '('+state.count+')':''}</span></div>
+                
+            `);
+            return $state;
+        },
+        templateSelection: function (state) {
+            console.log(state)
+            var $state = $(`
+                <div class="text-truncate" title="${state.text}"> ${state.text}</div>
+                
+            `);
+            return $state;
+        },
+    })
+
     // Настройки показа колонок в таблице пользователей
     $('.toggle-user-column').on('change', function () {
         let checkbox = $(this);

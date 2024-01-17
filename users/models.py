@@ -259,6 +259,13 @@ class User(AbstractUser, Limitations):
         verbose_name=_('Distributor'),
         help_text=_('User distributor'),
     )
+    group = models.CharField(
+        max_length=30,
+        null=True,
+        blank=True,
+        verbose_name=_('Group'),
+        help_text=_('User\'s group'),
+    )
     registration_to = models.DateField(
         default=date.today,
         null=False,

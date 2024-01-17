@@ -76,6 +76,53 @@ $(window).on("load", function () {
         })
     })
 
+    $('#group-select').select2({
+        tags: true,
+        allowClear: true,
+        //dropdownParent: $('#microcycles-form'),
+        placeholder: gettext("Group"),
+        language: get_cur_lang(),
+        theme: 'bootstrap4',
+        width: '100%',
+        ajax: {
+            url: '/user/group_list',
+            dataType: 'json',
+            data: function (params) {
+            },
+            processResults: function (data, params) {
+                console.log(data)
+                let clearData = $.grep(data, function(value) {
+                    return value.id != 'all';
+                });
+                //clearData.push({id: '', text: 'Group', count: ''})
+                console.log(clearData)
+                return {
+                    results: clearData,
+                    pagination: {
+                      more: false
+                    }
+                };
+            },
+            cache: true
+        },
+        templateResult: function (state) {
+            console.log(state)
+            var $state = $(`
+                <div class="" title="${state.text}">${state.text}</div>
+
+            `);
+            return $state;
+        },
+        templateSelection: function (state) {
+            console.log(state)
+            var $state = $(`
+                <div class="text-truncate" title="${state.text}"> ${state.text}</div>
+
+            `);
+            return $state;
+        },
+    });
+
     $('#edit-user-button').on('click', function () {
         if(!$('#edit-user-form').valid()) return
         let personal = $('#edit-user-form').serializeArray()

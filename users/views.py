@@ -294,6 +294,34 @@ class EditUserApiView(UpdateAPIView):
         serializer.save()
 
 
+class UserGroupListApiView(APIView):
+    # authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        queryset = User.objects.exclude(group=None).annotate(groups_count=Count('group')).order_by('group')
+
+        list_groups = [
+            {
+                'id': user.group,
+                'name': user.group,
+                'count': user.groups_count
+            } for user in queryset
+        ]
+        print(list_groups)
+        groups_count = {}
+        for group in list_groups:
+            print(group)
+            groups_count[group['id']] = groups_count.get(group['id'], {'name': '', 'count': 0})
+            groups_count[group['id']]['count'] += group['count']
+            groups_count[group['id']]['name'] = group['name']
+        print(groups_count)
+        list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in groups_count.items()]
+        list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+        print(list2)
+        return Response(list2)
+
+
 class EditPasswordApiView(UpdateAPIView):
     serializer_class = ChangePasswordSerializer
     permission_classes = (IsAuthenticated,)

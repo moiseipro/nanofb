@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-12 13:45+0300\n"
+"POT-Creation-Date: 2024-01-17 18:28+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -89,9 +89,9 @@ msgstr "Ошибка при выполнении \""
 #: .\static\clubs\js\users_list.js:132
 #: .\static\federations\js\ajax_user_table.js:164
 #: .\static\users\modules\ajax_permission.js:18
-#: .\static\users\modules\ajax_user_table.js:225
+#: .\static\users\modules\ajax_user_table.js:232
 #: .\users\static\users\modules\ajax_permission.js:18
-#: .\users\static\users\modules\ajax_user_table.js:225
+#: .\users\static\users\modules\ajax_user_table.js:232
 msgid "User"
 msgstr "Пользователь"
 
@@ -105,9 +105,9 @@ msgstr "Пользователь"
 #: .\static\federations\js\ajax_user_table.js:173
 #: .\static\notifications\js\ajax_notification.js:26
 #: .\static\users\modules\ajax_permission.js:26
-#: .\static\users\modules\ajax_user_table.js:235
+#: .\static\users\modules\ajax_user_table.js:242
 #: .\users\static\users\modules\ajax_permission.js:26
-#: .\users\static\users\modules\ajax_user_table.js:235
+#: .\users\static\users\modules\ajax_user_table.js:242
 msgid "Users "
 msgstr "Пользователи "
 
@@ -204,13 +204,13 @@ msgstr "Действие с событием успешно!"
 
 #: .\events\static\events\js\event_lite_update.js:35
 #: .\events\static\events\js\event_update.js:35
-#: .\events\static\events\js\generate_table.js:193
-#: .\events\static\events\js\generate_table.js:249
+#: .\events\static\events\js\generate_table.js:196
+#: .\events\static\events\js\generate_table.js:252
 #: .\static\events\base_events.js:318 .\static\events\base_events.js:327
 #: .\static\events\js\event_lite_update.js:35
 #: .\static\events\js\event_update.js:35
-#: .\static\events\js\generate_table.js:193
-#: .\static\events\js\generate_table.js:249
+#: .\static\events\js\generate_table.js:196
+#: .\static\events\js\generate_table.js:252
 msgid "Error when action the event!"
 msgstr "Ошибка при выполнении события!"
 
@@ -255,59 +255,61 @@ msgid "Link copied"
 msgstr "Ссылка скопирована"
 
 #: .\events\static\events\js\events.js:695
-#: .\events\static\events\js\events.js:738 .\static\events\js\events.js:695
-#: .\static\events\js\events.js:738
+#: .\events\static\events\js\events.js:779 .\static\events\js\events.js:695
+#: .\static\events\js\events.js:779
 msgid "M.C."
 msgstr "М.Ц."
 
-#: .\events\static\events\js\events.js:784
-#: .\events\static\events\js\events.js:798 .\static\events\js\events.js:784
-#: .\static\events\js\events.js:798
-msgid "Short key"
-msgstr "Короткий ключ"
-
-#: .\events\static\events\js\events.js:830 .\static\events\js\events.js:830
+#: .\events\static\events\js\events.js:736
+#: .\events\static\events\js\events.js:871 .\static\events\js\events.js:736
+#: .\static\events\js\events.js:871
 msgid "Block"
 msgstr "Блок"
 
-#: .\events\static\events\js\events.js:876
-#: .\events\static\events\js\events.js:890 .\static\events\js\events.js:876
-#: .\static\events\js\events.js:890
+#: .\events\static\events\js\events.js:825
+#: .\events\static\events\js\events.js:839 .\static\events\js\events.js:825
+#: .\static\events\js\events.js:839
+msgid "Short key"
+msgstr "Короткий ключ"
+
+#: .\events\static\events\js\events.js:917
+#: .\events\static\events\js\events.js:931 .\static\events\js\events.js:917
+#: .\static\events\js\events.js:931
 msgid "Block key"
 msgstr "Ключ блока"
 
-#: .\events\static\events\js\events.js:1172 .\static\events\js\events.js:1172
+#: .\events\static\events\js\events.js:1221 .\static\events\js\events.js:1221
 msgid "Copy"
 msgstr "Копировать"
 
-#: .\events\static\events\js\events.js:1173
-#: .\events\static\events\js\events.js:1220
+#: .\events\static\events\js\events.js:1222
+#: .\events\static\events\js\events.js:1269
 #: .\notifications\static\notifications\js\base_notification.js:240
-#: .\static\events\base_events.js:439 .\static\events\js\events.js:1173
-#: .\static\events\js\events.js:1220
+#: .\static\events\base_events.js:439 .\static\events\js\events.js:1222
+#: .\static\events\js\events.js:1269
 #: .\static\notifications\js\base_notification.js:240
 #: .\static\video\base_video.js:47
 msgid "Edit"
 msgstr "Редактировать"
 
-#: .\events\static\events\js\events.js:1174
-#: .\events\static\events\js\events.js:1221
+#: .\events\static\events\js\events.js:1223
+#: .\events\static\events\js\events.js:1270
 #: .\notifications\static\notifications\js\notification_modal.js:20
-#: .\static\events\base_events.js:440 .\static\events\js\events.js:1174
-#: .\static\events\js\events.js:1221
+#: .\static\events\base_events.js:440 .\static\events\js\events.js:1223
+#: .\static\events\js\events.js:1270
 #: .\static\notifications\js\notification_modal.js:20
 #: .\static\video\base_video.js:57
 msgid "Delete"
 msgstr "Удалить"
 
-#: .\events\static\events\js\events.js:1176
-#: .\events\static\events\js\events.js:1223 .\static\events\base_events.js:442
-#: .\static\events\js\events.js:1176 .\static\events\js\events.js:1223
+#: .\events\static\events\js\events.js:1225
+#: .\events\static\events\js\events.js:1272 .\static\events\base_events.js:442
+#: .\static\events\js\events.js:1225 .\static\events\js\events.js:1272
 msgid "Close"
 msgstr "Закрыть"
 
-#: .\events\static\events\js\generate_table.js:142
-#: .\static\events\base_events.js:409 .\static\events\js\generate_table.js:142
+#: .\events\static\events\js\generate_table.js:145
+#: .\static\events\base_events.js:409 .\static\events\js\generate_table.js:145
 #: .\static\trainings\js\action_lite_training.js:19
 #: .\static\trainings\js\action_lite_training.js:21
 #: .\static\trainings\js\action_lite_training.js:23
@@ -345,33 +347,33 @@ msgstr "Закрыть"
 msgid "Training"
 msgstr "Тренировка"
 
-#: .\events\static\events\js\generate_table.js:156
-#: .\static\events\base_events.js:411 .\static\events\js\generate_table.js:156
+#: .\events\static\events\js\generate_table.js:159
+#: .\static\events\base_events.js:411 .\static\events\js\generate_table.js:159
 msgid "Match"
 msgstr "Матч"
 
-#: .\events\static\events\js\generate_table.js:193
-#: .\events\static\events\js\generate_table.js:249
+#: .\events\static\events\js\generate_table.js:196
+#: .\events\static\events\js\generate_table.js:252
 #: .\static\events\base_events.js:318 .\static\events\base_events.js:327
-#: .\static\events\js\generate_table.js:193
-#: .\static\events\js\generate_table.js:249
+#: .\static\events\js\generate_table.js:196
+#: .\static\events\js\generate_table.js:252
 msgid "Event save"
 msgstr "Сохранить событие"
 
-#: .\events\static\events\js\generate_table.js:207
+#: .\events\static\events\js\generate_table.js:210
 #: .\static\admin\js\admin\DateTimeShortcuts.js:239
 #: .\static\admin\js\admin\DateTimeShortcuts.js:319
-#: .\static\events\base_events.js:338 .\static\events\js\generate_table.js:207
+#: .\static\events\base_events.js:338 .\static\events\js\generate_table.js:210
 msgid "Today"
 msgstr "Сегодня"
 
-#: .\events\static\events\js\generate_table.js:208
-#: .\static\events\base_events.js:339 .\static\events\js\generate_table.js:208
+#: .\events\static\events\js\generate_table.js:211
+#: .\static\events\base_events.js:339 .\static\events\js\generate_table.js:211
 msgid "Failed to initialize"
 msgstr "Не удалось инициализировать"
 
-#: .\events\static\events\js\generate_table.js:209
-#: .\static\events\base_events.js:340 .\static\events\js\generate_table.js:209
+#: .\events\static\events\js\generate_table.js:212
+#: .\static\events\base_events.js:340 .\static\events\js\generate_table.js:212
 msgid "No data was found to show"
 msgstr "Не было найдено данных для отображения"
 
@@ -433,9 +435,9 @@ msgstr "Лицензия до: "
 #: .\federations\static\federations\js\ajax_user_table.js:166
 #: .\static\federations\js\ajax_user_table.js:166
 #: .\static\users\modules\ajax_permission.js:20
-#: .\static\users\modules\ajax_user_table.js:227
+#: .\static\users\modules\ajax_user_table.js:234
 #: .\users\static\users\modules\ajax_permission.js:20
-#: .\users\static\users\modules\ajax_user_table.js:227
+#: .\users\static\users\modules\ajax_user_table.js:234
 msgid "User registration"
 msgstr "Регистрация пользователя"
 
@@ -462,7 +464,7 @@ msgstr "Клуб"
 
 #: .\federations\static\federations\js\base_federation.js:280
 #: .\static\federations\js\base_federation.js:280
-#: .\static\users\base_clients.js:170 .\users\static\users\base_clients.js:170
+#: .\static\users\base_clients.js:217 .\users\static\users\base_clients.js:217
 msgid "Are you sure you want to generate a new password?"
 msgstr "Вы уверены, что хотите сгенерировать новый пароль?"
 
@@ -1098,10 +1100,13 @@ msgstr "Кликните для просмотра описания"
 
 #: .\static\trainings\js\training_card.js:297
 #: .\static\trainings\js\training_card.js:301
-#: .\static\trainings\js\view_training.js:278
+#: .\static\trainings\js\view_training.js:278 .\static\users\base_clients.js:83
+#: .\static\users\modules\user_table_settings.js:117
 #: .\trainings\static\trainings\js\training_card.js:297
 #: .\trainings\static\trainings\js\training_card.js:301
 #: .\trainings\static\trainings\js\view_training.js:278
+#: .\users\static\users\base_clients.js:83
+#: .\users\static\users\modules\user_table_settings.js:117
 msgid "Group"
 msgstr "Группа"
 
@@ -1164,11 +1169,11 @@ msgstr "Есть незаполненные игроки! Заполните и�
 msgid "Training action \""
 msgstr "Действие с тренировкой \""
 
-#: .\static\users\base_clients.js:149 .\users\static\users\base_clients.js:149
+#: .\static\users\base_clients.js:196 .\users\static\users\base_clients.js:196
 msgid "Delete user?"
 msgstr "Удалить пользователя?"
 
-#: .\static\users\base_clients.js:150 .\users\static\users\base_clients.js:150
+#: .\static\users\base_clients.js:197 .\users\static\users\base_clients.js:197
 msgid ""
 "After deletion, all workouts, folders and exercises of the user will be "
 "cleaned."
@@ -1176,18 +1181,18 @@ msgstr ""
 "После удаления все тренировки, папки и упражнения пользователя будут "
 "отчищены."
 
-#: .\static\users\base_clients.js:299 .\users\static\users\base_clients.js:299
+#: .\static\users\base_clients.js:346 .\users\static\users\base_clients.js:346
 msgid "Delete user payment?"
 msgstr "Удалить оплату пользователя?"
 
-#: .\static\users\base_clients.js:300 .\static\users\base_clients.js:345
-#: .\users\static\users\base_clients.js:300
-#: .\users\static\users\base_clients.js:345
+#: .\static\users\base_clients.js:347 .\static\users\base_clients.js:392
+#: .\users\static\users\base_clients.js:347
+#: .\users\static\users\base_clients.js:392
 msgid ""
 "When you delete a payment, the date of access to the program does not change"
 msgstr "При удалении платежа дата доступа к программе не меняется"
 
-#: .\static\users\base_clients.js:344 .\users\static\users\base_clients.js:344
+#: .\static\users\base_clients.js:391 .\users\static\users\base_clients.js:391
 msgid "Delete club payment?"
 msgstr "Удалить оплату клуба?"
 

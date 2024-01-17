@@ -42,6 +42,18 @@
             </div>
         </div>
         {% endif %}
+        {% if user.is_superuser %}
+        <div class="col-sm-12">
+            <div class="form-group row mb-1">
+                <label class="col col-form-label" for="group-select">{% trans 'Group'%}</label>
+                <div class="col">
+                    <select name="group" id="group-select" class="form-control form-control-sm" data-tags="true">
+
+                    </select>
+                </div>
+            </div>
+        </div>
+        {% endif %}
         {% if perms.federations.federation_admin or user.is_superuser %}
         <div class="col-sm-12">
             <div class="form-group row mb-1" title="{% trans 'Setting only for users without club and version'%}">

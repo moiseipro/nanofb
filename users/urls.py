@@ -22,4 +22,5 @@ urlpatterns = [
     path('countries_list', views.CountryListApiView.as_view(), name='countries_list'),
     path('versions_list', views.VersionListApiView.as_view(), name='versions_list'),
     path('clubs_list', views.ClubListApiView.as_view(), name='clubs_list'),
+    path('group_list', views.UserGroupListApiView.as_view(), name='group_list'),
 ]

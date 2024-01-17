@@ -116,6 +116,28 @@ class GlobalClubFilter(GlobalFilter, filters.CharFilter):
         return qs
 
 
+class GlobalGroupFilter(GlobalFilter, filters.CharFilter):
+    def filter(self, qs, value):
+        if value:
+            chooses = [choose.strip() for choose in value.split(',')]
+            print(chooses)
+            if self.distinct:
+                qs = qs.distinct()
+
+            is_empty_club = False
+
+            for choose in chooses:
+                if choose == '-1':
+                    is_empty_club = True
+
+            if is_empty_club:
+                qs = qs.filter(group=None)
+            else:
+                qs = qs.filter(group__in=chooses)
+
+        return qs
+
+
 class GlobalVersionFilter(GlobalFilter, filters.CharFilter):
     def filter(self, qs, value):
         if value:
@@ -191,10 +213,11 @@ class UserManagementGlobalFilter(DatatablesFilterSet):
 
     p_version = GlobalVersionFilter(field_name='p_version__id', lookup_expr='exact')
     club_id = GlobalClubFilter(field_name='club_id__id', lookup_expr='exact')
+    group = GlobalGroupFilter(field_name='group', lookup_expr='exact')
 
 
 
     class Meta:
         #model = User
         fields = ['registration_to', 'date_birthsday', 'last_name', 'first_name', 'job_title', 'license', 'p_version',
-                  'club_id', 'distributor', 'is_archive', 'online', 'access_to', 'notifications_count']
+                  'club_id', 'distributor', 'is_archive', 'online', 'access_to', 'notifications_count', 'group']

@@ -5,7 +5,13 @@ function load_user_data(id = -1) {
         console.log(data)
         let user = data.data
         for (const idKey in user) {
-            $('#users-table-tab .management-main-block select[name="'+idKey+'"]').val(user[idKey])
+            if (idKey == 'group'){
+                var newOption = new Option(user[idKey] ? user[idKey] : '', user[idKey] ? user[idKey] : '', false, true);
+                $('#users-table-tab .management-main-block select[name="'+idKey+'"]').append(newOption).trigger('change');
+            } else {
+                $('#users-table-tab .management-main-block select[name="'+idKey+'"]').val(user[idKey])
+            }
+
             if (idKey == 'is_demo_mode' || idKey == 'is_superuser'){
                 $('#users-table-tab .management-main-block input[name="'+idKey+'"]').prop('checked', user[idKey])
             } else {

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-12 13:42+0300\n"
+"POT-Creation-Date: 2024-01-17 18:27+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1079,7 +1079,7 @@ msgstr "Да"
 #: .\users\templates\users\forms\edit-club-form.html:42
 #: .\users\templates\users\forms\edit-personal-form.html:84
 #: .\users\templates\users\forms\edit-user-form.html:21
-#: .\users\templates\users\forms\edit-user-form.html:36 .\users\views.py:483
+#: .\users\templates\users\forms\edit-user-form.html:36 .\users\views.py:511
 #: .\video\templates\video\video_card.html:102
 msgid "No"
 msgstr "Нет"
@@ -1850,7 +1850,7 @@ msgstr ""
 #: .\clubs\templates\clubs\users_table.html:9 .\exercises\models.py:288
 #: .\users\models.py:57 .\users\templates\users\forms\add-user-form.html:9
 #: .\users\templates\users\forms\edit-personal-form.html:9
-#: .\users\templates\users\modules\user_table.html:15
+#: .\users\templates\users\modules\user_table.html:16
 msgid "Last name"
 msgstr "Фамилия"
 
@@ -1858,7 +1858,7 @@ msgstr "Фамилия"
 #: .\clubs\templates\clubs\users_table.html:10 .\users\models.py:52
 #: .\users\templates\users\forms\add-user-form.html:15
 #: .\users\templates\users\forms\edit-personal-form.html:17
-#: .\users\templates\users\modules\user_table.html:16
+#: .\users\templates\users\modules\user_table.html:17
 msgid "First name"
 msgstr "Имя"
 
@@ -1870,7 +1870,7 @@ msgstr "Отчество"
 
 #: .\authorization\forms.py:62 .\clubs\forms.py:79 .\exercises\models.py:294
 #: .\users\models.py:119
-#: .\users\templates\users\modules\user_table_settings.html:116
+#: .\users\templates\users\modules\user_table_settings.html:121
 msgid "Date of birth"
 msgstr "День рождения"
 
@@ -1887,9 +1887,9 @@ msgstr "Город"
 #: .\authorization\forms.py:83 .\clubs\forms.py:102
 #: .\users\templates\users\forms\add-user-form.html:86
 #: .\users\templates\users\forms\edit-personal-form.html:127
-#: .\users\templates\users\modules\user_table.html:22
+#: .\users\templates\users\modules\user_table.html:23
 #: .\users\templates\users\modules\user_table_settings.html:21
-#: .\users\templates\users\modules\user_table_settings.html:122
+#: .\users\templates\users\modules\user_table_settings.html:127
 msgid "Region"
 msgstr "Регион"
 
@@ -1898,7 +1898,7 @@ msgstr "Регион"
 #: .\users\templates\users\forms\add-user-form.html:51
 #: .\users\templates\users\forms\edit-personal-form.html:81
 #: .\users\templates\users\forms\edit-personal-form.html:96
-#: .\users\templates\users\modules\user_table_settings.html:98
+#: .\users\templates\users\modules\user_table_settings.html:103
 msgid "License"
 msgstr "Лицензия"
 
@@ -1912,8 +1912,8 @@ msgstr "Лицензия до"
 #: .\users\templates\users\base_profile.html:108
 #: .\users\templates\users\forms\add-user-form.html:100
 #: .\users\templates\users\forms\edit-user-form.html:9
-#: .\users\templates\users\modules\user_table.html:17
-#: .\users\templates\users\modules\user_table_settings.html:104
+#: .\users\templates\users\modules\user_table.html:18
+#: .\users\templates\users\modules\user_table_settings.html:109
 msgid "Email"
 msgstr "Электронная почта"
 
@@ -2165,8 +2165,8 @@ msgstr "Страна"
 #: .\clubs\forms.py:108 .\users\models.py:126
 #: .\users\templates\users\forms\add-user-form.html:45
 #: .\users\templates\users\forms\edit-personal-form.html:41
-#: .\users\templates\users\modules\user_table.html:19
-#: .\users\templates\users\modules\user_table_settings.html:110
+#: .\users\templates\users\modules\user_table.html:20
+#: .\users\templates\users\modules\user_table_settings.html:115
 msgid "Phone"
 msgstr "Телефон"
 
@@ -2342,8 +2342,8 @@ msgstr "Регистрация до"
 #: .\references\templates\references\base_settings.html:31
 #: .\users\templates\users\forms\edit-club-form.html:54
 #: .\users\templates\users\forms\edit-permission.html:35
-#: .\users\templates\users\forms\edit-user-form.html:48
-#: .\users\templates\users\modules\user_table_settings.html:152
+#: .\users\templates\users\forms\edit-user-form.html:60
+#: .\users\templates\users\modules\user_table_settings.html:157
 msgid "Teams"
 msgstr "Команды"
 
@@ -2406,7 +2406,7 @@ msgid "Activation"
 msgstr "Активация"
 
 #: .\clubs\templates\clubs\users_table.html:12
-#: .\users\templates\users\modules\user_table.html:21
+#: .\users\templates\users\modules\user_table.html:22
 msgid "Birth"
 msgstr "Д.Р."
 
@@ -2414,31 +2414,31 @@ msgstr "Д.Р."
 #: .\users\models.py:71 .\users\templates\users\base_profile.html:100
 #: .\users\templates\users\forms\add-user-form.html:33
 #: .\users\templates\users\forms\edit-personal-form.html:65
-#: .\users\templates\users\modules\user_table.html:23
-#: .\users\templates\users\modules\user_table_settings.html:128
+#: .\users\templates\users\modules\user_table.html:24
+#: .\users\templates\users\modules\user_table_settings.html:133
 msgid "Job title"
 msgstr "Должность"
 
 #: .\clubs\templates\clubs\users_table.html:15
-#: .\users\templates\users\modules\user_table.html:27
 #: .\users\templates\users\modules\user_table.html:28
+#: .\users\templates\users\modules\user_table.html:29
 msgid "T/P"
 msgstr "К/И"
 
 #: .\clubs\templates\clubs\users_table.html:16
-#: .\users\templates\users\modules\user_table.html:29
+#: .\users\templates\users\modules\user_table.html:30
 msgid "Exs."
 msgstr "Упр."
 
 #: .\clubs\templates\clubs\users_table.html:17
-#: .\users\templates\users\modules\user_table.html:31
-#: .\users\templates\users\modules\user_table_settings.html:164
+#: .\users\templates\users\modules\user_table.html:32
+#: .\users\templates\users\modules\user_table_settings.html:169
 msgid "Entrance"
 msgstr "Вход"
 
 #: .\clubs\templates\clubs\users_table.html:18 .\users\serializers.py:295
-#: .\users\templates\users\modules\user_table.html:32
-#: .\users\templates\users\modules\user_table_settings.html:75
+#: .\users\templates\users\modules\user_table.html:33
+#: .\users\templates\users\modules\user_table_settings.html:80
 msgid "Online"
 msgstr "Онлайн"
 
@@ -2572,7 +2572,7 @@ msgstr "Короткий ключ"
 msgid "Microcycle short code"
 msgstr "Кородкий код микроцикла"
 
-#: .\events\models.py:110
+#: .\events\models.py:110 .\events\templates\events\base_events.html:119
 msgid "Block"
 msgstr "Блок"
 
@@ -2675,9 +2675,9 @@ msgstr "М.Д."
 msgid "MC days"
 msgstr "Дни МЦ"
 
-#: .\events\templates\events\base_events.html:126
-#: .\events\templates\events\base_events.html:129
-#: .\events\templates\events\base_events.html:132
+#: .\events\templates\events\base_events.html:130
+#: .\events\templates\events\base_events.html:133
+#: .\events\templates\events\base_events.html:136
 #: .\events\templates\events\lite_events.html:120
 #: .\events\templates\events\lite_events.html:123
 #: .\shared\templates\shared\base_shared_training.html:52
@@ -2754,7 +2754,7 @@ msgid "Load"
 msgstr "Нагрузка"
 
 #: .\events\views.py:279 .\events\views.py:318 .\events\views.py:357
-#: .\events\views.py:396 .\users\views.py:423
+#: .\events\views.py:396 .\users\views.py:320 .\users\views.py:451
 msgid "Not chosen"
 msgstr "Не выбрано"
 
@@ -2762,7 +2762,7 @@ msgstr "Не выбрано"
 #: .\trainings\templates\trainings\training_card.html:12
 #: .\trainings\templates\trainings\view_lite_training.html:39
 #: .\trainings\templates\trainings\view_training.html:39
-#: .\users\templates\users\modules\user_table_settings.html:158
+#: .\users\templates\users\modules\user_table_settings.html:163
 msgid "Exercises"
 msgstr "Упражнения"
 
@@ -2942,11 +2942,11 @@ msgstr "Добавить клуб"
 msgid "Federation information"
 msgstr "Информация федерации"
 
-#: .\federations\views.py:163 .\users\views.py:365
+#: .\federations\views.py:163 .\users\views.py:393
 msgid "A club with this subdomain already exists!"
 msgstr "Клуб с этим субдоменом уже существует!"
 
-#: .\federations\views.py:173 .\users\views.py:375
+#: .\federations\views.py:173 .\users\views.py:403
 msgid "Create club success!"
 msgstr "Создание клуба успешно!"
 
@@ -3181,7 +3181,7 @@ msgstr "Уведомление"
 #: .\users\templates\users\forms\edit-user-form.html:18
 #: .\users\templates\users\modules\management_club_payment.html:36
 #: .\users\templates\users\modules\user_table.html:12
-#: .\users\templates\users\modules\user_table.html:24
+#: .\users\templates\users\modules\user_table.html:25
 msgid "Club"
 msgstr "Клуб"
 
@@ -3215,8 +3215,8 @@ msgstr "Основные разделы"
 #: .\trainings\templates\trainings\training_card.html:13
 #: .\trainings\templates\trainings\view_training.html:160
 #: .\users\templates\users\forms\edit-club-form.html:66
-#: .\users\templates\users\forms\edit-user-form.html:60
-#: .\users\templates\users\modules\user_table_settings.html:152
+#: .\users\templates\users\forms\edit-user-form.html:72
+#: .\users\templates\users\modules\user_table_settings.html:157
 msgid "Players"
 msgstr "Игроки"
 
@@ -3267,7 +3267,7 @@ msgstr "Курсы"
 
 #: .\notifications\apps.py:8
 #: .\notifications\templates\notifications\base_notification.html:26
-#: .\users\templates\users\modules\user_table_settings.html:81
+#: .\users\templates\users\modules\user_table_settings.html:86
 msgid "Notifications"
 msgstr "Уведомления"
 
@@ -3772,8 +3772,8 @@ msgstr "Типы доступа к медикаментам"
 #: .\users\templates\users\base_profile.html:53
 #: .\users\templates\users\modules\management_club_payment.html:37
 #: .\users\templates\users\modules\management_user_payment.html:37
-#: .\users\templates\users\modules\user_table.html:35
-#: .\users\templates\users\modules\user_table_settings.html:170
+#: .\users\templates\users\modules\user_table.html:36
+#: .\users\templates\users\modules\user_table_settings.html:175
 msgid "Payment"
 msgstr "Оплата"
 
@@ -4187,7 +4187,7 @@ msgstr "Должность пользователя"
 
 #: .\users\models.py:78 .\users\templates\users\forms\add-user-form.html:39
 #: .\users\templates\users\forms\edit-personal-form.html:73
-#: .\users\templates\users\modules\user_table_settings.html:134
+#: .\users\templates\users\modules\user_table_settings.html:139
 msgid "Club title"
 msgstr "Название клуба"
 
@@ -4238,11 +4238,11 @@ msgstr ""
 msgid "Not specified"
 msgstr "Не указан(а)"
 
-#: .\users\models.py:186 .\users\models.py:303
+#: .\users\models.py:186 .\users\models.py:310
 msgid "No name"
 msgstr "Нет имени"
 
-#: .\users\models.py:186 .\users\models.py:303
+#: .\users\models.py:186 .\users\models.py:310
 msgid "No last name"
 msgstr "Нет фамилии"
 
@@ -4261,7 +4261,7 @@ msgstr "адрес электронной почты"
 #: .\users\models.py:220 .\users\templates\users\base_profile.html:170
 #: .\users\templates\users\forms\add-user-form.html:117
 #: .\users\templates\users\forms\edit-user-form.html:33
-#: .\users\templates\users\modules\user_table.html:26
+#: .\users\templates\users\modules\user_table.html:27
 msgid "Version"
 msgstr "Версия"
 
@@ -4285,8 +4285,8 @@ msgstr "Дата регистрации"
 msgid "Last login date"
 msgstr "Дата последнего входа"
 
-#: .\users\models.py:259 .\users\templates\users\forms\edit-user-form.html:110
-#: .\users\templates\users\modules\user_table_settings.html:63
+#: .\users\models.py:259 .\users\templates\users\forms\edit-user-form.html:122
+#: .\users\templates\users\modules\user_table_settings.html:68
 msgid "Distributor"
 msgstr "Дистрибьютор"
 
@@ -4294,27 +4294,36 @@ msgstr "Дистрибьютор"
 msgid "User distributor"
 msgstr "Дистрибьютор пользователя"
 
-#: .\users\models.py:266
+#: .\users\models.py:266 .\users\templates\users\forms\edit-user-form.html:48
+#: .\users\templates\users\modules\user_table.html:13
+msgid "Group"
+msgstr "Группа"
+
+#: .\users\models.py:267
+msgid "User's group"
+msgstr "Группа пользователя"
+
+#: .\users\models.py:273
 msgid "Expiration version"
 msgstr "Срок версии"
 
-#: .\users\models.py:267
+#: .\users\models.py:274
 msgid "Version expiration date"
 msgstr "Дата истечения срока действия версии"
 
-#: .\users\models.py:276
+#: .\users\models.py:283
 msgid "Personal Information"
 msgstr "Личная информация"
 
-#: .\users\models.py:277
+#: .\users\models.py:284
 msgid "User Personal Information card"
 msgstr "Карточка личной информации пользователя"
 
-#: .\users\models.py:287
+#: .\users\models.py:294
 msgid "Payment Information"
 msgstr "Платежная информация"
 
-#: .\users\models.py:288
+#: .\users\models.py:295
 msgid "User Payment Information card"
 msgstr "Карточка платежной информации пользователя"
 
@@ -4331,7 +4340,7 @@ msgid "Active"
 msgstr "Активно"
 
 #: .\users\serializers.py:254 .\users\templates\users\base_profile.html:154
-#: .\users\templates\users\modules\user_table_settings.html:51
+#: .\users\templates\users\modules\user_table_settings.html:56
 msgid "Archive"
 msgstr "Архив"
 
@@ -4424,9 +4433,9 @@ msgstr "Срок лицензии"
 
 #: .\users\templates\users\forms\add-user-form.html:128
 #: .\users\templates\users\forms\edit-club-form.html:100
-#: .\users\templates\users\forms\edit-user-form.html:100
-#: .\users\templates\users\modules\user_table.html:34
-#: .\users\templates\users\modules\user_table_settings.html:87
+#: .\users\templates\users\forms\edit-user-form.html:112
+#: .\users\templates\users\modules\user_table.html:35
+#: .\users\templates\users\modules\user_table_settings.html:92
 msgid "Access to"
 msgstr "Доступ до"
 
@@ -4438,17 +4447,17 @@ msgid "Setting"
 msgstr "Настройка"
 
 #: .\users\templates\users\forms\edit-club-form.html:91
-#: .\users\templates\users\forms\edit-user-form.html:83
+#: .\users\templates\users\forms\edit-user-form.html:95
 #: .\users\templates\users\modules\club_table.html:11
-#: .\users\templates\users\modules\user_table.html:33
-#: .\users\templates\users\modules\user_table_settings.html:140
+#: .\users\templates\users\modules\user_table.html:34
+#: .\users\templates\users\modules\user_table_settings.html:145
 msgid "Registration"
 msgstr "Регистрация"
 
 #: .\users\templates\users\forms\edit-club-form.html:108
 #: .\users\templates\users\forms\edit-password-form.html:18
 #: .\users\templates\users\forms\edit-personal-form.html:142
-#: .\users\templates\users\forms\edit-user-form.html:128
+#: .\users\templates\users\forms\edit-user-form.html:140
 msgid "Save Changes"
 msgstr "Сохранить изменения"
 
@@ -4469,24 +4478,24 @@ msgid "If you change your password, you will need to log in again"
 msgstr "Если вы измените свой пароль, вам нужно будет снова войти в систему"
 
 #: .\users\templates\users\forms\edit-user-form.html:32
-#: .\users\templates\users\forms\edit-user-form.html:99
+#: .\users\templates\users\forms\edit-user-form.html:111
 msgid "Setting only for users without a club"
 msgstr "Настройка только для пользователей без клуба"
 
-#: .\users\templates\users\forms\edit-user-form.html:47
 #: .\users\templates\users\forms\edit-user-form.html:59
+#: .\users\templates\users\forms\edit-user-form.html:71
 msgid "Setting only for users without club and version"
 msgstr "Настройка только для пользователей без клуба и версии"
 
-#: .\users\templates\users\forms\edit-user-form.html:74
+#: .\users\templates\users\forms\edit-user-form.html:86
 msgid "Main admin"
 msgstr "Главный админ"
 
-#: .\users\templates\users\forms\edit-user-form.html:91
+#: .\users\templates\users\forms\edit-user-form.html:103
 msgid "Last login"
 msgstr "Последний вход"
 
-#: .\users\templates\users\forms\edit-user-form.html:120
+#: .\users\templates\users\forms\edit-user-form.html:132
 msgid "Demo version"
 msgstr "Демо версия"
 
@@ -4504,19 +4513,19 @@ msgstr "Оплата до"
 msgid "Generate a new password"
 msgstr "Создать новый пароль"
 
-#: .\users\templates\users\modules\user_table.html:13
+#: .\users\templates\users\modules\user_table.html:14
 msgid "Lic."
 msgstr "Лиц."
 
-#: .\users\templates\users\modules\user_table.html:14
+#: .\users\templates\users\modules\user_table.html:15
 msgid "Lic. to"
 msgstr "Лиц. до"
 
-#: .\users\templates\users\modules\user_table.html:18
+#: .\users\templates\users\modules\user_table.html:19
 msgid "D"
 msgstr "Д"
 
-#: .\users\templates\users\modules\user_table.html:25
+#: .\users\templates\users\modules\user_table.html:26
 msgid "A"
 msgstr ""
 
@@ -4528,19 +4537,19 @@ msgstr "Сбросить фильтры"
 msgid "Search by name"
 msgstr "Поиск по имени"
 
-#: .\users\templates\users\modules\user_table_settings.html:45
+#: .\users\templates\users\modules\user_table_settings.html:50
 msgid "Add. filters"
 msgstr "Доп. Фильтры"
 
-#: .\users\templates\users\modules\user_table_settings.html:57
+#: .\users\templates\users\modules\user_table_settings.html:62
 msgid "New users"
 msgstr "Новые пользователи"
 
-#: .\users\templates\users\modules\user_table_settings.html:69
+#: .\users\templates\users\modules\user_table_settings.html:74
 msgid "Admins"
 msgstr "Администраторы"
 
-#: .\users\templates\users\modules\user_table_settings.html:92
+#: .\users\templates\users\modules\user_table_settings.html:97
 msgid "Columns"
 msgstr "Колонки"
 
@@ -4592,11 +4601,11 @@ msgstr "Обратитесь к вашему администратору для
 msgid "This Email not valid!"
 msgstr "Этот адрес электронной почты недействителен!"
 
-#: .\users\views.py:315
+#: .\users\views.py:343
 msgid "Password updated successfully"
 msgstr "Пароль успешно изменен"
 
-#: .\users\views.py:317
+#: .\users\views.py:345
 msgid "Wrong password"
 msgstr "Неверный пароль"
 
@@ -5078,11 +5087,6 @@ msgstr "Анимация"
 
 #~ msgid "About"
 #~ msgstr "О"
-
-#, fuzzy
-#~| msgid "group"
-#~ msgid "Group B"
-#~ msgstr "группа"
 
 #, fuzzy
 #~| msgid "group"
