@@ -1112,7 +1112,7 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
                 players = players.order_by(*column_order)
             else:
                 if column_order == "card__notes":
-                    players.annotate(num_items=Count('card__records')).order_by(f'{column_order_dir}num_items')
+                    players.annotate(rec_count=Count('card__records')).order_by(f'{column_order_dir}rec_count')
                 elif column_order == "card__video":
                     pass
                 else:
