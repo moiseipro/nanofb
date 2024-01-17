@@ -1113,6 +1113,8 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
             else:
                 if column_order == "card__notes":
                     players.annotate(num_items=Count('card__records')).order_by(f'{column_order_dir}num_items')
+                elif column_order == "card__video":
+                    pass
                 else:
                     players = players.order_by(f'{column_order_dir}{column_order}')
         for _i, player in enumerate(players):
