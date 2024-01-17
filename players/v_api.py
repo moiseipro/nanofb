@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
-from django.db.models import Q
+from django.db.models import Q, Count
 from references.models import UserTeam, ClubTeam
 from players.models import UserPlayer, ClubPlayer, CardSection, PlayerCard, PlayersTableColumns, PlayerRecord
 from players.models import PlayerCharacteristicsRows, PlayerCharacteristicUser, PlayerCharacteristicClub
@@ -1111,7 +1111,12 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
                     column_order[_i] = f'{column_order_dir}{column_order[_i]}'
                 players = players.order_by(*column_order)
             else:
-                players = players.order_by(f'{column_order_dir}{column_order}')
+                if column_order == "card__foot":
+                    players = players.order_by(f'{column_order_dir}card__ref_foot__short_name')
+                elif column_order == "card__notes":
+                    players.annotate(num_items=Count('card__records')).order_by(f'{column_order_dir}num_items')
+                else:
+                    players = players.order_by(f'{column_order_dir}{column_order}')
         for _i, player in enumerate(players):
             player_position = ""
             player_foot = ""
