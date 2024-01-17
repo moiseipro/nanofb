@@ -1053,9 +1053,9 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
     columns = [
         'id', 'surname', 'name', 'patronymic', 'card__birthsday', 
         'card__citizenship', 'team__name', 'card__ref_position__short_name', ['card__is_captain', 'card__is_vice_captain'], 
-        'card__foot', 'card__growth', 'card__weight', 'card__game_num', 
+        'card__ref_foot__short_name', 'card__growth', 'card__weight', 'card__game_num', 
         'card__come', 'card__club_from', 'card__contract_with', 
-        'card__contract_by', 'card__video', 'card__notes', 'card_ref_level'
+        'card__contract_by', 'card__notes', 'card__video', 'card_ref_level'
     ]
     column_order_id = 0
     column_order = 'id'
@@ -1111,9 +1111,7 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
                     column_order[_i] = f'{column_order_dir}{column_order[_i]}'
                 players = players.order_by(*column_order)
             else:
-                if column_order == "card__foot":
-                    players = players.order_by(f'{column_order_dir}card__ref_foot__short_name')
-                elif column_order == "card__notes":
+                if column_order == "card__notes":
                     players.annotate(num_items=Count('card__records')).order_by(f'{column_order_dir}num_items')
                 else:
                     players = players.order_by(f'{column_order_dir}{column_order}')
