@@ -139,7 +139,6 @@ function LoadFolderExercises() {
 
 function RenderFolderExercises(id, tExs) {
     let exs = tExs[id];
-    console.log(exs)
     let exsHtml = "";
     $('.exs_counter').html(exs.length > 0 ? `(${exs.length})` : "(...)");
     $('.folders-block').find('.list-group-item.active').find('.folder-exs-counter').html(exs.length > 0 ? exs.length : "...");

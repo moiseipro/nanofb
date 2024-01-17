@@ -401,6 +401,7 @@ def POST_add_delete_players_protocol(request, cur_user, to_add = True):
                 if created:
                     try:
                         protocol.is_opponent = is_opponent
+                        protocol.p_num = f_player[0].card.game_num
                         protocol.save()
                         res_data.append(f"Created new protocol with id: {protocol.id}")
                     except:

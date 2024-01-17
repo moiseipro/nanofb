@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
-from django.db.models import Q
+from django.db.models import Q, Count
 from references.models import UserTeam, ClubTeam
 from players.models import UserPlayer, ClubPlayer, CardSection, PlayerCard, PlayersTableColumns, PlayerRecord
 from players.models import PlayerCharacteristicsRows, PlayerCharacteristicUser, PlayerCharacteristicClub
@@ -1053,9 +1053,9 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
     columns = [
         'id', 'surname', 'name', 'patronymic', 'card__birthsday', 
         'card__citizenship', 'team__name', 'card__ref_position__short_name', ['card__is_captain', 'card__is_vice_captain'], 
-        'card__foot', 'card__growth', 'card__weight', 'card__game_num', 
+        'card__ref_foot__short_name', 'card__growth', 'card__weight', 'card__game_num', 
         'card__come', 'card__club_from', 'card__contract_with', 
-        'card__contract_by', 'card__video', 'card__notes', 'card_ref_level'
+        'card__contract_by', 'card__notes', 'card__video', 'card_ref_level'
     ]
     column_order_id = 0
     column_order = 'id'
@@ -1111,7 +1111,12 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
                     column_order[_i] = f'{column_order_dir}{column_order[_i]}'
                 players = players.order_by(*column_order)
             else:
-                players = players.order_by(f'{column_order_dir}{column_order}')
+                if column_order == "card__notes":
+                    players.annotate(rec_count=Count('card__records')).order_by(f'{column_order_dir}rec_count')
+                elif column_order == "card__video":
+                    pass
+                else:
+                    players = players.order_by(f'{column_order_dir}{column_order}')
         for _i, player in enumerate(players):
             player_position = ""
             player_foot = ""
