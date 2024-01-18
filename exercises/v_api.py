@@ -884,7 +884,7 @@ def POST_copy_exs(request, cur_user, cur_team):
     if move_move != "all":
         exs_ids = [exs_id]
     if is_to_trainer:
-        EXS_LIMIT = 900
+        EXS_LIMIT = 1200
         last_name = cur_user.personal.last_name.lower().replace(' ', '')
         exs_count = TrainerExercise.objects.filter(user_name=last_name, user_birthdate=cur_user.personal.date_birthsday).count()
         if exs_count + len(exs_ids) > EXS_LIMIT:
