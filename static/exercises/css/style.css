@@ -694,12 +694,12 @@ span.drag.selected > a {
 }
 
 
-.select2-results {
-    height: 90vh;
-}
-.select2-results > ul {
-    max-height: 50vh !important;
-}
+/*.select2-results {*/
+/*    height: 90vh;*/
+/*}*/
+/*.select2-results > ul {*/
+/*    max-height: 50vh !important;*/
+/*}*/
 
 
 .btn-link.collapsed {

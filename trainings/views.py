@@ -1,6 +1,7 @@
 import json
 
 from django.core.exceptions import ImproperlyConfigured
+from django.db.models import Count
 from django.http import QueryDict
 from django.shortcuts import render
 from django.views.generic import DetailView
@@ -10,6 +11,8 @@ from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
+from rest_framework.views import APIView
+from django.utils.translation import gettext_lazy as _
 
 from events.models import UserEvent
 from exercises.models import UserExercise, ClubExercise
@@ -334,6 +337,155 @@ class TrainingViewSet(viewsets.ModelViewSet):
                                            event_id__date__gte=season[0].date_with,
                                            event_id__date__lte=season[0].date_by)
         return trainings
+
+
+# Списки задачь в тренировках
+class ObjectiveKeyListApiView(APIView):
+    # authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        if request.user.club_id is not None:
+            season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
+            queryset = ClubTraining.objects. \
+                filter(team_id=self.request.session['team']).exclude(objective_key=None).\
+                annotate(objective_count=Count('objective_key')).order_by('objective_key')
+        else:
+            season = UserSeason.objects.filter(id=self.request.session['season'])
+            queryset = UserTraining.objects. \
+                filter(team_id=self.request.session['team']).exclude(objective_key=None). \
+                annotate(objective_count=Count('objective_key')).order_by('objective_key')
+
+        list_objective = [
+            {
+                'id': objective.objective_key,
+                'name': objective.objective_key,
+                'count': objective.objective_count
+            } for objective in queryset
+        ]
+        print(list_objective)
+        object_count = {}
+        for microcycle in list_objective:
+            print(microcycle)
+            object_count[microcycle['id']] = object_count.get(microcycle['id'], {'name': '', 'count': 0})
+            object_count[microcycle['id']]['count'] += microcycle['count']
+            object_count[microcycle['id']]['name'] = microcycle['name']
+        print(object_count)
+        list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in object_count.items()]
+        #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+        print(list2)
+        return Response(list2)
+
+
+class Objective1ListApiView(APIView):
+    # authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        if request.user.club_id is not None:
+            season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
+            queryset = ClubTraining.objects. \
+                filter(team_id=self.request.session['team']).exclude(objective_1=None).\
+                annotate(objective_count=Count('objective_1')).order_by('objective_1')
+        else:
+            season = UserSeason.objects.filter(id=self.request.session['season'])
+            queryset = UserTraining.objects. \
+                filter(team_id=self.request.session['team']).exclude(objective_1=None). \
+                annotate(objective_count=Count('objective_1')).order_by('objective_1')
+
+        list_objective = [
+            {
+                'id': objective.objective_1,
+                'name': objective.objective_1,
+                'count': objective.objective_count
+            } for objective in queryset
+        ]
+        print(list_objective)
+        object_count = {}
+        for microcycle in list_objective:
+            print(microcycle)
+            object_count[microcycle['id']] = object_count.get(microcycle['id'], {'name': '', 'count': 0})
+            object_count[microcycle['id']]['count'] += microcycle['count']
+            object_count[microcycle['id']]['name'] = microcycle['name']
+        print(object_count)
+        list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in object_count.items()]
+        #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+        print(list2)
+        return Response(list2)
+
+
+class Objective2ListApiView(APIView):
+    # authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        if request.user.club_id is not None:
+            season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
+            queryset = ClubTraining.objects. \
+                filter(team_id=self.request.session['team']).exclude(objective_2=None).\
+                annotate(objective_count=Count('objective_2')).order_by('objective_2')
+        else:
+            season = UserSeason.objects.filter(id=self.request.session['season'])
+            queryset = UserTraining.objects. \
+                filter(team_id=self.request.session['team']).exclude(objective_2=None). \
+                annotate(objective_count=Count('objective_2')).order_by('objective_2')
+
+        list_objective = [
+            {
+                'id': objective.objective_2,
+                'name': objective.objective_2,
+                'count': objective.objective_count
+            } for objective in queryset
+        ]
+        print(list_objective)
+        object_count = {}
+        for microcycle in list_objective:
+            print(microcycle)
+            object_count[microcycle['id']] = object_count.get(microcycle['id'], {'name': '', 'count': 0})
+            object_count[microcycle['id']]['count'] += microcycle['count']
+            object_count[microcycle['id']]['name'] = microcycle['name']
+        print(object_count)
+        list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in object_count.items()]
+        #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+        print(list2)
+        return Response(list2)
+
+
+class Objective3ListApiView(APIView):
+    # authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        if request.user.club_id is not None:
+            season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
+            queryset = ClubTraining.objects. \
+                filter(team_id=self.request.session['team']).exclude(objective_3=None).\
+                annotate(objective_count=Count('objective_3')).order_by('objective_3')
+        else:
+            season = UserSeason.objects.filter(id=self.request.session['season'])
+            queryset = UserTraining.objects. \
+                filter(team_id=self.request.session['team']).exclude(objective_3=None). \
+                annotate(objective_count=Count('objective_3')).order_by('objective_3')
+
+        list_objective = [
+            {
+                'id': objective.objective_3,
+                'name': objective.objective_3,
+                'count': objective.objective_count
+            } for objective in queryset
+        ]
+        print(list_objective)
+        object_count = {}
+        for microcycle in list_objective:
+            print(microcycle)
+            object_count[microcycle['id']] = object_count.get(microcycle['id'], {'name': '', 'count': 0})
+            object_count[microcycle['id']]['count'] += microcycle['count']
+            object_count[microcycle['id']]['name'] = microcycle['name']
+        print(object_count)
+        list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in object_count.items()]
+        #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+        print(list2)
+        return Response(list2)
 
 
 class LiteTrainingViewSet(viewsets.ModelViewSet):

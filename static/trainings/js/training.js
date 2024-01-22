@@ -38,6 +38,11 @@ $(window).on('load', function (){
         });
     })
 
+    create_ajax_select2($('[name="objective_key"]'), gettext('Key'), '/trainings/objective_key_list/')
+    create_ajax_select2($('[name="objective_1"]'), gettext('Objective')+' 1', '/trainings/objective_1_list/')
+    create_ajax_select2($('[name="objective_2"]'), gettext('Objective')+' 2', '/trainings/objective_2_list/')
+    create_ajax_select2($('[name="objective_3"]'), gettext('Objective')+' 3', '/trainings/objective_3_list/')
+
     // Добавление упражнения в тренировку
     $('.visual-block').on('click', '.add-exercise', function (){
         let data = {}
@@ -163,9 +168,10 @@ $(window).on('load', function (){
         training_data['field_size'] = $('#training-main-data input[name="field_size"]').val()
         training_data['load_type'] = $('#training-main-data input[name="load_type"]').val()
         training_data['goal'] = $('#training-main-data input[name="goal"]').val()
-        training_data['objective_1'] = $('#block-training-goals input[name="objective_1"]').val()
-        training_data['objective_2'] = $('#block-training-goals input[name="objective_2"]').val()
-        training_data['objective_3'] = $('#block-training-goals input[name="objective_3"]').val()
+        training_data['objective_key'] = $('#block-training-goals select[name="objective_key"]').val()
+        training_data['objective_1'] = $('#block-training-goals select[name="objective_1"]').val()
+        training_data['objective_2'] = $('#block-training-goals select[name="objective_2"]').val()
+        training_data['objective_3'] = $('#block-training-goals select[name="objective_3"]').val()
         training_data['video_href'] = $('#training-video-modal input[name="video_href"]').val()
 
         training_data['players_count'] = JSON.stringify(players_count)

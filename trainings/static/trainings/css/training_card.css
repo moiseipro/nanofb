@@ -118,3 +118,33 @@ input.btn-primary::placeholder { /* Most modern browsers support this now. */
 .bg-disabled{
     background-color: #e9ecef;
 }
+
+.base-select2 .select2-container .select2-selection--single {
+    border: 2px solid dodgerblue;
+    border-radius: 0px;
+}
+.base-select2 .select2-container--bootstrap4 .select2-selection--single {
+    height: calc(1.5em + 0.4rem + 2px) !important;
+}
+.base-select2 .select2-container--bootstrap4 .select2-selection--single .select2-selection__placeholder {
+    line-height: calc(1.5em + .25rem);
+    color: #6c757d;
+}
+.base-select2 .select2-container--bootstrap4.select2-container--focus .select2-selection {
+    border-color: indianred !important;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.base-select2 .select2-container--bootstrap4 .select2-selection__clear {
+    float: right;
+    width: 1.1em;
+    height: 1.1em;
+    padding-left: 0em;
+    padding-top: 0.25rem;
+    margin-top: 0.4em;
+    margin-right: 0.3em;
+    line-height: .75em;
+    color: #f8f9fa;
+    background-color: #c8c8c8;
+    border-radius: 100%;
+}

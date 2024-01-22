@@ -67,6 +67,54 @@ $(document).ready(function() {
 
 });
 
+function create_ajax_select2(obj = null, placeholder = '', href = '') {
+    obj.select2({
+        tags: true,
+        allowClear: true,
+        //minimumResultsForSearch: -1,
+        placeholder: placeholder,
+        language: get_cur_lang(),
+        theme: 'bootstrap4',
+        width: '100%',
+        ajax: {
+            url: href,
+            dataType: 'json',
+            data: function (params) {
+            },
+            processResults: function (data, params) {
+                console.log(data)
+
+                return {
+                    results: data,
+                    pagination: {
+                      more: false
+                    }
+                };
+            },
+            cache: true
+        },
+        templateResult: select2CountTemplate,
+        templateSelection: select2BaseSelectedTemplate,
+    })
+}
+
+function select2CountTemplate(state) {
+    console.log(state)
+    var $state = $(`
+        <div class="" title="${state.text}"> ${state.text} <span class="float-right">${state.count ? '('+state.count+')':''}</span></div>
+        
+    `);
+    return $state;
+}
+
+function select2BaseSelectedTemplate(state) {
+    console.log(state)
+    var $state = $(`
+        <div class="text-truncate" title="${state.text}"> ${state.text}</div>
+        
+    `);
+    return $state;
+}
 
 function create_alert(id, options) {
     let obj = $('#'+id);
