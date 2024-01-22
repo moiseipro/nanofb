@@ -2835,6 +2835,22 @@ $(function() {
                     window.selectedExercisesForDelete.push(exsId);
                 }
                 RenderSelectedExercisesForDelete();
+            } else if (cId == "delete_select_full") {
+                if (!Array.isArray(window.selectedExercisesForDelete)) {
+                    window.selectedExercisesForDelete = [];
+                }
+                $('.exs-list-group').find('.list-group-item').each((ind, elem) => {
+                    let exsId = $(elem).attr('data-id');
+                    if (window.selectedExercisesForDelete.includes(exsId)) {
+                        let index = window.selectedExercisesForDelete.indexOf(exsId);
+                        if (index !== -1) {
+                            window.selectedExercisesForDelete.splice(index, 1);
+                        }
+                    } else {
+                        window.selectedExercisesForDelete.push(exsId);
+                    }
+                });
+                RenderSelectedExercisesForDelete();
             }
             $(e.currentTarget).addClass('active');
             if (cId == "delete" || cId == "delete_select") {
