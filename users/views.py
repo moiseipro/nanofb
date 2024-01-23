@@ -264,7 +264,7 @@ class UserManagementApiView(viewsets.ModelViewSet):
         request = self.request
 
         #users = User.objects.filter(club_id=request.user.club_id)
-        users = User.objects.all().order_by('club_id', 'p_version')
+        users = User.objects.all().order_by('-date_last_login', 'club_id')
         #User.objects.prefetch_related(Prefetch('notificationuser_set'))
 
         return users

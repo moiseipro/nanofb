@@ -67,11 +67,11 @@ $(document).ready(function() {
 
 });
 
-function create_ajax_select2(obj = null, placeholder = '', href = '') {
+function create_ajax_select2(obj = null, placeholder = '', href = '', tags = true, allowClear = true, search = 1) {
     obj.select2({
-        tags: true,
-        allowClear: true,
-        //minimumResultsForSearch: -1,
+        tags: tags,
+        allowClear: allowClear,
+        minimumResultsForSearch: search,
         placeholder: placeholder,
         language: get_cur_lang(),
         theme: 'bootstrap4',

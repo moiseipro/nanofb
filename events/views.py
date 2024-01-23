@@ -276,7 +276,7 @@ class MicrocycleNameListApiView(APIView):
             microcycles_count[microcycle['id']]['name'] = microcycle['name']
         print(microcycles_count)
         list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in microcycles_count.items()]
-        list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+        #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
         print(list2)
         return Response(list2)
 
@@ -315,7 +315,7 @@ class MicrocycleShortKeyApiView(APIView):
             microcycles_count[microcycle['id']]['name'] = microcycle['name']
         print(microcycles_count)
         list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in microcycles_count.items()]
-        list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+        #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
         print(list2)
         return Response(list2)
 
@@ -354,7 +354,7 @@ class MicrocycleBlockListApiView(APIView):
             microcycles_count[microcycle['id']]['name'] = microcycle['name']
         print(microcycles_count)
         list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in microcycles_count.items()]
-        list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+        #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
         print(list2)
         return Response(list2)
 
@@ -393,7 +393,7 @@ class MicrocycleBlockKeyApiView(APIView):
             microcycles_count[microcycle['id']]['name'] = microcycle['name']
         print(microcycles_count)
         list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in microcycles_count.items()]
-        list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+        #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
         print(list2)
         return Response(list2)
 
