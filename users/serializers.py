@@ -1,4 +1,6 @@
 import datetime
+from itertools import count
+
 from django.utils import timezone
 
 from django.db import IntegrityError
@@ -8,7 +10,7 @@ from clubs.serializers import ClubSerializer
 from exercises.models import UserExercise, ClubExercise
 from notifications.models import NotificationUser
 from players.models import ClubPlayer, UserPlayer
-from references.models import ClubTeam, UserTeam, ClubPaymentInformation, UserPaymentInformation
+from references.models import ClubTeam, UserTeam, ClubPaymentInformation, UserPaymentInformation, ClubSeason, UserSeason
 from users.models import User, UserPersonal, TrainerLicense
 from django_countries.serializer_fields import CountryField
 from django.utils.translation import gettext_lazy as _
@@ -253,14 +255,19 @@ class UserManagementSerializer(serializers.ModelSerializer):
                 active_status['type'] = 'warning'
                 active_status['status'] = _("Archive")
             elif user.club_id is not None:
-                if user.club_id.date_registration_to < datetime.date.today():
+                if len(ClubTeam.objects.filter(club_id=user.club_id)) == 0 or len(ClubSeason.objects.filter(club_id=user.club_id)) == 0:
+                    active_status['type'] = 'warning'
+                    active_status['status'] = _("Not filled in")
+                elif user.club_id.date_registration_to < datetime.date.today():
                     active_status['type'] = 'danger'
                     active_status['status'] = _("Club license expired")
             else:
-                if user.registration_to < datetime.date.today():
+                if len(UserTeam.objects.filter(user_id=user)) == 0 or len(UserSeason.objects.filter(user_id=user)) == 0:
+                    active_status['type'] = 'warning'
+                    active_status['status'] = _("Not filled in")
+                elif user.registration_to < datetime.date.today():
                     active_status['type'] = 'danger'
                     active_status['status'] = _("License expired")
-
         else:
             active_status['type'] = 'danger'
             active_status['status'] = _("Not active")

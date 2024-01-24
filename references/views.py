@@ -84,7 +84,7 @@ class TeamViewSet(viewsets.ModelViewSet):
         else:
             team = UserPlayer
             serializer_class = UserPlayerSerializer
-        queryset = team.objects.filter(team=pk)
+        queryset = team.objects.filter(team=pk, is_archive=False)
         print(queryset)
 
         serializer = UserPlayerSerializer(queryset, many=True)

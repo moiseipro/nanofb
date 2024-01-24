@@ -209,9 +209,9 @@ class TrainingViewSet(viewsets.ModelViewSet):
             return Response({'status': 'protocol_not_empty'})
 
         if self.request.user.club_id is not None:
-            players_team = list(ClubPlayer.objects.filter(team=training_team).values_list('id', flat=True))
+            players_team = list(ClubPlayer.objects.filter(team=training_team, is_archive=False).values_list('id', flat=True))
         else:
-            players_team = list(UserPlayer.objects.filter(team=training_team).values_list('id', flat=True))
+            players_team = list(UserPlayer.objects.filter(team=training_team, is_archive=False).values_list('id', flat=True))
         print(players_team)
         players_array = []
         if len(players_team) > 0:
