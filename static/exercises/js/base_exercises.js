@@ -470,6 +470,23 @@ function ToggleUpFilter(id, state) {
                 CountExsInFolder();
             }
             break;
+        case "toggle_new_folder":
+            if (state) {
+                window.exercisesFilter['new_folder_exs'] = '1';
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            } else {
+                delete window.exercisesFilter['new_folder_exs'];
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            }
+            break;
         case "toggle_pro":
             if (state) {
                 $('.up-tabs-elem[data-id="toggle_pro"]').addClass('selected3');

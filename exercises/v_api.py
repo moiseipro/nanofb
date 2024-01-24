@@ -358,6 +358,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
     filter_ball = -1
     filter_favorite = -1
     filter_new_exs = -1
+    filter_new_folder_exs = -1
     filter_editing_exs = -1
     filter_search = ""
     filter_tags = []
@@ -396,6 +397,13 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             filter_new_exs = int(req.GET.get("filter[new_exs]", -1))
         elif req.method == "POST":
             filter_new_exs = int(req.POST.get("filter[new_exs]", -1))
+    except:
+        pass
+    try:
+        if req.method == "GET":
+            filter_new_folder_exs = int(req.GET.get("filter[new_folder_exs]", -1))
+        elif req.method == "POST":
+            filter_new_folder_exs = int(req.POST.get("filter[new_folder_exs]", -1))
     except:
         pass
     try:
@@ -572,6 +580,10 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
         enddate = datetime.date.today()
         startdate = enddate - datetime.timedelta(days=30)
         f_exercises = f_exercises.filter(date_creation__range=[startdate, enddate])
+    if filter_new_folder_exs != -1:
+        enddate = datetime.date.today()
+        startdate = enddate - datetime.timedelta(days=30)
+        f_exercises = f_exercises.filter(date_editing_folder__range=[startdate, enddate])
     if filter_editing_exs != -1:
         enddate = datetime.date.today()
         startdate = enddate - datetime.timedelta(days=30)
@@ -1230,6 +1242,8 @@ def POST_edit_exs(request, cur_user, cur_team):
                 return JsonResponse({"err": "Can't edit the exs.", "success": False}, status=200)
         else:
             c_exs = c_exs[0]
+            if c_exs.folder != c_folder[0]:
+                c_exs.date_editing_folder = datetime.datetime.now()
             c_exs.folder = c_folder[0]
             copied_from_nfb = c_exs.clone_nfb_id != None
     elif folder_type == utils.FOLDER_NFB:
@@ -1250,6 +1264,8 @@ def POST_edit_exs(request, cur_user, cur_team):
                 return JsonResponse({"err": "Can't edit the exs.", "success": False}, status=200)
         else:
             c_exs = c_exs[0]
+            if c_exs.folder != c_folder[0]:
+                c_exs.date_editing_folder = datetime.datetime.now()
             c_exs.folder = c_folder[0]
     elif folder_type == utils.FOLDER_CLUB:
         if not found_team or not found_team.exists() or found_team[0].id == None:
@@ -1538,6 +1554,8 @@ def POST_edit_exs_custom(request, cur_user, cur_team):
                 return JsonResponse({"err": "Can't edit the exs.", "success": False}, status=200)
         else:
             c_exs = c_exs[0]
+            if c_exs.folder != c_folder[0]:
+                c_exs.date_editing_folder = datetime.datetime.now()
             c_exs.folder = c_folder[0]
             copied_from_nfb = c_exs.clone_nfb_id != None
     elif folder_type == utils.FOLDER_NFB:
@@ -1558,6 +1576,8 @@ def POST_edit_exs_custom(request, cur_user, cur_team):
                 return JsonResponse({"err": "Can't edit the exs.", "success": False}, status=200)
         else:
             c_exs = c_exs[0]
+            if c_exs.folder != c_folder[0]:
+                c_exs.date_editing_folder = datetime.datetime.now()
             c_exs.folder = c_folder[0]
     elif folder_type == utils.FOLDER_CLUB:
         if not found_team or not found_team.exists() or found_team[0].id == None:
@@ -3685,11 +3705,14 @@ def GET_nfb_folders_set(request, cur_user, cur_team):
 
     """
     is_success = True
-    if not util_check_access(cur_user, {
-        'perms_user': ["exercises.change_userfolder", "exercises.add_userfolder", "exercises.delete_userfolder"], 
-        'perms_club': ["exercises.change_clubfolder", "exercises.add_clubfolder", "exercises.delete_clubfolder"]
-    }):
-        return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    if cur_team == "__last_one":
+        cur_team = UserTeam.objects.filter(user_id=cur_user).order_by('-id').first().id
+    else:
+        if not util_check_access(cur_user, {
+            'perms_user': ["exercises.change_userfolder", "exercises.add_userfolder", "exercises.delete_userfolder"], 
+            'perms_club': ["exercises.change_clubfolder", "exercises.add_clubfolder", "exercises.delete_clubfolder"]
+        }):
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
     old_folders = None
     if request.user.club_id is not None:
         old_folders = ClubFolder.objects.filter(club=request.user.club_id)
