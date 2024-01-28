@@ -554,7 +554,6 @@ $(function() {
                 $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
             }
         }
-       
     });
     $('.folders_nfb_list').on('click', '.list-group-item', (e) => {
         let isActive = $(e.currentTarget).hasClass('active');
@@ -593,6 +592,50 @@ $(function() {
                 $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
             }
         }
+    });
+    $('.folders_trainer_list').on('click', '.list-group-item', (e) => {
+        if ($(e.currentTarget).find('.trainer-folder-elem-team').length > 0) {return;}
+        let activeExs = $('.exs-list-group').find('.list-group-item.active');
+        let selectedElem = $(e.currentTarget).find('.trainer-folder-elem');
+        if ($(activeExs).length == 0) {
+            swal("Внимание", "Выберите упражнение из списка.", "info");
+            return;
+        }
+        $(e.currentTarget).toggleClass('active', true);
+        let data = {
+            'move_exs': 0,
+            'copy_exs': 1,
+            'move_mode': "",
+            'exs': $(activeExs).attr('data-id'), 
+            'nfb_folder': 0,
+            'team': $(selectedElem).attr('data-team'),
+            'folder': $(selectedElem).attr('data-id'),
+            'type': "__is_trainer"
+        };
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: data,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "exercises_api",
+            success: function (res) {
+                if (res.success) {
+                    swal("Готово", "Упражнение добавлено в выбранную папку.", "success");
+                } else {
+                    swal("Ошибка", "Упражнение не удалось добавить.", "error");
+                    console.log(res);
+                }
+            },
+            error: function (res) {
+                swal("Ошибка", "Упражнение не удалось добавить.", "error");
+                console.log(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+                $(e.currentTarget).toggleClass('active', false);
+            }
+        });
     });
     ToggleFoldersView(false);
 

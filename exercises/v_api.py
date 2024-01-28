@@ -3487,7 +3487,6 @@ def GET_get_exs_full_name(request, cur_user, cur_team):
     return JsonResponse({"data": res_exs, "success": True}, status=200)
 
 
-
 def GET_get_exs_all_features(request, cur_user, cur_team):
     """
     Return JSON Response as result on GET operation "Get all exercises' features".
@@ -3509,7 +3508,6 @@ def GET_get_exs_all_features(request, cur_user, cur_team):
             return JsonResponse({"err": "Access denied.", "success": False}, status=400)
     features = get_exercises_features(request, cur_user, cur_team)
     return JsonResponse({"data": features, "success": True}, status=200)
-
 
 # --------------------------------------------------
 # FOLDERS API
@@ -3672,6 +3670,7 @@ def POST_change_order_folder(request, cur_user):
     return JsonResponse({"data": res_data}, status=200)
 
 
+
 def GET_nfb_folders(request, cur_user):
     """
     Return JSON Response as result on GET operation "Get NFB folders".
@@ -3765,3 +3764,34 @@ def GET_nfb_folders_set(request, cur_user, cur_team):
         res_data = {'type': "nfb_folders_set"}
     return JsonResponse({"data": res_data}, status=200)
 
+
+def GET_all_teams_folders(request, cur_user):
+    """
+    Return JSON Response as result on GET operation "Get all teams folders".
+
+    :return: JsonResponse with "data", "status" (response code).
+    :rtype: JsonResponse[{"data": [obj]}, status=[int]]
+
+    """
+    if not util_check_access(cur_user, {
+        'perms_user': ["exercises.view_userfolder"], 
+        'perms_club': ["exercises.view_clubfolder"]
+    }):
+        return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    data_result = []
+    if request.user.club_id is None:
+        teams = UserTeam.objects.filter(user_id=cur_user)
+        for team in teams:
+            folders = UserFolder.objects.filter(
+                Q(user=cur_user, team=team, visible=True) &
+                Q(Q(parent=0) | Q(parent__isnull=True))
+            )
+            folders = [entry for entry in folders.values()]
+            for folder in folders:
+                subfolders = UserFolder.objects.filter(user=cur_user, team=team, visible=True, parent=folder['id'])
+                folder['subfolders'] = [entry for entry in subfolders.values()]
+            data_result.append({
+                'team': {'id': team.id, 'name': team.name},
+                'folders': folders
+            })
+    return JsonResponse({"data": data_result, "success": True}, status=200)

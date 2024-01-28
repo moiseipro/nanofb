@@ -409,6 +409,28 @@ tr.bck-custom > td {
 .folders_nfb_list > .list-group > .list-group-item.last-elem {
     border-bottom: 3px solid #a8c5e4;
 }
+.folders_trainer_list > .list-group > .list-group-item:not(.team-elem):hover {
+    background-color: #ececec;
+    border-color: #e6e6e6;
+    color: #828e97;
+    border: 2px solid rgb(100, 100, 100) !important;
+}
+.folders_trainer_list > .list-group > .list-group-item.active {
+    background-color: #d4d4d4;
+    border-color: #b9b8b8;
+    color: #5a6268;
+    border: 2px solid rgb(100, 100, 100) !important;
+}
+.folders_trainer_list > .list-group > .list-group-item.root-elem {
+    background-color: #a8c5e4;
+    border-color: #a8c5e4;
+    font-weight: bold;
+    margin-bottom: .25rem !important;
+}
+.folders_trainer_list > .list-group > .list-group-item.last-elem {
+    border-bottom: 3px solid #a8c5e4;
+}
+
 .nfb_folders_list > .list-group > .list-group-item {
     background-color: #fff;
 }
