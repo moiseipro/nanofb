@@ -23,6 +23,7 @@ from references.serializers import UserTeamsSerializer, UserSeasonsSerializer, E
     UserPaymentInformationSerializer, ClubPaymentInformationSerializer
 from users.models import User
 from system_icons.views import get_ui_elements
+from exercises.v_api import GET_nfb_folders_set
 
 
 # REST PERMISSIONS
@@ -73,6 +74,9 @@ class TeamViewSet(viewsets.ModelViewSet):
         if limits:
             return Response({'limit': 'team_limit'}, status=status.HTTP_403_FORBIDDEN)
         else:
+            print(f"clib: {self.request.user.club_id}")
+            if self.request.user.club_id is None:
+                GET_nfb_folders_set(self.request, self.request.user, "__last_one")
             return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     @action(detail=True, methods=['get'])

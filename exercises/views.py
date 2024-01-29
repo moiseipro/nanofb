@@ -446,6 +446,13 @@ def exercises_api(request):
         except:
             pass
         if copy_exs_status == 1:
+            req_team_id = None
+            try:
+                req_team_id = int(request.POST.get("team", None))
+            except:
+                pass
+            if req_team_id:
+                cur_team = req_team_id
             return v_api.POST_copy_exs(request, cur_user[0], cur_team)
         elif move_exs_status == 1:
             return v_api.POST_move_exs(request, cur_user[0], cur_team)
@@ -624,6 +631,7 @@ def folders_api(request):
             pass
         nfb_folders_status = 0
         nfb_folders_set_status = 0
+        all_team_folders_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         if not cur_user.exists() or cur_user[0].id == None:
             return JsonResponse({"errors": "trouble_with_user"}, status=400)
@@ -635,10 +643,16 @@ def folders_api(request):
             nfb_folders_set_status = int(request.GET.get("nfb_folders_set", 0))
         except:
             pass
+        try:
+            all_team_folders_status = int(request.GET.get("all_team_folders", 0))
+        except:
+            pass
         if nfb_folders_status == 1:
             return v_api.GET_nfb_folders(request, cur_user[0])
         elif nfb_folders_set_status == 1:
             return v_api.GET_nfb_folders_set(request, cur_user[0], cur_team)
+        elif all_team_folders_status == 1:
+            return v_api.GET_all_teams_folders(request, cur_user[0])
         return JsonResponse({"errors": "access_error"}, status=400)
     else:
         return JsonResponse({"errors": "access_error"}, status=400)

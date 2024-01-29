@@ -168,6 +168,7 @@ class ClubExerciseAdditionalParams(models.Model):
 class AbstractExercise(models.Model):
     date_creation = models.DateField(auto_now_add=True)
     date_editing = models.DateField(null=True, blank=True)
+    date_editing_folder = models.DateField(null=True, blank=True)
     order = models.IntegerField(
         help_text='Индекс сортировки',
         default=0
