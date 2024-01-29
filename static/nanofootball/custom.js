@@ -67,11 +67,12 @@ $(document).ready(function() {
 
 });
 
-function create_ajax_select2(obj = null, placeholder = '', href = '', tags = true, allowClear = true, search = 1) {
+function create_ajax_select2(obj = null, placeholder = '', href = '', parent = $(document.body), tags = true, allowClear = true, search = 1) {
     obj.select2({
         tags: tags,
         allowClear: allowClear,
         minimumResultsForSearch: search,
+        dropdownParent: parent,
         placeholder: placeholder,
         language: get_cur_lang(),
         theme: 'bootstrap4',
