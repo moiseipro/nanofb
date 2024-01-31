@@ -594,7 +594,11 @@ $(function() {
         }
     });
     $('.folders_trainer_list').on('click', '.list-group-item', (e) => {
-        if ($(e.currentTarget).find('.trainer-folder-elem-team').length > 0) {return;}
+        if ($(e.currentTarget).find('.trainer-folder-elem-team').length > 0) {
+            let cTeamId = $(e.currentTarget).find('.trainer-folder-elem-team').attr('data-team');
+            $('.folders_trainer_list').find(`.trainer-folder-elem[data-team="${cTeamId}"]`).parent().toggleClass('d-none');
+            return;
+        }
         let activeExs = $('.exs-list-group').find('.list-group-item.active');
         let selectedElem = $(e.currentTarget).find('.trainer-folder-elem');
         if ($(activeExs).length == 0) {

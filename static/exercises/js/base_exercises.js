@@ -1056,7 +1056,7 @@ function LoadAllTeamFolders() {
                 res.data.forEach(row => {
                     htmlFolders += `
                         <li class="list-group-item p-1 last-elem team-elem">
-                            <div class="trainer-folder-elem-team">
+                            <div class="trainer-folder-elem-team" data-team="${row.team.id}">
                                 <div class="pull-center d-flex justify-content-center">
                                     <span class="folder-title">Команда: ${row.team.name}</span>
                                 </div>
@@ -1069,7 +1069,7 @@ function LoadAllTeamFolders() {
                             let shortName = `${shortNameChars[folder_i].toUpperCase()}${subfolder_i+1}`;
                             htmlFolders += `
                                 <li class="list-group-item p-1 ${isLastElem ? 'last-elem' : ''}">
-                                    <div class="trainer-folder-elem d-flex justify-content-between" data-id="${subfolder.id}" data-parent="${folder.id}" data-team=${row.team.id}>
+                                    <div class="trainer-folder-elem d-flex justify-content-between" data-id="${subfolder.id}" data-parent="${folder.id}" data-team="${row.team.id}">
                                         <div class="pull-left">
                                             <span class="folder-title">${shortName}. ${subfolder.name}</span>
                                         </div>
