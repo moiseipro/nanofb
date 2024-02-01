@@ -67,13 +67,15 @@ $(document).ready(function() {
 
 });
 
-function create_ajax_select2(obj = null, placeholder = '', href = '', parent = $(document.body), tags = true, allowClear = true, search = 1) {
+function create_ajax_select2(obj = null, placeholder = '', href = '', parent = $(document.body), tags = true, allowClear = true, search = 0, multiple = false, multiple_count = 0) {
     obj.select2({
         tags: tags,
+        multiple: multiple,
         allowClear: allowClear,
         minimumResultsForSearch: search,
         dropdownParent: parent,
         placeholder: placeholder,
+        maximumSelectionLength: multiple_count,
         language: get_cur_lang(),
         theme: 'bootstrap4',
         width: '100%',
@@ -81,6 +83,11 @@ function create_ajax_select2(obj = null, placeholder = '', href = '', parent = $
             url: href,
             dataType: 'json',
             data: function (params) {
+                var query = {
+                    search: params.term,
+                }
+                console.log(params)
+                return query
             },
             processResults: function (data, params) {
                 console.log(data)

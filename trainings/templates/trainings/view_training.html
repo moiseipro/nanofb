@@ -52,7 +52,10 @@
 {#                                <div class="col-6 px-1">#}
 {#                                    <button id="#" title="" class="btn btn-block btn-outline-primary btn-sm font-weight-bold" data-toggle="modal" data-target="#training-video-modal">{% trans "Video" %}</button>#}
 {#                                </div>#}
-                                <div class="col-12 px-1">
+                                <div class="col-6 px-1">
+                                   <button id="edit-objectives" title="" class="btn btn-block btn-outline-primary btn-sm font-weight-bold" data-toggle="modal" data-target="#training-objectives-modal">{% trans "Objectives" %}</button>
+                                </div>
+                                <div class="col-6 px-1">
                                     <button id="delete-training" title="" class="btn btn-block btn-outline-danger btn-sm font-weight-bold">{% trans "Delete" %}</button>
                                 </div>
                             </div>
@@ -181,6 +184,7 @@
                     {% include "exercises/modules/exercise_graphic_modal.html" %}
                 </div>
                 {% include "trainings/training_video.html" %}
+                {% include "trainings/training_objectives.html" %}
             </div>
         </div>
     </div>
@@ -200,6 +204,8 @@
     <script src="{% static 'references/players_list_json.js' %}"></script>
     <script src="{% static 'trainings/js/view_protocol.js' %}"></script>
     <script src="{% static 'trainings/js/exercise_additional_loader.js' %}"></script>
+    <script src="{% static 'trainings/js/action_objectives.js' %}"></script>
+    <script src="{% static 'trainings/js/objectives_table.js' %}"></script>
     <script src="{% static 'trainings/js/training_card.js' %}"></script>
 
     <script src="{% static 'exercises/js/modules/graphic_modal.js' %}"></script>

@@ -1,7 +1,7 @@
 import json
 
 from django.core.exceptions import ImproperlyConfigured
-from django.db.models import Count
+from django.db.models import Q, Count, Subquery
 from django.http import QueryDict
 from django.shortcuts import render
 from django.views.generic import DetailView
@@ -13,6 +13,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework.views import APIView
 from django.utils.translation import gettext_lazy as _
+from rest_framework_datatables.django_filters.backends import DatatablesFilterBackend
 
 from events.models import UserEvent
 from exercises.models import UserExercise, ClubExercise
@@ -23,13 +24,16 @@ from references.models import UserTeam, UserSeason, ClubTeam, ClubSeason, ExsAdd
 from references.serializers import ExsAdditionalDataSerializer
 from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExerciseAdditional, UserTrainingProtocol, \
     ClubTrainingExercise, ClubTrainingProtocol, ClubTraining, ClubTrainingExerciseAdditional, LiteTraining, \
-    LiteTrainingExercise, LiteTrainingExerciseAdditional
+    LiteTrainingExercise, LiteTrainingExerciseAdditional, UserTrainingObjectives, ClubTrainingObjectives, \
+    ClubTrainingObjectiveMany, UserTrainingObjectiveMany
 
 # REST FRAMEWORK
 from trainings.serializers import UserTrainingSerializer, UserTrainingExerciseSerializer, \
     UserTrainingExerciseAdditionalSerializer, UserTrainingProtocolSerializer, ClubTrainingExerciseSerializer, \
     ClubTrainingProtocolSerializer, ClubTrainingSerializer, ClubTrainingExerciseAdditionalSerializer, \
-    LiteTrainingExerciseSerializer, LiteTrainingSerializer, LiteTrainingExerciseAdditionalSerializer
+    LiteTrainingExerciseSerializer, LiteTrainingSerializer, LiteTrainingExerciseAdditionalSerializer, \
+    UserTrainingObjectiveSerializer, ClubTrainingObjectiveSerializer, UserTrainingObjectiveManySerializer, \
+    ClubTrainingObjectiveManySerializer
 from users.models import User
 from system_icons.views import get_ui_elements
 
@@ -313,6 +317,30 @@ class TrainingViewSet(viewsets.ModelViewSet):
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
 
+    @action(detail=True, methods=['post'])
+    def add_objective(self, request, pk=None):
+
+        data = request.data.get('items', request.data)
+        data_objectives = json.loads(data)
+        many = isinstance(data_objectives, list)
+        print(data_objectives, many)
+
+        if self.request.user.club_id is not None:
+            ClubTraining.objects.get(pk=pk).objectives.clear()
+            serializer = ClubTrainingObjectiveManySerializer(
+                data=data_objectives, many=many
+            )
+        else:
+            UserTraining.objects.get(pk=pk).objectives.clear()
+            serializer = UserTrainingObjectiveManySerializer(
+                data=data_objectives, many=many
+            )
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     def get_serializer_class(self):
         if self.request.user.club_id is not None:
             serial = ClubTrainingSerializer
@@ -339,152 +367,152 @@ class TrainingViewSet(viewsets.ModelViewSet):
         return trainings
 
 
-# Списки задачь в тренировках
-class ObjectiveKeyListApiView(APIView):
+class ObjectivesViewSet(viewsets.ModelViewSet):
+    permission_classes = [BaseTrainingsPermissions]
+    filter_backends = (DatatablesFilterBackend,)
+    #filterset_class = UserManagementGlobalFilter
+
+    def perform_create(self, serializer):
+        if self.request.user.club_id is not None:
+            team = ClubTeam.objects.get(pk=self.request.session['team'])
+        else:
+            team = UserTeam.objects.get(pk=self.request.session['team'])
+        serializer.save(team=team)
+
+    def get_serializer_class(self):
+        if self.request.user.club_id is not None:
+            serial = ClubTrainingObjectiveSerializer
+        else:
+            serial = UserTrainingObjectiveSerializer
+        return serial
+
+    def get_queryset(self):
+        if self.request.user.club_id is not None:
+            objectives = ClubTrainingObjectives.objects.filter(team_id=self.request.session['team'])
+        else:
+            objectives = UserTrainingObjectives.objects.filter(team_id=self.request.session['team'])
+
+        return objectives
+
+
+class ObjectivesTrainingViewSet(viewsets.ModelViewSet):
+    permission_classes = [BaseTrainingsPermissions]
+    #filterset_class = UserManagementGlobalFilter
+
+    @action(detail=True, methods=['post'])
+    def check(self, request, pk=None):
+        data = request.data
+        instance = self.get_object()
+        print(data['exercise_training'])
+        if self.request.user.club_id is not None:
+            training = ClubTrainingProtocol.objects.get(pk=pk)
+            exercise = ClubTrainingExercise
+        else:
+            training = UserTrainingProtocol.objects.get(pk=pk)
+            exercise = UserTrainingExercise
+        edit_exercises = training.training_exercise_check
+        print(training.status)
+
+        status_exs = ''
+        if training:
+            if edit_exercises.exists() and edit_exercises.filter(pk=data['exercise_training']).exists():
+                training.training_exercise_check.remove(edit_exercises.get(pk=data['exercise_training']))
+                status_exs = 'removed'
+            else:
+                training.training_exercise_check.add(exercise.objects.get(pk=data['exercise_training']))
+                status_exs = 'added'
+            return Response({'status': status_exs})
+        else:
+            status_exs = 'error'
+            return Response({'status': status_exs},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+    def create(self, request, *args, **kwargs):
+        data = self.request.data.get('items')
+        data_players = json.loads(data)
+        print(data)
+        print(data_players)
+        if isinstance(data_players, list):  # <- is the main logic
+            serializer = self.get_serializer(data=data_players, many=True)
+        else:
+            serializer = self.get_serializer(data=data_players)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def update(self, request, *args, **kwargs):
+        partial = True
+        instance = self.get_object()
+        print(request.data)
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        if self.request.user.club_id is not None:
+            protocol_model = ClubTrainingProtocol
+        else:
+            protocol_model = UserTrainingProtocol
+
+        print(serializer.data)
+        if serializer.data['status_info'] != None and 'trainings_reset' in serializer.data['status_info']['tags'] and \
+                serializer.data['status_info']['tags']['trainings_reset'] == 1:
+            protocol_model.objects.get(pk=serializer.data['id']).training_exercise_check.clear()
+
+        return Response(serializer.data)
+
+    def get_serializer_class(self):
+        if self.request.user.club_id is not None:
+            serializer_class = ClubTrainingProtocolSerializer
+        else:
+            serializer_class = UserTrainingProtocolSerializer
+        return serializer_class
+
+    def get_queryset(self):
+        if self.request.user.club_id is not None:
+            queryset = ClubTrainingProtocol.objects.all()
+        else:
+            queryset = UserTrainingProtocol.objects.all()
+        return queryset
+
+
+# Списки задачь для тренировок команды
+class ObjectivesListApiView(APIView):
     # authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request, format=None):
+        search = request.GET.get('search', '')
         if request.user.club_id is not None:
-            season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
-            queryset = ClubTraining.objects. \
-                filter(team_id=self.request.session['team']).exclude(objective_key=None).\
-                annotate(objective_count=Count('objective_key')).order_by('objective_key')
+            queryset = ClubTrainingObjectives.objects. \
+                filter(Q(team=self.request.session['team']) & (Q(name__contains=search) | Q(short_name__contains=search))).\
+                annotate(objective_count=Count('team')).order_by('short_name')
+            training_count = ClubTraining.objects.all().annotate(objective_count=Count('objectives'))
         else:
-            season = UserSeason.objects.filter(id=self.request.session['season'])
-            queryset = UserTraining.objects. \
-                filter(team_id=self.request.session['team']).exclude(objective_key=None). \
-                annotate(objective_count=Count('objective_key')).order_by('objective_key')
+            queryset = UserTrainingObjectives.objects. \
+                filter(Q(team=self.request.session['team']) & (Q(name__contains=search) | Q(short_name__contains=search))). \
+                annotate(objective_count=Count('team')).order_by('short_name')
+            training_count = UserTraining.objects.all().annotate(objective_count=Count('objectives'))
+
+        #print(training_count)
 
         list_objective = [
             {
-                'id': objective.objective_key,
-                'name': objective.objective_key,
+                'id': objective.id,
+                'name': objective.short_name + ". " + objective.name,
                 'count': objective.objective_count
             } for objective in queryset
         ]
         print(list_objective)
         object_count = {}
         for microcycle in list_objective:
-            print(microcycle)
+            #print(microcycle)
             object_count[microcycle['id']] = object_count.get(microcycle['id'], {'name': '', 'count': 0})
             object_count[microcycle['id']]['count'] += microcycle['count']
             object_count[microcycle['id']]['name'] = microcycle['name']
-        print(object_count)
+        #print(object_count)
         list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in object_count.items()]
         #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
-        print(list2)
-        return Response(list2)
-
-
-class Objective1ListApiView(APIView):
-    # authentication_classes = [authentication.TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, format=None):
-        if request.user.club_id is not None:
-            season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
-            queryset = ClubTraining.objects. \
-                filter(team_id=self.request.session['team']).exclude(objective_1=None).\
-                annotate(objective_count=Count('objective_1')).order_by('objective_1')
-        else:
-            season = UserSeason.objects.filter(id=self.request.session['season'])
-            queryset = UserTraining.objects. \
-                filter(team_id=self.request.session['team']).exclude(objective_1=None). \
-                annotate(objective_count=Count('objective_1')).order_by('objective_1')
-
-        list_objective = [
-            {
-                'id': objective.objective_1,
-                'name': objective.objective_1,
-                'count': objective.objective_count
-            } for objective in queryset
-        ]
-        print(list_objective)
-        object_count = {}
-        for microcycle in list_objective:
-            print(microcycle)
-            object_count[microcycle['id']] = object_count.get(microcycle['id'], {'name': '', 'count': 0})
-            object_count[microcycle['id']]['count'] += microcycle['count']
-            object_count[microcycle['id']]['name'] = microcycle['name']
-        print(object_count)
-        list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in object_count.items()]
-        #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
-        print(list2)
-        return Response(list2)
-
-
-class Objective2ListApiView(APIView):
-    # authentication_classes = [authentication.TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, format=None):
-        if request.user.club_id is not None:
-            season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
-            queryset = ClubTraining.objects. \
-                filter(team_id=self.request.session['team']).exclude(objective_2=None).\
-                annotate(objective_count=Count('objective_2')).order_by('objective_2')
-        else:
-            season = UserSeason.objects.filter(id=self.request.session['season'])
-            queryset = UserTraining.objects. \
-                filter(team_id=self.request.session['team']).exclude(objective_2=None). \
-                annotate(objective_count=Count('objective_2')).order_by('objective_2')
-
-        list_objective = [
-            {
-                'id': objective.objective_2,
-                'name': objective.objective_2,
-                'count': objective.objective_count
-            } for objective in queryset
-        ]
-        print(list_objective)
-        object_count = {}
-        for microcycle in list_objective:
-            print(microcycle)
-            object_count[microcycle['id']] = object_count.get(microcycle['id'], {'name': '', 'count': 0})
-            object_count[microcycle['id']]['count'] += microcycle['count']
-            object_count[microcycle['id']]['name'] = microcycle['name']
-        print(object_count)
-        list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in object_count.items()]
-        #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
-        print(list2)
-        return Response(list2)
-
-
-class Objective3ListApiView(APIView):
-    # authentication_classes = [authentication.TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, format=None):
-        if request.user.club_id is not None:
-            season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
-            queryset = ClubTraining.objects. \
-                filter(team_id=self.request.session['team']).exclude(objective_3=None).\
-                annotate(objective_count=Count('objective_3')).order_by('objective_3')
-        else:
-            season = UserSeason.objects.filter(id=self.request.session['season'])
-            queryset = UserTraining.objects. \
-                filter(team_id=self.request.session['team']).exclude(objective_3=None). \
-                annotate(objective_count=Count('objective_3')).order_by('objective_3')
-
-        list_objective = [
-            {
-                'id': objective.objective_3,
-                'name': objective.objective_3,
-                'count': objective.objective_count
-            } for objective in queryset
-        ]
-        print(list_objective)
-        object_count = {}
-        for microcycle in list_objective:
-            print(microcycle)
-            object_count[microcycle['id']] = object_count.get(microcycle['id'], {'name': '', 'count': 0})
-            object_count[microcycle['id']]['count'] += microcycle['count']
-            object_count[microcycle['id']]['name'] = microcycle['name']
-        print(object_count)
-        list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in object_count.items()]
-        #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
-        print(list2)
+        #print(list2)
         return Response(list2)
 
 

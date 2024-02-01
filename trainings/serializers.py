@@ -6,10 +6,76 @@ from references.serializers import PlayerProtocolStatusSerializer, TrainingSpace
     UserTeamsSerializer, ClubTeamsSerializer, TrainingAdditionalDataSerializer
 from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExerciseAdditional, UserTrainingProtocol, \
     ClubTrainingProtocol, ClubTrainingExercise, LiteTrainingExerciseAdditional, LiteTraining, LiteTrainingExercise, \
-    ClubTrainingExerciseAdditional
+    ClubTrainingExerciseAdditional, UserTrainingObjectives, ClubTrainingObjectives, UserTrainingObjectiveMany, \
+    ClubTrainingObjectiveMany
 
 # Training
 from users.serializers import UserSerializer
+
+
+class TrainingObjectiveSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        fields = (
+            'id', 'short_name', 'name'
+        )
+
+
+class UserTrainingObjectiveSerializer(TrainingObjectiveSerializer):
+    class Meta(TrainingObjectiveSerializer.Meta):
+        model = UserTrainingObjectives
+
+    Meta.fields += ('team',)
+
+
+class ClubTrainingObjectiveSerializer(TrainingObjectiveSerializer):
+    class Meta(TrainingObjectiveSerializer.Meta):
+        model = ClubTrainingObjectives
+
+    Meta.fields += ('team',)
+
+
+class UserTrainingObjectiveManySerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = UserTrainingObjectiveMany
+        fields = (
+            'id', 'objective', 'training', 'type'
+        )
+
+
+class UserTrainingObjectiveManySerializerView(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    objective = UserTrainingObjectiveSerializer()
+
+    class Meta:
+        model = UserTrainingObjectiveMany
+        fields = (
+            'id', 'objective', 'type'
+        )
+
+
+class ClubTrainingObjectiveManySerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = ClubTrainingObjectiveMany
+        fields = (
+            'id', 'objective', 'training', 'type'
+        )
+
+
+class ClubTrainingObjectiveManySerializerView(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    objective = ClubTrainingObjectiveSerializer()
+
+    class Meta:
+        model = UserTrainingObjectiveMany
+        fields = (
+            'id', 'objective', 'type'
+        )
 
 
 class TrainingProtocolSerializer(serializers.ModelSerializer):
@@ -204,7 +270,7 @@ class TrainingSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
             'event_id', 'event_date', 'event_time', 'favourites', 'trainer', 'additional', 'notes', 'field_size',
-            'load_type', 'objective_key', 'objective_1', 'objectives', 'objective_2', 'objective_3', 'video_href', 'inventory', 'players_json'
+            'load_type', 'video_href', 'inventory', 'players_json'
         )
         datatables_always_serialize = ('event_id',)
 
@@ -224,11 +290,16 @@ class UserTrainingSerializer(TrainingSerializer):
         source="usertrainingprotocol_set",
         many=True
     )
+    objectives = UserTrainingObjectiveManySerializerView(
+        read_only=True,
+        source="usertrainingobjectivemany_set",
+        many=True
+    )
 
     class Meta(TrainingSerializer.Meta):
         model = UserTraining
 
-    Meta.fields += ('exercises_info', 'protocol_info', 'team_info')
+    Meta.fields += ('exercises_info', 'protocol_info', 'team_info', 'objectives')
 
 
 class ClubTrainingSerializer(TrainingSerializer):
@@ -236,7 +307,7 @@ class ClubTrainingSerializer(TrainingSerializer):
         read_only=True,
         source="team_id",
     )
-    exercises_info = ClubTrainingExerciseSerializer(
+    exercises_info = ClubTrainingObjectiveManySerializer(
         read_only=True,
         source="clubtrainingexercise_set",
         many=True
@@ -246,11 +317,16 @@ class ClubTrainingSerializer(TrainingSerializer):
         source="clubtrainingprotocol_set",
         many=True
     )
+    objectives = ClubTrainingObjectiveManySerializerView(
+        read_only=True,
+        source="clubtrainingobjectivemany_set",
+        many=True
+    )
 
     class Meta(TrainingSerializer.Meta):
         model = UserTraining
 
-    Meta.fields += ('exercises_info', 'protocol_info', 'team_info')
+    Meta.fields += ('exercises_info', 'protocol_info', 'team_info', 'objectives')
 
 
 class LiteTrainingSerializer(TrainingSerializer):

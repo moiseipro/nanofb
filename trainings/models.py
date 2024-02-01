@@ -12,6 +12,48 @@ from users.models import User
 
 
 # Create your models here.
+class AbstractTrainingObjectives(models.Model):
+    short_name = models.CharField(
+        max_length=30,
+        verbose_name=_('Short name'),
+        help_text=_('The short name of the objective'),
+        null=True,
+        blank=True,
+    )
+    name = models.CharField(
+        max_length=255,
+        verbose_name=_('Title'),
+        help_text=_('Objective name'),
+        null=True,
+        blank=True,
+    )
+
+    class Meta:
+        abstract = True
+
+
+class UserTrainingObjectives(AbstractTrainingObjectives):
+    team = models.ForeignKey(
+        UserTeam,
+        verbose_name=_('User team'),
+        help_text=_('User team'),
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+
+
+class ClubTrainingObjectives(AbstractTrainingObjectives):
+    team = models.ForeignKey(
+        ClubTeam,
+        verbose_name=_('Club team'),
+        help_text=_('Club team'),
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+
+
 class AbstractTraining(models.Model):
     trainer_user_id = models.ForeignKey(
         User,
@@ -37,39 +79,6 @@ class AbstractTraining(models.Model):
         max_length=255,
         verbose_name=_('load type'),
         help_text=_('Type of training load'),
-        null=True,
-        blank=True,
-    )
-    objective_key = models.CharField(
-        max_length=20,
-        verbose_name=_('objective key'),
-        help_text=_('Objective key in training'),
-        null=True,
-        blank=True,
-    )
-    objective_1 = models.CharField(
-        max_length=255,
-        verbose_name=_('objective'),
-        help_text=_('Objective in training'),
-        null=True,
-        blank=True,
-    )
-    objectives = models.JSONField(
-        verbose_name=_('objectives'),
-        help_text=_('Objectives in training'),
-        null=True,
-    )
-    objective_2 = models.CharField(
-        max_length=255,
-        verbose_name=_('objective'),
-        help_text=_('Objective in training'),
-        null=True,
-        blank=True,
-    )
-    objective_3 = models.CharField(
-        max_length=255,
-        verbose_name=_('objective'),
-        help_text=_('Objective in training'),
         null=True,
         blank=True,
     )
@@ -119,6 +128,14 @@ class UserTraining(AbstractTraining):
         UserTeam,
         on_delete=models.CASCADE
     )
+    objectives = models.ManyToManyField(
+        UserTrainingObjectives,
+        verbose_name=_('objective'),
+        help_text=_('Objective in training'),
+        blank=True,
+        through="UserTrainingObjectiveMany",
+        through_fields=('training', 'objective')
+    )
     exercises = models.ManyToManyField(
         UserExercise,
         through="UserTrainingExercise",
@@ -148,6 +165,13 @@ class ClubTraining(AbstractTraining):
     team_id = models.ForeignKey(
         ClubTeam,
         on_delete=models.CASCADE
+    )
+    objectives = models.ManyToManyField(
+        ClubTrainingObjectives,
+        verbose_name=_('objective'),
+        help_text=_('Objective in training'),
+        through="ClubTrainingObjectiveMany",
+        through_fields=('training', 'objective')
     )
     exercises = models.ManyToManyField(
         ClubExercise,
@@ -289,6 +313,46 @@ class LiteTrainingExercise(AbstractTrainingExercise):
         through="LiteTrainingExerciseAdditional",
         through_fields=('training_exercise_id', 'additional_id')
     )
+
+
+class AbstractTrainingObjectiveMany(models.Model):
+    type = models.SmallIntegerField(
+        verbose_name=_('Objective type'),
+        help_text=_('Type of objective for training'),
+        blank=True,
+        null=True
+    )
+
+    class Meta:
+        abstract = True
+
+
+class UserTrainingObjectiveMany(AbstractTrainingObjectiveMany):
+    training = models.ForeignKey(
+        UserTraining,
+        on_delete=models.CASCADE
+    )
+    objective = models.ForeignKey(
+        UserTrainingObjectives,
+        on_delete=models.CASCADE,
+    )
+
+    class Meta:
+        ordering = ['type']
+
+
+class ClubTrainingObjectiveMany(AbstractTrainingObjectiveMany):
+    training = models.ForeignKey(
+        ClubTraining,
+        on_delete=models.CASCADE
+    )
+    objective = models.ForeignKey(
+        ClubTrainingObjectives,
+        on_delete=models.CASCADE,
+    )
+
+    class Meta:
+        ordering = ['type']
 
 
 class AbstractTrainingExerciseAdditional(models.Model):

@@ -338,14 +338,21 @@ function load_all_exercises_training(training_id = null, group = null) {
         $('#training-main-data input[name="field_size"]').val(data.field_size)
         $('#training-main-data input[name="load_type"]').val(data.load_type)
         $('#training-main-data input[name="goal"]').val(data.goal)
-        let newOption = new Option(data.objective_key, data.objective_key, false, true);
-        $('#block-training-goals select[name="objective_key"]').append(newOption).trigger('change');
-        newOption = new Option(data.objective_1, data.objective_1, false, true);
-        $('#block-training-goals select[name="objective_1"]').append(newOption).trigger('change');
-        newOption = new Option(data.objective_2, data.objective_2, false, true);
-        $('#block-training-goals select[name="objective_2"]').append(newOption).trigger('change');
-        newOption = new Option(data.objective_3, data.objective_3, false, true);
-        $('#block-training-goals select[name="objective_3"]').append(newOption).trigger('change');
+        let newOption;
+        console.log(data.objectives)
+        $('#block-training-goals select').val(null).trigger('change');
+        for (const objective of data.objectives) {
+            newOption = new Option(objective.objective.short_name+". "+objective.objective.name, objective.objective.id, false, true);
+            if (objective.type == 0){
+                $('#block-training-goals select[name="objective_1"]').append(newOption).trigger('change');
+            }
+            if (objective.type == 1){
+                $('#block-training-goals select[name="objective_2"]').append(newOption).trigger('change');
+            }
+            if (objective.type == 2){
+                $('#block-training-goals select[name="objective_3"]').append(newOption).trigger('change');
+            }
+        }
         $('#training-video-modal input[name="video_href"]').val(data.video_href)
         //console.log(data.inventory)
         if(data.inventory != null){

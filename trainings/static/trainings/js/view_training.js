@@ -3,6 +3,8 @@ $(window).on('load', function (){
 
     var id = get_page_id()
 
+    generate_ajax_objectives_table('100%')
+
     // Добавление игроков в протокол
     $('#add-player-protocol-modal').on('click', '#add-all-players', function (){
         let send_data = {}
