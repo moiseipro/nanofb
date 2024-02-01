@@ -663,7 +663,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             exercise['has_animation_2'] = False
             exercise['trainings_count'] = -1
             exercise['nf_exs'] = folder_type == utils.FOLDER_NFB
-            exercise['in_trainer_folder'] = TrainerExercise.objects.filter(user_name=last_name, user_birthdate=cur_user.personal.date_birthsday, exs_ref=exercise['id']).first() != None
+            exercise['in_trainer_folder'] = TrainerExercise.objects.filter(user_name=last_name, user_birthdate=cur_user.personal.date_birthsday, exs_ref=exercise['id']).first() != None or folder_type == utils.FOLDER_TRAINER
             user_params = None
             video_1 = None
             video_2 = None
@@ -717,7 +717,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
                 video_2 = ExerciseVideo.objects.filter(exercise_trainer=exercise['id'], type=2).first()
                 anim_1 = ExerciseVideo.objects.filter(exercise_trainer=exercise['id'], type=3).first()
                 anim_2 = ExerciseVideo.objects.filter(exercise_trainer=exercise['id'], type=4).first()
-            
+                exercise['trainings_count'] = 0
             if video_1 and video_1.video:
                 if video_1.video.note and video_1.video.note['video']:
                     exercise['has_video_1'] = True
