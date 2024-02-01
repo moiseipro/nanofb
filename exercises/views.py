@@ -38,7 +38,7 @@ def exercises(request):
     """
     if not request.user.is_authenticated:
         return redirect("authorization:login")
-    cur_user = User.objects.filter(email=request.user).only("club_id")
+    cur_user = User.objects.filter(email=request.user).only("club_id", "personal__last_name", "personal__first_name")
     if not util_check_access(cur_user[0], 
         {'perms_user': ["exercises.view_userexercise"], 'perms_club': ["exercises.view_clubexercise"]}
     ):
@@ -74,6 +74,7 @@ def exercises(request):
         'show_club_folders': is_show_club_folders,
         'seasons_list': request.seasons_list,
         'teams_list': request.teams_list,
+        'user_name': f'{cur_user[0].personal.last_name} {cur_user[0].personal.first_name}',
         'ui_elements': get_ui_elements(request)
     })
 

@@ -191,8 +191,8 @@ function RenderFolderExercises(id, tExs) {
                     </button>
                     ` : ``}
                     ${exElem.in_trainer_folder ? `
-                    <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x" data-type="marker" data-id="trainer" title="В упражнениях тренера">
-                        <span class="icon-custom icon--trainer" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
+                    <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x" data-type="marker" data-id="trainer" title="В архиве">
+                        <i class="fa fa-lg fa-archive" aria-hidden="true"></i>
                     </button>
                     ` : ``}
                     <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.video_1_watched ? 'selected' : ''}" data-type="marker" data-id="watched" title="Смотрел / Не смотрел">
@@ -451,7 +451,8 @@ function ToggleMarkersInExs() {
     $('.exercises-block').find(`[data-type="marker"][data-id="favorite"]`).toggleClass('d-none', !isActiveFavorite);
     $('.exercises-block').find(`[data-type="marker"][data-id="goal"]`).toggleClass('d-none', !isActiveGoal);
     $('.exercises-block').find(`[data-type="marker"][data-id="watched"]`).toggleClass('d-none', !(isActiveWatched || isActiveWatchedNot));
-    $('.exercises-block').find(`[data-type="marker"][data-id="trainer"]`).toggleClass('d-none', !isActiveEditBlock);
+    $('.exercises-block').find(`[data-type="marker"][data-id="trainer"]`).toggleClass('d-none', false);
+    // $('.exercises-block').find(`[data-type="marker"][data-id="trainer"]`).toggleClass('d-none', !isActiveEditBlock);
 }
 
 function PauseCountExsCalls(currentCall) {
@@ -606,39 +607,51 @@ $(function() {
             return;
         }
         $(e.currentTarget).toggleClass('active', true);
-        let data = {
-            'move_exs': 0,
-            'copy_exs': 1,
-            'move_mode': "",
-            'exs': $(activeExs).attr('data-id'), 
-            'nfb_folder': 0,
-            'team': $(selectedElem).attr('data-team'),
-            'folder': $(selectedElem).attr('data-id'),
-            'type': "__is_trainer"
-        };
-        $('.page-loader-wrapper').fadeIn();
-        $.ajax({
-            headers:{"X-CSRFToken": csrftoken},
-            data: data,
-            type: 'POST', // GET или POST
-            dataType: 'json',
-            url: "exercises_api",
-            success: function (res) {
-                if (res.success) {
-                    swal("Готово", "Упражнение добавлено в выбранную папку.", "success");
-                } else {
+        swal({
+            title: "Внимание!",
+            text: "Вы точно хотите добавить текущее упражнение в выбранную папку?",
+            icon: "warning",
+            buttons: ["Отмена", "Да"],
+            dangerMode: false,
+        }).then((accepted) => {
+            if (!accepted) {
+                $(e.currentTarget).toggleClass('active', false);
+                return;
+            }
+            let data = {
+                'move_exs': 0,
+                'copy_exs': 1,
+                'move_mode': "",
+                'exs': $(activeExs).attr('data-id'), 
+                'nfb_folder': 0,
+                'team': $(selectedElem).attr('data-team'),
+                'folder': $(selectedElem).attr('data-id'),
+                'type': "__is_trainer"
+            };
+            $('.page-loader-wrapper').fadeIn();
+            $.ajax({
+                headers:{"X-CSRFToken": csrftoken},
+                data: data,
+                type: 'POST', // GET или POST
+                dataType: 'json',
+                url: "exercises_api",
+                success: function (res) {
+                    if (res.success) {
+                        swal("Готово", "Упражнение добавлено в выбранную папку.", "success");
+                    } else {
+                        swal("Ошибка", "Упражнение не удалось добавить.", "error");
+                        console.log(res);
+                    }
+                },
+                error: function (res) {
                     swal("Ошибка", "Упражнение не удалось добавить.", "error");
                     console.log(res);
+                },
+                complete: function (res) {
+                    $('.page-loader-wrapper').fadeOut();
+                    $(e.currentTarget).toggleClass('active', false);
                 }
-            },
-            error: function (res) {
-                swal("Ошибка", "Упражнение не удалось добавить.", "error");
-                console.log(res);
-            },
-            complete: function (res) {
-                $('.page-loader-wrapper').fadeOut();
-                $(e.currentTarget).toggleClass('active', false);
-            }
+            });
         });
     });
     ToggleFoldersView(false);
