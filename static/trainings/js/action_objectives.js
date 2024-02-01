@@ -62,6 +62,8 @@ $(window).on('load', function (){
         e.preventDefault()
         let send_data = getFormData($(this))
         console.log(send_data)
-        ajax_objectives_action($(this).attr('method'), send_data, 'create objective')
+        ajax_objectives_action($(this).attr('method'), send_data, 'create objective').then(function () {
+            objectives_table.ajax.reload()
+        })
     })
 })

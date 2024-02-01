@@ -1072,19 +1072,15 @@ msgstr "Задача"
 
 #: .\static\trainings\js\action_objectives.js:17
 #: .\trainings\static\trainings\js\action_objectives.js:17
-#, fuzzy
-#| msgid "Event action successfully!"
 msgid "Objective action successfully!"
-msgstr "Действие с событием успешно!"
+msgstr "Действие с задачами успешно!"
 
 #: .\static\trainings\js\action_objectives.js:21
 #: .\static\trainings\js\action_objectives.js:50
 #: .\trainings\static\trainings\js\action_objectives.js:21
 #: .\trainings\static\trainings\js\action_objectives.js:50
-#, fuzzy
-#| msgid "Error when action the event!"
 msgid "Error when action the objective!"
-msgstr "Ошибка при выполнении события!"
+msgstr "Ошибка при выполнении действия с задачами!"
 
 #: .\static\trainings\js\print_training.js:185
 #: .\trainings\static\trainings\js\print_training.js:185
