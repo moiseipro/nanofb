@@ -72,7 +72,7 @@ class ClubTrainingObjectiveManySerializerView(serializers.ModelSerializer):
     objective = ClubTrainingObjectiveSerializer()
 
     class Meta:
-        model = UserTrainingObjectiveMany
+        model = ClubTrainingObjectiveMany
         fields = (
             'id', 'objective', 'type'
         )
@@ -307,7 +307,7 @@ class ClubTrainingSerializer(TrainingSerializer):
         read_only=True,
         source="team_id",
     )
-    exercises_info = ClubTrainingObjectiveManySerializer(
+    exercises_info = ClubTrainingExerciseSerializer(
         read_only=True,
         source="clubtrainingexercise_set",
         many=True
