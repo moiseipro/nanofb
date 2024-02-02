@@ -72,12 +72,12 @@
                             Переместить
                         </button>
                     </li>
-                    <li class="list-group-item py-1 {% if not user.is_superuser %}d-e-nf{% endif %}">
+                    <!-- <li class="list-group-item py-1 {% if not user.is_superuser %}d-e-nf{% endif %}">
                         <button type="button" class="btn btn-sm btn-outline-success btn-block btn-edit-e" data-id="trainer" title="Добавить в упражнения тренера">
                             Тренер
                             <span class="badge badge-light folder-exs-counter ml-1" title="Кол-во упражнений в папке">0</span>
                         </button>
-                    </li>
+                    </li> -->
                     <li class="list-group-item py-1 {% if not user.is_superuser %}d-e-nf{% endif %}">
                         <button type="button" class="btn btn-sm btn-outline-danger btn-block btn-edit-e" data-id="delete">
                             Удалить
@@ -119,12 +119,6 @@
                 <button type="button" class="btn btn-sm btn-custom custom-blue2 up-tabs-elem folders-toggle size-w-x mt-2 ml-2 d-none" data-id="team_folders" style="--w-x:97%;">
                     <div class="">
                         <span class="text-center text-uppercase ml-2">папки "команда"</span>
-                        <span class="exs_counter float-right">(...)</span>
-                    </div>
-                </button>
-                <button type="button" class="btn btn-sm btn-custom custom-gray2 up-tabs-elem folders-toggle size-w-x mt-2 ml-2 d-none" data-id="trainer_folders" style="--w-x:97%;">
-                    <div class="">
-                        <span class="text-center text-uppercase ml-2">Упражнения тренера</span>
                         <span class="exs_counter float-right">(...)</span>
                     </div>
                 </button>
@@ -403,14 +397,22 @@
     <div class="px-1 exercises-block" id="splitCol_1">
         <div class="row mt-2">
             <div class="col-12 d-flex">
+                <button type="button" class="btn btn-sm btn-custom custom-gray2 up-tabs-elem folders-toggle size-w-x mt-2 ml-2 d-none" data-id="trainer_folders" style="--w-x:97%;">
+                    <div class="">
+                        <span class="text-center text-uppercase ml-2">Архив. {{ user_name }}</span>
+                        <span class="exs_counter float-right">(...)</span>
+                    </div>
+                </button>
+            </div>
+            <div class="col-12 d-flex">
                 <div class="row w-100">
-                    <div class="col-3 pr-0">
+                    <div class="col-4 pr-0">
                         <input type="search" class="form-control form-control-sm exs-search text-center" placeholder="Поиск" aria-controls="false">
                     </div>
-                    <div class="col-3 px-0">
+                    <div class="col-4 px-0">
                         <input type="number" class="form-control form-control-sm exs-age-filter text-center" placeholder="Возраст" aria-controls="false">
                     </div>
-                    <div class="col-3 px-0">
+                    <div class="col-4 px-0">
                         <input type="number" class="form-control form-control-sm exs-players-filter text-center" placeholder="Игроки" aria-controls="false">
                     </div>
                 </div>

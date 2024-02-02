@@ -242,8 +242,14 @@ function ToggleUpFilter(id, state) {
             $('.exs-edit-block').find('.btn-edit-e[data-id="move"]').parent().toggleClass('c-hidden', state);
             $('.exs-edit-block').find('.btn-edit-e[data-id="trainer"]').parent().toggleClass('c-hidden', state);
 
-            if (state) {LoadAllTeamFolders();}
-            LoadFolderExercises();
+            if (state) {
+                $('#toggleFoldersViews').toggleClass('selected3', false);
+                LoadAllTeamFolders();
+                LoadFolderExercises();
+            } else {
+                $('#toggleFoldersViews').toggleClass('selected3', $('#toggleFoldersViews').attr('data-state') != '0');
+                $('.exs-list-group').html('');
+            }
             break;
         case "share":
             if ($('.exercises-list').find('.exs-elem.active').length <= 0) {

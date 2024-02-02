@@ -663,7 +663,8 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             exercise['has_animation_2'] = False
             exercise['trainings_count'] = -1
             exercise['nf_exs'] = folder_type == utils.FOLDER_NFB
-            exercise['in_trainer_folder'] = TrainerExercise.objects.filter(user_name=last_name, user_birthdate=cur_user.personal.date_birthsday, exs_ref=exercise['id']).first() != None or folder_type == utils.FOLDER_TRAINER
+            exercise['in_trainer_folder'] = folder_type == utils.FOLDER_TRAINER
+            # exercise['in_trainer_folder'] = TrainerExercise.objects.filter(user_name=last_name, user_birthdate=cur_user.personal.date_birthsday, exs_ref=exercise['id']).first() != None or folder_type == utils.FOLDER_TRAINER
             user_params = None
             video_1 = None
             video_2 = None
