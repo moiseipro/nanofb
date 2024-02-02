@@ -368,7 +368,8 @@ class TrainingViewSet(viewsets.ModelViewSet):
 
 
 class ObjectivesViewSet(viewsets.ModelViewSet):
-    permission_classes = [BaseTrainingsPermissions]
+    #permission_classes = [BaseTrainingsPermissions]
+    permission_classes = [IsAuthenticated]
     filter_backends = (DatatablesFilterBackend,)
     #filterset_class = UserManagementGlobalFilter
 
