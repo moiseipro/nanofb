@@ -8,7 +8,6 @@ router.register(r'exercise', views.TrainingExerciseViewSet, basename="exercise")
 router.register(r'exercise_data', views.TrainingExerciseAdditionalViewSet, basename="exercise_data")
 router.register(r'protocol', views.TrainingProtocolViewSet, basename="protocol")
 router.register(r'objectives', views.ObjectivesViewSet, basename="objectives")
-router.register(r'objectives_training', views.ObjectivesTrainingViewSet, basename="objectives")
 
 lrouter = routers.DefaultRouter()
 lrouter.register(r'action', views.LiteTrainingViewSet, basename="action")

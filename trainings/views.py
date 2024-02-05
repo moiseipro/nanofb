@@ -368,8 +368,8 @@ class TrainingViewSet(viewsets.ModelViewSet):
 
 
 class ObjectivesViewSet(viewsets.ModelViewSet):
-    #permission_classes = [BaseTrainingsPermissions]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [BaseTrainingsPermissions]
+    #permission_classes = [IsAuthenticated]
     filter_backends = (DatatablesFilterBackend,)
     #filterset_class = UserManagementGlobalFilter
 
@@ -394,86 +394,6 @@ class ObjectivesViewSet(viewsets.ModelViewSet):
             objectives = UserTrainingObjectives.objects.filter(team_id=self.request.session['team'])
 
         return objectives
-
-
-class ObjectivesTrainingViewSet(viewsets.ModelViewSet):
-    permission_classes = [BaseTrainingsPermissions]
-    #filterset_class = UserManagementGlobalFilter
-
-    @action(detail=True, methods=['post'])
-    def check(self, request, pk=None):
-        data = request.data
-        instance = self.get_object()
-        print(data['exercise_training'])
-        if self.request.user.club_id is not None:
-            training = ClubTrainingProtocol.objects.get(pk=pk)
-            exercise = ClubTrainingExercise
-        else:
-            training = UserTrainingProtocol.objects.get(pk=pk)
-            exercise = UserTrainingExercise
-        edit_exercises = training.training_exercise_check
-        print(training.status)
-
-        status_exs = ''
-        if training:
-            if edit_exercises.exists() and edit_exercises.filter(pk=data['exercise_training']).exists():
-                training.training_exercise_check.remove(edit_exercises.get(pk=data['exercise_training']))
-                status_exs = 'removed'
-            else:
-                training.training_exercise_check.add(exercise.objects.get(pk=data['exercise_training']))
-                status_exs = 'added'
-            return Response({'status': status_exs})
-        else:
-            status_exs = 'error'
-            return Response({'status': status_exs},
-                            status=status.HTTP_400_BAD_REQUEST)
-
-    def create(self, request, *args, **kwargs):
-        data = self.request.data.get('items')
-        data_players = json.loads(data)
-        print(data)
-        print(data_players)
-        if isinstance(data_players, list):  # <- is the main logic
-            serializer = self.get_serializer(data=data_players, many=True)
-        else:
-            serializer = self.get_serializer(data=data_players)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def update(self, request, *args, **kwargs):
-        partial = True
-        instance = self.get_object()
-        print(request.data)
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-        if self.request.user.club_id is not None:
-            protocol_model = ClubTrainingProtocol
-        else:
-            protocol_model = UserTrainingProtocol
-
-        print(serializer.data)
-        if serializer.data['status_info'] != None and 'trainings_reset' in serializer.data['status_info']['tags'] and \
-                serializer.data['status_info']['tags']['trainings_reset'] == 1:
-            protocol_model.objects.get(pk=serializer.data['id']).training_exercise_check.clear()
-
-        return Response(serializer.data)
-
-    def get_serializer_class(self):
-        if self.request.user.club_id is not None:
-            serializer_class = ClubTrainingProtocolSerializer
-        else:
-            serializer_class = UserTrainingProtocolSerializer
-        return serializer_class
-
-    def get_queryset(self):
-        if self.request.user.club_id is not None:
-            queryset = ClubTrainingProtocol.objects.all()
-        else:
-            queryset = UserTrainingProtocol.objects.all()
-        return queryset
 
 
 # Списки задачь для тренировок команды
