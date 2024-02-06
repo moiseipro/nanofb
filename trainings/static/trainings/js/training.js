@@ -42,7 +42,9 @@ $(window).on('load', function (){
     create_ajax_select2($('[name="objective_2"]'), gettext('Objective')+' 2', '/trainings/objectives_list/', $(document.body), false, true, 0, true, 2)
     create_ajax_select2($('[name="objective_3"]'), gettext('Objective')+' 3', '/trainings/objectives_list/', $(document.body), false, true, 0, true, 2)
 
-    $('[name="objective_3"]').val(null).trigger('change');
+    $('#block-training-goals select').on('change', function () {
+        resize_trainings_block()
+    })
 
     // Добавление упражнения в тренировку
     $('.visual-block').on('click', '.add-exercise', function (){
@@ -299,7 +301,7 @@ $(window).on('load', function (){
 function resize_trainings_block(){
     let css = "calc(94vh - "+Math.round($('.header').height())+"px - "+Math.round($('.card-header').height())+"px)"
     console.log($('#block-training-goals').height())
-    let css_block = "calc(94vh - "+Math.round($('.header').height())+"px - 61px - "+Math.round($('.card-header').height())+"px)"
+    let css_block = "calc(94vh - "+Math.round($('.header').height())+"px - "+Math.round($('#block-training-goals').height())+"px - "+Math.round($('.card-header').height())+"px)"
     $('#training-content .training-data').css({"max-height": css})
     $('#training-content .training-data').css({"height": css})
     $('#block-training-info').css({"max-height": css_block})

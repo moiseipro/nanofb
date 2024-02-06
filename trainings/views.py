@@ -389,9 +389,9 @@ class ObjectivesViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.club_id is not None:
-            objectives = ClubTrainingObjectives.objects.filter(team_id=self.request.session['team'])
+            objectives = ClubTrainingObjectives.objects.filter(team_id=self.request.session['team']).order_by('short_name', 'name')
         else:
-            objectives = UserTrainingObjectives.objects.filter(team_id=self.request.session['team'])
+            objectives = UserTrainingObjectives.objects.filter(team_id=self.request.session['team']).order_by('short_name', 'name')
 
         return objectives
 
@@ -406,12 +406,12 @@ class ObjectivesListApiView(APIView):
         if request.user.club_id is not None:
             queryset = ClubTrainingObjectives.objects. \
                 filter(Q(team=self.request.session['team']) & (Q(name__contains=search) | Q(short_name__contains=search))).\
-                annotate(objective_count=Count('team')).order_by('short_name')
+                annotate(objective_count=Count('team')).order_by('short_name', 'name')
             training_count = ClubTraining.objects.all().annotate(objective_count=Count('objectives'))
         else:
             queryset = UserTrainingObjectives.objects. \
                 filter(Q(team=self.request.session['team']) & (Q(name__contains=search) | Q(short_name__contains=search))). \
-                annotate(objective_count=Count('team')).order_by('short_name')
+                annotate(objective_count=Count('team')).order_by('short_name', 'name')
             training_count = UserTraining.objects.all().annotate(objective_count=Count('objectives'))
 
         #print(training_count)
@@ -419,7 +419,7 @@ class ObjectivesListApiView(APIView):
         list_objective = [
             {
                 'id': objective.id,
-                'name': objective.short_name + ". " + objective.name,
+                'name': (objective.short_name + ". " if objective.short_name is not '' else '') + objective.name,
                 'count': objective.objective_count
             } for objective in queryset
         ]

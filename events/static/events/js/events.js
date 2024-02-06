@@ -690,8 +690,8 @@ $(window).on('load', function (){
         })
     })
 
-    create_ajax_select2($('#microcycle-name-filter'), gettext('M.C.'), '/events/microcycle_name_list', $('#microcycle-modal'), false, true, -1)
-    create_ajax_select2($('#microcycle-block-filter'), gettext('Block'), '/events/microcycle_block_list', $('#microcycle-modal'), false, true, -1)
+    create_ajax_select2($('#microcycle-name-filter'), gettext('M.C.'), '/events/microcycle_name_list', $(document.body), false, true, -1)
+    create_ajax_select2($('#microcycle-block-filter'), gettext('Block'), '/events/microcycle_block_list', $(document.body), false, true, -1)
 
     create_ajax_select2($('#select-microcycle-name'), gettext('M.C.'), '/events/microcycle_name_list', $('#microcycle-modal'))
     create_ajax_select2($('#select-microcycle-short_key'), gettext('Short key'), '/events/microcycle_short_key_list', $('#microcycle-modal'))

@@ -342,7 +342,7 @@ function load_all_exercises_training(training_id = null, group = null) {
         console.log(data.objectives)
         $('#block-training-goals select').val(null).trigger('change');
         for (const objective of data.objectives) {
-            newOption = new Option(objective.objective.short_name+". "+objective.objective.name, objective.objective.id, false, true);
+            newOption = new Option((objective.objective.short_name != '' ? objective.objective.short_name + ". " : '') + objective.objective.name, objective.objective.id, false, true);
             if (objective.type == 0){
                 $('#block-training-goals select[name="objective_1"]').append(newOption).trigger('change');
             }
