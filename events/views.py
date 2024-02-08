@@ -1,4 +1,5 @@
 from datetime import timedelta, time
+from itertools import count
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, QueryDict
@@ -23,7 +24,8 @@ from events.serializers import UserMicrocyclesSerializer, UserMicrocyclesUpdateS
 from matches.models import UserMatch, ClubMatch, LiteMatch
 from references.models import UserTeam, UserSeason, ClubSeason, ClubTeam
 from trainings.models import UserTraining, ClubTraining, UserTrainingExercise, ClubTrainingExercise, LiteTraining, \
-    LiteTrainingExercise, ClubTrainingExerciseAdditional, UserTrainingExerciseAdditional, LiteTrainingExerciseAdditional
+    LiteTrainingExercise, ClubTrainingExerciseAdditional, UserTrainingExerciseAdditional, \
+    LiteTrainingExerciseAdditional, ClubTrainingObjectiveMany, UserTrainingObjectiveMany
 from system_icons.views import get_ui_elements
 
 
@@ -623,8 +625,8 @@ class EventViewSet(viewsets.ModelViewSet):
         favourites = self.request.query_params.get('favourites')
         load_type = self.request.query_params.get('load_type')
         goal = self.request.query_params.get('goal')
-        keywords = self.request.query_params.get('keywords')
         field_size = self.request.query_params.get('field_size')
+
         print(load_type)
         team = self.request.session['team']
         if self.request.user.club_id is not None:
@@ -637,9 +639,6 @@ class EventViewSet(viewsets.ModelViewSet):
                 q_filter &= Q(clubtraining__load_type__icontains=load_type)
             if goal != '' and goal is not None:
                 q_filter &= Q(clubtraining__goal__icontains=goal)
-            if keywords != '' and keywords is not None:
-                q_filter &= Q(clubtraining__objective_1__icontains=keywords) | Q(
-                    clubtraining__objective_2__icontains=keywords) | Q(clubtraining__goal__icontains=keywords)
             if field_size != '' and field_size is not None:
                 q_filter &= Q(clubtraining__field_size__icontains=field_size)
             q_filter |= Q(clubmatch__team_id=team)
@@ -658,9 +657,6 @@ class EventViewSet(viewsets.ModelViewSet):
                 q_filter &= Q(usertraining__load_type__icontains=load_type)
             if goal != '' and goal is not None:
                 q_filter &= Q(usertraining__goal__icontains=goal)
-            if keywords != '' and keywords is not None:
-                q_filter &= Q(usertraining__objective_1__icontains=keywords) | Q(
-                    usertraining__objective_2__icontains=keywords) | Q(usertraining__goal__icontains=keywords)
             if field_size != '' and field_size is not None:
                 q_filter &= Q(usertraining__field_size__icontains=field_size)
             q_filter |= Q(usermatch__team_id=team)

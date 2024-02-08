@@ -38,9 +38,9 @@ $(window).on('load', function (){
         });
     })
 
-    create_ajax_select2($('[name="objective_1"]'), gettext('Objective')+' 1', '/trainings/objectives_list/', $(document.body), false, true, 0, true, 2)
-    create_ajax_select2($('[name="objective_2"]'), gettext('Objective')+' 2', '/trainings/objectives_list/', $(document.body), false, true, 0, true, 2)
-    create_ajax_select2($('[name="objective_3"]'), gettext('Objective')+' 3', '/trainings/objectives_list/', $(document.body), false, true, 0, true, 2)
+    create_ajax_select2($('[name="objective_1"]'), gettext('Objective')+' 1', '/trainings/objectives_list/', $(document.body), false, true, 0, true, 2, 0)
+    create_ajax_select2($('[name="objective_2"]'), gettext('Objective')+' 2', '/trainings/objectives_list/', $(document.body), false, true, 0, true, 2, 1)
+    create_ajax_select2($('[name="objective_3"]'), gettext('Objective')+' 3', '/trainings/objectives_list/', $(document.body), false, true, 0, true, 2, 2)
 
     $('#block-training-goals select').on('change', function () {
         resize_trainings_block()

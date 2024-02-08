@@ -1,7 +1,7 @@
 import json
 
 from django.core.exceptions import ImproperlyConfigured
-from django.db.models import Q, Count, Subquery
+from django.db.models import Q, Count, Subquery, F
 from django.http import QueryDict
 from django.shortcuts import render
 from django.views.generic import DetailView
@@ -403,33 +403,56 @@ class ObjectivesListApiView(APIView):
 
     def get(self, request, format=None):
         search = request.GET.get('search', '')
+        type = request.GET.get('additional', '')
         if request.user.club_id is not None:
+            season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
             queryset = ClubTrainingObjectives.objects. \
                 filter(Q(team=self.request.session['team']) & (Q(name__contains=search) | Q(short_name__contains=search))).\
-                annotate(objective_count=Count('team')).order_by('short_name', 'name')
-            training_count = ClubTraining.objects.all().annotate(objective_count=Count('objectives'))
+                order_by('short_name', 'name')
+            queryset_many = ClubTrainingObjectiveMany.objects. \
+                filter(Q(type=type) &
+                       Q(training__event_id__date__gte=season[0].date_with) &
+                       Q(training__event_id__date__lte=season[0].date_by) &
+                       Q(objective__team_id=self.request.session['team']) &
+                       (Q(objective__name__contains=search) | Q(objective__short_name__contains=search))). \
+                annotate(count=Count('objective')).order_by('objective__short_name', 'objective__name')
         else:
+            season = UserSeason.objects.filter(id=self.request.session['season'])
             queryset = UserTrainingObjectives.objects. \
                 filter(Q(team=self.request.session['team']) & (Q(name__contains=search) | Q(short_name__contains=search))). \
-                annotate(objective_count=Count('team')).order_by('short_name', 'name')
-            training_count = UserTraining.objects.all().annotate(objective_count=Count('objectives'))
+                order_by('short_name', 'name')
+            queryset_many = UserTrainingObjectiveMany.objects. \
+                filter(Q(type=type) &
+                       Q(training__event_id__date__gte=season[0].date_with) &
+                       Q(training__event_id__date__lte=season[0].date_by) &
+                       Q(objective__team_id=self.request.session['team']) &
+                       (Q(objective__name__contains=search) | Q(objective__short_name__contains=search))). \
+                annotate(count=Count('objective')).order_by('objective__short_name', 'objective__name')
 
-        #print(training_count)
+        print(queryset_many.values())
+        list_objective = []
 
-        list_objective = [
-            {
+        for objective in queryset:
+            objective_count = 0
+            new_objective = {
                 'id': objective.id,
-                'name': (objective.short_name + ". " if objective.short_name is not '' else '') + objective.name,
-                'count': objective.objective_count
-            } for objective in queryset
-        ]
+                'name': (objective.short_name + ". " if objective.short_name != '' else '') + objective.name,
+                'count': objective_count
+            }
+            for objective_many in queryset_many:
+                if objective_many.objective.pk == objective.pk:
+                    new_objective['count'] += objective_many.count
+            list_objective.append(new_objective)
+
         print(list_objective)
+        list_objective.sort(key=lambda x: x['count'], reverse=True)
+
         object_count = {}
-        for microcycle in list_objective:
+        for objective in list_objective:
             #print(microcycle)
-            object_count[microcycle['id']] = object_count.get(microcycle['id'], {'name': '', 'count': 0})
-            object_count[microcycle['id']]['count'] += microcycle['count']
-            object_count[microcycle['id']]['name'] = microcycle['name']
+            object_count[objective['id']] = object_count.get(objective['id'], {'name': '', 'count': 0})
+            object_count[objective['id']]['count'] += objective['count']
+            object_count[objective['id']]['name'] = objective['name']
         #print(object_count)
         list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in object_count.items()]
         #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})

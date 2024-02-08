@@ -693,6 +693,10 @@ $(window).on('load', function (){
     create_ajax_select2($('#microcycle-name-filter'), gettext('M.C.'), '/events/microcycle_name_list', $(document.body), false, true, -1)
     create_ajax_select2($('#microcycle-block-filter'), gettext('Block'), '/events/microcycle_block_list', $(document.body), false, true, -1)
 
+    create_ajax_select2($('#objective_1-event-view'), gettext('Objective')+' 1', '/trainings/objectives_list/', $(document.body), false, true, 1, false, 0, 0)
+    create_ajax_select2($('#objective_2-event-view'), gettext('Objective')+' 2', '/trainings/objectives_list/', $(document.body), false, true, 1, false, 0, 1)
+    create_ajax_select2($('#objective_3-event-view'), gettext('Objective')+' 3', '/trainings/objectives_list/', $(document.body), false, true, 1, false, 0, 2)
+
     create_ajax_select2($('#select-microcycle-name'), gettext('M.C.'), '/events/microcycle_name_list', $('#microcycle-modal'))
     create_ajax_select2($('#select-microcycle-short_key'), gettext('Short key'), '/events/microcycle_short_key_list', $('#microcycle-modal'))
     create_ajax_select2($('#select-microcycle-block'), gettext('Block'), '/events/microcycle_block_list', $('#microcycle-modal'))
@@ -730,6 +734,9 @@ function local_filters_events() {
     let day_val = $('#microcycle-day-filter').val() ? $('#microcycle-day-filter').val() : ''
     let filled_val = $('#filled-event-filter').attr('data-filter') ? $('#filled-event-filter').attr('data-filter') : 0
     let video_val = $('#video-event-filter').attr('data-filter') ? $('#video-event-filter').attr('data-filter') : 0
+    let objective_1_val = $('#objective_1-event-view').val() ? $('#objective_1-event-view').val() : 0
+    let objective_2_val = $('#objective_2-event-view').val() ? $('#objective_2-event-view').val() : 0
+    let objective_3_val = $('#objective_3-event-view').val() ? $('#objective_3-event-view').val() : 0
 
     $('#events tbody tr').show()
 
@@ -768,6 +775,21 @@ function local_filters_events() {
         let this_obj = $(this)
         let data_video = this_obj.attr('data-video')
         return video_val!='0' && data_video != video_val;
+    }).hide()
+    $('#events tbody tr').filter(function( index ) {
+        let this_obj = $(this)
+        let data_objective_1 = this_obj.attr('data-objective_1')
+        return objective_1_val!='' && !data_objective_1.match('\\b' + objective_1_val + '\\b');
+    }).hide()
+    $('#events tbody tr').filter(function( index ) {
+        let this_obj = $(this)
+        let data_objective_2 = this_obj.attr('data-objective_2')
+        return objective_2_val!='' && !data_objective_2.match('\\b' + objective_2_val + '\\b');
+    }).hide()
+    $('#events tbody tr').filter(function( index ) {
+        let this_obj = $(this)
+        let data_objective_3 = this_obj.attr('data-objective_3')
+        return objective_3_val!='' && !data_objective_3.match('\\b' + objective_3_val + '\\b');
     }).hide()
 }
 

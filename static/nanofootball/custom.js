@@ -67,7 +67,7 @@ $(document).ready(function() {
 
 });
 
-function create_ajax_select2(obj = null, placeholder = '', href = '', parent = $(document.body), tags = true, allowClear = true, search = 0, multiple = false, multiple_count = 0) {
+function create_ajax_select2(obj = null, placeholder = '', href = '', parent = $(document.body), tags = true, allowClear = true, search = 0, multiple = false, multiple_count = 0, additional_data = '') {
     obj.select2({
         tags: tags,
         multiple: multiple,
@@ -85,6 +85,7 @@ function create_ajax_select2(obj = null, placeholder = '', href = '', parent = $
             data: function (params) {
                 var query = {
                     search: params.term,
+                    additional: additional_data
                 }
                 console.log(params)
                 return query
