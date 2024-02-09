@@ -375,10 +375,10 @@ class ObjectivesViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         if self.request.user.club_id is not None:
-            team = ClubTeam.objects.get(pk=self.request.session['team'])
+            serializer.save(club=self.request.user.club_id)
         else:
-            team = UserTeam.objects.get(pk=self.request.session['team'])
-        serializer.save(team=team)
+            serializer.save(user=self.request.user)
+
 
     def get_serializer_class(self):
         if self.request.user.club_id is not None:
@@ -389,9 +389,9 @@ class ObjectivesViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.club_id is not None:
-            objectives = ClubTrainingObjectives.objects.filter(team_id=self.request.session['team']).order_by('short_name', 'name')
+            objectives = ClubTrainingObjectives.objects.filter(club=self.request.user.club_id).order_by('short_name', 'name')
         else:
-            objectives = UserTrainingObjectives.objects.filter(team_id=self.request.session['team']).order_by('short_name', 'name')
+            objectives = UserTrainingObjectives.objects.filter(user=self.request.user).order_by('short_name', 'name')
 
         return objectives
 
@@ -407,25 +407,25 @@ class ObjectivesListApiView(APIView):
         if request.user.club_id is not None:
             season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
             queryset = ClubTrainingObjectives.objects. \
-                filter(Q(team=self.request.session['team']) & (Q(name__contains=search) | Q(short_name__contains=search))).\
+                filter(Q(club=request.user.club_id) & (Q(name__contains=search) | Q(short_name__contains=search))).\
                 order_by('short_name', 'name')
             queryset_many = ClubTrainingObjectiveMany.objects. \
                 filter(Q(type=type) &
                        Q(training__event_id__date__gte=season[0].date_with) &
                        Q(training__event_id__date__lte=season[0].date_by) &
-                       Q(objective__team_id=self.request.session['team']) &
+                       Q(objective__club=request.user.club_id) &
                        (Q(objective__name__contains=search) | Q(objective__short_name__contains=search))). \
                 annotate(count=Count('objective')).order_by('objective__short_name', 'objective__name')
         else:
             season = UserSeason.objects.filter(id=self.request.session['season'])
             queryset = UserTrainingObjectives.objects. \
-                filter(Q(team=self.request.session['team']) & (Q(name__contains=search) | Q(short_name__contains=search))). \
+                filter(Q(user=request.user) & (Q(name__contains=search) | Q(short_name__contains=search))). \
                 order_by('short_name', 'name')
             queryset_many = UserTrainingObjectiveMany.objects. \
                 filter(Q(type=type) &
                        Q(training__event_id__date__gte=season[0].date_with) &
                        Q(training__event_id__date__lte=season[0].date_by) &
-                       Q(objective__team_id=self.request.session['team']) &
+                       Q(objective__user=request.user) &
                        (Q(objective__name__contains=search) | Q(objective__short_name__contains=search))). \
                 annotate(count=Count('objective')).order_by('objective__short_name', 'objective__name')
 

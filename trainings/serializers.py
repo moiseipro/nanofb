@@ -26,14 +26,14 @@ class UserTrainingObjectiveSerializer(TrainingObjectiveSerializer):
     class Meta(TrainingObjectiveSerializer.Meta):
         model = UserTrainingObjectives
 
-    Meta.fields += ('team',)
+    Meta.fields += ('user',)
 
 
 class ClubTrainingObjectiveSerializer(TrainingObjectiveSerializer):
     class Meta(TrainingObjectiveSerializer.Meta):
         model = ClubTrainingObjectives
 
-    Meta.fields += ('team',)
+    Meta.fields += ('club',)
 
 
 class UserTrainingObjectiveManySerializer(serializers.ModelSerializer):
