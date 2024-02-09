@@ -3,6 +3,7 @@ from datetime import timedelta
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from clubs.models import Club
 from events.models import UserEvent, ClubEvent, LiteEvent
 from exercises.models import UserExercise, ClubExercise
 from players.models import UserPlayer, ClubPlayer
@@ -33,10 +34,10 @@ class AbstractTrainingObjectives(models.Model):
 
 
 class UserTrainingObjectives(AbstractTrainingObjectives):
-    team = models.ForeignKey(
-        UserTeam,
-        verbose_name=_('User team'),
-        help_text=_('User team'),
+    user = models.ForeignKey(
+        User,
+        verbose_name=_('User'),
+        help_text=_('User'),
         on_delete=models.CASCADE,
         null=True,
         blank=True,
@@ -44,10 +45,10 @@ class UserTrainingObjectives(AbstractTrainingObjectives):
 
 
 class ClubTrainingObjectives(AbstractTrainingObjectives):
-    team = models.ForeignKey(
-        ClubTeam,
-        verbose_name=_('Club team'),
-        help_text=_('Club team'),
+    club = models.ForeignKey(
+        Club,
+        verbose_name=_('Club'),
+        help_text=_('Club'),
         on_delete=models.CASCADE,
         null=True,
         blank=True,
