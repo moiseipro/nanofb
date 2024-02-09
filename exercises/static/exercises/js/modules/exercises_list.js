@@ -191,10 +191,14 @@ function RenderFolderExercises(id, tExs) {
                     </button>
                     ` : ``}
                     ${exElem.in_trainer_folder ? `
-                    <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x" data-type="marker" data-id="trainer" title="В архиве">
-                        <i class="fa fa-lg fa-archive" aria-hidden="true"></i>
+                    <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x" data-type="marker" data-id="trainer" data-val="1" title="Убрать из архива">
+                        <i class="font-weight-bold" style="opacity: 1;">x2</i>
                     </button>
-                    ` : ``}
+                    ` : `
+                    <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x" data-type="marker" data-id="trainer" data-val="0" title="Добавить в архив">
+                        <i class="font-weight-bold" style="opacity: .4;">x2</i>
+                    </button>
+                    `}
                     <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.video_1_watched ? 'selected' : ''}" data-type="marker" data-id="watched" title="Смотрел / Не смотрел">
                         <input type="checkbox" class="form-check-input" ${exElem.video_1_watched ? 'checked=""': ''}>
                     </button>

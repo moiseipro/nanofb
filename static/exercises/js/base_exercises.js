@@ -608,7 +608,6 @@ function StopAllVideos() {
     } catch (e) {}
 }
 
-
 function getFormattedDateFromTodayWithDelta(delta=0) {
     let date = new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * delta);
     return date.getFullYear()
@@ -1095,6 +1094,91 @@ function LoadAllTeamFolders() {
         }
     });
 }
+
+function ToggleExerciseToArchive(elem, exsId, folderType, state) {
+    if (state == '0') {
+        let data = {
+            'copy_exs': 1,
+            'move_mode': 'solo',
+            'exs': exsId, 
+            'nfb_folder': 0, 
+            'folder': "__is_trainer",
+            'type': folderType
+        };
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: data,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "exercises_api",
+            success: function (res) {
+                if (res.success) {
+                    $(elem).find('button[data-type="marker"][data-id="trainer"]').attr('data-val', '1');
+                    $(elem).find('button[data-type="marker"][data-id="trainer"]').attr('title', "Убрать из архива");
+                    $(elem).find('button[data-type="marker"][data-id="trainer"]').find('i').css('opacity', '1');
+                    swal("Готово", "Упражнение добавлено в Архив.", "success");
+                } else {
+                    swal("Ошибка", "Упражнение не удалось добавить в Архив.", "error");
+                    console.log(res);
+                }
+            },
+            error: function (res) {
+                if (res.responseJSON && res.responseJSON.code && res.responseJSON.code == "limit") {
+                    swal("Ошибка", `Упражнение не удалось добавить в Архив. Превышен лимит упражений в папке (максимум: ${res.responseJSON.value}).`, "error");
+                } else {
+                    swal("Ошибка", "Упражнение не удалось добавить в Архив.", "error");
+                }
+                console.log(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
+    } else if (state == '1') {
+        console.log(folderType)
+        swal({
+            title: "Вы точно хотите удалить упражнение из архива?",
+            icon: "warning",
+            buttons: ["Отмена", "Подтвердить"],
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                let data = {'delete_exs': 1, 'exs': exsId, 'exs_ref': -1, 'type': folderType};
+                if (folderType != "__is_trainer") {
+                    data['type'] = "__is_trainer";
+                    data['exs_ref'] = exsId;
+                }
+                $('.page-loader-wrapper').fadeIn();
+                $.ajax({
+                    headers:{"X-CSRFToken": csrftoken},
+                    data: data,
+                    type: 'POST', // GET или POST
+                    dataType: 'json',
+                    url: "exercises_api",
+                    success: function (res) {
+                        if (res.success) {
+                            swal("Готово", "Упражнение успешно удалено из Архива.", "success")
+                            .then((value) => {
+                                LoadFolderExercises();
+                                $('.page-loader-wrapper').fadeIn();
+                            });
+                        }
+                    },
+                    error: function (res) {
+                        swal("Ошибка", "Упражнение удалить не удалось из Архива.", "error");
+                        console.log(res);
+                    },
+                    complete: function (res) {
+                        $('.page-loader-wrapper').fadeOut();
+                    }
+                });
+            }
+        });
+    }
+}
+
 
 
 $(function() {
@@ -1822,9 +1906,7 @@ $(function() {
             let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
             let selectedFolder = $('#exerciseCopyModal').find('.list-group-item.active').find('.folder-copy-elem').attr('data-id');
             let folderType = $('.folders_div.selected').attr('data-id');
-            if (isTrainer) {
-                folderType = "__is_trainer";
-            }
+            if (isTrainer) {folderType = "__is_trainer";}
             let data = {
                 'move_exs': modeVal == '2' ? 1 : 0,
                 'copy_exs': modeVal == '1' ? 1 : 0,
@@ -2110,13 +2192,18 @@ $(function() {
     // Toggle marker for exercise
     $('.exercises-block').on('click', 'button[data-type="marker"]', (e) => {
         let currentTarget = e.currentTarget;
-        let exsId = $(currentTarget).parent().parent().parent().attr('data-id');
+        let exsElem = $(currentTarget).parent().parent().parent();
+        let exsId = $(exsElem).attr('data-id');
         let fromNFB = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? 1 : 0;
         let cId = $(currentTarget).attr('data-id');
         let state = $(currentTarget).hasClass('selected');
+        let val = $(currentTarget).attr('data-val');
         let folderType = $('.folders_div.selected').attr('data-id');
+        let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
+        if (isTrainer) {folderType = "__is_trainer";}
         let dataToSend = {'edit_exs_user_params': 1, 'exs': exsId, 'nfb': fromNFB, 'type': folderType, 'data': {'key': cId, 'value': state ? 0 : 1}};
         if (cId == "trainer") {
+            ToggleExerciseToArchive(exsElem, exsId, folderType, val);
             return;
         }
         swal({
@@ -2337,9 +2424,7 @@ $(function() {
     $('.visual-block').on('click', '.carousel-item', (e) => {
         let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
         let folderType = $('.folders-container').find('.folders-toggle.selected').first().attr('data-id');
-        if (isTrainer) {
-            folderType = "__is_trainer";
-        }
+        if (isTrainer) {folderType = "__is_trainer";}
         let id = -1;
         try {
             id = parseInt($('.exercises-block').find('.exs-elem.active').attr('data-id'));
@@ -2853,17 +2938,17 @@ $(function() {
                     url: "exercises_api",
                     success: function (res) {
                         if (res.success) {
-                            swal("Готово", "Упражнение добавлено в папку <Тренер>.", "success");
+                            swal("Готово", "Упражнение добавлено в Архив.", "success");
                         } else {
-                            swal("Ошибка", "Упражнение не удалось добавить в папку <Тренер>.", "error");
+                            swal("Ошибка", "Упражнение не удалось добавить в Архив.", "error");
                             console.log(res);
                         }
                     },
                     error: function (res) {
                         if (res.responseJSON && res.responseJSON.code && res.responseJSON.code == "limit") {
-                            swal("Ошибка", `Упражнение не удалось добавить в папку <Тренер>. Превышен лимит упражений в папке (максимум: ${res.responseJSON.value}).`, "error");
+                            swal("Ошибка", `Упражнение не удалось добавить в Архив. Превышен лимит упражений в папке (максимум: ${res.responseJSON.value}).`, "error");
                         } else {
-                            swal("Ошибка", "Упражнение не удалось добавить в папку <Тренер>.", "error");
+                            swal("Ошибка", "Упражнение не удалось добавить в Архив.", "error");
                         }
                         console.log(res);
                     },
@@ -2888,9 +2973,7 @@ $(function() {
                 }
                 let folderType = $('.folders_div.selected').attr('data-id');
                 let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
-                if (isTrainer) {
-                    folderType = "__is_trainer";
-                }
+                if (isTrainer) {folderType = "__is_trainer";}
                 let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
                 let data = {'type': folderType, 'folder': folder, 'exs': exsId};
                 data = JSON.stringify(data);

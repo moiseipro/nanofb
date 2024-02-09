@@ -663,8 +663,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             exercise['has_animation_2'] = False
             exercise['trainings_count'] = -1
             exercise['nf_exs'] = folder_type == utils.FOLDER_NFB
-            exercise['in_trainer_folder'] = folder_type == utils.FOLDER_TRAINER
-            # exercise['in_trainer_folder'] = TrainerExercise.objects.filter(user_name=last_name, user_birthdate=cur_user.personal.date_birthsday, exs_ref=exercise['id']).first() != None or folder_type == utils.FOLDER_TRAINER
+            exercise['in_trainer_folder'] = TrainerExercise.objects.filter(user_name=last_name, user_birthdate=cur_user.personal.date_birthsday, exs_ref=exercise['id']).first() != None or folder_type == utils.FOLDER_TRAINER
             user_params = None
             video_1 = None
             video_2 = None
@@ -897,11 +896,11 @@ def POST_copy_exs(request, cur_user, cur_team):
     if move_move != "all":
         exs_ids = [exs_id]
     if is_to_trainer:
-        EXS_LIMIT = 1200
+        EXS_LIMIT = 1500
         last_name = cur_user.personal.last_name.lower().replace(' ', '')
         exs_count = TrainerExercise.objects.filter(user_name=last_name, user_birthdate=cur_user.personal.date_birthsday).count()
         if exs_count + len(exs_ids) > EXS_LIMIT:
-            return JsonResponse({"errors": "Trainer's exercises limit. Max: 250!", "code": "limit", "value": EXS_LIMIT}, status=400)
+            return JsonResponse({"errors": "Trainer's exercises limit. Max: 1500!", "code": "limit", "value": EXS_LIMIT}, status=400)
     else:
         if request.user.club_id is not None:
             found_folder = ClubFolder.objects.filter(id=folder_id, club=request.user.club_id)
@@ -1686,12 +1685,17 @@ def POST_delete_exs(request, cur_user, cur_team):
     """
     exs_id = -1
     exs_ids = []
+    exs_ref_id = -1
     delete_type = 0
     delete_type_access = False
     folder_type = request.POST.get("type", "")
     is_multi_exs = request.POST.get("multi_exs", "false")
     try:
         exs_id = int(request.POST.get("exs", -1))
+    except:
+        pass
+    try:
+        exs_ref_id = int(request.POST.get("exs_ref", -1))
     except:
         pass
     try:
@@ -1743,7 +1747,10 @@ def POST_delete_exs(request, cur_user, cur_team):
             }):
                 return JsonResponse({"err": "Access denied.", "success": False}, status=400)
             last_name = cur_user.personal.last_name.lower().replace(' ', '')
-            c_exs = TrainerExercise.objects.filter(id=exs_id, user_name=last_name, user_birthdate=cur_user.personal.date_birthsday)
+            if exs_ref_id != -1:
+                c_exs = TrainerExercise.objects.filter(exs_ref=exs_ref_id, user_name=last_name, user_birthdate=cur_user.personal.date_birthsday)
+            else:
+                c_exs = TrainerExercise.objects.filter(id=exs_id, user_name=last_name, user_birthdate=cur_user.personal.date_birthsday)
         if c_exs == None or not c_exs.exists() or c_exs[0].id == None:
             return JsonResponse({"errors": "access_error"}, status=400)
         else:
@@ -3509,6 +3516,7 @@ def GET_get_exs_all_features(request, cur_user, cur_team):
             return JsonResponse({"err": "Access denied.", "success": False}, status=400)
     features = get_exercises_features(request, cur_user, cur_team)
     return JsonResponse({"data": features, "success": True}, status=200)
+
 
 # --------------------------------------------------
 # FOLDERS API
