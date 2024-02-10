@@ -792,9 +792,9 @@ def get_exercises_tags(request, user, team, only_visible=False):
     query_club_str = Q(is_nfb=False, club=request.user.club_id)
     query_user_str = Q(is_nfb=False, user=user)
     if only_visible:
-        query_nfb_str = query_nfb_str & Q(visible=True)
-        query_club_str = query_club_str & Q(visible=True)
-        query_user_str = query_user_str & Q(visible=True)
+        query_nfb_str &= Q(visible=True)
+        query_club_str &= Q(visible=True)
+        query_user_str &= Q(visible=True)
     tags['nfb'] = ExerciseTag.objects.filter(query_nfb_str)
     tags['categories']['nfb'] = ExerciseTagCategory.objects.filter(query_nfb_str)
     if request.user.club_id is not None:
