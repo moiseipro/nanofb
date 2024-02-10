@@ -1,18 +1,18 @@
 // Drag and drop functions for exercises' tags
-function allowDrop(ev) {
-    ev.preventDefault();
-}
-function drag(ev) {
-    ev.dataTransfer.setData("text", ev.target.id);
-} 
-function drop(ev) {
-    ev.preventDefault();
-    let data = ev.dataTransfer.getData("text");
-    if (ev.target.tagName.toLowerCase() === 'div' && ev.target.classList.contains('category-block')) {
-        ev.target.appendChild(document.getElementById(data));
-        ChangeExsTagCategory(ev.target, document.getElementById(data));
-    }
-}
+// function allowDrop(ev) {
+//     ev.preventDefault();
+// }
+// function drag(ev) {
+//     ev.dataTransfer.setData("text", ev.target.id);
+// } 
+// function drop(ev) {
+//     ev.preventDefault();
+//     let data = ev.dataTransfer.getData("text");
+//     if (ev.target.tagName.toLowerCase() === 'div' && ev.target.classList.contains('category-block')) {
+//         ev.target.appendChild(document.getElementById(data));
+//         ChangeExsTagCategory(ev.target, document.getElementById(data));
+//     }
+// }
 
 function LoadExercisesTagsAll() {
     let dataSend = {'get_exs_all_tags': 1};
@@ -81,7 +81,7 @@ function RenderExercisesTagsAll(data) {
                             </select>
                         </div>
                         <div class="col-12">
-                            <div class="category-block" ondrop="drop(event)" ondragover="allowDrop(event)">
+                            <div class="category-block">
                             </div>
                         </div>
                     </div>
@@ -133,6 +133,7 @@ function RenderExercisesTagsAll(data) {
                     fContainer = $('#exerciseTagsModal').find(`.content-container[data-id="${type}"]`).find(`.category-container.category-no`);
                 }
                 $(fContainer).find('.category-block').append(tagHtml);
+                new Sortable($(fContainer).find('.category-block')[0], {});
 
                 let fContainerInCard = $('#card_tags').find(`.tags-container[data-id="${type}"]`).find(`.category-card[data-id="${elem.category}"]`);
                 if (fContainerInCard.length > 0) {
