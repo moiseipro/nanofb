@@ -70,7 +70,7 @@ function RenderExercisesTagsAll(data) {
                         title="Изменить цвет категории">
                 */
                 categoriesHtml += `
-                    <div class="row category-container" data-id="${elem.id}">
+                    <div class="row category-container mx-0" data-id="${elem.id}">
                         <div class="col-12 d-flex mb-1">
                             <input name="title" class="form-control form-control-sm category-field" type="text" 
                                 value="${elem.name ? elem.name : ''}" placeholder="Название категории" autocomplete="off" disabled="" 
@@ -286,6 +286,9 @@ function EditExsTagOne(id, name, type, category, toDelete=0) {
         url: "/exercises/exercises_api",
         success: function (res) {
             if (res.success) {
+                $('#exerciseTagsModal').find('input[name="edit_tag"]').val('');
+                $('#exerciseTagsModal').find('span.tag-edit').text("Добавить");
+                $('#exerciseTagsModal').find('span.tag-edit-cancel').addClass('d-none');
                 LoadExercisesTagsAll();
             } else {
                 swal("Ошибка", "Не удалось создать / изменить / удалить ключевое слово!", "error");
@@ -395,22 +398,30 @@ $(function() {
         }
         $('#exerciseTagsModal').find('input[name="add_new_tag"]').val('');
     });
+    $('#exerciseTagsModal').on('click', '.tag-edit-cancel', (e) => {
+        $('#exerciseTagsModal').find('input[name="edit_tag"]').val('');
+        $('#exerciseTagsModal').find('span.tag-edit').text("Добавить");
+        $('#exerciseTagsModal').find('span.tag-edit-cancel').addClass('d-none');
+        $('#exerciseTagsModal').find('span.drag').attr('data-selected', '0');
+    });
     $('#exerciseTagsModal').on('click', '.tag-delete', (e) => {
         let cType = $('#exerciseTagsModal').find(`.content-container:visible`).attr('data-id');
         let cId = $(e.currentTarget).parent().parent().attr('data-id');
         EditExsTagOne(cId, "", cType, null, 1);
     });
     $('#exerciseTagsModal').on('click', 'span.drag', (e) => {
-        let wasSelected = $(e.currentTarget).hasClass('selected');
+        let wasSelected = $(e.currentTarget).attr('data-selected') == '1';
         let cVal = $(e.currentTarget).find('a > span:nth-child(2)').text();
-        $('#exerciseTagsModal').find('span.drag').removeClass('selected');
-        $(e.currentTarget).toggleClass('selected', !wasSelected);
+        $('#exerciseTagsModal').find('span.drag').attr('data-selected', '0');
+        $(e.currentTarget).attr('data-selected', !wasSelected ? '1' : '0');
         if (!wasSelected) {
             $('#exerciseTagsModal').find('input[name="edit_tag"]').val(cVal);
             $('#exerciseTagsModal').find('span.tag-edit').text("Изменить");
+            $('#exerciseTagsModal').find('span.tag-edit-cancel').removeClass('d-none');
         } else {
             $('#exerciseTagsModal').find('input[name="edit_tag"]').val('');
             $('#exerciseTagsModal').find('span.tag-edit').text("Добавить");
+            $('#exerciseTagsModal').find('span.tag-edit-cancel').addClass('d-none');
         }
     });
 });

@@ -1,12 +1,16 @@
 #exerciseTagsModal .category-block {
     padding: 20px;
-    background: #eee;
+    background: #f3f3f3;
     min-height: 100px;
     margin-bottom: 20px;
     border-radius: 10px;
 }
 #exerciseTagsModal .drag {
     border-radius: 5px;
+}
+#exerciseTagsModal .content-container {
+    height: 75vh !important;
+    overflow-y: auto;
 }
 #exerciseTagsModal .category-container:hover {
     background-color: rgb(230, 230, 230);
@@ -29,5 +33,13 @@
     background-color: var(--color);
     border-radius: 0%;
     display: inline-block;
+}
+
+
+.content-container .drag > a {
+    font-weight: bold !important;
+}
+.content-container .drag[data-selected="1"] > a {
+    border: 2px solid black !important;
 }
 

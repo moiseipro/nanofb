@@ -366,6 +366,7 @@
                                 </div>
                             </td>
                         </tr> -->
+                        {% if user.is_superuser %}
                         <tr class="wider_row bck-custom" data-id="additional_characteristics_data_block">
                             <td colspan="3">
                                 <select name="tags" class="select w-100 custom-select custom-select-sm tag-select exs_edit_field" multiple data-tags="true" data-theme="bootstrap4" disabled style="width: 100%;">
@@ -388,6 +389,7 @@
                                 </select>
                             </td>
                         </tr>
+                        {% endif %}
 
                     </tbody>
                 </table>
