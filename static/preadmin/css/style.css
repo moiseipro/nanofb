@@ -4310,3 +4310,7 @@ table.table-inbox tbody tr.checked {
 .icon--trainer {
 	content: url(../img/icons/trainer.png);
 }
+
+.select2-container--bootstrap4 .select2-results>.select2-results__options {
+    max-height: 30em !important;
+}

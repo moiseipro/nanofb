@@ -22,6 +22,7 @@ from players.models import UserPlayer, ClubPlayer
 from references.models import UserTeam, UserSeason, ClubTeam, ClubSeason, ExsAdditionalData, UserExsAdditionalData, \
     ClubExsAdditionalData
 from references.serializers import ExsAdditionalDataSerializer
+from trainings.filters import ObjectivesGlobalFilter
 from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExerciseAdditional, UserTrainingProtocol, \
     ClubTrainingExercise, ClubTrainingProtocol, ClubTraining, ClubTrainingExerciseAdditional, LiteTraining, \
     LiteTrainingExercise, LiteTrainingExerciseAdditional, UserTrainingObjectives, ClubTrainingObjectives, \
@@ -371,7 +372,7 @@ class ObjectivesViewSet(viewsets.ModelViewSet):
     permission_classes = [BaseTrainingsPermissions]
     #permission_classes = [IsAuthenticated]
     filter_backends = (DatatablesFilterBackend,)
-    #filterset_class = UserManagementGlobalFilter
+    filterset_class = ObjectivesGlobalFilter
 
     def perform_create(self, serializer):
         if self.request.user.club_id is not None:

@@ -3,7 +3,11 @@ $(window).on('load', function (){
 
     var id = get_page_id()
 
-    generate_ajax_objectives_table('100%')
+    generate_ajax_objectives_table('50vh')
+
+    $('.objectives-table-filter').on("keyup", function () {
+        objectives_table.columns($(this).attr('name')).search($(this).val()).draw();
+    })
 
     // Добавление игроков в протокол
     $('#add-player-protocol-modal').on('click', '#add-all-players', function (){

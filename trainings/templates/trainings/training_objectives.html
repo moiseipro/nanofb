@@ -4,7 +4,7 @@
 
 
 <div class="modal fade" id="training-objectives-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document" style="max-width: 1000px;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document" style="max-width: 1100px;">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="training-video-modal-title">{% trans 'Training objectives for the team' %}</h5>
@@ -28,13 +28,21 @@
                         </div>
                     </div>
                 </form>
+                <div class="row mt-2">
+                    <div class="col-3 px-1">
+                        <input type="search" name=".short-name-col" class="form-control form-control-sm objectives-table-filter" placeholder="{% trans "Search key" %}" autocomplete="off">
+                    </div>
+                    <div class="col px-1">
+                        <input type="search" name=".name-col" class="form-control form-control-sm objectives-table-filter" placeholder="{% trans "Search name" %}" autocomplete="off">
+                    </div>
+                </div>
                 <div class="table-responsive">
                     <table id="objectives-table" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
                         <thead>
                             <tr>
                                 <th>{% trans '№' %}</th>
-                                <th>{% trans 'Short key' %}</th>
-                                <th>{% trans 'Title' %}</th>
+                                <th class="short-name-col">{% trans 'Short key' %}</th>
+                                <th class="name-col">{% trans 'Title' %}</th>
                                 <th class="text-center"><i class="fa fa-cog" aria-hidden="true"></i></th>
                             </tr>
                         </thead>

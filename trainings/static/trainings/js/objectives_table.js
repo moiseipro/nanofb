@@ -18,7 +18,10 @@ function generate_ajax_objectives_table(scroll_y = '', pagination = true){
         lengthChange: pagination,
         columnDefs: [
             {
-                "width": "15%", "targets": [1, 3]
+                "width": "20%", "targets": 1
+            },
+            {
+                "width": "10%", "targets": 3
             },
             {
                 "width": "5%", "targets": 0
