@@ -599,8 +599,9 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
         f_exercises = f_exercises.filter(
             Q(title__iregex=searh_regex) |
             Q(field_keyword_a__iexact=filter_search_low) |
-            Q(field_keyword_b__iexact=filter_search_low)
-        )
+            Q(field_keyword_b__iexact=filter_search_low) |
+            Q(tags__lowercase_name__icontains=filter_search_low)
+        ).distinct()
     if filter_video_source != -1:
         if filter_video_source == -2:
             f_exercises = f_exercises.filter(

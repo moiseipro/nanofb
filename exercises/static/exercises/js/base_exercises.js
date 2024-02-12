@@ -1286,6 +1286,7 @@ $(function() {
     let searchTmpVal = "";
     $('.exs-search').on('keyup', (e) => {
         let val = $(e.currentTarget).val();
+        console.log( val, window.exercisesFilter['_search'] )
         if ((window.exercisesFilter['_search'] && window.exercisesFilter['_search'] == val) || (!window.exercisesFilter['_search'] && val == "")) {
             return;
         }

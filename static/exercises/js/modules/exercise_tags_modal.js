@@ -291,11 +291,11 @@ function EditExsTagOne(id, name, type, category, toDelete=0) {
                 $('#exerciseTagsModal').find('span.tag-edit-cancel').addClass('d-none');
                 LoadExercisesTagsAll();
             } else {
-                swal("Ошибка", "Не удалось создать / изменить / удалить ключевое слово!", "error");
+                swal("Ошибка", "Не удалось создать / изменить / удалить ключевое слово! (Возможно такой тэг уже занят.)", "error");
             }
         },
         error: function (res) {
-            swal("Ошибка", "Не удалось создать / изменить / удалить ключевое слово!", "error");
+            swal("Ошибка", "Не удалось создать / изменить / удалить ключевое слово! (Возможно такой тэг уже занят.)", "error");
         },
         complete: function (res) {
             $('.page-loader-wrapper').fadeOut();
