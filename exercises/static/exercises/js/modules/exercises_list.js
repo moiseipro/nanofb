@@ -191,10 +191,14 @@ function RenderFolderExercises(id, tExs) {
                     </button>
                     ` : ``}
                     ${exElem.in_trainer_folder ? `
-                    <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x" data-type="marker" data-id="trainer" title="В архиве">
-                        <i class="fa fa-lg fa-archive" aria-hidden="true"></i>
+                    <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x" data-type="marker" data-id="trainer" data-val="1" title="Убрать из архива">
+                        <i class="fa fa-lg fa-file-archive-o" aria-hidden="true" style="opacity: 1;"></i>
                     </button>
-                    ` : ``}
+                    ` : `
+                    <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x" data-type="marker" data-id="trainer" data-val="0" title="Добавить в архив">
+                        <i class="fa fa-lg fa-file-archive-o" aria-hidden="true" style="opacity: .4;"></i>
+                    </button>
+                    `}
                     <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.video_1_watched ? 'selected' : ''}" data-type="marker" data-id="watched" title="Смотрел / Не смотрел">
                         <input type="checkbox" class="form-check-input" ${exElem.video_1_watched ? 'checked=""': ''}>
                     </button>
@@ -451,8 +455,7 @@ function ToggleMarkersInExs() {
     $('.exercises-block').find(`[data-type="marker"][data-id="favorite"]`).toggleClass('d-none', !isActiveFavorite);
     $('.exercises-block').find(`[data-type="marker"][data-id="goal"]`).toggleClass('d-none', !isActiveGoal);
     $('.exercises-block').find(`[data-type="marker"][data-id="watched"]`).toggleClass('d-none', !(isActiveWatched || isActiveWatchedNot));
-    $('.exercises-block').find(`[data-type="marker"][data-id="trainer"]`).toggleClass('d-none', false);
-    // $('.exercises-block').find(`[data-type="marker"][data-id="trainer"]`).toggleClass('d-none', !isActiveEditBlock);
+    $('.exercises-block').find(`[data-type="marker"][data-id="trainer"]`).toggleClass('d-none', !isActiveEditBlock);
 }
 
 function PauseCountExsCalls(currentCall) {

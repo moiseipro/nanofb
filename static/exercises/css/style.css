@@ -715,12 +715,6 @@ input.exs-search {
     border-top: 1px solid var(--color);
 }
 
-
-span.drag.selected > a {
-    border: 2px solid black;
-}
-
-
 /*.select2-results {*/
 /*    height: 90vh;*/
 /*}*/
