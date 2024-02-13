@@ -437,7 +437,8 @@ class ObjectivesListApiView(APIView):
             objective_count = 0
             new_objective = {
                 'id': objective.id,
-                'name': (objective.short_name + ". " if objective.short_name != '' else '') + objective.name,
+                'name': objective.name,
+                'short': objective.short_name,
                 'count': objective_count
             }
             for objective_many in queryset_many:
@@ -454,8 +455,9 @@ class ObjectivesListApiView(APIView):
             object_count[objective['id']] = object_count.get(objective['id'], {'name': '', 'count': 0})
             object_count[objective['id']]['count'] += objective['count']
             object_count[objective['id']]['name'] = objective['name']
+            object_count[objective['id']]['short'] = objective['short']
         #print(object_count)
-        list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in object_count.items()]
+        list2 = [{'id': id, 'count': data['count'], 'text': data['name'], 'short': data['short']} for id, data in object_count.items()]
         #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
         #print(list2)
         return Response(list2)

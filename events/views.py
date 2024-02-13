@@ -41,9 +41,21 @@ class BaseEventsPermissions(DjangoModelPermissions):
     }
 
 
+class ViewAllEventsPermissions(DjangoModelPermissions):
+    perms_map = {
+        'GET': [],
+        'OPTIONS': [],
+        'HEAD': [],
+        'POST': ['%(app_label)s.add_%(model_name)s'],
+        'PUT': ['%(app_label)s.change_%(model_name)s'],
+        'PATCH': ['%(app_label)s.change_%(model_name)s'],
+        'DELETE': ['%(app_label)s.delete_%(model_name)s'],
+    }
+
+
 # REST FRAMEWORK
 class MicrocycleViewSet(viewsets.ModelViewSet):
-    permission_classes = [BaseEventsPermissions]
+    permission_classes = [ViewAllEventsPermissions]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
