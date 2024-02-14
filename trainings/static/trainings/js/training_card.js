@@ -345,7 +345,7 @@ function load_all_exercises_training(training_id = null, group = null) {
             let html_option_text = `${objective.objective.short_name ? '<span class="border bg-light px-1">' + objective.objective.short_name + '</span>' : ''} <span class="border bg-light px-1">${objective.objective.name}</span>`
             newOption = new Option(html_option_text, objective.objective.id, false, true);
             console.log(newOption)
-            newOption = `<option value="${objective.objective.id}" selected><span class="border bg-light px-1">${objective.objective.short_name}.</span> <span class="border bg-light px-1">${objective.objective.name}</span></option>`
+            newOption = `<option value="${objective.objective.id}" selected>${objective.objective.short_name ? '<span class="border bg-light px-1">'+objective.objective.short_name+'.</span>' : ''}<span class="border bg-light px-1">${objective.objective.name}</span></option>`
             console.log(newOption)
             if (objective.type == 0){
                 $('#block-training-goals select[name="objective_1"]').append(newOption).trigger('change');
