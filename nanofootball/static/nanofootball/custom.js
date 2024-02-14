@@ -109,19 +109,33 @@ function create_ajax_select2(obj = null, placeholder = '', href = '', parent = $
 
 function select2CountTemplate(state) {
     console.log(state)
-    var $state = $(`
-        <div class="" title="${state.short ? state.short : ''} ${state.text}">${state.short ? '<span class="font-weight-bold">' + state.short + '</span>.' : ''} ${state.text} <span class="float-right">${state.count ? '('+state.count+')':''}</span></div>
-        
-    `);
+    var $state = ''
+    if(state.short){
+        $state = $(`
+            <div class="text-dark" title="${state.short ? state.short : ''} ${state.text}">${state.short ? '<span class="border bg-light px-1">' + state.short + '</span>' : ''} <span class="border bg-light px-1">${state.text}</span> <span class="float-right">${state.count ? '('+state.count+')':''}</span></div>
+        `);
+    } else {
+        $state = $(`
+            <div class="" title="${state.text}"> ${state.text} <span class="float-right">${state.count ? '('+state.count+')':''}</span></div>
+        `);
+    }
+
     return $state;
 }
 
 function select2BaseSelectedTemplate(state) {
     console.log(state)
-    var $state = $(`
-        <div class="text-truncate" title="${state.text}"> ${state.text}</div>
-        
-    `);
+    var $state = ''
+    if(state.short){
+        $state = $(`
+            <div class="text-truncate" title="${state.text}"> ${state.short ? '<span class="border bg-light px-1">' + state.short + '</span>' : ''} <span class="border bg-light px-1">${state.text}</span></div>
+        `);
+    } else {
+        $state = $(`
+            <div class="text-truncate" title="${state.text}"> ${state.text}</div>
+        `);
+    }
+
     return $state;
 }
 

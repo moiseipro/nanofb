@@ -117,6 +117,12 @@ a.matchButton1 {
 .select2-container--bootstrap4 .select2-selection--single {
     height: calc(1.5em + 0.5rem + 2px) !important;
 }
+.select2-container--bootstrap4 .select2-selection--single .select2-selection__rendered {
+    line-height: calc(1.5em + .5rem);
+}
+.select2-container--bootstrap4 .select2-selection--single .select2-selection__placeholder {
+    line-height: calc(1.5em + .5rem);
+}
 .select2-container--bootstrap4.select2-container--focus .select2-selection {
     border-color: indianred !important;
     -webkit-box-shadow: none;
