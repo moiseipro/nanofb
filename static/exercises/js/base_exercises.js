@@ -232,6 +232,8 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem[data-id="trainer_folders"]').toggleClass('c-hidden', !state);
             $('.up-tabs-elem[data-id="trainer_folders"]').toggleClass('d-none', !state);
 
+            $('.exs-list-group').toggleClass('trainer-list', state);
+
             $('.folders_nfb_list').toggleClass('c-hidden', state);
             $('.folders_club_list').toggleClass('c-hidden', state);
             $('.folders_list').toggleClass('c-hidden', state);
@@ -630,7 +632,6 @@ function LoadExerciseFullName() {
         url: "/exercises/exercises_api",
         success: function (res) {
             if (res.success) {
-                console.log(res.data, res)
                 resData = res.data;
             }
         },
@@ -1136,7 +1137,6 @@ function ToggleExerciseToArchive(elem, exsId, folderType, state) {
             }
         });
     } else if (state == '1') {
-        console.log(folderType)
         swal({
             title: "Вы точно хотите удалить упражнение из архива?",
             icon: "warning",

@@ -68,12 +68,20 @@
 .card-inside {
     height: 88vh !important;
 }
-.folders_list, .folders_nfb_list, .folders_club_list, .folders_trainer_list {
+.folders_list, .folders_nfb_list, .folders_club_list {
     height: 72vh !important;
+    overflow-y: auto;
+}
+.folders_trainer_list {
+    height: 77vh !important;
     overflow-y: auto;
 }
 .exs-list-group {
     height: 75vh !important;
+    overflow-y: auto;
+}
+.exs-list-group.trainer-list {
+    height: 67vh !important;
     overflow-y: auto;
 }
 .visual-block {

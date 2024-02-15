@@ -3162,6 +3162,15 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
             res_exs['nfb'] = False
             res_exs['folder_parent_id'] = c_exs[0].folder.parent
             res_exs['copied_from_nfb'] = c_exs[0].clone_nfb_id != None
+            if c_exs[0].clone_nfb_id != None:
+                found_exs = None
+                try:
+                    found_exs = AdminExercise.objects.filter(id=c_exs[0].clone_nfb_id, visible=True).first()
+                except:
+                    pass
+                if found_exs:
+                    res_exs['scheme_1'] = found_exs.scheme_1
+                    res_exs['scheme_2'] = found_exs.scheme_2
         user_params = None
         if request.user.club_id is not None:
             user_params = UserExerciseParam.objects.filter(exercise_club=c_exs[0].id, user=cur_user)
@@ -3343,6 +3352,15 @@ def GET_get_exs_graphic_content(request, cur_user, cur_team):
             c_exs = UserExercise.objects.filter(id=exs_id, visible=True, user=cur_user)
         if c_exs.exists() and c_exs[0].id != None:
             res_exs = c_exs.values()[0]
+            if c_exs[0].clone_nfb_id != None:
+                found_exs = None
+                try:
+                    found_exs = AdminExercise.objects.filter(id=c_exs[0].clone_nfb_id, visible=True).first()
+                except:
+                    pass
+                if found_exs:
+                    res_exs['scheme_1'] = found_exs.scheme_1
+                    res_exs['scheme_2'] = found_exs.scheme_2
     elif folder_type == utils.FOLDER_NFB:
         c_exs = AdminExercise.objects.filter(id=exs_id, visible=True)
         if c_exs.exists() and c_exs[0].id != None:
