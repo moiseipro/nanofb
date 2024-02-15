@@ -3822,4 +3822,22 @@ def GET_all_teams_folders(request, cur_user):
                 'team': {'id': team.id, 'name': team.name},
                 'folders': folders
             })
+    else:
+        if request.user.has_perm('clubs.club_admin'):
+            teams = ClubTeam.objects.filter(club_id=request.user.club_id)
+        else:
+            teams = ClubTeam.objects.filter(club_id=request.user.club_id, users=request.user)
+        for team in teams:
+            folders = ClubFolder.objects.filter(
+                Q(club=request.user.club_id, team=team, visible=True) &
+                Q(Q(parent=0) | Q(parent__isnull=True))
+            )
+            folders = [entry for entry in folders.values()]
+            for folder in folders:
+                subfolders = ClubFolder.objects.filter(club=request.user.club_id, team=team, visible=True, parent=folder['id'])
+                folder['subfolders'] = [entry for entry in subfolders.values()]
+            data_result.append({
+                'team': {'id': team.id, 'name': team.name},
+                'folders': folders
+            })
     return JsonResponse({"data": data_result, "success": True}, status=200)
