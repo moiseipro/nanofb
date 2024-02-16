@@ -43,7 +43,7 @@ function generate_ajax_objectives_table(scroll_y = '', pagination = true){
             }, searchable: false},
             {'data': 'short_name', 'name': 'short_name', 'defaultContent': "---", render: function (data, type, row, meta) {
                 //return `<div class="text-truncate" title="${data}"> ${data} </div>`;
-                return `<input type="text" name="short_name" value="${data}" class="form-control form-control-sm py-0" placeholder="${gettext('Short key')}" autocomplete="off" style="height: 26px" disabled>`
+                return `<input type="text" name="short_name" value="${data}" class="form-control form-control-sm py-0" placeholder="${gettext('Age')}" autocomplete="off" style="height: 26px" disabled>`
             }},
             {'data': 'name', 'name': 'name', 'defaultContent': "---", render: function (data, type, row, meta) {
                 //return `<div class="text-truncate" title="${data}"> ${data} </div>`;

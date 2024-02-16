@@ -6,6 +6,7 @@ from django.http import QueryDict
 from django.shortcuts import render
 from django.views.generic import DetailView
 from django.views.generic.base import TemplateView
+from legacy import reduce
 from rest_framework import viewsets, status, generics
 from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError
@@ -405,29 +406,43 @@ class ObjectivesListApiView(APIView):
     def get(self, request, format=None):
         search = request.GET.get('search', '')
         type = request.GET.get('additional', '')
+
+        if search != '':
+            words = search.split()
+            query_obj = reduce(
+                lambda a, b: a & b,
+                (Q(name__contains=term) | Q(short_name__contains=term) for term in words),
+            )
+            query_obj_many = reduce(
+                lambda a, b: a & b,
+                (Q(objective__name__contains=term) | Q(objective__short_name__contains=term) for term in words),
+            )
+            print(query_obj)
+        else:
+            query_obj = Q(name__contains=search) | Q(short_name__contains=search)
+            query_obj_many = Q(objective__name__contains=search) | Q(objective__short_name__contains=search)
+
         if request.user.club_id is not None:
             season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
             queryset = ClubTrainingObjectives.objects. \
-                filter(Q(club=request.user.club_id) & (Q(name__contains=search) | Q(short_name__contains=search))).\
+                filter(Q(club=request.user.club_id)).filter(query_obj). \
                 order_by('short_name', 'name')
             queryset_many = ClubTrainingObjectiveMany.objects. \
                 filter(Q(type=type) &
                        Q(training__event_id__date__gte=season[0].date_with) &
                        Q(training__event_id__date__lte=season[0].date_by) &
-                       Q(objective__club=request.user.club_id) &
-                       (Q(objective__name__contains=search) | Q(objective__short_name__contains=search))). \
+                       Q(objective__club=request.user.club_id)).filter(query_obj_many). \
                 annotate(count=Count('objective')).order_by('objective__short_name', 'objective__name')
         else:
             season = UserSeason.objects.filter(id=self.request.session['season'])
             queryset = UserTrainingObjectives.objects. \
-                filter(Q(user=request.user) & (Q(name__contains=search) | Q(short_name__contains=search))). \
+                filter(Q(user=request.user)).filter(query_obj). \
                 order_by('short_name', 'name')
             queryset_many = UserTrainingObjectiveMany.objects. \
                 filter(Q(type=type) &
                        Q(training__event_id__date__gte=season[0].date_with) &
                        Q(training__event_id__date__lte=season[0].date_by) &
-                       Q(objective__user=request.user) &
-                       (Q(objective__name__contains=search) | Q(objective__short_name__contains=search))). \
+                       Q(objective__user=request.user)).filter(query_obj_many). \
                 annotate(count=Count('objective')).order_by('objective__short_name', 'objective__name')
 
         print(queryset_many.values())

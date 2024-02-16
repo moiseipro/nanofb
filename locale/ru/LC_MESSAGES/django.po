@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-12 13:03+0300\n"
+"POT-Creation-Date: 2024-02-16 13:48+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2564,8 +2564,6 @@ msgstr "Название микроцикла. Максимальная длин
 
 #: .\events\models.py:103 .\exercises\templates\exercises\base_folders.html:126
 #: .\exercises\templates\exercises\base_folders.html:127
-#: .\trainings\templates\trainings\training_objectives.html:19
-#: .\trainings\templates\trainings\training_objectives.html:44
 msgid "Short key"
 msgstr "Короткий ключ"
 
@@ -3886,12 +3884,14 @@ msgid "Trainings"
 msgstr "Тренировки"
 
 #: .\trainings\models.py:19
-msgid "Short name"
-msgstr "Короткий код"
+#: .\trainings\templates\trainings\training_objectives.html:19
+#: .\trainings\templates\trainings\training_objectives.html:44
+msgid "Age"
+msgstr "Возраст"
 
 #: .\trainings\models.py:20
-msgid "The short name of the objective"
-msgstr "Краткий код цели"
+msgid "Age group of the objective"
+msgstr "Возрастная группа задачи"
 
 #: .\trainings\models.py:27
 msgid "Objective name"
@@ -4145,8 +4145,8 @@ msgid "Training objectives for the team"
 msgstr "Зедачи тренировки для команды"
 
 #: .\trainings\templates\trainings\training_objectives.html:33
-msgid "Search key"
-msgstr "Поиск ключа"
+msgid "Search age"
+msgstr "Поиск возраста"
 
 #: .\trainings\templates\trainings\training_objectives.html:36
 msgid "Search name"
@@ -4994,6 +4994,12 @@ msgstr "Видео / Анимация"
 msgid "Animation"
 msgstr "Анимация"
 
+#~ msgid "Short name"
+#~ msgstr "Короткий код"
+
+#~ msgid "Search key"
+#~ msgstr "Поиск ключа"
+
 #~ msgid "User team"
 #~ msgstr "Команда пользователя"
 
@@ -5078,9 +5084,6 @@ msgstr "Анимация"
 
 #~ msgid "User exercises"
 #~ msgstr "Упражнения пользователя"
-
-#~ msgid "Age"
-#~ msgstr "Возраст"
 
 #, fuzzy
 #~| msgid "Share training"

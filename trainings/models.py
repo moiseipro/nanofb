@@ -16,8 +16,8 @@ from users.models import User
 class AbstractTrainingObjectives(models.Model):
     short_name = models.CharField(
         max_length=30,
-        verbose_name=_('Short name'),
-        help_text=_('The short name of the objective'),
+        verbose_name=_('Age'),
+        help_text=_('Age group of the objective'),
         null=True,
         blank=True,
     )

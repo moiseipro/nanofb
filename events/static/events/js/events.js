@@ -810,6 +810,9 @@ function clear_filters_events() {
     $('#block-event-info .event-info').html('')
     $('#microcycle-block-filter').val(null).trigger("change");
     $('#microcycle-name-filter').val(null).trigger("change");
+    $('#objective_1-event-view').val(null).trigger("change");
+    $('#objective_2-event-view').val(null).trigger("change");
+    $('#objective_3-event-view').val(null).trigger("change");
     if($('#events-content').hasClass('d-none')){
         hide_training_card()
         $('#events-content').removeClass('d-none')
