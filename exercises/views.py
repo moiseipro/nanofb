@@ -338,6 +338,7 @@ def exercises_api(request):
         delete_exs_drawing_pic_status = 0
         edit_exs_feature_one_status = 0
         change_order_exs_features_status = 0
+        update_archived_exs_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         try:
@@ -446,6 +447,10 @@ def exercises_api(request):
             change_order_exs_features_status = int(request.POST.get("change_order_exs_features", 0))
         except:
             pass
+        try:
+            update_archived_exs_status = int(request.POST.get("update_archived_exs", 0))
+        except:
+            pass
         if copy_exs_status == 1:
             req_team_id = None
             try:
@@ -503,6 +508,8 @@ def exercises_api(request):
             return v_api.POST_edit_exs_feature_one(request, cur_user[0], cur_team)
         elif change_order_exs_features_status == 1:
             return v_api.POST_change_order_exs_features(request, cur_user[0], cur_team)
+        elif update_archived_exs_status == 1:
+            return v_api.POST_update_archived_exs(request, cur_user[0])
         return JsonResponse({"errors": "access_error"}, status=400)
     elif request.method == "GET" and is_ajax:
         get_exs_all_status = 0
