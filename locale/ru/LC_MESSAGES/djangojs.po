@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-16 13:50+0300\n"
+"POT-Creation-Date: 2024-02-21 14:32+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -283,7 +283,6 @@ msgid "Objective"
 msgstr "Задача"
 
 #: .\events\static\events\js\events.js:701 .\static\events\js\events.js:701
-#: .\static\trainings\js\objectives_table.js:46
 msgid "Short key"
 msgstr "Короткий ключ"
 
@@ -291,33 +290,33 @@ msgstr "Короткий ключ"
 msgid "Block key"
 msgstr "Ключ блока"
 
-#: .\events\static\events\js\events.js:984 .\static\events\js\events.js:984
+#: .\events\static\events\js\events.js:987 .\static\events\js\events.js:987
 msgid "Copy"
 msgstr "Копировать"
 
-#: .\events\static\events\js\events.js:985
-#: .\events\static\events\js\events.js:1032
+#: .\events\static\events\js\events.js:988
+#: .\events\static\events\js\events.js:1035
 #: .\notifications\static\notifications\js\base_notification.js:240
-#: .\static\events\base_events.js:439 .\static\events\js\events.js:985
-#: .\static\events\js\events.js:1032
+#: .\static\events\base_events.js:439 .\static\events\js\events.js:988
+#: .\static\events\js\events.js:1035
 #: .\static\notifications\js\base_notification.js:240
 #: .\static\video\base_video.js:47
 msgid "Edit"
 msgstr "Редактировать"
 
-#: .\events\static\events\js\events.js:986
-#: .\events\static\events\js\events.js:1033
+#: .\events\static\events\js\events.js:989
+#: .\events\static\events\js\events.js:1036
 #: .\notifications\static\notifications\js\notification_modal.js:20
-#: .\static\events\base_events.js:440 .\static\events\js\events.js:986
-#: .\static\events\js\events.js:1033
+#: .\static\events\base_events.js:440 .\static\events\js\events.js:989
+#: .\static\events\js\events.js:1036
 #: .\static\notifications\js\notification_modal.js:20
 #: .\static\video\base_video.js:57
 msgid "Delete"
 msgstr "Удалить"
 
-#: .\events\static\events\js\events.js:988
-#: .\events\static\events\js\events.js:1035 .\static\events\base_events.js:442
-#: .\static\events\js\events.js:988 .\static\events\js\events.js:1035
+#: .\events\static\events\js\events.js:991
+#: .\events\static\events\js\events.js:1038 .\static\events\base_events.js:442
+#: .\static\events\js\events.js:991 .\static\events\js\events.js:1038
 msgid "Close"
 msgstr "Закрыть"
 
@@ -1081,6 +1080,11 @@ msgstr "Действие с задачами успешно!"
 msgid "Error when action the objective!"
 msgstr "Ошибка при выполнении действия с задачами!"
 
+#: .\static\trainings\js\objectives_table.js:46
+#: .\trainings\static\trainings\js\objectives_table.js:46
+msgid "Age"
+msgstr "Возраст"
+
 #: .\static\trainings\js\print_training.js:185
 #: .\trainings\static\trainings\js\print_training.js:185
 msgid "Duration"
@@ -1265,10 +1269,6 @@ msgstr "Видео "
 #: .\static\video\js\video_card.js:98 .\video\static\video\js\video_card.js:98
 msgid "Video action \""
 msgstr "Действие с видео \""
-
-#: .\trainings\static\trainings\js\objectives_table.js:46
-msgid "Age"
-msgstr "Возраст"
 
 #~ msgid "Key"
 #~ msgstr "Ключ"

@@ -405,4 +405,14 @@ $(window).on("load", function () {
         });
 
     })
+
+    $('#send-mail-form').submit(function (event) {
+        let form_Data = $(this).serializeArray()
+        console.log(form_Data)
+
+        ajax_users_action('POST', form_Data, 'send mail', user_select_id, 'send_mail').then(function (data) {
+            console.log(data)
+        })
+        event.preventDefault();
+    })
 })

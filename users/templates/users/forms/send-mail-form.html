@@ -1,0 +1,17 @@
+{% load i18n %}
+{% load static %}
+
+
+<form id="send-mail-form">
+    <div class="row form-row">
+        <div class="col-sm-12">
+            <div class="form-group mb-1">
+                <input type="text" name="title" class="form-control form-control-sm" placeholder="{% trans 'Title' %}" required>
+            </div>
+            <div class="form-group mb-1">
+                <textarea name="content" class="form-control form-control-sm" style="min-height: 200px;" placeholder="{% trans 'Content' %}" required></textarea>
+            </div>
+        </div>
+    </div>
+    <button id="send-mail-button" type="submit" class="btn btn-success btn-block">{% trans 'Send'%}</button>
+</form>
