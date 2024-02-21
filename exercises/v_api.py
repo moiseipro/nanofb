@@ -3800,23 +3800,23 @@ def POST_update_archived_exs(request, cur_user):
         if found_exs:
             continue
         new_exs = TrainerExercise(user_name=last_name, user_birthdate=cur_user.personal.date_birthsday)
-        t_exs_dict = model_to_dict(t_exs)
-        for key in t_exs_dict:
+        t_exs_fields = [f.name for f in t_exs._meta.fields]
+        for key in t_exs_fields:
             if key == "id":
-                setattr(new_exs, 'exs_ref', t_exs_dict[key])
+                setattr(new_exs, 'exs_ref', getattr(t_exs, key))
             if key == "clone_nfb_id":
-                setattr(new_exs, 'exs_ref_nfb', t_exs_dict[key])
+                setattr(new_exs, 'exs_ref_nfb', getattr(t_exs, key))
             if key not in skip_keys:
                 if key == "scheme_1" or key == "scheme_2":
                     new_scheme_id = ""
-                    scheme_id = t_exs_dict[key]
+                    scheme_id = getattr(t_exs, key)
                     response = requests.post(f'{NEW_SCHEME_DRAWER_URL}/api/canvas-draw/v1/canvas/duplicate', json={'id': scheme_id})
                     r_json = response.json()
                     if 'id' in r_json:
                         new_scheme_id = r_json['id']
                     setattr(new_exs, key, new_scheme_id)
                 else:
-                    setattr(new_exs, key, t_exs_dict[key])
+                    setattr(new_exs, key, getattr(t_exs, key))
         try:
             new_exs.save()
             if request.user.club_id is not None:
