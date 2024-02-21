@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-16 13:48+0300\n"
+"POT-Creation-Date: 2024-02-21 14:36+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1079,7 +1079,7 @@ msgstr "Да"
 #: .\users\templates\users\forms\edit-club-form.html:42
 #: .\users\templates\users\forms\edit-personal-form.html:84
 #: .\users\templates\users\forms\edit-user-form.html:21
-#: .\users\templates\users\forms\edit-user-form.html:36 .\users\views.py:511
+#: .\users\templates\users\forms\edit-user-form.html:36 .\users\views.py:537
 #: .\video\templates\video\video_card.html:102
 msgid "No"
 msgstr "Нет"
@@ -1978,6 +1978,7 @@ msgstr "Забыл"
 #: .\authorization\templates\authorization\reset_password.html:21
 #: .\notifications\templates\notifications\base_notification.html:32
 #: .\notifications\templates\notifications\forms\notification_send.html:16
+#: .\users\templates\users\forms\send-mail-form.html:16
 msgid "Send"
 msgstr "Отправить"
 
@@ -2054,6 +2055,7 @@ msgstr "Команда %(site_name)s"
 #: .\authorization\templates\authorization\mail\ConfirmationEmail.html:20
 #: .\authorization\templates\authorization\mail\ConfirmationEmail.html:38
 #: .\clubs\templates\clubs\mail\email.html:20
+#: .\users\templates\users\mail\mail_info.html:12
 msgid "Project leader"
 msgstr "Руководитель проекта"
 
@@ -2067,6 +2069,8 @@ msgstr "Руководитель проекта"
 #: .\authorization\templates\authorization\mail\ConfirmationEmail.html:39
 #: .\clubs\templates\clubs\mail\email.html:20
 #: .\clubs\templates\clubs\mail\email.html:21
+#: .\users\templates\users\mail\mail_info.html:12
+#: .\users\templates\users\mail\mail_info.html:13
 msgid "tel"
 msgstr "тел"
 
@@ -2075,6 +2079,7 @@ msgstr "тел"
 #: .\authorization\templates\authorization\mail\ConfirmationEmail.html:21
 #: .\authorization\templates\authorization\mail\ConfirmationEmail.html:39
 #: .\clubs\templates\clubs\mail\email.html:21
+#: .\users\templates\users\mail\mail_info.html:13
 msgid "Project manager"
 msgstr "Менеджер проекта"
 
@@ -2820,6 +2825,7 @@ msgstr "Создание/Изменение папки"
 #: .\trainings\templates\trainings\training_objectives.html:45
 #: .\users\templates\users\forms\add-club-form.html:9
 #: .\users\templates\users\forms\edit-club-form.html:20
+#: .\users\templates\users\forms\send-mail-form.html:9
 #: .\users\templates\users\modules\club_table.html:8
 #: .\video\templates\video\modules\video_list.html:15
 #: .\video\templates\video\modules\video_list_exercises.html:14
@@ -2938,11 +2944,11 @@ msgstr "Добавить клуб"
 msgid "Federation information"
 msgstr "Информация федерации"
 
-#: .\federations\views.py:163 .\users\views.py:393
+#: .\federations\views.py:163 .\users\views.py:419
 msgid "A club with this subdomain already exists!"
 msgstr "Клуб с этим субдоменом уже существует!"
 
-#: .\federations\views.py:173 .\users\views.py:403
+#: .\federations\views.py:173 .\users\views.py:429
 msgid "Create club success!"
 msgstr "Создание клуба успешно!"
 
@@ -3333,7 +3339,7 @@ msgid "Sent"
 msgstr "Отправлено"
 
 #: .\notifications\templates\notifications\forms\notification_create.html:17
-#: .\version\models.py:200
+#: .\users\templates\users\forms\send-mail-form.html:12 .\version\models.py:200
 msgid "Content"
 msgstr "Контент"
 
@@ -4553,6 +4559,11 @@ msgstr "Оплата до"
 msgid "Generate a new password"
 msgstr "Создать новый пароль"
 
+#: .\users\templates\users\modules\management_main.html:11
+#: .\users\templates\users\modules\send_mail_modal.html:8
+msgid "Send by email"
+msgstr "Отправить на почту"
+
 #: .\users\templates\users\modules\user_table.html:14
 msgid "Lic."
 msgstr "Лиц."
@@ -4641,15 +4652,23 @@ msgstr "Обратитесь к вашему администратору для
 msgid "This Email not valid!"
 msgstr "Этот адрес электронной почты недействителен!"
 
-#: .\users\views.py:320 .\users\views.py:451
+#: .\users\views.py:273
+msgid "The message was sent successfully!"
+msgstr ""
+
+#: .\users\views.py:279
+msgid "Error sending the message!"
+msgstr ""
+
+#: .\users\views.py:346 .\users\views.py:477
 msgid "Not chosen"
 msgstr "Не выбрано"
 
-#: .\users\views.py:343
+#: .\users\views.py:369
 msgid "Password updated successfully"
 msgstr "Пароль успешно изменен"
 
-#: .\users\views.py:345
+#: .\users\views.py:371
 msgid "Wrong password"
 msgstr "Неверный пароль"
 
@@ -4993,6 +5012,11 @@ msgstr "Видео / Анимация"
 #: .\video\templates\video\video_card.html:141
 msgid "Animation"
 msgstr "Анимация"
+
+#, fuzzy
+#~| msgid "Spare Email"
+#~ msgid "Send by mail"
+#~ msgstr "Запасная почта"
 
 #~ msgid "Short name"
 #~ msgstr "Короткий код"
