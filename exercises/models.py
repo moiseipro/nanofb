@@ -212,6 +212,7 @@ class AbstractExercise(models.Model):
     animation_data = models.JSONField(null=True, blank=True) # {'data': {'custom': "<t>...</t>", default: ["id_1", "id_2"...]}}
     old_id = models.IntegerField(null=True, blank=True) # from old site
     clone_nfb_id = models.IntegerField(null=True, blank=True) # id of admin exs after copy
+    clone_archive_id = models.IntegerField(null=True, blank=True)
 
     video_links = models.JSONField(null=True, blank=True) # [{'link': "", 'name': "", 'note': ""}, ...]
 
@@ -295,6 +296,7 @@ class TrainerExercise(AbstractExercise):
         help_text=_('Date of birth')
     )
     exs_ref = models.IntegerField(null=True, blank=True)
+    exs_ref_nfb = models.IntegerField(null=True, blank=True)
     videos = models.ManyToManyField(Video, through="ExerciseVideo", through_fields=("exercise_trainer", "video"))
     class Meta(AbstractExercise.Meta):
         abstract = False

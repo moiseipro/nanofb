@@ -247,7 +247,6 @@ function ToggleUpFilter(id, state) {
             if (state) {
                 $('#toggleFoldersViews').toggleClass('selected3', false);
                 LoadAllTeamFolders();
-                LoadFolderExercises();
             } else {
                 $('#toggleFoldersViews').toggleClass('selected3', $('#toggleFoldersViews').attr('data-state') != '0');
                 $('.exs-list-group').html('');
@@ -1047,52 +1046,73 @@ function CountTrainerExercises() {
 }
 
 function LoadAllTeamFolders() {
-    if ($('.folders_trainer_list').find('.trainer-folder-elem').length > 0) {return;}
-    $('.page-loader-wrapper').fadeIn();
-    $.ajax({
-        headers:{"X-CSRFToken": csrftoken},
-        data: {'all_team_folders': 1},
-        type: 'GET', // GET или POST
-        dataType: 'json',
-        url: "/exercises/folders_api",
-        success: function (res) {
-            if (res.success) {
-                let htmlFolders = "";
-                const shortNameChars = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
-                res.data.forEach(row => {
-                    htmlFolders += `
-                        <li class="list-group-item p-1 last-elem team-elem">
-                            <div class="trainer-folder-elem-team" data-team="${row.team.id}">
-                                <div class="pull-center d-flex justify-content-center">
-                                    <span class="folder-title">Команда: ${row.team.name}</span>
-                                </div>
-                            </div>
-                        </li>
-                    `;
-                    row.folders.forEach((folder, folder_i) => {
-                        folder.subfolders.forEach((subfolder, subfolder_i) => {
-                            let isLastElem = subfolder_i == folder.subfolders.length-1;
-                            let shortName = `${shortNameChars[folder_i].toUpperCase()}${subfolder_i+1}`;
-                            htmlFolders += `
-                                <li class="list-group-item p-1 ${isLastElem ? 'last-elem' : ''}">
-                                    <div class="trainer-folder-elem d-flex justify-content-between" data-id="${subfolder.id}" data-parent="${folder.id}" data-team="${row.team.id}">
-                                        <div class="pull-left">
-                                            <span class="folder-title">${shortName}. ${subfolder.name}</span>
-                                        </div>
+    function updateArchivedExs() {
+        $('.page-loader-wrapper').fadeIn();
+        return $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: {'update_archived_exs': 1},
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "exercises_api",
+            success: function (res) {
+                if (res.success) {}
+            },
+            error: function (res) {
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+                LoadFolderExercises();
+            }
+        });
+    }
+    $.when(updateArchivedExs()).done((res) => {
+        if ($('.folders_trainer_list').find('.trainer-folder-elem').length > 0) {return;}
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: {'all_team_folders': 1},
+            type: 'GET', // GET или POST
+            dataType: 'json',
+            url: "/exercises/folders_api",
+            success: function (res) {
+                if (res.success) {
+                    let htmlFolders = "";
+                    const shortNameChars = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+                    res.data.forEach(row => {
+                        htmlFolders += `
+                            <li class="list-group-item p-1 last-elem team-elem">
+                                <div class="trainer-folder-elem-team" data-team="${row.team.id}">
+                                    <div class="pull-center d-flex justify-content-center">
+                                        <span class="folder-title">Команда: ${row.team.name}</span>
                                     </div>
-                                </li>
-                            `;
+                                </div>
+                            </li>
+                        `;
+                        row.folders.forEach((folder, folder_i) => {
+                            folder.subfolders.forEach((subfolder, subfolder_i) => {
+                                let isLastElem = subfolder_i == folder.subfolders.length-1;
+                                let shortName = `${shortNameChars[folder_i].toUpperCase()}${subfolder_i+1}`;
+                                htmlFolders += `
+                                    <li class="list-group-item p-1 ${isLastElem ? 'last-elem' : ''}">
+                                        <div class="trainer-folder-elem d-flex justify-content-between" data-id="${subfolder.id}" data-parent="${folder.id}" data-team="${row.team.id}">
+                                            <div class="pull-left">
+                                                <span class="folder-title">${shortName}. ${subfolder.name}</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                `;
+                            });
                         });
                     });
-                });
-                $('.folders_trainer_list').find('ul').html(htmlFolders);
+                    $('.folders_trainer_list').find('ul').html(htmlFolders);
+                }
+            },
+            error: function (res) {
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
             }
-        },
-        error: function (res) {
-        },
-        complete: function (res) {
-            $('.page-loader-wrapper').fadeOut();
-        }
+        });
     });
 }
 
@@ -2207,6 +2227,7 @@ $(function() {
             ToggleExerciseToArchive(exsElem, exsId, folderType, val);
             return;
         }
+        if (cId == "trainer_copied") {return;}
         swal({
             title: "Вы точно хотите внести изменения?",
             icon: "warning",
