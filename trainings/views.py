@@ -478,6 +478,43 @@ class ObjectivesListApiView(APIView):
         return Response(list2)
 
 
+class ObjectiveBlockListApiView(APIView):
+    # authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        search = request.GET.get('search', '')
+
+        if request.user.club_id is not None:
+            queryset = ClubTrainingObjectives.objects. \
+                filter(club=request.user.club_id, short_name__contains=search). \
+                annotate(names=Count('short_name')).order_by('short_name')
+        else:
+            queryset = UserTrainingObjectives.objects. \
+                filter(user=request.user, short_name__contains=search). \
+                annotate(names=Count('short_name')).order_by('short_name')
+
+        list_microcycles = [
+            {
+                'id': microcycle.short_name,
+                'name': microcycle.short_name,
+                'count': 0
+            } for microcycle in queryset
+        ]
+        print(list_microcycles)
+        microcycles_count = {}
+        for microcycle in list_microcycles:
+            print(microcycle)
+            microcycles_count[microcycle['id']] = microcycles_count.get(microcycle['id'], {'name': '', 'count': 0})
+            microcycles_count[microcycle['id']]['count'] += microcycle['count']
+            microcycles_count[microcycle['id']]['name'] = microcycle['name']
+        print(microcycles_count)
+        list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in microcycles_count.items()]
+        #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+        print(list2)
+        return Response(list2)
+
+
 class LiteTrainingViewSet(viewsets.ModelViewSet):
     permission_classes = [BaseTrainingsPermissions]
 

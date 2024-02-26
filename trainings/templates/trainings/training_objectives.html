@@ -16,7 +16,7 @@
                 <form id="objectives-form" method="post" class="">
                     <div class="row">
                         <div class="col-2 px-1">
-                            <input type="text" name="short_name" class="form-control form-control-sm" placeholder="{% trans "Age" %}" autocomplete="off">
+                            <input type="text" name="short_name" class="form-control form-control-sm" placeholder="{% trans "Objective block" %}" autocomplete="off">
                         </div>
                         <div class="col-8 px-1">
                             <input type="text" name="name" class="form-control form-control-sm" placeholder="{% trans "Title" %}" autocomplete="off">
@@ -28,12 +28,12 @@
                         </div>
                     </div>
                 </form>
-                <div class="row mt-2">
+                <div class="row mt-2 objective-modal-filters">
                     <div class="col-3 px-1">
-                        <input type="search" name=".short-name-col" class="form-control form-control-sm objectives-table-filter" placeholder="{% trans "Search age" %}" autocomplete="off">
+                        <select name=".short-name-col" class="form-control form-control-sm objectives-table-filter" data-tags="true" placeholder="{% trans 'Search objective block' %}"></select>
                     </div>
                     <div class="col px-1">
-                        <input type="search" name=".name-col" class="form-control form-control-sm objectives-table-filter" placeholder="{% trans "Search name" %}" autocomplete="off">
+                        <input type="search" name=".name-col" class="form-control form-control-md objectives-table-filter" placeholder="{% trans "Search name" %}" autocomplete="off" style="height: 38px;">
                     </div>
                 </div>
                 <div class="table-responsive">

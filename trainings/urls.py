@@ -25,4 +25,5 @@ urlpatterns = [
     path('lite/api/', include(lrouter.urls), name="lite_api"),
 
     path('objectives_list/', views.ObjectivesListApiView.as_view(), name='objectives_list'),
+    path('objective_block/', views.ObjectiveBlockListApiView.as_view(), name='objective_block_list'),
 ]

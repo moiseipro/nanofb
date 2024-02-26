@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-21 14:36+0300\n"
+"POT-Creation-Date: 2024-02-26 13:11+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3890,7 +3890,6 @@ msgid "Trainings"
 msgstr "Тренировки"
 
 #: .\trainings\models.py:19
-#: .\trainings\templates\trainings\training_objectives.html:19
 #: .\trainings\templates\trainings\training_objectives.html:44
 msgid "Age"
 msgstr "Возраст"
@@ -4150,9 +4149,13 @@ msgstr "жгуты"
 msgid "Training objectives for the team"
 msgstr "Зедачи тренировки для команды"
 
+#: .\trainings\templates\trainings\training_objectives.html:19
+msgid "Objective block"
+msgstr "Блок задачи"
+
 #: .\trainings\templates\trainings\training_objectives.html:33
-msgid "Search age"
-msgstr "Поиск возраста"
+msgid "Search objective block"
+msgstr "Поиск блока задачи"
 
 #: .\trainings\templates\trainings\training_objectives.html:36
 msgid "Search name"
@@ -5013,6 +5016,9 @@ msgstr "Видео / Анимация"
 msgid "Animation"
 msgstr "Анимация"
 
+#~ msgid "Search age"
+#~ msgstr "Поиск возраста"
+
 #, fuzzy
 #~| msgid "Spare Email"
 #~ msgid "Send by mail"
@@ -5029,11 +5035,6 @@ msgstr "Анимация"
 
 #~ msgid "Club team"
 #~ msgstr "Команда клуба"
-
-#, fuzzy
-#~| msgid "objective"
-#~ msgid "objective key"
-#~ msgstr "задача"
 
 #, fuzzy
 #~| msgid "Objective in training"
@@ -5128,9 +5129,6 @@ msgstr "Анимация"
 
 #~ msgid "Job Title"
 #~ msgstr "Должность"
-
-#~ msgid "Objective 2"
-#~ msgstr "Задача 2"
 
 #~ msgid "for print"
 #~ msgstr "для печати"

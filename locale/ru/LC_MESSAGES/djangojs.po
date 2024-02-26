@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-21 14:32+0300\n"
+"POT-Creation-Date: 2024-02-26 13:06+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -355,7 +355,7 @@ msgstr "Закрыть"
 #: .\trainings\static\trainings\js\action_training.js:35
 #: .\trainings\static\trainings\js\action_training.js:64
 #: .\trainings\static\trainings\js\action_training.js:93
-#: .\trainings\static\trainings\js\view_training.js:314
+#: .\trainings\static\trainings\js\view_training.js:317
 msgid "Training"
 msgstr "Тренировка"
 
@@ -682,7 +682,7 @@ msgstr "Ошибка при действии с сезоном!"
 #: .\static\references\references_edit.js:131
 #: .\static\trainings\js\objectives_table.js:50
 #: .\static\trainings\js\print_training.js:182
-#: .\trainings\static\trainings\js\objectives_table.js:50
+#: .\trainings\static\trainings\js\objectives_table.js:51
 #: .\trainings\static\trainings\js\print_training.js:182
 msgid "Title"
 msgstr "Название"
@@ -1081,7 +1081,6 @@ msgid "Error when action the objective!"
 msgstr "Ошибка при выполнении действия с задачами!"
 
 #: .\static\trainings\js\objectives_table.js:46
-#: .\trainings\static\trainings\js\objectives_table.js:46
 msgid "Age"
 msgstr "Возраст"
 
@@ -1133,64 +1132,64 @@ msgstr "Кликните для просмотра описания"
 #: .\static\users\modules\user_table_settings.js:117
 #: .\trainings\static\trainings\js\training_card.js:297
 #: .\trainings\static\trainings\js\training_card.js:301
-#: .\trainings\static\trainings\js\view_training.js:284
+#: .\trainings\static\trainings\js\view_training.js:287
 #: .\users\static\users\base_clients.js:83
 #: .\users\static\users\modules\user_table_settings.js:117
 msgid "Group"
 msgstr "Группа"
 
 #: .\static\trainings\js\view_training.js:15
-#: .\trainings\static\trainings\js\view_training.js:15
+#: .\trainings\static\trainings\js\view_training.js:18
 msgid "Add all players from the team of this training session?"
 msgstr "Добавьте всех игроков из команды этой тренировки?"
 
 #: .\static\trainings\js\view_training.js:47
-#: .\trainings\static\trainings\js\view_training.js:47
+#: .\trainings\static\trainings\js\view_training.js:50
 msgid "Add selected players?"
 msgstr "Добавить выбранных игроков?"
 
 #: .\static\trainings\js\view_training.js:111
-#: .\trainings\static\trainings\js\view_training.js:111
+#: .\trainings\static\trainings\js\view_training.js:114
 msgid "Remove all players from the training protocol?"
 msgstr "Удалить всех игроков из тренировочного протокола?"
 
 #: .\static\trainings\js\view_training.js:132
-#: .\trainings\static\trainings\js\view_training.js:132
+#: .\trainings\static\trainings\js\view_training.js:135
 msgid "Remove a player \""
 msgstr "Удалить игрока \""
 
 #: .\static\trainings\js\view_training.js:201
-#: .\trainings\static\trainings\js\view_training.js:201
+#: .\trainings\static\trainings\js\view_training.js:204
 msgid "Not selected"
 msgstr "Не выбрано"
 
 #: .\static\trainings\js\view_training.js:262
-#: .\trainings\static\trainings\js\view_training.js:262
+#: .\trainings\static\trainings\js\view_training.js:265
 msgid "Full name"
 msgstr "Полное имя"
 
 #: .\static\trainings\js\view_training.js:275
-#: .\trainings\static\trainings\js\view_training.js:275
+#: .\trainings\static\trainings\js\view_training.js:278
 msgid "Remove all players"
 msgstr "Удалить всех игроков"
 
 #: .\static\trainings\js\view_training.js:284
-#: .\trainings\static\trainings\js\view_training.js:284
+#: .\trainings\static\trainings\js\view_training.js:287
 msgid "(Exercises)"
 msgstr "(Упражнения)"
 
 #: .\static\trainings\js\view_training.js:344
-#: .\trainings\static\trainings\js\view_training.js:344
+#: .\trainings\static\trainings\js\view_training.js:347
 msgid "Delete player"
 msgstr "Удалить игрока"
 
 #: .\static\trainings\js\view_training.js:406
-#: .\trainings\static\trainings\js\view_training.js:406
+#: .\trainings\static\trainings\js\view_training.js:409
 msgid "Save training"
 msgstr "Сохранить тренировку"
 
 #: .\static\trainings\js\view_training.js:406
-#: .\trainings\static\trainings\js\view_training.js:406
+#: .\trainings\static\trainings\js\view_training.js:409
 msgid "There are unfilled players! Fill in the players highlighted in red."
 msgstr "Есть незаполненные игроки! Заполните игроков, выделенных красным."
 
@@ -1269,6 +1268,15 @@ msgstr "Видео "
 #: .\static\video\js\video_card.js:98 .\video\static\video\js\video_card.js:98
 msgid "Video action \""
 msgstr "Действие с видео \""
+
+#: .\trainings\static\trainings\js\objectives_table.js:46
+#: .\trainings\static\trainings\js\objectives_table.js:74
+msgid "Objective block"
+msgstr "Блок задачи"
+
+#: .\trainings\static\trainings\js\view_training.js:13
+msgid "Search objective block"
+msgstr "Поиск блока задачи"
 
 #~ msgid "Key"
 #~ msgstr "Ключ"
