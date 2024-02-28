@@ -184,3 +184,8 @@ input.btn-primary::placeholder { /* Most modern browsers support this now. */
     padding-left: 0.19em;
     line-height: 0.95em;
 }
+
+.select2-container--bootstrap4 .select2-selection__clear {
+    padding-left: 0.18em;
+    line-height: 1.1em;
+}

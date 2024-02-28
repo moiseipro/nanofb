@@ -335,10 +335,22 @@ function load_all_exercises_training(training_id = null, group = null) {
         if('team_info' in data) $('#training-main-data .team-name').text(data.team_info.name);
         else $('#training-main-data .team-name').text('Test');
         $('#training-main-data .trainer-select').text(data.trainer);
-        $('#training-main-data input[name="field_size"]').val(data.field_size)
-        $('#training-main-data input[name="load_type"]').val(data.load_type)
-        $('#training-main-data input[name="goal"]').val(data.goal)
         let newOption;
+        if (data.block){
+            newOption = new Option(data.block, data.block, false, true);
+            $('#training-main-data select[name="block"]').append(newOption).trigger('change');
+        } else {
+            $('#training-main-data select[name="block"]').val(null).trigger('change');
+        }
+        if (data.block_short_key){
+            newOption = new Option(data.block_short_key, data.block_short_key, false, true);
+            $('#training-main-data select[name="block_key"]').append(newOption).trigger('change');
+        } else {
+            $('#training-main-data select[name="block_key"]').val(null).trigger('change');
+        }
+
+
+
         console.log(data.objectives)
         $('#block-training-goals select').val(null).trigger('change');
         for (const objective of data.objectives) {

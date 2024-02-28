@@ -691,7 +691,7 @@ $(window).on('load', function (){
     })
 
     create_ajax_select2($('#microcycle-name-filter'), gettext('M.C.'), '/events/microcycle_name_list', $(document.body), false, true, -1)
-    create_ajax_select2($('#microcycle-block-filter'), gettext('Block'), '/events/microcycle_block_list', $(document.body), false, true, -1)
+    create_ajax_select2($('#training-block-filter'), gettext('Block'), '/trainings/training_block/', $(document.body), false, true, -1)
 
     create_ajax_select2($('#objective_1-event-view'), gettext('Objective')+' 1', '/trainings/objectives_list/', $(document.body), false, true, 1, false, 0, 0)
     create_ajax_select2($('#objective_2-event-view'), gettext('Objective')+' 2', '/trainings/objectives_list/', $(document.body), false, true, 1, false, 0, 1)
@@ -728,8 +728,7 @@ function clear_microcycle_form(){
 
 function local_filters_events() {
     let name_val = $('#microcycle-name-filter').val() ? $('#microcycle-name-filter').val() : ''
-    let block_val = $('#microcycle-block-filter').val() ? $('#microcycle-block-filter').val() : ''
-    let goal_val = $('#microcycle-goal-filter').val() ? $('#microcycle-goal-filter').val() : ''
+    let block_val = $('#training-block-filter').val() ? $('#training-block-filter').val() : ''
     let days_val = $('#microcycle-days-filter').val() ? $('#microcycle-days-filter').val() : ''
     let day_val = $('#microcycle-day-filter').val() ? $('#microcycle-day-filter').val() : ''
     let filled_val = $('#filled-event-filter').attr('data-filter') ? $('#filled-event-filter').attr('data-filter') : 0
@@ -749,11 +748,6 @@ function local_filters_events() {
         let this_obj = $(this)
         let data_block = this_obj.attr('data-block')
         return block_val!='all' && block_val!='' && data_block != block_val;
-    }).hide()
-    $('#events tbody tr').filter(function( index ) {
-        let this_obj = $(this)
-        let data_goal = this_obj.attr('data-goal')
-        return goal_val!='all' && goal_val!='' && data_goal != goal_val;
     }).hide()
     $('#events tbody tr').filter(function( index ) {
         let this_obj = $(this)
@@ -880,13 +874,13 @@ function generateMicrocyclesTable(){
             {'data': 'short_key', 'defaultContent': "---", render : function ( data, type, row, meta ) {
                 console.log(row);
                 let html = '';
-                html += `<span>${row.short_key ? row.short_key : '---'}</span><br><span>${row.block_key ? row.block_key : '---'}</span>`
+                html += `<span>${row.short_key ? row.short_key : '---'}</span>`
                 return html;
             }},
             {'data': 'name', 'defaultContent': "---", render : function ( data, type, row, meta ) {
                 console.log(row);
                 let html = '';
-                html += `<span>${row.name ? row.name : '---'}</span><br><span>${row.block ? row.block : '---'}</span>`
+                html += `<span>${row.name ? row.name : '---'}</span>`
                 return html;
             }},
             //{'data': 'goal', 'defaultContent': "---"},

@@ -334,6 +334,7 @@ class MicrocycleShortKeyApiView(APIView):
         return Response(list2)
 
 
+# Не используется
 class MicrocycleBlockListApiView(APIView):
     # authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -373,6 +374,7 @@ class MicrocycleBlockListApiView(APIView):
         return Response(list2)
 
 
+# Не используется
 class MicrocycleBlockKeyApiView(APIView):
     # authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -635,11 +637,11 @@ class EventViewSet(viewsets.ModelViewSet):
         microcycle_before = self.request.query_params.get('to_date')
         microcycle_after = self.request.query_params.get('from_date')
         favourites = self.request.query_params.get('favourites')
-        load_type = self.request.query_params.get('load_type')
-        goal = self.request.query_params.get('goal')
-        field_size = self.request.query_params.get('field_size')
+        # load_type = self.request.query_params.get('load_type')
+        # goal = self.request.query_params.get('goal')
+        # field_size = self.request.query_params.get('field_size')
 
-        print(load_type)
+
         team = self.request.session['team']
         if self.request.user.club_id is not None:
             season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
@@ -647,12 +649,12 @@ class EventViewSet(viewsets.ModelViewSet):
             q_filter = Q(clubtraining__team_id=team)
             if favourites != '0' and favourites is not None:
                 q_filter &= Q(clubtraining__favourites=favourites)
-            if load_type != '' and load_type is not None:
-                q_filter &= Q(clubtraining__load_type__icontains=load_type)
-            if goal != '' and goal is not None:
-                q_filter &= Q(clubtraining__goal__icontains=goal)
-            if field_size != '' and field_size is not None:
-                q_filter &= Q(clubtraining__field_size__icontains=field_size)
+            # if load_type != '' and load_type is not None:
+            #     q_filter &= Q(clubtraining__load_type__icontains=load_type)
+            # if goal != '' and goal is not None:
+            #     q_filter &= Q(clubtraining__goal__icontains=goal)
+            # if field_size != '' and field_size is not None:
+            #     q_filter &= Q(clubtraining__field_size__icontains=field_size)
             q_filter |= Q(clubmatch__team_id=team)
             events = ClubEvent.objects.filter(q_filter)
 
@@ -665,12 +667,12 @@ class EventViewSet(viewsets.ModelViewSet):
             q_filter = Q(usertraining__team_id=team)
             if favourites != '0' and favourites is not None:
                 q_filter &= Q(usertraining__favourites=favourites)
-            if load_type != '' and load_type is not None:
-                q_filter &= Q(usertraining__load_type__icontains=load_type)
-            if goal != '' and goal is not None:
-                q_filter &= Q(usertraining__goal__icontains=goal)
-            if field_size != '' and field_size is not None:
-                q_filter &= Q(usertraining__field_size__icontains=field_size)
+            # if load_type != '' and load_type is not None:
+            #     q_filter &= Q(usertraining__load_type__icontains=load_type)
+            # if goal != '' and goal is not None:
+            #     q_filter &= Q(usertraining__goal__icontains=goal)
+            # if field_size != '' and field_size is not None:
+            #     q_filter &= Q(usertraining__field_size__icontains=field_size)
             q_filter |= Q(usermatch__team_id=team)
             events = UserEvent.objects.filter(q_filter)
 

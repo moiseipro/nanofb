@@ -38,6 +38,9 @@ $(window).on('load', function (){
         });
     })
 
+    create_ajax_select2($('[name="block_key"]'), gettext('Block key'), '/trainings/training_block_short/', $(document.body))
+    create_ajax_select2($('[name="block"]'), gettext('Block'), '/trainings/training_block/', $(document.body))
+
     create_ajax_select2($('[name="objective_1"]'), gettext('Objective')+' 1', '/trainings/objectives_list/', $(document.body), false, true, 0, true, 2, 0)
     create_ajax_select2($('[name="objective_2"]'), gettext('Objective')+' 2', '/trainings/objectives_list/', $(document.body), false, true, 0, true, 2, 1)
     create_ajax_select2($('[name="objective_3"]'), gettext('Objective')+' 3', '/trainings/objectives_list/', $(document.body), false, true, 0, true, 2, 2)
@@ -168,9 +171,8 @@ $(window).on('load', function (){
         })
         training_data['inventory'] = JSON.stringify(inventory)
         training_data['additional'] = JSON.stringify(additionals)
-        training_data['field_size'] = $('#training-main-data input[name="field_size"]').val()
-        training_data['load_type'] = $('#training-main-data input[name="load_type"]').val()
-        training_data['goal'] = $('#training-main-data input[name="goal"]').val()
+        training_data['block'] = $('#training-main-data select[name="block"]').val()
+        training_data['block_short_key'] = $('#training-main-data select[name="block_key"]').val()
 
         training_data['video_href'] = $('#training-video-modal input[name="video_href"]').val()
 

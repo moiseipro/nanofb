@@ -69,17 +69,17 @@ class AbstractTraining(models.Model):
         help_text=_('Favorites training'),
         default=0
     )
-    field_size = models.CharField(
-        max_length=255,
-        verbose_name=_('field size'),
-        help_text=_('The size of the field in training'),
+    block_short_key = models.CharField(
+        max_length=30,
+        verbose_name=_('Block short key'),
+        help_text=_('The short key of the training block'),
         null=True,
         blank=True,
     )
-    load_type = models.CharField(
+    block = models.CharField(
         max_length=255,
-        verbose_name=_('load type'),
-        help_text=_('Type of training load'),
+        verbose_name=_('Block'),
+        help_text=_('Training block'),
         null=True,
         blank=True,
     )

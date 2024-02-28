@@ -26,4 +26,6 @@ urlpatterns = [
 
     path('objectives_list/', views.ObjectivesListApiView.as_view(), name='objectives_list'),
     path('objective_block/', views.ObjectiveBlockListApiView.as_view(), name='objective_block_list'),
+    path('training_block/', views.TrainingBlockListApiView.as_view(), name='training_block'),
+    path('training_block_short/', views.TrainingBlockKeyApiView.as_view(), name='training_block_short'),
 ]
