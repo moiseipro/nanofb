@@ -86,7 +86,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                         let microcycle_name = ""
                         let training_block = ""
                         let microcycle_goal = ""
-                        let objectives = {'objective_1': [], 'objective_2': [], 'objective_3': []}
+                        let objectives = {'objective_1': [], 'objective_2': [], 'objective_3': [], 'blocks': ''}
                         let hasVideo = false
                         let isCurrentDate = false
                         let isFilled = true
@@ -138,6 +138,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             hasVideo = event.training.video_href != '' && event.training.video_href != null
                             for (const objective of event.training.objectives) {
                                 objectives['objective_'+(objective.type+1)].push(objective.objective.id)
+                                objectives['blocks'] += objective.objective.short_name + ','
                             }
 
                             event_name = 'tr'+num_tr
@@ -178,7 +179,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                 ` //<a href="#" class="btn btn-sm btn-block btn-secondary py-0 disabled">${/*gettext('Recreation')*/'---'}</a>
                         }
                         console.log(event['only_date']+"   "+moment(event['only_date'], 'DD/MM/YYYY').endOf('month').format('DD/MM/YYYY'))
-                        tr_html += `<tr id="${event['only_date']==moment().format('DD/MM/YYYY') ? 'current_day' : ''}" class="${event_id!=null ? 'hasEvent' : ''} ${event_class} ${event['only_date']==moment(event['only_date'], 'DD/MM/YYYY').endOf('month').format('DD/MM/YYYY') ? "month_top_border" : ''}" data-value="${event_id}" data-microcycle-days="${microcycle_days}" data-microcycle-day="${count_day}" data-unfilled="${!isFilled ? '1' : '0'}" data-video="${hasVideo ? '1' : '0'}" data-name="${microcycle_name}" data-block="${training_block}" data-goal="${microcycle_goal}" data-objective_1="${objectives.objective_1}" data-objective_2="${objectives.objective_2}" data-objective_3="${objectives.objective_3}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
+                        tr_html += `<tr id="${event['only_date']==moment().format('DD/MM/YYYY') ? 'current_day' : ''}" class="${event_id!=null ? 'hasEvent' : ''} ${event_class} ${event['only_date']==moment(event['only_date'], 'DD/MM/YYYY').endOf('month').format('DD/MM/YYYY') ? "month_top_border" : ''}" data-value="${event_id}" data-microcycle-days="${microcycle_days}" data-microcycle-day="${count_day}" data-unfilled="${!isFilled ? '1' : '0'}" data-video="${hasVideo ? '1' : '0'}" data-name="${microcycle_name}" data-block="${training_block}" data-goal="${microcycle_goal}" data-objective_1="${objectives.objective_1}" data-objective_2="${objectives.objective_2}" data-objective_3="${objectives.objective_3}" data-objective-block="${objectives.blocks}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
                         tr_html += td_html
                         tr_html += `</tr>`
                         event_date = event['only_date']

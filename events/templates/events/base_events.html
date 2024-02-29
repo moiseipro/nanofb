@@ -49,7 +49,7 @@
                                     <button class="btn btn-block btn-lightgray btn-md move-left move_to_last_month"> <i class="fa fa-chevron-left" aria-hidden="true"></i> </button>
                                 </div>
                                 <div class="col px-1">
-                                    <button id="toggle-calendar" title="{% trans 'Show/Hide calendar' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold px-0 active">{% trans "Calendar" %}</button>
+                                    <button id="toggle-calendar" title="{% trans 'Show/Hide calendar' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold text-truncate px-0 active">{% trans "Calendar" %}</button>
                                 </div>
                                 <div class="col px-0 d-none">
                                     <button class="btn btn-block btn-lightgray btn-md font-weight-bold move_to_today"> --- </button>
@@ -105,11 +105,15 @@
                         {% if perms.events.add_clubmicrocycles or perms.events.add_usermicrocycles %}
                         <div class="col mc-function">
                             <div class="row">
-                                <div class="col-6 pl-0 pr-1">
+                                <div class="col-3 pl-0 pr-1">
                                     <input id="microcycle-day-filter" type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="{% trans 'M.D.' %}" autocomplete="off">
                                 </div>
-                                <div class="col-6 px-1">
+                                <div class="col-3 px-1">
                                     <input id="microcycle-days-filter" type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="{% trans 'MC days' %}" autocomplete="off">
+                                </div>
+                                <div class="col-6 px-1">
+                                    <select id="objective-block-filter" class="form-control form-control-sm select-filter-events select2" placeholder="{% trans 'Objective block' %}">
+                                    </select>
                                 </div>
                                 <div class="col-12 mt-1 pl-0 pr-1">
                                     <select id="microcycle-name-filter" class="form-control form-control-sm select-filter-events select2" placeholder="{% trans 'M.C.' %}">
