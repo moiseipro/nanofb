@@ -105,15 +105,11 @@
                         {% if perms.events.add_clubmicrocycles or perms.events.add_usermicrocycles %}
                         <div class="col mc-function">
                             <div class="row">
-                                <div class="col-3 pl-0 pr-1">
+                                <div class="col-6 pl-0 pr-1">
                                     <input id="microcycle-day-filter" type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="{% trans 'M.D.' %}" autocomplete="off">
                                 </div>
-                                <div class="col-3 px-1">
-                                    <input id="microcycle-days-filter" type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="{% trans 'MC days' %}" autocomplete="off">
-                                </div>
                                 <div class="col-6 px-1">
-                                    <select id="objective-block-filter" class="form-control form-control-sm select-filter-events select2" placeholder="{% trans 'Objective block' %}">
-                                    </select>
+                                    <input id="microcycle-days-filter" type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="{% trans 'MC days' %}" autocomplete="off">
                                 </div>
                                 <div class="col-12 mt-1 pl-0 pr-1">
                                     <select id="microcycle-name-filter" class="form-control form-control-sm select-filter-events select2" placeholder="{% trans 'M.C.' %}">
@@ -128,15 +124,27 @@
 {#                                </div>#}
                             </div>
                         </div>
-                        <div class="col-8 mc-function objective-filters-block">
+                        <div class="col-8 mc-function">
                             <div class="row"> <!--training-card-objective d-none-->
-                                <div class="col-12 px-1">
+                                <div class="col-3 px-1">
+                                    <select id="objective_1-block-filter" class="form-control form-control-sm select-filter-events select2" placeholder="{% trans 'Objective block' %}">
+                                    </select>
+                                </div>
+                                <div class="col-9 px-1 objective-filters-block">
                                     <select id="objective_1-event-view" type="text" class="form-control form-control-sm select-filter-events" placeholder="{% trans 'Objective' %} 1"></select>
                                 </div>
-                                <div class="col-12 mt-1 px-1">
+                                <div class="col-3 mt-1 px-1">
+                                    <select id="objective_2-block-filter" class="form-control form-control-sm select-filter-events select2" placeholder="{% trans 'Objective block' %}">
+                                    </select>
+                                </div>
+                                <div class="col-9 mt-1 px-1 objective-filters-block">
                                     <select id="objective_2-event-view" type="text" class="form-control form-control-sm select-filter-events" placeholder="{% trans 'Objective' %} 2"></select>
                                 </div>
-                                <div class="col-12 mt-1 px-1">
+                                <div class="col-3 mt-1 px-1">
+                                    <select id="objective_3-block-filter" class="form-control form-control-sm select-filter-events select2" placeholder="{% trans 'Objective block' %}">
+                                    </select>
+                                </div>
+                                <div class="col-9 mt-1 px-1 objective-filters-block">
                                     <select id="objective_3-event-view" type="text" class="form-control form-control-sm select-filter-events" placeholder="{% trans 'Objective' %} 3"></select>
                                 </div>
                             </div>

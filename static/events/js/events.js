@@ -649,7 +649,10 @@ $(window).on('load', function (){
 
     create_ajax_select2($('#microcycle-name-filter'), gettext('M.C.'), '/events/microcycle_name_list', $(document.body), false, true, -1)
     create_ajax_select2($('#training-block-filter'), gettext('Block'), '/trainings/training_block/', $(document.body), false, true, -1)
-    create_ajax_select2($('#objective-block-filter'), gettext('Objective block'), '/trainings/objective_block', $(document.body))
+
+    create_ajax_select2($('#objective_1-block-filter'), gettext('Objective block'), '/trainings/objective_block', $(document.body))
+    create_ajax_select2($('#objective_2-block-filter'), gettext('Objective block'), '/trainings/objective_block', $(document.body))
+    create_ajax_select2($('#objective_3-block-filter'), gettext('Objective block'), '/trainings/objective_block', $(document.body))
 
     create_ajax_select2($('#objective_1-event-view'), gettext('Objective')+' 1', '/trainings/objectives_list/', $(document.body), false, true, 1, false, 0, {'type': 0})
     create_ajax_select2($('#objective_2-event-view'), gettext('Objective')+' 2', '/trainings/objectives_list/', $(document.body), false, true, 1, false, 0, {'type': 1})
@@ -691,11 +694,14 @@ function local_filters_events() {
     let day_val = $('#microcycle-day-filter').val() ? $('#microcycle-day-filter').val() : ''
     let filled_val = $('#filled-event-filter').attr('data-filter') ? $('#filled-event-filter').attr('data-filter') : 0
     let video_val = $('#video-event-filter').attr('data-filter') ? $('#video-event-filter').attr('data-filter') : 0
-    let objective_1_val = $('#objective_1-event-view').val() ? $('#objective_1-event-view').val() : 0
-    let objective_2_val = $('#objective_2-event-view').val() ? $('#objective_2-event-view').val() : 0
-    let objective_3_val = $('#objective_3-event-view').val() ? $('#objective_3-event-view').val() : 0
-    let objective_block = select_custom_search = $('#objective-block-filter').val() ? $('#objective-block-filter').val() : 0
-
+    let objective_1_val = $('#objective_1-event-view').val() ? $('#objective_1-event-view').val() : ''
+    let objective_2_val = $('#objective_2-event-view').val() ? $('#objective_2-event-view').val() : ''
+    let objective_3_val = $('#objective_3-event-view').val() ? $('#objective_3-event-view').val() : ''
+    let objective_block = select_custom_search =
+        ($('#objective_1-block-filter').val() ? $('#objective_1-block-filter').val(): '') + ',' +
+        ($('#objective_2-block-filter').val() ? $('#objective_2-block-filter').val() : '') + ',' +
+        ($('#objective_3-block-filter').val() ? $('#objective_3-block-filter').val() : '');
+    console.log(objective_block)
     $('#events tbody tr').show()
 
     $('#events tbody tr').filter(function( index ) {
@@ -744,11 +750,11 @@ function local_filters_events() {
         let data_objective_3 = this_obj.attr('data-objective_3')
         return objective_3_val!='' && !data_objective_3.match('\\b' + objective_3_val + '\\b');
     }).hide()
-    $('#events tbody tr').filter(function( index ) {
-        let this_obj = $(this)
-        let data_objective_block = this_obj.attr('data-objective-block')
-        return objective_block!='' && !data_objective_block.match('\\b' + objective_block + '\\b');
-    }).hide()
+    // $('#events tbody tr').filter(function( index ) {
+    //     let this_obj = $(this)
+    //     let data_objective_block = this_obj.attr('data-objective-block')
+    //     return objective_block!='' && !data_objective_block.match('\\b' + objective_block + '\\b');
+    // }).hide()
 }
 
 function clear_filters_events() {
