@@ -421,16 +421,20 @@ class ObjectivesListApiView(APIView):
             )
             print(query_obj)
         else:
-            query_obj = Q(name__contains=search) | Q(short_name__contains=search)
-            query_obj_many = Q(objective__name__contains=search) | Q(objective__short_name__contains=search)
+            query_obj = (Q(name__contains=search) | Q(short_name__contains=search))
+            query_obj_many = (Q(objective__name__contains=search) | Q(objective__short_name__contains=search))
+
+        if len(block) > 1:
+            query_obj &=Q(short_name__contains=block[int(type)])
+            query_obj_many &= Q(objective__short_name__contains=block[int(type)])
 
         if request.user.club_id is not None:
             season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
             queryset = ClubTrainingObjectives.objects. \
-                filter(Q(club=request.user.club_id) & Q(short_name__contains=block[int(type)])).filter(query_obj). \
+                filter(Q(club=request.user.club_id)).filter(query_obj). \
                 order_by('short_name', 'name')
             queryset_many = ClubTrainingObjectiveMany.objects. \
-                filter(Q(type=type) & Q(objective__short_name__contains=block[int(type)]) &
+                filter(Q(type=type) &
                        Q(training__event_id__date__gte=season[0].date_with) &
                        Q(training__event_id__date__lte=season[0].date_by) &
                        Q(objective__club=request.user.club_id)).filter(query_obj_many). \
@@ -438,10 +442,10 @@ class ObjectivesListApiView(APIView):
         else:
             season = UserSeason.objects.filter(id=self.request.session['season'])
             queryset = UserTrainingObjectives.objects. \
-                filter(Q(user=request.user) & Q(short_name__contains=block[int(type)])).filter(query_obj). \
+                filter(Q(user=request.user)).filter(query_obj). \
                 order_by('short_name', 'name')
             queryset_many = UserTrainingObjectiveMany.objects. \
-                filter(Q(type=type) & Q(objective__short_name__contains=block[int(type)]) &
+                filter(Q(type=type) &
                        Q(training__event_id__date__gte=season[0].date_with) &
                        Q(training__event_id__date__lte=season[0].date_by) &
                        Q(objective__user=request.user)).filter(query_obj_many). \
