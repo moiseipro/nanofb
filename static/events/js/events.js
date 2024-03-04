@@ -32,6 +32,12 @@ var newMicrocycle;
 var objective_block = '';
 
 $(window).on('load', function (){
+    generate_ajax_objectives_table('50vh')
+
+    create_ajax_select2($('#objectives-tab select.objectives-table-filter'), gettext('Search objective type'), '/trainings/objective_block', $('#references-modal'), false)
+
+    generate_ajax_blocks_table('50vh')
+
     $('#toggle_btn').click()
 
     $('input.refDate').val(strDate);
@@ -241,7 +247,7 @@ $(window).on('load', function (){
     })
 
 
-    $('#microcycle-modal').on('click', '.create', function() {
+    $('#microcycles-tab').on('click', '.create', function() {
         cur_edit_data = microcycles_table.row($(this).closest('tr')).data()
         //console.log('CREATE : ', cur_edit_data);
         $('#microcycles-form').attr('method', 'POST')
@@ -658,10 +664,10 @@ $(window).on('load', function (){
     create_ajax_select2($('#objective_2-event-view'), gettext('Objective')+' 2', '/trainings/objectives_list/', $(document.body), false, true, 1, false, 0, {'type': 1})
     create_ajax_select2($('#objective_3-event-view'), gettext('Objective')+' 3', '/trainings/objectives_list/', $(document.body), false, true, 1, false, 0, {'type': 2})
 
-    create_ajax_select2($('#select-microcycle-name'), gettext('M.C.'), '/events/microcycle_name_list', $('#microcycle-modal'))
-    create_ajax_select2($('#select-microcycle-short_key'), gettext('Short key'), '/events/microcycle_short_key_list', $('#microcycle-modal'))
-    create_ajax_select2($('#select-microcycle-block'), gettext('Block'), '/events/microcycle_block_list', $('#microcycle-modal'))
-    create_ajax_select2($('#select-microcycle-block_key'), gettext('Block key'), '/events/microcycle_block_key_list', $('#microcycle-modal'))
+    create_ajax_select2($('#select-microcycle-name'), gettext('M.C.'), '/events/microcycle_name_list', $('#references-modal'))
+    create_ajax_select2($('#select-microcycle-short_key'), gettext('Short key'), '/events/microcycle_short_key_list', $('#references-modal'))
+    create_ajax_select2($('#select-microcycle-block'), gettext('Block'), '/events/microcycle_block_list', $('#references-modal'))
+    create_ajax_select2($('#select-microcycle-block_key'), gettext('Block key'), '/events/microcycle_block_key_list', $('#references-modal'))
 })
 
 function clear_event_form(){
@@ -865,7 +871,7 @@ function generateMicrocyclesTable(){
             }}
         ],
     })
-    $('#microcycle-modal').on('shown.bs.modal', function () {
+    $('#microcycles-tab-button').on('shown.bs.tab', function () {
         microcycles_table.columns.adjust()
     })
 
@@ -973,7 +979,8 @@ $(function() {
                     } else if(key === 'edit'){
                         window.console && console.log(microcycle_id);
                         cur_edit_data = microcycles_table.row($(this).closest('tr')).data()
-                        $('#microcycle-modal').modal('show');
+                        $('#references-modal').modal('show');
+                        $('#microcycles-tab-button').click();
                         ajax_microcycle_update('GET', null, microcycle_id).then(function( data ) {
                             cur_edit_data = data
                             let date_with = moment(cur_edit_data['date_with'], 'DD/MM/YYYY').format('YYYY-MM-DD');

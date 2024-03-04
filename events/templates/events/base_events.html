@@ -17,7 +17,7 @@
                                 </div>
                                 {% if perms.events.add_clubmicrocycles or perms.events.add_usermicrocycles %}
                                 <div class="col px-1 mc-function">
-                                    <button id="microcycle" title="{% trans 'Microcycle' %}" data-toggle="modal" data-target="#microcycle-modal" class="btn btn-block btn-lightgray btn-md font-weight-bold text-success"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                    <button id="open-references-modal" title="{% trans 'Microcycle' %}" data-toggle="modal" data-target="#references-modal" class="btn btn-block btn-lightgray btn-md font-weight-bold text-success"><i class="fa fa-plus" aria-hidden="true"></i></button>
                                 </div>
                                 {% endif %}
                                 <div class="col px-1">
@@ -181,7 +181,7 @@
     {% include "trainings/training_video.html" %}
     {% include 'shared/modules/shared_training_modal.html' %}
     {% include 'trainings/print_training.html' %}
-    {% include 'events/forms/microcycle_modal.html' %}
+    {% include 'events/modules/references_modal.html' %}
     {% include 'events/forms/create_event.html' %}
     {% include 'events/forms/edit_event.html' %}
     {% include 'events/forms/event_copy.html' %}
@@ -208,6 +208,10 @@
     <script src="{% static 'exercises/js/modules/graphic_modal.js' %}"></script>
     <script src="{% static 'references/exercise_additional_data.js' %}"></script>
     <script src="{% static 'references/training_additional.js' %}"></script>
+    <script src="{% static 'trainings/js/objectives_table.js' %}"></script>
+    <script src="{% static 'trainings/js/action_objectives.js' %}"></script>
+    <script src="{% static 'trainings/js/blocks_table.js' %}"></script>
+    <script src="{% static 'trainings/js/action_blocks.js' %}"></script>
     <script src="{% static 'trainings/js/action_training.js' %}"></script>
     <script src="{% static 'trainings/js/training_card.js' %}"></script>
     <script src="{% static 'trainings/js/print_training.js' %}"></script>

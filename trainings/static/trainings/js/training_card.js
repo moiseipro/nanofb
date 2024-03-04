@@ -354,7 +354,7 @@ function load_all_exercises_training(training_id = null, group = null) {
         console.log(data.objectives)
         $('#block-training-goals select').val(null).trigger('change');
         for (const objective of data.objectives) {
-            let html_option_text = `<span class="border bg-light px-1">${objective.objective.name}</span>`
+            let html_option_text = `${objective.objective.name}`
             newOption = new Option(html_option_text, objective.objective.id, false, true);
             console.log(newOption)
             newOption = `<option value="${objective.objective.id}" selected>${html_option_text}</option>`
@@ -368,6 +368,15 @@ function load_all_exercises_training(training_id = null, group = null) {
             if (objective.type == 2){
                 $('#block-training-goals select[name="objective_3"]').append(newOption).trigger('change');
             }
+        }
+        $('#training-main-data #select-training-block').val(null).trigger('change')
+        for (const block of data.blocks) {
+            let html_option_text = `<span class="border bg-light px-1">${block.block.name}</span>`
+            newOption = new Option(html_option_text, block.block.id, false, true);
+            console.log(newOption)
+            newOption = `<option value="${block.block.id}" selected>${html_option_text}</option>`
+            console.log(newOption)
+            $('#training-main-data select[name="blocks"]').append(newOption).trigger('change');
         }
         $('#training-video-modal input[name="video_href"]').val(data.video_href)
         //console.log(data.inventory)

@@ -27,7 +27,8 @@ from trainings.filters import ObjectivesGlobalFilter
 from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExerciseAdditional, UserTrainingProtocol, \
     ClubTrainingExercise, ClubTrainingProtocol, ClubTraining, ClubTrainingExerciseAdditional, LiteTraining, \
     LiteTrainingExercise, LiteTrainingExerciseAdditional, UserTrainingObjectives, ClubTrainingObjectives, \
-    ClubTrainingObjectiveMany, UserTrainingObjectiveMany
+    ClubTrainingObjectiveMany, UserTrainingObjectiveMany, ClubTrainingBlocks, UserTrainingBlocks, ClubTrainingBlockMany, \
+    UserTrainingBlockMany
 
 # REST FRAMEWORK
 from trainings.serializers import UserTrainingSerializer, UserTrainingExerciseSerializer, \
@@ -35,7 +36,8 @@ from trainings.serializers import UserTrainingSerializer, UserTrainingExerciseSe
     ClubTrainingProtocolSerializer, ClubTrainingSerializer, ClubTrainingExerciseAdditionalSerializer, \
     LiteTrainingExerciseSerializer, LiteTrainingSerializer, LiteTrainingExerciseAdditionalSerializer, \
     UserTrainingObjectiveSerializer, ClubTrainingObjectiveSerializer, UserTrainingObjectiveManySerializer, \
-    ClubTrainingObjectiveManySerializer
+    ClubTrainingObjectiveManySerializer, ClubTrainingBlockSerializer, UserTrainingBlockSerializer, \
+    ClubTrainingBlockManySerializer, UserTrainingBlockManySerializer
 from users.models import User
 from system_icons.views import get_ui_elements
 
@@ -343,6 +345,30 @@ class TrainingViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    @action(detail=True, methods=['post'])
+    def add_block(self, request, pk=None):
+
+        data = request.data.get('items', request.data)
+        data_blocks = json.loads(data)
+        many = isinstance(data_blocks, list)
+        print(data_blocks, many)
+
+        if self.request.user.club_id is not None:
+            ClubTraining.objects.get(pk=pk).blocks.clear()
+            serializer = ClubTrainingBlockManySerializer(
+                data=data_blocks, many=many
+            )
+        else:
+            UserTraining.objects.get(pk=pk).blocks.clear()
+            serializer = UserTrainingBlockManySerializer(
+                data=data_blocks, many=many
+            )
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     def get_serializer_class(self):
         if self.request.user.club_id is not None:
             serial = ClubTrainingSerializer
@@ -367,6 +393,111 @@ class TrainingViewSet(viewsets.ModelViewSet):
                                            event_id__date__gte=season[0].date_with,
                                            event_id__date__lte=season[0].date_by)
         return trainings
+
+
+class BlocksViewSet(viewsets.ModelViewSet):
+    permission_classes = [BaseTrainingsPermissions]
+    #permission_classes = [IsAuthenticated]
+    filter_backends = (DatatablesFilterBackend,)
+    filterset_class = ObjectivesGlobalFilter
+
+    def perform_create(self, serializer):
+        if self.request.user.club_id is not None:
+            serializer.save(club=self.request.user.club_id)
+        else:
+            serializer.save(user=self.request.user)
+
+
+    def get_serializer_class(self):
+        if self.request.user.club_id is not None:
+            serial = ClubTrainingBlockSerializer
+        else:
+            serial = UserTrainingBlockSerializer
+        return serial
+
+    def get_queryset(self):
+        if self.request.user.club_id is not None:
+            blocks = ClubTrainingBlocks.objects.filter(club=self.request.user.club_id).order_by('short_name', 'name')
+        else:
+            blocks = UserTrainingBlocks.objects.filter(user=self.request.user).order_by('short_name', 'name')
+
+        return blocks
+
+
+class BlockListApiView(APIView):
+    # authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        search = request.GET.get('search', '')
+
+        if search != '':
+            words = search.split()
+            query_obj = reduce(
+                lambda a, b: a & b,
+                (Q(name__contains=term) for term in words),
+            )
+            query_obj_many = reduce(
+                lambda a, b: a & b,
+                (Q(block__name__contains=term) for term in words),
+            )
+            print(query_obj)
+        else:
+            query_obj = (Q(name__contains=search))
+            query_obj_many = (Q(block__name__contains=search))
+
+        if request.user.club_id is not None:
+            season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
+            queryset = ClubTrainingBlocks.objects. \
+                filter(Q(club=request.user.club_id)).filter(query_obj). \
+                order_by('short_name', 'name')
+            queryset_many = ClubTrainingBlockMany.objects. \
+                filter(Q(training__event_id__date__gte=season[0].date_with) &
+                       Q(training__event_id__date__lte=season[0].date_by) &
+                       Q(block__club=request.user.club_id)).filter(query_obj_many). \
+                annotate(count=Count('block')).order_by('block__name')
+        else:
+            season = UserSeason.objects.filter(id=self.request.session['season'])
+            queryset = UserTrainingBlocks.objects. \
+                filter(Q(user=request.user)).filter(query_obj). \
+                order_by('short_name', 'name')
+            queryset_many = UserTrainingBlockMany.objects. \
+                filter(Q(training__event_id__date__gte=season[0].date_with) &
+                       Q(training__event_id__date__lte=season[0].date_by) &
+                       Q(block__user=request.user)).filter(query_obj_many). \
+                annotate(count=Count('block')).order_by('block__name')
+
+        print(queryset_many.values())
+        list_block = []
+
+        for block in queryset:
+            block_count = 0
+            new_block = {
+                'id': block.id,
+                'name': block.name,
+                'short': '',
+                'count': block_count
+            }
+            for block_many in queryset_many:
+                if block_many.block.pk == block.pk:
+                    new_block['count'] += block_many.count
+            list_block.append(new_block)
+
+        print(list_block)
+        list_block.sort(key=lambda x: x['count'], reverse=True)
+
+        object_count = {}
+        for block in list_block:
+            #print(microcycle)
+            object_count[block['id']] = object_count.get(block['id'], {'name': '', 'count': 0})
+            object_count[block['id']]['count'] += block['count']
+            object_count[block['id']]['name'] = block['name']
+            object_count[block['id']]['short'] = block['short']
+        #print(object_count)
+        list2 = [{'id': id, 'count': data['count'], 'text': data['name'], 'short': data['short']} for id, data in object_count.items()]
+        #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+        #print(list2)
+        return Response(list2)
 
 
 class ObjectivesViewSet(viewsets.ModelViewSet):
@@ -521,98 +652,98 @@ class ObjectiveBlockListApiView(APIView):
         return Response(list2)
 
 
-class TrainingBlockListApiView(APIView):
-    # authentication_classes = [authentication.TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, format=None):
-        if request.user.club_id is not None:
-            season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
-            queryset = ClubEvent.objects. \
-                filter(clubtraining__team_id=self.request.session['team'],
-                       date__gte=season[0].date_with,  date__lte=season[0].date_by). \
-                exclude(clubtraining__block=None). \
-                annotate(blocks=Count('clubtraining__block')).order_by('clubtraining__block')
-            list_trainings = [
-                {
-                    'id': training.clubtraining.block,
-                    'name': training.clubtraining.block,
-                    'count': training.blocks
-                } for training in queryset
-            ]
-        else:
-            season = UserSeason.objects.filter(id=self.request.session['season'])
-            queryset = UserEvent.objects. \
-                filter(usertraining__team_id=self.request.session['team'],
-                       date__gte=season[0].date_with, date__lte=season[0].date_by). \
-                exclude(usertraining__block=None). \
-                annotate(blocks=Count('usertraining__block')).order_by('usertraining__block')
-            list_trainings = [
-                {
-                    'id': training.usertraining.block,
-                    'name': training.usertraining.block,
-                    'count': training.blocks
-                } for training in queryset
-            ]
-        print(list_trainings)
-        trainings_count = {}
-        for training in list_trainings:
-            print(training)
-            trainings_count[training['id']] = trainings_count.get(training['id'], {'name': '', 'count': 0})
-            trainings_count[training['id']]['count'] += training['count']
-            trainings_count[training['id']]['name'] = training['name']
-        print(trainings_count)
-        list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in trainings_count.items()]
-        #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
-        print(list2)
-        return Response(list2)
-
-
-class TrainingBlockKeyApiView(APIView):
-    # authentication_classes = [authentication.TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, format=None):
-        if request.user.club_id is not None:
-            season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
-            queryset = ClubEvent.objects. \
-                filter(clubtraining__team_id=self.request.session['team'],
-                       date__gte=season[0].date_with, date__lte=season[0].date_by). \
-                exclude(clubtraining__block_short_key=None). \
-                annotate(blocks=Count('clubtraining__block_short_key')).order_by('clubtraining__block_short_key')
-            list_trainings = [
-                {
-                    'id': training.clubtraining.block_short_key,
-                    'name': training.clubtraining.block_short_key,
-                    'count': training.blocks
-                } for training in queryset
-            ]
-        else:
-            season = UserSeason.objects.filter(id=self.request.session['season'])
-            queryset = UserEvent.objects. \
-                filter(usertraining__team_id=self.request.session['team'],
-                       date__gte=season[0].date_with, date__lte=season[0].date_by). \
-                exclude(usertraining__block_short_key=None). \
-                annotate(blocks=Count('usertraining__block_short_key')).order_by('usertraining__block_short_key')
-            list_trainings = [
-                {
-                    'id': training.usertraining.block_short_key,
-                    'name': training.usertraining.block_short_key,
-                    'count': training.blocks
-                } for training in queryset
-            ]
-        print(list_trainings)
-        trainings_count = {}
-        for training in list_trainings:
-            print(training)
-            trainings_count[training['id']] = trainings_count.get(training['id'], {'name': '', 'count': 0})
-            trainings_count[training['id']]['count'] += training['count']
-            trainings_count[training['id']]['name'] = training['name']
-        print(trainings_count)
-        list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in trainings_count.items()]
-        # list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
-        print(list2)
-        return Response(list2)
+# class TrainingBlockListApiView(APIView):
+#     # authentication_classes = [authentication.TokenAuthentication]
+#     permission_classes = [IsAuthenticated]
+#
+#     def get(self, request, format=None):
+#         if request.user.club_id is not None:
+#             season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
+#             queryset = ClubEvent.objects. \
+#                 filter(clubtraining__team_id=self.request.session['team'],
+#                        date__gte=season[0].date_with,  date__lte=season[0].date_by). \
+#                 exclude(clubtraining__block=None). \
+#                 annotate(blocks=Count('clubtraining__block')).order_by('clubtraining__block')
+#             list_trainings = [
+#                 {
+#                     'id': training.clubtraining.block,
+#                     'name': training.clubtraining.block,
+#                     'count': training.blocks
+#                 } for training in queryset
+#             ]
+#         else:
+#             season = UserSeason.objects.filter(id=self.request.session['season'])
+#             queryset = UserEvent.objects. \
+#                 filter(usertraining__team_id=self.request.session['team'],
+#                        date__gte=season[0].date_with, date__lte=season[0].date_by). \
+#                 exclude(usertraining__block=None). \
+#                 annotate(blocks=Count('usertraining__block')).order_by('usertraining__block')
+#             list_trainings = [
+#                 {
+#                     'id': training.usertraining.block,
+#                     'name': training.usertraining.block,
+#                     'count': training.blocks
+#                 } for training in queryset
+#             ]
+#         print(list_trainings)
+#         trainings_count = {}
+#         for training in list_trainings:
+#             print(training)
+#             trainings_count[training['id']] = trainings_count.get(training['id'], {'name': '', 'count': 0})
+#             trainings_count[training['id']]['count'] += training['count']
+#             trainings_count[training['id']]['name'] = training['name']
+#         print(trainings_count)
+#         list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in trainings_count.items()]
+#         #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+#         print(list2)
+#         return Response(list2)
+#
+#
+# class TrainingBlockKeyApiView(APIView):
+#     # authentication_classes = [authentication.TokenAuthentication]
+#     permission_classes = [IsAuthenticated]
+#
+#     def get(self, request, format=None):
+#         if request.user.club_id is not None:
+#             season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
+#             queryset = ClubEvent.objects. \
+#                 filter(clubtraining__team_id=self.request.session['team'],
+#                        date__gte=season[0].date_with, date__lte=season[0].date_by). \
+#                 exclude(clubtraining__block_short_key=None). \
+#                 annotate(blocks=Count('clubtraining__block_short_key')).order_by('clubtraining__block_short_key')
+#             list_trainings = [
+#                 {
+#                     'id': training.clubtraining.block_short_key,
+#                     'name': training.clubtraining.block_short_key,
+#                     'count': training.blocks
+#                 } for training in queryset
+#             ]
+#         else:
+#             season = UserSeason.objects.filter(id=self.request.session['season'])
+#             queryset = UserEvent.objects. \
+#                 filter(usertraining__team_id=self.request.session['team'],
+#                        date__gte=season[0].date_with, date__lte=season[0].date_by). \
+#                 exclude(usertraining__block_short_key=None). \
+#                 annotate(blocks=Count('usertraining__block_short_key')).order_by('usertraining__block_short_key')
+#             list_trainings = [
+#                 {
+#                     'id': training.usertraining.block_short_key,
+#                     'name': training.usertraining.block_short_key,
+#                     'count': training.blocks
+#                 } for training in queryset
+#             ]
+#         print(list_trainings)
+#         trainings_count = {}
+#         for training in list_trainings:
+#             print(training)
+#             trainings_count[training['id']] = trainings_count.get(training['id'], {'name': '', 'count': 0})
+#             trainings_count[training['id']]['count'] += training['count']
+#             trainings_count[training['id']]['name'] = training['name']
+#         print(trainings_count)
+#         list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in trainings_count.items()]
+#         # list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+#         print(list2)
+#         return Response(list2)
 
 
 class LiteTrainingViewSet(viewsets.ModelViewSet):

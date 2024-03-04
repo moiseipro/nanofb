@@ -55,6 +55,48 @@ class ClubTrainingObjectives(AbstractTrainingObjectives):
     )
 
 
+class AbstractTrainingBlock(models.Model):
+    short_name = models.CharField(
+        max_length=30,
+        verbose_name=_('Block key'),
+        help_text=_('The short key of the training block'),
+        null=True,
+        blank=True,
+    )
+    name = models.CharField(
+        max_length=255,
+        verbose_name=_('Block name'),
+        help_text=_('The name of the training block'),
+        null=True,
+        blank=True,
+    )
+
+    class Meta:
+        abstract = True
+
+
+class UserTrainingBlocks(AbstractTrainingBlock):
+    user = models.ForeignKey(
+        User,
+        verbose_name=_('User'),
+        help_text=_('User'),
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+
+
+class ClubTrainingBlocks(AbstractTrainingBlock):
+    club = models.ForeignKey(
+        Club,
+        verbose_name=_('Club'),
+        help_text=_('Club'),
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+
+
 class AbstractTraining(models.Model):
     trainer_user_id = models.ForeignKey(
         User,
@@ -68,20 +110,6 @@ class AbstractTraining(models.Model):
         verbose_name=_('favourites'),
         help_text=_('Favorites training'),
         default=0
-    )
-    block_short_key = models.CharField(
-        max_length=30,
-        verbose_name=_('Block short key'),
-        help_text=_('The short key of the training block'),
-        null=True,
-        blank=True,
-    )
-    block = models.CharField(
-        max_length=255,
-        verbose_name=_('Block'),
-        help_text=_('Training block'),
-        null=True,
-        blank=True,
     )
     video_href = models.CharField(
         max_length=255,
@@ -137,6 +165,14 @@ class UserTraining(AbstractTraining):
         through="UserTrainingObjectiveMany",
         through_fields=('training', 'objective')
     )
+    blocks = models.ManyToManyField(
+        UserTrainingBlocks,
+        verbose_name=_('Block'),
+        help_text=_('Block in training'),
+        blank=True,
+        through="UserTrainingBlockMany",
+        through_fields=('training', 'block')
+    )
     exercises = models.ManyToManyField(
         UserExercise,
         through="UserTrainingExercise",
@@ -173,6 +209,13 @@ class ClubTraining(AbstractTraining):
         help_text=_('Objective in training'),
         through="ClubTrainingObjectiveMany",
         through_fields=('training', 'objective')
+    )
+    blocks = models.ManyToManyField(
+        ClubTrainingBlocks,
+        verbose_name=_('Block'),
+        help_text=_('Block in training'),
+        through="ClubTrainingBlockMany",
+        through_fields=('training', 'block')
     )
     exercises = models.ManyToManyField(
         ClubExercise,
@@ -354,6 +397,39 @@ class ClubTrainingObjectiveMany(AbstractTrainingObjectiveMany):
 
     class Meta:
         ordering = ['type']
+
+
+class AbstractTrainingBlockMany(models.Model):
+    class Meta:
+        abstract = True
+
+
+class UserTrainingBlockMany(AbstractTrainingBlockMany):
+    training = models.ForeignKey(
+        UserTraining,
+        on_delete=models.CASCADE
+    )
+    block = models.ForeignKey(
+        UserTrainingBlocks,
+        on_delete=models.CASCADE,
+    )
+
+    class Meta:
+        ordering = ['block__name']
+
+
+class ClubTrainingBlockMany(AbstractTrainingBlockMany):
+    training = models.ForeignKey(
+        ClubTraining,
+        on_delete=models.CASCADE
+    )
+    block = models.ForeignKey(
+        ClubTrainingBlocks,
+        on_delete=models.CASCADE,
+    )
+
+    class Meta:
+        ordering = ['block__name']
 
 
 class AbstractTrainingExerciseAdditional(models.Model):

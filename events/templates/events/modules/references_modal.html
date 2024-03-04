@@ -1,0 +1,53 @@
+{% load i18n %}
+{% load static %}
+
+
+<div class="modal fade" id="references-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document" style="max-width: 1200px;">
+        <div class="modal-content">
+            <div class="modal-header block">
+                <div class="row pb-2">
+                    <div class="col-12">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-body">
+                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="microcycles-tab-button" data-toggle="pill" href="#microcycles-tab" role="tab" aria-controls="pills-home" aria-selected="true">{% trans 'Microcycles' %}</a>
+                    </li>
+                    {% if user.is_superuser or user.club_id is not None and perms.trainings.change_clubtrainingobjectives or user.club_id is None and perms.trainings.change_usertrainingobjectives%}
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="objectives-tab-button" data-toggle="pill" href="#objectives-tab" role="tab" aria-controls="pills-profile" aria-selected="false">{% trans 'Objectives' %}</a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="training-blocks-tab-button" data-toggle="pill" href="#training-blocks-tab" role="tab" aria-controls="pills-contact" aria-selected="false">{% trans 'Training blocks' %}</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="microcycles-tab" role="tabpanel" aria-labelledby="pills-home-tab">
+                        {% include 'events/forms/microcycle_tab.html' %}
+                    </div>
+                    {% if user.is_superuser or user.club_id is not None and perms.trainings.change_clubtrainingobjectives or user.club_id is None and perms.trainings.change_usertrainingobjectives%}
+                    <div class="tab-pane fade" id="objectives-tab" role="tabpanel" aria-labelledby="pills-profile-tab">
+                        {% include 'trainings/training_objectives.html' %}
+                    </div>
+                    {% endif %}
+                    <div class="tab-pane fade" id="training-blocks-tab" role="tabpanel" aria-labelledby="pills-contact-tab">
+                        {% include 'trainings/training_blocks.html' %}
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer block">
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -7,10 +7,75 @@ from references.serializers import PlayerProtocolStatusSerializer, TrainingSpace
 from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExerciseAdditional, UserTrainingProtocol, \
     ClubTrainingProtocol, ClubTrainingExercise, LiteTrainingExerciseAdditional, LiteTraining, LiteTrainingExercise, \
     ClubTrainingExerciseAdditional, UserTrainingObjectives, ClubTrainingObjectives, UserTrainingObjectiveMany, \
-    ClubTrainingObjectiveMany
+    ClubTrainingObjectiveMany, UserTrainingBlocks, ClubTrainingBlocks, ClubTrainingBlockMany, UserTrainingBlockMany
 
 # Training
 from users.serializers import UserSerializer
+
+
+class TrainingBlockSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        fields = (
+            'id', 'short_name', 'name'
+        )
+
+
+class UserTrainingBlockSerializer(TrainingBlockSerializer):
+    class Meta(TrainingBlockSerializer.Meta):
+        model = UserTrainingBlocks
+
+    Meta.fields += ('user',)
+
+
+class ClubTrainingBlockSerializer(TrainingBlockSerializer):
+    class Meta(TrainingBlockSerializer.Meta):
+        model = ClubTrainingBlocks
+
+    Meta.fields += ('club',)
+
+
+class UserTrainingBlockManySerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = UserTrainingBlockMany
+        fields = (
+            'id', 'block', 'training'
+        )
+
+
+class UserTrainingBlockManySerializerView(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    block = UserTrainingBlockSerializer()
+
+    class Meta:
+        model = UserTrainingBlockMany
+        fields = (
+            'id', 'block'
+        )
+
+
+class ClubTrainingBlockManySerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = ClubTrainingBlockMany
+        fields = (
+            'id', 'block', 'training'
+        )
+
+
+class ClubTrainingBlockManySerializerView(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    block = ClubTrainingBlockSerializer()
+
+    class Meta:
+        model = ClubTrainingBlockMany
+        fields = (
+            'id', 'block'
+        )
 
 
 class TrainingObjectiveSerializer(serializers.ModelSerializer):
@@ -269,8 +334,8 @@ class TrainingSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = (
-            'event_id', 'event_date', 'event_time', 'favourites', 'trainer', 'additional', 'notes', 'block_short_key',
-            'block', 'video_href', 'inventory', 'players_json'
+            'event_id', 'event_date', 'event_time', 'favourites', 'trainer', 'additional', 'notes',
+            'video_href', 'inventory', 'players_json'
         )
         datatables_always_serialize = ('event_id',)
 
@@ -295,11 +360,16 @@ class UserTrainingSerializer(TrainingSerializer):
         source="usertrainingobjectivemany_set",
         many=True
     )
+    blocks = UserTrainingBlockManySerializerView(
+        read_only=True,
+        source="usertrainingblockmany_set",
+        many=True
+    )
 
     class Meta(TrainingSerializer.Meta):
         model = UserTraining
 
-    Meta.fields += ('exercises_info', 'protocol_info', 'team_info', 'objectives')
+    Meta.fields += ('exercises_info', 'protocol_info', 'team_info', 'objectives', 'blocks')
 
 
 class ClubTrainingSerializer(TrainingSerializer):
@@ -322,11 +392,16 @@ class ClubTrainingSerializer(TrainingSerializer):
         source="clubtrainingobjectivemany_set",
         many=True
     )
+    blocks = ClubTrainingBlockManySerializerView(
+        read_only=True,
+        source="clubtrainingblockmany_set",
+        many=True
+    )
 
     class Meta(TrainingSerializer.Meta):
         model = UserTraining
 
-    Meta.fields += ('exercises_info', 'protocol_info', 'team_info', 'objectives')
+    Meta.fields += ('exercises_info', 'protocol_info', 'team_info', 'objectives', 'blocks')
 
 
 class LiteTrainingSerializer(TrainingSerializer):

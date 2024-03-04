@@ -3,15 +3,6 @@ $(window).on('load', function (){
 
     var id = get_page_id()
 
-    generate_ajax_objectives_table('50vh')
-
-    $('.objectives-table-filter').on("keyup change", function () {
-        let val = $(this).val() ? $(this).val() : '';
-        objectives_table.columns($(this).attr('name')).search(val).draw();
-    })
-
-    create_ajax_select2($('#training-objectives-modal select.objectives-table-filter'), gettext('Search objective block'), '/trainings/objective_block', $('#training-objectives-modal'), false)
-
     // Добавление игроков в протокол
     $('#add-player-protocol-modal').on('click', '#add-all-players', function (){
         let send_data = {}
