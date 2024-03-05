@@ -84,7 +84,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                         let count_day = 0
                         let microcycle_days = 0
                         let microcycle_name = ""
-                        let training_block = ""
+                        let training_block = []
                         let microcycle_goal = ""
                         let objectives = {'objective_1': [], 'objective_2': [], 'objective_3': [], 'blocks': ''}
                         let hasVideo = false
@@ -110,7 +110,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
 
                         if('training' in event && event['training'] != null){
                             num_tr = 1
-                            training_block = event.training.block
+                            console.log(event.training)
                             let count_player = 0
                             let count_goalkeeper = 0
                             //console.log(event.training)
@@ -140,11 +140,14 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                 objectives['objective_'+(objective.type+1)].push(objective.objective.id)
                                 objectives['blocks'] += objective.objective.short_name + ','
                             }
+                            for (const block of event.training.blocks){
+                                training_block.push(block.block.id)
+                            }
 
                             event_name = 'tr'+num_tr
                             event_class = 'trainingClass'
                             count_tr++
-                            console.log(event.training)
+
                             td_html += `
                                 <td>${count_day==0 ? '---' : count_day}</td>
                                 <td class="${!isFilled ? 'text-danger' : ''}">${event['only_date']}</td>

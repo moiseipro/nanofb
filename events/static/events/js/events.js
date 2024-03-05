@@ -654,7 +654,7 @@ $(window).on('load', function (){
     })
 
     create_ajax_select2($('#microcycle-name-filter'), gettext('M.C.'), '/events/microcycle_name_list', $(document.body), false, true, -1)
-    create_ajax_select2($('#training-block-filter'), gettext('Block'), '/trainings/training_block/', $(document.body), false, true, -1)
+    create_ajax_select2($('#training-block-filter'), gettext('Block'), '/trainings/blocks_list/', $(document.body), false, true, -1)
 
     create_ajax_select2($('#objective_1-block-filter'), gettext('Objective block'), '/trainings/objective_block', $(document.body))
     create_ajax_select2($('#objective_2-block-filter'), gettext('Objective block'), '/trainings/objective_block', $(document.body))
@@ -664,10 +664,10 @@ $(window).on('load', function (){
     create_ajax_select2($('#objective_2-event-view'), gettext('Objective')+' 2', '/trainings/objectives_list/', $(document.body), false, true, 1, false, 0, {'type': 1})
     create_ajax_select2($('#objective_3-event-view'), gettext('Objective')+' 3', '/trainings/objectives_list/', $(document.body), false, true, 1, false, 0, {'type': 2})
 
-    create_ajax_select2($('#select-microcycle-name'), gettext('M.C.'), '/events/microcycle_name_list', $('#references-modal'))
-    create_ajax_select2($('#select-microcycle-short_key'), gettext('Short key'), '/events/microcycle_short_key_list', $('#references-modal'))
-    create_ajax_select2($('#select-microcycle-block'), gettext('Block'), '/events/microcycle_block_list', $('#references-modal'))
-    create_ajax_select2($('#select-microcycle-block_key'), gettext('Block key'), '/events/microcycle_block_key_list', $('#references-modal'))
+    create_ajax_select2($('#select-microcycle-name'), '', '/events/microcycle_name_list', $('#references-modal'))
+    create_ajax_select2($('#select-microcycle-short_key'), '', '/events/microcycle_short_key_list', $('#references-modal'))
+    // create_ajax_select2($('#select-microcycle-block'), gettext('Block'), '/events/microcycle_block_list', $('#references-modal'))
+    // create_ajax_select2($('#select-microcycle-block_key'), gettext('Block key'), '/events/microcycle_block_key_list', $('#references-modal'))
 })
 
 function clear_event_form(){
@@ -718,7 +718,8 @@ function local_filters_events() {
     $('#events tbody tr').filter(function( index ) {
         let this_obj = $(this)
         let data_block = this_obj.attr('data-block')
-        return block_val!='all' && block_val!='' && data_block != block_val;
+        console.log(block_val + " : " + data_block)
+        return block_val!='' && !data_block.match('\\b' + block_val + '\\b');
     }).hide()
     $('#events tbody tr').filter(function( index ) {
         let this_obj = $(this)

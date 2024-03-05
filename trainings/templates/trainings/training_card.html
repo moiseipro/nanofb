@@ -61,11 +61,13 @@
 
                             </div>
                         </div>
+                        {% if perms.events.change_clubmicrocycles or perms.events.change_usermicrocycles %}
                         <div class="row">
                             <div class="col-12 px-0">
                                 <select id="select-training-block" name="blocks" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-multiple="true" data-maximumSelectionLength="3" disabled></select>
                             </div>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -126,6 +128,7 @@
 
     </div>
     <div class="col-8">
+        {% if perms.events.change_clubmicrocycles or perms.events.change_usermicrocycles %}
         <div id="block-training-goals" class="row base-select2">
             <div class="col-12 px-0 text-center training-objective_1">
                 <select name="objective_1" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-multiple="true" data-maximumSelectionLength="2" disabled></select>
@@ -136,43 +139,8 @@
             <div class="col-12 px-0 text-center training-objective_3">
                 <select name="objective_3" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-multiple="true" data-maximumSelectionLength="2" disabled></select>
             </div>
-{#            <div class="col-4 px-0 text-center training-objectives-technic">#}
-{#                <div class="row">#}
-{#                    <div class="col-12">#}
-{#                        <select name="technic" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-tags="true" disabled>#}
-{#                        </select>#}
-{#                    </div>#}
-{#                    <div class="col-12">#}
-{#                        <select name="technic" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-tags="true" disabled>#}
-{#                        </select>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#            <div class="col-4 px-0 text-center training-objectives-tactics">#}
-{#                <div class="row">#}
-{#                    <div class="col-12">#}
-{#                        <select name="tactics" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-tags="true" disabled>#}
-{#                        </select>#}
-{#                    </div>#}
-{#                    <div class="col-12">#}
-{#                        <select name="tactics" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-tags="true" disabled>#}
-{#                        </select>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#            <div class="col-4 px-0 text-center training-objectives-physical">#}
-{#                <div class="row">#}
-{#                    <div class="col-12">#}
-{#                        <select name="physical" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-tags="true" disabled>#}
-{#                        </select>#}
-{#                    </div>#}
-{#                    <div class="col-12">#}
-{#                        <select name="physical" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-tags="true" disabled>#}
-{#                        </select>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
         </div>
+        {% endif %}
         <div class="row">
             <div id="block-training-info" class="col-12" style="overflow-y: auto; overflow-x: hidden">
                 <div class="row training-info">
