@@ -774,16 +774,20 @@ function clear_filters_events() {
     $('#video-event-filter').attr('data-filter', '0').removeClass(`active`)
     $('#microcycle-days-filter').val('')
     $('#microcycle-day-filter').val('')
-    $('#field_size-event-filter').val('')
-    $('#keywords-event-filter').val('')
-    $('#load-event-filter').val('')
-    $('#goal-event-filter').val('')
+    //$('#field_size-event-filter').val('')
+    //$('#keywords-event-filter').val('')
+    //$('#load-event-filter').val('')
+    //$('#goal-event-filter').val('')
     $('#block-event-info .event-info').html('')
-    $('#microcycle-block-filter').val(null).trigger("change");
+    //$('#microcycle-block-filter').val(null).trigger("change");
     $('#microcycle-name-filter').val(null).trigger("change");
     $('#objective_1-event-view').val(null).trigger("change");
     $('#objective_2-event-view').val(null).trigger("change");
     $('#objective_3-event-view').val(null).trigger("change");
+    $('#objective_1-block-filter').val(null).trigger("change");
+    $('#objective_2-block-filter').val(null).trigger("change");
+    $('#objective_3-block-filter').val(null).trigger("change");
+    $('#training-block-filter').val(null).trigger("change");
     if($('#events-content').hasClass('d-none')){
         hide_training_card()
         $('#events-content').removeClass('d-none')

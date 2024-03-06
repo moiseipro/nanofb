@@ -168,6 +168,7 @@ $(window).on('load', function (){
                 'value': $(this).val()
             })
         })
+        training_data['is_personal'] = $('#training-main-data input[name="is_personal"]').is(':checked') ? 1 : 0;
         training_data['inventory'] = JSON.stringify(inventory)
         training_data['additional'] = JSON.stringify(additionals)
         training_data['block'] = $('#training-main-data select[name="block"]').val()

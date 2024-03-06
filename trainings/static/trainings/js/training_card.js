@@ -335,6 +335,7 @@ function load_all_exercises_training(training_id = null, group = null) {
         if('team_info' in data) $('#training-main-data .team-name').text(data.team_info.name);
         else $('#training-main-data .team-name').text('Test');
         $('#training-main-data .trainer-select').text(data.trainer);
+        $('#training-main-data [name="is_personal"]').prop('checked', data.is_personal);
         let newOption;
         if (data.block){
             newOption = new Option(data.block, data.block, false, true);

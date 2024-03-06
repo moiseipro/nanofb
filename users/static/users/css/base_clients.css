@@ -4,6 +4,10 @@
     display: none;
 }
 
+.table tr:hover:not(.selected) td{
+    box-shadow: inset 0 0 0 9999px #d4d4d4 !important;
+}
+
 .select2-container--bootstrap4 .select2-selection--single {
     height: calc(1.5em + 0.5rem + 2px) !important;
 }
