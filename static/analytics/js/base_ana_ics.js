@@ -457,8 +457,6 @@ $(function() {
     if (!selectedTeam || selectedTeam == "" || !selectedSeason || selectedSeason == "") {
         swal("Внимание", "Выберите сезон и команду для отображения данных!", "warning");
     }
-    
-
     LoadAnalytics();
 
     $('.analytics-table-container').find('.season-toggle').removeClass('active');
@@ -545,6 +543,41 @@ $(function() {
         } else if ($('.toggle-tables.selected').attr('id') == "foldersFullTable") {
             LoadAnalyticsByFoldersFull();
         }
+    });
+
+    $('#printTableData').on('click', (e) => {
+        let seasonName = $('.analytics-table-container').find('.season-toggle.active').text();
+        let tableContent = "";
+        $('.analytics-table-container').find('table:visible').each((ind, elem) => {
+            let clonedElem = $(elem).clone();
+            $(clonedElem).addClass('w-100');
+            tableContent += $(clonedElem).prop('outerHTML');
+        });
+        let pageContent = $('html').clone();
+        $(pageContent).find('body').html(`
+            <div class="row">
+                <div class="col-12">
+                    <div class="row mx-0">
+                        <div class="col-12 pt-title text-center my-3">
+                            <h5>Аналитика за ${seasonName}</h5>
+                        </div>
+                        <div class="col-12 pt-table">
+                            ${tableContent}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                setTimeout(() => {
+                    window.document.close();
+                    window.focus();
+                    window.print();
+                    window.close();
+                }, 100);
+            </script>
+        `);
+        let printedWindow = window.open('', 'PRINT');
+        printedWindow.document.write($(pageContent).prop('outerHTML'));
     });
 
     $('#toggle_btn').on('click', (e) => {
