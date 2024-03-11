@@ -46,10 +46,12 @@ def analytics(request):
     refs = {}
     folders = v_api.get_exs_folders(request, cur_user[0], cur_team)
     months = v_api.get_season_months(request, cur_season, cur_user[0])
+    training_blocks = v_api.get_trainings_blocks(request, cur_user[0])
     return render(request, 'analytics/base_analytics.html', {
         'refs': refs, 
         'folders': folders,
         'months': months,
+        'training_blocks': training_blocks,
         'seasons_list': request.seasons_list,
         'teams_list': request.teams_list,
         'menu_analytics': "active",
@@ -110,6 +112,7 @@ def analytics_api(request):
         get_analytics_all_status = 0
         get_analytics_by_folders_status = 0
         get_analytics_by_folders_full_status = 0
+        get_analytics_blocks_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         cur_season = -1
@@ -135,12 +138,18 @@ def analytics_api(request):
             get_analytics_by_folders_full_status = int(request.GET.get("get_analytics_by_folders_full", 0))
         except:
             pass
+        try:
+            get_analytics_blocks_status = int(request.GET.get("get_analytics_blocks", 0))
+        except:
+            pass
         if get_analytics_all_status == 1:
             return v_api.GET_get_analytics_in_team(request, cur_user[0], cur_team, cur_season)
         elif get_analytics_by_folders_status == 1:
             return v_api.GET_get_analytics_by_folders_in_team(request, cur_user[0], cur_team, cur_season)
         elif get_analytics_by_folders_full_status == 1:
             return v_api.GET_get_analytics_by_folders_full_in_team(request, cur_user[0], cur_team, cur_season)
+        elif get_analytics_blocks_status == 1:
+            return v_api.GET_get_analytics_blocks(request, cur_user[0], cur_team, cur_season)
         return JsonResponse({"errors": "access_error"}, status=400)
     else:
         return JsonResponse({"errors": "access_error"}, status=400)

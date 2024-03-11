@@ -72,6 +72,39 @@ let analytics_by_folders_full_table_options = {
     "orderFixed": [0, 'asc']
 };
 
+let analytics_blocks_table
+let analytics_blocks_table_options = {
+    language: {
+        url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
+    },
+    dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+    "<'row'<'col-sm-12'tr>>" +
+    "<'row'<'col-sm-12 col-md-5'><'col-sm-12 col-md-7'p>>",
+    scrollY: "73vh",
+    scrollCollapse: true,
+    serverSide: false,
+    processing: false,
+    paging: false,
+    searching: false,
+    select: true,
+    drawCallback: function( settings ) {
+    },
+    "columnDefs": [
+        {"width": "20%", "targets": 1},
+        {"className": "dt-vertical-center", "targets": "_all"},
+        {"orderable": false, "targets": 0}
+    ],
+    "orderFixed": [0, 'asc']
+};
+
+function getAllIndexes(arr, val) {
+    let indexes = [];
+    for (i = 0; i < arr.length; i++) {
+        if (arr[i] === val) {indexes.push(i);}
+    }
+    return indexes;
+}
+
 function LoadAnalytics() {
     let dataToSend = {'get_analytics_all': 1, 'season_type': season_type};
     let dataRes = {};
@@ -448,6 +481,82 @@ function RenderAnalyticsByFoldersFullTable(data) {
     analytics_by_folders_full_table.draw();
 }
 
+function LoadAnalyticsBlocks() {
+    let dataToSend = {'get_analytics_blocks': 1, 'season_type': season_type};
+    let dataRes = {};
+    $('.page-loader-wrapper').fadeIn();
+    $.ajax({
+        headers:{"X-CSRFToken": csrftoken},
+        data: dataToSend,
+        type: 'GET', // GET или POST
+        dataType: 'json',
+        url: "analytics_api",
+        success: function (res) {
+            if (res.success) {
+                dataRes = res.data;
+            }
+        },
+        error: function (res) {
+            console.log(res);
+        },
+        complete: function (res) {
+            RenderAnalyticsBlocks(dataRes);
+            $('.page-loader-wrapper').fadeOut();
+        }
+    });
+}
+
+function RenderAnalyticsBlocks(data) {
+    try {
+        analytics_blocks_table.destroy();
+    } catch(e) {}
+    let blocksIds = [];
+    $('#analytics-blocks').find('thead').find('th[data-block-id]').each((ind, elem) => {
+        let id = $(elem).attr('data-block-id');
+        blocksIds.push(id);
+    });
+    $('#analytics-blocks').find('tbody').html('');
+    if (data['players'] && typeof data['players'] === "object" && !Array.isArray(data['players'])) {
+        let tmpHtml = "";
+        let cIndex = 1;
+        for (let key in data['players']) {
+            let player = data['players'][key];
+            let rowsHtml = "";
+            blocksIds.forEach(blockId => {
+                let duration = "-";
+                let count = "-";
+                try {
+                    duration = player.res_trainings[blockId]['_time'];
+                    count = player.res_trainings[blockId]['_count'];
+                } catch (e) {}
+                rowsHtml += `
+                    <td class="text-center border-custom-left">
+                        ${count}
+                    </td>
+                    <td class="text-center">
+                        ${duration}
+                    </td>
+                `;
+            });
+            tmpHtml += `
+                <tr class="analytics-blocks-row" data-id="${key}">
+                    <td class="text-center">
+                        ${cIndex}
+                    </td>
+                    <td class="border-custom-right">
+                        ${player.name}
+                    </td>
+                    ${rowsHtml}
+                </tr>
+            `;
+            cIndex ++;
+        }
+        $('#analytics-blocks').find('tbody').html(tmpHtml);
+    }
+    analytics_blocks_table = $('#analytics-blocks').DataTable(analytics_blocks_table_options);
+    analytics_blocks_table.draw();
+}
+
 
 
 $(function() {
@@ -457,8 +566,6 @@ $(function() {
     if (!selectedTeam || selectedTeam == "" || !selectedSeason || selectedSeason == "") {
         swal("Внимание", "Выберите сезон и команду для отображения данных!", "warning");
     }
-    
-
     LoadAnalytics();
 
     $('.analytics-table-container').find('.season-toggle').removeClass('active');
@@ -481,30 +588,48 @@ $(function() {
                 LoadAnalyticsByFolders();
             } else if ($('.toggle-tables.selected').attr('id') == "foldersFullTable") {
                 LoadAnalyticsByFoldersFull();
+            } else if ($('.toggle-tables.selected').attr('id') == "analyticsBlocksTable") {
+                LoadAnalyticsBlocks();
             }
         }
     });
 
-    let columnsIndexes = [];
+    let columnsDefaultTableIndexes = [];
     $('#analytics').find('th.visible-col').each((ind, elem) => {
-        columnsIndexes.push($(elem).attr('data-col'));
+        columnsDefaultTableIndexes.push($(elem).attr('data-col'));
     });
-    $('#columnsVisibleSelect').find('option').prop('selected', 'selected').end();
-    $('#columnsVisibleSelect').selectpicker();
-    // $('#columnsVisibleSelect').select2({
-    //     tags: "false",
-    //     placeholder: 'Колонки',
-    //     closeOnSelect: false,
-    // });
-    $('#columnsVisibleSelect').on('change', (e) => {
+    $('#columnsDefaultTableVisibleSelect').find('option').prop('selected', 'selected').end();
+    $('#columnsDefaultTableVisibleSelect').selectpicker();
+    $('#columnsDefaultTableVisibleSelect').on('change', (e) => {
         let visibleList = $(e.currentTarget).val();
         if (Array.isArray(visibleList)) {
-            for (let i = 2; i < columnsIndexes.length; i++) {
+            for (let i = 2; i < columnsDefaultTableIndexes.length; i++) {
                 analytics_table.column(i).visible(false);
             }
             visibleList.forEach(type => {
-                let cIndex = columnsIndexes.indexOf(type);
+                let cIndex = columnsDefaultTableIndexes.indexOf(type);
                 analytics_table.column(cIndex).visible(true);
+            });
+        }
+    });
+
+    let columnsBlocksTableIndexes = [];
+    $('#analytics-blocks').find('th.visible-col').each((ind, elem) => {
+        columnsBlocksTableIndexes.push($(elem).attr('data-col'));
+    });
+    $('#columnsBlocksTableVisibleSelect').find('option').prop('selected', 'selected').end();
+    $('#columnsBlocksTableVisibleSelect').selectpicker();
+    $('#columnsBlocksTableVisibleSelect').on('change', (e) => {
+        let visibleList = $(e.currentTarget).val();
+        if (Array.isArray(visibleList)) {
+            for (let i = 2; i < columnsBlocksTableIndexes.length; i++) {
+                analytics_blocks_table.column(i).visible(false);
+            }
+            visibleList.forEach(type => {
+                let cIndexes = getAllIndexes(columnsBlocksTableIndexes, type);
+                cIndexes.forEach(index => {
+                    analytics_blocks_table.column(index).visible(true);
+                });
             });
         }
     });
@@ -537,6 +662,8 @@ $(function() {
         $('.toggle-tables').removeClass('selected');
         $('.analytics-table-container').find('.table-block').addClass('d-none');
         $('.analytics-table-container').find(`.table-block[data-id="${cId}"]`).removeClass('d-none');
+        $('.up-block-content').find('.columns-settings').addClass('d-none');
+        $('.up-block-content').find(`.columns-settings[data-id="${cId}"]`).removeClass('d-none');
         $(e.currentTarget).addClass('selected');
         if ($('.toggle-tables.selected').attr('id') == "defaultTable") {
             LoadAnalytics();
@@ -544,7 +671,50 @@ $(function() {
             LoadAnalyticsByFolders();
         } else if ($('.toggle-tables.selected').attr('id') == "foldersFullTable") {
             LoadAnalyticsByFoldersFull();
+        } else if ($('.toggle-tables.selected').attr('id') == "analyticsBlocksTable") {
+            LoadAnalyticsBlocks();
         }
+    });
+
+    $('#printTableData').on('click', (e) => {
+        let teamName = $('#select-team').find(`option[value="${$('#select-team').val()}"]`).text();
+        let seasonName = $('.analytics-table-container').find('.season-toggle.active').text();
+        let tableContent = "";
+        $('.analytics-table-container').find('table:visible').each((ind, elem) => {
+            let clonedElem = $(elem).clone();
+            $(clonedElem).addClass('w-100');
+            tableContent += $(clonedElem).prop('outerHTML');
+        });
+        let pageContent = $('html').clone();
+        $(pageContent).find('head').append(`
+            <style type="text/css" media="print">
+                @page { size: landscape; }
+            </style>
+        `);
+        $(pageContent).find('body').html(`
+            <div class="row">
+                <div class="col-12">
+                    <div class="row mx-0">
+                        <div class="col-12 pt-title text-center my-3">
+                            <h5>Аналитика. ${teamName}. ${seasonName}</h5>
+                        </div>
+                        <div class="col-12 pt-table">
+                            ${tableContent}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                setTimeout(() => {
+                    window.document.close();
+                    window.focus();
+                    window.print();
+                    window.close();
+                }, 100);
+            </script>
+        `);
+        let printedWindow = window.open('', 'PRINT');
+        printedWindow.document.write($(pageContent).prop('outerHTML'));
     });
 
     $('#toggle_btn').on('click', (e) => {
