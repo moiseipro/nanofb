@@ -358,6 +358,17 @@ class UserManagementSerializer(serializers.ModelSerializer):
 
     def get_payment_user(self, user):
         data = ''
+
+        now = datetime.date.today()
+        if user.club_id is not None:
+            then = user.club_id.date_registration_to
+        else:
+            then = user.registration_to
+        if then is None:
+            return '...'
+        tdelta = then - now
+        days = tdelta.days
+
         if user.club_id is not None:
             payments = ClubPaymentInformation.objects.filter(club_id=user.club_id).order_by('-payment_before')
             if payments.count() > 0:
@@ -366,6 +377,9 @@ class UserManagementSerializer(serializers.ModelSerializer):
             payments = UserPaymentInformation.objects.filter(user_id=user).order_by('-payment_before')
             if payments.count() > 0:
                 data = str(payments[0].payment)
+
+        if days <= 30:
+            data = '<span class="text-danger font-weight-bold">' + data + '</span>'
 
         return data
 

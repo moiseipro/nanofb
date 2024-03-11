@@ -291,6 +291,7 @@ class UserManagementApiView(viewsets.ModelViewSet):
 
         #users = User.objects.filter(club_id=request.user.club_id)
         users = User.objects.all().order_by('-date_last_login', 'club_id')
+        #users = User.objects.annotate(payment_date='userpaymentinformation__payment_before')
         #User.objects.prefetch_related(Prefetch('notificationuser_set'))
 
         return users

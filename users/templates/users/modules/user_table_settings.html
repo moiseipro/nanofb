@@ -92,6 +92,12 @@
                 {% trans 'Access to' %}
             </label>
         </div>
+        <div class="form-check">
+            <input class="form-check-input toggle-user-column user-table-filter" data-col="payment-info-col" data-filter="payment-user-filter" type="checkbox" value="true" id="payment-check">
+            <label class="form-check-label" for="payment-check">
+                {% trans 'Payment' %}
+            </label>
+        </div>
     </div>
     <div class="col-12" style="background: lightgrey">
         <span data-toggle="collapse" data-target="#col-admin-filters-block" style="cursor: pointer">{% trans 'Columns' %}</span>
@@ -169,12 +175,6 @@
 {#                {% trans 'Entrance' %}#}
 {#            </label>#}
 {#        </div>#}
-        <div class="form-check">
-            <input class="form-check-input toggle-user-column" data-col="payment-info-col" type="checkbox" value="" id="payment-check">
-            <label class="form-check-label" for="payment-check">
-                {% trans 'Payment' %}
-            </label>
-        </div>
 {#        <div class="form-check">#}
 {#            <input class="form-check-input toggle-user-column" data-col="distributor-info-col" type="checkbox" value="" id="distributor-check">#}
 {#            <label class="form-check-label" for="distributor-check">#}

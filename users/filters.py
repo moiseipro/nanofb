@@ -8,6 +8,7 @@ from rest_framework_datatables.django_filters.filterset import DatatablesFilterS
 from rest_framework_datatables.django_filters.filters import GlobalFilter
 
 from notifications.models import NotificationUser
+from references.models import UserPaymentInformation, ClubPaymentInformation
 from users.models import User
 
 
@@ -71,6 +72,21 @@ class GlobalOnlineFilter(GlobalFilter, filters.CharFilter):
                 qs = qs.distinct()
             print(now()-timedelta(minutes=5))
             qs = qs.filter(date_last_login__gte=now()-timedelta(minutes=5))
+        return qs
+
+
+class GlobalPaymentUserFilter(GlobalFilter, filters.CharFilter):
+    def filter(self, qs, value):
+        if value:
+            if self.distinct:
+                qs = qs.distinct()
+            print(now()-timedelta(minutes=5))
+            payments_user = UserPaymentInformation.objects.all().order_by('-payment_before')
+            payments_club = ClubPaymentInformation.objects.all().order_by('-payment_before')
+            # if payments.count() > 0:
+            #     data = str(payments[0].payment)
+            qs = qs.filter(Q(userpaymentinformation__in=payments_user) |
+                           Q(club_id__clubpaymentinformation__in=payments_club)).distinct()
         return qs
 
 
@@ -198,6 +214,7 @@ class UserManagementGlobalFilter(DatatablesFilterSet):
     online = GlobalOnlineFilter()
     access_to = GlobalAccessToFilter(field_name='registration_to')
     notifications_count = GlobalNotificationsFilter()
+    payment_user = GlobalPaymentUserFilter()
 
     date_birthsday = GlobalDateFilter(field_name='personal__date_birthsday')
     last_name = GlobalNameFilter(field_name='personal__last_name', lookup_expr='icontains')
@@ -220,4 +237,5 @@ class UserManagementGlobalFilter(DatatablesFilterSet):
     class Meta:
         #model = User
         fields = ['registration_to', 'date_birthsday', 'last_name', 'first_name', 'job_title', 'license', 'p_version',
-                  'club_id', 'distributor', 'is_archive', 'online', 'access_to', 'notifications_count', 'group']
+                  'club_id', 'distributor', 'is_archive', 'online', 'access_to', 'notifications_count', 'group',
+                  'payment_user']

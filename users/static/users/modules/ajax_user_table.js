@@ -137,7 +137,7 @@ function generate_ajax_users_table(scroll_y = '', pagination = true){
                 let html = `<div class="w-100 text-center"> ${data} </div>`;
                 return html;
             }},
-            {'data': 'payment_user', 'name': 'payment_user', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
+            {'data': 'payment_user', 'name': 'payment_user', 'defaultContent': "---", sortable: false, render: function (data, type, row, meta) {
                 let html = `<div class="w-100 text-center"> ${data} </div>`;
                 return html;
             }},
