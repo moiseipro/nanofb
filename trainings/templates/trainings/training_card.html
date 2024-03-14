@@ -69,7 +69,7 @@
                             </div>
                         </div>
                         {% endif %}
-                        {% if perms.events.change_clubmicrocycles or perms.events.change_usermicrocycles %}
+                        {% if perms.trainings.change_clubtrainingblocks or perms.trainings.change_usertrainingblocks %}
                         <div class="row">
                             <div class="col-12 px-0">
                                 <select id="select-training-block" name="blocks" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-multiple="true" data-maximumSelectionLength="3" disabled></select>
@@ -136,7 +136,7 @@
 
     </div>
     <div class="col-8">
-        {% if perms.events.change_clubmicrocycles or perms.events.change_usermicrocycles %}
+        {% if perms.trainings.change_clubtrainingobjectives or perms.trainings.change_usertrainingobjectives %}
         <div id="block-training-goals" class="row base-select2">
             <div class="col-12 px-0 text-center training-objective_1">
                 <select name="objective_1" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-multiple="true" data-maximumSelectionLength="2" disabled></select>
