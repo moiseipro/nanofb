@@ -164,3 +164,8 @@ a.matchButton1 {
 .select2-results__options{
     max-height: 20em !important;
 }
+
+#filters-row .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: #3f3f3f;
+    background-color: #fbda7e;
+}

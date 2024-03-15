@@ -653,6 +653,11 @@ $(window).on('load', function (){
         })
     })
 
+    $('a[data-toggle="pill"]').on('shown.bs.tab', function (event) {
+         resize_events_table()
+    })
+
+
     create_ajax_select2($('#microcycle-name-filter'), gettext('M.C.'), '/events/microcycle_name_list', $(document.body), false, true, -1)
     create_ajax_select2($('#training-block-filter'), gettext('Block'), '/trainings/blocks_list/', $(document.body), false, true, -1)
 

@@ -37,7 +37,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                 data: send_data,
                 success: function(data){
                     console.log(data['results'])
-                    let num_tr = 1, num_m = 1, count_tr = 0, count_m = 0, max_m = 0, event_date = '', event_class=''
+                    let num_tr = 1, num_m = 1, count_tr = 0, count_m = 0, max_m = 0, event_date = '', event_time = '', event_class=''
                     let last_date = moment(send_data['to_date'], 'YYYY-MM-DD')
                     let first_date = moment(send_data['from_date'], 'YYYY-MM-DD')
                     let generated_events = []
@@ -73,7 +73,12 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                     }
 
                     $('#events tbody').html('')
+                    let skip_row = 0
                     $.each(generated_events, function( index, event ) {
+                        if(skip_row != 0){
+                            skip_row -= 1;
+                            return true;
+                        }
                         let event_id = event['id'],
                             event_name = '',
                             event_short_name = event['short_name']
@@ -90,6 +95,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                         let hasVideo = false
                         let isCurrentDate = false
                         let isFilled = true
+                        let isMerged = false
 
                         if(moment().startOf('day').isSame(only_date)) isCurrentDate = true
                         newMicrocycle.forEach(function(microcycle, i) {
@@ -110,11 +116,13 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
 
                         if('training' in event && event['training'] != null){
                             num_tr = 1
-                            console.log(event.training)
+                            // console.log(event.training)
                             let count_player = 0
                             let count_goalkeeper = 0
                             //console.log(event.training)
-                            if(event_class === 'trainingClass' && event['only_date'] === event_date) num_tr++
+                            if(event_class === 'trainingClass' && event['only_date'] === event_date) {
+                                num_tr++
+                            }
                             if(('exercises_info' in event.training && event.training.exercises_info.length == 0) || ('protocol_info' in event.training && event.training.protocol_info.length == 0)) isFilled = false
                             if('protocol_info' in event.training && event.training.protocol_info.length > 0){
                                 $.each(event.training.protocol_info, function( index, value ) {
@@ -148,14 +156,39 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             event_class = 'trainingClass'
                             count_tr++
 
+                            let merged_tr = ''
+                            let merged_events = []
+                            for (let i = index; i < generated_events.length; i++){
+                                if (generated_events[i]['time'] === event['time']){
+                                    if (i != index) skip_row++;
+                                    merged_events.push(generated_events[i])
+
+                                } else {
+                                    break;
+                                }
+                            }
+                            $.each(merged_events, function( index, event ) {
+                                merged_tr += `
+                                <div class="col px-1">
+                                    <a href="/trainings/view/${event.training.event_id}" class="btn btn-sm btn-block ${merged_events.length > 1 ? 'btn-info' : 'btn-info'} py-0" data-id="${event.training.event_id}">${merged_events.length > 1 ? gettext('Group')+' '+(index+1) : gettext('Training') +' '+(num_tr == 2 ? '2' : '')}</a>
+                                </div>
+                                `
+                            })
+
+
                             td_html += `
-                                <td>${count_day==0 ? '---' : count_day}</td>
-                                <td class="${!isFilled ? 'text-danger' : ''}">${event['only_date']}</td>
-                                <td><a href="/trainings${isLite ? '/lite' : ''}/view/${event.training.event_id}" class="btn btn-sm btn-block btn-info py-0" data-id="${event.training.event_id}">${gettext('Training')+' '+(num_tr == 2 ? '2' : '')}</a></td>
-                                <td><i class="switch-favorites fa ${event.training.favourites == 1 ? 'fa-star text-success' : (event.training.favourites == 2 ? 'fa-star text-warning' : (event.training.favourites == 3 ? 'fa-star text-danger' : 'fa-star-o'))}" data-switch="${event.training.favourites}"></i></td>
-                                <td>${count_player}</td>
-                                <td>${count_goalkeeper}</td>
+                            <td>${count_day==0 ? '---' : count_day}</td>
+                            <td class="${!isFilled ? 'text-danger' : ''}">${event['only_date']}</td>
+                            <td colspan="2">
+                                <div class="row mx-0 merged-event">
+                                    ${merged_tr}
+                                </div>
+                            </td>
+                            <td><i class="switch-favorites fa ${event.training.favourites == 1 ? 'fa-star text-success' : (event.training.favourites == 2 ? 'fa-star text-warning' : (event.training.favourites == 3 ? 'fa-star text-danger' : 'fa-star-o'))}" data-switch="${event.training.favourites}"></i></td>
+                            <td>${count_player}</td>
+                            <td>${count_goalkeeper}</td>
                             `
+
                         } else if('match' in event && event['match'] != null){
                             event_name = 'm'+(event['match']['m_type']+1)
                             event_class = 'matchClass'+event['match']['m_type']
@@ -165,7 +198,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             td_html += `
                                 <td>${count_day==0 ? '---' : count_day}</td>
                                 <td>${event['only_date']}</td>
-                                <td><a href="${isLite ? '' : '/matches/match?id='+event.match.event_id}" data-count="${count_m+1}" class="btn btn-sm btn-block ${event.match.m_type == 0 ?"btn-warning":"btn-success"} py-0" data-id="${event.match.event_id}">${gettext('Match')}</a></td>
+                                <td colspan="2" class="px-1"><a href="${isLite ? '' : '/matches/match?id='+event.match.event_id}" data-count="${count_m+1}" class="btn btn-sm btn-block ${event.match.m_type == 0 ?"btn-warning":"btn-success"} py-0" data-id="${event.match.event_id}">${gettext('Match')}</a></td>
                                 <td>---</td>
                                 <td>---</td>
                                 <td>---</td>
@@ -175,17 +208,21 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             td_html += `
                                     <td>${count_day==0 ? '---' : count_day}</td>
                                     <td>${event['only_date']}</td>
-                                    <td>${count_tr == 0 && count_m==max_m ? '---' : '---'}</td>
+                                    <td colspan="2">${count_tr == 0 && count_m==max_m ? '---' : '---'}</td>
                                     <td>---</td>
                                     <td>---</td>
                                     <td>---</td>
                                 ` //<a href="#" class="btn btn-sm btn-block btn-secondary py-0 disabled">${/*gettext('Recreation')*/'---'}</a>
                         }
                         console.log(event['only_date']+"   "+moment(event['only_date'], 'DD/MM/YYYY').endOf('month').format('DD/MM/YYYY'))
+
                         tr_html += `<tr id="${event['only_date']==moment().format('DD/MM/YYYY') ? 'current_day' : ''}" class="${event_id!=null ? 'hasEvent' : ''} ${event_class} ${event['only_date']==moment(event['only_date'], 'DD/MM/YYYY').endOf('month').format('DD/MM/YYYY') ? "month_top_border" : ''}" data-value="${event_id}" data-microcycle-days="${microcycle_days}" data-microcycle-day="${count_day}" data-unfilled="${!isFilled ? '1' : '0'}" data-video="${hasVideo ? '1' : '0'}" data-name="${microcycle_name}" data-block="${training_block}" data-goal="${microcycle_goal}" data-objective_1="${objectives.objective_1}" data-objective_2="${objectives.objective_2}" data-objective_3="${objectives.objective_3}" data-objective-block="${objectives.blocks}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
                         tr_html += td_html
                         tr_html += `</tr>`
+
+
                         event_date = event['only_date']
+                        event_time = event['time']
                         newEvent.push({
                             id: event_id,
                             name: event_name,
