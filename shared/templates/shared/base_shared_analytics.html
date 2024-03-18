@@ -1,0 +1,155 @@
+{% extends '../base/app_main.html' %}
+{% load static %}
+
+{% block title %}Аналитика{% endblock %}
+
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'shared/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+    <main class="">
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-1">
+                    <div class="card-body py-0 scrollable-block" style="--scroll:90vh;">
+                        <div class="card-inside">
+                            <div class="analytics-table-container mt-2">
+                                <div class="row">
+                                    <div class="col col-custom" style="--col-width:94%;">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="data-row d-none">
+                                                    <data class="table-type">{{ analytics.table_type }}</data>
+                                                    <data class="user">{{ analytics.user }}</data>
+                                                    <data class="club">{{ analytics.club }}</data>
+                                                    <data class="team">{{ analytics.team }}</data>
+                                                    <data class="season">{{ analytics.season }}</data>
+                                                    <data class="season_type">{{ analytics.season_type }}</data>
+                                                </div>
+                                                {% if analytics.table_type == 'analytics' %}
+                                                <div class="row table-block h-100" data-id="defaultTable">
+                                                    <div class="col-12 h-100">
+                                                        <div class="table-responsive h-100">
+                                                            <table id="analytics" class="table table-sm table-striped table-bordered dataTable" style="width:100%;">
+                                                                <thead>
+                                                                    <tr class="">
+                                                                        <th class="border text-center border-custom-right" colspan="2"></th>
+                                                                        <th class="border text-center border-custom-x" colspan="5">Статистика</th>
+                                                                        <th class="border text-center border-custom-x" colspan="8">Игры</th>
+                                                                        <th class="border text-center border-custom-x" colspan="3">Гол/Пас</th>
+                                                                        <th class="border text-center border-custom-x" colspan="4">Тренировки</th>
+                                                                        <th class="border text-center border-custom-x" colspan="{{ folders|length }}">Тип упр.</th>
+                                                                        <th class="border text-center border-custom-left" colspan="2">С мячом</th>
+                                                                    </tr>
+                                                                    <tr class="">
+                                                                        <th class="text-center visible-col">#</th>
+                                                                        <th class="text-center visible-col border-custom-right">Фамилия Имя</th>
+                        
+                                                                        <th class="text-center visible-col border-custom-left" title="Болезни" data-col="col_disease">
+                                                                            <i class="fa fa-medkit text-secondary" aria-hidden="true"></i>
+                                                                        </th>
+                                                                        <th class="text-center visible-col" title="Травмы" data-col="col_injury">
+                                                                            <i class="fa fa-medkit text-danger" aria-hidden="true"></i>
+                                                                        </th>
+                                                                        <th class="text-center visible-col" title="Пропуски" data-col="col_skip">
+                                                                            <i class="fa fa-long-arrow-down" aria-hidden="true"></i>
+                                                                        </th>
+                                                                        <th class="text-center visible-col" title="В Сборной" data-col="col_au">A/U</th>
+                                                                        <th class="text-center visible-col border-custom-right" title="Дисквалификация" data-col="col_disqualification">
+                                                                            <i class="fa fa-square" aria-hidden="true" style="color: yellow;"></i>
+                                                                            <i class="fa fa-square" aria-hidden="true" style="color: red;"></i>
+                                                                        </th>
+
+                                                                        <th class="text-center visible-col border-custom-left" title="Количество игр" data-col="col_matches_count">
+                                                                            <i class="fa fa-futbol-o" aria-hidden="true"></i>
+                                                                        </th>
+                                                                        <th class="text-center visible-col" title="Суммарное время всех игр" data-col="col_matches_time">
+                                                                            <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                                                        </th>
+                                                                        <th class="text-center visible-col" data-col="col_matches_yellow_card">ж.к.</th>
+                                                                        <th class="text-center visible-col" data-col="col_matches_red_card">к.к.</th>
+                                                                        <th class="text-center visible-col" data-col="col_matches_estimation">Оц.</th>
+                                                                        <th class="text-center visible-col" data-col="col_matches_dislike"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></th>
+                                                                        <th class="text-center visible-col" data-col="col_matches_like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></th>
+                                                                        <th class="text-center visible-col border-custom-right" data-col="col_matches_captains" style="color: red;">(K.)</th>
+                        
+                                                                        <th class="text-center visible-col border-custom-left" data-col="col_matches_goal">гол</th>
+                                                                        <th class="text-center visible-col" data-col="col_matches_penalty">пен</th>
+                                                                        <th class="text-center visible-col border-custom-right" data-col="col_matches_pass">пас</th>
+                        
+                                                                        <th class="text-center visible-col border-custom-left" title="Количество тренировок" data-col="col_trainings_count">
+                                                                            <i class="fa fa-futbol-o" aria-hidden="true"></i>
+                                                                        </th>
+                                                                        <th class="text-center visible-col" title="Суммарное время всех тренировок" data-col="col_trainings_time">
+                                                                            <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                                                        </th>
+                                                                        <th class="text-center visible-col" data-col="col_trainings_dislike"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></th>
+                                                                        <th class="text-center visible-col border-custom-right" data-col="col_trainings_like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></th>
+                                                                        
+                                                                        {% for folder in folders %}
+                                                                        <th class="text-center h-folder visible-col" data-id="{{ folder.id }}" data-col="col_folder_{{ folder.id }}">{{ folder.short_name }}</th>
+                                                                        {% endfor %}
+                        
+                                                                        <th class="text-center visible-col border-custom-left" data-col="col_trainings_yes_ball"><i class="fa fa-futbol-o" aria-hidden="true"></i></th>
+                                                                        <th class="text-center visible-col" data-col="col_trainings_no_ball"><i class="fa fa-times" aria-hidden="true"></i></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody></tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endif %}
+                                                {% if analytics.table_type == 'analytics-blocks' %}
+                                                <div class="row table-block h-100" data-id="analyticsBlocksTable">
+                                                    <div class="col-12 h-100">
+                                                        <div class="table-responsive h-100">
+                                                            <table id="analytics-blocks" class="table table-sm table-striped table-bordered dataTable" style="width:100%;">
+                                                                <thead>
+                                                                    <tr class="">
+                                                                        <th class="border text-center border-custom-right" colspan="2"></th>
+
+                                                                        {% for t_block in training_blocks %}
+                                                                            {% if forloop.last %}
+                                                                                <th class="border text-center border-custom-left" colspan="2" data-block-id="{{ t_block.id }}">{{ t_block.name }}</th>
+                                                                            {% else %}
+                                                                                <th class="border text-center border-custom-x" colspan="2" data-block-id="{{ t_block.id }}">{{ t_block.name }}</th>
+                                                                            {% endif %}
+                                                                        {% endfor %}
+                                                                    </tr>
+                                                                    <tr class="">
+                                                                        <th class="text-center visible-col">#</th>
+                                                                        <th class="text-center visible-col border-custom-right">Фамилия Имя</th>
+                                                                        {% for t_block in training_blocks %}
+                                                                        <th class="text-center visible-col border-custom-left" title="Количество тренировок" data-col="col_block_{{ t_block.id }}">
+                                                                            <i class="fa fa-futbol-o" aria-hidden="true"></i>
+                                                                        </th>
+                                                                        <th class="text-center visible-col" title="Суммарное время тренировок" data-col="col_block_{{ t_block.id }}">
+                                                                            <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                                                        </th>
+                                                                        {% endfor %}
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody></tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
+{% block custom_scripts %}
+    <script src="{% static 'shared/js/base_shared_analytics.js' %}"></script>
+{% endblock %}

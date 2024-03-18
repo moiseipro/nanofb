@@ -11,6 +11,8 @@ from trainings.serializers import UserTrainingSerializer, ClubTrainingSerializer
 from shared.models import SharedLink
 from exercises.models import AdminExercise, UserExercise, ClubExercise
 import exercises.v_api as exercises_v_api
+import analytics.v_api as analytics_v_api
+from users.models import User
 import nanofootball.utils as utils
 
 
@@ -39,6 +41,8 @@ def date_from_string(request, name, def_value = None):
         now = datetime.now()
         if now > t_date:
             res = None
+        else:
+            res = t_date.strftime(format_yyyymmdd)
     return res   
 
 
@@ -108,6 +112,30 @@ def POST_add_link(request, cur_user):
         f_obj = LiteTraining.objects.get(event_id=c_id)
         if f_obj and f_obj.event_id != None:
             c_dict['training_lite'] = f_obj
+    elif c_type == "analytics":
+        cur_team = -1
+        cur_season = -1
+        try:
+            cur_team = int(request.session['team'])
+        except:
+            pass
+        try:
+            cur_season = int(request.session['season'])
+        except:
+            pass
+        f_obj = "analytics"
+        c_dict['analytics'] = {
+            'table_type': request.POST.get("table_type", ""),
+            'user': "",
+            'club': "",
+            'team': cur_team,
+            'season': cur_season,
+            'season_type': request.POST.get("season_type", "")
+        }
+        if request.user.club_id is not None:
+            c_dict['analytics']['club'] = request.user.club_id
+        else:
+            c_dict['analytics']['user'] = cur_user.id
     if f_obj:
         new_link = SharedLink(**c_dict)
         try:
@@ -159,6 +187,30 @@ def GET_get_link(request, cur_user=None):
             f_obj = LiteTraining.objects.get(event_id=c_id)
             if f_obj and f_obj.event_id != None:
                 f_dict['training_lite'] = f_obj
+        elif c_type == "analytics":
+            f_obj = "analytics"
+            cur_team = -1
+            cur_season = -1
+            try:
+                cur_team = int(request.session['team'])
+            except:
+                pass
+            try:
+                cur_season = int(request.session['season'])
+            except:
+                pass
+            f_dict['analytics'] = {
+                'table_type': request.GET.get("table_type", ""),
+                'user': "",
+                'club': "",
+                'team': cur_team,
+                'season': cur_season,
+                'season_type': request.GET.get("season_type", "")
+            }
+            if request.user.club_id is not None:
+                f_dict['analytics']['club'] = request.user.club_id
+            else:
+                f_dict['analytics']['user'] = cur_user.id
         if f_obj:
             c_link = SharedLink.objects.filter(**f_dict).first()
     else:
@@ -194,10 +246,17 @@ def GET_get_link(request, cur_user=None):
                 elif c_link.training_lite != None:
                     c_html_file = "shared/base_shared_training.html"
                     data['training'] = LiteTrainingSerializer(c_link.training_lite).data
+                elif c_link.analytics != None:
+                    c_html_file = "shared/base_shared_analytics.html"
+                    cur_user = User.objects.filter(id=c_link.analytics['user']).first()
+                    request.user.club_id = c_link.analytics['club'] if c_link.analytics['club'] != "" else None
+                    data['analytics'] = c_link.analytics
+                    data['folders'] = analytics_v_api.get_exs_folders(request, cur_user, c_link.analytics['team'])
+                    data['months'] = analytics_v_api.get_season_months(request, c_link.analytics['season'], cur_user)
+                    data['training_blocks'] = analytics_v_api.get_trainings_blocks(request, cur_user)
                 if c_html_file:
                     return render(request, c_html_file, data)
     if cur_user:
         return JsonResponse({"errors": "Can't find link"}, status=400)
     else:
         return False
-
