@@ -169,3 +169,9 @@ a.matchButton1 {
     color: #3f3f3f;
     background-color: #fbda7e;
 }
+
+button.event-select.selected{
+    background-color: #fdd562;
+    border-color: #ffcb2f;
+    color: black;
+}

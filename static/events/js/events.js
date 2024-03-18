@@ -129,11 +129,13 @@ $(window).on('load', function (){
         let data_id = $(this).attr('data-value')
         console.log(event.target)
 
-        if($(event.target).is('td')) {
+        if($(event.target).is('.event-select')) {
             let this_obj = $(this)
-            if (this_obj.hasClass('selected')) {
+            let select_obj = $(event.target)
+            if (this_obj.hasClass('selected') && select_obj.hasClass('selected')) {
                 Cookies.remove('event_id')
                 $('.hasEvent').removeClass('selected')
+                $('.event-select').removeClass('selected')
                 $('.training-card-objective').addClass('d-none')
                 $('#block-event-info .event-info').html('')
                 $('#training-video-modal input[name="video_href"]').val('')
@@ -142,9 +144,25 @@ $(window).on('load', function (){
                 $('#objective_3-event-view').val('')
                 $('#load-event-view').val('')
             } else {
+                let data_id = select_obj.attr('data-id')
                 Cookies.set('event_id', data_id, { expires: 1 })
                 $('.hasEvent').removeClass('selected')
-                $('.hasEvent[data-value="' + data_id + '"]').addClass('selected')
+                $('.event-select').removeClass('selected')
+                let events = $('.hasEvent').filter(function( index, element ) {
+
+                    let values = $(element).attr('data-value').split(',')
+                    let hasID = false
+                    for (const value of values) {
+                        if (value == data_id) hasID = true
+                    }
+                    console.log(values + data_id + hasID)
+                    return hasID;
+                })
+                events.addClass('selected')
+                events.find('.event-select').filter(function( index, element ) {
+                    return $(element).attr('data-id') == data_id;
+                }).addClass('selected')
+                //$('.hasEvent[data-value="' + data_id + '"]').addClass('selected')
                 ajax_event_action('GET', null, 'view event', data_id).then(function (data) {
                     let html_scheme = ``
                     if ('training' in data && data.training != null) {
@@ -471,8 +489,8 @@ $(window).on('load', function (){
         LoadGraphicsModal(id, "team_folders", activeNum);
     });
     //Открыть карточку тренировки при клике на карандаш
-    $('#open-select-exercise').on('click', function () {
-        let href = $('tr.hasEvent.selected').find('.btn').attr('href')
+    $('#open-select-training').on('click', function () {
+        let href = $('tr.hasEvent .event-select.selected').attr('href')
         console.log(href)
         if (href != null && href != undefined){
             window.location.href = href;
@@ -931,11 +949,11 @@ $(function() {
 
     // ContextMenu для календаря
     $.contextMenu({
-        selector: '.hasEvent',
+        selector: '.hasEvent .event-select',
         build: function($triggerElement, e){
             return {
                 callback: function(key, options){
-                    let event_id = $(this).attr('data-value')
+                    let event_id = $(this).attr('data-id')
                     if(key === 'delete'){
                         window.console && console.log(event_id);
                         ajax_event_action('DELETE', null, 'delete', event_id).then(function( data ) {

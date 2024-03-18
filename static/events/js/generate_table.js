@@ -79,7 +79,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             skip_row -= 1;
                             return true;
                         }
-                        let event_id = event['id'],
+                        let event_id = [],
                             event_name = '',
                             event_short_name = event['short_name']
                         let tr_html = ``
@@ -95,7 +95,6 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                         let hasVideo = false
                         let isCurrentDate = false
                         let isFilled = true
-                        let isMerged = false
 
                         if(moment().startOf('day').isSame(only_date)) isCurrentDate = true
                         newMicrocycle.forEach(function(microcycle, i) {
@@ -117,32 +116,14 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                         if('training' in event && event['training'] != null){
                             num_tr = 1
                             // console.log(event.training)
-                            let count_player = 0
-                            let count_goalkeeper = 0
+                            let count_player = ''
+                            let count_goalkeeper = ''
                             //console.log(event.training)
                             if(event_class === 'trainingClass' && event['only_date'] === event_date) {
                                 num_tr++
                             }
                             if(('exercises_info' in event.training && event.training.exercises_info.length == 0) || ('protocol_info' in event.training && event.training.protocol_info.length == 0)) isFilled = false
-                            if('protocol_info' in event.training && event.training.protocol_info.length > 0){
-                                $.each(event.training.protocol_info, function( index, value ) {
-                                    if(value.status==null) {
-                                        count_player++;
-                                        if(value.player_info.card != null && value.player_info.card.is_goalkeeper){
-                                            count_goalkeeper++;
-                                        }
-                                    }
-                                });
-                            } else {
-                                if(event.training.players_count != null && Object.keys(event.training.players_count).length>0){
-                                    //console.log(event.training.players_count[0])
-                                    count_player = event.training.players_count[0]
-                                }
-                                if(event.training.goalkeepers_count != null && Object.keys(event.training.goalkeepers_count).length>0){
-                                    count_goalkeeper = event.training.goalkeepers_count[0]
-                                }
 
-                            }
                             hasVideo = event.training.video_href != '' && event.training.video_href != null
                             for (const objective of event.training.objectives) {
                                 objectives['objective_'+(objective.type+1)].push(objective.objective.id)
@@ -156,10 +137,10 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             event_class = 'trainingClass'
                             count_tr++
 
-                            let merged_tr = ''
+                            let merged_btn = ''
                             let merged_events = []
                             for (let i = index; i < generated_events.length; i++){
-                                if (generated_events[i]['time'] === event['time']){
+                                if (generated_events[i]['time'] === event['time'] && generated_events[i]['date'] === event['date']){
                                     if (i != index) skip_row++;
                                     merged_events.push(generated_events[i])
 
@@ -168,10 +149,41 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                 }
                             }
                             $.each(merged_events, function( index, event ) {
-                                merged_tr += `
+                                event_id.push(event['id'])
+                                merged_btn += `
                                 <div class="col px-1">
-                                    <a href="/trainings/view/${event.training.event_id}" class="btn btn-sm btn-block ${merged_events.length > 1 ? 'btn-info' : 'btn-info'} py-0" data-id="${event.training.event_id}">${merged_events.length > 1 ? gettext('Group')+' '+(index+1) : gettext('Training') +' '+(num_tr == 2 ? '2' : '')}</a>
+                                    <button href="/trainings/view/${event.training.event_id}" class="btn btn-sm btn-block ${merged_events.length > 1 ? 'btn-info' : 'btn-info'} py-0 event-select" data-id="${event.training.event_id}">${merged_events.length > 1 ? gettext('Group')+' '+(index+1) : gettext('Training') +' '+(num_tr == 2 ? '2' : '')}</button>
                                 </div>
+                                `
+                                let player = 0, goalkeeper = 0;
+                                if('protocol_info' in event.training && event.training.protocol_info.length > 0){
+                                    $.each(event.training.protocol_info, function( index, value ) {
+                                        if(value.status==null) {
+                                            player++;
+                                            if(value.player_info.card != null && value.player_info.card.is_goalkeeper){
+                                                goalkeeper++;
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    if(event.training.players_count != null && Object.keys(event.training.players_count).length>0){
+                                        //console.log(event.training.players_count[0])
+                                        player = event.training.players_count[0]
+                                    }
+                                    if(event.training.goalkeepers_count != null && Object.keys(event.training.goalkeepers_count).length>0){
+                                        goalkeeper = event.training.goalkeepers_count[0]
+                                    }
+                                }
+
+                                count_player+=`
+                                    <div class="col px-0 ${index+1!=merged_events.length ? 'border-right' : ''} ${merged_events.length > 1 ? 'group' : ''}" data-group="${merged_events.length > 1 ? (index+1) : ''}">
+                                        ${player}
+                                    </div>
+                                `
+                                count_goalkeeper+=`
+                                    <div class="col px-0 ${index+1!=merged_events.length ? 'border-right' : ''} ${merged_events.length > 1 ? 'group' : ''}" data-group="${merged_events.length > 1 ? (index+1) : ''}">
+                                        ${goalkeeper}
+                                    </div>
                                 `
                             })
 
@@ -181,12 +193,20 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             <td class="${!isFilled ? 'text-danger' : ''}">${event['only_date']}</td>
                             <td colspan="2">
                                 <div class="row mx-0 merged-event">
-                                    ${merged_tr}
+                                    ${merged_btn}
                                 </div>
                             </td>
                             <td><i class="switch-favorites fa ${event.training.favourites == 1 ? 'fa-star text-success' : (event.training.favourites == 2 ? 'fa-star text-warning' : (event.training.favourites == 3 ? 'fa-star text-danger' : 'fa-star-o'))}" data-switch="${event.training.favourites}"></i></td>
-                            <td>${count_player}</td>
-                            <td>${count_goalkeeper}</td>
+                            <td>
+                                <div class="row mx-0">
+                                    ${count_player}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="row mx-0">
+                                    ${count_goalkeeper}
+                                </div>
+                            </td>
                             `
 
                         } else if('match' in event && event['match'] != null){
@@ -194,6 +214,8 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             event_class = 'matchClass'+event['match']['m_type']
                             count_m--
                             count_tr = 0
+
+                            event_id.push(event['id'])
 
                             td_html += `
                                 <td>${count_day==0 ? '---' : count_day}</td>
@@ -216,7 +238,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                         }
                         console.log(event['only_date']+"   "+moment(event['only_date'], 'DD/MM/YYYY').endOf('month').format('DD/MM/YYYY'))
 
-                        tr_html += `<tr id="${event['only_date']==moment().format('DD/MM/YYYY') ? 'current_day' : ''}" class="${event_id!=null ? 'hasEvent' : ''} ${event_class} ${event['only_date']==moment(event['only_date'], 'DD/MM/YYYY').endOf('month').format('DD/MM/YYYY') ? "month_top_border" : ''}" data-value="${event_id}" data-microcycle-days="${microcycle_days}" data-microcycle-day="${count_day}" data-unfilled="${!isFilled ? '1' : '0'}" data-video="${hasVideo ? '1' : '0'}" data-name="${microcycle_name}" data-block="${training_block}" data-goal="${microcycle_goal}" data-objective_1="${objectives.objective_1}" data-objective_2="${objectives.objective_2}" data-objective_3="${objectives.objective_3}" data-objective-block="${objectives.blocks}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
+                        tr_html += `<tr id="${event['only_date']==moment().format('DD/MM/YYYY') ? 'current_day' : ''}" class="${event_id.length>0 ? 'hasEvent' : ''} ${event_class} ${event['only_date']==moment(event['only_date'], 'DD/MM/YYYY').endOf('month').format('DD/MM/YYYY') ? "month_top_border" : ''}" data-value="${event_id}" data-microcycle-days="${microcycle_days}" data-microcycle-day="${count_day}" data-unfilled="${!isFilled ? '1' : '0'}" data-video="${hasVideo ? '1' : '0'}" data-name="${microcycle_name}" data-block="${training_block}" data-goal="${microcycle_goal}" data-objective_1="${objectives.objective_1}" data-objective_2="${objectives.objective_2}" data-objective_3="${objectives.objective_3}" data-objective-block="${objectives.blocks}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
                         tr_html += td_html
                         tr_html += `</tr>`
 
@@ -272,8 +294,8 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                     local_filters_events()
 
                     if(Cookies.get('event_id')){
-                        if($('#events .hasEvent[data-value="'+Cookies.get('event_id')+'"]').length){
-                            $('#events .hasEvent[data-value="'+Cookies.get('event_id')+'"] td:first').click()
+                        if($('#events .hasEvent .event-select[data-id="'+Cookies.get('event_id')+'"]').length){
+                            $('#events .hasEvent .event-select[data-id="'+Cookies.get('event_id')+'"]').click()
                         } else {
                             Cookies.remove('event_id')
                         }
