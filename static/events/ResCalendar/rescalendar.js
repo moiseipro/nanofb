@@ -178,7 +178,10 @@ var startDate, endDate, startSeason, endSeason;
                         //if( obj_data.startDate ==)
                         if( obj_data.href ){ href = obj_data.href; }
 
-                        content = '<a href="' + href + '">'+text+'</a>';
+                        // for (const value of obj_data.customValue) {
+                        //     content += `<a href="${href}" class="event-select" data-id="${value}">${text}</a>`;
+                        // }
+                        content = `<a href="${href}" class="event-select" data-id="${obj_data.customValue[0]}">${text}</a>`;
                         hasEventClass = 'hasEvent';
                         customClass = obj_data.customClass;
                         customValue = obj_data.customValue;
