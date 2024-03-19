@@ -1433,6 +1433,9 @@ class EditTrainingsView(DetailView):
         context['refs'] = refs
         context['is_exercises'] = True
         context['ui_elements'] = get_ui_elements(self.request)
+        context['group'] = get_training_group(self.request, context['object'])
+        print(context)
+
         return context
 
     def get_queryset(self):
@@ -1451,6 +1454,15 @@ class EditTrainingsView(DetailView):
                     "%(cls)s.get_queryset()." % {"cls": self.__class__.__name__}
                 )
         return self.queryset.all()
+
+
+def get_training_group(request, current_training):
+    print(request)
+    if request.user.club_id is not None:
+        training = ClubTraining
+    else:
+        training = UserTraining
+    return training.objects.filter(team_id=request.session['team'], event_id__date=current_training.event_id.date).values()
 
 
 class EditLiteTrainingsView(DetailView):

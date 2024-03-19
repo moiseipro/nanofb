@@ -129,139 +129,145 @@ $(window).on('load', function (){
         let data_id = $(this).attr('data-value')
         console.log(event.target)
 
-        if($(event.target).is('.event-select')) {
-            let this_obj = $(this)
-            let select_obj = $(event.target)
-            if (this_obj.hasClass('selected') && select_obj.hasClass('selected')) {
-                Cookies.remove('event_id')
-                $('.hasEvent').removeClass('selected')
-                $('.event-select').removeClass('selected')
-                $('.training-card-objective').addClass('d-none')
-                $('#block-event-info .event-info').html('')
-                $('#training-video-modal input[name="video_href"]').val('')
-                $('#objective_1-event-view').val('')
-                $('#objective_2-event-view').val('')
-                $('#objective_3-event-view').val('')
-                $('#load-event-view').val('')
-            } else {
-                let data_id = select_obj.attr('data-id')
-                Cookies.set('event_id', data_id, { expires: 1 })
-                $('.hasEvent').removeClass('selected')
-                $('.event-select').removeClass('selected')
-                let events = $('.hasEvent').filter(function( index, element ) {
+        let this_obj = $(this)
+        let select_obj = $(event.target)
 
-                    let values = $(element).attr('data-value').split(',')
-                    let hasID = false
-                    for (const value of values) {
-                        if (value == data_id) hasID = true
-                    }
-                    console.log(values + data_id + hasID)
-                    return hasID;
-                })
-                events.addClass('selected')
-                events.find('.event-select').filter(function( index, element ) {
-                    return $(element).attr('data-id') == data_id;
-                }).addClass('selected')
-                //$('.hasEvent[data-value="' + data_id + '"]').addClass('selected')
-                ajax_event_action('GET', null, 'view event', data_id).then(function (data) {
-                    let html_scheme = ``
-                    if ('training' in data && data.training != null) {
-                        console.log(data.training)
-                        $('.training-card-objective').removeClass('d-none')
-                        $('#training-video-modal input[name="video_href"]').val(data.training.video_href)
-                        $('#goal-event-view').val(data.training.goal)
-                        $('#objective_1-event-view').val(data.training.objective_1)
-                        $('#objective_2-event-view').val(data.training.objective_2)
-                        $('#objective_3-event-view').val(data.training.objective_3)
-                        $('#load-event-view').val(data.training.load_type)
-                        if (data.training.exercises_info.length > 0) {
-                            let exercises = data.training.exercises_info
-                            for (let exercise of exercises) {
-                                let count_slide = 0
-                                let select_html = '', carousel_html = ''
-                                if (exercise.scheme_img) {
-                                    select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="active"></li>`
-                                    count_slide++
-                                    carousel_html+= `
-                                        <div class="carousel-item active">
-                                            <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
-                                                <image data-height="400" data-width="600" height="100%" width="100%" href="${exercise.scheme_img}" x="0" y="0"></image>
-                                            </svg>
-                                        </div>`
-                                }
-                                if(exercise.scheme_1){
-                                    select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="${!exercise.scheme_img ? 'active': ''}"></li>`
-                                    count_slide++
-                                    carousel_html+= `
-                                        <div class="carousel-item ${!exercise.scheme_img ? 'active': ''}">
-                                            <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
-                                                <image data-height="400" data-width="600" height="100%" width="100%" href="https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${exercise.scheme_1}" x="0" y="0"></image>
-                                            </svg>
-                                        </div>`
-                                }
-                                if(exercise.scheme_2){
-                                    select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="${!exercise.scheme_img && !exercise.scheme_1 ? 'active': ''}"></li>`
-                                    count_slide++
-                                    carousel_html+= `
-                                        <div class="carousel-item ${!exercise.scheme_img && !exercise.scheme_1 ? 'active': ''}">
-                                            <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
-                                                <image data-height="400" data-width="600" height="100%" width="100%" href="https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${exercise.scheme_2}" x="0" y="0"></image>
-                                            </svg>
-                                        </div>`
-                                }
-                                if(exercise.exercise_scheme){
-                                    if(exercise.exercise_scheme['scheme_1']){
-                                        select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="${!exercise.scheme_img && !exercise.scheme_1 && !exercise.scheme_2  ? 'active': ''}"></li>`
-                                        count_slide++
-                                        carousel_html+= `
-                                            <div class="carousel-item ${!exercise.scheme_img && !exercise.scheme_1 && !exercise.scheme_2  ? 'active': ''}">
-                                                ${exercise.exercise_scheme['scheme_1']}
-                                            </div>`
-                                    }
-                                    if(exercise.exercise_scheme['scheme_2']){
-                                        select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class=""></li>`
-                                        count_slide++
-                                        carousel_html+= `
-                                            <div class="carousel-item">
-                                                ${exercise.exercise_scheme['scheme_2']}
-                                            </div>`
-                                    }
-                                }
-                                html_scheme += `
-                                <div class="col-4 pb-2 px-1 exercise-visual-block" data-id="${exercise.id}" data-exs-id="${exercise.exercise_id}" data-group="${exercise.group}">
-                                    <div id="carouselSchema-${exercise.id}" class="carousel slide carouselSchema" data-ride="carousel" data-interval="false">
-                                        <ol class="carousel-indicators">
-                                            ${select_html}
-                                        </ol>
-                                        <div class="carousel-inner">
-                                            ${carousel_html}
-                                        </div>
-                                        <a class="carousel-control-prev ml-2" href="#carouselSchema-${exercise.id}" role="button" data-slide="prev">
-                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                            <span class="sr-only">Previous</span>
-                                        </a>
-                                        <a class="carousel-control-next" href="#carouselSchema-${exercise.id}" role="button" data-slide="next">
-                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                            <span class="sr-only">Next</span>
-                                        </a>
-                                    </div>
-                                    <div class="row text-center">
-                                        <div class="col-12"><div class="w-100 border text-truncate">${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}</div></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-12 additional-data-block"></div>
-                                    </div>
-                                </div>
-                                `
-                            }
-                        }
-                        $('#block-event-info .event-info').html(html_scheme)
-                    } else {
-                        $('.training-card-objective').addClass('d-none')
-                    }
-                })
-            }
+        if($(event.target).is('.event-select')) {
+            select_obj = $(event.target)
+        } else if($(event.target).is('td')){
+            select_obj = $(event.target).parent().find('.event-select:first')
         }
+
+        if (this_obj.hasClass('selected') && select_obj.hasClass('selected')) {
+            Cookies.remove('event_id')
+            $('.hasEvent').removeClass('selected')
+            $('.event-select').removeClass('selected')
+            $('.training-card-objective').addClass('d-none')
+            $('#block-event-info .event-info').html('')
+            $('#training-video-modal input[name="video_href"]').val('')
+            $('#objective_1-event-view').val('')
+            $('#objective_2-event-view').val('')
+            $('#objective_3-event-view').val('')
+            $('#load-event-view').val('')
+        } else {
+            let data_id = select_obj.attr('data-id')
+            Cookies.set('event_id', data_id, { expires: 1 })
+            $('.hasEvent').removeClass('selected')
+            $('.event-select').removeClass('selected')
+            let events = $('.hasEvent').filter(function( index, element ) {
+
+                let values = $(element).attr('data-value').split(',')
+                let hasID = false
+                for (const value of values) {
+                    if (value == data_id) hasID = true
+                }
+                console.log(values + data_id + hasID)
+                return hasID;
+            })
+            events.addClass('selected')
+            events.find('.event-select').filter(function( index, element ) {
+                return $(element).attr('data-id') == data_id;
+            }).addClass('selected')
+            //$('.hasEvent[data-value="' + data_id + '"]').addClass('selected')
+            ajax_event_action('GET', null, 'view event', data_id).then(function (data) {
+                let html_scheme = ``
+                if ('training' in data && data.training != null) {
+                    console.log(data.training)
+                    $('.training-card-objective').removeClass('d-none')
+                    $('#training-video-modal input[name="video_href"]').val(data.training.video_href)
+                    $('#goal-event-view').val(data.training.goal)
+                    $('#objective_1-event-view').val(data.training.objective_1)
+                    $('#objective_2-event-view').val(data.training.objective_2)
+                    $('#objective_3-event-view').val(data.training.objective_3)
+                    $('#load-event-view').val(data.training.load_type)
+                    if (data.training.exercises_info.length > 0) {
+                        let exercises = data.training.exercises_info
+                        for (let exercise of exercises) {
+                            let count_slide = 0
+                            let select_html = '', carousel_html = ''
+                            if (exercise.scheme_img) {
+                                select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="active"></li>`
+                                count_slide++
+                                carousel_html+= `
+                                    <div class="carousel-item active">
+                                        <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                            <image data-height="400" data-width="600" height="100%" width="100%" href="${exercise.scheme_img}" x="0" y="0"></image>
+                                        </svg>
+                                    </div>`
+                            }
+                            if(exercise.scheme_1){
+                                select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="${!exercise.scheme_img ? 'active': ''}"></li>`
+                                count_slide++
+                                carousel_html+= `
+                                    <div class="carousel-item ${!exercise.scheme_img ? 'active': ''}">
+                                        <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                            <image data-height="400" data-width="600" height="100%" width="100%" href="https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${exercise.scheme_1}" x="0" y="0"></image>
+                                        </svg>
+                                    </div>`
+                            }
+                            if(exercise.scheme_2){
+                                select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="${!exercise.scheme_img && !exercise.scheme_1 ? 'active': ''}"></li>`
+                                count_slide++
+                                carousel_html+= `
+                                    <div class="carousel-item ${!exercise.scheme_img && !exercise.scheme_1 ? 'active': ''}">
+                                        <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                            <image data-height="400" data-width="600" height="100%" width="100%" href="https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${exercise.scheme_2}" x="0" y="0"></image>
+                                        </svg>
+                                    </div>`
+                            }
+                            if(exercise.exercise_scheme){
+                                if(exercise.exercise_scheme['scheme_1']){
+                                    select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="${!exercise.scheme_img && !exercise.scheme_1 && !exercise.scheme_2  ? 'active': ''}"></li>`
+                                    count_slide++
+                                    carousel_html+= `
+                                        <div class="carousel-item ${!exercise.scheme_img && !exercise.scheme_1 && !exercise.scheme_2  ? 'active': ''}">
+                                            ${exercise.exercise_scheme['scheme_1']}
+                                        </div>`
+                                }
+                                if(exercise.exercise_scheme['scheme_2']){
+                                    select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class=""></li>`
+                                    count_slide++
+                                    carousel_html+= `
+                                        <div class="carousel-item">
+                                            ${exercise.exercise_scheme['scheme_2']}
+                                        </div>`
+                                }
+                            }
+                            html_scheme += `
+                            <div class="col-4 pb-2 px-1 exercise-visual-block" data-id="${exercise.id}" data-exs-id="${exercise.exercise_id}" data-group="${exercise.group}">
+                                <div id="carouselSchema-${exercise.id}" class="carousel slide carouselSchema" data-ride="carousel" data-interval="false">
+                                    <ol class="carousel-indicators">
+                                        ${select_html}
+                                    </ol>
+                                    <div class="carousel-inner">
+                                        ${carousel_html}
+                                    </div>
+                                    <a class="carousel-control-prev ml-2" href="#carouselSchema-${exercise.id}" role="button" data-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#carouselSchema-${exercise.id}" role="button" data-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
+                                <div class="row text-center">
+                                    <div class="col-12"><div class="w-100 border text-truncate">${(get_cur_lang() in exercise.exercise_name) ? exercise.exercise_name[get_cur_lang()] : Object.values(exercise.exercise_name)[0]}</div></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 additional-data-block"></div>
+                                </div>
+                            </div>
+                            `
+                        }
+                    }
+                    $('#block-event-info .event-info').html(html_scheme)
+                } else {
+                    $('.training-card-objective').addClass('d-none')
+                }
+            })
+        }
+
     })
 
 

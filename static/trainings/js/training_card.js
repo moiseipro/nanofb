@@ -272,7 +272,7 @@ function show_training_card(id = ''){
         let min_1 = 0, min_2 = 0;
 
         let html_group_1 = ''
-        let html_group_2 = ''
+        //let html_group_2 = ''
         $.each( data.exercises_info, function( key, value ) {
             if (value.group==1){
                 html_group_1 += `
@@ -282,41 +282,30 @@ function show_training_card(id = ''){
                 //${get_translation_name(value.exercise_name)}
                 min_1+=value.duration
                 count_1++
-            } else if (value.group==2){
-                html_group_2 += `
-                <div class="col-12 px-0 mb-1">
-                    <button data-id="${value.id}" data-group="${value.group}" class="btn btn-sm btn-block border-white rounded-0 py-0 exs-filter-card" data-toggle="tooltip" data-html="true" title="${gettext("Click to view description")}"><span class="float-left">${get_translation_name(value.exercise_name)}</span> <span class="float-right">${value.duration}\`</span></button>
-                </div>`
-                //${get_translation_name(value.exercise_name)}
-                 min_2+=value.duration
-                count_2++
             }
+            // else if (value.group==2){
+            //     html_group_2 += `
+            //     <div class="col-12 px-0 mb-1">
+            //         <button data-id="${value.id}" data-group="${value.group}" class="btn btn-sm btn-block border-white rounded-0 py-0 exs-filter-card" data-toggle="tooltip" data-html="true" title="${gettext("Click to view description")}"><span class="float-left">${get_translation_name(value.exercise_name)}</span> <span class="float-right">${value.duration}\`</span></button>
+            //     </div>`
+            //     //${get_translation_name(value.exercise_name)}
+            //      min_2+=value.duration
+            //     count_2++
+            // }
         });
         let html_group_A = `
                 <div class="col-12 px-0 mb-1">
-                    <button data-group="1" class="btn btn-sm btn-block border-dark font-weight-bold rounded-0 py-0 group-filter-card"><span class="float-left">${gettext('Group')} A</span> <span class="float-right">${min_1}\`</span></button>
+                    <button data-group="1" class="btn btn-sm btn-block border-dark font-weight-bold rounded-0 py-0 group-filter-card"><span class="float-left">${gettext('Exercises')}</span> <span class="float-right">${min_1}\`</span></button>
                 </div>`
-        let html_group_B = `
-                <div class="col-12 px-0 mb-1">
-                    <button data-group="2" class="btn btn-sm btn-block border-dark font-weight-bold rounded-0 py-0 group-filter-card"><span class="float-left">${gettext('Group')} B</span> <span class="float-right">${min_2}\`</span></button>
-                </div>`
-        // if (count_1<count_2){
-        //     for (let i=0; i < count_2-count_1; i++){
-        //         html_group_1 += `
-        //         <div class="col px-0">
+        // let html_group_B = `
+        //         <div class="col-12 px-0 mb-1">
+        //             <button data-group="2" class="btn btn-sm btn-block border-dark font-weight-bold rounded-0 py-0 group-filter-card"><span class="float-left">${gettext('Group')} B</span> <span class="float-right">${min_2}\`</span></button>
         //         </div>`
-        //     }
-        // } else {
-        //     for (let i=0; i < count_1-count_2; i++){
-        //         html_group_2 += `
-        //         <div class="col px-0">
-        //         </div>`
-        //     }
-        // }
+
         $('.exercise-list[data-group="1"]').html(html_group_A)
-        $('.exercise-list[data-group="2"]').html(html_group_B)
+        //$('.exercise-list[data-group="2"]').html(html_group_B)
         $('.exercise-list[data-group="1"]').append(html_group_1)
-        $('.exercise-list[data-group="2"]').append(html_group_2)
+        //$('.exercise-list[data-group="2"]').append(html_group_2)
 
         $('#training-content .group-filter-card[data-group="1"]').click()
         $('#training-content').removeClass('d-none')

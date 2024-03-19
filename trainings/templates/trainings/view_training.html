@@ -52,6 +52,13 @@
 {#                                <div class="col-6 px-1">#}
 {#                                    <button id="#" title="" class="btn btn-block btn-outline-primary btn-sm font-weight-bold" data-toggle="modal" data-target="#training-video-modal">{% trans "Video" %}</button>#}
 {#                                </div>#}
+                                {% if group|length > 1 %}
+                                    {% for training in group %}
+                                        <div class="col px-1">
+                                            <a href="/trainings/view/{{ training.event_id_id }}" title="" class="btn btn-block btn-warning btn-sm font-weight-bold {% if object.event_id_id == training.event_id_id%} disabled {% endif %}">{% trans "Group" %} {{ forloop.counter }}</a>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
                                 <div class="col px-1">
                                     <button id="delete-training" title="" class="btn btn-block btn-outline-danger btn-sm font-weight-bold">{% trans "Delete" %}</button>
                                 </div>
