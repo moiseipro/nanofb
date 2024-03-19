@@ -143,13 +143,13 @@ def analytics_api(request):
         except:
             pass
         if get_analytics_all_status == 1:
-            return v_api.GET_get_analytics_in_team(request, cur_user[0], cur_team, cur_season)
+            return v_api.GET_get_analytics_in_team(request, cur_user[0], cur_team, cur_season, None)
         elif get_analytics_by_folders_status == 1:
             return v_api.GET_get_analytics_by_folders_in_team(request, cur_user[0], cur_team, cur_season)
         elif get_analytics_by_folders_full_status == 1:
             return v_api.GET_get_analytics_by_folders_full_in_team(request, cur_user[0], cur_team, cur_season)
         elif get_analytics_blocks_status == 1:
-            return v_api.GET_get_analytics_blocks(request, cur_user[0], cur_team, cur_season)
+            return v_api.GET_get_analytics_blocks(request, cur_user[0], cur_team, cur_season, None)
         return JsonResponse({"errors": "access_error"}, status=400)
     else:
         return JsonResponse({"errors": "access_error"}, status=400)

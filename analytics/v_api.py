@@ -165,7 +165,7 @@ def POST_reset_cache(request, cur_user, cur_team, cur_season):
 
 
 
-def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
+def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season, options_shared=None):
     """
     Return JsonResponse which contains dictionary with players. Each object is a dictionary, where the key is what we consider, 
     and the value, respectively, is its value.
@@ -195,6 +195,11 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
     :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]]
 
     """
+    if options_shared is not None:
+        request.user.club_id = options_shared['club'] if options_shared['club'] != "" else None
+        cur_user = User.objects.filter(id=options_shared['user']).first()
+        cur_team = options_shared['team']
+        cur_season = options_shared['season']
     res_data = {'players': {}}
     res_matches = {
         'matches_count': 0, 'matches_time': 0, 'matches_goals': 0, 'matches_penalty': 0, 'matches_pass': 0,
@@ -225,6 +230,12 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
         season_type = int(request.GET.get("season_type", 0))
     except:
         pass
+    if options_shared is not None:
+        season_type = None
+        try:
+            season_type = int(options_shared['season_type'])
+        except:
+            pass
     f_season = None
     if request.user.club_id is not None:
         f_season = ClubSeason.objects.get(id=cur_season, club_id=request.user.club_id)
@@ -233,10 +244,15 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season):
     if f_season and f_season.id != None:
         cached_data = None
         if request.user.club_id is not None:
-            cached_data = cache.get(f'analytics_club_{request.user.club_id.id}_{cur_team}_{cur_season}_{season_type}')
+            club_id = request.user.club_id
+            try:
+                club_id = request.user.club_id.id
+            except:
+                pass
+            cached_data = cache.get(f'analytics_club_{club_id}_{cur_team}_{cur_season}_{season_type}')
         else:
             cached_data = cache.get(f'analytics_{cur_user}_{cur_team}_{cur_season}_{season_type}')
-        if cached_data is None:
+        if cached_data is None and options_shared is None:
             date_with = f_season.date_with
             date_by = f_season.date_by
             if season_type and season_type != 0:
@@ -589,7 +605,7 @@ def GET_get_analytics_by_folders_full_in_team(request, cur_user, cur_team, cur_s
     return JsonResponse({"data": res_data, "success": True}, status=200)
 
 
-def GET_get_analytics_blocks(request, cur_user, cur_team, cur_season):
+def GET_get_analytics_blocks(request, cur_user, cur_team, cur_season, options_shared=None):
     """
     Return JsonResponse which contains dictionary with seasons. Each object is a dictionary, where the key is what we consider, 
     and the value, respectively, is its value.
@@ -607,6 +623,11 @@ def GET_get_analytics_blocks(request, cur_user, cur_team, cur_season):
     :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]]
 
     """
+    if options_shared is not None:
+        request.user.club_id = options_shared['club'] if options_shared['club'] != "" else None
+        cur_user = User.objects.filter(id=options_shared['user']).first()
+        cur_team = options_shared['team']
+        cur_season = options_shared['season']
     res_data = {'players': {}}
     players = []
     if request.user.club_id is not None:
@@ -623,6 +644,12 @@ def GET_get_analytics_blocks(request, cur_user, cur_team, cur_season):
         season_type = int(request.GET.get("season_type", 0))
     except:
         pass
+    if options_shared is not None:
+        season_type = None
+        try:
+            season_type = int(options_shared['season_type'])
+        except:
+            pass
     f_season = None
     if request.user.club_id is not None:
         f_season = ClubSeason.objects.get(id=cur_season, club_id=request.user.club_id)
@@ -634,7 +661,7 @@ def GET_get_analytics_blocks(request, cur_user, cur_team, cur_season):
             cached_data = cache.get(f'analytics_blocks_club_{request.user.club_id.id}_{cur_team}_{cur_season}_{season_type}')
         else:
             cached_data = cache.get(f'analytics_blocks_{cur_user}_{cur_team}_{cur_season}_{season_type}')
-        if cached_data is None:
+        if cached_data is None and options_shared is None:
             date_with = f_season.date_with
             date_by = f_season.date_by
             if season_type and season_type != 0:

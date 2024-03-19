@@ -35,6 +35,9 @@
                                         <button type="button" class="btn btn-secondary btn-sm mx-1" id="printTableData" title="Печать" style="max-width:32px;">
                                             <i class="fa fa-print" aria-hidden="true"></i>
                                         </button>
+                                        <button type="button" class="btn btn-secondary btn-sm mx-1" id="shareTableData" title="Поделиться" style="max-width:32px;">
+                                            <i class="fa fa-share" aria-hidden="true"></i>
+                                        </button>
                                         <div class="columns-settings w-25" data-id="defaultTable">
                                             <select id="columnsDefaultTableVisibleSelect" class="form-control form-control-sm selectpicker" multiple data-selected-text-format="count" title="Колонки таблицы" data-count-selected-text="Колонки таблицы. Выбрано: {0}">
                                                 <option value="col_disease">Болезни</option>
@@ -292,9 +295,41 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="analyticsShareModal" tabindex="-1" role="dialog" aria-labelledby="analyticsShareModalLbl" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Поделиться аналитикой</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12 link-block">
+                                <div class="row mt-3">
+                                    <div class="col-2">
+                                        Ссылка:
+                                    </div>
+                                    <div class="col-10 link-text">
+                                        <a href="" target="_blank">-</a>
+                                    </div>
+                                    <div class="col-12 link-qrcode text-center">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary btn-share" data-link="">Поделиться</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 {% endblock %}
 
 {% block custom_scripts %}
+    <script type="text/javascript" src="{% static 'preadmin/plugins/jqueryClassyqr/jquery.classyqr.min.js' %}"></script>
     <script src="{% static 'analytics/js/base_ana_ics.js' %}"></script>
 {% endblock %}

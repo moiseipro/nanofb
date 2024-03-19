@@ -24,5 +24,6 @@ class SharedLink(models.Model):
     match_user = models.ForeignKey(UserMatch, on_delete=models.CASCADE, null=True, blank=True)
     match_club = models.ForeignKey(ClubMatch, on_delete=models.CASCADE, null=True, blank=True)
     match_lite = models.ForeignKey(LiteMatch, on_delete=models.CASCADE, null=True, blank=True)
+    analytics = models.JSONField(null=True, blank=True)
 
     objects = models.Manager()

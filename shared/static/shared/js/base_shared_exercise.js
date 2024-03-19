@@ -78,4 +78,3 @@ $(function() {
     $("#carouselSchema").find('.carousel-item').first().addClass('active');
 
 });
-

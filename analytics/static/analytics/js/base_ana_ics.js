@@ -105,6 +105,18 @@ function getAllIndexes(arr, val) {
     return indexes;
 }
 
+function copyTextToClipboard(text) {
+    if (!navigator.clipboard) {
+        fallbackCopyTextToClipboard(text);
+        return;
+    }
+    navigator.clipboard.writeText(text).then(function() {
+        console.log('Async: Copying to clipboard was successful!');
+    }, function(err) {
+        console.error('Async: Could not copy text: ', err);
+    });
+}
+
 function LoadAnalytics() {
     let dataToSend = {'get_analytics_all': 1, 'season_type': season_type};
     let dataRes = {};
@@ -715,6 +727,98 @@ $(function() {
         `);
         let printedWindow = window.open('', 'PRINT');
         printedWindow.document.write($(pageContent).prop('outerHTML'));
+    });
+
+    $('#shareTableData').on('click', (e) => {
+        $('#analyticsShareModal').modal('show');
+    });
+    $('#analyticsShareModal').on('show.bs.modal', (e) => {
+        $('#analyticsShareModal').find('.link-text > a').text('-');
+        $('#analyticsShareModal').find('.link-text > a').attr('href', '');
+        $('#analyticsShareModal').find('button.btn-share').attr('data-link', "");
+        $('#analyticsShareModal').find('.link-qrcode').html('');
+
+        let tableType = $('.analytics-table-container').find('table[id]:visible').attr('id');
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: {'get_link': 1, 'type': `analytics`, 'table_type': tableType, 'season_type': season_type},
+            type: 'GET', // GET или POST
+            dataType: 'json',
+            url: "/shared/shared_link_api",
+            success: function (res) {
+                if (res.success) {
+                    $('#analyticsShareModal').find('.link-text > a').text(res.data.link);
+                    $('#analyticsShareModal').find('.link-text > a').attr('href', res.data.link);
+                    $('#analyticsShareModal').find('button.btn-share').attr('data-link', res.data.link);
+                    $('#analyticsShareModal').find('.link-qrcode').ClassyQR({
+                        create: true,
+                        type: 'url',
+                        url: res.data.link
+                    });
+                }
+            },
+            error: function (res) {
+                console.log(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
+    });
+    $('#analyticsShareModal').on('click', '.btn-share', (e) => {
+        let cLink = $(e.currentTarget).attr('data-link');
+        if (cLink && cLink != "") {
+            try {
+                copyTextToClipboard(cLink);
+            } catch(e) {}
+            swal("Готово", `Ссылка скопирована (${cLink})!`, "success");
+            return;
+        }
+        let tableType = $('.analytics-table-container').find('table[id]:visible').attr('id');
+        let d = new Date(); d.setDate(d.getDate() + 30);
+        let dataToSend = {
+            'add_link': 1,
+            'type': `analytics`,
+            'table_type': tableType,
+            'season_type': season_type,
+            'expire_date': d.toLocaleDateString()
+        };
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: dataToSend,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "/shared/shared_link_api",
+            success: function (res) {
+                if (res.success) {
+                    $('#analyticsShareModal').find('.link-text > a').text(res.data.link);
+                    $('#analyticsShareModal').find('.link-text > a').attr('href', res.data.link);
+                    $('#analyticsShareModal').find('button.btn-share').attr('data-link', res.data.link);
+                    $('#analyticsShareModal').find('.link-qrcode').ClassyQR({
+                        create: true,
+                        type: 'url',
+                        url: res.data.link
+                    });
+                    try {
+                        copyTextToClipboard(res.data.link);
+                    } catch(e) {}
+                    swal("Готово", `Ссылка скопирована (${res.data.link})!`, "success");
+                }
+            },
+            error: function (res) {
+                if (res.responseJSON.type == "date") {
+                    swal("Ошибка", "Дата введена не корректно!", "error");
+                } else if (res.responseJSON.type == "link") {
+                    swal("Ошибка", "Невозможно создать общую ссылку!", "error");
+                }
+                console.log(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
     });
 
     $('#toggle_btn').on('click', (e) => {
