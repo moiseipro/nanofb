@@ -154,7 +154,8 @@ class EventEditUserForm(forms.ModelForm):
 
     date = forms.DateTimeField(
         input_formats=['%d/%m/%Y'],
-        widget=date_event_input_widget
+        widget=date_event_input_widget,
+        label=_('Date')
     )
 
     time = forms.TimeField(

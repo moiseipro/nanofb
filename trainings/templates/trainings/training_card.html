@@ -10,8 +10,8 @@
                 <nav class="nav nav-pills nav-justified">
                     <a class="nav-item nav-link py-0 rounded-0 mb-1 active" data-toggle="pill" href="#main-data-tab" role="tab">{% trans 'Card' %}</a>
                     <a class="nav-item nav-link py-0 rounded-0 mb-1" data-toggle="pill" href="#exercise-data-tab" role="tab">{% trans 'Exercises' %}</a>
-                    <a class="nav-item nav-link py-0 rounded-0 mb-1" data-toggle="pill" href="#players-data-tab" role="tab">{% trans 'Players' %}</a>
-                    <a class="nav-item nav-link py-0 rounded-0 mb-1" data-toggle="pill" href="#inventory-data-tab" role="tab">{% trans 'Inventory' %}</a>
+{#                    <a class="nav-item nav-link py-0 rounded-0 mb-1" data-toggle="pill" href="#players-data-tab" role="tab">{% trans 'Players' %}</a>#}
+{#                    <a class="nav-item nav-link py-0 rounded-0 mb-1" data-toggle="pill" href="#inventory-data-tab" role="tab">{% trans 'Inventory' %}</a>#}
                 </nav>
             </div>
         </div>
@@ -71,8 +71,21 @@
                         {% endif %}
                         {% if perms.trainings.change_clubtrainingblocks or perms.trainings.change_usertrainingblocks %}
                         <div class="row">
-                            <div class="col-12 px-0">
+                            <div class="col-12 my-1 px-0">
                                 <select id="select-training-block" name="blocks" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-multiple="true" data-maximumSelectionLength="3" disabled></select>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if perms.trainings.change_clubtrainingobjectives or perms.trainings.change_usertrainingobjectives %}
+                        <div id="block-training-goals" class="row base-select2">
+                            <div class="col-12 px-0 my-1 text-center training-objective_1">
+                                <select name="objective_1" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-multiple="true" data-maximumSelectionLength="2" disabled></select>
+                            </div>
+                            <div class="col-12 px-0 my-1 text-center training-objective_2">
+                                <select name="objective_2" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-multiple="true" data-maximumSelectionLength="2" disabled></select>
+                            </div>
+                            <div class="col-12 px-0 my-1 text-center training-objective_3">
+                                <select name="objective_3" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-multiple="true" data-maximumSelectionLength="2" disabled></select>
                             </div>
                         </div>
                         {% endif %}
@@ -106,7 +119,7 @@
                     </div>
                 </div>
 
-                <div class="row exercise-data-row font-weight-bold training-exercise-title training-exercise-description" data-toggle="collapse" data-target="#collapse-exercise-description" style="cursor: pointer">
+                <div class="row exercise-data-row font-weight-bold mt-3 training-exercise-title training-exercise-description" data-toggle="collapse" data-target="#collapse-exercise-description" style="cursor: pointer">
                     <div class="col text-center pt-1 px-0">{% trans "Description" %} ({% trans "print" %} / QR / {% trans "link" %})</div>
                 </div>
                 <div id="collapse-exercise-description" class="row exercise-data-row collapse show">
@@ -136,19 +149,6 @@
 
     </div>
     <div class="col-8">
-        {% if perms.trainings.change_clubtrainingobjectives or perms.trainings.change_usertrainingobjectives %}
-        <div id="block-training-goals" class="row base-select2">
-            <div class="col-12 px-0 text-center training-objective_1">
-                <select name="objective_1" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-multiple="true" data-maximumSelectionLength="2" disabled></select>
-            </div>
-            <div class="col-12 px-0 text-center training-objective_2">
-                <select name="objective_2" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-multiple="true" data-maximumSelectionLength="2" disabled></select>
-            </div>
-            <div class="col-12 px-0 text-center training-objective_3">
-                <select name="objective_3" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-multiple="true" data-maximumSelectionLength="2" disabled></select>
-            </div>
-        </div>
-        {% endif %}
         <div class="row">
             <div id="block-training-info" class="col-12" style="overflow-y: auto; overflow-x: hidden">
                 <div class="row training-info">

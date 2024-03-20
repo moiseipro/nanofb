@@ -251,7 +251,7 @@ $(window).on('load', function (){
 })
 
 function resize_trainings_card_blocks(){
-    let css = "calc(86vh - "+Math.round($('#block-training-info .exercise-data-row').height())+"px - 61px - "+Math.round($('.header').height())+"px)"
+    let css = "calc(86vh - 61px - "+Math.round($('.header').height())+"px)"
     //console.log(css)
     $('#block-training-info .carouselSchema').css({"max-height": css})
     $('#block-training-info .carouselSchema').css({"height": css})
@@ -668,25 +668,26 @@ function load_exercises_training_data(training_exercise_id = null) {
 
         let html_exs_data = ''
         html_exs_data += `
-            <div class="offset-1 col-10 px-1 exercise-visual-block" data-id="${exercise.id}" data-exs-id="${exercise.exercise_data}" data-group="${exercise.group}" style="height: 100%">
-                <div id="carouselTrainingSchema-${exercise.id}" class="carousel slide carouselSchema d-flex align-items-center" data-ride="carousel" data-interval="false" style="height: 100%">
-                    <ol class="carousel-indicators">
-                        ${select_html}
-                    </ol>
-                    <div class="carousel-inner" style="max-height: inherit;">
-                        ${carousel_html}
+            <div class="row training-info">
+                <div class="offset-1 col-10 px-1 exercise-visual-block" data-id="${exercise.id}" data-exs-id="${exercise.exercise_data}" data-group="${exercise.group}" style="height: 100%">
+                    <div id="carouselTrainingSchema-${exercise.id}" class="carousel slide carouselSchema d-flex align-items-center" data-ride="carousel" data-interval="false" style="height: 100%">
+                        <ol class="carousel-indicators">
+                            ${select_html}
+                        </ol>
+                        <div class="carousel-inner" style="max-height: inherit;">
+                            ${carousel_html}
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselTrainingSchema-${exercise.id}" role="button" data-slide="prev" style="margin-left: -12%; width: 12%; background: lightgrey; color: black;">
+                            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                            <span class="sr-only">-</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselTrainingSchema-${exercise.id}" role="button" data-slide="next" style="margin-right: -12%; width: 12%; background: lightgrey; color: black;">
+                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                            <span class="sr-only">+</span>
+                        </a>
                     </div>
-                    <a class="carousel-control-prev" href="#carouselTrainingSchema-${exercise.id}" role="button" data-slide="prev" style="margin-left: -12%; width: 12%; background: lightgrey; color: black;">
-                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                        <span class="sr-only">-</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselTrainingSchema-${exercise.id}" role="button" data-slide="next" style="margin-right: -12%; width: 12%; background: lightgrey; color: black;">
-                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                        <span class="sr-only">+</span>
-                    </a>
                 </div>
             </div>
-            
         `
         $('#block-training-info').html(html_exs_data)
         if(video_data != null){
