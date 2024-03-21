@@ -685,13 +685,13 @@ $(window).on('load', function (){
     create_ajax_select2($('#microcycle-name-filter'), gettext('M.C.'), '/events/microcycle_name_list', $(document.body), false, true, -1)
     create_ajax_select2($('#training-block-filter'), gettext('Block'), '/trainings/blocks_list/', $(document.body), false, true, -1)
 
-    create_ajax_select2($('#objective_1-block-filter'), gettext('Objective block'), '/trainings/objective_block', $(document.body))
-    create_ajax_select2($('#objective_2-block-filter'), gettext('Objective block'), '/trainings/objective_block', $(document.body))
-    create_ajax_select2($('#objective_3-block-filter'), gettext('Objective block'), '/trainings/objective_block', $(document.body))
+    //create_ajax_select2($('#objective_1-block-filter'), gettext('Objective block'), '/trainings/objective_block', $(document.body))
+    //create_ajax_select2($('#objective_2-block-filter'), gettext('Objective block'), '/trainings/objective_block', $(document.body))
+    //create_ajax_select2($('#objective_3-block-filter'), gettext('Objective block'), '/trainings/objective_block', $(document.body))
 
-    create_ajax_select2($('#objective_1-event-view'), gettext('Objective')+' 1', '/trainings/objectives_list/', $(document.body), false, true, 1, false, 0, {'type': 0})
-    create_ajax_select2($('#objective_2-event-view'), gettext('Objective')+' 2', '/trainings/objectives_list/', $(document.body), false, true, 1, false, 0, {'type': 1})
-    create_ajax_select2($('#objective_3-event-view'), gettext('Objective')+' 3', '/trainings/objectives_list/', $(document.body), false, true, 1, false, 0, {'type': 2})
+    create_ajax_select2($('#objective_1-event-view'), gettext('Main objective'), '/trainings/objectives_list/', $(document.body), false, true, 1, false, 0, {'type': 0})
+    create_ajax_select2($('#objective_2-event-view'), gettext('Add. objectives'), '/trainings/objectives_list/', $(document.body), false, true, 1, false, 0, {'type': 1})
+    //create_ajax_select2($('#objective_3-event-view'), gettext('Objective')+' 3', '/trainings/objectives_list/', $(document.body), false, true, 1, false, 0, {'type': 2})
 
     create_ajax_select2($('#select-microcycle-name'), '', '/events/microcycle_name_list', $('#references-modal'))
     create_ajax_select2($('#select-microcycle-short_key'), '', '/events/microcycle_short_key_list', $('#references-modal'))

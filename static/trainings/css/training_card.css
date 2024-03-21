@@ -119,6 +119,24 @@ input.btn-primary::placeholder { /* Most modern browsers support this now. */
     background-color: #e9ecef;
 }
 
+.block-select2 .select2-container--bootstrap4 .select2-selection--single .select2-selection__placeholder {
+    line-height: calc(1.5em + .25rem);
+    color: #6c757d;
+}
+.block-select2 .select2-container--bootstrap4 .select2-selection {
+    border: 2px solid dodgerblue;
+}
+.block-select2 .select2-container--bootstrap4.select2-container--focus .select2-selection {
+    border: 2px solid dodgerblue;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.block-select2 .select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice {
+    background-color: #ececec;
+    font-weight: bold;
+    padding-right: 5px;
+}
+
 .base-select2 .select2-container .select2-selection--single {
     border: 2px solid dodgerblue;
     border-radius: 0px;
@@ -130,10 +148,39 @@ input.btn-primary::placeholder { /* Most modern browsers support this now. */
     line-height: calc(1.5em + .25rem);
     color: #6c757d;
 }
+.base-select2 .select2-container--bootstrap4 .select2-selection {
+    border: 2px solid dodgerblue;
+    background-color: #007bff;
+}
 .base-select2 .select2-container--bootstrap4.select2-container--focus .select2-selection {
-    border-color: indianred !important;
+    border: 2px solid dodgerblue;
     -webkit-box-shadow: none;
     box-shadow: none;
+}
+.base-select2 .select2-container--bootstrap4 .select2-selection--multiple .select2-search__field {
+    color: white;
+    background-color: #007bff;
+}
+.base-select2 .select2-container--bootstrap4 .select2-search__field::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color: white;
+}
+.base-select2 .select2-container--bootstrap4 .select2-search__field:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color: white;
+   opacity:  1;
+}
+.base-select2 .select2-container--bootstrap4 .select2-search__field::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color: white;
+   opacity: 1;
+}
+.base-select2 .select2-container--bootstrap4 .select2-search__field:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color: white;
+}
+.base-select2 .select2-container--bootstrap4 .select2-search__field::-ms-input-placeholder { /* Microsoft Edge */
+   color: white;
+}
+
+.base-select2 .select2-container--bootstrap4 .select2-search__field::placeholder { /* Most modern browsers support this now. */
+   color: white;
 }
 .base-select2 .select2-container--bootstrap4 .select2-selection__clear {
     float: right;

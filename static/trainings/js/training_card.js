@@ -355,13 +355,13 @@ function load_all_exercises_training(training_id = null, group = null) {
             if (objective.type == 1){
                 $('#block-training-goals select[name="objective_2"]').append(newOption).trigger('change');
             }
-            if (objective.type == 2){
-                $('#block-training-goals select[name="objective_3"]').append(newOption).trigger('change');
-            }
+            // if (objective.type == 2){
+            //     $('#block-training-goals select[name="objective_3"]').append(newOption).trigger('change');
+            // }
         }
         $('#training-main-data #select-training-block').val(null).trigger('change')
         for (const block of data.blocks) {
-            let html_option_text = `<span class="border bg-light px-1">${block.block.name}</span>`
+            let html_option_text = `${block.block.name}`
             newOption = new Option(html_option_text, block.block.id, false, true);
             console.log(newOption)
             newOption = `<option value="${block.block.id}" selected>${html_option_text}</option>`

@@ -40,9 +40,9 @@ $(window).on('load', function (){
 
     create_ajax_select2($('[name="blocks"]'), gettext('Block'), '/trainings/blocks_list/', $(document.body), false, true, 0, true, 3)
 
-    create_ajax_select2($('[name="objective_1"]'), gettext('Objective')+' 1', '/trainings/objectives_list/', $(document.body), false, true, 0, true, 2, {'type': 0})
-    create_ajax_select2($('[name="objective_2"]'), gettext('Objective')+' 2', '/trainings/objectives_list/', $(document.body), false, true, 0, true, 2, {'type': 1})
-    create_ajax_select2($('[name="objective_3"]'), gettext('Objective')+' 3', '/trainings/objectives_list/', $(document.body), false, true, 0, true, 2, {'type': 2})
+    create_ajax_select2($('[name="objective_1"]'), gettext('Main objective'), '/trainings/objectives_list/', $(document.body), false, true, 0, true, 1, {'type': 0})
+    create_ajax_select2($('[name="objective_2"]'), gettext('Add. objectives'), '/trainings/objectives_list/', $(document.body), false, true, 0, true, 3, {'type': 1})
+    //create_ajax_select2($('[name="objective_3"]'), gettext('Objective')+' 3', '/trainings/objectives_list/', $(document.body), false, true, 0, true, 2, {'type': 2})
 
     $('#block-training-goals select').on('change', function () {
         resize_trainings_block()
@@ -190,10 +190,10 @@ $(window).on('load', function (){
             for (let i = 0; i < objective_2.length; i++) {
                 objectives.push({"training": id, "objective": objective_2[i], "type": 1})
             }
-            let objective_3 = $('#block-training-goals select[name="objective_3"]').val()
-            for (let i = 0; i < objective_3.length; i++) {
-                objectives.push({"training": id, "objective": objective_3[i], "type": 2})
-            }
+            // let objective_3 = $('#block-training-goals select[name="objective_3"]').val()
+            // for (let i = 0; i < objective_3.length; i++) {
+            //     objectives.push({"training": id, "objective": objective_3[i], "type": 2})
+            // }
             console.log(objectives)
             if (objectives.length != 0){
                 let items = {'items': JSON.stringify(objectives)}
