@@ -6,7 +6,8 @@ let analytics_table_options = {
     dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
     "<'row'<'col-sm-12'tr>>" +
     "<'row'<'col-sm-12 col-md-5'><'col-sm-12 col-md-7'p>>",
-    scrollY: "73vh",
+    scrollX: true,
+    scrollY: "100vh",
     scrollCollapse: true,
     serverSide: false,
     processing: false,
@@ -30,7 +31,8 @@ let analytics_blocks_table_options = {
     dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
     "<'row'<'col-sm-12'tr>>" +
     "<'row'<'col-sm-12 col-md-5'><'col-sm-12 col-md-7'p>>",
-    scrollY: "73vh",
+    scrollX: true,
+    scrollY: "100vh",
     scrollCollapse: true,
     serverSide: false,
     processing: false,

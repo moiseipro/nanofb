@@ -9,6 +9,7 @@ let analytics_table_options = {
     dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
     "<'row'<'col-sm-12'tr>>" +
     "<'row'<'col-sm-12 col-md-5'><'col-sm-12 col-md-7'p>>",
+    scrollX: true,
     scrollY: "73vh",
     scrollCollapse: true,
     serverSide: false,
@@ -32,6 +33,7 @@ let analytics_by_folders_table_options = {
     dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
     "<'row'<'col-sm-12'tr>>" +
     "<'row'<'col-sm-12 col-md-5'><'col-sm-12 col-md-7'p>>",
+    scrollX: true,
     scrollY: "73vh",
     scrollCollapse: true,
     serverSide: false,
@@ -55,6 +57,7 @@ let analytics_by_folders_full_table_options = {
     dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
     "<'row'<'col-sm-12'tr>>" +
     "<'row'<'col-sm-12 col-md-5'><'col-sm-12 col-md-7'p>>",
+    scrollX: true,
     scrollY: "73vh",
     scrollCollapse: true,
     serverSide: false,
@@ -80,6 +83,7 @@ let analytics_blocks_table_options = {
     dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
     "<'row'<'col-sm-12'tr>>" +
     "<'row'<'col-sm-12 col-md-5'><'col-sm-12 col-md-7'p>>",
+    scrollX: true,
     scrollY: "73vh",
     scrollCollapse: true,
     serverSide: false,
@@ -821,10 +825,23 @@ $(function() {
         });
     });
 
+    $(window).on('resize', () => {
+        setTimeout(() => {
+            try {
+                analytics_table.columns.adjust().draw();
+            } catch(e) {}
+            try {
+                analytics_blocks_table.columns.adjust().draw();
+            } catch(e) {}
+        }, 250);
+    });
     $('#toggle_btn').on('click', (e) => {
         setTimeout(() => {
             try {
                 analytics_table.columns.adjust().draw();
+            } catch(e) {}
+            try {
+                analytics_blocks_table.columns.adjust().draw();
             } catch(e) {}
         }, 500);
     });
@@ -834,6 +851,9 @@ $(function() {
         setTimeout(() => {
             try {
                 analytics_table.columns.adjust().draw();
+            } catch(e) {}
+            try {
+                analytics_blocks_table.columns.adjust().draw();
             } catch(e) {}
         }, 500);
     }, 500);
