@@ -70,8 +70,8 @@
                         </div>
                         {% endif %}
                         {% if perms.trainings.change_clubtrainingblocks or perms.trainings.change_usertrainingblocks %}
-                        <div class="row">
-                            <div class="col-12 my-1 px-0">
+                        <div class="row block-select2">
+                            <div class="col-12 my-2 px-0">
                                 <select id="select-training-block" name="blocks" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-multiple="true" data-maximumSelectionLength="3" disabled></select>
                             </div>
                         </div>
@@ -84,9 +84,9 @@
                             <div class="col-12 px-0 my-1 text-center training-objective_2">
                                 <select name="objective_2" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-multiple="true" data-maximumSelectionLength="2" disabled></select>
                             </div>
-                            <div class="col-12 px-0 my-1 text-center training-objective_3">
-                                <select name="objective_3" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-multiple="true" data-maximumSelectionLength="2" disabled></select>
-                            </div>
+{#                            <div class="col-12 px-0 my-1 text-center training-objective_3">#}
+{#                                <select name="objective_3" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-multiple="true" data-maximumSelectionLength="2" disabled></select>#}
+{#                            </div>#}
                         </div>
                         {% endif %}
                     </div>

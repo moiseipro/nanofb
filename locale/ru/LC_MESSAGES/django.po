@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-20 13:30+0300\n"
+"POT-Creation-Date: 2024-03-21 13:14+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2687,18 +2687,14 @@ msgid "Filters"
 msgstr "Фильтры"
 
 #: .\events\templates\events\base_events.html:126
-#: .\events\templates\events\base_events.html:129
-#: .\events\templates\events\base_events.html:132
 #: .\events\templates\events\base_events.html:154
+msgid "Main objective"
+msgstr "Главная задача"
+
+#: .\events\templates\events\base_events.html:129
 #: .\events\templates\events\base_events.html:157
-#: .\events\templates\events\base_events.html:160
-#: .\events\templates\events\lite_events.html:120
-#: .\events\templates\events\lite_events.html:123
-#: .\shared\templates\shared\base_shared_training.html:52
-#: .\shared\templates\shared\base_shared_training.html:57
-#: .\shared\templates\shared\base_shared_training.html:63
-msgid "Objective"
-msgstr "Задача"
+msgid "Add. objectives"
+msgstr "Доп. задачи"
 
 #: .\events\templates\events\base_events.html:140
 msgid "M.D."
@@ -2776,6 +2772,14 @@ msgstr "Видео выбранного события"
 #: .\events\templates\events\lite_events.html:75
 msgid "Download presentation"
 msgstr "Скачать презентацию"
+
+#: .\events\templates\events\lite_events.html:120
+#: .\events\templates\events\lite_events.html:123
+#: .\shared\templates\shared\base_shared_training.html:52
+#: .\shared\templates\shared\base_shared_training.html:57
+#: .\shared\templates\shared\base_shared_training.html:63
+msgid "Objective"
+msgstr "Задача"
 
 #: .\events\templates\events\lite_events.html:126
 msgid "Load"
@@ -5098,11 +5102,6 @@ msgstr "Анимация"
 #~| msgid "Objective in training"
 #~ msgid "Objective key in training"
 #~ msgstr "Задача тренировки"
-
-#, fuzzy
-#~| msgid "objective"
-#~ msgid "objectives"
-#~ msgstr "задача"
 
 #, fuzzy
 #~| msgid "Objective in training"

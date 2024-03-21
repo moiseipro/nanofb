@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-19 14:45+0300\n"
+"POT-Creation-Date: 2024-03-21 13:15+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -268,28 +268,15 @@ msgstr "М.Ц."
 msgid "Block"
 msgstr "Блок"
 
-#: .\events\static\events\js\events.js:688
-#: .\events\static\events\js\events.js:689
-#: .\events\static\events\js\events.js:690 .\static\events\js\events.js:688
-#: .\static\events\js\events.js:689 .\static\events\js\events.js:690
-msgid "Objective block"
-msgstr "Блок задачи"
-
 #: .\events\static\events\js\events.js:692
-#: .\events\static\events\js\events.js:693
-#: .\events\static\events\js\events.js:694 .\static\events\js\events.js:692
-#: .\static\events\js\events.js:693 .\static\events\js\events.js:694
-#: .\static\trainings\js\action_objectives.js:17
-#: .\static\trainings\js\action_objectives.js:21
-#: .\static\trainings\js\training.js:43 .\static\trainings\js\training.js:44
-#: .\static\trainings\js\training.js:45
-#: .\trainings\static\trainings\js\action_objectives.js:17
-#: .\trainings\static\trainings\js\action_objectives.js:21
 #: .\trainings\static\trainings\js\training.js:43
+msgid "Main objective"
+msgstr "Главная задача"
+
+#: .\events\static\events\js\events.js:693
 #: .\trainings\static\trainings\js\training.js:44
-#: .\trainings\static\trainings\js\training.js:45
-msgid "Objective"
-msgstr "Задача"
+msgid "Add. objectives"
+msgstr "Доп. задачи"
 
 #: .\events\static\events\js\events.js:991 .\static\events\js\events.js:991
 msgid "Copy"
@@ -1031,6 +1018,22 @@ msgstr "Применить действие \""
 #: .\static\events\base_events.js:239
 msgid "Event action \""
 msgstr "Действие с событием \""
+
+#: .\static\events\js\events.js:688 .\static\events\js\events.js:689
+#: .\static\events\js\events.js:690
+msgid "Objective block"
+msgstr "Блок задачи"
+
+#: .\static\events\js\events.js:692 .\static\events\js\events.js:693
+#: .\static\events\js\events.js:694
+#: .\static\trainings\js\action_objectives.js:17
+#: .\static\trainings\js\action_objectives.js:21
+#: .\static\trainings\js\training.js:43 .\static\trainings\js\training.js:44
+#: .\static\trainings\js\training.js:45
+#: .\trainings\static\trainings\js\action_objectives.js:17
+#: .\trainings\static\trainings\js\action_objectives.js:21
+msgid "Objective"
+msgstr "Задача"
 
 #: .\static\trainings\js\action_blocks.js:17
 #: .\static\trainings\js\action_blocks.js:21
