@@ -689,6 +689,9 @@ $(function() {
     } else {
         $('table#players').find('.player-row[data-archive="1"]').addClass('d-none');
     }
+    $('table#players').find('.player-row:visible').each((ind, elem) => {
+        $(elem).find('.pl-num').text(ind+1);
+    });
 
     // Change Team
     let cTeam = $('#select-team').find('option[selected=""]').text();
@@ -755,7 +758,7 @@ $(function() {
     RenderPlayerOne();
     let pId = sessionStorage.getItem("selectedPlayer");
     if (pId) {
-        $('table#players').find(`.player-row[data-id="${pId}"]`).click();
+        $('table#players').find(`.player-row[data-id="${pId}"]:visible`).click();
         sessionStorage.removeItem("selectedPlayer");
     }
 
@@ -848,7 +851,8 @@ $(function() {
                     swal("Готово", "Игрок успешно создан / изменён.", "success")
                     .then((value) => {
                         $('.page-loader-wrapper').fadeIn();
-                        window.location.href = `player?id=${selectedRowId}`;
+                        sessionStorage.setItem("selectedPlayer", selectedRowId);
+                        window.location.href = `player?`;
                     });
                 } else {
                     swal("Ошибка", `При создании / изменении игрока произошла ошибка (${res.err}).`, "error");
