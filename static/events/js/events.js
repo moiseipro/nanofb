@@ -136,7 +136,7 @@ $(window).on('load', function (){
 
         if($(event.target).is('.event-select')) {
             select_obj = $(event.target)
-        } else if ($(event.target).is('td') || $(event.target).is('.event-info')) {
+        } else if ($(event.target).is('td') || $(event.target).is('.event-row-info')) {
             select_obj = $(event.target).closest('.hasEvent').find('.event-select:first')
         }
 
@@ -145,8 +145,8 @@ $(window).on('load', function (){
             Cookies.remove('event_id')
             $('.hasEvent').removeClass('selected')
             $('.event-select').removeClass('selected')
-            $('.event-info').addClass('d-none')
-            $('.event-info').filter(function( index, element ) {
+            $('.event-row-info').addClass('d-none')
+            $('.event-row-info').filter(function( index, element ) {
                 return $(element).attr('data-id') == '';
             }).removeClass('d-none')
             $('.training-card-objective').addClass('d-none')
@@ -177,14 +177,14 @@ $(window).on('load', function (){
             events.find('.event-select').filter(function( index, element ) {
                 return $(element).attr('data-id') == data_id;
             }).addClass('selected')
-            $('.event-info').addClass('d-none')
-            $('.event-info').filter(function( index, element ) {
+            $('.event-row-info').addClass('d-none')
+            $('.event-row-info').filter(function( index, element ) {
                 return $(element).attr('data-id') == '';
             }).removeClass('d-none')
-            events.find('.event-info').filter(function( index, element ) {
+            events.find('.event-row-info').filter(function( index, element ) {
                 return $(element).attr('data-id') == data_id;
             }).removeClass('d-none')
-            events.find('.event-info').filter(function( index, element ) {
+            events.find('.event-row-info').filter(function( index, element ) {
                 return $(element).attr('data-id') == '';
             }).addClass('d-none')
             //$('.hasEvent[data-value="' + data_id + '"]').addClass('selected')

@@ -181,23 +181,23 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                 }
 
                                 count_player+=`
-                                    <div class="col px-0 d-none event-info" data-id="${event.training.event_id}">
+                                    <div class="col px-0 d-none event-row-info" data-id="${event.training.event_id}">
                                         ${player}
                                     </div>
                                 `
                                 count_goalkeeper+=`
-                                    <div class="col px-0 d-none event-info" data-id="${event.training.event_id}">
+                                    <div class="col px-0 d-none event-row-info" data-id="${event.training.event_id}">
                                         ${goalkeeper}
                                     </div>
                                 `
                             })
                             count_player+=`
-                                <div class="col px-0 event-info" data-id="">
+                                <div class="col px-0 event-row-info" data-id="">
                                     ${all_players}
                                 </div>
                             `
                             count_goalkeeper+=`
-                                <div class="col px-0 event-info" data-id="">
+                                <div class="col px-0 event-row-info" data-id="">
                                     ${all_goalkeeper}
                                 </div>
                             `
