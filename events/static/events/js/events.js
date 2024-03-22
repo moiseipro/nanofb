@@ -295,6 +295,7 @@ $(window).on('load', function (){
                         }
                     }
                     $('#block-event-info .event-info').html(html_scheme)
+                    resize_events_table();
                 } else {
                     $('.training-card-objective').addClass('d-none')
                 }
