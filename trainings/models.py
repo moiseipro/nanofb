@@ -194,6 +194,10 @@ class UserTraining(AbstractTraining):
             (
                 "analytics_usertraining",
                 _('Access to the section "Analytics" for UserTraining')
+            ),
+            (
+                "individual_usertraining",
+                _('Access to the individual training mark for the user')
             )
         ]
 
@@ -238,6 +242,10 @@ class ClubTraining(AbstractTraining):
             (
                 "analytics_clubtraining",
                 _('Access to the section "Analytics" for ClubTraining')
+            ),
+            (
+                "individual_clubtraining",
+                _('Access to the individual training mark for the club')
             )
         ]
 

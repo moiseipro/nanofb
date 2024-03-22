@@ -435,16 +435,16 @@ class BlockListApiView(APIView):
             words = search.split()
             query_obj = reduce(
                 lambda a, b: a & b,
-                (Q(name__contains=term) for term in words),
+                (Q(name__icontains=term) for term in words),
             )
             query_obj_many = reduce(
                 lambda a, b: a & b,
-                (Q(block__name__contains=term) for term in words),
+                (Q(block__name__icontains=term) for term in words),
             )
             print(query_obj)
         else:
-            query_obj = (Q(name__contains=search))
-            query_obj_many = (Q(block__name__contains=search))
+            query_obj = (Q(name__icontains=search))
+            query_obj_many = (Q(block__name__icontains=search))
 
         if request.user.club_id is not None:
             season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
@@ -544,20 +544,20 @@ class ObjectivesListApiView(APIView):
             words = search.split()
             query_obj = reduce(
                 lambda a, b: a & b,
-                (Q(name__contains=term) | Q(short_name__contains=term) for term in words),
+                (Q(name__icontains=term) | Q(short_name__icontains=term) for term in words),
             )
             query_obj_many = reduce(
                 lambda a, b: a & b,
-                (Q(objective__name__contains=term) | Q(objective__short_name__contains=term) for term in words),
+                (Q(objective__name__icontains=term) | Q(objective__short_name__icontains=term) for term in words),
             )
             print(query_obj)
         else:
-            query_obj = (Q(name__contains=search) | Q(short_name__contains=search))
-            query_obj_many = (Q(objective__name__contains=search) | Q(objective__short_name__contains=search))
+            query_obj = (Q(name__icontains=search) | Q(short_name__icontains=search))
+            query_obj_many = (Q(objective__name__icontains=search) | Q(objective__short_name__icontains=search))
 
         if len(block) > 1:
-            query_obj &=Q(short_name__contains=block[int(type)])
-            query_obj_many &= Q(objective__short_name__contains=block[int(type)])
+            query_obj &=Q(short_name__icontains=block[int(type)])
+            query_obj_many &= Q(objective__short_name__icontains=block[int(type)])
 
         if request.user.club_id is not None:
             season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)

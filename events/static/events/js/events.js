@@ -130,18 +130,25 @@ $(window).on('load', function (){
         console.log(event.target)
 
         let this_obj = $(this)
-        let select_obj = $(event.target)
+        let select_obj = ''
+
+        console.log($(event.target))
 
         if($(event.target).is('.event-select')) {
             select_obj = $(event.target)
-        } else if($(event.target).is('td')){
-            select_obj = $(event.target).parent().find('.event-select:first')
+        } else if ($(event.target).is('td') || $(event.target).is('.event-info')) {
+            select_obj = $(event.target).closest('.hasEvent').find('.event-select:first')
         }
 
+        if (select_obj == '') return ;
         if (this_obj.hasClass('selected') && select_obj.hasClass('selected')) {
             Cookies.remove('event_id')
             $('.hasEvent').removeClass('selected')
             $('.event-select').removeClass('selected')
+            $('.event-info').addClass('d-none')
+            $('.event-info').filter(function( index, element ) {
+                return $(element).attr('data-id') == '';
+            }).removeClass('d-none')
             $('.training-card-objective').addClass('d-none')
             $('#block-event-info .event-info').html('')
             $('#training-video-modal input[name="video_href"]').val('')
@@ -154,6 +161,7 @@ $(window).on('load', function (){
             Cookies.set('event_id', data_id, { expires: 1 })
             $('.hasEvent').removeClass('selected')
             $('.event-select').removeClass('selected')
+
             let events = $('.hasEvent').filter(function( index, element ) {
 
                 let values = $(element).attr('data-value').split(',')
@@ -164,10 +172,21 @@ $(window).on('load', function (){
                 console.log(values + data_id + hasID)
                 return hasID;
             })
+
             events.addClass('selected')
             events.find('.event-select').filter(function( index, element ) {
                 return $(element).attr('data-id') == data_id;
             }).addClass('selected')
+            $('.event-info').addClass('d-none')
+            $('.event-info').filter(function( index, element ) {
+                return $(element).attr('data-id') == '';
+            }).removeClass('d-none')
+            events.find('.event-info').filter(function( index, element ) {
+                return $(element).attr('data-id') == data_id;
+            }).removeClass('d-none')
+            events.find('.event-info').filter(function( index, element ) {
+                return $(element).attr('data-id') == '';
+            }).addClass('d-none')
             //$('.hasEvent[data-value="' + data_id + '"]').addClass('selected')
             ajax_event_action('GET', null, 'view event', data_id).then(function (data) {
                 let html_scheme = ``
@@ -176,9 +195,23 @@ $(window).on('load', function (){
                     $('.training-card-objective').removeClass('d-none')
                     $('#training-video-modal input[name="video_href"]').val(data.training.video_href)
                     $('#goal-event-view').val(data.training.goal)
-                    $('#objective_1-event-view').val(data.training.objective_1)
-                    $('#objective_2-event-view').val(data.training.objective_2)
-                    $('#objective_3-event-view').val(data.training.objective_3)
+                    let objective_type_1 = '', objective_type_2 = ''
+                    for (const objective of data.training.objectives) {
+                        if (objective.type == 0){
+                            objective_type_1 += (objective_type_1 != '' ? ', ' : '') + objective.objective.name;
+                        } else if(objective.type == 1){
+                            objective_type_2 += (objective_type_2 != '' ? ', ' : '') + objective.objective.name;
+                        }
+                    }
+                    $('#objective_1-training-view').text(objective_type_1)
+                    $('#objective_2-training-view').text(objective_type_2)
+                    let blocks = ''
+                    for (const block of data.training.blocks) {
+                        blocks += (blocks != '' ? ', ' : '') + block.block.name;
+                    }
+                    $('#training-block-view').text(blocks)
+
+                    //$('#objective_3-event-view').val(data.training.objective_3)
                     $('#load-event-view').val(data.training.load_type)
                     if (data.training.exercises_info.length > 0) {
                         let exercises = data.training.exercises_info

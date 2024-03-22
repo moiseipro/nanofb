@@ -148,6 +148,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                     break;
                                 }
                             }
+                            let all_players = 0, all_goalkeeper = 0;
                             $.each(merged_events, function( index, event ) {
                                 event_id.push(event['id'])
                                 merged_btn += `
@@ -160,8 +161,10 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                     $.each(event.training.protocol_info, function( index, value ) {
                                         if(value.status==null) {
                                             player++;
+                                            all_players++;
                                             if(value.player_info.card != null && value.player_info.card.is_goalkeeper){
                                                 goalkeeper++;
+                                                all_goalkeeper++;
                                             }
                                         }
                                     });
@@ -169,23 +172,35 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                     if(event.training.players_count != null && Object.keys(event.training.players_count).length>0){
                                         //console.log(event.training.players_count[0])
                                         player = event.training.players_count[0]
+                                        all_players += event.training.players_count[0]
                                     }
                                     if(event.training.goalkeepers_count != null && Object.keys(event.training.goalkeepers_count).length>0){
                                         goalkeeper = event.training.goalkeepers_count[0]
+                                        all_goalkeeper += event.training.goalkeepers_count[0]
                                     }
                                 }
 
                                 count_player+=`
-                                    <div class="col px-0 ${index+1!=merged_events.length ? 'border-right' : ''} ${merged_events.length > 1 ? 'group' : ''}" data-group="${merged_events.length > 1 ? (index+1) : ''}">
+                                    <div class="col px-0 d-none event-info" data-id="${event.training.event_id}">
                                         ${player}
                                     </div>
                                 `
                                 count_goalkeeper+=`
-                                    <div class="col px-0 ${index+1!=merged_events.length ? 'border-right' : ''} ${merged_events.length > 1 ? 'group' : ''}" data-group="${merged_events.length > 1 ? (index+1) : ''}">
+                                    <div class="col px-0 d-none event-info" data-id="${event.training.event_id}">
                                         ${goalkeeper}
                                     </div>
                                 `
                             })
+                            count_player+=`
+                                <div class="col px-0 event-info" data-id="">
+                                    ${all_players}
+                                </div>
+                            `
+                            count_goalkeeper+=`
+                                <div class="col px-0 event-info" data-id="">
+                                    ${all_goalkeeper}
+                                </div>
+                            `
 
 
                             td_html += `
