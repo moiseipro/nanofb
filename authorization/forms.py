@@ -100,14 +100,14 @@ class NewUserPersonalForm(forms.Form):
             'class': 'form-control form-control-sm'
         })
     )
-    license = forms.CharField(
-        required=False,
-        label=False,
-        widget=forms.TextInput(attrs={
-            'class': 'form-control form-control-md',
-            'placeholder': _('License'),
-            'autocomplete': 'off',
-        }))
+    # license = forms.CharField(
+    #     required=False,
+    #     label=False,
+    #     widget=forms.TextInput(attrs={
+    #         'class': 'form-control form-control-md',
+    #         'placeholder': _('License'),
+    #         'autocomplete': 'off',
+    #     }))
     license_date = forms.DateField(
         required=False,
         label=False,
@@ -137,9 +137,9 @@ class NewUserPersonalForm(forms.Form):
                 Column('city', css_class='form-group col-md-12 mb-0'),
                 Column('date_birthsday', css_class='form-group col-md-6 mb-0'),
                 Column('phone', css_class='form-group col-md-6 mb-0'),
-                Column('trainer_license', css_class='form-group col-md-4 mb-0'),
-                Column('license', css_class='form-group col-md-4 mb-0'),
-                Column('license_date', css_class='form-group col-md-4 mb-0'),
+                Column('trainer_license', css_class='form-group col-md-6 mb-0'),
+                #Column('license', css_class='form-group col-md-4 mb-0'),
+                Column('license_date', css_class='form-group col-md-6 mb-0'),
                 css_class='form-row'
             ),
 

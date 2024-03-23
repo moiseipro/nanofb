@@ -118,7 +118,6 @@ class AbstractTeam(AbstractReference):
         help_text=_('U key no more than 10 characters'),
         null=True,
         blank=True
-
     )
     ref_team_status = models.ForeignKey(
         TeamStatus,

@@ -34,13 +34,13 @@ class CreateTeamForm(forms.ModelForm):
 
     class Meta:
         model = UserTeam
-        fields = ['name', 'age_key', 'u_key', 'ref_team_status']
+        fields = ['name'] #, 'age_key', 'u_key', 'ref_team_status'
         labels = {
             'name': _('Team title'),
             #'short_name': _('Team short name'),
-            'age_key': _('Year of birth'),
-            'u_key': _('Age U'),
-            'ref_team_status': _('Team status'),
+            #'age_key': _('Year of birth'),
+            #'u_key': _('Age U'),
+            #'ref_team_status': _('Team status'),
         }
         help_texts = {
             'name': None,
@@ -52,21 +52,21 @@ class CreateSeasonForm(forms.ModelForm):
     helper.add_input(Submit('submit', _('Save'), css_class='w-100 btn btn-lg btn-primary save mt-3'))
     helper.form_method = 'POST'
 
-    short_name = forms.CharField(
-        required=False,
-        label=_('Season short name')
-    )
+    # short_name = forms.CharField(
+    #     required=False,
+    #     label=_('Season short name')
+    # )
 
     class Meta:
         model = UserSeason
-        fields = ['name', 'short_name', 'date_with', 'date_by']
+        fields = ['name', 'date_with', 'date_by'] #, 'short_name'
         widgets = {
             'date_with': date_with_input_widget,
             'date_by': date_by_input_widget
         }
         labels = {
             'name': _('Season title'),
-            'short_name': _('Season short name'),
+            #'short_name': _('Season short name'),
             'date_with': _('Season start date'),
             'date_by': _('End of season date'),
         }
