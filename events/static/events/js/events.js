@@ -198,18 +198,18 @@ $(window).on('load', function (){
                     let objective_type_1 = '', objective_type_2 = ''
                     for (const objective of data.training.objectives) {
                         if (objective.type == 0){
-                            objective_type_1 += (objective_type_1 != '' ? ', ' : '') + objective.objective.name;
+                            objective_type_1 += `<div class="font-weight-bold border px-1">${objective.objective.name}</div>`;
                         } else if(objective.type == 1){
-                            objective_type_2 += (objective_type_2 != '' ? ', ' : '') + objective.objective.name;
+                            objective_type_2 += `<div class="font-weight-bold border px-1">${objective.objective.name}</div>`;
                         }
                     }
-                    $('#objective_1-training-view').text(objective_type_1)
-                    $('#objective_2-training-view').text(objective_type_2)
+                    $('#objective_1-training-view').html(objective_type_1)
+                    $('#objective_2-training-view').html(objective_type_2)
                     let blocks = ''
                     for (const block of data.training.blocks) {
-                        blocks += (blocks != '' ? ', ' : '') + block.block.name;
+                        blocks += `<div class="font-weight-bold border px-1">${block.block.name}</div>`;
                     }
-                    $('#training-block-view').text(blocks)
+                    $('#training-block-view').html(blocks)
 
                     //$('#objective_3-event-view').val(data.training.objective_3)
                     $('#load-event-view').val(data.training.load_type)
@@ -825,6 +825,7 @@ function local_filters_events() {
     //     let data_objective_block = this_obj.attr('data-objective-block')
     //     return objective_block!='' && !data_objective_block.match('\\b' + objective_block + '\\b');
     // }).hide()
+    resize_events_table()
 }
 
 function clear_filters_events() {

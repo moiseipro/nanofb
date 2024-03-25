@@ -116,7 +116,7 @@ function select2CountTemplate(state) {
     var $state = ''
     if(typeof state.short != 'undefined'){
         $state = $(`
-            <div class="text-dark w-auto text-center" title="${state.text}"><span class="border bg-light px-1">${state.text}</span> <span class="float-right">${state.count ? '('+state.count+')':''}</span></div>
+            <div class="text-dark w-auto" title="${state.text}"><span class="border bg-light px-1">${state.text}</span> <span class="float-right">${state.count ? '('+state.count+')':''}</span></div>
         `);
     } else {
         $state = $(`
@@ -132,11 +132,11 @@ function select2BaseSelectedTemplate(state) {
     var $state = ''
     if(typeof state.short != 'undefined'){
         $state = $(`
-            <div class="text-truncate w-auto text-center" title="${state.text}"><span class="border bg-light px-1">${state.text}</span></div>
+            <div class="w-auto" title="${state.text}"><span class="border bg-light px-1">${state.text}</span></div>
         `);
     } else {
         $state = $(`
-            <div class="text-truncate" title="${state.text}"> ${state.text}</div>
+            <div class="" title="${state.text}"> ${state.text}</div>
         `);
     }
 

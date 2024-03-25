@@ -38,10 +38,10 @@ $(window).on('load', function (){
         });
     })
 
-    create_ajax_select2($('[name="blocks"]'), gettext('Block'), '/trainings/blocks_list/', $(document.body), false, true, 0, true, 3)
+    create_ajax_select2($('[name="blocks"]'), gettext('Block'), '/trainings/blocks_list/', $(document.body), false, true, 0, true, 4)
 
-    create_ajax_select2($('[name="objective_1"]'), gettext('Main objective'), '/trainings/objectives_list/', $(document.body), false, true, 0, true, 1, {'type': 0})
-    create_ajax_select2($('[name="objective_2"]'), gettext('Add. objectives'), '/trainings/objectives_list/', $(document.body), false, true, 0, true, 3, {'type': 1})
+    create_ajax_select2($('[name="objective_1"]'), gettext('Main objective'), '/trainings/objectives_list/', $(document.body), false, true, 0, true, 4, {'type': 0})
+    create_ajax_select2($('[name="objective_2"]'), gettext('Add. objectives'), '/trainings/objectives_list/', $(document.body), false, true, 0, true, 4, {'type': 1})
     //create_ajax_select2($('[name="objective_3"]'), gettext('Objective')+' 3', '/trainings/objectives_list/', $(document.body), false, true, 0, true, 2, {'type': 2})
 
     $('#block-training-goals select').on('change', function () {
