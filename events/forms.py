@@ -50,7 +50,9 @@ time_event_input_widget = forms.TimeInput(attrs={
 
 EVENT_TYPES =(
     ("", '---'),
-    ("1", _('Training')),
+    ("1", _('Training') + ' A'),
+    ("4", _('Training') + ' B'),
+    ("5", _('Trainings A and B')),
     ("2", _('Unofficial match')),
     ("3", _('Official match')),
 

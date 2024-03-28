@@ -44,6 +44,15 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-6 border border-white bg-lightgray text-black text-uppercase text-left text-truncate">{% trans "Group" %}</div>
+                            <div class="col-6 px-0 border-bottom border-dark bg-disabled text-center team-group">
+                                <select name="group" class="form-control form-control-sm text-center pt-0 edit-input" style="height: 25px !important;" disabled>
+                                    <option value="0">{% trans 'Group' %} A</option>
+                                    <option value="1">{% trans 'Group' %} B</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-6 border border-white bg-lightgray text-black text-uppercase text-left text-truncate">{% trans "Number of players" %}</div>
                             <div class="col-6 px-0 border-bottom border-dark bg-light text-center training-players">
                                 <input type="text" name="players_count" class="form-control form-control-sm rounded-0 py-0 h-auto text-center {% if request.resolver_match.url_name == "view_lite_training" %}edit-input{% endif %}" value="" autocomplete="off" disabled>

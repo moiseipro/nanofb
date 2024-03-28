@@ -174,6 +174,7 @@ $(window).on('load', function (){
         training_data['block'] = $('#training-main-data select[name="block"]').val()
         training_data['block_short_key'] = $('#training-main-data select[name="block_key"]').val()
 
+        training_data['group'] = $('#training-main-data select[name="group"]').val()
         training_data['video_href'] = $('#training-video-modal input[name="video_href"]').val()
 
         training_data['players_count'] = JSON.stringify(players_count)

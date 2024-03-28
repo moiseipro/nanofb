@@ -111,6 +111,11 @@ class AbstractTraining(models.Model):
         help_text=_('Favorites training'),
         default=0
     )
+    group = models.SmallIntegerField(
+        verbose_name=_('Group'),
+        help_text=_('Training group'),
+        default=0
+    )
     is_personal = models.BooleanField(
         verbose_name=_('personal training'),
         help_text=_('Is it a personal training'),
