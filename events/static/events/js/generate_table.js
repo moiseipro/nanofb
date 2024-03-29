@@ -153,7 +153,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                 event_id.push(event['id'])
                                 merged_btn += `
                                 <div class="col px-1">
-                                    <button href="/trainings/view/${event.training.event_id}" class="btn btn-sm btn-block ${merged_events.length > 1 ? 'btn-info' : 'btn-info'} py-0 event-select" data-id="${event.training.event_id}">${merged_events.length > 1 ? gettext('Group')+' '+(event.training.group == 0 ? 'A' : 'B') : gettext('Training') + ' ' + (event.training.group == 0 ? 'A' : 'B') +' '+(num_tr == 2 ? '2' : '')}</button>
+                                    <button href="/trainings/view/${event.training.event_id}" class="btn btn-sm btn-block ${merged_events.length > 1 ? 'btn-info' : 'btn-info'} py-0 event-select" data-id="${event.training.event_id}">${merged_events.length > 1 ? gettext('Group')+' '+(index+1) : gettext('Training') +' '+(num_tr == 2 ? '2' : '')}</button>
                                 </div>
                                 `
                                 let player = 0, goalkeeper = 0;

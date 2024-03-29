@@ -438,22 +438,23 @@ class EventViewSet(viewsets.ModelViewSet):
             team = UserTeam.objects.get(pk=self.request.session['team'])
         if 'event_type' in self.request.data and ('1' in self.request.data['event_type'] or '4' in self.request.data['event_type']):
             if self.request.user.club_id is not None:
-                tr_query = ClubEvent.objects.filter(club_id=self.request.user.club_id, date__date=cur_date,
+                tr_query = ClubEvent.objects.values('date').filter(club_id=self.request.user.club_id, date__date=cur_date,
                                                     clubtraining__team_id=team)
 
             else:
-                tr_query = UserEvent.objects.filter(user_id=user, date__date=cur_date,
+                tr_query = UserEvent.objects.values('date').filter(user_id=user, date__date=cur_date,
                                                     usertraining__team_id=team)
             count_tr = tr_query.count()
             if self.request.data['event_type'] == '1':
                 group = 0
             else:
                 group = 1
-            print(count_tr)
             if count_tr < 3:
                 count_group_tr = tr_query.filter(date__date=cur_date, date__hour=cur_time.hour, date__minute=cur_time.minute).count()
                 print(count_tr)
-                if count_tr < 2 | count_group_tr > 1 & count_group_tr < 2:
+                print(count_group_tr)
+                print(count_tr < 3 and count_group_tr >= 0 and count_group_tr < 2)
+                if count_tr < 2 or (count_tr < 3 and count_group_tr > 0 and count_group_tr < 2):
                     if self.request.user.club_id is not None:
                         event = serializer.save(user_id=user, club_id=self.request.user.club_id)
                         new_training = ClubTraining.objects.create(team_id=team, event_id=event, group=group)

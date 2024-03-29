@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-28 14:16+0300\n"
+"POT-Creation-Date: 2024-03-29 12:12+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -810,7 +810,7 @@ msgid ""
 msgstr ""
 
 #: .\Lib\site-packages\django\db\models\fields\__init__.py:2382
-#: .\events\forms.py:123 .\events\forms.py:166
+#: .\events\forms.py:122 .\events\forms.py:165
 #: .\shared\templates\shared\base_shared_training.html:23
 #: .\trainings\templates\trainings\print_training.html:28
 #: .\trainings\templates\trainings\training_card.html:30
@@ -2391,7 +2391,7 @@ msgid "Edit"
 msgstr "Редактировать"
 
 #: .\clubs\templates\clubs\modules\management_clubs.html:15
-#: .\events\forms.py:96 .\events\templates\events\forms\microcycle_tab.html:44
+#: .\events\forms.py:95 .\events\templates\events\forms\microcycle_tab.html:44
 #: .\exercises\templates\exercises\base_folders.html:139
 #: .\exercises\templates\exercises\base_folders.html:159
 #: .\exercises\templates\exercises\base_folders.html:183
@@ -2471,41 +2471,41 @@ msgstr "Ошибка генерации пароля!"
 msgid "Events"
 msgstr "События"
 
-#: .\events\forms.py:53 .\events\forms.py:54
+#: .\events\forms.py:53
 msgid "Training"
 msgstr "Тренировка"
 
-#: .\events\forms.py:55
-msgid "Trainings A and B"
-msgstr "Тренировки A и B"
+#: .\events\forms.py:54
+msgid "Trainings (two group)"
+msgstr "Тренировки (две группы)"
 
-#: .\events\forms.py:56
+#: .\events\forms.py:55
 msgid "Unofficial match"
 msgstr "Неофициальный матч"
 
-#: .\events\forms.py:57
+#: .\events\forms.py:56
 msgid "Official match"
 msgstr "Официальный матч"
 
-#: .\events\forms.py:77 .\events\models.py:96
+#: .\events\forms.py:76 .\events\models.py:96
 #: .\events\templates\events\base_events.html:146
 #: .\events\templates\events\forms\microcycle_tab.html:27
 #: .\events\templates\events\forms\microcycle_tab.html:59
 msgid "M.C."
 msgstr "М.Ц."
 
-#: .\events\forms.py:78 .\events\templates\events\forms\microcycle_tab.html:35
+#: .\events\forms.py:77 .\events\templates\events\forms\microcycle_tab.html:35
 #: .\events\templates\events\forms\microcycle_tab.html:60
 msgid "Date with"
 msgstr "Дата с"
 
-#: .\events\forms.py:79 .\events\templates\events\forms\microcycle_tab.html:39
+#: .\events\forms.py:78 .\events\templates\events\forms\microcycle_tab.html:39
 #: .\events\templates\events\forms\microcycle_tab.html:61
 msgid "Date by"
 msgstr "Дата по"
 
-#: .\events\forms.py:95 .\events\forms.py:106 .\events\forms.py:140
-#: .\events\forms.py:154 .\events\forms.py:185
+#: .\events\forms.py:94 .\events\forms.py:105 .\events\forms.py:139
+#: .\events\forms.py:153 .\events\forms.py:184
 #: .\events\templates\events\forms\microcycle_tab.html:43
 #: .\notifications\templates\notifications\forms\notification_create.html:6
 #: .\references\forms.py:27 .\references\forms.py:52
@@ -2518,11 +2518,11 @@ msgstr "Дата по"
 msgid "Save"
 msgstr "Сохранить"
 
-#: .\events\forms.py:111
+#: .\events\forms.py:110
 msgid "Event type"
 msgstr "Тип события"
 
-#: .\events\forms.py:117 .\events\forms.py:160
+#: .\events\forms.py:116 .\events\forms.py:159
 #: .\shared\templates\shared\base_shared_training.html:20
 #: .\trainings\templates\trainings\print_training.html:25
 #: .\trainings\templates\trainings\training_card.html:24
@@ -3949,9 +3949,6 @@ msgid "Favorites training"
 msgstr "Избранная тренировка"
 
 #: .\trainings\models.py:115
-#: .\trainings\templates\trainings\training_card.html:47
-#: .\trainings\templates\trainings\training_card.html:50
-#: .\trainings\templates\trainings\training_card.html:51
 #: .\trainings\templates\trainings\view_training.html:58 .\users\models.py:266
 #: .\users\templates\users\forms\edit-user-form.html:48
 #: .\users\templates\users\modules\user_table.html:13
@@ -5049,8 +5046,8 @@ msgstr "Видео / Анимация"
 msgid "Animation"
 msgstr "Анимация"
 
-#~ msgid "Trainings for two groups"
-#~ msgstr "Тренировки для 2 групп"
+#~ msgid "Trainings A and B"
+#~ msgstr "Тренировки A и B"
 
 #~ msgid "Year of birth"
 #~ msgstr "Год рождения"
