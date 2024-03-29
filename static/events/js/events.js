@@ -373,13 +373,13 @@ $(window).on('load', function (){
         $('#event-link').html('');
         if (send_data['event_type'] == '5'){
             send_data['event_type'] = '1'
-            ajax_event_action(method, send_data, 'create', cur_edit_data ? cur_edit_data.id : 0).then(function( data ) {
+            ajax_event_action(method, send_data, 'create').then(function( data ) { //cur_edit_data ? cur_edit_data.id : 0
                 console.log(data)
                 if('status' in data && data['status'] == 'event_type_full') return;
                 let link = 'training' in data && data.training != null ? '/trainings/view/'+data.id : 'match' in data && data.match != null && !isLite ? '/matches/match?id='+data.id : ''
                 $('#event-link').append(`<a href="${link}" class="btn btn-warning btn-block">${gettext('Go to the created event group A')}</a>`)
                 send_data['event_type'] = '4'
-                ajax_event_action(method, send_data, 'create', cur_edit_data ? cur_edit_data.id : 0).then(function( data ) {
+                ajax_event_action(method, send_data, 'create').then(function( data ) { //cur_edit_data ? cur_edit_data.id : 0
                     console.log(data)
                     if('status' in data && data['status'] == 'event_type_full') return;
                     let link = 'training' in data && data.training != null ? '/trainings/view/'+data.id : 'match' in data && data.match != null && !isLite ? '/matches/match?id='+data.id : ''
@@ -389,7 +389,7 @@ $(window).on('load', function (){
                 })
             })
         } else {
-            ajax_event_action($(this).attr('method'), send_data, 'create', cur_edit_data ? cur_edit_data.id : 0).then(function( data ) {
+            ajax_event_action($(this).attr('method'), send_data, 'create').then(function( data ) { //cur_edit_data ? cur_edit_data.id : 0
                 console.log(data)
                 if('status' in data && data['status'] == 'event_type_full') return;
                 let link = 'training' in data && data.training != null ? '/trainings/view/'+data.id : 'match' in data && data.match != null && !isLite ? '/matches/match?id='+data.id : ''
