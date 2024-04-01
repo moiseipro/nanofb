@@ -33,6 +33,9 @@
                                     <button id="favourites-event-filter" data-filter="0" title="{% trans 'Filter by favorites' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-star-o" aria-hidden="true"></i></button>
                                 </div>
                                 <div class="col px-1">
+                                    <button id="show-training-event-filter" data-filter="0" title="{% trans "Show/hide training filters" %}" class="btn btn-block btn-lightgray btn-md font-weight-bold">{% trans 'F.' %}</button>
+                                </div>
+                                <div class="col px-1">
                                     <button id="filled-event-filter" data-filter="0" title="{% trans "Filtering of training events" %}" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
                                 </div>
 {#                                <div class="col px-1">#}
@@ -106,23 +109,14 @@
                     <div id="events-content" class="row border-top mt-1">
                         <div class="col-4">
                             <div id="filters-row" class="row pt-1 d-none">
-                                <div class="col-11 pl-0 pr-1">
-                                    <nav class="nav nav-pills nav-justified">
-                                        <a class="nav-link btn-sm py-1 active" data-toggle="pill" href="#view-training-info" role="tab">{% trans 'View' %}</a>
-                                        <a class="nav-link btn-sm py-1" data-toggle="pill" href="#filters-training-info" role="tab">{% trans 'Filters' %}</a>
-                                    </nav>
-                                </div>
-                                <div class="col-1 pl-1 pr-0">
-                                    <button class="btn btn-sm btn-secondary btn-block"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
-                                </div>
                                 <div class="col-12 pb-1" style="border-bottom: 2px solid black">
                                     <div class="tab-content pt-1" id="pills-tabContent">
                                         <div class="tab-pane fade show active" id="view-training-info" role="tabpanel" aria-labelledby="pills-home-tab">
                                             <div class="row mc-function">
-                                                <div class="col-12 px-0">
+                                                <div class="col-12 px-0" style="border-bottom: 2px solid black;">
                                                     <div id="training-block-view" type="text" class="border"></div>
                                                 </div>
-                                                <div class="col-12 px-0">
+                                                <div class="col-12 px-0" style="border-bottom: 2px solid black;">
                                                     <div id="objective_1-training-view" type="text" class="border"></div>
                                                 </div>
                                                 <div class="col-12 px-0">

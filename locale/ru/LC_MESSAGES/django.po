@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-29 12:12+0300\n"
+"POT-Creation-Date: 2024-04-01 14:57+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2488,7 +2488,7 @@ msgid "Official match"
 msgstr "Официальный матч"
 
 #: .\events\forms.py:76 .\events\models.py:96
-#: .\events\templates\events\base_events.html:146
+#: .\events\templates\events\base_events.html:140
 #: .\events\templates\events\forms\microcycle_tab.html:27
 #: .\events\templates\events\forms\microcycle_tab.html:59
 msgid "M.C."
@@ -2579,7 +2579,7 @@ msgstr "Короткий ключ"
 msgid "Microcycle short code"
 msgstr "Кородкий код микроцикла"
 
-#: .\events\models.py:110 .\events\templates\events\base_events.html:150
+#: .\events\models.py:110 .\events\templates\events\base_events.html:144
 #: .\trainings\models.py:180 .\trainings\models.py:229
 msgid "Block"
 msgstr "Блок"
@@ -2629,74 +2629,72 @@ msgid "Filter by favorites"
 msgstr "Фильтр по избранным"
 
 #: .\events\templates\events\base_events.html:36
+msgid "Show/hide training filters"
+msgstr "Показать/скрыть фильтры тренировок"
+
+#: .\events\templates\events\base_events.html:36
+msgid "F."
+msgstr ""
+
+#: .\events\templates\events\base_events.html:39
 #: .\events\templates\events\lite_events.html:33
 msgid "Filtering of training events"
 msgstr "Фильтрация событий тренировки"
 
-#: .\events\templates\events\base_events.html:42
+#: .\events\templates\events\base_events.html:45
 #: .\events\templates\events\lite_events.html:39
 msgid "Resetting all filtering and calendar"
 msgstr "Сброс всей фильтрации и календаря"
 
-#: .\events\templates\events\base_events.html:52
+#: .\events\templates\events\base_events.html:55
 #: .\events\templates\events\lite_events.html:49
 msgid "Show/Hide calendar"
 msgstr "Показать/скрыть календарь"
 
-#: .\events\templates\events\base_events.html:52
+#: .\events\templates\events\base_events.html:55
 #: .\events\templates\events\lite_events.html:49
 msgid "Calendar"
 msgstr "Календарь"
 
-#: .\events\templates\events\base_events.html:75 .\trainings\models.py:151
+#: .\events\templates\events\base_events.html:78 .\trainings\models.py:151
 msgid "Quick list of players"
 msgstr "Упрощенный список игроков"
 
-#: .\events\templates\events\base_events.html:80
+#: .\events\templates\events\base_events.html:83
 #: .\events\templates\events\lite_events.html:69
 #: .\shared\templates\shared\modules\shared_training_modal.html:7
 msgid "Share training"
 msgstr "Поделиться тренировкой"
 
-#: .\events\templates\events\base_events.html:83
+#: .\events\templates\events\base_events.html:86
 #: .\events\templates\events\lite_events.html:72
 msgid "Copy event"
 msgstr "Копировать событие"
 
-#: .\events\templates\events\base_events.html:89
+#: .\events\templates\events\base_events.html:92
 #: .\events\templates\events\lite_events.html:78
 msgid "Print"
 msgstr "Печать"
 
-#: .\events\templates\events\base_events.html:92
+#: .\events\templates\events\base_events.html:95
 #: .\events\templates\events\lite_events.html:81
 msgid "Delete event"
 msgstr "Удалить событие"
 
-#: .\events\templates\events\base_events.html:111
-msgid "View"
-msgstr "Просмотр"
-
-#: .\events\templates\events\base_events.html:112
-#: .\users\templates\users\base_clients.html:39
-#: .\users\templates\users\modules\user_table_settings.html:8
-msgid "Filters"
-msgstr "Фильтры"
-
-#: .\events\templates\events\base_events.html:140
+#: .\events\templates\events\base_events.html:134
 msgid "M.D."
 msgstr "М.Д."
 
-#: .\events\templates\events\base_events.html:143
+#: .\events\templates\events\base_events.html:137
 #: .\events\templates\events\lite_events.html:101
 msgid "MC days"
 msgstr "Дни МЦ"
 
-#: .\events\templates\events\base_events.html:154
+#: .\events\templates\events\base_events.html:148
 msgid "Main objective"
 msgstr "Главная задача"
 
-#: .\events\templates\events\base_events.html:157
+#: .\events\templates\events\base_events.html:151
 msgid "Add. objectives"
 msgstr "Доп. задачи"
 
@@ -4444,6 +4442,11 @@ msgstr "Не активно"
 msgid "Clients Management"
 msgstr "Управление клиентами"
 
+#: .\users\templates\users\base_clients.html:39
+#: .\users\templates\users\modules\user_table_settings.html:8
+msgid "Filters"
+msgstr "Фильтры"
+
 #: .\users\templates\users\base_profile.html:47
 msgid "User card"
 msgstr "Карточка пользователя"
@@ -5045,6 +5048,9 @@ msgstr "Видео / Анимация"
 #: .\video\templates\video\video_card.html:141
 msgid "Animation"
 msgstr "Анимация"
+
+#~ msgid "View"
+#~ msgstr "Просмотр"
 
 #~ msgid "Trainings A and B"
 #~ msgstr "Тренировки A и B"

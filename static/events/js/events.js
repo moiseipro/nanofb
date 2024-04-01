@@ -610,6 +610,23 @@ $(window).on('load', function (){
         $(this).attr('data-filter', cur_state)
         local_filters_events()
     })
+    //Показать/скрыть фильтрацию тренировок
+    $('#show-training-event-filter').on('click', function () {
+        let cur_state = parseInt($(this).attr('data-filter'))
+        if (cur_state>0) {
+            cur_state = 0
+            $('#view-training-info').addClass("show active")
+            $('#filters-training-info').removeClass('show active')
+            $(this).removeClass('active')
+        } else {
+            cur_state += 1
+            $('#view-training-info').removeClass("show active")
+            $('#filters-training-info').addClass('show active')
+            $(this).addClass('active')
+        }
+        $(this).attr('data-filter', cur_state)
+
+    })
     //Фильтрация событий с видео
     $('#video-event-filter').on('click', function () {
         let cur_state = parseInt($(this).attr('data-filter'))

@@ -116,11 +116,11 @@ a.matchButton1 {
 }
 .objective-filters-block .select2-container .select2-selection--single {
     border: 2px solid dodgerblue;
-    background-color: #007bff;
+    /*background-color: #007bff;*/
 }
-.objective-filters-block .select2-container .select2-selection__placeholder{
-    color: white;
-}
+/*.objective-filters-block .select2-container .select2-selection__placeholder{*/
+/*    color: white;*/
+/*}*/
 .mc-function .select2-container--bootstrap4 .select2-selection--single {
     height: auto !important;
 }
