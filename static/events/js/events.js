@@ -625,7 +625,7 @@ $(window).on('load', function (){
             $(this).addClass('active')
         }
         $(this).attr('data-filter', cur_state)
-
+        resize_events_table()
     })
     //Фильтрация событий с видео
     $('#video-event-filter').on('click', function () {
@@ -754,14 +754,14 @@ $(window).on('load', function (){
 
 
     create_ajax_select2($('#microcycle-name-filter'), gettext('M.C.'), '/events/microcycle_name_list', $(document.body), false, true, -1)
-    create_ajax_select2($('#training-block-filter'), gettext('Block'), '/trainings/blocks_list/', $(document.body), false, true, -1)
+    create_ajax_select2($('#training-block-filter'), gettext('Blocks'), '/trainings/blocks_list/', $(document.body), false, true, -1, true, 4)
 
     //create_ajax_select2($('#objective_1-block-filter'), gettext('Objective block'), '/trainings/objective_block', $(document.body))
     //create_ajax_select2($('#objective_2-block-filter'), gettext('Objective block'), '/trainings/objective_block', $(document.body))
     //create_ajax_select2($('#objective_3-block-filter'), gettext('Objective block'), '/trainings/objective_block', $(document.body))
 
-    create_ajax_select2($('#objective_1-event-view'), gettext('Main objective'), '/trainings/objectives_list/', $(document.body), false, true, 1, false, 0, {'type': 0})
-    create_ajax_select2($('#objective_2-event-view'), gettext('Add. objectives'), '/trainings/objectives_list/', $(document.body), false, true, 1, false, 0, {'type': 1})
+    create_ajax_select2($('#objective_1-event-view'), gettext('Objectives'), '/trainings/objectives_list/', $(document.body), false, true, 1, true, 4, {'type': 0})
+    //create_ajax_select2($('#objective_2-event-view'), gettext('Add. objectives'), '/trainings/objectives_list/', $(document.body), false, true, 1, false, 0, {'type': 1})
     //create_ajax_select2($('#objective_3-event-view'), gettext('Objective')+' 3', '/trainings/objectives_list/', $(document.body), false, true, 1, false, 0, {'type': 2})
 
     create_ajax_select2($('#select-microcycle-name'), '', '/events/microcycle_name_list', $('#references-modal'))
@@ -801,12 +801,13 @@ function local_filters_events() {
     let filled_val = $('#filled-event-filter').attr('data-filter') ? $('#filled-event-filter').attr('data-filter') : 0
     let video_val = $('#video-event-filter').attr('data-filter') ? $('#video-event-filter').attr('data-filter') : 0
     let objective_1_val = $('#objective_1-event-view').val() ? $('#objective_1-event-view').val() : ''
-    let objective_2_val = $('#objective_2-event-view').val() ? $('#objective_2-event-view').val() : ''
-    let objective_3_val = $('#objective_3-event-view').val() ? $('#objective_3-event-view').val() : ''
-    let objective_block = select_custom_search =
-        ($('#objective_1-block-filter').val() ? $('#objective_1-block-filter').val(): '') + ',' +
-        ($('#objective_2-block-filter').val() ? $('#objective_2-block-filter').val() : '') + ',' +
-        ($('#objective_3-block-filter').val() ? $('#objective_3-block-filter').val() : '');
+    // let objective_2_val = $('#objective_2-event-view').val() ? $('#objective_2-event-view').val() : ''
+    // let objective_3_val = $('#objective_3-event-view').val() ? $('#objective_3-event-view').val() : ''
+    //let objective_block = $('#objective_1-block-filter').val() ? $('#objective_1-block-filter').val(): ''
+        // select_custom_search =
+        // ($('#objective_1-block-filter').val() ? $('#objective_1-block-filter').val(): '') + ',' +
+        // ($('#objective_2-block-filter').val() ? $('#objective_2-block-filter').val() : '') + ',' +
+        // ($('#objective_3-block-filter').val() ? $('#objective_3-block-filter').val() : '');
     console.log(objective_block)
     $('#events tbody tr').show()
 
@@ -817,9 +818,9 @@ function local_filters_events() {
     }).hide()
     $('#events tbody tr').filter(function( index ) {
         let this_obj = $(this)
-        let data_block = this_obj.attr('data-block')
-        console.log(block_val + " : " + data_block)
-        return block_val!='' && !data_block.match('\\b' + block_val + '\\b');
+        let data_block = this_obj.attr('data-block').split(',')
+        //console.log(block_val + " : " + data_block)
+        return block_val!='' && !contains(data_block, block_val);
     }).hide()
     $('#events tbody tr').filter(function( index ) {
         let this_obj = $(this)
@@ -844,25 +845,37 @@ function local_filters_events() {
     }).hide()
     $('#events tbody tr').filter(function( index ) {
         let this_obj = $(this)
-        let data_objective_1 = this_obj.attr('data-objective_1')
-        return objective_1_val!='' && !data_objective_1.match('\\b' + objective_1_val + '\\b');
-    }).hide()
-    $('#events tbody tr').filter(function( index ) {
-        let this_obj = $(this)
-        let data_objective_2 = this_obj.attr('data-objective_2')
-        return objective_2_val!='' && !data_objective_2.match('\\b' + objective_2_val + '\\b');
-    }).hide()
-    $('#events tbody tr').filter(function( index ) {
-        let this_obj = $(this)
-        let data_objective_3 = this_obj.attr('data-objective_3')
-        return objective_3_val!='' && !data_objective_3.match('\\b' + objective_3_val + '\\b');
+        let data_objective_1 = this_obj.attr('data-objective_1').split(',')
+        return objective_1_val!='' && !contains(data_objective_1, objective_1_val);
     }).hide()
     // $('#events tbody tr').filter(function( index ) {
     //     let this_obj = $(this)
-    //     let data_objective_block = this_obj.attr('data-objective-block')
-    //     return objective_block!='' && !data_objective_block.match('\\b' + objective_block + '\\b');
+    //     let data_objective_2 = this_obj.attr('data-objective_2')
+    //     return objective_2_val!='' && !data_objective_2.match('\\b' + objective_2_val + '\\b');
+    // }).hide()
+    // $('#events tbody tr').filter(function( index ) {
+    //     let this_obj = $(this)
+    //     let data_objective_3 = this_obj.attr('data-objective_3')
+    //     return objective_3_val!='' && !data_objective_3.match('\\b' + objective_3_val + '\\b');
     // }).hide()
     resize_events_table()
+}
+
+function contains(where, what){
+    if (!what) {
+        return true;
+    }
+    for (var i = 0; i < what.length; i++) {
+        for (var j = 0; j < where.length; j++) {
+             if (what[i] == where[j]) {
+                 break;
+             }
+             if (j === where.length - 1) {
+                 return false;
+             }
+        }
+    }
+    return true;
 }
 
 function clear_filters_events() {

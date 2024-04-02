@@ -536,7 +536,7 @@ class ObjectivesListApiView(APIView):
 
     def get(self, request, format=None):
         search = request.GET.get('search', '')
-        type = request.GET.get('type', '')
+        #type = request.GET.get('type', '')
         block = request.GET.get('custom_search', '').split(',')
         print(block)
 
@@ -555,9 +555,9 @@ class ObjectivesListApiView(APIView):
             query_obj = (Q(name__icontains=search) | Q(short_name__icontains=search))
             query_obj_many = (Q(objective__name__icontains=search) | Q(objective__short_name__icontains=search))
 
-        if len(block) > 1:
-            query_obj &=Q(short_name__icontains=block[int(type)])
-            query_obj_many &= Q(objective__short_name__icontains=block[int(type)])
+        # if len(block) > 1:
+        #     query_obj &=Q(short_name__icontains=block[int(type)])
+        #     query_obj_many &= Q(objective__short_name__icontains=block[int(type)])
 
         if request.user.club_id is not None:
             season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
@@ -565,7 +565,7 @@ class ObjectivesListApiView(APIView):
                 filter(Q(club=request.user.club_id)).filter(query_obj). \
                 order_by('short_name', 'name')
             queryset_many = ClubTrainingObjectiveMany.objects. \
-                filter(Q(type=type) &
+                filter(#Q(type=type) &
                        Q(training__event_id__date__gte=season[0].date_with) &
                        Q(training__event_id__date__lte=season[0].date_by) &
                        Q(objective__club=request.user.club_id)).filter(query_obj_many). \
@@ -576,7 +576,7 @@ class ObjectivesListApiView(APIView):
                 filter(Q(user=request.user)).filter(query_obj). \
                 order_by('short_name', 'name')
             queryset_many = UserTrainingObjectiveMany.objects. \
-                filter(Q(type=type) &
+                filter(#Q(type=type) &
                        Q(training__event_id__date__gte=season[0].date_with) &
                        Q(training__event_id__date__lte=season[0].date_by) &
                        Q(objective__user=request.user)).filter(query_obj_many). \

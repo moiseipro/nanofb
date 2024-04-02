@@ -172,7 +172,7 @@ $(window).on('load', function (){
         training_data['inventory'] = JSON.stringify(inventory)
         training_data['additional'] = JSON.stringify(additionals)
         training_data['block'] = $('#training-main-data select[name="block"]').val()
-        training_data['block_short_key'] = $('#training-main-data select[name="block_key"]').val()
+        //training_data['block_short_key'] = $('#training-main-data select[name="block_key"]').val()
 
         training_data['group'] = $('#training-main-data select[name="group"]').val()
         training_data['video_href'] = $('#training-video-modal input[name="video_href"]').val()
@@ -196,31 +196,20 @@ $(window).on('load', function (){
             //     objectives.push({"training": id, "objective": objective_3[i], "type": 2})
             // }
             console.log(objectives)
-            if (objectives.length != 0){
-                let items = {'items': JSON.stringify(objectives)}
+            let items = {'items': JSON.stringify(objectives)}
 
-                ajax_training_action("POST", items, 'change objective', id, 'add_objective').then(function (data) {
-                    let blocks = []
-                    let blocks_val = $('#training-main-data select[name="blocks"]').val()
-                    for (let i = 0; i < blocks_val.length; i++) {
-                        blocks.push({"training": id, "block": blocks_val[i]})
-                    }
-                    if (blocks.length != 0){
-                        console.log(blocks)
-                        let items = {'items': JSON.stringify(blocks)}
-                        ajax_training_action("POST", items, 'change block', id, 'add_block').then(function (data) {
-                            show_training_card(id)
-                        })
-                    } else {
-                        show_training_card(id)
-                    }
-
+            ajax_training_action("POST", items, 'change objective', id, 'add_objective').then(function (data) {
+                let blocks = []
+                let blocks_val = $('#training-main-data select[name="blocks"]').val()
+                for (let i = 0; i < blocks_val.length; i++) {
+                    blocks.push({"training": id, "block": blocks_val[i]})
+                }
+                console.log(blocks)
+                let items = {'items': JSON.stringify(blocks)}
+                ajax_training_action("POST", items, 'change block', id, 'add_block').then(function (data) {
+                    show_training_card(id)
                 })
-            } else {
-                show_training_card(id)
-            }
-
-
+            })
         })
     })
 

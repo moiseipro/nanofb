@@ -111,10 +111,10 @@ a.matchButton1 {
     overflow-y: auto;
 }
 
-.mc-function .select2-container .select2-selection--single {
+.mc-function .select2-container .select2-selection {
     border: 2px solid dodgerblue;
 }
-.objective-filters-block .select2-container .select2-selection--single {
+.objective-filters-block .select2-container .select2-selection {
     border: 2px solid dodgerblue;
     /*background-color: #007bff;*/
 }
@@ -136,7 +136,7 @@ a.matchButton1 {
     -webkit-box-shadow: none;
     box-shadow: none;
 }
-.mc-function .select2-container--bootstrap4 .select2-selection__clear {
+.mc-function .select2-container--bootstrap4 .select2-selection--single .select2-selection__clear {
     float: right;
     width: 1.1em;
     height: 1.1em;
@@ -148,6 +148,20 @@ a.matchButton1 {
     color: #f8f9fa;
     background-color: #c8c8c8;
     border-radius: 100%;
+}
+
+.mc-function .select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice {
+    background-color: #ececec;
+    font-weight: bold;
+    padding-right: 5px;
+    float: none;
+}
+
+.mc-function .select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice__remove {
+    color: black;
+}
+.mc-function .select2-container--bootstrap4 .select2-selection--multiple .select2-selection__rendered {
+    white-space: normal;
 }
 
 .form-div .form-group{
