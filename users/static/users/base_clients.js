@@ -128,6 +128,7 @@ $(window).on("load", function () {
         let personal = $('#edit-user-form').serializeArray()
         let has_demo = false;
         let is_super = false;
+        let is_active = false;
         for (const data of personal) {
             if (data.name=='is_demo_mode'){
                 has_demo = true;
@@ -135,12 +136,18 @@ $(window).on("load", function () {
             if (data.name=='is_superuser'){
                 is_super = true;
             }
+            if (data.name=='is_active'){
+                is_active = true;
+            }
         }
         if (!has_demo){
             personal.push({name:'is_demo_mode', value:'off'})
         }
         if (!is_super){
             personal.push({name:'is_superuser', value:'off'})
+        }
+        if (!is_active){
+            personal.push({name:'is_active', value:'off'})
         }
         let send_data = personal
         console.log(send_data);

@@ -12,7 +12,7 @@ function load_user_data(id = -1) {
                 $('#users-table-tab .management-main-block select[name="'+idKey+'"]').val(user[idKey])
             }
 
-            if (idKey == 'is_demo_mode' || idKey == 'is_superuser'){
+            if (idKey == 'is_demo_mode' || idKey == 'is_superuser' || idKey == 'is_active'){
                 $('#users-table-tab .management-main-block input[name="'+idKey+'"]').prop('checked', user[idKey])
             } else {
                 $('#users-table-tab .management-main-block input[name="'+idKey+'"]').val(user[idKey])

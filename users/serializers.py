@@ -81,7 +81,7 @@ class UserAdminEditSerializer(UserEditSerializer):
     class Meta(UserEditSerializer.Meta):
         pass
 
-    Meta.fields += ('registration_to', 'is_demo_mode', 'team_limit', 'player_limit', 'is_superuser', 'group')
+    Meta.fields += ('registration_to', 'is_demo_mode', 'is_active', 'team_limit', 'player_limit', 'is_superuser', 'group')
 
 
 class UserPersonalSerializer(serializers.ModelSerializer):

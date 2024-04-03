@@ -90,6 +90,16 @@
             </div>
         </div>
         {% endif %}
+        {% if user.is_superuser %}
+        <div class="col-sm-12">
+            <div class="form-group row mb-1">
+                <label class="col col-form-label">{% trans 'Active'%}</label>
+                <div class="col">
+                    <input type="checkbox" name="is_active" class="form-control form-control-sm" value="on" autocomplete="off">
+                </div>
+            </div>
+        </div>
+        {% endif %}
         <div class="col-sm-12">
             <div class="form-group row mb-1">
                 <label class="col col-form-label">{% trans 'Registration'%}</label>
