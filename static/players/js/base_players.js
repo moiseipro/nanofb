@@ -289,22 +289,21 @@ function RenderPlayerData(data = null) {
 
 $(function() {
     GeneratePlayersTable("calc(100vh - 200px)");
-
-    $('#playerCard').on('click', (e) => {
-        let selectedRow = players_table.rows({selected: true}).data().toArray()[0];
-        let selectedId = selectedRow ? selectedRow.id : null;
-        if (selectedId) {
-            sessionStorage.setItem("selectedPlayer", `${selectedId}`)
+    
+    $('.b-section').on('click', (e) => {
+        let href = $(e.currentTarget).attr('data-href');
+        if (href == "#") {return;}
+        if (href == "player") {
+            let selectedRow = players_table.rows({selected: true}).data().toArray()[0];
+            let selectedId = selectedRow ? selectedRow.id : null;
+            if (selectedId) {
+                sessionStorage.setItem("selectedPlayer", `${selectedId}`)
+            }
+            sessionStorage.setItem("fromArchive", $('#players').hasClass('archive-table') ? '1' : '0');
         }
-        sessionStorage.setItem("fromArchive", $('#players').hasClass('archive-table') ? '1' : '0');
-        window.location.href = `/players/player`;
+        window.location.href = `/players/${href}`;
     });
-    $('#archivedPlayersList').on('click', (e) => {
-        window.location.href = `/players/archive`;
-    });
-    $('#playersList').on('click', (e) => {
-        window.location.href = `/players`;
-    });
+
 
     // Table columns Settings
     let firstAjaxLoadTable = true;
@@ -330,7 +329,7 @@ $(function() {
         ToggleColumnOrder("down");
     });
     $('#playersTableColsEdit').on('click', '.col-edit', (e) => {
-        $('#playersTableColsEdit').find('input.form-control').prop('disabled', false);
+        $('#playersTableColsEdit').find('input.form-control').prop('disabled', !$('#playersTableColsEdit').find('input.form-control').prop('disabled'));
     });
     $('#playersTableColsEdit').on('click', '.col-add', (e) => {
         let activeElem = $('#playersTableColsEdit').find(`.column-elem.selected`);
