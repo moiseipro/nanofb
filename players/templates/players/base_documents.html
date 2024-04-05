@@ -1,0 +1,187 @@
+{% extends '../base/app_main.html' %}
+{% load static %}
+
+{% block title %}Документы{% endblock %}
+
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'players/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+    <main class="">
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-1">
+                    <div class="card-body p-1">
+                        <div class="card-inside">
+                            <div class="up-block-content">
+                                <div class="row">
+                                    <div class="col-12 btn-group">
+                                        <button type="button" class="btn btn-outline-primary btn-sm b-section" data-href="">
+                                            Команда
+                                        </button>
+                                        <button type="button" class="btn btn-outline-primary btn-sm b-section" data-href="player">
+                                            Карточка игрока
+                                        </button>
+                                        <button type="button" class="btn btn-outline-primary btn-sm b-section" data-href="#">
+                                            Статистика
+                                        </button>
+                                        <button type="button" class="btn btn-outline-primary btn-sm b-section" data-href="#">
+                                            Доп. информация
+                                        </button>
+                                        <button type="button" class="btn btn-success btn-sm b-section" data-href="documents" disabled>
+                                            Документы
+                                        </button>
+                                        <button type="button" class="btn btn-outline-primary btn-sm b-section" data-href="archive">
+                                            Архив
+                                        </button>
+                                        <button type="button" class="btn btn-outline-primary btn-sm">
+                                            <input type="search" class="form-control form-control-sm players-search" placeholder="Поиск" aria-controls="false">
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="row d-flex justify-content-between">
+                                    <div class="col-3 pull-left">
+                                    </div>
+                                    <div class="col-9 pull-right">
+                                        <div class="row d-flex justify-content-end">
+                                            <div class="col-7"></div>
+                                            <div class="col-5 d-flex justify-content-end">
+                                                <select class="form-control form-control-sm mx-1 w-50" autocomplete="off" id="toggleTableColsVisible">
+                                                    <option value="" selected="selected">Показывать всё</option>
+                                                    <option value="none">Показывать незаполненные</option>
+                                                </select>
+                                                {% if perms.players.change_userdocumenttype or perms.players.change_clubdocumenttype %}
+                                                <button type="button" class="btn btn-secondary btn-sm mx-1" id="toggleDocsTypes">
+                                                    Типы документов
+                                                </button>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-12">
+                                    <div class="players-table-container">
+                                        <div class="table-responsive">
+                                            <table id="players" class="table table-sm table-striped table-bordered dataTable" style="width:100%;">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="default">#</th>
+                                                        <th class="default">Фамилия</th>
+                                                        <th class="default">Имя</th>
+                                                        <th class="default">Отчество</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if perms.players.change_userdocumenttype or perms.players.change_clubdocumenttype %}
+        <div class="modal fade" id="documentsTypesModal" tabindex="-1" role="dialog" aria-labelledby="documentsTypesModalLbl" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Типы документов</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                    <div class="modal-body">
+                        <div class="btns-control">
+                            <a href="#" class="badge badge-success col-add" title="Добавить элемент">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                            </a>
+                            <a href="#" class="badge badge-secondary col-edit" title="Вкл. / Откл. редактирование">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </a>
+                            <a href="#" class="badge badge-danger col-delete" title="Удалить элемент">
+                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            </a>
+                            <a href="#" class="badge badge-info col-up" title="Переместить вверх">
+                                <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                            </a>
+                            <a href="#" class="badge badge-info col-down" title="Переместить вниз">
+                                <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        <div class="table-columns">
+                            <table class="table table-sm table-bordered" style="table-layout: fixed;">
+                                <colgroup>
+                                    <col span="1" style="width: 10%;">
+                                    <col span="1" style="width: 90%;">
+                                </colgroup>
+                                <thead>
+                                    <th class="text-center">
+                                    </th>
+                                    <th class="text-center">
+                                        Название
+                                    </th>
+                                </thead>
+                                <tbody class="docs-types-body">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" name="save">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Назад</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="modal fade" id="documentEditModal" tabindex="-1" role="dialog" aria-labelledby="documentEditModalLbl" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Документ. <span class="doc-type"></span></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <h6>Файл:</h6>
+                                <input name="doc" class="form-control-sm" type="file" value="" disabled="">
+                                <a target="_blank" href="#" id="goToDocFile" title="Просмотреть файл" class="btn btn-sm btn-secondary b-link d-none">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </a>
+                                <a target="_blank" href="#" id="downloadDocFile" title="Скачать файл" class="btn btn-sm btn-secondary b-link d-none">
+                                    <i class="fa fa-download" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                            <div class="col-12">
+                                <h6>Примечание:</h6>
+                                <input name="doc_text" class="form-control form-control-sm" type="text" value="" disabled="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        {% if perms.players.change_userplayerdocument or perms.players.change_clubplayerdocument %}
+                        <button type="button" class="btn btn-primary" name="edit">Редактировать</button>
+                        <button type="button" class="btn btn-danger d-none" name="delete">Удалить</button>
+                        <button type="button" class="btn btn-success d-none" name="save">Сохранить</button>
+                        {% endif %}
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Назад</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
+{% block custom_scripts %}
+    <script src="{% static 'players/js/base_documents.js' %}"></script>
+{% endblock %}
