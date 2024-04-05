@@ -85,6 +85,41 @@ def archive_players(request):
     })
 
 
+def documents(request):
+    """
+    Return render page with given template. 
+        If the user is not authorized, then there will be a redirect to the page with authorization.
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :return: Return an HttpResponse whose content is filled with the result of calling django.template.loader.render_to_string() with the passed arguments.
+    Next arguments:\n
+    * 'refs' -> References of Players Section.
+    * 'menu_players' -> Html tag class: "active" for Sidebar.
+    * 'seasons_list' -> List of user's or club's seasons available current user.
+    * 'teams_list' -> List of user's or club's teams available current user.
+    * 'ui_elements' -> List of UI elements registered in icons' system. Check Module.system_icons.views.get_ui_elements(request) for see more.
+    :rtype: [HttpResponse]
+
+    """
+    if not request.user.is_authenticated:
+        return redirect("authorization:login")
+    cur_user = User.objects.filter(email=request.user).only("club_id")
+    if not util_check_access(cur_user[0], {
+        'perms_user': ["players.view_userplayer", "players.view_userplayerdocument"],
+        'perms_club': ["players.view_clubplayer", "players.view_clubplayerdocument"]
+    }):
+        return redirect("users:profile")
+    refs = {}
+    refs = v_api.get_players_refs(request)
+    return render(request, 'players/base_documents.html', {
+        'refs': refs,
+        'menu_players': 'active',
+        'seasons_list': request.seasons_list,
+        'teams_list': request.teams_list,
+        'ui_elements': get_ui_elements(request)
+    })
+
+
 def player(request):
     """
     Return render page with given template. 
@@ -117,9 +152,7 @@ def player(request):
     players = v_api.GET_get_players_json(request, cur_user[0], cur_team, False, False, True)
     refs = {}
     refs = v_api.get_players_refs(request)
-
     # user.hasperms_ -> для проверки прав
-
     return render(request, 'players/base_player.html', {
         'players': players,
         'refs': refs,
@@ -186,6 +219,10 @@ def players_api(request):
         edit_questionnaires_rows_status = 0
         add_questionnaires_rows_status = 0
         delete_questionnaires_rows_status = 0
+        edit_docs_types_status = 0
+        add_docs_types_status = 0
+        delete_docs_types_status = 0
+        edit_player_document_status = 0
         cur_user = User.objects.filter(email=request.user).only("id", "p_version")
         cur_team = -1
         if not cur_user.exists() or cur_user[0].id == None:
@@ -254,6 +291,22 @@ def players_api(request):
             delete_questionnaires_rows_status = int(request.POST.get("delete_questionnaires_rows", 0))
         except:
             pass
+        try:
+            edit_docs_types_status = int(request.POST.get("edit_docs_types", 0))
+        except:
+            pass
+        try:
+            add_docs_types_status = int(request.POST.get("add_docs_types", 0))
+        except:
+            pass
+        try:
+            delete_docs_types_status = int(request.POST.get("delete_docs_types", 0))
+        except:
+            pass
+        try:
+            edit_player_document_status = int(request.POST.get("edit_player_document", 0))
+        except:
+            pass
         if edit_player_status == 1:
             return v_api.POST_edit_player(request, cur_user[0], cur_team)
         elif delete_player_status == 1:
@@ -284,6 +337,14 @@ def players_api(request):
             return v_api.POST_add_delete_questionnaires_rows(request, cur_user[0])
         elif delete_questionnaires_rows_status == 1:
             return v_api.POST_add_delete_questionnaires_rows(request, cur_user[0], False)
+        elif edit_docs_types_status == 1:
+            return v_api.POST_edit_docs_types(request, cur_user[0])
+        elif add_docs_types_status == 1:
+            return v_api.POST_add_delete_docs_types(request, cur_user[0])
+        elif delete_docs_types_status == 1:
+            return v_api.POST_add_delete_docs_types(request, cur_user[0], False)
+        elif edit_player_document_status == 1:
+            return v_api.POST_edit_player_document(request, cur_user[0], cur_team)
         return JsonResponse({"errors": "access_error"}, status=400)
     elif request.method == "GET" and is_ajax:
         get_player_status = 0
@@ -293,6 +354,9 @@ def players_api(request):
         get_players_table_cols_status = 0
         get_characteristics_rows_status = 0
         get_questionnaires_rows_status = 0
+        get_documents_types_status = 0
+        get_players_documents_status = 0
+        get_player_document_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         if not cur_user.exists() or cur_user[0].id == None:
@@ -329,6 +393,18 @@ def players_api(request):
             get_questionnaires_rows_status = int(request.GET.get("get_questionnaires_rows", 0))
         except:
             pass
+        try:
+            get_documents_types_status = int(request.GET.get("get_documents_types", 0))
+        except:
+            pass
+        try:
+            get_players_documents_status = int(request.GET.get("get_players_documents", 0))
+        except:
+            pass
+        try:
+            get_player_document_status = int(request.GET.get("get_player_document", 0))
+        except:
+            pass
         if get_player_status == 1:
             return v_api.GET_get_player(request, cur_user[0], cur_team)
         elif get_players_json_status == 1:
@@ -343,6 +419,12 @@ def players_api(request):
             return v_api.GET_get_characteristics_rows(request, cur_user[0])
         elif get_questionnaires_rows_status == 1:
             return v_api.GET_get_questionnaires_rows(request, cur_user[0])
+        elif get_documents_types_status == 1:
+            return v_api.GET_get_documents_types_status(request, cur_user[0])
+        elif get_players_documents_status == 1:
+            return v_api.GET_get_players_documents(request, cur_user[0], cur_team)
+        elif get_player_document_status == 1:
+            return v_api.GET_get_player_document(request, cur_user[0], cur_team)
         return JsonResponse({"errors": "access_error"}, status=400)
     else:
         return JsonResponse({"errors": "access_error"}, status=400)

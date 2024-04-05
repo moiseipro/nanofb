@@ -90,6 +90,20 @@
 }
 
 
+.type-elem:hover {
+    background-color: rgb(240, 240, 240);
+    border: 2px solid rgb(100, 100, 100) !important;
+}
+.type-elem.parent {
+    background-color: aliceblue;
+}
+.type-elem.selected {
+    background-color: #d4d4d4;
+    color: #5a6268;
+    border: 2px solid rgb(100, 100, 100) !important;
+}
+
+
 .characteristic-elem:hover {
     background-color: rgb(240, 240, 240);
     border: 2px solid rgb(100, 100, 100) !important;
@@ -174,3 +188,7 @@ th.dt-vertical-center, td.dt-vertical-center {
     border: 2px solid rgb(60, 170, 50) !important;
 }
 
+
+.dataTable > tbody > tr > td.doc-cell:hover {
+    background-color: #b9b8b8;
+}

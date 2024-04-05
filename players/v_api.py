@@ -5,6 +5,7 @@ from references.models import UserTeam, ClubTeam
 from players.models import UserPlayer, ClubPlayer, CardSection, PlayerCard, PlayersTableColumns, PlayerRecord
 from players.models import PlayerCharacteristicsRows, PlayerCharacteristicUser, PlayerCharacteristicClub
 from players.models import PlayerQuestionnairesRows, PlayerQuestionnaireUser, PlayerQuestionnaireClub
+from players.models import UserDocumentType, ClubDocumentType, UserPlayerDocument, ClubPlayerDocument
 from references.models import PlayerTeamStatus, PlayerPlayerStatus, PlayerLevel, PlayerPosition, PlayerFoot
 from nanofootball.views import util_check_access
 from datetime import datetime, date, timedelta
@@ -183,7 +184,6 @@ def POST_edit_player(request, cur_user, cur_team):
             c_player = c_player[0]
     if c_player == None:
             return JsonResponse({"err": "Player not found.", "success": False}, status=400)
-    print(request.POST)
     c_player.surname = request.POST.get("data[surname]", "")
     c_player.name = request.POST.get("data[name]", "")
     c_player.patronymic = request.POST.get("data[patronymic]", "")
@@ -923,6 +923,182 @@ def POST_add_delete_questionnaires_rows(request, cur_user, to_add = True):
     return JsonResponse({"data": res_data, "success": True}, status=200)
 
 
+def POST_edit_docs_types(request, cur_user):
+    """
+    Return JSON Response as result on POST operation "Edit documents' types".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
+    post_data = request.POST.get("data", None)
+    try:
+        post_data = json.loads(post_data)
+    except:
+        post_data = None
+    if not post_data:
+        return JsonResponse({"errors": "Can't parse post data"}, status=400)
+    res_data = ""
+    if not util_check_access(cur_user, {
+        'perms_user': ["players.change_userdocumenttype", "players.add_userdocumenttype"], 
+        'perms_club': ["players.change_clubdocumenttype", "players.add_clubdocumenttype"]
+    }):
+        return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    for elem in post_data:
+        f_row = None
+        if request.user.club_id is not None:
+            f_row = ClubDocumentType.objects.filter(id=elem['id'], club=request.user.club_id)
+        else:
+            f_row = UserDocumentType.objects.filter(id=elem['id'], user=cur_user)
+        if f_row != None and f_row.exists() and f_row[0].id != None:
+            f_row = f_row[0]
+            f_row.name = elem['title']
+            f_row.order = elem['order']
+            try:
+                f_row.save()
+                res_data += f'Section with id: [{f_row.id}] is edited successfully.'
+            except Exception as e:
+                res_data += f"Err. Cant edit section with id: [{elem['id']}]."
+    return JsonResponse({"data": res_data, "success": True}, status=200)
+
+
+def POST_add_delete_docs_types(request, cur_user, to_add = True):
+    """
+    Return JSON Response as result on POST operation "Add or delete documents' type".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param to_add: If true then add new characteristic else delete existed by ID.
+    :type to_add: [bool]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
+    doc_id = -1
+    try:
+        doc_id = int(request.POST.get("id", -1))
+    except:
+        pass
+    res_data = ""
+    if not util_check_access(cur_user, {
+        'perms_user': ["players.delete_userdocumenttype", "players.add_userdocumenttype"], 
+        'perms_club': ["players.delete_clubdocumenttype", "players.add_clubdocumenttype"]
+    }):
+        return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    if to_add:
+        new_row = None
+        if request.user.club_id is not None:
+            new_row = ClubDocumentType(club=request.user.club_id)
+        else:
+            new_row = UserDocumentType(user=cur_user)
+        try:
+            new_row.save()
+            res_data += f'New characteristic added.'
+        except:
+            return JsonResponse({"errors": "Can't save new characteristic", "success": False}, status=400)
+    else:
+        found_row = None
+        if request.user.club_id is not None:
+            found_row = ClubDocumentType.objects.filter(id=doc_id, club=request.user.club_id)
+        else:
+            found_row = UserDocumentType.objects.filter(id=doc_id, user=cur_user)
+        if found_row != None and found_row.exists() and found_row[0].id != None:
+            try:
+                found_row.delete()
+            except:
+                return JsonResponse({"errors": "Can't delete characteristic.", "success": False}, status=400) 
+        else:
+            return JsonResponse({"errors": "Can't find characteristic for delete.", "success": False}, status=400)
+    return JsonResponse({"data": res_data, "success": True}, status=200)
+
+
+def POST_edit_player_document(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on POST operation "Editing player's document".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param to_add: If true then add new characteristic else delete existed by ID.
+    :type to_add: [bool]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
+    if not util_check_access(cur_user, {
+        'perms_user': ["players.change_userplayerdocument", "players.add_userplayerdocument", "players.delete_userplayerdocument"], 
+        'perms_club': ["players.change_clubplayerdocument", "players.add_clubplayerdocument", "players.delete_clubplayerdocument"]
+    }):
+        return JsonResponse({"success": False, "err": "Access denied."}, status=400)
+    player_id = -1
+    doc_id = -1
+    doc_type_id = -1
+    to_delete = 0
+    try:
+        player_id = int(request.POST.get("player", -1))
+    except:
+        pass
+    try:
+        doc_id = int(request.POST.get("doc", -1))
+    except:
+        pass
+    try:
+        doc_type_id = int(request.POST.get("doc_type", -1))
+    except:
+        pass
+    try:
+        to_delete = int(request.POST.get("to_delete", 0))
+    except:
+        pass
+    cur_player = None
+    cur_doc_type = None
+    if request.user.club_id is not None:
+        cur_player = ClubPlayer.objects.filter(id=player_id, team=cur_team).first()
+        cur_doc_type = ClubDocumentType.objects.filter(id=doc_type_id, club=request.user.club_id).first()
+    else:
+        cur_player = UserPlayer.objects.filter(id=player_id, user=cur_user, team=cur_team).first()
+        cur_doc_type = UserDocumentType.objects.filter(id=doc_type_id, user=cur_user).first()
+    if cur_player is None or cur_doc_type is None:
+        return JsonResponse({"success": False, "err": "Player or DocType not found."}, status=400)
+    found_doc = None
+    if request.user.club_id is not None:
+        found_doc = ClubPlayerDocument.objects.filter(id=doc_id, player=cur_player, type=cur_doc_type, club=request.user.club_id).first()
+    else:
+        found_doc = UserPlayerDocument.objects.filter(id=doc_id, player=cur_player, type=cur_doc_type, user=cur_user).first()
+    if to_delete != 1:
+        if found_doc is None:
+            if request.user.club_id is not None:
+                c_doc = ClubPlayerDocument(player=cur_player, type=cur_doc_type, club=request.user.club_id, trainer=cur_user)
+            else:
+                c_doc = UserPlayerDocument(player=cur_player, type=cur_doc_type, user=cur_user, trainer=cur_user)
+        else:
+            c_doc = found_doc
+        c_doc.doc_text = request.POST.get("doc_text", "")
+        try:
+            c_doc.doc = request.FILES['doc_file']
+        except:
+            pass
+        try:
+            c_doc.save()
+        except:
+            return JsonResponse({"errors": "Can't save new or edited document", "success": False}, status=400)
+    else:
+        if found_doc:
+            try:
+                found_doc.doc.delete(save=True)
+                found_doc.delete()
+            except:
+                return JsonResponse({"errors": "Can't delete document", "success": False}, status=400)
+    return JsonResponse({"data": None, "success": True}, status=200)
+
+
 
 def GET_get_player(request, cur_user, cur_team):
     """
@@ -1291,3 +1467,126 @@ def GET_get_questionnaires_rows(request, cur_user):
     res_data["questionnaires"] = questionnaires
     return JsonResponse({"data": res_data, "success": True}, status=200)
 
+
+def GET_get_documents_types_status(request, cur_user):
+    """
+    Return JSON Response as result on GET operation "Get documents' types".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
+    res_data = []
+    if request.user.club_id is not None:
+        res_data = ClubDocumentType.objects.filter(club=request.user.club_id)
+    else:
+        res_data = UserDocumentType.objects.filter(user=cur_user)
+    res_data = [entry for entry in res_data.values()]
+    return JsonResponse({"data": res_data, "success": True}, status=200)
+
+
+def GET_get_players_documents(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on GET operation "Get players' documents".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
+    if not util_check_access(cur_user, {
+        'perms_user': ["players.view_userplayerdocument"], 
+        'perms_club': ["players.view_clubplayerdocument"]
+    }):
+        return JsonResponse({"success": False, "err": "Access denied."}, status=400)
+    res_data = []
+    players = None
+    if request.user.club_id is not None:
+        players = ClubPlayer.objects.filter(team=cur_team, is_archive=False)
+    else:
+        players = UserPlayer.objects.filter(user=cur_user, team=cur_team, is_archive=False)
+    if players is not None:
+        for _i, player in enumerate(players):
+            player_docs = {}
+            docs = None
+            if request.user.club_id is not None:
+                docs = ClubPlayerDocument.objects.filter(player=player, club=request.user.club_id)
+            else:
+                docs = UserPlayerDocument.objects.filter(player=player, user=cur_user)
+            for doc in docs:
+                player_docs[doc.type.id] = doc.id
+            res_data.append({
+                'id': player.id,
+                'surname': player.surname,
+                'name': player.name,
+                'patronymic': player.patronymic,
+                'docs': player_docs
+            })
+    return JsonResponse({"data": res_data, "success": True}, status=200)
+
+
+def GET_get_player_document(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on GET operation "Get player's doc".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
+    if not util_check_access(cur_user, {
+        'perms_user': ["players.view_userplayerdocument"], 
+        'perms_club': ["players.view_clubplayerdocument"]
+    }):
+        return JsonResponse({"success": False, "err": "Access denied."}, status=400)
+    player_id = -1
+    doc_id = -1
+    doc_type_id = -1
+    try:
+        player_id = int(request.GET.get("player", -1))
+    except:
+        pass
+    try:
+        doc_id = int(request.GET.get("doc", -1))
+    except:
+        pass
+    try:
+        doc_type_id = int(request.GET.get("doc_type", -1))
+    except:
+        pass
+    cur_player = None
+    cur_doc_type = None
+    if request.user.club_id is not None:
+        cur_player = ClubPlayer.objects.filter(id=player_id, team=cur_team).first()
+        cur_doc_type = ClubDocumentType.objects.filter(id=doc_type_id, club=request.user.club_id).first()
+    else:
+        cur_player = UserPlayer.objects.filter(id=player_id, user=cur_user, team=cur_team).first()
+        cur_doc_type = UserDocumentType.objects.filter(id=doc_type_id, user=cur_user).first()
+    if cur_player is None or cur_doc_type is None:
+        return JsonResponse({"success": False, "err": "Player or DocType not found."}, status=400)
+    found_doc = None
+    if request.user.club_id is not None:
+        found_doc = ClubPlayerDocument.objects.filter(id=doc_id, player=cur_player, type=cur_doc_type, club=request.user.club_id).first()
+    else:
+        found_doc = UserPlayerDocument.objects.filter(id=doc_id, player=cur_player, type=cur_doc_type, user=cur_user).first()
+    if found_doc is not None:
+        elem_dict = model_to_dict(found_doc, exclude=['doc'])
+        doc_url = None
+        try:
+            doc_url = found_doc.doc.path.split('media')[1]
+            doc_url = doc_url.replace('\\', '/')
+        except:
+            pass
+        elem_dict['doc'] = doc_url
+        found_doc = elem_dict
+    return JsonResponse({"data": found_doc, "success": True}, status=200)

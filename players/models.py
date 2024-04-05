@@ -3,10 +3,17 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy as _p
 from django.utils import timezone
+from django.core.exceptions import ValidationError
 from users.models import User
 from clubs.models import Club
 from references.models import UserTeam, ClubTeam
 from references.models import PlayerTeamStatus, PlayerPlayerStatus, PlayerLevel, PlayerPosition, PlayerFoot
+
+
+def file_size(value):
+    limit = 25 * 1024 * 1024
+    if value.size > limit:
+        raise ValidationError('File too large. Size should not exceed 25 MiB.')
 
 
 
@@ -251,4 +258,63 @@ class PlayerQuestionnaireClub(models.Model):
     club = models.ForeignKey(Club, on_delete=models.CASCADE, null=True, blank=True)
     player = models.ForeignKey(ClubPlayer, on_delete=models.CASCADE)
     notes = models.CharField(null=True, blank=True, max_length=255)
+
+
+class AbstractDocumentType(models.Model):
+    date_creation = models.DateField(auto_now_add=True)
+    name = models.CharField(max_length=30)
+    order = models.IntegerField(
+        help_text='Индекс сортировки',
+        default=0
+    )
+
+    objects = models.Manager()
+    class Meta():
+        abstract = True
+        ordering = ['order']
+
+
+class UserDocumentType(AbstractDocumentType):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    class Meta(AbstractDocumentType.Meta):
+        abstract = False
+
+
+class ClubDocumentType(AbstractDocumentType):
+    club = models.ForeignKey(Club, on_delete=models.CASCADE)
+    class Meta(AbstractDocumentType.Meta):
+        abstract = False
+
+
+class AbstractPlayerDocument(models.Model):
+    date_creation = models.DateField(auto_now_add=True)
+    doc_text = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    doc = models.FileField(upload_to='players/docs/uploads', validators=[file_size], null=True, blank=True)
+
+    objects = models.Manager()
+    class Meta:
+        abstract = True
+        ordering = ['date_creation']
+
+
+class UserPlayerDocument(AbstractPlayerDocument):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
+    player = models.ForeignKey(UserPlayer, on_delete=models.CASCADE)
+    trainer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="trainer")
+    type = models.ForeignKey(UserDocumentType, on_delete=models.SET_NULL, null=True, blank=True)
+    class Meta(AbstractPlayerDocument.Meta):
+        abstract = False
+
+
+class ClubPlayerDocument(AbstractPlayerDocument):
+    club = models.ForeignKey(Club, on_delete=models.CASCADE)
+    player = models.ForeignKey(ClubPlayer, on_delete=models.CASCADE)
+    trainer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    type = models.ForeignKey(ClubDocumentType, on_delete=models.SET_NULL, null=True, blank=True)
+    class Meta(AbstractPlayerDocument.Meta):
+        abstract = False
 
