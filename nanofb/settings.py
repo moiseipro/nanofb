@@ -161,7 +161,7 @@ DB_test = {
 }
 
 DATABASES = {
-    'default': DB_test
+    'default': DB_localhost
 }
 
 
