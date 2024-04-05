@@ -173,7 +173,7 @@ class NewUserForm(UserCreationForm):
         label=False,
         widget=forms.PasswordInput(attrs={
             'class': 'form-control form-control-sm',
-            'placeholder': _('Password')
+            'placeholder': _('Create a password')
         }))
     password2 = forms.CharField(
         required=True,

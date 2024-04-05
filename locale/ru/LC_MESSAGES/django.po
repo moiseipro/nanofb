@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-01 14:57+0300\n"
+"POT-Creation-Date: 2024-04-05 12:24+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1908,10 +1908,9 @@ msgstr "Лицензия до"
 msgid "Email"
 msgstr "Электронная почта"
 
-#: .\authorization\forms.py:176 .\clubs\templates\clubs\mail\email.html:13
-#: .\users\templates\users\base_profile.html:50
-msgid "Password"
-msgstr "Пароль"
+#: .\authorization\forms.py:176
+msgid "Create a password"
+msgstr "Придумайте пароль"
 
 #: .\authorization\forms.py:183
 msgid "Password Confirmation"
@@ -2381,6 +2380,11 @@ msgstr "Регистрация на сайте Nanofootball"
 msgid "To log in to the site, use this data."
 msgstr "Чтобы войти на сайт, используйте эти данные."
 
+#: .\clubs\templates\clubs\mail\email.html:13
+#: .\users\templates\users\base_profile.html:50
+msgid "Password"
+msgstr "Пароль"
+
 #: .\clubs\templates\clubs\modules\management_clubs.html:14
 #: .\trainings\templates\trainings\view_lite_training.html:27
 #: .\trainings\templates\trainings\view_training.html:27
@@ -2579,8 +2583,7 @@ msgstr "Короткий ключ"
 msgid "Microcycle short code"
 msgstr "Кородкий код микроцикла"
 
-#: .\events\models.py:110 .\events\templates\events\base_events.html:144
-#: .\trainings\models.py:180 .\trainings\models.py:229
+#: .\events\models.py:110 .\trainings\models.py:180 .\trainings\models.py:229
 msgid "Block"
 msgstr "Блок"
 
@@ -2614,10 +2617,9 @@ msgstr "Дата окончания"
 msgid "End date of the microcycle."
 msgstr "Дата окончания микроцикла"
 
-#: .\events\templates\events\base_events.html:20
-#: .\events\templates\events\lite_events.html:20
-msgid "Microcycle"
-msgstr "Микроциклы"
+#: .\events\templates\events\base_events.html:20 .\references\apps.py:8
+msgid "References"
+msgstr "Справочники"
 
 #: .\events\templates\events\base_events.html:24
 msgid "Open the selected training"
@@ -2690,13 +2692,16 @@ msgstr "М.Д."
 msgid "MC days"
 msgstr "Дни МЦ"
 
-#: .\events\templates\events\base_events.html:148
-msgid "Main objective"
-msgstr "Главная задача"
+#: .\events\templates\events\base_events.html:144
+#, fuzzy
+#| msgid "Block"
+msgid "Blocks"
+msgstr "Блок"
 
-#: .\events\templates\events\base_events.html:151
-msgid "Add. objectives"
-msgstr "Доп. задачи"
+#: .\events\templates\events\base_events.html:148
+#: .\events\templates\events\modules\references_modal.html:25
+msgid "Objectives"
+msgstr "Задачи"
 
 #: .\events\templates\events\forms\create_event.html:7
 msgid "Event Create"
@@ -2750,6 +2755,10 @@ msgstr "Ключ"
 msgid "Days"
 msgstr "Дни"
 
+#: .\events\templates\events\lite_events.html:20
+msgid "Microcycle"
+msgstr "Микроциклы"
+
 #: .\events\templates\events\lite_events.html:24
 msgid "Open the selected exercise"
 msgstr "Открыть выбранное упражнение"
@@ -2781,10 +2790,6 @@ msgstr "Нагрузка"
 #: .\events\templates\events\modules\references_modal.html:21
 msgid "Microcycles"
 msgstr "Микроциклы"
-
-#: .\events\templates\events\modules\references_modal.html:25
-msgid "Objectives"
-msgstr "Задачи"
 
 #: .\events\templates\events\modules\references_modal.html:30
 msgid "Training blocks"
@@ -3398,17 +3403,13 @@ msgstr "Пользователь"
 msgid "Date update"
 msgstr "Дата обновления"
 
-#: .\players\models.py:72
+#: .\players\models.py:79
 msgid "View section <Parents>"
 msgstr ""
 
 #: .\presentation\apps.py:8
 msgid "Presentation"
 msgstr "Презентация"
-
-#: .\references\apps.py:8
-msgid "References"
-msgstr "Справочники"
 
 #: .\references\forms.py:32 .\references\forms.py:39
 msgid "Team title"
@@ -4368,7 +4369,7 @@ msgstr "Дата регистрации"
 msgid "Last login date"
 msgstr "Дата последнего входа"
 
-#: .\users\models.py:259 .\users\templates\users\forms\edit-user-form.html:122
+#: .\users\models.py:259 .\users\templates\users\forms\edit-user-form.html:132
 #: .\users\templates\users\modules\user_table_settings.html:68
 msgid "Distributor"
 msgstr "Дистрибьютор"
@@ -4414,6 +4415,7 @@ msgid "CA"
 msgstr ""
 
 #: .\users\serializers.py:253
+#: .\users\templates\users\forms\edit-user-form.html:96
 msgid "Active"
 msgstr "Активно"
 
@@ -4515,7 +4517,7 @@ msgstr "Срок лицензии"
 
 #: .\users\templates\users\forms\add-user-form.html:128
 #: .\users\templates\users\forms\edit-club-form.html:100
-#: .\users\templates\users\forms\edit-user-form.html:112
+#: .\users\templates\users\forms\edit-user-form.html:122
 #: .\users\templates\users\modules\user_table.html:35
 #: .\users\templates\users\modules\user_table_settings.html:92
 msgid "Access to"
@@ -4529,7 +4531,7 @@ msgid "Setting"
 msgstr "Настройка"
 
 #: .\users\templates\users\forms\edit-club-form.html:91
-#: .\users\templates\users\forms\edit-user-form.html:95
+#: .\users\templates\users\forms\edit-user-form.html:105
 #: .\users\templates\users\modules\club_table.html:11
 #: .\users\templates\users\modules\user_table.html:34
 #: .\users\templates\users\modules\user_table_settings.html:151
@@ -4539,7 +4541,7 @@ msgstr "Регистрация"
 #: .\users\templates\users\forms\edit-club-form.html:108
 #: .\users\templates\users\forms\edit-password-form.html:18
 #: .\users\templates\users\forms\edit-personal-form.html:142
-#: .\users\templates\users\forms\edit-user-form.html:140
+#: .\users\templates\users\forms\edit-user-form.html:150
 msgid "Save Changes"
 msgstr "Сохранить изменения"
 
@@ -4560,7 +4562,7 @@ msgid "If you change your password, you will need to log in again"
 msgstr "Если вы измените свой пароль, вам нужно будет снова войти в систему"
 
 #: .\users\templates\users\forms\edit-user-form.html:32
-#: .\users\templates\users\forms\edit-user-form.html:111
+#: .\users\templates\users\forms\edit-user-form.html:121
 msgid "Setting only for users without a club"
 msgstr "Настройка только для пользователей без клуба"
 
@@ -4573,11 +4575,11 @@ msgstr "Настройка только для пользователей без
 msgid "Main admin"
 msgstr "Главный админ"
 
-#: .\users\templates\users\forms\edit-user-form.html:103
+#: .\users\templates\users\forms\edit-user-form.html:113
 msgid "Last login"
 msgstr "Последний вход"
 
-#: .\users\templates\users\forms\edit-user-form.html:132
+#: .\users\templates\users\forms\edit-user-form.html:142
 msgid "Demo version"
 msgstr "Демо версия"
 
@@ -5048,6 +5050,12 @@ msgstr "Видео / Анимация"
 #: .\video\templates\video\video_card.html:141
 msgid "Animation"
 msgstr "Анимация"
+
+#~ msgid "Main objective"
+#~ msgstr "Главная задача"
+
+#~ msgid "Add. objectives"
+#~ msgstr "Доп. задачи"
 
 #~ msgid "View"
 #~ msgstr "Просмотр"
