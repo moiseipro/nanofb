@@ -423,6 +423,7 @@ $(window).on('load', function (){
     $('#toggle-calendar').on('click', function () {
         if ($(this).hasClass('active')) calendar_active = false;
         else calendar_active = true;
+        Cookies.set('calendar_active', calendar_active, { expires: 1 })
         $(this).toggleClass('active', calendar_active)
 
         $('#toggle-event-card').toggleClass('active', false)
@@ -752,6 +753,10 @@ $(window).on('load', function (){
          resize_events_table()
     })
 
+    console.log(Cookies.get('calendar_active') == 'false')
+    if(Cookies.get('calendar_active') == 'false'){
+        $('#toggle-calendar').click();
+    }
 
     create_ajax_select2($('#microcycle-name-filter'), gettext('M.C.'), '/events/microcycle_name_list', $(document.body), false, true, -1)
     create_ajax_select2($('#training-block-filter'), gettext('Blocks'), '/trainings/blocks_list/', $(document.body), false, true, -1, true, 4)
