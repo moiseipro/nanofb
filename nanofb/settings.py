@@ -30,13 +30,19 @@ SECRET_KEY = 'django-insecure-(8i@$r9s^-es5gveieq%!ao9d&fvq(=*&s^s2w&c$!kgon&hdh
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'nanofb.pythonanywhere.com', '127.0.0.1', 'localhost', '91.245.227.74', 
-    'nanofootball.com', 'www.nanofootball.com', 'http.nanofootball.com', 
-    'https.nanofootball.com', 'https://www.nanofootball.com', 'https://nanofootball.com', 'http://nanofootball.com', 
-    'nanofootball.ru', 'www.nanofootball.ru', 'http.nanofootball.ru', 
-    'https.nanofootball.ru', 'https://www.nanofootball.ru', 'https://nanofootball.ru', 'http://nanofootball.ru', 
+    'nanofb.pythonanywhere.com', '127.0.0.1', 'localhost', '91.245.227.74',
+    'nanofootball.com', 'www.nanofootball.com', 'http.nanofootball.com',
+    'https.nanofootball.com', 'https://www.nanofootball.com', 'https://nanofootball.com', 'http://nanofootball.com',
+    'nanofootball.ru', 'www.nanofootball.ru', 'http.nanofootball.ru',
+    'https.nanofootball.ru', 'https://www.nanofootball.ru', 'https://nanofootball.ru', 'http://nanofootball.ru',
+    'nanofootball.info', 'www.nanofootball.info', 'http.nanofootball.info',
+    'https.nanofootball.info', 'https://www.nanofootball.info', 'https://nanofootball.info', 'http://nanofootball.info',
 ]
-CSRF_TRUSTED_ORIGINS = ['https://nanofootball.com', 'https://www.nanofootball.com', 'https://nanofootball.ru', 'https://www.nanofootball.ru']
+CSRF_TRUSTED_ORIGINS = [
+    'https://nanofootball.com', 'https://www.nanofootball.com', 
+    'https://nanofootball.ru', 'https://www.nanofootball.ru',
+    'https://nanofootball.info', 'https://www.nanofootball.info',
+]
 
 # Application definition
 
