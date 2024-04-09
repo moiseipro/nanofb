@@ -7,10 +7,34 @@ from references.serializers import PlayerProtocolStatusSerializer, TrainingSpace
 from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExerciseAdditional, UserTrainingProtocol, \
     ClubTrainingProtocol, ClubTrainingExercise, LiteTrainingExerciseAdditional, LiteTraining, LiteTrainingExercise, \
     ClubTrainingExerciseAdditional, UserTrainingObjectives, ClubTrainingObjectives, UserTrainingObjectiveMany, \
-    ClubTrainingObjectiveMany, UserTrainingBlocks, ClubTrainingBlocks, ClubTrainingBlockMany, UserTrainingBlockMany
+    ClubTrainingObjectiveMany, UserTrainingBlocks, ClubTrainingBlocks, ClubTrainingBlockMany, UserTrainingBlockMany, \
+    UserTrainingLoad, ClubTrainingLoad
 
 # Training
 from users.serializers import UserSerializer
+
+
+class TrainingLoadSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        fields = (
+            'id', 'short_name', 'name'
+        )
+
+
+class UserTrainingLoadSerializer(TrainingLoadSerializer):
+    class Meta(TrainingLoadSerializer.Meta):
+        model = UserTrainingLoad
+
+    Meta.fields += ('user',)
+
+
+class ClubTrainingLoadSerializer(TrainingLoadSerializer):
+    class Meta(TrainingLoadSerializer.Meta):
+        model = ClubTrainingLoad
+
+    Meta.fields += ('club',)
 
 
 class TrainingBlockSerializer(serializers.ModelSerializer):
@@ -369,7 +393,7 @@ class UserTrainingSerializer(TrainingSerializer):
     class Meta(TrainingSerializer.Meta):
         model = UserTraining
 
-    Meta.fields += ('exercises_info', 'protocol_info', 'team_info', 'objectives', 'blocks')
+    Meta.fields += ('exercises_info', 'protocol_info', 'team_info', 'objectives', 'blocks', 'load')
 
 
 class ClubTrainingSerializer(TrainingSerializer):
@@ -401,7 +425,7 @@ class ClubTrainingSerializer(TrainingSerializer):
     class Meta(TrainingSerializer.Meta):
         model = UserTraining
 
-    Meta.fields += ('exercises_info', 'protocol_info', 'team_info', 'objectives', 'blocks')
+    Meta.fields += ('exercises_info', 'protocol_info', 'team_info', 'objectives', 'blocks', 'load')
 
 
 class LiteTrainingSerializer(TrainingSerializer):

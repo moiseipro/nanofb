@@ -9,6 +9,7 @@ router.register(r'exercise_data', views.TrainingExerciseAdditionalViewSet, basen
 router.register(r'protocol', views.TrainingProtocolViewSet, basename="protocol")
 router.register(r'objectives', views.ObjectivesViewSet, basename="objectives")
 router.register(r'blocks', views.BlocksViewSet, basename="blocks")
+router.register(r'loads', views.LoadsViewSet, basename="loads")
 
 lrouter = routers.DefaultRouter()
 lrouter.register(r'action', views.LiteTrainingViewSet, basename="action")
@@ -28,4 +29,5 @@ urlpatterns = [
     path('objectives_list/', views.ObjectivesListApiView.as_view(), name='objectives_list'),
     path('objective_block/', views.ObjectiveBlockListApiView.as_view(), name='objective_block_list'),
     path('blocks_list/', views.BlockListApiView.as_view(), name='training_block'),
+    path('loads_list/', views.LoadListApiView.as_view(), name='loads_list'),
 ]

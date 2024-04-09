@@ -327,6 +327,21 @@ function load_all_exercises_training(training_id = null, group = null) {
         $('#training-main-data [name="is_personal"]').prop('checked', data.is_personal);
         $('#training-main-data [name="group"]').val(data.group);
         let newOption;
+
+        if (data.load){
+            ajax_loads_action('GET', {}, 'get load').then(function (datas) {
+                let loads = datas.results
+                console.log(loads)
+                for (const load of loads) {
+                    if (load.id == data.load){
+                        newOption = new Option(load.name, load.id, false, true);
+                        $('#training-main-data select[name="load"]').append(newOption).trigger('change');
+                    }
+                }
+
+            })
+        }
+
         if (data.block){
             newOption = new Option(data.block, data.block, false, true);
             $('#training-main-data select[name="block"]').append(newOption).trigger('change');
@@ -342,14 +357,14 @@ function load_all_exercises_training(training_id = null, group = null) {
 
 
 
-        console.log(data.objectives)
+        //console.log(data.objectives)
         $('#block-training-goals select').val(null).trigger('change');
         for (const objective of data.objectives) {
             let html_option_text = `${objective.objective.name}`
             newOption = new Option(html_option_text, objective.objective.id, false, true);
-            console.log(newOption)
+            //console.log(newOption)
             newOption = `<option value="${objective.objective.id}" selected>${html_option_text}</option>`
-            console.log(newOption)
+            //console.log(newOption)
             if (objective.type == 0){
                 $('#block-training-goals select[name="objective_1"]').append(newOption).trigger('change');
             }
@@ -364,9 +379,9 @@ function load_all_exercises_training(training_id = null, group = null) {
         for (const block of data.blocks) {
             let html_option_text = `${block.block.name}`
             newOption = new Option(html_option_text, block.block.id, false, true);
-            console.log(newOption)
+            //console.log(newOption)
             newOption = `<option value="${block.block.id}" selected>${html_option_text}</option>`
-            console.log(newOption)
+            //console.log(newOption)
             $('#training-main-data select[name="blocks"]').append(newOption).trigger('change');
         }
         $('#training-video-modal input[name="video_href"]').val(data.video_href)
@@ -383,7 +398,7 @@ function load_all_exercises_training(training_id = null, group = null) {
             let selected_team = $('#select-team').val()
             ajax_team_action('GET', {}, 'get players', selected_team).then(function (data) {
                 let players_json = data.players_json
-                console.log(players_json)
+                //console.log(players_json)
                 let players_html = players_list_to_html(data.players_json)
                 $('#players-data-list').html(players_html)
             })

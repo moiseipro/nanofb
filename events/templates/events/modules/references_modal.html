@@ -30,6 +30,11 @@
                         <a class="nav-link" id="training-blocks-tab-button" data-toggle="pill" href="#training-blocks-tab" role="tab" aria-controls="pills-contact" aria-selected="false">{% trans 'Training blocks' %}</a>
                     </li>
                     {% endif %}
+                    {% if user.is_superuser or user.club_id is not None and perms.trainings.change_clubtrainingload or user.club_id is None and perms.trainings.change_usertrainingload%}
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="training-loads-tab-button" data-toggle="pill" href="#training-loads-tab" role="tab" aria-controls="pills-contact" aria-selected="false">{% trans 'Training loads' %}</a>
+                    </li>
+                    {% endif %}
                 </ul>
 
                 <div class="tab-content" id="pills-tabContent">
@@ -44,6 +49,11 @@
                     {% if user.is_superuser or user.club_id is not None and perms.trainings.change_clubtrainingblocks or user.club_id is None and perms.trainings.change_usertrainingblocks%}
                     <div class="tab-pane fade" id="training-blocks-tab" role="tabpanel" aria-labelledby="pills-contact-tab">
                         {% include 'trainings/training_blocks.html' %}
+                    </div>
+                    {% endif %}
+                    {% if user.is_superuser or user.club_id is not None and perms.trainings.change_clubtrainingload or user.club_id is None and perms.trainings.change_usertrainingload%}
+                    <div class="tab-pane fade" id="training-loads-tab" role="tabpanel" aria-labelledby="pills-contact-tab">
+                        {% include 'trainings/training_loads.html' %}
                     </div>
                     {% endif %}
                 </div>

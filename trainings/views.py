@@ -28,7 +28,7 @@ from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExe
     ClubTrainingExercise, ClubTrainingProtocol, ClubTraining, ClubTrainingExerciseAdditional, LiteTraining, \
     LiteTrainingExercise, LiteTrainingExerciseAdditional, UserTrainingObjectives, ClubTrainingObjectives, \
     ClubTrainingObjectiveMany, UserTrainingObjectiveMany, ClubTrainingBlocks, UserTrainingBlocks, ClubTrainingBlockMany, \
-    UserTrainingBlockMany
+    UserTrainingBlockMany, ClubTrainingLoad, UserTrainingLoad
 
 # REST FRAMEWORK
 from trainings.serializers import UserTrainingSerializer, UserTrainingExerciseSerializer, \
@@ -37,7 +37,8 @@ from trainings.serializers import UserTrainingSerializer, UserTrainingExerciseSe
     LiteTrainingExerciseSerializer, LiteTrainingSerializer, LiteTrainingExerciseAdditionalSerializer, \
     UserTrainingObjectiveSerializer, ClubTrainingObjectiveSerializer, UserTrainingObjectiveManySerializer, \
     ClubTrainingObjectiveManySerializer, ClubTrainingBlockSerializer, UserTrainingBlockSerializer, \
-    ClubTrainingBlockManySerializer, UserTrainingBlockManySerializer
+    ClubTrainingBlockManySerializer, UserTrainingBlockManySerializer, ClubTrainingLoadSerializer, \
+    UserTrainingLoadSerializer
 from users.models import User
 from system_icons.views import get_ui_elements
 
@@ -395,6 +396,113 @@ class TrainingViewSet(viewsets.ModelViewSet):
         return trainings
 
 
+class LoadsViewSet(viewsets.ModelViewSet):
+    permission_classes = [BaseTrainingsPermissions]
+    #permission_classes = [IsAuthenticated]
+    filter_backends = (DatatablesFilterBackend,)
+    filterset_class = ObjectivesGlobalFilter
+
+    def perform_create(self, serializer):
+        if self.request.user.club_id is not None:
+            serializer.save(club=self.request.user.club_id)
+        else:
+            serializer.save(user=self.request.user)
+
+
+    def get_serializer_class(self):
+        if self.request.user.club_id is not None:
+            serial = ClubTrainingLoadSerializer
+        else:
+            serial = UserTrainingLoadSerializer
+        return serial
+
+    def get_queryset(self):
+        if self.request.user.club_id is not None:
+            blocks = ClubTrainingLoad.objects.filter(club=self.request.user.club_id).order_by('short_name', 'name')
+        else:
+            blocks = UserTrainingLoad.objects.filter(user=self.request.user).order_by('short_name', 'name')
+
+        return blocks
+
+
+class LoadListApiView(APIView):
+    # authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        search = request.GET.get('search', '')
+
+        if search != '':
+            words = search.split()
+            query_obj = reduce(
+                lambda a, b: a & b,
+                (Q(name__icontains=term) for term in words),
+            )
+            query_obj_many = reduce(
+                lambda a, b: a & b,
+                (Q(load__name__icontains=term) for term in words),
+            )
+            print(query_obj)
+        else:
+            query_obj = (Q(name__icontains=search))
+            query_obj_many = (Q(load__name__icontains=search))
+
+        if request.user.club_id is not None:
+            season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
+            queryset = ClubTrainingLoad.objects. \
+                filter(Q(club=request.user.club_id)).filter(query_obj). \
+                order_by('short_name', 'name')
+            queryset_many = ClubTraining.objects. \
+                filter(Q(event_id__date__gte=season[0].date_with) &
+                       Q(event_id__date__lte=season[0].date_by) &
+                       Q(event_id__club_id=request.user.club_id) &
+                       Q(team_id=self.request.session['team'])).filter(query_obj_many). \
+                annotate(count=Count('load')).order_by('load__name')
+        else:
+            season = UserSeason.objects.filter(id=self.request.session['season'])
+            queryset = UserTrainingLoad.objects. \
+                filter(Q(user=request.user)).filter(query_obj). \
+                order_by('short_name', 'name')
+            queryset_many = UserTraining.objects. \
+                filter(Q(event_id__date__gte=season[0].date_with) &
+                       Q(event_id__date__lte=season[0].date_by) &
+                       Q(event_id__user_id=request.user) &
+                       Q(team_id=self.request.session['team'])).filter(query_obj_many). \
+                annotate(count=Count('load')).order_by('load__name')
+
+        print(queryset_many.values())
+        list_load = []
+
+        for load in queryset:
+            load_count = 0
+            new_block = {
+                'id': load.id,
+                'name': load.name,
+                'short': '',
+                'count': load_count
+            }
+            for load_many in queryset_many:
+                if load_many.load.pk == load.pk:
+                    new_block['count'] += 1
+            list_load.append(new_block)
+
+        print(list_load)
+        #list_load.sort(key=lambda x: x['count'], reverse=True)
+
+        object_count = {}
+        for load in list_load:
+            #print(microcycle)
+            object_count[load['id']] = object_count.get(load['id'], {'name': '', 'count': 0})
+            object_count[load['id']]['count'] += load['count']
+            object_count[load['id']]['name'] = load['name']
+            object_count[load['id']]['short'] = load['short']
+        #print(object_count)
+        list2 = [{'id': id, 'count': data['count'], 'text': data['name'], 'short': data['short']} for id, data in object_count.items()]
+        #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+        #print(list2)
+        return Response(list2)
+
+
 class BlocksViewSet(viewsets.ModelViewSet):
     permission_classes = [BaseTrainingsPermissions]
     #permission_classes = [IsAuthenticated]
@@ -454,7 +562,8 @@ class BlockListApiView(APIView):
             queryset_many = ClubTrainingBlockMany.objects. \
                 filter(Q(training__event_id__date__gte=season[0].date_with) &
                        Q(training__event_id__date__lte=season[0].date_by) &
-                       Q(block__club=request.user.club_id)).filter(query_obj_many). \
+                       Q(block__club=request.user.club_id) &
+                       Q(training__team_id=self.request.session['team'])).filter(query_obj_many). \
                 annotate(count=Count('block')).order_by('block__name')
         else:
             season = UserSeason.objects.filter(id=self.request.session['season'])
@@ -464,7 +573,8 @@ class BlockListApiView(APIView):
             queryset_many = UserTrainingBlockMany.objects. \
                 filter(Q(training__event_id__date__gte=season[0].date_with) &
                        Q(training__event_id__date__lte=season[0].date_by) &
-                       Q(block__user=request.user)).filter(query_obj_many). \
+                       Q(block__user=request.user) &
+                       Q(training__team_id=self.request.session['team'])).filter(query_obj_many). \
                 annotate(count=Count('block')).order_by('block__name')
 
         print(queryset_many.values())
@@ -484,7 +594,7 @@ class BlockListApiView(APIView):
             list_block.append(new_block)
 
         print(list_block)
-        list_block.sort(key=lambda x: x['count'], reverse=True)
+        #list_block.sort(key=lambda x: x['count'], reverse=True)
 
         object_count = {}
         for block in list_block:
@@ -568,7 +678,8 @@ class ObjectivesListApiView(APIView):
                 filter(#Q(type=type) &
                        Q(training__event_id__date__gte=season[0].date_with) &
                        Q(training__event_id__date__lte=season[0].date_by) &
-                       Q(objective__club=request.user.club_id)).filter(query_obj_many). \
+                       Q(objective__club=request.user.club_id) &
+                       Q(training__team_id=self.request.session['team'])).filter(query_obj_many). \
                 annotate(count=Count('objective')).order_by('objective__short_name', 'objective__name')
         else:
             season = UserSeason.objects.filter(id=self.request.session['season'])
@@ -579,7 +690,8 @@ class ObjectivesListApiView(APIView):
                 filter(#Q(type=type) &
                        Q(training__event_id__date__gte=season[0].date_with) &
                        Q(training__event_id__date__lte=season[0].date_by) &
-                       Q(objective__user=request.user)).filter(query_obj_many). \
+                       Q(objective__user=request.user) &
+                       Q(training__team_id=self.request.session['team'])).filter(query_obj_many). \
                 annotate(count=Count('objective')).order_by('objective__short_name', 'objective__name')
 
         print(queryset_many.values())
@@ -599,7 +711,7 @@ class ObjectivesListApiView(APIView):
             list_objective.append(new_objective)
 
         print(list_objective)
-        list_objective.sort(key=lambda x: x['count'], reverse=True)
+        #list_objective.sort(key=lambda x: x['count'], reverse=True)
 
         object_count = {}
         for objective in list_objective:

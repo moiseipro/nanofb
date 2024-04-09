@@ -38,6 +38,8 @@ $(window).on('load', function (){
 
     generate_ajax_blocks_table('50vh')
 
+    generate_ajax_loads_table('50vh')
+
     $('#toggle_btn').click()
 
     $('input.refDate').val(strDate);
@@ -851,7 +853,8 @@ function local_filters_events() {
     $('#events tbody tr').filter(function( index ) {
         let this_obj = $(this)
         let data_objective_1 = this_obj.attr('data-objective_1').split(',')
-        return objective_1_val!='' && !contains(data_objective_1, objective_1_val);
+        let data_objective_2 = this_obj.attr('data-objective_2').split(',')
+        return objective_1_val!='' && (!contains(data_objective_1, objective_1_val) && !contains(data_objective_2, objective_1_val));
     }).hide()
     // $('#events tbody tr').filter(function( index ) {
     //     let this_obj = $(this)

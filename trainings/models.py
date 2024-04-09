@@ -97,6 +97,48 @@ class ClubTrainingBlocks(AbstractTrainingBlock):
     )
 
 
+class AbstractTrainingLoad(models.Model):
+    short_name = models.CharField(
+        max_length=30,
+        verbose_name=_('Load key'),
+        help_text=_('The short key of the training load'),
+        null=True,
+        blank=True,
+    )
+    name = models.CharField(
+        max_length=255,
+        verbose_name=_('Load name'),
+        help_text=_('The name of the training load'),
+        null=True,
+        blank=True,
+    )
+
+    class Meta:
+        abstract = True
+
+
+class UserTrainingLoad(AbstractTrainingLoad):
+    user = models.ForeignKey(
+        User,
+        verbose_name=_('User'),
+        help_text=_('User'),
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+
+
+class ClubTrainingLoad(AbstractTrainingLoad):
+    club = models.ForeignKey(
+        Club,
+        verbose_name=_('Club'),
+        help_text=_('Club'),
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+
+
 class AbstractTraining(models.Model):
     trainer_user_id = models.ForeignKey(
         User,
@@ -167,6 +209,12 @@ class UserTraining(AbstractTraining):
         UserTeam,
         on_delete=models.CASCADE
     )
+    load = models.ForeignKey(
+        UserTrainingLoad,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL
+    )
     objectives = models.ManyToManyField(
         UserTrainingObjectives,
         verbose_name=_('objective'),
@@ -216,6 +264,12 @@ class ClubTraining(AbstractTraining):
     team_id = models.ForeignKey(
         ClubTeam,
         on_delete=models.CASCADE
+    )
+    load = models.ForeignKey(
+        ClubTrainingLoad,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL
     )
     objectives = models.ManyToManyField(
         ClubTrainingObjectives,
