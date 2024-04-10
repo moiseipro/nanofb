@@ -762,6 +762,8 @@ $(window).on('load', function (){
 
     create_ajax_select2($('#microcycle-name-filter'), gettext('M.C.'), '/events/microcycle_name_list', $(document.body), false, true, -1)
     create_ajax_select2($('#training-block-filter'), gettext('Blocks'), '/trainings/blocks_list/', $(document.body), false, true, -1, true, 4)
+    create_ajax_select2($('#training-load-filter'), gettext('Load'), '/trainings/loads_list', $(document.body), false, true, -1)
+
 
     //create_ajax_select2($('#objective_1-block-filter'), gettext('Objective block'), '/trainings/objective_block', $(document.body))
     //create_ajax_select2($('#objective_2-block-filter'), gettext('Objective block'), '/trainings/objective_block', $(document.body))
@@ -808,6 +810,7 @@ function local_filters_events() {
     let filled_val = $('#filled-event-filter').attr('data-filter') ? $('#filled-event-filter').attr('data-filter') : 0
     let video_val = $('#video-event-filter').attr('data-filter') ? $('#video-event-filter').attr('data-filter') : 0
     let objective_1_val = $('#objective_1-event-view').val() ? $('#objective_1-event-view').val() : ''
+    let load_val = $('#training-load-filter').val() ? $('#training-load-filter').val() : ''
     // let objective_2_val = $('#objective_2-event-view').val() ? $('#objective_2-event-view').val() : ''
     // let objective_3_val = $('#objective_3-event-view').val() ? $('#objective_3-event-view').val() : ''
     //let objective_block = $('#objective_1-block-filter').val() ? $('#objective_1-block-filter').val(): ''
@@ -856,6 +859,12 @@ function local_filters_events() {
         let data_objective_2 = this_obj.attr('data-objective_2').split(',')
         return objective_1_val!='' && (!contains(data_objective_1, objective_1_val) && !contains(data_objective_2, objective_1_val));
     }).hide()
+    $('#events tbody tr').filter(function( index ) {
+        let this_obj = $(this)
+        let data_load = this_obj.attr('data-load').split(',')
+        //console.log(block_val + " : " + data_block)
+        return load_val!='' && !contains(data_load, load_val);
+    }).hide()
     // $('#events tbody tr').filter(function( index ) {
     //     let this_obj = $(this)
     //     let data_objective_2 = this_obj.attr('data-objective_2')
@@ -873,17 +882,16 @@ function contains(where, what){
     if (!what) {
         return true;
     }
+    let check_array = false;
     for (var i = 0; i < what.length; i++) {
         for (var j = 0; j < where.length; j++) {
              if (what[i] == where[j]) {
-                 break;
-             }
-             if (j === where.length - 1) {
-                 return false;
+                 check_array = true
+                 break
              }
         }
     }
-    return true;
+    return check_array;
 }
 
 function clear_filters_events() {
@@ -910,6 +918,7 @@ function clear_filters_events() {
     $('#objective_2-block-filter').val(null).trigger("change");
     $('#objective_3-block-filter').val(null).trigger("change");
     $('#training-block-filter').val(null).trigger("change");
+    $('#training-load-filter').val(null).trigger("change");
     if($('#events-content').hasClass('d-none')){
         hide_training_card()
         $('#events-content').removeClass('d-none')

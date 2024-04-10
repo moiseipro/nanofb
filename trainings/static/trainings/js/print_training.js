@@ -20,7 +20,7 @@ $(window).on('load', function () {
 
     $('#print-training-modal').on('show.bs.modal', function (e) {
         let training_id = $(this).attr('data-id');
-        load_training_print(training_id)
+        load_training_print(Cookies.get('event_id'))
     })
 })
 
@@ -77,7 +77,7 @@ function load_training_print(training_id) {
         let html_scheme = ''
         let ck_editor_data = []
         let minutes_count = 0
-        if (exercises.length > 0) {
+        if (exercises != null && exercises.length > 0) {
             let num = 0;
             for (let exercise of exercises) {
                 minutes_count += exercise.duration

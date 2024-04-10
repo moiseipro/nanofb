@@ -90,6 +90,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                         let microcycle_days = 0
                         let microcycle_name = ""
                         let training_block = []
+                        let training_load = []
                         let microcycle_goal = ""
                         let objectives = {'objective_1': [], 'objective_2': [], 'objective_3': [], 'blocks': ''}
                         let hasVideo = false
@@ -131,6 +132,9 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             }
                             for (const block of event.training.blocks){
                                 training_block.push(block.block.id)
+                            }
+                            if (event.training.load){
+                                training_load.push(event.training.load)
                             }
 
                             event_name = 'tr'+num_tr
@@ -182,23 +186,23 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
 
                                 count_player+=`
                                     <div class="col px-0 d-none event-row-info" data-id="${event.training.event_id}">
-                                        ${player}
+                                        ${player ? player : '---'}
                                     </div>
                                 `
                                 count_goalkeeper+=`
                                     <div class="col px-0 d-none event-row-info" data-id="${event.training.event_id}">
-                                        ${goalkeeper}
+                                        ${goalkeeper ? goalkeeper : '---'}
                                     </div>
                                 `
                             })
                             count_player+=`
                                 <div class="col px-0 event-row-info" data-id="">
-                                    ${all_players}
+                                    ${all_players ? all_players : '---'}
                                 </div>
                             `
                             count_goalkeeper+=`
                                 <div class="col px-0 event-row-info" data-id="">
-                                    ${all_goalkeeper}
+                                    ${all_goalkeeper ? all_goalkeeper : '---'}
                                 </div>
                             `
 
@@ -253,7 +257,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                         }
                         console.log(event['only_date']+"   "+moment(event['only_date'], 'DD/MM/YYYY').endOf('month').format('DD/MM/YYYY'))
 
-                        tr_html += `<tr id="${event['only_date']==moment().format('DD/MM/YYYY') ? 'current_day' : ''}" class="${event_id.length>0 ? 'hasEvent' : ''} ${event_class} ${event['only_date']==moment(event['only_date'], 'DD/MM/YYYY').endOf('month').format('DD/MM/YYYY') ? "month_top_border" : ''}" data-value="${event_id}" data-microcycle-days="${microcycle_days}" data-microcycle-day="${count_day}" data-unfilled="${!isFilled ? '1' : '0'}" data-video="${hasVideo ? '1' : '0'}" data-name="${microcycle_name}" data-block="${training_block}" data-goal="${microcycle_goal}" data-objective_1="${objectives.objective_1}" data-objective_2="${objectives.objective_2}" data-objective_3="${objectives.objective_3}" data-objective-block="${objectives.blocks}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
+                        tr_html += `<tr id="${event['only_date']==moment().format('DD/MM/YYYY') ? 'current_day' : ''}" class="${event_id.length>0 ? 'hasEvent' : ''} ${event_class} ${event['only_date']==moment(event['only_date'], 'DD/MM/YYYY').endOf('month').format('DD/MM/YYYY') ? "month_top_border" : ''}" data-value="${event_id}" data-microcycle-days="${microcycle_days}" data-microcycle-day="${count_day}" data-unfilled="${!isFilled ? '1' : '0'}" data-video="${hasVideo ? '1' : '0'}" data-name="${microcycle_name}" data-block="${training_block}" data-goal="${microcycle_goal}" data-load="${training_load}" data-objective_1="${objectives.objective_1}" data-objective_2="${objectives.objective_2}" data-objective_3="${objectives.objective_3}" data-objective-block="${objectives.blocks}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
                         tr_html += td_html
                         tr_html += `</tr>`
 
