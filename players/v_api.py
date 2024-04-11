@@ -1084,7 +1084,7 @@ def POST_edit_player_document(request, cur_user, cur_team):
         try:
             c_doc.doc = request.FILES['doc_file']
         except:
-            pass
+            return JsonResponse({"errors": "Can't save file. Check if document is not empty.", "success": False}, status=400)
         try:
             c_doc.save()
         except:

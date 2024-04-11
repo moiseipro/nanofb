@@ -931,8 +931,8 @@ function RenderSelectedExercisesForDelete() {
         for (let i = 0; i < window.selectedExercisesForDelete.length; i++) {
             let tID = window.selectedExercisesForDelete[i];
             $('.exs-list-group').find(`.exs-elem[data-id="${tID}"]`).find('.title').prepend(`
-                <span class="delete-icon mr-2">
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                <span class="delete-icon mr-1">
+                    <i class="fa fa-check-circle-o" aria-hidden="true"></i>
                 </span>
             `);
         }
@@ -1869,12 +1869,14 @@ $(function() {
         let isNfb = $('#exerciseCopyModal').find('input[name="nfb"]').val() == '1' && 
             $('.folders_div.selected').attr('data-id') == "nfb_folders" && 
             $('#exerciseCopyModal').find('[name="copy_mode"]').val() != '1';
-        console.log(isNfb)
+        let isCopyToNFB = $('#exerciseCopyModal').find('input[name="nfb"]').val() == '1' && 
+            $('.folders_div.selected').attr('data-id') != "nfb_folders" && 
+            $('#exerciseCopyModal').find('[name="copy_mode"]').val() == '1';
         let htmlList = isNfb ? "folders_nfb_list" : "folders_list";
         let htmlElemInList = isNfb ? "folder-nfb-elem" : "folder-elem";
         if (!foldersLoadedForCopy) {
             let tList = $('.exercises-list').find(`.${htmlList}`).clone();
-            console.log( tList )
+            $(tList).removeClass(`${htmlList}`);
             $(tList).removeClass('d-none');
             $(tList).removeClass('c-hidden');
             $(tList).removeClass(htmlList);
@@ -1888,7 +1890,35 @@ $(function() {
                 $(elem).find('.folder-title').html(tText);
             });
             $('#exerciseCopyModal').find('.modal-body').find('.copy-move-exercise').html(tList);
-            // foldersLoadedForCopy = true;
+            if (isCopyToNFB) {
+                let tList = $('.exercises-list').find(`.folders_nfb_list`).clone();
+                $(tList).removeClass(`folders_nfb_list`);
+                $(tList).removeClass('d-none');
+                $(tList).removeClass('c-hidden');
+                $(tList).removeClass(htmlList);
+                $(tList).addClass('folders_list_copy');
+                $(tList).find(`.folder-nfb-elem`).addClass('folder-copy-elem');
+                $(tList).find(`.folder-nfb-elem`).removeClass('folder-nfb-elem');
+                $(tList).find('.pull-right').remove();
+                $(tList).find('.list-group-item').removeClass('d-none');
+                $(tList).find('.list-group-item > div').each((ind, elem) => {
+                    let tText = `${$(elem).attr('data-short')}. ${$(elem).attr('data-name')}`;
+                    $(elem).find('.folder-title').html(tText);
+                });
+                $('#exerciseCopyModal').find('.modal-body').find('.copy-move-exercise').prepend(`
+                    <div class="mt-1">
+                        <button class="btn btn-sm btn-info" type="button" data-toggle="collapse" data-target="#toggleNFBFolders" aria-expanded="false" aria-controls="toggleNFBFolders">
+                            Показать / скрыть папки NF.
+                        </button>
+                        <div class="collapse" id="toggleNFBFolders">
+                            <div class="card card-body p-0">
+                                ${tList.prop('outerHTML')}
+                            </div>
+                            <hr><hr><hr>
+                        </div>
+                    </div>
+                `);
+            }
         }
         $('#exerciseCopyModal').find('.btn-scheme-copy-apply').addClass('d-none');
         $('#exerciseCopyModal').find('.btn-video-move-apply').addClass('d-none');
@@ -1917,6 +1947,14 @@ $(function() {
             let modeVal = $('#exerciseCopyModal').find('select[name="copy_mode"]').val();
             let exsId = $('.exs-list-group').find('.exs-elem.active').attr('data-id');
             let moveMode = $('#exerciseCopyModal').find('.toggle-mode.active').attr('data-mode');
+            if (moveMode == "favorite") {
+                exsId = [];
+                $('.exs-list-group').find('.exs-elem:visible').each((ind, elem) => {
+                    if ($(elem).find('button.selected[data-type="marker"][data-id="favorite"]').length > 0) {
+                        exsId.push($(elem).attr('data-id'));
+                    }
+                });
+            }
             if (moveMode == "all") {
                 exsId = [];
                 $('.exs-list-group').find('.exs-elem:visible').each((ind, elem) => {
@@ -1927,6 +1965,7 @@ $(function() {
             let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
             let selectedFolder = $('#exerciseCopyModal').find('.list-group-item.active').find('.folder-copy-elem').attr('data-id');
             let folderType = $('.folders_div.selected').attr('data-id');
+            let copyToNF = $('#exerciseCopyModal').find('.list-group-item.active').parent().parent().attr('data-id') == "nfb_folders";
             if (isTrainer) {folderType = "__is_trainer";}
             let data = {
                 'move_exs': modeVal == '2' ? 1 : 0,
@@ -1934,6 +1973,7 @@ $(function() {
                 'move_mode': moveMode,
                 'exs': exsId, 
                 'nfb_folder': fromNfbFolder ? 1 : 0, 
+                'copy_to_nf': copyToNF ? 1 : 0, 
                 'folder': selectedFolder,
                 'type': folderType
             };
@@ -2084,8 +2124,9 @@ $(function() {
     });
 
     let startDate = getFormattedDateFromTodayWithDelta(1);
-    let endDate = getFormattedDateFromTodayWithDelta(8);
-    $('#exerciseShareModal').find('input[name="date"]').val(startDate);
+    let endDate = getFormattedDateFromTodayWithDelta(9);
+    let currentDate = getFormattedDateFromTodayWithDelta(2);
+    $('#exerciseShareModal').find('input[name="date"]').val(currentDate);
     $('#exerciseShareModal').find('input[name="date"]').attr('min', startDate);
     $('#exerciseShareModal').find('input[name="date"]').attr('max', endDate);
     $('#exerciseShareModal').on('show.bs.modal', (e) => {
@@ -2228,56 +2269,43 @@ $(function() {
             return;
         }
         if (cId == "trainer_copied") {return;}
-        swal({
-            title: "Вы точно хотите внести изменения?",
-            icon: "warning",
-            buttons: ["Отмена", "Подтвердить"],
-            dangerMode: false,
-        })
-        .then((accepted) => {
-            if (accepted) {
-                $('.page-loader-wrapper').fadeIn();
-                $.ajax({
-                    headers:{"X-CSRFToken": csrftoken},
-                    data: dataToSend,
-                    type: 'POST', // GET или POST
-                    dataType: 'json',
-                    url: "exercises_api",
-                    success: function (res) {
-                        if (!res.success) {
-                            swal("Ошибка", `При изменении параметра произошла ошибка (${res.err}).`, "error");
-                        } else {
-                            if (cId == "watched") {
-                                LoadFolderExercises();
-                            }
-                            if (cId == "like") {
-                                $(currentTarget).parent().find('button[data-type="marker"][data-id="dislike"]').toggleClass('selected', false);
-                            }
-                            if (cId == "dislike") {
-                                $(currentTarget).parent().find('button[data-type="marker"][data-id="like"]').toggleClass('selected', false);
-                            }
-                            $(currentTarget).toggleClass('selected', res.data.value == 1);
-                            if ($(currentTarget).find('input').length > 0) {
-                                $(currentTarget).find('input').prop('checked', res.data.value == 1);
-                            }
-                            if ($(currentTarget).find('span.icon-custom').length > 0) {
-                                $(currentTarget).find('span.icon-custom').toggleClass('icon--favorite', res.data.value != 1);
-                                $(currentTarget).find('span.icon-custom').toggleClass('icon--favorite-selected', res.data.value == 1);
-                            }
-                        }
-                    },
-                    error: function (res) {
-                        swal("Ошибка", "При изменении параметра произошла ошибка.", "error");
-                        console.log(res);
-                    },
-                    complete: function (res) {
-                        $('.page-loader-wrapper').fadeOut();
+     
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: dataToSend,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "exercises_api",
+            success: function (res) {
+                if (!res.success) {
+                    swal("Ошибка", `При изменении параметра произошла ошибка (${res.err}).`, "error");
+                } else {
+                    if (cId == "watched") {
+                        LoadFolderExercises();
                     }
-                });
-            } else {
-                if ($(currentTarget).find('input').length > 0) {
-                    $(currentTarget).find('input').prop('checked', state);
+                    if (cId == "like") {
+                        $(currentTarget).parent().find('button[data-type="marker"][data-id="dislike"]').toggleClass('selected', false);
+                    }
+                    if (cId == "dislike") {
+                        $(currentTarget).parent().find('button[data-type="marker"][data-id="like"]').toggleClass('selected', false);
+                    }
+                    $(currentTarget).toggleClass('selected', res.data.value == 1);
+                    if ($(currentTarget).find('input').length > 0) {
+                        $(currentTarget).find('input').prop('checked', res.data.value == 1);
+                    }
+                    if ($(currentTarget).find('span.icon-custom').length > 0) {
+                        $(currentTarget).find('span.icon-custom').toggleClass('icon--favorite', res.data.value != 1);
+                        $(currentTarget).find('span.icon-custom').toggleClass('icon--favorite-selected', res.data.value == 1);
+                    }
                 }
+            },
+            error: function (res) {
+                swal("Ошибка", "При изменении параметра произошла ошибка.", "error");
+                console.log(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
             }
         });
     });
@@ -2913,8 +2941,12 @@ $(function() {
                 $('#exerciseCopyModal').find('.content-block').addClass('d-none');
                 $('#exerciseCopyModal').find('.content-block.copy-move-exercise').removeClass('d-none');
                 $('#exerciseCopyModal').find('.exs-applier').removeClass('d-none')
+                let visibledFavorExsCount = $('.exs-list-group').find('.list-group-item:visible').find('button.selected[data-type="marker"][data-id="favorite"]').length;
                 let visibledExsCount = $('.exs-list-group').find('.list-group-item:visible').length;
-                $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-move-exercise-2"]').find('.counter').text(` (${visibledExsCount}) `);;
+                $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-move-exercise-2"]').find('.counter').text(` (${visibledFavorExsCount}) `);
+                $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-move-exercise-3"]').find('.counter').text(` (${visibledExsCount}) `);
+                let currentTeam = $('#select-team').find(`option[value="${$('#select-team').val()}"]`).text();
+                $('#exerciseCopyModal').find('.btn-apply').text(currentTeam);
                 $('#exerciseCopyModal').modal('show'); 
             } else if (cId == "move") {
                 $('#exerciseCopyModal').find('.modal-title').text("Переместить упражнение в выбранную папку");
@@ -2926,8 +2958,12 @@ $(function() {
                 $('#exerciseCopyModal').find('.content-block').addClass('d-none');
                 $('#exerciseCopyModal').find('.content-block.copy-move-exercise').removeClass('d-none');
                 $('#exerciseCopyModal').find('.exs-applier').removeClass('d-none');
+                let visibledFavorExsCount = $('.exs-list-group').find('.list-group-item:visible').find('button.selected[data-type="marker"][data-id="favorite"]').length;
                 let visibledExsCount = $('.exs-list-group').find('.list-group-item:visible').length;
-                $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-move-exercise-2"]').find('.counter').text(` (${visibledExsCount}) `);
+                $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-move-exercise-2"]').find('.counter').text(` (${visibledFavorExsCount}) `);
+                $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-move-exercise-3"]').find('.counter').text(` (${visibledExsCount}) `);
+                let currentTeam = $('#select-team').find(`option[value="${$('#select-team').val()}"]`).text();
+                $('#exerciseCopyModal').find('.btn-apply').text(currentTeam);
                 $('#exerciseCopyModal').modal('show');
             } else if (cId == "trainer") {
                 let folderType = $('.folders_div.selected').attr('data-id');

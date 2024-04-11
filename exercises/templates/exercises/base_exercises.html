@@ -688,7 +688,7 @@
             {% endif %}
             <div class="modal-dialog modal-lg" role="document" style="max-width: 58vw;">
                 <div class="modal-content">
-                    <div class="modal-header row">
+                    <div class="modal-header row mx-0">
                         <div class="col-8 float-left">
                             <h5 class="modal-title">Выберите папку, в которую необходимо поместить упражнение</h5>
                         </div>
@@ -716,7 +716,11 @@
                                     <button type="button" class="btn btn-sm btn-outline-secondary toggle-mode copy-show move-show size-max-w-x active" data-id="copy-move-exercise" data-mode="one" style="--w-max-x:50%;">
                                         Упражнение (1)
                                     </button>
-                                    <!-- <button type="button" class="btn btn-sm btn-outline-secondary toggle-mode copy-show move-show size-max-w-x" data-id="copy-move-exercise-2" data-mode="all" style="--w-max-x:50%;">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary toggle-mode copy-show move-show size-max-w-x" data-id="copy-move-exercise-2" data-mode="favorite" style="--w-max-x:50%;">
+                                        Избранное
+                                        <span class="counter"></span>
+                                    </button>
+                                    <!-- <button type="button" class="btn btn-sm btn-outline-secondary toggle-mode copy-show move-show size-max-w-x" data-id="copy-move-exercise-3" data-mode="all" style="--w-max-x:50%;">
                                         Упражнения
                                         <span class="counter"></span>
                                     </button> -->
@@ -813,7 +817,7 @@
                                         Ссылка будет доступна до:
                                     </div>
                                     <div class="col-6">
-                                        <input class="form-control form-control-sm" name="date" type="date" value="" autocomplete="off" required="">
+                                        <input class="form-control form-control-sm" name="date" type="date" value="" autocomplete="off" required="" {% if not user.is_superuser %}readonly=""{% endif %}>
                                     </div>
                                 </div>
                                 <div class="row mt-1">
