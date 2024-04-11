@@ -478,7 +478,6 @@ class LoadListApiView(APIView):
             new_block = {
                 'id': load.id,
                 'name': load.name,
-                'short': '',
                 'count': load_count
             }
             for load_many in queryset_many:
@@ -495,9 +494,8 @@ class LoadListApiView(APIView):
             object_count[load['id']] = object_count.get(load['id'], {'name': '', 'count': 0})
             object_count[load['id']]['count'] += load['count']
             object_count[load['id']]['name'] = load['name']
-            object_count[load['id']]['short'] = load['short']
         #print(object_count)
-        list2 = [{'id': id, 'count': data['count'], 'text': data['name'], 'short': data['short']} for id, data in object_count.items()]
+        list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in object_count.items()]
         #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
         #print(list2)
         return Response(list2)
@@ -558,7 +556,7 @@ class BlockListApiView(APIView):
             season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
             queryset = ClubTrainingBlocks.objects. \
                 filter(Q(club=request.user.club_id)).filter(query_obj). \
-                order_by('short_name', 'name')
+                order_by('name')
             queryset_many = ClubTrainingBlockMany.objects. \
                 filter(Q(training__event_id__date__gte=season[0].date_with) &
                        Q(training__event_id__date__lte=season[0].date_by) &
@@ -569,7 +567,7 @@ class BlockListApiView(APIView):
             season = UserSeason.objects.filter(id=self.request.session['season'])
             queryset = UserTrainingBlocks.objects. \
                 filter(Q(user=request.user)).filter(query_obj). \
-                order_by('short_name', 'name')
+                order_by('name')
             queryset_many = UserTrainingBlockMany.objects. \
                 filter(Q(training__event_id__date__gte=season[0].date_with) &
                        Q(training__event_id__date__lte=season[0].date_by) &
