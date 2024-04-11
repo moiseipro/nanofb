@@ -17,11 +17,11 @@ function generate_ajax_objectives_table(scroll_y = '', pagination = true){
         lengthMenu: length_menu,
         lengthChange: pagination,
         columnDefs: [
+            // {
+            //     "width": "25%", "targets": 1
+            // },
             {
-                "width": "25%", "targets": 1
-            },
-            {
-                "width": "10%", "targets": 3
+                "width": "10%", "targets": 2
             },
             {
                 "width": "5%", "targets": 0
@@ -41,11 +41,11 @@ function generate_ajax_objectives_table(scroll_y = '', pagination = true){
             {'data': 'id', sortable: false, render: function (data, type, row, meta) {
                 return meta.row + meta.settings._iDisplayStart + 1;
             }, searchable: false},
-            {'data': 'short_name', 'name': 'short_name', 'defaultContent': "---", render: function (data, type, row, meta) {
-                //return `<div class="text-truncate" title="${data}"> ${data} </div>`;
-                return `<select name="short_name" class="form-control form-control-sm select2" data-value="${data}" data-tags="true" placeholder="${gettext('Objective type')}" disabled></select>`
-                //return `<input type="text" name="short_name" value="${data}" class="form-control form-control-sm py-0" placeholder="${gettext('Age')}" autocomplete="off" style="height: 26px" disabled>`
-            }},
+            // {'data': 'short_name', 'name': 'short_name', 'defaultContent': "---", render: function (data, type, row, meta) {
+            //     //return `<div class="text-truncate" title="${data}"> ${data} </div>`;
+            //     return `<select name="short_name" class="form-control form-control-sm select2" data-value="${data}" data-tags="true" placeholder="${gettext('Objective type')}" disabled></select>`
+            //     //return `<input type="text" name="short_name" value="${data}" class="form-control form-control-sm py-0" placeholder="${gettext('Age')}" autocomplete="off" style="height: 26px" disabled>`
+            // }},
             {'data': 'name', 'name': 'name', 'defaultContent': "---", render: function (data, type, row, meta) {
                 //return `<div class="text-truncate" title="${data}"> ${data} </div>`;
                 return `<input type="text" name="name" value="${data}" class="form-control form-control-sm py-0" placeholder="${gettext('Title')}" autocomplete="off" style="height: 26px" disabled>`

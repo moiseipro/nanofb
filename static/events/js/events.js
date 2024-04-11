@@ -302,6 +302,9 @@ $(window).on('load', function (){
                     $('.training-card-objective').addClass('d-none')
                 }
             })
+            let offset = $('#events .hasEvent.selected').position().top - $('#filters-row').height()
+            console.log(offset)
+            $('#events-table').animate({scrollTop: offset},'slow');
         }
 
     })
@@ -502,7 +505,6 @@ $(window).on('load', function (){
                 }
             });
         }
-
     })
 
     $('#events').on('click', '.switch-favorites', function () {
