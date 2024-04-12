@@ -906,8 +906,9 @@ def POST_copy_exs(request, cur_user, cur_team):
     exs_ids = []
     folder_id = -1
     folder_type = request.POST.get("type", "")
-    move_move = request.POST.get("move_mode", "")
+    move_mode = request.POST.get("move_mode", "")
     is_to_trainer = request.POST.get("folder", "") == utils.FOLDER_TRAINER
+    copy_to_nf = -1
     copy_anyway = 0
     try:
         exs_id = int(request.POST.get("exs", -1))
@@ -922,6 +923,10 @@ def POST_copy_exs(request, cur_user, cur_team):
     except:
         pass
     try:
+        copy_to_nf = int(request.POST.get("copy_to_nf", -1))
+    except:
+        pass
+    try:
         copy_anyway = int(request.POST.get("copy_anyway", 0))
     except:
         pass
@@ -932,7 +937,7 @@ def POST_copy_exs(request, cur_user, cur_team):
         'perms_club': ["exercises.change_clubexercise", "exercises.add_clubexercise"]
     }):
         return JsonResponse({"err": "Access denied.", "success": False}, status=400)
-    if move_move != "all":
+    if move_mode != "all" and move_mode != "favorite":
         exs_ids = [exs_id]
     if is_to_trainer:
         EXS_LIMIT = 1500
@@ -941,10 +946,14 @@ def POST_copy_exs(request, cur_user, cur_team):
         if exs_count + len(exs_ids) > EXS_LIMIT:
             return JsonResponse({"errors": "Trainer's exercises limit. Max: 1500!", "code": "limit", "value": EXS_LIMIT}, status=400)
     else:
-        if request.user.club_id is not None:
-            found_folder = ClubFolder.objects.filter(id=folder_id, club=request.user.club_id)
+        if copy_to_nf == 1:
+            if cur_user.is_superuser:
+                found_folder = AdminFolder.objects.filter(id=folder_id)
         else:
-            found_folder = UserFolder.objects.filter(id=folder_id)
+            if request.user.club_id is not None:
+                found_folder = ClubFolder.objects.filter(id=folder_id, club=request.user.club_id)
+            else:
+                found_folder = UserFolder.objects.filter(id=folder_id)
         if not (found_folder and found_folder.exists() and found_folder[0].id != None):
             return JsonResponse({"errors": "Can't copy exercise / exercises"}, status=400)
     if request.user.club_id is not None:
@@ -962,10 +971,14 @@ def POST_copy_exs(request, cur_user, cur_team):
             if folder_type == utils.FOLDER_NFB:
                 c_exs = AdminExercise.objects.filter(id=exs_id, visible=True)
                 if c_exs.exists() and c_exs[0].id != None:
-                    if request.user.club_id is not None:
-                        new_exs = ClubExercise(user=cur_user, club=request.user.club_id, team=found_team[0])
+                    if copy_to_nf == 1:
+                        if cur_user.is_superuser:
+                            new_exs = AdminExercise()
                     else:
-                        new_exs = UserExercise(user=cur_user)
+                        if request.user.club_id is not None:
+                            new_exs = ClubExercise(user=cur_user, club=request.user.club_id, team=found_team[0])
+                        else:
+                            new_exs = UserExercise(user=cur_user)
                     for key in c_exs.values()[0]:
                         if key != "id" and key != "date_creation":
                             if key == "scheme_1" or key == "scheme_2":
@@ -1014,10 +1027,14 @@ def POST_copy_exs(request, cur_user, cur_team):
                     c_exs = UserExercise.objects.filter(id=exs_id, user=cur_user)
                 if c_exs.exists() and c_exs[0].id != None:
                     new_exs = None
-                    if request.user.club_id is not None:
-                        new_exs = ClubExercise(user=cur_user, club=request.user.club_id, team=found_team[0])
+                    if copy_to_nf == 1:
+                        if cur_user.is_superuser:
+                            new_exs = AdminExercise()
                     else:
-                        new_exs = UserExercise(user=cur_user)
+                        if request.user.club_id is not None:
+                            new_exs = ClubExercise(user=cur_user, club=request.user.club_id, team=found_team[0])
+                        else:
+                            new_exs = UserExercise(user=cur_user)
                     for key in c_exs.values()[0]:
                         if key != "id" and key != "date_creation":
                             if key == "scheme_1" or key == "scheme_2":
@@ -1137,7 +1154,10 @@ def POST_copy_exs(request, cur_user, cur_team):
                     videos = c_exs[0].videos.through.objects.filter(exercise_trainer=c_exs[0])
                 for video in videos:
                     if video.type == 1 or video.type == 3:
-                        if is_to_trainer:
+                        if copy_to_nf == 1:
+                            if cur_user.is_superuser:
+                                new_exs.videos.through.objects.update_or_create(type=video.type, exercise_nfb=new_exs, defaults={"video": video.video})
+                        elif is_to_trainer:
                             new_exs.videos.through.objects.update_or_create(type=video.type, exercise_trainer=new_exs, defaults={"video": video.video})
                         else:
                             if request.user.club_id is not None:
@@ -1167,7 +1187,7 @@ def POST_move_exs(request, cur_user, cur_team):
     exs_ids = []
     folder_id = -1
     folder_type = request.POST.get("type", "")
-    move_move = request.POST.get("move_mode", "")
+    move_mode = request.POST.get("move_mode", "")
     try:
         exs_id = int(request.POST.get("exs", -1))
     except:
@@ -1193,7 +1213,7 @@ def POST_move_exs(request, cur_user, cur_team):
     if folder_type == utils.FOLDER_NFB and cur_user.is_superuser:
         found_folder = AdminFolder.objects.filter(id=folder_id)
     if found_folder.exists() and found_folder[0].id != None:
-        if move_move == "all":
+        if move_mode == "all" or move_mode == "favorite":
             saved_ids = []
             is_success = False
             for elem in exs_ids:
