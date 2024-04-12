@@ -413,11 +413,25 @@ $(window).on("load", function () {
 
     })
 
-    $('#send-mail-form').submit(function (event) {
+    $('#send-mail-selected #send-mail-form').submit(function (event) {
         let form_Data = $(this).serializeArray()
         console.log(form_Data)
 
         ajax_users_action('POST', form_Data, 'send mail', user_select_id, 'send_mail').then(function (data) {
+            console.log(data)
+        })
+        event.preventDefault();
+    })
+    $('#send-mail-filtered #send-mail-form').submit(function (event) {
+        let form_Data = $(this).serializeArray()
+        let user_arr = []
+        $('#users-table tbody').find('tr').each(function () {
+            user_arr.push($(this).attr('data-user'))
+        })
+        form_Data.push({name: 'users', value: user_arr});
+        console.log(form_Data)
+
+        ajax_users_action('POST', form_Data, 'send mail', '', 'send_mail_filtered').then(function (data) {
             console.log(data)
         })
         event.preventDefault();

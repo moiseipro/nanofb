@@ -280,6 +280,38 @@ class UserManagementApiView(viewsets.ModelViewSet):
             }
             return Response(response, status=status.HTTP_400_BAD_REQUEST)
 
+    @action(detail=False, methods=['post'])
+    def send_mail_filtered(self, request):
+        instance = User.objects.filter(id__in=request.POST.get('users', '').split(",")).values('email')
+        title = request.POST.get('title', '')
+        content = request.POST.get('content', '')
+        print(instance)
+        emails = []
+        for user in instance:
+            emails.append(user['email'])
+        print(emails)
+
+        try:
+            context = {'title': title, 'content': content}
+            text_content = render_to_string('users/mail/mail_info.html', context)
+            html_content = render_to_string('users/mail/mail_info.html', context)
+
+            email = EmailMultiAlternatives(title, text_content)
+            email.attach_alternative(html_content, "text/html")
+            email.to = emails
+            email.send()
+            response = {
+                'status': 'success',
+                'message': _('The message was sent successfully!'),
+            }
+            return Response(response, status=status.HTTP_200_OK)
+        except:
+            response = {
+                'status': 'error',
+                'message': _('Error sending the message!'),
+            }
+            return Response(response, status=status.HTTP_400_BAD_REQUEST)
+
     def perform_update(self, serializer):
         serializer.save()
 

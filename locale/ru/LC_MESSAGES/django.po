@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-09 14:43+0300\n"
+"POT-Creation-Date: 2024-04-12 15:02+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1079,7 +1079,7 @@ msgstr "Да"
 #: .\users\templates\users\forms\edit-club-form.html:42
 #: .\users\templates\users\forms\edit-personal-form.html:84
 #: .\users\templates\users\forms\edit-user-form.html:21
-#: .\users\templates\users\forms\edit-user-form.html:36 .\users\views.py:538
+#: .\users\templates\users\forms\edit-user-form.html:36 .\users\views.py:570
 #: .\video\templates\video\video_card.html:102
 msgid "No"
 msgstr "Нет"
@@ -2692,13 +2692,18 @@ msgstr "М.Д."
 msgid "MC days"
 msgstr "Дни МЦ"
 
-#: .\events\templates\events\base_events.html:144
+#: .\events\templates\events\base_events.html:143
+#: .\events\templates\events\lite_events.html:126
+msgid "Load"
+msgstr "Нагрузка"
+
+#: .\events\templates\events\base_events.html:146
 #, fuzzy
 #| msgid "Block"
 msgid "Blocks"
 msgstr "Блок"
 
-#: .\events\templates\events\base_events.html:148
+#: .\events\templates\events\base_events.html:149
 #: .\events\templates\events\modules\references_modal.html:25
 msgid "Objectives"
 msgstr "Задачи"
@@ -2784,10 +2789,6 @@ msgstr "Скачать презентацию"
 #: .\shared\templates\shared\base_shared_training.html:63
 msgid "Objective"
 msgstr "Задача"
-
-#: .\events\templates\events\lite_events.html:126
-msgid "Load"
-msgstr "Нагрузка"
 
 #: .\events\templates\events\modules\references_modal.html:21
 msgid "Microcycles"
@@ -2992,11 +2993,11 @@ msgstr "Добавить клуб"
 msgid "Federation information"
 msgstr "Информация федерации"
 
-#: .\federations\views.py:163 .\users\views.py:420
+#: .\federations\views.py:163 .\users\views.py:452
 msgid "A club with this subdomain already exists!"
 msgstr "Клуб с этим субдоменом уже существует!"
 
-#: .\federations\views.py:173 .\users\views.py:430
+#: .\federations\views.py:173 .\users\views.py:462
 msgid "Create club success!"
 msgstr "Создание клуба успешно!"
 
@@ -3153,27 +3154,27 @@ msgstr "Место написания справки."
 msgid "Medicine"
 msgstr "Медицина"
 
-#: .\nanofb\settings.py:255
+#: .\nanofb\settings.py:261
 msgid "Russian"
 msgstr "Русский"
 
-#: .\nanofb\settings.py:256
+#: .\nanofb\settings.py:262
 msgid "English"
 msgstr "Английский"
 
-#: .\nanofb\settings.py:257
+#: .\nanofb\settings.py:263
 msgid "Portuguese"
 msgstr "Португальский"
 
-#: .\nanofb\settings.py:258
+#: .\nanofb\settings.py:264
 msgid "Spanish"
 msgstr "Испанский"
 
-#: .\nanofb\settings.py:259
+#: .\nanofb\settings.py:265
 msgid "German"
 msgstr "Немецкий"
 
-#: .\nanofb\settings.py:260
+#: .\nanofb\settings.py:266
 msgid "French"
 msgstr "Французский"
 
@@ -4092,8 +4093,6 @@ msgid "Additional training exercise data"
 msgstr "Дополнительные данные упражнений в тренировке"
 
 #: .\trainings\models.py:436
-#: .\trainings\templates\trainings\training_objectives.html:10
-#: .\trainings\templates\trainings\training_objectives.html:35
 msgid "Objective type"
 msgstr "Тип задачи"
 
@@ -4225,10 +4224,6 @@ msgstr "маникены"
 #: .\trainings\templates\trainings\training_inventory.html:113
 msgid "harnesses"
 msgstr "жгуты"
-
-#: .\trainings\templates\trainings\training_objectives.html:24
-msgid "Search objective type"
-msgstr "Поиск типа задачи"
 
 #: .\trainings\templates\trainings\training_video.html:10
 msgid "Video from the training"
@@ -4628,6 +4623,14 @@ msgstr "Создать новый пароль"
 msgid "Send by email"
 msgstr "Отправить на почту"
 
+#: .\users\templates\users\modules\send_mail_modal.html:17
+msgid "Send to selected"
+msgstr "Отправить выбранному"
+
+#: .\users\templates\users\modules\send_mail_modal.html:20
+msgid "Send filtered"
+msgstr "Отправить отфильтрованным"
+
 #: .\users\templates\users\modules\user_table.html:14
 msgid "Lic."
 msgstr "Лиц."
@@ -4716,23 +4719,23 @@ msgstr "Обратитесь к вашему администратору для
 msgid "This Email not valid!"
 msgstr "Этот адрес электронной почты недействителен!"
 
-#: .\users\views.py:273
+#: .\users\views.py:273 .\users\views.py:305
 msgid "The message was sent successfully!"
 msgstr ""
 
-#: .\users\views.py:279
+#: .\users\views.py:279 .\users\views.py:311
 msgid "Error sending the message!"
 msgstr ""
 
-#: .\users\views.py:347 .\users\views.py:478
+#: .\users\views.py:379 .\users\views.py:510
 msgid "Not chosen"
 msgstr "Не выбрано"
 
-#: .\users\views.py:370
+#: .\users\views.py:402
 msgid "Password updated successfully"
 msgstr "Пароль успешно изменен"
 
-#: .\users\views.py:372
+#: .\users\views.py:404
 msgid "Wrong password"
 msgstr "Неверный пароль"
 
@@ -5076,6 +5079,9 @@ msgstr "Видео / Анимация"
 #: .\video\templates\video\video_card.html:141
 msgid "Animation"
 msgstr "Анимация"
+
+#~ msgid "Search objective type"
+#~ msgstr "Поиск типа задачи"
 
 #~ msgid "Main objective"
 #~ msgstr "Главная задача"
