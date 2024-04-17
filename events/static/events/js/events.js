@@ -752,7 +752,39 @@ $(window).on('load', function (){
              }
         })
     })
-
+    
+    $('#event-mc7-active-button').on( 'click', function () {
+        if ($(this).hasClass('active')){
+            $(this).removeClass('active')
+            baseMicrocycle = []
+        } else {
+            $(this).addClass('active')
+            startDate = moment().startOf('year').startOf('week');
+            endDate = moment().endOf('year').endOf('week');
+            var diffDays = endDate.diff(startDate, 'days')
+            baseMicrocycle = []
+            console.log(startDate.format('DD/MM/YYYY') + "-" + endDate.format('DD/MM/YYYY') + " " + diffDays)
+            let date_with = startDate.clone()
+            let date_by = startDate.clone();
+            for (let i = diffDays+1; i > 0; i-=7) {
+                date_with = startDate.clone().add(i-6, 'days')
+                date_by = startDate.clone().add(i, 'days')
+                let days = date_by.diff(date_with, 'days')
+                baseMicrocycle.push({
+                    id: i,
+                    name: i,
+                    block: i,
+                    startDate: date_with.format('DD/MM/YYYY'),
+                    endDate: date_by.format('DD/MM/YYYY'),
+                    days: days,
+                    customClass: 'green_cell',
+                    href: '#empty'
+                })
+            }
+        }
+        generateData()
+    })
+    
     $('a[data-toggle="pill"]').on('shown.bs.tab', function (event) {
          resize_events_table()
     })

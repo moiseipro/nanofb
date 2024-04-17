@@ -1,3 +1,4 @@
+var baseMicrocycle = []
 
 function generate_table(send_data = {}, calendar = false, isLite = false, url = ''){
     newMicrocycle = []
@@ -11,22 +12,26 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
         type: 'GET',
         dataType: "JSON",
         success: function(data){
-            microcycle_arr = data['results']
-            for (var microcycle of microcycle_arr) {
-                let date_with = moment(microcycle['date_with'], 'DD/MM/YYYY')
-                let date_by = moment(microcycle['date_by'], 'DD/MM/YYYY')
-                let days = date_by.diff(date_with, 'days')+1
-                newMicrocycle.push({
-                    id: microcycle['id'],
-                    name: microcycle['name'],
-                    block: microcycle['block'],
-                    goal: microcycle['goal'],
-                    startDate: microcycle['date_with'],
-                    endDate: microcycle['date_by'],
-                    days: days,
-                    customClass: 'green_cell',
-                    href: '#empty'
-                })
+            if (baseMicrocycle.length > 0){
+                newMicrocycle = baseMicrocycle
+            } else {
+                microcycle_arr = data['results']
+                for (var microcycle of microcycle_arr) {
+                    let date_with = moment(microcycle['date_with'], 'DD/MM/YYYY')
+                    let date_by = moment(microcycle['date_by'], 'DD/MM/YYYY')
+                    let days = date_by.diff(date_with, 'days')+1
+                    newMicrocycle.push({
+                        id: microcycle['id'],
+                        name: microcycle['name'],
+                        block: microcycle['block'],
+                        goal: microcycle['goal'],
+                        startDate: microcycle['date_with'],
+                        endDate: microcycle['date_by'],
+                        days: days,
+                        customClass: 'green_cell',
+                        href: '#empty'
+                    })
+                }
             }
             //console.log(newMicrocycle)
             $.ajax({
