@@ -17,14 +17,14 @@ function generate_ajax_blocks_table(scroll_y = '', pagination = true){
         lengthMenu: length_menu,
         lengthChange: pagination,
         columnDefs: [
-            // {
-            //     "width": "25%", "targets": 1
-            // },
             {
-                "width": "20%", "targets": 2
+                "width": "20%", "targets": 1
             },
             {
-                "width": "10%", "targets": 0
+                "width": "10%", "targets": 3
+            },
+            {
+                "width": "5%", "targets": 0
             }
         ],
         rowCallback: function( row, data ) {
@@ -41,11 +41,11 @@ function generate_ajax_blocks_table(scroll_y = '', pagination = true){
             {'data': 'id', sortable: false, render: function (data, type, row, meta) {
                 return meta.row + meta.settings._iDisplayStart + 1;
             }, searchable: false},
-            // {'data': 'short_name', 'name': 'short_name', 'defaultContent': "---", render: function (data, type, row, meta) {
-            //
-            //     return `<select name="short_name" class="form-control form-control-sm select2" data-value="${data}" data-tags="true" placeholder="${gettext('Short key')}" disabled></select>`
-            //
-            // }},
+            {'data': 'short_name', 'name': 'short_name', 'defaultContent': "---", render: function (data, type, row, meta) {
+
+                return `<select name="short_name" class="form-control form-control-sm select2" data-value="${data}" data-tags="true" placeholder="${gettext('Short key')}" disabled></select>`
+
+            }},
             {'data': 'name', 'name': 'name', 'defaultContent': "---", render: function (data, type, row, meta) {
                 //return `<div class="text-truncate" title="${data}"> ${data} </div>`;
                 return `<input type="text" name="name" value="${data}" class="form-control form-control-sm py-0" placeholder="${gettext('Title')}" autocomplete="off" style="height: 26px" disabled>`
@@ -75,12 +75,12 @@ function generate_ajax_blocks_table(scroll_y = '', pagination = true){
 $(window).on('load', function (){
     $('#blocks-table').on('draw.dt', function () {
         console.log('draw')
-        //create_ajax_select2($('#objectives-table .select2'), gettext('Objective block'), '/trainings/objective_block', $('#training-objectives-modal'))
-        // $('#objectives-table select').each(function (index) {
-        //     let val = $(this).attr('data-value')
-        //     let newOption = new Option(val, val, false, true);
-        //     $(this).append(newOption).trigger('change');
-        // })
+        create_ajax_select2($('#blocks-table .select2'), gettext('Short key'), '/trainings/blocks_short', $('#references-modal'))
+        $('#blocks-table select').each(function (index) {
+            let val = $(this).attr('data-value')
+            let newOption = new Option(val, val, false, true);
+            $(this).append(newOption).trigger('change');
+        })
     });
     // Добавление задач для команды
     let old_data = {};
@@ -89,15 +89,15 @@ $(window).on('load', function (){
 
         if(old_data['row'] !== undefined){
             old_data['row'].find('[name="name"]').val(old_data['name'])
-            // let select = old_data['row'].find('[name="short_name"]');
-            // let val = select.attr('data-value')
-            // let newOption = new Option(val, val, false, true);
-            // select.append(newOption).trigger('change');
+            let select = old_data['row'].find('[name="short_name"]');
+            let val = select.attr('data-value')
+            let newOption = new Option(val, val, false, true);
+            select.append(newOption).trigger('change');
             set_row_edit_mode(old_data['row'], false)
         }
         old_data['row'] = row;
         old_data['name'] = row.find('[name="name"]').val()
-        //old_data['short_name'] = row.find('[name="short_name"]').val()
+        old_data['short_name'] = row.find('[name="short_name"]').val()
 
         set_row_edit_mode(row, true)
     })
@@ -107,7 +107,7 @@ $(window).on('load', function (){
         let id = row.attr('data-block')
         let send_data = {}
         send_data['name'] = row.find('[name="name"]').val()
-        //send_data['short_name'] = row.find('[name="short_name"]').val()
+        send_data['short_name'] = row.find('[name="short_name"]').val()
 
         ajax_blocks_action('PUT', send_data, 'edit block', id).then(function (data) {
             console.log(data)
@@ -130,10 +130,10 @@ $(window).on('load', function (){
         let row = $(this).closest('tr')
 
         row.find('[name="name"]').val(old_data['name'])
-        //let select = row.find('[name="short_name"]');
-        //let val = select.attr('data-value')
-        // let newOption = new Option(val, val, false, true);
-        // select.append(newOption).trigger('change');
+        let select = row.find('[name="short_name"]');
+        let val = select.attr('data-value')
+        let newOption = new Option(val, val, false, true);
+        select.append(newOption).trigger('change');
 
         old_data = {}
 

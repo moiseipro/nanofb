@@ -34,7 +34,9 @@ var objective_block = '';
 $(window).on('load', function (){
     generate_ajax_objectives_table('50vh')
 
-    create_ajax_select2($('#objectives-tab select.objectives-table-filter'), gettext('Search objective type'), '/trainings/objective_block', $('#references-modal'), false)
+    create_ajax_select2($('#objectives-tab select'), gettext('Short key'), '/trainings/objectives_short', $('#references-modal'), false)
+    create_ajax_select2($('#training-blocks-tab select'), gettext('Short key'), '/trainings/blocks_short', $('#references-modal'), false)
+
 
     generate_ajax_blocks_table('50vh')
 
