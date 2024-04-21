@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block main %}
+    {% include 'base/google_tag_manager.html' %}
     <nav class="site-header fixed-top py-3">
         <div class="row justify-content-between">
             <div class="col-sm-6 text-center">
@@ -491,5 +492,6 @@
 {% endblock %}
 
 {% block custom_scripts %}
+<script src="{% static 'nanofootball/google_tag_manager.js' %}"></script>
 <script src="{% static 'nanofootball/base_page.js' %}"></script>
 {% endblock %}
