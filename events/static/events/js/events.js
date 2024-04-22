@@ -203,16 +203,17 @@ $(window).on('load', function (){
                     for (const objective of data.training.objectives) {
                         if (objective.type == 0){
                             objective_type_1 += `<div class="font-weight-bold border px-1">${objective.objective.name}</div>`;
-                        } else if(objective.type == 1){
-                            objective_type_2 += `<div class="font-weight-bold border px-1">${objective.objective.name}</div>`;
                         }
+                        // else if(objective.type == 1){
+                        //     objective_type_2 += `<div class="font-weight-bold border px-1">${objective.objective.name}</div>`;
+                        // }
                     }
                     $('#objective_1-training-view').html(objective_type_1)
                     if (objective_type_1 == '') $('#objective_1-training-view').parent().addClass('d-none')
                     else $('#objective_1-training-view').parent().removeClass('d-none')
-                    $('#objective_2-training-view').html(objective_type_2)
-                    if (objective_type_2 == '') $('#objective_2-training-view').parent().addClass('d-none')
-                    else $('#objective_2-training-view').parent().removeClass('d-none')
+                    // $('#objective_2-training-view').html(objective_type_2)
+                    // if (objective_type_2 == '') $('#objective_2-training-view').parent().addClass('d-none')
+                    // else $('#objective_2-training-view').parent().removeClass('d-none')
                     let blocks = ''
                     for (const block of data.training.blocks) {
                         blocks += `<div class="font-weight-bold border px-1">${block.block.name}</div>`;

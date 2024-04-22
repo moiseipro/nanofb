@@ -716,7 +716,7 @@ class ObjectivesListApiView(APIView):
                        Q(objective__club=request.user.club_id) &
                        Q(type=0) &
                        Q(training__team_id=self.request.session['team'])).filter(query_obj_many). \
-                annotate(count=Count('objective')).order_by('objective__short_name', 'objective__name')
+                annotate(count=Count('objective__id')).order_by('objective__short_name', 'objective__name')
         else:
             season = UserSeason.objects.filter(id=self.request.session['season'])
             queryset = UserTrainingObjectives.objects. \
@@ -729,7 +729,7 @@ class ObjectivesListApiView(APIView):
                        Q(objective__user=request.user) &
                        Q(type=0) &
                        Q(training__team_id=self.request.session['team'])).filter(query_obj_many). \
-                annotate(count=Count('objective')).order_by('objective__short_name', 'objective__name')
+                annotate(count=Count('objective__id')).order_by('objective__short_name', 'objective__name')
 
         print(queryset_many.values())
         list_objective = []
