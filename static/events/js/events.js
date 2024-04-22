@@ -208,12 +208,18 @@ $(window).on('load', function (){
                         }
                     }
                     $('#objective_1-training-view').html(objective_type_1)
+                    if (objective_type_1 == '') $('#objective_1-training-view').parent().addClass('d-none')
+                    else $('#objective_1-training-view').parent().removeClass('d-none')
                     $('#objective_2-training-view').html(objective_type_2)
+                    if (objective_type_2 == '') $('#objective_2-training-view').parent().addClass('d-none')
+                    else $('#objective_2-training-view').parent().removeClass('d-none')
                     let blocks = ''
                     for (const block of data.training.blocks) {
                         blocks += `<div class="font-weight-bold border px-1">${block.block.name}</div>`;
                     }
                     $('#training-block-view').html(blocks)
+                    if (blocks == '') $('#training-block-view').parent().addClass('d-none')
+                    else $('#training-block-view').parent().removeClass('d-none')
 
                     //$('#objective_3-event-view').val(data.training.objective_3)
                     $('#load-event-view').val(data.training.load_type)
@@ -892,8 +898,8 @@ function local_filters_events() {
     $('#events tbody tr').filter(function( index ) {
         let this_obj = $(this)
         let data_objective_1 = this_obj.attr('data-objective_1').split(',')
-        let data_objective_2 = this_obj.attr('data-objective_2').split(',')
-        return objective_1_val!='' && (!contains(data_objective_1, objective_1_val) && !contains(data_objective_2, objective_1_val));
+        //let data_objective_2 = this_obj.attr('data-objective_2').split(',')
+        return objective_1_val!='' && !contains(data_objective_1, objective_1_val);
     }).hide()
     $('#events tbody tr').filter(function( index ) {
         let this_obj = $(this)

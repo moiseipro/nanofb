@@ -556,24 +556,24 @@ class BlockListApiView(APIView):
             season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
             queryset = ClubTrainingBlocks.objects. \
                 filter(Q(club=request.user.club_id)).filter(query_obj). \
-                order_by('name')
+                order_by('short_name', 'name')
             queryset_many = ClubTrainingBlockMany.objects. \
                 filter(Q(training__event_id__date__gte=season[0].date_with) &
                        Q(training__event_id__date__lte=season[0].date_by) &
                        Q(block__club=request.user.club_id) &
                        Q(training__team_id=self.request.session['team'])).filter(query_obj_many). \
-                annotate(count=Count('block')).order_by('block__name')
+                annotate(count=Count('block')).order_by('block__short_name', 'block__name')
         else:
             season = UserSeason.objects.filter(id=self.request.session['season'])
             queryset = UserTrainingBlocks.objects. \
                 filter(Q(user=request.user)).filter(query_obj). \
-                order_by('name')
+                order_by('short_name', 'name')
             queryset_many = UserTrainingBlockMany.objects. \
                 filter(Q(training__event_id__date__gte=season[0].date_with) &
                        Q(training__event_id__date__lte=season[0].date_by) &
                        Q(block__user=request.user) &
                        Q(training__team_id=self.request.session['team'])).filter(query_obj_many). \
-                annotate(count=Count('block')).order_by('block__name')
+                annotate(count=Count('block')).order_by('block__short_name', 'block__name')
 
         print(queryset_many.values())
         list_block = []
@@ -708,26 +708,28 @@ class ObjectivesListApiView(APIView):
             season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
             queryset = ClubTrainingObjectives.objects. \
                 filter(Q(club=request.user.club_id)).filter(query_obj). \
-                order_by('name')
+                order_by('short_name', 'name')
             queryset_many = ClubTrainingObjectiveMany.objects. \
                 filter(#Q(type=type) &
                        Q(training__event_id__date__gte=season[0].date_with) &
                        Q(training__event_id__date__lte=season[0].date_by) &
                        Q(objective__club=request.user.club_id) &
+                       Q(type=0) &
                        Q(training__team_id=self.request.session['team'])).filter(query_obj_many). \
-                annotate(count=Count('objective')).order_by('objective__name')
+                annotate(count=Count('objective')).order_by('objective__short_name', 'objective__name')
         else:
             season = UserSeason.objects.filter(id=self.request.session['season'])
             queryset = UserTrainingObjectives.objects. \
                 filter(Q(user=request.user)).filter(query_obj). \
-                order_by('name')
+                order_by('short_name', 'name')
             queryset_many = UserTrainingObjectiveMany.objects. \
                 filter(#Q(type=type) &
                        Q(training__event_id__date__gte=season[0].date_with) &
                        Q(training__event_id__date__lte=season[0].date_by) &
                        Q(objective__user=request.user) &
+                       Q(type=0) &
                        Q(training__team_id=self.request.session['team'])).filter(query_obj_many). \
-                annotate(count=Count('objective')).order_by('objective__name')
+                annotate(count=Count('objective')).order_by('objective__short_name', 'objective__name')
 
         print(queryset_many.values())
         list_objective = []
