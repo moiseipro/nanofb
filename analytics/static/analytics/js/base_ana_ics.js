@@ -755,10 +755,13 @@ $(function() {
                     $('#analyticsShareModal').find('.link-text > a').text(res.data.link);
                     $('#analyticsShareModal').find('.link-text > a').attr('href', res.data.link);
                     $('#analyticsShareModal').find('button.btn-share').attr('data-link', res.data.link);
-                    $('#analyticsShareModal').find('.link-qrcode').ClassyQR({
-                        create: true,
-                        type: 'url',
-                        url: res.data.link
+                    new QRCode($('#analyticsShareModal').find('.link-qrcode')[0], {
+                        text: res.data.link,
+                        width: 150,
+                        height: 150,
+                        colorDark : "#000000",
+                        colorLight : "#ffffff",
+                        correctLevel : QRCode.CorrectLevel.H
                     });
                 }
             },
@@ -800,10 +803,13 @@ $(function() {
                     $('#analyticsShareModal').find('.link-text > a').text(res.data.link);
                     $('#analyticsShareModal').find('.link-text > a').attr('href', res.data.link);
                     $('#analyticsShareModal').find('button.btn-share').attr('data-link', res.data.link);
-                    $('#analyticsShareModal').find('.link-qrcode').ClassyQR({
-                        create: true,
-                        type: 'url',
-                        url: res.data.link
+                    new QRCode($('#analyticsShareModal').find('.link-qrcode')[0], {
+                        text: res.data.link,
+                        width: 150,
+                        height: 150,
+                        colorDark : "#000000",
+                        colorLight : "#ffffff",
+                        correctLevel : QRCode.CorrectLevel.H
                     });
                     try {
                         copyTextToClipboard(res.data.link);

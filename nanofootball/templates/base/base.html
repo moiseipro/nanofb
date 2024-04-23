@@ -51,10 +51,9 @@
         <script src="//code.jivo.ru/widget/4H7lrljHNT" async></script>
     </head>
     <body>
-        {% block main %}
-
-        {% endblock %}
-
+        {% block google_tag_manager %}{% endblock %}
+        
+        {% block main %}{% endblock %}
         <!-- Django Translate JS -->
         <script src="{% url 'javascript-catalog' %}"></script>
         <!-- <script src="{% static 'django_i18n_example/index.js' %}"></script>-->

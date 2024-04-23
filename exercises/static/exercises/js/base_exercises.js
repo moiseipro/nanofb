@@ -2167,10 +2167,13 @@ $(function() {
                     $('#exerciseShareModal').find('.link-text > a').text(res.data.link);
                     $('#exerciseShareModal').find('.link-text > a').attr('href', res.data.link);
                     $('#exerciseShareModal').find('button.btn-share').attr('data-link', res.data.link);
-                    $('#exerciseShareModal').find('.link-qrcode').ClassyQR({
-                        create: true,
-                        type: 'url',
-                        url: res.data.link
+                    new QRCode($('#exerciseShareModal').find('.link-qrcode')[0], {
+                        text: res.data.link,
+                        width: 150,
+                        height: 150,
+                        colorDark : "#000000",
+                        colorLight : "#ffffff",
+                        correctLevel : QRCode.CorrectLevel.H
                     });
                 }
             },
@@ -2221,10 +2224,13 @@ $(function() {
                     $('#exerciseShareModal').find('.link-text > a').text(res.data.link);
                     $('#exerciseShareModal').find('.link-text > a').attr('href', res.data.link);
                     $('#exerciseShareModal').find('button.btn-share').attr('data-link', res.data.link);
-                    $('#exerciseShareModal').find('.link-qrcode').ClassyQR({
-                        create: true,
-                        type: 'url',
-                        url: res.data.link
+                    new QRCode($('#exerciseShareModal').find('.link-qrcode')[0], {
+                        text: res.data.link,
+                        width: 150,
+                        height: 150,
+                        colorDark : "#000000",
+                        colorLight : "#ffffff",
+                        correctLevel : QRCode.CorrectLevel.H
                     });
                     try {
                         copyTextToClipboard(res.data.link);
@@ -2946,7 +2952,7 @@ $(function() {
                 $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-move-exercise-2"]').find('.counter').text(` (${visibledFavorExsCount}) `);
                 $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-move-exercise-3"]').find('.counter').text(` (${visibledExsCount}) `);
                 let currentTeam = $('#select-team').find(`option[value="${$('#select-team').val()}"]`).text();
-                $('#exerciseCopyModal').find('.btn-apply').text(currentTeam);
+                $('#exerciseCopyModal').find('.btn-team').text(currentTeam);
                 $('#exerciseCopyModal').modal('show'); 
             } else if (cId == "move") {
                 $('#exerciseCopyModal').find('.modal-title').text("Переместить упражнение в выбранную папку");
@@ -2963,7 +2969,7 @@ $(function() {
                 $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-move-exercise-2"]').find('.counter').text(` (${visibledFavorExsCount}) `);
                 $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-move-exercise-3"]').find('.counter').text(` (${visibledExsCount}) `);
                 let currentTeam = $('#select-team').find(`option[value="${$('#select-team').val()}"]`).text();
-                $('#exerciseCopyModal').find('.btn-apply').text(currentTeam);
+                $('#exerciseCopyModal').find('.btn-team').text(currentTeam);
                 $('#exerciseCopyModal').modal('show');
             } else if (cId == "trainer") {
                 let folderType = $('.folders_div.selected').attr('data-id');

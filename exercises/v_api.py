@@ -3252,6 +3252,7 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
                 if found_exs:
                     res_exs['scheme_1'] = found_exs.scheme_1
                     res_exs['scheme_2'] = found_exs.scheme_2
+                    res_exs['description'] = found_exs.description
         user_params = None
         if request.user.club_id is not None:
             user_params = UserExerciseParam.objects.filter(exercise_club=c_exs[0].id, user=cur_user)
