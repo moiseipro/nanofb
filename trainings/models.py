@@ -33,6 +33,14 @@ class AbstractTrainingObjectives(models.Model):
         abstract = True
 
 
+class AdminTrainingObjectives(AbstractTrainingObjectives):
+    variant = models.SmallIntegerField(
+        verbose_name=_('Variant'),
+        help_text=_('Variant'),
+        default=0
+    )
+
+
 class UserTrainingObjectives(AbstractTrainingObjectives):
     user = models.ForeignKey(
         User,
@@ -73,6 +81,14 @@ class AbstractTrainingBlock(models.Model):
 
     class Meta:
         abstract = True
+
+
+class AdminTrainingBlocks(AbstractTrainingBlock):
+    variant = models.SmallIntegerField(
+        verbose_name=_('Variant'),
+        help_text=_('Variant'),
+        default=0
+    )
 
 
 class UserTrainingBlocks(AbstractTrainingBlock):

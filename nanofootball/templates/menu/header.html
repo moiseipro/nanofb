@@ -22,9 +22,15 @@
     <i class="fa fa-bars"></i>
 </a>
 
-<div class="nav float-right pt-1">
-
+{% if user.is_superuser %}
+<div class="nav float-left pt-1">
+    <h1 class="text-light">{% trans 'ADM' %}</h1>
 </div>
+{% endif %}
+
+{#<div class="nav float-right pt-1">#}
+{##}
+{#</div>#}
 <!-- /Mobile Menu Toggle -->
 
 <!-- Header Right Menu -->
