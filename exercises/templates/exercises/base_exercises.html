@@ -704,6 +704,7 @@
                                 {% endif %}
                             </div>
                             <div class="exs-applier float-right">
+                                <button type="button" class="btn btn-sm btn-primary btn-team" disabled="disabled" title="Название команды">Команда</button>
                                 <button type="button" class="btn btn-sm btn-primary btn-apply">Подтвердить</button>
                                 <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Отмена</button>
                             </div>
@@ -861,7 +862,7 @@
                                     <div class="col-10 link-text">
                                         <a href="" target="_blank">-</a>
                                     </div>
-                                    <div class="col-12 link-qrcode text-center">
+                                    <div class="col-12 link-qrcode d-flex justify-content-center mt-4">
                                     </div>
                                 </div>
                             </div>
@@ -1149,6 +1150,7 @@
     <script src="{% static 'ckeditor5-36.0.0-i0g4ar8o2g2v/build/translations/ru.js' %}"></script>
 
     <script type="text/javascript" src="{% static 'preadmin/plugins/jqueryClassyqr/jquery.classyqr.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'preadmin/js/qrcode.min.js' %}"></script>
 
     <script src="{% static 'video/js/video_list.js' %}"></script>
     <script src="{% static 'exercises/js/modules/exercise_counter.js' %}"></script>

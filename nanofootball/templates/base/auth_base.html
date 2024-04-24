@@ -1,8 +1,11 @@
 {% extends '../base/base.html' %}
 {% load static %}
 
-{% block main %}
+{% block google_tag_manager %}
     {% include 'base/google_tag_manager.html' %}
+{% endblock %}
+
+{% block main %}
     <div class="page-loader-wrapper" style="display: none;">
         <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
     </div>

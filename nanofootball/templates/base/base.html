@@ -4,6 +4,8 @@
 <!doctype html>
 <html lang="en">
     <head>
+        {% block google_tag_manager %}{% endblock %}
+        
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
         <meta name="description" content="">
@@ -51,10 +53,7 @@
         <script src="//code.jivo.ru/widget/4H7lrljHNT" async></script>
     </head>
     <body>
-        {% block main %}
-
-        {% endblock %}
-
+        {% block main %}{% endblock %}
         <!-- Django Translate JS -->
         <script src="{% url 'javascript-catalog' %}"></script>
         <!-- <script src="{% static 'django_i18n_example/index.js' %}"></script>-->

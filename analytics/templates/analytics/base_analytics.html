@@ -312,7 +312,7 @@
                                     <div class="col-10 link-text">
                                         <a href="" target="_blank">-</a>
                                     </div>
-                                    <div class="col-12 link-qrcode text-center">
+                                    <div class="col-12 link-qrcode d-flex justify-content-center mt-4">
                                     </div>
                                 </div>
                             </div>
@@ -331,5 +331,6 @@
 
 {% block custom_scripts %}
     <script type="text/javascript" src="{% static 'preadmin/plugins/jqueryClassyqr/jquery.classyqr.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'preadmin/js/qrcode.min.js' %}"></script>
     <script src="{% static 'analytics/js/base_ana_ics.js' %}"></script>
 {% endblock %}
