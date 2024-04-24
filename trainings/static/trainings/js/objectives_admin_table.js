@@ -1,10 +1,10 @@
-var blocks_table;
-var is_select_block = false;
+var aobjectives_table;
+var is_select_aobjective = false;
 
-function generate_ajax_blocks_table(scroll_y = '', pagination = true){
+function generate_ajax_aobjectives_table(scroll_y = '', pagination = true){
     let page_length = pagination ? 10 : -1;
     let length_menu = pagination ? [ 10, 25, 50 ] : false
-    blocks_table = $('#blocks-table').DataTable({
+    aobjectives_table = $('#admin-objectives-table').DataTable({
         language: {
             url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
         },
@@ -29,10 +29,10 @@ function generate_ajax_blocks_table(scroll_y = '', pagination = true){
         ],
         rowCallback: function( row, data ) {
             console.log(data)
-            $(row).attr('data-block', data.id)
+            $(row).attr('data-objective', data.id)
         },
         ajax: {
-            url:'/trainings/api/blocks/?format=datatables',
+            url:'/trainings/api/aobjectives/?format=datatables',
             data: function(data){
                 console.log(data)
             }
@@ -42,44 +42,47 @@ function generate_ajax_blocks_table(scroll_y = '', pagination = true){
                 return meta.row + meta.settings._iDisplayStart + 1;
             }, searchable: false},
             {'data': 'short_name', 'name': 'short_name', 'defaultContent': "---", render: function (data, type, row, meta) {
-
+                //return `<div class="text-truncate" title="${data}"> ${data} </div>`;
                 return `<select name="short_name" class="form-control form-control-sm select2" data-value="${data}" data-tags="true" placeholder="${gettext('Short key')}" disabled></select>`
-
+                //return `<input type="text" name="short_name" value="${data}" class="form-control form-control-sm py-0" placeholder="${gettext('Age')}" autocomplete="off" style="height: 26px" disabled>`
             }},
             {'data': 'name', 'name': 'name', 'defaultContent': "---", render: function (data, type, row, meta) {
                 //return `<div class="text-truncate" title="${data}"> ${data} </div>`;
                 return `<input type="text" name="name" value="${data}" class="form-control form-control-sm py-0" placeholder="${gettext('Title')}" autocomplete="off" style="height: 26px" disabled>`
             }},
             {'data': 'id', sortable: false, searchable: false, render: function (data, type, row, meta) {
-                let button_html = `<div class="w-100 text-center" title="">`
-                button_html += `<button type="button" class="btn btn-sm btn-warning mx-1 swap-button edit-block py-0"><i class="fa fa-pencil" aria-hidden="true"></i></button>`
-                button_html += `<button type="button" class="btn btn-sm btn-danger mx-1 swap-button delete-block py-0"><i class="fa fa-trash" aria-hidden="true"></i></button>`
-                button_html += `<button type="button" class="btn btn-sm btn-success mx-1 swap-button save-block py-0 d-none"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>`
-                button_html += `<button type="button" class="btn btn-sm btn-warning mx-1 swap-button cancel-block py-0 d-none"><i class="fa fa-ban" aria-hidden="true"></i></button>`
-                button_html += `</div>`
-                    return button_html;
+                let button_html = ``
+                if ($('#admin-objectives-table').attr('data-perm')=='True'){
+                    button_html = `<div class="w-100 text-center" title="">`
+                    button_html += `<button type="button" class="btn btn-sm btn-warning mx-1 swap-button edit-objective py-0"><i class="fa fa-pencil" aria-hidden="true"></i></button>`
+                    button_html += `<button type="button" class="btn btn-sm btn-danger mx-1 swap-button delete-objective py-0"><i class="fa fa-trash" aria-hidden="true"></i></button>`
+                    button_html += `<button type="button" class="btn btn-sm btn-success mx-1 swap-button save-objective py-0 d-none"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>`
+                    button_html += `<button type="button" class="btn btn-sm btn-warning mx-1 swap-button cancel-objective py-0 d-none"><i class="fa fa-ban" aria-hidden="true"></i></button>`
+                    button_html += `</div>`
+                }
+                return button_html;
             }},
         ],
 
     })
 
-    $('#training-blocks-tab-button').on('shown.bs.tab', function () {
-        blocks_table.columns.adjust()
+    $('#objectives-tab-button').on('shown.bs.tab', function () {
+        aobjectives_table.columns.adjust()
     })
-    $('#nav-user-blocks-tab').on('shown.bs.tab', function () {
-        blocks_table.columns.adjust()
+    $('#nav-admin-objectives-tab').on('shown.bs.tab', function () {
+        aobjectives_table.columns.adjust()
     })
-    $('.blocks-table-filter').on("keyup change", function () {
+    $('.admin-objectives-table-filter').on("keyup change", function () {
         let val = $(this).val() ? $(this).val() : '';
-        blocks_table.columns($(this).attr('name')).search(val).draw();
+        aobjectives_table.columns($(this).attr('name')).search(val).draw();
     })
 }
 
 $(window).on('load', function (){
-    $('#blocks-table').on('draw.dt', function () {
+    $('#admin-objectives-table').on('draw.dt', function () {
         console.log('draw')
-        create_ajax_select2($('#blocks-table .select2'), gettext('Short key'), '/trainings/blocks_short', $('#references-modal'))
-        $('#blocks-table select').each(function (index) {
+        create_ajax_select2($('#admin-objectives-table .select2'), gettext('Short key'), '/trainings/aobjectives_short', $('#references-modal'))
+        $('#admin-objectives-table select').each(function (index) {
             let val = $(this).attr('data-value')
             let newOption = new Option(val, val, false, true);
             $(this).append(newOption).trigger('change');
@@ -87,7 +90,7 @@ $(window).on('load', function (){
     });
     // Добавление задач для команды
     let old_data = {};
-    $('#blocks-table').on('click', '.edit-block', function(e) {
+    $('#admin-objectives-table').on('click', '.edit-objective', function(e) {
         let row = $(this).closest('tr')
 
         if(old_data['row'] !== undefined){
@@ -104,32 +107,32 @@ $(window).on('load', function (){
 
         set_row_edit_mode(row, true)
     })
-    $('#blocks-table').on('click', '.save-block', function(e) {
+    $('#admin-objectives-table').on('click', '.save-objective', function(e) {
         let row = $(this).closest('tr')
 
-        let id = row.attr('data-block')
+        let id = row.attr('data-objective')
         let send_data = {}
         send_data['name'] = row.find('[name="name"]').val()
         send_data['short_name'] = row.find('[name="short_name"]').val()
 
-        ajax_blocks_action('PUT', send_data, 'edit block', id).then(function (data) {
+        ajax_aobjectives_action('PUT', send_data, 'edit objective', id).then(function (data) {
             console.log(data)
             old_data = {}
             set_row_edit_mode(row, false)
         })
     })
-    $('#blocks-table').on('click', '.delete-block', function(e) {
+    $('#admin-objectives-table').on('click', '.delete-objective', function(e) {
         let row = $(this).closest('tr')
 
-        let id = row.attr('data-block')
+        let id = row.attr('data-objective')
         let send_data = {}
 
-        ajax_blocks_action('DELETE', send_data, 'delete block', id).then(function (data) {
+        ajax_aobjectives_action('DELETE', send_data, 'delete objective', id).then(function (data) {
             console.log(data)
-            blocks_table.ajax.reload()
+            aobjectives_table.ajax.reload()
         })
     })
-    $('#blocks-table').on('click', '.cancel-block', function(e) {
+    $('#admin-objectives-table').on('click', '.cancel-objective', function(e) {
         let row = $(this).closest('tr')
 
         row.find('[name="name"]').val(old_data['name'])

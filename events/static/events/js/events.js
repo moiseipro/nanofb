@@ -33,14 +33,18 @@ var objective_block = '';
 
 $(window).on('load', function (){
     generate_ajax_objectives_table('50vh')
-
-    create_ajax_select2($('#objectives-tab select'), gettext('Short key'), '/trainings/objectives_short', $('#references-modal'), false)
-    create_ajax_select2($('#training-blocks-tab select'), gettext('Short key'), '/trainings/blocks_short', $('#references-modal'), false)
-
-
+    generate_ajax_aobjectives_table('50vh')
     generate_ajax_blocks_table('50vh')
-
+    generate_ajax_ablocks_table('50vh')
     generate_ajax_loads_table('50vh')
+
+    create_ajax_select2($('#nav-user-objectives select'), gettext('Short key'), '/trainings/objectives_short', $('#references-modal'), false)
+    create_ajax_select2($('#nav-user-blocks select'), gettext('Short key'), '/trainings/blocks_short', $('#references-modal'), false)
+    create_ajax_select2($('#nav-admin-objectives select'), gettext('Short key'), '/trainings/aobjectives_short', $('#references-modal'), false)
+    create_ajax_select2($('#nav-admin-blocks select'), gettext('Short key'), '/trainings/ablocks_short', $('#references-modal'), false)
+
+
+
 
     $('#toggle_btn').click()
 

@@ -4,39 +4,88 @@
 
 
 <div>
-    <form id="objectives-form" method="post" class="">
-        <div class="row">
-            <div class="col-2 px-1">
-                <select type="text" name="short_name" class="form-control form-control-sm" data-tags="true" placeholder="{% trans "Short key" %}" autocomplete="off"></select>
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-link active" id="nav-user-objectives-tab" data-toggle="tab" href="#nav-user-objectives" role="tab" aria-controls="nav-user-objectives" aria-selected="true">{% trans 'My objectives' %}</a>
+            <a class="nav-link" id="nav-admin-objectives-tab" data-toggle="tab" href="#nav-admin-objectives" role="tab" aria-controls="nav-admin-objectives" aria-selected="false">{% trans 'NF objectives' %}</a>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-user-objectives" role="tabpanel" aria-labelledby="nav-home-tab">
+            <form id="objectives-form" method="post" class="">
+                <div class="row">
+                    <div class="col-2 px-1">
+                        <select type="text" name="short_name" class="form-control form-control-sm" data-tags="true" placeholder="{% trans "Short key" %}" autocomplete="off"></select>
+                    </div>
+                    <div class="col-8 px-1">
+                        <input type="text" name="name" class="form-control form-control-md" placeholder="{% trans "Title" %}" autocomplete="off" style="height: 38px;">
+                    </div>
+                    <div class="col-2 px-1">
+                        <button type="submit" class="btn btn-sm btn-block btn-success">
+                            <span aria-hidden="true">{% trans 'Create' %}</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <div class="row mt-2 objective-modal-filters">
+                <div class="col-3 px-1">
+                    <select name=".short-name-col" class="form-control form-control-sm objectives-table-filter" data-tags="true" placeholder="{% trans 'Search short key' %}"></select>
+                </div>
+                <div class="col px-1">
+                    <input type="search" name=".name-col" class="form-control form-control-md objectives-table-filter" placeholder="{% trans "Search name" %}" autocomplete="off" style="height: 38px;">
+                </div>
             </div>
-            <div class="col-8 px-1">
-                <input type="text" name="name" class="form-control form-control-md" placeholder="{% trans "Title" %}" autocomplete="off" style="height: 38px;">
-            </div>
-            <div class="col-2 px-1">
-                <button type="submit" class="btn btn-sm btn-block btn-success">
-                    <span aria-hidden="true">{% trans 'Create' %}</span>
-                </button>
+            <div class="table-responsive">
+                <table id="objectives-table" class="table table-sm table-striped table-bordered dataTable reference-event-table" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>{% trans '№' %}</th>
+                            <th class="short-name-col">{% trans 'Short key' %}</th>
+                            <th class="name-col">{% trans 'Title' %}</th>
+                            <th class="text-center"><i class="fa fa-cog" aria-hidden="true"></i></th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
         </div>
-    </form>
-    <div class="row mt-2 objective-modal-filters">
-        <div class="col-3 px-1">
-            <select name=".short-name-col" class="form-control form-control-sm objectives-table-filter" data-tags="true" placeholder="{% trans 'Search short key' %}"></select>
+        <div class="tab-pane fade" id="nav-admin-objectives" role="tabpanel" aria-labelledby="nav-profile-tab">
+            {% if perms.trainings.change_admintrainingblocks %}
+            <form id="admin-objectives-form" method="post" class="">
+                <div class="row">
+                    <div class="col-2 px-1">
+                        <select type="text" name="short_name" class="form-control form-control-sm" data-tags="true" placeholder="{% trans "Short key" %}" autocomplete="off"></select>
+                    </div>
+                    <div class="col-8 px-1">
+                        <input type="text" name="name" class="form-control form-control-md" placeholder="{% trans "Title" %}" autocomplete="off" style="height: 38px;">
+                    </div>
+                    <div class="col-2 px-1">
+                        <button type="submit" class="btn btn-sm btn-block btn-success">
+                            <span aria-hidden="true">{% trans 'Create' %}</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            {% endif %}
+            <div class="row mt-2 objective-modal-filters">
+                <div class="col-3 px-1">
+                    <select name=".short-name-col" class="form-control form-control-sm admin-objectives-table-filter" data-tags="true" placeholder="{% trans 'Search short key' %}"></select>
+                </div>
+                <div class="col px-1">
+                    <input type="search" name=".name-col" class="form-control form-control-md admin-objectives-table-filter" placeholder="{% trans "Search name" %}" autocomplete="off" style="height: 38px;">
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table id="admin-objectives-table" class="table table-sm table-striped table-bordered dataTable reference-event-table" data-perm="{{ perms.trainings.change_admintrainingobjectives }}" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>{% trans '№' %}</th>
+                            <th class="short-name-col">{% trans 'Short key' %}</th>
+                            <th class="name-col">{% trans 'Title' %}</th>
+                            <th class="text-center"><i class="fa fa-cog" aria-hidden="true"></i></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
         </div>
-        <div class="col px-1">
-            <input type="search" name=".name-col" class="form-control form-control-md objectives-table-filter" placeholder="{% trans "Search name" %}" autocomplete="off" style="height: 38px;">
-        </div>
-    </div>
-    <div class="table-responsive">
-        <table id="objectives-table" class="table table-sm table-striped table-bordered dataTable reference-event-table" style="width:100%">
-            <thead>
-                <tr>
-                    <th>{% trans '№' %}</th>
-                    <th class="short-name-col">{% trans 'Short key' %}</th>
-                    <th class="name-col">{% trans 'Title' %}</th>
-                    <th class="text-center"><i class="fa fa-cog" aria-hidden="true"></i></th>
-                </tr>
-            </thead>
-        </table>
     </div>
 </div>

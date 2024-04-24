@@ -66,6 +66,9 @@ function generate_ajax_blocks_table(scroll_y = '', pagination = true){
     $('#training-blocks-tab-button').on('shown.bs.tab', function () {
         blocks_table.columns.adjust()
     })
+    $('#nav-user-blocks-tab').on('shown.bs.tab', function () {
+        blocks_table.columns.adjust()
+    })
     $('.blocks-table-filter').on("keyup change", function () {
         let val = $(this).val() ? $(this).val() : '';
         blocks_table.columns($(this).attr('name')).search(val).draw();

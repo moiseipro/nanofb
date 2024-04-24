@@ -11,7 +11,7 @@ from rest_framework import viewsets, status, generics
 from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
+from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions, IsAdminUser
 from rest_framework.views import APIView
 from django.utils.translation import gettext_lazy as _
 from rest_framework_datatables.django_filters.backends import DatatablesFilterBackend
@@ -28,7 +28,7 @@ from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExe
     ClubTrainingExercise, ClubTrainingProtocol, ClubTraining, ClubTrainingExerciseAdditional, LiteTraining, \
     LiteTrainingExercise, LiteTrainingExerciseAdditional, UserTrainingObjectives, ClubTrainingObjectives, \
     ClubTrainingObjectiveMany, UserTrainingObjectiveMany, ClubTrainingBlocks, UserTrainingBlocks, ClubTrainingBlockMany, \
-    UserTrainingBlockMany, ClubTrainingLoad, UserTrainingLoad
+    UserTrainingBlockMany, ClubTrainingLoad, UserTrainingLoad, AdminTrainingObjectives, AdminTrainingBlocks
 
 # REST FRAMEWORK
 from trainings.serializers import UserTrainingSerializer, UserTrainingExerciseSerializer, \
@@ -38,7 +38,7 @@ from trainings.serializers import UserTrainingSerializer, UserTrainingExerciseSe
     UserTrainingObjectiveSerializer, ClubTrainingObjectiveSerializer, UserTrainingObjectiveManySerializer, \
     ClubTrainingObjectiveManySerializer, ClubTrainingBlockSerializer, UserTrainingBlockSerializer, \
     ClubTrainingBlockManySerializer, UserTrainingBlockManySerializer, ClubTrainingLoadSerializer, \
-    UserTrainingLoadSerializer
+    UserTrainingLoadSerializer, AdminTrainingObjectiveSerializer, AdminTrainingBlockSerializer
 from users.models import User
 from system_icons.views import get_ui_elements
 
@@ -530,6 +530,55 @@ class BlocksViewSet(viewsets.ModelViewSet):
         return blocks
 
 
+class AdminBlocksViewSet(viewsets.ModelViewSet):
+    permission_classes = [BaseTrainingsPermissions]
+    filter_backends = (DatatablesFilterBackend,)
+    filterset_class = ObjectivesGlobalFilter
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+    def get_serializer_class(self):
+        serial = AdminTrainingBlockSerializer
+        return serial
+
+    def get_queryset(self):
+        objectives = AdminTrainingBlocks.objects.filter(variant=0).order_by('short_name', 'name')
+
+        return objectives
+
+
+class AdminBlockShortListApiView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        search = request.GET.get('search', '')
+
+        queryset = AdminTrainingBlocks.objects. \
+            filter(variant=0, short_name__contains=search). \
+            annotate(names=Count('short_name')).order_by('short_name')
+
+        list_microcycles = [
+            {
+                'id': microcycle.short_name,
+                'name': microcycle.short_name,
+                'count': 0
+            } for microcycle in queryset
+        ]
+        print(list_microcycles)
+        microcycles_count = {}
+        for microcycle in list_microcycles:
+            print(microcycle)
+            microcycles_count[microcycle['id']] = microcycles_count.get(microcycle['id'], {'name': '', 'count': 0})
+            microcycles_count[microcycle['id']]['count'] += microcycle['count']
+            microcycles_count[microcycle['id']]['name'] = microcycle['name']
+        print(microcycles_count)
+        list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in microcycles_count.items()]
+        #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+        print(list2)
+        return Response(list2)
+
+
 class BlockListApiView(APIView):
     # authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -647,7 +696,6 @@ class BlockShortListApiView(APIView):
 
 class ObjectivesViewSet(viewsets.ModelViewSet):
     permission_classes = [BaseTrainingsPermissions]
-    #permission_classes = [IsAuthenticated]
     filter_backends = (DatatablesFilterBackend,)
     filterset_class = ObjectivesGlobalFilter
 
@@ -672,6 +720,55 @@ class ObjectivesViewSet(viewsets.ModelViewSet):
             objectives = UserTrainingObjectives.objects.filter(user=self.request.user).order_by('short_name', 'name')
 
         return objectives
+
+
+class AdminObjectivesViewSet(viewsets.ModelViewSet):
+    permission_classes = [BaseTrainingsPermissions]
+    filter_backends = (DatatablesFilterBackend,)
+    filterset_class = ObjectivesGlobalFilter
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+    def get_serializer_class(self):
+        serial = AdminTrainingObjectiveSerializer
+        return serial
+
+    def get_queryset(self):
+        objectives = AdminTrainingObjectives.objects.filter(variant=0).order_by('short_name', 'name')
+
+        return objectives
+
+
+class AdminObjectiveShortListApiView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        search = request.GET.get('search', '')
+
+        queryset = AdminTrainingObjectives.objects. \
+            filter(variant=0, short_name__contains=search). \
+            annotate(names=Count('short_name')).order_by('short_name')
+
+        list_microcycles = [
+            {
+                'id': microcycle.short_name,
+                'name': microcycle.short_name,
+                'count': 0
+            } for microcycle in queryset
+        ]
+        print(list_microcycles)
+        microcycles_count = {}
+        for microcycle in list_microcycles:
+            print(microcycle)
+            microcycles_count[microcycle['id']] = microcycles_count.get(microcycle['id'], {'name': '', 'count': 0})
+            microcycles_count[microcycle['id']]['count'] += microcycle['count']
+            microcycles_count[microcycle['id']]['name'] = microcycle['name']
+        print(microcycles_count)
+        list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in microcycles_count.items()]
+        #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+        print(list2)
+        return Response(list2)
 
 
 # Списки задачь для тренировок команды

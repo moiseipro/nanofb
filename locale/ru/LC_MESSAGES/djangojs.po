@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-18 12:44+0300\n"
+"POT-Creation-Date: 2024-04-24 16:03+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -224,102 +224,110 @@ msgstr "Ошибка при выполнении события!"
 msgid "Event"
 msgstr "Событие"
 
-#: .\events\static\events\js\events.js:37
-#: .\events\static\events\js\events.js:38 .\static\events\js\events.js:37
+#: .\events\static\events\js\events.js:41
+#: .\events\static\events\js\events.js:42
+#: .\events\static\events\js\events.js:43
+#: .\events\static\events\js\events.js:44 .\static\events\js\events.js:37
 #: .\static\events\js\events.js:38 .\static\trainings\js\blocks_table.js:46
 #: .\static\trainings\js\blocks_table.js:78
 #: .\static\trainings\js\objectives_table.js:46
 #: .\static\trainings\js\objectives_table.js:78
+#: .\trainings\static\trainings\js\blocks_admin_table.js:46
+#: .\trainings\static\trainings\js\blocks_admin_table.js:84
 #: .\trainings\static\trainings\js\blocks_table.js:46
-#: .\trainings\static\trainings\js\blocks_table.js:78
+#: .\trainings\static\trainings\js\blocks_table.js:81
+#: .\trainings\static\trainings\js\objectives_admin_table.js:46
+#: .\trainings\static\trainings\js\objectives_admin_table.js:84
 #: .\trainings\static\trainings\js\objectives_table.js:46
-#: .\trainings\static\trainings\js\objectives_table.js:78
+#: .\trainings\static\trainings\js\objectives_table.js:81
 msgid "Short key"
 msgstr "Короткий ключ"
 
-#: .\events\static\events\js\events.js:53 .\static\events\js\events.js:53
+#: .\events\static\events\js\events.js:57 .\static\events\js\events.js:53
 msgid "Warning!"
 msgstr "Предупреждение!"
 
-#: .\events\static\events\js\events.js:53 .\static\events\js\events.js:53
+#: .\events\static\events\js\events.js:57 .\static\events\js\events.js:53
 msgid "Choose a team and a season!"
 msgstr "Выберите команду и сезон!"
 
-#: .\events\static\events\js\events.js:387 .\static\events\js\events.js:387
+#: .\events\static\events\js\events.js:398 .\static\events\js\events.js:394
 msgid "Go to the created event group A"
 msgstr "Перейти к созданному событию группы A"
 
-#: .\events\static\events\js\events.js:393 .\static\events\js\events.js:393
+#: .\events\static\events\js\events.js:404 .\static\events\js\events.js:400
 msgid "Go to the created event group B"
 msgstr "Перейти к созданному событию группы B"
 
-#: .\events\static\events\js\events.js:403
-#: .\events\static\events\js\events.js:425 .\static\events\js\events.js:403
-#: .\static\events\js\events.js:425
+#: .\events\static\events\js\events.js:414
+#: .\events\static\events\js\events.js:436 .\static\events\js\events.js:410
+#: .\static\events\js\events.js:432
 msgid "Go to the created event"
 msgstr "Перейти к созданному событию"
 
-#: .\events\static\events\js\events.js:565 .\static\events\js\events.js:565
+#: .\events\static\events\js\events.js:576 .\static\events\js\events.js:572
 msgid "No event selected!"
 msgstr "Событие не выбрано!"
 
-#: .\events\static\events\js\events.js:724
-#: .\events\static\events\js\events.js:753 .\static\events\js\events.js:724
-#: .\static\events\js\events.js:753
+#: .\events\static\events\js\events.js:735
+#: .\events\static\events\js\events.js:764 .\static\events\js\events.js:731
+#: .\static\events\js\events.js:760
 msgid "Ready"
 msgstr "Готово"
 
-#: .\events\static\events\js\events.js:724
-#: .\events\static\events\js\events.js:753 .\static\events\js\events.js:724
-#: .\static\events\js\events.js:753
+#: .\events\static\events\js\events.js:735
+#: .\events\static\events\js\events.js:764 .\static\events\js\events.js:731
+#: .\static\events\js\events.js:760
 msgid "Link copied"
 msgstr "Ссылка скопирована"
 
-#: .\events\static\events\js\events.js:799 .\static\events\js\events.js:799
+#: .\events\static\events\js\events.js:810 .\static\events\js\events.js:806
 msgid "M.C."
 msgstr "М.Ц."
 
-#: .\events\static\events\js\events.js:800 .\static\events\js\events.js:800
+#: .\events\static\events\js\events.js:811 .\static\events\js\events.js:807
 msgid "Blocks"
 msgstr "Блоки"
 
-#: .\events\static\events\js\events.js:801 .\static\events\js\events.js:801
+#: .\events\static\events\js\events.js:812 .\static\events\js\events.js:808
 #: .\static\trainings\js\training.js:41
 #: .\trainings\static\trainings\js\training.js:41
 msgid "Load"
 msgstr "Нагрузка"
 
-#: .\events\static\events\js\events.js:808 .\static\events\js\events.js:808
+#: .\events\static\events\js\events.js:819 .\static\events\js\events.js:815
+#: .\static\trainings\js\training.js:44
+#: .\trainings\static\trainings\js\training.js:44
 msgid "Objectives"
 msgstr "Задачи"
 
-#: .\events\static\events\js\events.js:1129 .\static\events\js\events.js:1129
+#: .\events\static\events\js\events.js:1140 .\static\events\js\events.js:1136
 msgid "Copy"
 msgstr "Копировать"
 
-#: .\events\static\events\js\events.js:1130
-#: .\events\static\events\js\events.js:1178
+#: .\events\static\events\js\events.js:1141
+#: .\events\static\events\js\events.js:1189
 #: .\notifications\static\notifications\js\base_notification.js:240
-#: .\static\events\base_events.js:439 .\static\events\js\events.js:1130
-#: .\static\events\js\events.js:1178
+#: .\static\events\base_events.js:439 .\static\events\js\events.js:1137
+#: .\static\events\js\events.js:1185
 #: .\static\notifications\js\base_notification.js:240
 #: .\static\video\base_video.js:47
 msgid "Edit"
 msgstr "Редактировать"
 
-#: .\events\static\events\js\events.js:1131
-#: .\events\static\events\js\events.js:1179
+#: .\events\static\events\js\events.js:1142
+#: .\events\static\events\js\events.js:1190
 #: .\notifications\static\notifications\js\notification_modal.js:20
-#: .\static\events\base_events.js:440 .\static\events\js\events.js:1131
-#: .\static\events\js\events.js:1179
+#: .\static\events\base_events.js:440 .\static\events\js\events.js:1138
+#: .\static\events\js\events.js:1186
 #: .\static\notifications\js\notification_modal.js:20
 #: .\static\video\base_video.js:57
 msgid "Delete"
 msgstr "Удалить"
 
-#: .\events\static\events\js\events.js:1133
-#: .\events\static\events\js\events.js:1181 .\static\events\base_events.js:442
-#: .\static\events\js\events.js:1133 .\static\events\js\events.js:1181
+#: .\events\static\events\js\events.js:1144
+#: .\events\static\events\js\events.js:1192 .\static\events\base_events.js:442
+#: .\static\events\js\events.js:1140 .\static\events\js\events.js:1188
 msgid "Close"
 msgstr "Закрыть"
 
@@ -697,8 +705,10 @@ msgstr "Ошибка при действии с сезоном!"
 #: .\static\trainings\js\loads_table.js:51
 #: .\static\trainings\js\objectives_table.js:51
 #: .\static\trainings\js\print_training.js:182
+#: .\trainings\static\trainings\js\blocks_admin_table.js:51
 #: .\trainings\static\trainings\js\blocks_table.js:51
 #: .\trainings\static\trainings\js\loads_table.js:51
+#: .\trainings\static\trainings\js\objectives_admin_table.js:51
 #: .\trainings\static\trainings\js\objectives_table.js:51
 #: .\trainings\static\trainings\js\print_training.js:182
 msgid "Title"
@@ -1038,17 +1048,21 @@ msgstr "Действие с событием \""
 
 #: .\static\trainings\js\action_blocks.js:17
 #: .\static\trainings\js\action_blocks.js:21
+#: .\trainings\static\trainings\js\action_admin_blocks.js:17
+#: .\trainings\static\trainings\js\action_admin_blocks.js:21
 #: .\trainings\static\trainings\js\action_blocks.js:17
 #: .\trainings\static\trainings\js\action_blocks.js:21
 msgid "Training block"
 msgstr "Блок тренировки"
 
 #: .\static\trainings\js\action_blocks.js:17
+#: .\trainings\static\trainings\js\action_admin_blocks.js:17
 #: .\trainings\static\trainings\js\action_blocks.js:17
 msgid "Training block action successfully!"
 msgstr "Действие с блоком тренировки успешно!"
 
 #: .\static\trainings\js\action_blocks.js:21
+#: .\trainings\static\trainings\js\action_admin_blocks.js:21
 #: .\trainings\static\trainings\js\action_blocks.js:21
 msgid "Error when action the training block!"
 msgstr "Ошибка при выполнении действия с блоком тренировки!"
@@ -1123,17 +1137,21 @@ msgstr "Ошибка при выполнении действия с нагру�
 
 #: .\static\trainings\js\action_objectives.js:17
 #: .\static\trainings\js\action_objectives.js:21
+#: .\trainings\static\trainings\js\action_admin_objectives.js:17
+#: .\trainings\static\trainings\js\action_admin_objectives.js:21
 #: .\trainings\static\trainings\js\action_objectives.js:17
 #: .\trainings\static\trainings\js\action_objectives.js:21
 msgid "Objective"
 msgstr "Задача"
 
 #: .\static\trainings\js\action_objectives.js:17
+#: .\trainings\static\trainings\js\action_admin_objectives.js:17
 #: .\trainings\static\trainings\js\action_objectives.js:17
 msgid "Objective action successfully!"
 msgstr "Действие с задачами успешно!"
 
 #: .\static\trainings\js\action_objectives.js:21
+#: .\trainings\static\trainings\js\action_admin_objectives.js:21
 #: .\trainings\static\trainings\js\action_objectives.js:21
 msgid "Error when action the objective!"
 msgstr "Ошибка при выполнении действия с задачами!"
@@ -1152,16 +1170,6 @@ msgstr "Удалить данную тренировку?"
 #: .\trainings\static\trainings\js\training.js:42
 msgid "Block"
 msgstr "Блок"
-
-#: .\static\trainings\js\training.js:44
-#: .\trainings\static\trainings\js\training.js:44
-msgid "Main objective"
-msgstr "Главная задача"
-
-#: .\static\trainings\js\training.js:45
-#: .\trainings\static\trainings\js\training.js:45
-msgid "Add. objectives"
-msgstr "Доп. задачи"
 
 #: .\static\trainings\js\training.js:100
 #: .\trainings\static\trainings\js\training.js:100
@@ -1320,6 +1328,12 @@ msgstr "Видео "
 #: .\static\video\js\video_card.js:98 .\video\static\video\js\video_card.js:98
 msgid "Video action \""
 msgstr "Действие с видео \""
+
+#~ msgid "Main objective"
+#~ msgstr "Главная задача"
+
+#~ msgid "Add. objectives"
+#~ msgstr "Доп. задачи"
 
 #~ msgid "Search objective type"
 #~ msgstr "Поиск типа задачи"

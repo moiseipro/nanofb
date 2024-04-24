@@ -66,6 +66,9 @@ function generate_ajax_objectives_table(scroll_y = '', pagination = true){
     $('#objectives-tab-button').on('shown.bs.tab', function () {
         objectives_table.columns.adjust()
     })
+    $('#nav-user-objectives-tab').on('shown.bs.tab', function () {
+        objectives_table.columns.adjust()
+    })
     $('.objectives-table-filter').on("keyup change", function () {
         let val = $(this).val() ? $(this).val() : '';
         objectives_table.columns($(this).attr('name')).search(val).draw();
