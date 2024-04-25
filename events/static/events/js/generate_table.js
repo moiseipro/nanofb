@@ -131,9 +131,6 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             if(('exercises_info' in event.training && event.training.exercises_info.length == 0) || ('protocol_info' in event.training && event.training.protocol_info.length == 0)) isFilled = false
 
                             hasVideo = event.training.video_href != '' && event.training.video_href != null
-                            for (const objective of event.training.objectives) {
-                                objectives.push(objective.objective.id)
-                            }
                             for (const block of event.training.blocks){
                                 training_block.push(block.block.id)
                             }
@@ -164,6 +161,9 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                     <button href="/trainings/view/${event.training.event_id}" class="btn btn-sm btn-block ${merged_events.length > 1 ? 'btn-info' : 'btn-info'} py-0 event-select" data-id="${event.training.event_id}">${merged_events.length > 1 ? gettext('Group')+' '+(index+1) : gettext('Training') +' '+(num_tr == 2 ? '2' : '')}</button>
                                 </div>
                                 `
+                                for (const objective of event.training.objectives) {
+                                    objectives.push(objective.objective.id)
+                                }
                                 let player = 0, goalkeeper = 0;
                                 if('protocol_info' in event.training && event.training.protocol_info.length > 0){
                                     $.each(event.training.protocol_info, function( index, value ) {
