@@ -783,7 +783,7 @@ $(function() {
             return;
         }
         let tableType = $('.analytics-table-container').find('table[id]:visible').attr('id');
-        let d = new Date(); d.setDate(d.getDate() + 30);
+        let d = new Date(); d.setDate(d.getDate() + 2);
         let dataToSend = {
             'add_link': 1,
             'type': `analytics`,
