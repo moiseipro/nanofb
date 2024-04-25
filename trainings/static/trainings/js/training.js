@@ -189,10 +189,10 @@ $(window).on('load', function (){
             for (let i = 0; i < objective_1.length; i++) {
                 objectives.push({"training": id, "objective": objective_1[i], "type": 0})
             }
-            let objective_2 = $('#block-training-goals select[name="objective_2"]').val()
-            for (let i = 0; i < objective_2.length; i++) {
-                objectives.push({"training": id, "objective": objective_2[i], "type": 1})
-            }
+            // let objective_2 = $('#block-training-goals select[name="objective_2"]').val()
+            // for (let i = 0; i < objective_2.length; i++) {
+            //     objectives.push({"training": id, "objective": objective_2[i], "type": 1})
+            // }
             // let objective_3 = $('#block-training-goals select[name="objective_3"]').val()
             // for (let i = 0; i < objective_3.length; i++) {
             //     objectives.push({"training": id, "objective": objective_3[i], "type": 2})

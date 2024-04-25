@@ -203,17 +203,15 @@ $(window).on('load', function (){
                     $('.training-card-objective').removeClass('d-none')
                     $('#training-video-modal input[name="video_href"]').val(data.training.video_href)
                     $('#goal-event-view').val(data.training.goal)
-                    let objective_type_1 = '', objective_type_2 = ''
+                    let objective_type = ''
                     for (const objective of data.training.objectives) {
-                        if (objective.type == 0){
-                            objective_type_1 += `<div class="font-weight-bold border px-1">${objective.objective.name}</div>`;
-                        }
+                        objective_type += `<div class="font-weight-bold border px-1">${objective.objective.name}</div>`;
                         // else if(objective.type == 1){
                         //     objective_type_2 += `<div class="font-weight-bold border px-1">${objective.objective.name}</div>`;
                         // }
                     }
-                    $('#objective_1-training-view').html(objective_type_1)
-                    if (objective_type_1 == '') $('#objective_1-training-view').parent().addClass('d-none')
+                    $('#objective_1-training-view').html(objective_type)
+                    if (objective_type == '') $('#objective_1-training-view').parent().addClass('d-none')
                     else $('#objective_1-training-view').parent().removeClass('d-none')
                     // $('#objective_2-training-view').html(objective_type_2)
                     // if (objective_type_2 == '') $('#objective_2-training-view').parent().addClass('d-none')

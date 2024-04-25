@@ -811,7 +811,6 @@ class ObjectivesListApiView(APIView):
                        Q(training__event_id__date__gte=season[0].date_with) &
                        Q(training__event_id__date__lte=season[0].date_by) &
                        Q(objective__club=request.user.club_id) &
-                       Q(type=0) &
                        Q(training__team_id=self.request.session['team'])).filter(query_obj_many). \
                 annotate(count=Count('objective__id')).order_by('objective__short_name', 'objective__name')
         else:
@@ -824,7 +823,6 @@ class ObjectivesListApiView(APIView):
                        Q(training__event_id__date__gte=season[0].date_with) &
                        Q(training__event_id__date__lte=season[0].date_by) &
                        Q(objective__user=request.user) &
-                       Q(type=0) &
                        Q(training__team_id=self.request.session['team'])).filter(query_obj_many). \
                 annotate(count=Count('objective__id')).order_by('objective__short_name', 'objective__name')
 
