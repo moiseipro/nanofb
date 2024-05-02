@@ -806,7 +806,7 @@ $(window).on('load', function (){
     }
 
     create_ajax_select2($('#microcycle-name-filter'), gettext('M.C.'), '/events/microcycle_name_list', $(document.body), false, true, -1)
-    create_ajax_select2($('#training-block-filter'), gettext('Blocks'), '/trainings/blocks_list/', $(document.body), false, true, -1, true, 3)
+    create_ajax_select2($('#training-block-filter'), gettext('Block'), '/trainings/blocks_list/', $(document.body), false, true, -1)
     create_ajax_select2($('#training-load-filter'), gettext('Load'), '/trainings/loads_list', $(document.body), false, true, -1)
 
 
@@ -814,7 +814,7 @@ $(window).on('load', function (){
     //create_ajax_select2($('#objective_2-block-filter'), gettext('Objective block'), '/trainings/objective_block', $(document.body))
     //create_ajax_select2($('#objective_3-block-filter'), gettext('Objective block'), '/trainings/objective_block', $(document.body))
 
-    create_ajax_select2($('#objective_1-event-view'), gettext('Objectives'), '/trainings/objectives_list/', $(document.body), false, true, 1, true, 3, {'type': 0})
+    create_ajax_select2($('#objective_1-event-view'), gettext('Objectives'), '/trainings/objectives_list/', $(document.body), false, true, -1)
     //create_ajax_select2($('#objective_2-event-view'), gettext('Add. objectives'), '/trainings/objectives_list/', $(document.body), false, true, 1, false, 0, {'type': 1})
     //create_ajax_select2($('#objective_3-event-view'), gettext('Objective')+' 3', '/trainings/objectives_list/', $(document.body), false, true, 1, false, 0, {'type': 2})
 
@@ -928,14 +928,25 @@ function contains(where, what){
         return true;
     }
     let check_array = false;
-    for (var i = 0; i < what.length; i++) {
+    if (typeof what === "object"){
+        for (var i = 0; i < what.length; i++) {
+            for (var j = 0; j < where.length; j++) {
+                 if (what[i] == where[j]) {
+                     check_array = true
+                     break
+                 }
+            }
+        }
+    } else {
         for (var j = 0; j < where.length; j++) {
-             if (what[i] == where[j]) {
+             if (what == where[j]) {
                  check_array = true
                  break
              }
         }
     }
+
+
     return check_array;
 }
 
