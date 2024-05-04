@@ -194,6 +194,7 @@ function ToggleUpFilter(id, state) {
             $('.folders_nfb_list').toggleClass('selected', true);
             $('.folders_club_list').toggleClass('selected', false);
             $('.folders_list').toggleClass('selected', false);
+
             $('.exercises-list').find('.list-group-item:not(.side-filter-elem)').removeClass('active');
             $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
 
@@ -1199,6 +1200,56 @@ function ToggleExerciseToArchive(elem, exsId, folderType, state) {
     }
 }
 
+function CopyOrMoveAjax() {
+    let selectedExsElem = $('.selected-exercise-panel').find('li.c-exs');
+    let actionType = $(selectedExsElem).attr('action-type');
+    let exsId = $(selectedExsElem).attr('data-id');
+    let fromNfbFolder = $(selectedExsElem).attr('folder-type') == "nfb_folders";
+    let selectedFolder = $('.folders_div.selected').find('.list-group-item.active > div').attr('data-id');
+    let folderType = $(selectedExsElem).attr('folder-type');
+    let copyToNF = $('.folders_div.selected').attr('data-id') == "nfb_folders";
+    let data = {
+        'move_exs': actionType == 'move' ? 1 : 0,
+        'copy_exs': actionType == 'copy' ? 1 : 0,
+        'move_mode': "",
+        'exs': exsId, 
+        'nfb_folder': fromNfbFolder ? 1 : 0, 
+        'copy_to_nf': copyToNF ? 1 : 0, 
+        'folder': selectedFolder,
+        'type': folderType
+    };
+    $('.page-loader-wrapper').fadeIn();
+    $.ajax({
+        headers:{"X-CSRFToken": csrftoken},
+        data: data,
+        type: 'POST', // GET или POST
+        dataType: 'json',
+        url: "exercises_api",
+        success: function (res) {
+            if (res.success) {
+                swal("Готово", "Обновите папку, чтобы увидеть данное упражение.", "success");
+            } else {
+                swal("Ошибка", "Упражнение не удалось скопировать / переместить.", "error");
+                console.log(res);
+            }
+        },
+        error: function (res) {
+            swal("Ошибка", "Упражнение не удалось скопировать / переместить.", "error");
+            console.log(res);
+        },
+        complete: function (res) {
+            $('.selected-exercise-panel').html('');
+            $('#copyExs').toggleClass('selected3', false);
+            $('#copyExs').attr('data-state', '0');
+            $('#moveExs').toggleClass('selected3', false);
+            $('#moveExs').attr('data-state', '0');
+            CountExsInFolder();
+
+            $('.page-loader-wrapper').fadeOut();
+        }
+    });
+}
+
 
 
 $(function() {
@@ -1206,7 +1257,6 @@ $(function() {
     $('.folders_list').toggleClass('d-none', true);
     $('.folders_nfb_list').toggleClass('d-none', false);
     $('.folders_club_list').toggleClass('d-none', false);
-
 
     // Load team folder's name to button
     let selectedTeam = $('#select-team').val();
@@ -2930,6 +2980,56 @@ $(function() {
             }
             return;
         });
+    });
+
+    // Copy or move exercise
+    function copyOrMoveStarting(e, actionType) {
+        if ($('.exs-list-group').find('.list-group-item.exs-elem.active').length == 0 && $('.selected-exercise-panel').find('li').length == 0) {
+            $(e.currentTarget).toggleClass('selected3', false);
+            $(e.currentTarget).attr('data-state', '0');
+            swal("Внимание", "Выберите упражнение из списка", "info");
+            return;
+        }
+        let state = $(e.currentTarget).attr('data-state');
+        if (state == '1') {
+            if ($(e.currentTarget).hasClass('help-use')) {
+                $(e.currentTarget).removeClass('help-use');
+                if (actionType == "copy") {
+                    swal("Внимание", "Выберите папку, куда упражнение нужно скопировать.", "info");
+                }
+                if (actionType == "move") {
+                    swal("Внимание", "Выберите папку, куда упражнение нужно переместить.", "info");
+                }
+            }
+            let exs = $('.exs-list-group').find('.list-group-item.exs-elem.active').clone();
+            let folderType = $('.folders_div.selected').attr('data-id');
+            $('.exs-list-group').find('.list-group-item.exs-elem.active').removeClass('active');
+            $(exs).removeClass('exs-elem active');
+            $(exs).addClass('c-exs selected');
+            $(exs).attr('folder-type', folderType);
+            $(exs).attr('action-type', actionType);
+            $('.selected-exercise-panel').append(exs);
+        } else {
+            $('.selected-exercise-panel').html('');
+        }
+    }
+    $('#copyExs').on('click', (e) => {
+        if ($('#moveExs').attr('data-state') == '1') {
+            $(e.currentTarget).toggleClass('selected3', false);
+            $(e.currentTarget).attr('data-state', '0');
+            swal("Внимание", "Завершите перемещение упражнения", "info");
+            return;
+        }
+        copyOrMoveStarting(e, "copy");
+    });
+    $('#moveExs').on('click', (e) => {
+        if ($('#copyExs').attr('data-state') == '1') {
+            $(e.currentTarget).toggleClass('selected3', false);
+            $(e.currentTarget).attr('data-state', '0');
+            swal("Внимание", "Завершите копирование упражнения", "info");
+            return;
+        }
+        copyOrMoveStarting(e, "move");
     });
 
     // CountTrainerExercises();
