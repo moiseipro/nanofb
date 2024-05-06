@@ -78,6 +78,10 @@ function ResizeSplitCols() {
 let exercises = {"nfb": {}};
 window.exercisesFilter = {};
 function LoadFolderExercises() {
+    if ($('.selected-exercise-panel').find('li').length > 0) {
+        CopyOrMoveAjax();
+        return;
+    }
     let activeRow = $('.folders_list').find('.list-group-item.active');
     let isClub = false;
     let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');

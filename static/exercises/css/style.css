@@ -381,6 +381,13 @@ tr.bck-custom > td {
     border: 2px solid rgb(100, 100, 100) !important;
 }
 
+.selected-exercise-panel > .list-group-item.selected {
+    background-color: #d4d4d4;
+    border-color: #b9b8b8;
+    color: #5a6268;
+    border: 2px solid rgb(96, 149, 195) !important;
+}
+
 .folders_list > .list-group > .list-group-item {
     background-color: #fff;
 }
