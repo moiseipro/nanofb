@@ -134,10 +134,12 @@
                                             {% if perms.events.change_clubmicrocycles or perms.events.change_usermicrocycles %}
                                             <div class="row mc-function">
                                                 <div class="col-6 pl-0 pr-1">
-                                                    <input id="microcycle-day-filter" type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="{% trans 'M.D.' %}" autocomplete="off">
+                                                    <select id="microcycle-day-filter" class="form-control form-control-sm select-filter-events select2" placeholder="{% trans 'M.D.' %}"></select>
+{#                                                    <input id="microcycle-day-filter" type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="{% trans 'M.D.' %}" autocomplete="off">#}
                                                 </div>
                                                 <div class="col-6 px-0">
-                                                    <input id="microcycle-days-filter" type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="{% trans 'MC days' %}" autocomplete="off">
+                                                    <select id="microcycle-days-filter" class="form-control form-control-sm select-filter-events select2" placeholder="{% trans 'MC days' %}"></select>
+{#                                                    <input id="microcycle-days-filter" type="search" class="form-control form-control-sm text-center text-filter-events" placeholder="{% trans 'MC days' %}" autocomplete="off">#}
                                                 </div>
                                                 <div class="col-6 mt-1 pl-0 pr-1">
                                                     <select id="microcycle-name-filter" class="form-control form-control-sm select-filter-events select2" placeholder="{% trans 'M.C.' %}"></select>

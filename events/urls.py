@@ -21,4 +21,6 @@ urlpatterns = [
     path('microcycle_short_key_list', views.MicrocycleShortKeyApiView.as_view(), name='microcycle_short_key_list'),
     path('microcycle_block_list', views.MicrocycleBlockListApiView.as_view(), name='microcycle_block_list'),
     path('microcycle_block_key_list', views.MicrocycleBlockKeyApiView.as_view(), name='microcycle_block_key_list'),
+    path('microcycle_days_list', views.MicrocycleDayListApiView.as_view(), name='microcycle_days_list'),
+    path('microcycle_mc_list', views.MicrocycleMCListApiView.as_view(), name='microcycle_mc_list'),
 ]

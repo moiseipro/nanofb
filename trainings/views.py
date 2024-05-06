@@ -16,7 +16,7 @@ from rest_framework.views import APIView
 from django.utils.translation import gettext_lazy as _
 from rest_framework_datatables.django_filters.backends import DatatablesFilterBackend
 
-from events.models import UserEvent, ClubEvent
+from events.models import UserEvent, ClubEvent, ClubMicrocycles, UserMicrocycles
 from exercises.models import UserExercise, ClubExercise
 from exercises.v_api import get_exercises_params
 from players.models import UserPlayer, ClubPlayer

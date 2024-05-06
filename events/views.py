@@ -7,6 +7,7 @@ from django.shortcuts import render
 from django.utils.datetime_safe import datetime
 from django.db.models import Q, F, Count, Subquery
 from django.views.generic import TemplateView
+from legacy import reduce
 from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework.decorators import action
@@ -78,8 +79,8 @@ class MicrocycleViewSet(viewsets.ModelViewSet):
             microcycles = ClubMicrocycles.objects.filter(
                 Q(team_id=team) &
                 ((Q(date_by__range=[date_with, date_by]) | Q(date_with__range=[date_with, date_by])) |
-                Q(date_with__lte=date_with) & Q(date_by__gte=date_with) |
-                Q(date_with__lte=date_by) & Q(date_by__gte=date_by))
+                 Q(date_with__lte=date_with) & Q(date_by__gte=date_with) |
+                 Q(date_with__lte=date_by) & Q(date_by__gte=date_by))
             )
         else:
             season = UserSeason.objects.filter(id=self.request.session['season'])
@@ -134,8 +135,6 @@ class MicrocycleViewSet(viewsets.ModelViewSet):
                  Q(date_with__lte=date_with) & Q(date_by__gte=date_with) |
                  Q(date_with__lte=date_by) & Q(date_by__gte=date_by))
             ).exclude(pk=pk)
-
-
 
         if microcycles.count() == 0:
             self.perform_update(serializer)
@@ -256,6 +255,133 @@ class LiteMicrocycleViewSet(viewsets.ModelViewSet):
         return microcycle
 
 
+class MicrocycleMCListApiView(APIView):
+    # authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        search = request.GET.get('search', '')
+
+        if request.user.club_id is not None:
+            season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
+            queryset = ClubMicrocycles.objects. \
+                filter(Q(date_with__gte=season[0].date_with) &
+                       Q(date_by__lte=season[0].date_by) &
+                       Q(team_id=self.request.session['team'])).order_by('name')
+            queryset_training = ClubTraining.objects. \
+                filter(Q(event_id__date__gte=season[0].date_with) &
+                       Q(event_id__date__lte=season[0].date_by) &
+                       Q(event_id__club_id=request.user.club_id) &
+                       Q(team_id=self.request.session['team'])).order_by('event_id__date')
+        else:
+            season = UserSeason.objects.filter(id=self.request.session['season'])
+            queryset = UserMicrocycles.objects. \
+                filter(Q(date_with__gte=season[0].date_with) &
+                       Q(date_by__lte=season[0].date_by) &
+                       Q(team_id=self.request.session['team'])).order_by('name')
+            queryset_training = UserTraining.objects. \
+                filter(Q(event_id__date__gte=season[0].date_with) &
+                       Q(event_id__date__lte=season[0].date_by) &
+                       Q(event_id__user_id=request.user) &
+                       Q(team_id=self.request.session['team'])).order_by('event_id__date')
+
+        print(queryset.values())
+        list_microcycle = []
+
+        for microcycle in queryset:
+            md_days = get_days(microcycle)
+            date_with = microcycle.date_with
+            date_by = microcycle.date_by
+
+            for training in queryset_training:
+                tr_date = training.event_id.date.date()
+                tdelta = tr_date - date_with
+                days = round(tdelta.total_seconds() / 60 / 60 / 24) + 1
+                if tr_date >= date_with and tr_date <= date_by:
+                    new_md_text = "+" + str(days) if days < 3 else "-" + str(md_days - days)
+                    if len(list_microcycle) == 0 or len([x for x in list_microcycle if x['id'] == new_md_text]) == 0:
+                        new_block = {
+                            'id': new_md_text,
+                            'name': new_md_text,
+                            'count': 0
+                        }
+                        list_microcycle.append(new_block)
+
+        list_microcycle.sort(key=lambda x: x['id'], reverse=False)
+        print(list_microcycle)
+        # list_load.sort(key=lambda x: x['count'], reverse=True)
+
+        object_count = {}
+        for microcycle in list_microcycle:
+            # print(microcycle)
+            object_count[microcycle['id']] = object_count.get(microcycle['id'], {'name': '', 'count': 0})
+            object_count[microcycle['id']]['count'] += microcycle['count']
+            object_count[microcycle['id']]['name'] = microcycle['name']
+        # print(object_count)
+        list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in object_count.items()]
+        # list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+        # print(list2)
+        return Response(list2)
+
+
+class MicrocycleDayListApiView(APIView):
+    # authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        search = request.GET.get('search', '')
+
+        if request.user.club_id is not None:
+            season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
+            queryset = ClubMicrocycles.objects. \
+                filter(Q(date_with__gte=season[0].date_with) &
+                       Q(date_by__lte=season[0].date_by) &
+                       Q(team_id=self.request.session['team'])). \
+                annotate(count=Count('date_with')).order_by('name')
+        else:
+            season = UserSeason.objects.filter(id=self.request.session['season'])
+            queryset = UserMicrocycles.objects. \
+                filter(Q(date_with__gte=season[0].date_with) &
+                       Q(date_by__lte=season[0].date_by) &
+                       Q(team_id=self.request.session['team'])). \
+                annotate(count=Count('date_with')).order_by('name')
+
+        print(queryset.values())
+        list_microcycle = []
+
+        for microcycle in queryset:
+            mc_days = get_days(microcycle)
+            new_block = {
+                'id': mc_days,
+                'name': mc_days,
+                'count': 0
+            }
+            list_microcycle.append(new_block)
+
+        print(list_microcycle)
+        # list_load.sort(key=lambda x: x['count'], reverse=True)
+
+        object_count = {}
+        for microcycle in list_microcycle:
+            # print(microcycle)
+            object_count[microcycle['id']] = object_count.get(microcycle['id'], {'name': '', 'count': 0})
+            object_count[microcycle['id']]['count'] += microcycle['count']
+            object_count[microcycle['id']]['name'] = microcycle['name']
+        # print(object_count)
+        list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in object_count.items()]
+        # list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+        # print(list2)
+        return Response(list2)
+
+
+def get_days(microcycle):
+    date_with = microcycle.date_with
+    date_by = microcycle.date_by
+    tdelta = date_by - date_with
+    days = round(tdelta.total_seconds() / 60 / 60 / 24) + 1
+    return days
+
+
 class MicrocycleNameListApiView(APIView):
     # authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -290,7 +416,7 @@ class MicrocycleNameListApiView(APIView):
             microcycles_count[microcycle['id']]['name'] = microcycle['name']
         print(microcycles_count)
         list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in microcycles_count.items()]
-        #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+        # list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
         print(list2)
         return Response(list2)
 
@@ -329,7 +455,7 @@ class MicrocycleShortKeyApiView(APIView):
             microcycles_count[microcycle['id']]['name'] = microcycle['name']
         print(microcycles_count)
         list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in microcycles_count.items()]
-        #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+        # list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
         print(list2)
         return Response(list2)
 
@@ -369,7 +495,7 @@ class MicrocycleBlockListApiView(APIView):
             microcycles_count[microcycle['id']]['name'] = microcycle['name']
         print(microcycles_count)
         list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in microcycles_count.items()]
-        #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+        # list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
         print(list2)
         return Response(list2)
 
@@ -409,7 +535,7 @@ class MicrocycleBlockKeyApiView(APIView):
             microcycles_count[microcycle['id']]['name'] = microcycle['name']
         print(microcycles_count)
         list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in microcycles_count.items()]
-        #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+        # list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
         print(list2)
         return Response(list2)
 
@@ -436,21 +562,24 @@ class EventViewSet(viewsets.ModelViewSet):
             team = ClubTeam.objects.get(pk=self.request.session['team'])
         else:
             team = UserTeam.objects.get(pk=self.request.session['team'])
-        if 'event_type' in self.request.data and ('1' in self.request.data['event_type'] or '4' in self.request.data['event_type']):
+        if 'event_type' in self.request.data and (
+                '1' in self.request.data['event_type'] or '4' in self.request.data['event_type']):
             if self.request.user.club_id is not None:
-                tr_query = ClubEvent.objects.values('date').filter(club_id=self.request.user.club_id, date__date=cur_date,
-                                                    clubtraining__team_id=team)
+                tr_query = ClubEvent.objects.values('date').filter(club_id=self.request.user.club_id,
+                                                                   date__date=cur_date,
+                                                                   clubtraining__team_id=team)
 
             else:
                 tr_query = UserEvent.objects.values('date').filter(user_id=user, date__date=cur_date,
-                                                    usertraining__team_id=team)
+                                                                   usertraining__team_id=team)
             count_tr = tr_query.count()
             if self.request.data['event_type'] == '1':
                 group = 0
             else:
                 group = 1
             if count_tr < 3:
-                count_group_tr = tr_query.filter(date__date=cur_date, date__hour=cur_time.hour, date__minute=cur_time.minute).count()
+                count_group_tr = tr_query.filter(date__date=cur_date, date__hour=cur_time.hour,
+                                                 date__minute=cur_time.minute).count()
                 print(count_tr)
                 print(count_group_tr)
                 print(count_tr < 3 and count_group_tr >= 0 and count_group_tr < 2)
@@ -660,7 +789,6 @@ class EventViewSet(viewsets.ModelViewSet):
         # load_type = self.request.query_params.get('load_type')
         # goal = self.request.query_params.get('goal')
         # field_size = self.request.query_params.get('field_size')
-
 
         team = self.request.session['team']
         if self.request.user.club_id is not None:

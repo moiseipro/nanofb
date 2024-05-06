@@ -38,6 +38,7 @@ $(window).on('load', function (){
     generate_ajax_ablocks_table('50vh')
     generate_ajax_loads_table('50vh')
 
+
     create_ajax_select2($('#nav-user-objectives select'), gettext('Short key'), '/trainings/objectives_short', $('#references-modal'), false)
     create_ajax_select2($('#nav-user-blocks select'), gettext('Short key'), '/trainings/blocks_short', $('#references-modal'), false)
     create_ajax_select2($('#nav-admin-objectives select'), gettext('Short key'), '/trainings/aobjectives_short', $('#references-modal'), false)
@@ -805,6 +806,8 @@ $(window).on('load', function (){
         $('#toggle-calendar').click();
     }
 
+    create_ajax_select2($('#microcycle-day-filter'), gettext('M.D.'), '/events/microcycle_mc_list', $(document.body), false, true, -1)
+    create_ajax_select2($('#microcycle-days-filter'), gettext('MC days'), '/events/microcycle_days_list', $(document.body), false, true, -1)
     create_ajax_select2($('#microcycle-name-filter'), gettext('M.C.'), '/events/microcycle_name_list', $(document.body), false, true, -1)
     create_ajax_select2($('#training-block-filter'), gettext('Block'), '/trainings/blocks_list/', $(document.body), false, true, -1)
     create_ajax_select2($('#training-load-filter'), gettext('Load'), '/trainings/loads_list', $(document.body), false, true, -1)
