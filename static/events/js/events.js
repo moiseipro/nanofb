@@ -159,6 +159,7 @@ $(window).on('load', function (){
                 return $(element).attr('data-id') == '';
             }).removeClass('d-none')
             $('.training-card-objective').addClass('d-none')
+            $('.select-event-active').prop('disabled', true)
             $('#block-event-info .event-info').html('')
             $('#training-video-modal input[name="video_href"]').val('')
             $('#objective_1-event-view').val('')
@@ -170,6 +171,7 @@ $(window).on('load', function (){
             Cookies.set('event_id', data_id, { expires: 1 })
             $('.hasEvent').removeClass('selected')
             $('.event-select').removeClass('selected')
+            $('.select-event-active').prop('disabled', false)
 
             let events = $('.hasEvent').filter(function( index, element ) {
 
@@ -701,7 +703,7 @@ $(window).on('load', function (){
         shared_modal.find('.link-qrcode').html('');
 
         let type = $('#shared-modal-button').attr('data-training-type')
-        let training_id = $('#events-table .hasEvent.selected').attr('data-value');
+        let training_id = $('#events-table .hasEvent .event-select.selected').attr('data-id');
 
         let dataToSend = {
             'get_link': 1,
@@ -716,10 +718,13 @@ $(window).on('load', function (){
                 shared_modal.find('.link-text > a').text(res.data.link);
                 shared_modal.find('.link-text > a').attr('href', res.data.link);
                 shared_modal.find('button.btn-share').attr('data-link', res.data.link);
-                shared_modal.find('.link-qrcode').ClassyQR({
-                    create: true,
-                    type: 'url',
-                    url: res.data.link
+                new QRCode(shared_modal.find('.link-qrcode')[0], {
+                    text: res.data.link,
+                    width: 150,
+                    height: 150,
+                    colorDark : "#000000",
+                    colorLight : "#ffffff",
+                    correctLevel : QRCode.CorrectLevel.H
                 });
             }
         })
@@ -728,9 +733,7 @@ $(window).on('load', function (){
     $('#trainingShareModal').on('click', '.btn-share', (e) => {
         let cLink = $(e.currentTarget).attr('data-link');
         if (cLink && cLink != "") {
-            try {
-                copyTextToClipboard(cLink);
-            } catch(e) {}
+            copyToClipboard(cLink);
             swal(gettext("Ready"), gettext('Link copied')+` (${cLink})!`, "success");
             return;
         }
@@ -751,15 +754,15 @@ $(window).on('load', function (){
                  $('#trainingShareModal').find('.link-text > a').text(res.data.link);
                  $('#trainingShareModal').find('.link-text > a').attr('href', res.data.link);
                  $('#trainingShareModal').find('button.btn-share').attr('data-link', res.data.link);
-                 $('#trainingShareModal').find('.link-qrcode').ClassyQR({
-                     create: true,
-                     type: 'url',
-                     url: res.data.link
+                 new QRCode($('#trainingShareModal').find('.link-qrcode')[0], {
+                    text: res.data.link,
+                    width: 150,
+                    height: 150,
+                    colorDark : "#000000",
+                    colorLight : "#ffffff",
+                    correctLevel : QRCode.CorrectLevel.H
                  });
-                 try {
-                     copyTextToClipboard(res.data.link);
-                 } catch (e) {
-                 }
+                 copyToClipboard(res.data.link);
                  swal(gettext("Ready"), gettext('Link copied')+` (${res.data.link})!`, "success");
              }
         })

@@ -298,16 +298,18 @@ class MicrocycleMCListApiView(APIView):
                 tdelta = tr_date - date_with
                 days = round(tdelta.total_seconds() / 60 / 60 / 24) + 1
                 if tr_date >= date_with and tr_date <= date_by:
-                    new_md_text = "+" + str(days) if days < 3 else "-" + str(md_days - days)
+                    new_md_value = days if days < 3 else -(md_days - days)
+                    new_md_text = "+" + str(new_md_value) if new_md_value > 0 else new_md_value
                     if len(list_microcycle) == 0 or len([x for x in list_microcycle if x['id'] == new_md_text]) == 0:
                         new_block = {
                             'id': new_md_text,
                             'name': new_md_text,
+                            'sort': new_md_value - md_days if new_md_value > 0 else new_md_value,
                             'count': 0
                         }
                         list_microcycle.append(new_block)
 
-        list_microcycle.sort(key=lambda x: x['id'], reverse=False)
+        list_microcycle.sort(key=lambda x: x['sort'], reverse=True)
         print(list_microcycle)
         # list_load.sort(key=lambda x: x['count'], reverse=True)
 
@@ -357,6 +359,8 @@ class MicrocycleDayListApiView(APIView):
                 'count': 0
             }
             list_microcycle.append(new_block)
+
+        list_microcycle.sort(key=lambda x: x['id'], reverse=False)
 
         print(list_microcycle)
         # list_load.sort(key=lambda x: x['count'], reverse=True)

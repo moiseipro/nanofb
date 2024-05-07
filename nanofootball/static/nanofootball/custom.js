@@ -246,3 +246,11 @@ function getFormattedDateFromTodayWithDelta(delta=0) {
         + "-"
         + ("0" + date.getDate()).slice(-2);
 }
+
+function copyToClipboard(text) {
+    var $temp = $("<input>");
+    $("body").append($temp);
+    $temp.val(text).select();
+    document.execCommand("copy");
+    $temp.remove();
+}
