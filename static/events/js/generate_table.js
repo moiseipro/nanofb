@@ -41,7 +41,8 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                 dataType: "JSON",
                 data: send_data,
                 success: function(data){
-                    console.log(data['results'])
+                    console.log(data)
+                    let events_data = data;
                     let num_tr = 1, num_m = 1, count_tr = 0, count_m = 0, max_m = 0, event_date = '', event_time = '', event_class=''
                     let last_date = moment(send_data['to_date'], 'YYYY-MM-DD')
                     let first_date = moment(send_data['from_date'], 'YYYY-MM-DD')
@@ -53,7 +54,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                         for (let i = 0; i < days; i++){
                             let isSame = false
                             //console.log(last_date.format('DD/MM/YYYY'))
-                            for (let event of data['results']) {
+                            for (let event of events_data) {
                                 let cur_date = moment(event['only_date'], 'DD/MM/YYYY')
                                 if(cur_date.isSame(last_date)){
                                     generated_events.push(event)

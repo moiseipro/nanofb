@@ -286,7 +286,7 @@ class MicrocycleMCListApiView(APIView):
                        Q(team_id=self.request.session['team'])).order_by('event_id__date')
 
         print(queryset.values())
-        list_microcycle = []
+        list_training = []
 
         for microcycle in queryset:
             md_days = get_days(microcycle)
@@ -300,21 +300,27 @@ class MicrocycleMCListApiView(APIView):
                 if tr_date >= date_with and tr_date <= date_by:
                     new_md_value = days if days < 3 else -(md_days - days)
                     new_md_text = "+" + str(new_md_value) if new_md_value > 0 else new_md_value
-                    if len(list_microcycle) == 0 or len([x for x in list_microcycle if x['id'] == new_md_text]) == 0:
+                    tr_find = False
+                    if len(list_training) != 0:
+                        for training_data in list_training:
+                            if training_data['id'] == new_md_text:
+                                training_data['count'] += 1
+                                tr_find = True
+                    if not tr_find:
                         new_block = {
                             'id': new_md_text,
                             'name': new_md_text,
                             'sort': new_md_value - md_days if new_md_value > 0 else new_md_value,
-                            'count': 0
+                            'count': 1
                         }
-                        list_microcycle.append(new_block)
+                        list_training.append(new_block)
 
-        list_microcycle.sort(key=lambda x: x['sort'], reverse=True)
-        print(list_microcycle)
+        list_training.sort(key=lambda x: x['sort'], reverse=True)
+        print(list_training)
         # list_load.sort(key=lambda x: x['count'], reverse=True)
 
         object_count = {}
-        for microcycle in list_microcycle:
+        for microcycle in list_training:
             # print(microcycle)
             object_count[microcycle['id']] = object_count.get(microcycle['id'], {'name': '', 'count': 0})
             object_count[microcycle['id']]['count'] += microcycle['count']
@@ -352,13 +358,19 @@ class MicrocycleDayListApiView(APIView):
         list_microcycle = []
 
         for microcycle in queryset:
+            mc_find = False
             mc_days = get_days(microcycle)
             new_block = {
                 'id': mc_days,
                 'name': mc_days,
-                'count': 0
+                'count': 1
             }
-            list_microcycle.append(new_block)
+            for microcycle_data in list_microcycle:
+                if microcycle_data['id'] == mc_days:
+                    microcycle_data['count'] += 1
+                    mc_find = True
+            if not mc_find:
+                list_microcycle.append(new_block)
 
         list_microcycle.sort(key=lambda x: x['id'], reverse=False)
 
@@ -546,6 +558,7 @@ class MicrocycleBlockKeyApiView(APIView):
 
 class EventViewSet(viewsets.ModelViewSet):
     permission_classes = [BaseEventsPermissions]
+    pagination_class = None
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
