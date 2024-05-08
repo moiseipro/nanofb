@@ -310,7 +310,7 @@ class MicrocycleMCListApiView(APIView):
                         new_block = {
                             'id': new_md_text,
                             'name': new_md_text,
-                            'sort': new_md_value - md_days if new_md_value > 0 else new_md_value,
+                            'sort': new_md_value - 20 if new_md_value > 0 else new_md_value,
                             'count': 1
                         }
                         list_training.append(new_block)
