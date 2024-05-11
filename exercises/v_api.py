@@ -3619,6 +3619,43 @@ def GET_get_exs_all_features(request, cur_user, cur_team):
     return JsonResponse({"data": features, "success": True}, status=200)
 
 
+def GET_check_copied_nf_exs(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on GET operation "Check exercises from NFB as copied".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]]
+
+    """
+    exs_ids = request.GET.getlist("exs_ids[]", [])
+    if not util_check_access(cur_user, {
+            'perms_user': ["exercises.view_userexercise"], 
+            'perms_club': ["exercises.view_clubexercise"]
+        }):
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    found_exs = []
+    for exs_id in exs_ids:
+        t_id = -1
+        try:
+            t_id = int(exs_id)
+        except:
+            pass
+        c_exs = None
+        if request.user.club_id is not None:
+            c_exs = ClubExercise.objects.filter(clone_nfb_id=t_id, visible=True, club=request.user.club_id, team=cur_team).first()
+        else:
+            c_exs = UserExercise.objects.filter(clone_nfb_id=t_id, visible=True, user=cur_user).first()
+        if c_exs:
+            found_exs.append(exs_id)
+    return JsonResponse({"data": found_exs, "success": True}, status=200)
+
+
 # --------------------------------------------------
 # FOLDERS API
 def POST_edit_folder(request, cur_user, cur_team, c_id, parent_id):
