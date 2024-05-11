@@ -3650,7 +3650,7 @@ def GET_check_copied_nf_exs(request, cur_user, cur_team):
         if request.user.club_id is not None:
             c_exs = ClubExercise.objects.filter(clone_nfb_id=t_id, visible=True, club=request.user.club_id, team=cur_team).first()
         else:
-            c_exs = UserExercise.objects.filter(clone_nfb_id=t_id, visible=True, user=cur_user).first()
+            c_exs = UserExercise.objects.filter(clone_nfb_id=t_id, visible=True, user=cur_user, folder.team=cur_team).first()
         if c_exs:
             found_exs.append(exs_id)
     return JsonResponse({"data": found_exs, "success": True}, status=200)
