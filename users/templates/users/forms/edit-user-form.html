@@ -5,7 +5,7 @@
 <form id="edit-user-form">
     <div class="row form-row">
         <div class="col-sm-12">
-            <div class="form-group row mb-1">
+            <div class="form-group row mb-0">
                 <label class="col col-form-label">{% trans 'Email'%}</label>
                 <div class="col">
                     <input type="text" name="email" class="form-control form-control-sm" value="{{ user.email }}" autocomplete="off" required>
@@ -14,7 +14,7 @@
         </div>
         {% if perms.federations.federation_admin or user.is_superuser %}
         <div class="col-sm-12">
-            <div class="form-group row mb-1">
+            <div class="form-group row mb-0">
                 <label class="col col-form-label">{% trans 'Club'%}</label>
                 <div class="col">
                     <select name="club_id" id="club-select" class="form-control form-control-sm">
@@ -29,7 +29,7 @@
         {% endif %}
         {% if perms.federations.federation_admin or user.is_superuser %}
         <div class="col-sm-12">
-            <div class="form-group row mb-1" title="{% trans 'Setting only for users without a club'%}">
+            <div class="form-group row mb-0" title="{% trans 'Setting only for users without a club'%}">
                 <label class="col col-form-label" for="p_version-select">{% trans 'Version'%}</label>
                 <div class="col">
                     <select name="p_version" id="p_version-select" class="form-control form-control-sm">
@@ -44,7 +44,7 @@
         {% endif %}
         {% if user.is_superuser %}
         <div class="col-sm-12">
-            <div class="form-group row mb-1">
+            <div class="form-group row mb-0">
                 <label class="col col-form-label" for="group-select">{% trans 'Group'%}</label>
                 <div class="col">
                     <select name="group" id="group-select" class="form-control form-control-sm" data-tags="true">
@@ -56,7 +56,7 @@
         {% endif %}
         {% if perms.federations.federation_admin or user.is_superuser %}
         <div class="col-sm-12">
-            <div class="form-group row mb-1" title="{% trans 'Setting only for users without club and version'%}">
+            <div class="form-group row mb-0" title="{% trans 'Setting only for users without club and version'%}">
                 <label class="col col-form-label" for="teams-players-input">{% trans 'Teams'%}</label>
                 <div class="col">
                     <div class="row">
@@ -68,7 +68,7 @@
             </div>
         </div>
         <div class="col-sm-12">
-            <div class="form-group row mb-1" title="{% trans 'Setting only for users without club and version'%}">
+            <div class="form-group row mb-0" title="{% trans 'Setting only for users without club and version'%}">
                 <label class="col col-form-label" for="teams-players-input">{% trans 'Players'%}</label>
                 <div class="col">
                     <div class="row">
@@ -82,7 +82,7 @@
         {% endif %}
         {% if user.is_superuser %}
         <div class="col-sm-12">
-            <div class="form-group row mb-1">
+            <div class="form-group row mb-0">
                 <label class="col col-form-label">{% trans 'Main admin'%}</label>
                 <div class="col">
                     <input type="checkbox" name="is_superuser" class="form-control form-control-sm" value="on" autocomplete="off">
@@ -92,7 +92,7 @@
         {% endif %}
         {% if user.is_superuser %}
         <div class="col-sm-12">
-            <div class="form-group row mb-1">
+            <div class="form-group row mb-0">
                 <label class="col col-form-label">{% trans 'Active'%}</label>
                 <div class="col">
                     <input type="checkbox" name="is_active" class="form-control form-control-sm" value="on" autocomplete="off">
@@ -101,7 +101,7 @@
         </div>
         {% endif %}
         <div class="col-sm-12">
-            <div class="form-group row mb-1">
+            <div class="form-group row mb-0">
                 <label class="col col-form-label">{% trans 'Registration'%}</label>
                 <div class="col">
                     <input type="text" name="date_joined" class="form-control form-control-sm datetimepicker" data-toggle="datetimepicker" value="{{ user.date_joined|date:"d/m/Y"}}" autocomplete="off" required disabled>
@@ -109,7 +109,7 @@
             </div>
         </div>
         <div class="col-sm-12">
-            <div class="form-group row mb-1">
+            <div class="form-group row mb-0">
                 <label class="col col-form-label">{% trans 'Last login'%}</label>
                 <div class="col">
                     <input type="text" name="date_last_login" class="form-control form-control-sm datetimepicker" data-toggle="datetimepicker" value="{{ user.date_last_login|date:"d/m/Y"}}" autocomplete="off" required disabled>
@@ -118,7 +118,7 @@
         </div>
         {% if perms.federations.federation_admin or user.is_superuser %}
         <div class="col-sm-12">
-            <div class="form-group row mb-1" title="{% trans 'Setting only for users without a club'%}">
+            <div class="form-group row mb-0" title="{% trans 'Setting only for users without a club'%}">
                 <label class="col col-form-label">{% trans 'Access to'%}</label>
                 <div class="col">
                     <input type="text" name="registration_to" class="form-control form-control-sm datetimepicker" data-toggle="datetimepicker" value="{{ user.registration_to|date:"d/m/Y"}}" autocomplete="off" required>
@@ -128,7 +128,7 @@
         {% endif %}
         {% if user.is_superuser %}
         <div class="col-sm-12">
-            <div class="form-group row mb-1">
+            <div class="form-group row mb-0">
                 <label class="col col-form-label">{% trans 'Distributor'%}</label>
                 <div class="col">
                     <input type="text" name="distributor" class="form-control form-control-sm" value="{{ user.distributor }}" autocomplete="off">
@@ -138,7 +138,7 @@
         {% endif %}
         {% if user.is_superuser %}
         <div class="col-sm-12">
-            <div class="form-group row mb-1">
+            <div class="form-group row mb-0">
                 <label class="col col-form-label">{% trans 'Demo version'%}</label>
                 <div class="col">
                     <input type="checkbox" name="is_demo_mode" class="form-control form-control-sm" value="on" autocomplete="off">

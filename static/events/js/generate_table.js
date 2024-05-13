@@ -155,19 +155,19 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                 }
                             }
                             let all_players = 0, all_goalkeeper = 0;
-                            $.each(merged_events, function( index, event ) {
-                                event_id.push(event['id'])
+                            $.each(merged_events, function( index, merged_event ) {
+                                event_id.push(merged_event['id'])
                                 merged_btn += `
                                 <div class="col px-1">
-                                    <button href="/trainings/view/${event.training.event_id}" class="btn btn-sm btn-block ${merged_events.length > 1 ? 'btn-info' : 'btn-info'} py-0 event-select" data-id="${event.training.event_id}">${merged_events.length > 1 ? gettext('Group')+' '+(index+1) : gettext('Training') +' '+(num_tr == 2 ? '2' : '')}</button>
+                                    <button href="/trainings/view/${merged_event.training.event_id}" class="btn btn-sm btn-block ${merged_events.length > 1 ? 'btn-info' : 'btn-info'} py-0 event-select" data-id="${merged_event.training.event_id}">${merged_events.length > 1 ? gettext('Group')+' '+(index+1) : gettext('Training') +' '+(num_tr == 2 ? '2' : '')}</button>
                                 </div>
                                 `
-                                for (const objective of event.training.objectives) {
+                                for (const objective of merged_event.training.objectives) {
                                     objectives.push(objective.objective.id)
                                 }
                                 let player = 0, goalkeeper = 0;
-                                if('protocol_info' in event.training && event.training.protocol_info.length > 0){
-                                    $.each(event.training.protocol_info, function( index, value ) {
+                                if('protocol_info' in merged_event.training && merged_event.training.protocol_info.length > 0){
+                                    $.each(merged_event.training.protocol_info, function( index, value ) {
                                         if(value.status==null) {
                                             player++;
                                             all_players++;
@@ -178,24 +178,24 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                         }
                                     });
                                 } else {
-                                    if(event.training.players_count != null && Object.keys(event.training.players_count).length>0){
+                                    if(merged_event.training.players_count != null && Object.keys(merged_event.training.players_count).length>0){
                                         //console.log(event.training.players_count[0])
-                                        player = event.training.players_count[0]
-                                        all_players += event.training.players_count[0]
+                                        player = merged_event.training.players_count[0]
+                                        all_players += merged_event.training.players_count[0]
                                     }
-                                    if(event.training.goalkeepers_count != null && Object.keys(event.training.goalkeepers_count).length>0){
-                                        goalkeeper = event.training.goalkeepers_count[0]
-                                        all_goalkeeper += event.training.goalkeepers_count[0]
+                                    if(merged_event.training.goalkeepers_count != null && Object.keys(merged_event.training.goalkeepers_count).length>0){
+                                        goalkeeper = merged_event.training.goalkeepers_count[0]
+                                        all_goalkeeper += merged_event.training.goalkeepers_count[0]
                                     }
                                 }
 
                                 count_player+=`
-                                    <div class="col px-0 d-none event-row-info" data-id="${event.training.event_id}">
+                                    <div class="col px-0 d-none event-row-info" data-id="${merged_event.training.event_id}">
                                         ${player ? player : '---'}
                                     </div>
                                 `
                                 count_goalkeeper+=`
-                                    <div class="col px-0 d-none event-row-info" data-id="${event.training.event_id}">
+                                    <div class="col px-0 d-none event-row-info" data-id="${merged_event.training.event_id}">
                                         ${goalkeeper ? goalkeeper : '---'}
                                     </div>
                                 `

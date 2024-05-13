@@ -9,6 +9,7 @@
                 <button id="generate-password-user-button" type="button" class="btn btn-primary btn-block">{% trans 'Generate a new password'%}</button>
                 {% if user.is_superuser %}
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#send-mail-modal">{% trans 'Send by email'%}</button>
+                    <a href="https://mail.google.com/mail/u/0/#inbox" target="_blank" class="btn btn-warning btn-block" role="button">{% trans 'Email'%}</a>
                 {% endif %}
             </div>
         </div>
