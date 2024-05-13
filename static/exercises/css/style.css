@@ -130,6 +130,9 @@
 .exs-elem.exs-blocked {
     opacity: 0.6;
 }
+.exs-elem.already-copied {
+    opacity: 0.6;
+}
 
 .vert-line-left {
     border-left: 2px solid black;
@@ -382,10 +385,10 @@ tr.bck-custom > td {
 }
 
 .selected-exercise-panel > .list-group-item.selected {
-    background-color: #d4d4d4;
-    border-color: #b9b8b8;
+    background-color: #f4ebac;
+    border-color: #7f8340;
     color: #5a6268;
-    border: 2px solid rgb(96, 149, 195) !important;
+    border: 2px solid #7f8340 !important;
 }
 
 .folders_list > .list-group > .list-group-item {
