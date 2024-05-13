@@ -161,7 +161,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
 
                                 merged_btn += `
                                 <div class="col px-1">
-                                    <button href="/trainings/view/${merged_event['id']}" class="btn btn-sm btn-block ${merged_events.length > 1 ? 'btn-info' : 'btn-info'} py-0 event-select" data-id="${merged_event.training.event_id}">${merged_events.length > 1 ? gettext('Group')+' '+(index+1) : gettext('Training') +' '+(num_tr == 2 ? '2' : '')}</button>
+                                    <button href="/trainings/view/${merged_event['id']}" class="btn btn-sm btn-block ${merged_events.length > 1 ? 'btn-info' : 'btn-info'} py-0 event-select" data-id="${merged_event['id']}">${merged_events.length > 1 ? gettext('Group')+' '+(index+1) : gettext('Training') +' '+(num_tr == 2 ? '2' : '')}</button>
                                 </div>
                                 `
                                 for (const objective of merged_event.training.objectives) {
