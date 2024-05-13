@@ -146,7 +146,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             let merged_btn = ''
                             let merged_events = []
                             for (let i = index; i < generated_events.length; i++){
-                                if (generated_events[i]['time'] === event['time'] && generated_events[i]['date'] === event['date']){
+                                if (generated_events[i]['time'] === event['time'] && generated_events[i]['date'] === event['date'] && 'training' in generated_events[i] && generated_events[i]['training'] != null){
                                     if (i != index) skip_row++;
                                     merged_events.push(generated_events[i])
 
