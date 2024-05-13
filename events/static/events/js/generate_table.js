@@ -154,12 +154,14 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                     break;
                                 }
                             }
+                            console.log(merged_events)
                             let all_players = 0, all_goalkeeper = 0;
                             $.each(merged_events, function( index, merged_event ) {
                                 event_id.push(merged_event['id'])
+
                                 merged_btn += `
                                 <div class="col px-1">
-                                    <button href="/trainings/view/${merged_event.training.event_id}" class="btn btn-sm btn-block ${merged_events.length > 1 ? 'btn-info' : 'btn-info'} py-0 event-select" data-id="${merged_event.training.event_id}">${merged_events.length > 1 ? gettext('Group')+' '+(index+1) : gettext('Training') +' '+(num_tr == 2 ? '2' : '')}</button>
+                                    <button href="/trainings/view/${merged_event['id']}" class="btn btn-sm btn-block ${merged_events.length > 1 ? 'btn-info' : 'btn-info'} py-0 event-select" data-id="${merged_event.training.event_id}">${merged_events.length > 1 ? gettext('Group')+' '+(index+1) : gettext('Training') +' '+(num_tr == 2 ? '2' : '')}</button>
                                 </div>
                                 `
                                 for (const objective of merged_event.training.objectives) {
