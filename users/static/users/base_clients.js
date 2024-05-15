@@ -157,6 +157,24 @@ $(window).on("load", function () {
         })
     })
 
+    $('#users-table').on('click', '.mark-checker', function (elem) {
+        let id = $(this).attr('data-id')
+        let tr_obj = $(this).closest('tr')
+        let marks = {}
+        tr_obj.find('.mark-checker').each(function (index) {
+            let is_check = $(this).prop('checked')
+            marks[$(this).attr('data-mark')] = is_check
+        })
+
+        let send_data = []
+        send_data.push({name: 'marks', value: JSON.stringify(marks)})
+        console.log(send_data);
+
+        ajax_users_action('POST', send_data, 'edit', id, 'edit_user').then(function (data) {
+            console.log(data)
+        })
+    })
+
     $('#add-user-button').on('click', function () {
         if(!$('#add-user-form').valid()) return
         let personal = $('#add-user-form').serializeArray()

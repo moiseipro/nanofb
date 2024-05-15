@@ -81,7 +81,7 @@ class UserAdminEditSerializer(UserEditSerializer):
     class Meta(UserEditSerializer.Meta):
         pass
 
-    Meta.fields += ('registration_to', 'is_demo_mode', 'is_active', 'team_limit', 'player_limit', 'is_superuser', 'group')
+    Meta.fields += ('registration_to', 'is_demo_mode', 'is_active', 'team_limit', 'player_limit', 'is_superuser', 'group', 'marks')
 
 
 class UserPersonalSerializer(serializers.ModelSerializer):
@@ -391,6 +391,6 @@ class UserManagementSerializer(serializers.ModelSerializer):
             'trainer_license', 'license', 'license_date', 'flag', 'distributor', 'date_joined', 'club_title',
             'activation', 'club_name', 'club_registration_to', 'is_archive', 'date_joined', 'phone', 'date_last_login',
             'region', 'club_id', 'exercises', 'teams', 'online', 'teams_players', 'teams_players_fact',
-            'notifications_count', 'payment_user'
+            'notifications_count', 'payment_user', 'marks'
         ]
         datatables_always_serialize = ('id', 'groups', 'trainer_license', 'club_registration_to', 'is_archive')

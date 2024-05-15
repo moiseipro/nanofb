@@ -162,6 +162,7 @@ class UserManagementApiView(viewsets.ModelViewSet):
     @action(detail=True, methods=['post'])
     def edit_user(self, request, pk=None):
         instance = User.objects.get(pk=pk)
+        print(self.request.data)
         if request.user.is_superuser:
             serializer = UserAdminEditSerializer(instance, data=self.request.data, partial=True)
         else:

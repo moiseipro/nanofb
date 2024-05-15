@@ -104,6 +104,24 @@
     </div>
     <div id="col-admin-filters-block" class="col-12 collapse show">
         <div class="form-check">
+            <input class="form-check-input toggle-user-column" data-col="team-players-info-col" type="checkbox" value="" id="team-players-check">
+            <label class="form-check-label w-100" for="team-players-check">
+                {% trans 'Teams' %}/{% trans 'Players' %}
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input toggle-user-column" data-col="exercises-info-col" type="checkbox" value="" id="exercises-check">
+            <label class="form-check-label w-100" for="exercises-check">
+                {% trans 'Exercises' %}
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input toggle-user-column" data-col="check-info-col" data-filter="check-info-col" type="checkbox" value="true" id="exercises-check">
+            <label class="form-check-label w-100" for="exercises-check">
+                {% trans 'Call' %}/{% trans 'Mail' %}/{% trans 'VIP' %}
+            </label>
+        </div>
+        <div class="form-check">
             <input class="form-check-input toggle-user-column" data-col="lic-date-info-col" type="checkbox" value="" id="license-to-check">
             <label class="form-check-label w-100" for="license-to-check">
                 {% trans 'License' %}
@@ -157,18 +175,6 @@
 {#                {% trans 'Activity index' %}#}
 {#            </label>#}
 {#        </div>#}
-        <div class="form-check">
-            <input class="form-check-input toggle-user-column" data-col="team-players-info-col" type="checkbox" value="" id="team-players-check">
-            <label class="form-check-label w-100" for="team-players-check">
-                {% trans 'Teams' %}/{% trans 'Players' %}
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input toggle-user-column" data-col="exercises-info-col" type="checkbox" value="" id="exercises-check">
-            <label class="form-check-label w-100" for="exercises-check">
-                {% trans 'Exercises' %}
-            </label>
-        </div>
 {#        <div class="form-check">#}
 {#            <input class="form-check-input toggle-user-column" data-col="login-info-col" type="checkbox" value="" id="login-check">#}
 {#            <label class="form-check-label" for="login-check">#}

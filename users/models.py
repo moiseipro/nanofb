@@ -238,6 +238,7 @@ class User(AbstractUser, Limitations):
         verbose_name=_('Federation'),
         help_text=_('The federation the user is a member of'),
     )
+    marks = models.JSONField(null=True)
     is_archive = models.BooleanField(default=0)
     is_api_access = models.BooleanField(default=0)
     is_demo_mode = models.BooleanField(default=0)

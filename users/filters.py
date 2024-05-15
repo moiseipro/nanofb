@@ -24,6 +24,17 @@ class GlobalDateFilter(GlobalFilter, filters.DateFilter):
     pass
 
 
+class GlobalBoolFilter(GlobalFilter, filters.BooleanFilter):
+    def filter(self, qs, value):
+        print(qs)
+        if value:
+            if self.distinct:
+                qs = qs.distinct()
+            qs = qs.order_by("-marks")
+        return qs
+    pass
+
+
 class GlobalNotificationsFilter(GlobalFilter, filters.CharFilter):
     def filter(self, qs, value):
         if value:
@@ -232,10 +243,12 @@ class UserManagementGlobalFilter(DatatablesFilterSet):
     club_id = GlobalClubFilter(field_name='club_id__id', lookup_expr='exact')
     group = GlobalGroupFilter(field_name='group', lookup_expr='exact')
 
+    marks__call = GlobalBoolFilter(field_name='marks__call')
+
 
 
     class Meta:
         #model = User
         fields = ['registration_to', 'date_birthsday', 'last_name', 'first_name', 'job_title', 'license', 'p_version',
                   'club_id', 'distributor', 'is_archive', 'online', 'access_to', 'notifications_count', 'group',
-                  'payment_user']
+                  'payment_user', 'marks__call']
