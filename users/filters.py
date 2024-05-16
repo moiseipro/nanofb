@@ -24,15 +24,34 @@ class GlobalDateFilter(GlobalFilter, filters.DateFilter):
     pass
 
 
-class GlobalBoolFilter(GlobalFilter, filters.BooleanFilter):
+class GlobalBoolCallFilter(GlobalFilter, filters.CharFilter):
     def filter(self, qs, value):
-        print(qs)
+        print(value)
         if value:
             if self.distinct:
                 qs = qs.distinct()
-            qs = qs.order_by("-marks")
+            qs = qs.order_by("-marks__call")
         return qs
-    pass
+
+
+class GlobalBoolMailFilter(GlobalFilter, filters.CharFilter):
+    def filter(self, qs, value):
+        print(value)
+        if value:
+            if self.distinct:
+                qs = qs.distinct()
+            qs = qs.order_by("-marks__mail")
+        return qs
+
+
+class GlobalBoolVipFilter(GlobalFilter, filters.CharFilter):
+    def filter(self, qs, value):
+        print(value)
+        if value:
+            if self.distinct:
+                qs = qs.distinct()
+            qs = qs.order_by("-marks__vip")
+        return qs
 
 
 class GlobalNotificationsFilter(GlobalFilter, filters.CharFilter):
@@ -243,7 +262,9 @@ class UserManagementGlobalFilter(DatatablesFilterSet):
     club_id = GlobalClubFilter(field_name='club_id__id', lookup_expr='exact')
     group = GlobalGroupFilter(field_name='group', lookup_expr='exact')
 
-    marks__call = GlobalBoolFilter(field_name='marks__call')
+    marks__call = GlobalBoolCallFilter(field_name='marks__call', lookup_expr='icontains')
+    marks__mail = GlobalBoolMailFilter(field_name='marks__mail', lookup_expr='icontains')
+    marks__vip = GlobalBoolVipFilter(field_name='marks__vip', lookup_expr='icontains')
 
 
 
@@ -251,4 +272,4 @@ class UserManagementGlobalFilter(DatatablesFilterSet):
         #model = User
         fields = ['registration_to', 'date_birthsday', 'last_name', 'first_name', 'job_title', 'license', 'p_version',
                   'club_id', 'distributor', 'is_archive', 'online', 'access_to', 'notifications_count', 'group',
-                  'payment_user', 'marks__call']
+                  'payment_user', 'marks__call', 'marks__mail', 'marks__vip']

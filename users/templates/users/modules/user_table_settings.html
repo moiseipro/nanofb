@@ -98,6 +98,24 @@
                 {% trans 'Payment' %}
             </label>
         </div>
+        <div class="form-check">
+            <input class="form-check-input toggle-user-column user-table-filter" data-col="call-check-info-col" data-filter="call-check-filter" type="checkbox" value="true" id="call-check">
+            <label class="form-check-label w-100" for="call-check">
+                {% trans 'Call' %}
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input toggle-user-column user-table-filter" data-col="mail-check-info-col" data-filter="mail-check-filter" type="checkbox" value="true" id="mail-check">
+            <label class="form-check-label w-100" for="mail-check">
+                {% trans 'Mail' %}
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input toggle-user-column user-table-filter" data-col="vip-check-info-col" data-filter="vip-check-filter" type="checkbox" value="true" id="vip-check">
+            <label class="form-check-label w-100" for="vip-check">
+                {% trans 'VIP' %}
+            </label>
+        </div>
     </div>
     <div class="col-12" style="background: lightgrey">
         <span data-toggle="collapse" data-target="#col-admin-filters-block" style="cursor: pointer">{% trans 'Columns' %}</span>
@@ -113,12 +131,6 @@
             <input class="form-check-input toggle-user-column" data-col="exercises-info-col" type="checkbox" value="" id="exercises-check">
             <label class="form-check-label w-100" for="exercises-check">
                 {% trans 'Exercises' %}
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input toggle-user-column" data-col="check-info-col" data-filter="check-info-col" type="checkbox" value="true" id="exercises-check">
-            <label class="form-check-label w-100" for="exercises-check">
-                {% trans 'Call' %}/{% trans 'Mail' %}/{% trans 'VIP' %}
             </label>
         </div>
         <div class="form-check">

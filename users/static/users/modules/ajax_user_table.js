@@ -144,27 +144,27 @@ function generate_ajax_users_table(scroll_y = '', pagination = true){
             // {'data': 'days_entered', 'name': 'days_entered', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
             //     return data;
             // }},
-            {'data': 'marks', "name": "marks__call", render: function (data, type, row, meta) {
+            {'data': 'marks', "name": "marks__call", sortable: false, render: function (data, type, row, meta) {
                 console.log(data)
                 let mark_name = 'call'
                 let button_html = `<div class="w-100 text-center" title="">`
-                button_html += `<input type="checkbox" class="form-check-input mark-checker py-0" data-id="${row.id}" data-mark="${mark_name}" ${data != null && mark_name in data && data[mark_name] ? 'checked' : ''}>`
+                button_html += `<input type="checkbox" class="mark-checker py-0" data-id="${row.id}" data-mark="${mark_name}" ${data != null && mark_name in data && data[mark_name] ? 'checked' : ''}>`
                 button_html += `</div>`
                 return button_html;
             }},
-            {'data': 'marks', "name": "marks__email", render: function (data, type, row, meta) {
+            {'data': 'marks', "name": "marks__mail", sortable: false, render: function (data, type, row, meta) {
                 console.log(data)
                 let mark_name = 'email'
                 let button_html = `<div class="w-100 text-center" title="">`
-                button_html += `<input type="checkbox" class="form-check-input mark-checker py-0" data-id="${row.id}" data-mark="${mark_name}" ${data != null && mark_name in data && data[mark_name] ? 'checked' : ''}>`
+                button_html += `<input type="checkbox" class="mark-checker py-0" data-id="${row.id}" data-mark="${mark_name}" ${data != null && mark_name in data && data[mark_name] ? 'checked' : ''}>`
                 button_html += `</div>`
                 return button_html;
             }},
-            {'data': 'marks', "name": "marks__vip", render: function (data, type, row, meta) {
+            {'data': 'marks', "name": "marks__vip", sortable: false, render: function (data, type, row, meta) {
                 console.log(data)
                 let mark_name = 'vip'
                 let button_html = `<div class="w-100 text-center" title="">`
-                button_html += `<input type="checkbox" class="form-check-input mark-checker py-0" data-id="${row.id}" data-mark="${mark_name}" ${data != null && mark_name in data && data[mark_name] ? 'checked' : ''}>`
+                button_html += `<input type="checkbox" class="mark-checker py-0" data-id="${row.id}" data-mark="${mark_name}" ${data != null && mark_name in data && data[mark_name] ? 'checked' : ''}>`
                 button_html += `</div>`
                 return button_html;
             }},

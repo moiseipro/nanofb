@@ -17,6 +17,7 @@ from django.utils.translation import gettext_lazy as _
 from clubs.forms import ClubAddUserForm, ClubAddPersonalForm
 from clubs.models import Club
 from clubs.serializers import ClubSerializer, ClubUserCreateSerializer
+from users.filters import UserManagementGlobalFilter
 from users.models import User, UserPersonal
 from users.serializers import UserSerializer, UserPersonalSerializer, CreateUserSerializer, UserEditSerializer, \
     UserManagementSerializer, UserAllDataSerializer
@@ -49,8 +50,7 @@ class BaseClubView(LoginRequiredMixin, TemplateView):
 
 class ClubUsersViewSet(viewsets.ModelViewSet):
     filter_backends = (DatatablesFilterBackend,)
-    filterset_fields = '__all__'
-    # filterset_class = VideoGlobalFilter
+    filterset_class = UserManagementGlobalFilter
 
     def create(self, request, *args, **kwargs):
         print(request.data)
