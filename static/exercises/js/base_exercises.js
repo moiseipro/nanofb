@@ -565,6 +565,17 @@ function CheckLastExs() {
         $('.folders-block > div.folders-container > div.folders_div').removeClass('selected');
         $(`.folders-block > div.folders-container > div.folders_div[data-id="${window.lastExercise.type}"]`).removeClass('d-none');
         $(`.folders-block > div.folders-container > div.folders_div[data-id="${window.lastExercise.type}"]`).addClass('selected');
+        
+        $('.toggle-filter-content').toggleClass('btn-custom-outline-blue', window.lastExercise.type == "team_folders");
+        $('.toggle-filter-content').toggleClass('btn-custom-outline-red', window.lastExercise.type == "club_folders");
+        $('.toggle-filter-content').toggleClass('btn-custom-outline-green', window.lastExercise.type == "nfb_folders");
+        $('.up-tabs-elem').toggleClass('b-c-blue2', window.lastExercise.type == "team_folders");
+        $('.up-tabs-elem').toggleClass('b-c-red2', window.lastExercise.type == "club_folders");
+        $('.up-tabs-elem').toggleClass('b-c-green2', window.lastExercise.type == "nfb_folders");
+        $('.in-card-elem').toggleClass('b-c-blue2', window.lastExercise.type == "team_folders");
+        $('.in-card-elem').toggleClass('b-c-red2', window.lastExercise.type == "club_folders");
+        $('.in-card-elem').toggleClass('b-c-green2', window.lastExercise.type == "nfb_folders");
+
         setTimeout(() => {
             if (window.lastExercise.folder) {
                 if (window.lastExercise.type == "team_folders") {
@@ -1208,6 +1219,10 @@ function CopyOrMoveAjax() {
     let selectedFolder = $('.folders_div.selected').find('.list-group-item.active > div').attr('data-id');
     let folderType = $(selectedExsElem).attr('folder-type');
     let copyToNF = $('.folders_div.selected').attr('data-id') == "nfb_folders";
+    if (folderType == "team_folders" && copyToNF) {
+        swal("Внимание", "Копировать упражнение можно только из папок NF.", "info");
+        return;
+    }
     if (actionType == "copy") {
         $('#copyExs').removeClass('help-use');
     }
@@ -1245,13 +1260,48 @@ function CopyOrMoveAjax() {
         },
         complete: function (res) {
             $('.selected-exercise-panel').html('');
-            $('#copyExs').toggleClass('selected3', false);
-            $('#copyExs').attr('data-state', '0');
-            $('#moveExs').toggleClass('selected3', false);
-            $('#moveExs').attr('data-state', '0');
+            // $('#copyExs').toggleClass('selected3', false);
+            // $('#copyExs').attr('data-state', '0');
+            // $('#moveExs').toggleClass('selected3', false);
+            // $('#moveExs').attr('data-state', '0');
             CountExsInFolder();
-            LoadFolderExercises();
+            if (actionType == 'copy') {
+                CheckLastExs();
+            } else {
+                LoadFolderExercises();
+            }
             $('.page-loader-wrapper').fadeOut();
+        }
+    });
+}
+
+function HideCopiedNFExs() {
+    if ($('.folders_div.selected').attr('data-id') != "nfb_folders" || $('#copyExs').attr('data-state') != '1') {
+        return;
+    }
+    let visibleExs = [];
+    $('.exs-list-group').find('.list-group-item.exs-elem:visible').each((ind, elem) => {
+        visibleExs.push($(elem).attr('data-id'));
+    });
+    let exsToHide = [];
+    $.ajax({
+        headers:{"X-CSRFToken": csrftoken},
+        data: {'check_copied_nf_exs': 1, 'exs_ids': visibleExs},
+        type: 'GET', // GET или POST
+        dataType: 'json',
+        url: "exercises_api",
+        success: function (res) {
+            if (res.success) {
+                if (Array.isArray(res.data)) {
+                    res.data.forEach(id => {
+                        $('.exs-list-group').find(`.list-group-item.exs-elem[data-id="${id}"]`).addClass('already-copied');
+                    });
+                }
+            }
+        },
+        error: function (res) {
+        },
+        complete: function (res) {
         }
     });
 }
@@ -2993,7 +3043,6 @@ $(function() {
         let state = $(e.currentTarget).attr('data-state');
         if (state == '1') {
             $('.selected-exercise-panel').html('');
-            $('.exs-list-group').find('.list-group-item.exs-elem.active').removeClass('active');
             if ($(e.currentTarget).hasClass('help-use')) {
                 if (actionType == "copy") {
                     swal("Внимание", "Выберите упражнение, которое нужно скопировать.", "info");
@@ -3002,34 +3051,44 @@ $(function() {
                     swal("Внимание", "Выберите упражнение, которое нужно переместить.", "info");
                 }
             }
-            if ($('.folders_div.selected').attr('data-id') == "nfb_folders" && actionType == "copy") {
-                let visibleExs = [];
-                $('.exs-list-group').find('.list-group-item.exs-elem:visible').each((ind, elem) => {
-                    visibleExs.push($(elem).attr('data-id'));
-                });
-                let exsToHide = [];
-                $.ajax({
-                    headers:{"X-CSRFToken": csrftoken},
-                    data: {'check_copied_nf_exs': 1, 'exs_ids': visibleExs},
-                    type: 'GET', // GET или POST
-                    dataType: 'json',
-                    url: "exercises_api",
-                    success: function (res) {
-                        if (res.success) {
-                            if (Array.isArray(res.data)) {
-                                res.data.forEach(id => {
-                                    $('.exs-list-group').find(`.list-group-item.exs-elem[data-id="${id}"]`).addClass('already-copied');
-                                });
-                            }
-                        }
-                    },
-                    error: function (res) {
-                    },
-                    complete: function (res) {
-                    }
-                });
+            if (actionType == "copy") {
+                HideCopiedNFExs();
             }
         } else {
+            if ($('.selected-exercise-panel').find('li').length > 0 && actionType == "copy") {
+                $('#copyExs').toggleClass('selected3', true);
+                $('#copyExs').attr('data-state', '1');
+
+                let exsId = $('.exercises-list').find('.exs-elem.active').attr('data-id');
+                let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
+                let data = {'type': "nfb_folders", 'folder': folder, 'exs': exsId};
+                data = JSON.stringify(data);
+                sessionStorage.setItem('last_exs', data);
+
+                $('.up-tabs-elem[data-id="nfb_folders"]').removeClass('selected3');
+                $('.exs_counter').html("(...)");
+                $('.folders_nfb_list').toggleClass('d-none', true);
+                $('.folders_club_list').toggleClass('d-none', true);
+                $('.folders_list').toggleClass('d-none', false);
+                $('.folders_nfb_list').toggleClass('selected', false);
+                $('.folders_club_list').toggleClass('selected', false);
+                $('.folders_list').toggleClass('selected', true);
+                $('.exercises-list').find('.list-group-item:not(.side-filter-elem)').removeClass('active');
+                $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
+                $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('d-none', true);
+                $('.up-tabs-elem[data-id="club_folders"]').toggleClass('d-none', true);
+                $('.up-tabs-elem[data-id="team_folders"]').toggleClass('d-none', false);
+                $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('selected', false);
+                $('.up-tabs-elem[data-id="club_folders"]').toggleClass('selected', false);
+                $('.up-tabs-elem[data-id="team_folders"]').toggleClass('selected', true);
+                $('.up-tabs-elem').addClass('b-c-blue2');
+                $('.up-tabs-elem').removeClass('b-c-green2');
+                $('.up-tabs-elem').removeClass('b-c-red2');
+                $('.in-card-elem').addClass('b-c-blue2');
+                $('.in-card-elem').removeClass('b-c-green2');
+                $('.in-card-elem').removeClass('b-c-red2');
+                return;
+            }
             $('.exs-list-group').find(`.list-group-item.exs-elem.already-copied`).removeClass('already-copied');
             $('.selected-exercise-panel').html('');
         }
