@@ -28,3 +28,16 @@
 .table-settings-block .form-check:hover{
     background-color: #e7e7e7;
 }
+
+.mark-changer[data-value="0"]{
+    color: rgba(0,0,0,0);
+}
+.mark-changer[data-value="1"]{
+    color: #35c735;
+}
+.mark-changer[data-value="2"]{
+    color: #fba520;
+}
+.mark-changer[data-value="3"]{
+    color: #ff4e4e;
+}

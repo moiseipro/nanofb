@@ -188,8 +188,6 @@ $(window).on("load", function () {
             if (!$(this).is(":checked")){
                 value = ''
             }
-
-            console.log(value)
         }
         console.log(value)
         let filter = $(this).attr('data-filter')

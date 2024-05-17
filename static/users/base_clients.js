@@ -4,6 +4,8 @@ var users_menu_state = null
 
 $(window).on("load", function () {
 
+    $('#toggle_btn').click()
+
     if(Cookies.get('club_selected_id')){
         $('#club-table-show-button').tab('show')
     } else {
@@ -157,20 +159,27 @@ $(window).on("load", function () {
         })
     })
 
-    $('#users-table').on('click', '.mark-checker', function (elem) {
+    $('#users-table').on('click', '.mark-checker, .mark-changer', function (elem) {
         let id = $(this).attr('data-id')
         let tr_obj = $(this).closest('tr')
+        let current_value = parseInt($(this).attr('data-value')) + 1
+        if (isNaN(current_value) || current_value > 3) current_value = 0
+        $(this).attr('data-value', current_value)
         let marks = {}
         tr_obj.find('.mark-checker').each(function (index) {
             let is_check = $(this).prop('checked')
             marks[$(this).attr('data-mark')] = is_check
+        })
+        tr_obj.find('.mark-changer').each(function (index) {
+            let value = $(this).attr('data-value')
+            marks[$(this).attr('data-mark')] = value
         })
 
         let send_data = []
         send_data.push({name: 'marks', value: JSON.stringify(marks)})
         console.log(send_data);
 
-        ajax_users_action('POST', send_data, 'edit', id, 'edit_user').then(function (data) {
+        ajax_users_action('POST', send_data, 'mark', id, 'edit_user').then(function (data) {
             console.log(data)
         })
     })

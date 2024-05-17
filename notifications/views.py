@@ -118,7 +118,7 @@ class NotificationUserManagementApiView(viewsets.ModelViewSet):
         """
         Instantiates and returns the list of permissions that this view requires.
         """
-        if self.action == 'list' or self.action == 'get_user_notification':
+        if self.action == 'list' or self.action == 'get_user_notification' or self.action == 'set_view_notification':
             permission_classes = [IsAuthenticated]
         else:
             permission_classes = [IsAdminUser]

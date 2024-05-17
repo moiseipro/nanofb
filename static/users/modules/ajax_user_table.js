@@ -144,27 +144,27 @@ function generate_ajax_users_table(scroll_y = '', pagination = true){
             // {'data': 'days_entered', 'name': 'days_entered', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
             //     return data;
             // }},
-            {'data': 'marks', "name": "marks__call", render: function (data, type, row, meta) {
+            {'data': 'marks.call', "name": "marks__call", sortable: false, render: function (data, type, row, meta) {
                 console.log(data)
                 let mark_name = 'call'
-                let button_html = `<div class="w-100 text-center" title="">`
-                button_html += `<input type="checkbox" class="form-check-input mark-checker py-0" data-id="${row.id}" data-mark="${mark_name}" ${data != null && mark_name in data && data[mark_name] ? 'checked' : ''}>`
+                let button_html = `<div class="w-100 text-center mark-changer" data-value="${data != null && data ? data : 0}" data-id="${row.id}" data-mark="${mark_name}" title="">`
+                button_html += `<i class="fa fa-check-square" aria-hidden="true"></i>`
                 button_html += `</div>`
                 return button_html;
             }},
-            {'data': 'marks', "name": "marks__email", render: function (data, type, row, meta) {
+            {'data': 'marks.call2', "name": "marks__call2", sortable: false, render: function (data, type, row, meta) {
                 console.log(data)
-                let mark_name = 'email'
-                let button_html = `<div class="w-100 text-center" title="">`
-                button_html += `<input type="checkbox" class="form-check-input mark-checker py-0" data-id="${row.id}" data-mark="${mark_name}" ${data != null && mark_name in data && data[mark_name] ? 'checked' : ''}>`
+                let mark_name = 'call2'
+                let button_html = `<div class="w-100 text-center mark-changer" data-value="${data != null && data ? data : 0}" data-id="${row.id}" data-mark="${mark_name}" title="">`
+                button_html += `<i class="fa fa-check-square" aria-hidden="true"></i>`
                 button_html += `</div>`
                 return button_html;
             }},
-            {'data': 'marks', "name": "marks__vip", render: function (data, type, row, meta) {
+            {'data': 'marks.vip', "name": "marks__vip", sortable: false, render: function (data, type, row, meta) {
                 console.log(data)
                 let mark_name = 'vip'
                 let button_html = `<div class="w-100 text-center" title="">`
-                button_html += `<input type="checkbox" class="form-check-input mark-checker py-0" data-id="${row.id}" data-mark="${mark_name}" ${data != null && mark_name in data && data[mark_name] ? 'checked' : ''}>`
+                button_html += `<input type="checkbox" class="mark-checker py-0" data-id="${row.id}" data-mark="${mark_name}" ${data != null && data ? 'checked' : ''}>`
                 button_html += `</div>`
                 return button_html;
             }},
@@ -186,7 +186,7 @@ function generate_ajax_users_table(scroll_y = '', pagination = true){
     })
     users_table.on('click', 'td', function (e) {
         console.log('SELECT')
-        if($(e.target).closest('.archive-user, .mark-checker').length == 0) {
+        if($(e.target).closest('.archive-user, .mark-checker, .mark-changer').length == 0) {
             if($(this).parent().is('.selected')){
                 is_select_user = false;
                 users_table.row($(this).parent()).deselect()
@@ -254,7 +254,9 @@ async function ajax_users_action(method, data, action = '', id = '', func = '') 
         success: function(data){
             console.log(data)
             if (data) {
-                if ('status' in data && data.status == 'success') {
+                if (action == 'mark'){
+
+                } else if ('status' in data && data.status == 'success') {
                     swal(gettext('User'), data.message, 'success');
                 } else if ('registration' in data && data.registration != '') {
                     swal(gettext('User registration'), data.registration, "success");
