@@ -111,7 +111,7 @@ class UserMatch(AbstractMatch):
     )
     class Meta:
         abstract = False
-        ordering = ['-event_id__date']
+        ordering = ['event_id__date']
         permissions = [
             (
                 "analytics_usermatch",
@@ -133,7 +133,7 @@ class ClubMatch(AbstractMatch):
     )
     class Meta:
         abstract = False
-        ordering = ['-event_id__date']
+        ordering = ['event_id__date']
         permissions = [
             (
                 "analytics_clubmatch",
@@ -156,7 +156,7 @@ class LiteMatch(AbstractMatch):
 
     class Meta:
         abstract = False
-        ordering = ['-event_id__date']
+        ordering = ['event_id__date']
 
 
 class AbstractProtocol(models.Model):
