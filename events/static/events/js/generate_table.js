@@ -125,6 +125,8 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             // console.log(event.training)
                             let count_player = ''
                             let count_goalkeeper = ''
+                            let count_minutes = ''
+                            let merged_loads = ''
                             //console.log(event.training)
                             if(event_class === 'trainingClass' && event['only_date'] === event_date) {
                                 num_tr++
@@ -155,18 +157,36 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                 }
                             }
                             console.log(merged_events)
-                            let all_players = 0, all_goalkeeper = 0;
+                            let all_players = 0, all_goalkeeper = 0, all_minutes = 0;
+                            let all_load = ''
                             $.each(merged_events, function( index, merged_event ) {
                                 event_id.push(merged_event['id'])
 
+                                let load = merged_event.training.load ? merged_event.training.load.short_name : '---'
+                                if (all_load != ''){
+                                    all_load += ' | '+load
+                                } else {
+                                    all_load += load;
+                                }
+
+
                                 merged_btn += `
                                 <div class="col px-1">
-                                    <button href="/trainings/view/${merged_event['id']}" class="btn btn-sm btn-block ${merged_events.length > 1 ? 'btn-info' : 'btn-info'} py-0 event-select" data-id="${merged_event['id']}">${merged_events.length > 1 ? gettext('Group')+' '+(index+1) : gettext('Training') +' '+(num_tr == 2 ? '2' : '')}</button>
+                                    <button href="/trainings/view/${merged_event['id']}" class="btn btn-sm btn-block ${merged_events.length > 1 ? 'btn-info' : 'btn-info'} py-0 event-select" data-id="${merged_event['id']}">${merged_events.length > 1 ? gettext('G.')+' '+(index+1) : gettext('T.') +' '+(num_tr == 2 ? '2' : '')}</button>
                                 </div>
                                 `
                                 for (const objective of merged_event.training.objectives) {
                                     objectives.push(objective.objective.id)
                                 }
+
+                                let duration = 0
+                                if('exercises_info' in merged_event.training && merged_event.training.exercises_info.length > 0){
+                                    $.each(merged_event.training.exercises_info, function( index, value ) {
+                                        duration += value.duration;
+                                        all_minutes += value.duration;
+                                    })
+                                }
+
                                 let player = 0, goalkeeper = 0;
                                 if('protocol_info' in merged_event.training && merged_event.training.protocol_info.length > 0){
                                     $.each(merged_event.training.protocol_info, function( index, value ) {
@@ -190,7 +210,16 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                         all_goalkeeper += merged_event.training.goalkeepers_count[0]
                                     }
                                 }
-
+                                merged_loads+=`
+                                    <div class="col px-0 d-none event-row-info" data-id="${merged_event.training.event_id}">
+                                        ${load ? load : '---'}
+                                    </div>
+                                `
+                                count_minutes+=`
+                                    <div class="col px-0 d-none event-row-info" data-id="${merged_event.training.event_id}">
+                                        ${duration ? duration+'`' : '---'}
+                                    </div>
+                                `
                                 count_player+=`
                                     <div class="col px-0 d-none event-row-info" data-id="${merged_event.training.event_id}">
                                         ${player ? player : '---'}
@@ -202,6 +231,17 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                     </div>
                                 `
                             })
+
+                            merged_loads+=`
+                                <div class="col px-0 event-row-info" data-id="">
+                                    ${all_load ? all_load : '---'}
+                                </div>
+                            `
+                            count_minutes+=`
+                                <div class="col px-0 event-row-info" data-id="">
+                                    ${all_minutes ? all_minutes+'`' : '---'}
+                                </div>
+                            `
                             count_player+=`
                                 <div class="col px-0 event-row-info" data-id="">
                                     ${all_players ? all_players : '---'}
@@ -213,16 +253,15 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                 </div>
                             `
 
-
+                            //<td>${count_day==0 ? '---' : count_day}</td>
                             td_html += `
-                            <td>${count_day==0 ? '---' : count_day}</td>
-                            <td class="${!isFilled ? 'text-danger' : ''}">${event['only_date']}</td>
-                            <td colspan="2">
+                            
+                            <td width="15%" class="${!isFilled ? 'text-danger' : ''}">${event['only_date']}</td>
+                            <td>
                                 <div class="row mx-0 merged-event">
                                     ${merged_btn}
                                 </div>
                             </td>
-                            <td><i class="switch-favorites fa ${event.training.favourites == 1 ? 'fa-star text-success' : (event.training.favourites == 2 ? 'fa-star text-warning' : (event.training.favourites == 3 ? 'fa-star text-danger' : 'fa-star-o'))}" data-switch="${event.training.favourites}"></i></td>
                             <td>
                                 <div class="row mx-0">
                                     ${count_player}
@@ -233,33 +272,41 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                     ${count_goalkeeper}
                                 </div>
                             </td>
+                            <td>
+                                <div class="row mx-0">
+                                    ${count_minutes}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="row mx-0">
+                                    ${merged_loads ? merged_loads : '---'}
+                                </div>
+                            </td>
+                            <td class="${parseInt($('#favourites-event-filter').attr('data-filter')) > 0 ? '' : 'd-none'} favorites-col"><i class="switch-favorites fa ${event.training.favourites == 1 ? 'fa-star text-success' : (event.training.favourites == 2 ? 'fa-star text-warning' : (event.training.favourites == 3 ? 'fa-star text-danger' : 'fa-star-o'))}" data-switch="${event.training.favourites}"></i></td>
                             `
 
                         } else if('match' in event && event['match'] != null){
                             event_name = 'm'+(event['match']['m_type']+1)
-                            event_class = 'matchClass'+event['match']['m_type']
+                            event_class = 'matchClass matchClass'+event['match']['m_type']
                             count_m--
                             count_tr = 0
 
                             event_id.push(event['id'])
 
+                            //<td>${count_day==0 ? '---' : count_day}</td>
                             td_html += `
-                                <td>${count_day==0 ? '---' : count_day}</td>
+                                
                                 <td>${event['only_date']}</td>
-                                <td colspan="2" class="px-1"><a href="${isLite ? '' : '/matches/match?id='+event.match.event_id}" data-count="${count_m+1}" class="btn btn-sm btn-block ${event.match.m_type == 0 ?"btn-warning":"btn-success"} py-0" data-id="${event.match.event_id}">${gettext('Match')}</a></td>
-                                <td>---</td>
-                                <td>---</td>
-                                <td>---</td>
+                                <td class="px-1"><button href="${isLite ? '' : '/matches/match?id='+event.match.event_id}" data-count="${count_m+1}" class="btn btn-sm btn-block ${event.match.m_type == 0 ?"btn-warning":"btn-success"} py-0 event-select" data-id="${event.match.event_id}">${gettext('M.')}</button></td>
+                                <td colspan="5">${event.match.opponent ? event.match.opponent : '---'}</td>
                             `
                         } else {
                             event_class = 'none'
+                            //<td>${count_day==0 ? '---' : count_day}</td>
                             td_html += `
-                                    <td>${count_day==0 ? '---' : count_day}</td>
+                                    
                                     <td>${event['only_date']}</td>
-                                    <td colspan="2">${count_tr == 0 && count_m==max_m ? '---' : '---'}</td>
-                                    <td>---</td>
-                                    <td>---</td>
-                                    <td>---</td>
+                                    <td colspan="6">---</td>
                                 ` //<a href="#" class="btn btn-sm btn-block btn-secondary py-0 disabled">${/*gettext('Recreation')*/'---'}</a>
                         }
                         console.log(event['only_date']+"   "+moment(event['only_date'], 'DD/MM/YYYY').endOf('month').format('DD/MM/YYYY'))

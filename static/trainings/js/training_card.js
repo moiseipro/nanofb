@@ -241,12 +241,10 @@ $(window).on('load', function (){
 
     //Изменение количества игроков для тренировок lite
     $('#training-main-data .training-players input').on('change', function () {
-        let group = $(this).attr('group')
-        players_count[group-1] = $(this).val()
+        players_count = $(this).val()
     })
     $('#training-main-data .training-goalkeepers input').on('change', function () {
-        let group = $(this).attr('group')
-        goalkeepers_count[group-1] = $(this).val()
+        goalkeepers_count = $(this).val()
     })
 })
 
@@ -524,13 +522,13 @@ function load_all_exercises_training(training_id = null, group = null) {
                 } else {
                     if('players_count' in data){
                         let players = data.players_count
-                        players_count = players ? players : {0: '0', 1: '0'};
-                        player_count = players_count[group-1]
+                        players_count = players;
+                        player_count = players_count
                     }
                     if('goalkeepers_count' in data){
                         let players = data.goalkeepers_count
-                        goalkeepers_count = players ? players : {0: '0', 1: '0'};
-                        player_goalkeeper = goalkeepers_count[group-1]
+                        goalkeepers_count = players;
+                        player_goalkeeper = goalkeepers_count
                     }
                 }
             }

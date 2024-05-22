@@ -6,7 +6,7 @@ function LoadMatchEditModal(id) {
         data: data,
         type: 'GET', // GET или POST
         dataType: 'json',
-        url: "matches_api",
+        url: "/matches/matches_api",
         success: function (res) {
             if (res.success) {
                 $('#matchEditModal').find('.modal-body').attr('data-id', id);
@@ -103,7 +103,7 @@ $(function() {
                 data: data,
                 type: 'POST', // GET или POST
                 dataType: 'json',
-                url: "matches_api",
+                url: "/matches/matches_api",
                 success: function (res) {
                     if (res.success) {
                         swal("Готово", "Матч успешно создан / изменен.", "success")

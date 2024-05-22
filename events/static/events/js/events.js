@@ -43,7 +43,7 @@ $(window).on('load', function (){
     create_ajax_select2($('#nav-user-blocks select'), gettext('Short key'), '/trainings/blocks_short', $('#references-modal'), false)
     create_ajax_select2($('#nav-admin-objectives select'), gettext('Short key'), '/trainings/aobjectives_short', $('#references-modal'), false)
     create_ajax_select2($('#nav-admin-blocks select'), gettext('Short key'), '/trainings/ablocks_short', $('#references-modal'), false)
-
+    create_ajax_select2($('#training-loads-tab select'), gettext('Short key'), '/trainings/loads_short', $('#references-modal'), false)
 
 
 
@@ -567,8 +567,8 @@ $(window).on('load', function (){
         let activeNum = 1;
         LoadGraphicsModal(id, "team_folders", activeNum);
     });
-    //Открыть карточку тренировки при клике на карандаш
-    $('#open-select-training').on('click', function () {
+    //Открыть карточку события при клике на карандаш
+    $('#open-select-event').on('click', function () {
         let href = $('tr.hasEvent .event-select.selected').attr('href')
         console.log(href)
         if (href != null && href != undefined){
@@ -591,18 +591,26 @@ $(window).on('load', function (){
     //Фильтрация событий по избранному
     $('#favourites-event-filter').on('click', function () {
         let cur_fav = parseInt($(this).attr('data-filter'))
-        if (cur_fav>0) {
+        if (cur_fav>1) {
             cur_fav = 0
             $(this).removeClass('active')
         } else {
             cur_fav += 1
             $(this).addClass('active')
         }
-        if (cur_fav == 1) $('#favourites-event-filter i').removeClass(`fa-star-o`).addClass(`fa-star text-success`)
-        // else if (cur_fav == 2) $('#favourites-event-filter i').removeClass(`text-success`).addClass(`fa-star text-warning`)
+        if (cur_fav == 1) {
+            $('#favourites-event-filter i').removeClass(`fa-star-o`).addClass(`fa-star text-warning`)
+            $('.favorites-col').removeClass('d-none')
+        }
+        else if (cur_fav == 2) {
+            $('#favourites-event-filter i').removeClass(`text-warning`).addClass(`fa-star text-success`)
+        }
         // else if (cur_fav == 3) $('#favourites-event-filter i').removeClass(`text-warning`).addClass(`fa-star text-danger`)
         // else $('#favourites-event-filter i').removeClass(`fa-star text-danger`).addClass(`fa-star-o`)
-        else $('#favourites-event-filter i').removeClass(`fa-star text-success`).addClass(`fa-star-o`)
+        else {
+            $('#favourites-event-filter i').removeClass(`fa-star text-success`).addClass(`fa-star-o`)
+            $('.favorites-col').addClass('d-none')
+        }
         $(this).attr('data-filter', cur_fav)
         generateData()
     })
@@ -1132,16 +1140,23 @@ $(function() {
                         })
                     } else if(key === 'edit'){
                         window.console && console.log(event_id);
-                        $('#form-event-edit-modal').modal('show');
-                        ajax_event_action('GET', null, 'get', event_id).then(function( data ) {
-                            cur_edit_data = data
-                            console.log(cur_edit_data);
-                            let date = moment(cur_edit_data['only_date'], 'DD/MM/YYYY').format('YYYY-MM-DD');
-                            console.log(date);
-                            $('#form-event-edit #id_short_name').val(cur_edit_data['short_name'])
-                            $('#form-event-edit #datetimepicker-event').val(date)
-                            $('#form-event-edit #timepicker-event').val(cur_edit_data['time'])
-                        })
+
+                        if ($('.hasEvent[data-value="'+event_id+'"]').hasClass('matchClass')){
+                            $('#matchEditModal').modal('show');
+                            RenderMatchEditModal(event_id)
+                        } else if ($('.hasEvent[data-value="'+event_id+'"]').hasClass('trainingClass')) {
+                            $('#form-event-edit-modal').modal('show');
+                            ajax_event_action('GET', null, 'get', event_id).then(function( data ) {
+                                cur_edit_data = data
+                                console.log(cur_edit_data);
+                                let date = moment(cur_edit_data['only_date'], 'DD/MM/YYYY').format('YYYY-MM-DD');
+                                console.log(date);
+                                $('#form-event-edit #id_short_name').val(cur_edit_data['short_name'])
+                                $('#form-event-edit #datetimepicker-event').val(date)
+                                $('#form-event-edit #timepicker-event').val(cur_edit_data['time'])
+                            })
+                        }
+
                     } else if(key === 'copy'){
 
                         if (!$('.hasEvent[data-value="'+event_id+'"]').hasClass('selected')){

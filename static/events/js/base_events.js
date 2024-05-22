@@ -38,7 +38,7 @@ function generateNewCalendar(){
 
     send_data['from_date'] = from_date
     send_data['to_date'] = to_date
-    send_data['favourites'] = favourites
+    send_data['favourites'] = favourites > 1 ? 1 : 0;
     send_data['load_type'] = load_type
     send_data['goal'] = goal
     send_data['keywords'] = keywords
@@ -75,7 +75,7 @@ function generateOnlyTable() {
 
     send_data['from_date'] = from_date
     send_data['to_date'] = to_date
-    send_data['favourites'] = favourites
+    send_data['favourites'] = favourites > 1 ? 1 : 0;
     send_data['load_type'] = load_type
     send_data['goal'] = goal
     send_data['field_size'] = field_size

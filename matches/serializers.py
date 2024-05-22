@@ -8,7 +8,7 @@ class MatchSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = (
-            'event_id', 'team_id', 'm_type'
+            'event_id', 'team_id', 'm_type', 'duration', 'opponent'
         )
         datatables_always_serialize = ('event_id', 'm_type')
 

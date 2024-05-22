@@ -21,7 +21,7 @@
                                 </div>
                                 {% endif %}
                                 <div class="col px-1">
-                                    <button id="open-select-training" title="{% trans 'Open the selected training' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                    <button id="open-select-event" title="{% trans 'Open the selected event' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-pencil" aria-hidden="true"></i></button>
                                 </div>
 {#                                <div class="col px-1">#}
 {#                                    <button title="{% trans 'Show/Hide events table' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>#}
@@ -215,6 +215,7 @@
     {% include 'events/forms/create_event.html' %}
     {% include 'events/forms/edit_event.html' %}
     {% include 'events/forms/event_copy.html' %}
+    {% include 'matches/modules/match_edit_modal.html' %}
 
     {% include "exercises/modules/exercise_graphic_modal.html" %}
 
@@ -237,6 +238,7 @@
     <script src="{% static 'exercises/js/modules/graphic_modal.js' %}"></script>
     <script src="{% static 'references/exercise_additional_data.js' %}"></script>
     <script src="{% static 'references/training_additional.js' %}"></script>
+    <script src="{% static 'matches/js/modules/match_edit_modal.js' %}"></script>
     <script src="{% static 'trainings/js/loads_table.js' %}"></script>
     <script src="{% static 'trainings/js/action_loads.js' %}"></script>
     <script src="{% static 'trainings/js/objectives_admin_table.js' %}"></script>

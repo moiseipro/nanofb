@@ -373,7 +373,7 @@ class TrainingSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
             'event_id', 'event_date', 'event_time', 'favourites', 'trainer', 'additional', 'notes',
-            'video_href', 'inventory', 'players_json', 'is_personal', 'group'
+            'video_href', 'inventory', 'players_json', 'is_personal', 'group', 'players_count', 'goalkeepers_count'
         )
         datatables_always_serialize = ('event_id',)
 
@@ -402,6 +402,9 @@ class UserTrainingSerializer(TrainingSerializer):
         read_only=True,
         source="usertrainingblockmany_set",
         many=True
+    )
+    load = UserTrainingLoadSerializer(
+        read_only=True
     )
 
     class Meta(TrainingSerializer.Meta):
@@ -434,6 +437,9 @@ class ClubTrainingSerializer(TrainingSerializer):
         read_only=True,
         source="clubtrainingblockmany_set",
         many=True
+    )
+    load = ClubTrainingLoadSerializer(
+        read_only=True
     )
 
     class Meta(TrainingSerializer.Meta):

@@ -179,8 +179,8 @@ $(window).on('load', function (){
         training_data['group'] = $('#training-main-data select[name="group"]').val()
         training_data['video_href'] = $('#training-video-modal input[name="video_href"]').val()
 
-        training_data['players_count'] = JSON.stringify(players_count)
-        training_data['goalkeepers_count'] = JSON.stringify(goalkeepers_count)
+        training_data['players_count'] = players_count
+        training_data['goalkeepers_count'] = goalkeepers_count
         //console.log(training_data)
 
         ajax_training_action('PUT', training_data, 'save', id).then(function (data) {

@@ -1056,6 +1056,11 @@ class EventsView(LoginRequiredMixin, TemplateView):
         context['event_edit_form'] = EventEditUserForm
         context['ui_elements'] = get_ui_elements(self.request)
         context['menu_events'] = 'active'
+        team = self.request.session['team']
+        if self.request.user.club_id is not None:
+            context['teams_list'] = ClubTeam.objects.filter(id=team)
+        else:
+            context['teams_list'] = UserTeam.objects.filter(id=team)
         return context
 
 

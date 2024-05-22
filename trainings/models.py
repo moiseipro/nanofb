@@ -174,6 +174,16 @@ class AbstractTraining(models.Model):
         help_text=_('Training group'),
         default=0
     )
+    players_count = models.SmallIntegerField(
+        verbose_name=_('Players count'),
+        help_text=_('Players count'),
+        default=0
+    )
+    goalkeepers_count = models.SmallIntegerField(
+        verbose_name=_('Goalkeepers count'),
+        help_text=_('Goalkeepers count'),
+        default=0
+    )
     is_personal = models.BooleanField(
         verbose_name=_('personal training'),
         help_text=_('Is it a personal training'),
