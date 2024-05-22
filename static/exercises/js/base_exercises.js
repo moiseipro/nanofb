@@ -1212,6 +1212,48 @@ function ToggleExerciseToArchive(elem, exsId, folderType, state) {
 }
 
 function CopyOrMoveAjax() {
+    function startAjax(actionType, exsId, fromNfbFolder, copyToNF, selectedFolder, folderType) {
+        let data = {
+            'move_exs': actionType == 'move' ? 1 : 0,
+            'copy_exs': actionType == 'copy' ? 1 : 0,
+            'move_mode': "",
+            'exs': exsId, 
+            'nfb_folder': fromNfbFolder ? 1 : 0, 
+            'copy_to_nf': copyToNF ? 1 : 0, 
+            'folder': selectedFolder,
+            'type': folderType
+        };
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: data,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "exercises_api",
+            success: function (res) {
+                if (res.success) {
+                    swal("Готово", "Обновите папку, чтобы увидеть данное упражение.", "success");
+                } else {
+                    swal("Ошибка", "Упражнение не удалось скопировать / переместить.", "error");
+                    console.log(res);
+                }
+            },
+            error: function (res) {
+                swal("Ошибка", "Упражнение не удалось скопировать / переместить.", "error");
+                console.log(res);
+            },
+            complete: function (res) {
+                $('.selected-exercise-panel').html('');
+                if (actionType == 'copy') {
+                    CheckLastExs();
+                } else {
+                    LoadFolderExercises();
+                }
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
+    }
+
     let selectedExsElem = $('.selected-exercise-panel').find('li.c-exs');
     let actionType = $(selectedExsElem).attr('action-type');
     let exsId = $(selectedExsElem).attr('data-id');
@@ -1223,56 +1265,27 @@ function CopyOrMoveAjax() {
         swal("Внимание", "Копировать упражнение можно только из папок NF.", "info");
         return;
     }
-    if (actionType == "copy") {
-        $('#copyExs').removeClass('help-use');
-    }
-    if (actionType == "move") {
-        $('#moveExs').removeClass('help-use');
-    }
-    let data = {
-        'move_exs': actionType == 'move' ? 1 : 0,
-        'copy_exs': actionType == 'copy' ? 1 : 0,
-        'move_mode': "",
-        'exs': exsId, 
-        'nfb_folder': fromNfbFolder ? 1 : 0, 
-        'copy_to_nf': copyToNF ? 1 : 0, 
-        'folder': selectedFolder,
-        'type': folderType
-    };
-    $('.page-loader-wrapper').fadeIn();
-    $.ajax({
-        headers:{"X-CSRFToken": csrftoken},
-        data: data,
-        type: 'POST', // GET или POST
-        dataType: 'json',
-        url: "exercises_api",
-        success: function (res) {
-            if (res.success) {
-                swal("Готово", "Обновите папку, чтобы увидеть данное упражение.", "success");
+    if (actionType == 'copy') {
+        swal({
+            title: "Внимание!",
+            text: "Скопировать данное упражнение. Вы уверены?",
+            icon: "warning",
+            buttons: ["Отмена", "Да"],
+            dangerMode: false,
+        }).then((accepted) => {
+            if (accepted) {
+                startAjax(actionType, exsId, fromNfbFolder, copyToNF, selectedFolder, folderType);
             } else {
-                swal("Ошибка", "Упражнение не удалось скопировать / переместить.", "error");
-                console.log(res);
-            }
-        },
-        error: function (res) {
-            swal("Ошибка", "Упражнение не удалось скопировать / переместить.", "error");
-            console.log(res);
-        },
-        complete: function (res) {
-            $('.selected-exercise-panel').html('');
-            // $('#copyExs').toggleClass('selected3', false);
-            // $('#copyExs').attr('data-state', '0');
-            // $('#moveExs').toggleClass('selected3', false);
-            // $('#moveExs').attr('data-state', '0');
-            CountExsInFolder();
-            if (actionType == 'copy') {
                 CheckLastExs();
-            } else {
-                LoadFolderExercises();
+                if ($('.selected-exercise-panel').find('li').length > 0) {
+                    $('.selected-exercise-panel').html('');
+                    return;
+                }
             }
-            $('.page-loader-wrapper').fadeOut();
-        }
-    });
+        });
+    } else if (actionType = 'move') {
+        startAjax(actionType, exsId, fromNfbFolder, copyToNF, selectedFolder, folderType);
+    }
 }
 
 function HideCopiedNFExs() {
@@ -1295,6 +1308,11 @@ function HideCopiedNFExs() {
                 if (Array.isArray(res.data)) {
                     res.data.forEach(id => {
                         $('.exs-list-group').find(`.list-group-item.exs-elem[data-id="${id}"]`).addClass('already-copied');
+                        $('.exs-list-group').find(`.exs-elem[data-id="${id}"]`).find('.title').prepend(`
+                            <span class="mr-1 check-copied" title="Уже скопировано">
+                                <i class="fa fa-check-circle-o" aria-hidden="true"></i>
+                            </span>
+                        `);
                     });
                 }
             }
@@ -3043,52 +3061,11 @@ $(function() {
         let state = $(e.currentTarget).attr('data-state');
         if (state == '1') {
             $('.selected-exercise-panel').html('');
-            if ($(e.currentTarget).hasClass('help-use')) {
-                if (actionType == "copy") {
-                    swal("Внимание", "Выберите упражнение, которое нужно скопировать.", "info");
-                }
-                if (actionType == "move") {
-                    swal("Внимание", "Выберите упражнение, которое нужно переместить.", "info");
-                }
-            }
             if (actionType == "copy") {
                 HideCopiedNFExs();
             }
         } else {
-            if ($('.selected-exercise-panel').find('li').length > 0 && actionType == "copy") {
-                $('#copyExs').toggleClass('selected3', true);
-                $('#copyExs').attr('data-state', '1');
-
-                let exsId = $('.exercises-list').find('.exs-elem.active').attr('data-id');
-                let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
-                let data = {'type': "nfb_folders", 'folder': folder, 'exs': exsId};
-                data = JSON.stringify(data);
-                sessionStorage.setItem('last_exs', data);
-
-                $('.up-tabs-elem[data-id="nfb_folders"]').removeClass('selected3');
-                $('.exs_counter').html("(...)");
-                $('.folders_nfb_list').toggleClass('d-none', true);
-                $('.folders_club_list').toggleClass('d-none', true);
-                $('.folders_list').toggleClass('d-none', false);
-                $('.folders_nfb_list').toggleClass('selected', false);
-                $('.folders_club_list').toggleClass('selected', false);
-                $('.folders_list').toggleClass('selected', true);
-                $('.exercises-list').find('.list-group-item:not(.side-filter-elem)').removeClass('active');
-                $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
-                $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('d-none', true);
-                $('.up-tabs-elem[data-id="club_folders"]').toggleClass('d-none', true);
-                $('.up-tabs-elem[data-id="team_folders"]').toggleClass('d-none', false);
-                $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('selected', false);
-                $('.up-tabs-elem[data-id="club_folders"]').toggleClass('selected', false);
-                $('.up-tabs-elem[data-id="team_folders"]').toggleClass('selected', true);
-                $('.up-tabs-elem').addClass('b-c-blue2');
-                $('.up-tabs-elem').removeClass('b-c-green2');
-                $('.up-tabs-elem').removeClass('b-c-red2');
-                $('.in-card-elem').addClass('b-c-blue2');
-                $('.in-card-elem').removeClass('b-c-green2');
-                $('.in-card-elem').removeClass('b-c-red2');
-                return;
-            }
+            $('.exs-list-group').find(`.list-group-item.exs-elem.already-copied`).find('.check-copied').remove();
             $('.exs-list-group').find(`.list-group-item.exs-elem.already-copied`).removeClass('already-copied');
             $('.selected-exercise-panel').html('');
         }

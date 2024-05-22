@@ -866,14 +866,35 @@ $(function() {
                     $('.selected-exercise-panel').html('');
                     swal("Внимание", "Копировать упражнение можно только из папок NF.", "info");
                     return;
-                }
-                if ($('#copyExs').hasClass('help-use')) {
-                    swal("Внимание", "Теперь выберите папку, в которую нужно скопировать.", "info");
-                }
-            }
-            if (actionType == "move") {
-                if ($('#moveExs').hasClass('help-use')) {
-                    swal("Внимание", "Теперь выберите папку, в которую нужно переместить.", "info");
+                } else {
+                    let exsId = $('.exercises-list').find('.exs-elem.active').attr('data-id');
+                    let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
+                    let data = {'type': "nfb_folders", 'folder': folder, 'exs': exsId};
+                    data = JSON.stringify(data);
+                    sessionStorage.setItem('last_exs', data);
+
+                    $('.up-tabs-elem[data-id="nfb_folders"]').removeClass('selected3');
+                    $('.exs_counter').html("(...)");
+                    $('.folders_nfb_list').toggleClass('d-none', true);
+                    $('.folders_club_list').toggleClass('d-none', true);
+                    $('.folders_list').toggleClass('d-none', false);
+                    $('.folders_nfb_list').toggleClass('selected', false);
+                    $('.folders_club_list').toggleClass('selected', false);
+                    $('.folders_list').toggleClass('selected', true);
+                    $('.exercises-list').find('.list-group-item:not(.side-filter-elem)').removeClass('active');
+                    $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
+                    $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('d-none', true);
+                    $('.up-tabs-elem[data-id="club_folders"]').toggleClass('d-none', true);
+                    $('.up-tabs-elem[data-id="team_folders"]').toggleClass('d-none', false);
+                    $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('selected', false);
+                    $('.up-tabs-elem[data-id="club_folders"]').toggleClass('selected', false);
+                    $('.up-tabs-elem[data-id="team_folders"]').toggleClass('selected', true);
+                    $('.up-tabs-elem').addClass('b-c-blue2');
+                    $('.up-tabs-elem').removeClass('b-c-green2');
+                    $('.up-tabs-elem').removeClass('b-c-red2');
+                    $('.in-card-elem').addClass('b-c-blue2');
+                    $('.in-card-elem').removeClass('b-c-green2');
+                    $('.in-card-elem').removeClass('b-c-red2');
                 }
             }
         }
