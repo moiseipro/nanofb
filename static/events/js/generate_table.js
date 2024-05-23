@@ -162,7 +162,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             $.each(merged_events, function( index, merged_event ) {
                                 event_id.push(merged_event['id'])
 
-                                let load = merged_event.training.load ? merged_event.training.load.short_name : '---'
+                                let load = merged_event.training.load_info ? merged_event.training.load_info.short_name : '---'
                                 if (all_load != ''){
                                     all_load += ' | '+load
                                 } else {
@@ -172,7 +172,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
 
                                 merged_btn += `
                                 <div class="col px-1">
-                                    <button href="/trainings/view/${merged_event['id']}" class="btn btn-sm btn-block ${merged_events.length > 1 ? 'btn-info' : 'btn-info'} py-0 event-select" data-id="${merged_event['id']}">${merged_events.length > 1 ? gettext('G.')+' '+(index+1) : gettext('T.') +' '+(num_tr == 2 ? '2' : '')}</button>
+                                    <button href="/trainings/view/${merged_event['id']}" class="btn btn-sm btn-block ${merged_events.length > 1 ? 'btn-info' : 'btn-info'} py-0 event-select" data-id="${merged_event['id']}">${merged_events.length > 1 ? gettext('Gr.')+' '+(index+1) : gettext('T.') +' '+(num_tr == 2 ? '2' : '')}</button>
                                 </div>
                                 `
                                 for (const objective of merged_event.training.objectives) {
@@ -297,7 +297,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             td_html += `
                                 
                                 <td>${event['only_date']}</td>
-                                <td class="px-1"><button href="${isLite ? '' : '/matches/match?id='+event.match.event_id}" data-count="${count_m+1}" class="btn btn-sm btn-block ${event.match.m_type == 0 ?"btn-warning":"btn-success"} py-0 event-select" data-id="${event.match.event_id}">${gettext('M.')}</button></td>
+                                <td class="px-1"><button href="${isLite ? '' : '/matches/match?id='+event.match.event_id}" data-count="${count_m+1}" class="btn btn-sm btn-block ${event.match.m_type == 0 ?"btn-warning":"btn-success"} py-0 event-select" data-id="${event.match.event_id}">${gettext('Match')}</button></td>
                                 <td colspan="5">${event.match.opponent ? event.match.opponent : '---'}</td>
                             `
                         } else {

@@ -373,7 +373,8 @@ class TrainingSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
             'event_id', 'event_date', 'event_time', 'favourites', 'trainer', 'additional', 'notes',
-            'video_href', 'inventory', 'players_json', 'is_personal', 'group', 'players_count', 'goalkeepers_count'
+            'video_href', 'inventory', 'players_json', 'is_personal', 'group', 'players_count', 'goalkeepers_count',
+            'load'
         )
         datatables_always_serialize = ('event_id',)
 
@@ -403,14 +404,15 @@ class UserTrainingSerializer(TrainingSerializer):
         source="usertrainingblockmany_set",
         many=True
     )
-    load = UserTrainingLoadSerializer(
-        read_only=True
+    load_info = UserTrainingLoadSerializer(
+        read_only=True,
+        source="load"
     )
 
     class Meta(TrainingSerializer.Meta):
         model = UserTraining
 
-    Meta.fields += ('exercises_info', 'protocol_info', 'team_info', 'objectives', 'blocks', 'load')
+    Meta.fields += ('exercises_info', 'protocol_info', 'team_info', 'objectives', 'blocks', 'load_info')
 
 
 class ClubTrainingSerializer(TrainingSerializer):
@@ -438,14 +440,15 @@ class ClubTrainingSerializer(TrainingSerializer):
         source="clubtrainingblockmany_set",
         many=True
     )
-    load = ClubTrainingLoadSerializer(
-        read_only=True
+    load_info = ClubTrainingLoadSerializer(
+        read_only=True,
+        source="load"
     )
 
     class Meta(TrainingSerializer.Meta):
         model = UserTraining
 
-    Meta.fields += ('exercises_info', 'protocol_info', 'team_info', 'objectives', 'blocks', 'load')
+    Meta.fields += ('exercises_info', 'protocol_info', 'team_info', 'objectives', 'blocks', 'load_info')
 
 
 class LiteTrainingSerializer(TrainingSerializer):

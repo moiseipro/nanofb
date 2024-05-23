@@ -599,11 +599,12 @@ $(window).on('load', function (){
             $(this).addClass('active')
         }
         if (cur_fav == 1) {
-            $('#favourites-event-filter i').removeClass(`fa-star-o`).addClass(`fa-star text-warning`)
+            $('#favourites-event-filter i').removeClass(`fa-star-o`).addClass(`fa-star text-success`)
             $('.favorites-col').removeClass('d-none')
         }
         else if (cur_fav == 2) {
             $('#favourites-event-filter i').removeClass(`text-warning`).addClass(`fa-star text-success`)
+            $('#filled-event-filter:not(.active)').click()
         }
         // else if (cur_fav == 3) $('#favourites-event-filter i').removeClass(`text-warning`).addClass(`fa-star text-danger`)
         // else $('#favourites-event-filter i').removeClass(`fa-star text-danger`).addClass(`fa-star-o`)

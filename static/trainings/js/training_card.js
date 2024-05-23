@@ -522,13 +522,11 @@ function load_all_exercises_training(training_id = null, group = null) {
                 } else {
                     if('players_count' in data){
                         let players = data.players_count
-                        players_count = players;
-                        player_count = players_count
+                        player_count = players
                     }
                     if('goalkeepers_count' in data){
                         let players = data.goalkeepers_count
-                        goalkeepers_count = players;
-                        player_goalkeeper = goalkeepers_count
+                        player_goalkeeper = players
                     }
                 }
             }
@@ -536,8 +534,8 @@ function load_all_exercises_training(training_id = null, group = null) {
         html_scheme += `</div>`
 
         $('#training-main-data .all-exercise-time').text(exs_time[group-1]+'`')
-        $('#training-main-data .training-players input').attr('group', group).val(player_count)
-        $('#training-main-data .training-goalkeepers input').attr('group', group).val(player_goalkeeper)
+        $('#training-main-data .training-players input').val(player_count)
+        $('#training-main-data .training-goalkeepers input').val(player_goalkeeper)
 
 
         $('#training-content #block-training-info').html(html_scheme)
