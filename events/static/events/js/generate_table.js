@@ -297,8 +297,8 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             td_html += `
                                 
                                 <td>${event['only_date']}</td>
-                                <td class="px-1"><button href="${isLite ? '' : '/matches/match?id='+event.match.event_id}" data-count="${count_m+1}" class="btn btn-sm btn-block ${event.match.m_type == 0 ?"btn-warning":"btn-success"} py-0 event-select" data-id="${event.match.event_id}">${gettext('Match')}</button></td>
-                                <td colspan="5">${event.match.opponent ? event.match.opponent : '---'}</td>
+                                <td class="px-1"><button href="${isLite ? '' : '/matches/match?id=' + event.match.event_id}" data-count="${count_m + 1}" class="btn btn-sm btn-block ${event.match.m_type == 0 ? "btn-warning" : "btn-success"} py-0 event-select" data-id="${event.match.event_id}">${gettext('Match')}</button></td>
+                                <td colspan="5" style="background-color: #dedede">${event.match.opponent ? event.match.opponent : '---'}</td>
                             `
                         } else {
                             event_class = 'none'
