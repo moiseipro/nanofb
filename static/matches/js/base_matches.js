@@ -279,7 +279,7 @@ $(function() {
         drawCallback: function( settings ) {
         },
         columnDefs: [
-            {"searchable": false, "orderable": false, "targets": [2, 6, 12]},
+            {"searchable": false, "orderable": false, "targets": [0, 2, 6, 12]},
             {"className": "dt-vertical-center", "targets": "_all"}
         ],
         order: [[1, 'desc']],
