@@ -2359,7 +2359,7 @@ $(function() {
                     try {
                         copyTextToClipboard(res.data.link);
                     } catch(e) {}
-                    swal("Готово", `Ссылка скопирована (${res.data.link})!`, "success");
+                    swal("Готово", `Ссылка скопирована (на два дня)!`, "success");
                 }
             },
             error: function (res) {
