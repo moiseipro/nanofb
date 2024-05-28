@@ -840,67 +840,13 @@ $(function() {
         $(e.currentTarget).addClass('active');
         LoadExerciseOneHandler();
         if ($('#moveExs').attr('data-state') == '1' || $('#copyExs').attr('data-state') == '1') {
-            if ($(e.currentTarget).hasClass('already-copied')) {
-                return;
-            }
-            if (window.lastExercise && window.lastExercise.exs) {
-                window.lastExercise = null;
-                return;
-            }
-            $('.selected-exercise-panel').html('');
-            let actionType = $('#moveExs').attr('data-state') == '1' ? 'move' : 'copy';
-            let exs = $('.exs-list-group').find('.list-group-item.exs-elem.active').clone();
-            let folderType = $('.folders_div.selected').attr('data-id');
-            $(exs).removeClass('exs-elem active');
-            $(exs).addClass('c-exs selected');
-            $(exs).attr('folder-type', folderType);
-            $(exs).attr('action-type', actionType);
-            $(exs).find('.title').prepend(`
-                <span class="delete-selected mr-1" role="button" title="Удалить выбранное">
-                    <i class="fa fa-trash-o" aria-hidden="true" style="color:red;"></i>
-                </span>
-            `);
-            $('.selected-exercise-panel').append(exs);
-            if (actionType == "copy") {
-                if (folderType != "nfb_folders") {
-                    $('.selected-exercise-panel').html('');
-                    swal("Внимание", "Копировать упражнение можно только из папок NF.", "info");
-                    return;
-                } else {
-                    let exsId = $('.exercises-list').find('.exs-elem.active').attr('data-id');
-                    let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
-                    let data = {'type': "nfb_folders", 'folder': folder, 'exs': exsId};
-                    data = JSON.stringify(data);
-                    sessionStorage.setItem('last_exs', data);
-
-                    $('.up-tabs-elem[data-id="nfb_folders"]').removeClass('selected3');
-                    $('.exs_counter').html("(...)");
-                    $('.folders_nfb_list').toggleClass('d-none', true);
-                    $('.folders_club_list').toggleClass('d-none', true);
-                    $('.folders_list').toggleClass('d-none', false);
-                    $('.folders_nfb_list').toggleClass('selected', false);
-                    $('.folders_club_list').toggleClass('selected', false);
-                    $('.folders_list').toggleClass('selected', true);
-                    $('.exercises-list').find('.list-group-item:not(.side-filter-elem)').removeClass('active');
-                    $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
-                    $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('d-none', true);
-                    $('.up-tabs-elem[data-id="club_folders"]').toggleClass('d-none', true);
-                    $('.up-tabs-elem[data-id="team_folders"]').toggleClass('d-none', false);
-                    $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('selected', false);
-                    $('.up-tabs-elem[data-id="club_folders"]').toggleClass('selected', false);
-                    $('.up-tabs-elem[data-id="team_folders"]').toggleClass('selected', true);
-                    $('.up-tabs-elem').addClass('b-c-blue2');
-                    $('.up-tabs-elem').removeClass('b-c-green2');
-                    $('.up-tabs-elem').removeClass('b-c-red2');
-                    $('.in-card-elem').addClass('b-c-blue2');
-                    $('.in-card-elem').removeClass('b-c-green2');
-                    $('.in-card-elem').removeClass('b-c-red2');
-                }
-            }
+            AddExerciseToSelectedSlot();
         }
     });
     $('.exercises-list').on('click', '.delete-selected', (e) => {
         $('.selected-exercise-panel').html('');
+        window.removeSelectedSlot = true;
+        CheckLastExs();
     });
 
 

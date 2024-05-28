@@ -215,9 +215,9 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season, options_s
     }
     players = []
     if request.user.club_id is not None:
-        players = ClubPlayer.objects.filter(team=cur_team)
+        players = ClubPlayer.objects.filter(team=cur_team, is_archive=False)
     else:
-        players = UserPlayer.objects.filter(team=cur_team, user=cur_user)
+        players = UserPlayer.objects.filter(team=cur_team, user=cur_user, is_archive=False)
     for player in players:
         res_data['players'][player.id] = {
             'name': f'{player.surname} {player.name}',
@@ -422,9 +422,9 @@ def GET_get_analytics_by_folders_in_team(request, cur_user, cur_team, cur_season
     }
     players = []
     if request.user.club_id is not None:
-        players = ClubPlayer.objects.filter(team=cur_team)
+        players = ClubPlayer.objects.filter(team=cur_team, is_archive=False)
     else:
-        players = UserPlayer.objects.filter(team=cur_team, user=cur_user)
+        players = UserPlayer.objects.filter(team=cur_team, user=cur_user, is_archive=False)
     for player in players:
         res_data['players'][player.id] = {
             'name': f'{player.surname} {player.name}',
@@ -631,9 +631,9 @@ def GET_get_analytics_blocks(request, cur_user, cur_team, cur_season, options_sh
     res_data = {'players': {}}
     players = []
     if request.user.club_id is not None:
-        players = ClubPlayer.objects.filter(team=cur_team)
+        players = ClubPlayer.objects.filter(team=cur_team, is_archive=False)
     else:
-        players = UserPlayer.objects.filter(team=cur_team, user=cur_user)
+        players = UserPlayer.objects.filter(team=cur_team, user=cur_user, is_archive=False)
     for player in players:
         res_data['players'][player.id] = {
             'name': f'{player.surname} {player.name}',

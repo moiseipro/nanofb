@@ -819,7 +819,11 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-12 create-block">
+                                {% if not user.is_superuser %}
+                                <div class="row d-none">
+                                {% else %}
                                 <div class="row">
+                                {% endif %}
                                     <div class="col-6">
                                         Ссылка будет доступна до:
                                     </div>

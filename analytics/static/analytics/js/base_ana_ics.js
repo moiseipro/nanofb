@@ -784,13 +784,15 @@ $(function() {
         }
         let tableType = $('.analytics-table-container').find('table[id]:visible').attr('id');
         let d = new Date(); d.setDate(d.getDate() + 2);
+        let expireDate = `${d.getFullYear()}-${(d.getMonth() + 1) < 10 ? `0${d.getMonth() + 1}` : `${d.getMonth() + 1}`}-${d.getDate() < 10 ? `0${d.getDate()}` : `${d.getDate()}`}`;
         let dataToSend = {
             'add_link': 1,
             'type': `analytics`,
             'table_type': tableType,
             'season_type': season_type,
-            'expire_date': d.toLocaleDateString()
+            'expire_date': expireDate
         };
+        console.log(dataToSend)
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
             headers:{"X-CSRFToken": csrftoken},
@@ -814,7 +816,7 @@ $(function() {
                     try {
                         copyTextToClipboard(res.data.link);
                     } catch(e) {}
-                    swal("Готово", `Ссылка скопирована (${res.data.link})!`, "success");
+                    swal("Готово", `Ссылка скопирована (Срок: 2 дня)!`, "success");
                 }
             },
             error: function (res) {
