@@ -166,8 +166,12 @@ $(window).on('load', function (){
             $('#objective_2-event-view').val('')
             $('#objective_3-event-view').val('')
             $('#load-event-view').val('')
+            $('#objective_1-training-view').parent().addClass('d-none')
+            $('#training-block-view').parent().addClass('d-none')
+            resize_events_table();
         } else {
             let data_id = select_obj.attr('data-id')
+            console.log(data_id)
             Cookies.set('event_id', data_id, { expires: 1 })
             $('.hasEvent').removeClass('selected')
             $('.event-select').removeClass('selected')
@@ -311,12 +315,16 @@ $(window).on('load', function (){
                         }
                     }
                     $('#block-event-info .event-info').html(html_scheme)
-                    resize_events_table();
+
                 } else {
-                    $('.training-card-objective').addClass('d-none')
+                    //$('.training-card-objective').addClass('d-none')
+                    $('#objective_1-training-view').parent().addClass('d-none')
+                    $('#training-block-view').parent().addClass('d-none')
+                    $('#block-event-info .event-info').html('')
                 }
+                resize_events_table();
             })
-            let offset = $('#events .hasEvent.selected').position().top - $('#filters-row').height()
+            let offset = $('#events .hasEvent.selected').position().top - $('#filters-row').height() - $('#events-table').height()/2
             console.log(offset)
             $('#events-table').animate({scrollTop: offset},'slow');
         }
@@ -462,33 +470,33 @@ $(window).on('load', function (){
         resize_trainings_block()
         generateData()
     })
-    $('#toggle-event-card').on('click', function () {
-        if ($(this).hasClass('active')) card_active = true;
-        else card_active = false;
-        $(this).toggleClass('active', !card_active)
-
-        $('#event_calendar').toggleClass('d-none', !calendar_active || !card_active)
-        $('.move_to_today').toggleClass('isMonth', !calendar_active || !card_active)
-        $('#filters-row').toggleClass('d-none', calendar_active || !card_active)
-        $('#left-filters-row').toggleClass('d-none', calendar_active || !card_active)
-        $('#rescalendar-control-buttons').toggleClass('d-none', !card_active)
-        let event_id = $('.hasEvent.trainingClass.selected').attr('data-value')
-        if (event_id){
-            Cookies.set('event_id', event_id, { expires: 1 })
-            if($('#events-content').hasClass('d-none')){
-                hide_training_card()
-                $('#events-content').removeClass('d-none')
-            } else {
-                show_training_card(event_id)
-                $('#events-content').addClass('d-none')
-            }
-        }
-
-        // set_month_or_date_button()
-        // resize_events_table()
-        resize_trainings_block()
-        //if(!$('#events-content').hasClass('d-none')) generateData()
-    })
+    // $('#toggle-event-card').on('click', function () {
+    //     if ($(this).hasClass('active')) card_active = true;
+    //     else card_active = false;
+    //     $(this).toggleClass('active', !card_active)
+    //
+    //     $('#event_calendar').toggleClass('d-none', !calendar_active || !card_active)
+    //     $('.move_to_today').toggleClass('isMonth', !calendar_active || !card_active)
+    //     $('#filters-row').toggleClass('d-none', calendar_active || !card_active)
+    //     $('#left-filters-row').toggleClass('d-none', calendar_active || !card_active)
+    //     $('#rescalendar-control-buttons').toggleClass('d-none', !card_active)
+    //     let event_id = $('.hasEvent.selected .event-row-info').attr('data-id')
+    //     if (event_id){
+    //         Cookies.set('event_id', event_id, { expires: 1 })
+    //         if($('#events-content').hasClass('d-none')){
+    //             hide_training_card()
+    //             $('#events-content').removeClass('d-none')
+    //         } else {
+    //             show_training_card(event_id)
+    //             $('#events-content').addClass('d-none')
+    //         }
+    //     }
+    //
+    //     // set_month_or_date_button()
+    //     // resize_events_table()
+    //     resize_trainings_block()
+    //     //if(!$('#events-content').hasClass('d-none')) generateData()
+    // })
 
 
     //Переключение по событиям
@@ -966,8 +974,6 @@ function contains(where, what){
 }
 
 function clear_filters_events() {
-    Cookies.remove('event_id')
-
     $('#favourites-event-filter').attr('data-filter', '0').removeClass(`active`)
     $('#favourites-event-filter i').removeClass(`fa-star text-danger text-warning text-success`).addClass(`fa-star-o`)
 

@@ -41,6 +41,24 @@ $('#save-video').on('click', function () {
     $('#video-action-form').submit()
 })
 
+$('#download-video').on('click', function (e) {
+    e.preventDefault()
+
+    $.ajax({
+        headers:{"X-CSRFToken": csrftoken },
+        url: "/video/api/all/"+(cur_edit_data ? cur_edit_data.id : '')+"/download_video/",
+        type: "POST",
+        dataType: "JSON",
+        success(data){
+            console.log(data)
+            if (data != {}){
+                window.location.href = data;
+            }
+            //window.location.href = data;
+        }
+    })
+})
+
 $('#video-action-form').submit(function (event) {
     let formData = $(this).serializeArray()
     let form_Data = new FormData(this)
@@ -86,7 +104,7 @@ function ajax_video_action(method, data, action = '', id = '', func = '') {
     $('.page-loader-wrapper').fadeIn();
 
     return $.ajax({
-            headers:{"X-CSRFToken": csrftoken },
+            headers:{"X-CSRFToken": csrftoken},
             url: url,
             type: method,
             dataType: "JSON",
@@ -98,7 +116,8 @@ function ajax_video_action(method, data, action = '', id = '', func = '') {
                 swal(gettext('Video '+action), gettext('Video action "'+action+'" successfully!'), "success");
             },
             error: function(jqXHR, textStatus){
-                if('empty_load' in jqXHR.responseJSON){
+                console.log(jqXHR)
+                if('responseJSON' in jqXHR && 'empty_load' in jqXHR.responseJSON){
                     swal(gettext('Video '+action), gettext(jqXHR.responseJSON['empty_load']), "error");
                 } else {
                     swal(gettext('Video '+action), gettext('Error when action "'+action+'" the video!'), "error");

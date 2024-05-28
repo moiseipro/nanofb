@@ -365,25 +365,27 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
 
 
                     local_filters_events()
+                    resize_events_table()
 
-                    if(Cookies.get('event_id')){
-                        if($('#events .hasEvent .event-select[data-id="'+Cookies.get('event_id')+'"]').length){
-                            $('#events .hasEvent .event-select[data-id="'+Cookies.get('event_id')+'"]').click()
-                        } else {
-                            Cookies.remove('event_id')
+
+                    //console.log(Cookies.get('event_id') + " " +$('#events .hasEvent .event-select[data-id="'+Cookies.get('event_id')+'"]').length)
+                    if(Cookies.get('event_id') && $('#events .hasEvent .event-select[data-id="'+Cookies.get('event_id')+'"]').length > 0){
+                        $('#events .hasEvent:not(.selected) .event-select[data-id="'+Cookies.get('event_id')+'"]').click()
+                    } else {
+                        let current_date = `#current_day`
+                        let date_obj = $('#events '+current_date)
+                        if(date_obj.length > 0){
+                            console.log(date_obj)
+                            let offset = $(date_obj).offset().top-500
+
+                            $('#events-table').animate({scrollTop: offset},'slow');
                         }
                     }
 
-                    resize_events_table()
 
-                    let current_date = `#current_day`
-                    let date_obj = $('#events '+current_date)
-                    if(date_obj.length > 0){
-                        console.log(date_obj)
-                        let offset = $(date_obj).offset().top-500
 
-                        $('#events-table').animate({scrollTop: offset},'slow');
-                    }
+
+
 
                 }
             })

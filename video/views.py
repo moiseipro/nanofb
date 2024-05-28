@@ -323,6 +323,34 @@ class VideoViewSet(viewsets.ModelViewSet):
         serializer = OnlyVideoSerializer(video)
         return Response(serializer.data)
 
+    @action(detail=True, methods=['POST'])
+    def download_video(self, request, pk=None):
+        queryset = Video.objects.all()
+        video = get_object_or_404(queryset, pk=pk)
+        video_data = {}
+        if video:
+            server_id = None
+            youtube_id = None
+            print(video.links)
+            if 'nftv' in video.links:
+                server_id = video.links['nftv']
+            elif 'youtube' in video.links:
+                youtube_id = video.links['youtube']
+            print(server_id)
+            if server_id or youtube_id:
+                url = 'https://nanofootball.pro/api/download_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
+                post_data = {
+                    "videos": [
+                        {"id": server_id},
+                        {"youtube_id": youtube_id}
+                    ]
+                }
+                response = requests.post(url, json=post_data, headers={'Content-Type': 'application/json'}, verify=False)
+                content = response
+                # print(content)
+                video_data = content
+        return Response(video_data)
+
     def get_serializer_class(self):
         if self.action == 'update' or self.action == 'partial_update' or self.action == 'create':
             return VideoUpdateSerializer
