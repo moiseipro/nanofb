@@ -41,3 +41,26 @@
 .mark-changer[data-value="3"]{
     color: #ff4e4e;
 }
+
+.table-settings-block .form-control{
+    height: 30px !important;
+}
+.table-settings-block .select2-container--bootstrap4 .select2-selection--single{
+    height: 30px !important;
+}
+.table-settings-block .select2-container--bootstrap4 .select2-selection--single .select2-selection__rendered{
+    line-height: calc(1.5em + .40rem) !important;
+}
+.table-settings-block .select2-container--bootstrap4 .select2-selection--single .select2-selection__placeholder{
+    line-height: calc(1.5em + .40rem);
+}
+.table-settings-block .select2-container--bootstrap4 .select2-selection--multiple{
+    height: 30px !important;
+    min-height: 0px !important;
+}
+.table-settings-block .select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice{
+    margin-top: calc(0.20rem - 2px) !important;
+}
+.table-settings-block .select2-container--bootstrap4 .select2-selection--multiple .select2-search__field{
+    margin-top: 0px !important;
+}
