@@ -55,13 +55,13 @@
                         <div class="row">
                             <div class="col-6 border border-white bg-lightgray text-black text-uppercase text-left text-truncate">{% trans "Number of players" %}</div>
                             <div class="col-6 px-0 border-bottom border-dark bg-light text-center training-players">
-                                <input type="text" name="players_count" class="form-control form-control-sm rounded-0 py-0 h-auto text-center {% if not perms.trainings.usertrainingprotocol_change or not perms.trainings.clubtrainingprotocol_change %}edit-input{% endif %}" value="" autocomplete="off" disabled>
+                                <input type="text" name="players_count" class="form-control form-control-sm rounded-0 py-0 h-auto text-center {% if not perms.trainings.change_userplayers or not perms.trainings.change_clubplayers %}edit-input{% endif %}" value="" autocomplete="off" disabled>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-6 border border-white bg-lightgray text-black text-uppercase text-left text-truncate">{% trans "Goalkeepers" %}</div>
                             <div class="col-6 px-0 border-bottom border-dark bg-light text-center training-goalkeepers">
-                                <input type="text" name="goalkeepers_count" class="form-control form-control-sm rounded-0 py-0 h-auto text-center {% if not perms.trainings.usertrainingprotocol_change or not perms.trainings.clubtrainingprotocol_change %}edit-input{% endif %}" value="" autocomplete="off" disabled>
+                                <input type="text" name="goalkeepers_count" class="form-control form-control-sm rounded-0 py-0 h-auto text-center {% if not perms.trainings.change_userplayers or not perms.trainings.change_clubplayers %}edit-input{% endif %}" value="" autocomplete="off" disabled>
                             </div>
                         </div>
                         <div class="row" style="border-bottom: 1px solid black">

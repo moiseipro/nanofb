@@ -498,12 +498,11 @@ function load_all_exercises_training(training_id = null, group = null) {
                     </div>
                 </div>
                 `
-
                 if ('protocol_info' in data && data.protocol_info.length > 0) {
                     let players = data.protocol_info
                     //console.log(players)
                     for (let player of players) {
-                        if (exercise.group == group && player.training_exercise_check.indexOf(exercise.id) != -1 ){
+                        if (player.training_exercise_check.indexOf(exercise.id) != -1 ){
 
                             if (player_recount.indexOf(player.id) == -1){
                                 player_recount.push(player.id)
@@ -519,17 +518,17 @@ function load_all_exercises_training(training_id = null, group = null) {
                         }
                     }
                     //console.log(player_recount)
-                } else {
-                    if('players_count' in data){
-                        let players = data.players_count
-                        player_count = players
-                    }
-                    if('goalkeepers_count' in data){
-                        let players = data.goalkeepers_count
-                        player_goalkeeper = players
-                    }
                 }
             }
+        }
+
+        if('players_count' in data && player_count == 0){
+            let players = data.players_count
+            player_count = players
+        }
+        if('goalkeepers_count' in data && player_goalkeeper == 0){
+            let players = data.goalkeepers_count
+            player_goalkeeper = players
         }
         html_scheme += `</div>`
 

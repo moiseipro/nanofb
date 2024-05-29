@@ -180,35 +180,35 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                 }
 
                                 let duration = 0
+                                let player = 0, goalkeeper = 0;
                                 if('exercises_info' in merged_event.training && merged_event.training.exercises_info.length > 0){
-                                    $.each(merged_event.training.exercises_info, function( index, value ) {
-                                        duration += value.duration;
-                                        all_minutes += value.duration;
+                                    $.each(merged_event.training.exercises_info, function( index, exs ) {
+                                        duration += exs.duration;
+                                        all_minutes += exs.duration;
+
+                                        if('protocol_info' in merged_event.training && merged_event.training.protocol_info.length > 0){
+                                            $.each(merged_event.training.protocol_info, function( index, value ) {
+                                                if(value.status==null && value.training_exercise_check.indexOf(exs.id) != -1) {
+                                                    player++;
+                                                    all_players++;
+                                                    if(value.player_info.card != null && value.player_info.card.is_goalkeeper){
+                                                        goalkeeper++;
+                                                        all_goalkeeper++;
+                                                    }
+                                                }
+                                            });
+                                        }
                                     })
                                 }
 
-                                let player = 0, goalkeeper = 0;
-                                if('protocol_info' in merged_event.training && merged_event.training.protocol_info.length > 0){
-                                    $.each(merged_event.training.protocol_info, function( index, value ) {
-                                        if(value.status==null) {
-                                            player++;
-                                            all_players++;
-                                            if(value.player_info.card != null && value.player_info.card.is_goalkeeper){
-                                                goalkeeper++;
-                                                all_goalkeeper++;
-                                            }
-                                        }
-                                    });
-                                } else {
-                                    if(merged_event.training.players_count != null && Object.keys(merged_event.training.players_count).length>0){
-                                        //console.log(event.training.players_count[0])
-                                        player = merged_event.training.players_count[0]
-                                        all_players += merged_event.training.players_count[0]
-                                    }
-                                    if(merged_event.training.goalkeepers_count != null && Object.keys(merged_event.training.goalkeepers_count).length>0){
-                                        goalkeeper = merged_event.training.goalkeepers_count[0]
-                                        all_goalkeeper += merged_event.training.goalkeepers_count[0]
-                                    }
+                                if(merged_event.training.players_count != null && player == 0){
+                                    //console.log(event.training.players_count[0])
+                                    player = merged_event.training.players_count
+                                    all_players += merged_event.training.players_count
+                                }
+                                if(merged_event.training.goalkeepers_count != null && goalkeeper == 0){
+                                    goalkeeper = merged_event.training.goalkeepers_count
+                                    all_goalkeeper += merged_event.training.goalkeepers_count
                                 }
                                 merged_loads+=`
                                     <div class="col px-0 d-none event-row-info" data-id="${merged_event.training.event_id}">

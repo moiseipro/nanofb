@@ -42,9 +42,11 @@
 {#                                        </span>#}
                                     </a>
                                 </li>
+                                {% if perms.trainings.change_clubplayers or perms.trainings.change_userplayers %}
                                 <li class="nav-item px-1">
                                     <a class="btn btn-sm btn-block btn-outline-primary font-weight-bold" data-toggle="pill" href="#training-protocol" role="tab">{% trans "Protocol" %}</a>
                                 </li>
+                                {% endif %}
                             </ul>
                         </div>
                         <div class="col-3">
