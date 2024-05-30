@@ -212,7 +212,7 @@ $(window).on('load', function (){
                     $('#goal-event-view').val(data.training.goal)
                     let objective_type = ''
                     for (const objective of data.training.objectives) {
-                        objective_type += `<div class="font-weight-bold border px-1">${objective.objective.name}</div>`;
+                        objective_type += `<div class="border px-1">${objective.objective.name}</div>`;
                         // else if(objective.type == 1){
                         //     objective_type_2 += `<div class="font-weight-bold border px-1">${objective.objective.name}</div>`;
                         // }
@@ -225,7 +225,7 @@ $(window).on('load', function (){
                     // else $('#objective_2-training-view').parent().removeClass('d-none')
                     let blocks = ''
                     for (const block of data.training.blocks) {
-                        blocks += `<div class="font-weight-bold border px-1">${block.block.name}</div>`;
+                        blocks += `<div class="border px-1">${block.block.name}</div>`;
                     }
                     $('#training-block-view').html(blocks)
                     if (blocks == '') $('#training-block-view').parent().addClass('d-none')

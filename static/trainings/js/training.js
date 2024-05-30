@@ -49,6 +49,10 @@ $(window).on('load', function (){
         resize_trainings_block()
     })
 
+    $('.two-tabs').on('click', function () {
+        $('.nav-pills a[href="' + $(this).attr('href-two') + '"]').tab('show');
+    })
+
     // Добавление упражнения в тренировку
     $('.visual-block').on('click', '.add-exercise', function (){
         let data = {}
@@ -179,8 +183,8 @@ $(window).on('load', function (){
         training_data['group'] = $('#training-main-data select[name="group"]').val()
         training_data['video_href'] = $('#training-video-modal input[name="video_href"]').val()
 
-        training_data['players_count'] = $('#training-main-data input[name="players_count"]').val()
-        training_data['goalkeepers_count'] = $('#training-main-data input[name="goalkeepers_count"]').val()
+        training_data['players_count'] = $('#training-main-data input[name="players_count"]').val() ? $('#training-main-data input[name="players_count"]').val() : 0
+        training_data['goalkeepers_count'] = $('#training-main-data input[name="goalkeepers_count"]').val() ? $('#training-main-data input[name="goalkeepers_count"]').val() : 0
         console.log(training_data)
 
         ajax_training_action('PUT', training_data, 'save', id).then(function (data) {
