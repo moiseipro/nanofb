@@ -181,6 +181,8 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
 
                                 let duration = 0
                                 let player = 0, goalkeeper = 0;
+                                let player_recount = []
+                                let goalkeeper_recount = []
                                 if('exercises_info' in merged_event.training && merged_event.training.exercises_info.length > 0){
                                     $.each(merged_event.training.exercises_info, function( index, exs ) {
                                         duration += exs.duration;
@@ -189,11 +191,17 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                         if('protocol_info' in merged_event.training && merged_event.training.protocol_info.length > 0){
                                             $.each(merged_event.training.protocol_info, function( index, value ) {
                                                 if(value.status==null && value.training_exercise_check.indexOf(exs.id) != -1) {
-                                                    player++;
-                                                    all_players++;
+                                                    if (player_recount.indexOf(value.id) == -1){
+                                                        player_recount.push(value.id)
+                                                        player++;
+                                                        all_players++;
+                                                    }
                                                     if(value.player_info.card != null && value.player_info.card.is_goalkeeper){
-                                                        goalkeeper++;
-                                                        all_goalkeeper++;
+                                                        if (goalkeeper_recount.indexOf(value.id) == -1){
+                                                            goalkeeper_recount.push(value.id)
+                                                            goalkeeper++;
+                                                            all_goalkeeper++;
+                                                        }
                                                     }
                                                 }
                                             });
