@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-15 14:50+0300\n"
+"POT-Creation-Date: 2024-06-07 13:14+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -718,7 +718,7 @@ msgstr ""
 
 #: .\Lib\site-packages\django\db\models\fields\__init__.py:1728
 #: .\trainings\templates\trainings\training_card.html:68
-#: .\video\templates\video\video_card.html:92
+#: .\video\templates\video\video_card.html:97
 msgid "Duration"
 msgstr "Продолжительность"
 
@@ -1005,8 +1005,8 @@ msgstr "Порядок"
 
 #: .\Lib\site-packages\django\forms\formsets.py:483
 #: .\trainings\templates\trainings\view_lite_training.html:53
-#: .\trainings\templates\trainings\view_training.html:63
-#: .\video\templates\video\video_card.html:23
+#: .\trainings\templates\trainings\view_training.html:71
+#: .\video\templates\video\video_card.html:28
 msgid "Delete"
 msgstr "Удалить"
 
@@ -1080,7 +1080,7 @@ msgstr "Да"
 #: .\users\templates\users\forms\edit-personal-form.html:84
 #: .\users\templates\users\forms\edit-user-form.html:21
 #: .\users\templates\users\forms\edit-user-form.html:36 .\users\views.py:571
-#: .\video\templates\video\video_card.html:102
+#: .\video\templates\video\video_card.html:107
 msgid "No"
 msgstr "Нет"
 
@@ -1870,7 +1870,7 @@ msgstr "Отчество"
 
 #: .\authorization\forms.py:62 .\clubs\forms.py:79 .\exercises\models.py:296
 #: .\users\models.py:119
-#: .\users\templates\users\modules\user_table_settings.html:145
+#: .\users\templates\users\modules\user_table_settings.html:160
 msgid "Date of birth"
 msgstr "День рождения"
 
@@ -1889,7 +1889,7 @@ msgstr "Город"
 #: .\users\templates\users\forms\edit-personal-form.html:127
 #: .\users\templates\users\modules\user_table.html:23
 #: .\users\templates\users\modules\user_table_settings.html:21
-#: .\users\templates\users\modules\user_table_settings.html:151
+#: .\users\templates\users\modules\user_table_settings.html:166
 msgid "Region"
 msgstr "Регион"
 
@@ -1905,7 +1905,7 @@ msgstr "Лицензия до"
 #: .\users\templates\users\forms\edit-user-form.html:9
 #: .\users\templates\users\modules\management_main.html:12
 #: .\users\templates\users\modules\user_table.html:18
-#: .\users\templates\users\modules\user_table_settings.html:133
+#: .\users\templates\users\modules\user_table_settings.html:148
 msgid "Email"
 msgstr "Электронная почта"
 
@@ -2162,7 +2162,8 @@ msgstr "Страна"
 #: .\users\templates\users\forms\add-user-form.html:45
 #: .\users\templates\users\forms\edit-personal-form.html:41
 #: .\users\templates\users\modules\user_table.html:20
-#: .\users\templates\users\modules\user_table_settings.html:139
+#: .\users\templates\users\modules\user_table_settings.html:24
+#: .\users\templates\users\modules\user_table_settings.html:154
 msgid "Phone"
 msgstr "Телефон"
 
@@ -2170,7 +2171,7 @@ msgstr "Телефон"
 #: .\users\templates\users\base_profile.html:104
 #: .\users\templates\users\forms\add-user-form.html:51
 #: .\users\templates\users\forms\edit-personal-form.html:81
-#: .\users\templates\users\modules\user_table_settings.html:127
+#: .\users\templates\users\modules\user_table_settings.html:142
 msgid "License"
 msgstr "Лицензия"
 
@@ -2347,7 +2348,7 @@ msgstr "Регистрация до"
 #: .\users\templates\users\forms\edit-club-form.html:54
 #: .\users\templates\users\forms\edit-permission.html:35
 #: .\users\templates\users\forms\edit-user-form.html:60
-#: .\users\templates\users\modules\user_table_settings.html:109
+#: .\users\templates\users\modules\user_table_settings.html:130
 msgid "Teams"
 msgstr "Команды"
 
@@ -2363,7 +2364,10 @@ msgstr "Клубные доступы"
 msgid "User Parameters"
 msgstr "Пользовательские параметры"
 
-#: .\clubs\templates\clubs\edit_club_user.html:18
+#: .\clubs\templates\clubs\edit_club_user.html:18 .\trainings\models.py:60
+#: .\trainings\models.py:61 .\trainings\models.py:79 .\trainings\models.py:80
+#: .\trainings\models.py:106 .\trainings\models.py:107
+#: .\trainings\models.py:125 .\trainings\models.py:126
 #: .\trainings\templates\trainings\training_card.html:42
 msgid "Team"
 msgstr "Команда"
@@ -2423,7 +2427,7 @@ msgstr "Д.Р."
 #: .\users\templates\users\forms\add-user-form.html:33
 #: .\users\templates\users\forms\edit-personal-form.html:65
 #: .\users\templates\users\modules\user_table.html:24
-#: .\users\templates\users\modules\user_table_settings.html:157
+#: .\users\templates\users\modules\user_table_settings.html:172
 msgid "Job title"
 msgstr "Должность"
 
@@ -2445,7 +2449,7 @@ msgstr "Вход"
 
 #: .\clubs\templates\clubs\users_table.html:18 .\users\serializers.py:302
 #: .\users\templates\users\modules\user_table.html:33
-#: .\users\templates\users\modules\user_table_settings.html:80
+#: .\users\templates\users\modules\user_table_settings.html:83
 msgid "Online"
 msgstr "Онлайн"
 
@@ -2493,7 +2497,7 @@ msgid "Official match"
 msgstr "Официальный матч"
 
 #: .\events\forms.py:76 .\events\models.py:96
-#: .\events\templates\events\base_events.html:145
+#: .\events\templates\events\base_events.html:143
 #: .\events\templates\events\forms\microcycle_tab.html:27
 #: .\events\templates\events\forms\microcycle_tab.html:59
 msgid "M.C."
@@ -2535,7 +2539,7 @@ msgstr "Тип события"
 #: .\users\templates\users\modules\management_club_payment.html:38
 #: .\users\templates\users\modules\management_user_payment.html:38
 #: .\video\templates\video\modules\video_list_exercises.html:12
-#: .\video\templates\video\video_card.html:88
+#: .\video\templates\video\video_card.html:93
 msgid "Date"
 msgstr "Дата"
 
@@ -2547,7 +2551,7 @@ msgstr "Короткий код"
 msgid "The short name of the event. The maximum length is 4 characters"
 msgstr "Краткое название события. Максимальная длина - 4 символа"
 
-#: .\events\models.py:34 .\trainings\models.py:196
+#: .\events\models.py:34 .\trainings\models.py:203
 msgid "notes"
 msgstr "заметки"
 
@@ -2577,14 +2581,16 @@ msgstr "Название микроцикла. Максимальная длин
 #: .\events\templates\events\forms\microcycle_tab.html:17
 #: .\exercises\templates\exercises\base_folders.html:126
 #: .\exercises\templates\exercises\base_folders.html:127
-#: .\trainings\templates\trainings\training_blocks.html:18
-#: .\trainings\templates\trainings\training_blocks.html:43
-#: .\trainings\templates\trainings\training_blocks.html:56
-#: .\trainings\templates\trainings\training_blocks.html:82
-#: .\trainings\templates\trainings\training_objectives.html:18
-#: .\trainings\templates\trainings\training_objectives.html:43
-#: .\trainings\templates\trainings\training_objectives.html:56
-#: .\trainings\templates\trainings\training_objectives.html:82
+#: .\trainings\templates\trainings\training_blocks.html:20
+#: .\trainings\templates\trainings\training_blocks.html:45
+#: .\trainings\templates\trainings\training_blocks.html:59
+#: .\trainings\templates\trainings\training_blocks.html:88
+#: .\trainings\templates\trainings\training_loads.html:10
+#: .\trainings\templates\trainings\training_loads.html:35
+#: .\trainings\templates\trainings\training_objectives.html:20
+#: .\trainings\templates\trainings\training_objectives.html:45
+#: .\trainings\templates\trainings\training_objectives.html:59
+#: .\trainings\templates\trainings\training_objectives.html:88
 msgid "Short key"
 msgstr "Короткий ключ"
 
@@ -2592,7 +2598,7 @@ msgstr "Короткий ключ"
 msgid "Microcycle short code"
 msgstr "Кородкий код микроцикла"
 
-#: .\events\models.py:110 .\trainings\models.py:244 .\trainings\models.py:299
+#: .\events\models.py:110 .\trainings\models.py:251 .\trainings\models.py:306
 msgid "Block"
 msgstr "Блок"
 
@@ -2600,7 +2606,7 @@ msgstr "Блок"
 msgid "Block of the microcycle. The maximum length is 100 characters"
 msgstr "Блок микроцикла. Максимальная длина - 100 символов"
 
-#: .\events\models.py:117 .\trainings\models.py:69
+#: .\events\models.py:117
 msgid "Block key"
 msgstr "Ключ блока"
 
@@ -2631,8 +2637,8 @@ msgid "References"
 msgstr "Справочники"
 
 #: .\events\templates\events\base_events.html:24
-msgid "Open the selected training"
-msgstr "Открыть выбранную тренировку"
+msgid "Open the selected event"
+msgstr "Открыть выбранное событие"
 
 #: .\events\templates\events\base_events.html:33
 #: .\events\templates\events\lite_events.html:30
@@ -2671,7 +2677,7 @@ msgstr "Календарь"
 msgid "MC 7"
 msgstr ""
 
-#: .\events\templates\events\base_events.html:81 .\trainings\models.py:209
+#: .\events\templates\events\base_events.html:81 .\trainings\models.py:216
 msgid "Quick list of players"
 msgstr "Упрощенный список игроков"
 
@@ -2696,27 +2702,18 @@ msgstr "Печать"
 msgid "Delete event"
 msgstr "Удалить событие"
 
-#: .\events\templates\events\base_events.html:137
-msgid "M.D."
-msgstr "М.Д."
-
-#: .\events\templates\events\base_events.html:141
-#: .\events\templates\events\lite_events.html:101
-msgid "MC days"
-msgstr "Дни МЦ"
-
-#: .\events\templates\events\base_events.html:148
+#: .\events\templates\events\base_events.html:146
 #: .\events\templates\events\lite_events.html:126
 msgid "Load"
 msgstr "Нагрузка"
 
-#: .\events\templates\events\base_events.html:151
+#: .\events\templates\events\base_events.html:149
 #, fuzzy
 #| msgid "Block"
 msgid "Blocks"
 msgstr "Блок"
 
-#: .\events\templates\events\base_events.html:154
+#: .\events\templates\events\base_events.html:152
 #: .\events\templates\events\modules\references_modal.html:25
 msgid "Objectives"
 msgstr "Задачи"
@@ -2752,22 +2749,22 @@ msgstr "Копировать"
 #: .\events\templates\events\forms\microcycle_tab.html:8
 #: .\notifications\templates\notifications\base_notification.html:23
 #: .\references\templates\references\forms\reference_edit.html:23
-#: .\trainings\templates\trainings\training_blocks.html:25
-#: .\trainings\templates\trainings\training_blocks.html:63
+#: .\trainings\templates\trainings\training_blocks.html:27
+#: .\trainings\templates\trainings\training_blocks.html:66
 #: .\trainings\templates\trainings\training_loads.html:17
-#: .\trainings\templates\trainings\training_objectives.html:25
-#: .\trainings\templates\trainings\training_objectives.html:63
+#: .\trainings\templates\trainings\training_objectives.html:27
+#: .\trainings\templates\trainings\training_objectives.html:66
 #: .\users\templates\users\forms\add-club-form.html:26
 #: .\users\templates\users\forms\add-user-form.html:136
 msgid "Create"
 msgstr "Создать"
 
 #: .\events\templates\events\forms\microcycle_tab.html:57
-#: .\trainings\templates\trainings\training_blocks.html:42
-#: .\trainings\templates\trainings\training_blocks.html:81
+#: .\trainings\templates\trainings\training_blocks.html:44
+#: .\trainings\templates\trainings\training_blocks.html:87
 #: .\trainings\templates\trainings\training_loads.html:34
-#: .\trainings\templates\trainings\training_objectives.html:42
-#: .\trainings\templates\trainings\training_objectives.html:81
+#: .\trainings\templates\trainings\training_objectives.html:44
+#: .\trainings\templates\trainings\training_objectives.html:87
 msgid "№"
 msgstr ""
 
@@ -2799,6 +2796,10 @@ msgstr "Видео выбранного события"
 msgid "Download presentation"
 msgstr "Скачать презентацию"
 
+#: .\events\templates\events\lite_events.html:101
+msgid "MC days"
+msgstr "Дни МЦ"
+
 #: .\events\templates\events\lite_events.html:120
 #: .\events\templates\events\lite_events.html:123
 #: .\shared\templates\shared\base_shared_training.html:52
@@ -2822,7 +2823,8 @@ msgstr "Нагрузки тренировки"
 #: .\exercises\apps.py:8 .\nanofootball\templates\menu\sidebar.html:209
 #: .\trainings\templates\trainings\training_card.html:12
 #: .\trainings\templates\trainings\view_lite_training.html:39
-#: .\users\templates\users\modules\user_table_settings.html:115
+#: .\trainings\templates\trainings\view_training.html:46
+#: .\users\templates\users\modules\user_table_settings.html:136
 msgid "Exercises"
 msgstr "Упражнения"
 
@@ -2883,23 +2885,23 @@ msgstr "Создание/Изменение папки"
 #: .\references\templates\references\forms\reference_edit.html:20
 #: .\references\templates\references\forms\reference_edit.html:33
 #: .\trainings\models.py:26
-#: .\trainings\templates\trainings\training_blocks.html:21
-#: .\trainings\templates\trainings\training_blocks.html:44
-#: .\trainings\templates\trainings\training_blocks.html:59
-#: .\trainings\templates\trainings\training_blocks.html:83
+#: .\trainings\templates\trainings\training_blocks.html:23
+#: .\trainings\templates\trainings\training_blocks.html:46
+#: .\trainings\templates\trainings\training_blocks.html:62
+#: .\trainings\templates\trainings\training_blocks.html:89
 #: .\trainings\templates\trainings\training_loads.html:13
 #: .\trainings\templates\trainings\training_loads.html:36
-#: .\trainings\templates\trainings\training_objectives.html:21
-#: .\trainings\templates\trainings\training_objectives.html:44
-#: .\trainings\templates\trainings\training_objectives.html:59
-#: .\trainings\templates\trainings\training_objectives.html:83
+#: .\trainings\templates\trainings\training_objectives.html:23
+#: .\trainings\templates\trainings\training_objectives.html:46
+#: .\trainings\templates\trainings\training_objectives.html:62
+#: .\trainings\templates\trainings\training_objectives.html:89
 #: .\users\templates\users\forms\add-club-form.html:9
 #: .\users\templates\users\forms\edit-club-form.html:20
 #: .\users\templates\users\forms\send-mail-form.html:9
 #: .\users\templates\users\modules\club_table.html:8
 #: .\video\templates\video\modules\video_list.html:15
 #: .\video\templates\video\modules\video_list_exercises.html:14
-#: .\video\templates\video\video_card.html:41
+#: .\video\templates\video\video_card.html:46
 msgid "Title"
 msgstr "Название"
 
@@ -2946,7 +2948,7 @@ msgstr "Все"
 #: .\video\templates\video\base_video.html:52
 #: .\video\templates\video\modules\video_select_modal.html:26
 #: .\video\templates\video\modules\video_select_modal.html:36
-#: .\video\templates\video\video_card.html:82
+#: .\video\templates\video\video_card.html:87
 msgid "No sources"
 msgstr "Нет источников"
 
@@ -3027,7 +3029,7 @@ msgstr "Создание клуба успешно!"
 msgid "Matches"
 msgstr "Матчи"
 
-#: .\matches\models.py:17 .\trainings\models.py:161
+#: .\matches\models.py:17 .\trainings\models.py:158
 msgid "trainer"
 msgstr "тренер"
 
@@ -3075,7 +3077,7 @@ msgstr "пенальти соперника"
 msgid "Number of opponent team penalties per match."
 msgstr "Количество пенальти команды соперника за матч."
 
-#: .\matches\models.py:54 .\trainings\models.py:586
+#: .\matches\models.py:54 .\trainings\models.py:593
 msgid "estimation"
 msgstr "оценка"
 
@@ -3162,7 +3164,7 @@ msgstr "лечение"
 msgid "Venue of the treatment."
 msgstr "Место проведения лечения."
 
-#: .\medicine\models.py:173 .\trainings\models.py:526
+#: .\medicine\models.py:173 .\trainings\models.py:533
 msgid "note"
 msgstr "примечание"
 
@@ -3250,9 +3252,9 @@ msgstr "Администрирование"
 msgid "Notification"
 msgstr "Уведомление"
 
-#: .\nanofootball\templates\menu\sidebar.html:30 .\trainings\models.py:58
-#: .\trainings\models.py:59 .\trainings\models.py:108 .\trainings\models.py:109
-#: .\trainings\models.py:150 .\trainings\models.py:151 .\users\admin.py:23
+#: .\nanofootball\templates\menu\sidebar.html:30 .\trainings\models.py:71
+#: .\trainings\models.py:72 .\trainings\models.py:117 .\trainings\models.py:118
+#: .\trainings\models.py:147 .\trainings\models.py:148 .\users\admin.py:23
 #: .\users\models.py:229 .\users\templates\users\base_clients.html:32
 #: .\users\templates\users\base_profile.html:174
 #: .\users\templates\users\forms\add-user-form.html:106
@@ -3290,10 +3292,10 @@ msgstr "Основные разделы"
 #: .\shared\templates\shared\base_shared_training.html:34
 #: .\trainings\templates\trainings\print_training.html:37
 #: .\trainings\templates\trainings\print_training.html:40
-#: .\trainings\templates\trainings\view_training.html:167
+#: .\trainings\templates\trainings\view_training.html:175
 #: .\users\templates\users\forms\edit-club-form.html:66
 #: .\users\templates\users\forms\edit-user-form.html:72
-#: .\users\templates\users\modules\user_table_settings.html:109
+#: .\users\templates\users\modules\user_table_settings.html:130
 msgid "Players"
 msgstr "Игроки"
 
@@ -3318,7 +3320,7 @@ msgstr "Чат"
 #: .\trainings\templates\trainings\view_lite_training.html:50
 #: .\version\templates\version\modules\section_information.html:10
 #: .\video\templates\video\base_video.html:10
-#: .\video\templates\video\video_card.html:135
+#: .\video\templates\video\video_card.html:140
 msgid "Video"
 msgstr "Видео"
 
@@ -3344,7 +3346,7 @@ msgstr "Курсы"
 
 #: .\notifications\apps.py:8
 #: .\notifications\templates\notifications\base_notification.html:26
-#: .\users\templates\users\modules\user_table_settings.html:86
+#: .\users\templates\users\modules\user_table_settings.html:89
 msgid "Notifications"
 msgstr "Уведомления"
 
@@ -3427,8 +3429,8 @@ msgid "Notification view"
 msgstr "Просмотр уведомлений"
 
 #: .\notifications\templates\notifications\modules\notification_send_table.html:12
-#: .\trainings\models.py:47 .\trainings\models.py:48 .\trainings\models.py:97
-#: .\trainings\models.py:98 .\trainings\models.py:139 .\trainings\models.py:140
+#: .\trainings\models.py:52 .\trainings\models.py:53 .\trainings\models.py:98
+#: .\trainings\models.py:99 .\trainings\models.py:136 .\trainings\models.py:137
 #: .\users\templates\users\base_clients.html:29
 #: .\users\templates\users\modules\management_user_payment.html:36
 msgid "User"
@@ -3474,11 +3476,11 @@ msgstr "Краткое имя не более 10 символов"
 msgid "Empty"
 msgstr "Пусто"
 
-#: .\references\models.py:30 .\trainings\models.py:392 .\users\models.py:34
+#: .\references\models.py:30 .\trainings\models.py:399 .\users\models.py:34
 msgid "order"
 msgstr "порядок"
 
-#: .\references\models.py:31 .\trainings\models.py:393 .\users\models.py:35
+#: .\references\models.py:31 .\trainings\models.py:400 .\users\models.py:35
 msgid "Sorting index"
 msgstr "Порядковый номер"
 
@@ -3495,7 +3497,7 @@ msgstr "Переводы справочников"
 msgid "link"
 msgstr "ссылка"
 
-#: .\references\models.py:79 .\video\templates\video\video_card.html:43
+#: .\references\models.py:79 .\video\templates\video\video_card.html:48
 msgid "Link to the source"
 msgstr "Ссылка на источник"
 
@@ -3547,7 +3549,7 @@ msgstr "статус команды"
 msgid "Team status."
 msgstr "Статус команды."
 
-#: .\references\models.py:130 .\trainings\models.py:208
+#: .\references\models.py:130 .\trainings\models.py:215
 msgid "players"
 msgstr "игроки"
 
@@ -3833,7 +3835,7 @@ msgstr "Типы доступа к медикаментам"
 #: .\users\templates\users\modules\management_club_payment.html:37
 #: .\users\templates\users\modules\management_user_payment.html:37
 #: .\users\templates\users\modules\user_table.html:36
-#: .\users\templates\users\modules\user_table_settings.html:98
+#: .\users\templates\users\modules\user_table_settings.html:101
 msgid "Payment"
 msgstr "Оплата"
 
@@ -3958,183 +3960,177 @@ msgstr "Возрастная группа задачи"
 msgid "Objective name"
 msgstr "Название задачи"
 
-#: .\trainings\models.py:38 .\trainings\models.py:39 .\trainings\models.py:88
-#: .\trainings\models.py:89
+#: .\trainings\models.py:32 .\users\serializers.py:256
+#: .\users\templates\users\base_profile.html:154
+#: .\users\templates\users\modules\user_table_settings.html:59
+msgid "Archive"
+msgstr "Архив"
+
+#: .\trainings\models.py:33
+msgid "Is it a archive"
+msgstr ""
+
+#: .\trainings\models.py:43 .\trainings\models.py:44 .\trainings\models.py:89
+#: .\trainings\models.py:90
 msgid "Variant"
 msgstr ""
 
-#: .\trainings\models.py:70
-msgid "The short key of the training block"
-msgstr "Короткий код блока тренировки"
-
-#: .\trainings\models.py:76
-msgid "Block name"
-msgstr "Название блока"
-
-#: .\trainings\models.py:77
-msgid "The name of the training block"
-msgstr "Название блока тренировки"
-
-#: .\trainings\models.py:119
-msgid "Load key"
-msgstr "Ключь нагрузки"
-
-#: .\trainings\models.py:120
-msgid "The short key of the training load"
-msgstr "Короткий код нагрузки тренировки"
-
-#: .\trainings\models.py:126
-msgid "Load name"
-msgstr "Название нагрузки"
-
-#: .\trainings\models.py:127
-msgid "The name of the training load"
-msgstr "Название нагрузки тренировки"
-
-#: .\trainings\models.py:162
+#: .\trainings\models.py:159
 msgid "Coach tied to the training"
 msgstr "Тренер привязан к тренировке"
 
-#: .\trainings\models.py:168 .\video\models.py:77
+#: .\trainings\models.py:165 .\video\models.py:77
 msgid "favourites"
 msgstr "избранное"
 
-#: .\trainings\models.py:169
+#: .\trainings\models.py:166
 msgid "Favorites training"
 msgstr "Избранная тренировка"
 
-#: .\trainings\models.py:173
-#: .\trainings\templates\trainings\view_training.html:58 .\users\models.py:267
+#: .\trainings\models.py:170
+#: .\trainings\templates\trainings\view_training.html:66 .\users\models.py:267
 #: .\users\templates\users\forms\edit-user-form.html:48
 #: .\users\templates\users\modules\user_table.html:13
 msgid "Group"
 msgstr "Группа"
 
-#: .\trainings\models.py:174
+#: .\trainings\models.py:171
 msgid "Training group"
 msgstr "Группа тренировки"
 
-#: .\trainings\models.py:178
+#: .\trainings\models.py:175 .\trainings\models.py:176
+#, fuzzy
+#| msgid "players count"
+msgid "Players count"
+msgstr "Количество игроков"
+
+#: .\trainings\models.py:180 .\trainings\models.py:181
+#, fuzzy
+#| msgid "goalkeepers count"
+msgid "Goalkeepers count"
+msgstr "Количество вратарей"
+
+#: .\trainings\models.py:185
 msgid "personal training"
 msgstr "персональная тренировка"
 
-#: .\trainings\models.py:179
+#: .\trainings\models.py:186
 msgid "Is it a personal training"
 msgstr "Является персональной тренировкой"
 
-#: .\trainings\models.py:184
+#: .\trainings\models.py:191
 msgid "link to the video"
 msgstr "ссылка на видео"
 
-#: .\trainings\models.py:185
+#: .\trainings\models.py:192
 msgid "Link to the training video"
 msgstr "Ссылка на видео тренировки"
 
-#: .\trainings\models.py:190 .\trainings\models.py:386
+#: .\trainings\models.py:197 .\trainings\models.py:393
 msgid "additional"
 msgstr "дополнительно"
 
-#: .\trainings\models.py:191
+#: .\trainings\models.py:198
 msgid "Additional training data"
 msgstr "Дополнительные данные тренировки"
 
-#: .\trainings\models.py:197
+#: .\trainings\models.py:204
 msgid "Notes for training groups"
 msgstr "Примечания для групп тренировки"
 
-#: .\trainings\models.py:202
+#: .\trainings\models.py:209
 msgid "inventory"
 msgstr "инвентарь"
 
-#: .\trainings\models.py:203
+#: .\trainings\models.py:210
 msgid "Inventory for training"
 msgstr "Инвентарь для тренировки"
 
-#: .\trainings\models.py:236 .\trainings\models.py:292
+#: .\trainings\models.py:243 .\trainings\models.py:299
 msgid "objective"
 msgstr "задача"
 
-#: .\trainings\models.py:237 .\trainings\models.py:293
+#: .\trainings\models.py:244 .\trainings\models.py:300
 msgid "Objective in training"
 msgstr "Задача тренировки"
 
-#: .\trainings\models.py:245 .\trainings\models.py:300
+#: .\trainings\models.py:252 .\trainings\models.py:307
 msgid "Block in training"
 msgstr "Блок в тренировке"
 
-#: .\trainings\models.py:265
+#: .\trainings\models.py:272
 msgid "Access to the section \"Analytics\" for UserTraining"
 msgstr "Доступ к разделу «Аналитика» для UserTraining"
 
-#: .\trainings\models.py:269
+#: .\trainings\models.py:276
 msgid "Access to the individual training mark for the user"
 msgstr ""
 
-#: .\trainings\models.py:319
+#: .\trainings\models.py:326
 msgid "Access to the section \"Analytics\" for ClubTraining"
 msgstr "Доступ к разделу «Аналитика» для ClubTraining"
 
-#: .\trainings\models.py:323
+#: .\trainings\models.py:330
 msgid "Access to the individual training mark for the club"
 msgstr ""
 
-#: .\trainings\models.py:344
+#: .\trainings\models.py:351
 msgid "players count"
 msgstr "Количество игроков"
 
-#: .\trainings\models.py:345
+#: .\trainings\models.py:352
 msgid "Number of players manual entry"
 msgstr "Ручной ввод количества игроков"
 
-#: .\trainings\models.py:350
+#: .\trainings\models.py:357
 msgid "goalkeepers count"
 msgstr "Количество вратарей"
 
-#: .\trainings\models.py:351
+#: .\trainings\models.py:358
 msgid "Number of goalkeepers manual entry"
 msgstr "Ручной ввод количества вратарей"
 
-#: .\trainings\models.py:369
+#: .\trainings\models.py:376
 msgid "group"
 msgstr "группа"
 
-#: .\trainings\models.py:370
+#: .\trainings\models.py:377
 msgid "The group to which the exercise belongs"
 msgstr "Группа, к которой относится упражнение"
 
-#: .\trainings\models.py:374
+#: .\trainings\models.py:381
 msgid "duration"
 msgstr "длительность"
 
-#: .\trainings\models.py:375
+#: .\trainings\models.py:382
 msgid "Duration of the exercise"
 msgstr "Длительность упражнения"
 
-#: .\trainings\models.py:380
+#: .\trainings\models.py:387
 msgid "description"
 msgstr "описание"
 
-#: .\trainings\models.py:381
+#: .\trainings\models.py:388
 msgid "Description of the exercise inside the training"
 msgstr "Описание упражнения внутри тренировки"
 
-#: .\trainings\models.py:387
+#: .\trainings\models.py:394
 msgid "Additional training exercise data"
 msgstr "Дополнительные данные упражнений в тренировке"
 
-#: .\trainings\models.py:452
+#: .\trainings\models.py:459
 msgid "Objective type"
 msgstr "Тип задачи"
 
-#: .\trainings\models.py:453
+#: .\trainings\models.py:460
 msgid "Type of objective for training"
 msgstr "Тип задачи тренировки"
 
-#: .\trainings\models.py:527
+#: .\trainings\models.py:534
 msgid "Note to the reference book"
 msgstr "Примечание к справочнику"
 
-#: .\trainings\models.py:587
+#: .\trainings\models.py:594
 msgid "Player rating like/dislike"
 msgstr "Рейтинг игрока нравится/не нравится"
 
@@ -4147,7 +4143,7 @@ msgid "Add all"
 msgstr "Добавить все"
 
 #: .\trainings\templates\trainings\exercise_additional_modal.html:22
-#: .\trainings\templates\trainings\view_training.html:182
+#: .\trainings\templates\trainings\view_training.html:190
 msgid "Add selected"
 msgstr "Добавить выбранных"
 
@@ -4176,24 +4172,30 @@ msgstr "Тренеры"
 msgid "My blocks"
 msgstr "Мои блоки"
 
-#: .\trainings\templates\trainings\training_blocks.html:10
+#: .\trainings\templates\trainings\training_blocks.html:11
 msgid "NF blocks"
 msgstr "NF блоки"
 
-#: .\trainings\templates\trainings\training_blocks.html:32
-#: .\trainings\templates\trainings\training_blocks.html:71
-#: .\trainings\templates\trainings\training_objectives.html:32
-#: .\trainings\templates\trainings\training_objectives.html:71
+#: .\trainings\templates\trainings\training_blocks.html:34
+#: .\trainings\templates\trainings\training_blocks.html:74
+#: .\trainings\templates\trainings\training_loads.html:24
+#: .\trainings\templates\trainings\training_objectives.html:34
+#: .\trainings\templates\trainings\training_objectives.html:74
 msgid "Search short key"
 msgstr "Поиск короткого ключа"
 
-#: .\trainings\templates\trainings\training_blocks.html:35
-#: .\trainings\templates\trainings\training_blocks.html:74
+#: .\trainings\templates\trainings\training_blocks.html:37
+#: .\trainings\templates\trainings\training_blocks.html:77
 #: .\trainings\templates\trainings\training_loads.html:27
-#: .\trainings\templates\trainings\training_objectives.html:35
-#: .\trainings\templates\trainings\training_objectives.html:74
+#: .\trainings\templates\trainings\training_objectives.html:37
+#: .\trainings\templates\trainings\training_objectives.html:77
 msgid "Search name"
 msgstr "Поиск названия"
+
+#: .\trainings\templates\trainings\training_blocks.html:80
+#: .\trainings\templates\trainings\training_objectives.html:80
+msgid "Copy all"
+msgstr "Копировать все"
 
 #: .\trainings\templates\trainings\training_card.html:11
 #: .\trainings\templates\trainings\view_lite_training.html:35
@@ -4276,7 +4278,7 @@ msgstr "жгуты"
 msgid "My objectives"
 msgstr "Мои задачи"
 
-#: .\trainings\templates\trainings\training_objectives.html:10
+#: .\trainings\templates\trainings\training_objectives.html:11
 msgid "NF objectives"
 msgstr "NF задачи"
 
@@ -4301,11 +4303,11 @@ msgstr "Копировать ссылку"
 msgid "Back"
 msgstr "Назад"
 
-#: .\trainings\templates\trainings\view_training.html:46
+#: .\trainings\templates\trainings\view_training.html:53
 msgid "Protocol"
 msgstr "Протокол"
 
-#: .\trainings\templates\trainings\view_training.html:181
+#: .\trainings\templates\trainings\view_training.html:189
 msgid "Add all players"
 msgstr "Добавить всех игроков"
 
@@ -4347,7 +4349,7 @@ msgstr "Должность пользователя"
 
 #: .\users\models.py:78 .\users\templates\users\forms\add-user-form.html:39
 #: .\users\templates\users\forms\edit-personal-form.html:73
-#: .\users\templates\users\modules\user_table_settings.html:163
+#: .\users\templates\users\modules\user_table_settings.html:178
 msgid "Club title"
 msgstr "Название клуба"
 
@@ -4446,7 +4448,7 @@ msgid "Last login date"
 msgstr "Дата последнего входа"
 
 #: .\users\models.py:260 .\users\templates\users\forms\edit-user-form.html:132
-#: .\users\templates\users\modules\user_table_settings.html:68
+#: .\users\templates\users\modules\user_table_settings.html:71
 msgid "Distributor"
 msgstr "Дистрибьютор"
 
@@ -4494,11 +4496,6 @@ msgstr ""
 #: .\users\templates\users\forms\edit-user-form.html:96
 msgid "Active"
 msgstr "Активно"
-
-#: .\users\serializers.py:256 .\users\templates\users\base_profile.html:154
-#: .\users\templates\users\modules\user_table_settings.html:56
-msgid "Archive"
-msgstr "Архив"
 
 #: .\users\serializers.py:260 .\users\serializers.py:267
 msgid "Not filled in"
@@ -4595,7 +4592,7 @@ msgstr "Срок лицензии"
 #: .\users\templates\users\forms\edit-club-form.html:100
 #: .\users\templates\users\forms\edit-user-form.html:122
 #: .\users\templates\users\modules\user_table.html:35
-#: .\users\templates\users\modules\user_table_settings.html:92
+#: .\users\templates\users\modules\user_table_settings.html:95
 msgid "Access to"
 msgstr "Доступ до"
 
@@ -4610,7 +4607,7 @@ msgstr "Настройка"
 #: .\users\templates\users\forms\edit-user-form.html:105
 #: .\users\templates\users\modules\club_table.html:11
 #: .\users\templates\users\modules\user_table.html:34
-#: .\users\templates\users\modules\user_table_settings.html:169
+#: .\users\templates\users\modules\user_table_settings.html:184
 msgid "Registration"
 msgstr "Регистрация"
 
@@ -4703,7 +4700,7 @@ msgid "A"
 msgstr ""
 
 #: .\users\templates\users\modules\user_table.html:39
-#: .\users\templates\users\modules\user_table_settings.html:121
+#: .\users\templates\users\modules\user_table_settings.html:119
 msgid "VIP"
 msgstr ""
 
@@ -4715,29 +4712,25 @@ msgstr "Сбросить фильтры"
 msgid "Search by name"
 msgstr "Поиск по имени"
 
-#: .\users\templates\users\modules\user_table_settings.html:50
+#: .\users\templates\users\modules\user_table_settings.html:53
 msgid "Add. filters"
 msgstr "Доп. Фильтры"
 
-#: .\users\templates\users\modules\user_table_settings.html:62
+#: .\users\templates\users\modules\user_table_settings.html:65
 msgid "New users"
 msgstr "Новые пользователи"
 
-#: .\users\templates\users\modules\user_table_settings.html:74
+#: .\users\templates\users\modules\user_table_settings.html:77
 msgid "Admins"
 msgstr "Администраторы"
 
-#: .\users\templates\users\modules\user_table_settings.html:103
-msgid "Columns"
-msgstr "Колонки"
-
-#: .\users\templates\users\modules\user_table_settings.html:121
+#: .\users\templates\users\modules\user_table_settings.html:107
 msgid "Call"
 msgstr "Звонок"
 
-#: .\users\templates\users\modules\user_table_settings.html:121
-msgid "Mail"
-msgstr "Почта"
+#: .\users\templates\users\modules\user_table_settings.html:124
+msgid "Columns"
+msgstr "Колонки"
 
 #: .\users\templates\users\modules\warning_change_password.html:10
 msgid "Recommendations"
@@ -5089,7 +5082,7 @@ msgstr "Нет папок"
 
 #: .\video\templates\video\modules\video_list.html:9
 #: .\video\templates\video\modules\video_list_exercises.html:11
-#: .\video\templates\video\video_card.html:76
+#: .\video\templates\video\video_card.html:81
 msgid "Source"
 msgstr "Источник"
 
@@ -5104,7 +5097,7 @@ msgstr ""
 
 #: .\video\templates\video\modules\video_list.html:16
 #: .\video\templates\video\modules\video_list_exercises.html:15
-#: .\video\templates\video\video_card.html:148
+#: .\video\templates\video\video_card.html:153
 msgid "Tags"
 msgstr "Теги"
 
@@ -5112,41 +5105,77 @@ msgstr "Теги"
 msgid "Exercise"
 msgstr "Упражнение"
 
-#: .\video\templates\video\video_card.html:45
+#: .\video\templates\video\video_card.html:23
+#, fuzzy
+#| msgid "Downloads"
+msgid "Download"
+msgstr "Загрузки"
+
+#: .\video\templates\video\video_card.html:50
 msgid "Youtube link"
 msgstr "Ссылка на Youtube"
 
-#: .\video\templates\video\video_card.html:50
+#: .\video\templates\video\video_card.html:55
 msgid "New video file"
 msgstr "Новый видеофайл"
 
-#: .\video\templates\video\video_card.html:56
+#: .\video\templates\video\video_card.html:61
 msgid "A second of the screensaver"
 msgstr "Секунда заставки"
 
-#: .\video\templates\video\video_card.html:61
+#: .\video\templates\video\video_card.html:66
 msgid "New screensaver file"
 msgstr "Новый файл заставки"
 
-#: .\video\templates\video\video_card.html:98
+#: .\video\templates\video\video_card.html:103
 msgid "Language (voice acting)"
 msgstr "Язык (озвучка)"
 
-#: .\video\templates\video\video_card.html:116
+#: .\video\templates\video\video_card.html:121
 msgid "Music"
 msgstr "Музыка"
 
-#: .\video\templates\video\video_card.html:125
+#: .\video\templates\video\video_card.html:130
 msgid "Sections"
 msgstr "Разделы"
 
-#: .\video\templates\video\video_card.html:129
+#: .\video\templates\video\video_card.html:134
 msgid "Video / Animation"
 msgstr "Видео / Анимация"
 
-#: .\video\templates\video\video_card.html:141
+#: .\video\templates\video\video_card.html:146
 msgid "Animation"
 msgstr "Анимация"
+
+#~ msgid "Open the selected training"
+#~ msgstr "Открыть выбранную тренировку"
+
+#~ msgid "M.D."
+#~ msgstr "М.Д."
+
+#~ msgid "The short key of the training block"
+#~ msgstr "Короткий код блока тренировки"
+
+#~ msgid "Block name"
+#~ msgstr "Название блока"
+
+#~ msgid "The name of the training block"
+#~ msgstr "Название блока тренировки"
+
+#~ msgid "Load key"
+#~ msgstr "Ключь нагрузки"
+
+#~ msgid "The short key of the training load"
+#~ msgstr "Короткий код нагрузки тренировки"
+
+#~ msgid "Load name"
+#~ msgstr "Название нагрузки"
+
+#~ msgid "The name of the training load"
+#~ msgstr "Название нагрузки тренировки"
+
+#~ msgid "Mail"
+#~ msgstr "Почта"
 
 #~ msgid "Admin blocks"
 #~ msgstr "Админские блоки"

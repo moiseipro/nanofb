@@ -7,7 +7,9 @@
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
             <a class="nav-link active" id="nav-user-objectives-tab" data-toggle="tab" href="#nav-user-objectives" role="tab" aria-controls="nav-user-objectives" aria-selected="true">{% trans 'My objectives' %}</a>
+            {% if perms.trainings.view_admintrainingblocks %}
             <a class="nav-link" id="nav-admin-objectives-tab" data-toggle="tab" href="#nav-admin-objectives" role="tab" aria-controls="nav-admin-objectives" aria-selected="false">{% trans 'NF objectives' %}</a>
+            {% endif %}
         </div>
     </nav>
     <div class="tab-content" id="nav-tabContent">
@@ -21,7 +23,7 @@
                         <input type="text" name="name" class="form-control form-control-md" placeholder="{% trans "Title" %}" autocomplete="off" style="height: 38px;">
                     </div>
                     <div class="col-2 px-1">
-                        <button type="submit" class="btn btn-sm btn-block btn-success">
+                        <button type="submit" class="btn btn-md btn-block btn-success">
                             <span aria-hidden="true">{% trans 'Create' %}</span>
                         </button>
                     </div>
@@ -48,6 +50,7 @@
                 </table>
             </div>
         </div>
+        {% if perms.trainings.view_admintrainingblocks %}
         <div class="tab-pane fade" id="nav-admin-objectives" role="tabpanel" aria-labelledby="nav-profile-tab">
             {% if perms.trainings.change_admintrainingblocks %}
             <form id="admin-objectives-form" method="post" class="">
@@ -59,7 +62,7 @@
                         <input type="text" name="name" class="form-control form-control-md" placeholder="{% trans "Title" %}" autocomplete="off" style="height: 38px;">
                     </div>
                     <div class="col-2 px-1">
-                        <button type="submit" class="btn btn-sm btn-block btn-success">
+                        <button type="submit" class="btn btn-md btn-block btn-success">
                             <span aria-hidden="true">{% trans 'Create' %}</span>
                         </button>
                     </div>
@@ -72,6 +75,9 @@
                 </div>
                 <div class="col px-1">
                     <input type="search" name=".name-col" class="form-control form-control-md admin-objectives-table-filter" placeholder="{% trans "Search name" %}" autocomplete="off" style="height: 38px;">
+                </div>
+                <div class="col-1 px-1">
+                    <button id="copy-admin-objectives" type="button" class="btn btn-md btn-block btn-warning" title="{% trans 'Copy all' %}"><i class="fa fa-files-o" aria-hidden="true"></i></button>
                 </div>
             </div>
             <div class="table-responsive">
@@ -87,5 +93,6 @@
                 </table>
             </div>
         </div>
+    {% endif %}
     </div>
 </div>

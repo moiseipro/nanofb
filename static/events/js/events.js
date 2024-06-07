@@ -32,11 +32,11 @@ var newMicrocycle;
 var objective_block = '';
 
 $(window).on('load', function (){
-    generate_ajax_objectives_table('50vh')
-    generate_ajax_aobjectives_table('50vh')
-    generate_ajax_blocks_table('50vh')
-    generate_ajax_ablocks_table('50vh')
-    generate_ajax_loads_table('50vh')
+    generate_ajax_objectives_table('45vh')
+    generate_ajax_aobjectives_table('45vh')
+    generate_ajax_blocks_table('45vh')
+    generate_ajax_ablocks_table('45vh')
+    generate_ajax_loads_table('45vh')
 
 
     create_ajax_select2($('#nav-user-objectives select'), gettext('Short key'), '/trainings/objectives_short', $('#references-modal'), false)
@@ -382,6 +382,52 @@ $(window).on('load', function (){
         send_data['date_by'] = moment(send_data['date_by']).format('DD/MM/YYYY')
         console.log(send_data)
         ajax_microcycle_update($(this).attr('method'), send_data, cur_edit_data ? cur_edit_data.id : 0)
+    })
+    
+    $('#copy-admin-objectives').on('click', function () {
+        swal(gettext("Copy NF objectives? (The my objectives table will be cleared)"), {
+            buttons: {
+                cancel: {
+                    text: gettext("Cancel"),
+                    visible:true,
+                    value: false,
+                },
+                confirm: {
+                    text: gettext("OK"),
+                    visible:true,
+                    value: true,
+                },
+            },
+        }).then(function(isConfirm) {
+            if (isConfirm) {
+                ajax_objectives_action('POST', {}, gettext('Copy'), '', 'copy_admin_all').then(function (data) {
+                    objectives_table.ajax.reload()
+                })
+            }
+        });
+    })
+    $('#copy-admin-blocks').on('click', function () {
+        swal(gettext("Copy NF blocks? (The my blocks table will be cleared)"), {
+            buttons: {
+                cancel: {
+                    text: gettext("Cancel"),
+                    visible:true,
+                    value: false,
+                },
+                confirm: {
+                    text: gettext("OK"),
+                    visible:true,
+                    value: true,
+                },
+            },
+        }).then(function(isConfirm) {
+            if (isConfirm) {
+                ajax_blocks_action('POST', {}, gettext('Copy'), '', 'copy_admin_all').then(function (data) {
+                    blocks_table.ajax.reload()
+                })
+            }
+        });
+
     })
 
     // Создание события

@@ -13,7 +13,7 @@ from users.models import User
 
 
 # Create your models here.
-class AbstractTrainingObjectives(models.Model):
+class AbstractTrainingReferences(models.Model):
     short_name = models.CharField(
         max_length=30,
         verbose_name=_('Age'),
@@ -28,12 +28,17 @@ class AbstractTrainingObjectives(models.Model):
         null=True,
         blank=True,
     )
+    archive = models.BooleanField(
+        verbose_name=_('Archive'),
+        help_text=_('Is it a archive'),
+        default=False
+    )
 
     class Meta:
         abstract = True
 
 
-class AdminTrainingObjectives(AbstractTrainingObjectives):
+class AdminTrainingObjectives(AbstractTrainingReferences):
     variant = models.SmallIntegerField(
         verbose_name=_('Variant'),
         help_text=_('Variant'),
@@ -41,7 +46,7 @@ class AdminTrainingObjectives(AbstractTrainingObjectives):
     )
 
 
-class UserTrainingObjectives(AbstractTrainingObjectives):
+class UserTrainingObjectives(AbstractTrainingReferences):
     user = models.ForeignKey(
         User,
         verbose_name=_('User'),
@@ -50,9 +55,17 @@ class UserTrainingObjectives(AbstractTrainingObjectives):
         null=True,
         blank=True,
     )
+    team = models.ForeignKey(
+        UserTeam,
+        verbose_name=_('Team'),
+        help_text=_('Team'),
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
 
 
-class ClubTrainingObjectives(AbstractTrainingObjectives):
+class ClubTrainingObjectives(AbstractTrainingReferences):
     club = models.ForeignKey(
         Club,
         verbose_name=_('Club'),
@@ -61,29 +74,17 @@ class ClubTrainingObjectives(AbstractTrainingObjectives):
         null=True,
         blank=True,
     )
-
-
-class AbstractTrainingBlock(models.Model):
-    short_name = models.CharField(
-        max_length=30,
-        verbose_name=_('Block key'),
-        help_text=_('The short key of the training block'),
-        null=True,
-        blank=True,
-    )
-    name = models.CharField(
-        max_length=255,
-        verbose_name=_('Block name'),
-        help_text=_('The name of the training block'),
+    team = models.ForeignKey(
+        ClubTeam,
+        verbose_name=_('Team'),
+        help_text=_('Team'),
+        on_delete=models.CASCADE,
         null=True,
         blank=True,
     )
 
-    class Meta:
-        abstract = True
 
-
-class AdminTrainingBlocks(AbstractTrainingBlock):
+class AdminTrainingBlocks(AbstractTrainingReferences):
     variant = models.SmallIntegerField(
         verbose_name=_('Variant'),
         help_text=_('Variant'),
@@ -91,7 +92,7 @@ class AdminTrainingBlocks(AbstractTrainingBlock):
     )
 
 
-class UserTrainingBlocks(AbstractTrainingBlock):
+class UserTrainingBlocks(AbstractTrainingReferences):
     user = models.ForeignKey(
         User,
         verbose_name=_('User'),
@@ -100,9 +101,17 @@ class UserTrainingBlocks(AbstractTrainingBlock):
         null=True,
         blank=True,
     )
+    team = models.ForeignKey(
+        ClubTeam,
+        verbose_name=_('Team'),
+        help_text=_('Team'),
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
 
 
-class ClubTrainingBlocks(AbstractTrainingBlock):
+class ClubTrainingBlocks(AbstractTrainingReferences):
     club = models.ForeignKey(
         Club,
         verbose_name=_('Club'),
@@ -111,29 +120,17 @@ class ClubTrainingBlocks(AbstractTrainingBlock):
         null=True,
         blank=True,
     )
-
-
-class AbstractTrainingLoad(models.Model):
-    short_name = models.CharField(
-        max_length=30,
-        verbose_name=_('Load key'),
-        help_text=_('The short key of the training load'),
-        null=True,
-        blank=True,
-    )
-    name = models.CharField(
-        max_length=255,
-        verbose_name=_('Load name'),
-        help_text=_('The name of the training load'),
+    team = models.ForeignKey(
+        ClubTeam,
+        verbose_name=_('Team'),
+        help_text=_('Team'),
+        on_delete=models.CASCADE,
         null=True,
         blank=True,
     )
 
-    class Meta:
-        abstract = True
 
-
-class UserTrainingLoad(AbstractTrainingLoad):
+class UserTrainingLoad(AbstractTrainingReferences):
     user = models.ForeignKey(
         User,
         verbose_name=_('User'),
@@ -144,7 +141,7 @@ class UserTrainingLoad(AbstractTrainingLoad):
     )
 
 
-class ClubTrainingLoad(AbstractTrainingLoad):
+class ClubTrainingLoad(AbstractTrainingReferences):
     club = models.ForeignKey(
         Club,
         verbose_name=_('Club'),

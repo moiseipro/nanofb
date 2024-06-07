@@ -14,54 +14,45 @@ from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExe
 from users.serializers import UserSerializer
 
 
-class TrainingLoadSerializer(serializers.ModelSerializer):
+class TrainingReferenceSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
 
     class Meta:
         fields = (
-            'id', 'short_name', 'name'
+            'id', 'short_name', 'name', 'archive'
         )
 
 
-class UserTrainingLoadSerializer(TrainingLoadSerializer):
-    class Meta(TrainingLoadSerializer.Meta):
+class UserTrainingLoadSerializer(TrainingReferenceSerializer):
+    class Meta(TrainingReferenceSerializer.Meta):
         model = UserTrainingLoad
 
     Meta.fields += ('user',)
 
 
-class ClubTrainingLoadSerializer(TrainingLoadSerializer):
-    class Meta(TrainingLoadSerializer.Meta):
+class ClubTrainingLoadSerializer(TrainingReferenceSerializer):
+    class Meta(TrainingReferenceSerializer.Meta):
         model = ClubTrainingLoad
 
     Meta.fields += ('club',)
 
 
-class TrainingBlockSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(read_only=True)
-
-    class Meta:
-        fields = (
-            'id', 'short_name', 'name'
-        )
-
-
-class AdminTrainingBlockSerializer(TrainingBlockSerializer):
-    class Meta(TrainingBlockSerializer.Meta):
+class AdminTrainingBlockSerializer(TrainingReferenceSerializer):
+    class Meta(TrainingReferenceSerializer.Meta):
         model = AdminTrainingBlocks
 
     Meta.fields += ('variant',)
 
 
-class UserTrainingBlockSerializer(TrainingBlockSerializer):
-    class Meta(TrainingBlockSerializer.Meta):
+class UserTrainingBlockSerializer(TrainingReferenceSerializer):
+    class Meta(TrainingReferenceSerializer.Meta):
         model = UserTrainingBlocks
 
     Meta.fields += ('user',)
 
 
-class ClubTrainingBlockSerializer(TrainingBlockSerializer):
-    class Meta(TrainingBlockSerializer.Meta):
+class ClubTrainingBlockSerializer(TrainingReferenceSerializer):
+    class Meta(TrainingReferenceSerializer.Meta):
         model = ClubTrainingBlocks
 
     Meta.fields += ('club',)
@@ -109,31 +100,22 @@ class ClubTrainingBlockManySerializerView(serializers.ModelSerializer):
         )
 
 
-class TrainingObjectiveSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(read_only=True)
-
-    class Meta:
-        fields = (
-            'id', 'short_name', 'name'
-        )
-
-
-class AdminTrainingObjectiveSerializer(TrainingObjectiveSerializer):
-    class Meta(TrainingObjectiveSerializer.Meta):
+class AdminTrainingObjectiveSerializer(TrainingReferenceSerializer):
+    class Meta(TrainingReferenceSerializer.Meta):
         model = AdminTrainingObjectives
 
     Meta.fields += ('variant',)
 
 
-class UserTrainingObjectiveSerializer(TrainingObjectiveSerializer):
-    class Meta(TrainingObjectiveSerializer.Meta):
+class UserTrainingObjectiveSerializer(TrainingReferenceSerializer):
+    class Meta(TrainingReferenceSerializer.Meta):
         model = UserTrainingObjectives
 
     Meta.fields += ('user',)
 
 
-class ClubTrainingObjectiveSerializer(TrainingObjectiveSerializer):
-    class Meta(TrainingObjectiveSerializer.Meta):
+class ClubTrainingObjectiveSerializer(TrainingReferenceSerializer):
+    class Meta(TrainingReferenceSerializer.Meta):
         model = ClubTrainingObjectives
 
     Meta.fields += ('club',)
