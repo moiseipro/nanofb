@@ -660,31 +660,40 @@ $(function() {
         let focusedElem = $(':focus');
         if (!$(focusedElem).hasClass('keyboard-select')) {return;}
         let focusedElemName = $(focusedElem).attr('name');
+        let foundCell = null;
         if (e.which == 38) { // up
             let row = $(focusedElem).parent().parent().prev();
             if (row.length == 0) {
                 row = $('#team_players').find('tbody .protocol-row:last');
             }
-            $(row).find(`[name="${focusedElemName}"]`).focus();
+            foundCell = $(row).find(`[name="${focusedElemName}"]`);
         }
         if (e.which == 40) { // down
             let row = $(focusedElem).parent().parent().next();
             if (row.length == 0) {
                 row = $('#team_players').find('tbody .protocol-row:first');
             }
-            $(row).find(`[name="${focusedElemName}"]`).focus();
+            foundCell = $(row).find(`[name="${focusedElemName}"]`);
         }
         if (e.which == 37) { // left
             let cell = $(focusedElem).parent().prevAll('td.keyboard-select').first();
             if ($(cell).length > 0) {
-                $(cell).find('.keyboard-select').focus();
+                foundCell = $(cell).find('.keyboard-select');
             }
         }
         if (e.which == 39) { // right
             let cell = $(focusedElem).parent().nextAll('td.keyboard-select').first();
             if ($(cell).length > 0) {
-                $(cell).find('.keyboard-select').focus();
+                foundCell = $(cell).find('.keyboard-select');
             }
+        }
+        if (foundCell && foundCell.length > 0) {
+            $(foundCell).focus();
+            let val = $(foundCell).val();
+            $(foundCell).val('');
+            setTimeout(() => {
+                $(foundCell).val(val);
+            }, 100);
         }
     });
 

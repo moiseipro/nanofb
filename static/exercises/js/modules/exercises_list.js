@@ -813,6 +813,7 @@ $(function() {
     // Open exercise using keys
     $(document).keypress((e) => {
         if (e.which == 13 && window.canChangeExs) { // enter
+            if ($('.folders-container').hasClass('d-none')) {return;}
             $('.visual-block').find('.carousel-item:visible').first().trigger('click');
         }
     });
