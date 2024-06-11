@@ -77,8 +77,8 @@ function RenderProtocolInMatch(data, selectedRow = -1) {
                     <td>
                         ${protocolStatusesElem}
                     </td>
-                    <td>
-                        <input class="form-control form-control-sm" name="p_num" type="text" value="${elem.p_num ? elem.p_num : ''}" placeholder="" autocomplete="off">
+                    <td class="keyboard-select">
+                        <input class="form-control form-control-sm keyboard-select" name="p_num" type="text" value="${elem.p_num ? elem.p_num : ''}" placeholder="" autocomplete="off">
                     </td>
                     <td>
                         <div class="row mx-0 justify-content-between">
@@ -91,29 +91,29 @@ function RenderProtocolInMatch(data, selectedRow = -1) {
                             </div>
                         </div>
                     </td>
-                    <td>
-                        <input class="form-control form-control-sm" name="minute_from" type="text" value="${elem.minute_from ? elem.minute_from : ''}" placeholder="" autocomplete="off">
+                    <td class="keyboard-select">
+                        <input class="form-control form-control-sm keyboard-select" name="minute_from" type="text" value="${elem.minute_from ? elem.minute_from : ''}" placeholder="" autocomplete="off">
                     </td>
-                    <td>
-                        <input class="form-control form-control-sm" name="minute_to" type="text" value="${elem.minute_to ? elem.minute_to : ''}" placeholder="" autocomplete="off">
+                    <td class="keyboard-select">
+                        <input class="form-control form-control-sm keyboard-select" name="minute_to" type="text" value="${elem.minute_to ? elem.minute_to : ''}" placeholder="" autocomplete="off">
                     </td>
-                    <td>
-                        <input class="form-control form-control-sm" name="goal" type="text" value="${elem.goal ? elem.goal : ''}" placeholder="" autocomplete="off">
+                    <td class="keyboard-select">
+                        <input class="form-control form-control-sm keyboard-select" name="goal" type="text" value="${elem.goal ? elem.goal : ''}" placeholder="" autocomplete="off">
                     </td>
-                    <td>
-                        <input class="form-control form-control-sm" name="penalty" type="text" value="${elem.penalty ? elem.penalty : ''}" placeholder="" autocomplete="off">
+                    <td class="keyboard-select">
+                        <input class="form-control form-control-sm keyboard-select" name="penalty" type="text" value="${elem.penalty ? elem.penalty : ''}" placeholder="" autocomplete="off">
                     </td>
-                    <td>
-                        <input class="form-control form-control-sm" name="p_pass" type="text" value="${elem.p_pass ? elem.p_pass : ''}" placeholder="" autocomplete="off">
+                    <td class="keyboard-select">
+                        <input class="form-control form-control-sm keyboard-select" name="p_pass" type="text" value="${elem.p_pass ? elem.p_pass : ''}" placeholder="" autocomplete="off">
                     </td>
-                    <td>
-                        <input class="form-control form-control-sm" name="yellow_card" type="text" value="${elem.yellow_card ? elem.yellow_card : ''}" placeholder="" autocomplete="off">
+                    <td class="keyboard-select">
+                        <input class="form-control form-control-sm keyboard-select" name="yellow_card" type="text" value="${elem.yellow_card ? elem.yellow_card : ''}" placeholder="" autocomplete="off">
                     </td>
-                    <td>
-                        <input class="form-control form-control-sm" name="red_card" type="text" value="${elem.red_card ? elem.red_card : ''}" placeholder="" autocomplete="off">
+                    <td class="keyboard-select">
+                        <input class="form-control form-control-sm keyboard-select" name="red_card" type="text" value="${elem.red_card ? elem.red_card : ''}" placeholder="" autocomplete="off">
                     </td>
-                    <td>
-                        <input class="form-control form-control-sm" name="estimation" type="text" value="${elem.estimation ? elem.estimation : ''}" placeholder="" autocomplete="off">
+                    <td class="keyboard-select">
+                        <input class="form-control form-control-sm keyboard-select" name="estimation" type="text" value="${elem.estimation ? elem.estimation : ''}" placeholder="" autocomplete="off">
                     </td>
                     <td>
                         <input class="form-control form-control-sm" type="checkbox" name="dislike" ${elem.dislike ? "checked": ""}>
@@ -653,6 +653,48 @@ $(function() {
             },
             complete: function (res) {}
         });
+    });
+
+    // Selecting cell for edit in protocol's match
+    $(document).keydown((e) => {
+        let focusedElem = $(':focus');
+        if (!$(focusedElem).hasClass('keyboard-select')) {return;}
+        let focusedElemName = $(focusedElem).attr('name');
+        let foundCell = null;
+        if (e.which == 38) { // up
+            let row = $(focusedElem).parent().parent().prev();
+            if (row.length == 0) {
+                row = $('#team_players').find('tbody .protocol-row:last');
+            }
+            foundCell = $(row).find(`[name="${focusedElemName}"]`);
+        }
+        if (e.which == 40) { // down
+            let row = $(focusedElem).parent().parent().next();
+            if (row.length == 0) {
+                row = $('#team_players').find('tbody .protocol-row:first');
+            }
+            foundCell = $(row).find(`[name="${focusedElemName}"]`);
+        }
+        if (e.which == 37) { // left
+            let cell = $(focusedElem).parent().prevAll('td.keyboard-select').first();
+            if ($(cell).length > 0) {
+                foundCell = $(cell).find('.keyboard-select');
+            }
+        }
+        if (e.which == 39) { // right
+            let cell = $(focusedElem).parent().nextAll('td.keyboard-select').first();
+            if ($(cell).length > 0) {
+                foundCell = $(cell).find('.keyboard-select');
+            }
+        }
+        if (foundCell && foundCell.length > 0) {
+            $(foundCell).focus();
+            let val = $(foundCell).val();
+            $(foundCell).val('');
+            setTimeout(() => {
+                $(foundCell).val(val);
+            }, 100);
+        }
     });
 
     // Toggle left menu

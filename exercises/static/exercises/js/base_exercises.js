@@ -484,9 +484,6 @@ function CheckLastExs() {
         window.lastExercise = JSON.parse(dataStr);
     } catch(e) {}
     sessionStorage.setItem('last_exs', '');
-
-    console.log(window.lastExercise)
-
     if (window.lastExercise && window.lastExercise.type) {
         $('.up-tabs-elem.folders-toggle').addClass('d-none');
         $('.up-tabs-elem.folders-toggle').removeClass('selected');
@@ -1175,6 +1172,8 @@ function CopyOrMoveAjax() {
             complete: function (res) {
                 $('.selected-exercise-panel').html('');
                 if (actionType == 'copy') {
+                    $('#copyExs').attr('data-state', '0');
+                    $('#copyExs').removeClass('selected3');
                     CheckLastExs();
                 } else {
                     LoadFolderExercises();
