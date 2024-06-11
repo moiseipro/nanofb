@@ -331,7 +331,6 @@ $(window).on('load', function (){
 
     })
 
-
     $('#microcycles-tab').on('click', '.create', function() {
         cur_edit_data = microcycles_table.row($(this).closest('tr')).data()
         //console.log('CREATE : ', cur_edit_data);
@@ -932,6 +931,19 @@ function local_filters_events() {
         // ($('#objective_1-block-filter').val() ? $('#objective_1-block-filter').val(): '') + ',' +
         // ($('#objective_2-block-filter').val() ? $('#objective_2-block-filter').val() : '') + ',' +
         // ($('#objective_3-block-filter').val() ? $('#objective_3-block-filter').val() : '');
+
+    let send_data = []
+    send_data.push({name: 'mc', value: name_val})
+    send_data.push({name: 'load', value: load_val})
+    send_data.push({name: 'block', value: block_val})
+    send_data.push({name: 'objective', value: objective_1_val})
+    ajax_event_request("GET", send_data, 'filter', '', '/events/filter_counter').then(function( data ) {
+        console.log(data)
+        $('#microcycle-name-filter-counter').text(data['mc'] ? data['mc'] : '---')
+        $('#training-load-filter-counter').text(data['load'] ? data['load'] : '---')
+        $('#training-block-filter-counter').text(data['block'] ? data['block'] : '---')
+        $('#objective_1-event-view-counter').text(data['objective'] ? data['objective'] : '---')
+    })
     console.log(objective_block)
     $('#events tbody tr').show()
 

@@ -177,6 +177,108 @@ class MicrocycleViewSet(viewsets.ModelViewSet):
         return microcycle
 
 
+class FilterCounterApiView(APIView):
+    # authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        mc = request.GET.get('mc', '')
+        loads = request.GET.get('load', '')
+        blocks = request.GET.get('block', '')
+        objectives = request.GET.get('objective', '')
+
+        all_filters = Q()
+
+        if loads != '':
+            ids_load = loads.split()
+            print(ids_load)
+            all_filters &= Q(load__in=ids_load)
+        else:
+            ids_load = ''
+
+        if blocks != '':
+            ids_block = blocks.split()
+            print(ids_block)
+            all_filters &= Q(blocks__in=ids_block)
+        else:
+            ids_block = ''
+
+        if objectives != '':
+            ids_objective = objectives.split()
+            print(ids_objective)
+            all_filters &= Q(objectives__in=ids_objective)
+        else:
+            ids_objective = ''
+
+        if request.user.club_id is not None:
+            season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
+
+            queryset = ClubTraining.objects. \
+                filter(Q(event_id__date__gte=season[0].date_with) &
+                       Q(event_id__date__lte=season[0].date_by) &
+                       Q(event_id__club_id=request.user.club_id) &
+                       Q(team_id=self.request.session['team'])).filter(all_filters)
+            if mc != '':
+                microcycle = ClubMicrocycles.objects.get(name=mc, team_id=self.request.session['team'])
+                queryset = queryset.filter(Q(event_id__date__gte=microcycle.date_with) &
+                                Q(event_id__date__lte=microcycle.date_by))
+
+            event_dates_filter = Q()
+            for event in queryset:
+                event_dates_filter &= Q(date_with__gte=event.event_id.date, date_by__lte=event.event_id.date)
+            microcycles_queryset = ClubMicrocycles.objects.filter(team_id=self.request.session['team']).filter(
+                event_dates_filter)
+
+        else:
+            season = UserSeason.objects.filter(id=self.request.session['season'])
+            queryset = UserTraining.objects. \
+                filter(Q(event_id__date__gte=season[0].date_with) &
+                       Q(event_id__date__lte=season[0].date_by) &
+                       Q(event_id__user_id=request.user) &
+                       Q(team_id=self.request.session['team'])).filter(all_filters)
+
+            if mc != '':
+                microcycles_dates_filter = Q()
+                microcycles = UserMicrocycles.objects.filter(name=mc, team_id=self.request.session['team'])
+                for microcycle in microcycles:
+                    microcycles_dates_filter |= Q(event_id__date__gte=microcycle.date_with) & Q(event_id__date__lte=microcycle.date_by)
+                queryset = queryset.filter(microcycles_dates_filter)
+
+            event_dates_filter = Q()
+            for event in queryset:
+                event_dates_filter |= (Q(date_with__lte=event.event_id.date.strftime('%Y-%m-%d')) & Q(date_by__gte=event.event_id.date.strftime('%Y-%m-%d')))
+            microcycles_queryset = UserMicrocycles.objects.filter(team_id=self.request.session['team']).filter(event_dates_filter)
+            print(microcycles_queryset)
+
+        microcycles_queryset = microcycles_queryset.annotate(count=Count('name'))
+        queryset = queryset.annotate(load_count=Count('load'), block_count=Count('blocks'), objective_count=Count('objectives'), count=Count('event_id'))
+        print(queryset)
+        list_counts = []
+        count_load = 0
+        count_block = 0
+        count_objective = 0
+        count_mc = 0
+        for event in queryset:
+            count_load += event.load_count
+            count_block += event.block_count
+            count_objective += event.objective_count
+            #count_mc += event.count
+
+        for microcycle in microcycles_queryset:
+            count_mc += microcycle.count
+
+        list_counts = {
+            'load': count_load,
+            'block': count_block,
+            'objective': count_objective,
+            'mc': count_mc
+        }
+
+        print(list_counts)
+
+        return Response(list_counts)
+
+
 # LITE MICROCYCLE
 class LiteMicrocycleViewSet(viewsets.ModelViewSet):
     permission_classes = [BaseEventsPermissions]

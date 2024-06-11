@@ -483,8 +483,8 @@ class LoadListApiView(APIView):
             for load_many in queryset_many:
                 if load_many.load.pk == load.pk:
                     new_block['count'] += 1
-            if new_block['count'] > 0:
-                list_load.append(new_block)
+            #if new_block['count'] > 0:
+            list_load.append(new_block)
 
         print(list_load)
         #list_load.sort(key=lambda x: x['count'], reverse=True)
@@ -734,8 +734,8 @@ class BlockListApiView(APIView):
             for block_many in queryset_many:
                 if block_many.block.pk == block.pk:
                     new_block['count'] += block_many.count
-            if new_block['count'] > 0:
-                list_block.append(new_block)
+            #if new_block['count'] > 0:
+            list_block.append(new_block)
 
         print(list_block)
         #list_block.sort(key=lambda x: x['count'], reverse=True)
@@ -956,8 +956,8 @@ class ObjectivesListApiView(APIView):
             for objective_many in queryset_many:
                 if objective_many.objective.pk == objective.pk:
                     new_objective['count'] += objective_many.count
-            if new_objective['count'] > 0:
-                list_objective.append(new_objective)
+            #if new_objective['count'] > 0:
+            list_objective.append(new_objective)
 
         print(list_objective)
         #list_objective.sort(key=lambda x: x['count'], reverse=True)

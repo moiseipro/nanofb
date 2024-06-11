@@ -139,17 +139,29 @@
 {#                                                <div class="col-6 px-0">#}
 {#                                                    <select id="microcycle-days-filter" class="form-control form-control-sm select-filter-events select2" placeholder="{% trans 'MC days' %}"></select>#}
 {#                                                </div>#}
-                                                <div class="col-6 mt-1 pl-0 pr-1">
+                                                <div class="col-11 mt-1 pl-0 pr-1">
                                                     <select id="microcycle-name-filter" class="form-control form-control-sm select-filter-events select2" placeholder="{% trans 'M.C.' %}"></select>
                                                 </div>
-                                                <div class="col-6 mt-1 px-0">
+                                                <div class="col-1 mt-1 pl-1 pr-0 text-center pt-2">
+                                                    <span id="microcycle-name-filter-counter" class="event-filter-counter"></span>
+                                                </div>
+                                                <div class="col-11 mt-1 pl-0 pr-1">
                                                     <select id="training-load-filter" class="form-control form-control-sm select-filter-events select2" placeholder="{% trans 'Load' %}"></select>
                                                 </div>
-                                                <div class="col-12 mt-1 px-0">
+                                                <div class="col-1 mt-1 pl-1 pr-0 text-center pt-2">
+                                                    <span id="training-load-filter-counter" class="event-filter-counter"></span>
+                                                </div>
+                                                <div class="col-11 mt-1 pl-0 pr-1">
                                                     <select id="training-block-filter" class="form-control form-control-sm select-filter-events select2" placeholder="{% trans 'Blocks' %}"></select>
                                                 </div>
-                                                <div class="col-12 mt-1 px-0 objective-filters-block">
+                                                <div class="col-1 mt-1 pl-1 pr-0 text-center pt-2">
+                                                    <span id="training-block-filter-counter" class="event-filter-counter"></span>
+                                                </div>
+                                                <div class="col-11 mt-1 pl-0 pr-1 objective-filters-block">
                                                     <select id="objective_1-event-view" type="text" class="form-control form-control-sm select-filter-events" placeholder="{% trans 'Objectives' %}"></select>
+                                                </div>
+                                                <div class="col-1 mt-1 pl-1 pr-0 text-center pt-2">
+                                                    <span id="objective_1-event-view-counter" class="event-filter-counter"></span>
                                                 </div>
 {#                                                <div class="col-12 mt-1 px-0 objective-filters-block">#}
 {#                                                    <select id="objective_2-event-view" type="text" class="form-control form-control-sm select-filter-events" placeholder="{% trans 'Add. objectives' %}"></select>#}

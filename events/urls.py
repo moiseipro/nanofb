@@ -17,6 +17,8 @@ urlpatterns = [
     path('lite/', views.LiteEventsView.as_view(), name="lite_events"),
     path('lite/api/', include(lrouter.urls), name="api"),
 
+    path('filter_counter', views.FilterCounterApiView.as_view(), name='filter_counter'),
+
     path('microcycle_name_list', views.MicrocycleNameListApiView.as_view(), name='microcycle_name_list'),
     path('microcycle_short_key_list', views.MicrocycleShortKeyApiView.as_view(), name='microcycle_short_key_list'),
     path('microcycle_block_list', views.MicrocycleBlockListApiView.as_view(), name='microcycle_block_list'),
