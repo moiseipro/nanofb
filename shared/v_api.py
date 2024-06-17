@@ -239,13 +239,79 @@ def GET_get_link(request, cur_user=None):
                     data['exercise'] = exercises_v_api.GET_get_exs_one(request, -1, -1, {'f_type': utils.FOLDER_TEAM, 'exs': c_link.exercise_club.id})
                 elif c_link.training_user != None:
                     c_html_file = "shared/base_shared_training.html"
-                    data['training'] = UserTrainingSerializer(c_link.training_user).data
+                    c_data = c_link.training_user
+                    cloned_data = {}
+                    for _exercise in c_data.exercises.all():
+                        if _exercise.clone_nfb_id == None:
+                            continue
+                        found_exs = None
+                        try:
+                            found_exs = AdminExercise.objects.filter(id=_exercise.clone_nfb_id, visible=True).first()
+                        except:
+                            pass
+                        if found_exs:
+                            cloned_data[_exercise.id] = {
+                                'scheme_1': found_exs.scheme_1,
+                                'scheme_2': found_exs.scheme_2,
+                                'description': found_exs.description
+                            }
+                    data['training'] = UserTrainingSerializer(c_data).data
+                    for _exercise in data['training']['exercises_info']:
+                        if _exercise['exercise_id'] in cloned_data:
+                            _exercise['scheme_1'] = cloned_data[_exercise['exercise_id']]['scheme_1']
+                            _exercise['scheme_2'] = cloned_data[_exercise['exercise_id']]['scheme_2']
+                            _exercise['description'] = cloned_data[_exercise['exercise_id']]['description']
+                        _exercise['description'] = utils.get_by_language_code(_exercise['description'], request.LANGUAGE_CODE)
                 elif c_link.training_club != None:
                     c_html_file = "shared/base_shared_training.html"
-                    data['training'] = ClubTrainingSerializer(c_link.training_club).data
+                    c_data = c_link.training_club
+                    cloned_data = {}
+                    for _exercise in c_data.exercises.all():
+                        if _exercise.clone_nfb_id == None:
+                            continue
+                        found_exs = None
+                        try:
+                            found_exs = AdminExercise.objects.filter(id=_exercise.clone_nfb_id, visible=True).first()
+                        except:
+                            pass
+                        if found_exs:
+                            cloned_data[_exercise.id] = {
+                                'scheme_1': found_exs.scheme_1,
+                                'scheme_2': found_exs.scheme_2,
+                                'description': found_exs.description
+                            }
+                    data['training'] = ClubTrainingSerializer(c_data).data
+                    for _exercise in data['training']['exercises_info']:
+                        if _exercise['exercise_id'] in cloned_data:
+                            _exercise['scheme_1'] = cloned_data[_exercise['exercise_id']]['scheme_1']
+                            _exercise['scheme_2'] = cloned_data[_exercise['exercise_id']]['scheme_2']
+                            _exercise['description'] = cloned_data[_exercise['exercise_id']]['description']
+                        _exercise['description'] = utils.get_by_language_code(_exercise['description'], request.LANGUAGE_CODE)
                 elif c_link.training_lite != None:
                     c_html_file = "shared/base_shared_training.html"
-                    data['training'] = LiteTrainingSerializer(c_link.training_lite).data
+                    c_data = c_link.training_lite
+                    cloned_data = {}
+                    for _exercise in c_data.exercises.all():
+                        if _exercise.clone_nfb_id == None:
+                            continue
+                        found_exs = None
+                        try:
+                            found_exs = AdminExercise.objects.filter(id=_exercise.clone_nfb_id, visible=True).first()
+                        except:
+                            pass
+                        if found_exs:
+                            cloned_data[_exercise.id] = {
+                                'scheme_1': found_exs.scheme_1,
+                                'scheme_2': found_exs.scheme_2,
+                                'description': found_exs.description
+                            }
+                    data['training'] = LiteTrainingSerializer(c_data).data
+                    for _exercise in data['training']['exercises_info']:
+                        if _exercise['exercise_id'] in cloned_data:
+                            _exercise['scheme_1'] = cloned_data[_exercise['exercise_id']]['scheme_1']
+                            _exercise['scheme_2'] = cloned_data[_exercise['exercise_id']]['scheme_2']
+                            _exercise['description'] = cloned_data[_exercise['exercise_id']]['description']
+                        _exercise['description'] = utils.get_by_language_code(_exercise['description'], request.LANGUAGE_CODE)
                 elif c_link.analytics != None:
                     c_html_file = "shared/base_shared_analytics.html"
                     cur_user = User.objects.filter(id=c_link.analytics['user']).first()
