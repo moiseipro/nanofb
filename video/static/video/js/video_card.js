@@ -44,19 +44,19 @@ $('#save-video').on('click', function () {
 $('#download-video').on('click', function (e) {
     e.preventDefault()
 
-    $.ajax({
-        headers:{"X-CSRFToken": csrftoken },
-        url: "/video/api/all/"+(cur_edit_data ? cur_edit_data.id : '')+"/download_video/",
-        type: "POST",
-        dataType: "JSON",
-        success(data){
-            console.log(data)
-            if (data != {}){
-                window.location.href = data;
-            }
-            //window.location.href = data;
-        }
-    })
+    fetch("/video/api/all/"+(cur_edit_data ? cur_edit_data.id : '')+"/download_video/")
+        .then(resp => resp.blob())
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            // the filename you want
+            a.download = 'video.zip';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        })
 })
 
 $('#video-action-form').submit(function (event) {

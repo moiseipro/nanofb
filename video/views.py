@@ -1,11 +1,13 @@
 import imp
+import io
 import os
+import zipfile
 from itertools import islice, chain
 
 import requests
 import json
 
-from django.http import Http404, QueryDict
+from django.http import Http404, QueryDict, HttpResponse, FileResponse
 from django.urls import reverse_lazy
 from django.utils.dateparse import parse_duration
 from django.db.models import Q, Count, F
@@ -323,7 +325,7 @@ class VideoViewSet(viewsets.ModelViewSet):
         serializer = OnlyVideoSerializer(video)
         return Response(serializer.data)
 
-    @action(detail=True, methods=['POST'])
+    @action(detail=True, methods=['GET'])
     def download_video(self, request, pk=None):
         queryset = Video.objects.all()
         video = get_object_or_404(queryset, pk=pk)
@@ -346,10 +348,19 @@ class VideoViewSet(viewsets.ModelViewSet):
                     ]
                 }
                 response = requests.post(url, json=post_data, headers={'Content-Type': 'application/json'}, verify=False)
-                content = response
-                # print(content)
-                video_data = content
-        return Response(video_data)
+                print(response)
+                buffer = io.BytesIO(response.content)
+                # zip_file = zipfile.ZipFile(buffer, 'r')
+                # print(zip_file.printdir())
+                # zip_file.close()
+
+                response = HttpResponse(buffer.getvalue())
+                response['Content-Type'] = 'application/x-zip-compressed'
+                response['Content-Disposition'] = 'attachment; filename=album.zip'
+
+
+                print(response)
+        return response
 
     def get_serializer_class(self):
         if self.action == 'update' or self.action == 'partial_update' or self.action == 'create':

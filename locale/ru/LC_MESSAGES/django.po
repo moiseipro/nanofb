@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-07 13:14+0300\n"
+"POT-Creation-Date: 2024-06-18 13:43+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2702,18 +2702,16 @@ msgstr "Печать"
 msgid "Delete event"
 msgstr "Удалить событие"
 
-#: .\events\templates\events\base_events.html:146
+#: .\events\templates\events\base_events.html:149
 #: .\events\templates\events\lite_events.html:126
 msgid "Load"
 msgstr "Нагрузка"
 
-#: .\events\templates\events\base_events.html:149
-#, fuzzy
-#| msgid "Block"
+#: .\events\templates\events\base_events.html:155
 msgid "Blocks"
-msgstr "Блок"
+msgstr "Блоки"
 
-#: .\events\templates\events\base_events.html:152
+#: .\events\templates\events\base_events.html:161
 #: .\events\templates\events\modules\references_modal.html:25
 msgid "Objectives"
 msgstr "Задачи"
@@ -5106,10 +5104,8 @@ msgid "Exercise"
 msgstr "Упражнение"
 
 #: .\video\templates\video\video_card.html:23
-#, fuzzy
-#| msgid "Downloads"
 msgid "Download"
-msgstr "Загрузки"
+msgstr "Скачать"
 
 #: .\video\templates\video\video_card.html:50
 msgid "Youtube link"
