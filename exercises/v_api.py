@@ -3443,6 +3443,7 @@ def GET_get_exs_graphic_content(request, cur_user, cur_team):
                 if found_exs:
                     res_exs['scheme_1'] = found_exs.scheme_1
                     res_exs['scheme_2'] = found_exs.scheme_2
+                    res_exs['description'] = found_exs.description
     elif folder_type == utils.FOLDER_NFB:
         c_exs = AdminExercise.objects.filter(id=exs_id, visible=True)
         if c_exs.exists() and c_exs[0].id != None:
