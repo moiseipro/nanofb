@@ -368,6 +368,7 @@ class VideoViewSet(viewsets.ModelViewSet):
         return VideoSerializer
 
     def get_queryset(self):
+
         return Video.objects.all()#.order_by('adminexercise__folder__parent', 'adminexercise__folder__order')
 
 

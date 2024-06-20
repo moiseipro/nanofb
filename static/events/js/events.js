@@ -676,17 +676,30 @@ $(window).on('load', function (){
     $('.ajax-text-filters').on('search', function(){
         generateData()
     })
-    //Фильтрация не заполненных событий
+    //Фильтрация тренировок
     $('#filled-event-filter').on('click', function () {
         let cur_state = parseInt($(this).attr('data-filter'))
         if (cur_state>0) {
             cur_state = 0
             $(this).removeClass('active')
-            $(this).find('i').removeClass('fa-arrow-down').addClass('fa-arrow-up')
         } else {
             cur_state += 1
             $(this).addClass('active')
-            $(this).find('i').removeClass('fa-arrow-up').addClass('fa-arrow-down')
+            $('#filled-match-filter.active').click()
+        }
+        $(this).attr('data-filter', cur_state)
+        local_filters_events()
+    })
+    //Фильтрация матчей
+    $('#filled-match-filter').on('click', function () {
+        let cur_state = parseInt($(this).attr('data-filter'))
+        if (cur_state>0) {
+            cur_state = 0
+            $(this).removeClass('active')
+        } else {
+            cur_state += 1
+            $(this).addClass('active')
+            $('#filled-event-filter.active').click()
         }
         $(this).attr('data-filter', cur_state)
         local_filters_events()
@@ -921,6 +934,7 @@ function local_filters_events() {
     let days_val = $('#microcycle-days-filter').val() ? $('#microcycle-days-filter').val() : ''
     let day_val = $('#microcycle-day-filter').val() ? $('#microcycle-day-filter').val() : ''
     let filled_val = $('#filled-event-filter').attr('data-filter') ? $('#filled-event-filter').attr('data-filter') : 0
+    let match_val = $('#filled-match-filter').attr('data-filter') ? $('#filled-match-filter').attr('data-filter') : 0
     let video_val = $('#video-event-filter').attr('data-filter') ? $('#video-event-filter').attr('data-filter') : 0
     let objective_1_val = $('#objective_1-event-view').val() ? $('#objective_1-event-view').val() : ''
     let load_val = $('#training-load-filter').val() ? $('#training-load-filter').val() : ''
@@ -973,6 +987,12 @@ function local_filters_events() {
         //let data_filled = this_obj.attr('data-unfilled')
         let data_filled = this_obj.hasClass('trainingClass')
         return filled_val!='0' && data_filled != filled_val;
+    }).hide()
+    $('#events tbody tr').filter(function( index ) {
+        let this_obj = $(this)
+        //let data_filled = this_obj.attr('data-unfilled')
+        let data_filled = this_obj.hasClass('matchClass')
+        return match_val!='0' && data_filled != match_val;
     }).hide()
     $('#events tbody tr').filter(function( index ) {
         let this_obj = $(this)

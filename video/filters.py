@@ -29,6 +29,17 @@ class GlobalAllValuesMultipleFilter(filters.CharFilter):
     pass
 
 
+class GlobalVideoLocationFilter(filters.CharFilter):
+    def filter(self, qs, value):
+        if value:
+            if value == 'nftv':
+                qs = qs.exclude(links__nftv='')
+            elif value == 'youtube':
+                qs = qs.exclude(links__youtube='')
+        return qs
+    pass
+
+
 class GlobalExerciseFilter(filters.CharFilter):
     def filter(self, qs, value):
         if value:
@@ -80,7 +91,8 @@ class VideoGlobalFilter(DatatablesFilterSet):
         lookup_expr='icontains'
     )
     taggit = GlobalTagFilter(field_name="taggit")
+    links = GlobalVideoLocationFilter()
 
     class Meta:
         #model = Video
-        fields = ['taggit', 'id', 'exercises', 'duration', 'name', 'upload_date', 'videosource_name', 'favourites']
+        fields = ['taggit', 'id', 'exercises', 'duration', 'name', 'upload_date', 'videosource_name', 'favourites', 'links']

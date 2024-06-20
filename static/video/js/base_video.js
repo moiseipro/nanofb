@@ -64,6 +64,12 @@ $('#previous-video').on('click', function () {
         row_prev.select()
     }
 })
+$('.filter-video-select').on('change', function (){
+    let data_source = $( this ).val()
+    let data_row = $( this ).attr('data-filter')
+    //console.log(data_source)
+    video_table.columns(data_row).search(data_source).draw()
+})
 
 $('.video-source').on('change', function (){
     let data_source = $( this ).val()

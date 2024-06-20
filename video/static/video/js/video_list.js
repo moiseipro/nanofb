@@ -95,6 +95,7 @@ function generate_ajax_video_table(scroll_y = ''){
             }},
             {'data': 'name', 'name': 'name'},
             {'data': 'taggit', 'name': 'taggit', 'defaultContent': "---", "orderable": false},
+            {'data': 'links', 'name': 'links', 'defaultContent': "---", "orderable": false},
         ],
 
     })
