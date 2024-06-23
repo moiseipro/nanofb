@@ -345,6 +345,7 @@ class UserExerciseParam(models.Model):
     video_2_watched = models.BooleanField(default=False)
     animation_1_watched = models.BooleanField(default=False)
     animation_2_watched = models.BooleanField(default=False)
+    admin_rec = models.BooleanField(default=False)
 
     objects = models.Manager()
 

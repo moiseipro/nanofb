@@ -473,6 +473,28 @@ function ToggleUpFilter(id, state) {
         case "toggle_iq":
             ToggleIconsInExs();
             break;
+        case "toggle_admin_rec":
+            if (!state && !$('.up-tabs-elem[data-id="toggle_admin_rec"]').hasClass('filtering')) {
+                $('.up-tabs-elem[data-id="toggle_admin_rec"]').addClass('filtering');
+                $('.up-tabs-elem[data-id="toggle_admin_rec"]').addClass('selected3');
+                $('.up-tabs-elem[data-id="toggle_admin_rec"]').attr('data-state', 1);
+                window.exercisesFilter['admin_rec'] = '1';
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            } else if (!state && $('.up-tabs-elem[data-id="toggle_admin_rec"]').hasClass('filtering')) {
+                $('.up-tabs-elem[data-id="toggle_admin_rec"]').removeClass('filtering');
+                delete window.exercisesFilter['admin_rec'];
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            }
+            ToggleMarkersInExs();
+            break;
         default:
             break;
     }
@@ -2406,9 +2428,12 @@ $(function() {
                     if ($(currentTarget).find('input').length > 0) {
                         $(currentTarget).find('input').prop('checked', res.data.value == 1);
                     }
-                    if ($(currentTarget).find('span.icon-custom').length > 0) {
+                    if ($(currentTarget).find('span.icon-custom').length > 0) { // favorite
                         $(currentTarget).find('span.icon-custom').toggleClass('icon--favorite', res.data.value != 1);
                         $(currentTarget).find('span.icon-custom').toggleClass('icon--favorite-selected', res.data.value == 1);
+                    }
+                    if ($(currentTarget).find('span.button-custom').length > 0) { // admin_rec
+                        $(currentTarget).find('span.button-custom').css({'color': `${res.data.value == 1 ? 'red' : ''}`});
                     }
                 }
             },
