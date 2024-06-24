@@ -44,13 +44,17 @@
                                 </li>
                                 <li class="nav-item px-1">
                                     <a class="btn btn-sm btn-block btn-outline-primary font-weight-bold two-tabs" data-toggle="pill" href="#training-card" href-two="#exercise-data-tab" role="tab">{% trans 'Exercises' %}</a>
-{#                                    <a id="training-exercises-button" class="btn btn-sm btn-block btn-outline-primary font-weight-bold" data-toggle="pill" href="#training-exercises" role="tab">#}
-{#                                        {% trans "Exercices" %}#}
-{#                                    </a>#}
+                                </li>
+                                <li class="nav-item px-1">
+                                    <a class="btn btn-sm btn-block btn-outline-primary font-weight-bold two-tabs" data-toggle="pill" href="#training-card" href-two="#inventory-data-tab" role="tab">{% trans 'Inventory' %}</a>
                                 </li>
                                 {% if perms.players.change_clubplayer or perms.players.change_userplayer %}
                                 <li class="nav-item px-1">
                                     <a class="btn btn-sm btn-block btn-outline-primary font-weight-bold" data-toggle="pill" href="#training-protocol" role="tab">{% trans "Protocol" %}</a>
+                                </li>
+                                {% else %}
+                                <li class="nav-item px-1">
+                                    <a class="btn btn-sm btn-block btn-outline-primary font-weight-bold two-tabs" data-toggle="pill" href="#training-card" href-two="#pills-players-tab" role="tab">{% trans 'Protocol' %} 2</a>
                                 </li>
                                 {% endif %}
                             </ul>
