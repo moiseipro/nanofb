@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-18 13:43+0300\n"
+"POT-Creation-Date: 2024-06-25 14:03+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1005,7 +1005,7 @@ msgstr "Порядок"
 
 #: .\Lib\site-packages\django\forms\formsets.py:483
 #: .\trainings\templates\trainings\view_lite_training.html:53
-#: .\trainings\templates\trainings\view_training.html:71
+#: .\trainings\templates\trainings\view_training.html:75
 #: .\video\templates\video\video_card.html:28
 msgid "Delete"
 msgstr "Удалить"
@@ -1679,7 +1679,7 @@ msgstr ""
 #: .\Lib\site-packages\furo\theme\furo\base.html:19
 #: .\Lib\site-packages\furo\theme\furo\search.html:10
 #: .\Lib\site-packages\furo\theme\furo\sidebar\search.html:2
-#: .\video\templates\video\base_video.html:76
+#: .\video\templates\video\base_video.html:83
 msgid "Search"
 msgstr "Поиск"
 
@@ -2497,7 +2497,7 @@ msgid "Official match"
 msgstr "Официальный матч"
 
 #: .\events\forms.py:76 .\events\models.py:96
-#: .\events\templates\events\base_events.html:143
+#: .\events\templates\events\base_events.html:146
 #: .\events\templates\events\forms\microcycle_tab.html:27
 #: .\events\templates\events\forms\microcycle_tab.html:59
 msgid "M.C."
@@ -2650,7 +2650,7 @@ msgid "Show/hide training filters"
 msgstr "Показать/скрыть фильтры тренировок"
 
 #: .\events\templates\events\base_events.html:36
-msgid "F."
+msgid "F"
 msgstr ""
 
 #: .\events\templates\events\base_events.html:39
@@ -2658,60 +2658,74 @@ msgstr ""
 msgid "Filtering of training events"
 msgstr "Фильтрация событий тренировки"
 
-#: .\events\templates\events\base_events.html:45
+#: .\events\templates\events\base_events.html:39
+msgid "T"
+msgstr ""
+
+#: .\events\templates\events\base_events.html:42
+#, fuzzy
+#| msgid "Filtering of training events"
+msgid "Filtering of match events"
+msgstr "Фильтрация событий тренировки"
+
+#: .\events\templates\events\base_events.html:42
+msgid "M"
+msgstr ""
+
+#: .\events\templates\events\base_events.html:48
 #: .\events\templates\events\lite_events.html:39
 msgid "Resetting all filtering and calendar"
 msgstr "Сброс всей фильтрации и календаря"
 
-#: .\events\templates\events\base_events.html:55
+#: .\events\templates\events\base_events.html:58
 #: .\events\templates\events\lite_events.html:49
 msgid "Show/Hide calendar"
 msgstr "Показать/скрыть календарь"
 
-#: .\events\templates\events\base_events.html:55
+#: .\events\templates\events\base_events.html:58
 #: .\events\templates\events\lite_events.html:49
 msgid "Calendar"
 msgstr "Календарь"
 
-#: .\events\templates\events\base_events.html:78
+#: .\events\templates\events\base_events.html:81
 msgid "MC 7"
 msgstr ""
 
-#: .\events\templates\events\base_events.html:81 .\trainings\models.py:216
+#: .\events\templates\events\base_events.html:84 .\trainings\models.py:216
 msgid "Quick list of players"
 msgstr "Упрощенный список игроков"
 
-#: .\events\templates\events\base_events.html:86
+#: .\events\templates\events\base_events.html:89
 #: .\events\templates\events\lite_events.html:69
 #: .\shared\templates\shared\modules\shared_training_modal.html:7
 msgid "Share training"
 msgstr "Поделиться тренировкой"
 
-#: .\events\templates\events\base_events.html:89
+#: .\events\templates\events\base_events.html:92
 #: .\events\templates\events\lite_events.html:72
 msgid "Copy event"
 msgstr "Копировать событие"
 
-#: .\events\templates\events\base_events.html:95
+#: .\events\templates\events\base_events.html:98
 #: .\events\templates\events\lite_events.html:78
 msgid "Print"
 msgstr "Печать"
 
-#: .\events\templates\events\base_events.html:98
+#: .\events\templates\events\base_events.html:101
 #: .\events\templates\events\lite_events.html:81
 msgid "Delete event"
 msgstr "Удалить событие"
 
-#: .\events\templates\events\base_events.html:149
+#: .\events\templates\events\base_events.html:152
 #: .\events\templates\events\lite_events.html:126
 msgid "Load"
 msgstr "Нагрузка"
 
-#: .\events\templates\events\base_events.html:155
+#: .\events\templates\events\base_events.html:158
 msgid "Blocks"
 msgstr "Блоки"
 
-#: .\events\templates\events\base_events.html:161
+#: .\events\templates\events\base_events.html:164
 #: .\events\templates\events\modules\references_modal.html:25
 msgid "Objectives"
 msgstr "Задачи"
@@ -2931,7 +2945,8 @@ msgstr "Выберите эту структуру"
 #: .\helper_site\templates\helper_site\base_helper_site.html:182
 #: .\helper_site\templates\helper_site\base_helper_site.html:192
 #: .\video\templates\video\base_video.html:48
-#: .\video\templates\video\base_video.html:58
+#: .\video\templates\video\base_video.html:55
+#: .\video\templates\video\base_video.html:65
 #: .\video\templates\video\modules\video_select_modal.html:22
 #: .\video\templates\video\modules\video_select_modal.html:32
 msgid "All"
@@ -2943,7 +2958,7 @@ msgstr "Все"
 #: .\helper_football\templates\helper_football\base_helper_football.html:196
 #: .\helper_site\templates\helper_site\base_helper_site.html:186
 #: .\helper_site\templates\helper_site\base_helper_site.html:196
-#: .\video\templates\video\base_video.html:52
+#: .\video\templates\video\base_video.html:59
 #: .\video\templates\video\modules\video_select_modal.html:26
 #: .\video\templates\video\modules\video_select_modal.html:36
 #: .\video\templates\video\video_card.html:87
@@ -2953,7 +2968,7 @@ msgstr "Нет источников"
 #: .\exercises\templates\exercises\modules\exercise_card.html:1271
 #: .\helper_football\templates\helper_football\base_helper_football.html:205
 #: .\helper_site\templates\helper_site\base_helper_site.html:205
-#: .\video\templates\video\base_video.html:71
+#: .\video\templates\video\base_video.html:78
 #: .\video\templates\video\modules\video_select_modal.html:45
 msgid "No tags"
 msgstr "Нет тегов"
@@ -3290,7 +3305,8 @@ msgstr "Основные разделы"
 #: .\shared\templates\shared\base_shared_training.html:34
 #: .\trainings\templates\trainings\print_training.html:37
 #: .\trainings\templates\trainings\print_training.html:40
-#: .\trainings\templates\trainings\view_training.html:175
+#: .\trainings\templates\trainings\training_card.html:13
+#: .\trainings\templates\trainings\view_training.html:179
 #: .\users\templates\users\forms\edit-club-form.html:66
 #: .\users\templates\users\forms\edit-user-form.html:72
 #: .\users\templates\users\modules\user_table_settings.html:130
@@ -3986,7 +4002,7 @@ msgid "Favorites training"
 msgstr "Избранная тренировка"
 
 #: .\trainings\models.py:170
-#: .\trainings\templates\trainings\view_training.html:66 .\users\models.py:267
+#: .\trainings\templates\trainings\view_training.html:70 .\users\models.py:267
 #: .\users\templates\users\forms\edit-user-form.html:48
 #: .\users\templates\users\modules\user_table.html:13
 msgid "Group"
@@ -4141,7 +4157,7 @@ msgid "Add all"
 msgstr "Добавить все"
 
 #: .\trainings\templates\trainings\exercise_additional_modal.html:22
-#: .\trainings\templates\trainings\view_training.html:190
+#: .\trainings\templates\trainings\view_training.html:194
 msgid "Add selected"
 msgstr "Добавить выбранных"
 
@@ -4200,6 +4216,11 @@ msgstr "Копировать все"
 #: .\trainings\templates\trainings\view_training.html:35
 msgid "Card"
 msgstr "Карточка"
+
+#: .\trainings\templates\trainings\training_card.html:14
+#: .\trainings\templates\trainings\view_training.html:49
+msgid "Inventory"
+msgstr "Инвентарь"
 
 #: .\trainings\templates\trainings\training_card.html:56
 msgid "Number of players"
@@ -4302,10 +4323,11 @@ msgid "Back"
 msgstr "Назад"
 
 #: .\trainings\templates\trainings\view_training.html:53
+#: .\trainings\templates\trainings\view_training.html:57
 msgid "Protocol"
 msgstr "Протокол"
 
-#: .\trainings\templates\trainings\view_training.html:189
+#: .\trainings\templates\trainings\view_training.html:193
 msgid "Add all players"
 msgstr "Добавить всех игроков"
 
@@ -5074,7 +5096,7 @@ msgstr "Заметки в формате json"
 msgid "Add video"
 msgstr "Добавить видео"
 
-#: .\video\templates\video\base_video.html:62
+#: .\video\templates\video\base_video.html:69
 msgid "No folders"
 msgstr "Нет папок"
 
@@ -5098,6 +5120,10 @@ msgstr ""
 #: .\video\templates\video\video_card.html:153
 msgid "Tags"
 msgstr "Теги"
+
+#: .\video\templates\video\modules\video_list.html:17
+msgid "Links"
+msgstr "Ссылки"
 
 #: .\video\templates\video\modules\video_list_exercises.html:9
 msgid "Exercise"
@@ -5202,9 +5228,6 @@ msgstr "Анимация"
 
 #~ msgid "Objective block"
 #~ msgstr "Блок задачи"
-
-#~ msgid "Inventory"
-#~ msgstr "Инвентарь"
 
 #~ msgid "Individual training"
 #~ msgstr "Индивидуальная тренировка"

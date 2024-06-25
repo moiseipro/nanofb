@@ -386,7 +386,10 @@ function load_all_exercises_training(training_id = null, group = null) {
         //console.log(data.inventory)
         if(data.inventory != null){
             for (const inventory_item of data.inventory) {
-                $('.inventory-data-rows input[name="'+inventory_item.name+'"]').val(inventory_item.value)
+                let inventory_input = $('.inventory-data-rows input[name="'+inventory_item.name+'"]')
+                inventory_input.val(inventory_item.value)
+                if (inventory_item.value == '' || inventory_item.value == '0')
+                    inventory_input.closest('.inventory-col').addClass('edit-button d-none')
             }
         }
         if(data.players_json != null && data.players_json.length > 0){

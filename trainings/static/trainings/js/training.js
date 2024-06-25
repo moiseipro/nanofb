@@ -165,12 +165,12 @@ $(window).on('load', function (){
             }
         }
         let inventory = []
-        $('.inventory-data-rows input').each(function( index ) {
-            console.log( index + ": " + $( this ).text() );
-
+        $('.inventory-data-rows .inventory-col').each(function( index ) {
+            let input = $( this ).find('input')
+            console.log( index + ": " + input.text() );
             inventory.push({
-                'name': $(this).attr('name'),
-                'value': $(this).val()
+                'name': input.attr('name'),
+                'value': input.val()
             })
         })
         training_data['is_personal'] = $('#training-main-data input[name="is_personal"]').is(':checked') ? 1 : 0;
@@ -228,10 +228,17 @@ $(window).on('load', function (){
     $('.inventory-data-rows input').on("change", function( index ) {
         let training_data = {}
         let inventory = []
-        $('.inventory-data-rows input').each(function( index ) {
+        $('.inventory-data-rows .inventory-col').each(function( index ) {
+            let input = $( this ).find('input')
+            console.log( index + ": " + input.text() );
+            if (input.val() == '' || input.val() == '0'){
+                $( this ).addClass('edit-button')
+            } else {
+                $( this ).removeClass('edit-button')
+            }
             inventory.push({
-                'name': $(this).attr('name'),
-                'value': $(this).val()
+                'name': input.attr('name'),
+                'value': input.val()
             })
         })
         training_data['inventory'] = JSON.stringify(inventory)
