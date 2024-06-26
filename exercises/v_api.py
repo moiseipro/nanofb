@@ -663,13 +663,15 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
         if req.user.club_id is not None:
             f_exercises = f_exercises.filter(
                 Q(Q(
-                    ~Q(userexerciseparam__note_trainer="") | ~Q(userexerciseparam__note_club_admin="")
+                    Q(~Q(userexerciseparam__note_trainer="") & Q(userexerciseparam__note_trainer__isnull=False)) | 
+                    Q(~Q(userexerciseparam__note_club_admin="") & Q(userexerciseparam__note_club_admin__isnull=False))
                 ), userexerciseparam__user=None)
             )
         else:
             f_exercises = f_exercises.filter(
                 Q(Q(
-                    ~Q(userexerciseparam__note_trainer="") | ~Q(userexerciseparam__note_club_admin="")
+                    Q(~Q(userexerciseparam__note_trainer="") & Q(userexerciseparam__note_trainer__isnull=False)) | 
+                    Q(~Q(userexerciseparam__note_club_admin="") & Q(userexerciseparam__note_club_admin__isnull=False))
                 ), userexerciseparam__user=cur_user)
             )
     if count_for_tag:
