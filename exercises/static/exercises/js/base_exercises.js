@@ -2454,68 +2454,44 @@ $(function() {
         let exsId = $(activeExs).attr('data-id');
         let fromNFB = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? 1 : 0;
         let folderType = $('.folders_div.selected').attr('data-id');
-        let val1 = $('#exerciseNoteModal').find('textarea[name="note_trainer"]').val();
-        let dataToSend1 = {'edit_exs_user_params': 1, 'exs': exsId, 'nfb': fromNFB, 'type': folderType, 'data':
-            {'key': "note_trainer", 'value': val1}};
-        let ajaxNoteTrainer = $.ajax({
+        let valNoteTrainer = $('#exerciseNoteModal').find('textarea[name="note_trainer"]').val();
+        let dataToSend = {'edit_exs_user_params': 1, 'exs': exsId, 'nfb': fromNFB, 'type': folderType, 'data':
+            {'key': "note_trainer", 'value': valNoteTrainer}};
+        let exsIdRes = -1;
+        let valueNoteTrainerRes = null; let valueNoteClubAdminRes = null;
+        $.ajax({
             headers:{"X-CSRFToken": csrftoken},
-            data: dataToSend1,
+            data: dataToSend,
             type: 'POST', // GET или POST
             dataType: 'json',
             url: "exercises_api",
             success: function (res) {
+                exsIdRes = res.data.id;
             },
             error: function (res) {
             },
             complete: function (res) {
+                let valNoteClubAdmin = $('#exerciseNoteModal').find('textarea[name="note_club_admin"]').val();
+                dataToSend = {'edit_exs_user_params': 1, 'exs': exsId, 'nfb': fromNFB, 'type': folderType, 'data': 
+                    {'key': "note_club_admin", 'value': valNoteClubAdmin}};
+                $.ajax({
+                    headers:{"X-CSRFToken": csrftoken},
+                    data: dataToSend,
+                    type: 'POST', // GET или POST
+                    dataType: 'json',
+                    url: "exercises_api",
+                    success: function (res) {
+                        exsIdRes = res.data.id;
+                    },
+                    error: function (res) {
+                    },
+                    complete: function (res) {
+                        let hasAnyNote = valNoteTrainer != "" || valNoteClubAdmin != "";
+                        $('.exs-list-group').find(`.list-group-item[data-id="${exsId}"]`).find('button[data-id="any_note"] > i').toggleClass('text-danger', hasAnyNote);
+                        if (exsIdRes != -1) {$('#exerciseNoteModal').modal('hide');}
+                    }
+                });
             }
-        });
-        let val2 = $('#exerciseNoteModal').find('textarea[name="note_club_admin"]').val();
-        let dataToSend2 = {'edit_exs_user_params': 1, 'exs': exsId, 'nfb': fromNFB, 'type': folderType, 'data': 
-            {'key': "note_club_admin", 'value': val2}};
-        let ajaxNoteClubAdmin = $.ajax({
-            headers:{"X-CSRFToken": csrftoken},
-            data: dataToSend2,
-            type: 'POST', // GET или POST
-            dataType: 'json',
-            url: "exercises_api",
-            success: function (res) {
-            },
-            error: function (res) {
-            },
-            complete: function (res) {
-            }
-        });
-
-        $.when(ajaxNoteTrainer, ajaxNoteClubAdmin).then((x1, x2) => {
-            let exsId = -1;
-            let valueX1 = ""; let valueX2 = "";
-            try {
-                exsId = x1[0].data.id;
-                valueX1 = x1[0].data.value;
-                valueX2 = x2[0].data.value;
-            } catch(e) {}
-            let hasAnyNote = valueX1 != "" || valueX2 != "";
-            $('.exs-list-group').find(`.list-group-item[data-id="${exsId}"]`).find('button[data-id="any_note"] > i').toggleClass('text-danger', hasAnyNote);
-            $('#exerciseNoteModal').modal('hide');
-        }, (jqXHR, textStatus, errorThrown) => {
-            let x1 = ajaxNoteTrainer;
-            let x2 = ajaxNoteClubAdmin;
-            if (x1.readyState != 4) {x1.abort();}
-            if (x2.readyState != 4) {x2.abort();}
-            let exsId = -1;
-            let valueX1 = ""; let valueX2 = "";
-            try {
-                exsId = x1.responseJSON.data.id;
-                valueX1 = x1.responseJSON.data.value;
-            } catch(e) {}
-            try {
-                exsId = x2.responseJSON.data.id;
-                valueX2 = x2.responseJSON.data.value;
-            } catch(e) {}
-            let hasAnyNote = valueX1 != "" || valueX2 != "";
-            $('.exs-list-group').find(`.list-group-item[data-id="${exsId}"]`).find('button[data-id="any_note"] > i').toggleClass('text-danger', hasAnyNote);
-            if (exsId != -1) {$('#exerciseNoteModal').modal('hide');}
         });
     });
 
