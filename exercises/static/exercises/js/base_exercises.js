@@ -473,20 +473,20 @@ function ToggleUpFilter(id, state) {
         case "toggle_iq":
             ToggleIconsInExs();
             break;
-        case "toggle_admin_rec":
-            if (!state && !$('.up-tabs-elem[data-id="toggle_admin_rec"]').hasClass('filtering')) {
-                $('.up-tabs-elem[data-id="toggle_admin_rec"]').addClass('filtering');
-                $('.up-tabs-elem[data-id="toggle_admin_rec"]').addClass('selected3');
-                $('.up-tabs-elem[data-id="toggle_admin_rec"]').attr('data-state', 1);
-                window.exercisesFilter['admin_rec'] = '1';
+        case "toggle_any_note":
+            if (!state && !$('.up-tabs-elem[data-id="toggle_any_note"]').hasClass('filtering')) {
+                $('.up-tabs-elem[data-id="toggle_any_note"]').addClass('filtering');
+                $('.up-tabs-elem[data-id="toggle_any_note"]').addClass('selected3');
+                $('.up-tabs-elem[data-id="toggle_any_note"]').attr('data-state', 1);
+                window.exercisesFilter['any_note'] = '1';
                 for (ind in window.count_exs_calls) {
                     window.count_exs_calls[ind]['call'].abort();
                 }
                 LoadFolderExercises();
                 CountExsInFolder();
-            } else if (!state && $('.up-tabs-elem[data-id="toggle_admin_rec"]').hasClass('filtering')) {
-                $('.up-tabs-elem[data-id="toggle_admin_rec"]').removeClass('filtering');
-                delete window.exercisesFilter['admin_rec'];
+            } else if (!state && $('.up-tabs-elem[data-id="toggle_any_note"]').hasClass('filtering')) {
+                $('.up-tabs-elem[data-id="toggle_any_note"]').removeClass('filtering');
+                delete window.exercisesFilter['any_note'];
                 for (ind in window.count_exs_calls) {
                     window.count_exs_calls[ind]['call'].abort();
                 }
@@ -2403,6 +2403,11 @@ $(function() {
             return;
         }
         if (cId == "trainer_copied") {return;}
+        if (cId == "any_note") {
+            if (!$(exsElem).hasClass("active")) {$(exsElem).click();}
+            $('#exerciseNoteModal').modal('show');
+            return;
+        }
      
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
@@ -2432,9 +2437,6 @@ $(function() {
                         $(currentTarget).find('span.icon-custom').toggleClass('icon--favorite', res.data.value != 1);
                         $(currentTarget).find('span.icon-custom').toggleClass('icon--favorite-selected', res.data.value == 1);
                     }
-                    if ($(currentTarget).find('span.button-custom').length > 0) { // admin_rec
-                        $(currentTarget).find('span.button-custom').css({'color': `${res.data.value == 1 ? 'red' : ''}`});
-                    }
                 }
             },
             error: function (res) {
@@ -2447,6 +2449,75 @@ $(function() {
         });
     });
 
+    $('#exerciseNoteModal').on('click', '.btn-apply', (e) => {
+        let activeExs = $('.exs-list-group').find('.list-group-item.active');
+        let exsId = $(activeExs).attr('data-id');
+        let fromNFB = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? 1 : 0;
+        let folderType = $('.folders_div.selected').attr('data-id');
+        let val1 = $('#exerciseNoteModal').find('textarea[name="note_trainer"]').val();
+        let dataToSend1 = {'edit_exs_user_params': 1, 'exs': exsId, 'nfb': fromNFB, 'type': folderType, 'data':
+            {'key': "note_trainer", 'value': val1}};
+        let ajaxNoteTrainer = $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: dataToSend1,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "exercises_api",
+            success: function (res) {
+            },
+            error: function (res) {
+            },
+            complete: function (res) {
+            }
+        });
+        let val2 = $('#exerciseNoteModal').find('textarea[name="note_club_admin"]').val();
+        let dataToSend2 = {'edit_exs_user_params': 1, 'exs': exsId, 'nfb': fromNFB, 'type': folderType, 'data': 
+            {'key': "note_club_admin", 'value': val2}};
+        let ajaxNoteClubAdmin = $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: dataToSend2,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "exercises_api",
+            success: function (res) {
+            },
+            error: function (res) {
+            },
+            complete: function (res) {
+            }
+        });
+
+        $.when(ajaxNoteTrainer, ajaxNoteClubAdmin).then((x1, x2) => {
+            let exsId = -1;
+            let valueX1 = ""; let valueX2 = "";
+            try {
+                exsId = x1[0].data.id;
+                valueX1 = x1[0].data.value;
+                valueX2 = x2[0].data.value;
+            } catch(e) {}
+            let hasAnyNote = valueX1 != "" || valueX2 != "";
+            $('.exs-list-group').find(`.list-group-item[data-id="${exsId}"]`).find('button[data-id="any_note"] > i').toggleClass('text-danger', hasAnyNote);
+            $('#exerciseNoteModal').modal('hide');
+        }, (jqXHR, textStatus, errorThrown) => {
+            let x1 = ajaxNoteTrainer;
+            let x2 = ajaxNoteClubAdmin;
+            if (x1.readyState != 4) {x1.abort();}
+            if (x2.readyState != 4) {x2.abort();}
+            let exsId = -1;
+            let valueX1 = ""; let valueX2 = "";
+            try {
+                exsId = x1.responseJSON.data.id;
+                valueX1 = x1.responseJSON.data.value;
+            } catch(e) {}
+            try {
+                exsId = x2.responseJSON.data.id;
+                valueX2 = x2.responseJSON.data.value;
+            } catch(e) {}
+            let hasAnyNote = valueX1 != "" || valueX2 != "";
+            $('.exs-list-group').find(`.list-group-item[data-id="${exsId}"]`).find('button[data-id="any_note"] > i').toggleClass('text-danger', hasAnyNote);
+            if (exsId != -1) {$('#exerciseNoteModal').modal('hide');}
+        });
+    });
 
     // Toggle admin option
     $('.exercises-block').on('click', 'button[data-type="icons"][data-info="admin_options"]', (e) => {
