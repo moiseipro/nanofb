@@ -797,7 +797,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             if user_params_club != None and user_params_club.exists() and user_params_club[0].id != None:
                 user_params_club = user_params_club.values()[0]
                 exercise['note_trainer'] = user_params_club['note_trainer']
-                exercise['note_club_admin'] = user_params['note_club_admin']
+                exercise['note_club_admin'] = user_params_club['note_club_admin']
             watched_status = 0
             if 'video_1_watched' in exercise:
                 if exercise['has_video_1'] and exercise['video_1_watched']:
