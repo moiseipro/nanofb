@@ -3209,7 +3209,9 @@ def GET_get_exs_all(request, cur_user, cur_team):
         exs_data['animation_2_watched'] = exercise['animation_2_watched'] if 'animation_2_watched' in exercise else None
         exs_data['note_trainer'] = exercise['note_trainer'] if 'note_trainer' in exercise else None
         exs_data['note_club_admin'] = exercise['note_club_admin'] if 'note_club_admin' in exercise else None
-        exs_data['is_any_note'] = (exercise['note_trainer'] != "" and 'note_trainer' in exercise) or (exercise['note_club_admin'] != "" and 'note_club_admin' in exercise)
+        exs_data['is_any_note'] = False
+        if 'note_trainer' in exercise and 'note_club_admin' in exercise:
+            exs_data['is_any_note'] = exercise['note_trainer'] != "" or exercise['note_club_admin'] != ""
         goal_shortcode = ExsGoal.objects.filter(id = exercise['ref_goal_id']).only('id', 'short_name')
         if goal_shortcode.exists() and goal_shortcode[0].id != None:
             goal_shortcode = goal_shortcode[0].short_name
