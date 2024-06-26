@@ -34,14 +34,14 @@ function load_training_print(training_id) {
         $('#print-training-block .training-time input').val(training.event_time)
         if(training.players_count != null){
             $('#print-training-block .training-players input').val(
-                "(A) " + training.players_count[0] + " (B) " + training.players_count[1]
+                training.players_count
             )
             //$('#print-training-block .training-players-0 input').val(training.players_count[0] + " (A)")
             //$('#print-training-block .training-players-1 input').val(training.players_count[1] + " (B)")
         }
         if(training.goalkeepers_count != null){
             $('#print-training-block .training-goalkeepers input').val(
-                "(A) " + training.goalkeepers_count[0] + " (B) " + training.goalkeepers_count[1]
+                training.goalkeepers_count
             )
             //$('#print-training-block .training-goalkeepers-0 input').val(training.goalkeepers_count[0] + " (A)")
             //$('#print-training-block .training-goalkeepers-1 input').val(training.goalkeepers_count[1] + " (B)")
@@ -65,14 +65,34 @@ function load_training_print(training_id) {
         //$('#print-training-block .training-load input').val(training.load_type)
         if (training.inventory != null){
             for (const inventory_item of training.inventory) {
-                $('#print-training-block .inventory-data-rows input[name="'+inventory_item.name+'"]').val(inventory_item.value).prop('disabled', false)
+                let input = $('#print-training-block .inventory-data-rows input[name="'+inventory_item.name+'"]');
+                input.val(inventory_item.value).prop('disabled', false)
+                if(input.val() == '' || input.val() == 0){
+                    input.closest('.inventory-col').addClass('d-none')
+                } else {
+                    input.closest('.inventory-col').removeClass('d-none')
+                }
+
             }
         } else {
             $('#print-training-block .inventory-data-rows input').each(function () {
                 $(this).val('')
+                $(this).closest('.inventory-col').addClass('d-none')
             })
         }
 
+        if(data.players_json != null && data.players_json.length > 0){
+            let players_html = players_list_to_html(data.players_json)
+            $('#print-players-data-list').html(players_html)
+        } else {
+            let selected_team = $('#select-team').val()
+            ajax_team_action('GET', {}, 'get players', selected_team).then(function (data) {
+                let players_json = data.players_json
+                //console.log(players_json)
+                let players_html = players_list_to_html(data.players_json)
+                $('#print-players-data-list').html(players_html)
+            })
+        }
 
         let html_scheme = ''
         let ck_editor_data = []
