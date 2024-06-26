@@ -186,8 +186,7 @@
 {#                                        </div>#}
 
                                         <div class="col-12 px-0 align-self-start">
-                                            <textarea id="CKeditor-{{ forloop.counter0 }}" class="ck-editor-view-block" data-text="{% if exercise.description %}{{ exercise.description|safe }}{% endif %}" style="max-height: 500px; min-height: 60px; height: 150px">
-
+                                            <textarea id="CKeditor-{{ forloop.counter0 }}" class="ck-editor-view-block" data-text="{% if exercise.description %}{{ exercise.description }}{% endif %}" style="max-height: 500px; min-height: 60px; height: 150px">
                                             </textarea>
                                         </div>
                                         <div class="col-12 align-self-end calculate-additional">
