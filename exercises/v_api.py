@@ -666,14 +666,14 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
                     Q(~Q(userexerciseparam__note_trainer="") & Q(userexerciseparam__note_trainer__isnull=False)) | 
                     Q(~Q(userexerciseparam__note_club_admin="") & Q(userexerciseparam__note_club_admin__isnull=False))
                 ), userexerciseparam__user=None)
-            )
+            ).distinct()
         else:
             f_exercises = f_exercises.filter(
                 Q(Q(
                     Q(~Q(userexerciseparam__note_trainer="") & Q(userexerciseparam__note_trainer__isnull=False)) | 
                     Q(~Q(userexerciseparam__note_club_admin="") & Q(userexerciseparam__note_club_admin__isnull=False))
                 ), userexerciseparam__user=cur_user)
-            )
+            ).distinct()
     if count_for_tag:
         f_exercises = f_exercises.filter(tags__lowercase_name__in=[count_for_tag]).distinct()
 
