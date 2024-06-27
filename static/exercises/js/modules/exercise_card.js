@@ -573,6 +573,11 @@ function RenderExerciseOne(data) {
         } else {
             $('ul.list-group.exs-card-editor').find('li.nf-copy-off').removeClass('d-none');
         }
+
+        try {
+            $('#exerciseNoteModal').find('textarea[name="note_trainer"]').val(data.note_trainer);
+            $('#exerciseNoteModal').find('textarea[name="note_club_admin"]').val(data.note_club_admin);
+        } catch(e) {}
     } else {
         $(exsCard).attr('data-exs', '-1');
 
@@ -655,6 +660,11 @@ function RenderExerciseOne(data) {
 
         $('.exs-list-group').find('.list-group-item').removeClass('active');
         // clear video, animation and scheme
+
+        try {
+            $('#exerciseNoteModal').find('textarea[name="note_trainer"]').val('');
+            $('#exerciseNoteModal').find('textarea[name="note_club_admin"]').val('');
+        } catch(e) {}
     }
     ResetEditPanels();
 }

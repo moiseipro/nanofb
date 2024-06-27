@@ -372,7 +372,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
     filter_video_watched_not = -1
     filter_video_isvideo = -1
     filter_video_isanimation = -1
-    filter_admin_rec = -1
+    filter_any_note = -1
     try:
         if req.method == "GET":
             filter_goal = int(req.GET.get("filter[goal]", -1))
@@ -495,9 +495,9 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
         pass
     try:
         if req.method == "GET":
-            filter_admin_rec = int(req.GET.get("filter[admin_rec]", -1))
+            filter_any_note = int(req.GET.get("filter[any_note]", -1))
         elif req.method == "POST":
-            filter_admin_rec = int(req.POST.get("filter[admin_rec]", -1))
+            filter_any_note = int(req.POST.get("filter[any_note]", -1))
     except:
         pass
     f_exercises = []
@@ -659,15 +659,21 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
         f_exercises = f_exercises.filter(
             Q(exercisevideo__video__note__animation=True)
         ).distinct()
-    if filter_admin_rec != -1:
+    if filter_any_note != -1:
         if req.user.club_id is not None:
             f_exercises = f_exercises.filter(
-                Q(userexerciseparam__admin_rec=filter_admin_rec, userexerciseparam__user=None)
-            )
+                Q(Q(
+                    Q(~Q(userexerciseparam__note_trainer="") & Q(userexerciseparam__note_trainer__isnull=False)) | 
+                    Q(~Q(userexerciseparam__note_club_admin="") & Q(userexerciseparam__note_club_admin__isnull=False))
+                ), userexerciseparam__user=None)
+            ).distinct()
         else:
             f_exercises = f_exercises.filter(
-                Q(userexerciseparam__admin_rec=filter_admin_rec, userexerciseparam__user=cur_user)
-            )
+                Q(Q(
+                    Q(~Q(userexerciseparam__note_trainer="") & Q(userexerciseparam__note_trainer__isnull=False)) | 
+                    Q(~Q(userexerciseparam__note_club_admin="") & Q(userexerciseparam__note_club_admin__isnull=False))
+                ), userexerciseparam__user=cur_user)
+            ).distinct()
     if count_for_tag:
         f_exercises = f_exercises.filter(tags__lowercase_name__in=[count_for_tag]).distinct()
 
@@ -788,10 +794,12 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
                 exercise['video_2_watched'] = user_params['video_2_watched']
                 exercise['animation_1_watched'] = user_params['animation_1_watched']
                 exercise['animation_2_watched'] = user_params['animation_2_watched']
-                exercise['admin_rec'] = user_params['admin_rec']
+                exercise['note_trainer'] = user_params['note_trainer']
+                exercise['note_club_admin'] = user_params['note_club_admin']
             if user_params_club != None and user_params_club.exists() and user_params_club[0].id != None:
                 user_params_club = user_params_club.values()[0]
-                exercise['admin_rec'] = user_params_club['admin_rec']
+                exercise['note_trainer'] = user_params_club['note_trainer']
+                exercise['note_club_admin'] = user_params_club['note_club_admin']
             watched_status = 0
             if 'video_1_watched' in exercise:
                 if exercise['has_video_1'] and exercise['video_1_watched']:
@@ -1903,16 +1911,22 @@ def POST_edit_exs_user_params(request, cur_user, cur_team):
     """
     exs_id = -1
     post_key = request.POST.get("data[key]", "")
-    post_value = 0
     folder_type = request.POST.get("type", "")
     try:
         exs_id = int(request.POST.get("exs", -1))
     except:
         pass
+    post_value = 0
     try:
         post_value = int(request.POST.get("data[value]", 0))
     except:
         pass
+    if post_key == "note_trainer" or post_key == "note_club_admin":
+        post_value = ""
+        try:
+            post_value = request.POST.get("data[value]", "")
+        except:
+            pass
     c_exs = None
     if folder_type == utils.FOLDER_TEAM:
         if not util_check_access(cur_user, {
@@ -1941,7 +1955,7 @@ def POST_edit_exs_user_params(request, cur_user, cur_team):
             c_exs = ClubExercise.objects.filter(id=exs_id, club=request.user.club_id)
         else:
             pass
-    if post_key == "admin_rec" and request.user.club_id is not None:
+    if post_key == "note_club_admin" and request.user.club_id is not None:
         if not request.user.has_perm('clubs.club_admin'):
             return JsonResponse({"err": "Access denied.", "success": False}, status=400)
     if c_exs != None and c_exs.exists() and c_exs[0].id != None:
@@ -1949,7 +1963,7 @@ def POST_edit_exs_user_params(request, cur_user, cur_team):
         if folder_type == utils.FOLDER_TEAM:
             if request.user.club_id is not None:
                 c_exs_params = UserExerciseParam.objects.filter(exercise_club=c_exs[0], user=cur_user)
-                if post_key == "admin_rec":
+                if post_key == "note_trainer" or post_key == "note_club_admin":
                     c_exs_params = UserExerciseParam.objects.filter(exercise_club=c_exs[0], user=None)
             else:
                 c_exs_params = UserExerciseParam.objects.filter(exercise_user=c_exs[0], user=cur_user)
@@ -1957,7 +1971,7 @@ def POST_edit_exs_user_params(request, cur_user, cur_team):
             c_exs_params = UserExerciseParam.objects.filter(exercise_nfb=c_exs[0], user=cur_user)
         elif folder_type == utils.FOLDER_CLUB:
             c_exs_params = UserExerciseParam.objects.filter(exercise_club=c_exs[0], user=cur_user)
-            if post_key == "admin_rec":
+            if post_key == "note_trainer" or post_key == "note_club_admin":
                 c_exs_params = UserExerciseParam.objects.filter(exercise_club=c_exs[0], user=None)
         if c_exs_params != None and c_exs_params.exists() and c_exs_params[0].id != None:
             c_exs_params = c_exs_params[0]
@@ -1981,14 +1995,14 @@ def POST_edit_exs_user_params(request, cur_user, cur_team):
             try:
                 c_exs_params.save()
                 return JsonResponse({"data": {"id": exs_id, "value": post_value}, "success": True}, status=200)
-            except:
+            except Exception as e:
                 pass
         else:
             new_params = None
             if folder_type == utils.FOLDER_TEAM:
                 if request.user.club_id is not None:
                     new_params = UserExerciseParam(exercise_club=c_exs[0], user=cur_user)
-                    if post_key == "admin_rec":
+                    if post_key == "note_trainer" or post_key == "note_club_admin":
                         new_params = UserExerciseParam(exercise_club=c_exs[0], user=None)
                 else:
                     new_params = UserExerciseParam(exercise_user=c_exs[0], user=cur_user)
@@ -1996,7 +2010,7 @@ def POST_edit_exs_user_params(request, cur_user, cur_team):
                 new_params = UserExerciseParam(exercise_nfb=c_exs[0], user=cur_user)
             elif folder_type == utils.FOLDER_CLUB:
                 new_params = UserExerciseParam(exercise_club=c_exs[0], user=cur_user)
-                if post_key == "admin_rec":
+                if post_key == "note_trainer" or post_key == "note_club_admin":
                     new_params = UserExerciseParam(exercise_club=c_exs[0], user=None)
             if post_key == "like":
                 new_params.dislike = 0
@@ -2018,7 +2032,7 @@ def POST_edit_exs_user_params(request, cur_user, cur_team):
             try:
                 new_params.save()
                 return JsonResponse({"data": {"id": exs_id, "value": post_value}, "success": True}, status=200)
-            except:
+            except Exception as e:
                 pass
     return JsonResponse({"errors": "Can't edit exs param"}, status=400)
 
@@ -3195,7 +3209,11 @@ def GET_get_exs_all(request, cur_user, cur_team):
         exs_data['video_2_watched'] = exercise['video_2_watched'] if 'video_2_watched' in exercise else None
         exs_data['animation_1_watched'] = exercise['animation_1_watched'] if 'animation_1_watched' in exercise else None
         exs_data['animation_2_watched'] = exercise['animation_2_watched'] if 'animation_2_watched' in exercise else None
-        exs_data['admin_rec'] = exercise['admin_rec'] if 'admin_rec' in exercise else None
+        exs_data['note_trainer'] = exercise['note_trainer'] if 'note_trainer' in exercise else None
+        exs_data['note_club_admin'] = exercise['note_club_admin'] if 'note_club_admin' in exercise else None
+        exs_data['is_any_note'] = False
+        if 'note_trainer' in exercise and 'note_club_admin' in exercise:
+            exs_data['is_any_note'] = exercise['note_trainer'] != "" or exercise['note_club_admin'] != ""
         goal_shortcode = ExsGoal.objects.filter(id = exercise['ref_goal_id']).only('id', 'short_name')
         if goal_shortcode.exists() and goal_shortcode[0].id != None:
             goal_shortcode = goal_shortcode[0].short_name
@@ -3289,20 +3307,28 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
                     res_exs['scheme_2'] = found_exs.scheme_2
                     res_exs['description'] = found_exs.description
         user_params = None
+        club_user_params = None
         if request.user.club_id is not None:
             user_params = UserExerciseParam.objects.filter(exercise_club=c_exs[0].id, user=cur_user)
+            club_user_params = UserExerciseParam.objects.filter(exercise_club=c_exs[0].id, user=None)
         else:
             if request.user.is_anonymous:
                 user_params = UserExerciseParam.objects.filter(exercise_user=c_exs[0].id)
             else:
                 user_params = UserExerciseParam.objects.filter(exercise_user=c_exs[0].id, user=cur_user)
-        if user_params.exists() and user_params[0].id != None:
+        if user_params and user_params.exists() and user_params[0].id != None:
             user_params = user_params.values()[0]
             res_exs['favorite'] = user_params['favorite']
             res_exs['video_1_watched'] = user_params['video_1_watched']
             res_exs['video_2_watched'] = user_params['video_2_watched']
             res_exs['animation_1_watched'] = user_params['animation_1_watched']
             res_exs['animation_2_watched'] = user_params['animation_2_watched']
+            res_exs['note_trainer'] = user_params['note_trainer']
+            res_exs['note_club_admin'] = user_params['note_club_admin']
+        if club_user_params and club_user_params.exists() and club_user_params[0].id != None:
+            club_user_params = club_user_params.values()[0]
+            res_exs['note_trainer'] = club_user_params['note_trainer']
+            res_exs['note_club_admin'] = club_user_params['note_club_admin']
         team_params = None
         if request.user.club_id is not None:
             team_params = UserExerciseParamTeam.objects.filter(exercise_club=c_exs[0].id, team_club=cur_team)
@@ -3311,7 +3337,7 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
                 team_params = UserExerciseParamTeam.objects.filter(exercise_user=c_exs[0].id)
             else:
                 team_params = UserExerciseParamTeam.objects.filter(exercise_user=c_exs[0].id, team=cur_team)
-        if team_params.exists() and team_params[0].id != None:
+        if team_params and team_params.exists() and team_params[0].id != None:
             team_params = team_params.values()[0]
             res_exs['additional_data'] = utils.get_by_language_code(team_params['additional_data'], request.LANGUAGE_CODE)
             res_exs['keyword'] = utils.get_by_language_code(team_params['keyword'], request.LANGUAGE_CODE)
@@ -3326,15 +3352,17 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
             res_exs['nfb'] = True
             res_exs['folder_parent_id'] = c_exs[0].folder.parent
         user_params = UserExerciseParam.objects.filter(exercise_nfb=c_exs[0].id, user=cur_user)
-        if user_params.exists() and user_params[0].id != None:
+        if user_params and user_params.exists() and user_params[0].id != None:
             user_params = user_params.values()[0]
             res_exs['favorite'] = user_params['favorite']
             res_exs['video_1_watched'] = user_params['video_1_watched']
             res_exs['video_2_watched'] = user_params['video_2_watched']
             res_exs['animation_1_watched'] = user_params['animation_1_watched']
             res_exs['animation_2_watched'] = user_params['animation_2_watched']
+            res_exs['note_trainer'] = user_params['note_trainer']
+            res_exs['note_club_admin'] = user_params['note_club_admin']
         team_params = UserExerciseParamTeam.objects.filter(exercise_nfb=c_exs[0].id)
-        if team_params.exists() and team_params[0].id != None:
+        if team_params and team_params.exists() and team_params[0].id != None:
             team_params = team_params.values()[0]
             res_exs['additional_data'] = utils.get_by_language_code(team_params['additional_data'], request.LANGUAGE_CODE)
             res_exs['keyword'] = utils.get_by_language_code(team_params['keyword'], request.LANGUAGE_CODE)
@@ -3359,8 +3387,10 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
             res_exs['folder_parent_id'] = c_exs[0].folder.parent
             res_exs['copied_from_nfb'] = c_exs[0].clone_nfb_id != None
         user_params = None
+        club_user_params = None
         if request.user.club_id is not None:
             user_params = UserExerciseParam.objects.filter(exercise_club=c_exs[0].id, user=cur_user)
+            club_user_params = UserExerciseParam.objects.filter(exercise_club=c_exs[0].id, user=None)
         if user_params and user_params.exists() and user_params[0].id != None:
             user_params = user_params.values()[0]
             res_exs['favorite'] = user_params['favorite']
@@ -3368,6 +3398,12 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
             res_exs['video_2_watched'] = user_params['video_2_watched']
             res_exs['animation_1_watched'] = user_params['animation_1_watched']
             res_exs['animation_2_watched'] = user_params['animation_2_watched']
+            res_exs['note_trainer'] = user_params['note_trainer']
+            res_exs['note_club_admin'] = user_params['note_club_admin']
+        if club_user_params and club_user_params.exists() and club_user_params[0].id != None:
+            club_user_params = club_user_params.values()[0]
+            res_exs['note_trainer'] = club_user_params['note_trainer']
+            res_exs['note_club_admin'] = club_user_params['note_club_admin']
         team_params = None
         if request.user.club_id is not None:
             team_params = UserExerciseParamTeam.objects.filter(exercise_club=c_exs[0].id, team_club=cur_team)

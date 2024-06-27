@@ -473,20 +473,20 @@ function ToggleUpFilter(id, state) {
         case "toggle_iq":
             ToggleIconsInExs();
             break;
-        case "toggle_admin_rec":
-            if (!state && !$('.up-tabs-elem[data-id="toggle_admin_rec"]').hasClass('filtering')) {
-                $('.up-tabs-elem[data-id="toggle_admin_rec"]').addClass('filtering');
-                $('.up-tabs-elem[data-id="toggle_admin_rec"]').addClass('selected3');
-                $('.up-tabs-elem[data-id="toggle_admin_rec"]').attr('data-state', 1);
-                window.exercisesFilter['admin_rec'] = '1';
+        case "toggle_any_note":
+            if (!state && !$('.up-tabs-elem[data-id="toggle_any_note"]').hasClass('filtering')) {
+                $('.up-tabs-elem[data-id="toggle_any_note"]').addClass('filtering');
+                $('.up-tabs-elem[data-id="toggle_any_note"]').addClass('selected3');
+                $('.up-tabs-elem[data-id="toggle_any_note"]').attr('data-state', 1);
+                window.exercisesFilter['any_note'] = '1';
                 for (ind in window.count_exs_calls) {
                     window.count_exs_calls[ind]['call'].abort();
                 }
                 LoadFolderExercises();
                 CountExsInFolder();
-            } else if (!state && $('.up-tabs-elem[data-id="toggle_admin_rec"]').hasClass('filtering')) {
-                $('.up-tabs-elem[data-id="toggle_admin_rec"]').removeClass('filtering');
-                delete window.exercisesFilter['admin_rec'];
+            } else if (!state && $('.up-tabs-elem[data-id="toggle_any_note"]').hasClass('filtering')) {
+                $('.up-tabs-elem[data-id="toggle_any_note"]').removeClass('filtering');
+                delete window.exercisesFilter['any_note'];
                 for (ind in window.count_exs_calls) {
                     window.count_exs_calls[ind]['call'].abort();
                 }
@@ -2403,6 +2403,11 @@ $(function() {
             return;
         }
         if (cId == "trainer_copied") {return;}
+        if (cId == "any_note") {
+            if (!$(exsElem).hasClass("active")) {$(exsElem).click();}
+            $('#exerciseNoteModal').modal('show');
+            return;
+        }
      
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
@@ -2432,9 +2437,6 @@ $(function() {
                         $(currentTarget).find('span.icon-custom').toggleClass('icon--favorite', res.data.value != 1);
                         $(currentTarget).find('span.icon-custom').toggleClass('icon--favorite-selected', res.data.value == 1);
                     }
-                    if ($(currentTarget).find('span.button-custom').length > 0) { // admin_rec
-                        $(currentTarget).find('span.button-custom').css({'color': `${res.data.value == 1 ? 'red' : ''}`});
-                    }
                 }
             },
             error: function (res) {
@@ -2447,6 +2449,51 @@ $(function() {
         });
     });
 
+    $('#exerciseNoteModal').on('click', '.btn-apply', (e) => {
+        let activeExs = $('.exs-list-group').find('.list-group-item.active');
+        let exsId = $(activeExs).attr('data-id');
+        let fromNFB = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? 1 : 0;
+        let folderType = $('.folders_div.selected').attr('data-id');
+        let valNoteTrainer = $('#exerciseNoteModal').find('textarea[name="note_trainer"]').val();
+        let dataToSend = {'edit_exs_user_params': 1, 'exs': exsId, 'nfb': fromNFB, 'type': folderType, 'data':
+            {'key': "note_trainer", 'value': valNoteTrainer}};
+        let exsIdRes = -1;
+        let valueNoteTrainerRes = null; let valueNoteClubAdminRes = null;
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: dataToSend,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "exercises_api",
+            success: function (res) {
+                exsIdRes = res.data.id;
+            },
+            error: function (res) {
+            },
+            complete: function (res) {
+                let valNoteClubAdmin = $('#exerciseNoteModal').find('textarea[name="note_club_admin"]').val();
+                dataToSend = {'edit_exs_user_params': 1, 'exs': exsId, 'nfb': fromNFB, 'type': folderType, 'data': 
+                    {'key': "note_club_admin", 'value': valNoteClubAdmin}};
+                $.ajax({
+                    headers:{"X-CSRFToken": csrftoken},
+                    data: dataToSend,
+                    type: 'POST', // GET или POST
+                    dataType: 'json',
+                    url: "exercises_api",
+                    success: function (res) {
+                        exsIdRes = res.data.id;
+                    },
+                    error: function (res) {
+                    },
+                    complete: function (res) {
+                        let hasAnyNote = valNoteTrainer != "" || valNoteClubAdmin != "";
+                        $('.exs-list-group').find(`.list-group-item[data-id="${exsId}"]`).find('button[data-id="any_note"] > i').toggleClass('text-danger', hasAnyNote);
+                        if (exsIdRes != -1) {$('#exerciseNoteModal').modal('hide');}
+                    }
+                });
+            }
+        });
+    });
 
     // Toggle admin option
     $('.exercises-block').on('click', 'button[data-type="icons"][data-info="admin_options"]', (e) => {
