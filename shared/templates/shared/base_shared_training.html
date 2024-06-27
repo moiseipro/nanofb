@@ -260,6 +260,9 @@
         <div id="inventory-data-block" data-json="{{ training.inventory }}">
             {% include "trainings/training_inventory.html" %}
         </div>
+        <div id="players-data-block" class="row" data-json="{{ training.players_json }}">
+
+        </div>
     </div>
 
 </div>
@@ -270,5 +273,6 @@
     <!-- ckeditor5 languages: -->
     <script src="{% static 'ckeditor5-36.0.0-i0g4ar8o2g2v/build/translations/ru.js' %}"></script>
 
+    <script src="{% static 'references/players_list_json.js' %}"></script>
     <script src="{% static 'shared/js/base_shared_training.js' %}"></script>
 {% endblock %}

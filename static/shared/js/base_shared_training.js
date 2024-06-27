@@ -13,13 +13,29 @@ $(window).on('load', function () {
         let inventory = $.parseJSON(inventoryJson.replace(/\'/g, '"'))
         if (inventory != null) {
             for (const inventory_item of inventory) {
-                $('.inventory-data-rows input[name="' + inventory_item.name + '"]').val(inventory_item.value)
+                let inventory_row = $('.inventory-data-rows input[name="' + inventory_item.name + '"]');
+                inventory_row.val(inventory_item.value)
+                if (inventory_item.value == '' || inventory_item.value == 0){
+                    inventory_row.closest('.inventory-col').addClass('d-none')
+                }
             }
         }
     }
     $('.inventory-data-rows input').each(function () {
         $(this).prop('disabled', true)
     })
+
+    let playerJson = $('#players-data-block').attr('data-json');
+    console.log(playerJson.replace(/\'/g, '"'))
+    if (playerJson != 'None'){
+        let player = $.parseJSON(playerJson.replace(/\'/g, '"').toLowerCase())
+        if(player != null && player.length > 0){
+            let players_html = players_list_to_html(player)
+            $('#players-data-block').html(players_html)
+        }
+    }
+
+
 
 
     let items = $('.video-js');

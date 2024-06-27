@@ -65,7 +65,7 @@ function players_list_to_html(players_list = []) {
     if(players_list != null && players_list.length > 0){
         for (const player of players_list) {
             players_html += `
-                <div class="col-6">
+                <div class="col-sm-6 col-12">
                     <div class="row mt-1 player-row">
                         <div class="col-10 px-1">
                             <input type="text" class="form-control form-control-sm border-primary rounded-0 py-0 player-name-input edit-input" value="${player.name}" style="height: 23px !important;" ${!edit_mode ? 'disabled' : ''}>
