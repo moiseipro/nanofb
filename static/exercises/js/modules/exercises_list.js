@@ -304,8 +304,8 @@ function RenderFolderExercises(id, tExs) {
                             <span style="" title="Данное упражнение недоступно для демо-версии">?</span>
                         </button>
                     ` : ''}
-                    <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.is_any_note ? 'selected' : ''}" data-type="marker" data-id="any_note" style="--w-x:24px; min-width: 38px; --h-x:24px;" title="Заметки">
-                        <i class="fa fa-lg fa-comments-o ${exElem.is_any_note == true ? 'text-danger' : ''}" aria-hidden="true"></i>
+                    <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.note_status != 0 ? 'selected' : ''}" data-type="marker" data-id="note_status" style="--w-x:24px; min-width: 38px; --h-x:24px;" title="Заметки">
+                        <i class="fa fa-lg fa-comments-o ${exElem.note_status == 1 ? 'text-danger' : `${exElem.note_status == 2 ? 'text-success' : ''}`}" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>
@@ -461,7 +461,7 @@ function ToggleIconsInExs() {
 }
 function ToggleMarkersInExs() {
     let isActiveFavorite = $('.up-tabs-elem[data-id="toggle_favorite"]').attr('data-state') == "1";
-    let isActiveAnyNote = $('.up-tabs-elem[data-id="toggle_any_note"]').attr('data-state') == "1";
+    let isActiveNoteStatus = $('.up-tabs-elem[data-id="toggle_note_status"]').attr('data-state') == "1";
     let isActiveGoal = $('.up-tabs-elem[data-id="goal"]').attr('data-state') == "1";
     let isActiveWatched = $('.up-tabs-elem[data-id="toggle_watched"]').attr('data-state') == "1";
     let isActiveWatchedNot = $('.up-tabs-elem[data-id="toggle_watched_not"]').attr('data-state') == "1";
@@ -470,7 +470,7 @@ function ToggleMarkersInExs() {
     $('.exercises-block').find(`[data-type="marker"][data-id="goal"]`).toggleClass('d-none', !isActiveGoal);
     $('.exercises-block').find(`[data-type="marker"][data-id="watched"]`).toggleClass('d-none', !(isActiveWatched || isActiveWatchedNot));
     $('.exercises-block').find(`[data-type="marker"][data-id="trainer"]`).toggleClass('d-none', false);
-    $('.exercises-block').find(`[data-type="marker"][data-id="any_note"]`).toggleClass('d-none', !isActiveAnyNote);
+    $('.exercises-block').find(`[data-type="marker"][data-id="note_status"]`).toggleClass('d-none', !isActiveNoteStatus);
 }
 
 function PauseCountExsCalls(currentCall) {

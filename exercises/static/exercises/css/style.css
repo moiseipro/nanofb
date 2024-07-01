@@ -817,3 +817,8 @@ button.custom-disabled:hover {
 .carousel-item.description-item {
     overflow-y: auto;
 }
+
+.bg-lightgray {
+    background-color: #d1d1d1 !important;
+}
+
