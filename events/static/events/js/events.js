@@ -52,7 +52,7 @@ $(window).on('load', function (){
     $('input.refDate').val(strDate);
 
     if($('#select-season').val()!='' && $('#select-team').val()!=''){
-        generateData()
+        if(Cookies.get('calendar_active') != 'false') generateData()
         generateMicrocyclesTable()
     } else {
         swal(gettext('Warning!'), gettext('Choose a team and a season!'), "warning");
@@ -129,8 +129,8 @@ $(window).on('load', function (){
         $('#events tbody tr[data-value="'+$(this).attr('data-value')+'"]').removeClass('bg-light')
     })
 
-    $('#event_calendar').on('click', '.microcycle_cell', function () {
-        $('#event_calendar .microcycle_cell.selected').not($(this)).removeClass('selected')
+    $(document).on('click', '.microcycle_cell', function () {
+        $('.microcycle_cell.selected').not($(this)).removeClass('selected')
         $(this).toggleClass('selected')
         generateData()
     })

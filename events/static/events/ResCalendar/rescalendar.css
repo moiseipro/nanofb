@@ -37,6 +37,14 @@
 	background: rgb(144, 238, 144);
 }
 
+.rescalendar_microcycles_cells .green_cell.selected{
+	background: rgb(239, 225, 136);
+}
+
+.rescalendar_microcycles_cells .green_cell.similar{
+	background: rgb(239, 239, 178);
+}
+
 .rescalendar_microcycles_cells .green_cell:hover{
 	background: rgb(144, 220, 144);
 	cursor: pointer;
@@ -159,7 +167,7 @@
 .rescalendar .endMC{
 	border-right: 2px solid black !important;
 }
-.rescalendar td.selected{
+.rescalendar td.selected, .calendar-part td.selected{
 	border: 2px solid black !important;
 }
 .rescalendar .hover-cell{

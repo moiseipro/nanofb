@@ -33,6 +33,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                     })
                 }
             }
+            console.log(newMicrocycle)
             //console.log(newMicrocycle)
             $.ajax({
                 headers:{"X-CSRFToken": csrftoken },
@@ -365,10 +366,37 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             dataKeyField: 'name',
                             dataKeyValues: ['m2', 'm1', 'tr1', 'tr2']
                         });
+                    }
 
-                        if(send_data['microcycle_id']){
-                            $('#event_calendar .microcycle_cell[data-id="'+send_data['microcycle_id']+'"]').addClass('selected')
-                        }
+                    if(calendar == false){
+                        let html_data = ''
+                        let max_col=30, max_row=2, max_col_row=12
+                        let col=0, row=0, col_row=0
+                        html_data += `<tr class="microcycle-table-option"></tr>`
+                        newMicrocycle.forEach(function(microcycle, i) {
+                            if (col%max_col==0){
+                                html_data += `<tr class="rescalendar_microcycles_cells">`
+                            }
+                            html_data += `<td class="microcycle_cell green_cell border border-dark" data-id="${microcycle.id}" data-num="${col+1}" data-name="${microcycle.name}" data-days="${microcycle.days}" data-start="${microcycle.startDate}" data-end="${microcycle.endDate}">`
+                            html_data += `${microcycle.days}`
+                            html_data += `</td>`
+                            col++;
+                            if (col%max_col==0){
+                                html_data += `</tr>`
+                            }
+
+                        })
+                        console.log(html_data)
+                        $('#microcycle-row table tbody').html(html_data)
+                        $('#microcycle-row').removeClass('d-none')
+                    } else {
+                        $('#microcycle-row').addClass('d-none')
+                    }
+
+                    if(send_data['microcycle_id']){
+                        let microcycle_selected = $('.microcycle_cell[data-id="'+send_data['microcycle_id']+'"]');
+                        microcycle_selected.addClass('selected')
+                        $('.microcycle_cell[data-days="'+microcycle_selected.attr('data-days')+'"]:not(.selected)').addClass('similar')
                     }
 
 
@@ -403,7 +431,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
             swal(gettext('Event save'), gettext('Error when action the event!'), "error");
         },
         complete: function () {
-            //$('.page-loader-wrapper').fadeOut();
+
         }
     })
 }

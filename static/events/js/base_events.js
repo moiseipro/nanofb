@@ -55,8 +55,10 @@ function generateOnlyTable() {
 
     let send_data ={}
 
-    let from_date_str = $('#select-season option:selected').attr('data-with')
-    let to_date_str = $('#select-season option:selected').attr('data-by')
+
+    let from_date_str = $('#microcycle-row .microcycle_cell.selected').attr('data-start') ? $('#microcycle-row .microcycle_cell.selected').attr('data-start') : $('#select-season option:selected').attr('data-with')
+    let to_date_str = $('#microcycle-row .microcycle_cell.selected').attr('data-end') ? $('#microcycle-row .microcycle_cell.selected').attr('data-end') : $('#select-season option:selected').attr('data-by')
+    let microcycle_id = $('#microcycle-row .microcycle_cell.selected').attr('data-id') ? $('#microcycle-row .microcycle_cell.selected').attr('data-id'): ''
     let today = strDate
     let favourites = parseInt($('#favourites-event-filter').attr('data-filter') ? $('#favourites-event-filter').attr('data-filter') : '0')
     let load_type = $('#load-event-filter').val() ? $('#load-event-filter').val() : ''
@@ -72,6 +74,8 @@ function generateOnlyTable() {
     if(to_date_str){
         to_date = moment(to_date_str, 'DD/MM/YYYY').format('YYYY-MM-DD')
     }
+
+    send_data['microcycle_id'] = microcycle_id
 
     send_data['from_date'] = from_date
     send_data['to_date'] = to_date
