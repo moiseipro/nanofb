@@ -347,6 +347,10 @@ class UserExerciseParam(models.Model):
     animation_2_watched = models.BooleanField(default=False)
     note_trainer = models.CharField(max_length=255, default="", null=True, blank=True)
     note_club_admin = models.CharField(max_length=255, default="", null=True, blank=True)
+    note_status = models.IntegerField(
+        help_text='0 - нет, 1 - красный, 2 - зелёный',
+        default=0
+    )
 
     objects = models.Manager()
 
