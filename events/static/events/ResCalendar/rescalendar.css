@@ -47,6 +47,9 @@
 
 .rescalendar_microcycles_cells .green_cell:hover{
 	background: rgb(144, 220, 144);
+}
+
+.rescalendar_microcycles_cells td:hover{
 	cursor: pointer;
 }
 

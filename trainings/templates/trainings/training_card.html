@@ -108,9 +108,9 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade" id="inventory-data-tab" role="tabpanel" aria-labelledby="pills-inventory-tab">
-                {% include "trainings/training_inventory.html" %}
-            </div>
+{#            <div class="tab-pane fade" id="inventory-data-tab" role="tabpanel" aria-labelledby="pills-inventory-tab">#}
+{#                {% include "trainings/training_inventory.html" %}#}
+{#            </div>#}
             <div class="tab-pane fade" id="exercise-data-tab" role="tabpanel" aria-labelledby="pills-exercise-tab">
                 <div class="row text-center">
                     <div class="col-12">
@@ -158,7 +158,8 @@
 {#                    <div class="col-6 px-0 text-center">{% trans 'Exs.' %}</div>#}
 {#                    <div class="col-2 px-0 text-center"><i class="fa fa-check" aria-hidden="true"></i></div>#}
                 </div>
-                <div id="players-data-list" class="row"></div>
+                <div id="players-data-list" class="row mb-2"></div>
+                {% include "trainings/training_inventory.html" %}
             </div>
         </div>
 

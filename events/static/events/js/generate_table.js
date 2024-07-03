@@ -373,12 +373,17 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                         let max_col=30, max_row=2, max_col_row=12
                         let col=0, row=0, col_row=0
                         html_data += `<tr class="microcycle-table-option"></tr>`
+
                         newMicrocycle.forEach(function(microcycle, i) {
                             if (col%max_col==0){
                                 html_data += `<tr class="rescalendar_microcycles_cells">`
+                                if (col==0){
+                                    html_data += `<td class="microcycle-filter-clear border border-dark" width="100px"><i class="fa fa-repeat" aria-hidden="true"></i></td>`
+                                    html_data += `<td class="microcycle-show-number border border-dark ${send_data['microcycle_num']==1? 'selected' : ''}" width="100px" data-active="0">№</td>`
+                                }
                             }
-                            html_data += `<td class="microcycle_cell green_cell border border-dark" data-id="${microcycle.id}" data-num="${col+1}" data-name="${microcycle.name}" data-days="${microcycle.days}" data-start="${microcycle.startDate}" data-end="${microcycle.endDate}">`
-                            html_data += `${microcycle.days}`
+                            html_data += `<td width="100px" class="microcycle_cell green_cell border border-dark" data-id="${microcycle.id}" data-num="${col+1}" data-name="${microcycle.name}" data-days="${microcycle.days}" data-start="${microcycle.startDate}" data-end="${microcycle.endDate}">`
+                            html_data += `${send_data['microcycle_num']==1 ? col+1 : microcycle.days}`
                             html_data += `</td>`
                             col++;
                             if (col%max_col==0){

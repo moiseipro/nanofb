@@ -129,6 +129,17 @@ $(window).on('load', function (){
         $('#events tbody tr[data-value="'+$(this).attr('data-value')+'"]').removeClass('bg-light')
     })
 
+    $(document).on('click', '.microcycle-filter-clear', function () {
+        $('.microcycle_cell.selected').not($(this)).removeClass('selected')
+        generateData()
+    })
+
+    $(document).on('click', '.microcycle-show-number', function () {
+        $('.microcycle-show-number.selected').not($(this)).removeClass('selected')
+        $(this).toggleClass('selected')
+        generateData()
+    })
+
     $(document).on('click', '.microcycle_cell', function () {
         $('.microcycle_cell.selected').not($(this)).removeClass('selected')
         $(this).toggleClass('selected')
@@ -1078,6 +1089,7 @@ function clear_filters_events() {
         hide_training_card()
         $('#events-content').removeClass('d-none')
     }
+    $('.microcycle_cell.selected').not($(this)).removeClass('selected')
 
     generateData()
 }

@@ -55,6 +55,7 @@ function generateOnlyTable() {
 
     let send_data ={}
 
+    let microcycle_num = $('#microcycle-row .microcycle-show-number.selected').length>0 ? 1 : 0
 
     let from_date_str = $('#microcycle-row .microcycle_cell.selected').attr('data-start') ? $('#microcycle-row .microcycle_cell.selected').attr('data-start') : $('#select-season option:selected').attr('data-with')
     let to_date_str = $('#microcycle-row .microcycle_cell.selected').attr('data-end') ? $('#microcycle-row .microcycle_cell.selected').attr('data-end') : $('#select-season option:selected').attr('data-by')
@@ -75,6 +76,7 @@ function generateOnlyTable() {
         to_date = moment(to_date_str, 'DD/MM/YYYY').format('YYYY-MM-DD')
     }
 
+    send_data['microcycle_num'] = microcycle_num
     send_data['microcycle_id'] = microcycle_id
 
     send_data['from_date'] = from_date
