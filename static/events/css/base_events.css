@@ -17,8 +17,11 @@ tr.month_top_border{
     border-top: 1.05px solid black !important;
 }
 
+table.dataTable.table-hover>tbody>tr>*{
+    background-color: #e6e6e6;
+}
 table.dataTable.table-hover>tbody>tr.selected:hover>*{
-    box-shadow:inset 0 0 0 9999px rgba(215, 215, 215, 0.975)
+    box-shadow:inset 0 0 0 9999px rgba(215, 215, 215, 0.97)
 }
 
 a.matchButton0 {

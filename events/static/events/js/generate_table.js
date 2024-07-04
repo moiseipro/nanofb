@@ -172,8 +172,8 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
 
 
                                 merged_btn += `
-                                <div class="col px-1">
-                                    <button href="/trainings/view/${merged_event['id']}" class="btn btn-sm btn-block ${merged_events.length > 1 ? 'btn-info' : 'btn-info'} py-0 event-select" data-id="${merged_event['id']}">${merged_events.length > 1 ? gettext('Gr.')+' '+(index+1) : gettext('T.') +' '+(num_tr == 2 ? '2' : '')}</button>
+                                <div class="col px-0 ${index+1 == 2 ? 'border-left border-dark' : ''}">
+                                    <button href="/trainings/view/${merged_event['id']}" class="btn btn-sm btn-block ${merged_events.length > 1 ? 'btn-info' : 'btn-info'} py-0 rounded-0 event-select" data-id="${merged_event['id']}">${merged_events.length > 1 ? (index+1 == 1 ? 'A' : 'B') : gettext('T') +' '+(num_tr == 2 ? '2' : '')}</button>
                                 </div>
                                 `
                                 for (const objective of merged_event.training.objectives) {
@@ -306,8 +306,8 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             td_html += `
                                 
                                 <td>${event['only_date']}</td>
-                                <td class="px-1"><button href="${isLite ? '' : '/matches/match?id=' + event.match.event_id}" data-count="${count_m + 1}" class="btn btn-sm btn-block ${event.match.m_type == 0 ? "btn-warning" : "btn-success"} py-0 event-select" data-id="${event.match.event_id}">${gettext('Match')}</button></td>
-                                <td colspan="5" style="background-color: #dedede">${event.match.opponent ? event.match.opponent : '---'}</td>
+                                <td class="px-0"><button href="${isLite ? '' : '/matches/match?id=' + event.match.event_id}" data-count="${count_m + 1}" class="btn btn-sm btn-block rounded-0 ${event.match.m_type == 0 ? "btn-light" : "btn-light"} text-dark py-0 event-select" data-id="${event.match.event_id}">${event.short_name}</button></td>
+                                <td colspan="5" class="bg-light text-dark" >${event.match.opponent ? event.match.opponent : '---'}</td>
                             `
                         } else {
                             event_class = 'none'
@@ -374,7 +374,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                         let col=0, row=0, col_row=0
                         html_data += `<tr class="microcycle-table-option"></tr>`
 
-                        newMicrocycle.forEach(function(microcycle, i) {
+                        newMicrocycle.slice().reverse().forEach(function(microcycle, i) {
                             if (col%max_col==0){
                                 html_data += `<tr class="rescalendar_microcycles_cells">`
                                 if (col==0){
