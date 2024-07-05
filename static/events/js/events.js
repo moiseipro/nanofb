@@ -870,7 +870,7 @@ $(window).on('load', function (){
             for (let i = diffDays+1; i > 0; i-=7) {
                 date_with = startDate.clone().add(i-6, 'days')
                 date_by = startDate.clone().add(i, 'days')
-                let days = date_by.diff(date_with, 'days')
+                let days = date_by.diff(date_with, 'days')+1
                 baseMicrocycle.push({
                     id: i,
                     name: i,

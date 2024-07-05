@@ -4310,6 +4310,24 @@ table.table-inbox tbody tr.checked {
 .icon--trainer {
 	content: url(../img/icons/trainer.png);
 }
+.icon--print {
+	content: url(../img/icons/image58.png);
+}
+.icon--edit {
+	content: url(../img/icons/image9.png);
+}
+.icon--cut {
+	content: url(../img/icons/image64.png);
+}
+.icon--notification {
+	content: url(../img/icons/image77.png);
+}
+.icon--save {
+	content: url(../img/icons/image10.png);
+}
+.icon--trash {
+	content: url(../img/icons/image59.png);
+}
 
 .select2-container--bootstrap4 .select2-results>.select2-results__options {
     max-height: 30em !important;

@@ -306,7 +306,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             td_html += `
                                 
                                 <td>${event['only_date']}</td>
-                                <td class="px-0"><button href="${isLite ? '' : '/matches/match?id=' + event.match.event_id}" data-count="${count_m + 1}" class="btn btn-sm btn-block rounded-0 ${event.match.m_type == 0 ? "btn-light" : "btn-light"} text-dark py-0 event-select" data-id="${event.match.event_id}">${event.short_name}</button></td>
+                                <td class="px-0"><button href="${isLite ? '' : '/matches/match?id=' + event.match.event_id}" data-count="${count_m + 1}" class="btn btn-sm btn-block rounded-0 ${event.match.m_type == 0 ? "btn-light" : "btn-light"} text-dark py-0 event-select" data-id="${event.match.event_id}">${event.short_name ? event.short_name : '---'}</button></td>
                                 <td colspan="5" class="bg-light text-dark" >${event.match.opponent ? event.match.opponent : '---'}</td>
                             `
                         } else {
