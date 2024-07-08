@@ -861,7 +861,7 @@ $(window).on('load', function (){
         } else {
             $(this).addClass('active')
             startDate = moment().startOf('year').startOf('week');
-            endDate = moment().endOf('year').endOf('week');
+            endDate = moment().endOf('week');
             var diffDays = endDate.diff(startDate, 'days')
             baseMicrocycle = []
             console.log(startDate.format('DD/MM/YYYY') + "-" + endDate.format('DD/MM/YYYY') + " " + diffDays)

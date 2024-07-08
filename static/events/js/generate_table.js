@@ -306,7 +306,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             td_html += `
                                 
                                 <td>${event['only_date']}</td>
-                                <td class="px-0"><button href="${isLite ? '' : '/matches/match?id=' + event.match.event_id}" data-count="${count_m + 1}" class="btn btn-sm btn-block rounded-0 ${event.match.m_type == 0 ? "btn-light" : "btn-light"} text-dark py-0 event-select" data-id="${event.match.event_id}">${event.short_name ? event.short_name : '---'}</button></td>
+                                <td class="px-0"><button href="${isLite ? '' : '/matches/match?id=' + event.match.event_id}" data-count="${count_m + 1}" class="btn btn-sm btn-block rounded-0 ${event.match.m_type == 0 ? "btn-warning" : "btn-warning"} text-dark py-0 event-select" data-id="${event.match.event_id}">${event.short_name ? event.short_name : '---'}</button></td>
                                 <td colspan="5" class="bg-light text-dark" >${event.match.opponent ? event.match.opponent : '---'}</td>
                             `
                         } else {
@@ -391,6 +391,11 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             }
 
                         })
+                        for (; col < max_col; col++) {
+                            html_data += `<td width="100px" class="border border-dark">`
+                            html_data += `${send_data['microcycle_num']==1 ? col+1 : '---'}`
+                            html_data += `</td>`
+                        }
                         console.log(html_data)
                         $('#microcycle-row table tbody').html(html_data)
                         $('#microcycle-row').removeClass('d-none')
@@ -401,7 +406,10 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                     if(send_data['microcycle_id']){
                         let microcycle_selected = $('.microcycle_cell[data-id="'+send_data['microcycle_id']+'"]');
                         microcycle_selected.addClass('selected')
-                        $('.microcycle_cell[data-days="'+microcycle_selected.attr('data-days')+'"]:not(.selected)').addClass('similar')
+                        if (!$('#event-mc7-active-button').hasClass('active')){
+                            $('.microcycle_cell[data-days="'+microcycle_selected.attr('data-days')+'"]:not(.selected)').addClass('similar')
+                        }
+
                     }
 
 

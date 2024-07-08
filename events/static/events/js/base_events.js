@@ -55,7 +55,7 @@ function generateOnlyTable() {
 
     let send_data ={}
 
-    let microcycle_num = $('#microcycle-row .microcycle-show-number.selected').length>0 ? 1 : 0
+    let microcycle_num = $('#microcycle-row .microcycle-show-number.selected').length>0 || $('#event-mc7-active-button').hasClass('active') ? 1 : 0
 
     let from_date_str = $('#microcycle-row .microcycle_cell.selected').attr('data-start') ? $('#microcycle-row .microcycle_cell.selected').attr('data-start') : $('#select-season option:selected').attr('data-with')
     let to_date_str = $('#microcycle-row .microcycle_cell.selected').attr('data-end') ? $('#microcycle-row .microcycle_cell.selected').attr('data-end') : $('#select-season option:selected').attr('data-by')
