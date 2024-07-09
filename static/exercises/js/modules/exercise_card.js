@@ -241,6 +241,9 @@ function RenderExerciseOne(data) {
     }
 
     let exsCard = $('#exerciseCard');
+    try {
+        exsCard = $('#exerciseGraphicsModal').find('#exerciseCard');
+    } catch(e) {}
     if (data && data.id) {
         $(exsCard).attr('data-exs', data.id);
 
@@ -397,6 +400,9 @@ function RenderExerciseOne(data) {
         $(exsCard).find('.exs_edit_field[name="coaching[]"]').trigger('onkeyup');
 
         $(exsCard).find('.exs_edit_field[name="title"]').val(data.title);
+        try {
+            $('#exerciseGraphicsModal').find('.modal-title').text(data.title);
+        } catch (e) {}
         if (document.descriptionEditor2) {
             document.descriptionEditor2.setData(data.description);
         }
@@ -597,6 +603,9 @@ function RenderExerciseOne(data) {
         ToggleFoldersType();
 
         $(exsCard).find('.exs_edit_field').val('');
+        try {
+            $('#exerciseGraphicsModal').find('.modal-title').text('');
+        } catch (e) {}
         if (document.descriptionEditor2) {
             document.descriptionEditor2.disableReadOnlyMode('');
             document.descriptionEditor2.setData('');
