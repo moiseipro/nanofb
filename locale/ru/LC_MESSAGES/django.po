@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-25 14:03+0300\n"
+"POT-Creation-Date: 2024-07-10 14:52+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2476,7 +2476,6 @@ msgstr "Ошибка генерации пароля!"
 #: .\events\apps.py:8 .\events\templates\events\base_events.html:5
 #: .\events\templates\events\lite_events.html:5
 #: .\nanofootball\templates\menu\sidebar.html:161
-#: .\nanofootball\templates\menu\sidebar.html:173
 msgid "Events"
 msgstr "События"
 
@@ -2497,7 +2496,7 @@ msgid "Official match"
 msgstr "Официальный матч"
 
 #: .\events\forms.py:76 .\events\models.py:96
-#: .\events\templates\events\base_events.html:146
+#: .\events\templates\events\base_events.html:158
 #: .\events\templates\events\forms\microcycle_tab.html:27
 #: .\events\templates\events\forms\microcycle_tab.html:59
 msgid "M.C."
@@ -2706,31 +2705,31 @@ msgstr "Поделиться тренировкой"
 msgid "Copy event"
 msgstr "Копировать событие"
 
-#: .\events\templates\events\base_events.html:98
+#: .\events\templates\events\base_events.html:100
 #: .\events\templates\events\lite_events.html:78
 msgid "Print"
 msgstr "Печать"
 
-#: .\events\templates\events\base_events.html:101
+#: .\events\templates\events\base_events.html:105
 #: .\events\templates\events\lite_events.html:81
 msgid "Delete event"
 msgstr "Удалить событие"
 
-#: .\events\templates\events\base_events.html:152
+#: .\events\templates\events\base_events.html:164
 #: .\events\templates\events\lite_events.html:126
 msgid "Load"
 msgstr "Нагрузка"
 
-#: .\events\templates\events\base_events.html:158
+#: .\events\templates\events\base_events.html:170
 msgid "Blocks"
 msgstr "Блоки"
 
-#: .\events\templates\events\base_events.html:164
+#: .\events\templates\events\base_events.html:176
 #: .\events\templates\events\modules\references_modal.html:25
 msgid "Objectives"
 msgstr "Задачи"
 
-#: .\events\templates\events\forms\create_event.html:7
+#: .\events\templates\events\forms\create_event.html:8
 msgid "Event Create"
 msgstr "Создать событие"
 
@@ -3306,6 +3305,7 @@ msgstr "Основные разделы"
 #: .\trainings\templates\trainings\print_training.html:37
 #: .\trainings\templates\trainings\print_training.html:40
 #: .\trainings\templates\trainings\training_card.html:13
+#: .\trainings\templates\trainings\training_form.html:18
 #: .\trainings\templates\trainings\view_training.html:179
 #: .\users\templates\users\forms\edit-club-form.html:66
 #: .\users\templates\users\forms\edit-user-form.html:72
@@ -3932,6 +3932,7 @@ msgstr "Поделиться тренировкой"
 #: .\trainings\templates\trainings\print_training.html:37
 #: .\trainings\templates\trainings\print_training.html:43
 #: .\trainings\templates\trainings\training_card.html:62
+#: .\trainings\templates\trainings\training_form.html:22
 msgid "Goalkeepers"
 msgstr "Вратари"
 
@@ -4174,6 +4175,7 @@ msgstr "Минуты"
 #: .\trainings\templates\trainings\print_training.html:54
 #: .\trainings\templates\trainings\print_training.html:57
 #: .\trainings\templates\trainings\training_card.html:36
+#: .\trainings\templates\trainings\training_form.html:7
 msgid "Trainer"
 msgstr "Тренер"
 
@@ -4190,18 +4192,12 @@ msgstr "Мои блоки"
 msgid "NF blocks"
 msgstr "NF блоки"
 
-#: .\trainings\templates\trainings\training_blocks.html:34
 #: .\trainings\templates\trainings\training_blocks.html:74
-#: .\trainings\templates\trainings\training_loads.html:24
-#: .\trainings\templates\trainings\training_objectives.html:34
 #: .\trainings\templates\trainings\training_objectives.html:74
 msgid "Search short key"
 msgstr "Поиск короткого ключа"
 
-#: .\trainings\templates\trainings\training_blocks.html:37
 #: .\trainings\templates\trainings\training_blocks.html:77
-#: .\trainings\templates\trainings\training_loads.html:27
-#: .\trainings\templates\trainings\training_objectives.html:37
 #: .\trainings\templates\trainings\training_objectives.html:77
 msgid "Search name"
 msgstr "Поиск названия"
@@ -4218,7 +4214,6 @@ msgid "Card"
 msgstr "Карточка"
 
 #: .\trainings\templates\trainings\training_card.html:14
-#: .\trainings\templates\trainings\view_training.html:49
 msgid "Inventory"
 msgstr "Инвентарь"
 
@@ -4245,6 +4240,16 @@ msgstr "Доп. Условия"
 #: .\trainings\templates\trainings\training_card.html:156
 msgid "Resets player data to the original table"
 msgstr "Сбрасывает данные игроков в исходную таблицу"
+
+#: .\trainings\templates\trainings\training_form.html:12
+#, fuzzy
+#| msgid "trainer"
+msgid "No trainers"
+msgstr "тренер"
+
+#: .\trainings\templates\trainings\training_form.html:27
+msgid "Field size"
+msgstr "Размер поля"
 
 #: .\trainings\templates\trainings\training_inventory.html:9
 msgid "balls"
@@ -5305,9 +5310,6 @@ msgstr "Анимация"
 
 #~ msgid "goal"
 #~ msgstr "цель"
-
-#~ msgid "Field size"
-#~ msgstr "Размер поля"
 
 #~ msgid "Purpose"
 #~ msgstr "Цель"

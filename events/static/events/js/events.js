@@ -440,6 +440,12 @@ $(window).on('load', function (){
 
     })
 
+    $('select[name="event_type"]').on('change', function() {
+        console.log($(this).val())
+        $('.event_type_block').addClass('d-none')
+        $('.event_type_block[data-type*="'+$(this).val()+'"]').removeClass('d-none')
+    })
+
     // Создание события
     $('#event-add').on('click', function() {
         $('#form-event').attr('method', 'POST')

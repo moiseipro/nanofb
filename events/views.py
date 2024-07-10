@@ -28,6 +28,7 @@ from trainings.models import UserTraining, ClubTraining, UserTrainingExercise, C
     LiteTrainingExercise, ClubTrainingExerciseAdditional, UserTrainingExerciseAdditional, \
     LiteTrainingExerciseAdditional, ClubTrainingObjectiveMany, UserTrainingObjectiveMany
 from system_icons.views import get_ui_elements
+from users.models import User
 
 
 class BaseEventsPermissions(DjangoModelPermissions):
@@ -955,198 +956,6 @@ class EventViewSet(viewsets.ModelViewSet):
         return events
 
 
-# LITE EVENT
-class LiteEventViewSet(viewsets.ModelViewSet):
-    permission_classes = [BaseEventsPermissions]
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        if self.perform_create(serializer):
-            headers = self.get_success_headers(serializer.data)
-            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-        else:
-            return Response({'status': 'event_type_full'})
-
-    def perform_create(self, serializer):
-        current_data = self.request.data
-        print(self.request.data)
-        team = UserTeam.objects.get(pk=self.request.session['team'])
-        user = self.request.user
-        cur_date = datetime.strptime(self.request.data['date'], "%d/%m/%Y %H:%M").date()
-        print(cur_date)
-
-        if 'event_type' in self.request.data and '1' in self.request.data['event_type']:
-            count_tr = LiteTraining.objects.filter(event_id__user_id=user, event_id__date__date=cur_date,
-                                                   team_id=team).count()
-            print(count_tr)
-            if count_tr < 2:
-                event = serializer.save(user_id=user)
-                new_training = LiteTraining.objects.create(event_id=event, team_id=team)
-                new_training.save()
-                return True
-            else:
-                return False
-        elif 'event_type' in self.request.data and '2' in self.request.data['event_type']:
-            match = LiteMatch.objects.filter(event_id__user_id=user, event_id__date__date=cur_date, m_type=0,
-                                             team_id=team).count()
-            print(match)
-            if match == 0:
-                event = serializer.save(user_id=user)
-                new_match = LiteMatch.objects.create(event_id=event, m_type=0, team_id=team)
-                new_match.save()
-                return True
-            else:
-                return False
-        elif 'event_type' in self.request.data and '3' in self.request.data['event_type']:
-            match = LiteMatch.objects.filter(event_id__user_id=user, event_id__date__date=cur_date, m_type=1,
-                                             team_id=team).count()
-            print(match)
-            if match == 0:
-                event = serializer.save(user_id=user)
-                new_match = LiteMatch.objects.create(event_id=event, m_type=1, team_id=team)
-                new_match.save()
-                return True
-            else:
-                return False
-
-    def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
-
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
-        serializer = self.get_serializer(queryset, many=True)
-        events = serializer.data
-        print(events)
-        return Response(serializer.data)
-
-    @action(detail=True, methods=['post'])
-    def copy_event(self, request, pk=None):
-        current_data = self.request.data
-        print(self.request.data)
-        team = UserTeam.objects.get(pk=self.request.session['team'])
-        user = self.request.user
-        cur_date = datetime.strptime(self.request.data['date'], "%Y-%m-%d %H:%M").date()
-
-        event = LiteEvent.objects.get(pk=pk)
-        try:
-            training = LiteTraining.objects.get(pk=pk)
-            count_tr = LiteTraining.objects.filter(event_id__user_id=user, event_id__date__date=cur_date,
-                                                   team_id=team).count()
-        except LiteTraining.DoesNotExist:
-            training = None
-            count_tr = 0
-        try:
-            exercises = LiteTrainingExercise.objects.filter(training_id=pk)
-            print(exercises)
-        except LiteTrainingExercise.DoesNotExist:
-            exercises = None
-        try:
-            match = LiteMatch.objects.get(pk=pk)
-            match1 = LiteMatch.objects.filter(event_id__user_id=user, event_id__date__date=cur_date, m_type=0,
-                                              team_id=team).count()
-            match2 = LiteMatch.objects.filter(event_id__user_id=user, event_id__date__date=cur_date, m_type=1,
-                                              team_id=team).count()
-
-        except LiteMatch.DoesNotExist:
-            match = None
-            match1 = 0
-            match2 = 0
-
-        print(count_tr)
-        if count_tr > 1:
-            return Response({'status': 'event_type_full'})
-        if match1 != 0:
-            return Response({'status': 'event_type_full'})
-        if match2 != 0:
-            return Response({'status': 'event_type_full'})
-        print(event)
-
-        if event:
-            event.pk = None
-            event.date = self.request.data['date']
-            event.save()
-            if training:
-                training.pk = None
-                training.event_id = event
-                training.save()
-                for exercise in exercises:
-                    last_additional = LiteTrainingExercise.objects.get(
-                        pk=exercise.pk).litetrainingexerciseadditional_set.all()
-                    exercise.pk = None
-                    exercise.training_id = training
-                    exercise.save()
-                    for additional in last_additional:
-                        LiteTrainingExerciseAdditional.objects.create(
-                            training_exercise_id=exercise,
-                            additional_id=additional.additional_id,
-                            note=additional.note
-                        )
-                response = Response({'status': 'training_copied'})
-            elif match:
-                match.pk = None
-                match.event_id = event
-                match.save()
-                response = Response({'status': 'match_copied'})
-            else:
-                response = Response({'status': 'filed_copied'})
-        else:
-            response = Response({'status': 'filed_copied'})
-
-        return response
-
-    def get_serializer_class(self):
-        if self.action == 'update':
-            serial = LiteEventEditSerializer
-        else:
-            serial = LiteEventSerializer
-        return serial
-
-    def get_queryset(self):
-        microcycle_before = self.request.query_params.get('to_date')
-        microcycle_after = self.request.query_params.get('from_date')
-        favourites = self.request.query_params.get('favourites')
-        load_type = self.request.query_params.get('load_type')
-        goal = self.request.query_params.get('goal')
-        keywords = self.request.query_params.get('keywords')
-        field_size = self.request.query_params.get('field_size')
-        print(load_type)
-        team = self.request.session['team']
-        if self.request.user.club_id is not None:
-            season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
-        else:
-            season = UserSeason.objects.filter(id=self.request.session['season'])
-
-        q_filter = Q(litetraining__team_id=team)
-        if favourites != '0' and favourites is not None:
-            q_filter &= Q(litetraining__favourites=favourites)
-        if load_type != '' and load_type is not None:
-            q_filter &= Q(litetraining__load_type__icontains=load_type)
-        if goal != '' and goal is not None:
-            q_filter &= Q(litetraining__goal__icontains=goal)
-        if keywords != '' and keywords is not None:
-            q_filter &= Q(litetraining__objective_1__icontains=keywords) | Q(
-                litetraining__objective_2__icontains=keywords) | Q(litetraining__goal__icontains=keywords)
-        if field_size != '' and field_size is not None:
-            q_filter &= Q(litetraining__field_size__icontains=field_size)
-        q_filter |= Q(litematch__team_id=team)
-        events = LiteEvent.objects.filter(q_filter)
-
-        events = events.filter(user_id=self.request.user,
-                               date__gte=season[0].date_with,
-                               date__lte=season[0].date_by)
-
-        if microcycle_before is not None and microcycle_after is not None:
-            events = events.filter(date__gte=microcycle_after,
-                                   date__lte=datetime.combine(datetime.strptime(microcycle_before, '%Y-%m-%d'),
-                                                              time.max))
-
-        return events
-
-
 # DJANGO
 class EventsView(LoginRequiredMixin, TemplateView):
     template_name = "events/base_events.html"
@@ -1161,20 +970,11 @@ class EventsView(LoginRequiredMixin, TemplateView):
         team = self.request.session['team']
         if self.request.user.club_id is not None:
             context['teams_list'] = ClubTeam.objects.filter(id=team)
+            if len(ClubTeam.objects.filter(id=team)) > 0:
+                context['trainers_list'] = ClubTeam.objects.get(id=team).users.all()
+                print(context['trainers_list'])
         else:
             context['teams_list'] = UserTeam.objects.filter(id=team)
-        return context
-
-
-# DJANGO
-class LiteEventsView(LoginRequiredMixin, TemplateView):
-    template_name = "events/lite_events.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['microcycle_form'] = MicrocycleUserForm
-        context['event_form'] = EventUserForm
-        context['event_edit_form'] = EventEditUserForm
-        context['ui_elements'] = get_ui_elements(self.request)
-        context['menu_levents'] = 'active'
+            context['trainers_list'] = User.objects.filter(id=self.request.user.pk)
+            print(context['trainers_list'])
         return context
