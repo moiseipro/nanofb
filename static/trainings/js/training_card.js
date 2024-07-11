@@ -321,7 +321,7 @@ function load_all_exercises_training(training_id = null, group = null) {
         $('#training-main-data [name="time"]').val(data.event_time);
         if('team_info' in data) $('#training-main-data .team-name').text(data.team_info.name);
         else $('#training-main-data .team-name').text('Test');
-        $('#training-main-data .trainer-select').text(data.trainer);
+        $('#training-main-data .trainer-select').text(data.trainer ? data.trainer.full_name : '---');
         $('#training-main-data [name="is_personal"]').prop('checked', data.is_personal);
         $('#training-main-data [name="group"]').val(data.group);
         let newOption;

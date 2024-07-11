@@ -2,29 +2,37 @@
 {% load static %}
 {% load language_json %}
 
-<form id="">
-    <div class="form-group">
-        <label for="input_trainer">{% trans "Trainer" %}</label>
-        <select class="custom-select my-1 mr-sm-2" id="input_trainer">
-            {% for trainer in trainers_list %}
-                <option value="{{ trainer.id }}">{{ trainer.personal.last_name }} {{ trainer.personal.first_name }} {{ trainer.personal.father_name }}</option>
-            {% empty %}
-                <option value="">{% trans 'No trainers' %}</option>
-            {% endfor %}
-        </select>
+<form id="training-form">
+    <div class="form-group row mb-0">
+        <label for="input_trainer" class="col-md-6 col-form-label">{% trans "Trainer" %}</label>
+        <div class="col-md-6">
+            <select name="trainer_user_id" class="custom-select mr-sm-2" id="input_trainer">
+                {% for trainer in trainers_list %}
+                    <option value="{{ trainer.id }}">{{ trainer.personal.last_name }} {{ trainer.personal.first_name }} {{ trainer.personal.father_name }}</option>
+                {% empty %}
+                    <option value="">{% trans 'No trainers' %}</option>
+                {% endfor %}
+            </select>
+        </div>
     </div>
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label for="input_players">{% trans "Players" %}</label>
+    {% if not perms.players.change_userplayer and not perms.players.change_clubplayer %}
+    <div class="form-group row mb-0">
+        <label for="input_players" class="col-md-6 col-form-label">{% trans "Players" %}</label>
+        <div class="col-md-6">
             <input type="number" name="players" class="form-control" id="input_players" placeholder="">
         </div>
-        <div class="form-group col-md-6">
-            <label for="input_goalkepeers">{% trans "Goalkeepers" %}</label>
+    </div>
+    <div class="form-group row mb-0">
+        <label for="input_goalkepeers" class="col-md-6 col-form-label">{% trans "Goalkeepers" %}</label>
+        <div class="col-md-6">
             <input type="number" name="goalkepeers" class="form-control" id="input_goalkepeers" placeholder="">
         </div>
     </div>
-    <div class="form-group">
-        <label for="input_field_size">{% trans "Field size" %}</label>
-        <input type="text" name="field_size" class="form-control" id="input_field_size" placeholder="">
+    {% endif %}
+    <div class="form-group row mb-0">
+        <label for="input_field_size" class="col-md-6 col-form-label">{% trans "Field size" %}</label>
+        <div class="col-md-6">
+            <input type="text" name="field_size" class="form-control" id="input_field_size" placeholder="">
+        </div>
     </div>
 </form>

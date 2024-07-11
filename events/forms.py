@@ -130,20 +130,17 @@ class EventUserForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
-            Row(
-                Column('short_name', css_class='form-group col-md-6 mb-0'),
-                Column('event_type', css_class='form-group col-md-6 mb-0'),
-                Column('date', css_class='form-group col-md-6 mb-0'),
-                Column('time', css_class='form-group col-md-6 mb-0'),
-                Column(
+                Row('short_name', css_class='form-group row mb-0'),
+                Row('event_type', css_class='form-group row mb-0'),
+                Row('date', css_class='form-group row mb-0'),
+                Row('time', css_class='form-group row mb-0'),
+                Row(
                     Submit('submit', _('Save'), css_class='btn-block save'),
                     css_class='form-group col-md-12 mb-0'
                 ),
-                Column(css_id='event-link',
+                Row(css_id='event-link',
                     css_class='form-group col-md-12 mb-0'
-                ),
-                css_class='form-row'
-            ),
+                )
 
         )
 
@@ -177,9 +174,9 @@ class EventEditUserForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Row(
-                Column('short_name', css_class='form-group col-md-4 mb-0'),
-                Column('date', css_class='form-group col-md-4 mb-0'),
-                Column('time', css_class='form-group col-md-4 mb-0'),
+                Column('short_name', css_class='form-group row mb-0'),
+                Column('date', css_class='form-group row mb-0'),
+                Column('time', css_class='form-group row mb-0'),
                 Column(
                     Submit('submit', _('Save'), css_class='btn-block save'),
                     css_class='form-group col-md-12 mb-0'

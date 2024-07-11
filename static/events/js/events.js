@@ -462,6 +462,10 @@ $(window).on('load', function (){
         $('#event-link').html('');
         if (send_data['event_type'] == '5'){
             send_data['event_type'] = '1'
+            let training_form = $('#form-event-modal .event_type_block[data-type~="'+send_data['event_type']+'"] form');
+            let training_data = getFormData(training_form)
+            send_data = $.merge(send_data, training_data);
+            console.log(send_data)
             ajax_event_action(method, send_data, 'create').then(function( data ) { //cur_edit_data ? cur_edit_data.id : 0
                 console.log(data)
                 if('status' in data && data['status'] == 'event_type_full') return;
@@ -478,6 +482,13 @@ $(window).on('load', function (){
                 })
             })
         } else {
+            if (send_data['event_type'] == '1'){
+                let training_form = $('#form-event-modal .event_type_block[data-type*="'+send_data['event_type']+'"] form');
+                let training_data = getFormData(training_form)
+                console.log(training_data)
+                send_data = $.extend(send_data, training_data);
+                console.log(send_data)
+            }
             ajax_event_action($(this).attr('method'), send_data, 'create').then(function( data ) { //cur_edit_data ? cur_edit_data.id : 0
                 console.log(data)
                 if('status' in data && data['status'] == 'event_type_full') return;
@@ -493,11 +504,11 @@ $(window).on('load', function (){
     // Отправка формы редактирования события
     $('#form-event-edit').on('submit', function(e) {
         e.preventDefault()
-        let data = getFormData($(this))
-        console.log(data)
-        let date = moment(data['date']).format('DD/MM/YYYY')
-        data['date'] = date+' '+data['time']
-        ajax_event_action($(this).attr('method'), data, 'update', cur_edit_data ? cur_edit_data.id : 0).then(function( data ) {
+        let send_data = getFormData($(this))
+        console.log(send_data)
+        let date = moment(send_data['date']).format('DD/MM/YYYY')
+        send_data['date'] = date+' '+send_data['time']
+        ajax_event_action($(this).attr('method'), send_data, 'update', cur_edit_data ? cur_edit_data.id : 0).then(function( data ) {
             //if(events_table) events_table.ajax.reload()
             console.log(data)
             let isLite = false
@@ -505,7 +516,17 @@ $(window).on('load', function (){
             else isLite = true
             let link = 'training' in data && data.training != null ? '/trainings'+(isLite?'/lite':'')+'/view/'+data.id : 'match' in data && data.match != null && !isLite ? '/matches/match?id='+data.id : ''
             $('#event-edit-link').html(`<a href="${link}" class="btn btn-warning btn-block">${gettext('Go to the created event')}</a>`)
-            generateData()
+            if ('training' in data){
+                let training_form = $('#form-event-edit-modal .event_type_block[data-type*="1"] form');
+                let training_data = getFormData(training_form)
+                console.log(training_data)
+                ajax_training_action('PUT', training_data, 'save', data.id).then(function (data_tr) {
+                    generateData()
+                })
+            } else {
+                generateData()
+            }
+
         })
     })
 
@@ -1243,12 +1264,13 @@ $(function() {
                         })
                     } else if(key === 'edit'){
                         window.console && console.log(event_id);
-
+                        $('#form-event-edit-modal .event_type_block').addClass('d-none')
                         if ($('.hasEvent[data-value="'+event_id+'"]').hasClass('matchClass')){
                             $('#matchEditModal').modal('show');
                             RenderMatchEditModal(event_id)
                         } else if ($('.hasEvent[data-value="'+event_id+'"]').hasClass('trainingClass')) {
                             $('#form-event-edit-modal').modal('show');
+                            $('#form-event-edit-modal .event_type_block[data-type*="1"]').removeClass('d-none')
                             ajax_event_action('GET', null, 'get', event_id).then(function( data ) {
                                 cur_edit_data = data
                                 console.log(cur_edit_data);
@@ -1257,6 +1279,10 @@ $(function() {
                                 $('#form-event-edit #id_short_name').val(cur_edit_data['short_name'])
                                 $('#form-event-edit #datetimepicker-event').val(date)
                                 $('#form-event-edit #timepicker-event').val(cur_edit_data['time'])
+                                $('#form-event-edit-modal [name="trainer_user_id"]').val(cur_edit_data.training.trainer ? cur_edit_data.training.trainer.id : '')
+                                $('#form-event-edit-modal [name="players"]').val(cur_edit_data.training.players_count)
+                                $('#form-event-edit-modal [name="goalkepeers"]').val(cur_edit_data.training.goalkeepers_count)
+                                $('#form-event-edit-modal [name="field_size"]').val(cur_edit_data.training.field_size)
                             })
                         }
 

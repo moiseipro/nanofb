@@ -186,6 +186,13 @@ class AbstractTraining(models.Model):
         help_text=_('Is it a personal training'),
         default=False
     )
+    field_size = models.CharField(
+        max_length=255,
+        verbose_name=_('field size'),
+        help_text=_('The size of the field in training'),
+        null=True,
+        blank=True,
+    )
     video_href = models.CharField(
         max_length=255,
         verbose_name=_('link to the video'),
