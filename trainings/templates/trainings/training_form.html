@@ -6,7 +6,7 @@
     <div class="form-group row mb-0">
         <label for="input_trainer" class="col-md-6 col-form-label">{% trans "Trainer" %}</label>
         <div class="col-md-6">
-            <select name="trainer_user_id" class="custom-select mr-sm-2" id="input_trainer">
+            <select name="trainer_user_id" class="custom-select mr-sm-2" id="input_trainer" required>
                 {% for trainer in trainers_list %}
                     <option value="{{ trainer.id }}">{{ trainer.personal.last_name }} {{ trainer.personal.first_name }} {{ trainer.personal.father_name }}</option>
                 {% empty %}
