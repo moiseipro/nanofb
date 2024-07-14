@@ -154,7 +154,7 @@
 }
 
 .bck-light-gray {
-    background-color: #bebebe !important;
+    background-color: #cecece !important;
 }
 
 .ml-custom-10 {
@@ -327,11 +327,15 @@
     opacity: 0.9;
 }
 .btn-custom.selected3 {
-    background-color: #fff1cb !important;
+    background-color: #ebd086 !important;
     border-color: #f4b536 !important;
     font-weight: 700;
     opacity: 0.9;
     border-width: 2px;
+}
+
+.btn-custom.btn-custom-no-border {
+    border: none !important;
 }
 
 .btn-custom.b-c-blue2.selected3 {

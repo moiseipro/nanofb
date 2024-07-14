@@ -305,7 +305,7 @@ function RenderFolderExercises(id, tExs) {
                         </button>
                     ` : ''}
                     <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.note_status != 0 ? 'selected' : ''}" data-type="marker" data-id="note_status" style="--w-x:24px; min-width: 38px; --h-x:24px;" title="Заметки">
-                        <i class="fa fa-lg fa-comments-o ${exElem.note_status == 1 ? 'text-danger' : `${exElem.note_status == 2 ? 'text-success' : ''}`}" aria-hidden="true"></i>
+                        <i class="fa fa-lg fa-flag ${exElem.note_status == 1 ? 'text-danger' : `${exElem.note_status == 2 ? 'text-success' : ''}`}" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>

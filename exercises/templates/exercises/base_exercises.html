@@ -40,6 +40,13 @@
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center up-tabs-elem size-max-w-x {% if not user.is_superuser %}usr-dft{% endif %}" id="createExercise" title="Добавить упражнение" style="--w-max-x:5%;">
                                                 <span class="icon-custom icon--plus mx-1" style="--i-w: 1.6em; --i-h: 1.6em;"></span>
                                             </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 up-tabs-elem size-max-w-x {% if not user.is_superuser %}usr-dft{% endif %}" id="toggleExsEditPanel" title="Редактировать упражнение" style="--w-max-x:5%;">
+                                                <i class="fa fa-lg fa-pencil" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 up-tabs-elem size-max-w-x {% if not user.is_superuser %}usr-dft{% endif %}" id="toggleExsDeletePanel" title="Удалить упражнение / упражнения" style="--w-max-x:5%;">
+                                                <i class="fa fa-lg fa-trash-o" aria-hidden="true"></i>
+                                            </button>
+
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" id="changeColumnSize" title="Изменить размер колонки" style="--w-max-x:5%;" data-state="0">
                                                 <span class="icon-custom icon--sorting-arrows-horizontal mx-1" style="--i-w: 1.6em; --i-h: 1.6em;"></span>
                                             </button>
@@ -49,15 +56,13 @@
                                             <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_trainer" title="Архив упражнений" style="--w-max-x:5%;">
                                                 <i class="fa fa-lg fa-file-archive-o" aria-hidden="true" style="opacity: 1;"></i>
                                             </button> -->
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center up-tabs-elem size-max-w-x" id="toggleDescriptionInFolders" title="Свернуть / Развернуть описание" style="--w-max-x:5%;" data-state="0">
+                                            <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center up-tabs-elem size-max-w-x" id="toggleDescriptionInFolders" title="Свернуть / Развернуть описание" style="--w-max-x:5%;" data-state="0">
                                                 <i class="fa fa-lg fa-file-text-o" aria-hidden="true"></i>
                                             </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center up-tabs-elem size-max-w-x" id="toggleCardInFolders" title="Свернуть / Развернуть карточку" style="--w-max-x:5%;" data-state="0">
                                                 <i class="fa fa-lg fa-id-card-o" aria-hidden="true"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 up-tabs-elem size-max-w-x" id="toggleExsEditPanel" title="Редактировать упражнение" style="--w-max-x:5%;">
-                                                <i class="fa fa-lg fa-pencil" aria-hidden="true"></i>
-                                            </button>
+                                            </button> -->
+                                            
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 up-tabs-elem size-max-w-x" id="copyExs" title="Скопировать упражнение" style="--w-max-x:5%;">
                                                 <i class="fa fa-lg fa-clone" aria-hidden="true"></i>
                                             </button>
@@ -101,7 +106,7 @@
                                                 PRO
                                             </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_note_status" title="Примечания к упражнению (статус)" style="--w-max-x:5%; font-size: 1.1rem;">
-                                                <i class="fa fa-lg fa-comments-o" aria-hidden="true"></i>
+                                                <i class="fa fa-lg fa-flag" aria-hidden="true"></i>
                                             </button>
                                             <button type="button" id="" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" title="" style="--w-max-x:5%;">
                                                 <i class="fa fa-lg fa-cog" aria-hidden="true"></i>
@@ -1177,7 +1182,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" title="Статус примечаний" class="btn btn-outline-secondary btn-sm" name="note_status" style="font-size: 1.15rem;">
-                            <i aria-hidden="true" class="fa fa-lg fa-comments-o"></i>
+                            <i aria-hidden="true" class="fa fa-lg fa-flag"></i>
                         </button>
                         <button type="button" class="btn btn-primary btn-apply">Сохранить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
