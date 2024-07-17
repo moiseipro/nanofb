@@ -1717,34 +1717,7 @@ $(function() {
             return;
         }
         let cLink = `/exercises/exercise?id=new&type=${folderType}&section=card`;
-        $('#exerciseCardModalForEdit').find('iframe').addClass('d-none');
-        $('#exerciseCardModalForEdit').find('iframe').attr('src', cLink);
-        $('#exerciseCardModalForEdit').modal('show');
-        $('#exerciseCardModalForEdit').find('.btn-change-exs').addClass('d-none');
-        $(e.currentTarget).addClass('selected3');
-    });
-
-    $('#toggleExsEditPanel').on('click', (e) => {
-        let activeExs = $('.exs-list-group').find('.list-group-item.active');
-        let activeExsId = $(activeExs).attr('data-id');
-        let folderType = $('.folders_div.selected').attr('data-id');
-        let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
-        if ($(e.currentTarget).hasClass('usr-dft') && folderType == "nfb_folders") {
-            $(e.currentTarget).removeClass('selected3');
-            swal("Внимание", "Выберите папки <Команда> для редактирования упражнения.", "info");
-            return;
-        }
-        if (!$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none')) {
-            $(e.currentTarget).removeClass('selected3');
-            swal("Внимание", "Отключите упражнения тренера.", "info");
-            return;
-        }
-        if ($(activeExs).length == 0) {
-            $(e.currentTarget).removeClass('selected3');
-            swal("Внимание", "Выберите упражнение для редактирования.", "info");
-            return;
-        }
-        let cLink = `/exercises/exercise?id=${activeExsId}&nfb=${fromNfbFolder ? 1 : 0}&type=${folderType}&section=card`;
+        // window.location.href = cLink;
         $('#exerciseCardModalForEdit').find('iframe').addClass('d-none');
         $('#exerciseCardModalForEdit').find('iframe').attr('src', cLink);
         $('#exerciseCardModalForEdit').modal('show');
@@ -1860,31 +1833,6 @@ $(function() {
             console.error("Error with CKEditor5: ", error);
         });
     } catch (e) {}
-
-    // ClassicEditor
-    //     .create(document.querySelector('#descriptionEditor'), {
-    //         language: cLang
-    //     })
-    //     .then(editor => {
-    //         document.descriptionEditor = editor;
-    //     })
-    //     .catch(err => {
-    //         console.error(err);
-    //     });
-    // ClassicEditor
-    //     .create(document.querySelector('#descriptionEditorView'), {
-    //         language: cLang
-    //     })
-    //     .then(editor => {
-    //         document.descriptionEditorView = editor;
-    //         document.descriptionEditorView.enableReadOnlyMode('');
-    //         $('#descriptionEditorView').next().find('.ck-editor__top').addClass('d-none');
-    //         $('#descriptionEditorView').next().find('.ck-content.ck-editor__editable').addClass('borders-off');
-    //     })
-    //     .catch(err => {
-    //         console.error(err);
-    //     });
- 
     
     $('#exerciseCardModal').on('click', '#saveExs', (e) => {
         let exsId = $('#exerciseCardModal').attr('data-exs');
@@ -2727,111 +2675,6 @@ $(function() {
             activeNum = $('#splitCol_2').find('#carouselAnim').find('.carousel-item').index($(e.currentTarget)) + tempCounter;
         }
         LoadGraphicsModal(id, folderType, activeNum);
-        return;
-
-        e.preventDefault();
-
-        $('#exerciseGraphicsModal').find('.modal-body').find('.carousel-item').each((ind, elem) => {
-            $(elem).removeClass('active');
-            if ($(elem).hasClass('description-item')) {return;}
-            $(elem).remove();
-        });
-        let parentId = $(e.currentTarget).parent().parent().attr('id');
-        let items = $('#carouselSchema').find('.carousel-item:not(.d-none)').clone();
-        if (parentId != "carouselSchema") {$(items).removeClass('active');}
-        $('#exerciseGraphicsModal').find('#carouselGraphics > .carousel-inner').append(items);
-        
-        items = $('#carouselVideo').find('.carousel-item:not(.d-none)').clone();
-        if (parentId != "carouselVideo") {$(items).removeClass('active');}
-        for (let i = 0; i < items.length; i++) {
-            let item = items[i];
-            if ($(item).find('.video-js').length > 0) {
-                $(item).find('.video-js').remove();
-                $(item).append(
-                    `
-                        <video id="video-playerClone-${i}" class="video-js resize-block">
-                        </video>
-                    `
-                );
-            }
-        }
-        $('#exerciseGraphicsModal').find('#carouselGraphics > .carousel-inner').append(items);
-        window.videoPlayerClones = [];
-        for (let i = 0; i < items.length; i++) {
-            window.videoPlayerClones[i] = videojs($('#exerciseGraphicsModal').find(`#video-playerClone-${i}`)[0], {
-                preload: 'auto',
-                autoplay: false,
-                controls: true,
-                aspectRatio: '16:9',
-                youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
-            });
-            window.videoPlayerClones[i].ready((e) => {
-                if (i == 0) {
-                    window.videoPlayerClones[i].src({
-                        type: window.videoPlayerCard1.currentType(),
-                        src: window.videoPlayerCard1.currentSrc()
-                    });
-                    window.videoPlayerClones[i].poster(window.videoPlayerCard1.poster());
-                } else if (i == 1) {
-                    window.videoPlayerClones[i].src({
-                        type: window.videoPlayerCard2.currentType(),
-                        src: window.videoPlayerCard2.currentSrc()
-                    });
-                    window.videoPlayerClones[i].poster(window.videoPlayerCard2.poster());
-                }
-            });
-        }
-
-        items = $('#carouselAnim').find('.carousel-item:not(.d-none)').clone();
-        if (parentId != "carouselAnim") {$(items).removeClass('active');}
-        let videoPlayersLength = window.videoPlayerClones.length;
-        for (let i = 0; i < items.length; i++) {
-            let item = items[i];
-            if ($(item).find('.video-js').length > 0) {
-                $(item).find('.video-js').remove();
-                $(item).append(
-                    `
-                        <video id="video-playerClone-${i + videoPlayersLength}" class="video-js resize-block">
-                        </video>
-                    `
-                );
-            }
-        }
-        $('#exerciseGraphicsModal').find('#carouselGraphics > .carousel-inner').append(items);
-        for (let i = 0; i < items.length; i++) {
-            window.videoPlayerClones[i + videoPlayersLength] = videojs($('#exerciseGraphicsModal').find(`#video-playerClone-${i + videoPlayersLength}`)[0], {
-                preload: 'auto',
-                autoplay: false,
-                controls: true,
-                aspectRatio: '16:9',
-                youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
-            });
-            window.videoPlayerClones[i + videoPlayersLength].ready((e) => {
-                if (i == 0) {
-                    window.videoPlayerClones[i + videoPlayersLength].src({
-                        type: window.videoPlayerCard3.currentType(),
-                        src: window.videoPlayerCard3.currentSrc()
-                    });
-                    window.videoPlayerClones[i].poster(window.videoPlayerCard3.poster());
-                } else if (i == 1) {
-                    window.videoPlayerClones[i + videoPlayersLength].src({
-                        type: window.videoPlayerCard4.currentType(),
-                        src: window.videoPlayerCard4.currentSrc()
-                    });
-                    window.videoPlayerClones[i].poster(window.videoPlayerCard4.poster());
-                }
-            });
-        }
-        $('#exerciseGraphicsModal').modal('show');
-    });
-    $('#exerciseGraphicsModal').on('hide.bs.modal', (e) => {
-        StopAllVideos();
-    });
-    $('#exerciseGraphicsModal').on('click', '.carousel-control-prev', (e) => {
-        StopAllVideos();
-    });
-    $('#exerciseGraphicsModal').on('click', '.carousel-control-next', (e) => {
-        StopAllVideos();
     });
     $('#exerciseGraphicsModal').on('click', '.video-watched', (e) => {
         let activeExs = $('.exercises-list').find('.exs-elem.active');
@@ -2965,15 +2808,17 @@ $(function() {
     // Open editable panel for exercise
     if (sessionStorage.getItem("exercises__exs_edit_panel") !== null) {
         $('.exs-edit-block').toggleClass('d-none', sessionStorage.getItem("exercises__exs_edit_panel") != '1');
-        $('#toggleExsDeletePanel').toggleClass('selected3', sessionStorage.getItem("exercises__exs_edit_panel") == '1');
+        $('#toggleExsEditPanel').toggleClass('selected3', sessionStorage.getItem("exercises__exs_edit_panel") == '1');
+        $('.btns-tabs-first').toggleClass('d-none', sessionStorage.getItem("exercises__exs_edit_panel") == '1');
         let folderType = $('.folders_div.selected').attr('data-id');
         $('.exs-edit-block').find('.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
         $('.folders-block').find('button.edit-exercise.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
         ToggleMarkersInExs();
     }
-    $('#toggleExsDeletePanel').on('click', (e) => {
+    $('#toggleExsEditPanel').on('click', (e) => {
         $('.exs-edit-block').toggleClass('d-none');
         $(e.currentTarget).toggleClass('selected3', !$('.exs-edit-block').hasClass('d-none'));
+        $('.btns-tabs-first').toggleClass('d-none', !$('.exs-edit-block').hasClass('d-none'));
         let folderType = $('.folders_div.selected').attr('data-id');
         $('.exs-edit-block').find('.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
         sessionStorage.setItem("exercises__exs_edit_panel", $('.exs-edit-block').hasClass('d-none') ? 0 : 1);
@@ -2981,7 +2826,8 @@ $(function() {
     });
     $('.exs-edit-block').on('click', 'button[data-dismiss="panel"]', (e) => {
         $('.exs-edit-block').addClass('d-none');
-        $('#toggleExsDeletePanel').toggleClass('selected3', !$('.exs-edit-block').hasClass('d-none'));
+        $('#toggleExsEditPanel').toggleClass('selected3', !$('.exs-edit-block').hasClass('d-none'));
+        $('.btns-tabs-first').removeClass('d-none');
         sessionStorage.setItem("exercises__exs_edit_panel", 0);
     });
     $('.exs-edit-block').on('click', '.btn-o-modal', (e) => {
@@ -2989,7 +2835,7 @@ $(function() {
         let activeExs = $('.exs-list-group').find('.list-group-item.active');
         let activeExsId = $(activeExs).attr('data-id');
         if ($(activeExs).length > 0) {
-            if (cId == "description__temp") {
+            if (cId == "description") {
                 $('#toggleCardInFolders').attr('data-state', '0');
                 $('#toggleCardInFolders').removeClass("c-active");
                 $('#toggleCardInFolders').removeClass("selected3");
@@ -3020,7 +2866,7 @@ $(function() {
                         }
                     } catch(e) {}
                 }
-            } else if (cId == "card__temp") {
+            } else if (cId == "card") {
                 $('#toggleDescriptionInFolders').attr('data-state', '0');
                 $('#toggleDescriptionInFolders').removeClass("c-active");
                 $('#toggleDescriptionInFolders').removeClass("selected3");
@@ -3081,7 +2927,6 @@ $(function() {
         $('.exs-edit-block').find('.btn-o-modal').removeClass('active');
         $('#sidebar').removeClass('z-index-reduce');
         $('#createExercise').removeClass('selected3');
-        $('#toggleExsEditPanel').removeClass('selected3');
     });
     $('#exerciseCardModalForEdit').on('click', '.btn-prev, .btn-next', (e) => {
         let currentList = '.exs-list-group';
@@ -3214,8 +3059,12 @@ $(function() {
     $('.exs-edit-block').on('click', '.btn-edit-e', (e) => {
         let cId = $(e.currentTarget).attr('data-id');
         let activeExs = $('.exs-list-group').find('.list-group-item.active');
+        if (cId == "copy") {
+            $('#copyExs').trigger('click');
+            return;
+        }
         if ($(activeExs).length > 0) {
-            if (cId == "copy") {
+            if (cId == "copy_ttt") {
                 $('#exerciseCopyModal').find('.modal-title').text("Скопировать упражнение в выбранную папку");
                 $('#exerciseCopyModal').find('[name="copy_mode"]').val('1');
                 $('#exerciseCopyModal').find('.move-show').addClass('d-none');

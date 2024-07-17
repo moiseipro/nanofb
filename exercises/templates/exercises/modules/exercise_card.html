@@ -51,12 +51,12 @@
                             <div class="row mx-0">
                                 <div class="col-12 px-0 mt-4">
                                     <ul class="list-group exs-card-editor">
-                                        <li class="list-group-item py-1">
+                                        <li class="list-group-item py-1 d-none">
                                             <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="card">
                                                 Карточка
                                             </button>
                                         </li>
-                                        <li class="list-group-item py-1">
+                                        <li class="list-group-item py-1 d-none">
                                             <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="description">
                                                 Описание
                                             </button>
@@ -127,7 +127,7 @@
                                                         {% endfor %}
                                                     </td>
                                                 </tr>
-                                                <tr class="bck-custom-color" style="--bck-color:#eee; --bck-color-h:#eee;">
+                                                <tr class="bck-custom bck-custom-color2 border-y-custom" style="--bck-color:#eee; --bck-color-h:#eee;">
                                                     <td colspan="3" title="Название упражнения">
                                                         <input name="title" class="form-control form-control-sm exs_edit_field text-center placeholder-font-weight" 
                                                             type="text" value="" placeholder="Название упражнения" autocomplete="off" 
@@ -170,8 +170,8 @@
                                                         </select>
                                                     </td>
                                                 </tr>
-
-
+                                                
+                                                
                                                 <tr class="bck-custom border-y-custom" data-id="card_block">
                                                     <td class="text-left bck-light-gray text-uppercase border-top-light align-middle">
                                                         <span class="ml-2 mt-1">игроки</span>
@@ -199,12 +199,12 @@
                                                         <span class="ml-2 mt-1">мяч</span>
                                                     </td>
                                                     <td class="text-center">
-                                                        <button type="button" class="btn btn-sm btn-block btn-custom btn-custom-no-border in-card-elem py-custom-1" data-id="ball" data-val="true">
+                                                        <button type="button" class="btn btn-sm btn-block btn-custom btn-no-border in-card-elem py-custom-1" data-id="ball" data-val="true">
                                                             <span class="icon-custom icon--ball mt-1" style="--i-w: 1.2em; --i-h: 1.2em;"></span>
                                                         </button>
                                                     </td>
                                                     <td class="text-center">
-                                                        <button type="button" class="btn btn-sm btn-block btn-custom btn-custom-no-border in-card-elem py-custom-1" data-id="ball" data-val="false">
+                                                        <button type="button" class="btn btn-sm btn-block btn-custom btn-no-border in-card-elem py-custom-1" data-id="ball" data-val="false">
                                                             <span class="icon-custom icon--ball-x2 mt-1" style="--i-w: 1.2em; --i-h: 1.2em;"></span>
                                                         </button>
                                                     </td>
@@ -214,12 +214,12 @@
                                                         <span class="ml-2 mt-1">ворота</span>
                                                     </td>
                                                     <td class="text-center">
-                                                        <button type="button" class="btn btn-sm btn-block btn-custom btn-custom-no-border in-card-elem py-custom-1" data-id="gate" data-val="g_big">
+                                                        <button type="button" class="btn btn-sm btn-block btn-custom btn-no-border in-card-elem py-custom-1" data-id="gate" data-val="g_big">
                                                             G.
                                                         </button>
                                                     </td>
                                                     <td class="text-center">
-                                                        <button type="button" class="btn btn-sm btn-block btn-custom btn-custom-no-border in-card-elem py-custom-1" data-id="gate" data-val="g_small">
+                                                        <button type="button" class="btn btn-sm btn-block btn-custom btn-no-border in-card-elem py-custom-1" data-id="gate" data-val="g_small">
                                                             g.
                                                         </button>
                                                     </td>
@@ -229,8 +229,8 @@
                                                         <span class="ml-2 mt-1">Категория</span>
                                                     </td>
                                                     {% for elem in refs.exs_category %}
-                                                    <td class="text-center border-top-dark">
-                                                        <button type="button" class="btn btn-sm btn-block btn-custom in-card-elem py-custom-1" data-id="category" data-val="{{ elem.keycode }}">
+                                                    <td class="text-center">
+                                                        <button type="button" class="btn btn-sm btn-block btn-custom btn-no-border in-card-elem py-custom-1" data-id="category" data-val="{{ elem.keycode }}">
                                                             {{ elem.title }}
                                                         </button>
                                                     </td>
