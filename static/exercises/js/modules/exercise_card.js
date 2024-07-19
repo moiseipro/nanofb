@@ -241,9 +241,6 @@ function RenderExerciseOne(data) {
     }
 
     let exsCard = $('#exerciseCard');
-    try {
-        exsCard = $('#exerciseGraphicsModal').find('#exerciseCard');
-    } catch(e) {}
     if (data && data.id) {
         $(exsCard).attr('data-exs', data.id);
 

@@ -154,7 +154,7 @@
 }
 
 .bck-light-gray {
-    background-color: #bebebe !important;
+    background-color: #e1e1e1 !important;
 }
 
 .ml-custom-10 {
@@ -327,7 +327,7 @@
     opacity: 0.9;
 }
 .btn-custom.selected3 {
-    background-color: #fff1cb !important;
+    background-color: #f5de9d !important;
     border-color: #f4b536 !important;
     font-weight: 700;
     opacity: 0.9;
@@ -335,15 +335,15 @@
 }
 
 .btn-custom.b-c-blue2.selected3 {
-    background-color: #cff3ff !important;
+    background-color: #9ee2f9 !important;
     border-color: #008CBA !important;
 }
 .btn-custom.b-c-red2.selected3 {
-    background-color: #ffd0cb !important;
+    background-color: #f7b0a8 !important;
     border-color: #f44336 !important;
 }
 .btn-custom.b-c-green2.selected3 {
-    background-color: #cdffcf !important;
+    background-color: #bdf7bf !important;
     border-color: #4CAF50 !important;
 }
 
@@ -365,6 +365,10 @@
 }
 .btn-custom.filter-no-watch:after {
     content: '👎';
+}
+
+.btn-custom.btn-no-border {
+    border: none !important;
 }
 
 .bck-custom {
@@ -776,11 +780,13 @@ input[type=number]::-webkit-outer-spin-button {
 	-webkit-appearance: none;
 }
 input[type="number"] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
 }
 input[type="number"]:hover,
 input[type="number"]:focus {
-  -moz-appearance: number-input;
+    -moz-appearance: number-input;
+    appearance: number-input;
 }
 
 .loading-scheme {

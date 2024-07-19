@@ -3,27 +3,7 @@
 <div class="modal fade" id="exerciseGraphicsModal" tabindex="-1" role="dialog" aria-labelledby="exerciseGraphicsModalLbl" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document" style="max-width: 70vw !important;">
         <div class="modal-content">
-            <div class="modal-header">
-                <div class="row w-100 mx-0">
-                    <div class="col-3 text-left">
-                        <button type="button" class="btn btn-sm btn-secondary" title="Следующее упражнение">
-                            <i class="fa fa-arrow-down" aria-hidden="true"></i>
-                        </button>
-                        <button type="button" class="btn btn-sm btn-secondary" title="Предыдущее упражнение">
-                            <i class="fa fa-arrow-up" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                    <div class="col-6 text-center">
-                        <h5 class="modal-title">Название упражнения</h5>
-                    </div>
-                    <div class="col-3 text-right">
-                        <button type="button" class="btn btn-sm btn-warning toggle-edit-exs">Редактировать</button>
-                        <button type="button" class="btn btn-sm btn-success toggle-save-exs d-none">Сохранить</button>
-                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal" aria-label="Close">Назад</button>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-body d-flex justify-content-center py-0">
+            <div class="modal-body d-flex justify-content-center">
                 <div class="row d-flex align-items-center" style="width: 70vw; height: 75vh;">
                     <div class="col-1 h-100">
                         <a class="carousel-control-prev w-100" href="#carouselGraphics" role="button" data-slide="prev">
@@ -33,187 +13,28 @@
                         </a>
                     </div>
                     <div class="col-10 h-100">
-                        <div id="carouselGraphics" class="carousel slide mt-4 h-100" data-ride="carousel" data-interval="false">
-                            <div class="carousel-inner h-100">
-                                <div class="carousel-item active item-scheme">
+                        <div id="carouselGraphics" class="carousel slide mt-4" data-ride="carousel" data-interval="false">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
                                     <svg id="" class="d-block bg-success mx-auto" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" "="">
                                         <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="/static/exercises/img/field.svg"></image>
                                     </svg>
                                 </div>
-                                <div class="carousel-item h-100 item-description">
+                                <div class="carousel-item description-item">
                                     <div class="card size-h-x" style="--h-x:75vh;">
                                         <div class="card-body py-0">
                                             <h5 class="card-title">Описание</h5>
                                             <div class="choose-description-panel">
-                                                <button type="button" class="btn btn-outline-secondary btn-sm toggle-description active" data-id="nf">
+                                                <button type="button" class="btn btn-outline-secondary btn-sm active" data-id="original">
                                                     Описание N.F.
                                                 </button>
-                                                <button type="button" class="btn btn-outline-secondary btn-sm toggle-description" data-id="trainer">
+                                                <button type="button" class="btn btn-outline-secondary btn-sm" data-id="trainer">
                                                     Описание "Тренер"
                                                 </button>
                                             </div>
-                                            <div class="description-panel" data-id="nf">
-                                                <div id="descriptionEditorViewGraphicModal" class="ckeditor" name=""></div>
-                                            </div>
-                                            <div class="description-panel d-none" data-id="trainer">
-                                                <div id="descriptionEditorTrainerViewGraphicModal" class="ckeditor" name=""></div>
-                                            </div>
+                                            <div id="descriptionEditorView" class="ckeditor" name=""></div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="carousel-item h-100 item-card" id="exerciseCard">
-                                    <div class="row mx-0">
-                                        <div class="col-12">
-                                            <div class="row" title="Название упражнения">
-                                                <div class="col-12 border border-white bg-lightgray text-black text-uppercase text-center text-truncate">
-                                                    <input name="title" class="form-control form-control-sm exs_edit_field text-center placeholder-font-weight" 
-                                                            type="text" value="" placeholder="Название упражнения" autocomplete="off" 
-                                                            style="--fw:700; background-color: #fff0; border-color: #fff0;" required="">
-                                                </div>
-                                            </div>
-                                            <div class="row folder-container" title="Главные папки">
-                                                <div class="col-12 border border-white bg-lightgray text-black text-uppercase text-center text-truncate">
-                                                    <select name="folder_parent" class="form-control form-control-sm exs_edit_field nfb_folders d-none" required="" autocomplete="off">
-                                                        {% if nfb_folders %}
-                                                            {% for folder in nfb_folders %}
-                                                                {% if folder.root %}
-                                                                    <option value="{{ folder.id }}" data-name="{{ folder.name }}">{{ folder.short_name }}. {{ folder.name }}</option>
-                                                                {% endif %}
-                                                            {% endfor %}
-                                                        {% endif %}
-                                                    </select>
-                                                    <select name="folder_parent" class="form-control form-control-sm exs_edit_field team_folders" required="" autocomplete="off">
-                                                        {% for folder in folders %}
-                                                            {% if folder.root %}
-                                                                <option value="{{ folder.id }}" data-name="{{ folder.name }}">{{ folder.short_name }}. {{ folder.name }}</option>
-                                                            {% endif %}
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row folder-container" title="Папки с упражнением">
-                                                <div class="col-12 border border-white bg-lightgray text-black text-uppercase text-center text-truncate">
-                                                    <select name="folder_main" class="form-control form-control-sm exs_edit_field nfb_folders d-none" required="" autocomplete="off">
-                                                        {% if nfb_folders %}
-                                                            {% for folder in nfb_folders %}
-                                                                {% if not folder.root %}
-                                                                    <option value="{{ folder.id }}" data-parent="{{ folder.parent }}" data-name="{{ folder.name }}">{{ folder.short_name }}. {{ folder.name }}</option>
-                                                                {% endif %}
-                                                            {% endfor %}
-                                                        {% endif %}
-                                                    </select>
-                                                    <select name="folder_main" class="form-control form-control-sm exs_edit_field team_folders" required="" autocomplete="off">
-                                                        {% for folder in folders %}
-                                                            {% if not folder.root %}
-                                                                <option value="{{ folder.id }}" data-parent="{{ folder.parent }}" data-name="{{ folder.name }}">{{ folder.short_name }}. {{ folder.name }}</option>
-                                                            {% endif %}
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row" title="">
-                                                <div class="col-4 border border-white bg-lightgray text-black text-uppercase text-left text-truncate">
-                                                    Игроки
-                                                </div>
-                                                <div class="col-4 px-0 border-bottom border-dark bg-light">
-                                                    <input name="field_players_a" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="с" autocomplete="off" min="0" max="50">
-                                                </div>
-                                                <div class="col-4 px-0 border-bottom border-dark bg-light">
-                                                    <input name="field_players_b" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="по" autocomplete="off" min="0" max="50">
-                                                </div>
-                                            </div>
-                                            <div class="row" title="">
-                                                <div class="col-4 border border-white bg-lightgray text-black text-uppercase text-left text-truncate">
-                                                    Возраст
-                                                </div>
-                                                <div class="col-4 px-0 border-bottom border-dark bg-light">
-                                                    <input name="field_age_a" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="с" autocomplete="off" min="0" max="150">
-                                                </div>
-                                                <div class="col-4 px-0 border-bottom border-dark bg-light">
-                                                    <input name="field_age_b" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="по" autocomplete="off" min="0" max="150">
-                                                </div>
-                                            </div>
-                                            <div class="row btn-fields" title="">
-                                                <div class="col-4 border border-white bg-lightgray text-black text-uppercase text-left text-truncate">
-                                                    Мяч
-                                                </div>
-                                                <div class="col-4 px-0 border-bottom border-dark bg-light">
-                                                    <button type="button" class="btn btn-sm btn-block btn-custom in-card-elem py-custom-1" data-id="ball" data-val="true" style="border-width: 1px !important;">
-                                                        <span class="icon-custom icon--ball mt-1" style="--i-w: 1.2em; --i-h: 1.2em;"></span>
-                                                    </button>
-                                                </div>
-                                                <div class="col-4 px-0 border-bottom border-dark bg-light">
-                                                    <button type="button" class="btn btn-sm btn-block btn-custom in-card-elem py-custom-1" data-id="ball" data-val="false" style="border-width: 1px !important;">
-                                                        <span class="icon-custom icon--ball-x2 mt-1" style="--i-w: 1.2em; --i-h: 1.2em;"></span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="row btn-fields" title="">
-                                                <div class="col-4 border border-white bg-lightgray text-black text-uppercase text-left text-truncate">
-                                                    Ворота
-                                                </div>
-                                                <div class="col-4 px-0 border-bottom border-dark bg-light">
-                                                    <button type="button" class="btn btn-sm btn-block btn-custom in-card-elem py-custom-1" data-id="gate" data-val="g_big" style="border-width: 1px !important;">
-                                                        G.
-                                                    </button>
-                                                </div>
-                                                <div class="col-4 px-0 border-bottom border-dark bg-light">
-                                                    <button type="button" class="btn btn-sm btn-block btn-custom in-card-elem py-custom-1" data-id="gate" data-val="g_small" style="border-width: 1px !important;">
-                                                        g.
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="d-none">
-                                                <div>
-                                                    <select name="ref_ball" class="form-control form-control-sm exs_edit_field" autocomplete="off" title="Мяч">
-                                                        {% for elem in refs.exs_ball %}
-                                                            <option value="{{ elem.id }}" data-short="{{ elem.short_name }}">{{ elem.title }}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                    <input name="field_goal" class="form-control form-control-sm exs_edit_field text-center" type="text" value="" placeholder="" autocomplete="off">
-                                                </div>
-                                            </div>
-                                            <div class="row btn-fields" title="">
-                                                <div class="col-4 border border-white bg-lightgray text-black text-uppercase text-left text-truncate">
-                                                    Категория
-                                                </div>
-                                                {% for elem in refs.exs_category %}
-                                                <div class="col px-0 border-bottom border-dark bg-light">
-                                                    <button type="button" class="btn btn-sm btn-block btn-custom in-card-elem py-custom-1" data-id="category" data-val="{{ elem.keycode }}" style="border-width: 1px !important;">
-                                                        {{ elem.title }}
-                                                    </button>
-                                                </div>
-                                                {% endfor %}
-                                            </div>
-                                            {% if user.is_superuser %}
-                                            <div class="row" title="">
-                                                <div class="col-12 px-0 border-bottom border-dark bg-light">
-                                                    <select name="tags" class="select w-100 custom-select custom-select-sm tag-select exs_edit_field" multiple data-tags="true" data-theme="bootstrap4" disabled style="width: 100%;">
-                                                        {% for tag in exercises_tags.nfb %}
-                                                            <option value="{{ tag.name }}" data-color="{{ tag.category.color }}" data-tag-class="tag-dot">
-                                                                {% if tag.category %}
-                                                                    {{ tag.category.name }}. 
-                                                                {% endif %}
-                                                                {{ tag.name }}
-                                                            </option>
-                                                        {% endfor %}
-                                                        {% for tag in exercises_tags.self %}
-                                                            <option value="{{ tag.name }}" data-color="{{ tag.category.color }}" data-tag-class="tag-square">
-                                                                {% if tag.category %}
-                                                                    {{ tag.category.name }}. 
-                                                                {% endif %}
-                                                                {{ tag.name }}
-                                                            </option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="carousel-item h-100 item-notes">
-                                    NOTES
                                 </div>
                             </div>
                         </div>
@@ -228,15 +49,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <div class="row w-100 mx-0 mt-4">
-                    <div class="col-12 text-center">
-                        <button type="button" class="btn btn-sm btn-tab btn-outline-secondary" data-type="scheme">Рисунок</button>
-                        <button type="button" class="btn btn-sm btn-tab btn-outline-secondary" data-type="video">Видео</button>
-                        <button type="button" class="btn btn-sm btn-tab btn-outline-secondary" data-type="description">Описание</button>
-                        <button type="button" class="btn btn-sm btn-tab btn-outline-secondary" data-type="card">Карточка</button>
-                        <button type="button" class="btn btn-sm btn-tab btn-outline-secondary" data-type="notes">Примечания</button>
-                    </div>
-                </div>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Назад</button>
             </div>
         </div>
     </div>
