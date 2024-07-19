@@ -705,19 +705,21 @@ class EventViewSet(viewsets.ModelViewSet):
                 print(count_tr < 3 and count_group_tr >= 0 and count_group_tr < 2)
                 if count_tr < 2 or (count_tr < 3 and count_group_tr > 0 and count_group_tr < 2):
                     user_id = User.objects.get(pk=self.request.data['trainer_user_id'])
+                    goalkepeers = self.request.data['goalkepeers'] if 'goalkepeers' in self.request.data else 0
+                    players = self.request.data['players'] if 'players' in self.request.data else 0
                     if self.request.user.club_id is not None:
                         event = serializer.save(user_id=user, club_id=self.request.user.club_id)
                         new_training = ClubTraining.objects.create(team_id=team, event_id=event, group=group,
                                                                    trainer_user_id=user_id,
-                                                                   goalkeepers_count=self.request.data['goalkepeers'],
-                                                                   players_count=self.request.data['players'],
+                                                                   goalkeepers_count=goalkepeers,
+                                                                   players_count=players,
                                                                    field_size=self.request.data['field_size'])
                     else:
                         event = serializer.save(user_id=user)
                         new_training = UserTraining.objects.create(team_id=team, event_id=event, group=group,
                                                                    trainer_user_id=user_id,
-                                                                   goalkeepers_count=self.request.data['goalkepeers'],
-                                                                   players_count=self.request.data['players'],
+                                                                   goalkeepers_count=goalkepeers,
+                                                                   players_count=players,
                                                                    field_size=self.request.data['field_size'])
                     new_training.save()
                     return True
