@@ -393,7 +393,9 @@ $(window).on('load', function (){
         console.log(send_data)
         ajax_microcycle_update($(this).attr('method'), send_data, cur_edit_data ? cur_edit_data.id : 0)
     })
-    
+
+    //$('#swap-nav-tab a')
+
     $('#copy-admin-objectives').on('click', function () {
         swal(gettext("Copy NF objectives? (The my objectives table will be cleared)"), {
             buttons: {

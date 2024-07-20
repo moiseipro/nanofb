@@ -39,7 +39,7 @@ $(window).on('load', function (){
     })
 
     create_ajax_select2($('[name="load"]'), gettext('Load'), '/trainings/loads_list/', $(document.body), false, true, 0, false)
-    create_ajax_select2($('[name="blocks"]'), gettext('Block'), '/trainings/blocks_list/', $(document.body), false, true, 0, true, 3)
+    create_ajax_select2($('[name="blocks"]'), gettext('Type of training'), '/trainings/blocks_list/', $(document.body), false, true, 0, true, 1)
 
     create_ajax_select2($('[name="objective_1"]'), gettext('Objectives'), '/trainings/objectives_list/', $(document.body), false, true, 0, true, 3, {'type': 0})
     //create_ajax_select2($('[name="objective_2"]'), gettext('Add. objectives'), '/trainings/objectives_list/', $(document.body), false, true, 0, true, 4, {'type': 1})
