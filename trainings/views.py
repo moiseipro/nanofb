@@ -28,7 +28,8 @@ from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExe
     ClubTrainingExercise, ClubTrainingProtocol, ClubTraining, ClubTrainingExerciseAdditional, LiteTraining, \
     LiteTrainingExercise, LiteTrainingExerciseAdditional, UserTrainingObjectives, ClubTrainingObjectives, \
     ClubTrainingObjectiveMany, UserTrainingObjectiveMany, ClubTrainingBlocks, UserTrainingBlocks, ClubTrainingBlockMany, \
-    UserTrainingBlockMany, ClubTrainingLoad, UserTrainingLoad, AdminTrainingObjectives, AdminTrainingBlocks
+    UserTrainingBlockMany, ClubTrainingLoad, UserTrainingLoad, AdminTrainingObjectives, AdminTrainingBlocks, \
+    AdminTrainingLoad
 
 # REST FRAMEWORK
 from trainings.serializers import UserTrainingSerializer, UserTrainingExerciseSerializer, \
@@ -38,7 +39,8 @@ from trainings.serializers import UserTrainingSerializer, UserTrainingExerciseSe
     UserTrainingObjectiveSerializer, ClubTrainingObjectiveSerializer, UserTrainingObjectiveManySerializer, \
     ClubTrainingObjectiveManySerializer, ClubTrainingBlockSerializer, UserTrainingBlockSerializer, \
     ClubTrainingBlockManySerializer, UserTrainingBlockManySerializer, ClubTrainingLoadSerializer, \
-    UserTrainingLoadSerializer, AdminTrainingObjectiveSerializer, AdminTrainingBlockSerializer
+    UserTrainingLoadSerializer, AdminTrainingObjectiveSerializer, AdminTrainingBlockSerializer, \
+    AdminTrainingLoadSerializer
 from users.models import User
 from system_icons.views import get_ui_elements
 
@@ -396,11 +398,50 @@ class TrainingViewSet(viewsets.ModelViewSet):
         return trainings
 
 
+class AdminLoadsViewSet(viewsets.ModelViewSet):
+    permission_classes = [BaseTrainingsPermissions]
+    filter_backends = (DatatablesFilterBackend,)
+    filterset_class = ObjectivesGlobalFilter
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+    def get_serializer_class(self):
+        serial = AdminTrainingLoadSerializer
+        return serial
+
+    def get_queryset(self):
+        objectives = AdminTrainingLoad.objects.filter(variant=0).order_by('short_name', 'name')
+
+        return objectives
+
+
 class LoadsViewSet(viewsets.ModelViewSet):
     permission_classes = [BaseTrainingsPermissions]
     #permission_classes = [IsAuthenticated]
     filter_backends = (DatatablesFilterBackend,)
     filterset_class = ObjectivesGlobalFilter
+
+    @action(detail=False, methods=['post'])
+    def copy_admin_all(self, request):
+        admin_blocks = AdminTrainingLoad.objects.all()
+        new_loads = []
+        if self.request.user.club_id is not None:
+            ClubTrainingLoad.objects.all().delete()
+            for block in admin_blocks:
+                new_loads.append(ClubTrainingLoad(name=block.name, short_name=block.short_name,
+                                                     club_id=self.request.user.club_id))
+            objs = ClubTrainingLoad.objects.bulk_create(new_loads)
+        else:
+            UserTrainingLoad.objects.all().delete()
+            for block in admin_blocks:
+                new_loads.append(
+                    UserTrainingLoad(name=block.name, short_name=block.short_name, user=self.request.user))
+            objs = UserTrainingLoad.objects.bulk_create(new_loads)
+
+        print(objs)
+
+        return Response({'status': 'admin_copied'})
 
     def perform_create(self, serializer):
         if self.request.user.club_id is not None:

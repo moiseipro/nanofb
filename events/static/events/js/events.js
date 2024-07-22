@@ -37,6 +37,7 @@ $(window).on('load', function (){
     generate_ajax_blocks_table('45vh')
     generate_ajax_ablocks_table('45vh')
     generate_ajax_loads_table('45vh')
+    generate_ajax_aload_table('45vh')
 
 
     create_ajax_select2($('#nav-user-objectives select'), gettext('Short key'), '/trainings/objectives_short', $('#references-modal'), false)
@@ -397,7 +398,7 @@ $(window).on('load', function (){
     //$('#swap-nav-tab a')
 
     $('#copy-admin-objectives').on('click', function () {
-        swal(gettext("Copy NF objectives? (The my objectives table will be cleared)"), {
+        swal(gettext("Copy NF objectives? (Your objectives will be cleaned up!)"), {
             buttons: {
                 cancel: {
                     text: gettext("Cancel"),
@@ -419,7 +420,7 @@ $(window).on('load', function (){
         });
     })
     $('#copy-admin-blocks').on('click', function () {
-        swal(gettext("Copy NF blocks? (The my blocks table will be cleared)"), {
+        swal(gettext("Copy NF blocks? (Your blocks will be cleaned up!)"), {
             buttons: {
                 cancel: {
                     text: gettext("Cancel"),
@@ -436,6 +437,29 @@ $(window).on('load', function (){
             if (isConfirm) {
                 ajax_blocks_action('POST', {}, gettext('Copy'), '', 'copy_admin_all').then(function (data) {
                     blocks_table.ajax.reload()
+                })
+            }
+        });
+
+    })
+    $('#copy-admin-loads').on('click', function () {
+        swal(gettext("Copy NF blocks? (Your loads will be cleaned up!)"), {
+            buttons: {
+                cancel: {
+                    text: gettext("Cancel"),
+                    visible:true,
+                    value: false,
+                },
+                confirm: {
+                    text: gettext("OK"),
+                    visible:true,
+                    value: true,
+                },
+            },
+        }).then(function(isConfirm) {
+            if (isConfirm) {
+                ajax_loads_action('POST', {}, gettext('Copy'), '', 'copy_admin_all').then(function (data) {
+                    loads_table.ajax.reload()
                 })
             }
         });

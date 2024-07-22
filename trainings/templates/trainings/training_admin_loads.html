@@ -1,0 +1,50 @@
+{% load i18n %}
+{% load static %}
+{% load language_json %}
+
+
+{% if perms.trainings.view_admintrainingobjectives %}
+    <div class="">
+        {% if perms.trainings.change_admintrainingobjectives %}
+        <form id="admin-loads-form" method="post" class="">
+            <div class="row">
+                <div class="col-2 px-1">
+                    <input type="text" name="short_name" class="form-control form-control-sm" data-tags="true" placeholder="{% trans "Short key" %}" autocomplete="off">
+                </div>
+                <div class="col-8 px-1">
+                    <input type="text" name="name" class="form-control form-control-md" placeholder="{% trans "Title" %}" autocomplete="off" style="height: 38px;">
+                </div>
+                <div class="col px-1">
+                    <button type="submit" class="btn btn-md btn-block btn-success">
+                        <span aria-hidden="true">{% trans 'Create' %}</span>
+                    </button>
+                </div>
+                <div class="col-1 px-1">
+                    <button id="copy-admin-loads" type="button" class="btn btn-md btn-block btn-warning" title="{% trans 'Copy all' %}"><i class="fa fa-files-o" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </form>
+        {% endif %}
+{#        <div class="row mt-2 block-modal-filters">#}
+{#            <div class="col-3 px-1">#}
+{#                <select name=".short-name-col" class="form-control form-control-sm admin-blocks-table-filter" data-tags="true" placeholder="{% trans 'Search short key' %}"></select>#}
+{#            </div>#}
+{#            <div class="col px-1">#}
+{#                <input type="search" name=".name-col" class="form-control form-control-md admin-blocks-table-filter" placeholder="{% trans "Search name" %}" autocomplete="off" style="height: 38px;">#}
+{#            </div>#}
+{#            #}
+{#        </div>#}
+        <div class="table-responsive">
+            <table id="admin-loads-table" class="table table-sm table-striped table-bordered dataTable reference-event-table" data-perm="{{ perms.trainings.change_admintrainingload }}" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>{% trans '№' %}</th>
+                        <th class="short-name-col">{% trans 'Short key' %}</th>
+                        <th class="name-col">{% trans 'Title' %}</th>
+                        <th class="text-center"><i class="fa fa-cog" aria-hidden="true"></i></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+{% endif %}

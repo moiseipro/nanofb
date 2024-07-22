@@ -8,7 +8,7 @@ from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExe
     ClubTrainingProtocol, ClubTrainingExercise, LiteTrainingExerciseAdditional, LiteTraining, LiteTrainingExercise, \
     ClubTrainingExerciseAdditional, UserTrainingObjectives, ClubTrainingObjectives, UserTrainingObjectiveMany, \
     ClubTrainingObjectiveMany, UserTrainingBlocks, ClubTrainingBlocks, ClubTrainingBlockMany, UserTrainingBlockMany, \
-    UserTrainingLoad, ClubTrainingLoad, AdminTrainingBlocks, AdminTrainingObjectives
+    UserTrainingLoad, ClubTrainingLoad, AdminTrainingBlocks, AdminTrainingObjectives, AdminTrainingLoad
 
 # Training
 from users.serializers import UserSerializer
@@ -21,6 +21,13 @@ class TrainingReferenceSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'short_name', 'name', 'archive'
         )
+
+
+class AdminTrainingLoadSerializer(TrainingReferenceSerializer):
+    class Meta(TrainingReferenceSerializer.Meta):
+        model = AdminTrainingLoad
+
+    Meta.fields += ('variant',)
 
 
 class UserTrainingLoadSerializer(TrainingReferenceSerializer):

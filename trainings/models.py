@@ -130,6 +130,14 @@ class ClubTrainingBlocks(AbstractTrainingReferences):
     )
 
 
+class AdminTrainingLoad(AbstractTrainingReferences):
+    variant = models.SmallIntegerField(
+        verbose_name=_('Variant'),
+        help_text=_('Variant'),
+        default=0
+    )
+
+
 class UserTrainingLoad(AbstractTrainingReferences):
     user = models.ForeignKey(
         User,

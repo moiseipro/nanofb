@@ -12,6 +12,7 @@ router.register(r'aobjectives', views.AdminObjectivesViewSet, basename="aobjecti
 router.register(r'blocks', views.BlocksViewSet, basename="blocks")
 router.register(r'ablocks', views.AdminBlocksViewSet, basename="ablocks")
 router.register(r'loads', views.LoadsViewSet, basename="loads")
+router.register(r'aloads', views.AdminLoadsViewSet, basename="aloads")
 
 lrouter = routers.DefaultRouter()
 lrouter.register(r'action', views.LiteTrainingViewSet, basename="action")

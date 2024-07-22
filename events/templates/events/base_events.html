@@ -156,10 +156,10 @@
 {#                                                        <span id="training-load-filter-counter" class="event-filter-counter"></span>#}
 {#                                                    </div>#}
                                                     <div class="col-6 mt-1 pl-0 pr-1">
-                                                        <button id="filled-event-filter" data-filter="0" title="{% trans "Filtering of training events" %}" class="btn btn-block btn-filter-events btn-sm font-weight-bold">{% trans 'T' %}.</button>
+                                                        <button id="filled-event-filter" data-filter="0" title="{% trans "Filtering of training events" %}" class="btn btn-block btn-filter-events btn-sm font-weight-bold">{% trans 'Trainings' %}</button>
                                                     </div>
                                                     <div class="col-6 mt-1 px-1">
-                                                        <button id="filled-match-filter" data-filter="0" title="{% trans "Filtering of match events" %}" class="btn btn-block btn-filter-events btn-sm font-weight-bold">{% trans 'M' %}.</button>
+                                                        <button id="filled-match-filter" data-filter="0" title="{% trans "Filtering of match events" %}" class="btn btn-block btn-filter-events btn-sm font-weight-bold">{% trans 'Matches' %}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -171,9 +171,9 @@
 {#                                                    <div class="col-1 mt-1 pl-1 pr-0 text-center pt-2">#}
 {#                                                        <span id="training-block-filter-counter" class="event-filter-counter"></span>#}
 {#                                                    </div>#}
-                                                    <div class="col-6 mt-1 px-0 objective-filters-block">
-                                                        <select id="objective_1-event-view" type="text" class="form-control form-control-sm select-filter-events" placeholder="{% trans 'Objectives' %}"></select>
-                                                    </div>
+{#                                                    <div class="col-6 mt-1 px-0 objective-filters-block">#}
+{#                                                        <select id="objective_1-event-view" type="text" class="form-control form-control-sm select-filter-events" placeholder="{% trans 'Objectives' %}"></select>#}
+{#                                                    </div>#}
 {#                                                    <div class="col-1 mt-1 pl-1 pr-0 text-center pt-2">#}
 {#                                                        <span id="objective_1-event-view-counter" class="event-filter-counter"></span>#}
 {#                                                    </div>#}
@@ -247,7 +247,9 @@
     <script src="{% static 'references/exercise_additional_data.js' %}"></script>
     <script src="{% static 'references/training_additional.js' %}"></script>
     <script src="{% static 'matches/js/modules/match_edit_modal.js' %}"></script>
+    <script src="{% static 'trainings/js/loads_admin_table.js' %}"></script>
     <script src="{% static 'trainings/js/loads_table.js' %}"></script>
+    <script src="{% static 'trainings/js/action_admin_loads.js' %}"></script>
     <script src="{% static 'trainings/js/action_loads.js' %}"></script>
     <script src="{% static 'trainings/js/objectives_admin_table.js' %}"></script>
     <script src="{% static 'trainings/js/action_admin_objectives.js' %}"></script>
