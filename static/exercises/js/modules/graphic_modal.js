@@ -287,7 +287,7 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
         : ''}
         <div class="carousel-item description-item">
             <div class="card size-h-x" style="--h-x:75vh;">
-                <div class="card-body py-0">
+                <div class="card-body p-0">
                     <h5 class="card-title">Описание</h5>
                     <div class="choose-description-panel">
                         <button type="button" class="btn btn-outline-secondary btn-sm toggle-description active" data-id="nf">
@@ -297,10 +297,10 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
                             Описание "Тренер"
                         </button>
                     </div>
-                    <div class="description-panel" data-id="nf">
+                    <div class="description-panel vert-line-border" data-id="nf">
                         <div id="descriptionEditorView" class="ckeditor" name=""></div>
                     </div>
-                    <div class="description-panel d-none" data-id="trainer">
+                    <div class="description-panel vert-line-border d-none" data-id="trainer">
                         <div id="descriptionEditorTrainerView" class="ckeditor" name=""></div>
                     </div>
                 </div>

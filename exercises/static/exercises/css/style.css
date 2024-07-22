@@ -141,6 +141,11 @@
     border-right: 2px solid black;
 }
 
+.vert-line-border {
+    border-left: 1px solid rgb(60, 60, 60);
+    border-right: 1px solid rgb(60, 60, 60);
+}
+
 .c-hidden {
     display: none !important;
 }
