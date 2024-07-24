@@ -339,6 +339,19 @@ function load_all_exercises_training(training_id = null, group = null) {
 
             })
         }
+        if (data.md){
+            ajax_amd_action('GET', {}, 'get md').then(function (datas) {
+                let mds = datas.results
+                console.log(mds)
+                for (const md of mds) {
+                    if (md.id == data.md){
+                        newOption = new Option(md.name, md.id, false, true);
+                        $('#training-main-data select[name="md"]').append(newOption).trigger('change');
+                    }
+                }
+
+            })
+        }
 
         if (data.block){
             newOption = new Option(data.block, data.block, false, true);
