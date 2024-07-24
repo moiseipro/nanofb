@@ -38,6 +38,7 @@ $(window).on('load', function (){
     generate_ajax_ablocks_table('45vh')
     generate_ajax_loads_table('45vh')
     generate_ajax_aload_table('45vh')
+    generate_ajax_amd_table('45vh')
 
 
     create_ajax_select2($('#nav-user-objectives select'), gettext('Short key'), '/trainings/objectives_short', $('#references-modal'), false)
@@ -910,6 +911,7 @@ $(window).on('load', function (){
     $('#event-mc7-active-button').on( 'click', function () {
         if ($(this).hasClass('active')){
             $(this).removeClass('active')
+            $('.microcycle-show-number.selected').removeClass('selected')
             baseMicrocycle = []
         } else {
             $(this).addClass('active')

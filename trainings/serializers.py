@@ -8,7 +8,7 @@ from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExe
     ClubTrainingProtocol, ClubTrainingExercise, LiteTrainingExerciseAdditional, LiteTraining, LiteTrainingExercise, \
     ClubTrainingExerciseAdditional, UserTrainingObjectives, ClubTrainingObjectives, UserTrainingObjectiveMany, \
     ClubTrainingObjectiveMany, UserTrainingBlocks, ClubTrainingBlocks, ClubTrainingBlockMany, UserTrainingBlockMany, \
-    UserTrainingLoad, ClubTrainingLoad, AdminTrainingBlocks, AdminTrainingObjectives, AdminTrainingLoad
+    UserTrainingLoad, ClubTrainingLoad, AdminTrainingBlocks, AdminTrainingObjectives, AdminTrainingLoad, AdminTrainingMD
 
 # Training
 from users.serializers import UserSerializer
@@ -21,6 +21,13 @@ class TrainingReferenceSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'short_name', 'name', 'archive'
         )
+
+
+class AdminTrainingMDSerializer(TrainingReferenceSerializer):
+    class Meta(TrainingReferenceSerializer.Meta):
+        model = AdminTrainingMD
+
+    Meta.fields += ('variant',)
 
 
 class AdminTrainingLoadSerializer(TrainingReferenceSerializer):
@@ -401,7 +408,7 @@ class UserTrainingSerializer(TrainingSerializer):
     class Meta(TrainingSerializer.Meta):
         model = UserTraining
 
-    Meta.fields += ('exercises_info', 'protocol_info', 'team_info', 'objectives', 'blocks', 'load_info')
+    Meta.fields += ('exercises_info', 'protocol_info', 'team_info', 'objectives', 'blocks', 'load_info', 'md')
 
 
 class ClubTrainingSerializer(TrainingSerializer):
@@ -437,7 +444,7 @@ class ClubTrainingSerializer(TrainingSerializer):
     class Meta(TrainingSerializer.Meta):
         model = UserTraining
 
-    Meta.fields += ('exercises_info', 'protocol_info', 'team_info', 'objectives', 'blocks', 'load_info')
+    Meta.fields += ('exercises_info', 'protocol_info', 'team_info', 'objectives', 'blocks', 'load_info', 'md')
 
 
 class LiteTrainingSerializer(TrainingSerializer):

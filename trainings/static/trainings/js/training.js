@@ -38,6 +38,7 @@ $(window).on('load', function (){
         });
     })
 
+    create_ajax_select2($('[name="md"]'), gettext('MCD'), '/trainings/amd_list/', $(document.body), false, true, 0, false)
     create_ajax_select2($('[name="load"]'), gettext('Load'), '/trainings/loads_list/', $(document.body), false, true, 0, false)
     create_ajax_select2($('[name="blocks"]'), gettext('Type of training'), '/trainings/blocks_list/', $(document.body), false, true, 0, true, 1)
 
@@ -178,6 +179,7 @@ $(window).on('load', function (){
         training_data['additional'] = JSON.stringify(additionals)
         training_data['block'] = $('#training-main-data select[name="block"]').val()
         training_data['load'] = $('#training-main-data select[name="load"]').val()
+        training_data['md'] = $('#training-main-data select[name="md"]').val()
         //training_data['block_short_key'] = $('#training-main-data select[name="block_key"]').val()
 
         training_data['group'] = $('#training-main-data select[name="group"]').val()

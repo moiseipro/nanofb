@@ -29,7 +29,7 @@ from trainings.models import UserTraining, UserTrainingExercise, UserTrainingExe
     LiteTrainingExercise, LiteTrainingExerciseAdditional, UserTrainingObjectives, ClubTrainingObjectives, \
     ClubTrainingObjectiveMany, UserTrainingObjectiveMany, ClubTrainingBlocks, UserTrainingBlocks, ClubTrainingBlockMany, \
     UserTrainingBlockMany, ClubTrainingLoad, UserTrainingLoad, AdminTrainingObjectives, AdminTrainingBlocks, \
-    AdminTrainingLoad
+    AdminTrainingLoad, AdminTrainingMD
 
 # REST FRAMEWORK
 from trainings.serializers import UserTrainingSerializer, UserTrainingExerciseSerializer, \
@@ -40,7 +40,7 @@ from trainings.serializers import UserTrainingSerializer, UserTrainingExerciseSe
     ClubTrainingObjectiveManySerializer, ClubTrainingBlockSerializer, UserTrainingBlockSerializer, \
     ClubTrainingBlockManySerializer, UserTrainingBlockManySerializer, ClubTrainingLoadSerializer, \
     UserTrainingLoadSerializer, AdminTrainingObjectiveSerializer, AdminTrainingBlockSerializer, \
-    AdminTrainingLoadSerializer
+    AdminTrainingLoadSerializer, AdminTrainingMDSerializer
 from users.models import User
 from system_icons.views import get_ui_elements
 
@@ -595,6 +595,98 @@ class LoadShortApiView(APIView):
             new_block = {
                 'id': load.id,
                 'name': load.short_name,
+                'count': 0
+            }
+            # for load_many in queryset_many:
+            #     if load_many.load.pk == load.pk:
+            #         new_block['count'] += 1
+            list_load.append(new_block)
+
+        print(list_load)
+        #list_load.sort(key=lambda x: x['count'], reverse=True)
+
+        object_count = {}
+        for load in list_load:
+            #print(microcycle)
+            object_count[load['id']] = object_count.get(load['id'], {'name': '', 'count': 0})
+            object_count[load['id']]['count'] += load['count']
+            object_count[load['id']]['name'] = load['name']
+        #print(object_count)
+        list2 = [{'id': id, 'count': data['count'], 'text': data['name']} for id, data in object_count.items()]
+        #list2.insert(0, {'id': 'all', 'count': '', 'text': _('Not chosen')})
+        #print(list2)
+        return Response(list2)
+
+
+class AdminMDViewSet(viewsets.ModelViewSet):
+    permission_classes = [BaseTrainingsPermissions]
+    filter_backends = (DatatablesFilterBackend,)
+    filterset_class = ObjectivesGlobalFilter
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+    def get_serializer_class(self):
+        serial = AdminTrainingMDSerializer
+        return serial
+
+    def get_queryset(self):
+        objectives = AdminTrainingMD.objects.filter(variant=0).order_by('short_name', 'name')
+
+        return objectives
+
+
+class AdminMDListApiView(APIView):
+    # authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        search = request.GET.get('search', '')
+
+        if search != '':
+            words = search.split()
+            query_obj = reduce(
+                lambda a, b: a & b,
+                (Q(name__icontains=term) for term in words),
+            )
+            query_obj_many = reduce(
+                lambda a, b: a & b,
+                (Q(load__name__icontains=term) for term in words),
+            )
+            print(query_obj)
+        else:
+            query_obj = (Q(name__icontains=search))
+            query_obj_many = (Q(load__name__icontains=search))
+
+        if request.user.club_id is not None:
+            season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
+            queryset = AdminTrainingMD.objects.filter(query_obj). \
+                order_by('short_name', 'name')
+            queryset_many = ClubTraining.objects. \
+                filter(Q(event_id__date__gte=season[0].date_with) &
+                       Q(event_id__date__lte=season[0].date_by) &
+                       Q(event_id__club_id=request.user.club_id) &
+                       Q(team_id=self.request.session['team'])).filter(query_obj_many). \
+                annotate(count=Count('md')).order_by('md__name')
+        else:
+            season = UserSeason.objects.filter(id=self.request.session['season'])
+            queryset = AdminTrainingMD.objects.filter(query_obj). \
+                order_by('short_name', 'name')
+            queryset_many = UserTraining.objects. \
+                filter(Q(event_id__date__gte=season[0].date_with) &
+                       Q(event_id__date__lte=season[0].date_by) &
+                       Q(event_id__user_id=request.user) &
+                       Q(team_id=self.request.session['team'])).filter(query_obj_many). \
+                annotate(count=Count('md')).order_by('md__name')
+
+        print(queryset_many.values())
+        list_load = []
+
+        for load in queryset:
+            load_count = 0
+            new_block = {
+                'id': load.id,
+                'name': load.name,
                 'count': 0
             }
             # for load_many in queryset_many:

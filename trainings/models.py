@@ -160,6 +160,14 @@ class ClubTrainingLoad(AbstractTrainingReferences):
     )
 
 
+class AdminTrainingMD(AbstractTrainingReferences):
+    variant = models.SmallIntegerField(
+        verbose_name=_('Variant'),
+        help_text=_('Variant'),
+        default=0
+    )
+
+
 class AbstractTraining(models.Model):
     trainer_user_id = models.ForeignKey(
         User,
@@ -269,6 +277,12 @@ class UserTraining(AbstractTraining):
         through="UserTrainingBlockMany",
         through_fields=('training', 'block')
     )
+    md = models.ForeignKey(
+        AdminTrainingMD,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL
+    )
     exercises = models.ManyToManyField(
         UserExercise,
         through="UserTrainingExercise",
@@ -322,6 +336,12 @@ class ClubTraining(AbstractTraining):
         help_text=_('Block in training'),
         through="ClubTrainingBlockMany",
         through_fields=('training', 'block')
+    )
+    md = models.ForeignKey(
+        AdminTrainingMD,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL
     )
     exercises = models.ManyToManyField(
         ClubExercise,

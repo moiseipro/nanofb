@@ -370,7 +370,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
 
                     if(calendar == false){
                         let html_data = ''
-                        let max_col=18, max_row=3, max_col_row=12
+                        let max_col=26, max_row=3, max_col_row=12
                         let col=0, row=0, col_row=0
                         html_data += `<tr class="microcycle-table-option"></tr>`
 

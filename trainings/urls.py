@@ -13,6 +13,7 @@ router.register(r'blocks', views.BlocksViewSet, basename="blocks")
 router.register(r'ablocks', views.AdminBlocksViewSet, basename="ablocks")
 router.register(r'loads', views.LoadsViewSet, basename="loads")
 router.register(r'aloads', views.AdminLoadsViewSet, basename="aloads")
+router.register(r'amd', views.AdminMDViewSet, basename="amd")
 
 lrouter = routers.DefaultRouter()
 lrouter.register(r'action', views.LiteTrainingViewSet, basename="action")
@@ -37,4 +38,5 @@ urlpatterns = [
     path('ablocks_short/', views.AdminBlockShortListApiView.as_view(), name='ablock_short_list'),
     path('loads_list/', views.LoadListApiView.as_view(), name='loads_list'),
     path('loads_short/', views.LoadShortApiView.as_view(), name='loads_short'),
+    path('amd_list/', views.AdminMDListApiView.as_view(), name='amd_list'),
 ]
