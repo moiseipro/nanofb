@@ -677,6 +677,8 @@ class EventViewSet(viewsets.ModelViewSet):
         user = self.request.user
         cur_date = datetime.strptime(self.request.data['date'], "%d/%m/%Y %H:%M").date()
         cur_time = datetime.strptime(self.request.data['date'], "%d/%m/%Y %H:%M").time()
+        field_size = self.request.data['field_size'] if 'field_size' in self.request.data else ''
+        opponent = self.request.data['opponent'] if 'opponent' in self.request.data else ''
         print(cur_date)
         if self.request.user.club_id is not None:
             team = ClubTeam.objects.get(pk=self.request.session['team'])
@@ -713,14 +715,14 @@ class EventViewSet(viewsets.ModelViewSet):
                                                                    trainer_user_id=user_id,
                                                                    goalkeepers_count=goalkepeers,
                                                                    players_count=players,
-                                                                   field_size=self.request.data['field_size'])
+                                                                   field_size=field_size)
                     else:
                         event = serializer.save(user_id=user)
                         new_training = UserTraining.objects.create(team_id=team, event_id=event, group=group,
                                                                    trainer_user_id=user_id,
                                                                    goalkeepers_count=goalkepeers,
                                                                    players_count=players,
-                                                                   field_size=self.request.data['field_size'])
+                                                                   field_size=field_size)
                     new_training.save()
                     return True
                 else:
@@ -738,10 +740,10 @@ class EventViewSet(viewsets.ModelViewSet):
             if match == 0:
                 if self.request.user.club_id is not None:
                     event = serializer.save(user_id=user, club_id=self.request.user.club_id)
-                    new_match = ClubMatch.objects.create(team_id=team, event_id=event, m_type=0)
+                    new_match = ClubMatch.objects.create(team_id=team, event_id=event, m_type=0, opponent=opponent)
                 else:
                     event = serializer.save(user_id=user)
-                    new_match = UserMatch.objects.create(team_id=team, event_id=event, m_type=0)
+                    new_match = UserMatch.objects.create(team_id=team, event_id=event, m_type=0, opponent=opponent)
                 new_match.save()
                 return True
             else:
@@ -757,10 +759,10 @@ class EventViewSet(viewsets.ModelViewSet):
             if match == 0:
                 if self.request.user.club_id is not None:
                     event = serializer.save(user_id=user, club_id=self.request.user.club_id)
-                    new_match = ClubMatch.objects.create(team_id=team, event_id=event, m_type=1)
+                    new_match = ClubMatch.objects.create(team_id=team, event_id=event, m_type=1, opponent=opponent)
                 else:
                     event = serializer.save(user_id=user)
-                    new_match = UserMatch.objects.create(team_id=team, event_id=event, m_type=1)
+                    new_match = UserMatch.objects.create(team_id=team, event_id=event, m_type=1, opponent=opponent)
                 new_match.save()
                 return True
             else:

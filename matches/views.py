@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
+from rest_framework import viewsets
+from rest_framework.permissions import DjangoModelPermissions
+
+from matches.serializers import ClubMatchSerializer, UserMatchSerializer
 from users.models import User
 from references.models import UserTeam, UserSeason, ClubTeam, ClubSeason
 from system_icons.views import get_ui_elements
@@ -9,6 +13,18 @@ from nanofootball.views import util_check_access
 import matches.v_api as v_api
 from datetime import datetime
 import nanofootball.utils as utils
+
+
+class BaseMatchPermissions(DjangoModelPermissions):
+    perms_map = {
+        'GET': ['%(app_label)s.view_%(model_name)s'],
+        'OPTIONS': [],
+        'HEAD': [],
+        'POST': ['%(app_label)s.add_%(model_name)s'],
+        'PUT': ['%(app_label)s.change_%(model_name)s'],
+        'PATCH': ['%(app_label)s.change_%(model_name)s'],
+        'DELETE': ['%(app_label)s.delete_%(model_name)s'],
+    }
 
 
 def matches(request):
@@ -283,3 +299,35 @@ def matches_api(request):
     else:
         return JsonResponse({"errors": "access_error"}, status=400)
 
+
+class MatchViewSet(viewsets.ModelViewSet):
+    permission_classes = [BaseMatchPermissions]
+
+    def perform_create(self, serializer):
+        if self.request.user.club_id is not None:
+            team = ClubTeam.objects.get(pk=self.request.session['team'])
+        else:
+            team = UserTeam.objects.get(pk=self.request.session['team'])
+        serializer.save(team_id=team, trainer_user_id=self.request.user)
+
+    def get_serializer_class(self):
+        if self.request.user.club_id is not None:
+            serial = ClubMatchSerializer
+        else:
+            serial = UserMatchSerializer
+        return serial
+
+    def get_queryset(self):
+        if self.request.user.club_id is not None:
+            season = ClubSeason.objects.filter(id=self.request.session['season'])
+            match = ClubMatch.objects.filter(team_id=self.request.session['team'],
+                                                    event_id__club_id=self.request.user.club_id,
+                                                    event_id__date__gte=season[0].date_with,
+                                                    event_id__date__lte=season[0].date_by)
+        else:
+            season = UserSeason.objects.filter(id=self.request.session['season'])
+            match = UserMatch.objects.filter(team_id=self.request.session['team'],
+                                           event_id__user_id=self.request.user,
+                                           event_id__date__gte=season[0].date_with,
+                                           event_id__date__lte=season[0].date_by)
+        return match

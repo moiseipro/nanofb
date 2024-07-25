@@ -478,6 +478,9 @@ $(window).on('load', function (){
         $('#form-event').attr('method', 'POST')
         clear_event_form()
     })
+    $('#match-form #select_team').on('change', function () {
+        $('#match-form #input_opponent').val($(this).val())
+    })
     // Отправка формы создания события
     $('#form-event').on('submit', function(e) {
         e.preventDefault()
@@ -515,6 +518,12 @@ $(window).on('load', function (){
                 console.log(training_data)
                 send_data = $.extend(send_data, training_data);
                 console.log(send_data)
+            } else if (send_data['event_type'] == '2' || send_data['event_type'] == '3'){
+                let match_form = $('#form-event-modal .event_type_block[data-type*="'+send_data['event_type']+'"] form');
+                let match_data = getFormData(match_form)
+                console.log(match_data)
+                send_data = $.extend(send_data, match_data);
+                console.log(send_data)
             }
             ajax_event_action($(this).attr('method'), send_data, 'create').then(function( data ) { //cur_edit_data ? cur_edit_data.id : 0
                 console.log(data)
@@ -548,6 +557,13 @@ $(window).on('load', function (){
                 let training_data = getFormData(training_form)
                 console.log(training_data)
                 ajax_training_action('PUT', training_data, 'save', data.id).then(function (data_tr) {
+                    generateData()
+                })
+            } else if('match' in data){
+                let match_form = $('#form-event-edit-modal .event_type_block[data-type*="2"] form');
+                let match_data = getFormData(match_form)
+                console.log(match_data)
+                ajax_match_action('PUT', match_data, 'save', data.id).then(function (data_mch) {
                     generateData()
                 })
             } else {
