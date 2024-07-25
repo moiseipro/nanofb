@@ -1013,6 +1013,8 @@ $(function() {
         $('.folders-block').find('.description-container').find(`.description-panel[data-id="${cId}"]`).removeClass('d-none');
     });
 
+    
+
     // Split columns
     window.dataForSplit = JSON.parse(localStorage.getItem('split_cols'));
     if (Array.isArray(window.dataForSplit) && window.dataForSplit.length == 3 || !Array.isArray(window.dataForSplit)) {

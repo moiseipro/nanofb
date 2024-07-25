@@ -450,10 +450,27 @@
             <li class="list-group-item py-2">Выберите для начала папку.</li>
         </ul>
     </div>
-    <div class="pl-3 visual-block" id="splitCol_2" style="width: 42%;">
-        <div class="row mx-0">
-            <div class="col-12 px-0">
-                <div id="carouselSchema" class="carousel slide mt-2" data-ride="carousel" data-interval="false">
+    <div class="pl-3" id="splitCol_2" style="width: 42%;">
+        <div class="row mx-0 mb-2">
+            <div class="col-4 px-0">
+                <button type="button" class="btn btn-secondary btn-sm btn-custom w-100 visual-block-set" data-id="scroll" title="Вкл. / Выкл. Скроллинг">
+                    <i class="fa fa-lg fa-arrows-v" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="col-4 px-0">
+                <button type="button" class="btn btn-secondary btn-sm btn-custom w-100 visual-block-set" data-id="down" title="Следующее">
+                    <i class="fa fa-lg fa-angle-down" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="col-4 px-0">
+                <button type="button" class="btn btn-secondary btn-sm btn-custom w-100 visual-block-set" data-id="up" title="Предыдущее">
+                    <i class="fa fa-lg fa-angle-up" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+        <div class="row mx-0 visual-block overflow-hidden">
+            <div class="col-12 visual-block-elem px-0">
+                <div id="carouselSchema" class="carousel slide" data-ride="carousel" data-interval="false">
                     <ol class="carousel-indicators">
                         <li data-target="#carouselSchema" data-slide-to="0" class="active"></li>
                         <li data-target="#carouselSchema" data-slide-to="1"></li>
@@ -480,7 +497,7 @@
                     </a>
                 </div>
             </div>
-            <div class="col-12 px-0">
+            <div class="col-12 visual-block-elem px-0">
                 <div id="carouselVideo" class="carousel slide mt-2" data-ride="carousel" data-interval="false">
                     <!-- <ol class="carousel-indicators">
                         <li data-target="#carouselVideo" data-slide-to="0" class="active"></li>
@@ -506,7 +523,7 @@
                     </a> -->
                 </div>
             </div>
-            <div class="col-12 px-0">
+            <div class="col-12 visual-block-elem px-0">
                 <div id="carouselAnim" class="carousel slide mt-2" data-ride="carousel" data-interval="false">
                     <!-- <ol class="carousel-indicators">
                         <li data-target="#carouselAnim" data-slide-to="0" class="active"></li>
@@ -532,20 +549,41 @@
                     </a> -->
                 </div>
             </div>
-            <div class="col-12 px-0 d-none" data-id="carousel_all">
-                <div id="carouselAll" class="carousel slide mt-2" data-ride="carousel" data-interval="false">
-                    <div class="carousel-inner">
+
+            <div class="col-12 visual-block-elem px-0">
+                <hr>
+                <div class="description-container-visual">
+                    <div class="choose-description-panel-visual">
+                        <button type="button" class="btn btn-outline-secondary btn-sm toggle-description-visual mt-2 active" data-id="nf">
+                            Описание N.F.
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm toggle-description-visual mt-2" data-id="trainer">
+                            Описание "Тренер"
+                        </button>
                     </div>
-                    <a class="carousel-control-prev ml-2" href="#carouselAll" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselAll" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
+                    <div class="description-panel description-panel-visual" data-id="nf"></div>
+                    <div class="description-panel description-panel-visual d-none" data-id="trainer"></div>
                 </div>
             </div>
+            <div class="col-12 visual-block-elem px-0">
+                <hr>
+                <div class="card-container-visual"></div>
+            </div>
+            <div class="col-12 visual-block-elem px-0">
+                <hr>
+                <div class="notes-container-visual">
+                    <textarea class="form-control" name="note_club_admin" rows="7" readonly="" placeholder="Примечания клуб. админа"></textarea>
+                    <textarea class="form-control" name="note_trainer" rows="7" readonly="" placeholder="Примечания тренера"></textarea>
+                </div>
+            </div>
+            <div class="col-12 visual-block-elem px-0">
+                <div class="search-container-visual">
+                    <hr>
+                    Поисковики
+                    <hr>
+                </div>
+            </div>
+
         </div>
         
         <!-- <div class="row ml-2 w-100 size-h-x" style="--h-x:30vh;">

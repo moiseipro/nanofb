@@ -85,7 +85,7 @@
     overflow-y: auto;
 }
 .visual-block {
-    height: 80vh !important;
+    height: 77vh !important;
     overflow-y: auto;
 }
 .side-filter-block {
@@ -619,6 +619,9 @@ a.text-dark:hover {
     pointer-events: none;
 }
 
+.content-click-disabled {
+    pointer-events: none !important;
+}
 
 .border-top-custom {
     border-top: 1px solid rgb(100, 100, 100) !important;
