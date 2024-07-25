@@ -582,6 +582,9 @@ function RenderExerciseOne(data) {
             $('#exerciseNoteModal').find('textarea[name="note_club_admin"]').val(data.note_club_admin);
             $('#exerciseNoteModal').find('[name="note_status"] > i').toggleClass('text-danger', data.note_status == 1);
             $('#exerciseNoteModal').find('[name="note_status"] > i').toggleClass('text-success', data.note_status == 2);
+
+            $('.notes-container-visual').find('textarea[name="note_trainer"]').val(data.note_trainer);
+            $('.notes-container-visual').find('textarea[name="note_club_admin"]').val(data.note_club_admin);
         } catch(e) {}
     } else {
         $(exsCard).attr('data-exs', '-1');
@@ -673,9 +676,40 @@ function RenderExerciseOne(data) {
             $('#exerciseNoteModal').find('textarea[name="note_trainer"]').val('');
             $('#exerciseNoteModal').find('textarea[name="note_club_admin"]').val('');
             $('#exerciseNoteModal').find('[name="note_status"] > i').removeClass('text-danger text-success');
+
+            $('.notes-container-visual').find('textarea[name="note_trainer"]').val(data.note_trainer);
+            $('.notes-container-visual').find('textarea[name="note_club_admin"]').val(data.note_club_admin);
         } catch(e) {}
     }
     ResetEditPanels();
+
+    setTimeout(() => {
+        try {
+            let descriptionNFClone = $('.description-panel-in-folders[data-id="nf"]').clone();
+            $(descriptionNFClone).find('.ckeditor').first().remove();
+            $(descriptionNFClone).removeClass("description-panel-in-folders");
+            $(descriptionNFClone).removeClass("d-none");
+            $('.description-panel-visual[data-id="nf"]').html("");
+            $('.description-panel-visual[data-id="nf"]').append(descriptionNFClone);
+    
+            let descriptionTrainerClone = $('.description-panel-in-folders[data-id="trainer"]').clone();
+            $(descriptionTrainerClone).find('.ckeditor').first().remove();
+            $(descriptionTrainerClone).removeClass("description-panel-in-folders");
+            $(descriptionTrainerClone).removeClass("d-none");
+            $('.description-panel-visual[data-id="trainer"]').html("");
+            $('.description-panel-visual[data-id="trainer"]').append(descriptionTrainerClone);
+    
+            let cardClone = $('#exerciseCard').clone();
+            $(cardClone).attr('id', "");
+            $(cardClone).find('.edit-exercise').parent().parent().remove();
+            $(cardClone).find('.folder-container').remove();
+            $(cardClone).addClass("content-click-disabled");
+            $(cardClone).removeClass("card-container");
+            $(cardClone).removeClass("d-none");
+            $('.card-container-visual').html("");
+            $('.card-container-visual').append(cardClone);
+        } catch(e) {}
+    }, 150);
 }
 
 function AdaptPageToSection(section, exerciseLoaded=false, onlyChangeSection=false, isNewExs=false) {

@@ -1344,6 +1344,17 @@ $(function() {
         $('.folders-container').find('.folders-toggle[data-id="team_folders"]').find('span').first().text(`ПАПКИ "${tText}"`);
     }
 
+    try {
+        let cardClone = $('#exerciseCard').clone();
+            $(cardClone).attr('id', "");
+            $(cardClone).find('.edit-exercise').parent().parent().remove();
+            $(cardClone).find('.folder-container').remove();
+            $(cardClone).addClass("content-click-disabled");
+            $(cardClone).removeClass("card-container");
+            $(cardClone).removeClass("d-none");
+            $('.card-container-visual').html("");
+            $('.card-container-visual').append(cardClone);
+    } catch (e) {}
 
     // Toggle upper buttons panel
     $('button.up-tabs-elem').on('click', (e) => {
@@ -2682,6 +2693,59 @@ $(function() {
         let cId = $(e.currentTarget).attr('data-id');
         $(activeExs).find(`button.btn-marker[data-type="marker"][data-id="${cId}"]`).first().click();
     });
+
+    $('.visual-block-set').on('click', (e) => {
+        let cId = $(e.currentTarget).attr('data-id');
+        let elems = $('.visual-block').find('.visual-block-elem');
+        let scrollToElem = null;
+        switch(cId) {
+            case "scroll":
+                $('.visual-block').toggleClass("overflow-hidden");
+                $(e.currentTarget).toggleClass("selected3");
+                break;
+            case "down":
+                for (let i = 0; i < elems.length; i++) {
+                    let top = $(elems[i]).offset().top;
+                    if (top > 400) {
+                        scrollToElem = elems[i];
+                        break;
+                    }
+                }
+                break;
+            case "up":
+                for (let i = elems.length - 1; i >= 0; i--) {
+                    let top = $(elems[i]).offset().top;
+                    if (top < 150) {
+                        scrollToElem = elems[i];
+                        break;
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+        if (scrollToElem) {
+            let elemBlock = $('.visual-block');
+            if (cId == "down") {
+                $(elemBlock).animate({
+                    scrollTop:  $(elemBlock).scrollTop() - $(elemBlock).offset().top + $(scrollToElem).offset().top
+                }, 500);
+            } else {
+                $(elemBlock).animate({
+                    scrollTop:  $(elemBlock).scrollTop() - $(elemBlock).offset().top - $(scrollToElem).offset().top
+                }, 500);
+            }
+        }
+    });
+
+    $('.visual-block').on('click', 'button.toggle-description-visual', (e) => {
+        let cId = $(e.currentTarget).attr('data-id');
+        $('.visual-block').find('.description-container-visual').find('button.toggle-description-visual').removeClass('active');
+        $(e.currentTarget).addClass('active');
+        $('.visual-block').find('.description-container-visual').find('.description-panel-visual').addClass('d-none');
+        $('.visual-block').find('.description-container-visual').find(`.description-panel-visual[data-id="${cId}"]`).removeClass('d-none');
+    });
+
 
     // Save & Load current folders mode
     window.addEventListener("beforeunload", (e) => {
