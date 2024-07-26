@@ -143,29 +143,17 @@
 {#                                                    <select id="microcycle-days-filter" class="form-control form-control-sm select-filter-events select2" placeholder="{% trans 'MC days' %}"></select>#}
 {#                                                </div>#}
                                                 <div class="row">
-                                                    <div class="col-6 mt-1 pl-0 pr-1">
+                                                    <div class="col-12 mt-1 pl-0 pr-1">
                                                         <select id="microcycle-name-filter" class="form-control form-control-sm select-filter-events select2" placeholder="{% trans 'M.C.' %}"></select>
                                                     </div>
 {#                                                    <div class="col-1 mt-1 pl-1 pr-0 text-center pt-2">#}
 {#                                                        <span id="microcycle-name-filter-counter" class="event-filter-counter"></span>#}
 {#                                                    </div>#}
-                                                    <div class="col-6 mt-1 px-1">
-                                                        <select id="training-load-filter" class="form-control form-control-sm select-filter-events select2" placeholder="{% trans 'Load' %}"></select>
-                                                    </div>
-{#                                                    <div class="col-1 mt-1 pl-1 pr-0 text-center pt-2">#}
-{#                                                        <span id="training-load-filter-counter" class="event-filter-counter"></span>#}
-{#                                                    </div>#}
-                                                    <div class="col-6 mt-1 pl-0 pr-1">
-                                                        <button id="filled-event-filter" data-filter="0" title="{% trans "Filtering of training events" %}" class="btn btn-block btn-filter-events btn-sm font-weight-bold">{% trans 'Trainings' %}</button>
-                                                    </div>
-                                                    <div class="col-6 mt-1 px-1">
-                                                        <button id="filled-match-filter" data-filter="0" title="{% trans "Filtering of match events" %}" class="btn btn-block btn-filter-events btn-sm font-weight-bold">{% trans 'Matches' %}</button>
-                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col mc-function">
                                                 <div class="row">
-                                                    <div class="col-6 mt-1 pl-0 pr-1">
+                                                    <div class="col-4 mt-1 pl-0 pr-1">
                                                         <select id="training-block-filter" class="form-control form-control-sm select-filter-events select2" placeholder="{% trans 'Blocks' %}"></select>
                                                     </div>
 {#                                                    <div class="col-1 mt-1 pl-1 pr-0 text-center pt-2">#}
@@ -177,8 +165,8 @@
 {#                                                    <div class="col-1 mt-1 pl-1 pr-0 text-center pt-2">#}
 {#                                                        <span id="objective_1-event-view-counter" class="event-filter-counter"></span>#}
 {#                                                    </div>#}
-                                                    <div class="col-12 mt-1 px-0">
-                                                        <input type="text" class="form-control form-control-sm btn-filter-events" id="" placeholder="">
+                                                    <div class="col-8 mt-1 px-0">
+                                                        <input type="text" class="form-control form-control-sm btn-filter-events" id="" placeholder="{% trans 'Objective' %}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -191,7 +179,17 @@
                     </div>
                     <div id="events-content" class="row border-top mt-1">
                         <div class="col-4">
-
+                            <div id="table-row-filters" class="row mc-function">
+                                <div class="col-4 mt-1 pl-0 pr-1">
+                                    <button id="filled-event-filter" data-filter="0" title="{% trans "Filtering of training events" %}" class="btn btn-block btn-filter-events btn-sm font-weight-bold">{% trans 'Trainings' %}</button>
+                                </div>
+                                <div class="col-4 mt-1 px-1">
+                                    <button id="filled-match-filter" data-filter="0" title="{% trans "Filtering of match events" %}" class="btn btn-block btn-filter-events btn-sm font-weight-bold">{% trans 'Matches' %}</button>
+                                </div>
+                                <div class="col-4 mt-1 px-1">
+                                    <select id="training-load-filter" class="form-control form-control-sm select-filter-events select2" placeholder="{% trans 'Load' %}"></select>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col px-0">
                                     <div id="events-table" class="table-responsive" style="overflow-y: auto;">
