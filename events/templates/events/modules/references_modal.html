@@ -33,11 +33,11 @@
 {#                                <a class="nav-link" id="objectives-tab-button" data-toggle="pill" href="#objectives-tab" role="tab" aria-controls="pills-profile" aria-selected="false">{% trans 'Objectives' %}</a>#}
 {#                            </li>#}
 {#                            {% endif %}#}
-                            {% if user.is_superuser or user.club_id is not None and perms.trainings.change_clubtrainingblocks or user.club_id is None and perms.trainings.change_usertrainingblocks%}
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link" id="training-blocks-tab-button" data-toggle="pill" href="#training-blocks-tab" role="tab" aria-controls="pills-contact" aria-selected="false">{% trans 'Type of training' %}</a>
-                            </li>
-                            {% endif %}
+{#                            {% if user.is_superuser or user.club_id is not None and perms.trainings.change_clubtrainingblocks or user.club_id is None and perms.trainings.change_usertrainingblocks%}#}
+{#                            <li class="nav-item" role="presentation">#}
+{#                                <a class="nav-link" id="training-blocks-tab-button" data-toggle="pill" href="#training-blocks-tab" role="tab" aria-controls="pills-contact" aria-selected="false">{% trans 'Type of training' %}</a>#}
+{#                            </li>#}
+{#                            {% endif %}#}
                             {% if user.is_superuser or user.club_id is not None and perms.trainings.change_clubtrainingload or user.club_id is None and perms.trainings.change_usertrainingload%}
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link" id="training-loads-tab-button" data-toggle="pill" href="#training-loads-tab" role="tab" aria-controls="pills-contact" aria-selected="false">{% trans 'Training loads' %}</a>
@@ -54,11 +54,11 @@
 {#                                {% include 'trainings/training_objectives.html' %}#}
 {#                            </div>#}
 {#                            {% endif %}#}
-                            {% if user.is_superuser or user.club_id is not None and perms.trainings.change_clubtrainingblocks or user.club_id is None and perms.trainings.change_usertrainingblocks%}
-                            <div class="tab-pane fade" id="training-blocks-tab" role="tabpanel" aria-labelledby="pills-contact-tab">
-                                {% include 'trainings/training_blocks.html' %}
-                            </div>
-                            {% endif %}
+{#                            {% if user.is_superuser or user.club_id is not None and perms.trainings.change_clubtrainingblocks or user.club_id is None and perms.trainings.change_usertrainingblocks%}#}
+{#                            <div class="tab-pane fade" id="training-blocks-tab" role="tabpanel" aria-labelledby="pills-contact-tab">#}
+{#                                {% include 'trainings/training_blocks.html' %}#}
+{#                            </div>#}
+{#                            {% endif %}#}
                             {% if user.is_superuser or user.club_id is not None and perms.trainings.change_clubtrainingload or user.club_id is None and perms.trainings.change_usertrainingload%}
                             <div class="tab-pane fade" id="training-loads-tab" role="tabpanel" aria-labelledby="pills-contact-tab">
                                 {% include 'trainings/training_loads.html' %}
@@ -73,11 +73,11 @@
 {#                                <a class="nav-link active" id="objectives-tab-button" data-toggle="pill" href="#objectives-admin-tab" role="tab" aria-controls="pills-profile" aria-selected="false">{% trans 'Objectives' %}</a>#}
 {#                            </li>#}
 {#                            {% endif %}#}
-                            {% if user.is_superuser or user.club_id is not None and perms.trainings.change_clubtrainingblocks or user.club_id is None and perms.trainings.change_usertrainingblocks%}
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link active" id="training-blocks-tab-button" data-toggle="pill" href="#training-blocks-admin-tab" role="tab" aria-controls="pills-contact" aria-selected="false">{% trans 'Type of training' %}</a>
-                            </li>
-                            {% endif %}
+{#                            {% if user.is_superuser or user.club_id is not None and perms.trainings.change_clubtrainingblocks or user.club_id is None and perms.trainings.change_usertrainingblocks%}#}
+{#                            <li class="nav-item" role="presentation">#}
+{#                                <a class="nav-link active" id="training-blocks-tab-button" data-toggle="pill" href="#training-blocks-admin-tab" role="tab" aria-controls="pills-contact" aria-selected="false">{% trans 'Type of training' %}</a>#}
+{#                            </li>#}
+{#                            {% endif %}#}
                             {% if user.is_superuser or user.club_id is not None and perms.trainings.change_clubtrainingload or user.club_id is None and perms.trainings.change_usertrainingload%}
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link" id="training-loads-tab-button" data-toggle="pill" href="#training-loads-admin-tab" role="tab" aria-controls="pills-contact" aria-selected="false">{% trans 'Training loads' %}</a>
@@ -96,11 +96,11 @@
 {#                                {% include 'trainings/training_admin_objectives.html' %}#}
 {#                            </div>#}
 {#                            {% endif %}#}
-                            {% if user.is_superuser or user.club_id is not None and perms.trainings.change_clubtrainingblocks or user.club_id is None and perms.trainings.change_usertrainingblocks%}
-                            <div class="tab-pane fade show active" id="training-blocks-admin-tab" role="tabpanel" aria-labelledby="pills-contact-tab">
-                                {% include 'trainings/training_admin_blocks.html' %}
-                            </div>
-                            {% endif %}
+{#                            {% if user.is_superuser or user.club_id is not None and perms.trainings.change_clubtrainingblocks or user.club_id is None and perms.trainings.change_usertrainingblocks%}#}
+{#                            <div class="tab-pane fade show active" id="training-blocks-admin-tab" role="tabpanel" aria-labelledby="pills-contact-tab">#}
+{#                                {% include 'trainings/training_admin_blocks.html' %}#}
+{#                            </div>#}
+{#                            {% endif %}#}
                             {% if user.is_superuser or user.club_id is not None and perms.trainings.change_clubtrainingload or user.club_id is None and perms.trainings.change_usertrainingload%}
                             <div class="tab-pane fade" id="training-loads-admin-tab" role="tabpanel" aria-labelledby="pills-contact-tab">
                                 {% include 'trainings/training_admin_loads.html' %}

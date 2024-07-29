@@ -50,7 +50,7 @@
 }
 
 .training-filter-edit::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: dodgerblue;
+    /*color: dodgerblue;*/
     opacity: 1; /* Firefox */
 }
 

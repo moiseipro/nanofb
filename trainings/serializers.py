@@ -370,7 +370,7 @@ class TrainingSerializer(serializers.ModelSerializer):
         fields = (
             'event_id', 'event_date', 'event_time', 'favourites', 'trainer', 'additional', 'notes',
             'video_href', 'inventory', 'players_json', 'is_personal', 'group', 'players_count', 'goalkeepers_count',
-            'load', 'field_size', 'trainer_user_id'
+            'load', 'field_size', 'trainer_user_id', 'objective_1', 'objective_2'
         )
         datatables_always_serialize = ('event_id',)
 

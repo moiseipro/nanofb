@@ -40,9 +40,9 @@ $(window).on('load', function (){
 
     create_ajax_select2($('[name="md"]'), gettext('MCD'), '/trainings/amd_list/', $(document.body), false, true, 0, false)
     create_ajax_select2($('[name="load"]'), gettext('Load'), '/trainings/loads_list/', $(document.body), false, true, 0, false)
-    create_ajax_select2($('[name="blocks"]'), gettext('Type of training'), '/trainings/blocks_list/', $(document.body), false, true, 0, true, 1)
+    //create_ajax_select2($('[name="blocks"]'), gettext('Type of training'), '/trainings/blocks_list/', $(document.body), false, true, 0, true, 1)
 
-    create_ajax_select2($('[name="objective_1"]'), gettext('Objectives'), '/trainings/objectives_list/', $(document.body), false, true, 0, true, 3, {'type': 0})
+    //create_ajax_select2($('[name="objective_1"]'), gettext('Objectives'), '/trainings/objectives_list/', $(document.body), false, true, 0, true, 3, {'type': 0})
     //create_ajax_select2($('[name="objective_2"]'), gettext('Add. objectives'), '/trainings/objectives_list/', $(document.body), false, true, 0, true, 4, {'type': 1})
     //create_ajax_select2($('[name="objective_3"]'), gettext('Objective')+' 3', '/trainings/objectives_list/', $(document.body), false, true, 0, true, 2, {'type': 2})
 
@@ -180,6 +180,8 @@ $(window).on('load', function (){
         training_data['block'] = $('#training-main-data select[name="block"]').val()
         training_data['load'] = $('#training-main-data select[name="load"]').val()
         training_data['md'] = $('#training-main-data select[name="md"]').val()
+        training_data['objective_1'] = $('#training-main-data input[name="objective_1"]').val()
+        training_data['objective_2'] = $('#training-main-data input[name="objective_2"]').val()
         //training_data['block_short_key'] = $('#training-main-data select[name="block_key"]').val()
 
         training_data['group'] = $('#training-main-data select[name="group"]').val()
@@ -190,11 +192,11 @@ $(window).on('load', function (){
         console.log(training_data)
 
         ajax_training_action('PUT', training_data, 'save', id).then(function (data) {
-            let objectives = []
-            let objective_1 = $('#block-training-goals select[name="objective_1"]').val()
-            for (let i = 0; i < objective_1.length; i++) {
-                objectives.push({"training": id, "objective": objective_1[i], "type": 0})
-            }
+            // let objectives = []
+            // let objective_1 = $('#block-training-goals select[name="objective_1"]').val()
+            // for (let i = 0; i < objective_1.length; i++) {
+            //     objectives.push({"training": id, "objective": objective_1[i], "type": 0})
+            // }
             // let objective_2 = $('#block-training-goals select[name="objective_2"]').val()
             // for (let i = 0; i < objective_2.length; i++) {
             //     objectives.push({"training": id, "objective": objective_2[i], "type": 1})
@@ -204,20 +206,20 @@ $(window).on('load', function (){
             //     objectives.push({"training": id, "objective": objective_3[i], "type": 2})
             // }
             //console.log(objectives)
-            let items = {'items': JSON.stringify(objectives)}
-
-            ajax_training_action("POST", items, 'change objective', id, 'add_objective').then(function (data) {
-                let blocks = []
-                let blocks_val = $('#training-main-data select[name="blocks"]').val()
-                for (let i = 0; i < blocks_val.length; i++) {
-                    blocks.push({"training": id, "block": blocks_val[i]})
-                }
-                //console.log(blocks)
-                let items = {'items': JSON.stringify(blocks)}
-                ajax_training_action("POST", items, 'change block', id, 'add_block').then(function (data) {
-                    show_training_card(id)
-                })
-            })
+            // let items = {'items': JSON.stringify(objectives)}
+            //
+            // ajax_training_action("POST", items, 'change objective', id, 'add_objective').then(function (data) {
+            //     let blocks = []
+            //     let blocks_val = $('#training-main-data select[name="blocks"]').val()
+            //     for (let i = 0; i < blocks_val.length; i++) {
+            //         blocks.push({"training": id, "block": blocks_val[i]})
+            //     }
+            //     //console.log(blocks)
+            //     let items = {'items': JSON.stringify(blocks)}
+            //     ajax_training_action("POST", items, 'change block', id, 'add_block').then(function (data) {
+            //         show_training_card(id)
+            //     })
+            // })
         })
     })
 

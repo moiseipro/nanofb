@@ -192,6 +192,20 @@ class AbstractTraining(models.Model):
         help_text=_('Players count'),
         default=0
     )
+    objective_1 = models.CharField(
+        max_length=255,
+        verbose_name=_('Objective 1'),
+        help_text=_('The objective 1 in training'),
+        null=True,
+        blank=True,
+    )
+    objective_2 = models.CharField(
+        max_length=255,
+        verbose_name=_('Objective 2'),
+        help_text=_('The objective 2 in training'),
+        null=True,
+        blank=True,
+    )
     goalkeepers_count = models.SmallIntegerField(
         verbose_name=_('Goalkeepers count'),
         help_text=_('Goalkeepers count'),

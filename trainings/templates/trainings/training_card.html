@@ -92,26 +92,34 @@
                             </div>
                         </div>
                         {% endif %}
-                        {% if perms.trainings.change_clubtrainingblocks or perms.trainings.change_usertrainingblocks %}
-                        <div class="row block-select2">
-                            <div class="col-12 my-1 px-0">
-                                <select id="select-training-block" name="blocks" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-multiple="true" data-maximumSelectionLength="1" disabled></select>
-                            </div>
-                        </div>
-                        {% endif %}
-                        {% if perms.trainings.change_clubtrainingobjectives or perms.trainings.change_usertrainingobjectives %}
-                        <div id="block-training-goals" class="row base-select2">
-                            <div class="col-12 px-0 my-1 training-objective_1">
-                                <select name="objective_1" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-multiple="true" data-maximumSelectionLength="2" disabled></select>
-                            </div>
+{#                        {% if perms.trainings.change_clubtrainingblocks or perms.trainings.change_usertrainingblocks %}#}
+{#                        <div class="row block-select2">#}
+{#                            <div class="col-12 my-1 px-0">#}
+{#                                <select id="select-training-block" name="blocks" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-multiple="true" data-maximumSelectionLength="1" disabled></select>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        {% endif %}#}
+{#                        {% if perms.trainings.change_clubtrainingobjectives or perms.trainings.change_usertrainingobjectives %}#}
+{#                        <div id="block-training-goals" class="row base-select2">#}
+{#                            <div class="col-12 px-0 my-1 training-objective_1">#}
+{#                                <select name="objective_1" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-multiple="true" data-maximumSelectionLength="2" disabled></select>#}
+{#                            </div>#}
 {#                            <div class="col-12 px-0 my-1 training-objective_2">#}
 {#                                <select name="objective_2" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-multiple="true" data-maximumSelectionLength="2" disabled></select>#}
 {#                            </div>#}
 {#                            <div class="col-12 px-0 my-1 text-center training-objective_3">#}
 {#                                <select name="objective_3" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-multiple="true" data-maximumSelectionLength="2" disabled></select>#}
 {#                            </div>#}
+{#                        </div>#}
+{#                        {% endif %}#}
+                        <div id="block-training-goals" class="row">
+                            <div class="col-12 px-0 my-1 training-objective_1">
+                                <input type="text" name="objective_1" class="form-control form-control-md btn-block training-filter-edit edit-input" value="" placeholder="{% trans 'Objective' %} 1" autocomplete="off" disabled>
+                            </div>
+                            <div class="col-12 px-0 my-1 training-objective_1">
+                                <input type="text" name="objective_2" class="form-control form-control-md btn-block training-filter-edit edit-input" value="" placeholder="{% trans 'Objective' %} 2" autocomplete="off" disabled>
+                            </div>
                         </div>
-                        {% endif %}
                     </div>
                 </div>
             </div>
