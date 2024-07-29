@@ -698,16 +698,6 @@ function RenderExerciseOne(data) {
             $(descriptionTrainerClone).removeClass("d-none");
             $('.description-panel-visual[data-id="trainer"]').html("");
             $('.description-panel-visual[data-id="trainer"]').append(descriptionTrainerClone);
-    
-            let cardClone = $('#exerciseCard').clone();
-            $(cardClone).attr('id', "");
-            $(cardClone).find('.edit-exercise').parent().parent().remove();
-            $(cardClone).find('.folder-container').remove();
-            $(cardClone).addClass("content-click-disabled");
-            $(cardClone).removeClass("card-container");
-            $(cardClone).removeClass("d-none");
-            $('.card-container-visual').html("");
-            $('.card-container-visual').append(cardClone);
         } catch(e) {}
     }, 150);
 }

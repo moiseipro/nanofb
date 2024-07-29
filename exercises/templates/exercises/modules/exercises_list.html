@@ -451,23 +451,6 @@
         </ul>
     </div>
     <div class="pl-3" id="splitCol_2" style="width: 42%;">
-        <div class="row mx-0 mb-2">
-            <div class="col-4 px-0">
-                <button type="button" class="btn btn-secondary btn-sm btn-custom w-100 visual-block-set" data-id="scroll" title="Вкл. / Выкл. Скроллинг">
-                    <i class="fa fa-lg fa-arrows-v" aria-hidden="true"></i>
-                </button>
-            </div>
-            <div class="col-4 px-0">
-                <button type="button" class="btn btn-secondary btn-sm btn-custom w-100 visual-block-set" data-id="down" title="Следующее">
-                    <i class="fa fa-lg fa-angle-down" aria-hidden="true"></i>
-                </button>
-            </div>
-            <div class="col-4 px-0">
-                <button type="button" class="btn btn-secondary btn-sm btn-custom w-100 visual-block-set" data-id="up" title="Предыдущее">
-                    <i class="fa fa-lg fa-angle-up" aria-hidden="true"></i>
-                </button>
-            </div>
-        </div>
         <div class="row mx-0 visual-block overflow-hidden">
             <div class="col-12 visual-block-elem px-0">
                 <div id="carouselSchema" class="carousel slide" data-ride="carousel" data-interval="false">
@@ -550,9 +533,8 @@
                 </div>
             </div>
 
-            <div class="col-12 visual-block-elem px-0">
-                <hr>
-                <div class="description-container-visual">
+            <div class="col-12 visual-block-elem px-0 mt-2">
+                <div class="description-container-visual" style="min-height: 40vh !important;">
                     <div class="choose-description-panel-visual">
                         <button type="button" class="btn btn-outline-secondary btn-sm toggle-description-visual mt-2 active" data-id="nf">
                             Описание N.F.
@@ -565,25 +547,13 @@
                     <div class="description-panel description-panel-visual d-none" data-id="trainer"></div>
                 </div>
             </div>
-            <div class="col-12 visual-block-elem px-0">
-                <hr>
-                <div class="card-container-visual"></div>
-            </div>
-            <div class="col-12 visual-block-elem px-0">
+            <div class="col-12 visual-block-elem px-0" style="min-height: 40vh !important;">
                 <hr>
                 <div class="notes-container-visual">
-                    <textarea class="form-control" name="note_club_admin" rows="7" readonly="" placeholder="Примечания клуб. админа"></textarea>
-                    <textarea class="form-control" name="note_trainer" rows="7" readonly="" placeholder="Примечания тренера"></textarea>
+                    <textarea class="form-control" name="note_club_admin" rows="6" readonly="" placeholder="Примечания клуб. админа"></textarea>
+                    <textarea class="form-control" name="note_trainer" rows="6" readonly="" placeholder="Примечания тренера"></textarea>
                 </div>
             </div>
-            <div class="col-12 visual-block-elem px-0">
-                <div class="search-container-visual">
-                    <hr>
-                    Поисковики
-                    <hr>
-                </div>
-            </div>
-
         </div>
         
         <!-- <div class="row ml-2 w-100 size-h-x" style="--h-x:30vh;">

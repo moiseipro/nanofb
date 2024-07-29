@@ -204,6 +204,9 @@ function ToggleUpFilter(id, state) {
             CountExsInFolder();
             $('.up-tabs-elem[data-id="clear_filter"]').removeClass('selected3');
             $('.up-tabs-elem[data-id="clear_filter"]').attr('data-state', 0);
+
+            $('.visual-block').find('.visual-block-elem.active').removeClass('active');
+            $('.visual-block').animate({scrollTop: 0}, 500);
             break;
         case "toggle_watched":
             if (state) {
@@ -494,6 +497,22 @@ function ToggleUpFilter(id, state) {
                 CountExsInFolder();
             }
             ToggleMarkersInExs();
+            break;
+        case "toggle_visual_block_scroll":
+            $('.up-tabs-elem[data-id="toggle_visual_block_scroll"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="toggle_visual_block_scroll"]').attr('data-state', 0);
+
+            let activeBlockElem = $('.visual-block').find('.visual-block-elem.active');
+            if (activeBlockElem.length == 0) {activeBlockElem = $('.visual-block').find('.visual-block-elem').first();}
+            if ($(activeBlockElem).height() < 100) {activeBlockElem = $(activeBlockElem).next();}
+            let activeBlockElemNext = $(activeBlockElem).next();
+            if (activeBlockElemNext.length > 0) {
+                $('.visual-block').animate({
+                    scrollTop: $('.visual-block').scrollTop() - $('.visual-block').offset().top + $(activeBlockElemNext).offset().top 
+                }, 500);
+                $(activeBlockElem).removeClass('active');
+                $(activeBlockElemNext).addClass('active');
+            }
             break;
         default:
             break;
@@ -1343,18 +1362,6 @@ $(function() {
         $('.up-block-content').find('.folders-toggle[data-id="team_folders"]').find('span').first().text(`ПАПКИ "${tText}"`);
         $('.folders-container').find('.folders-toggle[data-id="team_folders"]').find('span').first().text(`ПАПКИ "${tText}"`);
     }
-
-    try {
-        let cardClone = $('#exerciseCard').clone();
-            $(cardClone).attr('id', "");
-            $(cardClone).find('.edit-exercise').parent().parent().remove();
-            $(cardClone).find('.folder-container').remove();
-            $(cardClone).addClass("content-click-disabled");
-            $(cardClone).removeClass("card-container");
-            $(cardClone).removeClass("d-none");
-            $('.card-container-visual').html("");
-            $('.card-container-visual').append(cardClone);
-    } catch (e) {}
 
     // Toggle upper buttons panel
     $('button.up-tabs-elem').on('click', (e) => {
@@ -2692,50 +2699,6 @@ $(function() {
         if ($(activeExs).length <= 0) {return;}
         let cId = $(e.currentTarget).attr('data-id');
         $(activeExs).find(`button.btn-marker[data-type="marker"][data-id="${cId}"]`).first().click();
-    });
-
-    $('.visual-block-set').on('click', (e) => {
-        let cId = $(e.currentTarget).attr('data-id');
-        let elems = $('.visual-block').find('.visual-block-elem');
-        let scrollToElem = null;
-        switch(cId) {
-            case "scroll":
-                $('.visual-block').toggleClass("overflow-hidden");
-                $(e.currentTarget).toggleClass("selected3");
-                break;
-            case "down":
-                for (let i = 0; i < elems.length; i++) {
-                    let top = $(elems[i]).offset().top;
-                    if (top > 400) {
-                        scrollToElem = elems[i];
-                        break;
-                    }
-                }
-                break;
-            case "up":
-                for (let i = elems.length - 1; i >= 0; i--) {
-                    let top = $(elems[i]).offset().top;
-                    if (top < 150) {
-                        scrollToElem = elems[i];
-                        break;
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-        if (scrollToElem) {
-            let elemBlock = $('.visual-block');
-            if (cId == "down") {
-                $(elemBlock).animate({
-                    scrollTop:  $(elemBlock).scrollTop() - $(elemBlock).offset().top + $(scrollToElem).offset().top
-                }, 500);
-            } else {
-                $(elemBlock).animate({
-                    scrollTop:  $(elemBlock).scrollTop() - $(elemBlock).offset().top - $(scrollToElem).offset().top
-                }, 500);
-            }
-        }
     });
 
     $('.visual-block').on('click', 'button.toggle-description-visual', (e) => {
