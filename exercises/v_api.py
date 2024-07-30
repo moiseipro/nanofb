@@ -3267,7 +3267,7 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
             request.user.club_id = request.user.temp_club
         cur_user = request.user.id
     
-    user_dt = datetime.combine(cur_user.date_last_exs_req_reset, datetime.min.time())
+    user_dt = datetime.datetime.combine(cur_user.date_last_exs_req_reset, datetime.datetime.min.time())
     today_dt = datetime.datetime.now()
     if today_dt - user_dt > datetime.timedelta(days=7):
         cur_user.exs_requests_counter = 0
