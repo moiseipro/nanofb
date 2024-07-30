@@ -3267,9 +3267,11 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
             request.user.club_id = request.user.temp_club
         cur_user = request.user.id
     
-    if datetime.date.today - cur_user.date_last_exs_req_reset > datetime.timedelta(days=7):
+    user_dt = datetime.combine(cur_user.date_last_exs_req_reset, datetime.min.time())
+    today_dt = datetime.datetime.now()
+    if today_dt - user_dt > datetime.timedelta(days=7):
         cur_user.exs_requests_counter = 0
-        cur_user.date_last_exs_req_reset = datetime.datetime.now()
+        cur_user.date_last_exs_req_reset = datetime.date.today()
     cur_user.exs_requests_counter += 1
 
     if folder_type == utils.FOLDER_TEAM:
