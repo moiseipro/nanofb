@@ -297,6 +297,9 @@ class User(AbstractUser, Limitations):
         unique=True,
     )
 
+    date_last_exs_req_reset = models.DateTimeField(null=False, blank=False, default=datetime.now())
+    exs_requests_counter = models.IntegerField(default=0)
+
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
     objects = CustomUserManager()
