@@ -82,3 +82,15 @@ WHERE `field_goal` LIKE '%"G + G"%';
 
 UPDATE `exercises_userexercise` SET `field_goal`= REPLACE(`field_goal`, '"G"', '"g_small"')
 WHERE `field_goal` LIKE '%"G"%';
+
+
+// Получение списка пользователей, которые открывали упражнения за последние Х дней.
+SELECT
+	u.`id`, u.`email`,
+    p.`last_name`, p.`first_name`, p.`father_name`,
+    u.`exs_requests_counter`
+FROM `users_user` u
+LEFT JOIN `users_userpersonal` p ON u.`personal_id` = p.`id`
+WHERE u.`exs_requests_counter` > 0
+ORDER BY u.`exs_requests_counter` DESC
+
