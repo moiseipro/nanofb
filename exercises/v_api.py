@@ -3269,7 +3269,7 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
     else:
         user_dt = datetime.datetime.combine(cur_user.date_last_exs_req_reset, datetime.datetime.min.time())
         today_dt = datetime.datetime.now()
-        if today_dt - user_dt > datetime.timedelta(days=7):
+        if today_dt - user_dt > datetime.timedelta(days=3):
             cur_user.exs_requests_counter = 0
             cur_user.date_last_exs_req_reset = datetime.date.today()
         cur_user.exs_requests_counter += 1
