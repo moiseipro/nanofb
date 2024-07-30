@@ -327,11 +327,17 @@ function RenderFolderExercises(id, tExs) {
     if (window.lastExercise && window.lastExercise.exs) {
         $('.exs-list-group').find(`.exs-elem[data-id="${window.lastExercise.exs}"]`).click();
     }
+
+    window.currentExsHovered = -1;
 }
 
 // Handler for func LoadExerciseOne in exercise card:
-function LoadExerciseOneHandler() {
+function LoadExerciseOneHandler(checkHoveredAsActive = false) {
     let activeExs = $('.exercises-list').find('.exs-elem.active:not(.exs-blocked)');
+    if (checkHoveredAsActive) {
+        activeExs = $('.exercises-list').find('.exs-elem:not(.exs-blocked):hover');
+        console.log(activeExs)
+    }
     if ($(activeExs).length <= 0) {return;}
     let cId = $(activeExs).attr('data-id');
     let fromNFB = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? 1 : 0;
@@ -848,6 +854,26 @@ $(function() {
         if ($('#moveExs').attr('data-state') == '1' || $('#copyExs').attr('data-state') == '1') {
             AddExerciseToSelectedSlot();
         }
+    });
+    window.currentExsHovered = -1;
+    $('.exercises-list').on('mouseover', '.exs-elem', (e) => {
+        if ($(e.currentTarget).hasClass('exs-blocked')) {
+            return;
+        }
+        if (!$(e.target).is('li')) {
+            return;
+        }
+        if ($(e.currentTarget).hasClass('active')) {
+            return;
+        }
+        let cId = parseInt($(e.currentTarget).attr('data-id'));
+        setTimeout(() => {
+            if ($(e.currentTarget).is(':hover') && window.currentExsHovered != cId) {
+                window.currentExsHovered = cId;
+                console.log(window.currentExsHovered)
+                LoadExerciseOneHandler(true);
+            }
+        }, 300);
     });
     $('.exercises-list').on('click', '.delete-selected', (e) => {
         $('.selected-exercise-panel').html('');
