@@ -297,7 +297,7 @@ class User(AbstractUser, Limitations):
         unique=True,
     )
 
-    date_last_exs_req_reset = models.DateTimeField(null=False, blank=False, default=datetime.now())
+    date_last_exs_req_reset = models.DateField(null=False, blank=False, default=date.today)
     exs_requests_counter = models.IntegerField(default=0)
 
     USERNAME_FIELD = "email"

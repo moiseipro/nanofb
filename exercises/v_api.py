@@ -3267,11 +3267,11 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
             request.user.club_id = request.user.temp_club
         cur_user = request.user.id
     
-    if datetime.datetime.now() - cur_user.date_last_exs_req_reset > datetime.timedelta(days=7):
+    if datetime.date.today - cur_user.date_last_exs_req_reset > datetime.timedelta(days=7):
         cur_user.exs_requests_counter = 0
         cur_user.date_last_exs_req_reset = datetime.datetime.now()
     cur_user.exs_requests_counter += 1
-    
+
     if folder_type == utils.FOLDER_TEAM:
         if not request.user.is_anonymous and not util_check_access(cur_user, {
             'perms_user': ["exercises.view_userexercise"], 
